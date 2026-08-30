@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rootform.dev/schemas/presentation-catalog.schema.json",
+  "title": "Rootform presentation catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format_version", "rules", "concepts", "rule_labels", "concept_labels"],
+  "properties": {
+    "format_version": { "const": "1" },
+    "rules": { "$ref": "#/$defs/identities" },
+    "concepts": { "$ref": "#/$defs/identities" },
+    "rule_labels": { "$ref": "#/$defs/labels" },
+    "concept_labels": { "$ref": "#/$defs/labels" }
+  },
+  "$defs": {
+    "qualifiedName": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*/[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+    },
+    "identities": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/qualifiedName" },
+      "additionalProperties": { "$ref": "#/$defs/qualifiedName" }
+    },
+    "labels": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/qualifiedName" },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      }
+    }
+  }
+}

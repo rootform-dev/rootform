@@ -1,0 +1,17 @@
+{
+  "format_version": "1",
+  "entries": [
+    {
+      "name": "core",
+      "version": "0.1.0",
+      "digest": "sha256:af5a6b57e85bc5026b356542cf4950ccac62c2770f7d1a5f6b0272eef642a11d",
+      "presentation_digest": "sha256:6250b078276b44c2db9361c26c6c92351d26f49de7ac6daf22c9859cd2f962c8"
+    },
+    {
+      "name": "kubernetes",
+      "version": "0.1.0",
+      "digest": "sha256:1f0584dc88d9219ac60ff4a22261489220ec21d017be4fff4195e544ece3b99c",
+      "presentation_digest": "sha256:0f8be0c5ddaa1708018206d08f49c17e31390a15551823562598bab2a323d829"
+    }
+  ]
+}

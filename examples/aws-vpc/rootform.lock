@@ -1,0 +1,17 @@
+{
+  "format_version": "1",
+  "entries": [
+    {
+      "name": "aws",
+      "version": "0.1.0",
+      "digest": "sha256:f23bcd99d703f780ee7e9b9b26445712ccbb44114e99546b9c10a0e2c67f224a",
+      "presentation_digest": "sha256:e4a6b82007a46f8161e03020021cbeaaa032f3645effde63d616a9fab8b8adc1"
+    },
+    {
+      "name": "core",
+      "version": "0.1.0",
+      "digest": "sha256:af5a6b57e85bc5026b356542cf4950ccac62c2770f7d1a5f6b0272eef642a11d",
+      "presentation_digest": "sha256:6250b078276b44c2db9361c26c6c92351d26f49de7ac6daf22c9859cd2f962c8"
+    }
+  ]
+}

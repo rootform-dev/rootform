@@ -1,0 +1,11 @@
+{
+  "format_version": "1",
+  "source_repository": "rootform-dev/engine",
+  "source_commit": "eb38fb3ce1d7575f303025224b0a1e241620d053",
+  "files": [
+    {
+      "path": "schemas/architecture-ir.schema.json",
+      "sha256": "f19f46f567a77bf0462c802c1860423b9d325752faf7fa3bf4f97099e8fb1c20"
+    }
+  ]
+}

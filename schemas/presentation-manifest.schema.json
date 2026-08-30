@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rootform.dev/schemas/presentation-manifest.schema.json",
+  "title": "Rootform dialect presentation manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format_version"],
+  "properties": {
+    "format_version": { "const": "1" },
+    "rules": { "$ref": "#/$defs/identities" },
+    "concepts": { "$ref": "#/$defs/identities" },
+    "rule_labels": { "$ref": "#/$defs/labels" },
+    "concept_labels": { "$ref": "#/$defs/labels" }
+  },
+  "$defs": {
+    "identities": {
+      "type": "object",
+      "propertyNames": {
+        "maxLength": 64,
+        "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 129,
+        "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*/[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+      }
+    },
+    "labels": {
+      "type": "object",
+      "propertyNames": {
+        "maxLength": 64,
+        "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      }
+    }
+  }
+}
