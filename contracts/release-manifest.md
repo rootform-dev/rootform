@@ -1,6 +1,7 @@
 # Release manifest contract
 
-Release version remains pre-release until owner publishes supported policy.
+Manifest versions use exact SemVer. Prerelease identifiers retain their SemVer
+meaning.
 
 Each release manifest binds:
 
@@ -26,5 +27,4 @@ Every archive contains executable, `ROOTFORM-BINARY-LICENSE.txt`,
 `THIRD_PARTY_NOTICES.txt`, SBOM, and archive-local checksum record. Release page
 publishes complete `SHA256SUMS` and verifies uploaded GitHub asset digests.
 
-Public binary release is blocked while binary license file carries legal-review
-marker.
+Published binary releases must carry final Rootform Binary License terms.

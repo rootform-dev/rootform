@@ -17,7 +17,3 @@ Setup resolves exact release, verifies checksum, and adds binary to `PATH`.
 Main Action uses same installer, invokes CLI, writes Job Summary, and publishes
 requested HTML, SARIF, and JSON artifacts without interpreting Terraform or
 recomputing Rootform semantics.
-
-`v1` does not exist until owner publishes it. During private migration, tests
-use exact commit and optional private-read credential. Public beta installation
-requires no account or entitlement.

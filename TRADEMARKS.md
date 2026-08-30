@@ -9,6 +9,3 @@ official Rootform distribution.
 
 Third-party provider and product names remain marks of their respective owners.
 Descriptive compatibility references do not imply endorsement.
-
-This notice requires legal review before public launch of branded binary
-distribution or merchandise.
