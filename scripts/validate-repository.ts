@@ -11,6 +11,15 @@ type ExportManifest = {
   files: Array<{ path: string; sha256: string }>;
 };
 
+type ExampleContract = {
+  dialects?: unknown;
+};
+
+type DialectLock = {
+  entries?: unknown;
+  format_version?: unknown;
+};
+
 const root = join(import.meta.dir, "..");
 const allowedTopLevel = new Set([
   ".gitattributes",
@@ -67,6 +76,42 @@ export function filesBelow(directory: string): string[] {
     else throw new Error(`irregular filesystem entry is forbidden: ${name}`);
   }
   return files;
+}
+
+function canonicalNames(value: unknown, label: string): string[] {
+  if (
+    !Array.isArray(value) ||
+    value.length === 0 ||
+    value.some((name) => typeof name !== "string" || !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/u.test(name))
+  ) {
+    throw new Error(`${label} has invalid dialect names`);
+  }
+  const names = value as string[];
+  const canonical = [...new Set(names)].sort((left, right) => left.localeCompare(right, "en"));
+  if (JSON.stringify(names) !== JSON.stringify(canonical)) {
+    throw new Error(`${label} dialect names are not canonical`);
+  }
+  return names;
+}
+
+export function validateExampleDialectLock(directory: string, example: string): void {
+  const contract = JSON.parse(
+    readFileSync(join(directory, "example.json"), "utf8"),
+  ) as ExampleContract;
+  const lock = JSON.parse(readFileSync(join(directory, "rootform.lock"), "utf8")) as DialectLock;
+  const expected = canonicalNames(contract.dialects, `${example} example.json`);
+  if (lock.format_version !== "1" || !Array.isArray(lock.entries)) {
+    throw new Error(`${example} rootform.lock has invalid structure`);
+  }
+  const locked = canonicalNames(
+    lock.entries.map((entry) =>
+      typeof entry === "object" && entry !== null && "name" in entry ? entry.name : undefined,
+    ),
+    `${example} rootform.lock`,
+  );
+  if (JSON.stringify(expected) !== JSON.stringify(locked)) {
+    throw new Error(`${example} dialect contract does not match rootform.lock`);
+  }
 }
 
 export function validateRepository(): void {
@@ -141,8 +186,7 @@ export function validateRepository(): void {
   }
   for (const example of examples) {
     const directory = join(root, "examples", example);
-    JSON.parse(readFileSync(join(directory, "example.json"), "utf8"));
-    JSON.parse(readFileSync(join(directory, "rootform.lock"), "utf8"));
+    validateExampleDialectLock(directory, example);
     if (!readdirSync(directory).some((name) => name.endsWith(".tf") || name.endsWith(".tf.json"))) {
       throw new Error(`example contains no Terraform source: ${example}`);
     }

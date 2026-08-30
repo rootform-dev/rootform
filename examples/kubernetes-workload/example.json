@@ -1,1 +1,1 @@
-{ "dialects": ["core", "kubernetes"] }
+{ "dialects": ["core", "google", "kubernetes"] }
