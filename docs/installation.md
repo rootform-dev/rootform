@@ -1,8 +1,5 @@
 # Installation
 
-No supported public release exists yet. Commands below define future verified
-flow and private migration testing.
-
 1. Select exact version; never install mutable `latest` in automation.
 2. Download archive matching operating system and architecture.
 3. Download `SHA256SUMS` from same release.
@@ -16,7 +13,4 @@ flow and private migration testing.
 Supported target claims appear only in release manifest. Cross-built but
 unexecuted target remains unclaimed.
 
-GitHub Action users may use `rootform-dev/action/setup@v1` after owner publishes
-`v1`. Private migration tests supply optional read token because GitHub's
-workflow token cannot read another private repository. Public releases require
-no account or entitlement.
+GitHub Action users may install Rootform with `rootform-dev/action/setup@v1`.

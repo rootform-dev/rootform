@@ -1,10 +1,10 @@
-name: private candidate
+name: candidate
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: Exact private Rootform candidate version
+        description: Exact Rootform candidate version
         required: true
         type: string
 
@@ -41,7 +41,7 @@ jobs:
         with:
           bun-version: 1.3.14
 
-      - name: Install verified private candidate
+      - name: Install verified candidate
         id: rootform
         uses: rootform-dev/action/setup@f9049e72e6482a0f0508e5f8194aa31f5612f85b
         with:
