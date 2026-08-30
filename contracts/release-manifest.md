@@ -12,7 +12,11 @@ Each release manifest binds:
 - SBOM filename and SHA-256;
 - proof status per target;
 - binary license and third-party notice filenames;
-- source repository commit containing this manifest.
+- exact distribution commit supplying binary terms and release contracts.
+
+That distribution commit is a release input. It does not need to contain the
+generated candidate manifest, so provenance never creates a circular commit
+dependency between `engine` and this repository.
 
 Cross-compilation proves buildability only. A target may be marked supported
 only after native or accepted CI execution. Manifest carries no timestamp in
