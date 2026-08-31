@@ -75,7 +75,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: rootform-dev/dialects
-          ref: a14abda61b2c23dadb1e75fe786e7c514aa9bec2
+          ref: fa6d073d28a6ca7dbad659dc0aaa3108e7a9126d
           path: build/dialects
           token: ${{ secrets.DIALECTS_CONTENTS_READ_TOKEN }}
           fetch-depth: 0
@@ -165,8 +165,9 @@ jobs:
       - name: Verify complete official Dialects matrix
         env:
           ROOTFORM_BIN: ${{ github.workspace }}/build/bin/rootform
+          ROOTFORM_VERSION: ${{ inputs.version }}
         working-directory: build/dialects
-        run: bun run verify
+        run: bun scripts/verify.ts --rootform-version "$ROOTFORM_VERSION"
 
       - name: Reverify final assets
         env:
