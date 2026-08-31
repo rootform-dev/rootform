@@ -5,7 +5,8 @@
 3. Download `SHA256SUMS` from same release.
 4. Verify archive SHA-256 before extraction.
 5. Read `ROOTFORM-BINARY-LICENSE.txt` and `THIRD_PARTY_NOTICES.txt` inside
-   archive.
+   archive. Rootform-owned executable code uses Elastic License 2.0
+   (`Elastic-2.0`).
 6. Place executable on `PATH`.
 7. Install exact official dialect version from `rootform-dev/dialects` or use
    project-vendored `.rootform/dialects/`.

@@ -19,6 +19,7 @@ import {
   type ReleaseTarget,
 } from "./contract.ts";
 import { checksumFile, parseChecksumFile, sha256 } from "./digest.ts";
+import { type RuntimeComponent, readRuntimeLicensing } from "./runtime-licenses.ts";
 
 type JsonObject = Record<string, unknown>;
 
@@ -168,13 +169,41 @@ function verifyAssetMetadata(
   }
 }
 
-function verifySpdx(body: Buffer, version: string, created: string, producerCommit: string): void {
+function componentKey(component: RuntimeComponent): string {
+  return `${component.kind}:${component.name}@${component.version}`;
+}
+
+function componentPurl(component: RuntimeComponent): string | undefined {
+  const path = (value: string) => value.split("/").map(encodeURIComponent).join("/");
+  switch (component.kind) {
+    case "asset":
+      return undefined;
+    case "dialect-bundle":
+      return `pkg:github/rootform-dev/dialects@${component.version}`;
+    case "go-module":
+      return `pkg:golang/${path(component.name)}@${encodeURIComponent(component.version)}`;
+    case "go-runtime":
+      return `pkg:golang/stdlib@${encodeURIComponent(component.version)}`;
+    case "vendored-source":
+    case "web-package":
+      return `pkg:npm/${path(component.name)}@${encodeURIComponent(component.version)}`;
+  }
+}
+
+function verifySpdx(
+  body: Buffer,
+  version: string,
+  created: string,
+  producerCommit: string,
+  inventory: RuntimeComponent[],
+): void {
   const source = body.toString("utf8");
   const document = exactObject(canonicalJson(source, "Engine SBOM"), "Engine SBOM", [
     "SPDXID",
     "creationInfo",
     "dataLicense",
     "documentNamespace",
+    "hasExtractedLicensingInfos",
     "name",
     "packages",
     "relationships",
@@ -199,7 +228,7 @@ function verifySpdx(body: Buffer, version: string, created: string, producerComm
   ) {
     throw new Error("Engine SBOM creation metadata drifted");
   }
-  if (!Array.isArray(document.packages) || document.packages.length === 0) {
+  if (!Array.isArray(document.packages) || document.packages.length < 2) {
     throw new Error("Engine SBOM package inventory is empty");
   }
   const product = exactObject(document.packages[0], "Engine SBOM product package", [
@@ -217,9 +246,186 @@ function verifySpdx(body: Buffer, version: string, created: string, producerComm
     product.name !== "rootform" ||
     product.versionInfo !== version ||
     product.downloadLocation !== "NOASSERTION" ||
-    product.filesAnalyzed !== false
+    product.filesAnalyzed !== false ||
+    product.licenseConcluded !== "Elastic-2.0" ||
+    product.licenseDeclared !== "Elastic-2.0" ||
+    product.copyrightText !== "Copyright 2026 Thierno Bah. All rights reserved." ||
+    product.supplier !== "Person: Thierno Bah" ||
+    product.SPDXID !== "SPDXRef-Package-Rootform"
   ) {
     throw new Error("Engine SBOM product package drifted");
+  }
+  if (!Array.isArray(document.hasExtractedLicensingInfos)) {
+    throw new Error("Engine SBOM extracted license inventory is invalid");
+  }
+  const inventoryByKey = new Map(
+    inventory.map((component) => [componentKey(component), component]),
+  );
+  if (inventoryByKey.size !== inventory.length) {
+    throw new Error("runtime license inventory contains duplicate components");
+  }
+  const expectedExtracted = inventory
+    .filter(
+      (component): component is RuntimeComponent & { extracted_text: string } =>
+        typeof component.extracted_text === "string",
+    )
+    .map((component) => ({
+      extractedText: component.extracted_text,
+      licenseId: component.license_concluded,
+      name: component.name,
+    }));
+  if (document.hasExtractedLicensingInfos.length !== expectedExtracted.length) {
+    throw new Error("Engine SBOM extracted license inventory drifted");
+  }
+  const extracted = new Set<string>();
+  for (const [index, value] of document.hasExtractedLicensingInfos.entries()) {
+    const record = exactObject(value, `Engine SBOM extracted license ${index}`, [
+      "extractedText",
+      "licenseId",
+      "name",
+    ]);
+    const licenseId = stringField(record, "licenseId", `Engine SBOM extracted license ${index}`);
+    const expected = expectedExtracted[index];
+    if (
+      !expected ||
+      !/^LicenseRef-[A-Za-z0-9.-]+$/u.test(licenseId) ||
+      record.extractedText !== expected.extractedText ||
+      record.licenseId !== expected.licenseId ||
+      record.name !== expected.name ||
+      extracted.has(licenseId)
+    ) {
+      throw new Error("Engine SBOM extracted license inventory drifted");
+    }
+    extracted.add(licenseId);
+  }
+  const expression =
+    /^(?:[A-Za-z0-9.-]+|LicenseRef-[A-Za-z0-9.-]+)(?: (?:AND|OR) (?:[A-Za-z0-9.-]+|LicenseRef-[A-Za-z0-9.-]+))*$/u;
+  const componentIds: string[] = [];
+  const componentKeys: string[] = [];
+  for (const [index, value] of document.packages.slice(1).entries()) {
+    if (typeof value !== "object" || value === null || Array.isArray(value)) {
+      throw new Error(`Engine SBOM component ${index} must be an object`);
+    }
+    const hasExternalRefs = Object.hasOwn(value, "externalRefs");
+    const component = exactObject(value, `Engine SBOM component ${index}`, [
+      "SPDXID",
+      "copyrightText",
+      "downloadLocation",
+      ...(hasExternalRefs ? ["externalRefs"] : []),
+      "filesAnalyzed",
+      "licenseConcluded",
+      "licenseDeclared",
+      "name",
+      "sourceInfo",
+      "versionInfo",
+    ]);
+    const id = stringField(component, "SPDXID", `Engine SBOM component ${index}`);
+    const declared = stringField(component, "licenseDeclared", `Engine SBOM component ${index}`);
+    const concluded = stringField(component, "licenseConcluded", `Engine SBOM component ${index}`);
+    const sourceInfo = stringField(component, "sourceInfo", `Engine SBOM component ${index}`);
+    const name = stringField(component, "name", `Engine SBOM component ${index}`);
+    const componentVersion = stringField(
+      component,
+      "versionInfo",
+      `Engine SBOM component ${index}`,
+    );
+    const sourceMatch = sourceInfo.match(
+      /^Rootform runtime inventory kind: (asset|dialect-bundle|go-module|go-runtime|vendored-source|web-package); Distributed license text SHA-256: ([0-9a-f]{64})(?:;|$)/u,
+    );
+    const key = sourceMatch ? `${sourceMatch[1]}:${name}@${componentVersion}` : "";
+    const expected = inventoryByKey.get(key);
+    if (
+      !/^SPDXRef-Component-[0-9a-f]{20}$/u.test(id) ||
+      componentIds.includes(id) ||
+      !expected ||
+      componentKeys.includes(key) ||
+      component.downloadLocation !== expected.upstream ||
+      component.filesAnalyzed !== false ||
+      !expression.test(declared) ||
+      !expression.test(concluded) ||
+      declared !== expected.license_declared ||
+      concluded !== expected.license_concluded ||
+      component.copyrightText !== expected.copyright_text ||
+      sourceMatch?.[2] !== expected.license_text_sha256
+    ) {
+      throw new Error(`Engine SBOM component differs from runtime license inventory: ${key}`);
+    }
+    for (const license of [declared, concluded]) {
+      for (const reference of license.match(/LicenseRef-[A-Za-z0-9.-]+/gu) ?? []) {
+        if (!extracted.has(reference)) throw new Error(`Engine SBOM omits ${reference}`);
+      }
+    }
+    const expectedPurl = componentPurl(expected);
+    if (hasExternalRefs !== (expectedPurl !== undefined)) {
+      throw new Error(`Engine SBOM component ${index} external reference drifted`);
+    }
+    if (hasExternalRefs) {
+      if (!Array.isArray(component.externalRefs) || component.externalRefs.length !== 1) {
+        throw new Error(`Engine SBOM component ${index} external reference drifted`);
+      }
+      const reference = exactObject(
+        component.externalRefs[0],
+        `Engine SBOM component ${index} external reference`,
+        ["referenceCategory", "referenceLocator", "referenceType"],
+      );
+      if (
+        reference.referenceCategory !== "PACKAGE-MANAGER" ||
+        reference.referenceType !== "purl" ||
+        reference.referenceLocator !== expectedPurl
+      ) {
+        throw new Error(`Engine SBOM component ${index} external reference drifted`);
+      }
+    }
+    componentIds.push(id);
+    componentKeys.push(key);
+  }
+  const canonicalKeys = [...componentKeys].sort((left, right) => left.localeCompare(right, "en"));
+  if (JSON.stringify(componentKeys) !== JSON.stringify(canonicalKeys)) {
+    throw new Error("Engine SBOM component inventory is not canonical");
+  }
+  for (const component of inventory) {
+    if (component.kind !== "go-module" && !componentKeys.includes(componentKey(component))) {
+      throw new Error(`Engine SBOM omits shipped component: ${componentKey(component)}`);
+    }
+  }
+  if (
+    !Array.isArray(document.relationships) ||
+    document.relationships.length !== componentIds.length + 1
+  ) {
+    throw new Error("Engine SBOM relationships are incomplete");
+  }
+  const describes = exactObject(document.relationships[0], "Engine SBOM describes relationship", [
+    "relatedSpdxElement",
+    "relationshipType",
+    "spdxElementId",
+  ]);
+  if (
+    describes.spdxElementId !== "SPDXRef-DOCUMENT" ||
+    describes.relationshipType !== "DESCRIBES" ||
+    describes.relatedSpdxElement !== "SPDXRef-Package-Rootform"
+  ) {
+    throw new Error("Engine SBOM describes relationship drifted");
+  }
+  const related = document.relationships.slice(1).map((value, index) => {
+    const relationship = exactObject(value, `Engine SBOM dependency relationship ${index}`, [
+      "relatedSpdxElement",
+      "relationshipType",
+      "spdxElementId",
+    ]);
+    if (
+      relationship.spdxElementId !== "SPDXRef-Package-Rootform" ||
+      relationship.relationshipType !== "DEPENDS_ON"
+    ) {
+      throw new Error(`Engine SBOM dependency relationship ${index} drifted`);
+    }
+    return stringField(
+      relationship,
+      "relatedSpdxElement",
+      `Engine SBOM dependency relationship ${index}`,
+    );
+  });
+  if (JSON.stringify(related) !== JSON.stringify(componentIds)) {
+    throw new Error("Engine SBOM dependency relationships drifted");
   }
   if (
     /(?:\/Users\/|\/home\/[A-Za-z0-9._-]+\/|[A-Za-z]:\\Users\\|rootform-dev\/engine)/u.test(
@@ -450,22 +656,52 @@ export function verifyHandoffDirectory(
     "public export",
     ["files", "format_version", "source_commit", "source_repository"],
   );
-  if (
-    !schema.equals(expectedSchema) ||
-    !Array.isArray(publicExport.files) ||
-    publicExport.files.length !== 1
-  ) {
-    throw new Error("handoff schema differs from committed public schema");
+  if (!Array.isArray(publicExport.files)) {
+    throw new Error("public export file inventory is invalid");
   }
-  const exportFile = exactObject(publicExport.files[0], "public export file", ["path", "sha256"]);
+  const exportFiles = publicExport.files.map((value, index) =>
+    exactObject(value, `public export file ${index}`, ["path", "sha256"]),
+  );
+  const expectedExportPaths = [
+    "THIRD_PARTY_NOTICES.txt",
+    "dependencies/runtime-components.json",
+    "schemas/architecture-ir.schema.json",
+  ].sort((left, right) => left.localeCompare(right, "en"));
+  const exportPaths = exportFiles.map((file, index) =>
+    stringField(file, "path", `public export file ${index}`),
+  );
+  if (JSON.stringify(exportPaths) !== JSON.stringify(expectedExportPaths)) {
+    throw new Error("public export allow-list drifted");
+  }
+  if (
+    publicExport.format_version !== "1" ||
+    publicExport.source_repository !== "rootform-dev/engine" ||
+    publicExport.source_commit !== manifest.producerCommit
+  ) {
+    throw new Error("public export provenance drifted");
+  }
+  const exportedByPath = new Map(
+    exportFiles.map((file, index) => [
+      exportPaths[index] ?? "",
+      stringField(file, "sha256", `public export file ${index}`),
+    ]),
+  );
+  for (const path of expectedExportPaths) {
+    const body = requireRegularFile(join(root, path), `committed public export: ${path}`);
+    if (exportedByPath.get(path) !== sha256(body)) {
+      throw new Error(`public export digest drifted: ${path}`);
+    }
+  }
+  const runtimeLicensing = readRuntimeLicensing(root);
+  const schemaExportDigest = exportedByPath.get("schemas/architecture-ir.schema.json");
   const manifestJson = canonicalJson(
     manifestBody.toString("utf8"),
     "producer manifest",
   ) as JsonObject;
   const manifestSchema = exactObject(manifestJson.schema, "producer schema", ["file", "sha256"]);
   if (
-    exportFile.path !== "schemas/architecture-ir.schema.json" ||
-    exportFile.sha256 !== sha256(schema) ||
+    !schema.equals(expectedSchema) ||
+    schemaExportDigest !== sha256(schema) ||
     manifestSchema.sha256 !== sha256(schema)
   ) {
     throw new Error("handoff schema digest drifted");
@@ -478,7 +714,7 @@ export function verifyHandoffDirectory(
     "sha256",
   ]);
   if (manifestSbom.sha256 !== sha256(sbom)) throw new Error("handoff SBOM digest drifted");
-  verifySpdx(sbom, version, manifest.created, manifest.producerCommit);
+  verifySpdx(sbom, version, manifest.created, manifest.producerCommit, runtimeLicensing.components);
 
   const binaries = RELEASE_TARGETS.map((target) => {
     const entry = entries.get(target.handoffFile);

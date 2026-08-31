@@ -1,0 +1,838 @@
+{
+  "components": [
+    {
+      "copyright_text": "Copyright © 2017 IBM Corp. with Reserved Font Name \"Plex\"",
+      "kind": "asset",
+      "license_concluded": "OFL-1.1",
+      "license_declared": "OFL-1.1",
+      "license_text_sha256": "d741e57d5f865e294df801f96b7b5161a88b211df65887e4358d271c9fc5fb4f",
+      "name": "IBM Plex Mono",
+      "upstream": "https://github.com/IBM/plex",
+      "version": "20"
+    },
+    {
+      "copyright_text": "Copyright 2022 The Instrument Sans Project Authors (https://github.com/Instrument/instrument-sans)",
+      "kind": "asset",
+      "license_concluded": "OFL-1.1",
+      "license_declared": "OFL-1.1",
+      "license_text_sha256": "bc29b497c4e8316b2d248322a9cea670c2f0afc24ae0eb7bbaa54e02e00eebab",
+      "name": "Instrument Sans",
+      "upstream": "https://github.com/Instrument/instrument-sans",
+      "version": "4"
+    },
+    {
+      "copyright_text": "NOASSERTION",
+      "kind": "asset",
+      "license_concluded": "Apache-2.0",
+      "license_declared": "Apache-2.0 OR CC-BY-4.0",
+      "license_text_sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+      "name": "Kubernetes Architecture Icons",
+      "upstream": "https://github.com/kubernetes/community/tree/24e7d8f5409c1a0121394a613746e524f781e044/icons",
+      "version": "24e7d8f5409c1a0121394a613746e524f781e044"
+    },
+    {
+      "copyright_text": "NOASSERTION",
+      "kind": "asset",
+      "extracted_text": "Azure Architecture Icons usage notice\n\nOfficial catalog: https://learn.microsoft.com/en-us/azure/architecture/icons/\nOfficial archive: https://arch-center.azureedge.net/icons/Azure_Public_Service_Icons_V24.zip\nArchive version: V24\nArchive SHA-256: 921594ccd1bf3d9c0a1bd7b6d924e050551a59342f2b353bb74bdcf761c35141\nArchive file date: 2026-07-08\nTerms verified: 2026-08-29\n\nSelected Microsoft Azure service icons are embedded only to identify real\nAzure services in Rootform architecture diagrams. Microsoft_Terms_of_Use.pdf\nfrom the official archive permits copying, distributing, and displaying these\nicons in architectural diagrams, training materials, and documentation.\n\nRootform preserves icon appearance. It does not crop, flip, rotate, distort,\nchange icon shape, or use an Azure icon as Rootform product identity. Rootform\nis not affiliated with, endorsed by, or sponsored by Microsoft.\n\nMicrosoft and Azure are trademarks of the Microsoft group of companies.\nSee the official archive and catalog page for complete current terms.\n",
+      "license_concluded": "LicenseRef-Microsoft-Azure-Architecture-Icons-Terms",
+      "license_declared": "LicenseRef-Microsoft-Azure-Architecture-Icons-Terms",
+      "license_text_sha256": "b45361cb919ba1808b0e67d335a6778da73bd7656d73650945e4f90a472de59e",
+      "name": "Microsoft Azure Architecture Icons",
+      "upstream": "https://learn.microsoft.com/azure/architecture/icons/",
+      "version": "V24"
+    },
+    {
+      "copyright_text": "(c) under Patent Claims infringed by Covered Software in the absence of",
+      "kind": "dialect-bundle",
+      "license_concluded": "MPL-2.0",
+      "license_declared": "MPL-2.0",
+      "license_text_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+      "name": "Rootform Dialects",
+      "upstream": "https://github.com/rootform-dev/dialects/tree/2f4715ac078d532b4d9ae05f095ce705c74ad655",
+      "version": "2f4715ac078d532b4d9ae05f095ce705c74ad655"
+    },
+    {
+      "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2016 ALRUX Inc.",
+      "kind": "go-module",
+      "license_concluded": "Apache-2.0",
+      "license_declared": "Apache-2.0",
+      "license_text_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "name": "github.com/agext/levenshtein",
+      "notice_text_sha256": "5f8cebc9aab3ce69ade921efb14caec472c34f22566e015df9512111dcacae06",
+      "upstream": "https://github.com/agext/levenshtein",
+      "version": "v1.2.1"
+    },
+    {
+      "copyright_text": "Copyright (c) 2017 Martin Atkins; Copyright (c) 2014 Couchbase, Inc.; Copyright © 1991-2017 Unicode, Inc. All rights reserved.",
+      "kind": "go-module",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "59e80949c14925f65181757d837ed93dea3783f62b031f642281d9e5b1936917",
+      "name": "github.com/apparentlymart/go-textseg/v15",
+      "upstream": "https://github.com/apparentlymart/go-textseg/v15",
+      "version": "v15.0.0"
+    },
+    {
+      "copyright_text": "Copyright © 2012 The Go Authors. All rights reserved.; Copyright © fsnotify Authors. All rights reserved.",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "2dfbe6d2b5eb18b55148f3805d88648a09e0d17e38428123259afb08c8996e37",
+      "name": "github.com/fsnotify/fsnotify",
+      "upstream": "https://github.com/fsnotify/fsnotify",
+      "version": "v1.10.1"
+    },
+    {
+      "copyright_text": "Copyright (c) 2020 The Go Authors. All rights reserved.",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "14a34c4db2d21bf9cf80d028b802cd22fed9bf597a6c2db7ce30ee6ffd04967a",
+      "name": "github.com/go-json-experiment/json",
+      "upstream": "https://github.com/go-json-experiment/json",
+      "version": "v0.0.0-20260623181947-01eb4420fa68"
+    },
+    {
+      "copyright_text": "Copyright (c) 2017 The Go Authors. All rights reserved.",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "17b5d209ba8f9684257ecfcff87df6ceda6194143a8fbd074f29727cff6f0c40",
+      "name": "github.com/google/go-cmp",
+      "upstream": "https://github.com/google/go-cmp",
+      "version": "v0.7.0"
+    },
+    {
+      "copyright_text": "Copyright IBM Corp. 2014, 2025",
+      "kind": "go-module",
+      "license_concluded": "MPL-2.0",
+      "license_declared": "MPL-2.0",
+      "license_text_sha256": "492ebaabb6c6a640018f4dd6364d8c59578b140c25e743c2478afbc05580afd4",
+      "name": "github.com/hashicorp/go-version",
+      "upstream": "https://github.com/hashicorp/go-version",
+      "version": "v1.9.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2014 HashiCorp, Inc.",
+      "kind": "go-module",
+      "license_concluded": "MPL-2.0",
+      "license_declared": "MPL-2.0",
+      "license_text_sha256": "28ca54ff46a27183631aa262673d13e3c829d909059f5c861da835fe1783fbec",
+      "name": "github.com/hashicorp/hcl/v2",
+      "upstream": "https://github.com/hashicorp/hcl/v2",
+      "version": "v2.24.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2021 HashiCorp, Inc.",
+      "kind": "go-module",
+      "license_concluded": "MPL-2.0",
+      "license_declared": "MPL-2.0",
+      "license_text_sha256": "d801fd80ca1b19391a99483e5cd7a4bd62a5dab52ef2374a6e8f9a11ccc24ffb",
+      "name": "github.com/hashicorp/terraform-registry-address",
+      "upstream": "https://github.com/hashicorp/terraform-registry-address",
+      "version": "v0.4.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2019 HashiCorp, Inc.",
+      "kind": "go-module",
+      "license_concluded": "MPL-2.0",
+      "license_declared": "MPL-2.0",
+      "license_text_sha256": "3a1e6ea6e38ec6ca0e1b12f3d07443635fe26142e62f76b27aacd3e69fb596fa",
+      "name": "github.com/hashicorp/terraform-svchost",
+      "upstream": "https://github.com/hashicorp/terraform-svchost",
+      "version": "v0.1.1"
+    },
+    {
+      "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2022 Alan Shreve (@inconshreveable)",
+      "kind": "go-module",
+      "license_concluded": "Apache-2.0",
+      "license_declared": "Apache-2.0",
+      "license_text_sha256": "4819582701f150b28a563a6cd8ed0bf5a754e3c67b90ad38d78ba4131bf77795",
+      "name": "github.com/inconshreveable/mousetrap",
+      "upstream": "https://github.com/inconshreveable/mousetrap",
+      "version": "v1.1.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2014 Mitchell Hashimoto",
+      "kind": "go-module",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "3c377fad2e5ae1d7081c7c2f16da867a87cca1d1f5f1aa7ed0b8a16bb553142a",
+      "name": "github.com/mitchellh/go-wordwrap",
+      "upstream": "https://github.com/mitchellh/go-wordwrap",
+      "version": "v1.0.1"
+    },
+    {
+      "copyright_text": "(c) You must retain, in the Source form of any Derivative Works",
+      "kind": "go-module",
+      "license_concluded": "Apache-2.0",
+      "license_declared": "Apache-2.0",
+      "license_text_sha256": "5e3400b93bbb099e83e52bab885e7441750673c21f97988ca3f1240639b63283",
+      "name": "github.com/spf13/cobra",
+      "upstream": "https://github.com/spf13/cobra",
+      "version": "v1.10.2"
+    },
+    {
+      "copyright_text": "Copyright (c) 2012 Alex Ogier. All rights reserved.; Copyright (c) 2012 The Go Authors. All rights reserved.",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "b8514c577c1c4b46cee454d5a882b15fa411e72c5bd7f801f241591789fce61a",
+      "name": "github.com/spf13/pflag",
+      "upstream": "https://github.com/spf13/pflag",
+      "version": "v1.0.10"
+    },
+    {
+      "copyright_text": "Copyright (c) 2017-2018 Martin Atkins",
+      "kind": "go-module",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "5b75e242a5bf5b40228d068037a7746e86bc1f9ea96b691e5f64b555579bfa52",
+      "name": "github.com/zclconf/go-cty",
+      "upstream": "https://github.com/zclconf/go-cty",
+      "version": "v1.16.3"
+    },
+    {
+      "copyright_text": "Copyright (c) 2019, The Go Language Server Authors",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "83a5dd3bf25b2960f9303bf03857e5c57c8fdf7d46c7f7e365e4a63f1124992a",
+      "name": "go.lsp.dev/jsonrpc2",
+      "upstream": "https://go.lsp.dev/jsonrpc2",
+      "version": "v1.0.1"
+    },
+    {
+      "copyright_text": "Copyright (c) 2019, The Go Language Server Authors",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "83a5dd3bf25b2960f9303bf03857e5c57c8fdf7d46c7f7e365e4a63f1124992a",
+      "name": "go.lsp.dev/protocol",
+      "upstream": "https://go.lsp.dev/protocol",
+      "version": "v1.0.1"
+    },
+    {
+      "copyright_text": "Copyright (c) 2019, The Go Language Server Authors",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "83a5dd3bf25b2960f9303bf03857e5c57c8fdf7d46c7f7e365e4a63f1124992a",
+      "name": "go.lsp.dev/uri",
+      "upstream": "https://go.lsp.dev/uri",
+      "version": "v1.0.1"
+    },
+    {
+      "copyright_text": "Copyright 2009 The Go Authors.",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+      "name": "golang.org/x/mod",
+      "upstream": "https://golang.org/x/mod",
+      "version": "v0.38.0"
+    },
+    {
+      "copyright_text": "Copyright 2009 The Go Authors.",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+      "name": "golang.org/x/net",
+      "upstream": "https://golang.org/x/net",
+      "version": "v0.58.0"
+    },
+    {
+      "copyright_text": "Copyright 2009 The Go Authors.",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+      "name": "golang.org/x/sync",
+      "upstream": "https://golang.org/x/sync",
+      "version": "v0.22.0"
+    },
+    {
+      "copyright_text": "Copyright 2009 The Go Authors.",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+      "name": "golang.org/x/sys",
+      "upstream": "https://golang.org/x/sys",
+      "version": "v0.47.0"
+    },
+    {
+      "copyright_text": "Copyright 2009 The Go Authors.",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+      "name": "golang.org/x/text",
+      "upstream": "https://golang.org/x/text",
+      "version": "v0.41.0"
+    },
+    {
+      "copyright_text": "Copyright 2009 The Go Authors.",
+      "kind": "go-module",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+      "name": "golang.org/x/tools",
+      "upstream": "https://golang.org/x/tools",
+      "version": "v0.48.0"
+    },
+    {
+      "copyright_text": "Copyright 2009 The Go Authors.",
+      "kind": "go-runtime",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+      "name": "Go standard library",
+      "notice_text_sha256": "96f408bfae65bf137fc2525d3ecb030271c50c1e90799f87abf8846d8dd505cc",
+      "upstream": "https://go.googlesource.com/go/+/refs/tags/go1.26.7",
+      "version": "go1.26.7"
+    },
+    {
+      "copyright_text": "Copyright (c) 2023 Hunter Johnston <https://github.com/huntabyte>; Copyright (c) 2023 CokaKoala <https://github.com/adriangonz97>; Copyright (c) 2023 shadcn",
+      "kind": "vendored-source",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9",
+      "name": "shadcn-svelte",
+      "upstream": "https://github.com/huntabyte/shadcn-svelte",
+      "version": "1.5.1"
+    },
+    {
+      "copyright_text": "Copyright (c) 2021-present Floating UI contributors",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "0e4c9a9b6c71019cbbea3bdc20b01223110a9035700f9c960c8fcbf78c2325ce",
+      "name": "@floating-ui/core",
+      "upstream": "https://github.com/floating-ui/floating-ui",
+      "version": "1.8.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2021-present Floating UI contributors",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "0e4c9a9b6c71019cbbea3bdc20b01223110a9035700f9c960c8fcbf78c2325ce",
+      "name": "@floating-ui/dom",
+      "upstream": "https://github.com/floating-ui/floating-ui",
+      "version": "1.8.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2021-present Floating UI contributors",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "0e4c9a9b6c71019cbbea3bdc20b01223110a9035700f9c960c8fcbf78c2325ce",
+      "name": "@floating-ui/utils",
+      "upstream": "https://github.com/floating-ui/floating-ui",
+      "version": "0.2.12"
+    },
+    {
+      "copyright_text": "Copyright 2024 Justin Ridgewell <justin@ridgewell.name>",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "769d154fbde32a915af110b1123650bc79f4cbe675acc66e005265bf069c6c6c",
+      "name": "@jridgewell/gen-mapping",
+      "upstream": "https://github.com/jridgewell/sourcemaps",
+      "version": "0.3.13"
+    },
+    {
+      "copyright_text": "Copyright 2024 Justin Ridgewell <justin@ridgewell.name>",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "769d154fbde32a915af110b1123650bc79f4cbe675acc66e005265bf069c6c6c",
+      "name": "@jridgewell/remapping",
+      "upstream": "https://github.com/jridgewell/sourcemaps",
+      "version": "2.3.5"
+    },
+    {
+      "copyright_text": "Copyright 2019 Justin Ridgewell <jridgewell@google.com>",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "1ad100697b2b3320d602f7606be8ea5025f6c2f833879f14d77b7421dfa72cd0",
+      "name": "@jridgewell/resolve-uri",
+      "upstream": "https://github.com/jridgewell/resolve-uri",
+      "version": "3.1.2"
+    },
+    {
+      "copyright_text": "Copyright 2024 Justin Ridgewell <justin@ridgewell.name>",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "769d154fbde32a915af110b1123650bc79f4cbe675acc66e005265bf069c6c6c",
+      "name": "@jridgewell/sourcemap-codec",
+      "upstream": "https://github.com/jridgewell/sourcemaps",
+      "version": "1.5.5"
+    },
+    {
+      "copyright_text": "Copyright 2024 Justin Ridgewell <justin@ridgewell.name>",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "769d154fbde32a915af110b1123650bc79f4cbe675acc66e005265bf069c6c6c",
+      "name": "@jridgewell/trace-mapping",
+      "upstream": "https://github.com/jridgewell/sourcemaps",
+      "version": "0.3.31"
+    },
+    {
+      "copyright_text": "Copyright (c) 2026 Lucide Icons and Contributors; Copyright (c) 2013-present Cole Bemis",
+      "kind": "web-package",
+      "license_concluded": "ISC",
+      "license_declared": "ISC",
+      "license_text_sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+      "name": "@lucide/svelte",
+      "upstream": "https://github.com/lucide-icons/lucide",
+      "version": "1.35.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2023-2024 Quang Phan",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "648eaefbc3c5df7b73740a3878c0a02609288baa6f5f8fd01229a02a09bc91d3",
+      "name": "@svelte-put/shortcut",
+      "upstream": "https://github.com/vnphanquang/svelte-put",
+      "version": "4.2.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2022 Tyreal Hu; Copyright (c) 2025 The Svelte Team",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "54e58ba168330ad6c315813fd50e729b2748d1ed38314fd30b833a4e89e15f2a",
+      "name": "@sveltejs/acorn-typescript",
+      "upstream": "https://github.com/sveltejs/acorn-typescript",
+      "version": "1.0.13"
+    },
+    {
+      "copyright_text": "Copyright (c) Microsoft Corporation.",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "name": "@types/d3-color",
+      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+      "version": "3.1.3"
+    },
+    {
+      "copyright_text": "Copyright (c) Microsoft Corporation.",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "name": "@types/d3-drag",
+      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+      "version": "3.0.7"
+    },
+    {
+      "copyright_text": "Copyright (c) Microsoft Corporation.",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "name": "@types/d3-interpolate",
+      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+      "version": "3.0.4"
+    },
+    {
+      "copyright_text": "Copyright (c) Microsoft Corporation.",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "name": "@types/d3-selection",
+      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+      "version": "3.0.11"
+    },
+    {
+      "copyright_text": "Copyright (c) Microsoft Corporation.",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "name": "@types/d3-transition",
+      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+      "version": "3.0.9"
+    },
+    {
+      "copyright_text": "Copyright (c) Microsoft Corporation.",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "name": "@types/d3-zoom",
+      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+      "version": "3.0.8"
+    },
+    {
+      "copyright_text": "Copyright (c) Microsoft Corporation.",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "name": "@types/estree",
+      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+      "version": "1.0.9"
+    },
+    {
+      "copyright_text": "Copyright (c) Microsoft Corporation.",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "name": "@types/trusted-types",
+      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+      "version": "2.0.7"
+    },
+    {
+      "copyright_text": "Copyright (c) 2019-2025 webkid GmbH",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "023119ac20fb1c8c9930abe0bcd196989a1960388529a96fc43cebf96f07c9ff",
+      "name": "@xyflow/svelte",
+      "upstream": "https://github.com/xyflow/xyflow",
+      "version": "1.6.5"
+    },
+    {
+      "copyright_text": "Copyright (c) 2019-2025 webkid GmbH",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "023119ac20fb1c8c9930abe0bcd196989a1960388529a96fc43cebf96f07c9ff",
+      "name": "@xyflow/system",
+      "upstream": "https://github.com/xyflow/xyflow",
+      "version": "0.0.81"
+    },
+    {
+      "copyright_text": "Copyright (C) 2012-2022 by various contributors (see AUTHORS)",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "76a876cf886ff9be2a8b5e2e86514fed06223c8c9f0c1e9ee9606e93841e00b7",
+      "name": "acorn",
+      "upstream": "https://github.com/acornjs/acorn",
+      "version": "8.18.0"
+    },
+    {
+      "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2020 A11yance",
+      "kind": "web-package",
+      "license_concluded": "Apache-2.0",
+      "license_declared": "Apache-2.0",
+      "license_text_sha256": "c8df456c7ccba74b959087dff494d4ac2a12dfb0400c08b46b2494a08a000567",
+      "name": "aria-query",
+      "upstream": "https://github.com/A11yance/aria-query",
+      "version": "5.3.1"
+    },
+    {
+      "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2020 A11yance",
+      "kind": "web-package",
+      "license_concluded": "Apache-2.0",
+      "license_declared": "Apache-2.0",
+      "license_text_sha256": "c8df456c7ccba74b959087dff494d4ac2a12dfb0400c08b46b2494a08a000567",
+      "name": "axobject-query",
+      "upstream": "https://github.com/A11yance/axobject-query",
+      "version": "4.1.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2023 Hunter Johnston",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "91b34549ceba8602e9a763d32443fa2ae92fba1a148b45e71ad480c723004818",
+      "name": "bits-ui",
+      "upstream": "https://www.npmjs.com/package/bits-ui",
+      "version": "2.19.0"
+    },
+    {
+      "copyright_text": "Copyright (c) Luke Edwards <luke.edwards05@gmail.com> (lukeed.com)",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97",
+      "name": "clsx",
+      "upstream": "https://www.npmjs.com/package/clsx",
+      "version": "2.1.1"
+    },
+    {
+      "copyright_text": "Copyright 2010-2022 Mike Bostock",
+      "kind": "web-package",
+      "license_concluded": "ISC",
+      "license_declared": "ISC",
+      "license_text_sha256": "faa682e3e430941f958d26180458f5934a62f58dac4d70ccdd15608c15d0f884",
+      "name": "d3-color",
+      "upstream": "https://github.com/d3/d3-color",
+      "version": "3.1.0"
+    },
+    {
+      "copyright_text": "Copyright 2010-2021 Mike Bostock",
+      "kind": "web-package",
+      "license_concluded": "ISC",
+      "license_declared": "ISC",
+      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
+      "name": "d3-dispatch",
+      "upstream": "https://github.com/d3/d3-dispatch",
+      "version": "3.0.1"
+    },
+    {
+      "copyright_text": "Copyright 2010-2021 Mike Bostock",
+      "kind": "web-package",
+      "license_concluded": "ISC",
+      "license_declared": "ISC",
+      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
+      "name": "d3-drag",
+      "upstream": "https://github.com/d3/d3-drag",
+      "version": "3.0.0"
+    },
+    {
+      "copyright_text": "Copyright 2010-2021 Mike Bostock; Copyright 2001 Robert Penner",
+      "kind": "web-package",
+      "license_concluded": "BSD-3-Clause",
+      "license_declared": "BSD-3-Clause",
+      "license_text_sha256": "b989d9085148d21ff64a75e14462aefa06b2589a55553b07b1460c70081c7d08",
+      "name": "d3-ease",
+      "upstream": "https://github.com/d3/d3-ease",
+      "version": "3.0.1"
+    },
+    {
+      "copyright_text": "Copyright 2010-2021 Mike Bostock",
+      "kind": "web-package",
+      "license_concluded": "ISC",
+      "license_declared": "ISC",
+      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
+      "name": "d3-interpolate",
+      "upstream": "https://github.com/d3/d3-interpolate",
+      "version": "3.0.1"
+    },
+    {
+      "copyright_text": "Copyright 2010-2021 Mike Bostock",
+      "kind": "web-package",
+      "license_concluded": "ISC",
+      "license_declared": "ISC",
+      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
+      "name": "d3-selection",
+      "upstream": "https://github.com/d3/d3-selection",
+      "version": "3.0.0"
+    },
+    {
+      "copyright_text": "Copyright 2010-2021 Mike Bostock",
+      "kind": "web-package",
+      "license_concluded": "ISC",
+      "license_declared": "ISC",
+      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
+      "name": "d3-timer",
+      "upstream": "https://github.com/d3/d3-timer",
+      "version": "3.0.1"
+    },
+    {
+      "copyright_text": "Copyright 2010-2021 Mike Bostock",
+      "kind": "web-package",
+      "license_concluded": "ISC",
+      "license_declared": "ISC",
+      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
+      "name": "d3-transition",
+      "upstream": "https://github.com/d3/d3-transition",
+      "version": "3.0.1"
+    },
+    {
+      "copyright_text": "Copyright 2010-2021 Mike Bostock",
+      "kind": "web-package",
+      "license_concluded": "ISC",
+      "license_declared": "ISC",
+      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
+      "name": "d3-zoom",
+      "upstream": "https://github.com/d3/d3-zoom",
+      "version": "3.0.0"
+    },
+    {
+      "copyright_text": "Copyright (c) Luke Edwards <luke.edwards05@gmail.com> (lukeed.com)",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "306fa513e39b23a6e8747520de761809d206b99800ef41907b530226574c59ae",
+      "name": "dequal",
+      "upstream": "https://www.npmjs.com/package/dequal",
+      "version": "2.0.3"
+    },
+    {
+      "copyright_text": "Copyright (c) 2018-19 [these people](https://github.com/rich-harris/devalue/graphs/contributors)",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "e399db7e952e45cae84f1b53d72ba8dbad2daaa7ab8cd1f0ab72fea5ab73b225",
+      "name": "devalue",
+      "upstream": "https://www.npmjs.com/package/devalue",
+      "version": "5.9.0"
+    },
+    {
+      "copyright_text": "NOASSERTION",
+      "kind": "web-package",
+      "license_concluded": "EPL-2.0",
+      "license_declared": "EPL-2.0 OR GPL-3.0-or-later",
+      "license_text_sha256": "637e81f4a1b6b4079535c499fca05e238cf7605c1ff5b76d60d7da7ce96700c9",
+      "name": "elkjs",
+      "upstream": "https://github.com/kieler/elkjs",
+      "version": "0.12.0"
+    },
+    {
+      "copyright_text": "Copyright 2022 Benjamin McCann",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "6df5276ee7531fcc5446f19082c12e77bb6c5f081fd2b6d6cf88180a5ee36acd",
+      "name": "esm-env",
+      "upstream": "https://github.com/benmccann/esm-env",
+      "version": "1.2.2"
+    },
+    {
+      "copyright_text": "Copyright (c) 2023-2025 [these people](https://github.com/sveltejs/esrap/graphs/contributors)",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "8f8f0696ab4041a885d28bddf82e2ad673a6522cb644d6f972237f4f6e172a1d",
+      "name": "esrap",
+      "upstream": "https://github.com/sveltejs/esrap",
+      "version": "2.3.3"
+    },
+    {
+      "copyright_text": "Copyright (c) 2012 TJ Holowaychuk <tj@vision-media.ca>",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "395c95f20598da653ff1eb1cb9d74947c7fac689697147f1d192fd0242a0e635",
+      "name": "inline-style-parser",
+      "upstream": "https://github.com/remarkablemark/inline-style-parser",
+      "version": "0.2.7"
+    },
+    {
+      "copyright_text": "Copyright (c) Rich Harris",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "0f9f997087eb94f0ba43ac8c8a7ea49b0061365760c82d3ba89995de21dce4fc",
+      "name": "is-reference",
+      "upstream": "https://github.com/Rich-Harris/is-reference",
+      "version": "3.0.3"
+    },
+    {
+      "copyright_text": "Copyright (c) Rich Harris",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "0f9f997087eb94f0ba43ac8c8a7ea49b0061365760c82d3ba89995de21dce4fc",
+      "name": "locate-character",
+      "upstream": "https://gitlab.com/Rich-Harris/locate-character",
+      "version": "3.0.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2013 pieroxy",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "433fc9dfe659dbfb1e91eed8351f13651e97bfa3ac6d03394c3d63f61d4bbc80",
+      "name": "lz-string",
+      "upstream": "https://github.com/pieroxy/lz-string",
+      "version": "1.5.0"
+    },
+    {
+      "copyright_text": "Copyright 2018 Rich Harris",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "1cbe51b907662f6cb1492b16c359384a595180bf0e4d101603ed525e75c4e484",
+      "name": "magic-string",
+      "upstream": "https://github.com/Rich-Harris/magic-string",
+      "version": "0.30.21"
+    },
+    {
+      "copyright_text": "Copyright (c) 2024 Hunter Johnston <https://github.com/huntabyte>; Copyright (c) 2024 Thomas G. Lopes <https://github.com/tglide>",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "8914f144af4333312a07b30438dc6b75dd8da7a665c3ae9fa751f229eb615e8b",
+      "name": "runed",
+      "upstream": "https://github.com/svecosystem/runed",
+      "version": "0.35.1"
+    },
+    {
+      "copyright_text": "Copyright (c) 2017 Menglin \"Mark\" Xu <mark@remarkablemark.org>",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "896c9fd6b5fc48ac31800b9d29a6e3ffcb0c2d534ed077ebfa5c2fa388cc38b7",
+      "name": "style-to-object",
+      "upstream": "https://github.com/remarkablemark/style-to-object",
+      "version": "1.0.14"
+    },
+    {
+      "copyright_text": "Copyright (c) 2024 Hunter Johnston <https://github.com/huntabyte>; Copyright (c) 2024 Thomas G. Lopes <https://github.com/tglide>",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "8914f144af4333312a07b30438dc6b75dd8da7a665c3ae9fa751f229eb615e8b",
+      "name": "svelte-toolbelt",
+      "upstream": "https://www.npmjs.com/package/svelte-toolbelt",
+      "version": "0.10.6"
+    },
+    {
+      "copyright_text": "Copyright (c) 2016-2025 [Svelte Contributors](https://github.com/sveltejs/svelte/graphs/contributors)",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "06257f4847b13a49a039efb17b944c141e71b12fd8d231b362d86919067d77a3",
+      "name": "svelte",
+      "upstream": "https://github.com/sveltejs/svelte",
+      "version": "5.56.10"
+    },
+    {
+      "copyright_text": "Copyright (c) 2015 David Clark",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "2ae096f44e6308c9be1843ddd9aa8326bc69f01b6a225bdf067d8a50aa5d8560",
+      "name": "tabbable",
+      "upstream": "https://github.com/focus-trap/tabbable",
+      "version": "6.5.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2021 Dany Castillo",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "d4c70c7ce38cea8778f0aed3fc0bef0a9dbd27f13bd8b6773cbd6d37941971e5",
+      "name": "tailwind-merge",
+      "upstream": "https://github.com/dcastil/tailwind-merge",
+      "version": "3.6.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2020 Tailwid Variants",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "f3f8984c684106a9ffb50c44ff5dd6f2082526d78a820235a6592423d376d650",
+      "name": "tailwind-variants",
+      "upstream": "https://github.com/heroui-inc/tailwind-variants",
+      "version": "3.3.1"
+    },
+    {
+      "copyright_text": "Copyright (c) 2023 [these people](https://github.com/Rich-Harris/zimmerframe/graphs/contributors)",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "5fde0201805ca0ffc8884fac6a3447b7f2918a6c22efb68b94019298d16bad9e",
+      "name": "zimmerframe",
+      "upstream": "https://github.com/sveltejs/zimmerframe",
+      "version": "1.1.4"
+    }
+  ],
+  "format_version": "1"
+}

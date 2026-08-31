@@ -23,12 +23,14 @@ import {
   verifyHandoffDirectory,
   verifyNativeVersion,
 } from "./release/handoff.ts";
+import { readBinaryLicense } from "./release/license.ts";
 import {
   createReleaseManifest,
   type FinalArtifactRecord,
   readDialectPin,
   releaseArchiveEntries,
 } from "./release/metadata.ts";
+import { readRuntimeLicensing } from "./release/runtime-licenses.ts";
 
 type AssembleOptions = {
   check: boolean;
@@ -121,17 +123,19 @@ function finalNames(version: string): string[] {
   ].sort((left, right) => left.localeCompare(right, "en"));
 }
 
-function distributionInputs(root: string): { license: Buffer; notices: Buffer; schema: Buffer } {
-  const license = requireRegularFile(
-    join(root, "LICENSES", "ROOTFORM-BINARY-LICENSE-REVIEW.md"),
-    "binary license input",
-  );
-  if (!license.toString("utf8").toLowerCase().includes("not approved for public distribution")) {
-    throw new Error("private candidate requires explicit binary-license review marker");
-  }
+function distributionInputs(root: string): {
+  componentCount: number;
+  inventorySha256: string;
+  license: Buffer;
+  notices: Buffer;
+  schema: Buffer;
+} {
+  const runtimeLicensing = readRuntimeLicensing(root);
   return {
-    license,
-    notices: requireRegularFile(join(root, "THIRD_PARTY_NOTICES.md"), "third-party notices"),
+    componentCount: runtimeLicensing.componentCount,
+    inventorySha256: runtimeLicensing.inventorySha256,
+    license: readBinaryLicense(root),
+    notices: runtimeLicensing.notices,
     schema: requireRegularFile(
       join(root, "schemas", "architecture-ir.schema.json"),
       "Architecture IR schema",
@@ -167,16 +171,19 @@ function artifactRecord(
 
 function expectedManifest(options: {
   artifacts: FinalArtifactRecord[];
+  componentCount: number;
   dialectCommit: string;
   distributionCommit: string;
   handoff: VerifiedHandoff;
   license: Buffer;
   notices: Buffer;
+  runtimeInventorySha256: string;
   schema: Buffer;
 }): string {
   return createReleaseManifest({
     artifacts: options.artifacts,
     binaryLicense: options.license,
+    componentCount: options.componentCount,
     dialectCommit: options.dialectCommit,
     distributionCommit: options.distributionCommit,
     handoffBundleSha256: options.handoff.bundleSha256,
@@ -184,6 +191,7 @@ function expectedManifest(options: {
     producerManifestSha256: options.handoff.producerManifestSha256,
     sbom: options.handoff.sbom,
     schema: options.schema,
+    runtimeInventorySha256: options.runtimeInventorySha256,
     version: options.handoff.version,
   });
 }
@@ -297,11 +305,13 @@ export function verifyFinalDirectory(options: {
   }
   const manifest = expectedManifest({
     artifacts,
+    componentCount: inputs.componentCount,
     dialectCommit,
     distributionCommit: options.distributionCommit,
     handoff,
     license: inputs.license,
     notices: inputs.notices,
+    runtimeInventorySha256: inputs.inventorySha256,
     schema: inputs.schema,
   });
   if (
@@ -370,11 +380,13 @@ export function assembleRelease(options: {
     join(options.output, manifestName),
     expectedManifest({
       artifacts,
+      componentCount: inputs.componentCount,
       dialectCommit: readDialectPin(options.root).commit,
       distributionCommit: options.distributionCommit,
       handoff,
       license: inputs.license,
       notices: inputs.notices,
+      runtimeInventorySha256: inputs.inventorySha256,
       schema: inputs.schema,
     }),
     { flag: "wx" },

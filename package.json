@@ -15,10 +15,10 @@
   "scripts": {
     "assemble:release": "bun scripts/assemble-release.ts",
     "check": "bun scripts/validate-repository.ts && bun run typecheck && bun run check:format && bun test scripts",
-    "check:format": "biome check .github AGENTS.md README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md TRADEMARKS.md THIRD_PARTY_NOTICES.md package.json public-export.json contracts dependencies docs examples scripts schemas",
+    "check:format": "biome check .github AGENTS.md README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md TRADEMARKS.md package.json public-export.json contracts dependencies docs examples scripts schemas",
     "download:handoff": "bun scripts/download-handoff.ts",
     "extract:release-binary": "bun scripts/extract-release-binary.ts",
-    "format": "biome check --write .github AGENTS.md README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md TRADEMARKS.md THIRD_PARTY_NOTICES.md package.json public-export.json contracts dependencies docs examples scripts schemas",
+    "format": "biome check --write .github AGENTS.md README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md TRADEMARKS.md package.json public-export.json contracts dependencies docs examples scripts schemas",
     "typecheck": "tsc --noEmit",
     "verify": "bun scripts/verify.ts"
   },
