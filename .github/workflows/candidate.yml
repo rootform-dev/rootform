@@ -161,7 +161,7 @@ jobs:
             --prerelease \
             --target "$GITHUB_SHA" \
             --title "Rootform $ROOTFORM_VERSION" \
-            --notes "Private prerelease candidate."
+            --notes "Proprietary, unsupported private development candidate. Not for redistribution."
           release_id="$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
             --jq "[.[] | select(.tag_name == \"$tag\" and .draft == true)] | if length == 1 then .[0].id else empty end")"
           test -n "$release_id"
