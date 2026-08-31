@@ -140,6 +140,8 @@ export function validateRepository(): void {
     "contracts/binary-handoff.md",
     "dependencies/dialects.json",
     "scripts/assemble-release.ts",
+    "scripts/download-handoff.ts",
+    "scripts/extract-release-binary.ts",
     "scripts/release/archive.ts",
     "scripts/release/contract.ts",
     "scripts/release/digest.ts",
@@ -225,6 +227,20 @@ export function validateRepository(): void {
   );
   if (!binaryNotice.includes("not approved for public distribution")) {
     throw new Error("binary legal-review blocker is missing");
+  }
+
+  const candidateWorkflow = readFileSync(
+    join(root, ".github", "workflows", "candidate.yml"),
+    "utf8",
+  );
+  if (
+    candidateWorkflow.includes("rootform-dev/engine") ||
+    candidateWorkflow.includes("rootform-dev/action/") ||
+    candidateWorkflow.includes("ROOTFORM_REPOSITORIES_READ_TOKEN") ||
+    !candidateWorkflow.includes("DIALECTS_CONTENTS_READ_TOKEN") ||
+    !candidateWorkflow.includes(dialectPin.commit)
+  ) {
+    throw new Error("candidate workflow violates distribution ownership");
   }
 }
 

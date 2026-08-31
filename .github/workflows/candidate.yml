@@ -3,37 +3,43 @@ name: candidate
 on:
   workflow_dispatch:
     inputs:
+      handoff_release_id:
+        description: Exact Rootform draft release ID containing the Engine handoff
+        required: true
+        type: string
       version:
         description: Exact Rootform candidate version
         required: true
         type: string
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: candidate-${{ inputs.version }}
   cancel-in-progress: false
 
 jobs:
-  verify:
-    name: candidate examples
+  qualify:
+    name: assemble and qualify candidate
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     steps:
       - name: Check out distribution
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Check out exact official dialects
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: rootform-dev/dialects
-          ref: 2f4715ac078d532b4d9ae05f095ce705c74ad655
+          ref: a14abda61b2c23dadb1e75fe786e7c514aa9bec2
           path: build/dialects
-          token: ${{ secrets.ROOTFORM_REPOSITORIES_READ_TOKEN }}
+          token: ${{ secrets.DIALECTS_CONTENTS_READ_TOKEN }}
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Install exact Bun
@@ -41,20 +47,126 @@ jobs:
         with:
           bun-version: 1.3.14
 
-      - name: Install verified candidate
-        id: rootform
-        uses: rootform-dev/action/setup@f9049e72e6482a0f0508e5f8194aa31f5612f85b
-        with:
-          github-token: ${{ github.token }}
-          version: ${{ inputs.version }}
-
-      - name: Install exact dependencies
+      - name: Install exact distribution dependencies
         run: bun install --frozen-lockfile
 
-      - name: Resolve installed binary
-        run: printf 'ROOTFORM_BIN=%s\n' "$(command -v rootform)" >> "$GITHUB_ENV"
+      - name: Install exact Dialects dependencies
+        working-directory: build/dialects
+        run: bun install --frozen-lockfile
+
+      - name: Install verified repository tools
+        env:
+          ACTIONLINT_ARCHIVE: actionlint_1.7.12_linux_amd64.tar.gz
+          ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+          ACTIONLINT_VERSION: 1.7.12
+          GITLEAKS_ARCHIVE: gitleaks_8.30.1_linux_x64.tar.gz
+          GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+          GITLEAKS_VERSION: 8.30.1
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v$GITLEAKS_VERSION/$GITLEAKS_ARCHIVE"
+          printf '%s  %s\n' "$GITLEAKS_SHA256" "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" --directory "$RUNNER_TEMP" gitleaks
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" \
+            "https://github.com/rhysd/actionlint/releases/download/v$ACTIONLINT_VERSION/$ACTIONLINT_ARCHIVE"
+          printf '%s  %s\n' "$ACTIONLINT_SHA256" "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" --directory "$RUNNER_TEMP" actionlint
+          printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      - name: Verify distribution repository boundary
+        run: |
+          set -euo pipefail
+          bun run check
+          actionlint -no-color -oneline
+          git diff --check
+          gitleaks dir --no-banner --redact --config .gitleaks.toml .
+          gitleaks git --no-banner --redact --config .gitleaks.toml .
+
+      - name: Download exact opaque handoff
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          HANDOFF_RELEASE_ID: ${{ inputs.handoff_release_id }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/download-handoff.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release-id "$HANDOFF_RELEASE_ID" \
+            --output build/handoff \
+            --metadata build/handoff-assets.json
+
+      - name: Assemble exact final assets
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/assemble-release.ts \
+            --version "$ROOTFORM_VERSION" \
+            --handoff build/handoff \
+            --github-assets build/handoff-assets.json \
+            --output build/release
+
+      - name: Extract verified Linux binary
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/extract-release-binary.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release build/release \
+            --target linux-amd64 \
+            --output build/bin/rootform
 
       - name: Verify contracts and examples
         env:
+          ROOTFORM_BIN: ${{ github.workspace }}/build/bin/rootform
           ROOTFORM_DIALECTS_DIR: ${{ github.workspace }}/build/dialects
         run: bun run verify
+
+      - name: Verify complete official Dialects matrix
+        env:
+          ROOTFORM_BIN: ${{ github.workspace }}/build/bin/rootform
+        working-directory: build/dialects
+        run: bun run verify
+
+      - name: Reverify final assets
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/assemble-release.ts \
+            --check \
+            --version "$ROOTFORM_VERSION" \
+            --handoff build/handoff \
+            --github-assets build/handoff-assets.json \
+            --output build/release
+
+      - name: Create final draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          tag="v$ROOTFORM_VERSION"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            printf 'release already exists: %s\n' "$tag" >&2
+            exit 1
+          fi
+          if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$tag" >/dev/null 2>&1; then
+            printf 'tag already exists: %s\n' "$tag" >&2
+            exit 1
+          fi
+          gh release create "$tag" build/release/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --draft \
+            --prerelease \
+            --target "$GITHUB_SHA" \
+            --title "Rootform $ROOTFORM_VERSION" \
+            --notes "Private prerelease candidate."
+          release_id="$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            --jq "[.[] | select(.tag_name == \"$tag\" and .draft == true)] | if length == 1 then .[0].id else empty end")"
+          test -n "$release_id"
+          find build/release -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort > build/expected-assets.txt
+          gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" --jq '.assets[].name' \
+            | LC_ALL=C sort > build/uploaded-assets.txt
+          diff --unified build/expected-assets.txt build/uploaded-assets.txt
+          printf 'Final draft release ID: %s\n' "$release_id" >> "$GITHUB_STEP_SUMMARY"
