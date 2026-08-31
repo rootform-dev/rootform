@@ -9,6 +9,7 @@ private implementation plans.
 - `policy-result.md`: policy evaluation result;
 - `rootform-lock.md`: exact dialect lock;
 - `presentation-manifest.md`: dialect-owned presentation identities;
+- `binary-handoff.md`: exact producer-to-distribution artifact boundary;
 - `release-manifest.md`: binary release metadata and license boundary.
 
 Contracts use format versions carried by their serialized documents. A
