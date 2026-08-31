@@ -151,6 +151,7 @@ export function validateRepository(): void {
     "scripts/release/license.ts",
     "scripts/release/metadata.ts",
     "scripts/release/runtime-licenses.ts",
+    "scripts/render-candidate-report.ts",
     "dependencies/runtime-components.json",
   ]) {
     if (!files.includes(required))
