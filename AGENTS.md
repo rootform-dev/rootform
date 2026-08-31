@@ -17,8 +17,8 @@ without private context.
 - Generated schemas arrive only through the allow-listed engine export and are
   never hand-edited.
 - Examples are synthetic and never become authoritative Terraform source.
-- Release binaries use separate proprietary terms. Apache-2.0 covers repository
-  source, contracts, docs, examples, and tooling only.
+- Release binaries use Elastic License 2.0. Apache-2.0 covers repository source,
+  contracts, docs, examples, and tooling only.
 - Producer handoffs are verified as opaque bytes. This repository never reads
   producer source, redistributes private producer provenance, or modifies raw
   executable contents during final assembly.

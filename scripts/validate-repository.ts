@@ -3,6 +3,8 @@
 import { createHash } from "node:crypto";
 import { readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
+import { BINARY_LICENSE_FILE, BINARY_LICENSE_SPDX, readBinaryLicense } from "./release/license.ts";
+import { readRuntimeLicensing } from "./release/runtime-licenses.ts";
 
 type ExportManifest = {
   format_version: string;
@@ -39,7 +41,7 @@ const allowedTopLevel = new Set([
   "LICENSES",
   "README.md",
   "SECURITY.md",
-  "THIRD_PARTY_NOTICES.md",
+  "THIRD_PARTY_NOTICES.txt",
   "TRADEMARKS.md",
   "biome.json",
   "bun.lock",
@@ -146,7 +148,10 @@ export function validateRepository(): void {
     "scripts/release/contract.ts",
     "scripts/release/digest.ts",
     "scripts/release/handoff.ts",
+    "scripts/release/license.ts",
     "scripts/release/metadata.ts",
+    "scripts/release/runtime-licenses.ts",
+    "dependencies/runtime-components.json",
   ]) {
     if (!files.includes(required))
       throw new Error(`required repository control is missing: ${required}`);
@@ -188,7 +193,12 @@ export function validateRepository(): void {
     throw new Error("dependencies/dialects.json must pin one exact official commit");
   }
   const exportedPaths = exported.files.map(({ path }) => path);
-  if (JSON.stringify(exportedPaths) !== JSON.stringify(["schemas/architecture-ir.schema.json"])) {
+  const expectedExportedPaths = [
+    "THIRD_PARTY_NOTICES.txt",
+    "dependencies/runtime-components.json",
+    "schemas/architecture-ir.schema.json",
+  ].sort((left, right) => left.localeCompare(right, "en"));
+  if (JSON.stringify(exportedPaths) !== JSON.stringify(expectedExportedPaths)) {
     throw new Error("public export allow-list changed");
   }
   for (const file of exported.files) {
@@ -221,14 +231,12 @@ export function validateRepository(): void {
     }
   }
 
-  const binaryNotice = readFileSync(
-    join(root, "LICENSES", "ROOTFORM-BINARY-LICENSE-REVIEW.md"),
-    "utf8",
-  );
-  if (!binaryNotice.includes("not approved for public distribution")) {
-    throw new Error("binary legal-review blocker is missing");
+  readBinaryLicense(root);
+  readRuntimeLicensing(root);
+  const readme = readFileSync(join(root, "README.md"), "utf8");
+  if (!readme.includes(BINARY_LICENSE_SPDX) || !readme.includes(BINARY_LICENSE_FILE)) {
+    throw new Error("README binary licensing boundary drifted");
   }
-
   const candidateWorkflow = readFileSync(
     join(root, ".github", "workflows", "candidate.yml"),
     "utf8",
