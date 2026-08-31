@@ -13,7 +13,7 @@ on:
         type: string
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: candidate-${{ inputs.version }}
@@ -24,6 +24,12 @@ jobs:
     name: assemble and qualify candidate
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: read
+    outputs:
+      evidence: ${{ steps.candidate-evidence.outputs.body }}
+      pull-request: ${{ steps.pull-request.outputs.number }}
 
     steps:
       - name: Check out distribution
@@ -32,11 +38,44 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Resolve associated pull request
+        id: pull-request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          pulls="$(gh api \
+            -H 'Accept: application/vnd.github+json' \
+            "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/pulls")"
+          count="$(jq \
+            '[.[] | select(
+              .state == "open" and
+              .base.ref == "dev" and
+              .head.sha == env.GITHUB_SHA and
+              .head.repo.full_name == env.GITHUB_REPOSITORY
+            )] | length' <<<"$pulls")"
+          if [[ "$count" == "0" ]]; then
+            printf 'number=\n' >> "$GITHUB_OUTPUT"
+          elif [[ "$count" == "1" ]]; then
+            number="$(jq -r \
+              '.[] | select(
+                .state == "open" and
+                .base.ref == "dev" and
+                .head.sha == env.GITHUB_SHA and
+                .head.repo.full_name == env.GITHUB_REPOSITORY
+              ) | .number' <<<"$pulls")"
+            [[ "$number" =~ ^[1-9][0-9]*$ ]]
+            printf 'number=%s\n' "$number" >> "$GITHUB_OUTPUT"
+          else
+            printf 'candidate commit maps to multiple open pull requests\n' >&2
+            exit 1
+          fi
+
       - name: Check out exact official dialects
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: rootform-dev/dialects
-          ref: a14abda61b2c23dadb1e75fe786e7c514aa9bec2
+          ref: fa6d073d28a6ca7dbad659dc0aaa3108e7a9126d
           path: build/dialects
           token: ${{ secrets.DIALECTS_CONTENTS_READ_TOKEN }}
           fetch-depth: 0
@@ -126,8 +165,9 @@ jobs:
       - name: Verify complete official Dialects matrix
         env:
           ROOTFORM_BIN: ${{ github.workspace }}/build/bin/rootform
+          ROOTFORM_VERSION: ${{ inputs.version }}
         working-directory: build/dialects
-        run: bun run verify
+        run: bun scripts/verify.ts --rootform-version "$ROOTFORM_VERSION"
 
       - name: Reverify final assets
         env:
@@ -141,6 +181,7 @@ jobs:
             --output build/release
 
       - name: Create final draft release
+        id: final-release
         env:
           GH_TOKEN: ${{ github.token }}
           ROOTFORM_VERSION: ${{ inputs.version }}
@@ -161,7 +202,7 @@ jobs:
             --prerelease \
             --target "$GITHUB_SHA" \
             --title "Rootform $ROOTFORM_VERSION" \
-            --notes "Proprietary, unsupported private development candidate. Not for redistribution."
+            --notes "Private prerelease candidate. Use, redistribution, and modification follow attached Rootform binary and third-party terms."
           release_id="$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
             --jq "[.[] | select(.tag_name == \"$tag\" and .draft == true)] | if length == 1 then .[0].id else empty end")"
           test -n "$release_id"
@@ -169,4 +210,83 @@ jobs:
           gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" --jq '.assets[].name' \
             | LC_ALL=C sort > build/uploaded-assets.txt
           diff --unified build/expected-assets.txt build/uploaded-assets.txt
-          printf 'Final draft release ID: %s\n' "$release_id" >> "$GITHUB_STEP_SUMMARY"
+          release_url="$(gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" --jq '.html_url')"
+          [[ "$release_url" == https://github.com/* ]]
+          printf 'url=%s\n' "$release_url" >> "$GITHUB_OUTPUT"
+
+      - name: Render candidate evidence
+        id: candidate-evidence
+        env:
+          RELEASE_URL: ${{ steps.final-release.outputs.url }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          bun scripts/render-candidate-report.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release build/release \
+            --release-url "$RELEASE_URL" \
+            --run-url "$RUN_URL" \
+            --output build/candidate-evidence.md
+          cat build/candidate-evidence.md >> "$GITHUB_STEP_SUMMARY"
+          printf 'body=%s\n' "$(base64 -w 0 build/candidate-evidence.md)" >> "$GITHUB_OUTPUT"
+
+  evidence:
+    name: PR evidence
+    if: always() && needs.qualify.outputs.pull-request != ''
+    needs:
+      - qualify
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Publish one current evidence comment
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          PR_NUMBER: ${{ needs.qualify.outputs.pull-request }}
+          QUALIFY_RESULT: ${{ needs.qualify.result }}
+          REPORT_BASE64: ${{ needs.qualify.outputs.evidence }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        with:
+          script: |
+            const marker = '<!-- rootform:distribution-evidence -->';
+            const runUrl = process.env.RUN_URL;
+            const qualified = process.env.QUALIFY_RESULT === 'success';
+            const report = process.env.REPORT_BASE64
+              ? Buffer.from(process.env.REPORT_BASE64, 'base64').toString('utf8')
+              : `${marker}\n## Distribution candidate evidence\n\n> **Blocked** · [Open workflow run](${runUrl})\n`;
+            if (!report.startsWith(marker) || Buffer.byteLength(report) > 60000) {
+              core.setFailed('Distribution evidence report is invalid');
+              return;
+            }
+            await core.summary.addRaw(report).write();
+            const issue_number = Number(process.env.PR_NUMBER);
+            if (!Number.isSafeInteger(issue_number) || issue_number < 1) {
+              core.setFailed('Pull request number is invalid');
+              return;
+            }
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              ...context.repo,
+              issue_number,
+              per_page: 100,
+            });
+            const existing = comments.find((comment) =>
+              comment.user?.login === 'github-actions[bot]' && comment.body?.includes(marker)
+            );
+            if (existing) {
+              await github.rest.issues.updateComment({
+                ...context.repo,
+                comment_id: existing.id,
+                body: report,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number,
+                body: report,
+              });
+            }
+            if (!qualified) core.setFailed('Candidate qualification did not pass');

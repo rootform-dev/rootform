@@ -28,9 +28,10 @@ See [`docs/installation.md`](docs/installation.md).
 ## Licensing boundary
 
 - Repository source, contracts, docs, examples, and tooling: Apache-2.0.
-- Rootform executable release assets: separate Rootform Binary License.
+- Rootform-owned executable code: [Elastic License 2.0](LICENSES/ROOTFORM-BINARY-LICENSE.txt)
+  (`Elastic-2.0`).
 - Rootform name and logos: trademark rights reserved.
-- Third-party assets: original owner terms.
+- Dialects, third-party components, and assets: their identified terms.
 
 See [`TRADEMARKS.md`](TRADEMARKS.md) and
-[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+[`THIRD_PARTY_NOTICES.txt`](THIRD_PARTY_NOTICES.txt).

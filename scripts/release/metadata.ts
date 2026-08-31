@@ -8,6 +8,7 @@ import {
   releaseAssetName,
 } from "./contract.ts";
 import { checksumFile, sha256 } from "./digest.ts";
+import { BINARY_LICENSE_FILE, BINARY_LICENSE_SPDX, validateBinaryLicense } from "./license.ts";
 
 export type FinalArtifactRecord = {
   archive_format: "tar.gz" | "zip";
@@ -70,16 +71,19 @@ export function releaseArchiveEntries(options: {
 export function createReleaseManifest(options: {
   artifacts: FinalArtifactRecord[];
   binaryLicense: Uint8Array;
+  componentCount: number;
   dialectCommit: string;
   distributionCommit: string;
   handoffBundleSha256: string;
   notices: Uint8Array;
   producerManifestSha256: string;
+  runtimeInventorySha256: string;
   sbom: Uint8Array;
   schema: Uint8Array;
   version: string;
 }): string {
   const version = normalizeVersion(options.version);
+  validateBinaryLicense(options.binaryLicense);
   for (const [label, value] of [
     ["Dialects commit", options.dialectCommit],
     ["distribution commit", options.distributionCommit],
@@ -89,8 +93,12 @@ export function createReleaseManifest(options: {
   for (const [label, value] of [
     ["handoff bundle", options.handoffBundleSha256],
     ["producer manifest", options.producerManifestSha256],
+    ["runtime license inventory", options.runtimeInventorySha256],
   ] as const) {
     if (!/^[0-9a-f]{64}$/u.test(value)) throw new Error(`${label} digest is invalid`);
+  }
+  if (!Number.isSafeInteger(options.componentCount) || options.componentCount < 1) {
+    throw new Error("runtime license component count is invalid");
   }
   const artifacts = [...options.artifacts].sort((left, right) =>
     left.asset.localeCompare(right.asset, "en"),
@@ -154,13 +162,16 @@ export function createReleaseManifest(options: {
       },
       license: {
         binary: {
-          file: "ROOTFORM-BINARY-LICENSE.txt",
-          public_release_allowed: false,
+          file: BINARY_LICENSE_FILE,
+          public_release_allowed: true,
           sha256: sha256(options.binaryLicense),
-          status: "private-review-only",
+          spdx: BINARY_LICENSE_SPDX,
+          status: "licensed",
         },
         third_party_notices: {
+          component_count: options.componentCount,
           file: "THIRD_PARTY_NOTICES.txt",
+          inventory_sha256: options.runtimeInventorySha256,
           sha256: sha256(options.notices),
         },
       },

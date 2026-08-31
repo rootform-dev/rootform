@@ -12,18 +12,27 @@ import { handoffBundleName, RELEASE_TARGETS, releaseAssetName } from "./release/
 import { checksumFile, sha256 } from "./release/digest.ts";
 import { verifyHandoffDirectory } from "./release/handoff.ts";
 import { releaseArchiveEntries } from "./release/metadata.ts";
+import { type RuntimeComponent, readRuntimeLicensing } from "./release/runtime-licenses.ts";
 
 const root = join(import.meta.dir, "..");
 const version = "0.1.0-dev.2";
-const producerCommit = "a".repeat(40);
+const producerCommit = (
+  JSON.parse(readFileSync(join(root, "public-export.json"), "utf8")) as { source_commit: string }
+).source_commit;
 const dialectCommit = "b".repeat(40);
 const distributionCommit = "d".repeat(40);
 const created = "2026-08-31T00:00:00.000Z";
+const runtimeComponents = readRuntimeLicensing(root).components.filter(
+  ({ kind }) => kind !== "go-module",
+);
 
 type FixtureOptions = {
   extraEntry?: boolean;
   manifestExtraField?: boolean;
+  producerCommitDrift?: boolean;
   schemaDrift?: boolean;
+  sbomComponentLicenseDrift?: boolean;
+  sbomLicenseDrift?: boolean;
   versionDrift?: boolean;
 };
 
@@ -35,6 +44,27 @@ type Fixture = {
 
 function canonical(value: unknown): Buffer {
   return Buffer.from(`${JSON.stringify(value, null, 2)}\n`);
+}
+
+function componentPurl(component: RuntimeComponent): string | undefined {
+  const path = (value: string) => value.split("/").map(encodeURIComponent).join("/");
+  switch (component.kind) {
+    case "asset":
+      return undefined;
+    case "dialect-bundle":
+      return `pkg:github/rootform-dev/dialects@${component.version}`;
+    case "go-module":
+      return `pkg:golang/${path(component.name)}@${encodeURIComponent(component.version)}`;
+    case "go-runtime":
+      return `pkg:golang/stdlib@${encodeURIComponent(component.version)}`;
+    case "vendored-source":
+    case "web-package":
+      return `pkg:npm/${path(component.name)}@${encodeURIComponent(component.version)}`;
+  }
+}
+
+function componentId(component: RuntimeComponent): string {
+  return `SPDXRef-Component-${sha256(`${component.kind}:${component.name}@${component.version}`).slice(0, 20)}`;
 }
 
 function makeFixture(options: FixtureOptions = {}): Fixture {
@@ -62,21 +92,68 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
     },
     dataLicense: "CC0-1.0",
     documentNamespace: `https://rootform.dev/sbom/rootform/${version}`,
+    hasExtractedLicensingInfos: runtimeComponents
+      .filter(
+        (component): component is RuntimeComponent & { extracted_text: string } =>
+          typeof component.extracted_text === "string",
+      )
+      .map((component) => ({
+        extractedText: component.extracted_text,
+        licenseId: component.license_concluded,
+        name: component.name,
+      })),
     name: `rootform-${version}`,
     packages: [
       {
         SPDXID: "SPDXRef-Package-Rootform",
-        copyrightText: "NOASSERTION",
+        copyrightText: "Copyright 2026 Thierno Bah. All rights reserved.",
         downloadLocation: "NOASSERTION",
         filesAnalyzed: false,
-        licenseConcluded: "NOASSERTION",
-        licenseDeclared: "NOASSERTION",
+        licenseConcluded: options.sbomLicenseDrift ? "Apache-2.0" : "Elastic-2.0",
+        licenseDeclared: options.sbomLicenseDrift ? "Apache-2.0" : "Elastic-2.0",
         name: "rootform",
-        supplier: "Organization: Rootform",
+        supplier: "Person: Thierno Bah",
         versionInfo: version,
       },
+      ...runtimeComponents.map((component, index) => {
+        const purl = componentPurl(component);
+        return {
+          SPDXID: componentId(component),
+          copyrightText: component.copyright_text,
+          downloadLocation: component.upstream,
+          ...(purl
+            ? {
+                externalRefs: [
+                  {
+                    referenceCategory: "PACKAGE-MANAGER",
+                    referenceLocator: purl,
+                    referenceType: "purl",
+                  },
+                ],
+              }
+            : {}),
+          filesAnalyzed: false,
+          licenseConcluded:
+            options.sbomComponentLicenseDrift && index === 0 ? "MIT" : component.license_concluded,
+          licenseDeclared: component.license_declared,
+          name: component.name,
+          sourceInfo: `Rootform runtime inventory kind: ${component.kind}; Distributed license text SHA-256: ${component.license_text_sha256}`,
+          versionInfo: component.version,
+        };
+      }),
     ],
-    relationships: [],
+    relationships: [
+      {
+        relatedSpdxElement: "SPDXRef-Package-Rootform",
+        relationshipType: "DESCRIBES",
+        spdxElementId: "SPDXRef-DOCUMENT",
+      },
+      ...runtimeComponents.map((component) => ({
+        relatedSpdxElement: componentId(component),
+        relationshipType: "DEPENDS_ON",
+        spdxElementId: "SPDXRef-Package-Rootform",
+      })),
+    ],
     spdxVersion: "SPDX-2.3",
   });
   const targets = RELEASE_TARGETS.map((target) => {
@@ -109,7 +186,10 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
     product: { name: "rootform", version },
     sbom: { file: "engine-sbom.spdx.json", format: "SPDX-2.3-json", sha256: sha256(sbom) },
     schema: { file: "architecture-ir.schema.json", sha256: sha256(schema) },
-    source: { commit: producerCommit, repository: "rootform-dev/engine" },
+    source: {
+      commit: options.producerCommitDrift ? "f".repeat(40) : producerCommit,
+      repository: "rootform-dev/engine",
+    },
     targets,
   };
   if (options.manifestExtraField) manifest.unexpected = true;
@@ -181,7 +261,13 @@ describe("strict handoff verification", () => {
     const cases: Array<[FixtureOptions, string]> = [
       [{ extraEntry: true }, "bundle inventory drifted"],
       [{ manifestExtraField: true }, "unexpected fields"],
-      [{ schemaDrift: true }, "committed public schema"],
+      [{ producerCommitDrift: true }, "public export provenance drifted"],
+      [{ schemaDrift: true }, "handoff schema digest drifted"],
+      [
+        { sbomComponentLicenseDrift: true },
+        "SBOM component differs from runtime license inventory",
+      ],
+      [{ sbomLicenseDrift: true }, "SBOM product package drifted"],
       [{ versionDrift: true }, "target drifted"],
     ];
     for (const [options, message] of cases) {
@@ -264,6 +350,19 @@ describe("final release assembly", () => {
       expect(manifest).not.toContain(producerCommit);
       expect(manifest).not.toContain("rootform-dev/engine");
       expect(manifest).toContain(verified.producerManifestSha256);
+      const parsed = JSON.parse(manifest) as {
+        license: {
+          binary: { public_release_allowed: boolean; spdx: string; status: string };
+          third_party_notices: { component_count: number; inventory_sha256: string };
+        };
+      };
+      expect(parsed.license.binary).toMatchObject({
+        public_release_allowed: true,
+        spdx: "Elastic-2.0",
+        status: "licensed",
+      });
+      expect(parsed.license.third_party_notices.component_count).toBe(83);
+      expect(parsed.license.third_party_notices.inventory_sha256).toMatch(/^[0-9a-f]{64}$/);
     } finally {
       rmSync(fixture.parent, { force: true, recursive: true });
     }
@@ -291,8 +390,8 @@ describe("final release assembly", () => {
       );
       const first = handoff.binaries[0] as (typeof handoff.binaries)[number];
       const inputs = {
-        license: readFileSync(join(root, "LICENSES", "ROOTFORM-BINARY-LICENSE-REVIEW.md")),
-        notices: readFileSync(join(root, "THIRD_PARTY_NOTICES.md")),
+        license: readFileSync(join(root, "LICENSES", "ROOTFORM-BINARY-LICENSE.txt")),
+        notices: readFileSync(join(root, "THIRD_PARTY_NOTICES.txt")),
       };
       const mutated = Buffer.concat([first.body, Buffer.from("mutation")]);
       const entries = releaseArchiveEntries({

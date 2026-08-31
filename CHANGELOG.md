@@ -5,5 +5,6 @@ All notable public Rootform distribution changes will be recorded here.
 ## Unreleased
 
 - Established separate public contracts, schemas, documentation, examples, and
-  proprietary binary licensing boundary.
-- No supported public binary release yet.
+  executable licensing boundary.
+- Licensed Rootform-owned executable code under Elastic License 2.0 and bound
+  complete third-party notices to exact runtime inventory.
