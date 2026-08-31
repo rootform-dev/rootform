@@ -20,6 +20,12 @@ type DialectLock = {
   format_version?: unknown;
 };
 
+type DialectPin = {
+  commit?: unknown;
+  format_version?: unknown;
+  repository?: unknown;
+};
+
 const root = join(import.meta.dir, "..");
 const allowedTopLevel = new Set([
   ".gitattributes",
@@ -38,6 +44,7 @@ const allowedTopLevel = new Set([
   "biome.json",
   "bun.lock",
   "contracts",
+  "dependencies",
   "docs",
   "examples",
   "package.json",
@@ -130,6 +137,14 @@ export function validateRepository(): void {
     ".github/pull_request_template.md",
     ".github/workflows/candidate.yml",
     ".github/workflows/ci.yml",
+    "contracts/binary-handoff.md",
+    "dependencies/dialects.json",
+    "scripts/assemble-release.ts",
+    "scripts/release/archive.ts",
+    "scripts/release/contract.ts",
+    "scripts/release/digest.ts",
+    "scripts/release/handoff.ts",
+    "scripts/release/metadata.ts",
   ]) {
     if (!files.includes(required))
       throw new Error(`required repository control is missing: ${required}`);
@@ -157,6 +172,18 @@ export function validateRepository(): void {
     !/^[0-9a-f]{40}$/u.test(exported.source_commit)
   ) {
     throw new Error("public-export.json has invalid provenance");
+  }
+
+  const dialectPin = JSON.parse(
+    readFileSync(join(root, "dependencies", "dialects.json"), "utf8"),
+  ) as DialectPin;
+  if (
+    dialectPin.format_version !== "1" ||
+    dialectPin.repository !== "rootform-dev/dialects" ||
+    typeof dialectPin.commit !== "string" ||
+    !/^[0-9a-f]{40}$/u.test(dialectPin.commit)
+  ) {
+    throw new Error("dependencies/dialects.json must pin one exact official commit");
   }
   const exportedPaths = exported.files.map(({ path }) => path);
   if (JSON.stringify(exportedPaths) !== JSON.stringify(["schemas/architecture-ir.schema.json"])) {

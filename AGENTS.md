@@ -19,12 +19,17 @@ without private context.
 - Examples are synthetic and never become authoritative Terraform source.
 - Release binaries use separate proprietary terms. Apache-2.0 covers repository
   source, contracts, docs, examples, and tooling only.
+- Producer handoffs are verified as opaque bytes. This repository never reads
+  producer source, redistributes private producer provenance, or modifies raw
+  executable contents during final assembly.
 - Rootform name and marks are not licensed by Apache-2.0.
 
 ## Dependencies and release
 
 - Cross-repository inputs use exact commits, tags, checksums, and release
   manifests. Relative paths, symlinks, and worktree assumptions are forbidden.
+- Rootform owns final archive assembly, official Dialects compatibility,
+  release checksums, and publication. Action consumes published releases only.
 - Bun is the only JavaScript package manager.
 - GitHub Actions use full commit SHAs.
 - No release, package, site, Marketplace listing, or visibility change occurs

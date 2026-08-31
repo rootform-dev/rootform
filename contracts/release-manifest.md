@@ -1,30 +1,31 @@
 # Release manifest contract
 
-Manifest versions use exact SemVer. Prerelease identifiers retain their SemVer
-meaning.
+Manifest version and product version are independent. Product versions use
+exact SemVer; prerelease identifiers retain SemVer meaning.
 
-Each release manifest binds:
+Format version 1 binds:
 
-- Rootform product version and Git tag;
-- exact `engine` commit and exact `dialects` commit used for tests;
-- Go and Bun toolchain versions;
-- target operating system and architecture;
-- asset name, byte length, and SHA-256;
-- SBOM filename and SHA-256;
-- proof status per target;
-- binary license and third-party notice filenames;
-- exact distribution commit supplying binary terms and release contracts.
+- Rootform product version and exact Git tag;
+- exact distribution commit owning assembly;
+- exact Dialects commit used for full compatibility qualification;
+- five final archive names, formats, targets, byte lengths, SHA-256 values, and
+  byte-identical raw executable SHA-256 values;
+- handoff bundle SHA-256 and private producer-manifest SHA-256;
+- SBOM, public schema, binary-license, and third-party-notice SHA-256 values;
+- final release attestation policy and current artifact-attestation availability.
 
-That distribution commit is a release input. It does not need to contain the
-generated candidate manifest, so provenance never creates a circular commit
-dependency between `engine` and this repository.
+Manifest does not redistribute private producer provenance or private build
+toolchain detail. Handoff digests connect final evidence to retained producer
+evidence without exposing its contents.
 
-Cross-compilation proves buildability only. A target may be marked supported
-only after native or accepted CI execution. Manifest carries no timestamp in
-canonical content.
+Each final archive contains executable, `ROOTFORM-BINARY-LICENSE.txt`,
+`THIRD_PARTY_NOTICES.txt`, `rootform_<version>_sbom.spdx.json`, and local
+`SHA256SUMS`. Archive executable must equal verified handoff executable bytes.
 
-Every archive contains executable, `ROOTFORM-BINARY-LICENSE.txt`,
-`THIRD_PARTY_NOTICES.txt`, SBOM, and archive-local checksum record. Release page
-publishes complete `SHA256SUMS` and verifies uploaded GitHub asset digests.
+Final release publishes five archives, standalone binary license and notices,
+standalone SBOM, manifest, and `SHA256SUMS` covering every other asset. No extra
+asset is accepted.
 
-Published binary releases must carry final Rootform Binary License terms.
+All assets attach while release is draft. Uploaded GitHub asset digests and
+complete checksum file are verified before one-time publication. Published tag
+and assets are immutable; correction requires new version.
