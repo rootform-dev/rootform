@@ -361,7 +361,7 @@ describe("final release assembly", () => {
         spdx: "Elastic-2.0",
         status: "licensed",
       });
-      expect(parsed.license.third_party_notices.component_count).toBe(83);
+      expect(parsed.license.third_party_notices.component_count).toBe(86);
       expect(parsed.license.third_party_notices.inventory_sha256).toMatch(/^[0-9a-f]{64}$/);
     } finally {
       rmSync(fixture.parent, { force: true, recursive: true });

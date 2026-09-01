@@ -163,6 +163,26 @@
       "version": "v1.0.1"
     },
     {
+      "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2019, 2020 OCI Contributors; Copyright 2016 Docker, Inc.",
+      "kind": "go-module",
+      "license_concluded": "Apache-2.0",
+      "license_declared": "Apache-2.0",
+      "license_text_sha256": "aceb55133c41c50c2e170c5918e301fe74f592d0f28724bf2f7a7bfdcff1fc5f",
+      "name": "github.com/opencontainers/go-digest",
+      "upstream": "https://github.com/opencontainers/go-digest",
+      "version": "v1.0.0"
+    },
+    {
+      "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2016 The Linux Foundation.",
+      "kind": "go-module",
+      "license_concluded": "Apache-2.0",
+      "license_declared": "Apache-2.0",
+      "license_text_sha256": "b0a3f39513927db306adabea11d14c23f079d4febcea241d123a68d1a0d45418",
+      "name": "github.com/opencontainers/image-spec",
+      "upstream": "https://github.com/opencontainers/image-spec",
+      "version": "v1.1.1"
+    },
+    {
       "copyright_text": "(c) You must retain, in the Source form of any Derivative Works",
       "kind": "go-module",
       "license_concluded": "Apache-2.0",
@@ -281,6 +301,16 @@
       "name": "golang.org/x/tools",
       "upstream": "https://golang.org/x/tools",
       "version": "v0.48.0"
+    },
+    {
+      "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2021 ORAS Authors.",
+      "kind": "go-module",
+      "license_concluded": "Apache-2.0",
+      "license_declared": "Apache-2.0",
+      "license_text_sha256": "eccb04b94c71454ea03f00ecb518b997952c4f2f23aca50baab98230f5c8dc00",
+      "name": "oras.land/oras-go/v2",
+      "upstream": "https://oras.land/oras-go/v2",
+      "version": "v2.6.2"
     },
     {
       "copyright_text": "Copyright 2009 The Go Authors.",

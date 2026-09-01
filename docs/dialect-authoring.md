@@ -1,15 +1,15 @@
 # Dialect authoring
 
-Clone `rootform-dev/dialects`, edit canonical files under `dialects/<name>/`,
+Clone `rootform-dev/dialects`, edit canonical files under `<name>/`,
 then run:
 
 ```bash
-rootform fmt --check ./dialects
-rootform validate dialects ./dialects
+rootform fmt --check .
+rootform validate dialects .
 
 export ROOTFORM_HOME="$(mktemp -d)"
-rootform install dialects ./dialects
-rootform verify dialects ./dialects
+rootform install dialects .
+rootform verify dialects .
 rootform test ./fixtures
 ```
 

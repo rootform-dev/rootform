@@ -14,13 +14,22 @@ test("example dialect contract matches its generated lock", () => {
     writeFileSync(join(directory, "example.json"), '{"dialects":["core","google"]}\n');
     writeFileSync(
       join(directory, "rootform.lock"),
-      '{"format_version":"1","entries":[{"name":"core"},{"name":"google"}]}\n',
+      '{"format_version":"2","entries":[{"name":"core"},{"name":"google"}]}\n',
     );
     expect(() => validateExampleDialectLock(directory, "fixture")).not.toThrow();
 
     writeFileSync(join(directory, "example.json"), '{"dialects":["core"]}\n');
     expect(() => validateExampleDialectLock(directory, "fixture")).toThrow(
       "fixture dialect contract does not match rootform.lock",
+    );
+
+    writeFileSync(join(directory, "example.json"), '{"dialects":["core","google"]}\n');
+    writeFileSync(
+      join(directory, "rootform.lock"),
+      '{"format_version":"1","entries":[{"name":"core"},{"name":"google"}]}\n',
+    );
+    expect(() => validateExampleDialectLock(directory, "fixture")).toThrow(
+      "fixture rootform.lock has invalid structure",
     );
   } finally {
     rmSync(directory, { force: true, recursive: true });

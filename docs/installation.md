@@ -8,8 +8,14 @@
    archive. Rootform-owned executable code uses Elastic License 2.0
    (`Elastic-2.0`).
 6. Place executable on `PATH`.
-7. Install exact official dialect version from `rootform-dev/dialects` or use
-   project-vendored `.rootform/dialects/`.
+7. From project root, run `rootform init .` or pass exact IaC path. Review and
+   commit generated `rootform.lock`.
+
+Initialization stores immutable dialect versions under `~/.rootform/dialects/`
+and redownloadable data under `~/.rootform/cache/` and
+`~/.rootform/indexes/`. `ROOTFORM_HOME` replaces entire home. Projects may
+instead vendor `.rootform/dialects/`, which becomes their exclusive dialect
+source.
 
 Supported target claims appear only in release manifest. Cross-built but
 unexecuted target remains unclaimed.

@@ -2,18 +2,22 @@
   "files": [
     {
       "path": "dependencies/runtime-components.json",
-      "sha256": "dca165e049e3a1811de52fb7490c3ef255019c611051cc6fcf80e7230670b704"
+      "sha256": "1406eeb1834027d03f015dfb79d26242096c7094cceab6e8f793e3c7000e6e6f"
     },
     {
       "path": "schemas/architecture-ir.schema.json",
       "sha256": "f19f46f567a77bf0462c802c1860423b9d325752faf7fa3bf4f97099e8fb1c20"
     },
     {
+      "path": "schemas/rootform-lock.schema.json",
+      "sha256": "3a46eab838d80543d3de360d8161be907f643b8792da45f38587591b5ee17325"
+    },
+    {
       "path": "THIRD_PARTY_NOTICES.txt",
-      "sha256": "90a6532e33c0d2e6b3a72131104649ef57445725fe05aa48a1b5ddc264117c79"
+      "sha256": "aaa35a3c3ebc09240c9cd238a64e2a646277f41117643e83f1def0dd3add1b49"
     }
   ],
   "format_version": "1",
-  "source_commit": "eda97334f31dcf2b6226a1ae523c613e03570604",
+  "source_commit": "20719c545819f69fdfff0089100ac36fef8c36de",
   "source_repository": "rootform-dev/engine"
 }
