@@ -109,7 +109,7 @@ export function validateExampleDialectLock(directory: string, example: string): 
   ) as ExampleContract;
   const lock = JSON.parse(readFileSync(join(directory, "rootform.lock"), "utf8")) as DialectLock;
   const expected = canonicalNames(contract.dialects, `${example} example.json`);
-  if (lock.format_version !== "1" || !Array.isArray(lock.entries)) {
+  if (lock.format_version !== "2" || !Array.isArray(lock.entries)) {
     throw new Error(`${example} rootform.lock has invalid structure`);
   }
   const locked = canonicalNames(
@@ -140,6 +140,8 @@ export function validateRepository(): void {
     ".github/workflows/candidate.yml",
     ".github/workflows/ci.yml",
     "contracts/binary-handoff.md",
+    "contracts/dialect-distribution.md",
+    "contracts/rootform-lock.md",
     "dependencies/dialects.json",
     "scripts/assemble-release.ts",
     "scripts/download-handoff.ts",
@@ -153,6 +155,7 @@ export function validateRepository(): void {
     "scripts/release/runtime-licenses.ts",
     "scripts/render-candidate-report.ts",
     "dependencies/runtime-components.json",
+    "schemas/rootform-lock.schema.json",
   ]) {
     if (!files.includes(required))
       throw new Error(`required repository control is missing: ${required}`);
@@ -198,6 +201,7 @@ export function validateRepository(): void {
     "THIRD_PARTY_NOTICES.txt",
     "dependencies/runtime-components.json",
     "schemas/architecture-ir.schema.json",
+    "schemas/rootform-lock.schema.json",
   ].sort((left, right) => left.localeCompare(right, "en"));
   if (JSON.stringify(exportedPaths) !== JSON.stringify(expectedExportedPaths)) {
     throw new Error("public export allow-list changed");

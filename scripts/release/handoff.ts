@@ -666,6 +666,7 @@ export function verifyHandoffDirectory(
     "THIRD_PARTY_NOTICES.txt",
     "dependencies/runtime-components.json",
     "schemas/architecture-ir.schema.json",
+    "schemas/rootform-lock.schema.json",
   ].sort((left, right) => left.localeCompare(right, "en"));
   const exportPaths = exportFiles.map((file, index) =>
     stringField(file, "path", `public export file ${index}`),
