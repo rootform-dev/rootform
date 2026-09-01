@@ -52,8 +52,8 @@ complete artifact pins for that content.
   incoherent and refuse `--locked` execution;
 - same-version artifact content with another digest is never substituted.
 
-Current shape remains development format 1. Normal init may normalize valid
-earlier minimal format-1 development lock while recomputing current evidence.
+Current shape is format 1. Normal init may normalize a valid earlier minimal
+format-1 lock while recomputing current evidence.
 `rootform init --locked` never normalizes, creates, or modifies lock. Unknown
 formats, malformed input, and current code incompatible with locked selection
 fail before acquisition and are never overwritten.

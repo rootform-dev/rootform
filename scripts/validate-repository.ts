@@ -120,7 +120,8 @@ export function validateExampleDialectLock(directory: string, example: string): 
         typeof entry !== "object" ||
         entry === null ||
         !("version" in entry) ||
-        entry.version !== "0.1.0",
+        typeof entry.version !== "string" ||
+        !/^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$/u.test(entry.version),
     )
   ) {
     throw new Error(`${example} rootform.lock has invalid structure`);
