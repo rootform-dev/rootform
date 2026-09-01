@@ -50,6 +50,24 @@ rootform run <directory>                local browser explorer
 rootform explain <document>             provenance explanation
 ```
 
+Directory forms of `build`, `check`, and `run` call same project-preparation
+service before compilation. They accept `--locked`, `--offline`, `--no-input`,
+and `-v`/`--verbose`; `--upgrade` remains init-only. A coherent local lock is a
+silent zero-network path. Missing exact locked artifacts may be installed
+without changing lock. With no lock, unique no-input recommendations may create
+one and command resumes in same process. A normal no-input command never changes
+existing lock: run exact reported `rootform init [path] --no-input`, then commit
+updated lock. Interactive normal commands show complete proposal and require
+confirmation before lock or vendor change.
+
+`--offline` forbids network for both explicit init and implicit preparation.
+`--locked` requires existing lock and preserves bytes while still permitting
+exact artifact recovery unless offline. Project `.rootform/dialects/` remains
+exclusive: installed store is never fallback. Reliable incompatible provider
+version evidence blocks compilation; unknown or stale version evidence warns and
+recommends `terraform init` or `tofu init`. Provider without official dialect is
+reported explicitly and remains unsupported.
+
 Dialect authoring and local package management:
 
 ```text
@@ -62,11 +80,12 @@ rootform verify dialects <directory>
 rootform vendor dialects
 ```
 
-Machine output goes to standard output or explicit output file. Diagnostics go
-to standard error. In init JSON mode, standard output contains one JSON result;
-warnings and verbose detail remain on standard error. Exit status `0` means
-requested claim holds, `1` means known violation or difference, `2` means
-invalid use, and `3` means result is indeterminate or unavailable.
+Machine output goes to standard output or explicit output file. Preparation
+prompts, progress, downloads, warnings, and verbose detail go to standard error,
+so JSON, SARIF, HTML, and other primary outputs stay parseable. In init JSON
+mode, standard output contains one JSON result. Exit status `0` means requested
+claim holds, `1` means known violation or difference, `2` means invalid use,
+and `3` means result is indeterminate or unavailable.
 Command-specific help is authoritative:
 
 ```bash

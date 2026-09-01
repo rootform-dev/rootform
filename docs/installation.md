@@ -8,8 +8,11 @@
    archive. Rootform-owned executable code uses Elastic License 2.0
    (`Elastic-2.0`).
 6. Place executable on `PATH`.
-7. From project root, run `rootform init .` or pass exact IaC path. Review and
-   commit generated `rootform.lock`.
+7. From project root, run `rootform run .`, `rootform build .`, or
+   `rootform check .`. Shared preparation detects and installs missing dialects,
+   creates deterministic `rootform.lock`, then resumes original command. Review
+   and commit generated lock. Automation may prepare explicitly with
+   `rootform init . --no-input`.
 
 Initialization stores immutable dialect versions under `~/.rootform/dialects/`
 and redownloadable data under `~/.rootform/cache/` and

@@ -92,23 +92,47 @@
   "$id": "https://rootform.dev/schemas/rootform-lock.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
+  "anyOf": [
+    {
+      "properties": {
+        "entries": {
+          "minItems": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "unsupported_providers": {
+          "minItems": 1
+        }
+      }
+    }
+  ],
   "properties": {
     "entries": {
       "items": {
         "$ref": "#/$defs/dialect_entry"
       },
-      "minItems": 1,
       "type": "array"
     },
     "format_version": {
-      "const": "2"
+      "const": "1"
     },
     "index": {
       "$ref": "#/$defs/index_pin"
+    },
+    "unsupported_providers": {
+      "items": {
+        "pattern": "^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?/[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?/[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
     }
   },
   "required": [
     "format_version",
+    "unsupported_providers",
     "entries"
   ],
   "title": "Rootform dialect lock",

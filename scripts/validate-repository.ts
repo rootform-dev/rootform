@@ -20,6 +20,7 @@ type ExampleContract = {
 type DialectLock = {
   entries?: unknown;
   format_version?: unknown;
+  unsupported_providers?: unknown;
 };
 
 type DialectPin = {
@@ -109,7 +110,19 @@ export function validateExampleDialectLock(directory: string, example: string): 
   ) as ExampleContract;
   const lock = JSON.parse(readFileSync(join(directory, "rootform.lock"), "utf8")) as DialectLock;
   const expected = canonicalNames(contract.dialects, `${example} example.json`);
-  if (lock.format_version !== "2" || !Array.isArray(lock.entries)) {
+  if (
+    lock.format_version !== "1" ||
+    !Array.isArray(lock.unsupported_providers) ||
+    lock.unsupported_providers.length !== 0 ||
+    !Array.isArray(lock.entries) ||
+    lock.entries.some(
+      (entry) =>
+        typeof entry !== "object" ||
+        entry === null ||
+        !("version" in entry) ||
+        entry.version !== "0.1.0",
+    )
+  ) {
     throw new Error(`${example} rootform.lock has invalid structure`);
   }
   const locked = canonicalNames(
