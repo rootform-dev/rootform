@@ -21,11 +21,12 @@ examples, and release metadata.
 ## Install
 
 Install an exact release version, verify its published SHA-256 checksum, and
-read the license and notices included with its archive. Then initialize project
-from its Terraform or OpenTofu root:
+read the license and notices included with its archive. Then run directly from
+Terraform or OpenTofu root; project preparation initializes missing dialects
+before local server starts:
 
 ```bash
-rootform init .
+rootform run .
 ```
 
 See [`docs/installation.md`](docs/installation.md).

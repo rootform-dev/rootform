@@ -1,15 +1,24 @@
 # Offline and security model
 
 Rootform compilation reads local Terraform/OpenTofu sources, local architecture
-documents, local locks, and local dialects. Build, check, run, LSP, policy,
-diff, explain, HTML export, and local server never acquire dialects or perform a
-network fetch.
+documents, local locks, and local dialects. Directory forms of `build`, `check`,
+and `run` first enter explicit project-preparation phase. Coherent local project
+takes silent zero-network path; incomplete project may acquire verified
+dialects before compilation. LSP, policy over existing document, diff, explain,
+and rendering or serving already built architecture never acquire dialects.
 
-`rootform init` is the explicit acquisition boundary. Normal init may contact
-official OCI distribution. `rootform init --offline` and
-`ROOTFORM_OFFLINE=1` use only project-vendored dialects, installed store,
-cached archives, and cached index. Missing content fails with exact missing
-references. `--locked --offline` freezes both resolution and acquisition input.
+`rootform init` and shared preflight are only acquisition boundaries. Normal
+preparation may contact official OCI distribution. `--offline` and
+`ROOTFORM_OFFLINE=1` use only project-vendored dialects, installed store, cached
+archives, and cached index. Missing content fails with exact missing references.
+`--locked --offline` fixes both lock selection and acquisition input. CI implies
+no input, never offline.
+
+`--locked` requires existing lock and forbids lock changes while allowing exact
+locked downloads unless offline. No-input normal command may create absent lock
+from unique recommendations, but never changes existing one; explicit
+`rootform init --no-input` is required for deterministic update. Network or
+integrity failure leaves no partially visible store, vendor, or lock.
 
 Default home is `~/.rootform/` (`%USERPROFILE%\.rootform` on Windows):
 

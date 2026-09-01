@@ -10,7 +10,7 @@
     },
     {
       "path": "schemas/rootform-lock.schema.json",
-      "sha256": "3a46eab838d80543d3de360d8161be907f643b8792da45f38587591b5ee17325"
+      "sha256": "c4e0da83a1c6f8344d31dcdb07bacddf0534d84771d14e70e2cb23a0c33348e7"
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
@@ -18,6 +18,6 @@
     }
   ],
   "format_version": "1",
-  "source_commit": "20719c545819f69fdfff0089100ac36fef8c36de",
+  "source_commit": "97578ad7af497b859682614c136c110bba55e878",
   "source_repository": "rootform-dev/engine"
 }
