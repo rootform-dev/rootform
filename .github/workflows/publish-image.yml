@@ -185,7 +185,7 @@ jobs:
           RELEASE_COMMIT: ${{ steps.release.outputs.commit }}
           ROOTFORM_VERSION: ${{ inputs.version }}
         run: |
-          bun scripts/qualify-image.ts \
+          bun run test:oci-registry-e2e \
             --version "$ROOTFORM_VERSION" \
             --revision "$RELEASE_COMMIT" \
             --image build/image \

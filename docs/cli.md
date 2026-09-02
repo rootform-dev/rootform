@@ -26,10 +26,20 @@ Initialization flags:
 ```
 
 `--locked` and `--upgrade` are incompatible. `--locked` still permits exact
-download of artifacts already pinned by lock. JSON output implies no input.
+download of artifacts already pinned by lock, from each pin's own OCI
+repository and manifest digest, without reading official index. JSON output
+implies no input.
 `ROOTFORM_INPUT=0` and `CI=true` imply no input; CI does not imply offline.
 `ROOTFORM_OFFLINE=1` implies offline. `ROOTFORM_HOME=<path>` replaces default
 home entirely.
+
+Remote OCI access reuses Docker credentials without Rootform login flags.
+Non-empty `DOCKER_CONFIG` selects its `config.json`; otherwise Rootform reads
+current user's `~/.docker/config.json`. For challenged registry, host-specific
+`credHelpers` wins, then global `credsStore`, then matching `auths`. Configured
+helper/store failure is final rather than another-identity fallback. ORAS handles
+standard Basic and Bearer challenges. Rootform never writes Docker config or
+persists credentials in lock, home, cache, diagnostics, or Architecture IR.
 
 Interactive init shows proposed dialects, versions, dependencies, sizes, and
 changes before confirmation. An ambiguous official match requires explicit

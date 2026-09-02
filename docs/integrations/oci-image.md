@@ -134,14 +134,18 @@ Image uses same embedded OCI client as native binary.
 - Project `.rootform/dialects/` is exclusive. Store and network are never
   fallback for incomplete vendor.
 - Distribution-ready `rootform.lock` carries exact artifact pins. Empty store
-  recovery resolves those digests directly and does not consult mutable
-  `official-index-v1`.
+  recovery creates client for each pin's repository, resolves its manifest
+  digest directly, and does not consult mutable `official-index-v1`.
 - Project without vendor or lock resolves one official index snapshot,
   installs verified dialects atomically, and writes exact pins to
   `rootform.lock`.
 - `--locked` requires and preserves lock bytes while allowing missing pinned
   artifacts to be acquired.
 - `--offline` forbids network. Use vendor or preloaded store/cache.
+- Private registries use standard Docker config. Mount selected config directory
+  read-only and set `DOCKER_CONFIG` inside container. Configured credential
+  helpers must also be installed or mounted on container `PATH`; official image
+  bundles no registry credential or helper.
 - Provider with no official dialect is recorded explicitly in
   `unsupported_providers` with transparent diagnostic.
 
@@ -170,11 +174,14 @@ license, notices, and release SBOM only. Offline OCI audit checks:
 - OCI labels and binary license;
 - absence of unexpected overlay payload and forbidden source/state material.
 
-Candidate gate then loads both platforms, publishes Dialects to TLS registry
-ephemeral, and executes real runtime matrix: cold init, direct pins, locked,
-offline with `--network none`, exclusive vendor, unsupported provider,
-build/check/run, GitLab shell injection, arbitrary UID, read-only workspace,
-`--read-only`, dropped capabilities, and `no-new-privileges`.
+Candidate gate then loads both platforms, publishes byte-identical Dialects to
+public and Basic-authenticated TLS Distribution registries, and executes real
+runtime matrix: official cold init and no-op upgrade, arbitrary and
+multi-repository direct pins, Docker auth, credential helper, locked without
+index, warm/cold offline with `--network none`, sanitized auth failures, wrong
+digest rejection, exclusive vendor with zero registry requests, unsupported
+provider, build/check/run, GitLab shell injection, arbitrary UID, read-only
+workspace, `--read-only`, dropped capabilities, and `no-new-privileges`.
 
 Trivy is checksum-pinned. High/Critical findings block. Exception file accepts
 only named image paths, justification, and expiration within 90 days; current

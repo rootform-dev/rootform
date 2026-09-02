@@ -20,6 +20,7 @@
     "download:handoff": "bun scripts/download-handoff.ts",
     "extract:release-binary": "bun scripts/extract-release-binary.ts",
     "format": "biome check --write .github .trivyignore.yaml AGENTS.md README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md TRADEMARKS.md package.json public-export.json contracts dependencies docs examples scripts schemas",
+    "test:oci-registry-e2e": "bun scripts/qualify-image.ts",
     "typecheck": "tsc --noEmit",
     "verify": "bun scripts/verify.ts"
   },

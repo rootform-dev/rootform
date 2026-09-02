@@ -36,6 +36,14 @@ positive `download_size`, and positive `install_size`. Digests use lowercase
 artifact pins. Lock used to reacquire missing remote content must contain
 complete artifact pins for that content.
 
+For locked acquisition, `artifact.repository` is tagless OCI repository
+location and `manifest_digest` is exact artifact identity. Each entry may name
+different standards-compatible public or private repository. Client resolves
+manifest by digest from that entry's repository; official repository and
+top-level `index` pin have no special role on this path. Registry identity never
+replaces descriptor, archive, semantic, presentation, dependency, or provider
+verification.
+
 ## Validation and identity
 
 - one entry per dialect name;
@@ -61,8 +69,9 @@ fail before acquisition and are never overwritten.
 ## Preparation and mutation
 
 Directory `build`, `check`, `run`, and explicit `init` use same preparation
-service. Coherent locked local project performs no network access or write.
-Missing exact pinned artifact may be recovered without changing lock bytes.
+service. Coherent and locally complete locked project performs no network access
+or write. Missing exact pinned artifact may be recovered from its own repository
+without consulting index and without changing lock bytes.
 With no lock, interactive confirmation or unique no-input recommendations may
 create one and original command resumes.
 

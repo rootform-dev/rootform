@@ -62,7 +62,10 @@ provider-to-dialect table is accepted.
 Index arrays are canonical and deterministic. Index supports acquisition and
 new recommendations only. An already locked and installed project compiles
 without index. Exact locked acquisition resolves artifact manifest by digest,
-not by mutable dialect tag.
+not by mutable dialect tag. It creates client from each lock entry's tagless
+`artifact.repository`; official repository is not required and multiple
+repositories may coexist in one lock. Top-level index provenance remains
+official discovery evidence and is never registry routing for locked artifacts.
 
 ## Integrity and installation
 
