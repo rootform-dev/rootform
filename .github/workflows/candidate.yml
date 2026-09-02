@@ -222,7 +222,7 @@ jobs:
         env:
           ROOTFORM_VERSION: ${{ inputs.version }}
         run: |
-          bun scripts/qualify-image.ts \
+          bun run test:oci-registry-e2e \
             --version "$ROOTFORM_VERSION" \
             --revision "$GITHUB_SHA" \
             --image build/image \

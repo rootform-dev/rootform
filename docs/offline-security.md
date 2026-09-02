@@ -15,10 +15,20 @@ archives, and cached index. Missing content fails with exact missing references.
 no input, never offline.
 
 `--locked` requires existing lock and forbids lock changes while allowing exact
-locked downloads unless offline. No-input normal command may create absent lock
-from unique recommendations, but never changes existing one; explicit
+locked downloads from each artifact pin's repository and manifest digest unless
+offline. This path never reads mutable index. No-input normal command may create
+absent lock from unique recommendations, but never changes existing one; explicit
 `rootform init --no-input` is required for deterministic update. Network or
 integrity failure leaves no partially visible store, vendor, or lock.
+
+Online OCI authentication reads standard Docker configuration only. Non-empty
+`DOCKER_CONFIG` takes precedence over current user's `~/.docker/config.json`;
+host `credHelpers`, global `credsStore`, then matching `auths` determine
+identity. Helper/store error never falls through to another configured identity.
+Rootform invokes helper `get` only, captures helper output, and keeps decoded
+credentials and ORAS Basic/Bearer tokens in process memory. It emits and stores
+no credential, Authorization header, Docker config content, or config path.
+Offline mode creates no registry client and reads no credential source.
 
 Default home is `~/.rootform/` (`%USERPROFILE%\.rootform` on Windows):
 
