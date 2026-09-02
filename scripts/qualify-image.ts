@@ -176,6 +176,50 @@ function dockerMount(host: string, container: string, readOnly = false): string 
   return `${host}:${container}${readOnly ? ":ro" : ""}`;
 }
 
+export function temporaryPermissionRepairArguments(image: string, temporary: string): string[] {
+  const expectedPrefix = join(tmpdir(), "rootform-image-qualification-");
+  if (!image || dirname(temporary) !== tmpdir() || !temporary.startsWith(expectedPrefix)) {
+    throw new Error("image qualification temporary directory is invalid");
+  }
+  return [
+    "docker",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--read-only",
+    "--user",
+    "0:0",
+    "--cap-drop",
+    "ALL",
+    "--cap-add",
+    "DAC_OVERRIDE",
+    "--cap-add",
+    "FOWNER",
+    "--security-opt",
+    "no-new-privileges",
+    "--volume",
+    dockerMount(temporary, "/cleanup"),
+    "--entrypoint",
+    "/bin/chmod",
+    image,
+    "-R",
+    "a+rwX",
+    "/cleanup",
+  ];
+}
+
+function removeTemporary(temporary: string, repairImage?: string): void {
+  try {
+    rmSync(temporary, { force: true, recursive: true });
+  } catch (error) {
+    if (!repairImage || !existsSync(temporary)) throw error;
+    const repair = execute(temporaryPermissionRepairArguments(repairImage, temporary));
+    if (repair.exitCode !== 0) throw error;
+    rmSync(temporary, { force: true, recursive: true });
+  }
+}
+
 function writeProject(root: string, source: string, terraformLock?: string): void {
   mkdirSync(root, { recursive: true, mode: 0o777 });
   chmodSync(root, 0o777);
@@ -860,8 +904,8 @@ resource "local_file" "example" {
     if (runCreated) execute(["docker", "rm", "--force", runContainer]);
     if (registryCreated) execute(["docker", "rm", "--force", registry]);
     if (networkCreated) execute(["docker", "network", "rm", network]);
+    removeTemporary(temporary, tags.get("arm64"));
     for (const tag of tags.values()) execute(["docker", "image", "rm", "--force", tag]);
-    rmSync(temporary, { force: true, recursive: true });
   }
 }
 
