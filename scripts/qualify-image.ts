@@ -339,6 +339,14 @@ function registryLogs(container: string): string {
   return `${result.stdout}\n${result.stderr}`;
 }
 
+export function registryCompletedRequestCount(logs: string): number {
+  return logs
+    .split(/\r?\n/u)
+    .filter(
+      (line) => line.includes('msg="response completed"') && line.includes("http.request.method="),
+    ).length;
+}
+
 export function publishedDialectVersion(publication: PublicationEvidence, name: string): string {
   const matches = publication.artifacts.filter((artifact) => artifact.name === name);
   const version = matches[0]?.version;
@@ -873,9 +881,9 @@ resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
       `#!/bin/sh
 set -eu
 test "\${1:-}" = get
-IFS= read -r server
-test "$server" = private.rootform.test
+server=$(cat)
 printf '%s\\n' "$server" > /run/rootform-helper-state/invoked
+test "$server" = private.rootform.test
 printf '{"ServerURL":"%s","Username":"%s","Secret":"%s"}\\n' "$server" '${registryUsername}' '${registryPassword}'
 `,
       { flag: "wx", mode: 0o755 },
@@ -899,12 +907,18 @@ printf '{"ServerURL":"%s","Username":"%s","Secret":"%s"}\\n' "$server" '${regist
       helperConfig,
       helperPath,
     ]);
-    if (helperResult.exitCode !== 0) throw new Error("credential-helper acquisition failed");
     let helperInvocation = "";
     try {
       helperInvocation = readFileSync(join(helperState, "invoked"), "utf8").trim();
     } catch {
       // Report only qualification state; never surface helper paths or output.
+    }
+    if (helperResult.exitCode !== 0) {
+      if (!helperInvocation) throw new Error("configured Docker credential helper was not invoked");
+      if (helperInvocation !== "private.rootform.test") {
+        throw new Error("Docker credential helper received unexpected registry identity");
+      }
+      throw new Error("Docker credential-helper identity was rejected");
     }
     if (helperInvocation !== "private.rootform.test") {
       throw new Error("configured Docker credential helper was not invoked");
@@ -1125,8 +1139,8 @@ test "$(find /usr/local/share/rootform -type f | wc -l)" -eq 3`,
     requireRegularFile(join(project, ".rootform", "dialects", "core", "dialect.rf"), "vendor core");
     const emptyHome = join(temporary, "empty-home");
     writableDirectory(emptyHome);
-    const vendorPublicLogs = registryLogs(publicRegistry);
-    const vendorPrivateLogs = registryLogs(privateRegistry);
+    const vendorPublicRequests = registryCompletedRequestCount(registryLogs(publicRegistry));
+    const vendorPrivateRequests = registryCompletedRequestCount(registryLogs(privateRegistry));
     parseJson(
       rootformRun({
         architecture: "amd64",
@@ -1141,8 +1155,8 @@ test "$(find /usr/local/share/rootform -type f | wc -l)" -eq 3`,
       "vendored online-capable build result",
     );
     if (
-      registryLogs(publicRegistry) !== vendorPublicLogs ||
-      registryLogs(privateRegistry) !== vendorPrivateLogs
+      registryCompletedRequestCount(registryLogs(publicRegistry)) !== vendorPublicRequests ||
+      registryCompletedRequestCount(registryLogs(privateRegistry)) !== vendorPrivateRequests
     ) {
       throw new Error("complete vendor content contacted a registry");
     }

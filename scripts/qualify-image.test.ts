@@ -4,6 +4,7 @@ import { join } from "node:path";
 import {
   parseQualificationArguments,
   publishedDialectVersion,
+  registryCompletedRequestCount,
   rewriteArtifactPins,
   rootformDockerArguments,
   temporaryPermissionRepairArguments,
@@ -181,4 +182,16 @@ test("registry qualification mounts Docker config and helper without CLI credent
   expect(arguments_).toContain("/qualification/helpers:/run/rootform-credential-helpers:ro");
   expect(arguments_).toContain("/qualification/helper-state:/run/rootform-helper-state");
   expect(arguments_.join(" ")).not.toMatch(/(?:password|token|username)=/iu);
+});
+
+test("registry qualification counts completed HTTP requests, not log noise", () => {
+  const logs = [
+    'level=info msg="listening on [::]:443"',
+    'level=debug msg="authorizing request" http.request.method=GET',
+    'level=info msg="response completed" http.request.method=GET http.response.status=200',
+    '127.0.0.1 - - "GET /v2/ HTTP/1.1" 200',
+    'level=info msg="response completed" http.request.method=HEAD http.response.status=200',
+    "unrelated shutdown message",
+  ].join("\n");
+  expect(registryCompletedRequestCount(logs)).toBe(2);
 });
