@@ -339,6 +339,18 @@ function registryLogs(container: string): string {
   return `${result.stdout}\n${result.stderr}`;
 }
 
+export function publishedDialectVersion(publication: PublicationEvidence, name: string): string {
+  const matches = publication.artifacts.filter((artifact) => artifact.name === name);
+  const version = matches[0]?.version;
+  if (
+    matches.length !== 1 ||
+    !/^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$/u.test(version ?? "")
+  ) {
+    throw new Error(`Dialect publication has no unique ${name} version`);
+  }
+  return version as string;
+}
+
 export function rootformDockerArguments(options: RootformRunOptions): string[] {
   const arguments_ = [
     "run",
@@ -730,6 +742,8 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
     ) {
       throw new Error("private registry changed published OCI content");
     }
+    const awsDialectVersion = publishedDialectVersion(publication, "aws");
+    const coreDialectVersion = publishedDialectVersion(publication, "core");
 
     const awsSource = `terraform {
   required_providers {
@@ -761,7 +775,7 @@ resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
     parseJson(cold.stdout, "cold init result");
     const lockPath = join(project, "rootform.lock");
     requireRegularFile(lockPath, "cold init rootform.lock");
-    requireDirectory(join(coldHome, "dialects", "aws", options.version), "installed AWS dialect");
+    requireDirectory(join(coldHome, "dialects", "aws", awsDialectVersion), "installed AWS dialect");
     const lockDigest = sha256(readFileSync(lockPath));
     parseJson(
       rootformRun({
@@ -794,7 +808,7 @@ resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
     });
     if (sha256(readFileSync(lockPath)) !== lockDigest)
       throw new Error("--locked changed rootform.lock");
-    requireDirectory(join(pinnedHome, "dialects", "aws", options.version), "pinned AWS dialect");
+    requireDirectory(join(pinnedHome, "dialects", "aws", awsDialectVersion), "pinned AWS dialect");
     const pinnedRegistryLogs = docker(["logs", "--since", since, publicRegistry]);
     const pinnedLogs = `${pinnedRegistryLogs.stdout}\n${pinnedRegistryLogs.stderr}`;
     if (pinnedLogs.includes(INDEX_TAG) || !pinnedLogs.includes("/manifests/sha256:")) {
@@ -837,7 +851,10 @@ resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
     ]);
     if (privateResult.exitCode !== 0) throw new Error("private Basic acquisition failed");
     parseJson(privateResult.stdout, "private Basic acquisition result");
-    requireDirectory(join(privateHome, "dialects", "aws", options.version), "private AWS dialect");
+    requireDirectory(
+      join(privateHome, "dialects", "aws", awsDialectVersion),
+      "private AWS dialect",
+    );
     if (sha256(readFileSync(privateLockPath)) !== privateLockDigest) {
       throw new Error("private locked acquisition changed rootform.lock");
     }
@@ -924,9 +941,12 @@ printf '{"ServerURL":"%s","Username":"%s","Secret":"%s"}\\n' "$server" '${regist
       privateDockerConfig,
     ]);
     if (multiResult.exitCode !== 0) throw new Error("multi-repository acquisition failed");
-    for (const name of ["aws", "core"]) {
+    for (const [name, version] of [
+      ["aws", awsDialectVersion],
+      ["core", coreDialectVersion],
+    ] as const) {
       requireDirectory(
-        join(multiHome, "dialects", name, options.version),
+        join(multiHome, "dialects", name, version),
         `multi-repository ${name} dialect`,
       );
     }
@@ -1090,7 +1110,7 @@ test "$(find /usr/local/share/rootform -type f | wc -l)" -eq 3`,
       user: "12345:23456",
     });
     requireDirectory(
-      join(arbitraryHome, "dialects", "aws", options.version),
+      join(arbitraryHome, "dialects", "aws", awsDialectVersion),
       "arbitrary UID dialect store",
     );
 

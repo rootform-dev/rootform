@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
   parseQualificationArguments,
+  publishedDialectVersion,
   rewriteArtifactPins,
   rootformDockerArguments,
   temporaryPermissionRepairArguments,
@@ -145,6 +146,19 @@ test("registry qualification rewrites only requested artifact pins", () => {
   expect(() => rewriteArtifactPins(JSON.stringify(original), { google: {} })).toThrow(
     "rootform.lock has no requested dialect",
   );
+});
+
+test("registry qualification reads dialect version from publication evidence", () => {
+  const publication = {
+    artifacts: [
+      { manifest_digest: `sha256:${"1".repeat(64)}`, name: "aws", version: "0.1.0" },
+      { manifest_digest: `sha256:${"2".repeat(64)}`, name: "core", version: "0.1.0" },
+    ],
+    format_version: "1",
+    index: { manifest_digest: `sha256:${"3".repeat(64)}` },
+  };
+  expect(publishedDialectVersion(publication, "aws")).toBe("0.1.0");
+  expect(() => publishedDialectVersion(publication, "google")).toThrow("no unique google version");
 });
 
 test("registry qualification mounts Docker config and helper without CLI credentials", () => {
