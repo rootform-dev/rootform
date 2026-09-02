@@ -65,11 +65,57 @@ jobs:
           tar --extract --gzip --file "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" --directory "$RUNNER_TEMP" actionlint
           printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
 
+      - name: Install verified Trivy
+        env:
+          TRIVY_ARCHIVE: trivy_0.74.0_Linux-64bit.tar.gz
+          TRIVY_SHA256: 2ae6fe3ee734b7fdf11335663e18c75ea12dccc76062f09f164a3b0f8be4371a
+          TRIVY_VERSION: 0.74.0
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$TRIVY_ARCHIVE" \
+            "https://github.com/aquasecurity/trivy/releases/download/v$TRIVY_VERSION/$TRIVY_ARCHIVE"
+          printf '%s  %s\n' "$TRIVY_SHA256" "$RUNNER_TEMP/$TRIVY_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$TRIVY_ARCHIVE" --directory "$RUNNER_TEMP" trivy
+          printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
       - name: Run repository checks
         run: bun run check
 
       - name: Check workflows
         run: actionlint -no-color -oneline
+
+      - name: Enforce OCI base vulnerability policy
+        run: |
+          set -euo pipefail
+          mapfile -t bases < <(awk 'toupper($1) == "FROM" { print $2 }' oci/Dockerfile)
+          test "${#bases[@]}" -eq 1
+          base="${bases[0]}"
+          [[ "$base" =~ ^alpine:[0-9]+\.[0-9]+@sha256:[0-9a-f]{64}$ ]]
+          first=true
+          for platform in linux/amd64 linux/arm64; do
+            update=()
+            if [[ "$first" = false ]]; then
+              update=(--skip-db-update)
+            fi
+            trivy image \
+              "${update[@]}" \
+              --platform "$platform" \
+              --scanners vuln \
+              --ignorefile .trivyignore.yaml \
+              --severity HIGH,CRITICAL \
+              --exit-code 1 \
+              "$base"
+            trivy image \
+              --skip-db-update \
+              --platform "$platform" \
+              --scanners vuln \
+              --ignorefile .trivyignore.yaml \
+              --severity MEDIUM,LOW \
+              --exit-code 0 \
+              "$base"
+            first=false
+          done
 
       - name: Scan working tree
         run: gitleaks dir --no-banner --redact --config .gitleaks.toml .
