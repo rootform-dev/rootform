@@ -14,7 +14,7 @@ Copyright 2026 Thierno Bah. All rights reserved.
 
 Licensor: Thierno Bah
 Software: Rootform executable code distributed in an official Rootform release
-archive that contains this notice.
+archive or OCI image that contains this notice.
 SPDX-License-Identifier: Elastic-2.0
 
 Elastic License 2.0 applies only to Software owned or licensable by the
@@ -41,7 +41,7 @@ export function validateBinaryLicense(body: Uint8Array): void {
 }
 
 export function readBinaryLicense(root: string): Buffer {
-  const body = readFileSync(join(root, "LICENSES", BINARY_LICENSE_FILE));
+  const body = readFileSync(join(root, "dependencies", BINARY_LICENSE_FILE));
   validateBinaryLicense(body);
   return body;
 }

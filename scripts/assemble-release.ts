@@ -12,9 +12,9 @@ import { basename, isAbsolute, join, resolve } from "node:path";
 import { createTarGz, createZip, readTarGz, readZip } from "./release/archive.ts";
 import {
   normalizeVersion,
-  RELEASE_TARGETS,
   type ReleaseTarget,
   releaseAssetName,
+  releaseAssetNames,
 } from "./release/contract.ts";
 import { checksumFile, parseChecksumFile, sha256 } from "./release/digest.ts";
 import {
@@ -110,17 +110,6 @@ function directoryFiles(path: string): string[] {
       return entry.name;
     })
     .sort((left, right) => left.localeCompare(right, "en"));
-}
-
-function finalNames(version: string): string[] {
-  return [
-    ...RELEASE_TARGETS.map((target) => releaseAssetName(version, target)),
-    "ROOTFORM-BINARY-LICENSE.txt",
-    "SHA256SUMS",
-    "THIRD_PARTY_NOTICES.txt",
-    `rootform_${version}_manifest.json`,
-    `rootform_${version}_sbom.spdx.json`,
-  ].sort((left, right) => left.localeCompare(right, "en"));
 }
 
 function distributionInputs(root: string): {
@@ -261,7 +250,7 @@ export function verifyFinalDirectory(options: {
 }): VerifiedHandoff {
   const version = normalizeVersion(options.version);
   const names = directoryFiles(options.output);
-  if (JSON.stringify(names) !== JSON.stringify(finalNames(version))) {
+  if (JSON.stringify(names) !== JSON.stringify(releaseAssetNames(version))) {
     throw new Error(`final release inventory drifted: ${names.join(", ")}`);
   }
   const handoff = verifyHandoffDirectory(

@@ -1,130 +1,197 @@
 # Container image
 
-Official Rootform image contract defines one multi-platform image, published
-only when release publication is authorized:
+Official Rootform image contract defines one versioned multi-platform image:
 
 ```text
 ghcr.io/rootform-dev/rootform:<version>
 ```
 
-It targets `linux/amd64` and `linux/arm64`. The image carries the Rootform
-executable, its binary license, third-party notices, and the release SBOM. It
-carries no dialect, Terraform, OpenTofu, or external registry CLI. Rootform's
-embedded OCI client acquires dialects only during accepted preparation.
+It targets `linux/amd64` and `linux/arm64`. Publication remains manual and
+private until repository and package visibility are changed deliberately. No
+`latest` tag is published.
 
-## Invocation
+Image is assembled from checksum-verified Linux release archives. It never
+compiles Rootform and never checks out Engine. Rootform executable in each
+platform image is byte-identical to executable in matching native archive.
 
-The image declares no entrypoint, so every caller names the command explicitly:
+## Runtime contract
+
+| Property | Value |
+| --- | --- |
+| Base | Alpine `3.21`, pinned by multi-platform index digest |
+| Platforms | `linux/amd64`, `linux/arm64` |
+| Entrypoint | none |
+| Default command | `rootform --help` |
+| Working directory | `/workspace` |
+| Default user | `65532:65532` |
+| `HOME` | `/home/rootform` |
+| `ROOTFORM_HOME` | `/home/rootform/.rootform` |
+| Binary | `/usr/local/bin/rootform` |
+| Binary license | `Elastic-2.0` |
+
+Alpine supplies `/bin/sh`, `grep`, and CA certificates. Dockerfile performs no
+package installation and no build instruction downloads payload. `FROM`
+remains an external input and is pinned by digest. Image exposes no `git`,
+`curl`, `wget`, Terraform, OpenTofu, compiler, dialect, credential, or token.
+
+No entrypoint lets GitLab, CircleCI, Buildkite, Jenkins, and other runners
+inject a shell. Default command makes an ordinary run useful:
 
 ```bash
+docker run --rm ghcr.io/rootform-dev/rootform:0.1.0
+
 docker run --rm \
-  -v "$PWD:/workspace" \
-  -w /workspace \
+  --volume "$PWD:/workspace" \
+  --workdir /workspace \
   ghcr.io/rootform-dev/rootform:0.1.0 \
   rootform check .
 ```
 
-Pin an exact version, or a digest when a workflow must never move:
-
-```bash
-docker run --rm ghcr.io/rootform-dev/rootform@sha256:<digest> rootform version
-```
-
-Avoid `latest`. A moving tag makes a passing pipeline and a failing pipeline
-indistinguishable from the analyzed source alone.
-
-## Image contract
-
-| Property | Value | Reason |
-| --- | --- | --- |
-| Base | Alpine, pinned by index digest | GitLab, CircleCI, Buildkite, and Jenkins run a shell inside job images |
-| Entrypoint | none | CI runners replace the command with their own script |
-| Command | `/bin/sh` | inherited from the base image, never used to wrap Rootform |
-| Working directory | `/workspace` | matches the documented `docker run` mount |
-| `ROOTFORM_HOME` | `/var/cache/rootform` | writable dialect store outside the mounted workspace |
-| Default user | `root` | runners bind-mount workspaces with arbitrary host UIDs |
-| Mode of `/workspace` and `ROOTFORM_HOME` | `1777` | an explicit `--user` still works |
-| Binary license | `Elastic-2.0` | recorded in `org.opencontainers.image.licenses` |
-
-GitLab CI places the repository in `$CI_PROJECT_DIR` regardless of the image
-working directory. GitLab jobs must reference `$CI_PROJECT_DIR`, not
-`/workspace`.
-
-Licensing inside the image follows the distribution boundary:
-
-```text
-/usr/local/bin/rootform                                    Elastic-2.0
-/usr/local/share/rootform/ROOTFORM-BINARY-LICENSE.txt      Elastic-2.0 terms
-/usr/local/share/rootform/THIRD_PARTY_NOTICES.txt          upstream terms
-/usr/local/share/rootform/rootform_<version>_sbom.spdx.json  release SBOM
-```
-
-## Build and verification
-
-The image is built from an assembled release directory, never from producer
-source and never by compiling inside the image:
-
-```bash
-bun run build:image \
-  --version 0.1.0 \
-  --release <assembled-release-directory> \
-  --revision <distribution-commit> \
-  --output <image-output-directory>
-```
-
-The build stages only payload whose digests match both the release checksum
-file and the archive's own inner checksums, then audits the produced OCI layout
-offline. The audit fails when the executable is not the released binary, when an
-entrypoint appears, when the working directory, default user, or
-`ROOTFORM_HOME` drift, when a required label drifts, or when any unexpected file
-is added on top of the base image.
-
-Layer timestamps are pinned through `SOURCE_DATE_EPOCH` and the exporter's
-`rewrite-timestamp` option, so the same release payload always produces the same
-image digest.
-
-Provenance and SBOM attestations are produced by the publication chain when the
-image is pushed to a registry. A locally exported OCI layout carries neither, so
-its layers can be compared byte for byte against the release archives.
-
-## Dialects in CI
-
-The image behaves exactly like the native binary. Three situations are
-supported.
-
-**Vendored dialects.** `.rootform/dialects` is the exclusive source. Nothing is
-downloaded and the global store never completes a partial vendor directory.
-
-**Committed distribution-ready `rootform.lock`, no vendor.** Complete artifact
-pins let Rootform install exact missing versions, verify every digest, and keep
-the lock byte-identical. A local authoring lock without acquisition pins needs
-ordinary `rootform init` normalization before remote recovery. A lock that no
-longer covers current providers fails with exact local command to run, never a
-silent rewrite.
-
-**Neither lock nor vendor.** Rootform detects providers, resolves unambiguous
-official recommendations from a single index snapshot, installs the dialects,
-writes an exact `rootform.lock`, and continues. Commit that file to make later
-runs reproducible.
-
-Air-gapped runners use `--offline` with either vendored dialects or a
-preloaded `ROOTFORM_HOME`:
+Use exact version or digest. Avoid moving tags:
 
 ```bash
 docker run --rm \
-  -v "$PWD:/workspace" \
-  -v rootform-home:/var/cache/rootform \
-  -w /workspace \
-  ghcr.io/rootform-dev/rootform:0.1.0 \
-  rootform check . --offline --locked
+  ghcr.io/rootform-dev/rootform@sha256:<index-digest> \
+  rootform version
 ```
+
+## Files and licensing
+
+Image-owned Rootform payload is a closed list:
+
+```text
+/usr/local/bin/rootform
+/usr/local/share/rootform/ROOTFORM-BINARY-LICENSE.txt
+/usr/local/share/rootform/THIRD_PARTY_NOTICES.txt
+/usr/local/share/rootform/rootform_<version>_sbom.spdx.json
+```
+
+Executable and official image use Elastic License 2.0. Repository source and
+tooling remain Apache-2.0. Third-party assets retain upstream terms. OCI label
+`org.opencontainers.image.licenses=Elastic-2.0`, embedded license, notices, and
+release manifest all record same boundary.
+
+Image contains no dialect source. Dialects remain independent MPL-2.0 OCI
+artifacts acquired by Rootform.
+
+## Permissions
+
+Default user owns image-created `/workspace` and
+`/home/rootform/.rootform`. New Docker named volumes mounted at
+`ROOTFORM_HOME` inherit prepared ownership and work without weakening its
+`0700` mode:
+
+```bash
+docker volume create rootform-home
+docker run --rm \
+  --volume "$PWD:/workspace" \
+  --volume rootform-home:/home/rootform/.rootform \
+  ghcr.io/rootform-dev/rootform:0.1.0 \
+  rootform init . --no-input
+```
+
+A host bind mount masks directory ownership and mode prepared in image.
+`chmod 1777 /workspace` inside Dockerfile would not change host mount. Caller
+must provide workspace accessible to selected UID and writable when `init`
+must create or update `rootform.lock`.
+
+Arbitrary UID is supported when caller supplies both accessible workspace and
+writable `ROOTFORM_HOME`:
+
+```bash
+mkdir -p .rootform-container-home
+# Prepare ownership or ACLs for UID/GID selected by your runner.
+docker run --rm \
+  --user 12345:23456 \
+  --volume "$PWD:/workspace" \
+  --volume "$PWD/.rootform-container-home:/home/rootform/.rootform" \
+  ghcr.io/rootform-dev/rootform:0.1.0 \
+  rootform init . --locked --no-input
+```
+
+Image does not make Rootform home world-writable to simulate arbitrary-UID
+support without caller configuration.
+
+Read-only workspace works when lock and dialect inputs are already available.
+This hardened vendored example needs no persistent home:
+
+```bash
+docker run --rm \
+  --read-only \
+  --cap-drop ALL \
+  --security-opt no-new-privileges \
+  --network none \
+  --tmpfs /home/rootform/.rootform:uid=65532,gid=65532,mode=0700 \
+  --volume "$PWD:/workspace:ro" \
+  ghcr.io/rootform-dev/rootform:0.1.0 \
+  rootform build . --locked --offline --no-input --format json
+```
+
+## Dialect acquisition
+
+Image uses same embedded OCI client as native binary.
+
+- Project `.rootform/dialects/` is exclusive. Store and network are never
+  fallback for incomplete vendor.
+- Distribution-ready `rootform.lock` carries exact artifact pins. Empty store
+  recovery resolves those digests directly and does not consult mutable
+  `official-index-v1`.
+- Project without vendor or lock resolves one official index snapshot,
+  installs verified dialects atomically, and writes exact pins to
+  `rootform.lock`.
+- `--locked` requires and preserves lock bytes while allowing missing pinned
+  artifacts to be acquired.
+- `--offline` forbids network. Use vendor or preloaded store/cache.
+- Provider with no official dialect is recorded explicitly in
+  `unsupported_providers` with transparent diagnostic.
+
+Rootform never runs Terraform, OpenTofu, providers, or modules. Remote modules
+must already be materialized by Terraform/OpenTofu.
+
+## Build and supply chain
+
+Offline audit build uses assembled native release directory:
+
+```bash
+bun run build:image -- \
+  --version 0.1.0 \
+  --release <assembled-release-directory> \
+  --revision <exact-distribution-commit> \
+  --output <image-output-directory>
+```
+
+Staging allow-list contains Dockerfile, two verified Linux executables, binary
+license, notices, and release SBOM only. Offline OCI audit checks:
+
+- exact amd64/arm64 platform set;
+- binary SHA-256 and mode `0755` against release archives;
+- three share files and mode `0644`;
+- non-root user, homes, workdir, no entrypoint, and exact command;
+- OCI labels and binary license;
+- absence of unexpected overlay payload and forbidden source/state material.
+
+Candidate gate then loads both platforms, publishes Dialects to TLS registry
+ephemeral, and executes real runtime matrix: cold init, direct pins, locked,
+offline with `--network none`, exclusive vendor, unsupported provider,
+build/check/run, GitLab shell injection, arbitrary UID, read-only workspace,
+`--read-only`, dropped capabilities, and `no-new-privileges`.
+
+Trivy is checksum-pinned. High/Critical findings block. Exception file accepts
+only named image paths, justification, and expiration within 90 days; current
+policy has no exception. Medium/Low findings are emitted as evidence.
+Dependabot reviews Alpine digest updates from `oci/Dockerfile`.
+
+Private publication repeats qualification, pushes exact version, and requires:
+
+- platform manifest digests equal offline audited manifests;
+- one SPDX SBOM from digest-pinned BuildKit Syft scanner and one maximal SLSA
+  provenance attestation per platform;
+- GHCR package remains private before and after publication;
+- no moving `latest` tag and no package visibility mutation.
 
 ## CI examples
 
-Rootform does not ship a separate integration per platform. Non-GitHub runners
-use the CLI or this image.
-
-### GitLab CI
+GitLab shell injection works because image has no entrypoint:
 
 ```yaml
 rootform:
@@ -146,85 +213,42 @@ rootform:
       - rootform.lock
 ```
 
-### Azure Pipelines
-
-```yaml
-- job: rootform
-  container: ghcr.io/rootform-dev/rootform:0.1.0
-  steps:
-    - checkout: self
-    - script: rootform init "$(Build.SourcesDirectory)" --no-input
-      displayName: Prepare dialects
-    - script: rootform check "$(Build.SourcesDirectory)" --format sarif --output rootform.sarif
-      displayName: Analyze architecture
-```
-
-### Jenkins
-
-```groovy
-pipeline {
-  agent { docker { image 'ghcr.io/rootform-dev/rootform:0.1.0' } }
-  stages {
-    stage('rootform') {
-      steps {
-        sh 'rootform init . --no-input'
-        sh 'rootform check . --format json --output architecture.json'
-      }
-    }
-  }
-}
-```
-
-### CircleCI
-
-```yaml
-jobs:
-  rootform:
-    docker:
-      - image: ghcr.io/rootform-dev/rootform:0.1.0
-    steps:
-      - checkout
-      - run: rootform init . --no-input
-      - run: rootform check . --format json --output architecture.json
-      - store_artifacts:
-          path: architecture.json
-```
-
-### Buildkite
-
-```yaml
-steps:
-  - label: rootform
-    plugins:
-      - docker#v5.13.0:
-          image: ghcr.io/rootform-dev/rootform:0.1.0
-          propagate-environment: true
-    command: |
-      rootform init . --no-input
-      rootform check . --format json --output architecture.json
-```
-
-### Locked run with a warm store
+Other container runners use same explicit command pattern:
 
 ```text
 checkout
-→ restore ROOTFORM_HOME cache
-→ rootform init . --locked
-→ rootform check . --locked
+→ provide writable ROOTFORM_HOME
+→ rootform init . --no-input
+→ rootform build . --locked --format json
+→ rootform check . --locked --format sarif
 ```
 
-### First run without a lock
+For air-gapped jobs:
 
 ```text
-checkout
-→ rootform check .
-→ rootform.lock generated
-→ CI uploads lock as artifact and reports it in job log
-→ analysis completes
+checkout with .rootform/dialects and rootform.lock
+→ rootform init . --locked --offline
+→ rootform build . --locked --offline
+→ rootform check . --locked --offline
 ```
 
-Rootform never runs `terraform init`, `tofu init`, or any plan command. It reads
-the evidence a workspace already exposes, such as `.terraform.lock.hcl`,
-`TF_DATA_DIR`, materialized modules, or an explicitly provided Plan JSON. When
-provider versions cannot be verified, the analysis continues with a warning
-instead of failing the pipeline.
+## Anonymous post-visibility canary
+
+Run only after both `rootform-dev/dialects` and official Rootform image package
+are public:
+
+1. use empty Docker credential directory and pull
+   `ghcr.io/rootform-dev/dialects:official-index-v1` anonymously;
+2. use empty `ROOTFORM_HOME`, synthetic Terraform project, and no
+   `rootform.lock`; run `rootform init . --no-input`;
+3. run `rootform build . --locked`;
+4. run `rootform check . --locked`;
+5. start `rootform run . --locked --no-browser --no-watch`, observe serving
+   address, then stop cleanly;
+6. delete store, rerun `rootform init . --locked`, and verify lock SHA-256 is
+   unchanged;
+7. run `rootform vendor dialects`, then build/check with `--network none` and
+   `--locked --offline` using empty home.
+
+Canary must use no GHCR token. A `401` or `403`, lock mutation, mutable-index
+request during pinned recovery, or missing attestation blocks public launch.

@@ -390,7 +390,7 @@ describe("final release assembly", () => {
       );
       const first = handoff.binaries[0] as (typeof handoff.binaries)[number];
       const inputs = {
-        license: readFileSync(join(root, "LICENSES", "ROOTFORM-BINARY-LICENSE.txt")),
+        license: readFileSync(join(root, "dependencies", "ROOTFORM-BINARY-LICENSE.txt")),
         notices: readFileSync(join(root, "THIRD_PARTY_NOTICES.txt")),
       };
       const mutated = Buffer.concat([first.body, Buffer.from("mutation")]);

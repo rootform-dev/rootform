@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { BINARY_LICENSE_FILE, BINARY_LICENSE_SPDX, validateBinaryLicense } from "./license.ts";
 
 const root = join(import.meta.dir, "..", "..");
-const license = readFileSync(join(root, "LICENSES", BINARY_LICENSE_FILE));
+const license = readFileSync(join(root, "dependencies", BINARY_LICENSE_FILE));
 
 describe("Rootform binary license", () => {
   test("binds exact application notice to canonical Elastic License 2.0", () => {
