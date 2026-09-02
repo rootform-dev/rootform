@@ -78,6 +78,13 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Prepare isolated Docker client
+        run: |
+          set -euo pipefail
+          config="$RUNNER_TEMP/docker-config"
+          mkdir -p "$config"
+          printf 'DOCKER_CONFIG=%s\n' "$config" >> "$GITHUB_ENV"
+
       - name: Install exact QEMU emulation
         uses: docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # v4.3.0
         with:
@@ -205,10 +212,8 @@ jobs:
           GHCR_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          config="$RUNNER_TEMP/docker-config"
-          mkdir -p "$config"
-          printf 'DOCKER_CONFIG=%s\n' "$config" >> "$GITHUB_ENV"
-          printf '%s' "$GHCR_TOKEN" | DOCKER_CONFIG="$config" docker login ghcr.io \
+          [[ "$DOCKER_CONFIG" == "$RUNNER_TEMP/"* ]]
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io \
             --username "$GITHUB_ACTOR" --password-stdin
 
       - name: Publish exact version with attestations
@@ -250,5 +255,5 @@ jobs:
           config="${DOCKER_CONFIG:-$RUNNER_TEMP/docker-config}"
           if [[ -d "$config" && "$config" == "$RUNNER_TEMP/"* ]]; then
             docker logout ghcr.io >/dev/null 2>&1 || true
-            rm -rf -- "$config"
+            rm -f -- "$config/config.json"
           fi
