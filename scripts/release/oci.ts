@@ -18,6 +18,7 @@ export type ImageFile = {
 };
 
 export type ImageConfiguration = {
+  command: string[];
   entrypoint: string[];
   environment: string[];
   labels: Record<string, string>;
@@ -233,6 +234,7 @@ export function readImageArchive(archive: Uint8Array): ImageArchive {
     });
     variants.push({
       configuration: {
+        command: stringArray(runtime.Cmd),
         entrypoint: stringArray(runtime.Entrypoint),
         environment: stringArray(runtime.Env),
         labels: labelMap(runtime.Labels),

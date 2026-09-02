@@ -1,13 +1,13 @@
 # Rootform official container image.
 #
 # The build context is produced by scripts/build-image.ts from an assembled
-# release directory. It never compiles Rootform, never checks out producer
-# source, and never reaches the network: every payload byte is copied from a
-# release archive whose checksums were verified before staging.
+# release directory. It never compiles Rootform or checks out producer source.
+# No build instruction downloads packages or remote payloads. The Alpine base
+# remains one external input and is pinned below by multi-platform index digest.
 #
 # The base image is pinned to a multi-platform index digest so linux/amd64 and
 # linux/arm64 resolve to the exact same Alpine release.
-FROM alpine:3.22@sha256:14358309a308569c32bdc37e2e0e9694be33a9d99e68afb0f5ff33cc1f695dce
+FROM alpine:3.21@sha256:48b0309ca019d89d40f670aa1bc06e426dc0931948452e8491e3d65087abc07d
 
 ARG TARGETARCH
 ARG ROOTFORM_CREATED
@@ -25,20 +25,35 @@ LABEL org.opencontainers.image.created="${ROOTFORM_CREATED}" \
       org.opencontainers.image.vendor="Rootform" \
       org.opencontainers.image.version="${ROOTFORM_VERSION}"
 
-# CI runners bind-mount workspaces with arbitrary host UIDs and GIDs. Both the
-# working directory and the Rootform home are world-writable with the sticky
-# bit so the image behaves identically under the default root user and under an
-# explicit `--user`. Alpine already ships the CA bundle Rootform needs, so no
-# package installation and therefore no network access happens here.
-RUN mkdir -p /workspace /var/cache/rootform /usr/local/share/rootform \
- && chmod 1777 /workspace /var/cache/rootform
+# Alpine already provides the shell, grep, and CA bundle required by CI and
+# Rootform's embedded OCI client. The fixed user owns only its persistent home
+# and the image-owned workspace; bind mounts retain host-side ownership.
+RUN set -eu; \
+    test -n "${ROOTFORM_CREATED}"; \
+    test -n "${ROOTFORM_REVISION}"; \
+    test -n "${ROOTFORM_VERSION}"; \
+    case "${TARGETARCH}" in amd64|arm64) ;; *) exit 1 ;; esac; \
+    command -v sh >/dev/null; \
+    command -v grep >/dev/null; \
+    test -s /etc/ssl/cert.pem || test -s /etc/ssl/certs/ca-certificates.crt; \
+    rm -f /usr/bin/wget; \
+    ! command -v wget >/dev/null 2>&1; \
+    mkdir -p /home/rootform/.rootform /usr/local/share/rootform /workspace; \
+    chown -R 65532:65532 /home/rootform /workspace; \
+    chmod 0700 /home/rootform/.rootform; \
+    chmod 0755 /workspace
 
 COPY --chmod=0755 binaries/${TARGETARCH}/rootform /usr/local/bin/rootform
-COPY --chmod=0644 share/ /usr/local/share/rootform/
+COPY --chmod=0644 share/ROOTFORM-BINARY-LICENSE.txt /usr/local/share/rootform/
+COPY --chmod=0644 share/THIRD_PARTY_NOTICES.txt /usr/local/share/rootform/
+COPY --chmod=0644 share/rootform_${ROOTFORM_VERSION}_sbom.spdx.json /usr/local/share/rootform/
 
-ENV ROOTFORM_HOME=/var/cache/rootform
+ENV HOME=/home/rootform \
+    ROOTFORM_HOME=/home/rootform/.rootform
+
 WORKDIR /workspace
 
-# No ENTRYPOINT: GitLab, CircleCI, Buildkite, and Jenkins container jobs replace
-# the command with their own shell script. Callers name the command explicitly,
-# for example `rootform check .`.
+USER 65532:65532
+
+# No ENTRYPOINT: CI runners can replace the command with their shell script.
+CMD ["rootform", "--help"]

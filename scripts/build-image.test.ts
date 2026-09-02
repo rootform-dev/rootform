@@ -8,6 +8,8 @@ import {
   imageBuildArguments,
   imageBuildEnvironment,
   imageManifest,
+  imagePublishArguments,
+  imageRuntimeBuildArguments,
   parseImageArguments,
   releaseExecutable,
   type StagedBinary,
@@ -110,11 +112,15 @@ function containerTar(entries: Array<{ body: Uint8Array; mode?: number; path: st
 type VariantOptions = {
   architecture: ImageArchitecture;
   binary?: Uint8Array;
+  binaryMode?: number;
+  command?: string[];
   entrypoint?: string[];
   extraFile?: { body: Uint8Array; path: string };
   labels?: Record<string, string>;
+  shareMode?: number;
   home?: string;
   user?: string;
+  userHome?: string;
   workingDirectory?: string;
 };
 
@@ -141,12 +147,24 @@ function buildArchive(variants: VariantOptions[]): Buffer {
       containerTar([
         {
           body: variant.binary ?? executableBody(variant.architecture),
-          mode: 0o755,
+          mode: variant.binaryMode ?? 0o755,
           path: binaryPath.slice(1),
         },
-        { body: license, path: `${shareDirectory.slice(1)}/${BINARY_LICENSE_FILE}` },
-        { body: notices, path: `${shareDirectory.slice(1)}/THIRD_PARTY_NOTICES.txt` },
-        { body: sbom, path: `${shareDirectory.slice(1)}/${sbomName}` },
+        {
+          body: license,
+          mode: variant.shareMode,
+          path: `${shareDirectory.slice(1)}/${BINARY_LICENSE_FILE}`,
+        },
+        {
+          body: notices,
+          mode: variant.shareMode,
+          path: `${shareDirectory.slice(1)}/THIRD_PARTY_NOTICES.txt`,
+        },
+        {
+          body: sbom,
+          mode: variant.shareMode,
+          path: `${shareDirectory.slice(1)}/${sbomName}`,
+        },
         ...(variant.extraFile
           ? [{ body: variant.extraFile.body, path: variant.extraFile.path.slice(1) }]
           : []),
@@ -157,10 +175,14 @@ function buildArchive(variants: VariantOptions[]): Buffer {
         `${JSON.stringify({
           architecture: variant.architecture,
           config: {
+            Cmd: variant.command ?? ["rootform", "--help"],
             Entrypoint: variant.entrypoint ?? null,
-            Env: [`ROOTFORM_HOME=${variant.home ?? "/var/cache/rootform"}`],
+            Env: [
+              `HOME=${variant.userHome ?? "/home/rootform"}`,
+              `ROOTFORM_HOME=${variant.home ?? "/home/rootform/.rootform"}`,
+            ],
             Labels: variant.labels ?? defaultLabels(),
-            User: variant.user ?? "",
+            User: variant.user ?? "65532:65532",
             WorkingDir: variant.workingDirectory ?? "/workspace",
           },
           os: "linux",
@@ -299,6 +321,39 @@ describe("image build arguments", () => {
     expect(imageBuildEnvironment()).toEqual({ SOURCE_DATE_EPOCH: "0" });
     expect(command).not.toContain("--push");
   });
+
+  test("loads exact single-platform runtime images without attestations", () => {
+    const command = imageRuntimeBuildArguments({
+      architecture: "arm64",
+      context: "/tmp/context",
+      revision,
+      tag: "rootform-qualification:arm64",
+      version,
+    });
+    expect(command).toContain("linux/arm64");
+    expect(command).toContain("--load");
+    expect(command).toContain("rootform-qualification:arm64");
+    expect(command).toContain("false");
+    expect(command).not.toContain("--push");
+  });
+
+  test("publishes only exact version with maximal provenance and SBOM", () => {
+    const command = imagePublishArguments({
+      context: "/tmp/context",
+      metadata: "/tmp/metadata.json",
+      revision,
+      version,
+    });
+    expect(command).toContain("linux/amd64,linux/arm64");
+    expect(command).toContain("mode=max");
+    expect(command.join(" ")).toContain(
+      "generator=docker.io/docker/buildkit-syft-scanner:stable-1@sha256:ae4f3b554449e7e25548e7d8ccc029d17357348e30c6e3df01b92bc93654d6a9",
+    );
+    expect(command.join(" ")).toContain(
+      "type=registry,name=ghcr.io/rootform-dev/rootform:0.1.0,push=true,rewrite-timestamp=true",
+    );
+    expect(command.join(" ")).not.toContain("latest");
+  });
 });
 
 describe("release payload", () => {
@@ -399,9 +454,19 @@ describe("image audit", () => {
         ]),
       ),
     ).toThrow(`image payload drifted: ${binaryPath}`);
+    expect(() =>
+      verify(
+        buildArchive([{ architecture: "amd64", binaryMode: 0o644 }, { architecture: "arm64" }]),
+      ),
+    ).toThrow(`image payload drifted: ${binaryPath}`);
+    expect(() =>
+      verify(
+        buildArchive([{ architecture: "amd64", shareMode: 0o755 }, { architecture: "arm64" }]),
+      ),
+    ).toThrow(`image payload drifted: ${shareDirectory}/${BINARY_LICENSE_FILE}`);
   });
 
-  test("rejects an entrypoint, a moved workdir, a foreign user, and a moved home", () => {
+  test("rejects an entrypoint, command, workdir, user, and Rootform home drift", () => {
     expect(() =>
       verify(
         buildArchive([
@@ -410,6 +475,11 @@ describe("image audit", () => {
         ]),
       ),
     ).toThrow("image must not define an entrypoint");
+    expect(() =>
+      verify(
+        buildArchive([{ architecture: "amd64", command: ["/bin/sh"] }, { architecture: "arm64" }]),
+      ),
+    ).toThrow("image default command drifted");
     expect(() =>
       verify(
         buildArchive([
@@ -424,11 +494,16 @@ describe("image audit", () => {
     expect(() =>
       verify(
         buildArchive([
-          { architecture: "amd64", home: "/root/.rootform-home" },
+          { architecture: "amd64", home: "/var/cache/rootform" },
           { architecture: "arm64" },
         ]),
       ),
     ).toThrow("image ROOTFORM_HOME drifted");
+    expect(() =>
+      verify(
+        buildArchive([{ architecture: "amd64", userHome: "/root" }, { architecture: "arm64" }]),
+      ),
+    ).toThrow("image HOME drifted");
   });
 
   test("rejects a drifted binary license label", () => {

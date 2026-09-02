@@ -60,3 +60,15 @@ export function handoffBundleName(version: string): string {
 export function releaseAssetName(version: string, target: ReleaseTarget): string {
   return `rootform_${normalizeVersion(version)}_${target.operatingSystem}_${target.architecture}.${target.archiveFormat}`;
 }
+
+export function releaseAssetNames(version: string): string[] {
+  const normalized = normalizeVersion(version);
+  return [
+    ...RELEASE_TARGETS.map((target) => releaseAssetName(normalized, target)),
+    "ROOTFORM-BINARY-LICENSE.txt",
+    "SHA256SUMS",
+    "THIRD_PARTY_NOTICES.txt",
+    `rootform_${normalized}_manifest.json`,
+    `rootform_${normalized}_sbom.spdx.json`,
+  ].sort((left, right) => left.localeCompare(right, "en"));
+}

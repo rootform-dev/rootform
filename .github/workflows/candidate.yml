@@ -23,7 +23,7 @@ jobs:
   qualify:
     name: assemble and qualify candidate
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 60
     permissions:
       contents: write
       pull-requests: read
@@ -75,7 +75,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: rootform-dev/dialects
-          ref: db48a13b9cf8df7910826efb3cae03f36b3815e0
+          ref: 4ae1c22ab8961e90fe59ad20152a1de812258e1e
           path: build/dialects
           token: ${{ secrets.DIALECTS_CONTENTS_READ_TOKEN }}
           fetch-depth: 0
@@ -85,6 +85,18 @@ jobs:
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version: 1.4.0
+
+      - name: Install exact QEMU emulation
+        uses: docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # v4.3.0
+        with:
+          cache-image: false
+          image: docker.io/tonistiigi/binfmt:latest@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
+          platforms: arm64
+
+      - name: Install exact Buildx
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+        with:
+          driver-opts: image=moby/buildkit:v0.32.2@sha256:28a898719c18a33f4e8000685287fa36fd0dd9560c6440227d3a732d79bb41d8
 
       - name: Install exact distribution dependencies
         run: bun install --frozen-lockfile
@@ -101,6 +113,12 @@ jobs:
           GITLEAKS_ARCHIVE: gitleaks_8.30.1_linux_x64.tar.gz
           GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
           GITLEAKS_VERSION: 8.30.1
+          ORAS_ARCHIVE: oras_1.3.4_linux_amd64.tar.gz
+          ORAS_SHA256: f27adb935022d94df8dc77719c322dda592c78a0d57a6f7dcdd8d900b248c454
+          ORAS_VERSION: 1.3.4
+          TRIVY_ARCHIVE: trivy_0.74.0_Linux-64bit.tar.gz
+          TRIVY_SHA256: 2ae6fe3ee734b7fdf11335663e18c75ea12dccc76062f09f164a3b0f8be4371a
+          TRIVY_VERSION: 0.74.0
         run: |
           set -euo pipefail
           curl --fail --silent --show-error --location \
@@ -113,6 +131,16 @@ jobs:
             "https://github.com/rhysd/actionlint/releases/download/v$ACTIONLINT_VERSION/$ACTIONLINT_ARCHIVE"
           printf '%s  %s\n' "$ACTIONLINT_SHA256" "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" | sha256sum --check --strict
           tar --extract --gzip --file "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" --directory "$RUNNER_TEMP" actionlint
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$ORAS_ARCHIVE" \
+            "https://github.com/oras-project/oras/releases/download/v$ORAS_VERSION/$ORAS_ARCHIVE"
+          printf '%s  %s\n' "$ORAS_SHA256" "$RUNNER_TEMP/$ORAS_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$ORAS_ARCHIVE" --directory "$RUNNER_TEMP" oras
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$TRIVY_ARCHIVE" \
+            "https://github.com/aquasecurity/trivy/releases/download/v$TRIVY_VERSION/$TRIVY_ARCHIVE"
+          printf '%s  %s\n' "$TRIVY_SHA256" "$RUNNER_TEMP/$TRIVY_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$TRIVY_ARCHIVE" --directory "$RUNNER_TEMP" trivy
           printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
 
       - name: Verify distribution repository boundary
@@ -179,6 +207,41 @@ jobs:
             --handoff build/handoff \
             --github-assets build/handoff-assets.json \
             --output build/release
+
+      - name: Build and audit official OCI image
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/build-image.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release build/release \
+            --revision "$GITHUB_SHA" \
+            --output build/image
+
+      - name: Qualify OCI image runtime and dialect acquisition
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/qualify-image.ts \
+            --version "$ROOTFORM_VERSION" \
+            --revision "$GITHUB_SHA" \
+            --image build/image \
+            --dialects build/dialects \
+            --rootform-bin build/bin/rootform \
+            --oras "$RUNNER_TEMP/oras" \
+            --trivy "$RUNNER_TEMP/trivy" \
+            --evidence build/image-evidence/qualification.json
+
+      - name: Upload OCI qualification evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-image-qualification-${{ inputs.version }}-${{ github.sha }}
+          path: |
+            build/image/rootform_${{ inputs.version }}_image.json
+            build/image-evidence/*.json
+          if-no-files-found: error
+          compression-level: 9
+          retention-days: 30
 
       - name: Create final draft release
         id: final-release

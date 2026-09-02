@@ -34,8 +34,10 @@ See [`docs/installation.md`](docs/installation.md).
 ## Licensing boundary
 
 - Repository source, contracts, docs, examples, and tooling: Apache-2.0.
-- Rootform-owned executable code: [Elastic License 2.0](LICENSES/ROOTFORM-BINARY-LICENSE.txt)
+- Rootform-owned executable code: [Elastic License 2.0](dependencies/ROOTFORM-BINARY-LICENSE.txt)
   (`Elastic-2.0`).
+- Official release archives and OCI images embed that binary notice; repository
+  `LICENSE` remains Apache-2.0 and does not license distributed executables.
 - Rootform name and logos: trademark rights reserved.
 - Dialects, third-party components, and assets: their identified terms.
 

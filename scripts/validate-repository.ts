@@ -35,11 +35,11 @@ const allowedTopLevel = new Set([
   ".github",
   ".gitignore",
   ".gitleaks.toml",
+  ".trivyignore.yaml",
   "AGENTS.md",
   "CHANGELOG.md",
   "CONTRIBUTING.md",
   "LICENSE",
-  "LICENSES",
   "README.md",
   "SECURITY.md",
   "THIRD_PARTY_NOTICES.txt",
@@ -67,7 +67,7 @@ const forbiddenTopLevel = new Set([
   "web",
 ]);
 const forbiddenText =
-  /(?:\/Users\/|\/home\/[A-Za-z0-9._-]+\/|[A-Za-z]:\\Users\\|BEGIN (?:RSA|OPENSSH|EC|DSA) PRIVATE KEY|github_pat_|ghp_)/u;
+  /(?:\/Users\/|\/home\/(?!rootform(?:\/|$))[A-Za-z0-9._-]+\/|[A-Za-z]:\\Users\\|BEGIN (?:RSA|OPENSSH|EC|DSA) PRIVATE KEY|github_pat_|ghp_)/u;
 
 function sha256(path: string): string {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
@@ -154,6 +154,9 @@ export function validateRepository(): void {
     ".github/pull_request_template.md",
     ".github/workflows/candidate.yml",
     ".github/workflows/ci.yml",
+    ".github/workflows/publish-image.yml",
+    ".trivyignore.yaml",
+    "dependencies/ROOTFORM-BINARY-LICENSE.txt",
     "contracts/binary-handoff.md",
     "contracts/dialect-distribution.md",
     "contracts/rootform-lock.md",
@@ -163,6 +166,7 @@ export function validateRepository(): void {
     "scripts/assemble-release.ts",
     "scripts/build-image.ts",
     "scripts/download-handoff.ts",
+    "scripts/download-release.ts",
     "scripts/extract-release-binary.ts",
     "scripts/release/archive.ts",
     "scripts/release/contract.ts",
@@ -173,6 +177,9 @@ export function validateRepository(): void {
     "scripts/release/oci.ts",
     "scripts/release/runtime-licenses.ts",
     "scripts/render-candidate-report.ts",
+    "scripts/publish-image.ts",
+    "scripts/qualify-image.ts",
+    "scripts/validate-trivy-policy.ts",
     "dependencies/runtime-components.json",
     "schemas/rootform-lock.schema.json",
   ]) {
@@ -273,6 +280,20 @@ export function validateRepository(): void {
     !candidateWorkflow.includes(dialectPin.commit)
   ) {
     throw new Error("candidate workflow violates distribution ownership");
+  }
+  const imageWorkflow = readFileSync(
+    join(root, ".github", "workflows", "publish-image.yml"),
+    "utf8",
+  );
+  if (
+    imageWorkflow.includes("rootform-dev/engine") ||
+    imageWorkflow.includes("rootform-dev/action/") ||
+    !imageWorkflow.includes("packages: write") ||
+    !imageWorkflow.includes(dialectPin.commit) ||
+    imageWorkflow.includes("ghcr.io/rootform-dev/rootform:latest") ||
+    imageWorkflow.includes("PATCH /orgs/rootform-dev/packages")
+  ) {
+    throw new Error("image publication workflow violates distribution ownership");
   }
 }
 
