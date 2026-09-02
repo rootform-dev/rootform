@@ -73,6 +73,16 @@
       "version": "v15.0.0"
     },
     {
+      "copyright_text": "Copyright (c) 2016 David Calavera",
+      "kind": "go-module",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "a6c2a5fdf40879f644bdb0da9042f245e7e263237d623264aafcf2470610ad8c",
+      "name": "github.com/docker/docker-credential-helpers",
+      "upstream": "https://github.com/docker/docker-credential-helpers",
+      "version": "v0.9.8"
+    },
+    {
       "copyright_text": "Copyright © 2012 The Go Authors. All rights reserved.; Copyright © fsnotify Authors. All rights reserved.",
       "kind": "go-module",
       "license_concluded": "BSD-3-Clause",
