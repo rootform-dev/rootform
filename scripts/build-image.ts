@@ -143,7 +143,7 @@ export function releaseExecutable(options: {
     throw new Error(`release archive checksums drifted: ${asset}`);
   }
   const executable = entries.get(target.executable);
-  if (!executable || executable.mode !== 0o755) {
+  if (executable?.mode !== 0o755) {
     throw new Error(`release archive has no executable: ${asset}`);
   }
   return Buffer.from(executable.body);

@@ -42,11 +42,11 @@ fabricating a selection.
 Primary commands:
 
 ```text
-rootform build <directory>             canonical Architecture IR
-rootform build <directory> --format html --output architecture.html
-rootform check <directory-or-document> policy evaluation
+rootform build [directory]             canonical Architecture IR
+rootform build [directory] --format html --output architecture.html
+rootform check [directory-or-document] policy evaluation
 rootform diff <base> <head>             architecture comparison
-rootform run <directory>                local browser explorer
+rootform run [directory]                local browser explorer
 rootform explain <document>             provenance explanation
 ```
 
@@ -78,7 +78,16 @@ rootform install dialects <directory>
 rootform lock dialects <directory>
 rootform verify dialects <directory>
 rootform vendor dialects
+rootform list dialects --installed
+rootform list dialects --outdated
+rootform init . --upgrade
+rootform remove dialect <name> <version>
 ```
+
+Listings never contact network or mutate project. `--outdated` uses cached
+official index snapshot and names missing cache instead of guessing. Upgrade
+stays explicit through `init --upgrade`; removed selections remain installed
+until exact `remove dialect` command is requested.
 
 Machine output goes to standard output or explicit output file. Preparation
 prompts, progress, downloads, warnings, and verbose detail go to standard error,

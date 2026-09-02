@@ -1,6 +1,7 @@
 # Container image
 
-Rootform publishes one official multi-platform image:
+Official Rootform image contract defines one multi-platform image, published
+only when release publication is authorized:
 
 ```text
 ghcr.io/rootform-dev/rootform:<version>
@@ -8,8 +9,8 @@ ghcr.io/rootform-dev/rootform:<version>
 
 It targets `linux/amd64` and `linux/arm64`. The image carries the Rootform
 executable, its binary license, third-party notices, and the release SBOM. It
-carries no dialect, no Terraform, no OpenTofu, and no registry client: Rootform
-acquires dialects itself when a run needs them.
+carries no dialect, Terraform, OpenTofu, or external registry CLI. Rootform's
+embedded OCI client acquires dialects only during accepted preparation.
 
 ## Invocation
 
@@ -94,10 +95,12 @@ supported.
 **Vendored dialects.** `.rootform/dialects` is the exclusive source. Nothing is
 downloaded and the global store never completes a partial vendor directory.
 
-**Committed `rootform.lock`, no vendor.** Rootform installs the exact missing
-versions, verifies every digest, and keeps the lock byte-identical. A lock that
-no longer covers the current providers fails with the exact local command to
-run, never with a silent rewrite.
+**Committed distribution-ready `rootform.lock`, no vendor.** Complete artifact
+pins let Rootform install exact missing versions, verify every digest, and keep
+the lock byte-identical. A local authoring lock without acquisition pins needs
+ordinary `rootform init` normalization before remote recovery. A lock that no
+longer covers current providers fails with exact local command to run, never a
+silent rewrite.
 
 **Neither lock nor vendor.** Rootform detects providers, resolves unambiguous
 official recommendations from a single index snapshot, installs the dialects,
@@ -134,10 +137,12 @@ rootform:
       - .rootform-home/dialects
   script:
     - rootform init "$CI_PROJECT_DIR" --no-input
-    - rootform check "$CI_PROJECT_DIR" --format json --output architecture.json
+    - rootform build "$CI_PROJECT_DIR" --format json --output architecture.json
+    - rootform check "$CI_PROJECT_DIR" --format sarif --output rootform.sarif
   artifacts:
     paths:
       - architecture.json
+      - rootform.sarif
       - rootform.lock
 ```
 
@@ -214,7 +219,7 @@ checkout
 checkout
 → rootform check .
 → rootform.lock generated
-→ published as an artifact, reported in the job log
+→ CI uploads lock as artifact and reports it in job log
 → analysis completes
 ```
 
