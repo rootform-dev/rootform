@@ -2,7 +2,7 @@
 
 Current distribution format version: `1`.
 
-Official Rootform dialects use OCI image manifests and content-addressed blobs.
+Rootform dialects use OCI image manifests and content-addressed blobs.
 This document defines wire compatibility; it does not claim that any registry
 artifact has been published. Official origin is
 `ghcr.io/rootform-dev/dialects` when publication is authorized.
@@ -41,16 +41,16 @@ per dialect artifact. Declared digest, byte size, installed size, file count,
 name, version, dependency, provider, semantic, and presentation identities
 must all match fetched and compiled content.
 
-## Official index
+## Dialect index
 
-Official index is another OCI 1.1 artifact:
+Dialect index is another OCI 1.1 artifact:
 
 - artifact type `application/vnd.rootform.dialect-index.v1`;
 - config media type
   `application/vnd.rootform.dialect-index.config.v1+json`;
 - exactly one JSON layer with media type
   `application/vnd.rootform.dialect-index.v1+json`;
-- discovery tag `official-index-v1`.
+- official discovery tag `official-index-v1`.
 
 Index JSON contains repository identity, every available dialect version,
 dependencies, provider compatibility, semantic and presentation digests, file
@@ -59,13 +59,33 @@ recommendations are generated from indexed dialect provider declarations. A
 recommendation absent from dialect metadata makes index invalid; no handwritten
 provider-to-dialect table is accepted.
 
-Index arrays are canonical and deterministic. Index supports acquisition and
-new recommendations only. An already locked and installed project compiles
-without index. Exact locked acquisition resolves artifact manifest by digest,
-not by mutable dialect tag. It creates client from each lock entry's tagless
-`artifact.repository`; official repository is not required and multiple
-repositories may coexist in one lock. Top-level index provenance remains
-official discovery evidence and is never registry routing for locked artifacts.
+Index arrays are canonical and deterministic. An additional index artifact may
+live in repository different from dialect repository declared by its content;
+every dialect within one index still names that single declared repository.
+Index supports discovery and recommendations only. An already locked and
+installed project compiles without index. Exact locked acquisition resolves
+artifact manifest by digest, not mutable dialect tag. Client is created from
+each lock entry's tagless `artifact.repository`; official repository is not
+required and multiple repositories may coexist in one lock. Source provenance
+is never registry routing for locked artifacts.
+
+## Explicit source resolution
+
+Official index remains implicit default. Repeatable `rootform init --source`
+accepts canonical registry/repository references by tag or SHA-256 digest.
+Validated artifact type determines whether source contributes one explicit
+dialect root or one additional discovery index. URLs, embedded credentials,
+repository-only values, unknown artifact types, registry enumeration, and VCS
+resolution are rejected.
+
+Configured indexes form unordered catalog. Equal name/version entries
+deduplicate only when all semantic, presentation, dependency, provider, size,
+repository, and digest metadata agree. Any difference is explicit conflict;
+official/private or argument order grants no priority. Direct dialect is exact
+explicit root and may satisfy compatible observed provider. Multiple distinct
+compatible dialect names retain interactive ambiguity; `--no-input` refuses.
+Dependencies resolve by exact name/version only within configured catalog.
+Missing dependencies never trigger arbitrary registry search.
 
 ## Integrity and installation
 

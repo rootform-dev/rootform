@@ -8,9 +8,9 @@ rootform init [path]
 
 Path defaults to literal `.` and is both project root and Terraform/OpenTofu
 root. Initialization discovers providers from source, uses only compatible
-version evidence from `.terraform.lock.hcl`, resolves official non-ambiguous
-dialects and dependencies, installs missing exact artifacts, and writes
-`rootform.lock`.
+version evidence from `.terraform.lock.hcl`, resolves non-ambiguous dialects
+and dependencies from official index plus explicitly configured OCI sources,
+installs missing exact artifacts, and writes `rootform.lock`.
 
 Initialization flags:
 
@@ -18,6 +18,7 @@ Initialization flags:
 --locked     require an existing lock and never modify it
 --offline    forbid every network access
 --upgrade    allow newer compatible dialect versions
+--source REF add a dialect artifact or dialect index OCI reference; repeatable
 --no-input   forbid prompts and interactive choices
 -v, --verbose
              show provider evidence, dialect compatibility, and origin
@@ -25,9 +26,9 @@ Initialization flags:
              select human or deterministic machine output
 ```
 
-`--locked` and `--upgrade` are incompatible. `--locked` still permits exact
-download of artifacts already pinned by lock, from each pin's own OCI
-repository and manifest digest, without reading official index. JSON output
+`--locked` is incompatible with `--upgrade` and `--source`. `--locked` still
+permits exact download of artifacts already pinned by lock, from each pin's own
+OCI repository and manifest digest, without reading official index. JSON output
 implies no input.
 `ROOTFORM_INPUT=0` and `CI=true` imply no input; CI does not imply offline.
 `ROOTFORM_OFFLINE=1` implies offline. `ROOTFORM_HOME=<path>` replaces default
@@ -41,12 +42,19 @@ helper/store failure is final rather than another-identity fallback. ORAS handle
 standard Basic and Bearer challenges. Rootform never writes Docker config or
 persists credentials in lock, home, cache, diagnostics, or Architecture IR.
 
+`--source` requires canonical registry/repository reference with tag or
+SHA-256 digest. Artifact type identifies direct dialect versus additional
+index. Direct dialect becomes explicit root. Indexes extend discovery without
+priority; same name/version with differing metadata or artifact identity fails
+closed. Tags are recorded with exact resolved manifest digest. Locked commands
+use only entry artifact pins, never source tags or indexes.
+
 Interactive init shows proposed dialects, versions, dependencies, sizes, and
-changes before confirmation. An ambiguous official match requires explicit
+changes before confirmation. An ambiguous configured match requires explicit
 choice. No-input mode applies only unique deterministic recommendations and
 fails rather than guess. Unknown provider version permits compatible dialect
 use with warning; reliable incompatible evidence blocks that candidate.
-Providers with no official dialect remain explicitly uncovered without
+Providers with no configured dialect remain explicitly uncovered without
 fabricating a selection.
 
 Primary commands:
@@ -75,7 +83,7 @@ confirmation before lock or vendor change.
 exact artifact recovery unless offline. Project `.rootform/dialects/` remains
 exclusive: installed store is never fallback. Reliable incompatible provider
 version evidence blocks compilation; unknown or stale version evidence warns and
-recommends `terraform init` or `tofu init`. Provider without official dialect is
+recommends `terraform init` or `tofu init`. Provider without configured dialect is
 reported explicitly and remains unsupported.
 
 Dialect authoring and local package management:
@@ -96,8 +104,10 @@ rootform remove dialect <name> <version>
 
 Listings never contact network or mutate project. `--outdated` uses cached
 official index snapshot and names missing cache instead of guessing. Upgrade
-stays explicit through `init --upgrade`; removed selections remain installed
-until exact `remove dialect` command is requested.
+stays explicit through `init --upgrade`, revisits only official index and source
+references recorded in lock plus newly supplied `--source` values, and never
+scans registries. Removed selections remain installed until exact `remove
+dialect` command is requested.
 
 Machine output goes to standard output or explicit output file. Preparation
 prompts, progress, downloads, warnings, and verbose detail go to standard error,

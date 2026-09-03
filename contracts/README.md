@@ -8,7 +8,7 @@ private implementation plans.
 - `architecture-diff.md`: deterministic comparison result;
 - `policy-result.md`: policy evaluation result;
 - `rootform-lock.md`: exact dialect lock;
-- `dialect-distribution.md`: OCI dialect artifact and official index;
+- `dialect-distribution.md`: OCI dialect artifacts, indexes, and explicit sources;
 - `presentation-manifest.md`: dialect-owned presentation identities;
 - `binary-handoff.md`: exact producer-to-distribution artifact boundary;
 - `release-manifest.md`: binary release metadata and license boundary.

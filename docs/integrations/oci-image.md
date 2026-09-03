@@ -139,6 +139,9 @@ Image uses same embedded OCI client as native binary.
 - Project without vendor or lock resolves one official index snapshot,
   installs verified dialects atomically, and writes exact pins to
   `rootform.lock`.
+- Repeatable `rootform init --source` accepts exact external dialect or index
+  OCI references. Official index remains implicit; configured indexes have no
+  priority, and source conflicts fail before selection.
 - `--locked` requires and preserves lock bytes while allowing missing pinned
   artifacts to be acquired.
 - `--offline` forbids network. Use vendor or preloaded store/cache.
@@ -146,7 +149,7 @@ Image uses same embedded OCI client as native binary.
   read-only and set `DOCKER_CONFIG` inside container. Configured credential
   helpers must also be installed or mounted on container `PATH`; official image
   bundles no registry credential or helper.
-- Provider with no official dialect is recorded explicitly in
+- Provider with no configured dialect is recorded explicitly in
   `unsupported_providers` with transparent diagnostic.
 
 Rootform never runs Terraform, OpenTofu, providers, or modules. Remote modules
@@ -176,12 +179,16 @@ license, notices, and release SBOM only. Offline OCI audit checks:
 
 Candidate gate then loads both platforms, publishes byte-identical Dialects to
 public and Basic-authenticated TLS Distribution registries, and executes real
-runtime matrix: official cold init and no-op upgrade, arbitrary and
-multi-repository direct pins, Docker auth, credential helper, locked without
-index, warm/cold offline with `--network none`, sanitized auth failures, wrong
-digest rejection, exclusive vendor with zero registry requests, unsupported
-provider, build/check/run, GitLab shell injection, arbitrary UID, read-only
-workspace, `--read-only`, dropped capabilities, and `no-new-privileges`.
+runtime matrix: official cold init and no-op upgrade; public/private direct
+sources by tag and digest; one/multiple private indexes; identical-index
+deduplication; conflicting identity and provider-ambiguity refusal;
+private-to-official and private-to-private dependencies; empty-store locked
+recovery without mutable source; mixed-source build/check/run and vendor
+offline; arbitrary and multi-repository direct pins; Docker auth and credential
+helper; warm/cold offline with `--network none`; sanitized auth failures; wrong
+digest rejection; unsupported provider; GitLab shell injection; arbitrary UID;
+read-only workspace; `--read-only`; dropped capabilities; and
+`no-new-privileges`.
 
 Trivy is checksum-pinned. High/Critical findings block. Exception file accepts
 only named image paths, justification, and expiration within 90 days; current

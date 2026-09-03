@@ -52,6 +52,14 @@
           "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
           "type": "string"
         },
+        "origins": {
+          "items": {
+            "$ref": "#/$defs/source_reference"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
         "presentation_digest": {
           "pattern": "^sha256:[0-9a-f]{64}$",
           "type": "string"
@@ -87,6 +95,36 @@
         "manifest_digest"
       ],
       "type": "object"
+    },
+    "source_pin": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "dialect",
+            "index"
+          ]
+        },
+        "manifest_digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "reference": {
+          "$ref": "#/$defs/source_reference"
+        }
+      },
+      "required": [
+        "kind",
+        "reference",
+        "manifest_digest"
+      ],
+      "type": "object"
+    },
+    "source_reference": {
+      "maxLength": 512,
+      "minLength": 1,
+      "pattern": "^(?!.*://)(?!.*[\\r\\n\\t ])[^/@]+/[^@:]+(?::[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}|@sha256:[0-9a-f]{64})$",
+      "type": "string"
     }
   },
   "$id": "https://rootform.dev/schemas/rootform-lock.schema.json",
@@ -108,6 +146,12 @@
       }
     }
   ],
+  "not": {
+    "required": [
+      "index",
+      "sources"
+    ]
+  },
   "properties": {
     "entries": {
       "items": {
@@ -120,6 +164,14 @@
     },
     "index": {
       "$ref": "#/$defs/index_pin"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/source_pin"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
     },
     "unsupported_providers": {
       "items": {
