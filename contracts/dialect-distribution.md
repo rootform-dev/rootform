@@ -69,6 +69,59 @@ each lock entry's tagless `artifact.repository`; official repository is not
 required and multiple repositories may coexist in one lock. Source provenance
 is never registry routing for locked artifacts.
 
+## Provenance annotations
+
+Package author may supply standard OCI manifest annotations:
+
+- `org.opencontainers.image.source`;
+- `org.opencontainers.image.revision`;
+- `org.opencontainers.image.documentation`;
+- `org.opencontainers.image.licenses`.
+
+Rootform applies same explicit values to every dialect and index manifest in
+one layout. URLs are canonical HTTPS without credentials, query, or fragment;
+revision and license text are bounded. Values are informational and participate
+in manifest digest because annotations are manifest bytes. Rootform does not
+discover Git state, invoke VCS, add machine paths, or invent current timestamps.
+Manifest digest remains technical identity.
+
+## Generic publication
+
+Packaging and publication are separate:
+
+```text
+rootform package dialects SOURCE --to LAYOUT --repository REPOSITORY
+rootform publish dialects LAYOUT --to REPOSITORY
+rootform publish dialects LAYOUT --to REPOSITORY --index
+```
+
+Package command is local and offline. Publish command accepts one existing
+validated Rootform OCI layout and one canonical tagless repository matching
+repository embedded in index. Dialect identity and version come only from
+compiled package content. Destination tags are
+`dialect-<name>-<version>`; no identity, version, or tag override exists.
+
+Publisher validates complete local layout and compiled dependency closure
+before creating registry client. It preflights every requested immutable tag
+before first write. Existing exact digest is idempotent; differing digest
+fails. Missing dialect graphs publish in canonical order, resolve by expected
+digest, repull by manifest digest, and pass complete manifest, config, layer,
+archive, dependency, semantic, and presentation verification before success.
+
+`--index` publishes generated index only after every dialect passed remote
+verification. Index tag is `index-sha256-<manifest-hex>` and is repulled and
+verified last. Generic publisher never moves mutable `official-index-v1`;
+official discovery remains separate publisher responsibility. `--dry-run`
+performs complete local validation and reports exact tags, digests, sizes, and
+provenance without reading credentials or contacting registry.
+
+Publication reuses same Docker configuration, credential-helper, Basic, and
+Bearer path as acquisition. Rootform exposes no username, password, or token
+flag and persists no credential. OCI Distribution has no mandatory atomic
+compare-and-swap tag write: client preflight plus final verification detects
+observed races, while absolute exclusion of late competing writers requires
+registry-side immutable tags or serialized publishers.
+
 ## Explicit source resolution
 
 Official index remains implicit default. Repeatable `rootform init --source`
@@ -98,3 +151,7 @@ exact acquisition identity; it is never silently replaced.
 
 Cache and index data are reproducible acquisition inputs, not trust anchors.
 Corrupt, incomplete, unexpected, or same-version changed content fails closed.
+
+Git or another VCS supplies optional human provenance. OCI carries
+distribution. Rootform indexes supply configured discovery. `rootform.lock`
+pins exact selected artifact identity for reproducible project execution.

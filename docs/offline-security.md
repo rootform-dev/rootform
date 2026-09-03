@@ -7,9 +7,11 @@ takes silent zero-network path; incomplete project may acquire verified
 dialects before compilation. LSP, policy over existing document, diff, explain,
 and rendering or serving already built architecture never acquire dialects.
 
-`rootform init` and shared preflight are only acquisition boundaries. Normal
-preparation may contact official OCI distribution and explicit or recorded OCI
-sources. `--offline` and
+`rootform init` and shared preflight are only project acquisition boundaries.
+Normal preparation may contact official OCI distribution and explicit or
+recorded OCI sources. Authoring command `rootform publish dialects` is separate
+explicit registry-write boundary; package and publish `--dry-run` remain
+offline. `--offline` and
 `ROOTFORM_OFFLINE=1` use only project-vendored dialects, installed store, cached
 archives, and cached index. Missing content fails with exact missing references.
 `--locked --offline` fixes both lock selection and acquisition input. CI implies
