@@ -265,7 +265,7 @@ test("generic publication evidence stays format 1, canonical, and digest-pinned"
 
 test("registry qualification observes successful manifest tag writes in order", () => {
   const logs = [
-    'time="2026-09-03T10:00:00Z" level=info msg="response completed" http.request.method=PUT http.request.uri="/v2/acme/dialects/manifests/dialect-core-0.1.0" http.response.status=201',
+    'time="2026-09-03T10:00:00Z" level=info msg="response completed" http.request.method=PUT http.request.uri=/v2/acme/dialects/manifests/dialect-core-0.1.0 http.response.status=201',
     'time="2026-09-03T10:00:01Z" level=info msg="response completed" http.request.method=PUT http.request.uri="/v2/other/dialects/manifests/ignored" http.response.status=201',
     'time="2026-09-03T10:00:02Z" level=info msg="response completed" http.request.method=HEAD http.request.uri="/v2/acme/dialects/manifests/ignored" http.response.status=200',
     `time="2026-09-03T10:00:03Z" level=info msg="response completed" http.request.method=PUT http.request.uri="/v2/acme/dialects/manifests/index-sha256-${"f".repeat(64)}" http.response.status=201`,

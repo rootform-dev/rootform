@@ -904,7 +904,8 @@ export function registryManifestWriteTags(logs: string, repository: string): str
         line.includes("http.response.status=201"),
     )
     .flatMap((line) => {
-      const uri = line.match(/http\.request\.uri="([^"]+)"/u)?.[1];
+      const match = line.match(/http\.request\.uri=(?:"([^"]+)"|(\S+))/u);
+      const uri = match?.[1] ?? match?.[2];
       if (!uri?.startsWith(prefix)) return [];
       const encoded = uri.slice(prefix.length).split("?", 1)[0] ?? "";
       try {
