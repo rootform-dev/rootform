@@ -252,7 +252,14 @@ function genericProvenance(value: unknown, label: string): GenericProvenance {
   ) {
     throw new Error(`${label} is invalid`);
   }
-  return provenance as GenericProvenance;
+  return {
+    ...(provenance.documentation !== undefined
+      ? { documentation: String(provenance.documentation) }
+      : {}),
+    ...(provenance.licenses !== undefined ? { licenses: String(provenance.licenses) } : {}),
+    ...(provenance.revision !== undefined ? { revision: String(provenance.revision) } : {}),
+    ...(provenance.source !== undefined ? { source: String(provenance.source) } : {}),
+  };
 }
 
 function boundedPositive(value: unknown, label: string): number {
