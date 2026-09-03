@@ -291,26 +291,16 @@ jobs:
           ROOTFORM_REGISTRY_USERNAME: ${{ github.actor }}
         run: |
           set -euo pipefail
-          qualified=0
-          for attempt in 1 2 3; do
-            rm -f "$ROOTFORM_CREDENTIAL_PROOF"
-            if bun run test:oci-registry-compatibility -- \
-              --rootform-bin build/bin/rootform \
-              --repository "$ROOTFORM_OCI_QUALIFICATION_REPOSITORY" \
-              --evidence build/registry-evidence/ghcr.json \
-              --revision "$GITHUB_SHA" \
-              --source-url "https://github.com/$GITHUB_REPOSITORY" \
-              --documentation-url "https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_SHA/contracts/rootform-oci-core-profile.md" \
-              --licenses Apache-2.0 \
-              --credential-proof "$ROOTFORM_CREDENTIAL_PROOF"; then
-              qualified=1
-              break
-            fi
-            if [[ "$attempt" -lt 3 ]]; then
-              sleep "$((attempt * 5))"
-            fi
-          done
-          test "$qualified" = 1
+          rm -f "$ROOTFORM_CREDENTIAL_PROOF"
+          bun run test:oci-registry-compatibility -- \
+            --rootform-bin build/bin/rootform \
+            --repository "$ROOTFORM_OCI_QUALIFICATION_REPOSITORY" \
+            --evidence build/registry-evidence/ghcr.json \
+            --revision "$GITHUB_SHA" \
+            --source-url "https://github.com/$GITHUB_REPOSITORY" \
+            --documentation-url "https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_SHA/contracts/rootform-oci-core-profile.md" \
+            --licenses Apache-2.0 \
+            --credential-proof "$ROOTFORM_CREDENTIAL_PROOF"
           jq -e \
             --arg repository "$ROOTFORM_OCI_QUALIFICATION_REPOSITORY" \
             '.format_version == "1" and

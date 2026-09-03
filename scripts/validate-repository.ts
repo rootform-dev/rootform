@@ -291,8 +291,6 @@ export function validateRepository(): void {
     !candidateWorkflow.includes("packages: write") ||
     !candidateWorkflow.includes("test:oci-registry-compatibility") ||
     !candidateWorkflow.includes("rootform-oci-core-v1") ||
-    !candidateWorkflow.includes("for attempt in 1 2 3") ||
-    !candidateWorkflow.includes('sleep "$((attempt * 5))"') ||
     !candidateWorkflow.includes('server="$(cat)"') ||
     candidateWorkflow.includes("IFS= read -r server")
   ) {
