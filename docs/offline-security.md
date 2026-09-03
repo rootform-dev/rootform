@@ -8,7 +8,8 @@ dialects before compilation. LSP, policy over existing document, diff, explain,
 and rendering or serving already built architecture never acquire dialects.
 
 `rootform init` and shared preflight are only acquisition boundaries. Normal
-preparation may contact official OCI distribution. `--offline` and
+preparation may contact official OCI distribution and explicit or recorded OCI
+sources. `--offline` and
 `ROOTFORM_OFFLINE=1` use only project-vendored dialects, installed store, cached
 archives, and cached index. Missing content fails with exact missing references.
 `--locked --offline` fixes both lock selection and acquisition input. CI implies
@@ -16,7 +17,7 @@ no input, never offline.
 
 `--locked` requires existing lock and forbids lock changes while allowing exact
 locked downloads from each artifact pin's repository and manifest digest unless
-offline. This path never reads mutable index. No-input normal command may create
+offline. This path never reads mutable index or source reference. No-input normal command may create
 absent lock from unique recommendations, but never changes existing one; explicit
 `rootform init --no-input` is required for deterministic update. Network or
 integrity failure leaves no partially visible store, vendor, or lock.
@@ -35,7 +36,7 @@ Default home is `~/.rootform/` (`%USERPROFILE%\.rootform` on Windows):
 ```text
 dialects/  immutable installed name/version content
 cache/     redownloadable content-addressed OCI data
-indexes/   cached official recommendation index
+indexes/   cached official and explicitly configured source snapshots
 tmp/       staging invisible until atomic commit
 ```
 

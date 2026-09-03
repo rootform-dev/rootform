@@ -28,7 +28,15 @@ const REGISTRY_IMAGE =
   "registry:3.0.0@sha256:6c5666b861f3505b116bb9aa9b25175e71210414bd010d92035ff64018f9457e";
 const OFFICIAL_DIALECT_REPOSITORY = "ghcr.io/rootform-dev/dialects";
 const PRIVATE_DIALECT_REPOSITORY = "private.rootform.test/rootform-dev/dialects";
+const PUBLIC_EXTERNAL_REPOSITORY = "ghcr.io/acme/rootform-external";
+const PRIVATE_EXTERNAL_REPOSITORY = "private.rootform.test/acme/rootform-external";
+const PRIVATE_INDEX_ONE = "private.rootform.test/acme/rootform-index-one";
+const PRIVATE_INDEX_TWO = "private.rootform.test/acme/rootform-index-two";
+const PRIVATE_AMBIGUITY_INDEX = "private.rootform.test/acme/rootform-ambiguity-index";
+const PRIVATE_CONFLICT_INDEX_A = "private.rootform.test/acme/rootform-conflict-a";
+const PRIVATE_CONFLICT_INDEX_B = "private.rootform.test/acme/rootform-conflict-b";
 const INDEX_TAG = "official-index-v1";
+const DIGEST = /^sha256:[0-9a-f]{64}$/u;
 
 type QualificationOptions = {
   dialects: string;
@@ -291,6 +299,190 @@ function writableDirectory(path: string): void {
   chmodSync(path, 0o777);
 }
 
+function packageSyntheticDialects(options: {
+  definitions: Record<string, string>;
+  image: string;
+  name: string;
+  repository: string;
+  temporary: string;
+}): string {
+  const workspace = join(options.temporary, `synthetic-${options.name}`);
+  const source = join(workspace, "source");
+  const home = join(options.temporary, `synthetic-${options.name}-home`);
+  writableDirectory(workspace);
+  mkdirSync(source, { mode: 0o755 });
+  writableDirectory(home);
+  for (const [name, definition] of Object.entries(options.definitions).sort(([left], [right]) =>
+    left.localeCompare(right, "en"),
+  )) {
+    const directory = join(source, name);
+    mkdirSync(directory, { mode: 0o755 });
+    writeFileSync(join(directory, "dialect.rf"), `${definition.trim()}\n`, {
+      flag: "wx",
+      mode: 0o644,
+    });
+    writeFileSync(
+      join(directory, "presentation.json"),
+      '{"format_version":"1","rules":{},"concepts":{},"rule_labels":{},"concept_labels":{}}\n',
+      { flag: "wx", mode: 0o644 },
+    );
+  }
+  rootformRun({
+    architecture: "amd64",
+    arguments: [
+      "package",
+      "dialects",
+      "source",
+      "--to",
+      "layout",
+      "--repository",
+      options.repository,
+    ],
+    home,
+    image: options.image,
+    network: "none",
+    project: workspace,
+  });
+  const layout = join(workspace, "layout");
+  requireDirectory(layout, `synthetic ${options.name} OCI layout`);
+  docker([
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--read-only",
+    "--user",
+    "0:0",
+    "--cap-drop",
+    "ALL",
+    "--cap-add",
+    "DAC_OVERRIDE",
+    "--cap-add",
+    "FOWNER",
+    "--security-opt",
+    "no-new-privileges",
+    "--volume",
+    dockerMount(layout, "/layout"),
+    "--entrypoint",
+    "/bin/chmod",
+    options.image,
+    "-R",
+    "a+rX",
+    "/layout",
+  ]);
+  return layout;
+}
+
+function resolvePublishedReference(options: {
+  ca: string;
+  oras: string;
+  reference: string;
+  registryConfig?: string;
+}): string {
+  const result = run([
+    options.oras,
+    "resolve",
+    "--ca-file",
+    options.ca,
+    ...(options.registryConfig ? ["--registry-config", options.registryConfig] : []),
+    options.reference,
+  ]);
+  const digest = result.stdout
+    .split(/\r?\n/u)
+    .map((line) => line.trim())
+    .find((line) => DIGEST.test(line));
+  if (!digest) throw new Error("synthetic OCI publication returned no digest");
+  return digest;
+}
+
+function publishLayoutTag(options: {
+  ca: string;
+  destination: string;
+  destinationTag: string;
+  layout: string;
+  oras: string;
+  registryConfig?: string;
+  sourceTag: string;
+}): string {
+  run([
+    options.oras,
+    "cp",
+    "--from-oci-layout",
+    "--no-tty",
+    "--to-ca-file",
+    options.ca,
+    ...(options.registryConfig ? ["--to-registry-config", options.registryConfig] : []),
+    `${options.layout}:${options.sourceTag}`,
+    `${options.destination}:${options.destinationTag}`,
+  ]);
+  return resolvePublishedReference({
+    ca: options.ca,
+    oras: options.oras,
+    reference: `${options.destination}:${options.destinationTag}`,
+    registryConfig: options.registryConfig,
+  });
+}
+
+function sourcePins(lock: Record<string, unknown>, label: string): Array<Record<string, unknown>> {
+  if (lock.format_version !== "1" || lock.index !== undefined || !Array.isArray(lock.sources)) {
+    throw new Error(`${label} has no format-1 source provenance`);
+  }
+  const sources = lock.sources.map((value, index) => jsonObject(value, `${label} source ${index}`));
+  for (const source of sources) {
+    if (
+      (source.kind !== "dialect" && source.kind !== "index") ||
+      typeof source.reference !== "string" ||
+      !DIGEST.test(String(source.manifest_digest ?? ""))
+    ) {
+      throw new Error(`${label} source provenance is invalid`);
+    }
+  }
+  return sources;
+}
+
+function dialectEntry(lock: Record<string, unknown>, name: string): Record<string, unknown> {
+  if (!Array.isArray(lock.entries)) throw new Error("rootform.lock entries are invalid");
+  const matches = lock.entries
+    .map((value, index) => jsonObject(value, `rootform.lock entry ${index}`))
+    .filter((entry) => entry.name === name);
+  if (matches.length !== 1) throw new Error(`rootform.lock has no unique ${name} entry`);
+  return matches[0] as Record<string, unknown>;
+}
+
+function readSourceLock(
+  path: string,
+  label: string,
+  expectedReferences: string[],
+  forbidden: string[] = [],
+): Record<string, unknown> {
+  const encoded = readFileSync(path, "utf8");
+  for (const value of forbidden) {
+    if (value && encoded.includes(value)) throw new Error(`${label} exposed sensitive lock data`);
+  }
+  const lock = parseJson(encoded, label);
+  const sources = sourcePins(lock, label);
+  const references = sources
+    .map((source) => String(source.reference))
+    .sort((left, right) => left.localeCompare(right, "en"));
+  const expected = [...expectedReferences].sort((left, right) => left.localeCompare(right, "en"));
+  if (JSON.stringify(references) !== JSON.stringify(expected)) {
+    throw new Error(`${label} source references differ`);
+  }
+  const known = new Set(references);
+  if (!Array.isArray(lock.entries)) throw new Error(`${label} entries are invalid`);
+  for (const [index, value] of lock.entries.entries()) {
+    const entry = jsonObject(value, `${label} entry ${index}`);
+    if (
+      !Array.isArray(entry.origins) ||
+      entry.origins.length === 0 ||
+      entry.origins.some((origin) => typeof origin !== "string" || !known.has(origin))
+    ) {
+      throw new Error(`${label} entry origins are invalid`);
+    }
+  }
+  return lock;
+}
+
 function writeDockerConfiguration(directory: string, content: Record<string, unknown>): void {
   mkdirSync(directory, { mode: 0o755 });
   writeFileSync(join(directory, "config.json"), `${JSON.stringify(content)}\n`, {
@@ -327,6 +519,14 @@ function assertSafeOutput(result: CommandResult, label: string, forbidden: strin
   if (/authorization\s*[:=]/iu.test(output)) {
     throw new Error(`${label} exposed an Authorization header`);
   }
+}
+
+function assertSafeSuccess(result: CommandResult, label: string, forbidden: string[] = []): void {
+  assertSafeOutput(result, label, forbidden);
+  if (result.exitCode === 0) return;
+  process.stdout.write(result.stdout);
+  process.stderr.write(result.stderr);
+  throw new Error(`${label} failed`);
 }
 
 function assertSafeFailure(result: CommandResult, label: string, forbidden: string[] = []): void {
@@ -530,6 +730,8 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
         { env: imageBuildEnvironment() },
       );
     }
+    const armImage = tags.get("arm64") as string;
+    const amdImage = tags.get("amd64") as string;
 
     const tls = join(temporary, "tls");
     mkdirSync(tls);
@@ -752,6 +954,126 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
     }
     const awsDialectVersion = publishedDialectVersion(publication, "aws");
     const coreDialectVersion = publishedDialectVersion(publication, "core");
+    const privateDockerConfig = join(temporary, "private-docker-config");
+    writeDockerConfiguration(
+      privateDockerConfig,
+      privateDockerConfiguration("private.rootform.test", registryUsername, registryPassword),
+    );
+
+    const privateLayout = packageSyntheticDialects({
+      definitions: {
+        companyapp: `dialect "companyapp" {
+  version = "0.1.0"
+  requires { companycore = "0.1.0" }
+}`,
+        companycore: `dialect "companycore" { version = "0.1.0" }`,
+      },
+      image: amdImage,
+      name: "private",
+      repository: PRIVATE_EXTERNAL_REPOSITORY,
+      temporary,
+    });
+    const bridgeLayout = packageSyntheticDialects({
+      definitions: {
+        companyofficial: `dialect "companyofficial" {
+  version = "0.1.0"
+  requires { core = "0.1.0" }
+}`,
+        core: `dialect "core" { version = "0.1.0" }`,
+      },
+      image: amdImage,
+      name: "official-bridge",
+      repository: PRIVATE_EXTERNAL_REPOSITORY,
+      temporary,
+    });
+    const ambiguityLayout = packageSyntheticDialects({
+      definitions: {
+        companyaws: `dialect "companyaws" {
+  version = "0.1.0"
+  provider "hashicorp/aws" { version = "= 6.62.0" }
+}`,
+        teamaws: `dialect "teamaws" {
+  version = "0.1.0"
+  provider "hashicorp/aws" { version = "= 6.62.0" }
+}`,
+      },
+      image: amdImage,
+      name: "ambiguity",
+      repository: "private.rootform.test/acme/rootform-ambiguity-dialects",
+      temporary,
+    });
+    const conflictLayoutA = packageSyntheticDialects({
+      definitions: {
+        shared: `dialect "shared" {
+  version = "0.1.0"
+  provider "hashicorp/aws" { version = "= 6.62.0" }
+}`,
+      },
+      image: amdImage,
+      name: "conflict-a",
+      repository: "private.rootform.test/acme/rootform-conflict-a-dialects",
+      temporary,
+    });
+    const conflictLayoutB = packageSyntheticDialects({
+      definitions: {
+        shared: `dialect "shared" {
+  version = "0.1.0"
+  provider "hashicorp/aws" { version = ">= 6.0.0, < 7.0.0" }
+}`,
+      },
+      image: amdImage,
+      name: "conflict-b",
+      repository: "private.rootform.test/acme/rootform-conflict-b-dialects",
+      temporary,
+    });
+
+    const privatePushRepository = `127.0.0.1:${privatePort}/acme/rootform-external`;
+    const publicPushRepository = `127.0.0.1:${publicPort}/acme/rootform-external`;
+    for (const tag of ["dialect-companycore-0.1.0", "dialect-companyapp-0.1.0"]) {
+      publishLayoutTag({
+        ca,
+        destination: privatePushRepository,
+        destinationTag: tag,
+        layout: privateLayout,
+        oras: options.oras,
+        registryConfig: privateRegistryConfig,
+        sourceTag: tag,
+      });
+    }
+    publishLayoutTag({
+      ca,
+      destination: privatePushRepository,
+      destinationTag: "dialect-companyofficial-0.1.0",
+      layout: bridgeLayout,
+      oras: options.oras,
+      registryConfig: privateRegistryConfig,
+      sourceTag: "dialect-companyofficial-0.1.0",
+    });
+    const publicCompanyCoreDigest = publishLayoutTag({
+      ca,
+      destination: publicPushRepository,
+      destinationTag: "dialect-companycore-0.1.0",
+      layout: privateLayout,
+      oras: options.oras,
+      sourceTag: "dialect-companycore-0.1.0",
+    });
+    for (const [repository, layout] of [
+      [PRIVATE_INDEX_ONE, privateLayout],
+      [PRIVATE_INDEX_TWO, privateLayout],
+      [PRIVATE_AMBIGUITY_INDEX, ambiguityLayout],
+      [PRIVATE_CONFLICT_INDEX_A, conflictLayoutA],
+      [PRIVATE_CONFLICT_INDEX_B, conflictLayoutB],
+    ] as const) {
+      publishLayoutTag({
+        ca,
+        destination: `127.0.0.1:${privatePort}/${repository.split("/").slice(1).join("/")}`,
+        destinationTag: "stable",
+        layout,
+        oras: options.oras,
+        registryConfig: privateRegistryConfig,
+        sourceTag: INDEX_TAG,
+      });
+    }
 
     const awsSource = `terraform {
   required_providers {
@@ -769,8 +1091,6 @@ resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
     const coldHome = join(temporary, "cold-home");
     writeProject(project, awsSource, awsTerraformLock);
     writableDirectory(coldHome);
-    const armImage = tags.get("arm64") as string;
-    const amdImage = tags.get("amd64") as string;
     const cold = rootformRun({
       architecture: "arm64",
       arguments: ["init", ".", "--no-input", "--format", "json"],
@@ -824,6 +1144,526 @@ resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
     }
 
     const baseLock = readFileSync(lockPath, "utf8");
+    const officialSource = `${OFFICIAL_DIALECT_REPOSITORY}:${INDEX_TAG}`;
+    const publicDirectTag = `${PUBLIC_EXTERNAL_REPOSITORY}:dialect-companycore-0.1.0`;
+    const publicDirectDigest = `${PUBLIC_EXTERNAL_REPOSITORY}@${publicCompanyCoreDigest}`;
+    const privateDirectTag = `${PRIVATE_EXTERNAL_REPOSITORY}:dialect-companycore-0.1.0`;
+    const privateAppTag = `${PRIVATE_EXTERNAL_REPOSITORY}:dialect-companyapp-0.1.0`;
+    const privateOfficialTag = `${PRIVATE_EXTERNAL_REPOSITORY}:dialect-companyofficial-0.1.0`;
+    const privateIndexOne = `${PRIVATE_INDEX_ONE}:stable`;
+    const privateIndexTwo = `${PRIVATE_INDEX_TWO}:stable`;
+    const ambiguityIndex = `${PRIVATE_AMBIGUITY_INDEX}:stable`;
+    const conflictIndexA = `${PRIVATE_CONFLICT_INDEX_A}:stable`;
+    const conflictIndexB = `${PRIVATE_CONFLICT_INDEX_B}:stable`;
+
+    const publicDirectProject = join(temporary, "public-direct-project");
+    const publicDirectHome = join(temporary, "public-direct-home");
+    writeProject(publicDirectProject, awsSource, awsTerraformLock);
+    writableDirectory(publicDirectHome);
+    const publicDirectResult = rootformExecute({
+      architecture: "amd64",
+      arguments: [
+        "init",
+        ".",
+        "--source",
+        publicDirectTag,
+        "--no-input",
+        "--verbose",
+        "--format",
+        "json",
+      ],
+      ca,
+      home: publicDirectHome,
+      image: amdImage,
+      network,
+      project: publicDirectProject,
+    });
+    assertSafeSuccess(publicDirectResult, "public direct dialect");
+    const publicDirectOutput = parseJson(publicDirectResult.stdout, "public direct result");
+    if (
+      !Array.isArray(publicDirectOutput.dialects) ||
+      !publicDirectOutput.dialects.some((value) => {
+        const dialect = jsonObject(value, "public direct result dialect");
+        return (
+          dialect.name === "companycore" &&
+          dialect.version === "0.1.0" &&
+          dialect.repository === PUBLIC_EXTERNAL_REPOSITORY &&
+          dialect.explicit === true &&
+          JSON.stringify(dialect.origins) === JSON.stringify([publicDirectTag])
+        );
+      })
+    ) {
+      throw new Error("verbose direct source output lacks exact selection provenance");
+    }
+    const publicDirectLock = readSourceLock(
+      join(publicDirectProject, "rootform.lock"),
+      "public direct lock",
+      [officialSource, publicDirectTag],
+      [temporary],
+    );
+    const publicDirectEntry = dialectEntry(publicDirectLock, "companycore");
+    const publicDirectArtifact = jsonObject(
+      publicDirectEntry.artifact,
+      "public direct artifact pin",
+    );
+    if (
+      publicDirectArtifact.repository !== PUBLIC_EXTERNAL_REPOSITORY ||
+      publicDirectArtifact.manifest_digest !== publicCompanyCoreDigest
+    ) {
+      throw new Error("public direct artifact was not pinned exactly");
+    }
+
+    const digestDirectProject = join(temporary, "digest-direct-project");
+    const digestDirectHome = join(temporary, "digest-direct-home");
+    writeProject(digestDirectProject, awsSource, awsTerraformLock);
+    writableDirectory(digestDirectHome);
+    const digestDirectResult = rootformExecute({
+      architecture: "amd64",
+      arguments: ["init", ".", "--source", publicDirectDigest, "--no-input", "--format", "json"],
+      ca,
+      home: digestDirectHome,
+      image: amdImage,
+      network,
+      project: digestDirectProject,
+    });
+    assertSafeSuccess(digestDirectResult, "digest direct dialect");
+    const digestDirectLock = readSourceLock(
+      join(digestDirectProject, "rootform.lock"),
+      "digest direct lock",
+      [officialSource, publicDirectDigest],
+      [temporary],
+    );
+    const digestSource = sourcePins(digestDirectLock, "digest direct lock").find(
+      (source) => source.reference === publicDirectDigest,
+    );
+    if (digestSource?.manifest_digest !== publicCompanyCoreDigest) {
+      throw new Error("digest source identity was not preserved");
+    }
+
+    const privateDirectProject = join(temporary, "private-direct-project");
+    const privateDirectHome = join(temporary, "private-direct-home");
+    writeProject(privateDirectProject, awsSource, awsTerraformLock);
+    writableDirectory(privateDirectHome);
+    const privateDirectResult = rootformExecute({
+      architecture: "amd64",
+      arguments: ["init", ".", "--source", privateDirectTag, "--no-input", "--format", "json"],
+      ca,
+      dockerConfig: privateDockerConfig,
+      home: privateDirectHome,
+      image: amdImage,
+      network,
+      project: privateDirectProject,
+    });
+    assertSafeSuccess(privateDirectResult, "private direct dialect", [
+      registryUsername,
+      registryPassword,
+      privateDockerConfig,
+    ]);
+    readSourceLock(
+      join(privateDirectProject, "rootform.lock"),
+      "private direct lock",
+      [officialSource, privateDirectTag],
+      [registryUsername, registryPassword, privateDockerConfig, temporary],
+    );
+
+    const additionalIndexProject = join(temporary, "additional-index-project");
+    const additionalIndexHome = join(temporary, "additional-index-home");
+    writeProject(additionalIndexProject, awsSource, awsTerraformLock);
+    writableDirectory(additionalIndexHome);
+    const additionalIndexResult = rootformExecute({
+      architecture: "amd64",
+      arguments: ["init", ".", "--source", privateIndexOne, "--no-input", "--format", "json"],
+      ca,
+      dockerConfig: privateDockerConfig,
+      home: additionalIndexHome,
+      image: amdImage,
+      network,
+      project: additionalIndexProject,
+    });
+    assertSafeSuccess(additionalIndexResult, "additional private index", [
+      registryUsername,
+      registryPassword,
+      privateDockerConfig,
+    ]);
+    const additionalIndexLock = readSourceLock(
+      join(additionalIndexProject, "rootform.lock"),
+      "additional private index lock",
+      [officialSource, privateIndexOne],
+      [registryUsername, registryPassword, privateDockerConfig, temporary],
+    );
+    if (
+      JSON.stringify(dialectEntry(additionalIndexLock, "aws").origins) !== `["${officialSource}"]`
+    ) {
+      throw new Error("unused private index became artificial entry origin");
+    }
+
+    const multipleIndexProject = join(temporary, "multiple-index-project");
+    const multipleIndexHome = join(temporary, "multiple-index-home");
+    writeProject(
+      multipleIndexProject,
+      `terraform {
+  required_providers {
+    local = { source = "hashicorp/local", version = "= 2.5.3" }
+  }
+}
+provider "local" {}
+resource "local_file" "example" {
+  filename = "example.txt"
+  content  = "synthetic"
+}
+`,
+      `provider "registry.terraform.io/hashicorp/local" {
+  version = "2.5.3"
+}
+`,
+    );
+    writableDirectory(multipleIndexHome);
+    const multipleIndexResult = rootformExecute({
+      architecture: "amd64",
+      arguments: [
+        "init",
+        ".",
+        "--source",
+        privateIndexOne,
+        "--source",
+        ambiguityIndex,
+        "--no-input",
+        "--format",
+        "json",
+      ],
+      ca,
+      dockerConfig: privateDockerConfig,
+      home: multipleIndexHome,
+      image: amdImage,
+      network,
+      project: multipleIndexProject,
+    });
+    assertSafeSuccess(multipleIndexResult, "multiple private indexes", [
+      registryUsername,
+      registryPassword,
+      privateDockerConfig,
+    ]);
+    const multipleIndexLock = readSourceLock(
+      join(multipleIndexProject, "rootform.lock"),
+      "multiple private index lock",
+      [officialSource, privateIndexOne, ambiguityIndex],
+      [registryUsername, registryPassword, privateDockerConfig, temporary],
+    );
+    if (
+      JSON.stringify(multipleIndexLock.unsupported_providers) !==
+      JSON.stringify(["registry.terraform.io/hashicorp/local"])
+    ) {
+      throw new Error("multiple indexes fabricated provider coverage");
+    }
+
+    const duplicateIndexProject = join(temporary, "duplicate-index-project");
+    const duplicateIndexHome = join(temporary, "duplicate-index-home");
+    writeProject(duplicateIndexProject, awsSource, awsTerraformLock);
+    writableDirectory(duplicateIndexHome);
+    const duplicateIndexResult = rootformExecute({
+      architecture: "amd64",
+      arguments: [
+        "init",
+        ".",
+        "--source",
+        privateIndexTwo,
+        "--source",
+        privateIndexOne,
+        "--no-input",
+        "--format",
+        "json",
+      ],
+      ca,
+      dockerConfig: privateDockerConfig,
+      home: duplicateIndexHome,
+      image: amdImage,
+      network,
+      project: duplicateIndexProject,
+    });
+    assertSafeSuccess(duplicateIndexResult, "duplicate indexes", [
+      registryUsername,
+      registryPassword,
+      privateDockerConfig,
+    ]);
+    const duplicateIndexLock = readSourceLock(
+      join(duplicateIndexProject, "rootform.lock"),
+      "duplicate index lock",
+      [officialSource, privateIndexOne, privateIndexTwo],
+      [registryUsername, registryPassword, privateDockerConfig, temporary],
+    );
+    const duplicateIndexDigests = sourcePins(duplicateIndexLock, "duplicate index lock")
+      .filter(
+        (source) => source.reference === privateIndexOne || source.reference === privateIndexTwo,
+      )
+      .map((source) => source.manifest_digest);
+    if (new Set(duplicateIndexDigests).size !== 1) {
+      throw new Error("identical indexes did not retain identical manifest identity");
+    }
+
+    const conflictProject = join(temporary, "conflict-project");
+    const conflictHome = join(temporary, "conflict-home");
+    writeProject(conflictProject, awsSource, awsTerraformLock);
+    writableDirectory(conflictHome);
+    const conflictResult = rootformExecute({
+      architecture: "amd64",
+      arguments: [
+        "init",
+        ".",
+        "--source",
+        conflictIndexA,
+        "--source",
+        conflictIndexB,
+        "--no-input",
+        "--format",
+        "json",
+      ],
+      ca,
+      dockerConfig: privateDockerConfig,
+      home: conflictHome,
+      image: amdImage,
+      network,
+      project: conflictProject,
+    });
+    assertSafeFailure(conflictResult, "conflicting indexes", [
+      registryUsername,
+      registryPassword,
+      privateDockerConfig,
+    ]);
+    const conflictOutput = `${conflictResult.stdout}\n${conflictResult.stderr}`;
+    if (
+      !conflictOutput.includes("shared@0.1.0") ||
+      !conflictOutput.includes(conflictIndexA) ||
+      !conflictOutput.includes(conflictIndexB) ||
+      existsSync(join(conflictProject, "rootform.lock"))
+    ) {
+      throw new Error("source conflict did not fail closed with bounded identities");
+    }
+
+    const ambiguityProject = join(temporary, "ambiguity-project");
+    const ambiguityHome = join(temporary, "ambiguity-home");
+    writeProject(ambiguityProject, awsSource, awsTerraformLock);
+    writableDirectory(ambiguityHome);
+    const ambiguityResult = rootformExecute({
+      architecture: "amd64",
+      arguments: ["init", ".", "--source", ambiguityIndex, "--no-input", "--format", "json"],
+      ca,
+      dockerConfig: privateDockerConfig,
+      home: ambiguityHome,
+      image: amdImage,
+      network,
+      project: ambiguityProject,
+    });
+    assertSafeFailure(ambiguityResult, "provider ambiguity", [
+      registryUsername,
+      registryPassword,
+      privateDockerConfig,
+    ]);
+    if (
+      !`${ambiguityResult.stdout}\n${ambiguityResult.stderr}`.includes("ambiguous") ||
+      existsSync(join(ambiguityProject, "rootform.lock"))
+    ) {
+      throw new Error("provider ambiguity did not fail closed");
+    }
+
+    const officialDependencyProject = join(temporary, "official-dependency-project");
+    const officialDependencyHome = join(temporary, "official-dependency-home");
+    writeProject(officialDependencyProject, awsSource, awsTerraformLock);
+    writableDirectory(officialDependencyHome);
+    const officialDependencyResult = rootformExecute({
+      architecture: "amd64",
+      arguments: ["init", ".", "--source", privateOfficialTag, "--no-input", "--format", "json"],
+      ca,
+      dockerConfig: privateDockerConfig,
+      home: officialDependencyHome,
+      image: amdImage,
+      network,
+      project: officialDependencyProject,
+    });
+    assertSafeSuccess(officialDependencyResult, "private to official dependency", [
+      registryUsername,
+      registryPassword,
+      privateDockerConfig,
+    ]);
+    const officialDependencyLock = readSourceLock(
+      join(officialDependencyProject, "rootform.lock"),
+      "private to official dependency lock",
+      [officialSource, privateOfficialTag],
+      [registryUsername, registryPassword, privateDockerConfig, temporary],
+    );
+    dialectEntry(officialDependencyLock, "companyofficial");
+    dialectEntry(officialDependencyLock, "core");
+
+    const mixedSourceProject = join(temporary, "mixed-source-project");
+    const mixedSourceHome = join(temporary, "mixed-source-home");
+    writeProject(mixedSourceProject, awsSource, awsTerraformLock);
+    writableDirectory(mixedSourceHome);
+    const mixedSourceResult = rootformExecute({
+      architecture: "amd64",
+      arguments: [
+        "init",
+        ".",
+        "--source",
+        privateIndexOne,
+        "--source",
+        privateAppTag,
+        "--no-input",
+        "--verbose",
+        "--format",
+        "json",
+      ],
+      ca,
+      dockerConfig: privateDockerConfig,
+      home: mixedSourceHome,
+      image: amdImage,
+      network,
+      project: mixedSourceProject,
+    });
+    assertSafeSuccess(mixedSourceResult, "mixed source initialization", [
+      registryUsername,
+      registryPassword,
+      privateDockerConfig,
+    ]);
+    const mixedLockPath = join(mixedSourceProject, "rootform.lock");
+    const mixedLock = readSourceLock(
+      mixedLockPath,
+      "mixed source lock",
+      [officialSource, privateIndexOne, privateAppTag],
+      [registryUsername, registryPassword, privateDockerConfig, temporary],
+    );
+    const companyAppOrigins = dialectEntry(mixedLock, "companyapp").origins;
+    if (
+      JSON.stringify(companyAppOrigins) !==
+      JSON.stringify(
+        [privateAppTag, privateIndexOne].sort((left, right) => left.localeCompare(right, "en")),
+      )
+    ) {
+      throw new Error("direct and index origins were not deduplicated exactly");
+    }
+    dialectEntry(mixedLock, "companycore");
+    const mixedLockDigest = sha256(readFileSync(mixedLockPath));
+
+    const mixedRecoveredHome = join(temporary, "mixed-recovered-home");
+    writableDirectory(mixedRecoveredHome);
+    const mixedSince = new Date().toISOString();
+    Bun.sleepSync(1100);
+    const mixedLockedResult = rootformExecute({
+      architecture: "amd64",
+      arguments: ["init", ".", "--locked", "--no-input", "--format", "json"],
+      ca,
+      dockerConfig: privateDockerConfig,
+      home: mixedRecoveredHome,
+      image: amdImage,
+      network,
+      project: mixedSourceProject,
+    });
+    assertSafeSuccess(mixedLockedResult, "mixed locked recovery", [
+      registryUsername,
+      registryPassword,
+      privateDockerConfig,
+    ]);
+    if (sha256(readFileSync(mixedLockPath)) !== mixedLockDigest) {
+      throw new Error("mixed locked recovery failed or changed lock");
+    }
+    for (const name of ["aws", "core", "companyapp", "companycore"]) {
+      requireDirectory(join(mixedRecoveredHome, "dialects", name, "0.1.0"), `mixed ${name}`);
+    }
+    const mixedPublicLogs = docker(["logs", "--since", mixedSince, publicRegistry]);
+    const mixedPrivateLogs = docker(["logs", "--since", mixedSince, privateRegistry]);
+    const mixedPublicOutput = `${mixedPublicLogs.stdout}\n${mixedPublicLogs.stderr}`;
+    const mixedPrivateOutput = `${mixedPrivateLogs.stdout}\n${mixedPrivateLogs.stderr}`;
+    if (
+      mixedPublicOutput.includes(INDEX_TAG) ||
+      mixedPrivateOutput.includes("/manifests/stable") ||
+      mixedPrivateOutput.includes("dialect-companyapp-0.1.0") ||
+      !mixedPublicOutput.includes("/manifests/sha256:") ||
+      !mixedPrivateOutput.includes("/manifests/sha256:")
+    ) {
+      throw new Error("mixed locked recovery consulted mutable source or index");
+    }
+
+    for (const arguments_ of [
+      ["build", ".", "--locked", "--offline", "--no-input", "--format", "json"],
+      ["check", ".", "--locked", "--offline", "--no-input", "--format", "json"],
+    ]) {
+      const result = rootformRun({
+        architecture: "amd64",
+        arguments: arguments_,
+        home: mixedRecoveredHome,
+        image: amdImage,
+        network: "none",
+        project: mixedSourceProject,
+        projectReadOnly: true,
+      });
+      parseJson(result.stdout, `mixed ${arguments_[0]} result`);
+    }
+    rootformRun({
+      architecture: "amd64",
+      arguments: ["vendor", "dialects"],
+      home: mixedRecoveredHome,
+      image: amdImage,
+      network: "none",
+      project: mixedSourceProject,
+    });
+    requireRegularFile(
+      join(mixedSourceProject, ".rootform", "dialects", "companyapp", "dialect.rf"),
+      "vendored private app",
+    );
+    const mixedVendorHome = join(temporary, "mixed-vendor-home");
+    writableDirectory(mixedVendorHome);
+    const mixedPublicRequests = registryCompletedRequestCount(registryLogs(publicRegistry));
+    const mixedPrivateRequests = registryCompletedRequestCount(registryLogs(privateRegistry));
+    parseJson(
+      rootformRun({
+        architecture: "amd64",
+        arguments: ["build", ".", "--locked", "--offline", "--no-input", "--format", "json"],
+        home: mixedVendorHome,
+        image: amdImage,
+        network: "none",
+        project: mixedSourceProject,
+        projectReadOnly: true,
+      }).stdout,
+      "mixed vendored offline build",
+    );
+    if (
+      registryCompletedRequestCount(registryLogs(publicRegistry)) !== mixedPublicRequests ||
+      registryCompletedRequestCount(registryLogs(privateRegistry)) !== mixedPrivateRequests
+    ) {
+      throw new Error("mixed vendor contacted registry");
+    }
+
+    docker([
+      "run",
+      "--detach",
+      "--name",
+      runContainer,
+      "--platform",
+      "linux/amd64",
+      "--network",
+      "none",
+      "--volume",
+      dockerMount(mixedSourceProject, "/workspace", true),
+      "--volume",
+      dockerMount(mixedVendorHome, "/home/rootform/.rootform", true),
+      amdImage,
+      "rootform",
+      "run",
+      ".",
+      "--locked",
+      "--offline",
+      "--no-input",
+      "--no-browser",
+      "--no-watch",
+      "--port",
+      "0",
+    ]);
+    runCreated = true;
+    waitForRun(runContainer);
+    docker(["kill", "--signal", "INT", runContainer]);
+    const mixedRunExit = docker(["wait", runContainer]).stdout.trim();
+    if (mixedRunExit !== "0") throw new Error("mixed rootform run did not stop cleanly");
+    docker(["rm", runContainer]);
+    runCreated = false;
+
     const privateProject = join(temporary, "private-project");
     cpSync(project, privateProject, { recursive: true });
     const privateLockPath = join(privateProject, "rootform.lock");
@@ -834,11 +1674,6 @@ resource "aws_vpc" "main" { cidr_block = "10.0.0.0/16" }
     writeFileSync(privateLockPath, privateLock, { mode: 0o644 });
     const privateLockDigest = sha256(readFileSync(privateLockPath));
 
-    const privateDockerConfig = join(temporary, "private-docker-config");
-    writeDockerConfiguration(
-      privateDockerConfig,
-      privateDockerConfiguration("private.rootform.test", registryUsername, registryPassword),
-    );
     const privateHome = join(temporary, "private-home");
     writableDirectory(privateHome);
     const privateResult = rootformExecute({
@@ -1397,8 +2232,19 @@ resource "local_file" "example" {
       dialects: {
         artifacts: publication.artifacts.length,
         authentication: ["anonymous", "docker-auth", "docker-credential-helper"],
+        external_sources: sourcePins(mixedLock, "mixed source evidence"),
         index_manifest_digest: publication.index.manifest_digest,
-        repositories: [OFFICIAL_DIALECT_REPOSITORY, PRIVATE_DIALECT_REPOSITORY],
+        repositories: [
+          OFFICIAL_DIALECT_REPOSITORY,
+          PRIVATE_DIALECT_REPOSITORY,
+          PUBLIC_EXTERNAL_REPOSITORY,
+          PRIVATE_EXTERNAL_REPOSITORY,
+          PRIVATE_INDEX_ONE,
+          PRIVATE_INDEX_TWO,
+          PRIVATE_AMBIGUITY_INDEX,
+          PRIVATE_CONFLICT_INDEX_A,
+          PRIVATE_CONFLICT_INDEX_B,
+        ],
         tls: true,
       },
       format_version: "1",
@@ -1411,11 +2257,24 @@ resource "local_file" "example" {
         credential_failures_sanitized: true,
         credential_helper_invoked: true,
         default_non_root: "65532:65532",
+        direct_digest_source: true,
+        direct_private_source: true,
+        direct_public_source: true,
+        duplicate_indexes_deduplicated: true,
+        external_source_conflict_rejected: true,
         gitlab_shell_injection: true,
+        mixed_build_check_run: true,
+        mixed_locked_pin_only: true,
+        mixed_vendor_offline: true,
         locked_direct_pins_without_index: true,
+        multiple_additional_indexes: true,
         multi_repository_lock: true,
         offline_network_none: true,
+        one_additional_private_index: true,
         private_basic_registry: true,
+        private_to_official_dependency: true,
+        private_to_private_dependency: true,
+        provider_ambiguity_rejected: true,
         read_only_cap_drop_no_new_privileges: true,
         unsupported_provider_explicit: true,
         vendor_exclusive: true,
