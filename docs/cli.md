@@ -95,6 +95,9 @@ rootform test <fixtures>
 rootform install dialects <directory>
 rootform lock dialects <directory>
 rootform verify dialects <directory>
+rootform package dialects <directory> --to <layout> --repository <repository>
+rootform publish dialects <layout> --to <repository>
+rootform publish dialects <layout> --to <repository> --index
 rootform vendor dialects
 rootform list dialects --installed
 rootform list dialects --outdated
@@ -108,6 +111,21 @@ stays explicit through `init --upgrade`, revisits only official index and source
 references recorded in lock plus newly supplied `--source` values, and never
 scans registries. Removed selections remain installed until exact `remove
 dialect` command is requested.
+
+`package dialects` validates and compiles all supplied dialects, then writes one
+deterministic local OCI layout containing dialect artifacts and generated
+index. Optional `--source-url`, `--revision`, `--documentation-url`, and
+`--licenses` values become explicit OCI provenance; Rootform never discovers
+them from Git. Packaging performs no network operation.
+
+`publish dialects` validates an existing packaged layout and publishes to its
+recorded tagless OCI repository through standard Docker authentication.
+Dialect tags derive from compiled name and version. Existing same digest is
+idempotent; another digest at same version tag fails. Successful publication
+requires digest repull and complete content verification. `--index` adds
+immutable digest-derived index after all dialects; it never moves official
+mutable discovery tag. `--dry-run` validates and reports plan without registry
+or credential access. Text and JSON use `--format text|json`.
 
 Machine output goes to standard output or explicit output file. Preparation
 prompts, progress, downloads, warnings, and verbose detail go to standard error,

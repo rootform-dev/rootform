@@ -13,7 +13,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, isAbsolute, join, resolve } from "node:path";
+import { basename, dirname, isAbsolute, join, resolve } from "node:path";
 import {
   IMAGE_PLATFORMS,
   IMAGE_REFERENCE,
@@ -37,6 +37,11 @@ const PRIVATE_CONFLICT_INDEX_A = "private.rootform.test/acme/rootform-conflict-a
 const PRIVATE_CONFLICT_INDEX_B = "private.rootform.test/acme/rootform-conflict-b";
 const INDEX_TAG = "official-index-v1";
 const DIGEST = /^sha256:[0-9a-f]{64}$/u;
+const DIALECT_SOURCE_URL = "https://github.com/rootform-dev/dialects";
+const DIALECT_LICENSES = "MPL-2.0";
+const DIALECT_ARTIFACT_TYPE = "application/vnd.rootform.dialect.v1";
+const DIALECT_CONFIG_TYPE = "application/vnd.rootform.dialect.manifest.v1+json";
+const DIALECT_LAYER_TYPE = "application/vnd.rootform.dialect.layer.v1.tar+gzip";
 
 type QualificationOptions = {
   dialects: string;
@@ -84,6 +89,41 @@ type PublicationEvidence = {
   artifacts: Array<{ manifest_digest: string; name: string; version: string }>;
   format_version: string;
   index: { manifest_digest: string };
+};
+
+type GenericProvenance = {
+  documentation?: string;
+  licenses?: string;
+  revision?: string;
+  source?: string;
+};
+
+type GenericPublicationEntry = {
+  manifest_digest: string;
+  manifest_size: number;
+  name: string;
+  provenance: GenericProvenance;
+  repository: string;
+  size: number;
+  status: "already_present" | "planned" | "published";
+  tag: string;
+  version: string;
+};
+
+type GenericPublicationEvidence = {
+  dialects: GenericPublicationEntry[];
+  dry_run: boolean;
+  format_version: "1";
+  index?: {
+    manifest_digest: string;
+    manifest_size: number;
+    provenance: GenericProvenance;
+    repository: string;
+    size: number;
+    status: "already_present" | "planned" | "published";
+    tag: string;
+  };
+  repository: string;
 };
 
 function absolute(path: string, cwd: string): string {
@@ -203,6 +243,122 @@ function jsonObject(value: unknown, label: string): Record<string, unknown> {
   return value as Record<string, unknown>;
 }
 
+function genericProvenance(value: unknown, label: string): GenericProvenance {
+  const provenance = jsonObject(value, label);
+  const allowed = new Set(["documentation", "licenses", "revision", "source"]);
+  if (
+    Object.keys(provenance).some((name) => !allowed.has(name)) ||
+    Object.values(provenance).some((item) => typeof item !== "string")
+  ) {
+    throw new Error(`${label} is invalid`);
+  }
+  return provenance as GenericProvenance;
+}
+
+function boundedPositive(value: unknown, label: string): number {
+  if (
+    typeof value !== "number" ||
+    !Number.isSafeInteger(value) ||
+    value < 1 ||
+    value > 64 * 1024 * 1024
+  ) {
+    throw new Error(`${label} is invalid`);
+  }
+  return value;
+}
+
+export function parseGenericPublication(
+  body: string,
+  repository: string,
+  includeIndex: boolean,
+): GenericPublicationEvidence {
+  const result = parseJson(body, "generic publication result");
+  if (
+    result.format_version !== "1" ||
+    typeof result.dry_run !== "boolean" ||
+    result.repository !== repository ||
+    !Array.isArray(result.dialects) ||
+    result.dialects.length < 1 ||
+    result.dialects.length > 1024
+  ) {
+    throw new Error("generic publication result is invalid");
+  }
+  const dialects = result.dialects.map((value, position) => {
+    const item = jsonObject(value, `generic publication dialect ${position}`);
+    const name = String(item.name ?? "");
+    const version = String(item.version ?? "");
+    const tag = String(item.tag ?? "");
+    const status = String(item.status ?? "");
+    if (
+      !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/u.test(name) ||
+      !/^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$/u.test(version) ||
+      tag !== `dialect-${name}-${version}` ||
+      item.repository !== repository ||
+      !DIGEST.test(String(item.manifest_digest ?? "")) ||
+      !["already_present", "planned", "published"].includes(status)
+    ) {
+      throw new Error(`generic publication dialect ${position} is invalid`);
+    }
+    return {
+      manifest_digest: String(item.manifest_digest),
+      manifest_size: boundedPositive(
+        item.manifest_size,
+        `generic publication dialect ${position} manifest size`,
+      ),
+      name,
+      provenance: genericProvenance(
+        item.provenance,
+        `generic publication dialect ${position} provenance`,
+      ),
+      repository,
+      size: boundedPositive(item.size, `generic publication dialect ${position} size`),
+      status: status as GenericPublicationEntry["status"],
+      tag,
+      version,
+    };
+  });
+  const ordered = [...dialects].sort((left, right) => {
+    const name = left.name.localeCompare(right.name, "en");
+    return name || left.version.localeCompare(right.version, "en");
+  });
+  if (JSON.stringify(dialects) !== JSON.stringify(ordered)) {
+    throw new Error("generic publication dialects are not canonical");
+  }
+  let index: GenericPublicationEvidence["index"];
+  if (includeIndex) {
+    const item = jsonObject(result.index, "generic publication index");
+    const digest = String(item.manifest_digest ?? "");
+    const tag = String(item.tag ?? "");
+    const status = String(item.status ?? "");
+    if (
+      item.repository !== repository ||
+      !DIGEST.test(digest) ||
+      tag !== `index-sha256-${digest.slice("sha256:".length)}` ||
+      !["already_present", "planned", "published"].includes(status)
+    ) {
+      throw new Error("generic publication index is invalid");
+    }
+    index = {
+      manifest_digest: digest,
+      manifest_size: boundedPositive(item.manifest_size, "generic publication index manifest size"),
+      provenance: genericProvenance(item.provenance, "generic publication index provenance"),
+      repository,
+      size: boundedPositive(item.size, "generic publication index size"),
+      status: status as GenericPublicationEntry["status"],
+      tag,
+    };
+  } else if (result.index !== undefined) {
+    throw new Error("generic publication result has unexpected index");
+  }
+  return {
+    dialects,
+    dry_run: result.dry_run,
+    format_version: "1",
+    ...(index ? { index } : {}),
+    repository,
+  };
+}
+
 export function rewriteArtifactPins(
   encoded: string,
   overrides: Record<string, ArtifactPinOverride>,
@@ -294,6 +450,36 @@ function writeProject(root: string, source: string, terraformLock?: string): voi
   }
 }
 
+function dialectRevision(root: string): string {
+  const pin = parseJson(
+    readFileSync(join(root, "dependencies", "dialects.json"), "utf8"),
+    "Dialects dependency pin",
+  );
+  const revision = String(pin.commit ?? "");
+  if (
+    pin.format_version !== "1" ||
+    pin.repository !== "rootform-dev/dialects" ||
+    !/^[0-9a-f]{40}$/u.test(revision)
+  ) {
+    throw new Error("Dialects dependency pin is invalid");
+  }
+  return revision;
+}
+
+function dialectProvenanceArguments(revision: string): string[] {
+  if (!/^[0-9a-f]{40}$/u.test(revision)) throw new Error("Dialect revision is invalid");
+  return [
+    "--source-url",
+    DIALECT_SOURCE_URL,
+    "--revision",
+    revision,
+    "--documentation-url",
+    `${DIALECT_SOURCE_URL}/blob/${revision}/README.md`,
+    "--licenses",
+    DIALECT_LICENSES,
+  ];
+}
+
 function writableDirectory(path: string): void {
   mkdirSync(path, { recursive: true, mode: 0o777 });
   chmodSync(path, 0o777);
@@ -337,6 +523,14 @@ function packageSyntheticDialects(options: {
       "layout",
       "--repository",
       options.repository,
+      "--source-url",
+      "https://example.com/rootform/dialects",
+      "--revision",
+      "c".repeat(40),
+      "--documentation-url",
+      "https://example.com/rootform/dialects/docs",
+      "--licenses",
+      DIALECT_LICENSES,
     ],
     home,
     image: options.image,
@@ -371,6 +565,114 @@ function packageSyntheticDialects(options: {
     "/layout",
   ]);
   return layout;
+}
+
+function packageHostDialects(options: {
+  binary: string;
+  destination: string;
+  home: string;
+  repository: string;
+  revision: string;
+  source: string;
+}): void {
+  writableDirectory(options.home);
+  const result = execute(
+    [
+      options.binary,
+      "package",
+      "dialects",
+      options.source,
+      "--to",
+      options.destination,
+      "--repository",
+      options.repository,
+      ...dialectProvenanceArguments(options.revision),
+    ],
+    { env: { ROOTFORM_HOME: options.home } },
+  );
+  assertSafeSuccess(result, "generic dialect package", [options.home, options.destination]);
+  requireDirectory(options.destination, "generic dialect OCI layout");
+}
+
+function publishHostDialects(options: {
+  binary: string;
+  ca: string;
+  dockerConfig: string;
+  home: string;
+  layout: string;
+  repository: string;
+}): GenericPublicationEvidence {
+  writableDirectory(options.home);
+  const result = execute(
+    [
+      options.binary,
+      "publish",
+      "dialects",
+      options.layout,
+      "--to",
+      options.repository,
+      "--index",
+      "--format",
+      "json",
+    ],
+    {
+      env: {
+        DOCKER_CONFIG: options.dockerConfig,
+        ROOTFORM_HOME: options.home,
+        SSL_CERT_FILE: options.ca,
+      },
+    },
+  );
+  assertSafeSuccess(result, "generic public publication", [
+    options.ca,
+    options.dockerConfig,
+    options.home,
+    options.layout,
+  ]);
+  return parseGenericPublication(result.stdout, options.repository, true);
+}
+
+function publishContainerDialects(
+  options: Omit<RootformRunOptions, "arguments" | "project"> & {
+    dryRun?: boolean;
+    includeIndex?: boolean;
+    layout: string;
+    repository: string;
+  },
+): CommandResult {
+  const arguments_ = [
+    "publish",
+    "dialects",
+    basename(options.layout),
+    "--to",
+    options.repository,
+    ...(options.includeIndex ? ["--index"] : []),
+    ...(options.dryRun ? ["--dry-run"] : []),
+    "--format",
+    "json",
+  ];
+  return rootformExecute({
+    ...options,
+    arguments: arguments_,
+    project: dirname(options.layout),
+  });
+}
+
+function omitDialectRoot(layout: string, destination: string): void {
+  cpSync(layout, destination, { recursive: true });
+  const path = join(destination, "index.json");
+  const index = parseJson(readFileSync(path, "utf8"), "OCI layout index");
+  if (!Array.isArray(index.manifests) || index.manifests.length < 3) {
+    throw new Error("OCI layout has no removable dialect root");
+  }
+  const position = index.manifests.findIndex((value) => {
+    const descriptor = jsonObject(value, "OCI layout root");
+    const annotations = jsonObject(descriptor.annotations, "OCI layout root annotations");
+    return String(annotations["org.opencontainers.image.ref.name"] ?? "").startsWith("dialect-");
+  });
+  if (position < 0) throw new Error("OCI layout has no dialect root");
+  index.manifests.splice(position, 1);
+  writeFileSync(path, JSON.stringify(index), { mode: 0o644 });
 }
 
 function resolvePublishedReference(options: {
@@ -491,6 +793,43 @@ function writeDockerConfiguration(directory: string, content: Record<string, unk
   });
 }
 
+type CredentialHelperFixture = {
+  binaries: string;
+  config: string;
+  executable: string;
+  state: string;
+};
+
+function writeCredentialHelperFixture(options: {
+  name: string;
+  password: string;
+  temporary: string;
+  username: string;
+}): CredentialHelperFixture {
+  const config = join(options.temporary, `${options.name}-helper-docker-config`);
+  writeDockerConfiguration(config, {
+    credHelpers: { "private.rootform.test": "rootform-test" },
+  });
+  const binaries = join(options.temporary, `${options.name}-credential-helpers`);
+  const state = join(options.temporary, `${options.name}-credential-helper-state`);
+  mkdirSync(binaries, { mode: 0o755 });
+  writableDirectory(state);
+  const executable = join(binaries, "docker-credential-rootform-test");
+  writeFileSync(
+    executable,
+    `#!/bin/sh
+set -eu
+test "\${1:-}" = get
+server=$(cat)
+printf '%s\\n' "$server" > /run/rootform-helper-state/invoked
+test "$server" = private.rootform.test
+printf '{"ServerURL":"%s","Username":"%s","Secret":"%s"}\\n' "$server" '${options.username}' '${options.password}'
+`,
+    { flag: "wx", mode: 0o755 },
+  );
+  return { binaries, config, executable, state };
+}
+
 function privateDockerConfiguration(
   registry: string,
   username: string,
@@ -545,6 +884,76 @@ export function registryCompletedRequestCount(logs: string): number {
     .filter(
       (line) => line.includes('msg="response completed"') && line.includes("http.request.method="),
     ).length;
+}
+
+export function registryManifestWriteTags(logs: string, repository: string): string[] {
+  const prefix = `/v2/${repository}/manifests/`;
+  return logs
+    .split(/\r?\n/u)
+    .filter(
+      (line) =>
+        line.includes('msg="response completed"') &&
+        line.includes("http.request.method=PUT") &&
+        line.includes("http.response.status=201"),
+    )
+    .flatMap((line) => {
+      const uri = line.match(/http\.request\.uri="([^"]+)"/u)?.[1];
+      if (!uri?.startsWith(prefix)) return [];
+      const encoded = uri.slice(prefix.length).split("?", 1)[0] ?? "";
+      try {
+        return encoded ? [decodeURIComponent(encoded)] : [];
+      } catch {
+        throw new Error("registry log contains invalid manifest reference");
+      }
+    });
+}
+
+function fetchOCIManifest(options: {
+  ca: string;
+  oras: string;
+  reference: string;
+  registryConfig?: string;
+}): Record<string, unknown> {
+  const result = run([
+    options.oras,
+    "manifest",
+    "fetch",
+    "--ca-file",
+    options.ca,
+    ...(options.registryConfig ? ["--registry-config", options.registryConfig] : []),
+    options.reference,
+  ]);
+  return parseJson(result.stdout, "published OCI manifest");
+}
+
+function assertDialectManifest(
+  manifest: Record<string, unknown>,
+  revision: string,
+  forbidden: string[],
+): void {
+  const config = jsonObject(manifest.config, "published dialect config descriptor");
+  const layers = manifest.layers;
+  const annotations = jsonObject(manifest.annotations, "published dialect annotations");
+  if (
+    manifest.artifactType !== DIALECT_ARTIFACT_TYPE ||
+    config.mediaType !== DIALECT_CONFIG_TYPE ||
+    !Array.isArray(layers) ||
+    layers.length !== 1 ||
+    jsonObject(layers[0], "published dialect layer descriptor").mediaType !== DIALECT_LAYER_TYPE ||
+    annotations["org.opencontainers.image.source"] !== "https://example.com/rootform/dialects" ||
+    annotations["org.opencontainers.image.revision"] !== revision ||
+    annotations["org.opencontainers.image.documentation"] !==
+      "https://example.com/rootform/dialects/docs" ||
+    annotations["org.opencontainers.image.licenses"] !== DIALECT_LICENSES
+  ) {
+    throw new Error("published dialect OCI contract drifted");
+  }
+  const encoded = JSON.stringify(manifest);
+  for (const value of forbidden) {
+    if (value && encoded.includes(value)) {
+      throw new Error("published dialect manifest exposed sensitive data");
+    }
+  }
 }
 
 export function publishedDialectVersion(publication: PublicationEvidence, name: string): string {
@@ -703,6 +1112,7 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
     readFileSync(manifestPath, "utf8"),
     "image verification manifest",
   );
+  const dialectsCommit = dialectRevision(options.root);
 
   const temporary = mkdtempSync(join(tmpdir(), "rootform-image-qualification-"));
   const suffix = randomBytes(6).toString("hex");
@@ -895,6 +1305,8 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
         "scripts/publish.ts",
         "--rootform-version",
         options.version,
+        "--revision",
+        dialectsCommit,
         "--test-repository",
         `127.0.0.1:${publicPort}/rootform-dev/dialects`,
         "--ca-file",
@@ -927,6 +1339,8 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
         "scripts/publish.ts",
         "--rootform-version",
         options.version,
+        "--revision",
+        dialectsCommit,
         "--test-repository",
         `127.0.0.1:${privatePort}/rootform-dev/dialects`,
         "--ca-file",
@@ -952,6 +1366,49 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
     ) {
       throw new Error("private registry changed published OCI content");
     }
+    const genericOfficialRepository = `127.0.0.1:${publicPort}/rootform-dev/dialects`;
+    const genericOfficialLayout = join(temporary, "generic-official-layout");
+    const genericOfficialDockerConfig = join(temporary, "generic-public-docker-config");
+    writeDockerConfiguration(genericOfficialDockerConfig, {});
+    packageHostDialects({
+      binary: options.rootformBinary,
+      destination: genericOfficialLayout,
+      home: join(temporary, "generic-official-package-home"),
+      repository: genericOfficialRepository,
+      revision: dialectsCommit,
+      source: options.dialects,
+    });
+    const genericOfficial = publishHostDialects({
+      binary: options.rootformBinary,
+      ca,
+      dockerConfig: genericOfficialDockerConfig,
+      home: join(temporary, "generic-official-publish-home"),
+      layout: genericOfficialLayout,
+      repository: genericOfficialRepository,
+    });
+    const officialDialectDigests = publication.artifacts
+      .map(({ manifest_digest, name, version }) => ({ manifest_digest, name, version }))
+      .sort((left, right) => left.name.localeCompare(right.name, "en"));
+    const genericDialectDigests = genericOfficial.dialects.map(
+      ({ manifest_digest, name, version }) => ({ manifest_digest, name, version }),
+    );
+    if (
+      JSON.stringify(genericDialectDigests) !== JSON.stringify(officialDialectDigests) ||
+      genericOfficial.dialects.some(({ status }) => status !== "already_present") ||
+      !genericOfficial.index ||
+      genericOfficial.index.status !== "published"
+    ) {
+      throw new Error("generic and official dialect publishers differ");
+    }
+    const officialDiscoveryAfterGeneric = resolvePublishedReference({
+      ca,
+      oras: options.oras,
+      reference: `${genericOfficialRepository}:${INDEX_TAG}`,
+      registryConfig: publicRegistryConfig,
+    });
+    if (officialDiscoveryAfterGeneric !== publication.index.manifest_digest) {
+      throw new Error("generic publisher moved official discovery tag");
+    }
     const awsDialectVersion = publishedDialectVersion(publication, "aws");
     const coreDialectVersion = publishedDialectVersion(publication, "core");
     const privateDockerConfig = join(temporary, "private-docker-config");
@@ -959,6 +1416,12 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
       privateDockerConfig,
       privateDockerConfiguration("private.rootform.test", registryUsername, registryPassword),
     );
+    const publicationHelper = writeCredentialHelperFixture({
+      name: "publication",
+      password: registryPassword,
+      temporary,
+      username: registryUsername,
+    });
 
     const privateLayout = packageSyntheticDialects({
       definitions: {
@@ -970,6 +1433,22 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
       },
       image: amdImage,
       name: "private",
+      repository: PRIVATE_EXTERNAL_REPOSITORY,
+      temporary,
+    });
+    const publicationConflictLayout = packageSyntheticDialects({
+      definitions: {
+        companyapp: `dialect "companyapp" {
+  version = "0.1.0"
+  requires { companycore = "0.1.0" }
+}`,
+        companycore: `dialect "companycore" {
+  version = "0.1.0"
+  provider "hashicorp/random" { version = "= 3.7.2" }
+}`,
+      },
+      image: amdImage,
+      name: "private-conflict",
       repository: PRIVATE_EXTERNAL_REPOSITORY,
       temporary,
     });
@@ -1029,17 +1508,241 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
 
     const privatePushRepository = `127.0.0.1:${privatePort}/acme/rootform-external`;
     const publicPushRepository = `127.0.0.1:${publicPort}/acme/rootform-external`;
-    for (const tag of ["dialect-companycore-0.1.0", "dialect-companyapp-0.1.0"]) {
-      publishLayoutTag({
-        ca,
-        destination: privatePushRepository,
-        destinationTag: tag,
-        layout: privateLayout,
-        oras: options.oras,
-        registryConfig: privateRegistryConfig,
-        sourceTag: tag,
-      });
+    const genericDryRunHome = join(temporary, "generic-dry-run-home");
+    writableDirectory(genericDryRunHome);
+    const genericDryRunResult = publishContainerDialects({
+      architecture: "amd64",
+      dryRun: true,
+      home: genericDryRunHome,
+      image: amdImage,
+      includeIndex: true,
+      layout: privateLayout,
+      network: "none",
+      repository: PRIVATE_EXTERNAL_REPOSITORY,
+    });
+    assertSafeSuccess(genericDryRunResult, "generic publication dry-run", [privateLayout]);
+    const genericDryRun = parseGenericPublication(
+      genericDryRunResult.stdout,
+      PRIVATE_EXTERNAL_REPOSITORY,
+      true,
+    );
+    if (
+      !genericDryRun.dry_run ||
+      genericDryRun.dialects.some(({ status }) => status !== "planned") ||
+      genericDryRun.index?.status !== "planned"
+    ) {
+      throw new Error("generic publication dry-run is not local plan");
     }
+
+    const genericPrivateHome = join(temporary, "generic-private-publish-home");
+    writableDirectory(genericPrivateHome);
+    const privatePublicationSince = new Date().toISOString();
+    Bun.sleepSync(1100);
+    const genericPrivateResult = publishContainerDialects({
+      architecture: "amd64",
+      ca,
+      dockerConfig: privateDockerConfig,
+      home: genericPrivateHome,
+      image: amdImage,
+      includeIndex: true,
+      layout: privateLayout,
+      network,
+      repository: PRIVATE_EXTERNAL_REPOSITORY,
+    });
+    assertSafeSuccess(genericPrivateResult, "generic private publication", [
+      registryUsername,
+      registryPassword,
+      privateDockerConfig,
+      privateLayout,
+    ]);
+    const genericPrivate = parseGenericPublication(
+      genericPrivateResult.stdout,
+      PRIVATE_EXTERNAL_REPOSITORY,
+      true,
+    );
+    if (
+      genericPrivate.dry_run ||
+      genericPrivate.dialects.some(({ status }) => status !== "published") ||
+      genericPrivate.index?.status !== "published"
+    ) {
+      throw new Error("generic private publication did not publish complete layout");
+    }
+    const expectedSyntheticProvenance = {
+      documentation: "https://example.com/rootform/dialects/docs",
+      licenses: DIALECT_LICENSES,
+      revision: "c".repeat(40),
+      source: "https://example.com/rootform/dialects",
+    };
+    if (
+      genericPrivate.dialects.some(
+        ({ provenance }) =>
+          JSON.stringify(provenance) !== JSON.stringify(expectedSyntheticProvenance),
+      ) ||
+      JSON.stringify(genericPrivate.index?.provenance) !==
+        JSON.stringify(expectedSyntheticProvenance)
+    ) {
+      throw new Error("generic publication provenance differs");
+    }
+    const privatePublicationLogs = registryLogs(privateRegistry);
+    const writtenTags = registryManifestWriteTags(
+      privatePublicationLogs
+        .split(/\r?\n/u)
+        .filter((line) => {
+          const timestamp = line.match(/^time="([^"]+)"/u)?.[1];
+          return !timestamp || timestamp >= privatePublicationSince;
+        })
+        .join("\n"),
+      "acme/rootform-external",
+    ).filter((reference) => !DIGEST.test(reference));
+    const expectedWriteOrder = [
+      ...genericPrivate.dialects.map(({ tag }) => tag),
+      genericPrivate.index?.tag ?? "",
+    ];
+    if (
+      JSON.stringify(writtenTags.slice(-expectedWriteOrder.length)) !==
+      JSON.stringify(expectedWriteOrder)
+    ) {
+      throw new Error("generic publication did not write index last");
+    }
+
+    const companyCorePublication = genericPrivate.dialects.find(
+      ({ name }) => name === "companycore",
+    );
+    if (!companyCorePublication) throw new Error("generic publication omitted companycore");
+    assertDialectManifest(
+      fetchOCIManifest({
+        ca,
+        oras: options.oras,
+        reference: `${privatePushRepository}@${companyCorePublication.manifest_digest}`,
+        registryConfig: privateRegistryConfig,
+      }),
+      "c".repeat(40),
+      [registryUsername, registryPassword, privateDockerConfig, privateLayout],
+    );
+
+    const genericHelperHome = join(temporary, "generic-helper-publish-home");
+    writableDirectory(genericHelperHome);
+    const genericHelperResult = publishContainerDialects({
+      architecture: "amd64",
+      ca,
+      dockerConfig: publicationHelper.config,
+      helper: {
+        binaries: publicationHelper.binaries,
+        state: publicationHelper.state,
+      },
+      home: genericHelperHome,
+      image: amdImage,
+      includeIndex: true,
+      layout: privateLayout,
+      network,
+      repository: PRIVATE_EXTERNAL_REPOSITORY,
+    });
+    assertSafeSuccess(genericHelperResult, "generic credential-helper publication", [
+      registryUsername,
+      registryPassword,
+      publicationHelper.config,
+      publicationHelper.executable,
+      privateLayout,
+    ]);
+    const genericHelper = parseGenericPublication(
+      genericHelperResult.stdout,
+      PRIVATE_EXTERNAL_REPOSITORY,
+      true,
+    );
+    if (
+      genericHelper.dialects.some(({ status }) => status !== "already_present") ||
+      genericHelper.index?.status !== "already_present" ||
+      readFileSync(join(publicationHelper.state, "invoked"), "utf8").trim() !==
+        "private.rootform.test"
+    ) {
+      throw new Error("generic credential-helper publication is not idempotent");
+    }
+
+    const wrongPublicationPassword = `wrong-${randomBytes(12).toString("hex")}`;
+    const wrongPublicationConfig = join(temporary, "wrong-publication-docker-config");
+    writeDockerConfiguration(
+      wrongPublicationConfig,
+      privateDockerConfiguration(
+        "private.rootform.test",
+        registryUsername,
+        wrongPublicationPassword,
+      ),
+    );
+    const wrongPublicationHome = join(temporary, "wrong-publication-home");
+    writableDirectory(wrongPublicationHome);
+    const wrongPublication = publishContainerDialects({
+      architecture: "amd64",
+      ca,
+      dockerConfig: wrongPublicationConfig,
+      home: wrongPublicationHome,
+      image: amdImage,
+      includeIndex: true,
+      layout: privateLayout,
+      network,
+      repository: PRIVATE_EXTERNAL_REPOSITORY,
+    });
+    assertSafeFailure(wrongPublication, "generic wrong-credential publication", [
+      registryUsername,
+      registryPassword,
+      wrongPublicationPassword,
+      wrongPublicationConfig,
+      privateLayout,
+    ]);
+    if (wrongPublication.exitCode !== 3) {
+      throw new Error("generic wrong-credential publication returned unexpected status");
+    }
+
+    const conflictPublishHome = join(temporary, "generic-conflict-publish-home");
+    writableDirectory(conflictPublishHome);
+    const conflictSince = new Date().toISOString();
+    Bun.sleepSync(1100);
+    const conflictingPublication = publishContainerDialects({
+      architecture: "amd64",
+      ca,
+      dockerConfig: privateDockerConfig,
+      home: conflictPublishHome,
+      image: amdImage,
+      includeIndex: true,
+      layout: publicationConflictLayout,
+      network,
+      repository: PRIVATE_EXTERNAL_REPOSITORY,
+    });
+    assertSafeFailure(conflictingPublication, "generic immutable-tag conflict", [
+      registryUsername,
+      registryPassword,
+      privateDockerConfig,
+      publicationConflictLayout,
+    ]);
+    if (
+      conflictingPublication.exitCode !== 3 ||
+      registryManifestWriteTags(
+        docker(["logs", "--since", conflictSince, privateRegistry]).stdout,
+        "acme/rootform-external",
+      ).length !== 0
+    ) {
+      throw new Error("generic immutable-tag conflict wrote registry content");
+    }
+
+    const missingArtifactLayout = join(temporary, "missing-artifact-layout");
+    omitDialectRoot(privateLayout, missingArtifactLayout);
+    const missingArtifactHome = join(temporary, "missing-artifact-home");
+    writableDirectory(missingArtifactHome);
+    const missingArtifactPublication = publishContainerDialects({
+      architecture: "amd64",
+      home: missingArtifactHome,
+      image: amdImage,
+      includeIndex: true,
+      layout: missingArtifactLayout,
+      network: "none",
+      repository: PRIVATE_EXTERNAL_REPOSITORY,
+    });
+    assertSafeFailure(missingArtifactPublication, "generic missing-artifact index", [
+      missingArtifactLayout,
+    ]);
+    if (missingArtifactPublication.exitCode !== 3) {
+      throw new Error("generic missing-artifact index returned unexpected status");
+    }
+
     publishLayoutTag({
       ca,
       destination: privatePushRepository,
@@ -2233,7 +2936,23 @@ resource "local_file" "example" {
         artifacts: publication.artifacts.length,
         authentication: ["anonymous", "docker-auth", "docker-credential-helper"],
         external_sources: sourcePins(mixedLock, "mixed source evidence"),
+        generic_publication: {
+          dialects: genericPrivate.dialects.map(({ manifest_digest, name, tag, version }) => ({
+            manifest_digest,
+            name,
+            tag,
+            version,
+          })),
+          index_manifest_digest: genericPrivate.index?.manifest_digest,
+          index_tag: genericPrivate.index?.tag,
+          provenance: expectedSyntheticProvenance,
+          repository: PRIVATE_EXTERNAL_REPOSITORY,
+        },
         index_manifest_digest: publication.index.manifest_digest,
+        publisher_parity: {
+          dialects: officialDialectDigests,
+          official_discovery_preserved: true,
+        },
         repositories: [
           OFFICIAL_DIALECT_REPOSITORY,
           PRIVATE_DIALECT_REPOSITORY,
@@ -2262,6 +2981,17 @@ resource "local_file" "example" {
         direct_public_source: true,
         duplicate_indexes_deduplicated: true,
         external_source_conflict_rejected: true,
+        generic_publish_credential_helper: true,
+        generic_publish_custom_media_types: true,
+        generic_publish_dry_run_offline: true,
+        generic_publish_idempotent: true,
+        generic_publish_immutable_conflict_rejected_before_write: true,
+        generic_publish_index_last: true,
+        generic_publish_missing_artifact_rejected: true,
+        generic_publish_private_tls: true,
+        generic_publish_provenance: true,
+        generic_publish_wrong_credentials_sanitized: true,
+        generic_vs_official_publisher_parity: true,
         gitlab_shell_injection: true,
         mixed_build_check_run: true,
         mixed_locked_pin_only: true,

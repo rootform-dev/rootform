@@ -2,9 +2,11 @@ import { expect, test } from "bun:test";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
+  parseGenericPublication,
   parseQualificationArguments,
   publishedDialectVersion,
   registryCompletedRequestCount,
+  registryManifestWriteTags,
   rewriteArtifactPins,
   rootformDockerArguments,
   temporaryPermissionRepairArguments,
@@ -194,4 +196,82 @@ test("registry qualification counts completed HTTP requests, not log noise", () 
     "unrelated shutdown message",
   ].join("\n");
   expect(registryCompletedRequestCount(logs)).toBe(2);
+});
+
+test("generic publication evidence stays format 1, canonical, and digest-pinned", () => {
+  const repository = "registry.example/acme/dialects";
+  const provenance = {
+    documentation: "https://example.com/docs",
+    licenses: "MPL-2.0",
+    revision,
+    source: "https://example.com/source",
+  };
+  const dialect = (name: string, marker: string) => ({
+    manifest_digest: `sha256:${marker.repeat(64)}`,
+    manifest_size: 512,
+    name,
+    provenance,
+    repository,
+    size: 1024,
+    status: "published" as const,
+    tag: `dialect-${name}-0.1.0`,
+    version: "0.1.0",
+  });
+  const indexDigest = `sha256:${"f".repeat(64)}`;
+  const evidence = {
+    dialects: [dialect("aws", "a"), dialect("core", "c")],
+    dry_run: false,
+    format_version: "1" as const,
+    index: {
+      manifest_digest: indexDigest,
+      manifest_size: 768,
+      provenance,
+      repository,
+      size: 2048,
+      status: "published" as const,
+      tag: `index-sha256-${"f".repeat(64)}`,
+    },
+    repository,
+  };
+
+  expect(parseGenericPublication(JSON.stringify(evidence), repository, true)).toEqual(evidence);
+  expect(parseGenericPublication(JSON.stringify(evidence), repository, true)).toEqual(
+    parseGenericPublication(JSON.stringify(evidence), repository, true),
+  );
+  expect(() =>
+    parseGenericPublication(JSON.stringify({ ...evidence, format_version: "2" }), repository, true),
+  ).toThrow("generic publication result is invalid");
+  expect(() =>
+    parseGenericPublication(
+      JSON.stringify({ ...evidence, dialects: [...evidence.dialects].reverse() }),
+      repository,
+      true,
+    ),
+  ).toThrow("not canonical");
+  expect(() =>
+    parseGenericPublication(
+      JSON.stringify({
+        ...evidence,
+        index: { ...evidence.index, tag: "official-index-v1" },
+      }),
+      repository,
+      true,
+    ),
+  ).toThrow("generic publication index is invalid");
+  expect(() =>
+    parseGenericPublication(JSON.stringify(evidence), "other.example/x/y", true),
+  ).toThrow("generic publication result is invalid");
+});
+
+test("registry qualification observes successful manifest tag writes in order", () => {
+  const logs = [
+    'time="2026-09-03T10:00:00Z" level=info msg="response completed" http.request.method=PUT http.request.uri="/v2/acme/dialects/manifests/dialect-core-0.1.0" http.response.status=201',
+    'time="2026-09-03T10:00:01Z" level=info msg="response completed" http.request.method=PUT http.request.uri="/v2/other/dialects/manifests/ignored" http.response.status=201',
+    'time="2026-09-03T10:00:02Z" level=info msg="response completed" http.request.method=HEAD http.request.uri="/v2/acme/dialects/manifests/ignored" http.response.status=200',
+    `time="2026-09-03T10:00:03Z" level=info msg="response completed" http.request.method=PUT http.request.uri="/v2/acme/dialects/manifests/index-sha256-${"f".repeat(64)}" http.response.status=201`,
+  ].join("\n");
+  expect(registryManifestWriteTags(logs, "acme/dialects")).toEqual([
+    "dialect-core-0.1.0",
+    `index-sha256-${"f".repeat(64)}`,
+  ]);
 });
