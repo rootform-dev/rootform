@@ -6,6 +6,8 @@ Rootform dialects use OCI image manifests and content-addressed blobs.
 This document defines wire compatibility; it does not claim that any registry
 artifact has been published. Official origin is
 `ghcr.io/rootform-dev/dialects` when publication is authorized.
+Required registry behavior is the forge-neutral
+[`rootform-oci-core-v1`](rootform-oci-core-profile.md) profile.
 
 ## Dialect artifact
 
@@ -85,6 +87,11 @@ in manifest digest because annotations are manifest bytes. Rootform does not
 discover Git state, invoke VCS, add machine paths, or invent current timestamps.
 Manifest digest remains technical identity.
 
+`rootform show dialect` and `rootform list dialects` expose available
+provenance with version, execution source, artifact repository, manifest and
+layer digests, and independent semantic and presentation digests. Missing
+optional provenance remains absent rather than inferred.
+
 ## Generic publication
 
 Packaging and publication are separate:
@@ -152,6 +159,25 @@ exact acquisition identity; it is never silently replaced.
 Cache and index data are reproducible acquisition inputs, not trust anchors.
 Corrupt, incomplete, unexpected, or same-version changed content fails closed.
 
-Git or another VCS supplies optional human provenance. OCI carries
-distribution. Rootform indexes supply configured discovery. `rootform.lock`
-pins exact selected artifact identity for reproducible project execution.
+When project `.rootform/dialects/` exists, it is exclusive execution source for
+`build`, `check`, and `run`; those commands never fall back to store, cache,
+index, or registry. `rootform vendor dialects` is explicit materialization and
+repair boundary. It copies exact lock pins from verified store or cache and may
+download exact manifest digest from recorded artifact repository. It performs
+no discovery, new selection, upgrade, or lock modification. Legal and notice
+files inside artifact remain vendored.
+
+Lifecycle ownership:
+
+```text
+VCS                -> authoring
+OCI                -> distribution
+indexes            -> discovery
+rootform.lock      -> exact selection
+.rootform/dialects -> project-local execution
+store/cache        -> materialization and offline reuse
+Docker credentials -> private registry authentication
+```
+
+Git or another VCS supplies optional human provenance. Execution never depends
+on VCS. Rootform Cloud or managed registry is not required.

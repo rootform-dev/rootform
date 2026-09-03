@@ -159,10 +159,18 @@ export function validateRepository(): void {
     "dependencies/ROOTFORM-BINARY-LICENSE.txt",
     "contracts/binary-handoff.md",
     "contracts/dialect-distribution.md",
+    "contracts/rootform-oci-core-profile.md",
     "contracts/rootform-lock.md",
     "dependencies/dialects.json",
     "docs/integrations/oci-image.md",
+    "docs/integrations/ci/README.md",
+    "docs/integrations/ci/azure-pipelines.yml",
+    "docs/integrations/ci/generic-ci.sh",
+    "docs/integrations/ci/github-actions.yml",
+    "docs/integrations/ci/gitlab-ci.yml",
+    "docs/integrations/ci/rootform-ci.sh",
     "oci/Dockerfile",
+    "docs/integrations/registry-compatibility.md",
     "scripts/assemble-release.ts",
     "scripts/build-image.ts",
     "scripts/download-handoff.ts",
@@ -178,7 +186,9 @@ export function validateRepository(): void {
     "scripts/release/runtime-licenses.ts",
     "scripts/render-candidate-report.ts",
     "scripts/publish-image.ts",
+    "scripts/qualify-registry.ts",
     "scripts/qualify-image.ts",
+    "scripts/validate-oci-core-profile.ts",
     "scripts/validate-trivy-policy.ts",
     "dependencies/runtime-components.json",
     "schemas/rootform-lock.schema.json",
@@ -276,8 +286,13 @@ export function validateRepository(): void {
     candidateWorkflow.includes("rootform-dev/engine") ||
     candidateWorkflow.includes("rootform-dev/action/") ||
     candidateWorkflow.includes("ROOTFORM_REPOSITORIES_READ_TOKEN") ||
-    !candidateWorkflow.includes("DIALECTS_CONTENTS_READ_TOKEN") ||
-    !candidateWorkflow.includes(dialectPin.commit)
+    candidateWorkflow.includes("DIALECTS_CONTENTS_READ_TOKEN") ||
+    !candidateWorkflow.includes(dialectPin.commit) ||
+    !candidateWorkflow.includes("packages: write") ||
+    !candidateWorkflow.includes("test:oci-registry-compatibility") ||
+    !candidateWorkflow.includes("rootform-oci-core-v1") ||
+    !candidateWorkflow.includes('server="$(cat)"') ||
+    candidateWorkflow.includes("IFS= read -r server")
   ) {
     throw new Error("candidate workflow violates distribution ownership");
   }
@@ -288,8 +303,15 @@ export function validateRepository(): void {
   if (
     imageWorkflow.includes("rootform-dev/engine") ||
     imageWorkflow.includes("rootform-dev/action/") ||
+    imageWorkflow.includes("DIALECTS_CONTENTS_READ_TOKEN") ||
     !imageWorkflow.includes("packages: write") ||
     !imageWorkflow.includes(dialectPin.commit) ||
+    !imageWorkflow.includes("name: publish official image") ||
+    !imageWorkflow.includes("Verify exact public release source") ||
+    !imageWorkflow.includes("Require existing official GHCR package to be public") ||
+    !imageWorkflow.includes("Verify published official GHCR package remains public") ||
+    (imageWorkflow.match(/= public/gmu)?.length ?? 0) !== 3 ||
+    imageWorkflow.includes("= private") ||
     imageWorkflow.includes("ghcr.io/rootform-dev/rootform:latest") ||
     imageWorkflow.includes("PATCH /orgs/rootform-dev/packages")
   ) {

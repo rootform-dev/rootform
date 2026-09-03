@@ -109,7 +109,11 @@ registry or credential configuration.
 
 Canonical project markers are `rootform.lock` and `.rootform/dialects/` directly
 beneath selected project root. No parent search occurs. Present vendored
-directory is exclusive dialect source; store never supplies fallback. Vendor
-and lock evolution commit transactionally.
+directory is exclusive dialect source for `build`, `check`, and `run`; store,
+cache, index, and registry never supply fallback. `rootform vendor dialects`
+may explicitly materialize or repair only exact entries already pinned by lock,
+using verified store or cache before each pin's artifact repository. It never
+discovers another dialect, changes source, upgrades selection, or modifies lock.
+Vendor replacement is transactional and preserves legal and notice files.
 
 Machine schema: [`../schemas/rootform-lock.schema.json`](../schemas/rootform-lock.schema.json).

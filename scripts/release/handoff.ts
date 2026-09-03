@@ -298,8 +298,7 @@ function verifySpdx(
     }
     extracted.add(licenseId);
   }
-  const expression =
-    /^(?:[A-Za-z0-9.-]+|LicenseRef-[A-Za-z0-9.-]+)(?: (?:AND|OR) (?:[A-Za-z0-9.-]+|LicenseRef-[A-Za-z0-9.-]+))*$/u;
+  const expression = /^[A-Za-z0-9.-]+(?: (?:AND|OR) [A-Za-z0-9.-]+)*$/u;
   const componentIds: string[] = [];
   const componentKeys: string[] = [];
   for (const [index, value] of document.packages.slice(1).entries()) {

@@ -24,8 +24,7 @@ export type RuntimeLicensing = {
 };
 
 const digest = /^[0-9a-f]{64}$/u;
-const expression =
-  /^(?:[A-Za-z0-9.-]+|LicenseRef-[A-Za-z0-9.-]+)(?: (?:AND|OR) (?:[A-Za-z0-9.-]+|LicenseRef-[A-Za-z0-9.-]+))*$/u;
+const expression = /^[A-Za-z0-9.-]+(?: (?:AND|OR) [A-Za-z0-9.-]+)*$/u;
 
 function exactKeys(value: RuntimeComponent): boolean {
   const optional = [

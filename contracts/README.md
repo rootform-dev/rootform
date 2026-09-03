@@ -9,6 +9,7 @@ private implementation plans.
 - `policy-result.md`: policy evaluation result;
 - `rootform-lock.md`: exact dialect lock;
 - `dialect-distribution.md`: OCI dialect artifacts, indexes, and explicit sources;
+- `rootform-oci-core-profile.md`: minimal portable registry capabilities;
 - `presentation-manifest.md`: dialect-owned presentation identities;
 - `binary-handoff.md`: exact producer-to-distribution artifact boundary;
 - `release-manifest.md`: binary release metadata and license boundary.

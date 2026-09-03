@@ -41,6 +41,9 @@ current user's `~/.docker/config.json`. For challenged registry, host-specific
 helper/store failure is final rather than another-identity fallback. ORAS handles
 standard Basic and Bearer challenges. Rootform never writes Docker config or
 persists credentials in lock, home, cache, diagnostics, or Architecture IR.
+Set `SSL_CERT_FILE` to a non-empty bounded PEM bundle when registry uses a
+private CA. Invalid, empty, non-regular, or oversized bundles fail closed with
+sanitized diagnostics; offline mode never reads this file.
 
 `--source` requires canonical registry/repository reference with tag or
 SHA-256 digest. Artifact type identifies direct dialect versus additional
@@ -126,6 +129,19 @@ requires digest repull and complete content verification. `--index` adds
 immutable digest-derived index after all dialects; it never moves official
 mutable discovery tag. `--dry-run` validates and reports plan without registry
 or credential access. Text and JSON use `--format text|json`.
+
+`show dialect <name>` and dialect listings are read-only. Machine output exposes
+version, current execution source (`vendor` or `store`), discovery origins,
+artifact repository, manifest and layer digests, semantic and presentation
+digests, plus explicit OCI source/revision/documentation/license provenance
+when packaged. Optional provenance is never synthesized.
+
+When `.rootform/dialects/` exists, `build`, `check`, and `run` accept only its
+complete lock-matching contents. They do not repair it or fall back elsewhere.
+`vendor dialects` is explicit repair command: it materializes existing exact
+lock pins from verified store/cache or their recorded registry repository,
+without resolution, upgrade, source substitution, or lock write. Use
+`--offline` to forbid registry fallback during this explicit repair.
 
 Machine output goes to standard output or explicit output file. Preparation
 prompts, progress, downloads, warnings, and verbose detail go to standard error,

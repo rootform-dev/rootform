@@ -1,0 +1,20 @@
+trigger:
+  - main
+
+pr:
+  - main
+
+pool:
+  vmImage: ubuntu-24.04
+
+container: ghcr.io/rootform-dev/rootform:0.1.0
+
+steps:
+  - checkout: self
+  - bash: ./ci/rootform-ci.sh
+    displayName: Build and check locked architecture
+  - task: PublishPipelineArtifact@1
+    condition: always()
+    inputs:
+      targetPath: .rootform-ci
+      artifact: rootform

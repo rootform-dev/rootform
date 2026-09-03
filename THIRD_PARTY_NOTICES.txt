@@ -465,15 +465,15 @@ See the official archive and catalog page for complete current terms.
 ----- END LICENSE TEXT: Microsoft Azure Architecture Icons@V24 -----
 
 
-dialect-bundle: Rootform Dialects@2f4715ac078d532b4d9ae05f095ce705c74ad655
+dialect-bundle: Rootform Dialects@34eb5e1879a3d3b09c8aba5827d041703ec55776
 --------------------------------------------------------------------------
 Declared license: MPL-2.0
 Concluded license: MPL-2.0
-Upstream: https://github.com/rootform-dev/dialects/tree/2f4715ac078d532b4d9ae05f095ce705c74ad655
+Upstream: https://github.com/rootform-dev/dialects/tree/34eb5e1879a3d3b09c8aba5827d041703ec55776
 Copyright: (c) under Patent Claims infringed by Covered Software in the absence of
 License text SHA-256: 1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5
 
------ BEGIN LICENSE TEXT: Rootform Dialects@2f4715ac078d532b4d9ae05f095ce705c74ad655 -----
+----- BEGIN LICENSE TEXT: Rootform Dialects@34eb5e1879a3d3b09c8aba5827d041703ec55776 -----
 Mozilla Public License Version 2.0
 ==================================
 
@@ -847,7 +847,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
   This Source Code Form is "Incompatible With Secondary Licenses", as
   defined by the Mozilla Public License, v. 2.0.
------ END LICENSE TEXT: Rootform Dialects@2f4715ac078d532b4d9ae05f095ce705c74ad655 -----
+----- END LICENSE TEXT: Rootform Dialects@34eb5e1879a3d3b09c8aba5827d041703ec55776 -----
 
 
 go-module: github.com/agext/levenshtein@v1.2.1

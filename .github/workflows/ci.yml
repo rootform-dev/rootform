@@ -6,7 +6,6 @@ on:
       - dev
   push:
     branches:
-      - dev
       - main
 
 permissions:
