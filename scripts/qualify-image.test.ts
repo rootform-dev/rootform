@@ -239,7 +239,11 @@ test("generic publication evidence stays format 1, canonical, and digest-pinned"
     parseGenericPublication(JSON.stringify(evidence), repository, true),
   );
   expect(() =>
-    parseGenericPublication(JSON.stringify({ ...evidence, format_version: "2" }), repository, true),
+    parseGenericPublication(
+      JSON.stringify({ ...evidence, format_version: "unsupported" }),
+      repository,
+      true,
+    ),
   ).toThrow("generic publication result is invalid");
   expect(() =>
     parseGenericPublication(

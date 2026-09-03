@@ -34,7 +34,9 @@ rootform publish dialects artifacts/oci \
 Package step is offline. Publish step uses Docker-compatible registry
 credentials, refuses changed existing version tags, and reports success only
 after exact digest repull and full verification. Direct dialect publication
-does not require index; omit `--index`.
+does not require index; omit `--index`. Registry portability requires only
+[`rootform-oci-core-v1`](../contracts/rootform-oci-core-profile.md); catalog,
+Referrers, delete, signatures, SBOM, and VCS access are optional.
 
 Provider semantic changes need current primary-source evidence, synthetic
 positive and boundary fixtures, updated expected architecture, deterministic

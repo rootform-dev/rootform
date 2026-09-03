@@ -23,7 +23,9 @@ test("rejects notice and inventory drift", () => {
   expect(() =>
     validateRuntimeLicensing(
       Buffer.from(
-        inventory.toString("utf8").replace('"format_version": "1"', '"format_version": "2"'),
+        inventory
+          .toString("utf8")
+          .replace('"format_version": "1"', '"format_version": "unsupported"'),
       ),
       notices,
     ),

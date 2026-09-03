@@ -31,7 +31,9 @@ identity. Helper/store error never falls through to another configured identity.
 Rootform invokes helper `get` only, captures helper output, and keeps decoded
 credentials and ORAS Basic/Bearer tokens in process memory. It emits and stores
 no credential, Authorization header, Docker config content, or config path.
-Offline mode creates no registry client and reads no credential source.
+When `SSL_CERT_FILE` is set online, Rootform appends its bounded PEM bundle to
+system roots; invalid content fails with a sanitized error. Offline mode creates
+no registry client and reads neither credential source nor TLS bundle.
 
 Default home is `~/.rootform/` (`%USERPROFILE%\.rootform` on Windows):
 
@@ -44,8 +46,12 @@ tmp/       staging invisible until atomic commit
 
 `ROOTFORM_HOME` replaces this path. Installed versions stage and verify before
 atomic rename. Existing same-version content is never silently replaced.
-Project `.rootform/dialects/` is exclusive when present; vendor and lock update
-transactionally.
+Project `.rootform/dialects/` is exclusive for `build`, `check`, and `run` when
+present. Missing or changed vendor content fails before registry credential
+access; no store, cache, index, or registry fallback occurs. Explicit
+`rootform vendor dialects` may repair exact lock pins from verified local
+material or recorded registry, unless offline, and replaces vendor
+transactionally without changing lock.
 
 Raw secrets, sensitive values, HCL ASTs, plans, and state never enter browser
 payloads, logs, architecture documents, or exported HTML. Inputs are bounded;

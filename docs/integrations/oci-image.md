@@ -6,9 +6,10 @@ Official Rootform image contract defines one versioned multi-platform image:
 ghcr.io/rootform-dev/rootform:<version>
 ```
 
-It targets `linux/amd64` and `linux/arm64`. Publication remains manual and
-private until repository and package visibility are changed deliberately. No
-`latest` tag is published.
+It targets `linux/amd64` and `linux/arm64`. Publication remains manual. GHCR
+package must already be public before official publication. Workflow verifies
+visibility before and after publication but never changes it. No `latest` tag
+is published.
 
 Image is assembled from checksum-verified Linux release archives. It never
 compiles Rootform and never checks out Engine. Rootform executable in each
@@ -73,6 +74,11 @@ release manifest all record same boundary.
 
 Image contains no dialect source. Dialects remain independent MPL-2.0 OCI
 artifacts acquired by Rootform.
+
+Dialect registries need only
+[`rootform-oci-core-v1`](../../contracts/rootform-oci-core-profile.md). See
+[`registry-compatibility.md`](registry-compatibility.md) for tested scope and
+evidence boundary.
 
 ## Permissions
 
@@ -149,6 +155,8 @@ Image uses same embedded OCI client as native binary.
   read-only and set `DOCKER_CONFIG` inside container. Configured credential
   helpers must also be installed or mounted on container `PATH`; official image
   bundles no registry credential or helper.
+- Registries using a private CA require its PEM bundle mounted read-only and
+  selected with `SSL_CERT_FILE`; invalid bundles fail closed.
 - Provider with no configured dialect is recorded explicitly in
   `unsupported_providers` with transparent diagnostic.
 
@@ -195,15 +203,17 @@ only named image paths, justification, and expiration within 90 days; current
 policy has no exception. Medium/Low findings are emitted as evidence.
 Dependabot reviews Alpine digest updates from `oci/Dockerfile`.
 
-Private publication repeats qualification, pushes exact version, and requires:
+Official publication repeats qualification, pushes exact version, and requires:
 
 - platform manifest digests equal offline audited manifests;
 - one SPDX SBOM from digest-pinned BuildKit Syft scanner and one maximal SLSA
   provenance attestation per platform;
-- GHCR package remains private before and after publication;
+- GHCR package is public before and after publication;
 - no moving `latest` tag and no package visibility mutation.
 
 ## CI examples
+
+Portable tested examples live under [`ci/`](ci/).
 
 GitLab shell injection works because image has no entrypoint:
 

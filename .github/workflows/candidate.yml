@@ -26,6 +26,7 @@ jobs:
     timeout-minutes: 60
     permissions:
       contents: write
+      packages: write
       pull-requests: read
     outputs:
       evidence: ${{ steps.candidate-evidence.outputs.body }}
@@ -77,7 +78,6 @@ jobs:
           repository: rootform-dev/dialects
           ref: 34eb5e1879a3d3b09c8aba5827d041703ec55776
           path: build/dialects
-          token: ${{ secrets.DIALECTS_CONTENTS_READ_TOKEN }}
           fetch-depth: 0
           persist-credentials: false
 
@@ -232,6 +232,97 @@ jobs:
             --trivy "$RUNNER_TEMP/trivy" \
             --evidence build/image-evidence/qualification.json
 
+      - name: Configure isolated GHCR credential helper
+        run: |
+          set -euo pipefail
+          helper_dir="$RUNNER_TEMP/rootform-ghcr-helper"
+          docker_config="$RUNNER_TEMP/rootform-ghcr-config"
+          proof="$RUNNER_TEMP/rootform-ghcr-helper-proof"
+          package="rootform-oci-qualification-$GITHUB_RUN_ID"
+          install -d -m 0700 "$helper_dir" "$docker_config"
+          cat >"$helper_dir/docker-credential-rootform-ghcr" <<'EOF'
+          #!/bin/sh
+          set -eu
+          test "${1:-}" = get
+          server="$(cat)"
+          test -n "$server"
+          printf '%s\n' "$server" >"$ROOTFORM_CREDENTIAL_PROOF"
+          jq -cn \
+            --arg ServerURL "$server" \
+            --arg Username "$ROOTFORM_REGISTRY_USERNAME" \
+            --arg Secret "$ROOTFORM_REGISTRY_PASSWORD" \
+            '{$ServerURL,$Username,$Secret}'
+          EOF
+          chmod 0700 "$helper_dir/docker-credential-rootform-ghcr"
+          jq -n '{credHelpers: {"ghcr.io": "rootform-ghcr"}}' \
+            >"$docker_config/config.json"
+          chmod 0600 "$docker_config/config.json"
+          {
+            printf 'DOCKER_CONFIG=%s\n' "$docker_config"
+            printf 'ROOTFORM_CREDENTIAL_HELPER_DIR=%s\n' "$helper_dir"
+            printf 'ROOTFORM_CREDENTIAL_PROOF=%s\n' "$proof"
+            printf 'ROOTFORM_OCI_QUALIFICATION_PACKAGE=%s\n' "$package"
+            printf 'ROOTFORM_OCI_QUALIFICATION_REPOSITORY=ghcr.io/%s/%s\n' \
+              "$GITHUB_REPOSITORY_OWNER" "$package"
+          } >>"$GITHUB_ENV"
+          printf '%s\n' "$helper_dir" >>"$GITHUB_PATH"
+
+      - name: Require qualification package to start private or absent
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          set +e
+          response="$(gh api \
+            "orgs/$GITHUB_REPOSITORY_OWNER/packages/container/$ROOTFORM_OCI_QUALIFICATION_PACKAGE" \
+            2>&1)"
+          status=$?
+          set -e
+          if [[ "$status" == 0 ]]; then
+            test "$(jq -r .visibility <<<"$response")" = private
+          elif [[ "$response" != *"HTTP 404"* ]]; then
+            printf 'could not verify existing qualification package visibility\n' >&2
+            exit 1
+          fi
+
+      - name: Qualify private GHCR against OCI Core Profile
+        env:
+          ROOTFORM_REGISTRY_PASSWORD: ${{ github.token }}
+          ROOTFORM_REGISTRY_USERNAME: ${{ github.actor }}
+        run: |
+          set -euo pipefail
+          rm -f "$ROOTFORM_CREDENTIAL_PROOF"
+          bun run test:oci-registry-compatibility -- \
+            --rootform-bin build/bin/rootform \
+            --repository "$ROOTFORM_OCI_QUALIFICATION_REPOSITORY" \
+            --evidence build/registry-evidence/ghcr.json \
+            --revision "$GITHUB_SHA" \
+            --source-url "https://github.com/$GITHUB_REPOSITORY" \
+            --documentation-url "https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_SHA/contracts/rootform-oci-core-profile.md" \
+            --licenses Apache-2.0 \
+            --credential-proof "$ROOTFORM_CREDENTIAL_PROOF"
+          jq -e \
+            --arg repository "$ROOTFORM_OCI_QUALIFICATION_REPOSITORY" \
+            '.format_version == "1" and
+             .profile == "rootform-oci-core-v1" and
+             .repository == $repository and
+             .capabilities.additional_index == true and
+             .capabilities.docker_credential_helper == true and
+             .capabilities.locked_empty_store == true and
+             .capabilities.offline_vendor_execution == true and
+             .capabilities.pull_by_digest == true and
+             .capabilities.pull_by_tag == true' \
+            build/registry-evidence/ghcr.json >/dev/null
+
+      - name: Require qualification package to remain private
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(gh api \
+            "orgs/$GITHUB_REPOSITORY_OWNER/packages/container/$ROOTFORM_OCI_QUALIFICATION_PACKAGE" \
+            --jq .visibility)" = private
+
       - name: Upload OCI qualification evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -239,9 +330,43 @@ jobs:
           path: |
             build/image/rootform_${{ inputs.version }}_image.json
             build/image-evidence/*.json
+            build/registry-evidence/*.json
           if-no-files-found: error
           compression-level: 9
           retention-days: 30
+
+      - name: Remove transient registry material
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [[ "${ROOTFORM_OCI_QUALIFICATION_PACKAGE:-}" =~ ^rootform-oci-qualification-[1-9][0-9]*$ ]]; then
+            set +e
+            response="$(gh api \
+              --method DELETE \
+              "orgs/$GITHUB_REPOSITORY_OWNER/packages/container/$ROOTFORM_OCI_QUALIFICATION_PACKAGE" \
+              2>&1)"
+            status=$?
+            set -e
+            if [[ "$status" != 0 && "$response" != *"HTTP 404"* ]]; then
+              printf 'could not remove transient qualification package\n' >&2
+              exit 1
+            fi
+          fi
+          for path in \
+            "${DOCKER_CONFIG:-}" \
+            "${ROOTFORM_CREDENTIAL_HELPER_DIR:-}" \
+            "${ROOTFORM_CREDENTIAL_PROOF:-}"; do
+            case "$path" in
+              "$RUNNER_TEMP"/*) rm -rf -- "$path" ;;
+              "") ;;
+              *)
+                printf 'refusing credential cleanup outside runner temp\n' >&2
+                exit 1
+                ;;
+            esac
+          done
 
       - name: Create final draft release
         id: final-release

@@ -31,6 +31,17 @@ rootform run .
 
 See [`docs/installation.md`](docs/installation.md).
 
+## Dialect lifecycle
+
+VCS is authoring provenance. OCI registries distribute dialects. Indexes provide
+discovery. `rootform.lock` records exact selection. Project vendor is exclusive
+execution source when present; verified store/cache supports materialization
+and offline reuse. Docker-compatible credentials authenticate private
+registries. No forge or Rootform Cloud service is required.
+
+See [`contracts/dialect-distribution.md`](contracts/dialect-distribution.md) and
+[`contracts/rootform-oci-core-profile.md`](contracts/rootform-oci-core-profile.md).
+
 ## Licensing boundary
 
 - Repository source, contracts, docs, examples, and tooling: Apache-2.0.

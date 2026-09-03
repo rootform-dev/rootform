@@ -2743,7 +2743,7 @@ test "$(find /usr/local/share/rootform -type f | wc -l)" -eq 3`,
       "--format",
       "json",
     ]);
-    if (broken.exitCode !== 3 || !broken.stderr.includes("vendored dialect set")) {
+    if (broken.exitCode !== 3 || !broken.stderr.includes("rootform vendor dialects")) {
       throw new Error("incomplete vendor fell back outside project");
     }
 

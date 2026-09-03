@@ -2,7 +2,7 @@
   "files": [
     {
       "path": "dependencies/runtime-components.json",
-      "sha256": "16402876f1f7a2d8c0399fc3cdb0ac823e6adecc150aca4ce50d7f7889f96834"
+      "sha256": "986cf7e82f24ef8be844e6d3de578600b12bf4b4349817a4134c6758527be2aa"
     },
     {
       "path": "schemas/architecture-ir.schema.json",
@@ -14,10 +14,10 @@
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
-      "sha256": "4d2e529d127d31540f2e459a4ddae9418727eca0b6a32d1f2ebbb08a5780d81e"
+      "sha256": "3b0fe59a90a20b3389e249f6df7684c292f3373327c26851c683c37b4203b9a0"
     }
   ],
   "format_version": "1",
-  "source_commit": "feabddba6b44ff61815b8f288e35bfcdbfb71c82",
+  "source_commit": "f15ac46084daa1aeea4bfa5f671c6242230af18c",
   "source_repository": "rootform-dev/engine"
 }

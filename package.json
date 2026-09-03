@@ -14,13 +14,14 @@
   },
   "scripts": {
     "assemble:release": "bun scripts/assemble-release.ts",
-    "check": "bun scripts/validate-repository.ts && bun scripts/validate-trivy-policy.ts && bun run typecheck && bun run check:format && bun test scripts",
+    "check": "bun scripts/validate-repository.ts && bun scripts/validate-oci-core-profile.ts && bun scripts/validate-trivy-policy.ts && bun run typecheck && bun run check:format && bun test scripts",
     "check:format": "biome check .github .trivyignore.yaml AGENTS.md README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md TRADEMARKS.md package.json public-export.json contracts dependencies docs examples scripts schemas",
     "build:image": "bun scripts/build-image.ts",
     "download:handoff": "bun scripts/download-handoff.ts",
     "extract:release-binary": "bun scripts/extract-release-binary.ts",
     "format": "biome check --write .github .trivyignore.yaml AGENTS.md README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md TRADEMARKS.md package.json public-export.json contracts dependencies docs examples scripts schemas",
     "test:oci-registry-e2e": "bun scripts/qualify-image.ts",
+    "test:oci-registry-compatibility": "bun scripts/qualify-registry.ts",
     "typecheck": "tsc --noEmit",
     "verify": "bun scripts/verify.ts"
   },

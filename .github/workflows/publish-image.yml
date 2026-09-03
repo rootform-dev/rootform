@@ -1,4 +1,4 @@
-name: publish private image
+name: publish official image
 
 on:
   workflow_dispatch:
@@ -17,12 +17,12 @@ permissions:
   packages: write
 
 concurrency:
-  group: private-image-${{ inputs.version }}
+  group: official-image-${{ inputs.version }}
   cancel-in-progress: false
 
 jobs:
   publish:
-    name: qualify and publish exact private image
+    name: qualify and publish exact official image
     runs-on: ubuntu-24.04
     timeout-minutes: 90
 
@@ -74,7 +74,6 @@ jobs:
           repository: rootform-dev/dialects
           ref: 34eb5e1879a3d3b09c8aba5827d041703ec55776
           path: build/dialects
-          token: ${{ secrets.DIALECTS_CONTENTS_READ_TOKEN }}
           fetch-depth: 0
           persist-credentials: false
 
@@ -142,14 +141,14 @@ jobs:
           tar --extract --gzip --file "$RUNNER_TEMP/$TRIVY_ARCHIVE" --directory "$RUNNER_TEMP" trivy
           printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
 
-      - name: Verify exact private release source
+      - name: Verify exact public release source
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_COMMIT: ${{ steps.release.outputs.commit }}
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$RELEASE_COMMIT"
-          test "$(gh api "repos/$GITHUB_REPOSITORY" --jq '.private')" = true
+          test "$(gh api "repos/$GITHUB_REPOSITORY" --jq '.visibility')" = public
           cmp --silent \
             "$RUNNER_TEMP/release/ROOTFORM-BINARY-LICENSE.txt" \
             dependencies/ROOTFORM-BINARY-LICENSE.txt
@@ -195,17 +194,13 @@ jobs:
             --trivy "$RUNNER_TEMP/trivy" \
             --evidence build/image-evidence/qualification.json
 
-      - name: Verify existing GHCR package is private
+      - name: Require existing official GHCR package to be public
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          error="$RUNNER_TEMP/package-before.err"
-          if visibility="$(gh api orgs/rootform-dev/packages/container/rootform --jq '.visibility' 2>"$error")"; then
-            test "$visibility" = private
-          else
-            grep -q 'HTTP 404' "$error"
-          fi
+          visibility="$(gh api orgs/rootform-dev/packages/container/rootform --jq '.visibility')"
+          test "$visibility" = public
 
       - name: Authenticate isolated GHCR client
         env:
@@ -229,17 +224,17 @@ jobs:
             --metadata build/image-evidence/buildx-metadata.json \
             --evidence build/image-evidence/publication.json
 
-      - name: Verify published GHCR package remains private
+      - name: Verify published official GHCR package remains public
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          test "$(gh api orgs/rootform-dev/packages/container/rootform --jq '.visibility')" = private
+          test "$(gh api orgs/rootform-dev/packages/container/rootform --jq '.visibility')" = public
 
       - name: Upload publication evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: rootform-private-image-${{ inputs.version }}-${{ steps.release.outputs.commit }}
+          name: rootform-official-image-${{ inputs.version }}-${{ steps.release.outputs.commit }}
           path: |
             ${{ runner.temp }}/release.json
             build/image/rootform_${{ inputs.version }}_image.json

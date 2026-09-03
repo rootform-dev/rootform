@@ -1,0 +1,11 @@
+rootform:
+  image:
+    name: ghcr.io/rootform-dev/rootform:0.1.0
+    entrypoint:
+      - ""
+  script:
+    - ./ci/rootform-ci.sh
+  artifacts:
+    when: always
+    paths:
+      - .rootform-ci/

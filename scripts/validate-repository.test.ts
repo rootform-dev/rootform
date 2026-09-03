@@ -26,7 +26,7 @@ test("example dialect contract matches its generated lock", () => {
     writeFileSync(join(directory, "example.json"), '{"dialects":["core","google"]}\n');
     writeFileSync(
       join(directory, "rootform.lock"),
-      '{"format_version":"2","unsupported_providers":[],"entries":[{"name":"core","version":"0.1.0"},{"name":"google","version":"0.1.0"}]}\n',
+      '{"format_version":"unsupported","unsupported_providers":[],"entries":[{"name":"core","version":"0.1.0"},{"name":"google","version":"0.1.0"}]}\n',
     );
     expect(() => validateExampleDialectLock(directory, "fixture")).toThrow(
       "fixture rootform.lock has invalid structure",
