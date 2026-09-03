@@ -241,7 +241,11 @@ function run(
 ): CommandResult {
   const result = execute(command, options);
   assertSafeOutput(result, options.label, options.forbidden);
-  if (result.exitCode !== 0) throw new Error(`${options.label} failed`);
+  if (result.exitCode !== 0) {
+    const detail = [result.stderr.trim(), result.stdout.trim()].filter(Boolean).join("\n");
+    if (detail) process.stderr.write(`${detail}\n`);
+    throw new Error(`${options.label} failed`);
+  }
   return result;
 }
 
