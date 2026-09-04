@@ -1,0 +1,26 @@
+policy_pack "baseline" {
+  version = "0.1.0"
+
+  requires {
+    core = "0.1.0"
+  }
+
+  policy "private-database-reachability" {
+    target = concept.core.managed-database
+
+    assert = (
+      length(relations("private-reachability", concept.core.virtual-network)) > 0 ||
+      length(relations("private-reachability", concept.core.subnet)) > 0
+    )
+
+    message = "Managed databases must be privately reachable from a virtual network or subnet."
+  }
+
+  policy "cluster-network-context" {
+    target = concept.core.kubernetes-cluster
+
+    assert = length(contexts(context.core.network, concept.core.kubernetes-cluster)) > 0
+
+    message = "Kubernetes clusters must belong to a network context."
+  }
+}

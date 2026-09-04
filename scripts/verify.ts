@@ -1,10 +1,32 @@
 #!/usr/bin/env bun
 
-import { existsSync, mkdtempSync, readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { existsSync, lstatSync, mkdtempSync, readdirSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
 
 const root = join(import.meta.dir, "..");
+
+function treeDigest(directory: string, current = directory): string {
+  const digest = createHash("sha256");
+  for (const entry of readdirSync(current, { withFileTypes: true }).sort((left, right) =>
+    left.name.localeCompare(right.name, "en"),
+  )) {
+    const path = join(current, entry.name);
+    const name = path.slice(directory.length + 1).replaceAll("\\", "/");
+    const status = lstatSync(path);
+    if (status.isSymbolicLink()) throw new Error(`verification tree contains symlink: ${name}`);
+    if (entry.isDirectory()) {
+      digest.update(`directory\0${name}\0${treeDigest(directory, path)}\0`);
+      continue;
+    }
+    if (!entry.isFile()) throw new Error(`verification tree contains irregular file: ${name}`);
+    digest.update(`file\0${name}\0${status.size}\0`);
+    digest.update(readFileSync(path));
+    digest.update("\0");
+  }
+  return digest.digest("hex");
+}
 
 function run(command: string[], cwd = root, environment: Record<string, string> = {}): Buffer {
   const result = Bun.spawnSync({
@@ -42,6 +64,49 @@ const isolatedHome = mkdtempSync(join(tmpdir(), "rootform-distribution-"));
 const outputs = mkdtempSync(join(tmpdir(), "rootform-examples-"));
 const environment = { ROOTFORM_HOME: isolatedHome };
 run([binary, "install", "dialects", dialects], root, environment);
+
+const policyPack = join(root, "policy-packs", "baseline");
+const policyLayoutFirst = join(outputs, "policy-pack-first");
+const policyLayoutSecond = join(outputs, "policy-pack-second");
+const revision = run(["git", "rev-parse", "HEAD"]).toString("utf8").trim();
+if (!/^[0-9a-f]{40}$/u.test(revision)) throw new Error("repository revision is not exact");
+const provenance = [
+  "--source-url",
+  "https://github.com/rootform-dev/rootform",
+  "--revision",
+  revision,
+  "--documentation-url",
+  `https://github.com/rootform-dev/rootform/blob/${revision}/policy-packs/README.md`,
+  "--licenses",
+  "Apache-2.0",
+];
+for (const layout of [policyLayoutFirst, policyLayoutSecond]) {
+  run(
+    [binary, "package", "policy-packs", policyPack, "--to", layout, ...provenance],
+    root,
+    environment,
+  );
+}
+if (treeDigest(policyLayoutFirst) !== treeDigest(policyLayoutSecond)) {
+  throw new Error("policy pack OCI layout is nondeterministic");
+}
+run(
+  [
+    binary,
+    "publish",
+    "policy-packs",
+    policyLayoutFirst,
+    "--to",
+    "registry.example/rootform/policy-packs",
+    "--dry-run",
+    "--format",
+    "json",
+  ],
+  root,
+  environment,
+);
+run([binary, "list", "policy-packs", "--policy-pack", policyPack, "--format", "json"]);
+run([binary, "show", "policy-pack", "baseline", "--policy-pack", policyPack, "--format", "json"]);
 
 for (const example of [
   "aws-vpc",

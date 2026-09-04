@@ -1,0 +1,13 @@
+Rootform baseline policy pack
+=============================
+
+This directory is a synthetic public example of one Rootform Policy Pack.
+It is provided under the Apache License, Version 2.0 (see LICENSE).
+
+The example depends only on the referenced "core" dialect concepts and is
+provider-neutral by design: it declares no provider-specific vocabulary and
+selects no provider dialect. Policy blocks inside this example never enter a
+dialect artifact.
+
+Rootform name and marks are not licensed by Apache-2.0. See the repository
+TRADEMARKS.md for the trademark boundary.

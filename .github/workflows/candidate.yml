@@ -310,6 +310,12 @@ jobs:
              .capabilities.docker_credential_helper == true and
              .capabilities.locked_empty_store == true and
              .capabilities.offline_vendor_execution == true and
+             .capabilities.policy_pack_locked_empty_store == true and
+             .capabilities.policy_pack_offline_vendor_execution == true and
+             .capabilities.policy_pack_pull_by_digest == true and
+             .capabilities.policy_pack_pull_by_tag == true and
+             .capabilities.policy_pack_vendor_exact_repair == true and
+             .capabilities.policy_pack_vendor_exclusive == true and
              .capabilities.pull_by_digest == true and
              .capabilities.pull_by_tag == true' \
             build/registry-evidence/ghcr.json >/dev/null

@@ -4,6 +4,9 @@ All notable public Rootform distribution changes will be recorded here.
 
 ## Unreleased
 
+- Added independent policy packs with OCI distribution, explicit artifact
+  selection, format-1 lock pack selection, policy list/show/check selection,
+  pack package/publish/vendor commands, and local pack authoring.
 - Established separate public contracts, schemas, documentation, examples, and
   executable licensing boundary.
 - Licensed Rootform-owned executable code under Elastic License 2.0 and bound

@@ -16,7 +16,8 @@ examples, and release metadata.
 - [`docs/`](docs/): installation, concepts, CLI, dialect authoring, security,
   offline operation, and integrations;
 - [`examples/`](examples/): synthetic AWS, Azure, GCP, Kubernetes, and
-  multi-cloud examples.
+  multi-cloud examples;
+- [`policy-packs/`](policy-packs/): package-ready public Policy Pack examples.
 
 ## Install
 
@@ -41,6 +42,17 @@ registries. No forge or Rootform Cloud service is required.
 
 See [`contracts/dialect-distribution.md`](contracts/dialect-distribution.md) and
 [`contracts/rootform-oci-core-profile.md`](contracts/rootform-oci-core-profile.md).
+
+## Policy Pack lifecycle
+
+Policy Packs version and distribute governance independently from Dialect
+semantics. A policy belongs to one pack, uses pack-qualified identity, and
+declares exact Dialect requirements without installing them. Same OCI,
+authentication, lock, cache, offline, and vendor primitives apply under
+separate Policy Pack identities and paths.
+
+See [`contracts/policy-pack-distribution.md`](contracts/policy-pack-distribution.md)
+and the [`baseline` example](policy-packs/baseline/pack.rf).
 
 ## Licensing boundary
 

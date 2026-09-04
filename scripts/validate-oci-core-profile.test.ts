@@ -10,9 +10,15 @@ const profile = readFileSync(
 
 test("OCI Core Profile names exact used capabilities and exclusions", () => {
   expect(() => validateOCICoreProfile(profile)).not.toThrow();
-  expect(() =>
-    validateOCICoreProfile(profile.replace("manifest resolution by tag or digest", "")),
-  ).toThrow("OCI Core Profile omits");
+  for (const required of [
+    "manifest resolution by tag or digest",
+    "application/vnd.rootform.policy-pack.v1",
+    "Policy Pack V0 defines no index artifact",
+  ]) {
+    expect(() => validateOCICoreProfile(profile.replace(required, ""))).toThrow(
+      "OCI Core Profile omits",
+    );
+  }
 });
 
 test("OCI Core Profile cannot make an excluded feature mandatory", () => {
