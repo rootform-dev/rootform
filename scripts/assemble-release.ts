@@ -185,6 +185,17 @@ function expectedManifest(options: {
   });
 }
 
+function requirePinnedDialectCommit(handoff: VerifiedHandoff, root: string): string {
+  const pin = readDialectPin(root).commit;
+  if (handoff.buildDialectCommit !== pin) {
+    throw new Error(
+      `dialects commit mismatch: handoff was built against ${handoff.buildDialectCommit} ` +
+        `but dependencies/dialects.json pins ${pin}`,
+    );
+  }
+  return pin;
+}
+
 function verifyArchive(
   archive: Buffer,
   binary: Buffer,
@@ -262,7 +273,7 @@ export function verifyFinalDirectory(options: {
   );
   const inputs = distributionInputs(options.root);
   if (!inputs.schema.equals(handoff.schema)) throw new Error("distribution schema drifted");
-  const dialectCommit = readDialectPin(options.root).commit;
+  const dialectCommit = requirePinnedDialectCommit(handoff, options.root);
   const artifacts = handoff.binaries.map(({ body, sha256: binarySha256, target }) => {
     const name = releaseAssetName(version, target);
     const archive = requireRegularFile(join(options.output, name), name, 512 * 1024 * 1024);
@@ -341,6 +352,7 @@ export function assembleRelease(options: {
   );
   const inputs = distributionInputs(options.root);
   if (!inputs.schema.equals(handoff.schema)) throw new Error("distribution schema drifted");
+  const dialectCommit = requirePinnedDialectCommit(handoff, options.root);
   const artifacts: FinalArtifactRecord[] = [];
   for (const { body, sha256: binarySha256, target } of handoff.binaries) {
     const entries = releaseArchiveEntries({
@@ -370,7 +382,7 @@ export function assembleRelease(options: {
     expectedManifest({
       artifacts,
       componentCount: inputs.componentCount,
-      dialectCommit: readDialectPin(options.root).commit,
+      dialectCommit,
       distributionCommit: options.distributionCommit,
       handoff,
       license: inputs.license,
