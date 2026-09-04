@@ -1,18 +1,45 @@
 {
   "format_version": "1",
+  "sources": [
+    {
+      "kind": "index",
+      "reference": "ghcr.io/rootform-dev/dialects:official-index-v1",
+      "manifest_digest": "sha256:5647bf0fbd0f241fe2bf410f634e520d139ae80a35f92d648e8d7d479ed44d36"
+    }
+  ],
   "unsupported_providers": [],
   "entries": [
     {
       "name": "aws",
       "version": "0.1.0",
       "digest": "sha256:f23bcd99d703f780ee7e9b9b26445712ccbb44114e99546b9c10a0e2c67f224a",
-      "presentation_digest": "sha256:e4a6b82007a46f8161e03020021cbeaaa032f3645effde63d616a9fab8b8adc1"
+      "presentation_digest": "sha256:e4a6b82007a46f8161e03020021cbeaaa032f3645effde63d616a9fab8b8adc1",
+      "artifact": {
+        "repository": "ghcr.io/rootform-dev/dialects",
+        "manifest_digest": "sha256:0145ecf4ac0ac14da291cec1bf077dbbdc9b8d46771af516e940491365a5c6af",
+        "layer_digest": "sha256:d3ab45ae5ec9864f01ba0b0aaa260c64edaa3eab6bb0fbf89ef175e433fdab22",
+        "download_size": 39217,
+        "install_size": 203589
+      },
+      "origins": [
+        "ghcr.io/rootform-dev/dialects:official-index-v1"
+      ]
     },
     {
       "name": "core",
       "version": "0.1.0",
       "digest": "sha256:af5a6b57e85bc5026b356542cf4950ccac62c2770f7d1a5f6b0272eef642a11d",
-      "presentation_digest": "sha256:6250b078276b44c2db9361c26c6c92351d26f49de7ac6daf22c9859cd2f962c8"
+      "presentation_digest": "sha256:6250b078276b44c2db9361c26c6c92351d26f49de7ac6daf22c9859cd2f962c8",
+      "artifact": {
+        "repository": "ghcr.io/rootform-dev/dialects",
+        "manifest_digest": "sha256:3fdbecf00028e53c9eac5ab2abcbd46f7fd7e0dc1ac5c4e193a85696640f8faf",
+        "layer_digest": "sha256:d897dac44fcf262f6177d7d44241c837a2446e92f15539cd98a2f9c0c90d513b",
+        "download_size": 8994,
+        "install_size": 24988
+      },
+      "origins": [
+        "ghcr.io/rootform-dev/dialects:official-index-v1"
+      ]
     }
   ]
 }

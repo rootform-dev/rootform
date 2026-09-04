@@ -187,7 +187,6 @@ jobs:
       - name: Verify contracts and examples
         env:
           ROOTFORM_BIN: ${{ github.workspace }}/build/bin/rootform
-          ROOTFORM_DIALECTS_DIR: ${{ github.workspace }}/build/dialects
         run: bun run verify
 
       - name: Verify complete official Dialects matrix
