@@ -424,11 +424,91 @@ jobs:
           cat build/candidate-evidence.md >> "$GITHUB_STEP_SUMMARY"
           printf 'body=%s\n' "$(base64 -w 0 build/candidate-evidence.md)" >> "$GITHUB_OUTPUT"
 
+  platforms:
+    name: runtime ${{ matrix.target }}
+    needs:
+      - qualify
+    permissions:
+      contents: read
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - archive_target: linux-amd64
+            executable: rootform
+            runner: ubuntu-24.04
+            target: linux-amd64
+          - archive_target: linux-arm64
+            executable: rootform
+            runner: ubuntu-24.04-arm
+            target: linux-arm64
+          - archive_target: darwin-amd64
+            executable: rootform
+            runner: macos-15-intel
+            target: macos-amd64
+          - archive_target: darwin-arm64
+            executable: rootform
+            runner: macos-15
+            target: macos-arm64
+          - archive_target: windows-amd64
+            executable: rootform.exe
+            runner: windows-2025
+            target: windows-amd64
+
+    steps:
+      - name: Check out distribution
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Download exact draft candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release download "v${{ inputs.version }}"
+          --repo "${{ github.repository }}"
+          --dir build/release
+
+      - name: Extract verified native binary
+        run: >-
+          bun scripts/extract-release-binary.ts
+          --version "${{ inputs.version }}"
+          --release build/release
+          --target "${{ matrix.archive_target }}"
+          --output "build/bin/${{ matrix.executable }}"
+
+      - name: Exercise native runtime
+        run: >-
+          bun scripts/verify-platform-runtime.ts
+          --version "${{ inputs.version }}"
+          --binary "build/bin/${{ matrix.executable }}"
+          --target "${{ matrix.target }}"
+          --evidence "build/platform-evidence/${{ matrix.target }}.json"
+
+      - name: Upload native runtime evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-runtime-${{ inputs.version }}-${{ matrix.target }}
+          path: build/platform-evidence/${{ matrix.target }}.json
+          if-no-files-found: error
+          compression-level: 9
+          retention-days: 30
+
   evidence:
     name: PR evidence
     if: always() && needs.qualify.outputs.pull-request != ''
     needs:
       - qualify
+      - platforms
     permissions:
       contents: read
       pull-requests: write
@@ -440,7 +520,7 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           PR_NUMBER: ${{ needs.qualify.outputs.pull-request }}
-          QUALIFY_RESULT: ${{ needs.qualify.result }}
+          QUALIFY_RESULT: ${{ needs.qualify.result == 'success' && needs.platforms.result == 'success' && 'success' || 'failure' }}
           REPORT_BASE64: ${{ needs.qualify.outputs.evidence }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:
@@ -448,7 +528,7 @@ jobs:
             const marker = '<!-- rootform:distribution-evidence -->';
             const runUrl = process.env.RUN_URL;
             const qualified = process.env.QUALIFY_RESULT === 'success';
-            const report = process.env.REPORT_BASE64
+            const report = qualified && process.env.REPORT_BASE64
               ? Buffer.from(process.env.REPORT_BASE64, 'base64').toString('utf8')
               : `${marker}\n## Distribution candidate evidence\n\n> **Blocked** · [Open workflow run](${runUrl})\n`;
             if (!report.startsWith(marker) || Buffer.byteLength(report) > 60000) {
