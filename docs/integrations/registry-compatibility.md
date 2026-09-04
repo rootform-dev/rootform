@@ -21,10 +21,12 @@ offline package and publication dry-run
 ```
 
 Candidate gate runs full matrix against ephemeral CNCF Distribution instances,
-including anonymous, Basic, TLS, and credential-helper paths. It also runs
-reusable profile qualification against private GHCR, where package visibility
-plus same additional-index proof cover a private index and Bearer challenge
-exchange. It deletes transient test package after evidence upload.
+including anonymous, private Basic, TLS, and credential-helper paths. It also
+runs reusable profile qualification against a transient public GHCR package,
+where same additional-index proof covers Bearer challenge exchange. GitHub
+Actions creates packages with repository-inherited visibility; qualification
+therefore asserts public visibility, publishes only synthetic fixtures, and
+deletes the transient package before the job ends.
 
 GitLab Container Registry, Azure Container Registry, Harbor, Artifactory, and
 Nexus are likely candidates because Rootform uses standard OCI Distribution

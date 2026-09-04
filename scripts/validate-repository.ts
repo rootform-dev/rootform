@@ -328,6 +328,10 @@ export function validateRepository(): void {
     !candidateWorkflow.includes("packages: write") ||
     !candidateWorkflow.includes("test:oci-registry-compatibility") ||
     !candidateWorkflow.includes("rootform-oci-core-v1") ||
+    !candidateWorkflow.includes("Require qualification package to start public or absent") ||
+    !candidateWorkflow.includes("Require qualification package to remain public") ||
+    (candidateWorkflow.match(/= public/gmu)?.length ?? 0) !== 2 ||
+    candidateWorkflow.includes("private GHCR") ||
     !candidateWorkflow.includes('server="$(cat)"') ||
     candidateWorkflow.includes("IFS= read -r server")
   ) {
