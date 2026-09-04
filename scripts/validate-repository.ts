@@ -349,6 +349,9 @@ export function validateRepository(): void {
     !policyPackWorkflow.includes("packages: write") ||
     !policyPackWorkflow.includes("name: publish example policy packs") ||
     !policyPackWorkflow.includes("Require public package visibility") ||
+    !policyPackWorkflow.includes(
+      "https://github.com/orgs/rootform-dev/packages/container/policy-packs/settings",
+    ) ||
     !policyPackWorkflow.includes("Verify anonymous tag and digest pulls") ||
     !policyPackWorkflow.includes(".content.schemaVersion == 2") ||
     !policyPackWorkflow.includes(
@@ -356,6 +359,7 @@ export function validateRepository(): void {
     ) ||
     !policyPackWorkflow.includes("application/vnd.rootform.policy-pack.manifest.v1+json") ||
     !policyPackWorkflow.includes("application/vnd.rootform.policy-pack.layer.v1.tar+gzip") ||
+    policyPackWorkflow.includes("/packages/container/package/policy-packs/settings") ||
     policyPackWorkflow.includes("\n              .schemaVersion == 2") ||
     policyPackWorkflow.includes("\n              .artifactType ==")
   ) {
