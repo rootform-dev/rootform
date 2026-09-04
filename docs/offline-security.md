@@ -23,10 +23,42 @@ acquisition input. CI implies no input, never offline.
 
 `--locked` requires existing lock and forbids lock changes while allowing exact
 locked downloads from each artifact pin's repository and manifest digest unless
-offline. This path never reads mutable index or source reference. No-input normal command may create
-absent lock from unique recommendations, but never changes existing one; explicit
-`rootform init --no-input` is required for deterministic update. Network or
-integrity failure leaves no partially visible store, vendor, or lock.
+offline. This path never reads mutable index or source reference. No-input
+normal command may create absent lock from unique recommendations, but never
+changes existing one; explicit `rootform init --no-input` is required for
+deterministic update. Network or integrity failure leaves no partially visible
+store, vendor, or lock.
+
+## OCI mirrors for locked projects
+
+Rootform supports a mirror through exact lock routing, not source priority.
+First copy every artifact descriptor graph named by the lock to one
+standards-compatible mirror repository without repackaging it. Verify that each
+copied manifest retains its locked digest. Then change only
+`entries[].artifact.repository` in `rootform.lock` to the tagless mirror
+repository. Keep manifest and layer digests, sizes, semantic and presentation
+digests, versions, `sources`, and `origins` unchanged. Review and commit that
+lock change.
+
+Validate the mirror from an empty store:
+
+```sh
+ROOTFORM_HOME=/path/to/empty-rootform-home \
+  rootform init . --locked --no-input
+```
+
+Locked recovery contacts only each entry's rewritten repository at its exact
+manifest digest. It does not read the recorded index, contact the original
+artifact repository, or fall back there when the mirror is missing, unreachable,
+or corrupt. After this acquisition, either retain the verified home or run
+`rootform vendor dialects`; subsequent `--locked --offline` commands need no
+registry or credentials.
+
+Do not add a rewritten copy of the official index with `--source`. The official
+index remains implicit, and same name/version entries from different artifact
+repositories are an intentional source conflict even when their content
+digests match. This strict rule prevents source priority from silently changing
+artifact identity.
 
 Online OCI authentication reads standard Docker configuration only. Non-empty
 `DOCKER_CONFIG` takes precedence over current user's `~/.docker/config.json`;
