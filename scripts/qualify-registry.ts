@@ -20,6 +20,8 @@ const REPOSITORY =
   /^(?:[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?|\[[0-9a-f:]+\])(?::[1-9][0-9]{0,4})?\/[a-z0-9]+(?:[._-][a-z0-9]+)*(?:\/[a-z0-9]+(?:[._-][a-z0-9]+)*)*$/u;
 const DIALECT_NAME = "registry-compat";
 const DIALECT_VERSION = "0.1.0";
+const POLICY_PACK_NAME = "registry-compat-policies";
+const POLICY_PACK_VERSION = "0.1.0";
 const PROVIDER_SOURCE = "registry.terraform.io/examplecorp/portable";
 const PROVIDER_VERSION = "0.1.0";
 
@@ -69,11 +71,24 @@ type Publication = {
   repository: string;
 };
 
+type PolicyPackPublication = {
+  dry_run: boolean;
+  format_version: "1";
+  policy_packs: PublicationEntry[];
+  repository: string;
+};
+
 type ArtifactEvidence = {
   layerDigest: string;
   manifestDigest: string;
   presentationDigest: string;
   semanticDigest: string;
+};
+
+type PolicyPackArtifactEvidence = {
+  layerDigest: string;
+  manifestDigest: string;
+  packDigest: string;
 };
 
 type JsonObject = Record<string, unknown>;
@@ -294,6 +309,11 @@ function writeFixture(root: string, repositoryRoot: string): void {
   version = "${DIALECT_VERSION}"
   provider "examplecorp/portable" { version = "= ${PROVIDER_VERSION}" }
 }
+
+concept "portable-service" {
+  kind        = entity
+  description = "A portable service used only by registry qualification."
+}
 `,
     { flag: "wx", mode: 0o644 },
   );
@@ -309,6 +329,38 @@ function writeFixture(root: string, repositoryRoot: string): void {
   writeFileSync(
     join(source, "NOTICE"),
     "Rootform registry compatibility fixture. Not a production dialect.\n",
+    { flag: "wx", mode: 0o644 },
+  );
+
+  const policyPack = join(root, "policy-source");
+  mkdirSync(policyPack, { recursive: true, mode: 0o755 });
+  writeFileSync(
+    join(policyPack, "pack.rf"),
+    `policy_pack "${POLICY_PACK_NAME}" {
+  version = "${POLICY_PACK_VERSION}"
+
+  requires {
+    ${DIALECT_NAME} = "${DIALECT_VERSION}"
+  }
+
+  policy "portable-service-links" {
+    target = concept.${DIALECT_NAME}.portable-service
+
+    assert = length(relations("portable-link", concept.${DIALECT_NAME}.portable-service)) >= 0
+
+    message = "Portable services expose deterministic relation evidence."
+  }
+}
+`,
+    { flag: "wx", mode: 0o644 },
+  );
+  cpSync(join(repositoryRoot, "LICENSE"), join(policyPack, "LICENSE"), {
+    errorOnExist: true,
+    force: false,
+  });
+  writeFileSync(
+    join(policyPack, "NOTICE"),
+    "Rootform registry compatibility fixture. Not a production Policy Pack.\n",
     { flag: "wx", mode: 0o644 },
   );
 }
@@ -412,6 +464,55 @@ function publicationOf(body: string, options: Options, dryRun: boolean): Publica
   };
 }
 
+function policyPackPublicationOf(
+  body: string,
+  options: Options,
+  dryRun: boolean,
+): PolicyPackPublication {
+  const value = parseJSON(body, "Policy Pack publication result");
+  if (
+    value.format_version !== "1" ||
+    value.repository !== options.repository ||
+    value.dry_run !== dryRun ||
+    value.index !== undefined ||
+    !Array.isArray(value.policy_packs) ||
+    value.policy_packs.length !== 1
+  ) {
+    throw new Error("Policy Pack publication result identity is invalid");
+  }
+  const entry = object(value.policy_packs[0], "Policy Pack publication entry");
+  const provenance = object(entry.provenance, "Policy Pack publication provenance");
+  if (
+    entry.name !== POLICY_PACK_NAME ||
+    entry.version !== POLICY_PACK_VERSION ||
+    entry.repository !== options.repository ||
+    entry.tag !== `policy-pack-${POLICY_PACK_NAME}-${POLICY_PACK_VERSION}` ||
+    !DIGEST.test(String(entry.manifest_digest ?? "")) ||
+    !Number.isSafeInteger(entry.manifest_size) ||
+    Number(entry.manifest_size) < 1 ||
+    !Number.isSafeInteger(entry.size) ||
+    Number(entry.size) < 1 ||
+    !["already_present", "planned", "published"].includes(String(entry.status)) ||
+    provenance.source !== options.sourceURL ||
+    provenance.revision !== options.revision ||
+    provenance.documentation !== options.documentationURL ||
+    provenance.licenses !== options.licenses ||
+    Object.keys(provenance).length !== 4
+  ) {
+    throw new Error("Policy Pack publication entry is invalid");
+  }
+  const parsed = entry as unknown as PublicationEntry;
+  if ((dryRun && parsed.status !== "planned") || (!dryRun && parsed.status === "planned")) {
+    throw new Error("Policy Pack publication status is invalid");
+  }
+  return {
+    dry_run: dryRun,
+    format_version: "1",
+    policy_packs: [parsed],
+    repository: options.repository,
+  };
+}
+
 function lockEvidence(
   path: string,
   sourceReference: string,
@@ -467,6 +568,57 @@ function lockEvidence(
   };
 }
 
+function policyPackLockEvidence(
+  path: string,
+  sourceReference: string,
+  publication: PolicyPackPublication,
+  forbidden: string[],
+): PolicyPackArtifactEvidence {
+  const encoded = readFileSync(path, "utf8");
+  const lowered = encoded.toLowerCase();
+  for (const word of ["authorization", "credential", "password", "username", "docker_config"]) {
+    if (lowered.includes(word)) throw new Error("rootform.lock contains credential material");
+  }
+  for (const value of forbidden) {
+    if (value && encoded.includes(value)) throw new Error("rootform.lock contains local input");
+  }
+  const lock = parseJSON(encoded, "rootform.lock");
+  if (lock.format_version !== "1" || !Array.isArray(lock.policy_packs)) {
+    throw new Error("rootform.lock Policy Pack section is invalid");
+  }
+  const entries = lock.policy_packs.map((value) => object(value, "rootform.lock Policy Pack"));
+  const entry = entries.find((value) => value.name === POLICY_PACK_NAME);
+  if (!entry || entry.version !== POLICY_PACK_VERSION || entries.length !== 1) {
+    throw new Error("rootform.lock selected Policy Pack set is invalid");
+  }
+  const artifact = object(entry.artifact, "rootform.lock Policy Pack artifact pin");
+  const published = publication.policy_packs[0] as PublicationEntry;
+  if (
+    artifact.repository !== publication.repository ||
+    artifact.manifest_digest !== published.manifest_digest ||
+    !DIGEST.test(String(artifact.layer_digest ?? "")) ||
+    !DIGEST.test(String(entry.digest ?? "")) ||
+    !Array.isArray(entry.origins) ||
+    !entry.origins.includes(sourceReference) ||
+    !Array.isArray(lock.sources) ||
+    !lock.sources
+      .map((value) => object(value, "rootform.lock source"))
+      .some(
+        (source) =>
+          source.kind === "policy-pack" &&
+          source.reference === sourceReference &&
+          source.manifest_digest === published.manifest_digest,
+      )
+  ) {
+    throw new Error("rootform.lock Policy Pack source or artifact evidence differs");
+  }
+  return {
+    layerDigest: String(artifact.layer_digest),
+    manifestDigest: String(artifact.manifest_digest),
+    packDigest: String(entry.digest),
+  };
+}
+
 function validateInspection(
   body: string,
   publication: Publication,
@@ -496,6 +648,38 @@ function validateInspection(
       provenance.licenses !== options.licenses
     ) {
       throw new Error("dialect inspection provenance differs");
+    }
+  }
+}
+
+function validatePolicyPackInspection(
+  body: string,
+  publication: PolicyPackPublication,
+  artifact: PolicyPackArtifactEvidence,
+  options: Options,
+  source: "store" | "vendor",
+): void {
+  const value = parseJSON(body, "Policy Pack inspection");
+  if (
+    value.name !== POLICY_PACK_NAME ||
+    value.version !== POLICY_PACK_VERSION ||
+    value.execution_source !== source ||
+    value.repository !== publication.repository ||
+    value.manifest_digest !== artifact.manifestDigest ||
+    value.layer_digest !== artifact.layerDigest ||
+    value.pack_digest !== artifact.packDigest
+  ) {
+    throw new Error("Policy Pack inspection evidence differs");
+  }
+  if (source === "store") {
+    const provenance = object(value.provenance, "Policy Pack inspection provenance");
+    if (
+      provenance.source !== options.sourceURL ||
+      provenance.revision !== options.revision ||
+      provenance.documentation !== options.documentationURL ||
+      provenance.licenses !== options.licenses
+    ) {
+      throw new Error("Policy Pack inspection provenance differs");
     }
   }
 }
@@ -530,6 +714,7 @@ export function qualifyRegistry(options: Options): void {
     const authoring = join(temporary, "authoring");
     const packageHome = join(temporary, "package-home");
     const layout = join(authoring, "layout");
+    const policyLayout = join(authoring, "policy-layout");
     const invalidDocker = join(temporary, "invalid-docker");
     mkdirSync(authoring, { mode: 0o755 });
     mkdirSync(packageHome, { mode: 0o755 });
@@ -602,6 +787,64 @@ export function qualifyRegistry(options: Options): void {
       true,
     );
 
+    run(
+      [
+        options.rootformBinary,
+        "package",
+        "policy-packs",
+        "policy-source",
+        "--to",
+        "policy-layout",
+        "--source-url",
+        options.sourceURL,
+        "--revision",
+        options.revision,
+        "--documentation-url",
+        options.documentationURL,
+        "--licenses",
+        options.licenses,
+      ],
+      {
+        cwd: authoring,
+        env: {
+          ...baseEnvironment(options, packageHome),
+          DOCKER_CONFIG: invalidDocker,
+          HTTPS_PROXY: "http://127.0.0.1:1",
+          ROOTFORM_OFFLINE: "1",
+        },
+        forbidden,
+        label: "offline Policy Pack package",
+      },
+    );
+    const policyDryRun = policyPackPublicationOf(
+      run(
+        [
+          options.rootformBinary,
+          "publish",
+          "policy-packs",
+          "policy-layout",
+          "--to",
+          options.repository,
+          "--dry-run",
+          "--format",
+          "json",
+        ],
+        {
+          cwd: authoring,
+          env: {
+            ...baseEnvironment(options, join(temporary, "policy-dry-run-home")),
+            DOCKER_CONFIG: invalidDocker,
+            HTTPS_PROXY: "http://127.0.0.1:1",
+            ROOTFORM_OFFLINE: "1",
+          },
+          forbidden,
+          label: "offline Policy Pack publication dry-run",
+        },
+      ).stdout,
+      options,
+      true,
+    );
+
     const publish = (): Publication =>
       publicationOf(
         run(
@@ -636,15 +879,53 @@ export function qualifyRegistry(options: Options): void {
       throw new Error("publication is not deterministic and idempotent");
     }
 
+    const publishPolicyPack = (): PolicyPackPublication =>
+      policyPackPublicationOf(
+        run(
+          [
+            options.rootformBinary,
+            "publish",
+            "policy-packs",
+            policyLayout,
+            "--to",
+            options.repository,
+            "--format",
+            "json",
+          ],
+          {
+            env: baseEnvironment(options, join(temporary, "policy-publish-home")),
+            forbidden,
+            label: "live Policy Pack publication",
+          },
+        ).stdout,
+        options,
+        false,
+      );
+    const policyPublication = publishPolicyPack();
+    const repeatedPolicyPublication = publishPolicyPack();
+    if (
+      policyPublication.policy_packs[0]?.manifest_digest !==
+        policyDryRun.policy_packs[0]?.manifest_digest ||
+      repeatedPolicyPublication.policy_packs[0]?.status !== "already_present"
+    ) {
+      throw new Error("Policy Pack publication is not deterministic and idempotent");
+    }
+
     const dialect = publication.dialects[0] as PublicationEntry;
     const references = {
       digest: `${options.repository}@${dialect.manifest_digest}`,
       index: `${options.repository}:${publication.index.tag}`,
       tag: `${options.repository}:${dialect.tag}`,
     };
+    const publishedPolicyPack = policyPublication.policy_packs[0] as PublicationEntry;
+    const policyReferences = {
+      digest: `${options.repository}@${publishedPolicyPack.manifest_digest}`,
+      index: `${options.repository}:${publishedPolicyPack.tag}`,
+      tag: `${options.repository}:${publishedPolicyPack.tag}`,
+    };
     const projects = new Map<
       keyof typeof references,
-      { artifact: ArtifactEvidence; root: string }
+      { artifact: ArtifactEvidence; pack: PolicyPackArtifactEvidence; root: string }
     >();
     for (const [kind, reference] of Object.entries(references) as Array<
       [keyof typeof references, string]
@@ -659,6 +940,8 @@ export function qualifyRegistry(options: Options): void {
           ".",
           "--source",
           reference,
+          "--policy-pack",
+          policyReferences[kind],
           "--no-input",
           "--format",
           "json",
@@ -672,6 +955,12 @@ export function qualifyRegistry(options: Options): void {
       );
       projects.set(kind, {
         artifact: lockEvidence(join(project, "rootform.lock"), reference, publication, forbidden),
+        pack: policyPackLockEvidence(
+          join(project, "rootform.lock"),
+          policyReferences[kind],
+          policyPublication,
+          forbidden,
+        ),
         root: project,
       });
     }
@@ -684,9 +973,11 @@ export function qualifyRegistry(options: Options): void {
       !digest ||
       !index ||
       JSON.stringify(tag.artifact) !== JSON.stringify(digest.artifact) ||
-      JSON.stringify(tag.artifact) !== JSON.stringify(index.artifact)
+      JSON.stringify(tag.artifact) !== JSON.stringify(index.artifact) ||
+      JSON.stringify(tag.pack) !== JSON.stringify(digest.pack) ||
+      JSON.stringify(tag.pack) !== JSON.stringify(index.pack)
     ) {
-      throw new Error("tag, digest, and index resolution selected different content");
+      throw new Error("tag, digest, or index resolution selected different content");
     }
 
     const lockedProject = join(temporary, "locked-project");
@@ -707,6 +998,10 @@ export function qualifyRegistry(options: Options): void {
       join(lockedHome, "dialects", DIALECT_NAME, DIALECT_VERSION, "dialect.rf"),
       "locked installed dialect",
     );
+    regularFile(
+      join(lockedHome, "policy-packs", POLICY_PACK_NAME, POLICY_PACK_VERSION, "pack.rf"),
+      "locked installed Policy Pack",
+    );
     validateInspection(
       run([options.rootformBinary, "show", "dialect", DIALECT_NAME, "--format", "json"], {
         cwd: lockedProject,
@@ -716,6 +1011,18 @@ export function qualifyRegistry(options: Options): void {
       }).stdout,
       publication,
       tag.artifact,
+      options,
+      "store",
+    );
+    validatePolicyPackInspection(
+      run([options.rootformBinary, "show", "policy-pack", POLICY_PACK_NAME, "--format", "json"], {
+        cwd: lockedProject,
+        env: baseEnvironment(options, lockedHome),
+        forbidden,
+        label: "stored Policy Pack inspection",
+      }).stdout,
+      policyPublication,
+      tag.pack,
       options,
       "store",
     );
@@ -732,6 +1039,25 @@ export function qualifyRegistry(options: Options): void {
       throw new Error("selected dialect listing is invalid");
     }
     validateInspection(JSON.stringify(listed[0]), publication, tag.artifact, options, "store");
+    const listedPolicyPacks = parseJSONValue(
+      run([options.rootformBinary, "list", "policy-packs", "--format", "json"], {
+        cwd: lockedProject,
+        env: baseEnvironment(options, lockedHome),
+        forbidden,
+        label: "selected Policy Pack listing",
+      }).stdout,
+      "selected Policy Pack listing",
+    );
+    if (!Array.isArray(listedPolicyPacks) || listedPolicyPacks.length !== 1) {
+      throw new Error("selected Policy Pack listing is invalid");
+    }
+    validatePolicyPackInspection(
+      JSON.stringify(listedPolicyPacks[0]),
+      policyPublication,
+      tag.pack,
+      options,
+      "store",
+    );
     const installed = parseJSONValue(
       run([options.rootformBinary, "list", "dialects", "--installed", "--format", "json"], {
         cwd: lockedProject,
@@ -757,15 +1083,29 @@ export function qualifyRegistry(options: Options): void {
       forbidden,
       label: "exact registry vendor repair",
     });
+    run([options.rootformBinary, "vendor", "policy-packs"], {
+      cwd: vendorProject,
+      env: baseEnvironment(options, vendorHome),
+      forbidden,
+      label: "exact Policy Pack registry vendor repair",
+    });
     const vendorRoot = join(vendorProject, ".rootform", "dialects", DIALECT_NAME);
+    const vendorPackRoot = join(vendorProject, ".rootform", "policy-packs", POLICY_PACK_NAME);
     regularFile(join(vendorRoot, "dialect.rf"), "vendored dialect");
     regularFile(join(vendorRoot, "LICENSE"), "vendored license");
     regularFile(join(vendorRoot, "NOTICE"), "vendored notice");
+    regularFile(join(vendorPackRoot, "pack.rf"), "vendored Policy Pack");
+    regularFile(join(vendorPackRoot, "LICENSE"), "vendored Policy Pack license");
+    regularFile(join(vendorPackRoot, "NOTICE"), "vendored Policy Pack notice");
     if (
       readFileSync(join(vendorRoot, "LICENSE"), "utf8") !==
         readFileSync(join(options.root, "LICENSE"), "utf8") ||
+      readFileSync(join(vendorPackRoot, "LICENSE"), "utf8") !==
+        readFileSync(join(options.root, "LICENSE"), "utf8") ||
       existsSync(join(vendorRoot, ".rootform-artifact.json")) ||
+      existsSync(join(vendorPackRoot, ".rootform-artifact.json")) ||
       hasFiles(join(vendorHome, "dialects")) ||
+      hasFiles(join(vendorHome, "policy-packs")) ||
       sha256(readFileSync(vendorLock)) !== vendorLockDigest
     ) {
       throw new Error("vendor content, store boundary, or lock identity differs");
@@ -811,6 +1151,18 @@ export function qualifyRegistry(options: Options): void {
       options,
       "vendor",
     );
+    validatePolicyPackInspection(
+      run([options.rootformBinary, "show", "policy-pack", POLICY_PACK_NAME, "--format", "json"], {
+        cwd: vendorProject,
+        env: offlineEnvironment,
+        forbidden,
+        label: "vendored Policy Pack inspection",
+      }).stdout,
+      policyPublication,
+      tag.pack,
+      options,
+      "vendor",
+    );
 
     rmSync(join(vendorRoot, "dialect.rf"));
     const partial = expectFailure(
@@ -834,6 +1186,30 @@ export function qualifyRegistry(options: Options): void {
     regularFile(join(vendorRoot, "dialect.rf"), "repaired vendored dialect");
     if (sha256(readFileSync(vendorLock)) !== vendorLockDigest) {
       throw new Error("vendor repair changed rootform.lock");
+    }
+
+    rmSync(join(vendorPackRoot, "pack.rf"));
+    const partialPack = expectFailure(
+      [options.rootformBinary, "check", ".", "--locked", "--no-input", "--format", "json"],
+      {
+        cwd: vendorProject,
+        env: { ...baseEnvironment(options, vendorHome), DOCKER_CONFIG: invalidDocker },
+        forbidden,
+        label: "partial Policy Pack vendor execution",
+      },
+    );
+    if (!`${partialPack.stdout}\n${partialPack.stderr}`.includes("rootform vendor policy-packs")) {
+      throw new Error("partial Policy Pack vendor did not fail at explicit repair boundary");
+    }
+    run([options.rootformBinary, "vendor", "policy-packs"], {
+      cwd: vendorProject,
+      env: baseEnvironment(options, vendorHome),
+      forbidden,
+      label: "explicit partial Policy Pack vendor repair",
+    });
+    regularFile(join(vendorPackRoot, "pack.rf"), "repaired vendored Policy Pack");
+    if (sha256(readFileSync(vendorLock)) !== vendorLockDigest) {
+      throw new Error("Policy Pack vendor repair changed rootform.lock");
     }
 
     if (options.credentialProof) {
@@ -860,6 +1236,12 @@ export function qualifyRegistry(options: Options): void {
         docker_credential_helper: Boolean(options.credentialProof),
         locked_empty_store: true,
         offline_vendor_execution: true,
+        policy_pack_locked_empty_store: true,
+        policy_pack_offline_vendor_execution: true,
+        policy_pack_pull_by_digest: true,
+        policy_pack_pull_by_tag: true,
+        policy_pack_vendor_exact_repair: true,
+        policy_pack_vendor_exclusive: true,
         publish: true,
         publish_idempotent: true,
         pull_by_digest: true,
@@ -871,6 +1253,14 @@ export function qualifyRegistry(options: Options): void {
       index: {
         manifest_digest: publication.index.manifest_digest,
         tag: publication.index.tag,
+      },
+      policy_pack: {
+        layer_digest: tag.pack.layerDigest,
+        manifest_digest: tag.pack.manifestDigest,
+        name: POLICY_PACK_NAME,
+        pack_digest: tag.pack.packDigest,
+        tag: publishedPolicyPack.tag,
+        version: POLICY_PACK_VERSION,
       },
       profile: "rootform-oci-core-v1",
       provenance: {

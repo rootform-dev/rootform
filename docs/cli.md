@@ -19,6 +19,8 @@ Initialization flags:
 --offline    forbid every network access
 --upgrade    allow newer compatible dialect versions
 --source REF add a dialect artifact or dialect index OCI reference; repeatable
+--policy-pack REF
+             select an exact Policy Pack OCI artifact reference; repeatable
 --no-input   forbid prompts and interactive choices
 -v, --verbose
              show provider evidence, dialect compatibility, and origin
@@ -26,10 +28,10 @@ Initialization flags:
              select human or deterministic machine output
 ```
 
-`--locked` is incompatible with `--upgrade` and `--source`. `--locked` still
-permits exact download of artifacts already pinned by lock, from each pin's own
-OCI repository and manifest digest, without reading official index. JSON output
-implies no input.
+`--locked` is incompatible with `--upgrade`, `--source`, and `--policy-pack`.
+`--locked` still permits exact download of artifacts already pinned by lock,
+from each pin's own OCI repository and manifest digest, without reading
+official index. JSON output implies no input.
 `ROOTFORM_INPUT=0` and `CI=true` imply no input; CI does not imply offline.
 `ROOTFORM_OFFLINE=1` implies offline. `ROOTFORM_HOME=<path>` replaces default
 home entirely.
@@ -66,6 +68,11 @@ Primary commands:
 rootform build [directory]             canonical Architecture IR
 rootform build [directory] --format html --output architecture.html
 rootform check [directory-or-document] policy evaluation
+rootform check [directory-or-document] --policy <policy>
+rootform list policies
+rootform list policy-packs
+rootform show policy <policy>
+rootform show policy-pack <pack>
 rootform diff <base> <head>             architecture comparison
 rootform run [directory]                local browser explorer
 rootform explain <document>             provenance explanation
@@ -73,10 +80,12 @@ rootform explain <document>             provenance explanation
 
 Directory forms of `build`, `check`, and `run` call same project-preparation
 service before compilation. They accept `--locked`, `--offline`, `--no-input`,
-and `-v`/`--verbose`; `--upgrade` remains init-only. A coherent local lock is a
-silent zero-network path. Missing exact locked artifacts may be installed
-without changing lock. With no lock, unique no-input recommendations may create
-one and command resumes in same process. A normal no-input command never changes
+and `-v`/`--verbose`; `--upgrade` remains init-only. Preparation resolves
+missing exact dialects; `check` also resolves selected Policy Packs, while
+`build` and `run` ignore governance. A coherent local lock is a silent
+zero-network path. Missing exact locked artifacts may be installed without
+changing lock. With no lock, unique no-input recommendations may create one and
+command resumes in same process. A normal no-input command never changes
 existing lock: run exact reported `rootform init [path] --no-input`, then commit
 updated lock. Interactive normal commands show complete proposal and require
 confirmation before lock or vendor change.
@@ -88,6 +97,10 @@ exclusive: installed store is never fallback. Reliable incompatible provider
 version evidence blocks compilation; unknown or stale version evidence warns and
 recommends `terraform init` or `tofu init`. Provider without configured dialect is
 reported explicitly and remains unsupported.
+
+`check` evaluates policies from the project's selected policy packs.
+Repeatable `--policy <policy>` restricts evaluation to named policies. A policy
+always belongs to a pack; dialect selection never provides policy.
 
 Dialect authoring and local package management:
 
@@ -114,6 +127,56 @@ stays explicit through `init --upgrade`, revisits only official index and source
 references recorded in lock plus newly supplied `--source` values, and never
 scans registries. Removed selections remain installed until exact `remove
 dialect` command is requested.
+
+Policy pack authoring and local package management:
+
+```text
+rootform package policy-packs <directory> --to <layout>
+rootform publish policy-packs <layout> --to <repository>
+rootform vendor policy-packs
+rootform list policies --policy-pack <directory>
+rootform list policy-packs --policy-pack <directory>
+rootform show policy <name> --policy-pack <directory>
+rootform show policy-pack <name> --policy-pack <directory>
+rootform check [directory-or-document] --policy-pack <directory>
+```
+
+`--policy-pack <directory>` selects an unpackaged local pack directory for
+read-only list, show, and check during authoring. These local forms never
+contact network, load installed or vendored packs, or write lock.
+`package policy-packs` validates and compiles all supplied packs, then writes
+one deterministic local OCI layout. Optional `--source-url`, `--revision`,
+`--documentation-url`, and `--licenses` values become explicit OCI provenance;
+Rootform never discovers them from Git. Packaging performs no network operation
+and produces no pack index.
+
+`publish policy-packs` validates an existing packaged layout and publishes to
+the explicitly supplied tagless OCI repository through standard Docker
+authentication.
+Pack tags derive from compiled name and version as
+`policy-pack-<name>-<version>`. Existing same digest is idempotent; another
+digest at same version tag fails. Successful publication requires digest repull
+and complete content verification. V0 has no Policy Pack index and never moves
+a mutable pack discovery tag; selection requires an explicit direct artifact
+reference. `--dry-run` validates and reports plan without registry or
+credential access.
+
+`vendor policy-packs` materializes existing exact lock pins from verified
+store/cache or their recorded registry repository, without resolution, upgrade,
+source substitution, or lock write. Use `--offline` to forbid registry fallback
+during this explicit repair.
+
+`show policy`, `show policy-pack`, and policy listings are read-only. Machine
+output exposes version, execution source (`local`, `vendor`, or `store`), artifact
+repository, manifest and layer digests, content digest, plus explicit OCI
+source/revision/documentation/license provenance when packaged. Optional
+provenance is never synthesized. Project `.rootform/policy-packs/` is exclusive
+execution source for project `check` and listings when present; store, cache,
+and registry never supply fallback.
+
+The language server is pack-less: it does not load, evaluate, or require Policy
+Packs. `validate policy` and `explain policy` can inspect packs already selected
+by the project, but do not accept a local `--policy-pack` authoring directory.
 
 `package dialects` validates and compiles all supplied dialects, then writes one
 deterministic local OCI layout containing dialect artifacts and generated

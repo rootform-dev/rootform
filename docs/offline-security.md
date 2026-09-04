@@ -4,18 +4,22 @@ Rootform compilation reads local Terraform/OpenTofu sources, local architecture
 documents, local locks, and local dialects. Directory forms of `build`, `check`,
 and `run` first enter explicit project-preparation phase. Coherent local project
 takes silent zero-network path; incomplete project may acquire verified
-dialects before compilation. LSP, policy over existing document, diff, explain,
-and rendering or serving already built architecture never acquire dialects.
+Dialects, and `check` may also acquire selected Policy Packs. `build` and `run`
+ignore governance. The language server is pack-less: it never loads, evaluates,
+or requires Policy Packs. Policy evaluation over an existing document, diff,
+explain, and rendering or serving already built architecture never acquire
+Dialects or Policy Packs.
 
 `rootform init` and shared preflight are only project acquisition boundaries.
 Normal preparation may contact official OCI distribution and explicit or
-recorded OCI sources. Authoring command `rootform publish dialects` is separate
-explicit registry-write boundary; package and publish `--dry-run` remain
-offline. `--offline` and
-`ROOTFORM_OFFLINE=1` use only project-vendored dialects, installed store, cached
-archives, and cached index. Missing content fails with exact missing references.
-`--locked --offline` fixes both lock selection and acquisition input. CI implies
-no input, never offline.
+recorded OCI sources and explicit or recorded policy-pack references. Authoring
+commands `rootform publish dialects` and `rootform publish policy-packs` are
+separate explicit registry-write boundaries; package and publish `--dry-run`
+remain offline. `--offline` and
+`ROOTFORM_OFFLINE=1` use only project-vendored dialects and policy packs,
+installed store, cached archives, and cached index. Missing content fails with
+exact missing references. `--locked --offline` fixes both lock selection and
+acquisition input. CI implies no input, never offline.
 
 `--locked` requires existing lock and forbids lock changes while allowing exact
 locked downloads from each artifact pin's repository and manifest digest unless
@@ -31,6 +35,8 @@ identity. Helper/store error never falls through to another configured identity.
 Rootform invokes helper `get` only, captures helper output, and keeps decoded
 credentials and ORAS Basic/Bearer tokens in process memory. It emits and stores
 no credential, Authorization header, Docker config content, or config path.
+Policy-pack acquisition and publication use this same authentication path;
+there is no pack-specific credential flag.
 When `SSL_CERT_FILE` is set online, Rootform appends its bounded PEM bundle to
 system roots; invalid content fails with a sanitized error. Offline mode creates
 no registry client and reads neither credential source nor TLS bundle.
@@ -39,6 +45,8 @@ Default home is `~/.rootform/` (`%USERPROFILE%\.rootform` on Windows):
 
 ```text
 dialects/  immutable installed name/version content
+policy-packs/
+           immutable installed name/version pack content
 cache/     redownloadable content-addressed OCI data
 indexes/   cached official and explicitly configured source snapshots
 tmp/       staging invisible until atomic commit
@@ -47,10 +55,13 @@ tmp/       staging invisible until atomic commit
 `ROOTFORM_HOME` replaces this path. Installed versions stage and verify before
 atomic rename. Existing same-version content is never silently replaced.
 Project `.rootform/dialects/` is exclusive for `build`, `check`, and `run` when
-present. Missing or changed vendor content fails before registry credential
-access; no store, cache, index, or registry fallback occurs. Explicit
-`rootform vendor dialects` may repair exact lock pins from verified local
-material or recorded registry, unless offline, and replaces vendor
+present. Project `.rootform/policy-packs/` is exclusive execution source for
+project `check` and policy listings when present; `--policy-pack <directory>`
+selects an unpackaged local pack for read-only authoring forms. Missing or
+changed vendor content fails before registry credential access; no store,
+cache, index, or registry fallback occurs. Explicit `rootform vendor dialects`
+and `rootform vendor policy-packs` may repair exact lock pins from verified
+local material or recorded registry, unless offline, and replace vendor
 transactionally without changing lock.
 
 Raw secrets, sensitive values, HCL ASTs, plans, and state never enter browser

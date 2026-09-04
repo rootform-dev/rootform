@@ -2,10 +2,11 @@
 
 Current format version: `1`.
 
-`rootform.lock` is deterministic JSON pinning exact Rootform dialect semantic,
-presentation, optional acquisition identities, and explicit non-coverage. It
-is authoritative for Rootform dialects only. Terraform and
-OpenTofu provider versions remain owned by source code and
+`rootform.lock` is deterministic JSON pinning exact Rootform dialect semantics,
+presentation, independent Policy Pack governance, optional acquisition
+identities, and explicit provider non-coverage. It is authoritative for
+Rootform Dialect and Policy Pack selections. Terraform and OpenTofu provider
+versions remain owned by source code and
 `.terraform.lock.hcl`; they never enter this file.
 
 ## Top-level fields
@@ -16,12 +17,14 @@ OpenTofu provider versions remain owned by source code and
 - `sources`: optional canonical array of bounded OCI source provenance;
 - `unsupported_providers`: required, sorted, unique array of canonical provider
   sources such as `registry.terraform.io/hashicorp/aws`;
-- `entries`: required array ordered by dialect name then version.
+- `entries`: required array ordered by dialect name then version;
+- `policy_packs`: optional array ordered by pack name then version.
 
-At least one dialect entry or one unsupported provider is required. Empty
-`entries` is meaningful only when configured metadata proved every observed
-provider has no selected dialect. `unsupported_providers` records no
-provider version, constraint, local name, alias, declaration, or behavior.
+At least one dialect entry, unsupported provider, or Policy Pack entry is
+required. Empty `entries` is meaningful when configured metadata proved every
+observed provider has no selected dialect, or when lock records only a
+governance artifact. `unsupported_providers` records no provider version,
+constraint, local name, alias, declaration, or behavior.
 
 Each dialect entry contains:
 
@@ -35,12 +38,31 @@ Each dialect entry contains:
 
 `index` and `sources` are mutually exclusive. Current initialized locks use
 `sources`; earlier format-1 locks with singular `index` remain valid. Each
-source contains `kind` (`index` or `dialect`), canonical full OCI `reference`
-with tag or SHA-256 digest, and exact `manifest_digest` resolved for that
-operation. If `sources` exists, every entry has at least one known origin. A
-direct dialect source must map to exactly one entry with same artifact
-repository and manifest digest. Credentials, registry tokens, Docker config
-paths, retrieval times, and full OCI manifests are never lock fields.
+source contains `kind` (`index`, `dialect`, or `policy-pack`), canonical full
+OCI `reference` with tag or SHA-256 digest, and exact `manifest_digest`
+resolved for that operation. Dialect origins reference only dialect/index
+sources. Every Policy Pack artifact origin references exactly one direct
+`policy-pack` source with same artifact repository and manifest digest.
+Credentials, registry tokens, Docker config paths, retrieval times, and full
+OCI manifests are never lock fields.
+
+## Policy pack selection
+
+`rootform.lock` records exact policy pack selection in a separate section from
+dialect `entries`. Format version remains `1`; policy packs introduce no new
+lock format version. The section lists each selected pack with lowercase pack
+`name`, exact `x.y.z` `version`, content `digest`, and optional exact
+`artifact` acquisition pin and canonical `origins`, without overlapping dialect
+entries.
+
+Dialect entries never carry, override, or append policy, and pack entries never
+change dialect semantics. Pack selection is never automatic: only packs
+recorded in this section or named explicitly are evaluated. A project may lock
+dialects with no policy pack, or lock packs without altering dialect selection.
+Canonical order, unique identity, digest, size, and artifact verification rules
+apply to both sections. Missing, extra, changed, or differently versioned packs
+make selection incoherent and refuse `--locked` execution, exactly as for
+dialects.
 
 Artifact pin contains exact OCI `repository`, `manifest_digest`, `layer_digest`,
 positive `download_size`, and positive `install_size`. Digests use lowercase
@@ -103,9 +125,12 @@ existing lock; explicit `rootform init [path] --no-input` grants that authority.
 network. Combined flags freeze selection and acquisition input.
 `rootform init --source <reference>` adds one explicit dialect artifact or
 dialect index during unlocked initialization and is repeatable. `--source` is
-incompatible with `--locked`. Upgrade reuses only official source, recorded
-source references, and newly supplied references; it never enumerates a
-registry or credential configuration.
+incompatible with `--locked`. `rootform init --policy-pack <reference>` adds
+one direct Policy Pack artifact during unlocked initialization and is
+repeatable; it is also incompatible with `--locked`. Provider detection never
+adds a Policy Pack. Upgrade reuses only official dialect source, recorded
+dialect source references, and newly supplied references; it never upgrades
+Policy Packs or enumerates a registry or credential configuration.
 
 Canonical project markers are `rootform.lock` and `.rootform/dialects/` directly
 beneath selected project root. No parent search occurs. Present vendored
@@ -115,5 +140,11 @@ may explicitly materialize or repair only exact entries already pinned by lock,
 using verified store or cache before each pin's artifact repository. It never
 discovers another dialect, changes source, upgrades selection, or modifies lock.
 Vendor replacement is transactional and preserves legal and notice files.
+
+Canonical Policy Pack vendor path is `.rootform/policy-packs/`. Its presence is
+exclusive for policy inspection and `check`; no store, cache, or registry
+fallback occurs. `rootform vendor policy-packs` alone may repair that tree from
+exact lock pins, without changing selection or lock bytes. `build` and `run`
+ignore Policy Packs, so governance selection never changes Architecture IR.
 
 Machine schema: [`../schemas/rootform-lock.schema.json`](../schemas/rootform-lock.schema.json).

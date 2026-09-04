@@ -96,13 +96,48 @@
       ],
       "type": "object"
     },
+    "policy_pack_entry": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact": {
+          "$ref": "#/$defs/artifact_pin"
+        },
+        "digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "name": {
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        "origins": {
+          "items": {
+            "$ref": "#/$defs/source_reference"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "version": {
+          "pattern": "^(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version",
+        "digest"
+      ],
+      "type": "object"
+    },
     "source_pin": {
       "additionalProperties": false,
       "properties": {
         "kind": {
           "enum": [
             "dialect",
-            "index"
+            "index",
+            "policy-pack"
           ]
         },
         "manifest_digest": {
@@ -144,6 +179,16 @@
           "minItems": 1
         }
       }
+    },
+    {
+      "properties": {
+        "policy_packs": {
+          "minItems": 1
+        }
+      },
+      "required": [
+        "policy_packs"
+      ]
     }
   ],
   "not": {
@@ -164,6 +209,12 @@
     },
     "index": {
       "$ref": "#/$defs/index_pin"
+    },
+    "policy_packs": {
+      "items": {
+        "$ref": "#/$defs/policy_pack_entry"
+      },
+      "type": "array"
     },
     "sources": {
       "items": {
@@ -187,6 +238,6 @@
     "unsupported_providers",
     "entries"
   ],
-  "title": "Rootform dialect lock",
+  "title": "Rootform project lock",
   "type": "object"
 }

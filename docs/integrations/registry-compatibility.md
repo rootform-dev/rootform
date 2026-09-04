@@ -12,10 +12,11 @@ offline package and publication dry-run
 -> repeat publication idempotently
 -> pull direct dialect by tag and digest
 -> resolve additional index
--> recover exact lock into empty store
--> vendor exact lock from empty store
+-> publish and pull Policy Pack by tag and digest
+-> recover exact Dialect and Policy Pack lock into empty stores
+-> vendor both exact lock sections from empty stores
 -> build/check from vendor with network disabled
--> reject partial vendor without credential access
+-> reject partial Dialect or Policy Pack vendor without credential access
 -> verify Docker credential helper and sanitized evidence
 ```
 
@@ -30,6 +31,7 @@ Nexus are likely candidates because Rootform uses standard OCI Distribution
 operations only. They are not claimed compatible until same suite passes real
 endpoint with product's ordinary authentication and policy configuration.
 
-Qualification evidence records profile identifier, repository, exact dialect
-and index manifest digests, semantic and presentation digests, standard
-provenance, and passed capabilities. It records no credential or local path.
+Qualification evidence records profile identifier, repository, exact Dialect,
+Dialect index, and Policy Pack manifest digests, semantic, presentation, and
+pack content digests, standard provenance, and passed capabilities. It records
+no credential or local path.

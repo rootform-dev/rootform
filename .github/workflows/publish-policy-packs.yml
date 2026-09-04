@@ -1,0 +1,270 @@
+name: publish example policy packs
+
+on:
+  workflow_dispatch:
+    inputs:
+      rootform_archive_sha256:
+        description: SHA-256 of exact Rootform Linux amd64 release archive
+        required: true
+        type: string
+      rootform_release_id:
+        description: Exact published Rootform prerelease ID
+        required: true
+        type: string
+      rootform_version:
+        description: Exact Rootform version used to compile Policy Packs
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: example-policy-pack-publication
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: verify and publish example Policy Packs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Install exact dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Validate publication inputs and source
+        env:
+          ROOTFORM_ARCHIVE_SHA256: ${{ inputs.rootform_archive_sha256 }}
+          ROOTFORM_RELEASE_ID: ${{ inputs.rootform_release_id }}
+          ROOTFORM_VERSION: ${{ inputs.rootform_version }}
+        run: |
+          set -euo pipefail
+          [[ "$ROOTFORM_RELEASE_ID" =~ ^[1-9][0-9]*$ ]]
+          [[ "$ROOTFORM_VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]
+          [[ "$ROOTFORM_ARCHIVE_SHA256" =~ ^[0-9a-f]{64}$ ]]
+          [[ "$GITHUB_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          bun run check
+          git diff --check
+
+      - name: Download exact verified Rootform release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          ROOTFORM_RELEASE_ID: ${{ inputs.rootform_release_id }}
+          ROOTFORM_VERSION: ${{ inputs.rootform_version }}
+        run: |
+          bun scripts/download-release.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release-id "$ROOTFORM_RELEASE_ID" \
+            --output "$RUNNER_TEMP/release" \
+            --metadata "$RUNNER_TEMP/release.json"
+
+      - name: Verify release identity and extract Rootform
+        env:
+          ROOTFORM_ARCHIVE_SHA256: ${{ inputs.rootform_archive_sha256 }}
+          ROOTFORM_VERSION: ${{ inputs.rootform_version }}
+        run: |
+          set -euo pipefail
+          archive="rootform_${ROOTFORM_VERSION}_linux_amd64.tar.gz"
+          jq -e --arg commit "$GITHUB_SHA" '.target_commit == $commit and .prerelease == true' \
+            "$RUNNER_TEMP/release.json" >/dev/null
+          test "$(jq -r --arg name "$archive" '.assets[] | select(.name == $name) | .digest' \
+            "$RUNNER_TEMP/release.json")" = "sha256:$ROOTFORM_ARCHIVE_SHA256"
+          bun scripts/extract-release-binary.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release "$RUNNER_TEMP/release" \
+            --target linux-amd64 \
+            --output "$RUNNER_TEMP/rootform"
+          test "$("$RUNNER_TEMP/rootform" version)" = "rootform $ROOTFORM_VERSION"
+
+      - name: Install verified ORAS
+        env:
+          ORAS_ARCHIVE: oras_1.3.4_linux_amd64.tar.gz
+          ORAS_SHA256: f27adb935022d94df8dc77719c322dda592c78a0d57a6f7dcdd8d900b248c454
+          ORAS_VERSION: 1.3.4
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$ORAS_ARCHIVE" \
+            "https://github.com/oras-project/oras/releases/download/v$ORAS_VERSION/$ORAS_ARCHIVE"
+          printf '%s  %s\n' "$ORAS_SHA256" "$RUNNER_TEMP/$ORAS_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$ORAS_ARCHIVE" --directory "$RUNNER_TEMP" oras
+          test "$("$RUNNER_TEMP/oras" version | awk '/^Version:/ { print $2 }')" = "$ORAS_VERSION"
+
+      - name: Prepare isolated registry clients
+        run: |
+          set -euo pipefail
+          install -d -m 0700 "$RUNNER_TEMP/docker-config" "$RUNNER_TEMP/anonymous-config"
+          printf '{"auths":{}}\n' >"$RUNNER_TEMP/anonymous-config/config.json"
+          chmod 0600 "$RUNNER_TEMP/anonymous-config/config.json"
+          printf 'DOCKER_CONFIG=%s\n' "$RUNNER_TEMP/docker-config" >>"$GITHUB_ENV"
+
+      - name: Package deterministic example
+        env:
+          ROOTFORM_REPOSITORY: ghcr.io/rootform-dev/policy-packs
+        run: |
+          set -euo pipefail
+          mkdir -p build/policy-pack-evidence
+          "$RUNNER_TEMP/rootform" package policy-packs policy-packs/baseline \
+            --to build/policy-pack-layout \
+            --source-url "https://github.com/$GITHUB_REPOSITORY" \
+            --revision "$GITHUB_SHA" \
+            --documentation-url "https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_SHA/policy-packs/README.md" \
+            --licenses Apache-2.0
+          "$RUNNER_TEMP/rootform" publish policy-packs build/policy-pack-layout \
+            --to "$ROOTFORM_REPOSITORY" \
+            --dry-run \
+            --format json >build/policy-pack-evidence/plan.json
+          jq -e --arg repository "$ROOTFORM_REPOSITORY" --arg revision "$GITHUB_SHA" '
+            .format_version == "1" and
+            .dry_run == true and
+            .repository == $repository and
+            (.policy_packs | length) == 1 and
+            .policy_packs[0].name == "baseline" and
+            .policy_packs[0].version == "0.1.0" and
+            .policy_packs[0].tag == "policy-pack-baseline-0.1.0" and
+            .policy_packs[0].provenance.revision == $revision and
+            .policy_packs[0].provenance.licenses == "Apache-2.0"
+          ' build/policy-pack-evidence/plan.json >/dev/null
+
+      - name: Authenticate isolated GHCR client
+        env:
+          GHCR_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          [[ "$DOCKER_CONFIG" == "$RUNNER_TEMP/"* ]]
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io \
+            --username "$GITHUB_ACTOR" --password-stdin
+
+      - name: Publish and repull exact Policy Pack
+        env:
+          ROOTFORM_REPOSITORY: ghcr.io/rootform-dev/policy-packs
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/rootform" publish policy-packs build/policy-pack-layout \
+            --to "$ROOTFORM_REPOSITORY" \
+            --format json >build/policy-pack-evidence/publication.json
+          jq -e --arg repository "$ROOTFORM_REPOSITORY" '
+            .format_version == "1" and
+            .dry_run == false and
+            .repository == $repository and
+            (.policy_packs | length) == 1 and
+            .policy_packs[0].name == "baseline" and
+            .policy_packs[0].version == "0.1.0" and
+            (.policy_packs[0].status == "published" or
+              .policy_packs[0].status == "already_present") and
+            (.policy_packs[0].manifest_digest | test("^sha256:[0-9a-f]{64}$"))
+          ' build/policy-pack-evidence/publication.json >/dev/null
+
+      - name: Drop publisher credentials
+        run: |
+          set -euo pipefail
+          docker logout ghcr.io >/dev/null 2>&1
+          rm -f -- "$DOCKER_CONFIG/config.json"
+
+      - name: Require public package visibility
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          visibility="$(gh api orgs/rootform-dev/packages/container/policy-packs --jq '.visibility')"
+          if [[ "$visibility" != public ]]; then
+            printf '%s\n' \
+              'Policy Pack bytes are verified, but GHCR package remains private.' \
+              'Set visibility to public, then rerun this workflow:' \
+              'https://github.com/orgs/rootform-dev/packages/container/package/policy-packs/settings' >&2
+            exit 1
+          fi
+
+      - name: Verify anonymous tag and digest pulls
+        env:
+          ROOTFORM_REPOSITORY: ghcr.io/rootform-dev/policy-packs
+        run: |
+          set -euo pipefail
+          digest="$(jq -r '.policy_packs[0].manifest_digest' \
+            build/policy-pack-evidence/publication.json)"
+          "$RUNNER_TEMP/oras" manifest fetch \
+            --registry-config "$RUNNER_TEMP/anonymous-config/config.json" \
+            --format json \
+            "$ROOTFORM_REPOSITORY:policy-pack-baseline-0.1.0" \
+            >build/policy-pack-evidence/tag-manifest.json
+          "$RUNNER_TEMP/oras" manifest fetch \
+            --registry-config "$RUNNER_TEMP/anonymous-config/config.json" \
+            --format json \
+            "$ROOTFORM_REPOSITORY@$digest" \
+            >build/policy-pack-evidence/digest-manifest.json
+          for manifest in \
+            build/policy-pack-evidence/tag-manifest.json \
+            build/policy-pack-evidence/digest-manifest.json; do
+            jq -e --arg digest "$digest" --arg revision "$GITHUB_SHA" '
+              .digest == $digest and
+              .content.schemaVersion == 2 and
+              .content.artifactType == "application/vnd.rootform.policy-pack.v1" and
+              .content.config.mediaType ==
+                "application/vnd.rootform.policy-pack.manifest.v1+json" and
+              (.content.layers | length) == 1 and
+              .content.layers[0].mediaType ==
+                "application/vnd.rootform.policy-pack.layer.v1.tar+gzip" and
+              .content.annotations["org.opencontainers.image.revision"] == $revision and
+              .content.annotations["org.opencontainers.image.licenses"] == "Apache-2.0"
+            ' "$manifest" >/dev/null
+          done
+          jq -S '{digest, mediaType, size, content}' \
+            build/policy-pack-evidence/tag-manifest.json \
+            >build/policy-pack-evidence/tag-normalized.json
+          jq -S '{digest, mediaType, size, content}' \
+            build/policy-pack-evidence/digest-manifest.json \
+            >build/policy-pack-evidence/digest-normalized.json
+          cmp --silent \
+            build/policy-pack-evidence/tag-normalized.json \
+            build/policy-pack-evidence/digest-normalized.json
+
+      - name: Summarize publication
+        if: success()
+        run: |
+          set -euo pipefail
+          digest="$(jq -r '.policy_packs[0].manifest_digest' \
+            build/policy-pack-evidence/publication.json)"
+          # shellcheck disable=SC2016
+          {
+            printf '%s\n' '## Example Policy Pack publication' ''
+            printf '%s\n' '- Pack: `baseline@0.1.0`'
+            printf '%s\n' "- OCI: \`ghcr.io/rootform-dev/policy-packs@$digest\`"
+            printf '%s\n' '- Tag: `policy-pack-baseline-0.1.0`'
+            printf '%s\n' '- Visibility: `public`, anonymous tag and digest pulls verified'
+          } >>"$GITHUB_STEP_SUMMARY"
+
+      - name: Record publication evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: example-policy-pack-${{ inputs.rootform_version }}-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/release.json
+            build/policy-pack-evidence/*.json
+          if-no-files-found: warn
+          compression-level: 9
+          retention-days: 30
+
+      - name: Remove registry credentials
+        if: always()
+        run: |
+          set -euo pipefail
+          config="${DOCKER_CONFIG:-$RUNNER_TEMP/docker-config}"
+          if [[ -d "$config" && "$config" == "$RUNNER_TEMP/"* ]]; then
+            docker logout ghcr.io >/dev/null 2>&1 || true
+            rm -f -- "$config/config.json"
+          fi

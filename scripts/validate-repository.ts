@@ -52,6 +52,7 @@ const allowedTopLevel = new Set([
   "examples",
   "oci",
   "package.json",
+  "policy-packs",
   "public-export.json",
   "schemas",
   "scripts",
@@ -155,13 +156,19 @@ export function validateRepository(): void {
     ".github/workflows/candidate.yml",
     ".github/workflows/ci.yml",
     ".github/workflows/publish-image.yml",
+    ".github/workflows/publish-policy-packs.yml",
     ".trivyignore.yaml",
     "dependencies/ROOTFORM-BINARY-LICENSE.txt",
     "contracts/binary-handoff.md",
     "contracts/dialect-distribution.md",
+    "contracts/policy-pack-distribution.md",
     "contracts/rootform-oci-core-profile.md",
     "contracts/rootform-lock.md",
     "dependencies/dialects.json",
+    "policy-packs/README.md",
+    "policy-packs/baseline/LICENSE",
+    "policy-packs/baseline/NOTICE",
+    "policy-packs/baseline/pack.rf",
     "docs/integrations/oci-image.md",
     "docs/integrations/ci/README.md",
     "docs/integrations/ci/azure-pipelines.yml",
@@ -272,6 +279,20 @@ export function validateRepository(): void {
     }
   }
 
+  const policyPackFiles = files
+    .filter((path) => path.startsWith("policy-packs/baseline/"))
+    .sort((left, right) => left.localeCompare(right, "en"));
+  if (
+    JSON.stringify(policyPackFiles) !==
+    JSON.stringify([
+      "policy-packs/baseline/LICENSE",
+      "policy-packs/baseline/NOTICE",
+      "policy-packs/baseline/pack.rf",
+    ])
+  ) {
+    throw new Error(`policy pack example boundary drifted: ${policyPackFiles.join(", ")}`);
+  }
+
   readBinaryLicense(root);
   readRuntimeLicensing(root);
   const readme = readFileSync(join(root, "README.md"), "utf8");
@@ -316,6 +337,29 @@ export function validateRepository(): void {
     imageWorkflow.includes("PATCH /orgs/rootform-dev/packages")
   ) {
     throw new Error("image publication workflow violates distribution ownership");
+  }
+  const policyPackWorkflow = readFileSync(
+    join(root, ".github", "workflows", "publish-policy-packs.yml"),
+    "utf8",
+  );
+  if (
+    policyPackWorkflow.includes("rootform-dev/engine") ||
+    policyPackWorkflow.includes("rootform-dev/action/") ||
+    policyPackWorkflow.includes("ROOTFORM_REPOSITORIES_READ_TOKEN") ||
+    !policyPackWorkflow.includes("packages: write") ||
+    !policyPackWorkflow.includes("name: publish example policy packs") ||
+    !policyPackWorkflow.includes("Require public package visibility") ||
+    !policyPackWorkflow.includes("Verify anonymous tag and digest pulls") ||
+    !policyPackWorkflow.includes(".content.schemaVersion == 2") ||
+    !policyPackWorkflow.includes(
+      '.content.artifactType == "application/vnd.rootform.policy-pack.v1"',
+    ) ||
+    !policyPackWorkflow.includes("application/vnd.rootform.policy-pack.manifest.v1+json") ||
+    !policyPackWorkflow.includes("application/vnd.rootform.policy-pack.layer.v1.tar+gzip") ||
+    policyPackWorkflow.includes("\n              .schemaVersion == 2") ||
+    policyPackWorkflow.includes("\n              .artifactType ==")
+  ) {
+    throw new Error("Policy Pack publication workflow violates distribution ownership");
   }
 }
 
