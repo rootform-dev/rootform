@@ -266,7 +266,7 @@ jobs:
           } >>"$GITHUB_ENV"
           printf '%s\n' "$helper_dir" >>"$GITHUB_PATH"
 
-      - name: Require qualification package to start private or absent
+      - name: Require qualification package to start public or absent
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -278,13 +278,13 @@ jobs:
           status=$?
           set -e
           if [[ "$status" == 0 ]]; then
-            test "$(jq -r .visibility <<<"$response")" = private
+            test "$(jq -r .visibility <<<"$response")" = public
           elif [[ "$response" != *"HTTP 404"* ]]; then
             printf 'could not verify existing qualification package visibility\n' >&2
             exit 1
           fi
 
-      - name: Qualify private GHCR against OCI Core Profile
+      - name: Qualify transient GHCR against OCI Core Profile
         env:
           ROOTFORM_REGISTRY_PASSWORD: ${{ github.token }}
           ROOTFORM_REGISTRY_USERNAME: ${{ github.actor }}
@@ -319,14 +319,14 @@ jobs:
              .capabilities.pull_by_tag == true' \
             build/registry-evidence/ghcr.json >/dev/null
 
-      - name: Require qualification package to remain private
+      - name: Require qualification package to remain public
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           test "$(gh api \
             "orgs/$GITHUB_REPOSITORY_OWNER/packages/container/$ROOTFORM_OCI_QUALIFICATION_PACKAGE" \
-            --jq .visibility)" = private
+            --jq .visibility)" = public
 
       - name: Upload OCI qualification evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

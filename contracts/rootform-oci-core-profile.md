@@ -111,10 +111,12 @@ reacquires locked content into empty stores, repairs both vendor trees from
 exact pins, verifies offline vendor execution, checks standard provenance, and
 rejects source or digest drift.
 
-Local qualification covers CNCF Distribution with anonymous, Basic, TLS, and
-Docker credential-helper paths. Candidate qualification against private GHCR
-covers Bearer challenge exchange. Hosted registry compatibility is reported
-only for products that pass same profile suite.
+Local qualification covers CNCF Distribution with anonymous, private Basic,
+TLS, and Docker credential-helper paths. Candidate qualification against a
+transient public GHCR package covers Bearer challenge exchange under GitHub
+Actions' repository-inherited package visibility. Qualification content is
+synthetic, and the package is deleted before the job ends. Hosted registry
+compatibility is reported only for products that pass same profile suite.
 
 Related contracts:
 
