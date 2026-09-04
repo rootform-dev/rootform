@@ -319,6 +319,8 @@ export function validateRepository(): void {
     join(root, ".github", "workflows", "candidate.yml"),
     "utf8",
   );
+  const candidateArtifactName =
+    "name: rootform-candidate-$" + "{{ inputs.version }}-$" + "{{ github.sha }}";
   if (
     candidateWorkflow.includes("rootform-dev/engine") ||
     candidateWorkflow.includes("rootform-dev/action/") ||
@@ -332,6 +334,10 @@ export function validateRepository(): void {
     !candidateWorkflow.includes("Require qualification package to remain public") ||
     (candidateWorkflow.match(/= public/gmu)?.length ?? 0) !== 2 ||
     candidateWorkflow.includes("private GHCR") ||
+    !candidateWorkflow.includes(
+      "actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c",
+    ) ||
+    candidateWorkflow.split(candidateArtifactName).length !== 3 ||
     !candidateWorkflow.includes('server="$(cat)"') ||
     candidateWorkflow.includes("IFS= read -r server")
   ) {
