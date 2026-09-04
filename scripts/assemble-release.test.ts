@@ -19,7 +19,12 @@ const version = "0.1.0-dev.2";
 const producerCommit = (
   JSON.parse(readFileSync(join(root, "public-export.json"), "utf8")) as { source_commit: string }
 ).source_commit;
-const dialectCommit = "b".repeat(40);
+const dialectCommit = (
+  JSON.parse(readFileSync(join(root, "dependencies", "dialects.json"), "utf8")) as {
+    commit: string;
+  }
+).commit;
+const driftDialectCommit = "a".repeat(40);
 const distributionCommit = "d".repeat(40);
 const created = "2026-08-31T00:00:00.000Z";
 const runtimeComponents = readRuntimeLicensing(root).components.filter(
@@ -27,6 +32,7 @@ const runtimeComponents = readRuntimeLicensing(root).components.filter(
 );
 
 type FixtureOptions = {
+  dialectCommitDrift?: boolean;
   extraEntry?: boolean;
   manifestExtraField?: boolean;
   producerCommitDrift?: boolean;
@@ -181,7 +187,10 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
     },
     format_version: "1",
     inputs: {
-      dialects: { commit: dialectCommit, repository: "rootform-dev/dialects" },
+      dialects: {
+        commit: options.dialectCommitDrift ? driftDialectCommit : dialectCommit,
+        repository: "rootform-dev/dialects",
+      },
     },
     product: { name: "rootform", version },
     sbom: { file: "engine-sbom.spdx.json", format: "SPDX-2.3-json", sha256: sha256(sbom) },
@@ -418,6 +427,60 @@ describe("final release assembly", () => {
       ).toThrow("final executable bytes drifted");
     } finally {
       rmSync(fixture.parent, { force: true, recursive: true });
+    }
+  });
+
+  test("assembly rejects a handoff built against a different Dialects commit than the pin", () => {
+    const fixture = makeFixture({ dialectCommitDrift: true });
+    const output = join(fixture.parent, "release");
+    try {
+      expect(() =>
+        assembleRelease({
+          distributionCommit,
+          githubAssets: fixture.githubAssets,
+          handoffDirectory: fixture.directory,
+          nativeVerifier: skipNative,
+          output,
+          root,
+          version,
+        }),
+      ).toThrow(
+        `dialects commit mismatch: handoff was built against ${driftDialectCommit} ` +
+          `but dependencies/dialects.json pins ${dialectCommit}`,
+      );
+    } finally {
+      rmSync(fixture.parent, { force: true, recursive: true });
+    }
+  });
+
+  test("verify --check rejects a handoff built against a different Dialects commit than the pin", () => {
+    const honest = makeFixture();
+    const drifted = makeFixture({ dialectCommitDrift: true });
+    const output = join(honest.parent, "release");
+    try {
+      assembleRelease({
+        distributionCommit,
+        githubAssets: honest.githubAssets,
+        handoffDirectory: honest.directory,
+        nativeVerifier: skipNative,
+        output,
+        root,
+        version,
+      });
+      expect(() =>
+        verifyFinalDirectory({
+          distributionCommit,
+          githubAssets: drifted.githubAssets,
+          handoffDirectory: drifted.directory,
+          nativeVerifier: skipNative,
+          output,
+          root,
+          version,
+        }),
+      ).toThrow("dialects commit mismatch");
+    } finally {
+      rmSync(honest.parent, { force: true, recursive: true });
+      rmSync(drifted.parent, { force: true, recursive: true });
     }
   });
 });

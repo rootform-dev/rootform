@@ -69,6 +69,12 @@ const forbiddenTopLevel = new Set([
 ]);
 const forbiddenText =
   /(?:\/Users\/|\/home\/(?!rootform(?:\/|$))[A-Za-z0-9._-]+\/|[A-Za-z]:\\Users\\|BEGIN (?:RSA|OPENSSH|EC|DSA) PRIVATE KEY|github_pat_|ghp_)/u;
+const enginePathReference =
+  /(?:\bpackages\/renderer\/|\bweb\/src\/|\bweb\/fixtures\/|\btestdata\/|\bprd\.md|\bdocs\/internal\/|\.ai-private|\bspecs\/[0-9]{3}-|\bdocs\/adr\/[0-9]{3}-|\bSPEC-[0-9]{3}\b|\bADR-[0-9]{3}\b)/u;
+
+export function findEnginePathReference(body: string): string | null {
+  return enginePathReference.exec(body)?.[0] ?? null;
+}
 
 function sha256(path: string): string {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
@@ -211,10 +217,16 @@ export function validateRepository(): void {
     if (path.endsWith(".go") || path.startsWith("specs/") || path.startsWith("docs/adr/")) {
       throw new Error(`private implementation material is forbidden: ${path}`);
     }
-    if (path !== "scripts/validate-repository.ts" && /\.(?:json|md|tf|ts|yml|yaml)$/u.test(path)) {
+    if (
+      !["scripts/validate-repository.ts", "scripts/validate-repository.test.ts"].includes(path) &&
+      /\.(?:json|md|tf|ts|yml|yaml)$/u.test(path)
+    ) {
       const body = readFileSync(join(root, path), "utf8");
       if (forbiddenText.test(body))
         throw new Error(`private or secret-shaped text is forbidden: ${path}`);
+      const reference = findEnginePathReference(body);
+      if (reference)
+        throw new Error(`private Engine path reference is forbidden: ${reference} in ${path}`);
     }
     if (path.endsWith(".json") || path.endsWith("/rootform.lock")) {
       JSON.parse(readFileSync(join(root, path), "utf8"));
