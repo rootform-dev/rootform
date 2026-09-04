@@ -52,7 +52,9 @@ authentication, lock, cache, offline, and vendor primitives apply under
 separate Policy Pack identities and paths.
 
 See [`contracts/policy-pack-distribution.md`](contracts/policy-pack-distribution.md)
-and the [`baseline` example](policy-packs/baseline/pack.rf).
+and the [`baseline` example](policy-packs/baseline/pack.rf). Its published OCI
+artifact is visible in the
+[`rootform-dev/policy-packs` GHCR package](https://github.com/orgs/rootform-dev/packages/container/package/policy-packs).
 
 ## Licensing boundary
 

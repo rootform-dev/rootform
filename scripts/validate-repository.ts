@@ -74,6 +74,10 @@ function sha256(path: string): string {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
 }
 
+export function hasExactLine(body: string, expected: string): boolean {
+  return body.split(/\r?\n/u).some((line) => line === expected);
+}
+
 export function filesBelow(directory: string): string[] {
   const files: string[] = [];
   for (const entry of readdirSync(directory, { withFileTypes: true }).sort((a, b) =>
@@ -342,6 +346,8 @@ export function validateRepository(): void {
     join(root, ".github", "workflows", "publish-policy-packs.yml"),
     "utf8",
   );
+  const policyPackSettingsLine =
+    "              'https://github.com/orgs/rootform-dev/packages/container/policy-packs/settings' >&2";
   if (
     policyPackWorkflow.includes("rootform-dev/engine") ||
     policyPackWorkflow.includes("rootform-dev/action/") ||
@@ -349,6 +355,7 @@ export function validateRepository(): void {
     !policyPackWorkflow.includes("packages: write") ||
     !policyPackWorkflow.includes("name: publish example policy packs") ||
     !policyPackWorkflow.includes("Require public package visibility") ||
+    !hasExactLine(policyPackWorkflow, policyPackSettingsLine) ||
     !policyPackWorkflow.includes("Verify anonymous tag and digest pulls") ||
     !policyPackWorkflow.includes(".content.schemaVersion == 2") ||
     !policyPackWorkflow.includes(

@@ -185,7 +185,7 @@ jobs:
             printf '%s\n' \
               'Policy Pack bytes are verified, but GHCR package remains private.' \
               'Set visibility to public, then rerun this workflow:' \
-              'https://github.com/orgs/rootform-dev/packages/container/package/policy-packs/settings' >&2
+              'https://github.com/orgs/rootform-dev/packages/container/policy-packs/settings' >&2
             exit 1
           fi
 

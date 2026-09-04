@@ -31,7 +31,10 @@ integrity failure leaves no partially visible store, vendor, or lock.
 Online OCI authentication reads standard Docker configuration only. Non-empty
 `DOCKER_CONFIG` takes precedence over current user's `~/.docker/config.json`;
 host `credHelpers`, global `credsStore`, then matching `auths` determine
-identity. Helper/store error never falls through to another configured identity.
+identity. Canonical `credentials not found` means no identity and permits
+anonymous registry authentication; it never falls through to inline
+credentials. Helper/store execution or decoding error never falls through to
+another configured identity.
 Rootform invokes helper `get` only, captures helper output, and keeps decoded
 credentials and ORAS Basic/Bearer tokens in process memory. It emits and stores
 no credential, Authorization header, Docker config content, or config path.

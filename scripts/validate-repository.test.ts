@@ -2,10 +2,27 @@ import { expect, test } from "bun:test";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { validateExampleDialectLock, validateRepository } from "./validate-repository.ts";
+import {
+  hasExactLine,
+  validateExampleDialectLock,
+  validateRepository,
+} from "./validate-repository.ts";
 
 test("current repository respects distribution boundary", () => {
   expect(validateRepository).not.toThrow();
+});
+
+test("workflow URL controls require one exact line", () => {
+  const expected =
+    "              'https://github.com/orgs/rootform-dev/packages/container/policy-packs/settings' >&2";
+  expect(hasExactLine(expected, expected)).toBeTrue();
+  expect(
+    hasExactLine(
+      "              'https://github.com.evil.example/orgs/rootform-dev/packages/container/policy-packs/settings' >&2",
+      expected,
+    ),
+  ).toBeFalse();
+  expect(hasExactLine(`${expected}.evil.example`, expected)).toBeFalse();
 });
 
 test("example dialect contract matches its generated lock", () => {

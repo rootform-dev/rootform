@@ -63,3 +63,24 @@ proves anonymous pulls by tag and digest before success.
 Provenance annotations (`org.opencontainers.image.source`, `revision`,
 `documentation`, `licenses`) are supplied explicitly at package time;
 provenance is never discovered from Git state or machine paths.
+
+## Published example
+
+The [`rootform-dev/policy-packs` GHCR package](https://github.com/orgs/rootform-dev/packages/container/package/policy-packs)
+contains `baseline@0.1.0` at:
+
+```text
+ghcr.io/rootform-dev/policy-packs:policy-pack-baseline-0.1.0
+ghcr.io/rootform-dev/policy-packs@sha256:063fc43e911bf727e37c3baec565a81b94eaecf0cff5dc89d72b6a17207ab758
+```
+
+Select it explicitly for one project:
+
+```sh
+rootform init . \
+  --policy-pack ghcr.io/rootform-dev/policy-packs:policy-pack-baseline-0.1.0 \
+  --no-input
+```
+
+Rootform resolves the tag once and writes the exact manifest, layer, and pack
+content pins to `rootform.lock`. Provider detection never selects this pack.
