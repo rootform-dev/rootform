@@ -39,12 +39,12 @@ No entrypoint lets GitLab, CircleCI, Buildkite, Jenkins, and other runners
 inject a shell. Default command makes an ordinary run useful:
 
 ```bash
-docker run --rm ghcr.io/rootform-dev/rootform:0.1.0
+docker run --rm ghcr.io/rootform-dev/rootform:0.1.1
 
 docker run --rm \
   --volume "$PWD:/workspace" \
   --workdir /workspace \
-  ghcr.io/rootform-dev/rootform:0.1.0 \
+  ghcr.io/rootform-dev/rootform:0.1.1 \
   rootform check .
 ```
 
@@ -92,7 +92,7 @@ docker volume create rootform-home
 docker run --rm \
   --volume "$PWD:/workspace" \
   --volume rootform-home:/home/rootform/.rootform \
-  ghcr.io/rootform-dev/rootform:0.1.0 \
+  ghcr.io/rootform-dev/rootform:0.1.1 \
   rootform init . --no-input
 ```
 
@@ -111,7 +111,7 @@ docker run --rm \
   --user 12345:23456 \
   --volume "$PWD:/workspace" \
   --volume "$PWD/.rootform-container-home:/home/rootform/.rootform" \
-  ghcr.io/rootform-dev/rootform:0.1.0 \
+  ghcr.io/rootform-dev/rootform:0.1.1 \
   rootform init . --locked --no-input
 ```
 
@@ -129,7 +129,7 @@ docker run --rm \
   --network none \
   --tmpfs /home/rootform/.rootform:uid=65532,gid=65532,mode=0700 \
   --volume "$PWD:/workspace:ro" \
-  ghcr.io/rootform-dev/rootform:0.1.0 \
+  ghcr.io/rootform-dev/rootform:0.1.1 \
   rootform build . --locked --offline --no-input --format json
 ```
 
@@ -169,7 +169,7 @@ Offline audit build uses assembled native release directory:
 
 ```bash
 bun run build:image -- \
-  --version 0.1.0 \
+  --version 0.1.1 \
   --release <assembled-release-directory> \
   --revision <exact-distribution-commit> \
   --output <image-output-directory>
@@ -219,7 +219,7 @@ GitLab shell injection works because image has no entrypoint:
 
 ```yaml
 rootform:
-  image: ghcr.io/rootform-dev/rootform:0.1.0
+  image: ghcr.io/rootform-dev/rootform:0.1.1
   variables:
     ROOTFORM_HOME: $CI_PROJECT_DIR/.rootform-home
   cache:

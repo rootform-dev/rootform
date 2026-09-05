@@ -23,4 +23,5 @@ source.
 Supported target claims appear only in release manifest. Cross-built but
 unexecuted target remains unclaimed.
 
-GitHub Action users may install Rootform with `rootform-dev/action/setup@v1`.
+Until a consumer Action release is tagged, GitHub Action users may pin reviewed
+Action commit `71eef759bff5e73b27489b1f7de818a4a76dc2e9`.

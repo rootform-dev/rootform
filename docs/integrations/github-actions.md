@@ -1,15 +1,17 @@
 # GitHub Actions integration
 
-Official integration lives in `rootform-dev/action` and exposes two entrypoints:
+Official integration lives in `rootform-dev/action` and exposes two entrypoints.
+Until its consumer release is tagged, pin reviewed commit
+`71eef759bff5e73b27489b1f7de818a4a76dc2e9`:
 
 ```yaml
-- uses: rootform-dev/action/setup@v1
+- uses: rootform-dev/action/setup@71eef759bff5e73b27489b1f7de818a4a76dc2e9
   with:
-    version: 0.1.0
+    version: 0.1.1
 
-- uses: rootform-dev/action@v1
+- uses: rootform-dev/action@71eef759bff5e73b27489b1f7de818a4a76dc2e9
   with:
-    version: 0.1.0
+    version: 0.1.1
     path: ./infra
 ```
 

@@ -1,6 +1,6 @@
 {
   "name": "@rootform/distribution",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Rootform public contracts and distribution metadata",
   "license": "Apache-2.0",

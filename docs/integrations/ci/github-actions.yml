@@ -14,9 +14,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: rootform-dev/action/setup@1fb6fadcc6356a769d4a1dee34f9563639df60c8
+      - uses: rootform-dev/action/setup@71eef759bff5e73b27489b1f7de818a4a76dc2e9
         with:
-          version: 0.1.0
-          github-token: ${{ github.token }}
+          version: 0.1.1
       - name: Build and check locked architecture
         run: ./ci/rootform-ci.sh

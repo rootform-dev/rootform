@@ -1,6 +1,6 @@
 rootform:
   image:
-    name: ghcr.io/rootform-dev/rootform:0.1.0
+    name: ghcr.io/rootform-dev/rootform:0.1.1
     entrypoint:
       - ""
   script:
