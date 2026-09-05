@@ -195,6 +195,7 @@ function verifySpdx(
   version: string,
   created: string,
   producerCommit: string,
+  privateRendererProvenance: string[],
   inventory: RuntimeComponent[],
 ): void {
   const source = body.toString("utf8");
@@ -427,18 +428,32 @@ function verifySpdx(
     throw new Error("Engine SBOM dependency relationships drifted");
   }
   if (
-    /(?:\/Users\/|\/home\/[A-Za-z0-9._-]+\/|[A-Za-z]:\\Users\\|rootform-dev\/engine)/u.test(
+    /(?:\/Users\/|\/home\/[A-Za-z0-9._-]+\/|[A-Za-z]:\\Users\\|rootform-dev\/(?:engine|web))/u.test(
       source,
     ) ||
-    source.includes(producerCommit)
+    source.includes(producerCommit) ||
+    privateRendererProvenance.some((value) => source.includes(value))
   ) {
     throw new Error("Engine SBOM exposes private producer provenance");
+  }
+}
+
+function verifyBinaryProvenance(
+  body: Buffer,
+  producerCommit: string,
+  privateRendererProvenance: string[],
+  file: string,
+): void {
+  const forbidden = [producerCommit, "rootform-dev/web", ...privateRendererProvenance];
+  if (forbidden.some((value) => body.includes(Buffer.from(value)))) {
+    throw new Error(`handoff target exposes private producer provenance: ${file}`);
   }
 }
 
 type ParsedManifest = {
   buildDialectCommit: string;
   created: string;
+  privateRendererProvenance: string[];
   producerCommit: string;
   targetRecords: Array<{
     architecture: string;
@@ -460,7 +475,7 @@ function parseProducerManifest(body: string, version: string): ParsedManifest {
     "source",
     "targets",
   ]);
-  if (manifest.format_version !== "1") throw new Error("producer manifest format drifted");
+  if (manifest.format_version !== "2") throw new Error("producer manifest format drifted");
   const product = exactObject(manifest.product, "producer product", ["name", "version"]);
   if (product.name !== "rootform" || product.version !== version) {
     throw new Error("producer product identity drifted");
@@ -470,7 +485,7 @@ function parseProducerManifest(body: string, version: string): ParsedManifest {
   if (source.repository !== "rootform-dev/engine" || !/^[0-9a-f]{40}$/u.test(producerCommit)) {
     throw new Error("producer source identity drifted");
   }
-  const inputs = exactObject(manifest.inputs, "producer inputs", ["dialects"]);
+  const inputs = exactObject(manifest.inputs, "producer inputs", ["dialects", "renderer"]);
   const dialects = exactObject(inputs.dialects, "producer Dialects input", [
     "commit",
     "repository",
@@ -481,6 +496,54 @@ function parseProducerManifest(body: string, version: string): ParsedManifest {
     !/^[0-9a-f]{40}$/u.test(buildDialectCommit)
   ) {
     throw new Error("producer Dialects input drifted");
+  }
+  const renderer = exactObject(inputs.renderer, "producer renderer input", [
+    "asset",
+    "manifest",
+    "release_tag",
+    "repository",
+    "revision",
+  ]);
+  const rendererRevision = stringField(renderer, "revision", "producer renderer input");
+  const rendererReleaseTag = stringField(renderer, "release_tag", "producer renderer input");
+  if (
+    renderer.repository !== "rootform-dev/web" ||
+    !/^[0-9a-f]{40}$/u.test(rendererRevision) ||
+    rendererReleaseTag !== `renderer-${rendererRevision}`
+  ) {
+    throw new Error("producer renderer identity drifted");
+  }
+  const rendererAsset = exactObject(renderer.asset, "producer renderer asset", [
+    "bytes",
+    "file",
+    "sha256",
+  ]);
+  const rendererAssetFile = stringField(rendererAsset, "file", "producer renderer asset");
+  const rendererAssetSha256 = stringField(rendererAsset, "sha256", "producer renderer asset");
+  if (
+    !Number.isSafeInteger(rendererAsset.bytes) ||
+    Number(rendererAsset.bytes) < 1 ||
+    Number(rendererAsset.bytes) > 64 * 1024 * 1024 ||
+    rendererAssetFile !== `rootform_renderer_bundle_${rendererRevision}.tar.gz` ||
+    !/^[0-9a-f]{64}$/u.test(rendererAssetSha256)
+  ) {
+    throw new Error("producer renderer asset drifted");
+  }
+  const rendererManifest = exactObject(renderer.manifest, "producer renderer manifest", [
+    "file",
+    "sha256",
+  ]);
+  const rendererManifestFile = stringField(rendererManifest, "file", "producer renderer manifest");
+  const rendererManifestSha256 = stringField(
+    rendererManifest,
+    "sha256",
+    "producer renderer manifest",
+  );
+  if (
+    rendererManifestFile !== "renderer-bundle.json" ||
+    !/^[0-9a-f]{64}$/u.test(rendererManifestSha256)
+  ) {
+    throw new Error("producer renderer manifest drifted");
   }
   const build = exactObject(manifest.build, "producer build", [
     "created",
@@ -567,7 +630,19 @@ function parseProducerManifest(body: string, version: string): ParsedManifest {
   if (JSON.stringify(targetRecords.map(({ file }) => file)) !== JSON.stringify(expectedFiles)) {
     throw new Error("producer target order or inventory drifted");
   }
-  return { buildDialectCommit, created, producerCommit, targetRecords };
+  return {
+    buildDialectCommit,
+    created,
+    privateRendererProvenance: [
+      rendererAssetFile,
+      rendererAssetSha256,
+      rendererManifestSha256,
+      rendererReleaseTag,
+      rendererRevision,
+    ],
+    producerCommit,
+    targetRecords,
+  };
 }
 
 export function verifyHandoffDirectory(
@@ -714,7 +789,14 @@ export function verifyHandoffDirectory(
     "sha256",
   ]);
   if (manifestSbom.sha256 !== sha256(sbom)) throw new Error("handoff SBOM digest drifted");
-  verifySpdx(sbom, version, manifest.created, manifest.producerCommit, runtimeLicensing.components);
+  verifySpdx(
+    sbom,
+    version,
+    manifest.created,
+    manifest.producerCommit,
+    manifest.privateRendererProvenance,
+    runtimeLicensing.components,
+  );
 
   const binaries = RELEASE_TARGETS.map((target) => {
     const entry = entries.get(target.handoffFile);
@@ -730,6 +812,12 @@ export function verifyHandoffDirectory(
     ) {
       throw new Error(`handoff target drifted: ${target.handoffFile}`);
     }
+    verifyBinaryProvenance(
+      body,
+      manifest.producerCommit,
+      manifest.privateRendererProvenance,
+      target.handoffFile,
+    );
     nativeVerifier(body, target, version);
     return { body, sha256: record.sha256, target };
   });
