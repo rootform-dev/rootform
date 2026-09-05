@@ -48,9 +48,12 @@ export type JourneyEvidence = {
   check_sha256: string | null;
   lock_recreated_byte_identical: boolean;
   lock_unchanged: boolean;
+  offline_inspection_no_credentials: boolean;
   offline_from_vendor_no_credentials: boolean;
+  offline_run_no_credentials: boolean;
   online_offline_identical: boolean;
   passed: boolean;
+  local_policy_pack_inspection: boolean;
   steps: JourneyStep[];
   target: TargetLabel;
   vendor_swap_removed_stale: boolean;
@@ -170,6 +173,70 @@ export function runBinary(
   return { stderr, stdout };
 }
 
+export async function readRunAddress(stream: ReadableStream<Uint8Array>): Promise<string> {
+  const reader = stream.getReader();
+  const decoder = new TextDecoder();
+  const read = async (): Promise<string> => {
+    let received = "";
+    while (true) {
+      const next = await reader.read();
+      if (next.value) received += decoder.decode(next.value, { stream: true });
+      if (received.length > 65_536) {
+        throw new Error("rootform run output exceeded the loopback address probe limit");
+      }
+      for (const match of received.matchAll(/http:\/\/127\.0\.0\.1:(\d{1,5})(?=[/\s]|$)/gu)) {
+        const port = Number(match[1]);
+        if (port >= 1 && port <= 65_535) return match[0];
+      }
+      if (next.done) throw new Error("rootform run stopped before publishing a loopback address");
+    }
+  };
+  return Promise.race([
+    read(),
+    Bun.sleep(15_000).then(() => {
+      throw new Error("rootform run did not publish a loopback address");
+    }),
+  ]);
+}
+
+export async function probeRun(
+  binary: string,
+  arguments_: string[],
+  options: { cwd: string; environment: Record<string, string>; redactions: readonly Redaction[] },
+): Promise<string> {
+  const server = Bun.spawn([binary, ...arguments_], {
+    cwd: options.cwd,
+    env: { ...process.env, ...options.environment },
+    stderr: "pipe",
+    stdout: "pipe",
+  });
+  try {
+    if (!(server.stdout instanceof ReadableStream)) {
+      throw new Error("rootform run stdout is unavailable");
+    }
+    const address = await readRunAddress(server.stdout);
+    const response = await fetch(address, {
+      redirect: "error",
+      signal: AbortSignal.timeout(15_000),
+    });
+    const html = await response.text();
+    if (
+      !response.ok ||
+      !response.headers.get("content-type")?.startsWith("text/html") ||
+      !html.toLowerCase().includes("<!doctype html>")
+    ) {
+      throw new Error("rootform run did not serve its self-contained HTML shell");
+    }
+    return address;
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    throw new Error(redact(detail, options.redactions));
+  } finally {
+    if (server.exitCode === null) server.kill();
+    await server.exited;
+  }
+}
+
 export function treeDigest(directory: string): string {
   const digest = createHash("sha256");
   for (const entry of readdirSync(directory, { withFileTypes: true }).sort((left, right) =>
@@ -224,11 +291,11 @@ function currentHost(): Host {
   return { arch: process.arch, platform: process.platform };
 }
 
-export function runJourney(
+export async function runJourney(
   arguments_: RuntimeArguments,
   steps: JourneyStep[] = [],
   host: Host = currentHost(),
-): JourneyEvidence {
+): Promise<JourneyEvidence> {
   let activeRedactions: readonly Redaction[] = [];
   const record = (name: string, detail?: string): void => {
     steps.push(detail === undefined ? { name, ok: true } : { detail, name, ok: true });
@@ -242,6 +309,19 @@ export function runJourney(
   const attempt = <T>(step: string, action: () => T, detail?: (result: T) => string): T => {
     try {
       const result = action();
+      record(step, detail?.(result));
+      return result;
+    } catch (error) {
+      return failed(step, error);
+    }
+  };
+  const attemptAsync = async <T>(
+    step: string,
+    action: () => Promise<T>,
+    detail?: (result: T) => string,
+  ): Promise<T> => {
+    try {
+      const result = await action();
       record(step, detail?.(result));
       return result;
     } catch (error) {
@@ -475,6 +555,116 @@ export function runJourney(
         throw new Error("vendored offline commands mutated the empty Rootform home");
       }
     });
+
+    attempt("offline-list-show-without-credentials", () => {
+      const environment = {
+        ...offlineEnvironment,
+        ROOTFORM_HOME: freshHome,
+      };
+      const listed = JSON.parse(
+        run(["list", "dialects", "--format", "json"], project, environment).stdout,
+      ) as { execution_source?: unknown; name?: unknown; version?: unknown }[];
+      const actual = listed
+        .map((entry) => ({
+          executionSource: entry.execution_source,
+          name: entry.name,
+          version: entry.version,
+        }))
+        .sort((left, right) => String(left.name).localeCompare(String(right.name), "en"));
+      const expected = entries
+        .map((entry) => ({ executionSource: "vendor", ...entry }))
+        .sort((left, right) => left.name.localeCompare(right.name, "en"));
+      if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+        throw new Error("offline vendored dialect listing differs from rootform.lock");
+      }
+      const selected = entries.find((entry) => entry.name === "aws") ?? entries[0];
+      if (!selected) throw new Error("rootform.lock has no dialect to inspect");
+      const shown = JSON.parse(
+        run(["show", "dialect", selected.name, "--format", "json"], project, environment).stdout,
+      ) as { execution_source?: unknown; name?: unknown; version?: unknown };
+      if (
+        shown.name !== selected.name ||
+        shown.version !== selected.version ||
+        shown.execution_source !== "vendor"
+      ) {
+        throw new Error("offline vendored dialect inspection differs from rootform.lock");
+      }
+    });
+
+    attempt("local-policy-pack-list-show", () => {
+      const policyPack = join(root, "policy-packs", "baseline");
+      const environment = {
+        ...offlineEnvironment,
+        ROOTFORM_HOME: freshHome,
+      };
+      const listed = JSON.parse(
+        run(
+          ["list", "policy-packs", "--policy-pack", policyPack, "--format", "json"],
+          project,
+          environment,
+        ).stdout,
+      ) as { execution_source?: unknown; name?: unknown; version?: unknown }[];
+      if (
+        listed.length !== 1 ||
+        listed[0]?.name !== "baseline" ||
+        listed[0]?.version !== "0.1.0" ||
+        listed[0]?.execution_source !== "local"
+      ) {
+        throw new Error("local Policy Pack listing differs from the versioned baseline pack");
+      }
+      const shown = JSON.parse(
+        run(
+          ["show", "policy-pack", "baseline", "--policy-pack", policyPack, "--format", "json"],
+          project,
+          environment,
+        ).stdout,
+      ) as {
+        execution_source?: unknown;
+        name?: unknown;
+        policies?: unknown;
+        version?: unknown;
+      };
+      if (
+        shown.name !== "baseline" ||
+        shown.version !== "0.1.0" ||
+        shown.execution_source !== "local" ||
+        !Array.isArray(shown.policies) ||
+        shown.policies.length !== 2
+      ) {
+        throw new Error("local Policy Pack inspection differs from the versioned baseline pack");
+      }
+    });
+
+    await attemptAsync(
+      "offline-run-without-credentials",
+      () =>
+        probeRun(
+          arguments_.binary,
+          [
+            "run",
+            project,
+            "--locked",
+            "--offline",
+            "--no-input",
+            "--no-browser",
+            "--no-watch",
+            "--port",
+            "0",
+          ],
+          {
+            cwd: project,
+            environment: {
+              ...offlineEnvironment,
+              ROOTFORM_HOME: freshHome,
+            },
+            redactions,
+          },
+        ),
+      (address) => address.replace(/:\d+$/u, ":<ephemeral>"),
+    );
+    if (readdirSync(freshHome).length !== 0) {
+      throw new Error("vendored offline journey mutated the empty Rootform home");
+    }
   } catch (error) {
     if (error instanceof JourneyError) throw error;
     const raw = error instanceof Error ? error.message : String(error);
@@ -493,9 +683,12 @@ export function runJourney(
     check_sha256: checkSha,
     lock_recreated_byte_identical: true,
     lock_unchanged: true,
+    offline_inspection_no_credentials: true,
     offline_from_vendor_no_credentials: true,
+    offline_run_no_credentials: true,
     online_offline_identical: true,
     passed: true,
+    local_policy_pack_inspection: true,
     steps,
     target: arguments_.target,
     vendor_swap_removed_stale: true,
@@ -512,7 +705,7 @@ function writeEvidence(arguments_: RuntimeArguments, evidence: JourneyEvidence):
   }
 }
 
-function main(): void {
+async function main(): Promise<void> {
   let parsed: RuntimeArguments;
   try {
     parsed = parseArguments(process.argv.slice(2));
@@ -526,16 +719,19 @@ function main(): void {
   const steps: JourneyStep[] = [];
   let evidence: JourneyEvidence;
   try {
-    evidence = runJourney(parsed, steps);
+    evidence = await runJourney(parsed, steps);
   } catch (error) {
     evidence = {
       binary: basename(parsed.binary),
       check_sha256: null,
       lock_recreated_byte_identical: false,
       lock_unchanged: false,
+      offline_inspection_no_credentials: false,
       offline_from_vendor_no_credentials: false,
+      offline_run_no_credentials: false,
       online_offline_identical: false,
       passed: false,
+      local_policy_pack_inspection: false,
       steps,
       target: parsed.target,
       vendor_swap_removed_stale: false,
@@ -550,5 +746,5 @@ function main(): void {
 }
 
 if (import.meta.main) {
-  main();
+  await main();
 }

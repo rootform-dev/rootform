@@ -7,6 +7,7 @@ import {
   JourneyError,
   type JourneyStep,
   parseArguments,
+  readRunAddress,
   redact,
   requireRegularFile,
   runBinary,
@@ -134,6 +135,38 @@ test("runBinary executes a local executable and reports failures", () => {
   ).toThrow(/failed \(exit 3\).*boom/su);
 });
 
+test("readRunAddress accepts only an explicit loopback HTTP address", async () => {
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(
+        new TextEncoder().encode(
+          "preparing architecture\nRootform explorer: http://127.0.0.1:21717\n",
+        ),
+      );
+      controller.close();
+    },
+  });
+  expect(await readRunAddress(stream)).toBe("http://127.0.0.1:21717");
+});
+
+test("readRunAddress rejects external and lookalike addresses", async () => {
+  for (const address of [
+    "https://example.com:21717",
+    "http://localhost:21717",
+    "http://127.0.0.1:21717.example.com",
+    "http://127.0.0.1:0",
+    "http://127.0.0.1:99999",
+  ]) {
+    const stream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode(`${address}\n`));
+        controller.close();
+      },
+    });
+    await expect(readRunAddress(stream)).rejects.toThrow(/before publishing a loopback address/u);
+  }
+});
+
 test("treeDigest is deterministic and detects injected files", () => {
   const left = mkdtempSync(join(tmpdir(), "rootform-tree-left-"));
   const right = mkdtempSync(join(tmpdir(), "rootform-tree-right-"));
@@ -158,11 +191,11 @@ test("treeDigest rejects symlinks", () => {
   expect(() => treeDigest(sandbox)).toThrow(/symlink/u);
 });
 
-test("runJourney rejects a mismatched target before touching the binary", () => {
+test("runJourney rejects a mismatched target before touching the binary", async () => {
   const steps: JourneyStep[] = [];
   let error: unknown;
   try {
-    runJourney(
+    await runJourney(
       {
         binary: "/nonexistent/rootform",
         evidence: undefined,
@@ -190,7 +223,7 @@ const hostLabel = TARGET_LABELS.find(
     targetHost(label).platform === process.platform && targetHost(label).arch === process.arch,
 );
 
-test("runJourney reports a failed version probe without network", () => {
+test("runJourney reports a failed version probe without network", async () => {
   if (process.platform === "win32" || hostLabel === undefined) return;
   const sandbox = mkdtempSync(join(tmpdir(), "rootform-journey-"));
   const binary = join(sandbox, "fake-rootform");
@@ -199,7 +232,7 @@ test("runJourney reports a failed version probe without network", () => {
   const steps: JourneyStep[] = [];
   let error: unknown;
   try {
-    runJourney(
+    await runJourney(
       { binary, evidence: undefined, target: hostLabel, version: "0.1.0" },
       steps,
       targetHost(hostLabel),
