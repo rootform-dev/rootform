@@ -34,13 +34,16 @@ Bundle contains exactly:
 
 ## Producer manifest
 
-`engine-handoff.json` format version 1 binds exact product version, producer
-source identity, exact Dialects presentation input, deterministic build time,
-toolchains, build settings, five-target file/size/hash records, schema hash, and
-SBOM hash. JSON keys and arrays are canonical. Unknown fields fail.
+`engine-handoff.json` format version 2 binds exact product version, producer
+source identity, exact Dialects presentation input, exact private renderer
+repository/revision/release identity, renderer archive name/size/hash, renderer
+manifest name/hash, deterministic build time, toolchains, build settings,
+five-target file/size/hash records, schema hash, and SBOM hash. Renderer names
+must derive from its exact revision. JSON keys and arrays are canonical.
+Unknown fields fail.
 
 Producer manifest remains handoff evidence. Final release does not redistribute
-it; final manifest records its SHA-256.
+it or private renderer provenance; final manifest records only its SHA-256.
 
 ## Verification
 
@@ -53,7 +56,7 @@ Rootform rejects handoff unless:
   exactly `rootform <version>`;
 - schema bytes equal committed public Architecture IR schema and export digest;
 - SBOM is canonical SPDX 2.3 JSON for requested version and contains no private
-  repository URL or local filesystem path;
+  repository URL, renderer identity, or local filesystem path;
 - no duplicate, unsafe, linked, irregular, unexpected, or trailing entry exists.
 
 After verification, Rootform may add distribution-owned license, notices,

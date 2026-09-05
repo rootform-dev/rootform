@@ -26,19 +26,29 @@ const dialectCommit = (
 ).commit;
 const driftDialectCommit = "a".repeat(40);
 const distributionCommit = "d".repeat(40);
+const rendererRevision = "b".repeat(40);
+const rendererAssetSha256 = "c".repeat(64);
+const rendererManifestSha256 = "e".repeat(64);
+const rendererReleaseTag = `renderer-${rendererRevision}`;
 const created = "2026-08-31T00:00:00.000Z";
 const runtimeComponents = readRuntimeLicensing(root).components.filter(
   ({ kind }) => kind !== "go-module",
 );
 
 type FixtureOptions = {
+  binaryRendererProvenanceLeak?: boolean;
   dialectCommitDrift?: boolean;
   extraEntry?: boolean;
   manifestExtraField?: boolean;
+  manifestFormatDrift?: boolean;
   producerCommitDrift?: boolean;
+  rendererAssetDrift?: boolean;
+  rendererIdentityDrift?: boolean;
+  rendererManifestDrift?: boolean;
   schemaDrift?: boolean;
   sbomComponentLicenseDrift?: boolean;
   sbomLicenseDrift?: boolean;
+  sbomRendererProvenanceLeak?: boolean;
   versionDrift?: boolean;
 };
 
@@ -81,12 +91,14 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
     ? Buffer.from('{"drift":true}\n')
     : readFileSync(join(root, "schemas", "architecture-ir.schema.json"));
   const binaries = new Map(
-    RELEASE_TARGETS.map((target) => [
+    RELEASE_TARGETS.map((target, index) => [
       target.handoffFile,
       Buffer.from(
         options.versionDrift && target === RELEASE_TARGETS[0]
           ? `synthetic ${target.handoffFile}`
-          : `synthetic ${target.handoffFile} rootform ${version}`,
+          : `synthetic ${target.handoffFile} rootform ${version}${
+              options.binaryRendererProvenanceLeak && index === 0 ? ` ${rendererReleaseTag}` : ""
+            }`,
       ),
     ]),
   );
@@ -143,7 +155,11 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
             options.sbomComponentLicenseDrift && index === 0 ? "MIT" : component.license_concluded,
           licenseDeclared: component.license_declared,
           name: component.name,
-          sourceInfo: `Rootform runtime inventory kind: ${component.kind}; Distributed license text SHA-256: ${component.license_text_sha256}`,
+          sourceInfo:
+            `Rootform runtime inventory kind: ${component.kind}; Distributed license text SHA-256: ${component.license_text_sha256}` +
+            (options.sbomRendererProvenanceLeak && index === 0
+              ? `; renderer release: ${rendererReleaseTag}`
+              : ""),
           versionInfo: component.version,
         };
       }),
@@ -185,11 +201,25 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
       },
       toolchains: { bun: "1.3.14", go: "go1.26.7" },
     },
-    format_version: "1",
+    format_version: options.manifestFormatDrift ? "1" : "2",
     inputs: {
       dialects: {
         commit: options.dialectCommitDrift ? driftDialectCommit : dialectCommit,
         repository: "rootform-dev/dialects",
+      },
+      renderer: {
+        asset: {
+          bytes: 1_617_784,
+          file: `rootform_renderer_bundle_${rendererRevision}.tar.gz`,
+          sha256: options.rendererAssetDrift ? "invalid" : rendererAssetSha256,
+        },
+        manifest: {
+          file: "renderer-bundle.json",
+          sha256: options.rendererManifestDrift ? "invalid" : rendererManifestSha256,
+        },
+        release_tag: rendererReleaseTag,
+        repository: options.rendererIdentityDrift ? "rootform-dev/other" : "rootform-dev/web",
+        revision: rendererRevision,
       },
     },
     product: { name: "rootform", version },
@@ -261,6 +291,7 @@ describe("strict handoff verification", () => {
       expect(verified.buildDialectCommit).toBe(dialectCommit);
       expect(verified.producerSourceCommit).toBe(producerCommit);
       expect(verified.sbom.toString("utf8")).not.toContain(producerCommit);
+      expect(verified.sbom.toString("utf8")).not.toContain(rendererRevision);
     } finally {
       rmSync(fixture.parent, { force: true, recursive: true });
     }
@@ -268,15 +299,21 @@ describe("strict handoff verification", () => {
 
   test("rejects unexpected asset, entry, field, schema, version, and GitHub digest", () => {
     const cases: Array<[FixtureOptions, string]> = [
+      [{ binaryRendererProvenanceLeak: true }, "target exposes private producer provenance"],
       [{ extraEntry: true }, "bundle inventory drifted"],
       [{ manifestExtraField: true }, "unexpected fields"],
+      [{ manifestFormatDrift: true }, "producer manifest format drifted"],
       [{ producerCommitDrift: true }, "public export provenance drifted"],
+      [{ rendererAssetDrift: true }, "producer renderer asset drifted"],
+      [{ rendererIdentityDrift: true }, "producer renderer identity drifted"],
+      [{ rendererManifestDrift: true }, "producer renderer manifest drifted"],
       [{ schemaDrift: true }, "handoff schema digest drifted"],
       [
         { sbomComponentLicenseDrift: true },
         "SBOM component differs from runtime license inventory",
       ],
       [{ sbomLicenseDrift: true }, "SBOM product package drifted"],
+      [{ sbomRendererProvenanceLeak: true }, "SBOM exposes private producer provenance"],
       [{ versionDrift: true }, "target drifted"],
     ];
     for (const [options, message] of cases) {
@@ -358,6 +395,11 @@ describe("final release assembly", () => {
       const manifest = readFileSync(join(output, `rootform_${version}_manifest.json`), "utf8");
       expect(manifest).not.toContain(producerCommit);
       expect(manifest).not.toContain("rootform-dev/engine");
+      expect(manifest).not.toContain(rendererRevision);
+      expect(manifest).not.toContain("rootform-dev/web");
+      expect(manifest).not.toContain(rendererReleaseTag);
+      expect(manifest).not.toContain(rendererAssetSha256);
+      expect(manifest).not.toContain(rendererManifestSha256);
       expect(manifest).toContain(verified.producerManifestSha256);
       const parsed = JSON.parse(manifest) as {
         license: {
@@ -370,7 +412,7 @@ describe("final release assembly", () => {
         spdx: "Elastic-2.0",
         status: "licensed",
       });
-      expect(parsed.license.third_party_notices.component_count).toBe(87);
+      expect(parsed.license.third_party_notices.component_count).toBe(88);
       expect(parsed.license.third_party_notices.inventory_sha256).toMatch(/^[0-9a-f]{64}$/);
     } finally {
       rmSync(fixture.parent, { force: true, recursive: true });
