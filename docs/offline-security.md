@@ -1,4 +1,7 @@
-# Offline and security model
+---
+title: "Locks, vendor, and offline operation"
+description: "Control acquisition, exact selection, credentials, and local execution."
+---
 
 Rootform compilation reads local Terraform/OpenTofu sources, local architecture
 documents, local locks, and local dialects. Directory forms of `build`, `check`,

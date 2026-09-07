@@ -1,4 +1,7 @@
-# Dialect authoring
+---
+title: "Author a Dialect"
+description: "Validate provider semantics, synthetic fixtures, presentation identities, and immutable distribution."
+---
 
 Clone `rootform-dev/dialects`, edit canonical files under `<name>/`,
 then run:

@@ -1,4 +1,7 @@
-# Rootform in CI
+---
+title: "Run in CI"
+description: "Prepare exact semantics and build reproducible architecture outputs in a non-interactive runner."
+---
 
 All CI systems use same project lifecycle:
 

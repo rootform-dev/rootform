@@ -1,4 +1,7 @@
-# OCI registry compatibility
+---
+title: "Registry compatibility"
+description: "Understand the tested OCI distribution profile and its registry compatibility boundary."
+---
 
 Rootform claims registry compatibility only against
 [`rootform-oci-core-v1`](../../contracts/rootform-oci-core-profile.md).

@@ -135,6 +135,7 @@ if (!configuredBinary)
   throw new Error("ROOTFORM_BIN must name the checksum-verified Rootform executable");
 const binary = isAbsolute(configuredBinary) ? configuredBinary : resolve(root, configuredBinary);
 if (!existsSync(binary)) throw new Error("binary is unavailable");
+process.stdout.write(run(["bun", "run", "verify:docs-examples"], root, { ROOTFORM_BIN: binary }));
 
 const registryHome = mkdtempSync(join(tmpdir(), "rootform-registry-home-"));
 const outputs = mkdtempSync(join(tmpdir(), "rootform-examples-"));
