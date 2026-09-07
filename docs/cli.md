@@ -1,4 +1,7 @@
-# CLI reference
+---
+title: "CLI lifecycle"
+description: "Project preparation and the command families for Dialects, Policy Packs, and architecture operations."
+---
 
 Project initialization:
 

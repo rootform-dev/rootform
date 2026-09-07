@@ -1,19 +1,7 @@
 #!/usr/bin/env bun
-// Reproducible proof for the getting-started tutorial. Parses the single
-// fenced main.tf from docs/getting-started/first-architecture.md, builds it
-// with the pinned Rootform binary, and asserts the resulting behavior. It
-// never re-implements the example: the HCL comes from the page and must equal
-// examples/aws-vpc/main.tf.
-//
-// Usage:
-//   ROOTFORM_BIN=/absolute/path/to/rootform bun scripts/verify-docs-examples.ts
-//
-// The first build may use the network for implicit project preparation from
-// an empty home; the second build must pass --offline. Only the opaque
-// published binary and public repository files are read. Windows execution
-// is not tested; this proof has been verified on macOS (arm64) only.
 
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
 
@@ -29,7 +17,7 @@ function fail(message: string): never {
 
 function requireFile(path: string, what: string): string {
   if (!existsSync(path)) {
-    fail(what + " is missing: " + path);
+    fail(`${what} is missing: ${path}`);
   }
   return path;
 }
@@ -38,18 +26,14 @@ function resolveBinary(environment: Record<string, string | undefined> = process
   const specified = environment.ROOTFORM_BIN?.trim();
   if (specified) {
     if (!isAbsolute(specified)) {
-      fail("ROOTFORM_BIN must be an absolute path, got: " + specified);
+      fail(`ROOTFORM_BIN must be an absolute path, got: ${specified}`);
     }
     if (!existsSync(specified)) {
-      fail("ROOTFORM_BIN does not exist: " + specified);
+      fail(`ROOTFORM_BIN does not exist: ${specified}`);
     }
     return specified;
   }
-  const onPath = Bun.which("rootform");
-  if (onPath === null) {
-    fail("ROOTFORM_BIN is not set and rootform is not on PATH");
-  }
-  return onPath;
+  fail("ROOTFORM_BIN must name the checksum-verified Rootform executable");
 }
 
 type Captured = {
@@ -62,7 +46,7 @@ function run(binary: string, args: string[], cwd: string, home: string): Capture
   const result = Bun.spawnSync({
     cmd: [binary, ...args],
     cwd,
-    env: { ...process.env, ROOTFORM_HOME: home },
+    env: { ...process.env, ROOTFORM_HOME: home, DOCKER_CONFIG: join(home, "docker") },
     stderr: "pipe",
     stdout: "pipe",
   });
@@ -82,6 +66,65 @@ function run(binary: string, args: string[], cwd: string, home: string): Capture
   };
 }
 
+async function verifyLocalExplorer(binary: string, workspace: string, home: string): Promise<void> {
+  const child = Bun.spawn(
+    [
+      binary,
+      "run",
+      ".",
+      "--locked",
+      "--offline",
+      "--no-input",
+      "--no-browser",
+      "--no-watch",
+      "--port",
+      "0",
+    ],
+    {
+      cwd: workspace,
+      env: { ...process.env, ROOTFORM_HOME: home, DOCKER_CONFIG: join(home, "docker") },
+      stdout: "pipe",
+      stderr: "pipe",
+    },
+  );
+  let stdout = "";
+  let stderr = "";
+  const read = async (stream: ReadableStream<Uint8Array>, append: (value: string) => void) => {
+    const decoder = new TextDecoder();
+    for await (const chunk of stream) append(decoder.decode(chunk, { stream: true }));
+  };
+  const readers = [
+    read(child.stdout, (value) => {
+      stdout += value;
+    }),
+    read(child.stderr, (value) => {
+      stderr += value;
+    }),
+  ];
+  try {
+    const deadline = Date.now() + 20_000;
+    while (Date.now() < deadline) {
+      const address = stdout.match(/http:\/\/127\.0\.0\.1:\d+/u)?.[0];
+      if (address) {
+        const response = await fetch(address, { signal: AbortSignal.timeout(5_000) });
+        if (!response.ok || !(await response.text()).toLowerCase().includes("<!doctype html")) {
+          fail("local explorer did not serve its HTML interface");
+        }
+        return;
+      }
+      if (child.exitCode !== null) fail(`local explorer exited before serving: ${stderr}`);
+      await Bun.sleep(50);
+    }
+    fail(`local explorer did not start: ${stderr}`);
+  } finally {
+    child.kill("SIGINT");
+    const force = setTimeout(() => child.kill("SIGKILL"), 5_000);
+    await child.exited;
+    clearTimeout(force);
+    await Promise.all(readers);
+  }
+}
+
 function normalizeLines(text: string): string {
   return text
     .split("\n")
@@ -90,18 +133,14 @@ function normalizeLines(text: string): string {
     .trim();
 }
 
-// Terminal output may wrap differently than a page; compare semantic content.
 function normalizeOutput(text: string): string {
   return normalizeLines(text).replace(/\s+/gu, " ");
 }
 
-// The page carries exactly one fenced HCL block titled "main.tf". That block
-// is the example: it must equal examples/aws-vpc/main.tf and it is what the
-// proof builds.
 function extractFencedMainTf(page: string): string {
   const matches = [
     ...page.matchAll(
-      new RegExp(FENCE + 'hcl\\s+title="main\\.tf"\\s*\\n([\\s\\S]*?)\\n' + FENCE, "gu"),
+      new RegExp(`${FENCE}hcl\\s+title="main\\.tf"\\s*\\n([\\s\\S]*?)\\n${FENCE}`, "gu"),
     ),
   ];
   if (matches.length !== 1) {
@@ -118,26 +157,21 @@ function extractFencedMainTf(page: string): string {
   if (body === undefined) {
     fail("could not read the main.tf fence from first-architecture.md");
   }
-  return body.replace(/\r\n/gu, "\n").replace(/\s+$/u, "") + "\n";
+  return `${body.replace(/\r\n/gu, "\n").replace(/\s+$/u, "")}\n`;
 }
 
-// If the page displays the first build's output in an id-bearing text fence,
-// that displayed text must equal the actual stderr. Without such a fence the
-// check is skipped: no assertion is invented.
-function displayedBuildOutput(page: string): string | null {
+function displayedBuildOutput(page: string): string {
   const candidates: string[] = [];
   for (const match of page.matchAll(
-    new RegExp(FENCE + '(?:text|markdown)\\s+id="[^"]+"\\s*\\n([\\s\\S]*?)\\n' + FENCE, "gu"),
+    new RegExp(`${FENCE}text[^\\n]*\\n([\\s\\S]*?)\\n${FENCE}`, "gu"),
   )) {
     const body = match[1] ?? "";
     if (body.includes("Declarations detected")) {
       candidates.push(normalizeOutput(body));
     }
   }
-  if (candidates.length !== 1) {
-    return null;
-  }
-  return candidates[0] ?? null;
+  if (candidates.length !== 1) fail("the page must show exactly one declaration summary");
+  return candidates[0] ?? fail("declaration summary is missing");
 }
 
 function flagTokens(text: string): string[] {
@@ -150,7 +184,7 @@ function flagTokens(text: string): string[] {
 
 const steps: string[] = [];
 function noted(label: string, value: string): void {
-  steps.push(label + ": " + value);
+  steps.push(`${label}: ${value}`);
 }
 
 const binary = resolveBinary();
@@ -174,16 +208,16 @@ if (normalizeLines(mainTf) !== normalizeLines(exampleCode)) {
 const workspace = mkdtempSync(join(tmpdir(), "rootform-docs-example-"));
 const home = mkdtempSync(join(tmpdir(), "rootform-docs-example-home-"));
 try {
+  mkdirSync(join(home, "docker"));
+  writeFileSync(join(home, "docker/config.json"), "{}\n");
   writeFileSync(join(workspace, "main.tf"), mainTf);
 
-  // Explicit, pinned identity of the binary under proof.
   const version = run(binary, ["version"], repoRoot, home);
   if (version.exitCode !== 0) {
-    fail("rootform version failed: " + version.stderr.trim());
+    fail(`rootform version failed: ${version.stderr.trim()}`);
   }
   const binaryVersion = version.stdout.trim().replace(/^rootform\s+/u, "");
 
-  // First run from an empty home: implicit preparation may use the network.
   const first = run(
     binary,
     ["build", ".", "--no-input", "--output", "architecture.json"],
@@ -191,7 +225,7 @@ try {
     home,
   );
   if (first.exitCode !== 0) {
-    fail("first build failed (exit " + first.exitCode + "):\n" + first.stderr);
+    fail(`first build failed (exit ${first.exitCode}):\n${first.stderr}`);
   }
   const lockPath = join(workspace, "rootform.lock");
   if (!existsSync(lockPath)) {
@@ -215,7 +249,7 @@ try {
     fail("architecture.json is not valid JSON");
   }
   if (architecture.format_version !== "0.1.0") {
-    fail("architecture format_version is " + architecture.format_version + ", expected 0.1.0");
+    fail(`architecture format_version is ${architecture.format_version}, expected 0.1.0`);
   }
   if (architecture.generator?.name !== "rootform") {
     fail("architecture generator is not rootform");
@@ -244,12 +278,12 @@ try {
   for (const required of ["aws_vpc.main", "aws_subnet.application"]) {
     const actual = outcomes.get(required);
     if (actual !== "represented") {
-      fail("declaration " + required + " is not represented (got " + (actual ?? "missing") + ")");
+      fail(`declaration ${required} is not represented (got ${actual ?? "missing"})`);
     }
   }
   for (const [address, kind] of outcomes) {
     if (kind === "unsupported" || kind === "failed") {
-      fail("declaration " + address + " has outcome " + kind);
+      fail(`declaration ${address} has outcome ${kind}`);
     }
   }
 
@@ -272,13 +306,10 @@ try {
     .filter((id) => id !== "");
   for (const required of ["aws", "core"]) {
     if (!dialectIds.includes(required)) {
-      fail(
-        "semantics do not include " + required + " (got " + (dialectIds.join(", ") || "none") + ")",
-      );
+      fail(`semantics do not include ${required} (got ${dialectIds.join(", ") || "none"})`);
     }
   }
 
-  // Locked and fully offline: must be byte-identical and may not touch the lock.
   const repeated = run(
     binary,
     ["build", ".", "--locked", "--offline", "--no-input", "--output", "repeated.json"],
@@ -286,7 +317,7 @@ try {
     home,
   );
   if (repeated.exitCode !== 0) {
-    fail("offline rebuild failed (exit " + repeated.exitCode + "):\n" + repeated.stderr);
+    fail(`offline rebuild failed (exit ${repeated.exitCode}):\n${repeated.stderr}`);
   }
   const repeatedBytes = readFileSync(join(workspace, "repeated.json"));
   if (!repeatedBytes.equals(archBytes)) {
@@ -313,7 +344,6 @@ try {
     }
   }
 
-  // Self-contained HTML page: no remote source or link references.
   const html = run(
     binary,
     [
@@ -331,7 +361,7 @@ try {
     home,
   );
   if (html.exitCode !== 0) {
-    fail("html build failed (exit " + html.exitCode + "):\n" + html.stderr);
+    fail(`html build failed (exit ${html.exitCode}):\n${html.stderr}`);
   }
   if (!readFileSync(lockPath).equals(lockBytes)) {
     fail("rootform.lock bytes changed after the html build");
@@ -344,7 +374,8 @@ try {
     fail("architecture.html contains a remote src or href reference");
   }
 
-  // The flags documented for build must exist on the real command.
+  await verifyLocalExplorer(binary, workspace, home);
+
   const help = run(binary, ["build", "--help"], repoRoot, home);
   if (help.exitCode !== 0) {
     fail("rootform build --help failed");
@@ -352,17 +383,25 @@ try {
   const documentedFlags = flagTokens(buildReference);
   const missing = documentedFlags.filter((flag) => !help.stdout.includes(flag));
   if (missing.length > 0) {
-    fail("reference/cli/build.md documents flags missing from build --help: " + missing.join(", "));
+    fail(`reference/cli/build.md documents flags missing from build --help: ${missing.join(", ")}`);
   }
 
-  // Optional: the page may display the first build's stderr in an id-bearing
-  // text fence; when it does, the displayed text must match exactly.
-  const displayed = displayedBuildOutput(page);
-  if (displayed !== null && normalizeOutput(first.stderr) !== displayed) {
-    fail("displayed stderr fence in first-architecture.md does not match the real first build");
+  const summaryStart = first.stderr.indexOf("Declarations detected");
+  if (summaryStart < 0) fail("the real build did not print declaration accounting");
+  const summary = normalizeOutput(first.stderr.slice(summaryStart));
+  for (const document of [page, buildReference]) {
+    if (displayedBuildOutput(document) !== summary) {
+      fail("displayed declaration summary does not match the real build");
+    }
   }
 
-  noted("binary", binary + " (rootform " + binaryVersion + ")");
+  noted(
+    "binary",
+    "rootform " +
+      binaryVersion +
+      ", sha256:" +
+      createHash("sha256").update(readFileSync(binary)).digest("hex"),
+  );
   noted("main.tf fence", "matches examples/aws-vpc/main.tf");
   noted("first build", "implicit preparation from empty home, exit 0");
   noted("offline rebuild", "byte-identical to first build, --locked --offline");
@@ -372,20 +411,17 @@ try {
   );
   noted("context", "core/network from aws_subnet.application to aws_vpc.main");
   noted("semantics", dialectIds.sort().join(", "));
-  noted("rootform.lock", "bytes preserved; pins " + lockEntries.sort().join(", "));
+  noted("rootform.lock", `bytes preserved; pins ${lockEntries.sort().join(", ")}`);
   noted("html", "self-contained, no remote src/href");
-  noted("build flags", documentedFlags.length + " documented flags all present in build --help");
-  if (displayed !== null) {
-    noted("displayed stderr", "matches the real first build");
-  } else {
-    noted("displayed stderr", "no id-bearing text fence on the page; not asserted");
-  }
+  noted("run", "serves the local HTML explorer with locked offline semantics");
+  noted("build flags", `${documentedFlags.length} documented flags all present in build --help`);
+  noted("displayed stderr", "tutorial and reference match the real first build");
 
-  console.log("first-architecture.md proof: PASS (" + steps.length + " checks)");
+  console.log(`first-architecture.md proof: PASS (${steps.length} checks)`);
   for (const step of steps) {
-    console.log("  - " + step);
+    console.log(`  - ${step}`);
   }
-  console.log("Unsupported proof: Windows execution was not tested (verified on macOS arm64).");
+  console.log(`Execution platform: ${process.platform}/${process.arch}`);
 } finally {
   rmSync(workspace, { force: true, recursive: true });
   rmSync(home, { force: true, recursive: true });

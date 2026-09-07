@@ -1,0 +1,70 @@
+[
+  {
+    "label": "Get started",
+    "items": [
+      {
+        "label": "Overview",
+        "page": "index"
+      },
+      {
+        "label": "Install",
+        "page": "installation"
+      },
+      "getting-started/first-architecture"
+    ]
+  },
+  {
+    "label": "Understand architecture",
+    "items": ["concepts", "concepts/architecture-ir", "concepts/dialects", "concepts/policies"]
+  },
+  {
+    "label": "Explore the renderer",
+    "items": [
+      {
+        "label": "Read an architecture",
+        "page": "renderer"
+      },
+      "renderer/views",
+      "renderer/diff"
+    ]
+  },
+  {
+    "label": "Use your inputs",
+    "items": ["inputs", "inputs/plans"]
+  },
+  {
+    "label": "Work with your team",
+    "items": [
+      "workflows",
+      "integrations/ci",
+      "integrations/github-actions",
+      "integrations/oci-image"
+    ]
+  },
+  {
+    "label": "Operate safely",
+    "items": [
+      "security",
+      "offline-security",
+      "integrations/registry-compatibility",
+      "troubleshooting",
+      "limitations"
+    ]
+  },
+  {
+    "label": "Reference",
+    "items": [
+      "reference",
+      "cli",
+      {
+        "label": "Commands",
+        "items": ["reference/cli/build"]
+      },
+      "reference/outputs"
+    ]
+  },
+  {
+    "label": "Contribute",
+    "items": ["contributing", "dialect-authoring", "contributing/writing"]
+  }
+]

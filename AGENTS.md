@@ -35,6 +35,11 @@ without private context.
 - No release, package, site, Marketplace listing, or visibility change occurs
   without explicit owner authorization.
 
+## Writing
+
+User-facing prose follows [Writing for Rootform](docs/contributing/writing.md).
+Preserve exact public identifiers, terminal output, and machine contracts.
+
 ## Validation
 
 Run:

@@ -1,4 +1,7 @@
-# Container image
+---
+title: "Container image"
+description: "Use the official Rootform image with explicit versions, volumes, permissions, and offline inputs."
+---
 
 Official Rootform image contract defines one versioned multi-platform image:
 
