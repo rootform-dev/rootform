@@ -38,8 +38,6 @@ rootform build [directory] [flags]
 | ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
 | ` -v, --verbose ` | ` bool ` | ` false ` | show provider evidence and origin |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 <!-- END GENERATED CLI -->
 
 > [!NOTE]
@@ -114,11 +112,9 @@ A built architecture can still contain explicitly unsupported declarations.
 Read its accounting and diagnostics before making a coverage claim.
 `build` has no policy-violation exit: use `check` for governance.
 
-## Verify your installed command
+## Inspect installed help
 
-Usage and flag tables are generated from the actual command definitions. The
-worked example is exercised with the identified documentation verification build.
-To inspect your installed executable:
+To inspect syntax for the installed executable:
 
 ```sh
 rootform build --help

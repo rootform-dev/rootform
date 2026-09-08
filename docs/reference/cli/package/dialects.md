@@ -25,8 +25,6 @@ rootform package dialects <directory> [flags]
 | ` --source-url ` | ` string ` | ` "" ` | record canonical source `url` in OCI provenance |
 | ` --to ` | ` string ` | ` "" ` | write registry layout to `directory` |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Compile a dialect source set and write one deterministic local registry
@@ -49,5 +47,3 @@ rootform package dialects ./dialects --to ./artifacts/oci
 rootform package dialects . --to ./artifacts/oci
 rootform package dialects ./private --to ./oci --repository r.example/dialects
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

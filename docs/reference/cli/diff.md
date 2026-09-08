@@ -23,8 +23,6 @@ rootform diff <before> <after> [flags]
 | ` -o, --output ` | ` string ` | ` "" ` | write the diff to this `file` |
 | ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Compare two architectures and report the architectural changes between
@@ -55,5 +53,3 @@ rootform diff --plan tfplan.json
 terraform show -json tfplan | rootform diff --plan -
 rootform diff ./before ./after --format markdown -o rootform-diff.md
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

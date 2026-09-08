@@ -21,8 +21,6 @@ rootform show policy <identifier> [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show policy |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Show a policy's target, assertion, message, Policy Pack, and source
@@ -52,5 +50,3 @@ rootform show policy baseline/database-private-connectivity
 rootform show policy database-private-connectivity
 rootform show policy baseline/database-private-connectivity --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

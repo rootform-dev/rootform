@@ -4,7 +4,7 @@ description: "How Rootform turns provider declarations into architecture meaning
 rendererLesson:
   example: azure
   title: "See the semantic result"
-  description: "Explore a larger Azure fixture: select a resource, then inspect the rules and references behind its placement."
+  description: "Explore a larger Azure architecture: select a resource, then inspect the rules and references behind its placement."
 ---
 
 A Dialect is a versioned set of Rootform Language definitions and rules.
@@ -134,13 +134,13 @@ support does not imply that every `hashicorp/random` resource is represented.
 Read declaration accounting to distinguish represented, supporting, filtered,
 unsupported, and failed input. An uncovered provider in a partly supported
 project can leave unsupported declarations in an otherwise built architecture.
-A project containing only uncovered providers currently cannot build from the
-empty Dialect selection that initialization records. See
+A project containing only uncovered providers cannot build from the empty
+Dialect selection recorded during initialization. See
 [limitations](../limitations.md) and [troubleshooting](../troubleshooting/index.md).
 
 ## Discover and inspect Dialects
 
-The public [Dialect catalog](https://github.com/rootform-dev/dialects/blob/dev/dialects.json)
+The public [Dialect catalog](https://github.com/rootform-dev/dialects/blob/main/dialects.json)
 lists official packages. Coverage extends beyond cloud infrastructure to
 Kubernetes and services such as Grafana, Datadog, Vault, and Kestra. Read each
 Dialect's definitions and coverage evidence before relying on a specific resource.

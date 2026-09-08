@@ -20,8 +20,6 @@ rootform [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform |
 | ` -v, --version ` | ` bool ` | ` false ` | print the rootform version and exit |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Rootform turns Terraform and OpenTofu into a semantic, deterministic,
@@ -63,5 +61,3 @@ rootform build ./infra -o architecture.json
 rootform check ./infra
 rootform diff ./before ./after
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

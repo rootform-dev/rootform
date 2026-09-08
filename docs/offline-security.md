@@ -50,9 +50,8 @@ explicit initialization command reported in its diagnostic to review an update.
 
 The Rootform home normally lives at `~/.rootform/` (under the Windows user
 profile on Windows). `ROOTFORM_HOME` replaces that directory. It contains
-installed Dialects and Policy Packs, content-addressed download caches, cached
-indexes, and temporary staging. Verified installed content is distinct from a
-redownloadable cache.
+verified local Dialects, Policy Packs, and registry cache. Project vendoring is
+separate from this shared home.
 
 Vendoring materializes exact locked packages under the project:
 
@@ -118,21 +117,17 @@ repositories are an intentional source conflict even when their content
 digests match. This strict rule prevents source priority from silently changing
 artifact identity.
 
-Online OCI authentication reads standard Docker configuration only. Non-empty
-`DOCKER_CONFIG` takes precedence over current user's `~/.docker/config.json`;
-host `credHelpers`, global `credsStore`, then matching `auths` determine
-identity. Canonical `credentials not found` means no identity and permits
-anonymous registry authentication; it never falls through to inline
-credentials. Helper/store execution or decoding error never falls through to
-another configured identity.
-Rootform invokes helper `get` only, captures helper output, and keeps decoded
-credentials and ORAS Basic/Bearer tokens in process memory. It emits and stores
-no credential, Authorization header, Docker config content, or config path.
-Policy-pack acquisition and publication use this same authentication path;
-there is no pack-specific credential flag.
-When `SSL_CERT_FILE` is set online, Rootform appends its bounded PEM bundle to
-system roots; invalid content fails with a sanitized error. Offline mode creates
-no registry client and reads neither credential source nor TLS bundle.
+Online OCI authentication follows standard Docker configuration. A nonempty
+`DOCKER_CONFIG` takes precedence over user Docker configuration; `credHelpers`,
+`credsStore`, then matching `auths` determine identity. A helper reporting no
+credentials permits anonymous authentication. A helper execution or decoding
+failure is terminal rather than falling back to another configured identity.
+Policy Pack and Dialect operations use the same path; neither has a separate
+credential flag.
+
+When `SSL_CERT_FILE` is set online, Rootform adds its bounded PEM bundle to
+system roots. Invalid content fails explicitly. Offline mode reads neither
+registry credentials nor TLS bundle.
 
 ## Environment controls
 

@@ -7,10 +7,6 @@ The renderer is a read-only explorer of facts in a Rootform architecture.
 It turns those facts into a view you can navigate; it does not re-interpret
 Terraform or apply a change from the canvas.
 
-These guides describe the current renderer used for documentation verification.
-The [installation note](../installation.md#available-release) identifies the
-older published binary's interface.
-
 ## Read boundaries before lines
 
 A **scope** provides architectural context: a network, subnet, or another named
@@ -62,7 +58,7 @@ when you need to inspect those internal connections.
 
 ## Find a component
 
-Search by name, concept, or context path. Search does not currently index exact
+Search by name, concept, or context path. Search does not index exact
 Terraform source addresses as a separate search field. Use Inspector's technical
 information or `explain architecture` when you already have an address.
 

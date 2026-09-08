@@ -19,8 +19,6 @@ rootform remove <object> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform remove |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Remove an installed dialect from this machine.
@@ -36,5 +34,3 @@ Remove an installed dialect from this machine.
 ```sh
 rootform remove dialect google 0.1.0
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

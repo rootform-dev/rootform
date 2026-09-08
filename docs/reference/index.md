@@ -41,9 +41,8 @@ rootform build --help
 rootform help build
 ```
 
-Installed help describes your executable. These docs are verified against the
-current local implementation; the [installation page](../installation.md#available-release)
-identifies the published archive and its renderer availability.
+Installed help describes your executable. These docs define the v0.1 command
+contract.
 
 ## Machine contracts
 

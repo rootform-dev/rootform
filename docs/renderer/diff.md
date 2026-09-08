@@ -4,7 +4,7 @@ description: "Understand what Rootform compares, how uncertainty is reported, an
 rendererLesson:
   example: delta
   title: "Inspect a Delta"
-  description: "Explore the real comparison renderer using the two Azure fixtures. This example previews the renderer; CLI availability is explained below."
+  description: "Explore the comparison between two Azure architectures and inspect the evidence behind each change."
 ---
 
 Rootform Diff compares architectural meaning between a **base** and a **head**.
@@ -59,11 +59,9 @@ provides prior placement and reference context; head provides the current facts.
 Removed components remain visible as before-side references. Unknown sides stay
 unknown instead of being drawn as confident deletions or moves.
 
-**Current access:** the executable exposes Diff as text, JSON, and Markdown.
-The interactive Delta renderer is implemented but has no entry point in
-`rootform run` or HTML export yet. `run --plan` displays only the planned
-architecture. Delta illustrations in these docs show that renderer using real
-comparison inputs; they are not a command you can open through the current CLI.
+`rootform diff` emits text, JSON, or Markdown reports. The interactive lesson on
+this page presents the same comparison facts in Delta. `run --plan` displays
+the planned architecture rather than both sides of the comparison.
 
 ### Follow change within context
 
@@ -82,10 +80,10 @@ context for the same subject. Ambiguous placements and undetermined facts do not
 become confident moves. The overview groups a recognized move for readability;
 raw context additions and removals remain available in the comparison evidence.
 
-![Delta preview marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-light.png#gh-light-mode-only)
-![Delta preview marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-dark.png#gh-dark-mode-only)
+![Delta marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-light.png#gh-light-mode-only)
+![Delta marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-dark.png#gh-dark-mode-only)
 
-Renderer preview from the [Azure source pair](examples.md#compare-the-azure-variants).
+Delta from the [Azure source pair](examples.md#compare-the-azure-variants).
 The analytics cluster keeps its identity and moves between subnets. Renamed
 declarations appear as additions and removals, because their source identities
 changed. The renderer does not guess that a rename preserved an object.
@@ -101,8 +99,8 @@ The overview's change count opens comparison context. Diagnostic and declaration
 deltas help explain a change in coverage. An undetermined entry explains where
 the available evidence stops; it is not a low-confidence guess at a change.
 
-![Focused Delta preview shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-light.png#gh-light-mode-only)
-![Focused Delta preview shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-dark.png#gh-dark-mode-only)
+![Focused Delta shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-light.png#gh-light-mode-only)
+![Focused Delta shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-dark.png#gh-dark-mode-only)
 
 Inspector Change explains the move with its **Before** and **After** placement
 and the underlying added/removed contexts. This is an architectural placement

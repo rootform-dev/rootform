@@ -196,11 +196,6 @@ export function syntax(cmd: Command): string {
     flagTable(cmd.flags ?? [], "Flags"),
     flagTable(cmd.inherited_flags ?? [], "Inherited flags"),
   );
-  if ((cmd.flags ?? []).some((flag) => flag.type === "bool")) {
-    parts.push(
-      'Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.\n',
-    );
-  }
   return parts.filter(Boolean).join("\n").trimEnd();
 }
 
@@ -226,11 +221,6 @@ export function renderCommand(cmd: Command, commands: Command[]): string {
   if (cmd.examples) {
     chunks.push(`## Examples\n\n${fence(cmd.examples.replace(/^ {2}/gmu, ""), "sh")}`);
   }
-  chunks.push(
-    "Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](" +
-      relative(dirname(commandPage(cmd.path)), "reference/index.md").replaceAll("\\", "/") +
-      ").",
-  );
   return `${chunks.join("\n\n")}\n`;
 }
 

@@ -1,232 +1,177 @@
 ---
-title: "Install Rootform"
-description: "Install Rootform on macOS, Linux, or Windows, choose a version, and verify the executable."
+title: Install Rootform
+description: Install Rootform on macOS, Linux, or Windows and verify the executable.
 ---
 
-Rootform is one executable. It needs no Node.js, Python, Terraform, or cloud
-credentials to render the [first architecture](getting-started/first-architecture.md).
-The first project run needs access to its Dialect registry unless those packages
-are already available locally.
-
-## Quick install
-
-On macOS and Linux, the target installer is one command:
-
-```sh
-curl -fsSL https://rootform.dev/install | bash
-```
-
-> [!IMPORTANT]
-> The installer and Homebrew commands describe the target v0.1 installation
-> experience. Those methods are not published yet. Use the release archive
-> instructions today; Windows uses the verified ZIP.
-
-### Available release
-
-[GitHub Releases](https://github.com/rootform-dev/rootform/releases/tag/v0.1.1)
-provides verified archives for **v0.1.1**. Download the archive for your system
-and `SHA256SUMS` from the same release.
-
-**Renderer version:** the published archive contains an earlier interface.
-These guides and captures use the current documentation verification build,
-identified in the [verification record](../reference/README.md). The
-[Diff guide](renderer/diff.md#read-a-delta) explains interactive Delta availability
-separately from the command-line reports.
+Rootform is one executable. It needs no Node.js, Python, Terraform, OpenTofu, or
+cloud credentials to render [your first architecture](getting-started/first-architecture.md).
+The first project run downloads the required Dialects unless they are already
+available locally.
 
 <!-- rootform:tabs Operating system -->
 <!-- rootform:tab macOS -->
 
 ## macOS
 
-### Release archive
-
-Choose `rootform_0.1.1_darwin_arm64.tar.gz` for Apple silicon or
-`rootform_0.1.1_darwin_amd64.tar.gz` for Intel. This example uses Apple silicon:
+### Recommended: install script
 
 ```sh
-shasum -a 256 rootform_0.1.1_darwin_arm64.tar.gz
-```
-
-Compare the complete hash with that filename's entry in `SHA256SUMS`. If it
-differs, stop and download the files again from the release. Extract only after
-verification:
-
-```sh
-tar -xzf rootform_0.1.1_darwin_arm64.tar.gz
-mkdir -p "$HOME/.local/bin"
-install -m 755 rootform "$HOME/.local/bin/rootform"
-```
-
-Add the directory to this terminal and verify the executable:
-
-```sh
-export PATH="$HOME/.local/bin:$PATH"
+curl -fsSL https://rootform.dev/install | sh
 rootform version
 ```
 
-Read `ROOTFORM-BINARY-LICENSE.txt` and `THIRD_PARTY_NOTICES.txt` from the archive.
-Add the `PATH` line to your shell configuration if this directory is not already
-on it. For zsh, that is usually `~/.zshrc`.
+### Other options
 
-### Homebrew (target v0.1)
-
-The target formula installs the current release:
+Install with Homebrew:
 
 ```sh
-brew install rootform-dev/tap/rootform
+brew install --cask rootform
 rootform version
 ```
 
-Upgrade or remove the formula with:
-
-```sh
-brew update
-brew upgrade rootform
-brew uninstall rootform
-```
-
-For a specific historical version, use its release archive. Do not assume that
-`brew install rootform@0.1.1` exists. Keep one installation method on your `PATH`
-to avoid running an older executable by accident.
+For an exact archive and checksum, use [manual installation](#manual-installation).
 
 <!-- rootform:tab Linux -->
 
 ## Linux
 
-### Release archive
-
-Choose `rootform_0.1.1_linux_amd64.tar.gz` for x86-64 or
-`rootform_0.1.1_linux_arm64.tar.gz` for ARM64. This example uses x86-64:
+### Recommended: install script
 
 ```sh
-sha256sum rootform_0.1.1_linux_amd64.tar.gz
-```
-
-Compare the full hash with the matching entry in `SHA256SUMS`, then extract
-and install into your user directory:
-
-```sh
-tar -xzf rootform_0.1.1_linux_amd64.tar.gz
-mkdir -p "$HOME/.local/bin"
-install -m 755 rootform "$HOME/.local/bin/rootform"
-```
-
-Add the directory to this terminal and verify the executable:
-
-```sh
-export PATH="$HOME/.local/bin:$PATH"
+curl -fsSL https://rootform.dev/install | sh
 rootform version
 ```
 
-Read the included binary license and notices. Make the `PATH` setting persistent
-in your shell configuration if necessary.
+### Other options
 
-### Installer script (target v0.1, Linux and macOS)
-
-The target installer detects the supported OS and CPU, downloads a release,
-verifies its checksum, and installs into `~/.local/bin`. To inspect it before
-running it:
-
-```sh
-curl -fsSLo install-rootform.sh https://rootform.dev/install
-sh install-rootform.sh
-```
-
-The target command for a specific version is:
-
-```sh
-sh install-rootform.sh --version 0.1.1
-```
-
-To upgrade a script installation, download the installer again and run it
-without `--version`, then check `rootform version`.
+For an exact archive and checksum, use [manual installation](#manual-installation).
 
 <!-- rootform:tab Windows -->
 
 ## Windows
 
-Download `rootform_0.1.1_windows_amd64.zip`. Windows ARM64 is not a published
-native target. In PowerShell:
+### Recommended: PowerShell installer
 
 ```powershell
-Get-FileHash .\rootform_0.1.1_windows_amd64.zip -Algorithm SHA256
+irm https://rootform.dev/install.ps1 | iex
+rootform version
 ```
 
-Compare the complete hash with the matching line in `SHA256SUMS`, then extract:
+### Other options
+
+Install with WinGet:
 
 ```powershell
-Expand-Archive .\rootform_0.1.1_windows_amd64.zip -DestinationPath .\rootform-release
+winget install --id Rootform.Rootform --exact
+rootform version
+```
+
+For an exact ZIP and checksum, use [manual installation](#manual-installation).
+
+<!-- rootform:endtabs -->
+
+## Container
+
+Run the versioned image from GHCR:
+
+```sh
+docker run --rm ghcr.io/rootform-dev/rootform:0.1.0 rootform version
+```
+
+The [container guide](integrations/oci-image.md) covers project mounts,
+persistent package storage, private registries, and offline execution. Use an
+exact version or digest for repeatable runs.
+
+## Manual installation
+
+Download the archive for your platform and `SHA256SUMS` from the
+[v0.1.0 release](https://github.com/rootform-dev/rootform/releases/tag/v0.1.0).
+
+| Platform | Archive |
+| --- | --- |
+| macOS, Apple silicon | `rootform_0.1.0_darwin_arm64.tar.gz` |
+| macOS, Intel | `rootform_0.1.0_darwin_amd64.tar.gz` |
+| Linux, x86-64 | `rootform_0.1.0_linux_amd64.tar.gz` |
+| Linux, ARM64 | `rootform_0.1.0_linux_arm64.tar.gz` |
+| Windows, x86-64 | `rootform_0.1.0_windows_amd64.zip` |
+
+### macOS archive
+
+This example uses Apple silicon. Replace the filename with the Intel archive when
+needed.
+
+```sh
+shasum -a 256 rootform_0.1.0_darwin_arm64.tar.gz
+```
+
+Compare the complete hash with the matching `SHA256SUMS` entry, then install:
+
+```sh
+tar -xzf rootform_0.1.0_darwin_arm64.tar.gz
+mkdir -p "$HOME/.local/bin"
+install -m 755 rootform "$HOME/.local/bin/rootform"
+export PATH="$HOME/.local/bin:$PATH"
+rootform version
+```
+
+Persist `~/.local/bin` in `PATH` if needed.
+
+### Linux archive
+
+This example uses x86-64. Replace the filename with the ARM64 archive when needed.
+
+```sh
+sha256sum rootform_0.1.0_linux_amd64.tar.gz
+```
+
+Compare the complete hash with the matching `SHA256SUMS` entry, then install:
+
+```sh
+tar -xzf rootform_0.1.0_linux_amd64.tar.gz
+mkdir -p "$HOME/.local/bin"
+install -m 755 rootform "$HOME/.local/bin/rootform"
+export PATH="$HOME/.local/bin:$PATH"
+rootform version
+```
+
+Persist `~/.local/bin` in `PATH` if needed.
+
+### Windows ZIP
+
+In PowerShell:
+
+```powershell
+Get-FileHash .\rootform_0.1.0_windows_amd64.zip -Algorithm SHA256
+```
+
+Compare the complete hash with the matching `SHA256SUMS` entry, then install:
+
+```powershell
+Expand-Archive .\rootform_0.1.0_windows_amd64.zip -DestinationPath .\rootform-release
 New-Item -ItemType Directory -Force "$env:LOCALAPPDATA\Rootform\bin"
 Copy-Item .\rootform-release\rootform.exe "$env:LOCALAPPDATA\Rootform\bin\rootform.exe"
-```
-
-Add the directory to this PowerShell session and verify the executable:
-
-```powershell
 $env:Path = "$env:LOCALAPPDATA\Rootform\bin;$env:Path"
 rootform version
 ```
 
-Read the extracted license and notices. Add `%LOCALAPPDATA%\Rootform\bin`
-to your **user** `Path` in Windows environment-variable settings, then open a
-new terminal.
+Add `%LOCALAPPDATA%\Rootform\bin` to your user `Path`, then open a new terminal.
 
-To upgrade, close running Rootform processes, verify the new ZIP, and replace
-`rootform.exe` in the same directory. To uninstall, delete that executable and
-remove the directory from your user `Path`. There is no Rootform WinGet or
-Scoop package in this installation procedure.
+Release archives include the Rootform binary license and third-party notices.
+Keep each archive with `SHA256SUMS` from the same release; never verify one
+release with another release's checksum file.
 
-<!-- rootform:endtabs -->
-
-## Choose, upgrade, or remove an archive version
-
-Every release has its own versioned assets and checksums. To install a specific
-version, choose that release and use its filenames throughout verification and
-extraction. Do not combine an archive with another release's `SHA256SUMS`.
-
-To upgrade on macOS/Linux, repeat the archive procedure with the new release;
-`install` replaces the executable at the chosen path. To remove the user-local
-executable installed above:
-
-```sh
-rm "$HOME/.local/bin/rootform"
-```
-
-Removing the binary leaves project source, `rootform.lock`, vendored packages,
-and the Rootform home intact. Keep them if you intend to reinstall or reproduce
-an existing architecture.
-
-## Container
-
-With Docker or a compatible container runtime installed, verify the image with:
-
-```sh
-docker run --rm ghcr.io/rootform-dev/rootform:0.1.1 version
-```
-
-Containers are an alternative when you already use a runtime; local installation
-does not require one. The [container guide](integrations/oci-image.md) covers
-supported platforms, project mounts, writable home, and image digests. Use an
-exact version or digest for repeatable runs.
-
-## Verify the command you will use
+## Verify installation
 
 ```sh
 rootform version
 ```
 
-Expected for v0.1.1:
+Rootform v0.1.0 prints:
 
 ```text
-rootform 0.1.1
+rootform 0.1.0
 ```
 
-If the command is missing or the version is unexpected, inspect which path your
-shell resolves:
-
-```sh
-command -v rootform
-```
-
-In PowerShell, use `Get-Command rootform`. Correct the `PATH` entry and open a
-new terminal before continuing to [your first architecture](getting-started/first-architecture.md).
+If the command is missing or the version differs, follow
+[installation troubleshooting](troubleshooting/index.md#the-command-is-missing-or-an-older-version-runs).
+Then continue to [your first architecture](getting-started/first-architecture.md).

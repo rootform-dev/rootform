@@ -19,8 +19,6 @@ rootform remove dialect <name> <version> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform remove dialect |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Remove one installed version of a dialect from the local Rootform
@@ -44,5 +42,3 @@ rootform remove dialect google 0.1.0
 rootform remove dialect kubernetes 0.1.0
 rootform list dialects
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

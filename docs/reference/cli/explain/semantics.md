@@ -20,8 +20,6 @@ rootform explain semantics <identifier> [flags]
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain semantics |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Show how a source declaration was interpreted, including the matching
@@ -49,5 +47,3 @@ rootform explain semantics google/cloud-sql-instance
 rootform explain semantics cloud-sql-instance
 rootform explain semantics google/cloud-sql-instance --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

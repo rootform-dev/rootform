@@ -19,8 +19,6 @@ rootform verify <object> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform verify |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Verify that resolved dialects match the recorded resolution.
@@ -36,5 +34,3 @@ Verify that resolved dialects match the recorded resolution.
 ```sh
 rootform verify dialects
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

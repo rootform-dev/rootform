@@ -9,7 +9,6 @@ compute its own architecture semantics.
 
 ## Install the CLI in a workflow
 
-There is no supported consumer version tag yet. Pin a reviewed commit.
 The setup entrypoint installs the binary for commands you control:
 
 ```yaml title=".github/workflows/architecture.yml"
@@ -26,7 +25,7 @@ jobs:
           persist-credentials: false
       - uses: rootform-dev/action/setup@71eef759bff5e73b27489b1f7de818a4a76dc2e9
         with:
-          version: 0.1.1
+          version: 0.1.0
       - run: |
           rootform init ./infra --locked --no-input
           rootform build ./infra --locked --no-input --output architecture.json
@@ -45,13 +44,13 @@ outputs:
 ```yaml
 - uses: rootform-dev/action@71eef759bff5e73b27489b1f7de818a4a76dc2e9
   with:
-    version: 0.1.1
+    version: 0.1.0
     path: ./infra
     locked: true
 ```
 
 Select outputs and artifact behavior using the
-[Action input reference](https://github.com/rootform-dev/action/blob/dev/README.md).
+[Action input reference](https://github.com/rootform-dev/action/blob/main/README.md).
 The [portable CI guide](ci/README.md) covers equivalent commands on other systems.
 
 ## Pull-request reports
@@ -59,7 +58,7 @@ The [portable CI guide](ci/README.md) covers equivalent commands on other system
 The Action's PR reporting is explicit and requires its documented event,
 permissions, and inputs. Do not assume that an ordinary analysis step posts a
 comment. Follow the
-[PR reporting workflow](https://github.com/rootform-dev/action/blob/dev/README.md#pull-request-architecture-review)
+[PR reporting workflow](https://github.com/rootform-dev/action/blob/main/README.md#pull-request-architecture-review)
 for the exact supported setup.
 
 Use the `pull_request` event. Fork pull requests receive Summary and artifact

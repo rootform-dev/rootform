@@ -1,4 +1,6 @@
 import { expect, test } from "bun:test";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import {
   checkNavigation,
   checkPage,
@@ -242,4 +244,39 @@ test("checkPages reports duplicate routes and per-page issues together", () => {
   const route = result.issues.find((issue) => issue.kind === "route");
   expect(route?.detail).toContain('route "index" collides');
   expect(result.issues.some((issue) => issue.kind === "frontmatter")).toBe(true);
+});
+
+test("installation documentation keeps supported methods in recommendation order", () => {
+  const page = readFileSync(join(import.meta.dir, "../docs/installation.md"), "utf8");
+  const section = (start: string, end: string) => {
+    const from = page.indexOf(start);
+    const to = page.indexOf(end, from + start.length);
+    expect(from).toBeGreaterThanOrEqual(0);
+    expect(to).toBeGreaterThan(from);
+    return page.slice(from, to);
+  };
+  const expectOrder = (text: string, values: string[]) => {
+    const positions = values.map((value) => text.indexOf(value));
+    expect(positions.every((position) => position >= 0)).toBe(true);
+    expect(positions).toEqual([...positions].sort((left, right) => left - right));
+  };
+
+  expectOrder(section("## macOS", "## Linux"), [
+    "curl -fsSL https://rootform.dev/install | sh",
+    "brew install --cask rootform",
+    "manual installation",
+  ]);
+  expectOrder(section("## Linux", "## Windows"), [
+    "curl -fsSL https://rootform.dev/install | sh",
+    "manual installation",
+  ]);
+  expectOrder(section("## Windows", "<!-- rootform:endtabs -->"), [
+    "irm https://rootform.dev/install.ps1 | iex",
+    "winget install --id Rootform.Rootform --exact",
+    "manual installation",
+  ]);
+  expectOrder(page, ["<!-- rootform:endtabs -->", "## Container", "## Manual installation"]);
+  expect(page).toContain("docker run --rm ghcr.io/rootform-dev/rootform:0.1.0 rootform version");
+  expect(page.match(/<!-- rootform:tabs /gu)).toHaveLength(1);
+  expect(page).not.toContain("rootform.dev/install.sh");
 });

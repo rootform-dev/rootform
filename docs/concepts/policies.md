@@ -64,8 +64,8 @@ Use the target's provenance to trace the infrastructure source.
 
 A **diagnostic** explains a problem with reading, compiling, or evaluating the
 input. Architecture compilation uses warning and error severities. Policy
-result diagnostics use `error` in the current format. A policy has no configurable
-severity or warning-only gate level; SARIF presents its violations as errors.
+result diagnostics use `error`. A policy has no configurable severity or
+warning-only gate level; SARIF presents its violations as errors.
 Do not confuse a warning about provider-version evidence with a policy violation.
 
 ### Zero evaluations require attention
@@ -98,7 +98,7 @@ status. The [outputs reference](../reference/outputs.md) describes the streams.
 A policy can only query facts that the selected Dialects establish. The public
 [baseline pack](../../policy-packs/README.md) is a demonstration, not universal
 infrastructure assurance. Its database policy requires a `private-reachability`
-relation. The current AWS Dialect does not produce that relation, so an AWS
+relation. The AWS Dialect does not produce that relation, so an AWS
 managed database can violate this assertion regardless of its real network setup.
 
 That result means the required architectural fact is absent. It does not prove

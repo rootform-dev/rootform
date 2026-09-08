@@ -20,8 +20,6 @@ rootform show dialect <name> [flags]
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show dialect |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Show a dialect, including its version, requirements,
@@ -48,5 +46,3 @@ rootform show dialect google
 rootform show dialect kubernetes
 rootform show dialect google --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

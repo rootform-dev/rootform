@@ -19,8 +19,6 @@ rootform completion <shell> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform completion |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Generate a completion script for bash, zsh, fish, or PowerShell.
@@ -42,5 +40,3 @@ rootform completion bash > /usr/local/etc/bash_completion.d/rootform
 rootform completion zsh > "${fpath[1]}/_rootform"
 rootform completion fish > ~/.config/fish/completions/rootform.fish
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

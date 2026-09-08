@@ -19,8 +19,6 @@ rootform explain <object> <name> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Explain how an architecture element was derived, how a source
@@ -41,5 +39,3 @@ rootform explain architecture google_sql_database_instance.main
 rootform explain semantics google/cloud-sql-instance
 rootform explain policy baseline/database-private-connectivity
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

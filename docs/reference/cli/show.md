@@ -19,8 +19,6 @@ rootform show <object> <name> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Show a dialect, Policy Pack, policy, rule, or concept by name.
@@ -47,5 +45,3 @@ rootform show policy-pack baseline
 rootform show policy baseline/database-private-connectivity
 rootform show rule google/cloud-sql-instance
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

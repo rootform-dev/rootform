@@ -90,7 +90,7 @@ rootform run after.json
 ```
 
 The [Diff explanation](../renderer/diff.md) covers changed and undetermined facts
-and the interactive Delta renderer's current availability. Use
+and shows the comparison in Delta. Use
 [plan Diff](../inputs/plans.md#compare-both-sides-of-one-plan) when one plan supplies
 both sides. The [command reference](../reference/cli/diff.md) covers directory
 inputs, standard input, formats, and flags.

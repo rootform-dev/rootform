@@ -19,8 +19,6 @@ rootform package <object> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform package |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Build deterministic local registry layouts from validated Rootform packages.
@@ -38,5 +36,3 @@ Build deterministic local registry layouts from validated Rootform packages.
 rootform package dialects ./dialects --to ./artifacts/oci
 rootform package policy-packs ./policies --to ./artifacts/policies
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

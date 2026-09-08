@@ -19,8 +19,6 @@ rootform publish <object> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform publish |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Publish validated Rootform packages to a registry repository.
@@ -38,5 +36,3 @@ Publish validated Rootform packages to a registry repository.
 rootform publish dialects ./oci --to r.example/acme/dialects
 rootform publish policy-packs ./oci --to r.example/acme/policies
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

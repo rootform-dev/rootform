@@ -21,8 +21,6 @@ rootform list concepts [flags]
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list concepts |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 List concepts available from the loaded dialects.
@@ -46,5 +44,3 @@ rootform list concepts
 rootform list concepts --dialect core
 rootform list concepts --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

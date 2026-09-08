@@ -99,7 +99,7 @@ example.
 
 ## Language boundaries
 
-Rootform Language is deliberately closed. Current authoring does not include:
+Rootform Language is deliberately closed. It does not include:
 
 - authoring imports or modules;
 - variables, user-defined functions, or general HCL/Terraform functions;

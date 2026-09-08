@@ -108,8 +108,8 @@ policy "cluster-network-context" {
 }
 ```
 
-Do not encode a severity in the name or message. Current policies have no
-author-defined severity. A known false assertion is a violation; an unknown
+Do not encode a severity in the name or message. Policies have no author-defined
+severity. A known false assertion is a violation; an unknown
 decision is indeterminate.
 
 Before adding a policy, identify which Dialect facts can satisfy it. If the

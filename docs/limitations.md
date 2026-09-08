@@ -1,5 +1,5 @@
 ---
-title: "Current limitations"
+title: "Rootform v0.1 limits"
 description: "Know the input, coverage, governance, comparison, and renderer boundaries of Rootform v0.1."
 ---
 
@@ -33,7 +33,7 @@ diagnostics expose those cases; a small or empty canvas is not evidence of
 complete coverage.
 
 A project with only uncovered providers can initialize with an empty Dialect
-selection but currently cannot build from that selection. A partly supported
+selection but cannot build from that selection. A partly supported
 project can build with unsupported declarations. Check the declaration outcomes
 before using the result for review or governance.
 
@@ -45,9 +45,9 @@ Read selection and counts, not status alone.
 
 Policies cannot create missing facts. Review their assumptions against provider
 coverage: baseline's `private-database-reachability` assertion requires a relation
-that the current AWS Dialect does not produce. A violation does not prove public
-reachability. There is no configurable per-policy severity or warning-only
-threshold in the current format. See [policy outcomes](concepts/policies.md).
+that the AWS Dialect does not produce. A violation does not prove public
+reachability. Policies have no configurable severity or warning-only threshold.
+See [policy outcomes](concepts/policies.md).
 
 ## Rootform Language is a closed authoring surface
 
@@ -64,10 +64,9 @@ versions. Formatting and provenance-only changes are ignored. A Terraform
 replacement can leave architectural facts unchanged. Before-side evidence that
 cannot be reconstructed remains undetermined.
 
-The executable currently emits Diff reports as text, JSON, or Markdown. It does
-not expose the interactive Delta renderer through `run` or HTML export.
-`run --plan` shows only the planned architecture. The [Diff guide](renderer/diff.md)
-separates report access from the renderer's capabilities.
+`rootform diff` emits text, JSON, or Markdown reports. `run --plan` shows only
+the planned architecture, not both comparison sides. The [Diff guide](renderer/diff.md)
+explains report and Delta views.
 
 ## Large views need exploration
 
@@ -87,8 +86,6 @@ artifact from a registry. Present vendor directories are exclusive, so damaged
 content cannot fall back to another source. Prepare exact packages beforehand
 with [the offline procedure](guides/reproduce-build.md).
 
-The [installation page](installation.md) distinguishes available release archives
-from target installer methods and the current renderer. Use
-[troubleshooting](troubleshooting/index.md) for failures within these boundaries,
+Use [troubleshooting](troubleshooting/index.md) for failures within these boundaries,
 and [report a synthetic reproduction](contributing/index.md#report-a-semantic-gap)
 when supported behavior does not match its documented result.

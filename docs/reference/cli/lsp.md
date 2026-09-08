@@ -19,8 +19,6 @@ rootform lsp [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform lsp |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Run the Rootform Language Server Protocol service over standard input
@@ -42,5 +40,3 @@ rootform lsp
 rootform lsp 2>rootform-lsp.log
 rootform lsp <client.frames >server.frames
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

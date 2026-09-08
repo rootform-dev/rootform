@@ -18,12 +18,12 @@ test("all CI examples use one exact locked lifecycle", () => {
 
   const github = readFileSync(join(examples, "github-actions.yml"), "utf8");
   expect(github).toContain("rootform-dev/action/setup@71eef759bff5e73b27489b1f7de818a4a76dc2e9");
-  expect(github).toContain("version: 0.1.1");
+  expect(github).toContain("version: 0.1.0");
   expect(github).toContain("./ci/rootform-ci.sh");
 
   for (const name of ["gitlab-ci.yml", "azure-pipelines.yml"]) {
     const body = readFileSync(join(examples, name), "utf8");
-    expect(body).toContain("ghcr.io/rootform-dev/rootform:0.1.1");
+    expect(body).toContain("ghcr.io/rootform-dev/rootform:0.1.0");
     expect(body).toContain("./ci/rootform-ci.sh");
     expect(body).not.toContain(":latest");
   }

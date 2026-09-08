@@ -21,8 +21,6 @@ rootform show policy-pack <name> [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show policy-pack |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Show a Policy Pack, including version, semantic requirements, policies,
@@ -49,5 +47,3 @@ rootform show policy-pack baseline
 rootform show policy-pack baseline --policy-pack ./policies
 rootform show policy-pack baseline --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

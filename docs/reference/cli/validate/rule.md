@@ -20,8 +20,6 @@ rootform validate rule <identifier> [flags]
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate rule |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Validate a rule and its references in the context of its dialect.
@@ -46,5 +44,3 @@ rootform validate rule google/cloud-sql-instance
 rootform validate rule cloud-sql-instance
 rootform validate rule google/cloud-sql-instance --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

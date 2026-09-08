@@ -19,8 +19,6 @@ rootform vendor <object> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform vendor |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Copy exact locked Rootform packages to project-local directories
@@ -39,5 +37,3 @@ for reproducible offline use.
 rootform vendor dialects
 rootform vendor policy-packs
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

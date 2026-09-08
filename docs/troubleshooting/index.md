@@ -89,11 +89,11 @@ choosing a provider or semantic update.
 ## Initialization succeeds but the project cannot build
 
 If initialization reports only uncovered providers, the resulting lock can have
-an empty Dialect selection. The current build then reports that the resolved
-Dialects could not be compiled and the lock could not be verified.
+an empty Dialect selection. A build then reports that the resolved Dialects
+could not be compiled and the lock could not be verified.
 
 Inspect `rootform.lock` and the initialization warnings. Use the
-[official catalog](https://github.com/rootform-dev/dialects/blob/dev/dialects.json)
+[official catalog](https://github.com/rootform-dev/dialects/blob/main/dialects.json)
 to determine whether a compatible Dialect exists, or supply reviewed semantics
 through an explicit source. Reinitializing the same uncovered input will not
 create coverage. Partly covered projects can build with unsupported declarations;
@@ -180,7 +180,7 @@ including undetermined facts, should return `1`.
 
 ## The diagram or search seems to be missing something
 
-Check whether the subject is inside a collapsed scope or outside the current
+Check whether the subject is inside a collapsed scope or outside the active
 Focus. Expand, return through the location path, or switch to Plan. Use Fit for
 an overview; large complete views can require panning.
 

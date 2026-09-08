@@ -19,8 +19,6 @@ rootform verify dialects [directory] [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform verify dialects |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Verify that the resolved dialects are consistent with the
@@ -45,5 +43,3 @@ rootform verify dialects
 rootform verify dialects ./dialects
 rootform verify dialects ./vendor/dialects
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

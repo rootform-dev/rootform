@@ -13,11 +13,6 @@ Terraform source and published Dialects. No cloud account, provider execution,
 or deployed resource is needed. The source teaches Rootform; it is not an
 apply-ready infrastructure recipe.
 
-The figures were captured with the documentation verification build of
-Rootform `0.1.1`. The [verification record](../../reference/README.md) identifies
-that edition. Public releases with the same version can contain an earlier
-renderer.
-
 <!-- rootform:lesson -->
 
 ## Azure platform
@@ -99,7 +94,6 @@ to the edge subnet. The staging storage account and its private endpoint change
 declaration identity from `staging_archive` to `staging_backup`, producing
 additions and removals. No deployment operation occurs.
 
-The [Delta illustrations](diff.md#read-a-delta) use the real architecture and
-comparison outputs from these commands. They show the implemented comparison
-renderer as a preview; the current CLI provides text, JSON and Markdown Diff
-outputs, without an interactive Delta entry point.
+The [Delta illustrations](diff.md#read-a-delta) use the architecture and
+comparison outputs from these commands. `rootform diff` provides text, JSON,
+and Markdown reports; the interactive lesson explains the same facts visually.

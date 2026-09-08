@@ -16,13 +16,12 @@ semantics from resource names alone. Every rule should answer three questions:
    composition member?
 
 For product meaning and selection behavior, read [Dialects](concepts/dialects.md).
-This guide covers authoring.
 
 ## Set up an authoring checkout
 
-Clone the public Dialects repository and work from its root. Existing `core`
-vocabulary, provider Dialects, fixtures, and lock evidence make it the best
-place to validate a contribution.
+Clone the public Dialects repository and work from its root. It contains shared
+`core` vocabulary, provider Dialects, tests, and lock evidence needed to validate
+a contribution.
 
 ```sh
 git clone https://github.com/rootform-dev/dialects.git

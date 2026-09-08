@@ -1,42 +1,50 @@
 ---
-title: "Registry compatibility"
-description: "Understand the tested OCI distribution profile and its registry compatibility boundary."
+title: Registry compatibility
+description: Choose an OCI registry that supports Rootform artifacts, exact digests, and Docker authentication.
 ---
 
-Rootform claims registry compatibility only against
-[`rootform-oci-core-v1`](../../contracts/rootform-oci-core-profile.md).
-Brand-specific APIs are outside profile.
+Rootform uses the
+[`rootform-oci-core-v1`](../../contracts/rootform-oci-core-profile.md) profile
+for Dialect and Policy Pack distribution. Registry-specific APIs are not part of
+that contract.
 
-Reusable qualification performs:
+## Qualified registries
 
-```text
-offline package and publication dry-run
--> publish custom media types
--> repeat publication idempotently
--> pull direct dialect by tag and digest
--> resolve additional index
--> publish and pull Policy Pack by tag and digest
--> recover exact Dialect and Policy Pack lock into empty stores
--> vendor both exact lock sections from empty stores
--> build/check from vendor with network disabled
--> reject partial Dialect or Policy Pack vendor without credential access
--> verify Docker credential helper and sanitized evidence
-```
+| Registry | Qualified behavior |
+| --- | --- |
+| GitHub Container Registry | Public artifact pull, tag and digest resolution, custom media types, and Bearer authentication. |
+| CNCF Distribution 3.0 | Anonymous and private Basic-authenticated TLS repositories, publication, exact repull, and locked recovery. |
 
-Candidate gate runs full matrix against ephemeral CNCF Distribution instances,
-including anonymous, private Basic, TLS, and credential-helper paths. It also
-runs reusable profile qualification against a transient public GHCR package,
-where same additional-index proof covers Bearer challenge exchange. GitHub
-Actions creates packages with repository-inherited visibility; qualification
-therefore asserts public visibility, publishes only synthetic fixtures, and
-deletes the transient package before the job ends.
+Compatibility with GitLab Container Registry, Azure Container Registry,
+Harbor, Artifactory, Nexus, or another OCI registry is not implied by protocol
+similarity. Use one only after its ordinary authentication and repository policy
+have been verified against the Rootform profile.
 
-GitLab Container Registry, Azure Container Registry, Harbor, Artifactory, and
-Nexus are likely candidates because Rootform uses standard OCI Distribution
-operations only. They are not claimed compatible until same suite passes real
-endpoint with product's ordinary authentication and policy configuration.
+## Required behavior
 
-Qualification evidence records profile identifier, repository, exact Dialect,
-Dialect index, and Policy Pack manifest digests, semantic, presentation, and
-pack content digests, standard provenance, and passed capabilities. It records
-no credential or local path.
+A registry must preserve custom OCI media types and support:
+
+- manifest and blob reads by exact digest;
+- manifest discovery by tag;
+- blob upload and manifest publication for `rootform publish`;
+- Docker-compatible anonymous, Basic, or Bearer authentication;
+- immutable package-version handling expected by the publishing workflow.
+
+Rootform resolves a tag during selection, then records the exact manifest and layer
+digests in `rootform.lock`. Locked recovery reads those digests directly. A
+registry that rewrites manifests or custom media types cannot preserve locked
+identity.
+
+## Credentials and private CAs
+
+Rootform reads Docker `config.json` from `DOCKER_CONFIG`, or from the normal
+Docker location when the variable is unset. Configured credential helpers must be
+installed on `PATH`. A helper failure is terminal; Rootform does not silently
+try another configured identity.
+
+Set `SSL_CERT_FILE` to a bounded PEM bundle when the registry uses a private
+certificate authority. Invalid trust data fails before Rootform uses an artifact.
+Offline commands do not read registry credentials or the TLS bundle.
+
+See [locks, sources, vendor, and offline operation](../offline-security.md) for
+exact package identity and mirror routing.

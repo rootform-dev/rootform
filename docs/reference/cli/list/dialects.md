@@ -23,8 +23,6 @@ rootform list dialects [flags]
 | ` --installed ` | ` bool ` | ` false ` | list versions installed in the local store |
 | ` --outdated ` | ` bool ` | ` false ` | compare locked versions with the cached official index |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 List the dialects resolved for the current project and
@@ -51,5 +49,3 @@ rootform list dialects --outdated
 rootform list dialects --dialect google
 rootform list dialects --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

@@ -20,8 +20,6 @@ rootform validate architecture [input] [flags]
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate architecture |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Build or load an architecture and check that it is structurally valid
@@ -50,5 +48,3 @@ rootform validate architecture
 rootform validate architecture architecture.json
 cat architecture.json | rootform validate architecture -
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

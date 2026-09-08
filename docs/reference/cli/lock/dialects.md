@@ -19,8 +19,6 @@ rootform lock dialects [directory] [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform lock dialects |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Record the resolved dialects and their selected versions in the
@@ -45,5 +43,3 @@ rootform lock dialects
 rootform lock dialects ./dialects
 rootform lock dialects ./vendor/dialects
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

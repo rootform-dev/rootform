@@ -28,8 +28,6 @@ rootform check [input] [flags]
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
 | ` -v, --verbose ` | ` bool ` | ` false ` | show provider evidence and origin |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Build or load an architecture and evaluate the applicable policies.
@@ -63,5 +61,3 @@ rootform check . --policy-pack ./policies
 rootform build ./infra | rootform check -
 rootform check ./infra --format sarif -o rootform.sarif
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

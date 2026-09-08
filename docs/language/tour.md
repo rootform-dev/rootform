@@ -3,10 +3,10 @@ title: "Language tour"
 description: "Follow real .rf definitions from source matching to architecture facts, composition, and policy evaluation."
 ---
 
-This tour follows definitions used by official Dialects and tested fixtures.
-It starts with the subnet from [your first architecture](../getting-started/first-architecture.md),
-then adds the language features needed to explain more complex semantics and
-governance.
+Follow official definitions from source matching through architecture facts and
+policy evaluation. Start with the subnet from
+[your first architecture](../getting-started/first-architecture.md), then add
+composition and governance.
 
 You can read the tour without installing an authoring checkout. To run the
 examples, install Rootform and use the public Dialects repository as described
