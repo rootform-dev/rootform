@@ -1,6 +1,10 @@
 ---
 title: "Dialects"
 description: "How Rootform turns provider declarations into architecture meaning, without guessing from resource names."
+rendererLesson:
+  example: azure
+  title: "See the semantic result"
+  description: "Explore a larger Azure fixture: select a resource, then inspect the rules and references behind its placement."
 ---
 
 A Dialect is a versioned set of Rootform Language definitions and rules.
@@ -17,7 +21,7 @@ from resource names.
 
 Consider the subnet from the [first architecture](../getting-started/first-architecture.md):
 
-```hcl title="main.tf (excerpt)"
+```hcl title="main.tf"
 resource "aws_subnet" "application" {
   vpc_id     = aws_vpc.main.id
   cidr_block = "10.20.1.0/24"
@@ -28,9 +32,36 @@ The AWS Dialect maps this declaration to a subnet scope. Its rule resolves
 `vpc_id` to the declared VPC and records a network context between the two
 scopes. The architecture retains that successful resolution as provenance.
 
+Here is the actual subnet rule from the official AWS Dialect:
+
+```hcl title="aws/network/vpc.rf"
+rule "subnet" {
+  match {
+    kind = "resource"
+    type = "aws_subnet"
+  }
+  as = concept.core.subnet
+
+  context {
+    as  = context.core.network
+    to  = concept.core.virtual-network
+    via = source.vpc_id
+  }
+}
+```
+
+The `.rf` rule supplies the interpretation. Compilation establishes architecture
+facts in the [IR](architecture-ir.md); the renderer presents those facts. It does
+not reinterpret the Terraform or execute this rule itself.
+
 This is a network-placement fact. It does not establish traffic flow or prove
 that a deployed subnet can reach another service. If the reference cannot be
 resolved, Rootform must not invent that context.
+
+<!-- rootform:lesson -->
+
+The example above uses Azure's own Dialect rules. The same separation holds:
+source declarations, semantic facts, then their visual presentation.
 
 ## What a Dialect can express
 
@@ -153,5 +184,10 @@ A Dialect defines what the architecture means. A
 Selecting a Dialect never selects governance. Policy Packs cannot rewrite
 Dialect semantics.
 
-To extend provider coverage, start with [Dialect authoring](../dialect-authoring.md).
-To inspect the generated facts, read [Architecture IR](architecture-ir.md).
+To extend provider coverage, start with [Write a Dialect](../dialect-authoring.md).
+Rootform Language (`.rf`) is the authoring surface shared by Dialects and
+Policy Packs; this page explains the Dialect's role rather than teaching that language.
+Follow the [Language tour](../language/tour.md) to connect real definitions to
+their consequences, or use the [Dialect reference](../language/reference/dialects.md)
+for exact fields. To inspect generated facts, read
+[Architecture IR](architecture-ir.md).

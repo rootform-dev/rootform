@@ -9,12 +9,42 @@
   },
   {
     "label": "Understand architecture",
+    "items": ["concepts", "concepts/architecture-ir", "concepts/dialects", "concepts/policies"]
+  },
+  {
+    "label": "Rootform Language (.rf)",
     "items": [
-      "concepts",
-      "concepts/architecture-ir",
-      "concepts/dialects",
-      "concepts/policies",
-      "guides/check-architecture"
+      {
+        "label": "Learn",
+        "items": [
+          { "label": "Language overview", "page": "language" },
+          { "label": "Language tour", "page": "language/tour" }
+        ]
+      },
+      {
+        "label": "Write",
+        "items": [
+          { "label": "Write a Dialect", "page": "dialect-authoring" },
+          { "label": "Write a Policy", "page": "guides/check-architecture" },
+          { "label": "Write a Policy Pack", "page": "language/write-policy-pack" },
+          { "label": "Test and validate", "page": "language/test-validate" }
+        ]
+      },
+      {
+        "label": "Reference",
+        "items": [
+          { "label": "Overview", "page": "language/reference" },
+          { "label": "Syntax and files", "page": "language/reference/syntax-files" },
+          { "label": "Dialects", "page": "language/reference/dialects" },
+          { "label": "Rules", "page": "language/reference/rules" },
+          { "label": "Policy Packs", "page": "language/reference/policy-packs" },
+          { "label": "Expressions", "page": "language/reference/expressions" },
+          { "label": "Traversals and scope", "page": "language/reference/traversals" },
+          { "label": "Built-ins", "page": "language/reference/built-ins" },
+          { "label": "Evaluation", "page": "language/reference/evaluation" },
+          { "label": "Diagnostics", "page": "language/reference/diagnostics" }
+        ]
+      }
     ]
   },
   {
@@ -166,5 +196,5 @@
       "reference/outputs"
     ]
   },
-  { "label": "Contribute", "items": ["contributing", "dialect-authoring", "contributing/writing"] }
+  { "label": "Contribute", "items": ["contributing", "contributing/writing"] }
 ]

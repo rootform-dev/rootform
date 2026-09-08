@@ -48,7 +48,7 @@ rootform diff before.json after.json
 
 Observed output:
 
-```text
+```text title="Diff output"
 + context "core/network" from scope:aws_subnet.database to scope:aws_vpc.main
 + core/subnet "database"
 ```

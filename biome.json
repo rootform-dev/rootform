@@ -25,7 +25,7 @@
   },
   "overrides": [
     {
-      "includes": ["schemas/*.json", "reference/cli.json"],
+      "includes": ["schemas/*.json", "reference/cli.json", "docs/assets/renderer/*.json"],
       "formatter": {
         "enabled": false
       }

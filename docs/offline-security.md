@@ -56,7 +56,7 @@ redownloadable cache.
 
 Vendoring materializes exact locked packages under the project:
 
-```text
+```text title="Package locations"
 .rootform/dialects/
 .rootform/policy-packs/
 ```

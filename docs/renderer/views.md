@@ -1,11 +1,17 @@
 ---
 title: "Survey, Plan, Focus, and Inspector"
 description: "Choose between structural overview, complete detail, local context, and the evidence behind a selection."
+rendererLesson:
+  example: azure
+  title: "Try the renderer"
+  description: "Switch projections, focus a scope and inspect the evidence behind a resource."
 ---
 
 Survey and Plan choose how much structure to show. Focus chooses a local context.
 Inspector explains a selection. Zoom changes the camera and visual density.
 None of these operations changes the architecture's semantic facts.
+
+<!-- rootform:lesson -->
 
 ## Survey
 

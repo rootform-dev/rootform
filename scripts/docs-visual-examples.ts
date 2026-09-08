@@ -28,6 +28,32 @@ export async function verifyVisualExamples(
     readFileSync(join(assets, "renderer/manifest.json"), "utf8"),
   ) as Manifest;
   const verification = JSON.parse(readFileSync(join(root, "reference/verification.json"), "utf8"));
+  const interactive = JSON.parse(readFileSync(join(assets, "renderer/interactive.json"), "utf8"));
+  assert(interactive.format_version === "1", "unknown interactive evidence format");
+  const expectedInputs = [
+    "azure-platform.json",
+    "azure-platform-next.json",
+    "azure-delta.json",
+    "multicloud.json",
+    "azure-platform-presentation.json",
+    "multicloud-presentation.json",
+  ];
+  assert(
+    JSON.stringify(Object.keys(interactive.files).sort()) === JSON.stringify(expectedInputs.sort()),
+    "interactive input inventory changed",
+  );
+  for (const [file, hash] of Object.entries(interactive.files)) {
+    assert(
+      /^(?:azure-platform(?:-next|-presentation)?|azure-delta|multicloud(?:-presentation)?)\.json$/u.test(
+        file,
+      ),
+      "unexpected interactive input",
+    );
+    assert(
+      digest(readFileSync(join(assets, "renderer", file))) === hash,
+      `interactive input changed: ${file}`,
+    );
+  }
   assert(manifest.format_version === "1", "unknown evidence format");
   assert(
     manifest.binary.sha256 === verification.binary.sha256 &&
@@ -77,6 +103,10 @@ export async function verifyVisualExamples(
         " no longer produces the captured architecture: review semantic drift before recapturing",
     );
     assert(
+      readFileSync(path).equals(readFileSync(join(assets, "renderer", `${name}.json`))),
+      `${name}: interactive architecture differs from the actual binary`,
+    );
+    assert(
       digest(readFileSync(join(input, "rootform.lock"))) === expected.files["rootform.lock"],
       `${name} changed its lock`,
     );
@@ -100,6 +130,10 @@ export async function verifyVisualExamples(
   assert(
     digest(readFileSync(delta)) === manifest.comparison.sha256,
     "published Diff procedure changed the captured comparison",
+  );
+  assert(
+    readFileSync(delta).equals(readFileSync(join(assets, "renderer/azure-delta.json"))),
+    "interactive Delta differs from the actual binary",
   );
 
   // Use the documented run command; only suppress UI launch, watching and fixed port for the test.

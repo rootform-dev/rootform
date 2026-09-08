@@ -1,0 +1,11 @@
+{
+  "format_version": "1",
+  "files": {
+    "azure-platform.json": "5e4d2df967940b3877b5c9ba3ab26275948cf84e2166367ca60b0435dbcc1e0f",
+    "azure-platform-next.json": "34d39a2bfa6c6225045a2c7119053e59214b975002f1c047561fdac38acc6723",
+    "multicloud.json": "78117c082dd0d0c2a7849c324a0380facc999bd588c65a8d183e3429cc060c71",
+    "azure-delta.json": "a6f1d069ef43116272013c903a88850bcccd68a2dca6981931b5acb1532f73f1",
+    "azure-platform-presentation.json": "aaf06c288e9abd87fdf3296758513d54588205e88b9a0fc8282574acf8c779e5",
+    "multicloud-presentation.json": "c00e1d9d8962506c3f0d3052ea3eee76047f6c0d5abb89a296a95f7d72cbe777"
+  }
+}

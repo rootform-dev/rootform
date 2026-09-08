@@ -17,6 +17,8 @@ The first run needs network access to download support for the AWS configuration
 Those semantic packages are called Dialects. Terraform, OpenTofu, an AWS provider,
 and cloud credentials are not needed for this example.
 
+<!-- rootform:steps -->
+
 ## Create the input
 
 Create an empty working directory and enter it:
@@ -67,10 +69,11 @@ On this first run, Rootform downloads the required packages and records the
 selection in `rootform.lock`. `--no-input` permits a unique selection without
 a prompt. The [preparation guide](../cli.md) explains the choices for real projects.
 
-You may see a warning that AWS provider compatibility is unverified because
-this new directory has no `.terraform.lock.hcl`. That warning does not prevent
-this synthetic example from rendering. In an initialized real project, refresh
-provider version evidence with Terraform or OpenTofu as appropriate.
+> [!NOTE]
+> You may see a warning that AWS provider compatibility is unverified because
+> this new directory has no `.terraform.lock.hcl`. That warning does not prevent
+> this synthetic example from rendering. In an initialized real project, refresh
+> provider version evidence with Terraform or OpenTofu as appropriate.
 
 ## Read the result
 
@@ -97,7 +100,7 @@ rootform build . --locked --output architecture.json
 The command writes JSON to `architecture.json`. Its declaration summary appears
 on standard error; a provider-version warning may precede it:
 
-```text
+```text title="Declaration summary"
 Declarations detected           3
 Represented                     2
 Supporting a composition        0
@@ -120,7 +123,7 @@ rootform build . --locked --offline --format html --output architecture.html
 Open `architecture.html` directly in your browser. No server or adjacent asset
 is needed. Your directory now contains:
 
-```text
+```text title="Generated files"
 main.tf
 rootform.lock
 architecture.json
@@ -131,6 +134,8 @@ Rootform has not applied or modified your Terraform configuration. Review and
 commit `rootform.lock` when you use this workflow in a real project. The JSON
 and HTML are generated outputs; keep or share them according to your team's
 artifact policy.
+
+<!-- rootform:endsteps -->
 
 ## Continue with a real question
 

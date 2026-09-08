@@ -144,6 +144,39 @@ Use synthetic infrastructure. Never include real state, raw plans, customer
 resources, credentials, or machine-specific paths in documentation evidence.
 Verify that a command's exit status means what the surrounding prose claims.
 
+## Choose a presentation that helps the task
+
+Use a filename on file examples, `title="Command"` for a command when its purpose
+would otherwise be unclear, and `title="Output"` or a precise result name for
+captured output. Keep commands and output in separate fences so copying a
+command never includes its result. Number steps only when their order matters.
+Line numbers and highlights must help readers identify a specific line.
+
+Use a table to compare the same attributes across items. Put units in column
+headings and long explanations outside cells. Use a GitHub alert such as
+`> [!WARNING]` when a reader needs a warning at that point in the task. Ordinary
+advice stays in prose.
+
+The site supports a few presentation markers in public Markdown. GitHub ignores
+the comments and keeps the underlying content readable:
+
+- `<!-- rootform:directory -->` before a list turns each linked term and its
+  description into an orientation row. Each item must be one paragraph.
+- `<!-- rootform:tabs Operating system -->` starts alternatives. Introduce each
+  with `<!-- rootform:tab Linux -->` or another unique label, then close the group
+  with `<!-- rootform:endtabs -->`. Include at least two complete alternatives;
+  shared instructions belong outside the group. Keep headings inside variants
+  so links and search can open the right one.
+- `<!-- rootform:lesson -->` places an optional real renderer example. The page's
+  `rendererLesson` metadata supplies its `example`, `title`, and `description`.
+  Available examples are `azure`, `multicloud`, and `delta`. Use one only when
+  interaction teaches something that the adjacent static explanation cannot.
+
+Renderer inputs come from the verified fixture artifacts. Do not draw a substitute
+renderer or change generated JSON to improve a picture. Keep light and dark
+figures paired, with the same state, caption, and useful text alternative. Explain
+preview-only capabilities before readers try to reproduce them with the CLI.
+
 ## Write useful errors and labels
 
 An error should explain what happened, the relevant constraint, and a next

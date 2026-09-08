@@ -1,6 +1,10 @@
 ---
 title: "Understand architecture Diff"
 description: "Understand what Rootform compares, how uncertainty is reported, and how the Delta renderer presents change."
+rendererLesson:
+  example: delta
+  title: "Inspect a Delta"
+  description: "Explore the real comparison renderer using the two Azure fixtures. This example previews the renderer; CLI availability is explained below."
 ---
 
 Rootform Diff compares architectural meaning between a **base** and a **head**.
@@ -10,6 +14,8 @@ not create an architectural change.
 
 Use [compare architectures](../guides/compare-architectures.md) for a runnable
 example. A [JSON plan](../inputs/plans.md) can supply both sides in one document.
+
+<!-- rootform:lesson -->
 
 ## What can change
 
