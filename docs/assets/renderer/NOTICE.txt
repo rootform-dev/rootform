@@ -1,0 +1,15 @@
+Rootform documentation figures
+
+These are captures of the real Rootform renderer using synthetic source.
+They are not generated illustrations or deployment diagrams drawn by hand.
+The adjoining manifest records source, lock, architecture, comparison,
+executable and image hashes. Light and dark captures use the Rootform theme.
+
+Azure service icons retain Microsoft terms; see
+azure-architecture-icons-usage.txt and
+https://learn.microsoft.com/en-us/azure/architecture/icons/.
+Kubernetes icons retain the Apache-2.0 license choice in
+kubernetes-icons-Apache-2.0.txt; technology trademarks retain their owners.
+
+No Microsoft, Kubernetes or other provider affiliation or endorsement is implied.
+Rootform marks retain their applicable trademark rules.

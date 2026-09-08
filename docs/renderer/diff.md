@@ -1,36 +1,120 @@
 ---
-title: "Compare architectures"
-description: "Read architecture changes and distinguish a determined change from unavailable evidence."
+title: "Understand architecture Diff"
+description: "Understand what Rootform compares, how uncertainty is reported, and how the Delta renderer presents change."
 ---
 
-Rootform Diff compares architectural meaning between a base and a head. It
-ignores source formatting and provenance-only changes. Both inputs must be
-valid and use the same Dialect selections.
+Rootform Diff compares architectural meaning between a **base** and a **head**.
+It compares validated architecture facts, not Terraform text, provider action
+lists, or every configuration value. Formatting and provenance-only changes do
+not create an architectural change.
 
-See the [release note](../installation.md#available-release) for availability of
-the current renderer controls.
+Use [compare architectures](../guides/compare-architectures.md) for a runnable
+example. A [JSON plan](../inputs/plans.md) can supply both sides in one document.
 
-## Compare saved architectures
+## What can change
 
-```sh
-rootform diff before.json after.json
-```
+Diff compares representations, contexts, contributions, and relations. It also
+reports changes in declaration accounting and diagnostics, so a coverage change
+is not hidden behind an unchanged-looking graph.
 
-Changes do not fail this command by default. Add `--exit-code` when an automation
-should return status `1` for a difference. Invalid or incomparable input returns
-an unavailable result, not a reassuring empty comparison.
+| State | Meaning |
+| --- | --- |
+| `added` | A fact is established on the head side and known absent on the base side. |
+| `removed` | A fact is established on the base side and known absent on the head side. |
+| `changed` | A matched fact has different architectural fields, such as concept, membership, or relation endpoints. |
+| `undetermined` | Available evidence cannot support a determined change claim for that fact. |
 
-## Read the current Diff renderer
+An object known on one side but unresolved on the other is not automatically an
+addition or removal. For example, an update plan may not contain enough evidence
+to reconstruct a previous reference. Planned evidence cannot fill that gap on
+the before side.
 
-The current renderer presents one change-aware architecture with added, removed,
-changed, and unresolved evidence. Base provides prior placement; head supplies
-current facts. Inspector explains before/after details. Survey, Plan, and Focus
-remain the exploration controls.
+An empty comparison means valid comparable inputs, no architectural changes,
+and no undetermined entries. A refused or incomplete comparison is never an
+empty success.
 
-An unambiguous containment move can be presented as a move. Ambiguous or
-undetermined contexts must not be turned into a confident move or deletion.
+## Compare like interpretations
 
-For a planned change, use [a Terraform/OpenTofu JSON plan](../inputs/plans.md).
-For a repository review, start with [Git and pull-request workflows](../workflows/index.md).
-The [Architecture Diff contract](../../contracts/architecture-diff.md) defines
-machine results and comparison safety rules.
+Both documents must be valid and use compatible formats and the same Dialect
+identities and versions. A different interpretation could otherwise look like an
+infrastructure change. Keep the semantic selection fixed when comparing source
+changes; review a Dialect upgrade separately.
+
+Stable identities let Diff track facts independently of display order and canvas
+coordinates. The compared fields include concept, kind, name, implementation
+kind, composition membership, context dimension, relation type, and endpoints.
+Source positions and rule provenance explain a fact but do not themselves create
+a change. The [Diff contract](../../contracts/architecture-diff.md) lists exact fields.
+
+## Read a Delta
+
+The **Delta** renderer presents one architecture with change annotations. Base
+provides prior placement and reference context; head provides the current facts.
+Removed components remain visible as before-side references. Unknown sides stay
+unknown instead of being drawn as confident deletions or moves.
+
+**Current access:** the executable exposes Diff as text, JSON, and Markdown.
+The interactive Delta renderer is implemented but has no entry point in
+`rootform run` or HTML export yet. `run --plan` displays only the planned
+architecture. Delta illustrations in these docs show that renderer using real
+comparison inputs; they are not a command you can open through the current CLI.
+
+### Follow change within context
+
+Survey, Plan, Focus, scope disclosure, and Inspector keep the same roles in
+Delta. Survey gives changed areas priority within its overview budget. A collapsed
+scope can indicate changes inside; expand or focus it to locate them. Plan exposes
+the complete structure, including unchanged context needed to understand a change.
+
+Change is expressed with labels and line/border patterns as well as color.
+The Inspector label **Modified** corresponds to the machine state `changed`.
+An aggregate indicator is a route into the underlying facts, not a replacement
+for their individual classifications.
+
+A move is shown only when the evidence unambiguously establishes a change of
+context for the same subject. Ambiguous placements and undetermined facts do not
+become confident moves. The overview groups a recognized move for readability;
+raw context additions and removals remain available in the comparison evidence.
+
+![Delta preview marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-light.png#gh-light-mode-only)
+![Delta preview marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-dark.png#gh-dark-mode-only)
+
+Renderer preview from the [Azure source pair](examples.md#compare-the-azure-variants).
+The analytics cluster keeps its identity and moves between subnets. Renamed
+declarations appear as additions and removals, because their source identities
+changed. The renderer does not guess that a rename preserved an object.
+
+### Use Inspector to explain the change
+
+Select a changed subject to read its before/after fields, previous and current
+placement, related changes, and supporting evidence. A scope can carry changes
+inside without having a direct field change of its own. Distinguish those cases
+before deciding what changed about the selected object.
+
+The overview's change count opens comparison context. Diagnostic and declaration
+deltas help explain a change in coverage. An undetermined entry explains where
+the available evidence stops; it is not a low-confidence guess at a change.
+
+![Focused Delta preview shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-light.png#gh-light-mode-only)
+![Focused Delta preview shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-dark.png#gh-dark-mode-only)
+
+Inspector Change explains the move with its **Before** and **After** placement
+and the underlying added/removed contexts. This is an architectural placement
+change, not a claim that Rootform moved a deployed cluster.
+
+## What a Diff result cannot promise
+
+A Terraform replacement may leave architectural facts unchanged. A no-change
+Diff does not mean that Terraform has no work to apply, that all resource
+attributes match, or that deployed infrastructure matches source. Rootform does
+not independently refresh state or detect Drift.
+
+The normal command returns `0` for a completed comparison, including a report
+with undetermined facts. With `--exit-code`, any nonempty comparison returns
+`1`: that includes undetermined entries even when no change is determined.
+Status `3` means the comparison itself could not be completed, for example
+because inputs are invalid or incompatible.
+
+Read the report as well as the status. A valid comparison containing an
+undetermined fact is different from a wholly unavailable comparison, and neither
+supports a no-change claim.

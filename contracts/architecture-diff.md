@@ -30,3 +30,9 @@ Changed fields are drawn from `concept`, `kind`, `name`,
 - Empty means valid comparison with no changes and no undetermined entry.
 - Output ordering and bytes are deterministic and carry no host, path, time, or
   duration.
+
+A completed comparison can contain undetermined facts without a top-level
+problem. The CLI reports that comparison with status `0` by default, or `1`
+with `--exit-code` because the report is nonempty. Status `3` is reserved for
+a comparison that could not be completed. Consumers must inspect classifications
+as well as exit status.

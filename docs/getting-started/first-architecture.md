@@ -9,13 +9,13 @@ account or running infrastructure is needed.
 
 ## Before you start
 
-[Install Rootform](../installation.md). This tutorial's commands are verified
-with public `v0.1.1`. The current renderer guide uses newer controls; the
-[installation note](../installation.md#available-release) explains that difference.
+[Install Rootform](../installation.md). This tutorial is verified with the current
+documentation build. The [installation note](../installation.md#available-release)
+identifies the published archive and its older interface.
 
-The first run needs network access to download the official AWS and core
-Dialects. Rootform does not run Terraform, OpenTofu, or an AWS provider for this
-example. You will create only local source, a lock, and architecture outputs.
+The first run needs network access to download support for the AWS configuration.
+Those semantic packages are called Dialects. Terraform, OpenTofu, an AWS provider,
+and cloud credentials are not needed for this example.
 
 ## Create the input
 
@@ -59,13 +59,13 @@ to establish the subnet's network context.
 rootform run . --no-input
 ```
 
-Rootform selects the compatible Dialects, downloads missing artifacts, and
-writes `rootform.lock`. `--no-input` permits a unique deterministic selection
-without a prompt; an ambiguous selection fails instead of guessing.
-
 The command starts a loopback server and opens your browser. If it does not
 open, use the `http://127.0.0.1:...` address printed by the command. Keep this
 terminal running while you explore. Press `Ctrl+C` to stop the server.
+
+On this first run, Rootform downloads the required packages and records the
+selection in `rootform.lock`. `--no-input` permits a unique selection without
+a prompt. The [preparation guide](../cli.md) explains the choices for real projects.
 
 You may see a warning that AWS provider compatibility is unverified because
 this new directory has no `.terraform.lock.hcl`. That warning does not prevent
@@ -75,13 +75,11 @@ provider version evidence with Terraform or OpenTofu as appropriate.
 ## Read the result
 
 Find the virtual network named `main` and the subnet named `application`.
-The subnet has network context inside the VPC. It is not connected by a
-fabricated traffic-flow relation.
+The subnet has network context inside the VPC.
 
 Select `application` and inspect its evidence. The source is
 `aws_subnet.application`; the rule comes from the AWS Dialect. Its `vpc_id`
-reference explains the network placement. A picture alone would not tell you
-why that placement is valid.
+reference explains the network placement.
 
 In the current renderer, [Survey and Plan](../renderer/views.md) change the
 amount of visible context, [Focus](../renderer/views.md#focus) explores a local

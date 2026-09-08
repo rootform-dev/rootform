@@ -1,0 +1,1512 @@
+{
+  "format_version": 1,
+  "commands": [
+    {
+      "path": "rootform",
+      "usage": "rootform [flags]",
+      "summary": "Understand Terraform and OpenTofu as architecture",
+      "description": "Rootform turns Terraform and OpenTofu into a semantic, deterministic,\nand explainable architecture.\n\nStart with rootform run ./infra to explore a directory locally.",
+      "examples": "rootform run ./infra\n  rootform build ./infra -o architecture.json\n  rootform check ./infra\n  rootform diff ./before ./after",
+      "subcommands": [
+        "rootform build",
+        "rootform check",
+        "rootform completion",
+        "rootform diff",
+        "rootform explain",
+        "rootform fmt",
+        "rootform init",
+        "rootform install",
+        "rootform list",
+        "rootform lock",
+        "rootform lsp",
+        "rootform package",
+        "rootform publish",
+        "rootform remove",
+        "rootform run",
+        "rootform show",
+        "rootform test",
+        "rootform validate",
+        "rootform vendor",
+        "rootform verify",
+        "rootform version"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform",
+          "no_option_default": "true"
+        },
+        {
+          "name": "version",
+          "shorthand": "v",
+          "type": "bool",
+          "default": "false",
+          "usage": "print the rootform version and exit",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform build",
+      "usage": "rootform build [directory] [flags]",
+      "summary": "Build an architecture",
+      "description": "Build a semantic architecture from Terraform or OpenTofu configuration\nor from a plan in JSON format.\n\nWith no directory, build reads the current directory. --plan reads a plan\ninstead; use - to read it from standard input. Directory input prepares\nmissing project dialects before compilation; a coherent local lock is silent.\n\nThe Rootform architecture file is written to standard output, or to the\nfile selected by --output. With --format html the architecture is written\nas one page that opens on its own, with no server and no other file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the architecture was built\n  2  the command was used incorrectly\n  3  no complete architecture could be built",
+      "examples": "rootform build\n  rootform build ./infra\n  rootform build ./infra -o architecture.json\n  rootform build ./infra --format html -o architecture.html\n  rootform build --plan tfplan.json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "json",
+          "usage": "write `format` (json/html)"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform build",
+          "no_option_default": "true"
+        },
+        {
+          "name": "locked",
+          "type": "bool",
+          "default": "false",
+          "usage": "require and preserve the existing rootform.lock",
+          "no_option_default": "true"
+        },
+        {
+          "name": "no-input",
+          "type": "bool",
+          "default": "false",
+          "usage": "never prompt; require deterministic action",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "default": "false",
+          "usage": "disable network; use only local data",
+          "no_option_default": "true"
+        },
+        {
+          "name": "output",
+          "shorthand": "o",
+          "type": "string",
+          "default": "",
+          "usage": "write the architecture to this `file`"
+        },
+        {
+          "name": "plan",
+          "type": "file",
+          "default": "",
+          "usage": "read JSON plan; - reads standard input"
+        },
+        {
+          "name": "verbose",
+          "shorthand": "v",
+          "type": "bool",
+          "default": "false",
+          "usage": "show provider evidence and origin",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform check",
+      "usage": "rootform check [input] [flags]",
+      "summary": "Check architecture policies",
+      "description": "Build or load an architecture and evaluate the applicable policies.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or - for an architecture file on standard input. With no input,\ncheck reads the current directory. --plan reads a plan in JSON format\ninstead. Directory input prepares missing project dialects before evaluation;\na coherent local lock is silent.\n\nThe selected text, JSON, SARIF, or Markdown result goes to standard\noutput, or to --output. Diagnostics go to standard error.\n\nExit status:\n  0  every policy passed\n  1  at least one policy was violated\n  2  the command was used incorrectly\n  3  the architecture could not be evaluated",
+      "examples": "rootform check\n  rootform check ./infra\n  rootform check . --locked\n  rootform check --plan tfplan.json\n  rootform check . --policy-pack ./policies\n  rootform build ./infra | rootform check -\n  rootform check ./infra --format sarif -o rootform.sarif",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "text/json/sarif/markdown `format`"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform check",
+          "no_option_default": "true"
+        },
+        {
+          "name": "locked",
+          "type": "bool",
+          "default": "false",
+          "usage": "require and preserve the existing rootform.lock",
+          "no_option_default": "true"
+        },
+        {
+          "name": "no-input",
+          "type": "bool",
+          "default": "false",
+          "usage": "never prompt; require deterministic action",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "default": "false",
+          "usage": "disable network; use only local data",
+          "no_option_default": "true"
+        },
+        {
+          "name": "output",
+          "shorthand": "o",
+          "type": "string",
+          "default": "",
+          "usage": "write the result to this `file`"
+        },
+        {
+          "name": "plan",
+          "type": "file",
+          "default": "",
+          "usage": "read JSON plan; - reads standard input"
+        },
+        {
+          "name": "policy",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "evaluate only this `policy`; repeatable"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "select local Policy Pack `directory`; repeatable"
+        },
+        {
+          "name": "verbose",
+          "shorthand": "v",
+          "type": "bool",
+          "default": "false",
+          "usage": "show provider evidence and origin",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform completion",
+      "usage": "rootform completion \u003cshell\u003e [flags]",
+      "summary": "Generate shell completion",
+      "description": "Generate a completion script for bash, zsh, fish, or PowerShell.\n\nThe script goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  the completion script was generated\n  1  the completion script could not be generated\n  2  the command was used incorrectly",
+      "examples": "rootform completion bash \u003e /usr/local/etc/bash_completion.d/rootform\n  rootform completion zsh \u003e \"${fpath[1]}/_rootform\"\n  rootform completion fish \u003e ~/.config/fish/completions/rootform.fish",
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform completion",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform diff",
+      "usage": "rootform diff \u003cbefore\u003e \u003cafter\u003e [flags]",
+      "summary": "Compare two architectures",
+      "description": "Compare two architectures and report the architectural changes between\nthem.\n\nEach input can be an infrastructure directory, a Rootform architecture\nfile, or - for one architecture file on standard input. --plan reads\nboth sides from a plan in JSON format instead. Only one input can be -.\n\nThe selected text, JSON, or Markdown result goes to standard output, or\nto --output. Diagnostics go to standard error.\n\nExit status:\n  0  the comparison succeeded\n  1  the architectures differ, and --exit-code was given\n  2  the command was used incorrectly\n  3  the comparison could not be completed",
+      "examples": "rootform diff ./before ./after\n  rootform diff before.json after.json --exit-code\n  rootform diff --plan tfplan.json\n  terraform show -json tfplan | rootform diff --plan -\n  rootform diff ./before ./after --format markdown -o rootform-diff.md",
+      "flags": [
+        {
+          "name": "exit-code",
+          "type": "bool",
+          "default": "false",
+          "usage": "exit 1 when the two architectures differ",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text, json, or markdown"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform diff",
+          "no_option_default": "true"
+        },
+        {
+          "name": "output",
+          "shorthand": "o",
+          "type": "string",
+          "default": "",
+          "usage": "write the diff to this `file`"
+        },
+        {
+          "name": "plan",
+          "type": "file",
+          "default": "",
+          "usage": "read JSON plan; - reads standard input"
+        }
+      ]
+    },
+    {
+      "path": "rootform explain",
+      "usage": "rootform explain \u003cobject\u003e \u003cname\u003e [flags]",
+      "summary": "Explain an architecture result",
+      "description": "Explain how an architecture element was derived, how a source\ndeclaration was interpreted, or why a policy produced a result.",
+      "examples": "rootform explain architecture google_sql_database_instance.main\n  rootform explain semantics google/cloud-sql-instance\n  rootform explain policy baseline/database-private-connectivity",
+      "subcommands": [
+        "rootform explain architecture",
+        "rootform explain policy",
+        "rootform explain semantics"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform explain",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform explain architecture",
+      "usage": "rootform explain architecture \u003caddress\u003e [flags]",
+      "summary": "Explain an architecture element",
+      "description": "Show how an architecture element is implemented and which semantic\nfacts and source locations support it.\n\nBy default, explain reads the current directory. --input accepts an\ninfrastructure directory, a Rootform architecture file, or - for an\narchitecture file on standard input.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the element was explained\n  1  the declaration or architecture element was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "examples": "rootform explain architecture google_compute_network.vpc\n  rootform explain architecture kubernetes_deployment_v1.app --format json\n  rootform explain architecture google_compute_network.vpc --input prod.json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform explain architecture",
+          "no_option_default": "true"
+        },
+        {
+          "name": "input",
+          "type": "string",
+          "default": "",
+          "usage": "read the architecture at `path`; - reads standard input"
+        }
+      ]
+    },
+    {
+      "path": "rootform explain policy",
+      "usage": "rootform explain policy \u003cidentifier\u003e [flags]",
+      "summary": "Explain a policy result",
+      "description": "Show why a policy passed, failed, or could not be evaluated for an\narchitecture element.\n\nThe current directory supplies the architecture.\nUse \u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "examples": "rootform explain policy baseline/database-private-connectivity\n  rootform explain policy database-private-connectivity\n  rootform explain policy baseline/database-private-connectivity --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform explain policy",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform explain semantics",
+      "usage": "rootform explain semantics \u003cidentifier\u003e [flags]",
+      "summary": "Explain a semantic interpretation",
+      "description": "Show how a source declaration was interpreted, including the matching\nrule and the architecture it produced.\n\nThe current directory supplies the architecture.\nUse \u003cdialect\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "examples": "rootform explain semantics google/cloud-sql-instance\n  rootform explain semantics cloud-sql-instance\n  rootform explain semantics google/cloud-sql-instance --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform explain semantics",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform fmt",
+      "usage": "rootform fmt [path] [flags]",
+      "summary": "Format Rootform files",
+      "description": "Rewrite Rootform source files using the canonical format.\n\nWith no path, fmt reads the current directory. By default it rewrites\nchanged files. --check reports their names and --diff writes changes to\nstandard output without rewriting. Diagnostics go to standard error.\n\nExit status:\n  0  the sources are formatted\n  1  --check or --diff found a source that is not formatted\n  2  the command was used incorrectly\n  3  a source could not be read, parsed, or rewritten",
+      "examples": "rootform fmt\n  rootform fmt ./dialects\n  rootform fmt --check\n  rootform fmt ./dialects --diff",
+      "flags": [
+        {
+          "name": "check",
+          "type": "bool",
+          "default": "false",
+          "usage": "check formatting without rewriting files",
+          "no_option_default": "true"
+        },
+        {
+          "name": "diff",
+          "type": "bool",
+          "default": "false",
+          "usage": "show formatting changes without rewriting files",
+          "no_option_default": "true"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform fmt",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform init",
+      "usage": "rootform init [path] [flags]",
+      "summary": "Initialize a Rootform project",
+      "description": "Detect providers, resolve Rootform dialects, install missing exact\ndialect packages, and write rootform.lock. Path defaults to . and is both the\nproject and Terraform or OpenTofu root. Unlocked resolution includes the\nofficial index; repeat --source to add a Rootform dialect or index registry\nreference. Repeat --policy-pack to select an independent Policy Pack\nexplicitly.\n\nMachine JSON goes to standard output. Diagnostics and verbose detail go\nto standard error.\n\nExit status:\n  0  initialization completed\n  1  initialization failed\n  2  the command was used incorrectly\n  3  no deterministic initialization was available",
+      "examples": "rootform init\n  rootform init ./infra\n  rootform init --source ghcr.io/acme/rootform/company-core:1.2.0\n  rootform init --policy-pack ghcr.io/acme/policies:policy-pack-baseline-0.1.0\n  rootform init ./infra --no-input\n  rootform init ./infra --locked --offline",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform init",
+          "no_option_default": "true"
+        },
+        {
+          "name": "locked",
+          "type": "bool",
+          "default": "false",
+          "usage": "require and preserve the existing rootform.lock",
+          "no_option_default": "true"
+        },
+        {
+          "name": "no-input",
+          "type": "bool",
+          "default": "false",
+          "usage": "never prompt; require deterministic action",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "default": "false",
+          "usage": "disable network; use only local data",
+          "no_option_default": "true"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "select a Policy Pack OCI `reference`; repeatable"
+        },
+        {
+          "name": "source",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "add dialect or index `reference`; repeatable"
+        },
+        {
+          "name": "upgrade",
+          "type": "bool",
+          "default": "false",
+          "usage": "refresh compatible dialect versions",
+          "no_option_default": "true"
+        },
+        {
+          "name": "verbose",
+          "shorthand": "v",
+          "type": "bool",
+          "default": "false",
+          "usage": "show provider evidence and origin",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform install",
+      "usage": "rootform install \u003cobject\u003e [flags]",
+      "summary": "Install dialects",
+      "description": "Install dialects on this machine.",
+      "examples": "rootform install dialects ./dialects",
+      "subcommands": [
+        "rootform install dialects"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform install",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform install dialects",
+      "usage": "rootform install dialects \u003cdirectory\u003e [flags]",
+      "summary": "Install dialects",
+      "description": "Install every dialect found in a directory into the local Rootform\nstore.\n\nInstalled names and versions go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  every dialect was installed\n  1  the dialects could not be installed\n  2  the command was used incorrectly",
+      "examples": "rootform install dialects ./dialects\n  rootform install dialects ./dialects/google\n  rootform install dialects ./vendor/dialects",
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform install dialects",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform list",
+      "usage": "rootform list \u003cobject\u003e [flags]",
+      "summary": "List Rootform definitions",
+      "description": "List loaded dialects, Policy Packs, policies, rules, or concepts.",
+      "examples": "rootform list dialects\n  rootform list policy-packs\n  rootform list policies\n  rootform list rules --dialect google",
+      "subcommands": [
+        "rootform list concepts",
+        "rootform list dialects",
+        "rootform list policies",
+        "rootform list policy-packs",
+        "rootform list rules"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform list",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform list concepts",
+      "usage": "rootform list concepts [flags]",
+      "summary": "List concepts",
+      "description": "List concepts available from the loaded dialects.\n\nWith no --dialect selection, every loaded dialect is included. The text\nor JSON listing goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the selected definitions could not be read",
+      "examples": "rootform list concepts\n  rootform list concepts --dialect core\n  rootform list concepts --format json",
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "limit results to this dialect `name`; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform list concepts",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform list dialects",
+      "usage": "rootform list dialects [flags]",
+      "summary": "List resolved dialects",
+      "description": "List the dialects resolved for the current project and\ntheir selected versions.\n\nWith no --dialect selection, every loaded dialect is included. The text\nor JSON listing goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the selected definitions could not be read",
+      "examples": "rootform list dialects\n  rootform list dialects --installed\n  rootform list dialects --outdated\n  rootform list dialects --dialect google\n  rootform list dialects --format json",
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "limit results to this dialect `name`; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform list dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "installed",
+          "type": "bool",
+          "default": "false",
+          "usage": "list versions installed in the local store",
+          "no_option_default": "true"
+        },
+        {
+          "name": "outdated",
+          "type": "bool",
+          "default": "false",
+          "usage": "compare locked versions with the cached official index",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform list policies",
+      "usage": "rootform list policies [flags]",
+      "summary": "List policies",
+      "description": "List policies available from selected Policy Packs.\n\nWith --policy-pack, only supplied local authoring roots are used;\notherwise the project selection is loaded. The text\nor JSON listing goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the selected definitions could not be read",
+      "examples": "rootform list policies\n  rootform list policies --policy-pack ./policies\n  rootform list policies --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform list policies",
+          "no_option_default": "true"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "select local Policy Pack `directory`; repeatable"
+        }
+      ]
+    },
+    {
+      "path": "rootform list policy-packs",
+      "usage": "rootform list policy-packs [flags]",
+      "summary": "List Policy Packs",
+      "description": "List Policy Packs selected by the project or supplied locally.\n\nWith --policy-pack, only supplied local authoring roots are used;\notherwise the project selection is loaded. The text\nor JSON listing goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the selected definitions could not be read",
+      "examples": "rootform list policy-packs\n  rootform list policy-packs --policy-pack ./policies\n  rootform list policy-packs --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform list policy-packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "select local Policy Pack `directory`; repeatable"
+        }
+      ]
+    },
+    {
+      "path": "rootform list rules",
+      "usage": "rootform list rules [flags]",
+      "summary": "List rules",
+      "description": "List rules available from the loaded dialects.\n\nWith no --dialect selection, every loaded dialect is included. The text\nor JSON listing goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the selected definitions could not be read",
+      "examples": "rootform list rules\n  rootform list rules --dialect kubernetes\n  rootform list rules --format json",
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "limit results to this dialect `name`; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform list rules",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform lock",
+      "usage": "rootform lock \u003cobject\u003e [flags]",
+      "summary": "Lock resolved dialects",
+      "description": "Record resolved dialects so a later run loads the same versions.",
+      "examples": "rootform lock dialects",
+      "subcommands": [
+        "rootform lock dialects"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform lock",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform lock dialects",
+      "usage": "rootform lock dialects [directory] [flags]",
+      "summary": "Lock resolved dialects",
+      "description": "Record the resolved dialects and their selected versions in the\ngenerated, deterministic JSON file rootform.lock.\n\nWith no directory, lock reads the current directory. Locked names and\nversions go to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock was written\n  1  the dialects or lock file could not be read or written\n  2  the command was used incorrectly\n  3  no complete dialect resolution was produced",
+      "examples": "rootform lock dialects\n  rootform lock dialects ./dialects\n  rootform lock dialects ./vendor/dialects",
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform lock dialects",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform lsp",
+      "usage": "rootform lsp [flags]",
+      "summary": "Serve Rootform Language over stdio",
+      "description": "Run the Rootform Language Server Protocol service over standard input\nand standard output. Protocol frames are the only standard output. Process\ndiagnostics go to standard error; source diagnostics travel through LSP.\n\nExit status:\n  0  the client completed shutdown and exit\n  1  transport or lifecycle failed\n  2  the command was used incorrectly",
+      "examples": "rootform lsp\n  rootform lsp 2\u003erootform-lsp.log\n  rootform lsp \u003cclient.frames \u003eserver.frames",
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform lsp",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform package",
+      "usage": "rootform package \u003cobject\u003e [flags]",
+      "summary": "Package Rootform content for distribution",
+      "description": "Build deterministic local registry layouts from validated Rootform packages.",
+      "examples": "rootform package dialects ./dialects --to ./artifacts/oci\n  rootform package policy-packs ./policies --to ./artifacts/policies",
+      "subcommands": [
+        "rootform package dialects",
+        "rootform package policy-packs"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform package",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform package dialects",
+      "usage": "rootform package dialects \u003cdirectory\u003e [flags]",
+      "summary": "Build dialect packages and a discovery index",
+      "description": "Compile a dialect source set and write one deterministic local registry\nlayout containing exact dialect packages and a generated discovery index.\nSummary goes to standard output. Diagnostics go to standard error.\nNothing is sent to a registry.\n\nExit status:\n  0  registry layout was written\n  1  dialects could not be packaged\n  2  the command was used incorrectly",
+      "examples": "rootform package dialects ./dialects --to ./artifacts/oci\n  rootform package dialects . --to ./artifacts/oci\n  rootform package dialects ./private --to ./oci --repository r.example/dialects",
+      "flags": [
+        {
+          "name": "documentation-url",
+          "type": "string",
+          "default": "",
+          "usage": "record documentation `url` in provenance"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform package dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "licenses",
+          "type": "string",
+          "default": "",
+          "usage": "record SPDX license `expression` in OCI provenance"
+        },
+        {
+          "name": "repository",
+          "type": "string",
+          "default": "",
+          "usage": "record target registry `repository`"
+        },
+        {
+          "name": "revision",
+          "type": "string",
+          "default": "",
+          "usage": "record source-control `revision` in OCI provenance"
+        },
+        {
+          "name": "source-url",
+          "type": "string",
+          "default": "",
+          "usage": "record canonical source `url` in OCI provenance"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "default": "",
+          "usage": "write registry layout to `directory`"
+        }
+      ]
+    },
+    {
+      "path": "rootform package policy-packs",
+      "usage": "rootform package policy-packs \u003cdirectory\u003e [flags]",
+      "summary": "Build Policy Pack packages",
+      "description": "Compile a Policy Pack source set and write one deterministic local registry\nlayout containing exact Policy Pack packages and no discovery index.\nNothing is sent to a registry. Summary goes to standard output.\nDiagnostics go to standard error.\n\nExit status:\n  0  registry layout was written\n  1  Policy Packs could not be packaged\n  2  the command was used incorrectly",
+      "examples": "rootform package policy-packs ./policies --to ./artifacts/policies\n  rootform package policy-packs ./baseline --to ./baseline-oci\n  rootform package policy-packs . --to ./oci",
+      "flags": [
+        {
+          "name": "documentation-url",
+          "type": "string",
+          "default": "",
+          "usage": "record documentation `url` in provenance"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform package policy-packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "licenses",
+          "type": "string",
+          "default": "",
+          "usage": "record SPDX license `expression` in OCI provenance"
+        },
+        {
+          "name": "revision",
+          "type": "string",
+          "default": "",
+          "usage": "record source-control `revision` in OCI provenance"
+        },
+        {
+          "name": "source-url",
+          "type": "string",
+          "default": "",
+          "usage": "record canonical source `url` in OCI provenance"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "default": "",
+          "usage": "write registry layout to `directory`"
+        }
+      ]
+    },
+    {
+      "path": "rootform publish",
+      "usage": "rootform publish \u003cobject\u003e [flags]",
+      "summary": "Publish packaged Rootform content",
+      "description": "Publish validated Rootform packages to a registry repository.",
+      "examples": "rootform publish dialects ./oci --to r.example/acme/dialects\n  rootform publish policy-packs ./oci --to r.example/acme/policies",
+      "subcommands": [
+        "rootform publish dialects",
+        "rootform publish policy-packs"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform publish",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform publish dialects",
+      "usage": "rootform publish dialects \u003clayout\u003e [flags]",
+      "summary": "Publish a verified dialect registry layout",
+      "description": "Validate an existing local Rootform registry layout, publish its dialects\nto one registry repository, repull every manifest by digest, and verify the\ncomplete dialect set. Use --index to publish the generated index last under\nan immutable digest-derived tag. Packaging and dry-run remain offline.\n\nText or JSON result goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  publication or dry-run verification completed\n  2  the command was used incorrectly\n  3  publication could not be verified",
+      "examples": "rootform publish dialects ./oci --to registry.example/acme/dialects\n  rootform publish dialects ./oci --to registry.example/acme/dialects --index\n  rootform publish dialects ./oci --to example/dialects --dry-run --format json",
+      "flags": [
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "default": "false",
+          "usage": "report verified publication plan without network access",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform publish dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "index",
+          "type": "bool",
+          "default": "false",
+          "usage": "publish generated index after every dialect",
+          "no_option_default": "true"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "default": "",
+          "usage": "publish to tagless OCI `repository`"
+        }
+      ]
+    },
+    {
+      "path": "rootform publish policy-packs",
+      "usage": "rootform publish policy-packs \u003clayout\u003e [flags]",
+      "summary": "Publish a verified Policy Pack registry layout",
+      "description": "Validate an existing local Policy Pack registry layout, publish every pack\nto one registry repository, and repull each manifest by digest. Policy\nPacks have no discovery index in V0. Dry-run remains offline.\n\nText or JSON result goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  publication or dry-run verification completed\n  2  the command was used incorrectly\n  3  publication could not be verified",
+      "examples": "rootform publish policy-packs ./oci --to registry.example/acme/policies\n  rootform publish policy-packs ./oci --to localhost:5000/acme/policies\n  rootform publish policy-packs ./oci --to registry.example/acme/policies \\\n    --dry-run --format json",
+      "flags": [
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "default": "false",
+          "usage": "report verified publication plan without network access",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform publish policy-packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "default": "",
+          "usage": "publish to tagless OCI `repository`"
+        }
+      ]
+    },
+    {
+      "path": "rootform remove",
+      "usage": "rootform remove \u003cobject\u003e [flags]",
+      "summary": "Remove a dialect",
+      "description": "Remove an installed dialect from this machine.",
+      "examples": "rootform remove dialect google 0.1.0",
+      "subcommands": [
+        "rootform remove dialect"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform remove",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform remove dialect",
+      "usage": "rootform remove dialect \u003cname\u003e \u003cversion\u003e [flags]",
+      "summary": "Remove a dialect",
+      "description": "Remove one installed version of a dialect from the local Rootform\nstore.\n\nThe removed name and version go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the dialect was removed\n  1  the dialect could not be removed\n  2  the command was used incorrectly",
+      "examples": "rootform remove dialect google 0.1.0\n  rootform remove dialect kubernetes 0.1.0\n  rootform list dialects",
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform remove dialect",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform run",
+      "usage": "rootform run [input] [flags]",
+      "summary": "Explore an architecture locally",
+      "description": "Build or load an architecture and serve its interactive interface\nlocally.\n\nThe input can be an infrastructure directory or a Rootform architecture\nfile. With no input, run reads the current directory. --plan reads a plan\nin JSON format instead; use - to read it from standard input. Directory\ninput prepares missing project dialects before starting the server.\n\nThe local address goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  the local interface stopped cleanly\n  1  the local interface could not start\n  2  the command was used incorrectly",
+      "examples": "rootform run\n  rootform run ./infra\n  rootform run architecture.json --no-browser\n  rootform run --plan tfplan.json",
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform run",
+          "no_option_default": "true"
+        },
+        {
+          "name": "locked",
+          "type": "bool",
+          "default": "false",
+          "usage": "require and preserve the existing rootform.lock",
+          "no_option_default": "true"
+        },
+        {
+          "name": "no-browser",
+          "type": "bool",
+          "default": "false",
+          "usage": "do not open the browser automatically",
+          "no_option_default": "true"
+        },
+        {
+          "name": "no-input",
+          "type": "bool",
+          "default": "false",
+          "usage": "never prompt; require deterministic action",
+          "no_option_default": "true"
+        },
+        {
+          "name": "no-watch",
+          "type": "bool",
+          "default": "false",
+          "usage": "build once instead of rebuilding when a file changes",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "default": "false",
+          "usage": "disable network; use only local data",
+          "no_option_default": "true"
+        },
+        {
+          "name": "plan",
+          "type": "file",
+          "default": "",
+          "usage": "read JSON plan; - reads standard input"
+        },
+        {
+          "name": "port",
+          "type": "int",
+          "default": "21717",
+          "usage": "serve on local `port`; 0 picks a free one"
+        },
+        {
+          "name": "verbose",
+          "shorthand": "v",
+          "type": "bool",
+          "default": "false",
+          "usage": "show provider evidence and origin",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform show",
+      "usage": "rootform show \u003cobject\u003e \u003cname\u003e [flags]",
+      "summary": "Show a Rootform definition",
+      "description": "Show a dialect, Policy Pack, policy, rule, or concept by name.\n\nPolicy identifiers use \"\u003cpolicy-pack\u003e/\u003cname\u003e\"; semantic declaration\nidentifiers use \"\u003cdialect\u003e/\u003cname\u003e\". A bare declaration name is accepted\nwhen it resolves unambiguously.",
+      "examples": "rootform show dialect google\n  rootform show policy-pack baseline\n  rootform show policy baseline/database-private-connectivity\n  rootform show rule google/cloud-sql-instance",
+      "subcommands": [
+        "rootform show concept",
+        "rootform show dialect",
+        "rootform show policy",
+        "rootform show policy-pack",
+        "rootform show rule"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform show",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform show concept",
+      "usage": "rootform show concept \u003cidentifier\u003e [flags]",
+      "summary": "Show a concept definition",
+      "description": "Show a concept's kind, description, dialect, and source location.\n\nUse \u003cdialect\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
+      "examples": "rootform show concept core/service\n  rootform show concept service\n  rootform show concept core/service --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform show concept",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform show dialect",
+      "usage": "rootform show dialect \u003cname\u003e [flags]",
+      "summary": "Show a dialect",
+      "description": "Show a dialect, including its version, requirements,\nproviders, concepts, and rules.\n\nThe name selects one loaded dialect.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
+      "examples": "rootform show dialect google\n  rootform show dialect kubernetes\n  rootform show dialect google --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform show dialect",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform show policy",
+      "usage": "rootform show policy \u003cidentifier\u003e [flags]",
+      "summary": "Show a policy definition",
+      "description": "Show a policy's target, assertion, message, Policy Pack, and source\nlocation.\n\nUse \"rootform explain policy\" to understand why a policy produced a\nresult for an architecture element.\n\nUse \u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name when unambiguous.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
+      "examples": "rootform show policy baseline/database-private-connectivity\n  rootform show policy database-private-connectivity\n  rootform show policy baseline/database-private-connectivity --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform show policy",
+          "no_option_default": "true"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "select local Policy Pack `directory`; repeatable"
+        }
+      ]
+    },
+    {
+      "path": "rootform show policy-pack",
+      "usage": "rootform show policy-pack \u003cname\u003e [flags]",
+      "summary": "Show a Policy Pack",
+      "description": "Show a Policy Pack, including version, semantic requirements, policies,\nexact registry pins, and provenance available locally.\n\nThe name selects one loaded Policy Pack.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
+      "examples": "rootform show policy-pack baseline\n  rootform show policy-pack baseline --policy-pack ./policies\n  rootform show policy-pack baseline --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform show policy-pack",
+          "no_option_default": "true"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "select local Policy Pack `directory`; repeatable"
+        }
+      ]
+    },
+    {
+      "path": "rootform show rule",
+      "usage": "rootform show rule \u003cidentifier\u003e [flags]",
+      "summary": "Show a rule definition",
+      "description": "Show what a rule matches, the concept it produces, and the\narchitectural facts it declares.\n\nUse \u003cdialect\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
+      "examples": "rootform show rule google/cloud-sql-instance\n  rootform show rule cloud-sql-instance\n  rootform show rule google/cloud-sql-instance --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform show rule",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform test",
+      "usage": "rootform test [directory] [flags]",
+      "summary": "Test dialect fixtures",
+      "description": "Build dialect fixtures and compare their architectures with the\nexpected results.\n\nWith no directory, test reads the current directory. Text or JSON results\ngo to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every selected fixture passed\n  1  at least one fixture differed\n  2  the command was used incorrectly\n  3  no fixture result could be decided",
+      "examples": "rootform test\n  rootform test ./fixtures\n  rootform test ./fixtures --run cloud-sql\n  rootform test ./fixtures --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform test",
+          "no_option_default": "true"
+        },
+        {
+          "name": "run",
+          "type": "string",
+          "default": "",
+          "usage": "run only the cases whose `name` contains this text"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate",
+      "usage": "rootform validate \u003cobject\u003e [flags]",
+      "summary": "Validate a Rootform object",
+      "description": "Validate an architecture or Rootform definition and report any problems\nfound.\n\nValidation checks definitions; it does not evaluate policies. Use\n\"rootform check\" for that.",
+      "examples": "rootform validate architecture ./infra\n  rootform validate dialects ./dialects\n  rootform validate rule google/cloud-sql-instance",
+      "subcommands": [
+        "rootform validate architecture",
+        "rootform validate concept",
+        "rootform validate dialects",
+        "rootform validate policy",
+        "rootform validate rule"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform validate",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate architecture",
+      "usage": "rootform validate architecture [input] [flags]",
+      "summary": "Validate an architecture",
+      "description": "Build or load an architecture and check that it is structurally valid\nand internally consistent.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or - for an architecture file on standard input. With no input,\nvalidation reads the current directory.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the architecture is valid\n  1  the architecture is not valid\n  2  the command was used incorrectly\n  3  the architecture could not be validated",
+      "examples": "rootform validate architecture\n  rootform validate architecture architecture.json\n  cat architecture.json | rootform validate architecture -",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform validate architecture",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate concept",
+      "usage": "rootform validate concept \u003cidentifier\u003e [flags]",
+      "summary": "Validate a concept definition",
+      "description": "Validate a concept in the context of its dialect.\n\nUse \u003cdialect\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "examples": "rootform validate concept core/service\n  rootform validate concept service\n  rootform validate concept core/service --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform validate concept",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate dialects",
+      "usage": "rootform validate dialects [directory] [flags]",
+      "summary": "Validate dialect definitions",
+      "description": "Compile and validate a dialect, including its concepts, rules,\nand references.\n\nWith no directory, validation reads the current directory. The text or\nJSON result goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every dialect is valid\n  1  at least one dialect is not valid\n  2  the command was used incorrectly\n  3  no dialect result could be decided",
+      "examples": "rootform validate dialects\n  rootform validate dialects ./dialects\n  rootform validate dialects ./dialects --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform validate dialects",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate policy",
+      "usage": "rootform validate policy \u003cidentifier\u003e [flags]",
+      "summary": "Validate a policy definition",
+      "description": "Validate a policy definition in its selected Policy Pack.\n\nUse \u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "examples": "rootform validate policy baseline/database-private-connectivity\n  rootform validate policy database-private-connectivity\n  rootform validate policy baseline/database-private-connectivity --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform validate policy",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate rule",
+      "usage": "rootform validate rule \u003cidentifier\u003e [flags]",
+      "summary": "Validate a rule definition",
+      "description": "Validate a rule and its references in the context of its dialect.\n\nUse \u003cdialect\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "examples": "rootform validate rule google/cloud-sql-instance\n  rootform validate rule cloud-sql-instance\n  rootform validate rule google/cloud-sql-instance --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform validate rule",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform vendor",
+      "usage": "rootform vendor \u003cobject\u003e [flags]",
+      "summary": "Vendor resolved Rootform packages",
+      "description": "Copy exact locked Rootform packages to project-local directories\nfor reproducible offline use.",
+      "examples": "rootform vendor dialects\n  rootform vendor policy-packs",
+      "subcommands": [
+        "rootform vendor dialects",
+        "rootform vendor policy-packs"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform vendor",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform vendor dialects",
+      "usage": "rootform vendor dialects [flags]",
+      "summary": "Vendor resolved dialects",
+      "description": "Materialize the exact rootform.lock dialect set from the installed\nstore, content cache, or pinned registry repositories. No version is resolved\nand rootform.lock is never changed.\n\nWith no --to flag, vendor writes ./.rootform/dialects. Consuming\ncommands launched from that project root use that directory automatically.\nCopied names and versions go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  every resolved dialect was copied\n  2  the command was used incorrectly\n  3  no complete vendored set was written",
+      "examples": "rootform init . --no-input\n  rootform vendor dialects\n  rootform vendor dialects --to ./offline/dialects",
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform vendor dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "default": "false",
+          "usage": "use only exact installed or cached dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "default": "",
+          "usage": "copy into `directory`; ./.rootform/dialects by default"
+        }
+      ]
+    },
+    {
+      "path": "rootform vendor policy-packs",
+      "usage": "rootform vendor policy-packs [flags]",
+      "summary": "Vendor selected Policy Packs",
+      "description": "Materialize the exact rootform.lock Policy Pack set from the installed\nstore, content cache, or each pinned registry repository. No version is\nresolved and rootform.lock is never changed.\n\nWith no --to flag, vendor writes ./.rootform/policy-packs. Policy-aware\ncommands use that directory exclusively when present.\n\nCopied names and versions go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  every selected Policy Pack was copied\n  2  the command was used incorrectly\n  3  no complete vendored set was written",
+      "examples": "rootform init --policy-pack r.example/p:policy-pack-baseline-0.1.0\n  rootform vendor policy-packs\n  rootform vendor policy-packs --to ./offline/policy-packs",
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform vendor policy-packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "default": "false",
+          "usage": "use only exact installed or cached Policy Packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "default": "",
+          "usage": "copy into `directory`; ./.rootform/policy-packs by default"
+        }
+      ]
+    },
+    {
+      "path": "rootform verify",
+      "usage": "rootform verify \u003cobject\u003e [flags]",
+      "summary": "Verify locked dialects",
+      "description": "Verify that resolved dialects match the recorded resolution.",
+      "examples": "rootform verify dialects",
+      "subcommands": [
+        "rootform verify dialects"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform verify",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform verify dialects",
+      "usage": "rootform verify dialects [directory] [flags]",
+      "summary": "Verify locked dialects",
+      "description": "Verify that the resolved dialects are consistent with the\nrecorded dialect resolution.\n\nWith no directory, verify reads the current directory. Matching names and\nversions go to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every resolved dialect matches rootform.lock\n  1  a dialect differs or the lock file could not be read\n  2  the command was used incorrectly\n  3  no complete verification was produced",
+      "examples": "rootform verify dialects\n  rootform verify dialects ./dialects\n  rootform verify dialects ./vendor/dialects",
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform verify dialects",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform version",
+      "usage": "rootform version [flags]",
+      "summary": "Show the Rootform version",
+      "description": "Print the Rootform version to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the version was printed\n  2  the command was used incorrectly",
+      "examples": "rootform version\n  rootform --version\n  rootform version \u003e rootform-version.txt",
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform version",
+          "no_option_default": "true"
+        }
+      ]
+    }
+  ]
+}

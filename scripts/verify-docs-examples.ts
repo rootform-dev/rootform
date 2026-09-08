@@ -4,6 +4,8 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
+import { verifyCoreExamples } from "./docs-core-examples.ts";
+import { verifyVisualExamples } from "./docs-visual-examples.ts";
 
 const repoRoot = resolve(import.meta.dir, "..");
 const docPath = join(repoRoot, "docs", "getting-started", "first-architecture.md");
@@ -68,18 +70,7 @@ function run(binary: string, args: string[], cwd: string, home: string): Capture
 
 async function verifyLocalExplorer(binary: string, workspace: string, home: string): Promise<void> {
   const child = Bun.spawn(
-    [
-      binary,
-      "run",
-      ".",
-      "--locked",
-      "--offline",
-      "--no-input",
-      "--no-browser",
-      "--no-watch",
-      "--port",
-      "0",
-    ],
+    [binary, "run", ".", "--no-input", "--no-browser", "--no-watch", "--port", "0"],
     {
       cwd: workspace,
       env: { ...process.env, ROOTFORM_HOME: home, DOCKER_CONFIG: join(home, "docker") },
@@ -102,7 +93,7 @@ async function verifyLocalExplorer(binary: string, workspace: string, home: stri
     }),
   ];
   try {
-    const deadline = Date.now() + 20_000;
+    const deadline = Date.now() + 45_000;
     while (Date.now() < deadline) {
       const address = stdout.match(/http:\/\/127\.0\.0\.1:\d+/u)?.[0];
       if (address) {
@@ -217,6 +208,8 @@ try {
     fail(`rootform version failed: ${version.stderr.trim()}`);
   }
   const binaryVersion = version.stdout.trim().replace(/^rootform\s+/u, "");
+
+  await verifyLocalExplorer(binary, workspace, home);
 
   const first = run(
     binary,
@@ -374,8 +367,6 @@ try {
     fail("architecture.html contains a remote src or href reference");
   }
 
-  await verifyLocalExplorer(binary, workspace, home);
-
   const help = run(binary, ["build", "--help"], repoRoot, home);
   if (help.exitCode !== 0) {
     fail("rootform build --help failed");
@@ -403,7 +394,8 @@ try {
       createHash("sha256").update(readFileSync(binary)).digest("hex"),
   );
   noted("main.tf fence", "matches examples/aws-vpc/main.tf");
-  noted("first build", "implicit preparation from empty home, exit 0");
+  noted("first run", "implicit preparation from empty home, local explorer serves HTML");
+  noted("first build", "prepared tutorial source, exit 0");
   noted("offline rebuild", "byte-identical to first build, --locked --offline");
   noted(
     "representations",
@@ -413,14 +405,16 @@ try {
   noted("semantics", dialectIds.sort().join(", "));
   noted("rootform.lock", `bytes preserved; pins ${lockEntries.sort().join(", ")}`);
   noted("html", "self-contained, no remote src/href");
-  noted("run", "serves the local HTML explorer with locked offline semantics");
   noted("build flags", `${documentedFlags.length} documented flags all present in build --help`);
   noted("displayed stderr", "tutorial and reference match the real first build");
 
-  console.log(`first-architecture.md proof: PASS (${steps.length} checks)`);
+  const core = verifyCoreExamples(binary, repoRoot, workspace, home);
+  core.push(...(await verifyVisualExamples(binary, repoRoot, workspace, home)));
+  console.log(`documentation examples: PASS (${steps.length + core.length} checks)`);
   for (const step of steps) {
     console.log(`  - ${step}`);
   }
+  for (const step of core) console.log(`  - ${step}`);
   console.log(`Execution platform: ${process.platform}/${process.arch}`);
 } finally {
   rmSync(workspace, { force: true, recursive: true });

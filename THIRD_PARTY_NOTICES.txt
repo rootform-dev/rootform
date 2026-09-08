@@ -724,7 +724,7 @@ written authorization of the copyright holder.
 ----- END LICENSE TEXT: github.com/apparentlymart/go-textseg/v15@v15.0.0 -----
 
 
-go-module: github.com/docker/docker-credential-helpers@v0.9.8
+go-module: github.com/docker/docker-credential-helpers@v0.9.9
 -------------------------------------------------------------
 Declared license: MIT
 Concluded license: MIT
@@ -732,7 +732,7 @@ Upstream: https://github.com/docker/docker-credential-helpers
 Copyright: Copyright (c) 2016 David Calavera
 License text SHA-256: a6c2a5fdf40879f644bdb0da9042f245e7e263237d623264aafcf2470610ad8c
 
------ BEGIN LICENSE TEXT: github.com/docker/docker-credential-helpers@v0.9.8 -----
+----- BEGIN LICENSE TEXT: github.com/docker/docker-credential-helpers@v0.9.9 -----
 Copyright (c) 2016 David Calavera
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -753,7 +753,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
------ END LICENSE TEXT: github.com/docker/docker-credential-helpers@v0.9.8 -----
+----- END LICENSE TEXT: github.com/docker/docker-credential-helpers@v0.9.9 -----
 
 
 go-module: github.com/fsnotify/fsnotify@v1.10.1
@@ -3900,6 +3900,35 @@ bundle.
 URLs are provenance references only. Renderer runtime never fetches or
 executes them.
 
+asset: GitHub Mark@cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85
+-----------------------------------------------------------
+Declared license: LicenseRef-GitHub-Logo-Policy
+Concluded license: LicenseRef-GitHub-Logo-Policy
+Upstream: https://github.com/primer/octicons/blob/cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85/icons/mark-github-16.svg
+Copyright: © GitHub, Inc.
+License text SHA-256: 091d6d888e3b5644edf87c67fdcb269a18cb469acf965f76424f8a217b83cd1a
+
+----- BEGIN LICENSE TEXT: GitHub Mark@cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85 -----
+GitHub Mark usage notice
+
+Official source: https://github.com/primer/octicons/blob/cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85/icons/mark-github-16.svg
+Octicons release: v19.33.0
+Upstream revision: cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85
+Source SVG SHA-256: 7421820090b50ac79d7c2bf7c951a433d7098a8a9c474809207bdd45f62d9d46
+Usage terms verified: 2026-09-07
+
+Rootform embeds the unmodified GitHub Mark path only as a leading visual in a
+link to the public Rootform project on GitHub. The mark remains secondary to
+Rootform identity and does not imply affiliation, sponsorship, or endorsement.
+
+GitHub and the GitHub logo are trademarks of GitHub, Inc. Use follows GitHub's
+Logo Policy and Brand Toolkit:
+
+https://docs.github.com/en/site-policy/other-site-policies/github-logo-policy
+https://brand.github.com/foundations/logo
+----- END LICENSE TEXT: GitHub Mark@cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85 -----
+
+
 asset: IBM Plex Mono@20
 -----------------------
 Declared license: OFL-1.1
@@ -4744,7 +4773,7 @@ vendored-source: shadcn-svelte@1.5.1
 ------------------------------------
 Declared license: MIT
 Concluded license: MIT
-Upstream: https://github.com/huntabyte/shadcn-svelte
+Upstream: https://github.com/huntabyte/shadcn-svelte/tree/50e5c39168882d47d6459a396924be56a0650bc8
 Copyright: Copyright (c) 2023 Hunter Johnston <https://github.com/huntabyte>; Copyright (c) 2023 CokaKoala <https://github.com/adriangonz97>; Copyright (c) 2023 shadcn
 License text SHA-256: 230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9
 
@@ -5026,7 +5055,7 @@ SOFTWARE.
 ----- END LICENSE TEXT: @jridgewell/trace-mapping@0.3.31 -----
 
 
-web-package: @lucide/svelte@1.35.0
+web-package: @lucide/svelte@1.40.0
 ----------------------------------
 Declared license: ISC
 Concluded license: ISC
@@ -5034,7 +5063,7 @@ Upstream: https://github.com/lucide-icons/lucide
 Copyright: Copyright (c) 2026 Lucide Icons and Contributors; Copyright (c) 2013-present Cole Bemis
 License text SHA-256: b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57
 
------ BEGIN LICENSE TEXT: @lucide/svelte@1.35.0 -----
+----- BEGIN LICENSE TEXT: @lucide/svelte@1.40.0 -----
 ISC License
 
 Copyright (c) 2026 Lucide Icons and Contributors
@@ -5078,7 +5107,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
------ END LICENSE TEXT: @lucide/svelte@1.35.0 -----
+----- END LICENSE TEXT: @lucide/svelte@1.40.0 -----
 
 
 web-package: @svelte-put/shortcut@4.2.0
@@ -5379,40 +5408,7 @@ License text SHA-256: c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aa
 ----- END LICENSE TEXT: @types/estree@1.0.9 -----
 
 
-web-package: @types/trusted-types@2.0.7
----------------------------------------
-Declared license: MIT
-Concluded license: MIT
-Upstream: https://github.com/DefinitelyTyped/DefinitelyTyped
-Copyright: Copyright (c) Microsoft Corporation.
-License text SHA-256: c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383
-
------ BEGIN LICENSE TEXT: @types/trusted-types@2.0.7 -----
-    MIT License
-
-    Copyright (c) Microsoft Corporation.
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE
------ END LICENSE TEXT: @types/trusted-types@2.0.7 -----
-
-
-web-package: @xyflow/svelte@1.6.5
+web-package: @xyflow/svelte@1.6.6
 ---------------------------------
 Declared license: MIT
 Concluded license: MIT
@@ -5420,7 +5416,7 @@ Upstream: https://github.com/xyflow/xyflow
 Copyright: Copyright (c) 2019-2025 webkid GmbH
 License text SHA-256: 023119ac20fb1c8c9930abe0bcd196989a1960388529a96fc43cebf96f07c9ff
 
------ BEGIN LICENSE TEXT: @xyflow/svelte@1.6.5 -----
+----- BEGIN LICENSE TEXT: @xyflow/svelte@1.6.6 -----
 MIT License
 
 Copyright (c) 2019-2025 webkid GmbH
@@ -5442,10 +5438,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
------ END LICENSE TEXT: @xyflow/svelte@1.6.5 -----
+----- END LICENSE TEXT: @xyflow/svelte@1.6.6 -----
 
 
-web-package: @xyflow/system@0.0.81
+web-package: @xyflow/system@0.0.82
 ----------------------------------
 Declared license: MIT
 Concluded license: MIT
@@ -5453,7 +5449,7 @@ Upstream: https://github.com/xyflow/xyflow
 Copyright: Copyright (c) 2019-2025 webkid GmbH
 License text SHA-256: 023119ac20fb1c8c9930abe0bcd196989a1960388529a96fc43cebf96f07c9ff
 
------ BEGIN LICENSE TEXT: @xyflow/system@0.0.81 -----
+----- BEGIN LICENSE TEXT: @xyflow/system@0.0.82 -----
 MIT License
 
 Copyright (c) 2019-2025 webkid GmbH
@@ -5475,7 +5471,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
------ END LICENSE TEXT: @xyflow/system@0.0.81 -----
+----- END LICENSE TEXT: @xyflow/system@0.0.82 -----
 
 
 web-package: acorn@8.18.0
@@ -6833,15 +6829,15 @@ SOFTWARE.
 ----- END LICENSE TEXT: svelte-toolbelt@0.10.6 -----
 
 
-web-package: svelte@5.56.10
----------------------------
+web-package: svelte@5.57.0
+--------------------------
 Declared license: MIT
 Concluded license: MIT
 Upstream: https://github.com/sveltejs/svelte
 Copyright: Copyright (c) 2016-2025 [Svelte Contributors](https://github.com/sveltejs/svelte/graphs/contributors)
 License text SHA-256: 06257f4847b13a49a039efb17b944c141e71b12fd8d231b362d86919067d77a3
 
------ BEGIN LICENSE TEXT: svelte@5.56.10 -----
+----- BEGIN LICENSE TEXT: svelte@5.57.0 -----
 Copyright (c) 2016-2025 [Svelte Contributors](https://github.com/sveltejs/svelte/graphs/contributors)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -6849,7 +6845,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
------ END LICENSE TEXT: svelte@5.56.10 -----
+----- END LICENSE TEXT: svelte@5.57.0 -----
 
 
 web-package: tabbable@6.5.0

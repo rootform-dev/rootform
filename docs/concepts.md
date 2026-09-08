@@ -3,32 +3,65 @@ title: "Core concepts"
 description: "Understand architecture meaning, provenance, and governance before interpreting a Rootform result."
 ---
 
-Rootform separates the evidence in your Terraform/OpenTofu source, the
-architectural meaning established by Dialects, and the policies used to evaluate
-that architecture. Understanding those boundaries makes the result useful.
+Rootform reads Terraform or OpenTofu and builds an architecture from the facts
+it can establish. You can explore that architecture, compare two versions, or
+evaluate it against selected policies. Your Terraform/OpenTofu source remains
+the place where infrastructure is defined.
 
-## Architecture and evidence
+## From source to a claim
 
-[Architecture IR](concepts/architecture-ir.md) is the saved semantic document.
-It records each discovered declaration's outcome and the provenance behind
-established facts. The renderer displays that meaning without inventing more.
-References and Terraform dependencies are evidence, not automatic relations.
+Consider a subnet whose `vpc_id` refers to a VPC. Rootform can read the reference
+without knowing what a VPC means. The AWS [Dialect](concepts/dialects.md) supplies
+that meaning: the VPC is a network scope, and the subnet belongs to its network
+context. The resulting fact retains the declaration and rule that justify it.
 
-## Dialects
+That distinction matters for other references. An expression might refer to a
+name, a credential, or a configuration value. Rootform does not turn every
+reference or `depends_on` entry into a traffic-flow arrow. A relation needs a
+rule that establishes its architectural meaning.
 
-[Dialects](concepts/dialects.md) define provider semantics. They decide what a
-declaration means: an entity, scope, supporting detail, context, relation, or
-composition. Exact selection is part of a reproducible architecture.
+The result is [Architecture IR](concepts/architecture-ir.md), a saved document
+with semantic facts, declaration accounting, provenance, and diagnostics.
+The renderer reads those facts. Moving the camera or changing a view cannot
+create a new architectural claim.
 
-## Governance
+## Why Rootform does not run Terraform
 
-[Policies and Policy Packs](concepts/policies.md) evaluate meaning already
-established in the architecture. Policies belong to Policy Packs, never to
-Dialects. Selection is explicit. An indeterminate result is not a pass.
+Rootform does not start Terraform/OpenTofu, execute a provider, contact a
+backend, refresh state, or apply a plan. It does not download modules. This
+keeps architecture analysis separate from operations that need cloud access,
+credentials, state locks, or infrastructure changes.
 
-## Reproducibility
+You can render the [first example](getting-started/first-architecture.md)
+without a cloud account. For a real project, materialize remote modules with
+your IaC tool before analyzing configuration. To use facts from planning,
+give Rootform a [JSON plan](inputs/plans.md) produced by that tool.
 
-A lock records exact selection. Vendor and the installed store supply verified
-local content. [Offline operation](offline-security.md) controls acquisition
-separately from selection. Equivalent inputs and configuration produce
-equivalent output; unknown input remains visible.
+Reading source also imposes a boundary: Rootform cannot establish live health,
+prove connectivity, or discover deployed drift. An architecture reflects the
+supplied evidence and the coverage of the selected Dialects. Unsupported and
+unresolved input remain explicit; they must not disappear behind a tidy diagram.
+
+## Determinism makes a result reviewable
+
+Given the same supported input and exact semantic selections, Rootform produces
+the same canonical architecture bytes. Stable identities and ordering let a
+comparison track meaning without depending on file traversal order or screen
+coordinates. Provenance lets you ask why a fact exists.
+
+A different Dialect version can change interpretation even when Terraform is
+unchanged. [Locks and offline operation](offline-security.md) control those
+inputs. Diff rejects incompatible semantic selections instead of attributing
+their effects to an infrastructure change.
+
+## Describe first, evaluate second
+
+A Dialect answers what the source means. A [policy](concepts/policies.md)
+evaluates facts in the resulting architecture. Policies are distributed in
+**Policy Packs**, which you select explicitly. Building or exploring an
+architecture does not run governance checks.
+
+Use the [renderer](renderer/index.md) to understand a result,
+[Diff](renderer/diff.md) to understand change, and `rootform check` when the
+question is whether selected rules hold. A result that cannot be determined
+is different from a pass.

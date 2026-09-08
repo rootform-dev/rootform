@@ -1,65 +1,82 @@
 ---
 title: "Read an architecture"
-description: "Navigate scopes, resources, connections, and their evidence in the Rootform renderer."
+description: "Read scopes, entities, relations, and their evidence before exploring a larger architecture."
 ---
 
-The renderer is a read-only explorer of a Rootform architecture. Start with
-its structure, select something you recognize, then inspect the evidence
-behind it. Rootform never applies a change from the canvas.
+The renderer is a read-only explorer of facts in a Rootform architecture.
+It turns those facts into a view you can navigate; it does not re-interpret
+Terraform or apply a change from the canvas.
 
-> These controls describe the current renderer implementation. See the
-> [installation note](../installation.md#available-release) for the difference
-> from the published v0.1.1 interface.
+These guides describe the current renderer used for documentation verification.
+The [installation note](../installation.md#available-release) identifies the
+older published binary's interface.
 
-## Start with structure
+## Read boundaries before lines
 
-Scopes show architectural context as nested boundaries. Their labels identify
-what the boundary means; contained items show the resources or nested scopes
-inside it. In a large architecture, a scope may summarize content that is not
-currently expanded.
+A **scope** provides architectural context: a network, subnet, or another named
+boundary. Its nested contents show subjects placed within that context.
+An **entity** is an architectural component, such as a workload. Several source
+declarations can contribute to one representation, so visible shapes are not a
+resource-count report.
 
-**Survey** makes the structure readable at the current viewport size by
-summarizing deeper scopes. **Plan** exposes the complete graph, with explicit
-scope disclosure still available. Both show the same underlying architecture.
-Zoom changes the camera; it does not switch between these views.
+A **relation** is a specific claim established by a Dialect. Its type and
+direction explain what the line means. Terraform references and `depends_on`
+entries are evidence; they do not automatically become architecture relations.
+A subnet placed inside a network does not need a fabricated traffic-flow arrow
+between the two.
 
-The renderer's Plan view is not a Terraform plan. Use the
-[plan input guide](../inputs/plans.md) for planned infrastructure changes.
+An architecture can have several context dimensions. Network placement answers
+a different question from ownership or geography. Change the active dimension
+when the available contexts support the question you want to explore. A different
+placement view does not change the underlying facts.
 
-## Select, then inspect
+Not every context becomes visual nesting. A context whose target is an entity
+remains an explicit fact without turning that entity into a scope boundary.
+Inspector helps you read those facts and any ambiguous placement.
 
-Select a resource or scope to open its **Inspector**. Start with its identity
-and placement, then read the sections present for that selection: composition,
-connections, and evidence. Technical details provide exact identifiers when
-you need to trace a fact.
+## Start broad, then inspect a question
 
-A selected connection has a specific architectural meaning. A visible line is
-not a generic promise of network connectivity. Its relation type and evidence
-explain the claim. Collapsed scopes can aggregate several relations; inspect
-the aggregate to see the underlying facts.
+**Survey** summarizes deeper scopes to make the structure readable within the
+viewport. Begin there to locate a familiar boundary. A collapsed scope represents
+contents that still exist in the architecture.
 
-## Reduce the question with Focus
+Select a component or scope and open its **Inspector**. Read its identity and
+placement, then the connections and evidence relevant to your question. A useful
+sequence is: recognize the subnet, check its network context, then inspect the
+source reference and Dialect rule that established that context.
 
-Use **Focus** when the whole architecture is more than you need. It opens local
-context around a selected scope or resource. Connections outside that context
-are represented at its boundary. The location path tells you where you are and
-lets you navigate back through the architecture.
+Use **Plan** when you need the complete structure. Use **Focus** when the question
+is local to one scope or component. [Views and inspection](views.md) explains how
+those choices differ from expanding a scope or zooming the camera.
 
-Focus differs from selection: selection asks what an item is; Focus changes
-which context you explore. [Views and inspection](views.md) compares them.
+## Follow a connection to its evidence
 
-## Find something you already know
+Select a relation to inspect its participants and supporting facts. When several
+relations share visible endpoints after collapse, a route can represent an
+aggregate. Inspect it to see the underlying relation identities; do not interpret
+one visible line as exactly one source reference.
 
-Search for a resource name or address. Locate it in the architecture, then
-inspect or focus its context. Use the path and scope labels to retain your
-orientation. **Fit** shows the whole current projection; a dense Plan may need
-panning and zooming to read individual resources.
+Relations entirely inside a collapsed scope remain part of its accounted content.
+They do not become self-loop arrows on the summary. Expand or focus that scope
+when you need to inspect those internal connections.
 
-## Check what is missing
+## Find a component
 
-The canvas cannot make unsupported source disappear. Read declaration accounting
-and diagnostics alongside the architecture. An unresolved fact is not evidence
-that a dependency, resource, or change does not exist.
+Search by name, concept, or context path. Search does not currently index exact
+Terraform source addresses as a separate search field. Use Inspector's technical
+information or `explain architecture` when you already have an address.
 
-[Dialects](../concepts/dialects.md) explain how meaning is established.
-[Diff](diff.md) explains how to read a comparison.
+Search can find content beyond the current visible projection. Locate the result,
+then inspect it or focus its context. Use the location path to retain your
+orientation. **Fit architecture** shows the current projection as an overview;
+it can make labels small in a large Plan.
+
+## Read accounting alongside the picture
+
+A scope can be collapsed because of a display choice. A declaration can be absent
+from the architecture because no rule supports it. These are different cases.
+Read declaration accounting and diagnostics before claiming coverage.
+
+Unsupported, failed, and unresolved input remains explicit. More zoom cannot
+create semantic evidence. [Dialects](../concepts/dialects.md) explains coverage;
+[Architecture IR](../concepts/architecture-ir.md) explains the saved facts.

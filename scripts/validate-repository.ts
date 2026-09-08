@@ -54,6 +54,7 @@ const allowedTopLevel = new Set([
   "package.json",
   "policy-packs",
   "public-export.json",
+  "reference",
   "schemas",
   "scripts",
   "tsconfig.json",
@@ -259,6 +260,7 @@ export function validateRepository(): void {
   const expectedExportedPaths = [
     "THIRD_PARTY_NOTICES.txt",
     "dependencies/runtime-components.json",
+    "reference/cli.json",
     "schemas/architecture-ir.schema.json",
     "schemas/rootform-lock.schema.json",
   ].sort((left, right) => left.localeCompare(right, "en"));
