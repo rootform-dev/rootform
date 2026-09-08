@@ -7,9 +7,11 @@ A Dialect is a versioned set of Rootform Language definitions and rules.
 It tells Rootform what provider declarations mean in an architecture.
 Selecting a Dialect changes the semantics used to build the document.
 
-A provider schema can tell you that a field exists. A Dialect tells Rootform
-whether that field establishes network placement, contributes to a larger
-component, or supports a particular relation.
+Generic Terraform reading can find declarations, expressions, and references.
+It cannot establish what each provider's resources mean architecturally.
+A Dialect supplies the rules for network placement, a declaration's role in a
+larger component, or a particular relation. Rootform does not infer those rules
+from resource names.
 
 ## Follow one declaration
 
@@ -42,6 +44,17 @@ These definitions belong to the semantic layer. Icons are separate presentation
 identities. A Dialect cannot specify SVG, HTML, coordinates, or behavior for
 the renderer.
 
+Dialects can share vocabulary through exact requirements. The official
+`core` Dialect defines concepts such as virtual network, subnet, and managed
+database. Provider Dialects map their own declarations to those shared concepts
+or define more specific ones. This lets a reader recognize a network across
+providers without pretending that every provider exposes the same capabilities.
+
+A Dialect cannot execute a provider, fetch missing cloud data, read arbitrary
+secrets, or make a deployment claim. It cannot turn an unresolved reference into
+a successful fact. A declared relation type and a plausible resource name are
+not sufficient evidence that a relation exists.
+
 ## Selection is part of the architecture
 
 `rootform init` discovers providers and selects compatible Dialects from the
@@ -62,6 +75,63 @@ Provider version evidence comes from Terraform/OpenTofu configuration and
 `.terraform.lock.hcl`. Unknown evidence produces a warning; reliable incompatible
 evidence blocks that Dialect. An uncovered provider remains explicit rather
 than acquiring guessed semantics.
+
+### How selection reaches a decision
+
+Rootform discovers provider source addresses in the chosen root, then considers
+the official index and any explicitly configured sources. A candidate's provider
+compatibility and exact Dialect requirements constrain the resolved set. One set
+contains at most one version of each Dialect.
+
+An additional source does not get priority over another source. Conflicting
+identities or ambiguous candidates need an explicit resolution; no-input mode
+fails rather than choosing arbitrarily. A coherent existing lock is reused.
+Upgrade is an explicit initialization operation.
+
+The lock fixes semantic content and presentation separately. Rebuilding with
+the same input and selections produces deterministic architecture facts.
+Changing an icon does not change semantic content; changing a rule can change
+the architecture. [Architecture IR](architecture-ir.md) records which semantics
+established the result and preserves its provenance.
+
+### Missing coverage stays visible
+
+A provider can be recognized while some of its resource types have no matching
+rule. For example, the `secrets` Dialect supports `random_password`; provider
+support does not imply that every `hashicorp/random` resource is represented.
+
+Read declaration accounting to distinguish represented, supporting, filtered,
+unsupported, and failed input. An uncovered provider in a partly supported
+project can leave unsupported declarations in an otherwise built architecture.
+A project containing only uncovered providers currently cannot build from the
+empty Dialect selection that initialization records. See
+[limitations](../limitations.md) and [troubleshooting](../troubleshooting/index.md).
+
+## Discover and inspect Dialects
+
+The public [Dialect catalog](https://github.com/rootform-dev/dialects/blob/dev/dialects.json)
+lists official packages. Coverage extends beyond cloud infrastructure to
+Kubernetes and services such as Grafana, Datadog, Vault, and Kestra. Read each
+Dialect's definitions and coverage evidence before relying on a specific resource.
+
+Local inspection answers a different question:
+
+```sh
+rootform list dialects
+rootform show dialect aws
+rootform list dialects --installed
+rootform list dialects --outdated
+```
+
+The first listing reports this project's selection; `show` inspects a selected
+Dialect (use its actual name). `--installed` lists local installed versions.
+`--outdated` compares the lock with the cached official index. These listings
+do not contact a registry or upgrade anything. A missing cached index is reported
+as unavailable.
+
+For an intentional update, follow [reproducible builds](../guides/reproduce-build.md).
+The [generated CLI reference](../reference/cli/list/dialects.md) gives the exact
+listing and output flags.
 
 ## Distribution and offline use
 

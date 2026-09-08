@@ -30,6 +30,10 @@ Start with [the renderer](renderer/index.md) to navigate the result.
 entity, or relation. [Architecture IR](concepts/architecture-ir.md) explains
 what a saved architecture contains and which evidence it preserves.
 
+[Explore the Azure and multicloud examples](renderer/examples.md) to see cloud
+networks alongside Kubernetes workloads, Vault authentication and Grafana data
+sources. Their source and locks reproduce the figures in the renderer guide.
+
 The diagram describes your declared architecture. It does not verify deployed
 infrastructure or turn every Terraform dependency into an architecture relation.
 Unknown and unsupported input remain explicit.

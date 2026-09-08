@@ -31,6 +31,13 @@ on `core@0.1.0`. It contains two demonstration policies over core concepts:
 The examples are synthetic and exist only to show the pack authoring shape.
 They never become authoritative governance and never become dialect source.
 
+Provider-neutral vocabulary does not guarantee equal provider coverage. The
+database assertion requires a `private-reachability` relation; the current AWS
+Dialect does not produce it. An AWS database can therefore violate this example
+assertion regardless of its real network setup. Review a pack's assumptions
+against the selected Dialects before using its result as a gate. See
+[policy coverage](../docs/concepts/policies.md#match-a-policy-to-the-dialects-evidence).
+
 ## Validation
 
 `bun run verify` compiles this source with the exact verified Rootform binary,

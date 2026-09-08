@@ -1,0 +1,20 @@
+Azure Architecture Icons usage notice
+
+Official catalog: https://learn.microsoft.com/en-us/azure/architecture/icons/
+Official archive: https://arch-center.azureedge.net/icons/Azure_Public_Service_Icons_V24.zip
+Archive version: V24
+Archive SHA-256: 921594ccd1bf3d9c0a1bd7b6d924e050551a59342f2b353bb74bdcf761c35141
+Archive file date: 2026-07-08
+Terms verified: 2026-08-29
+
+Selected Microsoft Azure service icons are embedded only to identify real
+Azure services in Rootform architecture diagrams. Microsoft_Terms_of_Use.pdf
+from the official archive permits copying, distributing, and displaying these
+icons in architectural diagrams, training materials, and documentation.
+
+Rootform preserves icon appearance. It does not crop, flip, rotate, distort,
+change icon shape, or use an Azure icon as Rootform product identity. Rootform
+is not affiliated with, endorsed by, or sponsored by Microsoft.
+
+Microsoft and Azure are trademarks of the Microsoft group of companies.
+See the official archive and catalog page for complete current terms.

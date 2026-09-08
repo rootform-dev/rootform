@@ -1,0 +1,122 @@
+{
+  "format_version": "1",
+  "binary": {
+    "version": "rootform 0.1.1",
+    "sha256": "fe684dc7896d259eaa7e91c8392a9b6d170e35084eda8bcac961e8e560aa720c"
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 840,
+    "device_scale_factor": 2
+  },
+  "fixtures": {
+    "azure-platform": {
+      "files": {
+        "main.tf": "d3ab53905bc7a0575e4a2cbc375b669f89c02547438f5f1517ac12d27bd757ef",
+        "rootform.lock": "8e7c465ca609667991d4dd84089b6d242848a2396ad17305dceb8d945c783813"
+      },
+      "architecture_sha256": "5e4d2df967940b3877b5c9ba3ab26275948cf84e2166367ca60b0435dbcc1e0f"
+    },
+    "azure-platform-next": {
+      "files": {
+        "main.tf": "a7078758e99c98a51eb962a33c3c7b77da8c48346a0bc187b1a2835fc9f49f26",
+        "rootform.lock": "8e7c465ca609667991d4dd84089b6d242848a2396ad17305dceb8d945c783813"
+      },
+      "architecture_sha256": "34d39a2bfa6c6225045a2c7119053e59214b975002f1c047561fdac38acc6723"
+    },
+    "multicloud": {
+      "files": {
+        "main.tf": "62f46fcc6caa9d83db48417bc6e3d9b4813531d9de536e82403e51e39e8eea3b",
+        "rootform.lock": "07ce72b99ba949dad8ff1d60a33e1cc48aaea0c4e4396f99aadce30bd2a9e515"
+      },
+      "architecture_sha256": "78117c082dd0d0c2a7849c324a0380facc999bd588c65a8d183e3429cc060c71"
+    }
+  },
+  "comparison": {
+    "base": "azure-platform",
+    "head": "azure-platform-next",
+    "sha256": "a6f1d069ef43116272013c903a88850bcccd68a2dca6981931b5acb1532f73f1"
+  },
+  "figures": {
+    "azure-survey-light.png": {
+      "fixture": "azure-platform",
+      "state": "Survey, initial camera",
+      "sha256": "fb1910c7e55fd3b9cf1f273cef899a0331f49a95115ec7304808eaadfa65f4c8"
+    },
+    "azure-plan-light.png": {
+      "fixture": "azure-platform",
+      "state": "Plan, fit architecture",
+      "sha256": "5c63cfb5542b4e12608f2680db44e4bda9ec5a113345511716f3f2a344eb341f"
+    },
+    "azure-focus-light.png": {
+      "fixture": "azure-platform",
+      "state": "Plan, Focus production virtual network, Inspector closed",
+      "sha256": "ed8ed1c1d4372614916bb01895a4edec3e51b13e3f6ee2a80c437a2249009167"
+    },
+    "azure-inspector-light.png": {
+      "fixture": "azure-platform",
+      "state": "Plan, Focus production virtual network, analytics cluster selected",
+      "sha256": "077ba7335861c7cd9310cca060f96ddfb24f89fd800d6f2875428024b338ed17"
+    },
+    "azure-survey-dark.png": {
+      "fixture": "azure-platform",
+      "state": "Survey, initial camera",
+      "sha256": "449a961538d1e19a923d04766cdde1b3d8f347c0d46c72bcf89092ec5887ed38"
+    },
+    "azure-plan-dark.png": {
+      "fixture": "azure-platform",
+      "state": "Plan, fit architecture",
+      "sha256": "319d7351259211adb99e365b5cf7375a47992f7730b47d6782a94d7ea1b186d6"
+    },
+    "azure-focus-dark.png": {
+      "fixture": "azure-platform",
+      "state": "Plan, Focus production virtual network, Inspector closed",
+      "sha256": "b625c5a2c9d819cd469118506280001e3c9c68060c2f316de00f4fc6e8a4a477"
+    },
+    "azure-inspector-dark.png": {
+      "fixture": "azure-platform",
+      "state": "Plan, Focus production virtual network, analytics cluster selected",
+      "sha256": "e41174067fea66c0920b90f21fe3b8b98de369cd4d1d80a2466f8b232be1679d"
+    },
+    "multicloud-plan-light.png": {
+      "fixture": "multicloud",
+      "state": "Plan, fit architecture",
+      "sha256": "9cb2307f27f17641985115e252b320c64f890a3fa4d654d4bb76701505cd171b"
+    },
+    "multicloud-ownership-light.png": {
+      "fixture": "multicloud",
+      "state": "Plan, Ownership dimension, fit architecture",
+      "sha256": "180e09d296c81ea6caa057bbf35e82a5d28c99f38ffc61bff33ae4a08425c9d0"
+    },
+    "multicloud-plan-dark.png": {
+      "fixture": "multicloud",
+      "state": "Plan, fit architecture",
+      "sha256": "ed1ee3b92e936f327ca5f9df6526ed346ed559b8a0762834270311e5fffc3760"
+    },
+    "multicloud-ownership-dark.png": {
+      "fixture": "multicloud",
+      "state": "Plan, Ownership dimension, fit architecture",
+      "sha256": "62b1519f646a0ceca80014775d9e9a53b7532a4a19b8c9aef0ce532e202f6223"
+    },
+    "azure-delta-light.png": {
+      "fixture": "azure-platform → azure-platform-next",
+      "state": "Delta renderer preview, Survey",
+      "sha256": "24b6a3aa297e2d7f5464483e419c7d083e8b4eec184f831d8efce9e5a1811915"
+    },
+    "azure-change-light.png": {
+      "fixture": "azure-platform → azure-platform-next",
+      "state": "Delta renderer preview, Plan, Focus analytics cluster, Inspector Change",
+      "sha256": "c234de0f07e1b4cd8bb6196780d63427fb43d7c150e8ce499985727ab7d2fff5"
+    },
+    "azure-delta-dark.png": {
+      "fixture": "azure-platform → azure-platform-next",
+      "state": "Delta renderer preview, Survey",
+      "sha256": "bfaf77e04b8e6c81286477fdbdc4da90d436d262641b394e3d1302c9c49eac15"
+    },
+    "azure-change-dark.png": {
+      "fixture": "azure-platform → azure-platform-next",
+      "state": "Delta renderer preview, Plan, Focus analytics cluster, Inspector Change",
+      "sha256": "409e398462df1005d123e2e1a549e143a5208cc01e51c7cd8a3776d696cb76bc"
+    }
+  }
+}

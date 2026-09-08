@@ -2,36 +2,32 @@
   {
     "label": "Get started",
     "items": [
-      {
-        "label": "Overview",
-        "page": "index"
-      },
-      {
-        "label": "Install",
-        "page": "installation"
-      },
+      { "label": "Overview", "page": "index" },
+      { "label": "Install", "page": "installation" },
       "getting-started/first-architecture"
     ]
   },
   {
     "label": "Understand architecture",
-    "items": ["concepts", "concepts/architecture-ir", "concepts/dialects", "concepts/policies"]
+    "items": [
+      "concepts",
+      "concepts/architecture-ir",
+      "concepts/dialects",
+      "concepts/policies",
+      "guides/check-architecture"
+    ]
   },
   {
     "label": "Explore the renderer",
     "items": [
-      {
-        "label": "Read an architecture",
-        "page": "renderer"
-      },
+      { "label": "Read an architecture", "page": "renderer" },
       "renderer/views",
-      "renderer/diff"
+      { "label": "Example architectures", "page": "renderer/examples" },
+      "renderer/diff",
+      "guides/compare-architectures"
     ]
   },
-  {
-    "label": "Use your inputs",
-    "items": ["inputs", "inputs/plans"]
-  },
+  { "label": "Use your inputs", "items": ["inputs", "inputs/plans"] },
   {
     "label": "Work with your team",
     "items": [
@@ -46,6 +42,7 @@
     "items": [
       "security",
       "offline-security",
+      "guides/reproduce-build",
       "integrations/registry-compatibility",
       "troubleshooting",
       "limitations"
@@ -58,13 +55,116 @@
       "cli",
       {
         "label": "Commands",
-        "items": ["reference/cli/build"]
+        "items": [
+          { "label": "Overview", "page": "reference/cli" },
+          { "label": "build", "page": "reference/cli/build" },
+          { "label": "check", "page": "reference/cli/check" },
+          { "label": "completion", "page": "reference/cli/completion" },
+          { "label": "diff", "page": "reference/cli/diff" },
+          {
+            "label": "explain",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/explain" },
+              { "label": "architecture", "page": "reference/cli/explain/architecture" },
+              { "label": "policy", "page": "reference/cli/explain/policy" },
+              { "label": "semantics", "page": "reference/cli/explain/semantics" }
+            ]
+          },
+          { "label": "fmt", "page": "reference/cli/fmt" },
+          { "label": "init", "page": "reference/cli/init" },
+          {
+            "label": "install",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/install" },
+              { "label": "dialects", "page": "reference/cli/install/dialects" }
+            ]
+          },
+          {
+            "label": "list",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/list" },
+              { "label": "concepts", "page": "reference/cli/list/concepts" },
+              { "label": "dialects", "page": "reference/cli/list/dialects" },
+              { "label": "policies", "page": "reference/cli/list/policies" },
+              { "label": "policy-packs", "page": "reference/cli/list/policy-packs" },
+              { "label": "rules", "page": "reference/cli/list/rules" }
+            ]
+          },
+          {
+            "label": "lock",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/lock" },
+              { "label": "dialects", "page": "reference/cli/lock/dialects" }
+            ]
+          },
+          { "label": "lsp", "page": "reference/cli/lsp" },
+          {
+            "label": "package",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/package" },
+              { "label": "dialects", "page": "reference/cli/package/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/package/policy-packs" }
+            ]
+          },
+          {
+            "label": "publish",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/publish" },
+              { "label": "dialects", "page": "reference/cli/publish/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/publish/policy-packs" }
+            ]
+          },
+          {
+            "label": "remove",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/remove" },
+              { "label": "dialect", "page": "reference/cli/remove/dialect" }
+            ]
+          },
+          { "label": "run", "page": "reference/cli/run" },
+          {
+            "label": "show",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/show" },
+              { "label": "concept", "page": "reference/cli/show/concept" },
+              { "label": "dialect", "page": "reference/cli/show/dialect" },
+              { "label": "policy", "page": "reference/cli/show/policy" },
+              { "label": "policy-pack", "page": "reference/cli/show/policy-pack" },
+              { "label": "rule", "page": "reference/cli/show/rule" }
+            ]
+          },
+          { "label": "test", "page": "reference/cli/test" },
+          {
+            "label": "validate",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/validate" },
+              { "label": "architecture", "page": "reference/cli/validate/architecture" },
+              { "label": "concept", "page": "reference/cli/validate/concept" },
+              { "label": "dialects", "page": "reference/cli/validate/dialects" },
+              { "label": "policy", "page": "reference/cli/validate/policy" },
+              { "label": "rule", "page": "reference/cli/validate/rule" }
+            ]
+          },
+          {
+            "label": "vendor",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/vendor" },
+              { "label": "dialects", "page": "reference/cli/vendor/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/vendor/policy-packs" }
+            ]
+          },
+          {
+            "label": "verify",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/verify" },
+              { "label": "dialects", "page": "reference/cli/verify/dialects" }
+            ]
+          },
+          { "label": "version", "page": "reference/cli/version" }
+        ]
       },
       "reference/outputs"
     ]
   },
-  {
-    "label": "Contribute",
-    "items": ["contributing", "dialect-authoring", "contributing/writing"]
-  }
+  { "label": "Contribute", "items": ["contributing", "dialect-authoring", "contributing/writing"] }
 ]

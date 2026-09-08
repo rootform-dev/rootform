@@ -1,59 +1,130 @@
 ---
 title: "Survey, Plan, Focus, and Inspector"
-description: "Choose the right level of detail without confusing a view change with an architecture change."
+description: "Choose between structural overview, complete detail, local context, and the evidence behind a selection."
 ---
 
-Use Survey to orient yourself, Plan to examine the complete structure, and
-Focus to follow one local question. Use Inspector for the facts behind your
-selection. These controls change what you see, not what the source declares.
-
-See the [release note](../installation.md#available-release) for availability of
-the current renderer controls.
+Survey and Plan choose how much structure to show. Focus chooses a local context.
+Inspector explains a selection. Zoom changes the camera and visual density.
+None of these operations changes the architecture's semantic facts.
 
 ## Survey
 
-Survey summarizes deeper scopes to keep the architecture readable at the current
-viewport size. A larger viewport can expose more context. Collapsed content is
-still accounted for; it is not removed from the architecture.
+Survey is the starting overview. It summarizes deeper scopes according to the
+space available and the density of visible structure and routes. A smaller
+viewport can show a different level of disclosure from a larger one while
+representing the same architecture.
 
-Expand a scope when you need its contents. Search helps locate a resource that
-is not currently visible. Do not infer absence from a collapsed boundary.
+A collapsed boundary keeps a summary of its contents. Connections to hidden
+subjects are represented through the appropriate visible boundary; an aggregate
+retains the relations it stands for. Do not infer that hidden resources or
+connections have been removed.
+
+![Survey shows the production and staging Azure networks, nested subnets, AKS clusters and private endpoints. Resource groups remain summarized.](../assets/renderer/azure-survey-light.png#gh-light-mode-only)
+![Survey shows the production and staging Azure networks, nested subnets, AKS clusters and private endpoints. Resource groups remain summarized.](../assets/renderer/azure-survey-dark.png#gh-dark-mode-only)
+
+Survey on the [Azure example](examples.md#azure-platform): 18 of 28 canvas
+subjects are visible. The rest remain in the architecture and can be disclosed.
+
+### Expand only what you need
+
+Use a scope's nameplate to expand or collapse it. This **local disclosure** changes
+one part of the current view. An explicit expansion protects that context from
+being immediately summarized again.
+
+Survey and Plan retain separate disclosure choices. Switching modes does not
+mean that every scope must retain the same expanded state. Zooming does not
+switch modes or expand a scope automatically.
 
 ## Plan
 
-Plan uses the complete graph. It is useful for tracing structure that Survey
-summarizes. You can still explicitly collapse scopes, and a large architecture
-may require panning. Fit provides an overview rather than guaranteeing that
-every label is readable at once.
+Plan starts from the complete graph without Survey's automatic summary budget.
+You can still collapse scopes explicitly. Use it to trace structure that an
+overview summarizes or to inspect how several nearby components fit together.
 
-Plan is a renderer projection. It does not run `terraform plan`, predict a
-provider action, or change the input document.
+A large Plan may extend beyond the viewport. Its initial camera keeps a readable
+part of the architecture in view; it does not shrink every label until the whole
+graph fits. Choose **Fit architecture** for a full overview, then zoom or pan to
+the part you need.
+
+Plan is an exploration mode for any supported architecture. It does not run
+Terraform or create a [Terraform/OpenTofu plan](../inputs/plans.md).
+
+![Plan shows both Azure environments with databases, DNS zones, storage accounts and SQL server scopes in addition to their networks.](../assets/renderer/azure-plan-light.png#gh-light-mode-only)
+![Plan shows both Azure environments with databases, DNS zones, storage accounts and SQL server scopes in addition to their networks.](../assets/renderer/azure-plan-dark.png#gh-dark-mode-only)
+
+The same input in Plan, after **Fit architecture**. All 28 canvas subjects
+participate in this view. Fitting everything makes labels smaller; Focus is
+more useful for reading one area.
 
 ## Focus
 
-Focus opens local context around a scope or resource. The location path shows
-the focused context and its ancestors. External connections remain represented
-at the boundary so that the local picture does not imply isolation.
+Focus changes the area you explore. Double-click a component or use its Inspector
+Focus action. A scope Focus opens that scope's contents; an entity Focus shows
+its neighboring relations with enough enclosing context to explain placement.
 
-Use the path to return to an ancestor or the whole architecture. Focus is useful
-when the question is local even if Plan can show everything.
+Connections to subjects outside that area appear at its boundary. These boundary
+items preserve the external target and direction; they do not assert that the
+focused component is isolated. Inspect a boundary connection or focus its external
+target to continue the question.
+
+The location path identifies the current context and its ancestors. Use an
+ancestor, Back, or Exit to return. Changing Survey/Plan leaves the current Focus.
+Selection and Focus remain distinct: selecting asks what an item is; focusing
+changes the context in which you explore it.
+
+Focus opens its root and does not apply Survey's automatic collapse budget.
+Explicit disclosure choices still apply inside it. Focusing a very large scope
+can therefore require panning or further local disclosure.
+
+![Focus on the production virtual network exposes its three subnets and preserves an external connection to the orders database at the left boundary.](../assets/renderer/azure-focus-light.png#gh-light-mode-only)
+![Focus on the production virtual network exposes its three subnets and preserves an external connection to the orders database at the left boundary.](../assets/renderer/azure-focus-dark.png#gh-dark-mode-only)
+
+Focus on the production network. The dashed boundary item preserves its
+connection to `production_orders`, which is outside this Focus.
 
 ## Inspector
 
-Select an item to inspect its identity, placement, connections, composition,
-and provenance. Sections appear when the selection has those facts. Evidence
-explains the semantic conclusion; technical details expose exact identifiers.
+Inspector shows facts available for the selected item. It appears beside the
+canvas on wider screens and below it on narrow screens. Opening it keeps the
+architecture's geometry; the camera can pan to keep a selected item visible.
 
-Opening Inspector does not re-interpret your source. It may adjust the camera
-to keep the selected item visible. Selection can highlight a connection without
-opening a different Focus.
-
-| Your question | Start here |
+| Section | What to read there |
 | --- | --- |
-| How is this architecture organized? | Survey |
-| What is the full structure? | Plan |
-| What surrounds this component? | Focus |
-| Why is this fact shown? | Inspector, then Evidence |
+| Identity | The selected representation or relation and its concept. |
+| Where | Established context and placement. |
+| Made of / Source | Declarations or contributions behind a representation, when available. |
+| Connected | Incoming and outgoing architectural relations. |
+| Evidence | Source and rule evidence supporting the facts. |
+| Technical | Exact identifiers and details useful for tracing or reporting a result. |
 
-For a comparison, the same exploration model applies. Read the
-[Diff guide](diff.md) before interpreting its change annotations.
+Sections appear when their facts exist. Longer evidence groups can be disclosed
+within the panel. An empty section is not filled with inferred information.
+You can also open Inspector without a selection for architecture-level context.
+
+Resize the panel if you need more room for evidence. Selecting a relation or an
+aggregate can change its contents without changing Focus.
+
+![The analytics AKS cluster is selected. Inspector lists its subnet, resource group, node-pool contribution and expandable evidence.](../assets/renderer/azure-inspector-light.png#gh-light-mode-only)
+![The analytics AKS cluster is selected. Inspector lists its subnet, resource group, node-pool contribution and expandable evidence.](../assets/renderer/azure-inspector-dark.png#gh-dark-mode-only)
+
+The cluster's **Where** section retains both network and ownership context.
+**Made of** identifies its node-pool contribution, even though that detail is
+not a separate canvas tile.
+
+## Navigate with the keyboard
+
+| Control | Keyboard action |
+| --- | --- |
+| Search | `Ctrl+K` or `Cmd+K`; use arrows and Enter in results. |
+| Focused component | Enter selects it. |
+| Scope nameplate | Enter or Space expands or collapses it. |
+| Focus | Escape returns through Focus history when not editing text. |
+| Inspector | Escape within the dock closes it and returns focus to its trigger. |
+| Inspector resize handle | Arrow keys resize; Shift uses larger steps; Home/End select bounds. |
+
+Toolbar buttons, including zoom and Fit, are keyboard-focusable. Canvas panning
+uses pointer dragging; there are no dedicated keyboard panning shortcuts. Wheel
+or pinch controls zoom. At lower zoom, labels and tile detail become quieter;
+the chosen projection and its geometry stay the same.
+
+For change annotations in the comparison renderer, read [Diff](diff.md).

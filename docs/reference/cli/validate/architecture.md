@@ -1,0 +1,54 @@
+---
+title: "rootform validate architecture"
+description: "Validate an architecture"
+---
+
+<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+
+Validate an architecture.
+
+## Usage
+
+```text
+rootform validate architecture [input] [flags]
+```
+
+## Flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate architecture |
+
+Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
+
+## Behavior
+
+Build or load an architecture and check that it is structurally valid
+and internally consistent.
+
+The input can be an infrastructure directory, a Rootform architecture
+file, or - for an architecture file on standard input. With no input,
+validation reads the current directory.
+
+The text or JSON result goes to standard output. Diagnostics go to
+standard error.
+
+## Exit status
+
+```text
+0  the architecture is valid
+1  the architecture is not valid
+2  the command was used incorrectly
+3  the architecture could not be validated
+```
+
+## Examples
+
+```sh
+rootform validate architecture
+rootform validate architecture architecture.json
+cat architecture.json | rootform validate architecture -
+```
+
+Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

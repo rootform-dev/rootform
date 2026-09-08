@@ -6,10 +6,6 @@ description: "Compile Terraform or OpenTofu into a deterministic architecture fi
 Build an architecture from a Terraform/OpenTofu directory or a JSON plan.
 Write canonical JSON for another command, or self-contained HTML for a browser.
 
-```sh
-rootform build [directory] [flags]
-```
-
 ## Input and defaults
 
 With no directory, `build` reads the current directory. Directory input prepares
@@ -21,18 +17,30 @@ The default output format is `json`. The result goes to standard output unless
 `--output` names a file. Preparation, diagnostics, and declaration counts go
 to standard error. `build` does not evaluate Policy Packs.
 
+<!-- BEGIN GENERATED CLI: rootform build -->
+
+## Usage
+
+```text
+rootform build [directory] [flags]
+```
+
 ## Flags
 
-| Flag | Default | Effect |
-| --- | --- | --- |
-| `--format` | `json` | Write `json` or `html`. |
-| `-o, --output` | Standard output | Write the architecture to this file. |
-| `--plan` | None | Read a JSON plan file; `-` reads standard input. |
-| `--locked` | Off | Require and preserve the existing `rootform.lock`. |
-| `--offline` | Off | Prevent network access; use only local data. |
-| `--no-input` | Off | Never prompt; require a deterministic action. |
-| `-v, --verbose` | Off | Show provider evidence and origin. |
-| `-h, --help` | Off | Show command help. |
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --format ` | ` string ` | ` json ` | write `format` (json/html) |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform build |
+| ` --locked ` | ` bool ` | ` false ` | require and preserve the existing rootform.lock |
+| ` --no-input ` | ` bool ` | ` false ` | never prompt; require deterministic action |
+| ` --offline ` | ` bool ` | ` false ` | disable network; use only local data |
+| ` -o, --output ` | ` string ` | ` "" ` | write the architecture to this `file` |
+| ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
+| ` -v, --verbose ` | ` bool ` | ` false ` | show provider evidence and origin |
+
+Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
+
+<!-- END GENERATED CLI -->
 
 `--locked` can download a missing artifact at its exact locked identity.
 Combine it with `--offline` when selection and network access must both be fixed.
@@ -97,9 +105,9 @@ Read its accounting and diagnostics before making a coverage claim.
 
 ## Verify your installed command
 
-This reference was checked against public CLI `v0.1.1`. Its flag names and
-tutorial example are checked against a supplied real binary by the repository's
-documentation verification command.
+Usage and flag tables are generated from the actual command definitions. The
+worked example is exercised with the identified documentation verification build.
+To inspect your installed executable:
 
 ```sh
 rootform build --help
