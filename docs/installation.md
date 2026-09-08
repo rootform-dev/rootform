@@ -8,21 +8,33 @@ credentials to render the [first architecture](getting-started/first-architectur
 The first project run needs access to its Dialect registry unless those packages
 are already available locally.
 
-## Available release
+## Quick install
+
+On macOS and Linux, the target installer is one command:
+
+```sh
+curl -fsSL https://rootform.dev/install | bash
+```
+
+> [!IMPORTANT]
+> The installer and Homebrew commands describe the target v0.1 installation
+> experience. Those methods are not published yet. Use the release archive
+> instructions today; Windows uses the verified ZIP.
+
+### Available release
 
 [GitHub Releases](https://github.com/rootform-dev/rootform/releases/tag/v0.1.1)
 provides verified archives for **v0.1.1**. Download the archive for your system
 and `SHA256SUMS` from the same release.
-
-**Installation preview:** the script and Homebrew commands below describe the
-target v0.1 installation experience. Those methods are not published yet; use
-the archive instructions today. Windows uses the verified ZIP.
 
 **Renderer version:** the published archive contains an earlier interface.
 These guides and captures use the current documentation verification build,
 identified in the [verification record](../reference/README.md). The
 [Diff guide](renderer/diff.md#read-a-delta) explains interactive Delta availability
 separately from the command-line reports.
+
+<!-- rootform:tabs Operating system -->
+<!-- rootform:tab macOS -->
 
 ## macOS
 
@@ -43,13 +55,18 @@ verification:
 tar -xzf rootform_0.1.1_darwin_arm64.tar.gz
 mkdir -p "$HOME/.local/bin"
 install -m 755 rootform "$HOME/.local/bin/rootform"
+```
+
+Add the directory to this terminal and verify the executable:
+
+```sh
 export PATH="$HOME/.local/bin:$PATH"
 rootform version
 ```
 
 Read `ROOTFORM-BINARY-LICENSE.txt` and `THIRD_PARTY_NOTICES.txt` from the archive.
 Add the `PATH` line to your shell configuration if this directory is not already
-on it. For zsh, that is usually `~/.zshrc`; the `export` above affects this terminal.
+on it. For zsh, that is usually `~/.zshrc`.
 
 ### Homebrew (target v0.1)
 
@@ -72,6 +89,8 @@ For a specific historical version, use its release archive. Do not assume that
 `brew install rootform@0.1.1` exists. Keep one installation method on your `PATH`
 to avoid running an older executable by accident.
 
+<!-- rootform:tab Linux -->
+
 ## Linux
 
 ### Release archive
@@ -90,6 +109,11 @@ and install into your user directory:
 tar -xzf rootform_0.1.1_linux_amd64.tar.gz
 mkdir -p "$HOME/.local/bin"
 install -m 755 rootform "$HOME/.local/bin/rootform"
+```
+
+Add the directory to this terminal and verify the executable:
+
+```sh
 export PATH="$HOME/.local/bin:$PATH"
 rootform version
 ```
@@ -100,11 +124,11 @@ in your shell configuration if necessary.
 ### Installer script (target v0.1, Linux and macOS)
 
 The target installer detects the supported OS and CPU, downloads a release,
-verifies its checksum, and installs into `~/.local/bin`. Download it first so
-you can inspect the script before running it:
+verifies its checksum, and installs into `~/.local/bin`. To inspect it before
+running it:
 
 ```sh
-curl -fsSLo install-rootform.sh https://rootform.dev/install.sh
+curl -fsSLo install-rootform.sh https://rootform.dev/install
 sh install-rootform.sh
 ```
 
@@ -116,6 +140,8 @@ sh install-rootform.sh --version 0.1.1
 
 To upgrade a script installation, download the installer again and run it
 without `--version`, then check `rootform version`.
+
+<!-- rootform:tab Windows -->
 
 ## Windows
 
@@ -132,18 +158,25 @@ Compare the complete hash with the matching line in `SHA256SUMS`, then extract:
 Expand-Archive .\rootform_0.1.1_windows_amd64.zip -DestinationPath .\rootform-release
 New-Item -ItemType Directory -Force "$env:LOCALAPPDATA\Rootform\bin"
 Copy-Item .\rootform-release\rootform.exe "$env:LOCALAPPDATA\Rootform\bin\rootform.exe"
+```
+
+Add the directory to this PowerShell session and verify the executable:
+
+```powershell
 $env:Path = "$env:LOCALAPPDATA\Rootform\bin;$env:Path"
 rootform version
 ```
 
 Read the extracted license and notices. Add `%LOCALAPPDATA%\Rootform\bin`
 to your **user** `Path` in Windows environment-variable settings, then open a
-new terminal. The PowerShell assignment above affects only this session.
+new terminal.
 
 To upgrade, close running Rootform processes, verify the new ZIP, and replace
 `rootform.exe` in the same directory. To uninstall, delete that executable and
 remove the directory from your user `Path`. There is no Rootform WinGet or
 Scoop package in this installation procedure.
+
+<!-- rootform:endtabs -->
 
 ## Choose, upgrade, or remove an archive version
 

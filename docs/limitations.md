@@ -49,6 +49,14 @@ that the current AWS Dialect does not produce. A violation does not prove public
 reachability. There is no configurable per-policy severity or warning-only
 threshold in the current format. See [policy outcomes](concepts/policies.md).
 
+## Rootform Language is a closed authoring surface
+
+`.rf` uses HCL syntax but does not expose general HCL or Terraform evaluation.
+It has no authoring imports or modules, user functions, loops, comprehensions,
+conditionals, Policy Pack inheritance, or access from policies to raw source
+values. Unsupported expression forms are compilation errors. See the
+[Language reference](language/reference/index.md) for the exact accepted set.
+
 ## Diff compares architectural meaning
 
 Diff requires valid compatible documents and the same Dialect identities and

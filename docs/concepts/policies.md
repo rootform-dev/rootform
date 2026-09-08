@@ -8,9 +8,15 @@ example, a subnet policy can require an established network context. It reads
 the context produced by a Dialect; it does not contact a cloud provider to find
 one or invent a missing relationship.
 
+## Policy Packs
+
 A **Policy Pack** gives policies a shared name, version, and distribution unit.
 Every policy belongs to exactly one pack. `tutorial/subnet-network-context`
 names the policy `subnet-network-context` in the pack `tutorial`.
+
+Use a pack when a group of policies should travel together. A project lock pins
+that set so repeat checks can evaluate the same policy source. Selecting a pack
+still requires checking that its assumptions match the facts your Dialects produce.
 
 ## What happens during a check
 
@@ -101,4 +107,8 @@ Dialect coverage before adopting it as a gate.
 
 The [Policy Result contract](../../contracts/policy-result.md) defines the exact
 output. [CLI command reference](../reference/cli/check.md) lists selection and
-output flags.
+output flags. To author governance, continue with
+[Write a Policy](../guides/check-architecture.md) or
+[Write a Policy Pack](../language/write-policy-pack.md). The
+[Language reference](../language/reference/policy-packs.md) defines the closed
+syntax and query surface.

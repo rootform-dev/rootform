@@ -25,6 +25,14 @@ it does not copy a plan into the architecture.
 The renderer's **Plan view** is unrelated to this input type. It controls how
 much of any architecture is shown.
 
+## Protect the plan files
+
+> [!WARNING]
+> Saved plans and JSON exports can contain sensitive values even when the
+> terminal display hides them. Keep both files out of Git and public artifacts.
+> Restrict access and retention; delete them when the review no longer needs them.
+> Rootform's value suppression does not sanitize the original files on disk.
+
 ## Produce the accepted JSON
 
 Start in a Terraform/OpenTofu project where you are authorized to run a plan.
@@ -49,11 +57,6 @@ Use the saved plan from that operation. `plan -json` emits machine events while
 planning; it is not a substitute for `show -json` on the completed saved plan.
 Rootform also rejects a raw binary plan, a state document, malformed JSON, and
 JSON that does not have a recognized plan shape.
-
-**Protect both plan files.** They can contain sensitive values even when the
-terminal display hides them. Keep them out of Git and public artifacts. Restrict
-access and retention; delete them when the review no longer needs them. Rootform's
-value suppression does not sanitize the original files on disk.
 
 ## Prepare Rootform, then build
 

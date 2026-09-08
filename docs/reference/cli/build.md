@@ -42,23 +42,46 @@ Boolean flags set `true` when supplied without a value. Set the flag value to `f
 
 <!-- END GENERATED CLI -->
 
-`--locked` can download a missing artifact at its exact locked identity.
-Combine it with `--offline` when selection and network access must both be fixed.
-In a non-interactive normal command, an existing lock is never silently updated;
-run the explicit initialization command reported by the diagnostic.
+> [!NOTE]
+> `--locked` can download a missing artifact at its exact locked identity.
+> Combine it with `--offline` when selection and network access must both be fixed.
+> In a non-interactive normal command, an existing lock is never silently updated;
+> run the explicit initialization command reported by the diagnostic.
 
 ## Save an architecture
 
 From a prepared project:
 
+<!-- rootform:tabs Output format -->
+<!-- rootform:tab JSON -->
+
 ```sh
 rootform build . --locked --output architecture.json
 ```
 
+The output file contains architecture facts and their provenance, not the raw
+Terraform configuration.
+
+<!-- rootform:tab HTML -->
+
+### Export HTML offline
+
+After the required Dialects are available locally:
+
+```sh
+rootform build . --locked --offline --format html --output architecture.html
+```
+
+Open the file in a browser. It contains its own renderer assets and needs no
+server or sibling file. `--offline` requires every locked Dialect to be
+available locally; it never downloads missing content.
+
+<!-- rootform:endtabs -->
+
 For the [VPC and subnet example](../../getting-started/first-architecture.md),
 the declaration summary on standard error is:
 
-```text
+```text title="Declaration summary"
 Declarations detected           3
 Represented                     2
 Supporting a composition        0
@@ -68,19 +91,7 @@ Failed                          0
 ```
 
 The Terraform settings declaration is filtered as language settings. The VPC
-and subnet are represented. The output file contains those facts and their
-provenance, not the raw Terraform configuration.
-
-## Export HTML offline
-
-After the required Dialects are available locally:
-
-```sh
-rootform build . --locked --offline --format html --output architecture.html
-```
-
-Open the file in a browser. It contains its own renderer assets and needs no
-server or sibling file.
+and subnet are represented.
 
 ## Read a plan
 

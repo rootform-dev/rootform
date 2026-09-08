@@ -28,7 +28,7 @@ rootform list dialects
 Rootform does not inherit a parent directory's lock. For a plan or saved-document
 check, prepare the required current-project semantics before running the operation.
 
-## A locked run reports a missing lock
+## `--locked requires rootform.lock`
 
 `--locked requires rootform.lock` means that the selected project root has no
 lock. Check the directory argument and the file location. If this is a new

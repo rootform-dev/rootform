@@ -1,53 +1,61 @@
 ---
 title: "Rootform documentation"
-description: "Turn Terraform and OpenTofu into architecture you can inspect, explain, and review."
+description: "Read, understand and review the architecture in your Terraform and OpenTofu configuration."
+tableOfContents: false
 ---
 
-Rootform turns Terraform and OpenTofu into an architecture you can inspect in
-your browser, save as a file, and compare in a review. It reads your configuration
-without applying it. Dialects supply the meaning behind the picture.
+Rootform builds an architecture from Terraform or OpenTofu. Explore it in your
+browser, follow facts back to their source, compare changes and check selected
+policies. Your configuration stays the source of truth.
 
-## Start with a real architecture
+## Get your first result
 
-[Install Rootform](installation.md), then [render your first architecture](getting-started/first-architecture.md).
-The example is a VPC and subnet. You need no cloud account, credentials, or
-running infrastructure.
+<!-- rootform:directory -->
+- [Install Rootform](installation.md)
+  Choose an executable for your system and verify the version.
+- [Your first architecture](getting-started/first-architecture.md)
+  Render a VPC and subnet. No cloud account, credentials or running infrastructure required.
 
-Already have a project? From its Terraform or OpenTofu root, run:
+## Use an existing project
+
+From its Terraform or OpenTofu root:
 
 ```sh
 rootform run .
 ```
 
-Rootform prepares missing Dialects, records their exact selection in
-`rootform.lock`, and starts a local browser explorer. Read the proposal before
-confirming. [Understand project preparation](cli.md) before automating it.
+Rootform prepares missing Dialects, records their selection in `rootform.lock`
+and opens a local explorer. Read the proposal before confirming. The
+[preparation guide](cli.md) explains what can change and how to automate it.
 
-## Read what the architecture means
+Rootform does not apply configuration, execute providers or verify deployed
+infrastructure. Read [supported inputs](inputs/index.md) before moving to a
+project with modules or plans.
 
-Start with [the renderer](renderer/index.md) to navigate the result.
-[Dialects](concepts/dialects.md) explain why a declaration becomes a scope,
-entity, or relation. [Architecture IR](concepts/architecture-ir.md) explains
-what a saved architecture contains and which evidence it preserves.
+## Understand what you see
 
-[Explore the Azure and multicloud examples](renderer/examples.md) to see cloud
-networks alongside Kubernetes workloads, Vault authentication and Grafana data
-sources. Their source and locks reproduce the figures in the renderer guide.
+<!-- rootform:directory -->
+- [Read an architecture](renderer/index.md)
+  Learn the visual grammar, then try Survey, Plan, Focus and Inspector.
+- [Dialects](concepts/dialects.md)
+  Understand why a declaration becomes a scope, entity or relation.
+- [Architecture IR](concepts/architecture-ir.md)
+  Follow a saved fact through its identity, source and evidence.
+- [Rootform Language](language/index.md)
+  Learn how `.rf` definitions create those facts and evaluate policies over them.
+- [Diff](renderer/diff.md)
+  See what changed, what remained the same and what cannot be determined.
 
-The diagram describes your declared architecture. It does not verify deployed
-infrastructure or turn every Terraform dependency into an architecture relation.
-Unknown and unsupported input remain explicit.
+[Explore Azure and multicloud examples](renderer/examples.md), including
+Kubernetes workloads, Vault authentication and Grafana data sources.
 
-## Bring it into a review
+## Check and reproduce a result
 
-[Compare architectures](renderer/diff.md), [use a Terraform or OpenTofu plan](inputs/plans.md),
-or [run Rootform in GitHub Actions](integrations/github-actions.md).
-Use [Policies and Policy Packs](concepts/policies.md) to evaluate the
-architecture against governance rules you select.
+Use [Policies and Policy Packs](concepts/policies.md) to evaluate architecture
+facts against rules you choose. Use [locks, vendor and offline operation](offline-security.md)
+to control the inputs that make a result reproducible. A
+[Terraform/OpenTofu plan](inputs/plans.md) can supply the evidence for a planned
+architecture or comparison.
 
-## Find an exact answer
-
-Use [CLI reference](reference/index.md) for commands and outputs,
-[troubleshooting](troubleshooting/index.md) for failures, and
-[locks and offline operation](offline-security.md) for reproducible runs.
-[Contributions](contributing/index.md) to the public docs and Dialects are welcome.
+For an exact command or flag, open the [CLI reference](reference/cli/index.md).
+For a failed operation, start with [troubleshooting](troubleshooting/index.md).

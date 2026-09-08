@@ -206,7 +206,7 @@ export function verifyCoreExamples(
   const passed =
     command("guides/check-architecture.md", "policy-local").trim().split("\n")[0] ?? "";
   assert(
-    policyPage.includes(`${fence}text\n${passed}\n${fence}`),
+    policyPage.includes(`${fence}text title="Policy summary (excerpt)"\n${passed}\n${fence}`),
     `displayed policy result differs from observed stdout: ${JSON.stringify(passed)}`,
   );
   command("guides/check-architecture.md", "policy-show");
@@ -284,7 +284,9 @@ export function verifyCoreExamples(
   command("guides/compare-architectures.md", "diff-head");
   const delta = command("guides/compare-architectures.md", "diff-text").trim();
   assert(
-    page("guides/compare-architectures.md").includes(`${fence}text\n${delta}\n${fence}`),
+    page("guides/compare-architectures.md").includes(
+      `${fence}text title="Diff output"\n${delta}\n${fence}`,
+    ),
     "displayed Diff differs from actual stdout",
   );
   assert(

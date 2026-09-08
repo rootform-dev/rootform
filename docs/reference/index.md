@@ -14,7 +14,8 @@ For a guided task, start with:
 | Get a first architecture | [First architecture](../getting-started/first-architecture.md) | [run](cli/run.md), [build](cli/build.md) |
 | Prepare or update a project | [Project preparation](../cli.md) | [init](cli/init.md) |
 | Inspect the meaning of a result | [Architecture IR](../concepts/architecture-ir.md) | [explain architecture](cli/explain/architecture.md) |
-| Evaluate a rule | [Check an architecture](../guides/check-architecture.md) | [check](cli/check.md) |
+| Author a Dialect or Policy Pack | [Rootform Language](../language/index.md) | [fmt](cli/fmt.md), [validate](cli/validate.md), [test](cli/test.md) |
+| Evaluate a policy | [Write a Policy](../guides/check-architecture.md) | [check](cli/check.md) |
 | Compare two versions | [Compare architectures](../guides/compare-architectures.md) | [diff](cli/diff.md) |
 | Use planning evidence | [Terraform/OpenTofu plans](../inputs/plans.md) | [build](cli/build.md), [diff](cli/diff.md) |
 | Work without a registry | [Reproduce a build offline](../guides/reproduce-build.md) | [vendor dialects](cli/vendor/dialects.md) |

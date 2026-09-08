@@ -1,6 +1,10 @@
 ---
 title: Explore the example architectures
 description: Open reproducible Azure and multicloud examples, then compare views and trace the facts behind their connections.
+rendererLesson:
+  example: multicloud
+  title: "Explore the multicloud example"
+  description: "Follow Azure, Google Cloud, Kubernetes, Vault and Grafana through the same architecture."
 ---
 
 Use these examples to explore a larger architecture after the
@@ -13,6 +17,8 @@ The figures were captured with the documentation verification build of
 Rootform `0.1.1`. The [verification record](../../reference/README.md) identifies
 that edition. Public releases with the same version can contain an earlier
 renderer.
+
+<!-- rootform:lesson -->
 
 ## Azure platform
 

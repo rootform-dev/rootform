@@ -5,6 +5,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
 import { verifyCoreExamples } from "./docs-core-examples.ts";
+import { verifyLanguageExamples } from "./docs-language-examples.ts";
 import { verifyVisualExamples } from "./docs-visual-examples.ts";
 
 const repoRoot = resolve(import.meta.dir, "..");
@@ -409,6 +410,7 @@ try {
   noted("displayed stderr", "tutorial and reference match the real first build");
 
   const core = verifyCoreExamples(binary, repoRoot, workspace, home);
+  core.push(...verifyLanguageExamples(binary, repoRoot, workspace, home));
   core.push(...(await verifyVisualExamples(binary, repoRoot, workspace, home)));
   console.log(`documentation examples: PASS (${steps.length + core.length} checks)`);
   for (const step of steps) {
