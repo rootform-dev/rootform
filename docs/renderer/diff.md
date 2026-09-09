@@ -10,7 +10,7 @@ not create an architectural change.
 
 Use [compare architectures](../guides/compare-architectures.md) for a runnable
 example, or open the
-[Diff Playground](https://docs.rootform.dev/playground/?mode=diff&scenario=commerce-rollout)
+[Diff Playground](https://docs.rootform.dev/playground/?mode=diff&scenario=commerce-platform)
 to inspect a predefined comparison. A [JSON plan](../inputs/plans.md) can supply
 both sides for a Diff report.
 
@@ -63,9 +63,9 @@ facts. Removed components remain visible as before-side references. Unknown
 sides stay unknown instead of being drawn as confident deletions or moves.
 
 For your own inputs, `rootform diff` emits text, JSON, or Markdown reports.
-The [Commerce platform Diff Playground](https://docs.rootform.dev/playground/?mode=diff&scenario=commerce-rollout)
+The [Commerce platform Diff Playground](https://docs.rootform.dev/playground/?mode=diff&scenario=commerce-platform)
 shows the predefined
-[Commerce platform comparison](examples.md#compare-the-commerce-platform-states)
+[Commerce platform comparison](examples.md#compare-family-states)
 in the Diff view.
 `rootform run --plan` displays the planned architecture only.
 
@@ -86,14 +86,13 @@ for their individual classifications.
 A move never comes from proximity or a guessed rename. Ambiguous placements and
 undetermined facts remain separate evidence.
 
-![The Diff view marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-light.png#gh-light-mode-only)
-![The Diff view marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-dark.png#gh-dark-mode-only)
-
 The Diff view from the
-[Commerce platform source pair](examples.md#compare-the-commerce-platform-states).
-The analytics cluster keeps its identity and moves between subnets. Renamed
-declarations appear as additions and removals, because their source identities
-changed. The renderer does not guess that a rename preserved an object.
+[Commerce platform source pair](examples.md#compare-family-states) shows
+payment workloads moving from `checkout` to `payments`, Functions moving to
+an Elastic Premium plan, and message and observability destinations changing.
+Renamed declarations appear as additions and removals because their source
+identities changed. The renderer does not guess that a rename preserved an
+object.
 
 ### Use Inspector to explain the change
 
@@ -106,12 +105,10 @@ The overview's change count opens comparison context. Diagnostic and declaration
 deltas help explain a change in coverage. An undetermined entry explains where
 the available evidence stops; it is not a low-confidence guess at a change.
 
-![The focused Diff view shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-light.png#gh-light-mode-only)
-![The focused Diff view shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-dark.png#gh-dark-mode-only)
-
-Inspector Change explains the move with its **Before** and **After** placement
-and the underlying added/removed contexts. This is an architectural placement
-change, not a claim that Rootform moved a deployed cluster.
+Inspector Change explains the payment workload moves with **Before** and
+**After** placement and the underlying added and removed contexts. This is an
+architectural placement change, not a claim that Rootform moved a deployed
+workload.
 
 ## Use Diff in local and pull-request review
 

@@ -1,1 +1,1 @@
-{ "dialects": ["azure", "core", "google", "grafana", "kubernetes", "vault"] }
+{ "dialects": ["core", "google", "kubernetes"] }

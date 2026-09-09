@@ -1,0 +1,20 @@
+concept "dataflow-job" {
+  kind        = entity
+  description = "A Dataflow batch or streaming job."
+}
+
+rule "dataflow-job" {
+  match {
+    type = "google_dataflow_job"
+  }
+
+  as = concept.dataflow-job
+}
+
+rule "dataflow-flex-template-job" {
+  match {
+    type = "google_dataflow_flex_template_job"
+  }
+
+  as = concept.dataflow-job
+}

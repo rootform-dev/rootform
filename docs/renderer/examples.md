@@ -1,92 +1,91 @@
 ---
 title: Explore the example architectures
-description: Open reproducible Azure and multicloud examples, then compare views and trace the facts behind their connections.
+description: Open three reproducible platform families, compare their states, and trace the declared facts behind each connection.
 ---
 
 Use these examples to explore larger architectures after the
 [first render](../getting-started/first-architecture.md). Each
 [Playground](https://docs.rootform.dev/playground/?mode=architecture&scenario=commerce-platform)
-scenario comes from a complete, public Terraform source pair and published
+family comes from a complete public Terraform source pair and vendored
 Dialects. No cloud account, provider execution, or deployed resource is needed.
 These are architecture examples, not apply-ready infrastructure recipes.
 
-## Commerce platform
+## Open a family
 
 Clone the public
-[Commerce platform source](https://github.com/rootform-dev/rootform/tree/dev/examples/playground/commerce-platform),
-then open its `head` directory in a terminal and run:
+[Playground source](https://github.com/rootform-dev/rootform/tree/dev/examples/playground),
+choose one family, and run the explorer from its `head` directory:
 
 <!-- docs-check:visual-run -->
 ```sh
 rootform run . --locked --no-input
 ```
 
-The first run may need network access to download locked Dialects that are not
-already available locally. It then opens the local explorer without downloading
-Terraform providers. You should see production and staging networks, shared
-edge, messaging, identity, secrets, observability, and Kubernetes workloads.
+The vendored Dialects and lock make the run independent of an index lookup.
+Use **Survey** for the major boundaries, **Plan** for full detail, and **Focus**
+to trace one subject and its established connections.
 
-Use **Plan** to expose the databases, DNS zones and storage accounts. Select
-`production_analytics`: Inspector shows its network and resource group contexts
-and the worker node pool that contributes to it. Focus the production network
-to read that area without losing its boundary connections.
+### Commerce platform
 
-The [view guide](views.md) shows this sequence. The complete input produces
-28 entities, 22 scopes and 2 details. Details contribute evidence rather than
-adding independent canvas tiles.
+[Open the Commerce platform](https://docs.rootform.dev/playground/?mode=architecture&scenario=commerce-platform)
+to inspect an Azure hub-and-spoke system. Resource groups divide lifecycle
+ownership. The production virtual network contains AKS, Function integration,
+and private data paths; AKS contains namespaces and their workloads.
 
-## Shared data platform
+In Plan, focus `evgs-media-processor`. Its path reaches the media system topic
+and `func-commerce-media-processor`; the Function runs in the integration
+subnet on its service plan and reports through Application Insights. The
+commerce Diff adds private Redis and Cosmos paths, splits payments into its own
+namespace, changes message routing, and moves runtime and observability
+contexts.
 
-Open the public
-[Shared data platform source](https://github.com/rootform-dev/rootform/tree/dev/examples/playground/shared-data-platform)
-and run the same command from its `head` directory. This input combines five
-providers: Azure, Google Cloud, Kubernetes, Vault and Grafana.
+### Shared data platform
 
-![The multicloud architecture in Network dimension shows Azure AKS and Google GKE in their networks, Kubernetes workloads, Vault authentication and Grafana data sources.](../assets/renderer/multicloud-plan-light.png#gh-light-mode-only)
-![The multicloud architecture in Network dimension shows Azure AKS and Google GKE in their networks, Kubernetes workloads, Vault authentication and Grafana data sources.](../assets/renderer/multicloud-plan-dark.png#gh-dark-mode-only)
+[Open the Shared data platform](https://docs.rootform.dev/playground/?mode=architecture&scenario=shared-data-platform)
+to inspect a Google Cloud data system. A Shared VPC carries GKE, serverless
+egress, Cloud NAT, Cloud SQL private access, and Memorystore. Workloads and
+managed services belong to the service project; Kubernetes resources sit
+inside cluster and namespace scopes.
 
-In **Plan**, the Network dimension places AKS and GKE within their established
-network contexts. The Vault integration has a relation to the AKS cluster and
-another to the Vault authentication method. Both come from declared references
-interpreted by Vault rules.
+Focus `events-raw-enrichment` to follow a Pub/Sub subscription from
+`events-raw` to `enrichment-streaming`. The service routes through the VPC
+connector and runs as its dedicated service account. The Diff replaces GKE pull
+consumers with Cloud Run push consumers, adds dead-letter delivery, moves the
+feature store to the analytics namespace, and changes serverless network
+placement.
 
-Switch the dimension to **Ownership**:
+### Event-driven claims platform
 
-![Ownership groups Kubernetes workloads within namespaces, Grafana data sources within an organization and Vault authentication within a Vault namespace.](../assets/renderer/multicloud-ownership-light.png#gh-light-mode-only)
-![Ownership groups Kubernetes workloads within namespaces, Grafana data sources within an organization and Vault authentication within a Vault namespace.](../assets/renderer/multicloud-ownership-dark.png#gh-dark-mode-only)
+[Open the Event-driven claims platform](https://docs.rootform.dev/playground/?mode=architecture&scenario=event-driven-platform)
+to inspect Event Grid fan-out to Functions, Service Bus, Event Hubs, and Azure
+Storage. Container Apps and Functions share network and observability
+boundaries while Cosmos DB, storage, Key Vault, and Service Bus use private
+endpoints.
 
-The same facts now emphasize namespace, organization and resource group
-boundaries. Grafana data sources and Vault authentication are architectural
-subjects alongside cloud infrastructure.
+Focus `evgs-docs-fraud-scoring`. The subscription connects the document
+system topic to the fraud Function; the Function runs in the delegated subnet
+on its own plan and reports through Application Insights. The Diff removes the
+poller, adds direct event routes and Container Apps workloads, changes the
+review queue and workspace targets, and retires public archive storage.
 
-Select a Kubernetes workload and inspect **Where**. Its runtime context points
-to the relevant cluster, while its ownership context points to a namespace.
-The cluster is an entity, so that runtime fact does not become another nested
-scope on the canvas. A relation is also not inferred between a Service and a
-Deployment merely because both appear in the same namespace.
+## Compare family states
 
-Azure and Kubernetes identities use technology-specific icons. Other subjects
-use the renderer's generic symbols where no service icon is available.
-An icon does not add semantic evidence or certify coverage. See
-[Dialects](../concepts/dialects.md) for how the meaning is established.
-
-## Compare the Commerce platform states
-
-From the cloned `commerce-platform` directory, run:
+From any family directory, build both sides and compare them:
 
 <!-- docs-check:visual-diff -->
 ```sh
-rootform build base --locked --no-input --output before.json
-rootform build head --locked --no-input --output after.json
+rootform build base --locked --offline --no-input --output before.json
+rootform build head --locked --offline --no-input --output after.json
 rootform diff before.json after.json
 ```
 
-The release adds a recommendations workload, moves the analytics cluster from
-the applications subnet to the edge subnet, and replaces the staging archive
-storage and private endpoint. No deployment operation occurs.
+The Diff view strictly derives changes from the two Architecture IR documents.
+A move appears when the same subject loses one context and gains another.
+Removed and added relations show retargeted destinations without claiming that
+infrastructure was deployed.
 
-The [Diff view illustrations](diff.md#read-the-diff-view) use the architecture and
-comparison outputs from these commands. `rootform diff` provides text, JSON,
-and Markdown reports; the
-[Diff Playground](https://docs.rootform.dev/playground/?mode=diff&scenario=commerce-rollout)
-shows the same facts visually.
+Open a family directly in Diff mode:
+
+- [Commerce Diff](https://docs.rootform.dev/playground/?mode=diff&scenario=commerce-platform)
+- [Shared data Diff](https://docs.rootform.dev/playground/?mode=diff&scenario=shared-data-platform)
+- [Event-driven claims Diff](https://docs.rootform.dev/playground/?mode=diff&scenario=event-driven-platform)

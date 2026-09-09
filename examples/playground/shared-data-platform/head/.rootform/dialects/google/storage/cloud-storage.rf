@@ -1,0 +1,25 @@
+rule "cloud-storage-bucket" {
+  match {
+    type = "google_storage_bucket"
+  }
+
+  as = concept.core.object-storage-container
+}
+
+rule "cloud-storage-bucket-iam-member" {
+  match {
+    type = "google_storage_bucket_iam_member"
+  }
+
+  as = concept.access-binding
+
+  contribution {
+    to  = concept.core.object-storage-container
+    via = source.bucket
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+  }
+}

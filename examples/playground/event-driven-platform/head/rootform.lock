@@ -1,0 +1,20 @@
+{
+  "format_version": "1",
+  "unsupported_providers": [],
+  "entries": [
+    {
+      "name": "azure",
+      "version": "0.1.0",
+      "digest": "sha256:cae7bb2b5364e974fc301a7609da05fa5a0b785be1750df8581198bd5fb334ac",
+      "semantic_digest": "sha256:10768460668f4adf602aeac10f8dddb412547c1d1f165c435bef6d2f9cf42fa3",
+      "presentation_digest": "sha256:fcdfd261d0d52aca2f1b181303cee263285252f290805e63ef908c3ef894bd21"
+    },
+    {
+      "name": "core",
+      "version": "0.1.0",
+      "digest": "sha256:64a0ffe85a143eca51f1425a9af19207e3201e5df9a4d65346ea0c8635587643",
+      "semantic_digest": "sha256:a93f2c9cba7974c504d7513c7b9a009b94eaaa71950aa3fdac7c7d4da6f50275",
+      "presentation_digest": "sha256:6250b078276b44c2db9361c26c6c92351d26f49de7ac6daf22c9859cd2f962c8"
+    }
+  ]
+}
