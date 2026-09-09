@@ -332,15 +332,45 @@ Strong coverage includes:
 
 ## Keep presentation separate
 
-Dialect rules produce semantics. A `presentation.json` can map rule or concept
-identities to approved technology identities. It cannot contain SVG, HTML,
-layout coordinates, architecture facts, or renderer behavior.
+Dialect rules produce semantics. One optional `presentation.json` belongs at
+the Dialect source root beside `dialect.rf`. It maps local rule or concept names
+to declarative technology identities and optional plain-text labels:
+
+```json title="aws/presentation.json"
+{
+  "format_version": "1",
+  "rules": {
+    "vpc": "generic/network",
+    "subnet": "generic/subnet"
+  },
+  "concepts": {},
+  "rule_labels": {
+    "vpc": "Amazon VPC",
+    "subnet": "Amazon VPC subnet"
+  },
+  "concept_labels": {}
+}
+```
+
+Keys are unqualified names owned by current Dialect; `aws/vpc` is not valid in
+this file. `rules` and `concepts` map those names to bounded `family/name`
+technology identities. `rule_labels` and `concept_labels` provide optional
+display labels. Missing sections mean empty objects. Example leaves concepts
+empty because rules shown above use concepts owned by `core`; AWS cannot assign
+presentation to another Dialect's concepts.
+
+Manifest cannot contain SVG, HTML, URLs, styles, layout coordinates,
+architecture facts, or renderer behavior. A normal product run ignores invalid
+presentation with warning so visual metadata cannot break semantic output.
+`rootform package dialects` is strict and rejects invalid presentation before
+creating release artifact. See
+[Presentation manifest contract](../contracts/presentation-manifest.md) and
+[machine schema](../schemas/presentation-manifest.schema.json) for complete
+limits.
 
 Test meaning without relying on a particular icon. Then inspect a real rendered
 fixture to confirm that entity, scope, detail, context, and composition choices
 communicate correctly.
-
-<!-- rootform:endsteps -->
 
 ## Package and publish a Dialect
 
@@ -390,6 +420,8 @@ DOCKER_CONFIG=/path/to/docker-config \
 Review and commit the resulting `rootform.lock`. Later local or CI runs recover
 that exact artifact by digest with `rootform init ./infra --locked --no-input`;
 they do not need the original `--source` argument.
+
+<!-- rootform:endsteps -->
 
 See [Test and validate](language/test-validate.md) for the authoring loop and
 [Dialect reference](language/reference/dialects.md) for every accepted field.
