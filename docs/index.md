@@ -19,9 +19,9 @@ with guessed meaning.
 
 | Result | Use it for |
 | --- | --- |
-| [Local explorer](renderer/index.md) | Navigate architecture with Survey, Plan, Focus, and Inspector. |
+| [Renderer](renderer/index.md) | Navigate architecture with Survey, Plan, Focus, and Inspector. |
 | [Architecture Diff](guides/compare-architectures.md) | Compare architectural meaning between source revisions or both sides of a plan. |
-| [Policy result](guides/check-architecture.md) | Evaluate policies selected for a project and distinguish passed, violated, and indeterminate decisions. |
+| [Checks](guides/check-architecture.md) | Evaluate policies selected for a project and distinguish passed, violated, and indeterminate decisions. |
 | [Architecture IR](concepts/architecture-ir.md) | Save deterministic JSON facts, accounting, diagnostics, and provenance. |
 | [Self-contained HTML](reference/outputs.md#share-the-right-artifact) | Share an interactive architecture that needs no server or adjacent assets. |
 

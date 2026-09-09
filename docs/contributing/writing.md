@@ -218,7 +218,7 @@ Use these examples to choose scope and wording:
 | `macOS` as a heading directly below an active `macOS` tab. | Let the selected tab identify the platform; begin with **Recommended**. |
 | A Dialects concept page teaching source-priority and registry resolution algorithms. | Explain how Dialects change architecture meaning; link acquisition details to offline operation. |
 | A check walkthrough ending with an unrelated pack that evaluates zero targets. | Follow one policy through pass, violation, indeterminate evidence, then the same gate in CI. |
-| Describing `moved` as a machine Diff entry state. | Explain that Delta strictly derives a move from removed and added context facts. |
+| Describing `moved` as a machine Diff entry state. | Explain that the Diff view strictly derives a move from removed and added context facts. |
 | “The first run needs registry access.” | “The first run may need network access to download required Dialects that are not already available locally.” |
 
 ## Make examples executable

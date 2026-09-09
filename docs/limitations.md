@@ -65,7 +65,7 @@ cannot be reconstructed remains undetermined.
 
 `rootform diff` emits text, JSON, or Markdown reports. `run --plan` shows only
 the planned architecture, not both comparison sides. The [Diff guide](renderer/diff.md)
-explains report and Delta views.
+explains the report and Diff view.
 
 ## Large views need exploration
 
