@@ -10,15 +10,15 @@ line.
 URLs are provenance references only. Rootform never fetches or executes them
 at runtime.
 
-dialect-bundle: Rootform Dialects@54d889518a4588ae93e243844c3b141516097f87
+dialect-bundle: Rootform Dialects@8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f
 --------------------------------------------------------------------------
 Declared license: MPL-2.0
 Concluded license: MPL-2.0
-Upstream: https://github.com/rootform-dev/dialects/tree/54d889518a4588ae93e243844c3b141516097f87
+Upstream: https://github.com/rootform-dev/dialects/tree/8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f
 Copyright: (c) under Patent Claims infringed by Covered Software in the absence of
 License text SHA-256: 1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5
 
------ BEGIN LICENSE TEXT: Rootform Dialects@54d889518a4588ae93e243844c3b141516097f87 -----
+----- BEGIN LICENSE TEXT: Rootform Dialects@8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f -----
 Mozilla Public License Version 2.0
 ==================================
 
@@ -392,7 +392,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
   This Source Code Form is "Incompatible With Secondary Licenses", as
   defined by the Mozilla Public License, v. 2.0.
------ END LICENSE TEXT: Rootform Dialects@54d889518a4588ae93e243844c3b141516097f87 -----
+----- END LICENSE TEXT: Rootform Dialects@8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f -----
 
 
 go-module: github.com/agext/levenshtein@v1.2.1
@@ -4384,15 +4384,15 @@ See the official archive and catalog page for complete current terms.
 ----- END LICENSE TEXT: Microsoft Azure Architecture Icons@V24 -----
 
 
-dialect-bundle: Rootform Dialects presentation catalogs@54d889518a4588ae93e243844c3b141516097f87
+dialect-bundle: Rootform Dialects presentation catalogs@8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f
 ------------------------------------------------------------------------------------------------
 Declared license: MPL-2.0
 Concluded license: MPL-2.0
-Upstream: https://github.com/rootform-dev/dialects/tree/54d889518a4588ae93e243844c3b141516097f87
+Upstream: https://github.com/rootform-dev/dialects/tree/8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f
 Copyright: (c) under Patent Claims infringed by Covered Software in the absence of
 License text SHA-256: 1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5
 
------ BEGIN LICENSE TEXT: Rootform Dialects presentation catalogs@54d889518a4588ae93e243844c3b141516097f87 -----
+----- BEGIN LICENSE TEXT: Rootform Dialects presentation catalogs@8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f -----
 Mozilla Public License Version 2.0
 ==================================
 
@@ -4766,7 +4766,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
   This Source Code Form is "Incompatible With Secondary Licenses", as
   defined by the Mozilla Public License, v. 2.0.
------ END LICENSE TEXT: Rootform Dialects presentation catalogs@54d889518a4588ae93e243844c3b141516097f87 -----
+----- END LICENSE TEXT: Rootform Dialects presentation catalogs@8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f -----
 
 
 vendored-source: shadcn-svelte@1.5.1
