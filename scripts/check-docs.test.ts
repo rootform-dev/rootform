@@ -336,3 +336,12 @@ test("Dialect authoring keeps presentation, publication, and use in one numbered
   expect(workflow).toContain('"concept_labels": {}');
   expect(workflow).toContain("`rootform package dialects` rejects it");
 });
+
+test("contribution guide keeps Policy Packs user-owned", () => {
+  const page = readFileSync(join(import.meta.dir, "../docs/contributing/index.md"), "utf8");
+
+  expect(page).not.toContain("## Contribute a Policy Pack");
+  expect(page).not.toContain("Rootform Policy Packs");
+  expect(page).toContain("[write their own Policy Packs](../language/write-policy-pack.md)");
+  expect(page).toContain("not an official or\ncommunity governance catalog");
+});
