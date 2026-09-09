@@ -373,6 +373,23 @@ rootform publish dialects artifacts/oci \
 ```
 
 Direct publication does not require an index; omit `--index` when discovery is
-managed elsewhere. See [Test and validate](language/test-validate.md) for the
-authoring loop and [Dialect reference](language/reference/dialects.md) for every
-accepted field.
+managed elsewhere.
+
+## Use a published Dialect
+
+Add a private Dialect artifact or index while preparing the project. Rootform
+reads registry credentials from standard Docker configuration:
+
+```sh
+DOCKER_CONFIG=/path/to/docker-config \
+  rootform init ./infra \
+  --source registry.example/team/dialects:dialect-company-1.2.0 \
+  --no-input
+```
+
+Review and commit the resulting `rootform.lock`. Later local or CI runs recover
+that exact artifact by digest with `rootform init ./infra --locked --no-input`;
+they do not need the original `--source` argument.
+
+See [Test and validate](language/test-validate.md) for the authoring loop and
+[Dialect reference](language/reference/dialects.md) for every accepted field.

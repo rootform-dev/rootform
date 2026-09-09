@@ -193,8 +193,33 @@ rootform publish policy-packs ./artifacts/policies \
   --to registry.example/team/policy-packs
 ```
 
-Projects select a reviewed OCI reference explicitly with
-`rootform init --policy-pack`. Provider discovery never selects governance.
+## Use a published Policy Pack
+
+Projects select governance explicitly. Provider discovery never selects a
+Policy Pack. When the pack requires a private Dialect, select both artifacts in
+the same reviewed initialization; Rootform uses the same Docker configuration
+for each repository:
+
+```sh
+DOCKER_CONFIG=/path/to/docker-config \
+  rootform init ./infra \
+  --source registry.example/team/dialects:dialect-company-1.2.0 \
+  --policy-pack registry.example/team/policy-packs:policy-pack-baseline-0.1.0 \
+  --no-input
+```
+
+The pack must declare `company = "1.2.0"` in `requires`. It does not embed or
+select that Dialect. Review and commit `rootform.lock`, then use the pinned
+selection:
+
+```sh
+rootform check ./infra --locked --no-input
+```
+
+On a clean runner, run `rootform init ./infra --locked --no-input` first so
+Rootform can recover missing exact packages from repositories recorded in the
+lock. Missing credentials, Dialect, or required version makes preparation fail;
+evaluation never substitutes another Dialect.
 
 <!-- rootform:endsteps -->
 
