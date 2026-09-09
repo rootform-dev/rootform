@@ -5,19 +5,22 @@
     {
       "name": "azure",
       "version": "0.1.0",
-      "digest": "sha256:36d37a4f9d263249225dac3e9226492391ea1330b16f9a6b07e567368d39d64d",
+      "digest": "sha256:8e522ddbb0e62a170d07a7f27d458d66ecf23e953ba6d420f3ce4537b0a54637",
+      "semantic_digest": "sha256:58b97adb1907aeb047a520298b2ad2ed9a3798693c4dfee2749ff656abd00d9d",
       "presentation_digest": "sha256:d371151afc2e502c5cfdfe4a57ae2fbd52221838e69f26089f21dce3bff0fdf9"
     },
     {
       "name": "core",
       "version": "0.1.0",
-      "digest": "sha256:af5a6b57e85bc5026b356542cf4950ccac62c2770f7d1a5f6b0272eef642a11d",
+      "digest": "sha256:64a0ffe85a143eca51f1425a9af19207e3201e5df9a4d65346ea0c8635587643",
+      "semantic_digest": "sha256:a93f2c9cba7974c504d7513c7b9a009b94eaaa71950aa3fdac7c7d4da6f50275",
       "presentation_digest": "sha256:6250b078276b44c2db9361c26c6c92351d26f49de7ac6daf22c9859cd2f962c8"
     },
     {
       "name": "kubernetes",
       "version": "0.1.0",
-      "digest": "sha256:9cf31ad295fd663f5ef98d17cf45a366f183d30c8b7cec7f8048e672334b5454",
+      "digest": "sha256:828907e6c2d32b61fa60a31538a6af035c019c53128d27e69bdead70a668baaf",
+      "semantic_digest": "sha256:f0ee8d1c0f0c3946f8b1a20452a17d4edcee73364a84f7900843b84bef5b6259",
       "presentation_digest": "sha256:d1ce9b767e71c58abc5d69aaa1d9e52ebf6e1d86edc60d2e8eeb23b6fb7edc6e"
     }
   ]

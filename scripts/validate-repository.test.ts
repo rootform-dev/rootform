@@ -70,19 +70,25 @@ test("workflow URL controls require one exact line", () => {
 test("example dialect contract matches its generated lock", () => {
   const directory = mkdtempSync(join(tmpdir(), "rootform-distribution-example-"));
   try {
-    writeFileSync(join(directory, "example.json"), '{"dialects":["core","google"]}\n');
+    writeFileSync(
+      join(directory, "example.json"),
+      '{"semantics":{"dialects":[{"id":"core"},{"id":"google"}]}}\n',
+    );
     writeFileSync(
       join(directory, "rootform.lock"),
       '{"format_version":"1","unsupported_providers":[],"entries":[{"name":"core","version":"0.1.0"},{"name":"google","version":"0.1.0"}]}\n',
     );
     expect(() => validateExampleDialectLock(directory, "fixture")).not.toThrow();
 
-    writeFileSync(join(directory, "example.json"), '{"dialects":["core"]}\n');
+    writeFileSync(join(directory, "example.json"), '{"semantics":{"dialects":[{"id":"core"}]}}\n');
     expect(() => validateExampleDialectLock(directory, "fixture")).toThrow(
       "fixture dialect contract does not match rootform.lock",
     );
 
-    writeFileSync(join(directory, "example.json"), '{"dialects":["core","google"]}\n');
+    writeFileSync(
+      join(directory, "example.json"),
+      '{"semantics":{"dialects":[{"id":"core"},{"id":"google"}]}}\n',
+    );
     writeFileSync(
       join(directory, "rootform.lock"),
       '{"format_version":"unsupported","unsupported_providers":[],"entries":[{"name":"core","version":"0.1.0"},{"name":"google","version":"0.1.0"}]}\n',

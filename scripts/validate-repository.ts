@@ -15,6 +15,9 @@ type ExportManifest = {
 
 type ExampleContract = {
   dialects?: unknown;
+  semantics?: {
+    dialects?: unknown;
+  };
 };
 
 type DialectLock = {
@@ -122,7 +125,19 @@ export function validateExampleDialectLock(directory: string, example: string): 
     readFileSync(join(directory, "example.json"), "utf8"),
   ) as ExampleContract;
   const lock = JSON.parse(readFileSync(join(directory, "rootform.lock"), "utf8")) as DialectLock;
-  const expected = canonicalNames(contract.dialects, `${example} example.json`);
+  const semanticDialects = contract.semantics?.dialects;
+  const expected = canonicalNames(
+    semanticDialects === undefined
+      ? contract.dialects
+      : Array.isArray(semanticDialects)
+        ? semanticDialects.map((dialect) =>
+            typeof dialect === "object" && dialect !== null && "id" in dialect
+              ? dialect.id
+              : undefined,
+          )
+        : semanticDialects,
+    `${example} example.json`,
+  );
   if (
     lock.format_version !== "1" ||
     !Array.isArray(lock.unsupported_providers) ||
