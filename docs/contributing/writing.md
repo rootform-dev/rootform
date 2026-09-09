@@ -122,11 +122,10 @@ behavior, semantic versions and digests, or exact public identifiers such as
 the Architecture IR `semantics` field and `rootform explain semantics`. Never
 use “semantic package,” “selected semantics,” or similar aliases for Dialects.
 
-In new examples, put one top-level `policy_pack` manifest in a file at the pack
+In examples, put one top-level `policy_pack` manifest in a file at the pack
 root and top-level `policy` declarations in `.rf` or `.rf.json` files beneath
 that same root. The source root establishes ownership; policies need no explicit
-pack reference. Nested `policy` blocks inside `policy_pack` remain accepted for
-compatibility only. Teach the top-level form for new policies and multi-file packs.
+pack reference. Nested `policy` blocks are invalid.
 
 Distinguish renderer **Plan** from a Terraform or OpenTofu plan. Describe
 relations by their declared meaning. Do not turn network context into a

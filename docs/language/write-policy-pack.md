@@ -96,7 +96,7 @@ reuse a version for different bytes.
 Every concept, context, and relation reference in a Policy Pack is
 Dialect-qualified and must name a directly required Dialect:
 
-Inside `policy_pack`, `requires` remains nested because it describes manifest
+`requires` is nested inside `policy_pack` because it describes manifest
 metadata:
 
 ```hcl title="pack.rf (excerpt)"
