@@ -8,7 +8,8 @@ policies. It declares the exact Dialect vocabulary its assertions use. It does
 not add architecture facts, select provider Dialects, or inherit policies from
 another pack.
 
-Write and evaluate one policy first with [Write a Policy](../guides/check-architecture.md).
+Write and evaluate one policy first with
+[Check an architecture](../guides/check-architecture.md).
 Create a pack boundary when several policies share ownership, release cadence,
 and semantic assumptions.
 
@@ -20,17 +21,23 @@ its purpose and assumptions reviewable:
 ```text title="Policy Pack source"
 baseline/
 ├── pack.rf
+├── policies/
+│   ├── cluster-network-context.rf
+│   └── private-database-reachability.rf
 ├── LICENSE
 └── NOTICE
 ```
 
-Rootform discovers language files recursively. Keep one `policy_pack`
-declaration in each independently released pack root. To package several packs
-in one command, place each pack in its own immediate child directory and pass
-their parent. A pack cannot be reopened across declarations. Dialect
-declarations and standalone `policy` blocks do not belong in this source family.
+Rootform discovers language files recursively. Keep exactly one `policy_pack`
+declaration in each independently released pack root. Every top-level `policy`
+beneath that root belongs to its manifest; no `pack` attribute, import, or
+filename convention is needed. A missing or second manifest and any Dialect
+declaration are invalid.
 
-The public baseline example is a complete pack:
+To package several packs in one command, place each pack in its own immediate
+child directory and pass their parent.
+
+The public baseline example keeps manifest metadata separate from policies:
 
 ```hcl title="policy-packs/baseline/pack.rf"
 policy_pack "baseline" {
@@ -39,25 +46,32 @@ policy_pack "baseline" {
   requires {
     core = "0.1.0"
   }
+}
+```
 
-  policy "private-database-reachability" {
-    target = concept.core.managed-database
+```hcl title="policy-packs/baseline/policies/cluster-network-context.rf"
+policy "cluster-network-context" {
+  target = concept.core.kubernetes-cluster
 
-    assert = (
-      length(relations("private-reachability", concept.core.virtual-network)) > 0 ||
-      length(relations("private-reachability", concept.core.subnet)) > 0
-    )
+  assert = (
+    length(contexts(context.core.network, concept.core.virtual-network)) > 0 ||
+    length(contexts(context.core.network, concept.core.subnet)) > 0
+  )
 
-    message = "Managed databases must be privately reachable from a virtual network or subnet."
-  }
+  message = "Kubernetes clusters must belong to a network context."
+}
+```
 
-  policy "cluster-network-context" {
-    target = concept.core.kubernetes-cluster
+```hcl title="policy-packs/baseline/policies/private-database-reachability.rf"
+policy "private-database-reachability" {
+  target = concept.core.managed-database
 
-    assert = length(contexts(context.core.network, concept.core.kubernetes-cluster)) > 0
+  assert = (
+    length(relations("private-reachability", concept.core.virtual-network)) > 0 ||
+    length(relations("private-reachability", concept.core.subnet)) > 0
+  )
 
-    message = "Kubernetes clusters must belong to a network context."
-  }
+  message = "Managed databases must be privately reachable from a virtual network or subnet."
 }
 ```
 
@@ -69,8 +83,8 @@ necessarily produce. Document that coverage boundary with any real pack.
 
 ## Name and version the pack
 
-`policy_pack "baseline"` establishes the package name. Policy identities are
-`<pack>/<policy>`, such as
+`policy_pack "baseline"` establishes package name for its whole source root.
+Policy identities are `<pack>/<policy>`, such as
 `baseline/private-database-reachability`. Names use lower kebab case.
 
 `version` is an exact semantic version. Change it when released policy source,
@@ -82,7 +96,10 @@ reuse a version for different bytes.
 Every concept and context reference in a Policy Pack is Dialect-qualified and
 must name a directly required Dialect:
 
-```hcl title="pack.rf"
+Inside `policy_pack`, `requires` remains nested because it describes manifest
+metadata:
+
+```hcl title="pack.rf (excerpt)"
 requires {
   core = "0.1.0"
 }
@@ -100,13 +117,23 @@ Dialect for a project and do not let the pack read that Dialect's source values.
 Each policy should express one inspectable requirement. Name the target concept
 and use a message that tells a reader what requirement failed:
 
-```hcl title="pack.rf"
+```hcl title="policies/cluster-network-context.rf"
 policy "cluster-network-context" {
   target = concept.core.kubernetes-cluster
-  assert = length(contexts(context.core.network, concept.core.kubernetes-cluster)) > 0
+  assert = (
+    length(contexts(context.core.network, concept.core.virtual-network)) > 0 ||
+    length(contexts(context.core.network, concept.core.subnet)) > 0
+  )
   message = "Kubernetes clusters must belong to a network context."
 }
 ```
+
+This assertion accepts network context established to either a virtual network
+or a subnet. It does not look for another Kubernetes cluster.
+
+One policy per file keeps reviews focused, but filenames and subdirectories do
+not affect ownership or identity. Multiple top-level policies in one source
+file are also valid.
 
 Do not encode a severity in the name or message. Policies have no author-defined
 severity. A known false assertion is a violation; an unknown
@@ -142,14 +169,15 @@ the intended reasons.
 
 ## Package deterministically
 
-Compile the source root into a local OCI registry layout. Packaging is offline
-and sends nothing to a registry:
+Compile source root into a local OCI registry layout. Packaging is offline and
+sends nothing to a registry. Replace example URLs with repository-owned values;
+use exact revision from checkout:
 
 ```sh
 rootform package policy-packs ./baseline \
   --to ./artifacts/policies \
   --source-url https://example.com/team/policies \
-  --revision 0123456789abcdef0123456789abcdef01234567 \
+  --revision "$(git rev-parse HEAD)" \
   --documentation-url https://example.com/team/policies/docs \
   --licenses Apache-2.0
 ```
@@ -170,9 +198,6 @@ Projects select a reviewed OCI reference explicitly with
 
 <!-- rootform:endsteps -->
 
-Policy Packs have no inheritance, include, extension, or cross-pack call. A
-project can select several independent packs through its CLI workflow. Keep
-each pack's source self-contained and its direct vocabulary requirements exact.
-
-See [Policy Pack reference](reference/policy-packs.md) for every field and
-[Evaluation](reference/evaluation.md) for decision behavior.
+See [Policy Pack reference](reference/policy-packs.md) for exact fields,
+compatibility forms, and isolation rules, and [Evaluation](reference/evaluation.md)
+for decision behavior.

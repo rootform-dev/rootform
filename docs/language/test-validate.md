@@ -9,7 +9,7 @@ question, then run the complete sequence before release.
 
 | Command | Question answered |
 | --- | --- |
-| `rootform fmt --check` | Is source in canonical format? |
+| `rootform fmt --check` | Would formatting leave source unchanged? |
 | `rootform validate dialects` | Do Dialect files compile with valid references and graph shape? |
 | `rootform validate rule` | Is one selected rule valid in its Dialect? |
 | `rootform test` | Do Dialect fixtures produce the reviewed Architecture IR bytes? |
@@ -102,6 +102,12 @@ fixtures/
         └── architecture.golden
 ```
 
+Before first comparison, complete isolated authoring setup from
+[Write a Dialect](../dialect-authoring.md#set-up-an-authoring-checkout): install
+checkout's Dialects into temporary `ROOTFORM_HOME`, then review candidate
+Architecture IR before saving it as `architecture.golden`. Repository fixture
+suite supplies exact shared semantics; `rootform test` never updates golden.
+
 Run the suite with its prepared lock and semantics:
 
 ```sh
@@ -179,13 +185,14 @@ codes. See [Diagnostics](reference/diagnostics.md) for remediation groups.
 
 ## Verify the package boundary
 
-After source and behavior pass, package locally:
+After source and behavior pass, package locally. Replace example URLs with
+repository-owned values; use exact revision from checkout:
 
 ```sh
 rootform package dialects . --to ./artifacts/dialects \
   --repository registry.example/team/dialects \
   --source-url https://example.com/team/dialects \
-  --revision 0123456789abcdef0123456789abcdef01234567 \
+  --revision "$(git rev-parse HEAD)" \
   --licenses MPL-2.0
 ```
 
@@ -194,7 +201,7 @@ For a Policy Pack:
 ```sh
 rootform package policy-packs ./policies --to ./artifacts/policies \
   --source-url https://example.com/team/policies \
-  --revision 0123456789abcdef0123456789abcdef01234567 \
+  --revision "$(git rev-parse HEAD)" \
   --licenses Apache-2.0
 ```
 
@@ -203,7 +210,3 @@ Package commands are offline. Verify a Dialect layout with
 published tag and digest before reporting success.
 
 <!-- rootform:endsteps -->
-
-Run the repository's own executable gate after these focused checks. Generated
-CLI reference remains the source for exact flags and exit codes; this page
-defines how the authoring checks fit together.

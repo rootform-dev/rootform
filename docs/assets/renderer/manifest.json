@@ -1,8 +1,8 @@
 {
   "format_version": "1",
   "binary": {
-    "version": "rootform 0.1.1",
-    "sha256": "fe684dc7896d259eaa7e91c8392a9b6d170e35084eda8bcac961e8e560aa720c"
+    "version": "rootform 0.1.0",
+    "sha256": "17eb800e00a284ae124c32495e7c49145e3a20b180f7508683e4524f2cf7ca81"
   },
   "viewport": {
     "width": 1280,
@@ -12,111 +12,151 @@
   "fixtures": {
     "azure-platform": {
       "files": {
-        "main.tf": "d3ab53905bc7a0575e4a2cbc375b669f89c02547438f5f1517ac12d27bd757ef",
-        "rootform.lock": "8e7c465ca609667991d4dd84089b6d242848a2396ad17305dceb8d945c783813"
+        "example.json": "77128ca24a9c39345b9a7af0c271ab2a2a3eb6bae14cb72c2548c637e21fd13c",
+        "main.tf": "e06e1be92c5a180de73ae690f0ead284ba753209d6543d779c7fdcb38d64a6d9",
+        "rootform.lock": "baa5574e0555fc4f47828659aebae1135c7cbff339f46de10cb65ff0b1691382"
       },
-      "architecture_sha256": "5e4d2df967940b3877b5c9ba3ab26275948cf84e2166367ca60b0435dbcc1e0f"
+      "architecture_sha256": "db1bb882162d5af4bbd8f40f1d28240033d0d5f10701e45949f55e86bd6827df"
     },
     "azure-platform-next": {
       "files": {
-        "main.tf": "a7078758e99c98a51eb962a33c3c7b77da8c48346a0bc187b1a2835fc9f49f26",
-        "rootform.lock": "8e7c465ca609667991d4dd84089b6d242848a2396ad17305dceb8d945c783813"
+        "example.json": "77128ca24a9c39345b9a7af0c271ab2a2a3eb6bae14cb72c2548c637e21fd13c",
+        "main.tf": "63894d40a092ef84c68e3306d1fdcbd0c935895a4fb77181275e87065d04dcfa",
+        "rootform.lock": "baa5574e0555fc4f47828659aebae1135c7cbff339f46de10cb65ff0b1691382"
       },
-      "architecture_sha256": "34d39a2bfa6c6225045a2c7119053e59214b975002f1c047561fdac38acc6723"
+      "architecture_sha256": "b30a9ddc0adcbadea805b5c821c407117fd2ecaa2425ed7ac293d5abb68b386f"
+    },
+    "multicloud-base": {
+      "files": {
+        "example.json": "cbb6c301b416af180e58bbb5225bfce1d0dce960498722650c5207570d7a83c6",
+        "main.tf": "121f2265a6cc0d70ea8a08de6a65f89e6d9c75cd960e31fd2c58f69b1dbd090f",
+        "rootform.lock": "07ce72b99ba949dad8ff1d60a33e1cc48aaea0c4e4396f99aadce30bd2a9e515"
+      },
+      "architecture_sha256": "5f0b7938b6530ffb46f8f4fc4a2cb0fe2fdc516d7bb941a14ea22be6cdd51fdc"
     },
     "multicloud": {
       "files": {
-        "main.tf": "62f46fcc6caa9d83db48417bc6e3d9b4813531d9de536e82403e51e39e8eea3b",
+        "example.json": "cbb6c301b416af180e58bbb5225bfce1d0dce960498722650c5207570d7a83c6",
+        "main.tf": "e3e8762a3a34345be16d3e86f6775c147b29304209135af790b3ec8930c0cc29",
         "rootform.lock": "07ce72b99ba949dad8ff1d60a33e1cc48aaea0c4e4396f99aadce30bd2a9e515"
       },
-      "architecture_sha256": "78117c082dd0d0c2a7849c324a0380facc999bd588c65a8d183e3429cc060c71"
+      "architecture_sha256": "8dea44d601155443e95869c596c0589c400fb0f7d621733e1ec66ba4a297a8d5"
     }
   },
-  "comparison": {
-    "base": "azure-platform",
-    "head": "azure-platform-next",
-    "sha256": "a6f1d069ef43116272013c903a88850bcccd68a2dca6981931b5acb1532f73f1"
+  "comparisons": {
+    "commerce-platform": {
+      "base": "azure-platform",
+      "head": "azure-platform-next",
+      "diff": "azure-delta",
+      "sha256": "13bf08226206ee6dd78b6b1354e64141113ac99815547a84e77dc7c72f25959b"
+    },
+    "shared-data-platform": {
+      "base": "multicloud-base",
+      "head": "multicloud",
+      "diff": "multicloud-delta",
+      "sha256": "3f0b0173c7fe0e1fff769a2f831fbc34c1cd9b41bc7b81940bd6a4e2516ec663"
+    }
   },
   "figures": {
     "azure-survey-light.png": {
-      "fixture": "azure-platform",
+      "fixture": "azure-platform-next",
       "state": "Survey, initial camera",
-      "sha256": "fb1910c7e55fd3b9cf1f273cef899a0331f49a95115ec7304808eaadfa65f4c8"
+      "sha256": "97c5812310036e81c1eb94d10ad1386c5048a6e778e2059ae9225aec96f953f1"
     },
     "azure-plan-light.png": {
-      "fixture": "azure-platform",
+      "fixture": "azure-platform-next",
       "state": "Plan, fit architecture",
-      "sha256": "5c63cfb5542b4e12608f2680db44e4bda9ec5a113345511716f3f2a344eb341f"
+      "sha256": "95fbe0ca9eb8201bdea4e8dc58c3efc6b6bb3a6b8045ba6d207a1643fcf187b6"
     },
     "azure-focus-light.png": {
-      "fixture": "azure-platform",
+      "fixture": "azure-platform-next",
       "state": "Plan, Focus production virtual network, Inspector closed",
-      "sha256": "ed8ed1c1d4372614916bb01895a4edec3e51b13e3f6ee2a80c437a2249009167"
+      "sha256": "dc7dc43157ccde0c10fa30b0d8e9566b06ac5eab40dff7aa61f64b6b92dc3bd2"
     },
     "azure-inspector-light.png": {
-      "fixture": "azure-platform",
+      "fixture": "azure-platform-next",
       "state": "Plan, Focus production virtual network, analytics cluster selected",
-      "sha256": "077ba7335861c7cd9310cca060f96ddfb24f89fd800d6f2875428024b338ed17"
+      "sha256": "608bff66ce851cbdab09448bf69f20f9812696bfca7bcf8435e45b4463162a78"
     },
     "azure-survey-dark.png": {
-      "fixture": "azure-platform",
+      "fixture": "azure-platform-next",
       "state": "Survey, initial camera",
-      "sha256": "449a961538d1e19a923d04766cdde1b3d8f347c0d46c72bcf89092ec5887ed38"
+      "sha256": "6d3fac7bd18cf4b82e8f1523121ac50c35f44f95ac5f9b9828680e2476402afc"
     },
     "azure-plan-dark.png": {
-      "fixture": "azure-platform",
+      "fixture": "azure-platform-next",
       "state": "Plan, fit architecture",
-      "sha256": "319d7351259211adb99e365b5cf7375a47992f7730b47d6782a94d7ea1b186d6"
+      "sha256": "dc3d0f8b89b8a4135d5f9308c0ed50dcd602cf335f6890a228a516a715360915"
     },
     "azure-focus-dark.png": {
-      "fixture": "azure-platform",
+      "fixture": "azure-platform-next",
       "state": "Plan, Focus production virtual network, Inspector closed",
-      "sha256": "b625c5a2c9d819cd469118506280001e3c9c68060c2f316de00f4fc6e8a4a477"
+      "sha256": "930b76b5f8d9bd376479c3a711a5edc1dc0d613a8af15f91f0165adc765f0858"
     },
     "azure-inspector-dark.png": {
-      "fixture": "azure-platform",
+      "fixture": "azure-platform-next",
       "state": "Plan, Focus production virtual network, analytics cluster selected",
-      "sha256": "e41174067fea66c0920b90f21fe3b8b98de369cd4d1d80a2466f8b232be1679d"
+      "sha256": "66791bbd72ea73895e50dce884db0de921fea9d5d4769558819e8f6076a9084f"
     },
     "multicloud-plan-light.png": {
       "fixture": "multicloud",
       "state": "Plan, fit architecture",
-      "sha256": "9cb2307f27f17641985115e252b320c64f890a3fa4d654d4bb76701505cd171b"
+      "sha256": "664ee697282bfb22501ce253711549e50c216d84d5ca87729c845a0e3015a069"
     },
     "multicloud-ownership-light.png": {
       "fixture": "multicloud",
       "state": "Plan, Ownership dimension, fit architecture",
-      "sha256": "180e09d296c81ea6caa057bbf35e82a5d28c99f38ffc61bff33ae4a08425c9d0"
+      "sha256": "49dd242a6e53427cd21d672b68c646214ffb05915fe5a2ce9b3f3f69abd268e2"
     },
     "multicloud-plan-dark.png": {
       "fixture": "multicloud",
       "state": "Plan, fit architecture",
-      "sha256": "ed1ee3b92e936f327ca5f9df6526ed346ed559b8a0762834270311e5fffc3760"
+      "sha256": "5ca37048029fbe6ee0e8278a301dbd33f217da6bb93f683159b94fd1adec9ed0"
     },
     "multicloud-ownership-dark.png": {
       "fixture": "multicloud",
       "state": "Plan, Ownership dimension, fit architecture",
-      "sha256": "62b1519f646a0ceca80014775d9e9a53b7532a4a19b8c9aef0ce532e202f6223"
+      "sha256": "1dc1a1ad4d893e65c31f857f08b24ec46b0dd593a2d9f9b1580942b03e211e6c"
     },
     "azure-delta-light.png": {
       "fixture": "azure-platform → azure-platform-next",
       "state": "Delta renderer preview, Survey",
-      "sha256": "24b6a3aa297e2d7f5464483e419c7d083e8b4eec184f831d8efce9e5a1811915"
+      "sha256": "de057988dc111e43db74e5c40f2e99852c783722a06f50b545f36ddd7a5ccbed"
     },
     "azure-change-light.png": {
       "fixture": "azure-platform → azure-platform-next",
-      "state": "Delta renderer preview, Plan, Focus analytics cluster, Inspector Change",
-      "sha256": "c234de0f07e1b4cd8bb6196780d63427fb43d7c150e8ce499985727ab7d2fff5"
+      "state": "Delta renderer preview, Plan, Focus production analytics cluster, Inspector Change",
+      "sha256": "8627c5e946497fa600cde21175ec2968c2fd0fc0e92967651073024c717083ae"
     },
     "azure-delta-dark.png": {
       "fixture": "azure-platform → azure-platform-next",
       "state": "Delta renderer preview, Survey",
-      "sha256": "bfaf77e04b8e6c81286477fdbdc4da90d436d262641b394e3d1302c9c49eac15"
+      "sha256": "c87dbec6f8b009e4ecad0eab746319a0ee8536c0c643c16917d1461bef18a4db"
     },
     "azure-change-dark.png": {
       "fixture": "azure-platform → azure-platform-next",
-      "state": "Delta renderer preview, Plan, Focus analytics cluster, Inspector Change",
-      "sha256": "409e398462df1005d123e2e1a549e143a5208cc01e51c7cd8a3776d696cb76bc"
+      "state": "Delta renderer preview, Plan, Focus production analytics cluster, Inspector Change",
+      "sha256": "874a6bc5963acff1d472aed00848db99457edec395c709dd9f95d34ec4fd5259"
+    },
+    "multicloud-delta-light.png": {
+      "fixture": "multicloud-base → multicloud",
+      "state": "Delta renderer preview, Survey",
+      "sha256": "df482953e847fe3b79145f01be1cff9dc908c2bd32b21d3c2c73285a899e7648"
+    },
+    "multicloud-change-light.png": {
+      "fixture": "multicloud-base → multicloud",
+      "state": "Delta renderer preview, Plan, Focus analytics namespace, Inspector Change",
+      "sha256": "17baac84bdb01f367dd81d81b87767d3483d78df5e185072d86e40232fa0f771"
+    },
+    "multicloud-delta-dark.png": {
+      "fixture": "multicloud-base → multicloud",
+      "state": "Delta renderer preview, Survey",
+      "sha256": "24fffcd58916110462df3f15c829e88db2c57093543e274c71da3221c21a7395"
+    },
+    "multicloud-change-dark.png": {
+      "fixture": "multicloud-base → multicloud",
+      "state": "Delta renderer preview, Plan, Focus analytics namespace, Inspector Change",
+      "sha256": "32f8671eb88f43288ac409c78c06487dbd18b264069d6d35e8c540f761585e5c"
     }
   }
 }

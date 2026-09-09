@@ -4,10 +4,10 @@ description: Understand, review, and check the architecture declared in Terrafor
 tableOfContents: false
 ---
 
-Rootform turns Terraform or OpenTofu into an architecture you can inspect. It
-uses versioned [Dialects](concepts/dialects.md) to establish what declarations
-mean, preserves evidence behind each fact, and leaves configuration as the source
-of truth.
+Rootform turns Terraform or OpenTofu into an architecture you can inspect,
+compare across changes, and check against selected policies. It uses versioned
+[Dialects](concepts/dialects.md) to establish what declarations mean, preserves
+evidence behind each fact, and leaves configuration as the source of truth.
 
 Use Rootform to review boundaries, components, placement, and declared
 relationships without executing providers or contacting cloud accounts. It
@@ -18,11 +18,11 @@ with guessed meaning.
 
 | Result | Use it for |
 | --- | --- |
-| Local explorer | Navigate architecture with Survey, Plan, Focus, and Inspector. |
-| Architecture IR | Save deterministic JSON facts, accounting, diagnostics, and provenance. |
-| Self-contained HTML | Share an interactive architecture that needs no server or adjacent assets. |
-| Diff report | Compare architectural meaning between source revisions or both sides of a plan. |
-| Policy result | Evaluate policies selected for a project and distinguish passed, violated, and indeterminate decisions. |
+| [Local explorer](renderer/index.md) | Navigate architecture with Survey, Plan, Focus, and Inspector. |
+| [Diff report](guides/compare-architectures.md) | Compare architectural meaning between source revisions or both sides of a plan. |
+| [Policy result](guides/check-architecture.md) | Evaluate policies selected for a project and distinguish passed, violated, and indeterminate decisions. |
+| [Architecture IR](concepts/architecture-ir.md) | Save deterministic JSON facts, accounting, diagnostics, and provenance. |
+| [Self-contained HTML](reference/outputs.md#share-the-right-artifact) | Share an interactive architecture that needs no server or adjacent assets. |
 
 Rootform does not run Terraform/OpenTofu, execute providers, contact backends,
 apply changes, or verify deployed infrastructure. It describes the architecture
@@ -42,8 +42,8 @@ For an existing project, run from the Terraform or OpenTofu root:
 rootform run .
 ```
 
-Rootform prepares the missing Dialects, records their selection in `rootform.lock`,
-and opens the local explorer. Review the proposal before confirming it. See
+Rootform proposes any missing Dialects. After you confirm the selection, it
+records them in `rootform.lock` and opens the local explorer. See
 [project preparation](cli.md) for non-interactive, locked, and offline use.
 
 ## Continue by question
@@ -52,13 +52,13 @@ and opens the local explorer. Review the proposal before confirming it. See
 - [How did Rootform derive this?](concepts/architecture-ir.md)
   Follow architecture facts to their source declarations and Dialect rules.
 - [What do Survey, Plan, Focus, and Inspector show?](renderer/index.md)
-  Learn visual grammar and navigate larger results.
+  Learn the visual grammar and navigate larger results.
 - [How do I compare a change?](guides/compare-architectures.md)
   Build before and after architectures and read their Diff.
-- [How do I check a policy?](guides/check-architecture.md)
-  Evaluate one bounded rule against known architecture facts.
+- [How do I gate architecture rules?](guides/check-architecture.md)
+  Evaluate a real policy locally, inspect its evidence, then reproduce it in CI.
 - [How do I reproduce a result offline?](guides/reproduce-build.md)
-  Preserve lock and vendor exact semantic packages.
+  Preserve the lock and vendor the exact semantic packages.
 
 Use the [CLI reference](reference/cli/index.md) for exact command syntax and
 [troubleshooting](troubleshooting/index.md) for failed operations.

@@ -1,4 +1,4 @@
-# Synthetic architecture source for Rootform documentation, not a deployment recipe.
+# Reproducible Rootform Playground source. This is an architecture example, not a deployment recipe.
 terraform {
   required_providers {
     azurerm = {
@@ -43,6 +43,13 @@ resource "azurerm_subnet" "checkout" {
   address_prefixes     = ["10.20.1.0/24"]
 }
 
+resource "azurerm_subnet" "data" {
+  name                 = "data"
+  resource_group_name  = azurerm_resource_group.azure.name
+  virtual_network_name = azurerm_virtual_network.azure.name
+  address_prefixes     = ["10.20.2.0/24"]
+}
+
 resource "azurerm_kubernetes_cluster" "checkout" {
   name                = "checkout"
   resource_group_name = azurerm_resource_group.azure.name
@@ -59,6 +66,33 @@ resource "azurerm_kubernetes_cluster" "checkout" {
   }
 }
 
+resource "azurerm_private_dns_zone" "warehouse" {
+  name                = "warehouse.postgres.database.azure.com"
+  resource_group_name = azurerm_resource_group.azure.name
+}
+
+resource "azurerm_postgresql_flexible_server" "warehouse" {
+  name                = "shared-warehouse"
+  resource_group_name = azurerm_resource_group.azure.name
+  location            = azurerm_resource_group.azure.location
+  delegated_subnet_id = azurerm_subnet.data.id
+  private_dns_zone_id = azurerm_private_dns_zone.warehouse.id
+}
+
+resource "azurerm_private_endpoint" "warehouse" {
+  name                = "shared-warehouse"
+  resource_group_name = azurerm_resource_group.azure.name
+  location            = azurerm_resource_group.azure.location
+  subnet_id           = azurerm_subnet.data.id
+
+  private_service_connection {
+    name                           = "warehouse"
+    private_connection_resource_id = azurerm_postgresql_flexible_server.warehouse.id
+    subresource_names              = ["postgresqlServer"]
+    is_manual_connection           = false
+  }
+}
+
 resource "google_compute_network" "google" {
   name                    = "google"
   auto_create_subnetworks  = false
@@ -71,12 +105,42 @@ resource "google_compute_subnetwork" "analytics" {
   ip_cidr_range = "10.30.1.0/24"
 }
 
+resource "google_compute_subnetwork" "services" {
+  name          = "services"
+  network       = google_compute_network.google.id
+  region        = "europe-west1"
+  ip_cidr_range = "10.30.2.0/24"
+}
+
 resource "google_container_cluster" "analytics" {
   name               = "analytics"
   location           = "europe-west1"
   network            = google_compute_network.google.id
   subnetwork         = google_compute_subnetwork.analytics.id
   initial_node_count = 2
+}
+
+resource "google_cloud_run_v2_service" "ingest" {
+  name     = "event-ingest"
+  location = "europe-west1"
+
+  template {
+    vpc_access {
+      network_interfaces {
+        network    = google_compute_network.google.id
+        subnetwork = google_compute_subnetwork.services.id
+      }
+    }
+  }
+}
+
+resource "google_pubsub_topic" "events" {
+  name = "platform-events"
+}
+
+resource "google_pubsub_subscription" "warehouse" {
+  name  = "warehouse-events"
+  topic = google_pubsub_topic.events.id
 }
 
 provider "kubernetes" {
@@ -120,6 +184,22 @@ resource "kubernetes_service_v1" "api" {
   }
 }
 
+resource "kubernetes_ingress_v1" "checkout" {
+  provider = kubernetes.azure
+  metadata {
+    name      = "checkout"
+    namespace = kubernetes_namespace_v1.checkout.metadata[0].name
+  }
+}
+
+resource "kubernetes_service_account_v1" "checkout" {
+  provider = kubernetes.azure
+  metadata {
+    name      = "checkout"
+    namespace = kubernetes_namespace_v1.checkout.metadata[0].name
+  }
+}
+
 resource "kubernetes_namespace_v1" "analytics" {
   provider = kubernetes.google
   metadata {
@@ -132,6 +212,37 @@ resource "kubernetes_stateful_set_v1" "warehouse" {
   metadata {
     name      = "warehouse"
     namespace = kubernetes_namespace_v1.analytics.metadata[0].name
+  }
+}
+
+resource "kubernetes_deployment_v1" "analytics_api" {
+  provider = kubernetes.google
+  metadata {
+    name      = "analytics-api"
+    namespace = kubernetes_namespace_v1.analytics.metadata[0].name
+  }
+}
+
+resource "kubernetes_service_v1" "analytics_api" {
+  provider = kubernetes.google
+  metadata {
+    name      = "analytics-api"
+    namespace = kubernetes_namespace_v1.analytics.metadata[0].name
+  }
+}
+
+resource "kubernetes_namespace_v1" "batch" {
+  provider = kubernetes.google
+  metadata {
+    name = "batch"
+  }
+}
+
+resource "kubernetes_deployment_v1" "batch" {
+  provider = kubernetes.google
+  metadata {
+    name      = "daily-models"
+    namespace = kubernetes_namespace_v1.batch.metadata[0].name
   }
 }
 
@@ -151,6 +262,18 @@ resource "vault_kubernetes_auth_backend_config" "checkout" {
   kubernetes_host = azurerm_kubernetes_cluster.checkout.kube_config[0].host
 }
 
+resource "vault_auth_backend" "analytics" {
+  namespace = vault_namespace.platform.path
+  type      = "kubernetes"
+  path      = "analytics"
+}
+
+resource "vault_kubernetes_auth_backend_config" "analytics" {
+  namespace       = vault_namespace.platform.path
+  backend         = vault_auth_backend.analytics.path
+  kubernetes_host = google_container_cluster.analytics.endpoint
+}
+
 resource "grafana_organization" "observability" {
   name = "observability"
 }
@@ -164,5 +287,11 @@ resource "grafana_data_source" "metrics" {
 resource "grafana_data_source" "logs" {
   name   = "logs"
   type   = "loki"
+  org_id = grafana_organization.observability.id
+}
+
+resource "grafana_data_source" "traces" {
+  name   = "traces"
+  type   = "tempo"
   org_id = grafana_organization.observability.id
 }

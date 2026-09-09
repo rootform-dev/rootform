@@ -201,12 +201,14 @@ export function verifyCoreExamples(
 
   const policyPage = page("guides/check-architecture.md");
   const pack = configuration(policyPage, "policies/pack.rf");
+  const policySource = configuration(policyPage, "policies/subnet-network-context.rf");
   mkdirSync(join(workspace, "policies"));
   writeFileSync(join(workspace, "policies/pack.rf"), pack);
+  writeFileSync(join(workspace, "policies/subnet-network-context.rf"), policySource);
   const passed =
     command("guides/check-architecture.md", "policy-local").trim().split("\n")[0] ?? "";
   assert(
-    policyPage.includes(`${fence}text title="Policy summary (excerpt)"\n${passed}\n${fence}`),
+    policyPage.includes(`${fence}text title="Passed check (excerpt)"\n${passed}\n${fence}`),
     `displayed policy result differs from observed stdout: ${JSON.stringify(passed)}`,
   );
   command("guides/check-architecture.md", "policy-show");
@@ -224,6 +226,23 @@ export function verifyCoreExamples(
       policy.evaluations[0]?.target === "scope:aws_subnet.application",
     "policy identity or target changed",
   );
+  const missingContextSource = original
+    .toString()
+    .replace("vpc_id     = aws_vpc.main.id", 'vpc_id     = "vpc-0123456789abcdef0"');
+  assert(missingContextSource !== original.toString(), "tutorial subnet reference was not found");
+  writeFileSync(join(workspace, "main.tf"), missingContextSource);
+  const violatedExcerpt = run(["check", ".", "--offline", "--policy-pack", "./policies"], 1)
+    .stdout.trim()
+    .split("\n")
+    .slice(0, 3)
+    .join("\n");
+  assert(
+    policyPage.includes(
+      `${fence}text title="Violated check (excerpt)"\n${violatedExcerpt}\n${fence}`,
+    ),
+    "displayed policy violation differs from observed stdout",
+  );
+  writeFileSync(join(workspace, "main.tf"), original);
   const noPack = JSON.parse(run(["check", "architecture.json", "--format", "json"]).stdout);
   const noPackText = run(["check", "architecture.json"]).stdout.trim().split("\n")[0];
   assert(
@@ -235,8 +254,8 @@ export function verifyCoreExamples(
     "no-pack check no longer has explicit zero scope",
   );
   writeFileSync(
-    join(workspace, "policies/pack.rf"),
-    pack.replace("target = concept.core.subnet", "target = concept.core.managed-database"),
+    join(workspace, "policies/subnet-network-context.rf"),
+    policySource.replace("target = concept.core.subnet", "target = concept.core.managed-database"),
   );
   const noTarget = JSON.parse(
     run(["check", ".", "--policy-pack", "./policies", "--format", "json"]).stdout,
@@ -246,14 +265,15 @@ export function verifyCoreExamples(
     "selected policy without a target must remain distinct from no policies",
   );
   writeFileSync(
-    join(workspace, "policies/pack.rf"),
-    pack.replace(/assert = [^\n]+/u, "assert = false"),
+    join(workspace, "policies/subnet-network-context.rf"),
+    policySource.replace(/assert = [^\n]+/u, "assert = false"),
   );
   const violation = JSON.parse(
     run(["check", ".", "--policy-pack", "./policies", "--format", "json"], 1).stdout,
   );
   assert(
-    violation.summary.violated === 1 && violation.violations[0]?.path === "pack.rf",
+    violation.summary.violated === 1 &&
+      violation.violations[0]?.path === "subnet-network-context.rf",
     "violation must identify pack assertion and target",
   );
   const sarif = JSON.parse(
@@ -264,6 +284,14 @@ export function verifyCoreExamples(
     join(workspace, "policies/pack.rf"),
     pack.replace('core = "0.1.0"', 'core = "9.9.9"'),
   );
+  const unavailableExcerpt =
+    run(["check", ".", "--policy-pack", "./policies"], 3).stdout.trim().split("\n")[0] ?? "";
+  assert(
+    policyPage.includes(
+      `${fence}text title="Indeterminate check (excerpt)"\n${unavailableExcerpt}\n${fence}`,
+    ),
+    "displayed indeterminate policy result differs from observed stdout",
+  );
   const unavailable = JSON.parse(
     run(["check", ".", "--policy-pack", "./policies", "--format", "json"], 3).stdout,
   );
@@ -272,6 +300,7 @@ export function verifyCoreExamples(
     "incompatible policy requirement cannot silently pass",
   );
   writeFileSync(join(workspace, "policies/pack.rf"), pack);
+  writeFileSync(join(workspace, "policies/subnet-network-context.rf"), policySource);
   checks.push(
     "policy violation/indeterminate exits, assertion location and both zero-evaluation cases",
   );

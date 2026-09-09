@@ -69,7 +69,7 @@ Direction matters. A matching incoming relation is not returned.
 ## Query contributions
 
 ```hcl title="pack.rf"
-length(contributions(concept.core.subnet))
+length(contributions(concept.core.kubernetes-node-pool))
 ```
 
 | Argument | Meaning |
@@ -85,7 +85,8 @@ details contribute to its target.
 
 ## Complete assertions
 
-```hcl title="pack.rf"
+```hcl title="Independent assertion examples"
+# Choose one assertion for each policy.
 assert = length(contexts(context.core.network, concept.core.virtual-network)) > 0
 
 assert = (

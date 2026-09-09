@@ -29,12 +29,13 @@ jobs:
       - run: |
           rootform init ./infra --locked --no-input
           rootform build ./infra --locked --no-input --output architecture.json
+          rootform check ./infra --locked --no-input --format sarif --output policy-result.sarif
 ```
 
 This example assumes a prepared project in `infra` with a committed
-`rootform.lock`. The first command can recover exact missing Dialects; locked
-does not mean offline. The example writes a local file in the runner, not a
-published GitHub artifact.
+`rootform.lock` containing reviewed Policy Packs. The first command can recover
+exact missing packages; locked does not mean offline. Build and check outputs
+remain local runner files until a later step uploads or publishes them.
 
 ## Let the Action run the analysis
 
@@ -62,8 +63,8 @@ comment. Follow the
 for the exact supported setup.
 
 Use the `pull_request` event. Fork pull requests receive Summary and artifact
-evidence, but the Action does not use a write token for them. Do not switch
-to `pull_request_target` to grant an untrusted contribution more privileges.
+evidence without a write token. Do not switch to `pull_request_target` to grant
+an untrusted contribution more privileges.
 
 ## Keep the evidence reproducible
 
@@ -72,6 +73,7 @@ Use `offline` only when the required local content has been supplied. GitHub
 artifacts should contain selected Rootform results, not raw Terraform plans,
 state, credentials, or the entire working directory.
 
-A policy check with no selected policies is not a compliance review. Read
+A policy check with no selected policies is not a compliance review. Confirm
+expected evaluation count and preserve indeterminate status `3`. Read
 [Policies and Policy Packs](../concepts/policies.md) and
 [outputs and exit status](../reference/outputs.md) before choosing your gate.

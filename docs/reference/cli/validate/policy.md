@@ -24,6 +24,7 @@ rootform validate policy <identifier> [flags]
 
 Validate a policy definition in its selected Policy Pack.
 
+The project must select the Policy Pack that owns the policy.
 Use &lt;policy-pack&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
 The text or JSON result goes to standard output. Diagnostics go to
 standard error.
@@ -40,7 +41,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform validate policy baseline/database-private-connectivity
-rootform validate policy database-private-connectivity
-rootform validate policy baseline/database-private-connectivity --format json
+rootform validate policy baseline/private-database-reachability
+rootform validate policy private-database-reachability
+rootform validate policy baseline/private-database-reachability --format json
 ```

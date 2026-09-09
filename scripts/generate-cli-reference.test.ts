@@ -87,10 +87,7 @@ test("renders exact usage, inherited defaults, aliases and required state", () =
   expect(page).not.toContain("Boolean flags set");
   expect(page).not.toContain("Command syntax and help are generated");
   expect(renderCommand(present(commands[0]), commands)).toContain("](build.md)");
-  expect(commandNavigation(commands)).toEqual([
-    { label: "Overview", page: "reference/cli" },
-    { label: "build", page: "reference/cli/build" },
-  ]);
+  expect(commandNavigation(commands)).toEqual([{ label: "build", page: "reference/cli/build" }]);
 });
 
 test("only replaces the bounded generated block in an authored command page", () => {

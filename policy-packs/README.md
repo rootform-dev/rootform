@@ -13,6 +13,10 @@ source files are `*.rf` or `*.rf.json`, and legal text is limited to
 `LICENSE*`, `NOTICE*`, and `THIRD_PARTY_NOTICES*`. Anything else would be
 rejected by the pack layer boundary.
 
+Each pack root contains exactly one top-level `policy_pack` manifest. Policies
+are top-level declarations in any `.rf` or `.rf.json` file beneath that root;
+their owning pack comes from the root, not nesting or a file path.
+
 Pack identity is a validated name plus an exact semantic version. The example
 below is versioned `0.1.0`, uses only the referenced `core` dialect
 vocabulary, and is provider-neutral: selecting the pack never installs a
@@ -21,11 +25,12 @@ provider dialect.
 ## Example: `baseline/`
 
 [`baseline/`](baseline/) is a minimal provider-neutral pack that depends only
-on `core@0.1.0`. It contains two demonstration policies over core concepts:
+on `core@0.1.0`. `pack.rf` contains metadata and requirements; `policies/`
+contains two demonstration policies over core concepts:
 
-- `baseline/private-database-reachability` — managed databases must be
+- `baseline/private-database-reachability`: managed databases must be
   privately reachable from a virtual network or subnet;
-- `baseline/cluster-network-context` — Kubernetes clusters must belong to a
+- `baseline/cluster-network-context`: Kubernetes clusters must belong to a
   network context.
 
 The examples are synthetic and exist only to show the pack authoring shape.

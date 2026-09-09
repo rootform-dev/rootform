@@ -342,14 +342,20 @@ concept "portable-service" {
   requires {
     ${DIALECT_NAME} = "${DIALECT_VERSION}"
   }
+}
+`,
+    { flag: "wx", mode: 0o644 },
+  );
+  const policyDirectory = join(policyPack, "policies");
+  mkdirSync(policyDirectory, { recursive: true, mode: 0o755 });
+  writeFileSync(
+    join(policyDirectory, "portable-service-links.rf"),
+    `policy "portable-service-links" {
+  target = concept.${DIALECT_NAME}.portable-service
 
-  policy "portable-service-links" {
-    target = concept.${DIALECT_NAME}.portable-service
+  assert = length(relations("portable-link", concept.${DIALECT_NAME}.portable-service)) >= 0
 
-    assert = length(relations("portable-link", concept.${DIALECT_NAME}.portable-service)) >= 0
-
-    message = "Portable services expose deterministic relation evidence."
-  }
+  message = "Portable services expose deterministic relation evidence."
 }
 `,
     { flag: "wx", mode: 0o644 },
@@ -1002,6 +1008,17 @@ export function qualifyRegistry(options: Options): void {
       join(lockedHome, "policy-packs", POLICY_PACK_NAME, POLICY_PACK_VERSION, "pack.rf"),
       "locked installed Policy Pack",
     );
+    regularFile(
+      join(
+        lockedHome,
+        "policy-packs",
+        POLICY_PACK_NAME,
+        POLICY_PACK_VERSION,
+        "policies",
+        "portable-service-links.rf",
+      ),
+      "locked installed Policy Pack policy",
+    );
     validateInspection(
       run([options.rootformBinary, "show", "dialect", DIALECT_NAME, "--format", "json"], {
         cwd: lockedProject,
@@ -1095,6 +1112,10 @@ export function qualifyRegistry(options: Options): void {
     regularFile(join(vendorRoot, "LICENSE"), "vendored license");
     regularFile(join(vendorRoot, "NOTICE"), "vendored notice");
     regularFile(join(vendorPackRoot, "pack.rf"), "vendored Policy Pack");
+    regularFile(
+      join(vendorPackRoot, "policies", "portable-service-links.rf"),
+      "vendored Policy Pack policy",
+    );
     regularFile(join(vendorPackRoot, "LICENSE"), "vendored Policy Pack license");
     regularFile(join(vendorPackRoot, "NOTICE"), "vendored Policy Pack notice");
     if (

@@ -40,5 +40,5 @@ standard error.
 ```sh
 rootform remove dialect google 0.1.0
 rootform remove dialect kubernetes 0.1.0
-rootform list dialects
+rootform list dialects --installed
 ```

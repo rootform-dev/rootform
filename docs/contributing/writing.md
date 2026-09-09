@@ -4,7 +4,8 @@ description: The shared editorial standard for Rootform documentation, interface
 ---
 
 Write for an engineer who knows infrastructure tooling and is learning
-Rootform. Assume familiarity with Git, shells, package managers, CI, JSON,
+Rootform. **Assume technical competence. Never assume Rootform knowledge.**
+Expect familiarity with Git, shells, package managers, CI, JSON,
 Terraform/OpenTofu, and GitHub Releases. Explain Rootform terms before they
 become prerequisites.
 
@@ -47,12 +48,23 @@ Choose the content type before deciding the structure:
 Do not turn a tutorial into a concept catalog or a reference into a guided tour.
 Link to the content type that answers the reader's next question.
 
+Apply these limits before drafting:
+
+| Page | Keep here | Defer |
+| --- | --- | --- |
+| Install | Platform choice, recommended command, verification, supported alternatives, and first-run consequence. | Installer internals, release pipeline, publication status, and general shell instruction. |
+| Tutorial | One successful path, observable results, and explanation needed for next step. | Complete mental models, every alternative, and edge-case recovery. |
+| Concept | One coherent model, its evidence boundary, and consequences for decisions. | Command catalogs, registry resolution algorithms, and repeated how-to procedures. |
+| Reference | Complete accepted forms, fields, defaults, outputs, and edge behavior. | Motivation, narrative workflow, and duplicated concept teaching. |
+
 ## Keep the information that changes an outcome
 
-For every detail, ask:
+For every detail, ask both questions:
 
 > Does this change what the reader must do, understand, decide, expect,
 > troubleshoot, secure, or reproduce?
+
+> Why does the reader need this information here?
 
 If not, remove it or move it to the internal source that needs it. Technical
 truth alone is not a reason to publish a detail.
@@ -95,9 +107,20 @@ operation is also requested.
 Use **architecture** in ordinary prose and **Rootform architecture file** for a
 saved document. Use **Architecture IR** for the public data contract. Keep
 **Dialect**, **Policy Pack**, **Survey**, **Plan**, **Focus**, **Diff**, and
-**Inspector** consistent. Use lowercase `policy` for a rule inside a Policy
+**Inspector** consistent. Use lowercase `policy` for a rule owned by a Policy
 Pack. Reserve backticks for commands, paths, flags, identifiers, and literal
 values.
+
+Use **Rootform language** in headings and navigation and **the Rootform language**
+in prose. Keep `language` lowercase and omit `(.rf)` from the section name.
+Use `.rf` explicitly when discussing files and syntax, including `.rf files`,
+`.rf syntax`, and `.rf.json`.
+
+In new examples, put one top-level `policy_pack` manifest in a file at the pack
+root and top-level `policy` declarations in `.rf` or `.rf.json` files beneath
+that same root. The source root establishes ownership; policies need no explicit
+pack reference. Nested `policy` blocks inside `policy_pack` remain accepted for
+compatibility only. Teach the top-level form for new policies and multi-file packs.
 
 Distinguish renderer **Plan** from a Terraform or OpenTofu plan. Describe
 relations by their declared meaning. Do not turn network context into a
@@ -116,9 +139,11 @@ A concrete next action is useful; a summary of the page is not.
 
 Avoid forced symmetry, stock contrasts, and lists padded to three items. Do not
 repeat sentence openings such as “Rootform does,” “You can,” or “The command”
-when a natural subject is available. Use punctuation for syntax, not decoration:
-periods and colons carry ordinary structure, while repeated em dashes and middle
-dots make technical prose harder to scan.
+when a natural subject is available. Use punctuation for syntax, not decoration.
+The em dash character (U+2014) is forbidden in public documentation. Use a period,
+comma, colon, or parentheses instead. `bun run check:docs` rejects this character
+in authored Markdown, including headings and metadata. Avoid decorative middle
+dots in technical prose.
 
 | Before | After |
 | --- | --- |
@@ -154,24 +179,41 @@ must not rescue a weak information hierarchy or hold unrelated caveats.
 
 **Installation methods are ordered by recommendation, not by implementation
 importance. Show the simplest supported path first; package managers come next;
-manual release downloads are fallback or advanced paths.**
+manual release downloads are fallback paths.**
 
 - macOS: `curl -fsSL https://rootform.dev/install | sh`, then
   `brew install --cask rootform`, then the manual archive;
 - Linux: `curl -fsSL https://rootform.dev/install | sh`, then the manual archive;
-- Windows: `irm https://rootform.dev/install.ps1 | iex`, then
+- Windows: `Invoke-RestMethod https://rootform.dev/install.ps1 | Invoke-Expression`, then
   `winget install --id Rootform.Rootform --exact`, then the manual ZIP;
-- Container: an independent GHCR section, not another Linux method.
+- Container: a top-level platform choice that goes directly to the GHCR command,
+  not an OS install sequence.
 
-For each operating system, make the recommended method, command, and `rootform
-version` visible without reading the manual installation section. Keep OS and
-CPU detection, temporary files, archive layout, checksum production, and GitHub
-Release mechanics out of the primary path. Manual verification may explain
-checksums when the reader performs that step.
+Use one `[ macOS | Linux | Windows | Container ]` choice for primary content.
+Inside a platform panel, label **Recommended** and **Verify**; add **Other
+options** only when that platform has an alternative. Do not repeat the selected
+platform as a heading. Put one **Manual installation** section after all panels,
+visually secondary to recommended methods. Make `rootform version` visible
+without opening manual downloads. Keep OS and CPU detection, temporary files,
+archive layout, checksum production, and GitHub Release mechanics out of the
+primary path. Manual verification may explain checksums when performed.
 
 GitHub Releases can supply binary bytes without becoming the recommended
 installation experience. **Do not expose the release pipeline merely because
 releases are the underlying source of the binary.**
+
+## Editorial choices
+
+Use these examples to choose scope and wording:
+
+| Avoid | Write |
+| --- | --- |
+| “Rootform is one executable. It needs no Node.js, Python…” at the start of Install. | Name supported platforms and the only first-run network consequence. |
+| `macOS` as a heading directly below an active `macOS` tab. | Let the selected tab identify the platform; begin with **Recommended**. |
+| A Dialects concept page teaching source-priority and registry resolution algorithms. | Explain how Dialects change architecture meaning; link acquisition details to offline operation. |
+| A check walkthrough ending with an unrelated pack that evaluates zero targets. | Follow one policy through pass, violation, indeterminate evidence, then the same gate in CI. |
+| Describing `moved` as a machine Diff entry state. | Explain that Delta strictly derives a move from removed and added context facts. |
+| “The first run needs registry access.” | “The first run may need network access to download required Dialects that are not already available locally.” |
 
 ## Make examples executable
 
@@ -191,21 +233,20 @@ the exit status supports the surrounding claim.
 
 ## Choose documentary primitives deliberately
 
-Use a filename on file examples, `title="Command"` when a command's purpose would
-otherwise be unclear, and `title="Output"` or a precise result label for output.
+Use a filename on file examples and `title="Command"` when a command's purpose
+would otherwise be unclear. Untitled output stays compact when surrounding prose
+already identifies it; add a precise result label only when ambiguity remains.
 Line numbers and highlights must point to something the reader needs.
 
 Use a GitHub alert such as `> [!WARNING]` only under callout rules above. Public
 Markdown supports framework-neutral markers:
 
 - `<!-- rootform:directory -->` presents orientation links;
-- `<!-- rootform:tabs Label -->` groups two or more complete alternatives;
-- `<!-- rootform:lesson -->` places an optional real renderer lesson defined by
-  the page metadata;
+- `<!-- rootform:tabs Label -->` groups two or more complete alternatives.
 
-Shared instructions belong outside tabs. Renderer lessons use validated product
-facts and add interaction only when a static explanation cannot teach the same
-thing. Keep light/dark figures paired with the same state, caption, and useful
+Shared instructions belong outside tabs. Link to a precise Playground scenario
+when interaction helps; do not embed a second renderer inside a documentation
+page. Keep light/dark figures paired with the same state, caption, and useful
 alternative text.
 
 ## Apply the standard to each product surface
@@ -241,8 +282,8 @@ question. Treat patterns below as review prompts, never as proof of authorship:
 | Formulaic ending | Does the conclusion only restate the completed page? | End at the result or give a concrete next action. |
 | Internal leakage | Would the detail matter only to a contributor or release operator? | Move it to an internal contract or checklist. |
 
-Review layout and microcopy with prose. Accuracy and natural explanation—not
-random variation or detector scoring—are standard.
+Review layout and microcopy with prose. Aim for accuracy and natural explanation.
+Random variation and detector scoring do not establish editorial quality.
 
 ## Review before merging
 
@@ -253,9 +294,9 @@ definitions and contradictory limits. Check commands against the intended v0.1
 contract, examples against the product, links and anchors against the built site,
 and code blocks at narrow width.
 
-Automated checks validate structure, navigation, and examples. Editorial review
-owns usefulness, scope, rhythm, and product/process boundary; word-frequency or
-punctuation blacklist cannot prove them.
+Automated checks validate structure, navigation, examples, and explicit punctuation
+rules. Editorial review evaluates usefulness, scope, rhythm, and the boundary
+between product guidance and development process.
 
 ## Sources
 

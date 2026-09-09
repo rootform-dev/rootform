@@ -3,7 +3,7 @@ title: "Evaluation"
 description: "Reference for rule selection, fact resolution, composition completeness, and policy decision behavior."
 ---
 
-Rootform Language has two evaluation stages. Dialect rules participate in
+The Rootform language has two evaluation stages. Dialect rules participate in
 architecture compilation. Policy assertions evaluate later over a validated,
 complete Architecture IR document.
 

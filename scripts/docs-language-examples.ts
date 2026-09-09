@@ -124,17 +124,39 @@ export function verifyLanguageExamples(
   run(["fmt", "--check", jsonRoot], working);
   const jsonCompiled = run(["validate", "dialects", jsonRoot], working);
   assert(
-    jsonCompiled.stdout.includes("fixture@0.1.0 compiles"),
+    jsonCompiled.stdout.includes("example@0.1.0 compiles"),
     ".rf.json fixture did not compile",
   );
 
-  const baselinePage = readPage("language/write-policy-pack.md");
-  const displayedBaseline = fenced(baselinePage, "hcl", "policy-packs/baseline/pack.rf");
-  const baselinePath = join(root, "policy-packs", "baseline", "pack.rf");
-  assert(
-    displayedBaseline === normalize(readFileSync(baselinePath, "utf8")),
-    "displayed baseline pack differs from packaged source",
+  const jsonPack = join(working, "json-policy-pack");
+  mkdirSync(jsonPack);
+  writeFileSync(
+    join(jsonPack, "pack.rf.json"),
+    fenced(readPage("language/reference/syntax-files.md"), "json", "pack.rf.json"),
   );
+  run(["fmt", "--check", jsonPack], working);
+  const listedJSONPack = JSON.parse(
+    run(["list", "policy-packs", "--policy-pack", jsonPack, "--format", "json"], working).stdout,
+  );
+  assert(
+    listedJSONPack[0]?.name === "baseline" && listedJSONPack[0]?.policies === 1,
+    ".rf.json Policy Pack did not compile with sibling manifest and policy blocks",
+  );
+
+  const baselinePage = readPage("language/write-policy-pack.md");
+  for (const relative of [
+    "pack.rf",
+    "policies/cluster-network-context.rf",
+    "policies/private-database-reachability.rf",
+  ]) {
+    const title = `policy-packs/baseline/${relative}`;
+    const displayedBaseline = fenced(baselinePage, "hcl", title);
+    const baselinePath = join(root, "policy-packs", "baseline", relative);
+    assert(
+      displayedBaseline === normalize(readFileSync(baselinePath, "utf8")),
+      `displayed ${title} differs from packaged source`,
+    );
+  }
   run(
     [
       "package",
@@ -188,7 +210,8 @@ export function verifyLanguageExamples(
   return [
     "native tour Dialects and composition compile from displayed .rf",
     "displayed .rf.json dialect formats and compiles beside its exact requirement",
-    "displayed baseline Policy Pack matches source and packages offline",
+    "displayed .rf.json Policy Pack compiles with sibling top-level declarations",
+    "displayed split-file baseline Policy Pack matches source and packages offline",
     "invalid language source returns structured CONCEPT_UNKNOWN",
   ];
 }

@@ -1,8 +1,8 @@
-# Rootform Language contract
+# Rootform language contract
 
 Status: development contract, version `0.1.0`.
 
-Rootform Language defines deterministic rules that convert Terraform and
+The Rootform language defines deterministic rules that convert Terraform and
 OpenTofu evidence into architecture meaning. It contains no renderer layout,
 network behavior, provider executable, or opaque heuristic.
 

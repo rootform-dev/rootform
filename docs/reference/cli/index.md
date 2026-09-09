@@ -41,7 +41,7 @@ Start with rootform run ./infra to explore a directory locally.
 | [` rootform install `](install.md) | Install dialects |
 | [` rootform list `](list.md) | List Rootform definitions |
 | [` rootform lock `](lock.md) | Lock resolved dialects |
-| [` rootform lsp `](lsp.md) | Serve Rootform Language over stdio |
+| [` rootform lsp `](lsp.md) | Serve Rootform language features over stdio |
 | [` rootform package `](package.md) | Package Rootform content for distribution |
 | [` rootform publish `](publish.md) | Publish packaged Rootform content |
 | [` rootform remove `](remove.md) | Remove a dialect |

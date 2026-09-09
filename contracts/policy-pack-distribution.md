@@ -46,6 +46,12 @@ with normalized mode, ownership, and timestamps. Allowed content is limited to:
 - license and notice text named `LICENSE*`, `NOTICE*`, or
   `THIRD_PARTY_NOTICES*`.
 
+Compiled source contains exactly one top-level `policy_pack` manifest per
+artifact root. Every recursively discovered top-level `policy` declaration in
+that root belongs to that pack; missing or second manifest is invalid. Existing
+nested `0.1.0` declarations remain accepted, but nesting is not required.
+Internal file and directory layout carries no policy scope.
+
 Paths must be clean relative slash-separated paths. Absolute paths, traversal,
 backslashes, duplicates, symlinks, hard links, devices, sockets, and other
 irregular entries are invalid. SVG, HTML, CSS, URLs, presentation assets, and

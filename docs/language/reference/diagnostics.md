@@ -80,9 +80,10 @@ needed in portable output.
 
 | Code | Cause | Correction |
 | --- | --- | --- |
-| `PACK_MISSING` | Source set has no `policy_pack` declaration. | Add at least one pack. |
+| `PACK_MISSING` | Policy Pack source root has no `policy_pack` manifest. | Add exactly one top-level manifest to that root. |
+| `PACK_DUPLICATE` | Policy Pack source root has more than one manifest. | Keep one manifest; move each other pack to its own root. |
 | `PACK_REQUIREMENT` | Pack requirement name or exact version is invalid. | Use valid name and `MAJOR.MINOR.PATCH`. |
-| `POLICY_NOT_ALLOWED` | A `policy` block appears in a Dialect package. | Move it inside a dedicated `policy_pack`. |
+| `POLICY_NOT_ALLOWED` | A `policy` block appears in a Dialect source root. | Move it to a dedicated Policy Pack source root. |
 | `POLICY_REFERENCE_UNQUALIFIED` | Pack uses local-form vocabulary reference. | Use `concept.dialect.name` or `context.dialect.name`. |
 | `POLICY_INVALID` | Target, assertion, message, or expression type is invalid. | Correct the policy's closed schema and Boolean assertion. |
 

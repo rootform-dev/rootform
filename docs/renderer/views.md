@@ -1,17 +1,14 @@
 ---
 title: "Survey, Plan, Focus, and Inspector"
 description: "Choose between structural overview, complete detail, local context, and the evidence behind a selection."
-rendererLesson:
-  example: azure
-  title: "Try the renderer"
-  description: "Switch projections, focus a scope and inspect the evidence behind a resource."
 ---
 
 Survey and Plan choose how much structure to show. Focus chooses a local context.
 Inspector explains a selection. Zoom changes the camera and visual density.
 None of these operations changes the architecture's semantic facts.
 
-<!-- rootform:lesson -->
+Try these controls in the
+[Commerce platform Playground](https://docs.rootform.dev/playground/?mode=architecture&scenario=commerce-platform).
 
 ## Survey
 
@@ -28,8 +25,9 @@ connections have been removed.
 ![Survey shows the production and staging Azure networks, nested subnets, AKS clusters and private endpoints. Resource groups remain summarized.](../assets/renderer/azure-survey-light.png#gh-light-mode-only)
 ![Survey shows the production and staging Azure networks, nested subnets, AKS clusters and private endpoints. Resource groups remain summarized.](../assets/renderer/azure-survey-dark.png#gh-dark-mode-only)
 
-Survey on the [Azure example](examples.md#azure-platform): 18 of 28 canvas
-subjects are visible. The rest remain in the architecture and can be disclosed.
+Survey on the [Commerce platform](examples.md#commerce-platform): 16 of 50
+canvas subjects are visible. The rest remain in the architecture and can be
+disclosed.
 
 ### Expand only what you need
 
@@ -43,7 +41,7 @@ switch modes or expand a scope automatically.
 
 ## Plan
 
-Plan starts from the complete graph without Survey's automatic summary budget.
+Plan starts from the complete graph without Survey's automatic summarization.
 You can still collapse scopes explicitly. Use it to trace structure that an
 overview summarizes or to inspect how several nearby components fit together.
 
@@ -58,15 +56,16 @@ Terraform or create a [Terraform/OpenTofu plan](../inputs/plans.md).
 ![Plan shows both Azure environments with databases, DNS zones, storage accounts and SQL server scopes in addition to their networks.](../assets/renderer/azure-plan-light.png#gh-light-mode-only)
 ![Plan shows both Azure environments with databases, DNS zones, storage accounts and SQL server scopes in addition to their networks.](../assets/renderer/azure-plan-dark.png#gh-dark-mode-only)
 
-The same input in Plan, after **Fit architecture**. All 28 canvas subjects
+The same input in Plan, after **Fit architecture**. All 50 canvas subjects
 participate in this view. Fitting everything makes labels smaller; Focus is
 more useful for reading one area.
 
 ## Focus
 
-Focus changes the area you explore. Double-click a component or use its Inspector
-Focus action. A scope Focus opens that scope's contents; an entity Focus shows
-its neighboring relations with enough enclosing context to explain placement.
+From Survey or Plan, double-click a component or use its Inspector Focus action
+to explore that area. Focusing a scope opens its contents; focusing an entity
+shows its neighboring relations with enough enclosing context to explain
+placement.
 
 Connections to subjects outside that area appear at its boundary. These boundary
 items preserve the external target and direction; they do not assert that the
@@ -74,11 +73,12 @@ focused component is isolated. Inspect a boundary connection or focus its extern
 target to continue the question.
 
 The location path identifies the current context and its ancestors. Use an
-ancestor, Back, or Exit to return. Changing Survey/Plan leaves the current Focus.
+ancestor, Back, or Exit to return. Switching to Survey or Plan exits the current
+Focus.
 Selection and Focus remain distinct: selecting asks what an item is; focusing
 changes the context in which you explore it.
 
-Focus opens its root and does not apply Survey's automatic collapse budget.
+Focus opens its root without Survey's automatic summarization.
 Explicit disclosure choices still apply inside it. Focusing a very large scope
 can therefore require panning or further local disclosure.
 
@@ -90,9 +90,8 @@ connection to `production_orders`, which is outside this Focus.
 
 ## Inspector
 
-Inspector shows facts available for the selected item. It appears beside the
-canvas on wider screens and below it on narrow screens. Opening it keeps the
-architecture's geometry; the camera can pan to keep a selected item visible.
+Inspector shows facts available for the selected item. Opening it preserves the
+architecture's geometry; the camera can pan to keep the selected item visible.
 
 | Section | What to read there |
 | --- | --- |
@@ -122,7 +121,7 @@ not a separate canvas tile.
 | Control | Keyboard action |
 | --- | --- |
 | Search | `Ctrl+K` or `Cmd+K`; use arrows and Enter in results. |
-| Focused component | Enter selects it. |
+| Component with keyboard focus | Enter selects it. |
 | Scope nameplate | Enter or Space expands or collapses it. |
 | Focus | Escape returns through Focus history when not editing text. |
 | Inspector | Escape within the dock closes it and returns focus to its trigger. |

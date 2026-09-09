@@ -417,7 +417,14 @@
     "azure/windows-function-app": "azure/functions",
     "azure/windows-virtual-machine": "azure/virtual-machine",
     "azure/windows-virtual-machine-scale-set": "azure/vm-scale-set",
-    "azure/windows-web-app": "azure/app-service"
+    "azure/windows-web-app": "azure/app-service",
+    "kubernetes/kubernetes-daemon-set": "kubernetes/daemon-set",
+    "kubernetes/kubernetes-deployment": "kubernetes/deployment",
+    "kubernetes/kubernetes-ingress": "kubernetes/ingress",
+    "kubernetes/kubernetes-namespace": "kubernetes/namespace",
+    "kubernetes/kubernetes-service": "kubernetes/service",
+    "kubernetes/kubernetes-service-account": "kubernetes/service-account",
+    "kubernetes/kubernetes-stateful-set": "kubernetes/stateful-set"
   },
   "concepts": {
     "azure/ai-foundry": "generic/scope",
@@ -610,7 +617,14 @@
     "core/virtual-network": "generic/network",
     "core/vpn-connection": "generic/network",
     "core/vpn-gateway": "generic/network",
-    "core/workflow": "generic/entity"
+    "core/workflow": "generic/entity",
+    "kubernetes/daemon-set": "kubernetes/daemon-set",
+    "kubernetes/deployment": "kubernetes/deployment",
+    "kubernetes/ingress": "kubernetes/ingress",
+    "kubernetes/namespace": "kubernetes/namespace",
+    "kubernetes/service": "kubernetes/service",
+    "kubernetes/service-account": "kubernetes/service-account",
+    "kubernetes/stateful-set": "kubernetes/stateful-set"
   },
   "rule_labels": {
     "azure/advanced-threat-protection": "Microsoft Defender for Cloud advanced threat protection",

@@ -8,7 +8,7 @@ Rootform uses the
 for Dialect and Policy Pack distribution. Registry-specific APIs are not part of
 that contract.
 
-## Qualified registries
+## Supported registries
 
 | Registry | Qualified behavior |
 | --- | --- |

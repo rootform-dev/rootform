@@ -20,7 +20,7 @@ rootform publish dialects <layout> [flags]
 | ` --dry-run ` | ` bool ` | ` false ` | report verified publication plan without network access |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform publish dialects |
-| ` --index ` | ` bool ` | ` false ` | publish generated index after every dialect |
+| ` --index ` | ` bool ` | ` false ` | publish index after all dialects pass verification |
 | ` --to ` | ` string ` | ` "" ` | publish to tagless OCI `repository` |
 
 ## Behavior

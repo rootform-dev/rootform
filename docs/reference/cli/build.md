@@ -111,11 +111,3 @@ or OpenTofu and handling its sensitive source data.
 A built architecture can still contain explicitly unsupported declarations.
 Read its accounting and diagnostics before making a coverage claim.
 `build` has no policy-violation exit: use `check` for governance.
-
-## Inspect installed help
-
-To inspect syntax for the installed executable:
-
-```sh
-rootform build --help
-```

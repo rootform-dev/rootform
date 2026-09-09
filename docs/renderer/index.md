@@ -7,6 +7,10 @@ The renderer is a read-only explorer of facts in a Rootform architecture.
 It turns those facts into a view you can navigate; it does not re-interpret
 Terraform or apply a change from the canvas.
 
+When exploring a source directory, `rootform run` rebuilds the architecture as
+files change. Use `--no-watch` to build once; the
+[`rootform run` reference](../reference/cli/run.md) lists input and server options.
+
 ## Read boundaries before lines
 
 A **scope** provides architectural context: a network, subnet, or another named

@@ -28,7 +28,7 @@ rootform list dialects
 Rootform does not inherit a parent directory's lock. For a plan or saved-document
 check, prepare the required current-project semantics before running the operation.
 
-## `--locked requires rootform.lock`
+## `rootform.lock` is missing with `--locked`
 
 `--locked requires rootform.lock` means that the selected project root has no
 lock. Check the directory argument and the file location. If this is a new
@@ -163,7 +163,7 @@ An indeterminate result cannot become a pass by dropping its diagnostic.
 For a violation, inspect the target and the exact facts queried by the assertion.
 The reported source path and line refer to the Policy Pack's assertion. A policy
 may require a relation that the selected provider Dialect does not establish;
-see the [baseline coverage example](../concepts/policies.md#match-a-policy-to-the-dialects-evidence).
+see [policy claim scope](../concepts/policies.md#know-the-scope-of-a-claim).
 A violation of that assertion is not itself proof about live infrastructure.
 
 ## Diff refuses the comparison
@@ -203,6 +203,6 @@ is documented in [run reference](../reference/cli/run.md). On a remote machine,
 loopback refers to that machine. A local HTML export is useful when you need a
 file instead of a running server.
 
-If the next action does not resolve the issue, [report a synthetic reproduction](../contributing/index.md#report-a-semantic-gap)
+If these steps do not resolve the issue, [report a synthetic reproduction](../contributing/index.md#report-a-semantic-gap)
 with the command, version, status, and sanitized diagnostic. Keep credentials,
 raw plans, state, and customer infrastructure out of the report.

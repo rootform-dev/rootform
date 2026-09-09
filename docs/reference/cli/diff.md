@@ -17,7 +17,7 @@ rootform diff <before> <after> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --exit-code ` | ` bool ` | ` false ` | exit 1 when the two architectures differ |
+| ` --exit-code ` | ` bool ` | ` false ` | exit 1 for changes or undetermined facts |
 | ` --format ` | ` string ` | ` text ` | output `format`: text, json, or markdown |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform diff |
 | ` -o, --output ` | ` string ` | ` "" ` | write the diff to this `file` |
@@ -39,7 +39,7 @@ to --output. Diagnostics go to standard error.
 
 ```text
 0  the comparison succeeded
-1  the architectures differ, and --exit-code was given
+1  changes or undetermined facts with --exit-code
 2  the command was used incorrectly
 3  the comparison could not be completed
 ```

@@ -1,37 +1,21 @@
 ---
-title: "Write a Policy"
-description: "Write one bounded assertion over Architecture IR, evaluate it against a known target, and inspect the evidence."
+title: "Check an architecture"
+description: "Evaluate a real architecture policy locally, inspect its evidence, and promote it to a CI gate."
 ---
 
-Write a policy that checks whether the subnet from
+Use `rootform check` to evaluate architecture facts against selected policies.
+Unlike a Terraform syntax lint, this check runs after Dialects establish
+components, placement, composition, relations, and provenance. It does not test
+live cloud state.
+
+This example checks whether the subnet from
 [your first architecture](../getting-started/first-architecture.md) has an
-established virtual network context. The complete example compiles a local
-Policy Pack, evaluates one known Architecture IR fact, and records one passed
-evaluation. It does not test live connectivity.
+established virtual network context. Work from that tutorial directory with its
+`main.tf` and prepared AWS/core Dialects.
 
-A policy has four authored parts:
+## Write the local policy
 
-| Part | Purpose |
-| --- | --- |
-| Name | Gives the policy a stable identity inside its pack. |
-| `target` | Selects one exact concept. The policy runs once per matching representation. |
-| `assert` | Produces a Boolean from bounded queries over the target's facts. |
-| `message` | Explains the requirement when the assertion is known false. |
-
-Policies live inside a `policy_pack`; a standalone top-level `policy` is not a
-valid source unit. The pack declares exact Dialect requirements so every
-vocabulary reference can be checked before evaluation.
-
-## Prepare the example
-
-Use the tutorial directory with its `main.tf` and prepared AWS/core Dialects.
-Create a directory for the local pack:
-
-```sh
-mkdir policies
-```
-
-Save this file:
+Create a `policies/` directory with one pack manifest and one top-level policy:
 
 ```hcl title="policies/pack.rf"
 policy_pack "tutorial" {
@@ -40,117 +24,159 @@ policy_pack "tutorial" {
   requires {
     core = "0.1.0"
   }
-
-  policy "subnet-network-context" {
-    target = concept.core.subnet
-    assert = length(contexts(context.core.network, concept.core.virtual-network)) > 0
-    message = "Subnets must have an established virtual network context."
-  }
 }
 ```
 
-The target is a subnet. For each subnet, the assertion asks whether its network
-contexts include a virtual network. The AWS Dialect already established that
-fact from `vpc_id`; the policy reads it. `core` supplies the vocabulary named in
-the assertion. Policy Pack references are always Dialect-qualified: use
-`concept.core.subnet`, not `concept.subnet`.
+```hcl title="policies/subnet-network-context.rf"
+policy "subnet-network-context" {
+  target = concept.core.subnet
+  assert = length(contexts(context.core.network, concept.core.virtual-network)) > 0
+  message = "Subnets must have an established virtual network context."
+}
+```
 
-The query itself is not a Boolean. `contexts(...)` returns matching outgoing
-context facts for the current target, and `length(...)` converts that collection
-to an integer. Comparison with zero produces the required Boolean assertion.
+Rootform discovers both files under `policies/`. The manifest assigns the policy
+to pack `tutorial`; filenames and subdirectories do not affect ownership. The
+policy runs once for each `core/subnet` representation. Its assertion reads
+network contexts already established by the AWS Dialect and asks whether at
+least one points to a virtual network. `requires` makes the `core` vocabulary
+available for validation; it does not add facts to the architecture.
 
-## Run the check
+## Evaluate it locally
 
 <!-- docs-check:policy-local -->
 ```sh
 rootform check . --offline --policy-pack ./policies
 ```
 
-The local directory form reads this pack directly. It does not install or
-publish it and does not add it to `rootform.lock`. Do not combine that authoring
-form with `--locked`.
+The local directory form reads the pack without installing or publishing it.
+It does not add the pack to `rootform.lock`. For the unchanged tutorial input,
+the result starts with:
 
-For the unchanged tutorial input, the first line of the text result is:
-
-```text title="Policy summary (excerpt)"
+```text title="Passed check (excerpt)"
 1 policy, 1 evaluation, 1 passed, 0 violated, 0 indeterminate
 ```
 
-Declaration accounting follows that summary in the text result. Provider-version
-warnings go to standard error. The exit status is `0`. There is one evaluation because the architecture has
-one representation with the exact `core/subnet` concept.
+Status is `0`. One evaluation exists because the architecture contains one
+representation with the exact `core/subnet` concept.
 
-## Inspect the policy and machine result
+If the subnet no longer has a resolvable reference to the declared VPC, the same
+policy produces a real violation:
+
+```text title="Violated check (excerpt)"
+scope:aws_subnet.application
+  Subnets must have an established virtual network context.
+1 policy, 1 evaluation, 0 passed, 1 violated, 0 indeterminate
+```
+
+Status is `1`. The message states which required architecture fact is absent;
+it does not claim that deployed connectivity is broken.
+
+To reproduce this outcome, replace the tutorial subnet reference with a literal,
+then run the same check:
+
+```hcl title="main.tf (temporary change)"
+vpc_id = "vpc-0123456789abcdef0"
+```
+
+Rootform can still represent the subnet, but no longer has reference evidence that
+establishes its network context. Restore `vpc_id = aws_vpc.main.id` afterward.
+
+If required vocabulary cannot be loaded or validated, Rootform cannot evaluate
+the assertion:
+
+```text title="Indeterminate check (excerpt)"
+1 policy, 0 evaluations, 0 passed, 0 violated, 1 indeterminate
+```
+
+Status is `3`, accompanied by a diagnostic explaining unavailable evidence.
+Treat that as a blocked decision, not a pass. A selected policy with no matching
+target instead has zero evaluations; see
+[policy outcomes](../concepts/policies.md#zero-evaluations-are-not-approval)
+to understand why that also needs attention.
+
+To reproduce the indeterminate result, temporarily change the pack requirement
+to `core = "9.9.9"` and rerun the check. The loaded architecture does not provide that
+required vocabulary version, so Rootform refuses to guess. Restore `0.1.0`
+before continuing.
+
+## Inspect policy and evidence
 
 <!-- docs-check:policy-show -->
 ```sh
 rootform show policy tutorial/subnet-network-context --policy-pack ./policies
 ```
 
-Check its target and assertion before interpreting its outcome. Save structured
-results when you need the policy identity, target, and inspected facts:
+Check target and assertion before interpreting results. Save structured output
+when a reviewer or another tool needs exact identities and inspected facts:
 
 <!-- docs-check:policy-json -->
 ```sh
 rootform check . --offline --policy-pack ./policies --format json --output policy-result.json
 ```
 
-Expect `summary.evaluations` and `summary.passed` to be `1`, and both
-`summary.violated` and `summary.indeterminate` to be `0`. The evaluation names
-`tutorial/subnet-network-context` and `scope:aws_subnet.application`.
+For this example, `summary.evaluations` and `summary.passed` are `1`. The
+evaluation identifies policy `tutorial/subnet-network-context` and target
+`scope:aws_subnet.application`.
 
-For a real failure, read the violation's target and message, then inspect that
-target's provenance. A missing or unresolved fact can require correcting the
-input or Dialect coverage instead of changing infrastructure. Do not edit an
-architecture file to make a policy pass.
-
-### Distinguish false from unknown
-
-An empty, successfully evaluated fact query has length zero. The assertion is
-known false, so Rootform reports `violated` and uses the authored message.
-
-An invalid or incomplete architecture, incompatible loaded semantics, unknown
-vocabulary, unavailable reference evidence, or an assertion that cannot produce
-a known Boolean makes the result `indeterminate`. Rootform does not convert
-missing evaluation evidence into a pass or a violation. Treat exit status `3`
-as a blocked decision in automation.
-
-If no representation has `core/subnet`, this policy gets zero evaluations.
-That is also different from a pass. A gate should verify selection and expected
-evaluation coverage as well as exit status.
-
-## Use a published pack in a project
-
-For a pack you have reviewed, initialization takes its OCI artifact reference.
-The published baseline example can be selected with:
+A violation path points to the assertion in Policy Pack source. Use target
+provenance to trace the Terraform declaration and Dialect rule behind the facts;
+do not edit generated architecture JSON to make a check pass.
 
 ```sh
-rootform init . --no-input \
-  --policy-pack ghcr.io/rootform-dev/policy-packs:policy-pack-baseline-0.1.0
-rootform list policy-packs
+rootform explain architecture aws_subnet.application --input architecture.json
+```
+
+## Promote the check to CI and pull requests
+
+### Keep the pack in the repository
+
+Commit `policies/` alongside the tutorial input and reviewed `rootform.lock`.
+CI must keep the local pack selection explicit:
+
+```sh
+rootform check . --policy-pack ./policies --no-input --format sarif --output policy-result.sarif
+```
+
+The policy source comes from the checked-out commit. A local `--policy-pack`
+replaces the project's Policy Pack selection for that invocation and cannot be
+combined with `--locked`. Dropping the flag would use only the project's
+selected packs, which may mean zero policies are evaluated.
+
+### Use a published pack
+
+To distribute the same reviewed tutorial pack, follow
+[Write a Policy Pack](../language/write-policy-pack.md#package-deterministically).
+Set `POLICY_PACK_REF` to the pack's published OCI tag or digest reference, then
+select it from the project root:
+
+```sh
+rootform init . --no-input --policy-pack "$POLICY_PACK_REF"
 rootform list policies
 ```
 
-This selects the **baseline** demonstration pack, not the local `tutorial` pack
-above. Review its [coverage limitations](../concepts/policies.md#match-a-policy-to-the-dialects-evidence)
-before adopting it. Initialization resolves the reference and locks its exact
-content. Commit the reviewed lock, then run:
+Confirm that the selection includes `tutorial/subnet-network-context`, review
+the lock diff, and commit `rootform.lock`. CI now reads that exact published
+selection:
 
 ```sh
-rootform check . --locked --offline --no-input
+rootform check . --locked --no-input --format sarif --output policy-result.sarif
 ```
 
-The VPC/subnet example has none of baseline's target concepts, so this last
-check has zero evaluations. It is not a replacement for the tutorial check.
-Use [Policies and Policy Packs](../concepts/policies.md#zero-evaluations-require-attention)
-to interpret that distinction and [reproducible builds](reproduce-build.md)
-when preparing packages for an offline environment.
+For either path, add `--offline` when required Dialects are available locally.
+The published-pack path also needs its exact Policy Pack available locally;
+[vendoring](reproduce-build.md#carry-packages-with-the-project) can carry both
+package families into CI. Preserve status `1` for violations and `3` for
+indeterminate results, and verify expected policy and evaluation counts.
+Publishing SARIF or JSON gives reviewers the policy, target, message, and
+evidence instead of only a red job.
 
-## Continue authoring
+Use `check --plan tfplan.json` to evaluate planned architecture from an authorized
+Terraform/OpenTofu plan. [Run in CI](../integrations/ci/README.md) covers portable
+automation; [GitHub Actions](../integrations/github-actions.md) covers PR evidence.
 
-Add related policies and distribution metadata with
-[Write a Policy Pack](../language/write-policy-pack.md). Use
-[Test and validate](../language/test-validate.md) to format sources, compile
-definitions, and keep a real policy evaluation in CI. Exact query signatures,
-operators, and evaluation behavior live in the
+For more policies, continue with
+[Write a Policy Pack](../language/write-policy-pack.md) and
+[Test and validate](../language/test-validate.md). Exact query signatures and
+evaluation rules live in the
 [Policy Pack reference](../language/reference/policy-packs.md).

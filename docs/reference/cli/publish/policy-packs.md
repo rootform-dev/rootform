@@ -26,7 +26,7 @@ rootform publish policy-packs <layout> [flags]
 
 Validate an existing local Policy Pack registry layout, publish every pack
 to one registry repository, and repull each manifest by digest. Policy
-Packs have no discovery index in V0. Dry-run remains offline.
+Packs have no discovery index. Dry-run remains offline.
 
 Text or JSON result goes to standard output. Diagnostics go to standard
 error.

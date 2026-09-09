@@ -63,9 +63,12 @@ project, and directory preparation can recover those selected packages.
 Provider detection never chooses governance for you.
 
 During authoring, `check --policy-pack ./policies` reads a local pack directly.
-Initialization's flag instead selects an OCI artifact reference. The
-[policy tutorial](guides/check-architecture.md) explains both forms and why a
-successful check with zero evaluations proves no target-specific rule.
+Keep that flag in CI when the pack lives in the repository; it cannot be combined
+with `--locked`. Initialization's `--policy-pack` flag selects a published OCI
+artifact reference and records it in `rootform.lock`, so later checks can use
+`--locked`. The [policy tutorial](guides/check-architecture.md) covers both CI
+paths and explains why a successful check with zero evaluations proves no
+target-specific rule.
 
 ## Inspect without changing selection
 

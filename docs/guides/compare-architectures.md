@@ -5,8 +5,6 @@ description: "Add a subnet, compare before and after facts, and verify Diff exit
 
 Add a database subnet to the [first architecture](../getting-started/first-architecture.md)
 and compare the result. Use that tutorial directory with its prepared Dialects.
-This procedure changes local source only; it does not run Terraform or apply
-infrastructure.
 
 ## Save the base
 
@@ -73,7 +71,12 @@ rootform diff before.json before.json --exit-code
 
 Expect `no architectural change` and status `0`.
 
-## Save the report or inspect either side
+Explore a predefined migration in the
+[Diff Playground](https://docs.rootform.dev/playground/?mode=diff&scenario=analytics-migration)
+to see how Delta connects additions, removals, moves, and relation changes to
+evidence. This sample is separate from the comparison you just created.
+
+## Save the report and inspect either side
 
 <!-- docs-check:diff-json -->
 ```sh
@@ -89,8 +92,14 @@ separately:
 rootform run after.json
 ```
 
-The [Diff explanation](../renderer/diff.md) covers changed and undetermined facts
-and shows the comparison in Delta. Use
+For a pull request, build `before.json` from the target revision and `after.json`
+from the proposed revision with the same lock. Attach Markdown for reviewers or
+JSON for automation, and use `--exit-code` when any change or undetermined fact
+must block the job. [Git and team workflows](../workflows/index.md) covers that
+handoff.
+
+The [Diff explanation](../renderer/diff.md) covers added, removed, changed,
+moved, and undetermined results in Delta. Use
 [plan Diff](../inputs/plans.md#compare-both-sides-of-one-plan) when one plan supplies
 both sides. The [command reference](../reference/cli/diff.md) covers directory
 inputs, standard input, formats, and flags.

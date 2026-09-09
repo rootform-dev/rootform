@@ -21,6 +21,7 @@ export type DocsIssue = {
     | "description"
     | "empty-page"
     | "placeholder"
+    | "punctuation"
     | "link"
     | "navigation"
     | "route";
@@ -310,6 +311,18 @@ export function checkPage(
   if (body.trim().length === 0) {
     issues.push({ file: path, kind: "empty-page", detail: "page has no content" });
   }
+  // CLI pages are generated from reference/cli.json and verified by check:cli.
+  if (!path.replaceAll("\\", "/").startsWith("docs/reference/cli/")) {
+    for (const [index, line] of text.split(/\r?\n/u).entries()) {
+      if (line.includes("\u2014")) {
+        issues.push({
+          file: path,
+          kind: "punctuation",
+          detail: `line ${index + 1}: em dash (U+2014) is forbidden in authored Markdown; use a period, comma, colon, or parentheses`,
+        });
+      }
+    }
+  }
   for (const placeholder of findPlaceholders(body)) {
     issues.push({
       file: path,
@@ -441,6 +454,7 @@ function main(): void {
     `${counts.navigation ?? 0} navigation`,
     `${counts.link ?? 0} dangling links`,
     `${counts.placeholder ?? 0} placeholders`,
+    `${counts.punctuation ?? 0} punctuation`,
     `${(counts.frontmatter ?? 0) + (counts.title ?? 0) + (counts.description ?? 0) + (counts["empty-page"] ?? 0)} frontmatter or content`,
   ];
   console.log(`docs check: ${summary.join(", ")}`);

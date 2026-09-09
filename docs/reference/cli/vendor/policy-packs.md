@@ -27,8 +27,10 @@ Materialize the exact rootform.lock Policy Pack set from the installed
 store, content cache, or each pinned registry repository. No version is
 resolved and rootform.lock is never changed.
 
-With no --to flag, vendor writes ./.rootform/policy-packs. Policy-aware
-commands use that directory exclusively when present.
+With no --to flag, vendor writes ./.rootform/policy-packs. Commands using
+the project's Policy Pack selection use that directory exclusively when
+present. An explicit local --policy-pack selection replaces the project
+selection for that invocation.
 
 Copied names and versions go to standard output. Diagnostics go to
 standard error.

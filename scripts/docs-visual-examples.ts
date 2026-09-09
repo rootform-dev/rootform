@@ -3,7 +3,13 @@ import { cpSync, mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { markedCommand } from "./docs-core-examples.ts";
 
-const names = ["azure-platform", "azure-platform-next", "multicloud"] as const;
+const fixtures = {
+  "azure-platform": "commerce-platform/base",
+  "azure-platform-next": "commerce-platform/head",
+  "multicloud-base": "shared-data-platform/base",
+  multicloud: "shared-data-platform/head",
+} as const;
+const names = Object.keys(fixtures) as (keyof typeof fixtures)[];
 const digest = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(`Docs visual: ${message}`);
@@ -13,7 +19,7 @@ type Manifest = {
   format_version: string;
   binary: { version: string; sha256: string };
   fixtures: Record<string, { files: Record<string, string>; architecture_sha256: string }>;
-  comparison: { base: string; head: string; sha256: string };
+  comparisons: Record<string, { base: string; head: string; diff: string; sha256: string }>;
   figures: Record<string, { fixture: string; state: string; sha256: string }>;
 };
 
@@ -33,8 +39,10 @@ export async function verifyVisualExamples(
   const expectedInputs = [
     "azure-platform.json",
     "azure-platform-next.json",
+    "multicloud-base.json",
     "azure-delta.json",
     "multicloud.json",
+    "multicloud-delta.json",
     "azure-platform-presentation.json",
     "multicloud-presentation.json",
   ];
@@ -44,7 +52,7 @@ export async function verifyVisualExamples(
   );
   for (const [file, hash] of Object.entries(interactive.files)) {
     assert(
-      /^(?:azure-platform(?:-next|-presentation)?|azure-delta|multicloud(?:-presentation)?)\.json$/u.test(
+      /^(?:azure-platform(?:-next|-presentation)?|azure-delta|multicloud(?:-base|-delta|-presentation)?)\.json$/u.test(
         file,
       ),
       "unexpected interactive input",
@@ -79,15 +87,16 @@ export async function verifyVisualExamples(
     return result.stdout.toString();
   }
   for (const name of names) {
-    const input = join(working, name);
-    mkdirSync(input);
+    const input = join(working, fixtures[name]);
+    mkdirSync(input, { recursive: true });
     const expected = manifest.fixtures[name];
     assert(
-      expected && Object.keys(expected.files).sort().join(",") === "main.tf,rootform.lock",
+      expected &&
+        Object.keys(expected.files).sort().join(",") === "example.json,main.tf,rootform.lock",
       "unexpected fixture files",
     );
-    for (const file of ["main.tf", "rootform.lock"]) {
-      const source = join(assets, "examples", name, file);
+    for (const file of ["example.json", "main.tf", "rootform.lock"]) {
+      const source = join(root, "examples/playground", fixtures[name], file);
       assert(
         digest(readFileSync(source)) === expected.files[file],
         `${name}/${file} changed: review and recapture figures`,
@@ -114,27 +123,56 @@ export async function verifyVisualExamples(
   const page = readFileSync(join(root, "docs/renderer/examples.md"), "utf8");
   const command = markedCommand(page, "visual-diff");
   const result = Bun.spawnSync(["sh", "-eu", "-c", command], {
-    cwd: working,
+    cwd: join(working, "commerce-platform"),
     env,
     stdout: "pipe",
     stderr: "pipe",
   });
   assert(result.exitCode === 0, `published Diff procedure failed: ${result.stderr}`);
+  const comparisons = {
+    "commerce-platform": {
+      base: "azure-platform",
+      head: "azure-platform-next",
+      file: "azure-delta.json",
+    },
+    "shared-data-platform": {
+      base: "multicloud-base",
+      head: "multicloud",
+      file: "multicloud-delta.json",
+    },
+  } as const;
   assert(
-    manifest.comparison.base === "azure-platform" &&
-      manifest.comparison.head === "azure-platform-next",
-    "unexpected comparison pair",
+    JSON.stringify(Object.keys(manifest.comparisons).sort()) ===
+      JSON.stringify(Object.keys(comparisons).sort()),
+    "unexpected comparison inventory",
   );
-  const delta = join(working, "delta.json");
-  run(["diff", "before.json", "after.json", "--format", "json", "--output", delta], working);
-  assert(
-    digest(readFileSync(delta)) === manifest.comparison.sha256,
-    "published Diff procedure changed the captured comparison",
-  );
-  assert(
-    readFileSync(delta).equals(readFileSync(join(assets, "renderer/azure-delta.json"))),
-    "interactive Delta differs from the actual binary",
-  );
+  for (const [name, expected] of Object.entries(comparisons)) {
+    const evidence = manifest.comparisons[name];
+    assert(
+      evidence?.base === expected.base &&
+        evidence.head === expected.head &&
+        evidence.diff === expected.file.replace(/\.json$/u, ""),
+      `${name}: unexpected comparison pair`,
+    );
+    const delta = join(working, expected.file);
+    run(
+      [
+        "diff",
+        `${expected.base}.json`,
+        `${expected.head}.json`,
+        "--format",
+        "json",
+        "--output",
+        delta,
+      ],
+      working,
+    );
+    assert(digest(readFileSync(delta)) === evidence.sha256, `${name}: captured Diff changed`);
+    assert(
+      readFileSync(delta).equals(readFileSync(join(assets, "renderer", expected.file))),
+      `${name}: interactive Delta differs from the actual binary`,
+    );
+  }
 
   // Use the documented run command; only suppress UI launch, watching and fixed port for the test.
   const args = markedCommand(page, "visual-run").trim().split(/\s+/u);
@@ -143,7 +181,7 @@ export async function verifyVisualExamples(
     "expected the documented explorer command",
   );
   const child = Bun.spawn([binary, ...args, "--no-browser", "--no-watch", "--port", "0"], {
-    cwd: join(working, "multicloud"),
+    cwd: join(working, fixtures.multicloud),
     env,
     stdout: "pipe",
     stderr: "pipe",
@@ -179,7 +217,7 @@ export async function verifyVisualExamples(
     await stderr;
   }
   const figures = Object.entries(manifest.figures);
-  assert(figures.length === 16, "representative capture inventory changed");
+  assert(figures.length === 20, "representative capture inventory changed");
   for (const [name, figure] of figures) {
     assert(/^[a-z-]+\.png$/u.test(name), "invalid figure path");
     assert(
@@ -188,8 +226,8 @@ export async function verifyVisualExamples(
     );
   }
   return [
-    "three locked visual sources reproduce captured architecture bytes",
-    "published multicloud explorer and Azure comparison procedures execute",
-    "Delta bytes and 16 PNGs match the source-bound capture manifest",
+    "four locked public scenario states reproduce captured architecture bytes",
+    "published explorer and comparison procedures execute",
+    "two Delta outputs and 20 PNGs match the source-bound capture manifest",
   ];
 }

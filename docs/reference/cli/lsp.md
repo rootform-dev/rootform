@@ -1,11 +1,11 @@
 ---
 title: "rootform lsp"
-description: "Serve Rootform Language over stdio"
+description: "Serve Rootform language features over stdio"
 ---
 
 <!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
-Serve Rootform Language over stdio.
+Serve Rootform language features over stdio.
 
 ## Usage
 
@@ -21,7 +21,7 @@ rootform lsp [flags]
 
 ## Behavior
 
-Run the Rootform Language Server Protocol service over standard input
+Run the Rootform language server over standard input
 and standard output. Protocol frames are the only standard output. Process
 diagnostics go to standard error; source diagnostics travel through LSP.
 

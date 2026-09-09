@@ -89,13 +89,15 @@ The [lock contract](../contracts/rootform-lock.md) defines exact fields.
 ## OCI mirrors for locked projects
 
 Rootform supports a mirror through exact lock routing, not source priority.
-First copy every artifact descriptor graph named by the lock to one
-standards-compatible mirror repository without repackaging it. Verify that each
-copied manifest retains its locked digest. Then change only
-`entries[].artifact.repository` in `rootform.lock` to the tagless mirror
-repository. Keep manifest and layer digests, sizes, semantic and presentation
-digests, versions, `sources`, and `origins` unchanged. Review and commit that
-lock change.
+First copy every Dialect and Policy Pack artifact descriptor graph named by
+`entries` and `policy_packs` in the lock to a standards-compatible mirror
+repository without repackaging it. Include each manifest, config, and layer;
+preserve descriptor digests and sizes, including each manifest's locked digest.
+Then change only `entries[].artifact.repository` and
+`policy_packs[].artifact.repository` in `rootform.lock` to their tagless mirror
+repositories. Keep manifest and layer digests, sizes, semantic, presentation,
+and pack content digests, versions, `sources`, and `origins` unchanged. Review
+and commit that lock change.
 
 Validate the mirror from an empty store:
 
@@ -104,12 +106,26 @@ ROOTFORM_HOME=/path/to/empty-rootform-home \
   rootform init . --locked --no-input
 ```
 
-Locked recovery contacts only each entry's rewritten repository at its exact
-manifest digest. It does not read the recorded index, contact the original
-artifact repository, or fall back there when the mirror is missing, unreachable,
-or corrupt. After this acquisition, either retain the verified home or run
-`rootform vendor dialects`; subsequent `--locked --offline` commands need no
-registry or credentials.
+Locked recovery contacts only each Dialect or Policy Pack entry's rewritten
+repository at its exact manifest digest. It does not read the recorded index,
+contact the original artifact repository, or fall back there when the mirror
+is missing, unreachable, or corrupt. After this acquisition, either retain the
+verified home or vendor the locked packages:
+
+```sh
+ROOTFORM_HOME=/path/to/empty-rootform-home \
+  rootform vendor dialects --offline
+```
+
+If the lock selects Policy Packs, vendor them separately:
+
+```sh
+ROOTFORM_HOME=/path/to/empty-rootform-home \
+  rootform vendor policy-packs --offline
+```
+
+With both required package families available locally, subsequent
+`--locked --offline` commands need no registry or credentials.
 
 Do not add a rewritten copy of the official index with `--source`. The official
 index remains implicit, and same name/version entries from different artifact

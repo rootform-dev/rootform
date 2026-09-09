@@ -15,13 +15,13 @@ Choose the input for the question you want to answer.
 
 Pass the Terraform or OpenTofu **root module directory**, not a single `.tf`
 file. Rootform reads native and JSON configuration (`.tf`, `.tf.json`, and
-OpenTofu's `.tofu`/`.tofu.json` forms). OpenTofu files take precedence over
-matching Terraform files under the OpenTofu profile.
+OpenTofu's `.tofu`/`.tofu.json` forms). When matching OpenTofu and Terraform
+files coexist, the OpenTofu form takes precedence.
 
 The selected directory is also the project boundary. `rootform.lock` and
-`.rootform/` belong directly there; Rootform does not search parent directories
-for another project's selection. In a repository with several independent root
-modules, analyze and prepare each root separately.
+the optional `.rootform/` vendor directory belong directly there; Rootform does
+not search parent directories for another project's selection. In a repository
+with several independent root modules, analyze and prepare each root separately.
 
 ```sh
 rootform run ./infra

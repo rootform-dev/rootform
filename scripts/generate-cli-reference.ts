@@ -257,7 +257,7 @@ export function commandNavigation(commands: Command[]): Nav[] {
     }
     return { label, page };
   }
-  return commands.filter((cmd) => cmd.path.split(" ").length <= 2).map(entry);
+  return commands.filter((cmd) => cmd.path.split(" ").length === 2).map(entry);
 }
 
 export function generate(root: string, check: boolean): void {

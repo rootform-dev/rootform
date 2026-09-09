@@ -21,19 +21,21 @@ rootform lock dialects [directory] [flags]
 
 ## Behavior
 
-Record the resolved dialects and their selected versions in the
-generated, deterministic JSON file rootform.lock.
+Compile Dialect sources from the supplied directory and replace
+rootform.lock in the current working directory. Existing Policy Pack
+selections and registry acquisition pins are not preserved. Use rootform init
+for project preparation.
 
-With no directory, lock reads the current directory. Locked names and
+With no directory, the current directory also supplies Dialect sources.
+Locked names and
 versions go to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
 ```text
 0  rootform.lock was written
-1  the dialects or lock file could not be read or written
+1  sources or presentation could not compile, or the lock could not be written
 2  the command was used incorrectly
-3  no complete dialect resolution was produced
 ```
 
 ## Examples

@@ -10,7 +10,7 @@ examples, and release metadata.
 
 ## What lives here
 
-- [`contracts/`](contracts/): Rootform Language, Architecture IR, Diff, policy,
+- [`contracts/`](contracts/): Rootform language, Architecture IR, Diff, policy,
   lock, presentation, and release contracts;
 - [`schemas/`](schemas/): machine-readable public schemas;
 - [`docs/`](docs/): installation, concepts, CLI, dialect authoring, security,

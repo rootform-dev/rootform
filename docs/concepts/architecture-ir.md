@@ -9,8 +9,8 @@ renderer reads this document; it does not re-interpret Terraform.
 
 ## From declarations to architecture
 
-A Terraform declaration names a provider resource. A Dialect rule assigns its
-architectural meaning. For example, an `aws_vpc` can become a virtual-network
+A Terraform resource declaration names a provider object. A Dialect rule assigns
+its architectural meaning. For example, an `aws_vpc` can become a virtual-network
 scope, and an `aws_subnet` can become a subnet scope within its network context.
 The result retains the declaration and rule that explain each conclusion.
 
@@ -22,9 +22,12 @@ The result retains the declaration and rule that explain each conclusion.
 | Resolutions and provenance | Which evidence supports those facts? |
 | Diagnostics | What could not be established? |
 
-A declaration can be represented, support a composition, be filtered by an
-accepted rule, remain unsupported, or fail with a diagnostic. A small graph
-therefore does not prove complete coverage. Read the accounting alongside it.
+A declaration is **represented** when it creates an architectural subject,
+**supporting a composition** when it contributes to a combined subject,
+**filtered** when a matching rule intentionally omits it, **unsupported** when
+no rule covers it, or **failed** when Rootform cannot establish its outcome.
+A small graph therefore does not prove complete coverage. Read the accounting
+alongside it.
 
 ## Meaning stays separate from layout
 
@@ -36,10 +39,10 @@ context without becoming a scope. Network and runtime are different dimensions;
 a subject can have both without one replacing the other.
 
 A **relation** connects architectural participants with a declared meaning.
-Its direction and type matter. A **detail** or **contribution** records supporting
-information or how declarations take part in a larger representation. Several
-Terraform declarations can therefore support one visible component; one shape
-does not necessarily equal one resource block.
+Its direction and type matter. A **detail** is a supporting representation; a
+**contribution** attaches that detail to an entity or scope. Several Terraform
+declarations can therefore support one visible component; one shape does not
+necessarily equal one resource block.
 
 The document contains stable identities and semantic facts. It contains no
 canvas coordinates, route geometry, or UI state. Changing from Survey to Plan,

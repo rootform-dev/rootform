@@ -29,7 +29,8 @@ location.
 Use "rootform explain policy" to understand why a policy produced a
 result for an architecture element.
 
-Use &lt;policy-pack&gt;/&lt;name&gt;, or a bare name when unambiguous.
+The project must select the owning Policy Pack, or --policy-pack can
+supply a local root. Use &lt;policy-pack&gt;/&lt;name&gt;, or a bare name when unambiguous.
 
 The text or JSON definition goes to standard output. Diagnostics go to
 standard error.
@@ -46,7 +47,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform show policy baseline/database-private-connectivity
-rootform show policy database-private-connectivity
-rootform show policy baseline/database-private-connectivity --format json
+rootform show policy baseline/private-database-reachability
+rootform show policy private-database-reachability
+rootform show policy baseline/private-database-reachability --format json
 ```

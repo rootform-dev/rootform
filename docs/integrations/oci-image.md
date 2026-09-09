@@ -11,7 +11,7 @@ ghcr.io/rootform-dev/rootform:<version>
 
 Use an exact version or digest. Rootform does not publish a moving `latest` tag.
 
-## Verify the image
+## Check the CLI version
 
 ```sh
 docker run --rm ghcr.io/rootform-dev/rootform:0.1.0 rootform version
@@ -21,7 +21,13 @@ The image has no entrypoint, so always include `rootform` before its arguments.
 
 ## Run against a project
 
-Mount a project at `/workspace` and choose that working directory:
+Every `--locked` command below requires an existing, coherent `rootform.lock`.
+[Prepare the project with `rootform init`](../cli.md) and review its selection
+first.
+
+The project must be readable by the container user and writable when Rootform
+creates `.rootform/` or an output file. Mount it at `/workspace` and choose that
+working directory:
 
 ```sh
 docker run --rm \
@@ -30,9 +36,6 @@ docker run --rm \
   ghcr.io/rootform-dev/rootform:0.1.0 \
   rootform build . --locked --no-input --output architecture.json
 ```
-
-The project must be readable by the container user. It must also be writable
-when Rootform creates `rootform.lock`, `.rootform/`, or an output file.
 
 For repeatable image bytes, replace the version tag with an index digest:
 
@@ -65,8 +68,14 @@ the named volume.
 
 ## Run offline with vendored packages
 
-Commit or supply `rootform.lock` and the required `.rootform/dialects/` and
-`.rootform/policy-packs/` directories before disconnecting from the network. Then run:
+Before disconnecting, commit or supply `rootform.lock` and the required
+`.rootform/dialects/` directory. Checks using locked Policy Packs also need
+`.rootform/policy-packs/`; `build` does not use Policy Packs.
+
+The selected image must already be in Docker's local image store.
+`--network none` disables container networking but does not prevent Docker from
+trying to pull a missing image. Once the image and vendored packages are local,
+run:
 
 ```sh
 docker run --rm \
@@ -81,7 +90,7 @@ docker run --rm \
   rootform build . --locked --offline --no-input
 ```
 
-Output goes to standard output because workspace is read-only. Missing or
+Output goes to standard output because the workspace is read-only. Missing or
 damaged vendor content fails without a store or registry fallback. See
 [reproduce a build offline](../guides/reproduce-build.md) to prepare it.
 

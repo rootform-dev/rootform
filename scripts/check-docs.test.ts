@@ -261,22 +261,53 @@ test("installation documentation keeps supported methods in recommendation order
     expect(positions).toEqual([...positions].sort((left, right) => left - right));
   };
 
-  expectOrder(section("## macOS", "## Linux"), [
+  expectOrder(section("<!-- rootform:tab macOS -->", "<!-- rootform:tab Linux -->"), [
+    "**Recommended**",
     "curl -fsSL https://rootform.dev/install | sh",
+    "**Verify**",
+    "rootform version",
+    "**Other options**",
     "brew install --cask rootform",
-    "manual installation",
   ]);
-  expectOrder(section("## Linux", "## Windows"), [
+  expectOrder(section("<!-- rootform:tab Linux -->", "<!-- rootform:tab Windows -->"), [
+    "**Recommended**",
     "curl -fsSL https://rootform.dev/install | sh",
-    "manual installation",
+    "**Verify**",
+    "rootform version",
   ]);
-  expectOrder(section("## Windows", "<!-- rootform:endtabs -->"), [
-    "irm https://rootform.dev/install.ps1 | iex",
+  expectOrder(section("<!-- rootform:tab Windows -->", "<!-- rootform:tab Container -->"), [
+    "**Recommended**",
+    "Invoke-RestMethod https://rootform.dev/install.ps1 | Invoke-Expression",
+    "**Verify**",
+    "rootform version",
+    "**Other options**",
     "winget install --id Rootform.Rootform --exact",
-    "manual installation",
   ]);
-  expectOrder(page, ["<!-- rootform:endtabs -->", "## Container", "## Manual installation"]);
-  expect(page).toContain("docker run --rm ghcr.io/rootform-dev/rootform:0.1.0 rootform version");
+  expectOrder(section("<!-- rootform:tab Container -->", "<!-- rootform:endtabs -->"), [
+    "**Recommended**",
+    "docker pull ghcr.io/rootform-dev/rootform:0.1.0",
+    "**Verify**",
+    "docker run --rm ghcr.io/rootform-dev/rootform:0.1.0 rootform version",
+    "[Container usage →](integrations/oci-image.md)",
+  ]);
+  expectOrder(page, [
+    "<!-- rootform:endtabs -->",
+    "## Manual installation",
+    "SHA256SUMS",
+    "[your first architecture →](getting-started/first-architecture.md)",
+  ]);
   expect(page.match(/<!-- rootform:tabs /gu)).toHaveLength(1);
+  expect(page.match(/<!-- rootform:tab /gu)).toHaveLength(4);
+  expect(page.match(/\*\*Recommended\*\*/gu)).toHaveLength(4);
+  expect(page.match(/\*\*Verify\*\*/gu)).toHaveLength(4);
+  expect(page.match(/\*\*Other options\*\*/gu)).toHaveLength(2);
+  expect(page.match(/^## Manual installation$/gmu)).toHaveLength(1);
+  expect(page).not.toMatch(/^## (?:macOS|Linux|Windows|Container)$/gmu);
+  expect(page).not.toContain("## Manual downloads");
+  expect(page).not.toContain("Manual download →");
+  expect(page).not.toContain("installation/manual.md");
+  expect(page).not.toContain("A successful verification prints");
   expect(page).not.toContain("rootform.dev/install.sh");
+  expect(page).not.toMatch(/Node\.js|Python/u);
+  expect(page).toContain("first run may need network access to download any required\n[Dialects]");
 });

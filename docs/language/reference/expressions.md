@@ -56,11 +56,11 @@ comparison = == | != | < | <= | > | >=
 Equality operands must have the same effective type. Ordered comparison is
 integer-only.
 
-```hcl title="rule.rf"
-where = source.enabled == true
-where = source.mode == "private"
-where = source.priority >= 10 && source.priority < 20
-```
+Independent `where` examples:
+
+- `where = source.enabled == true`
+- `where = source.mode == "private"`
+- `where = source.priority >= 10 && source.priority < 20`
 
 A bare `source.enabled` is not a complete predicate. Compare it with `true` or
 `false`. Functions and architecture queries are not available in `where`.
@@ -84,13 +84,11 @@ numeric    = integer | length(query)
 comparison = == | != | < | <= | > | >=
 ```
 
-```hcl title="pack.rf"
-assert = true
-assert = length(contributions(concept.core.subnet)) >= 2
-assert = !(
-  length(contexts(context.core.network, concept.core.virtual-network)) < 1
-)
-```
+Independent `assert` examples:
+
+- `assert = true`
+- `assert = length(contributions(concept.core.kubernetes-node-pool)) >= 2`
+- `assert = !(length(contexts(context.core.network, concept.core.virtual-network)) < 1)`
 
 Policy strings are not bare operands. Concept and context references occur only
 in fixed query argument positions. A query collection occurs only as the one
@@ -102,9 +100,9 @@ comparison is the portable policy comparison form.
 
 ## JSON expression carrier
 
-In `.rf.json`, Boolean and integer literals can remain JSON primitives. A
-traversal, operator expression, or function call uses HCL's interpolation
-string carrier:
+In `.rf.json`, Boolean and integer literals can remain JSON primitives. An
+operator expression or function call uses HCL's interpolation string carrier.
+Structural semantic references such as policy `target` remain plain strings:
 
 ```json title="pack.rf.json"
 {

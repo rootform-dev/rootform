@@ -26,6 +26,7 @@ Show why a policy passed, failed, or could not be evaluated for an
 architecture element.
 
 The current directory supplies the architecture.
+The project must select the Policy Pack that owns the policy.
 Use &lt;policy-pack&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
 
 The text or JSON explanation goes to standard output. Diagnostics go to
@@ -43,7 +44,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform explain policy baseline/database-private-connectivity
-rootform explain policy database-private-connectivity
-rootform explain policy baseline/database-private-connectivity --format json
+rootform explain policy baseline/private-database-reachability
+rootform explain policy private-database-reachability
+rootform explain policy baseline/private-database-reachability --format json
 ```

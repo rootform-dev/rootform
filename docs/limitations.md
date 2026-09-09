@@ -44,18 +44,17 @@ matching targets can also produce zero evaluations and a successful exit.
 Read selection and counts, not status alone.
 
 Policies cannot create missing facts. Review their assumptions against provider
-coverage: baseline's `private-database-reachability` assertion requires a relation
-that the AWS Dialect does not produce. A violation does not prove public
-reachability. Policies have no configurable severity or warning-only threshold.
-See [policy outcomes](concepts/policies.md).
+coverage. A violated assertion says its required architecture fact is absent; it
+does not prove an opposite condition in deployed infrastructure. Policies have
+no configurable severity or warning-only threshold. See
+[policy outcomes](concepts/policies.md).
 
-## Rootform Language is a closed authoring surface
+## Closed language surface
 
-`.rf` uses HCL syntax but does not expose general HCL or Terraform evaluation.
-It has no authoring imports or modules, user functions, loops, comprehensions,
-conditionals, Policy Pack inheritance, or access from policies to raw source
-values. Unsupported expression forms are compilation errors. See the
-[Language reference](language/reference/index.md) for the exact accepted set.
+`.rf` uses HCL syntax but exposes a closed, domain-specific expression surface,
+not general HCL or Terraform evaluation. Unsupported definitions and expression
+forms are compilation errors. See the [Language reference](language/reference/index.md)
+for the exact accepted set.
 
 ## Diff compares architectural meaning
 

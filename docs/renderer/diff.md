@@ -1,21 +1,18 @@
 ---
-title: "Understand architecture Diff"
+title: "Architecture Diff"
 description: "Understand what Rootform compares, how uncertainty is reported, and how the Delta renderer presents change."
-rendererLesson:
-  example: delta
-  title: "Inspect a Delta"
-  description: "Explore the comparison between two Azure architectures and inspect the evidence behind each change."
 ---
 
 Rootform Diff compares architectural meaning between a **base** and a **head**.
-It compares validated architecture facts, not Terraform text, provider action
-lists, or every configuration value. Formatting and provenance-only changes do
+It compares validated architecture facts, not Terraform text, plan actions, or
+every configuration value. Formatting and provenance-only changes do
 not create an architectural change.
 
 Use [compare architectures](../guides/compare-architectures.md) for a runnable
-example. A [JSON plan](../inputs/plans.md) can supply both sides in one document.
-
-<!-- rootform:lesson -->
+example, or open the
+[Diff Playground](https://docs.rootform.dev/playground/?mode=diff&scenario=commerce-rollout)
+to inspect a predefined comparison. A [JSON plan](../inputs/plans.md) can supply
+both sides for a Diff report.
 
 ## What can change
 
@@ -23,12 +20,18 @@ Diff compares representations, contexts, contributions, and relations. It also
 reports changes in declaration accounting and diagnostics, so a coverage change
 is not hidden behind an unchanged-looking graph.
 
-| State | Meaning |
-| --- | --- |
-| `added` | A fact is established on the head side and known absent on the base side. |
-| `removed` | A fact is established on the base side and known absent on the head side. |
-| `changed` | A matched fact has different architectural fields, such as concept, membership, or relation endpoints. |
-| `undetermined` | Available evidence cannot support a determined change claim for that fact. |
+| Classification | Shown in | Meaning |
+| --- | --- | --- |
+| `added` | Report and Delta | A fact is established on the head side and known absent on the base side. |
+| `removed` | Report and Delta | A fact is established on the base side and known absent on the head side. |
+| `changed` | Report; **Modified** in Delta | A matched fact has different architectural fields, such as concept, membership, or relation endpoints. |
+| `moved` | Delta | The same representation provably changed context within one dimension. |
+| `undetermined` | Report and Delta | Available evidence cannot support a determined change claim for that fact. |
+
+`moved` is a strict Delta presentation, not another entry state in Architecture
+Diff JSON. The machine report retains the underlying removed and added context
+facts. Delta groups them only when one stable subject has exactly one known old
+context and one known new context in the same dimension.
 
 An object known on one side but unresolved on the other is not automatically an
 addition or removal. For example, an update plan may not contain enough evidence
@@ -47,43 +50,47 @@ infrastructure change. Keep the semantic selection fixed when comparing source
 changes; review a Dialect upgrade separately.
 
 Stable identities let Diff track facts independently of display order and canvas
-coordinates. The compared fields include concept, kind, name, implementation
-kind, composition membership, context dimension, relation type, and endpoints.
-Source positions and rule provenance explain a fact but do not themselves create
-a change. The [Diff contract](../../contracts/architecture-diff.md) lists exact fields.
+coordinates. It compares representation meaning and membership, context
+dimensions, relation types, and endpoints. Source positions and rule provenance
+explain a fact but do not themselves create a change. The
+[Diff contract](../../contracts/architecture-diff.md) lists exact fields.
 
 ## Read a Delta
 
-The **Delta** renderer presents one architecture with change annotations. Base
-provides prior placement and reference context; head provides the current facts.
-Removed components remain visible as before-side references. Unknown sides stay
-unknown instead of being drawn as confident deletions or moves.
+The **Delta** renderer presents one comparison surface, not a third architecture.
+Base provides prior placement and reference context; head provides current
+facts. Removed components remain visible as before-side references. Unknown
+sides stay unknown instead of being drawn as confident deletions or moves.
 
-`rootform diff` emits text, JSON, or Markdown reports. The interactive lesson on
-this page presents the same comparison facts in Delta. `run --plan` displays
-the planned architecture rather than both sides of the comparison.
+For your own inputs, `rootform diff` emits text, JSON, or Markdown reports.
+The [Commerce platform Diff Playground](https://docs.rootform.dev/playground/?mode=diff&scenario=commerce-rollout)
+shows the predefined
+[Commerce platform comparison](examples.md#compare-the-commerce-platform-states)
+in Delta.
+`rootform run --plan` displays the planned architecture only.
 
 ### Follow change within context
 
 Survey, Plan, Focus, scope disclosure, and Inspector keep the same roles in
-Delta. Survey gives changed areas priority within its overview budget. A collapsed
-scope can indicate changes inside; expand or focus it to locate them. Plan exposes
-the complete structure, including unchanged context needed to understand a change.
+Delta. Survey gives changed areas priority within available space. A collapsed
+scope can indicate changes inside; expand or focus it to locate them.
+Plan exposes complete structure, including unchanged context needed to understand
+a change. Focus isolates one changed area while preserving relevant boundary
+connections.
 
 Change is expressed with labels and line/border patterns as well as color.
 The Inspector label **Modified** corresponds to the machine state `changed`.
 An aggregate indicator is a route into the underlying facts, not a replacement
 for their individual classifications.
 
-A move is shown only when the evidence unambiguously establishes a change of
-context for the same subject. Ambiguous placements and undetermined facts do not
-become confident moves. The overview groups a recognized move for readability;
-raw context additions and removals remain available in the comparison evidence.
+A move never comes from proximity or a guessed rename. Ambiguous placements and
+undetermined facts remain separate evidence.
 
 ![Delta marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-light.png#gh-light-mode-only)
 ![Delta marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-dark.png#gh-dark-mode-only)
 
-Delta from the [Azure source pair](examples.md#compare-the-azure-variants).
+Delta from the
+[Commerce platform source pair](examples.md#compare-the-commerce-platform-states).
 The analytics cluster keeps its identity and moves between subnets. Renamed
 declarations appear as additions and removals, because their source identities
 changed. The renderer does not guess that a rename preserved an object.
@@ -106,6 +113,14 @@ Inspector Change explains the move with its **Before** and **After** placement
 and the underlying added/removed contexts. This is an architectural placement
 change, not a claim that Rootform moved a deployed cluster.
 
+## Use Diff in local and pull-request review
+
+Follow [Compare two architectures](../guides/compare-architectures.md) to build
+both sides and save a report, or use
+[plan Diff](../inputs/plans.md#compare-both-sides-of-one-plan) when one plan
+supplies both sides. [Git and CI workflows](../workflows/index.md) covers
+preparation, review artifacts, and PR safety.
+
 ## What a Diff result cannot promise
 
 A Terraform replacement may leave architectural facts unchanged. A no-change
@@ -113,12 +128,8 @@ Diff does not mean that Terraform has no work to apply, that all resource
 attributes match, or that deployed infrastructure matches source. Rootform does
 not independently refresh state or detect Drift.
 
-The normal command returns `0` for a completed comparison, including a report
-with undetermined facts. With `--exit-code`, any nonempty comparison returns
-`1`: that includes undetermined entries even when no change is determined.
-Status `3` means the comparison itself could not be completed, for example
-because inputs are invalid or incompatible.
-
-Read the report as well as the status. A valid comparison containing an
-undetermined fact is different from a wholly unavailable comparison, and neither
-supports a no-change claim.
+A completed comparison can contain undetermined facts. Invalid or incompatible
+inputs can prevent the comparison itself. Neither supports a no-change claim,
+so read the report as well as its status. The
+[Diff command reference](../reference/cli/diff.md#exit-status) defines exit
+behavior for review gates.

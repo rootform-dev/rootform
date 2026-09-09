@@ -1,11 +1,13 @@
 {
   "format_version": "1",
   "files": {
-    "azure-platform.json": "5e4d2df967940b3877b5c9ba3ab26275948cf84e2166367ca60b0435dbcc1e0f",
-    "azure-platform-next.json": "34d39a2bfa6c6225045a2c7119053e59214b975002f1c047561fdac38acc6723",
-    "multicloud.json": "78117c082dd0d0c2a7849c324a0380facc999bd588c65a8d183e3429cc060c71",
-    "azure-delta.json": "a6f1d069ef43116272013c903a88850bcccd68a2dca6981931b5acb1532f73f1",
-    "azure-platform-presentation.json": "aaf06c288e9abd87fdf3296758513d54588205e88b9a0fc8282574acf8c779e5",
+    "azure-platform.json": "db1bb882162d5af4bbd8f40f1d28240033d0d5f10701e45949f55e86bd6827df",
+    "azure-platform-next.json": "b30a9ddc0adcbadea805b5c821c407117fd2ecaa2425ed7ac293d5abb68b386f",
+    "multicloud-base.json": "5f0b7938b6530ffb46f8f4fc4a2cb0fe2fdc516d7bb941a14ea22be6cdd51fdc",
+    "multicloud.json": "8dea44d601155443e95869c596c0589c400fb0f7d621733e1ec66ba4a297a8d5",
+    "azure-delta.json": "13bf08226206ee6dd78b6b1354e64141113ac99815547a84e77dc7c72f25959b",
+    "multicloud-delta.json": "3f0b0173c7fe0e1fff769a2f831fbc34c1cd9b41bc7b81940bd6a4e2516ec663",
+    "azure-platform-presentation.json": "6b8f232cd5c5c236ec245e4b18ea87190a637dc0a35e3d1e159a588ef44f3d98",
     "multicloud-presentation.json": "c00e1d9d8962506c3f0d3052ea3eee76047f6c0d5abb89a296a95f7d72cbe777"
   }
 }

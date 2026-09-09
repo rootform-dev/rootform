@@ -42,6 +42,6 @@ when it resolves unambiguously.
 ```sh
 rootform show dialect google
 rootform show policy-pack baseline
-rootform show policy baseline/database-private-connectivity
+rootform show policy baseline/private-database-reachability
 rootform show rule google/cloud-sql-instance
 ```

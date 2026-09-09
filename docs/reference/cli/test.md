@@ -33,9 +33,9 @@ go to standard output. Diagnostics go to standard error.
 
 ```text
 0  every selected fixture passed
-1  at least one fixture differed
+1  at least one fixture differed or encountered an error
 2  the command was used incorrectly
-3  no fixture result could be decided
+3  the run could not start or be reported, or no fixtures matched
 ```
 
 ## Examples

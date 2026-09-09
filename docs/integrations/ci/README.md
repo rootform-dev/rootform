@@ -1,9 +1,10 @@
 ---
-title: "Run in CI"
-description: "Prepare exact semantics and build reproducible architecture outputs in a non-interactive runner."
+title: "Run Rootform in CI"
+description: "Reproduce architecture builds, Diffs, and policy gates in a non-interactive runner."
 ---
 
-All CI systems use same project lifecycle:
+CI should reproduce the semantics reviewed locally: pin Rootform, commit
+`rootform.lock`, and disable prompts. A typical project job is:
 
 ```text
 verified exact Rootform binary or image
@@ -17,11 +18,18 @@ committed `rootform.lock`, writes deterministic JSON under `.rootform-ci/`, and
 does not prompt or update selection.
 
 - Connected locked job may download exact artifacts pinned by lock.
-- Vendored job sets `ROOTFORM_OFFLINE=1`; `.rootform/dialects/` becomes
-  exclusive and no store, index, or registry fallback exists.
+- Vendored job sets `ROOTFORM_OFFLINE=1`; `.rootform/dialects/` and, when
+  selected, `.rootform/policy-packs/` become exclusive. No store, index, or
+  registry fallback exists for a present vendor family.
 - `ROOTFORM_PROJECT` selects project directory and defaults to literal `.`.
 - `ROOTFORM_BIN` selects already verified executable and defaults to
   `rootform`.
+
+The script builds Architecture IR and runs selected policies. Status `1` means a
+policy violation; status `3` means evaluation was indeterminate or required
+evidence was unavailable. Check policy and evaluation counts before accepting
+status `0`. Use [Diff in review](../../renderer/diff.md#use-diff-in-local-and-pull-request-review)
+when the job compares revisions or both sides of a plan.
 
 Examples:
 
