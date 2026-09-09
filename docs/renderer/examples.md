@@ -85,7 +85,7 @@ The release adds a recommendations workload, moves the analytics cluster from
 the applications subnet to the edge subnet, and replaces the staging archive
 storage and private endpoint. No deployment operation occurs.
 
-The [Delta illustrations](diff.md#read-a-delta) use the architecture and
+The [Diff view illustrations](diff.md#read-the-diff-view) use the architecture and
 comparison outputs from these commands. `rootform diff` provides text, JSON,
 and Markdown reports; the
 [Diff Playground](https://docs.rootform.dev/playground/?mode=diff&scenario=commerce-rollout)

@@ -73,7 +73,7 @@ Expect `no architectural change` and status `0`.
 
 Explore a predefined migration in the
 [Diff Playground](https://docs.rootform.dev/playground/?mode=diff&scenario=analytics-migration)
-to see how Delta connects additions, removals, moves, and relation changes to
+to see how the Diff view connects additions, removals, moves, and relation changes to
 evidence. This sample is separate from the comparison you just created.
 
 ## Save the report and inspect either side
@@ -99,7 +99,7 @@ must block the job. [Git and team workflows](../workflows/index.md) covers that
 handoff.
 
 The [Diff explanation](../renderer/diff.md) covers added, removed, changed,
-moved, and undetermined results in Delta. Use
+moved, and undetermined results in the Diff view. Use
 [plan Diff](../inputs/plans.md#compare-both-sides-of-one-plan) when one plan supplies
 both sides. The [command reference](../reference/cli/diff.md) covers directory
 inputs, standard input, formats, and flags.

@@ -1,9 +1,9 @@
 ---
 title: "Architecture Diff"
-description: "Understand what Rootform compares, how uncertainty is reported, and how the Delta renderer presents change."
+description: "Understand what Rootform compares, how uncertainty is reported, and how the Diff view presents change."
 ---
 
-Rootform Diff compares architectural meaning between a **base** and a **head**.
+Architecture Diff compares architectural meaning between a **base** and a **head**.
 It compares validated architecture facts, not Terraform text, plan actions, or
 every configuration value. Formatting and provenance-only changes do
 not create an architectural change.
@@ -22,15 +22,15 @@ is not hidden behind an unchanged-looking graph.
 
 | Classification | Shown in | Meaning |
 | --- | --- | --- |
-| `added` | Report and Delta | A fact is established on the head side and known absent on the base side. |
-| `removed` | Report and Delta | A fact is established on the base side and known absent on the head side. |
-| `changed` | Report; **Modified** in Delta | A matched fact has different architectural fields, such as concept, membership, or relation endpoints. |
-| `moved` | Delta | The same representation provably changed context within one dimension. |
-| `undetermined` | Report and Delta | Available evidence cannot support a determined change claim for that fact. |
+| `added` | Report and the Diff view | A fact is established on the head side and known absent on the base side. |
+| `removed` | Report and the Diff view | A fact is established on the base side and known absent on the head side. |
+| `changed` | Report; **Modified** in the Diff view | A matched fact has different architectural fields, such as concept, membership, or relation endpoints. |
+| `moved` | The Diff view | The same representation provably changed context within one dimension. |
+| `undetermined` | Report and the Diff view | Available evidence cannot support a determined change claim for that fact. |
 
-`moved` is a strict Delta presentation, not another entry state in Architecture
+`moved` is a strict presentation in the Diff view, not another entry state in Architecture
 Diff JSON. The machine report retains the underlying removed and added context
-facts. Delta groups them only when one stable subject has exactly one known old
+facts. The Diff view groups them only when one stable subject has exactly one known old
 context and one known new context in the same dimension.
 
 An object known on one side but unresolved on the other is not automatically an
@@ -55,9 +55,9 @@ dimensions, relation types, and endpoints. Source positions and rule provenance
 explain a fact but do not themselves create a change. The
 [Diff contract](../../contracts/architecture-diff.md) lists exact fields.
 
-## Read a Delta
+## Read the Diff view
 
-The **Delta** renderer presents one comparison surface, not a third architecture.
+The **Diff view** presents one comparison surface, not a third architecture.
 Base provides prior placement and reference context; head provides current
 facts. Removed components remain visible as before-side references. Unknown
 sides stay unknown instead of being drawn as confident deletions or moves.
@@ -66,13 +66,13 @@ For your own inputs, `rootform diff` emits text, JSON, or Markdown reports.
 The [Commerce platform Diff Playground](https://docs.rootform.dev/playground/?mode=diff&scenario=commerce-rollout)
 shows the predefined
 [Commerce platform comparison](examples.md#compare-the-commerce-platform-states)
-in Delta.
+in the Diff view.
 `rootform run --plan` displays the planned architecture only.
 
 ### Follow change within context
 
 Survey, Plan, Focus, scope disclosure, and Inspector keep the same roles in
-Delta. Survey gives changed areas priority within available space. A collapsed
+the Diff view. Survey gives changed areas priority within available space. A collapsed
 scope can indicate changes inside; expand or focus it to locate them.
 Plan exposes complete structure, including unchanged context needed to understand
 a change. Focus isolates one changed area while preserving relevant boundary
@@ -86,10 +86,10 @@ for their individual classifications.
 A move never comes from proximity or a guessed rename. Ambiguous placements and
 undetermined facts remain separate evidence.
 
-![Delta marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-light.png#gh-light-mode-only)
-![Delta marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-dark.png#gh-dark-mode-only)
+![The Diff view marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-light.png#gh-light-mode-only)
+![The Diff view marks the analytics cluster's move, a removed archive private endpoint and an added backup endpoint within the Azure environments.](../assets/renderer/azure-delta-dark.png#gh-dark-mode-only)
 
-Delta from the
+The Diff view from the
 [Commerce platform source pair](examples.md#compare-the-commerce-platform-states).
 The analytics cluster keeps its identity and moves between subnets. Renamed
 declarations appear as additions and removals, because their source identities
@@ -106,8 +106,8 @@ The overview's change count opens comparison context. Diagnostic and declaration
 deltas help explain a change in coverage. An undetermined entry explains where
 the available evidence stops; it is not a low-confidence guess at a change.
 
-![Focused Delta shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-light.png#gh-light-mode-only)
-![Focused Delta shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-dark.png#gh-dark-mode-only)
+![The focused Diff view shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-light.png#gh-light-mode-only)
+![The focused Diff view shows production analytics in its new edge subnet. Inspector compares its previous applications subnet with the edge subnet and lists both context changes.](../assets/renderer/azure-change-dark.png#gh-dark-mode-only)
 
 Inspector Change explains the move with its **Before** and **After** placement
 and the underlying added/removed contexts. This is an architectural placement

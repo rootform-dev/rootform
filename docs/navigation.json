@@ -56,13 +56,8 @@
   {
     "label": "Rootform language",
     "items": [
-      {
-        "label": "Learn",
-        "items": [
-          { "label": "Language overview", "page": "language" },
-          { "label": "Language tour", "page": "language/tour" }
-        ]
-      },
+      { "label": "Learn", "page": "language" },
+      { "label": "Language tour", "page": "language/tour" },
       {
         "label": "Write",
         "items": [
@@ -72,7 +67,8 @@
         ]
       },
       {
-        "label": "Reference",
+        "label": "Language reference",
+        "collapsed": true,
         "items": [
           { "label": "Overview", "page": "language/reference" },
           { "label": "Syntax and files", "page": "language/reference/syntax-files" },
@@ -92,7 +88,6 @@
     "label": "Reference",
     "items": [
       { "label": "CLI reference", "page": "reference/cli" },
-      { "label": "Container image", "page": "integrations/oci-image" },
       { "label": "Initialize a project", "page": "cli" },
       {
         "label": "Commands",
@@ -203,7 +198,8 @@
           { "label": "version", "page": "reference/cli/version" }
         ]
       },
-      { "label": "Outputs and exit status", "page": "reference/outputs" }
+      { "label": "Outputs and exit status", "page": "reference/outputs" },
+      { "label": "Container image", "page": "integrations/oci-image" }
     ]
   },
   { "label": "Contribute", "items": ["contributing", "contributing/writing"] }
