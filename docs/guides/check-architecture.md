@@ -146,7 +146,7 @@ selected packs, which may mean zero policies are evaluated.
 ### Use a published pack
 
 To distribute the same reviewed tutorial pack, follow
-[Write a Policy Pack](../language/write-policy-pack.md#package-deterministically).
+[Write a Policy Pack](../language/write-policy-pack.md#package-and-publish-a-policy-pack).
 Set `POLICY_PACK_REF` to the pack's published OCI tag or digest reference, then
 select it from the project root:
 
