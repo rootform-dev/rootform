@@ -108,7 +108,7 @@
         ".rootform/dialects/azure/load-balancing/concepts.rf": "639d299cff5e537bd4a583114c8d31ec15c995683caa6ef4feca615780250d14",
         ".rootform/dialects/azure/load-balancing/front-door.rf": "eaa680a828e2fa106830a51638a7f79de2cab93a51d3c39135a962c0abf522e7",
         ".rootform/dialects/azure/load-balancing/load-balancer.rf": "afd437fdd7d5e3b3ad3ec307358c87aa717546fb401d7869dc0936c4e1757feb",
-        ".rootform/dialects/azure/load-balancing/load-balancers.rf": "1d438c46c253c587f9b5e42c8e6bcd3d67db4ff555ad940a86ae2137322ea0d3",
+        ".rootform/dialects/azure/load-balancing/load-balancers.rf": "257e0b717eeb9dae4e209945a72cd2a262e12b2c7a012478a32f41de63469629",
         ".rootform/dialects/azure/load-balancing/traffic-manager.rf": "cf4cad475183c28c6b32ced937ec4998fed2d896ec9af671585cf7687f47e7dc",
         ".rootform/dialects/azure/messaging-eventing/concepts.rf": "58c0130610c32ab42a8cf6e75e8cf98f73d2e9e7de921b27b39ed9e673481bca",
         ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "7f0f149110472f4ccf29a1f0a1c473c8076941bce5d627578a3169e8f0eb80c4",
@@ -128,7 +128,7 @@
         ".rootform/dialects/azure/network/databricks.rf": "d4fcfd93457efd09917edba6068e448738bf842507b72ab649765958c07ec033",
         ".rootform/dialects/azure/network/ddos-protection.rf": "adc263a0b03fbc2ef43bebc35c5dcd70032cbbec573ef5fef18ff226987fe6ef",
         ".rootform/dialects/azure/network/expressroute.rf": "174102f45463c7f63755a69239eca6e7e13347298de24337b67277a38ca8fd36",
-        ".rootform/dialects/azure/network/firewall.rf": "44a774184b570254e808e5ed574aec968f4807fe440677c57afc69baff1659f8",
+        ".rootform/dialects/azure/network/firewall.rf": "07c8b3863f89ebc2ece000733213fc447669470020d5660700e199276c4d7e12",
         ".rootform/dialects/azure/network/local-network.rf": "27b68352497bbe0980d2e91a774fd36f50c447a5b7bc538e586a6ce3096f708c",
         ".rootform/dialects/azure/network/monitor.rf": "de2b3694b5f4354b7182a7cdd55445e9c117eb082ff6289ef4a118c0253b6663",
         ".rootform/dialects/azure/network/nat-gateway.rf": "859666f8cb15e45793bcd6754379e001c21c3c168b6ac31b3e78fac74501192f",
@@ -145,7 +145,7 @@
         ".rootform/dialects/azure/network/subnets.rf": "0410828dc82c9c7a259445904dae0feeaf365d591b56d8f134732595f7202aff",
         ".rootform/dialects/azure/network/synapse.rf": "2293c47fac3f6624d54b0af313dfadd02e64f807773a547bb0d7fc481b335091",
         ".rootform/dialects/azure/network/virtual-hub.rf": "95d8c90e5d1eb71ea3f53c2adc740aae1948fc94cefd0ad17dbc954391b879b8",
-        ".rootform/dialects/azure/network/virtual-network.rf": "c5419d4f1a70a6a00cd364f21c1c82e01ca1fffe7b57e36969eb3c4d1cb4d9d4",
+        ".rootform/dialects/azure/network/virtual-network.rf": "f1e0be8e04650cb7c4f65ec1ecc041df7926a30f49941ba143ee6bca987a3537",
         ".rootform/dialects/azure/network/virtual-wan.rf": "e73d3d2e817f1a5ed11203ea470d819c68b3e6188f7e982084679f52bd8c93ef",
         ".rootform/dialects/azure/network/vnet.rf": "2f8dfecc1621540dedaf70a26fc4061cb59fe5fbd85a6552769edaaf694d0033",
         ".rootform/dialects/azure/network/vpn-gateway.rf": "b423001f88edae84d712db23b060faa4df96d8175ce8980339b989cc20b86ed3",
@@ -164,7 +164,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "ba6fcb2e01be5c380e695d6cabbd6e430ad18f7177f3d723576532d8662ff765",
+        ".rootform/dialects/azure/presentation.json": "d558f4c083299285b589f02c0b9856dbaef7846d8ac75189be469b386da5b395",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -233,11 +233,11 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "3d5d434bf7d4758cf484eaf0a93966a97b0d146d91ae30ad19bc58255a96c88c",
+        "example.json": "3ae19b454acae82f4486ed6bf33b74fd6a1f0fbef794033b241c1440f242e3a3",
         "main.tf": "85a36ba8c21566f25a3f10d73de727e95a5359c75b5456f305d6057d9af32994",
-        "rootform.lock": "09dfbc0e3172b526302ad6620aeada3e0a1692cefd29c1ccb01d2e6de128860a"
+        "rootform.lock": "a7e7d3b9a1d19cb8311e77c540340ae4fb2d0cf59e013f33c9e0e4d377b61cae"
       },
-      "architecture_sha256": "b659ae5b847abf9f8599da1ffcb31c757f9229b43f17777ed9fa425cf3080d6f"
+      "architecture_sha256": "fa6f86722ebc3f2e4d0a1744531632b6dd21eb87c2cfc64cc62bad2f6fb9b7cd"
     },
     "commerce-platform-head": {
       "files": {
@@ -342,7 +342,7 @@
         ".rootform/dialects/azure/load-balancing/concepts.rf": "639d299cff5e537bd4a583114c8d31ec15c995683caa6ef4feca615780250d14",
         ".rootform/dialects/azure/load-balancing/front-door.rf": "eaa680a828e2fa106830a51638a7f79de2cab93a51d3c39135a962c0abf522e7",
         ".rootform/dialects/azure/load-balancing/load-balancer.rf": "afd437fdd7d5e3b3ad3ec307358c87aa717546fb401d7869dc0936c4e1757feb",
-        ".rootform/dialects/azure/load-balancing/load-balancers.rf": "1d438c46c253c587f9b5e42c8e6bcd3d67db4ff555ad940a86ae2137322ea0d3",
+        ".rootform/dialects/azure/load-balancing/load-balancers.rf": "257e0b717eeb9dae4e209945a72cd2a262e12b2c7a012478a32f41de63469629",
         ".rootform/dialects/azure/load-balancing/traffic-manager.rf": "cf4cad475183c28c6b32ced937ec4998fed2d896ec9af671585cf7687f47e7dc",
         ".rootform/dialects/azure/messaging-eventing/concepts.rf": "58c0130610c32ab42a8cf6e75e8cf98f73d2e9e7de921b27b39ed9e673481bca",
         ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "7f0f149110472f4ccf29a1f0a1c473c8076941bce5d627578a3169e8f0eb80c4",
@@ -362,7 +362,7 @@
         ".rootform/dialects/azure/network/databricks.rf": "d4fcfd93457efd09917edba6068e448738bf842507b72ab649765958c07ec033",
         ".rootform/dialects/azure/network/ddos-protection.rf": "adc263a0b03fbc2ef43bebc35c5dcd70032cbbec573ef5fef18ff226987fe6ef",
         ".rootform/dialects/azure/network/expressroute.rf": "174102f45463c7f63755a69239eca6e7e13347298de24337b67277a38ca8fd36",
-        ".rootform/dialects/azure/network/firewall.rf": "44a774184b570254e808e5ed574aec968f4807fe440677c57afc69baff1659f8",
+        ".rootform/dialects/azure/network/firewall.rf": "07c8b3863f89ebc2ece000733213fc447669470020d5660700e199276c4d7e12",
         ".rootform/dialects/azure/network/local-network.rf": "27b68352497bbe0980d2e91a774fd36f50c447a5b7bc538e586a6ce3096f708c",
         ".rootform/dialects/azure/network/monitor.rf": "de2b3694b5f4354b7182a7cdd55445e9c117eb082ff6289ef4a118c0253b6663",
         ".rootform/dialects/azure/network/nat-gateway.rf": "859666f8cb15e45793bcd6754379e001c21c3c168b6ac31b3e78fac74501192f",
@@ -379,7 +379,7 @@
         ".rootform/dialects/azure/network/subnets.rf": "0410828dc82c9c7a259445904dae0feeaf365d591b56d8f134732595f7202aff",
         ".rootform/dialects/azure/network/synapse.rf": "2293c47fac3f6624d54b0af313dfadd02e64f807773a547bb0d7fc481b335091",
         ".rootform/dialects/azure/network/virtual-hub.rf": "95d8c90e5d1eb71ea3f53c2adc740aae1948fc94cefd0ad17dbc954391b879b8",
-        ".rootform/dialects/azure/network/virtual-network.rf": "c5419d4f1a70a6a00cd364f21c1c82e01ca1fffe7b57e36969eb3c4d1cb4d9d4",
+        ".rootform/dialects/azure/network/virtual-network.rf": "f1e0be8e04650cb7c4f65ec1ecc041df7926a30f49941ba143ee6bca987a3537",
         ".rootform/dialects/azure/network/virtual-wan.rf": "e73d3d2e817f1a5ed11203ea470d819c68b3e6188f7e982084679f52bd8c93ef",
         ".rootform/dialects/azure/network/vnet.rf": "2f8dfecc1621540dedaf70a26fc4061cb59fe5fbd85a6552769edaaf694d0033",
         ".rootform/dialects/azure/network/vpn-gateway.rf": "b423001f88edae84d712db23b060faa4df96d8175ce8980339b989cc20b86ed3",
@@ -398,7 +398,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "ba6fcb2e01be5c380e695d6cabbd6e430ad18f7177f3d723576532d8662ff765",
+        ".rootform/dialects/azure/presentation.json": "d558f4c083299285b589f02c0b9856dbaef7846d8ac75189be469b386da5b395",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -467,11 +467,11 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "03d8d888880104edd4d81594f5176ec43f40eafcb017c08b0a22e95649a48615",
+        "example.json": "94d732bab9367a10dcf06a042fbd76aaa6cab145309e480a175eb189e199f1e6",
         "main.tf": "f5becb72df95ae80320084ddd1f1db3d23da43784042c1ab89bbffa051d970e8",
-        "rootform.lock": "09dfbc0e3172b526302ad6620aeada3e0a1692cefd29c1ccb01d2e6de128860a"
+        "rootform.lock": "a7e7d3b9a1d19cb8311e77c540340ae4fb2d0cf59e013f33c9e0e4d377b61cae"
       },
-      "architecture_sha256": "eaa6d84f5aa1bbeced38a8094b2e3024b00550d8a1704176e181cc01db8ac7e1"
+      "architecture_sha256": "b395a62f1df6a80a8fa998b5fd345f8a275817feba033f7ea35ac416d3d659c3"
     },
     "event-driven-platform-base": {
       "files": {
@@ -576,7 +576,7 @@
         ".rootform/dialects/azure/load-balancing/concepts.rf": "639d299cff5e537bd4a583114c8d31ec15c995683caa6ef4feca615780250d14",
         ".rootform/dialects/azure/load-balancing/front-door.rf": "eaa680a828e2fa106830a51638a7f79de2cab93a51d3c39135a962c0abf522e7",
         ".rootform/dialects/azure/load-balancing/load-balancer.rf": "afd437fdd7d5e3b3ad3ec307358c87aa717546fb401d7869dc0936c4e1757feb",
-        ".rootform/dialects/azure/load-balancing/load-balancers.rf": "1d438c46c253c587f9b5e42c8e6bcd3d67db4ff555ad940a86ae2137322ea0d3",
+        ".rootform/dialects/azure/load-balancing/load-balancers.rf": "257e0b717eeb9dae4e209945a72cd2a262e12b2c7a012478a32f41de63469629",
         ".rootform/dialects/azure/load-balancing/traffic-manager.rf": "cf4cad475183c28c6b32ced937ec4998fed2d896ec9af671585cf7687f47e7dc",
         ".rootform/dialects/azure/messaging-eventing/concepts.rf": "58c0130610c32ab42a8cf6e75e8cf98f73d2e9e7de921b27b39ed9e673481bca",
         ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "7f0f149110472f4ccf29a1f0a1c473c8076941bce5d627578a3169e8f0eb80c4",
@@ -596,7 +596,7 @@
         ".rootform/dialects/azure/network/databricks.rf": "d4fcfd93457efd09917edba6068e448738bf842507b72ab649765958c07ec033",
         ".rootform/dialects/azure/network/ddos-protection.rf": "adc263a0b03fbc2ef43bebc35c5dcd70032cbbec573ef5fef18ff226987fe6ef",
         ".rootform/dialects/azure/network/expressroute.rf": "174102f45463c7f63755a69239eca6e7e13347298de24337b67277a38ca8fd36",
-        ".rootform/dialects/azure/network/firewall.rf": "44a774184b570254e808e5ed574aec968f4807fe440677c57afc69baff1659f8",
+        ".rootform/dialects/azure/network/firewall.rf": "07c8b3863f89ebc2ece000733213fc447669470020d5660700e199276c4d7e12",
         ".rootform/dialects/azure/network/local-network.rf": "27b68352497bbe0980d2e91a774fd36f50c447a5b7bc538e586a6ce3096f708c",
         ".rootform/dialects/azure/network/monitor.rf": "de2b3694b5f4354b7182a7cdd55445e9c117eb082ff6289ef4a118c0253b6663",
         ".rootform/dialects/azure/network/nat-gateway.rf": "859666f8cb15e45793bcd6754379e001c21c3c168b6ac31b3e78fac74501192f",
@@ -613,7 +613,7 @@
         ".rootform/dialects/azure/network/subnets.rf": "0410828dc82c9c7a259445904dae0feeaf365d591b56d8f134732595f7202aff",
         ".rootform/dialects/azure/network/synapse.rf": "2293c47fac3f6624d54b0af313dfadd02e64f807773a547bb0d7fc481b335091",
         ".rootform/dialects/azure/network/virtual-hub.rf": "95d8c90e5d1eb71ea3f53c2adc740aae1948fc94cefd0ad17dbc954391b879b8",
-        ".rootform/dialects/azure/network/virtual-network.rf": "c5419d4f1a70a6a00cd364f21c1c82e01ca1fffe7b57e36969eb3c4d1cb4d9d4",
+        ".rootform/dialects/azure/network/virtual-network.rf": "f1e0be8e04650cb7c4f65ec1ecc041df7926a30f49941ba143ee6bca987a3537",
         ".rootform/dialects/azure/network/virtual-wan.rf": "e73d3d2e817f1a5ed11203ea470d819c68b3e6188f7e982084679f52bd8c93ef",
         ".rootform/dialects/azure/network/vnet.rf": "2f8dfecc1621540dedaf70a26fc4061cb59fe5fbd85a6552769edaaf694d0033",
         ".rootform/dialects/azure/network/vpn-gateway.rf": "b423001f88edae84d712db23b060faa4df96d8175ce8980339b989cc20b86ed3",
@@ -632,7 +632,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "ba6fcb2e01be5c380e695d6cabbd6e430ad18f7177f3d723576532d8662ff765",
+        ".rootform/dialects/azure/presentation.json": "d558f4c083299285b589f02c0b9856dbaef7846d8ac75189be469b386da5b395",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -692,11 +692,11 @@
         ".rootform/dialects/core/serverless/function.rf": "3a0cf007e0bca90caa2ba9b3d9681814635e3916bcd222fb309b19be89f10292",
         ".rootform/dialects/core/storage/backup.rf": "c652d61f1d478f2fa53375a06274b7c6f82da7ab3d2a306c526f05f7f9b264af",
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
-        "example.json": "4de37f7bc47fc7af778de5c89872c9fe8b291bf17b43643fb3261d59466fd68b",
+        "example.json": "3bb2faced61e779fb9f6ac8f6389c9c33ae0bed6ff9a54ad2d9b9b105b075e93",
         "main.tf": "84f418865a528d0b175a4911bcd3be8067bc833e85040ad183433f387d50fd75",
-        "rootform.lock": "c7513edfd9e0710c790771977015940312cdbc6bae70c0cde915a7f85e4bcee9"
+        "rootform.lock": "901c7fc1e449cfffc51bc2f686bb2d979fdad8d540800b7cd41f3e4620835de4"
       },
-      "architecture_sha256": "d6bddab9ddb7ced6dd0fff5a1e4bec40778da5c3663aab6ae8511ee0025cd350"
+      "architecture_sha256": "f17f53164a36e98886de213bc4ea076f1d25fb30a92db8f16110e3d5874f23ab"
     },
     "event-driven-platform-head": {
       "files": {
@@ -801,7 +801,7 @@
         ".rootform/dialects/azure/load-balancing/concepts.rf": "639d299cff5e537bd4a583114c8d31ec15c995683caa6ef4feca615780250d14",
         ".rootform/dialects/azure/load-balancing/front-door.rf": "eaa680a828e2fa106830a51638a7f79de2cab93a51d3c39135a962c0abf522e7",
         ".rootform/dialects/azure/load-balancing/load-balancer.rf": "afd437fdd7d5e3b3ad3ec307358c87aa717546fb401d7869dc0936c4e1757feb",
-        ".rootform/dialects/azure/load-balancing/load-balancers.rf": "1d438c46c253c587f9b5e42c8e6bcd3d67db4ff555ad940a86ae2137322ea0d3",
+        ".rootform/dialects/azure/load-balancing/load-balancers.rf": "257e0b717eeb9dae4e209945a72cd2a262e12b2c7a012478a32f41de63469629",
         ".rootform/dialects/azure/load-balancing/traffic-manager.rf": "cf4cad475183c28c6b32ced937ec4998fed2d896ec9af671585cf7687f47e7dc",
         ".rootform/dialects/azure/messaging-eventing/concepts.rf": "58c0130610c32ab42a8cf6e75e8cf98f73d2e9e7de921b27b39ed9e673481bca",
         ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "7f0f149110472f4ccf29a1f0a1c473c8076941bce5d627578a3169e8f0eb80c4",
@@ -821,7 +821,7 @@
         ".rootform/dialects/azure/network/databricks.rf": "d4fcfd93457efd09917edba6068e448738bf842507b72ab649765958c07ec033",
         ".rootform/dialects/azure/network/ddos-protection.rf": "adc263a0b03fbc2ef43bebc35c5dcd70032cbbec573ef5fef18ff226987fe6ef",
         ".rootform/dialects/azure/network/expressroute.rf": "174102f45463c7f63755a69239eca6e7e13347298de24337b67277a38ca8fd36",
-        ".rootform/dialects/azure/network/firewall.rf": "44a774184b570254e808e5ed574aec968f4807fe440677c57afc69baff1659f8",
+        ".rootform/dialects/azure/network/firewall.rf": "07c8b3863f89ebc2ece000733213fc447669470020d5660700e199276c4d7e12",
         ".rootform/dialects/azure/network/local-network.rf": "27b68352497bbe0980d2e91a774fd36f50c447a5b7bc538e586a6ce3096f708c",
         ".rootform/dialects/azure/network/monitor.rf": "de2b3694b5f4354b7182a7cdd55445e9c117eb082ff6289ef4a118c0253b6663",
         ".rootform/dialects/azure/network/nat-gateway.rf": "859666f8cb15e45793bcd6754379e001c21c3c168b6ac31b3e78fac74501192f",
@@ -838,7 +838,7 @@
         ".rootform/dialects/azure/network/subnets.rf": "0410828dc82c9c7a259445904dae0feeaf365d591b56d8f134732595f7202aff",
         ".rootform/dialects/azure/network/synapse.rf": "2293c47fac3f6624d54b0af313dfadd02e64f807773a547bb0d7fc481b335091",
         ".rootform/dialects/azure/network/virtual-hub.rf": "95d8c90e5d1eb71ea3f53c2adc740aae1948fc94cefd0ad17dbc954391b879b8",
-        ".rootform/dialects/azure/network/virtual-network.rf": "c5419d4f1a70a6a00cd364f21c1c82e01ca1fffe7b57e36969eb3c4d1cb4d9d4",
+        ".rootform/dialects/azure/network/virtual-network.rf": "f1e0be8e04650cb7c4f65ec1ecc041df7926a30f49941ba143ee6bca987a3537",
         ".rootform/dialects/azure/network/virtual-wan.rf": "e73d3d2e817f1a5ed11203ea470d819c68b3e6188f7e982084679f52bd8c93ef",
         ".rootform/dialects/azure/network/vnet.rf": "2f8dfecc1621540dedaf70a26fc4061cb59fe5fbd85a6552769edaaf694d0033",
         ".rootform/dialects/azure/network/vpn-gateway.rf": "b423001f88edae84d712db23b060faa4df96d8175ce8980339b989cc20b86ed3",
@@ -857,7 +857,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "ba6fcb2e01be5c380e695d6cabbd6e430ad18f7177f3d723576532d8662ff765",
+        ".rootform/dialects/azure/presentation.json": "d558f4c083299285b589f02c0b9856dbaef7846d8ac75189be469b386da5b395",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -917,11 +917,11 @@
         ".rootform/dialects/core/serverless/function.rf": "3a0cf007e0bca90caa2ba9b3d9681814635e3916bcd222fb309b19be89f10292",
         ".rootform/dialects/core/storage/backup.rf": "c652d61f1d478f2fa53375a06274b7c6f82da7ab3d2a306c526f05f7f9b264af",
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
-        "example.json": "03cfdd1dff33c1a047b24d718cdd71015eac1d7cbb42dc8e9d397e59009c6ab4",
+        "example.json": "5bb2612be3e2da34a38f78ed287e851d3e0bf180fdd4ce22b500f247ad50f80e",
         "main.tf": "a158c56093964f40f6177fa26d49af59ec8e160c62d99f7bc70d61df8db32f5f",
-        "rootform.lock": "c7513edfd9e0710c790771977015940312cdbc6bae70c0cde915a7f85e4bcee9"
+        "rootform.lock": "901c7fc1e449cfffc51bc2f686bb2d979fdad8d540800b7cd41f3e4620835de4"
       },
-      "architecture_sha256": "88e6b00f4f77c9d081d06683b9439b794c0a828546350d6d9d7ff3eff47665a5"
+      "architecture_sha256": "63ffe8aa33dee7b42e4133dc6f77fe919c60afd0f4cf0fcbbb8885e68f40c27f"
     },
     "shared-data-platform-base": {
       "files": {
@@ -1269,7 +1269,7 @@
       "base": "commerce-platform-base",
       "head": "commerce-platform-head",
       "diff": "commerce-platform-diff",
-      "sha256": "0f71a182603030d356d7f3b3cc38192696b3b3ab0fa93763053fa7515e88a3cc"
+      "sha256": "4e40894f346d95d5188a308826b72b80323c38e912c2aec5ec41591df19147dc"
     },
     "event-driven-platform": {
       "base": "event-driven-platform-base",

@@ -4845,7 +4845,7 @@
         "location": "location:main.tf:135:1-135:57",
         "outcome": {
           "kind": "represented",
-          "representation": "detail:azurerm_web_application_firewall_policy.hub"
+          "representation": "entity:azurerm_web_application_firewall_policy.hub"
         }
       },
       {
@@ -10542,8 +10542,8 @@
       {
         "id": "azure",
         "version": "0.1.0",
-        "content_digest": "sha256:cae7bb2b5364e974fc301a7609da05fa5a0b785be1750df8581198bd5fb334ac",
-        "semantic_digest": "sha256:10768460668f4adf602aeac10f8dddb412547c1d1f165c435bef6d2f9cf42fa3"
+        "content_digest": "sha256:ac7927cfbce14a56be48b468813b28ace558b11631e73254c899d355fa438310",
+        "semantic_digest": "sha256:1ee684adf21d33a85087aebf214e6b626ec5a7b11b30835325ae8257e98d38b6"
       },
       {
         "id": "core",
@@ -11638,6 +11638,13 @@
         "description": "An Azure VMware Solution private cloud."
       },
       {
+        "id": "azure/web-application-firewall-policy",
+        "dialect": "azure",
+        "name": "web-application-firewall-policy",
+        "kind": "entity",
+        "description": "A reusable Azure Web Application Firewall policy applied to Application Gateway traffic."
+      },
+      {
         "id": "core/ai-inference-endpoint",
         "dialect": "core",
         "name": "ai-inference-endpoint",
@@ -12024,6 +12031,7 @@
     "relations": [
       { "id": "azure/delivers-to", "dialect": "azure", "name": "delivers-to", "shared": false },
       { "id": "azure/observed-by", "dialect": "azure", "name": "observed-by", "shared": false },
+      { "id": "azure/peers-with", "dialect": "azure", "name": "peers-with", "shared": false },
       {
         "id": "azure/private-name-resolution",
         "dialect": "azure",
@@ -12031,6 +12039,12 @@
         "shared": false
       },
       { "id": "azure/subscribes-to", "dialect": "azure", "name": "subscribes-to", "shared": false },
+      {
+        "id": "azure/uses-waf-policy",
+        "dialect": "azure",
+        "name": "uses-waf-policy",
+        "shared": false
+      },
       {
         "id": "core/private-reachability",
         "dialect": "core",
@@ -13586,7 +13600,7 @@
       {
         "id": "azure/web-application-firewall-policy",
         "dialect": "azure",
-        "concept": "azure/firewall-policy"
+        "concept": "azure/web-application-firewall-policy"
       },
       {
         "id": "azure/web-pubsub",
@@ -14149,6 +14163,14 @@
         "via": "source.storage_account_id"
       },
       {
+        "id": "emission:3654fbde15dbad24b3a70ca8019717c091a78a0620592f54b078f98f578cc6b6",
+        "rule": "azure/web-application-firewall-policy",
+        "kind": "context",
+        "to": "azure/resource-group",
+        "dimension": "core/ownership",
+        "via": "source.resource_group_name"
+      },
+      {
         "id": "emission:37a0e2c6a6fe9066ddaffaa845ab8ed42dde892e21384bf841a028969f807d7f",
         "rule": "azure/virtual-network-peering",
         "kind": "context",
@@ -14451,6 +14473,14 @@
         "via": "source.resource_group_name"
       },
       {
+        "id": "emission:503712ef1e243ef276711da7a99a2ea0f83a63611591db5513e496fc1593897d",
+        "rule": "azure/virtual-network-peering",
+        "kind": "relation",
+        "to": "core/virtual-network",
+        "predicate": "azure/peers-with",
+        "via": "source.remote_virtual_network_id"
+      },
+      {
         "id": "emission:514c195230c8ce0167724a2180d09b410000a2ad22f9ed2ef427f71523fb1a78",
         "rule": "azure/maps-account",
         "kind": "context",
@@ -14522,14 +14552,6 @@
         "to": "azure/resource-group",
         "dimension": "core/ownership",
         "via": "source.resource_group_name"
-      },
-      {
-        "id": "emission:551858e3ccad4436d450af7f369d6f47f5887c314a8eee42a8ef8792da63daed",
-        "rule": "azure/virtual-network-peering",
-        "kind": "context",
-        "to": "core/virtual-network",
-        "dimension": "core/network",
-        "via": "source.remote_virtual_network_id"
       },
       {
         "id": "emission:55332d8706720e9184db4b078d7f02da2aa9dafab0baf70e9b173ef7c6612f7a",
@@ -15556,6 +15578,14 @@
         "to": "azure/resource-group",
         "dimension": "core/ownership",
         "via": "source.resource_group_name"
+      },
+      {
+        "id": "emission:b94c3d43ec7de22f89305cc23efd35a490b9fc4433329e51202baaf18efbd934",
+        "rule": "azure/application-gateway",
+        "kind": "relation",
+        "to": "azure/web-application-firewall-policy",
+        "predicate": "azure/uses-waf-policy",
+        "via": "source.firewall_policy_id"
       },
       {
         "id": "emission:b9be10a7fc3a5334e1ec15d9a1d56d779f799cbc3cbb9ed5174d1761788e3017",
@@ -16734,6 +16764,16 @@
         "rule": "azure/virtual-network-peering"
       },
       {
+        "id": "entity:azurerm_web_application_firewall_policy.hub",
+        "concept": "azure/web-application-firewall-policy",
+        "name": "hub",
+        "implementation": {
+          "kind": "direct",
+          "declaration": "source:azurerm_web_application_firewall_policy.hub"
+        },
+        "rule": "azure/web-application-firewall-policy"
+      },
+      {
         "id": "entity:kubernetes_daemon_set_v1.otel_collector",
         "concept": "kubernetes/daemon-set",
         "name": "otel_collector",
@@ -17639,16 +17679,6 @@
         "rule": "azure/subnet-nat-gateway-association"
       },
       {
-        "id": "detail:azurerm_web_application_firewall_policy.hub",
-        "concept": "azure/firewall-policy",
-        "name": "hub",
-        "implementation": {
-          "kind": "direct",
-          "declaration": "source:azurerm_web_application_firewall_policy.hub"
-        },
-        "rule": "azure/web-application-firewall-policy"
-      },
-      {
         "id": "detail:kubernetes_horizontal_pod_autoscaler_v1.catalog_api",
         "concept": "kubernetes/horizontal-pod-autoscaler",
         "name": "catalog_api",
@@ -17920,32 +17950,6 @@
           {
             "emission": "emission:37a0e2c6a6fe9066ddaffaa845ab8ed42dde892e21384bf841a028969f807d7f",
             "via": "resolution:azurerm_virtual_network_peering.hub_to_prod:virtual_network_name:azurerm_virtual_network.hub",
-            "rule": "azure/virtual-network-peering"
-          }
-        ]
-      },
-      {
-        "id": "context:core/network:azurerm_virtual_network_peering.hub_to_prod:azurerm_virtual_network.prod",
-        "from": "entity:azurerm_virtual_network_peering.hub_to_prod",
-        "to": "scope:azurerm_virtual_network.prod",
-        "dimension": "core/network",
-        "provenance": [
-          {
-            "emission": "emission:551858e3ccad4436d450af7f369d6f47f5887c314a8eee42a8ef8792da63daed",
-            "via": "resolution:azurerm_virtual_network_peering.hub_to_prod:remote_virtual_network_id:azurerm_virtual_network.prod",
-            "rule": "azure/virtual-network-peering"
-          }
-        ]
-      },
-      {
-        "id": "context:core/network:azurerm_virtual_network_peering.prod_to_hub:azurerm_virtual_network.hub",
-        "from": "entity:azurerm_virtual_network_peering.prod_to_hub",
-        "to": "scope:azurerm_virtual_network.hub",
-        "dimension": "core/network",
-        "provenance": [
-          {
-            "emission": "emission:551858e3ccad4436d450af7f369d6f47f5887c314a8eee42a8ef8792da63daed",
-            "via": "resolution:azurerm_virtual_network_peering.prod_to_hub:remote_virtual_network_id:azurerm_virtual_network.hub",
             "rule": "azure/virtual-network-peering"
           }
         ]
@@ -18844,6 +18848,19 @@
             "emission": "emission:f233432c512f25174e58954add9e968d61a5ca71ad0c5b592d53cc18ce9e0c84",
             "via": "resolution:azurerm_virtual_network_peering.prod_to_hub:resource_group_name:azurerm_resource_group.prod",
             "rule": "azure/virtual-network-peering"
+          }
+        ]
+      },
+      {
+        "id": "context:core/ownership:azurerm_web_application_firewall_policy.hub:azurerm_resource_group.hub",
+        "from": "entity:azurerm_web_application_firewall_policy.hub",
+        "to": "scope:azurerm_resource_group.hub",
+        "dimension": "core/ownership",
+        "provenance": [
+          {
+            "emission": "emission:3654fbde15dbad24b3a70ca8019717c091a78a0620592f54b078f98f578cc6b6",
+            "via": "resolution:azurerm_web_application_firewall_policy.hub:resource_group_name:azurerm_resource_group.hub",
+            "rule": "azure/web-application-firewall-policy"
           }
         ]
       },
@@ -20492,6 +20509,32 @@
         ]
       },
       {
+        "id": "relation:azure/peers-with:azurerm_virtual_network_peering.hub_to_prod:azurerm_virtual_network.prod",
+        "from": "entity:azurerm_virtual_network_peering.hub_to_prod",
+        "to": "scope:azurerm_virtual_network.prod",
+        "predicate": "azure/peers-with",
+        "provenance": [
+          {
+            "emission": "emission:503712ef1e243ef276711da7a99a2ea0f83a63611591db5513e496fc1593897d",
+            "via": "resolution:azurerm_virtual_network_peering.hub_to_prod:remote_virtual_network_id:azurerm_virtual_network.prod",
+            "rule": "azure/virtual-network-peering"
+          }
+        ]
+      },
+      {
+        "id": "relation:azure/peers-with:azurerm_virtual_network_peering.prod_to_hub:azurerm_virtual_network.hub",
+        "from": "entity:azurerm_virtual_network_peering.prod_to_hub",
+        "to": "scope:azurerm_virtual_network.hub",
+        "predicate": "azure/peers-with",
+        "provenance": [
+          {
+            "emission": "emission:503712ef1e243ef276711da7a99a2ea0f83a63611591db5513e496fc1593897d",
+            "via": "resolution:azurerm_virtual_network_peering.prod_to_hub:remote_virtual_network_id:azurerm_virtual_network.hub",
+            "rule": "azure/virtual-network-peering"
+          }
+        ]
+      },
+      {
         "id": "relation:azure/private-name-resolution:azurerm_postgresql_flexible_server.prod:azurerm_private_dns_zone.postgres",
         "from": "entity:azurerm_postgresql_flexible_server.prod",
         "to": "scope:azurerm_private_dns_zone.postgres",
@@ -20592,6 +20635,19 @@
             "emission": "emission:9607cbe2f1bebc85acb865e8707006068bfefea90daa456b2053399256c24724",
             "via": "resolution:azurerm_servicebus_subscription.payments_notifications:topic_id:azurerm_servicebus_topic.payments",
             "rule": "azure/service-bus-subscription"
+          }
+        ]
+      },
+      {
+        "id": "relation:azure/uses-waf-policy:azurerm_application_gateway.hub:azurerm_web_application_firewall_policy.hub",
+        "from": "entity:azurerm_application_gateway.hub",
+        "to": "entity:azurerm_web_application_firewall_policy.hub",
+        "predicate": "azure/uses-waf-policy",
+        "provenance": [
+          {
+            "emission": "emission:b94c3d43ec7de22f89305cc23efd35a490b9fc4433329e51202baaf18efbd934",
+            "via": "resolution:azurerm_application_gateway.hub:firewall_policy_id:azurerm_web_application_firewall_policy.hub",
+            "rule": "azure/application-gateway"
           }
         ]
       },
@@ -20815,6 +20871,16 @@
     ]
   },
   "resolutions": [
+    {
+      "id": "resolution:azurerm_application_gateway.hub:firewall_policy_id:azurerm_web_application_firewall_policy.hub",
+      "kind": "reference",
+      "from": {
+        "declaration": "source:azurerm_application_gateway.hub",
+        "path": "firewall_policy_id"
+      },
+      "to": "source:azurerm_web_application_firewall_policy.hub",
+      "location": "location:main.tf:159:25-159:71"
+    },
     {
       "id": "resolution:azurerm_application_gateway.hub:resource_group_name:azurerm_resource_group.hub",
       "kind": "reference",
@@ -22176,6 +22242,16 @@
       },
       "to": "source:azurerm_virtual_network.prod",
       "location": "location:main.tf:113:31-113:64"
+    },
+    {
+      "id": "resolution:azurerm_web_application_firewall_policy.hub:resource_group_name:azurerm_resource_group.hub",
+      "kind": "reference",
+      "from": {
+        "declaration": "source:azurerm_web_application_firewall_policy.hub",
+        "path": "resource_group_name"
+      },
+      "to": "source:azurerm_resource_group.hub",
+      "location": "location:main.tf:138:25-138:56"
     },
     {
       "id": "resolution:kubernetes_daemon_set_v1.otel_collector:host:azurerm_kubernetes_cluster.prod",

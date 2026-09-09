@@ -5970,8 +5970,8 @@
       {
         "id": "azure",
         "version": "0.1.0",
-        "content_digest": "sha256:cae7bb2b5364e974fc301a7609da05fa5a0b785be1750df8581198bd5fb334ac",
-        "semantic_digest": "sha256:10768460668f4adf602aeac10f8dddb412547c1d1f165c435bef6d2f9cf42fa3"
+        "content_digest": "sha256:ac7927cfbce14a56be48b468813b28ace558b11631e73254c899d355fa438310",
+        "semantic_digest": "sha256:1ee684adf21d33a85087aebf214e6b626ec5a7b11b30835325ae8257e98d38b6"
       },
       {
         "id": "core",
@@ -7060,6 +7060,13 @@
         "description": "An Azure VMware Solution private cloud."
       },
       {
+        "id": "azure/web-application-firewall-policy",
+        "dialect": "azure",
+        "name": "web-application-firewall-policy",
+        "kind": "entity",
+        "description": "A reusable Azure Web Application Firewall policy applied to Application Gateway traffic."
+      },
+      {
         "id": "core/ai-inference-endpoint",
         "dialect": "core",
         "name": "ai-inference-endpoint",
@@ -7376,6 +7383,7 @@
     "relations": [
       { "id": "azure/delivers-to", "dialect": "azure", "name": "delivers-to", "shared": false },
       { "id": "azure/observed-by", "dialect": "azure", "name": "observed-by", "shared": false },
+      { "id": "azure/peers-with", "dialect": "azure", "name": "peers-with", "shared": false },
       {
         "id": "azure/private-name-resolution",
         "dialect": "azure",
@@ -7383,6 +7391,12 @@
         "shared": false
       },
       { "id": "azure/subscribes-to", "dialect": "azure", "name": "subscribes-to", "shared": false },
+      {
+        "id": "azure/uses-waf-policy",
+        "dialect": "azure",
+        "name": "uses-waf-policy",
+        "shared": false
+      },
       {
         "id": "core/private-reachability",
         "dialect": "core",
@@ -8937,7 +8951,7 @@
       {
         "id": "azure/web-application-firewall-policy",
         "dialect": "azure",
-        "concept": "azure/firewall-policy"
+        "concept": "azure/web-application-firewall-policy"
       },
       {
         "id": "azure/web-pubsub",
@@ -9416,6 +9430,14 @@
         "via": "source.storage_account_id"
       },
       {
+        "id": "emission:3654fbde15dbad24b3a70ca8019717c091a78a0620592f54b078f98f578cc6b6",
+        "rule": "azure/web-application-firewall-policy",
+        "kind": "context",
+        "to": "azure/resource-group",
+        "dimension": "core/ownership",
+        "via": "source.resource_group_name"
+      },
+      {
         "id": "emission:37a0e2c6a6fe9066ddaffaa845ab8ed42dde892e21384bf841a028969f807d7f",
         "rule": "azure/virtual-network-peering",
         "kind": "context",
@@ -9692,6 +9714,14 @@
         "via": "source.resource_group_name"
       },
       {
+        "id": "emission:503712ef1e243ef276711da7a99a2ea0f83a63611591db5513e496fc1593897d",
+        "rule": "azure/virtual-network-peering",
+        "kind": "relation",
+        "to": "core/virtual-network",
+        "predicate": "azure/peers-with",
+        "via": "source.remote_virtual_network_id"
+      },
+      {
         "id": "emission:514c195230c8ce0167724a2180d09b410000a2ad22f9ed2ef427f71523fb1a78",
         "rule": "azure/maps-account",
         "kind": "context",
@@ -9763,14 +9793,6 @@
         "to": "azure/resource-group",
         "dimension": "core/ownership",
         "via": "source.resource_group_name"
-      },
-      {
-        "id": "emission:551858e3ccad4436d450af7f369d6f47f5887c314a8eee42a8ef8792da63daed",
-        "rule": "azure/virtual-network-peering",
-        "kind": "context",
-        "to": "core/virtual-network",
-        "dimension": "core/network",
-        "via": "source.remote_virtual_network_id"
       },
       {
         "id": "emission:55332d8706720e9184db4b078d7f02da2aa9dafab0baf70e9b173ef7c6612f7a",
@@ -10705,6 +10727,14 @@
         "to": "azure/resource-group",
         "dimension": "core/ownership",
         "via": "source.resource_group_name"
+      },
+      {
+        "id": "emission:b94c3d43ec7de22f89305cc23efd35a490b9fc4433329e51202baaf18efbd934",
+        "rule": "azure/application-gateway",
+        "kind": "relation",
+        "to": "azure/web-application-firewall-policy",
+        "predicate": "azure/uses-waf-policy",
+        "via": "source.firewall_policy_id"
       },
       {
         "id": "emission:b9be10a7fc3a5334e1ec15d9a1d56d779f799cbc3cbb9ed5174d1761788e3017",

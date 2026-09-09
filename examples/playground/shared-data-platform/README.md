@@ -106,7 +106,7 @@ any fact in this Dialect version, so the scenario leaves them out.
 ## Dialects and build
 
 Dialect sources vendored from
-rootform-dev/dialects@3f345c302c240c93e332114c58a7057a8ff4de0b (semantics not
+rootform-dev/dialects@22be31dc38fb4402b1ec47af604f77f84c31b0af (semantics not
 yet published to the official index). Each project keeps the `core`, `google`,
 and `kubernetes` sources under
 `.rootform/dialects/` with the MPL-2.0 license, and `rootform.lock` pins their
