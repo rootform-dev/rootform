@@ -76,7 +76,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: rootform-dev/dialects
-          ref: a64461ce4ef52c3afa3b684bd760c5d298e40e8d
+          ref: 22f0a9870fdf00cf58146b9bc3189d37727d3092
           path: build/dialects
           fetch-depth: 0
           persist-credentials: false

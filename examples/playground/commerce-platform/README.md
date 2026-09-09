@@ -94,7 +94,7 @@ public IP, so each project reports exactly one unsupported declaration.
 ## Dialects and build
 
 Dialect sources vendored from
-rootform-dev/dialects@a901fdc167d96c43fc99c66052bb2ab051fdc6fb (semantics not
+rootform-dev/dialects@22f0a9870fdf00cf58146b9bc3189d37727d3092 (semantics not
 yet published to the official index). Each project keeps the `azure`, `core`,
 and `kubernetes` sources under `.rootform/dialects/` with the MPL-2.0 license,
 and `rootform.lock` pins their digests.

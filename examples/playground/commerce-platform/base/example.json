@@ -9274,8 +9274,8 @@
       {
         "id": "azure",
         "version": "0.1.0",
-        "content_digest": "sha256:8e522ddbb0e62a170d07a7f27d458d66ecf23e953ba6d420f3ce4537b0a54637",
-        "semantic_digest": "sha256:58b97adb1907aeb047a520298b2ad2ed9a3798693c4dfee2749ff656abd00d9d"
+        "content_digest": "sha256:0be11f601f65c7bb7cea9672309b170963733ba4b7ae72d1a17371d9c722cd65",
+        "semantic_digest": "sha256:ea48b6a5a64345c4c9dca4fe6ac15cb8da3983e89c679ae0d894238687425114"
       },
       {
         "id": "core",
@@ -12406,14 +12406,6 @@
         "via": "source.service_bus_topic_id"
       },
       {
-        "id": "emission:216b2e2a808db69aa7786c2629c08206269f119b545c11e82955a7199e58f3ad",
-        "rule": "azure/linux-web-app",
-        "kind": "relation",
-        "to": "azure/application-insights",
-        "predicate": "azure/observed-by",
-        "via": "source.site_config[0].application_insights_connection_string"
-      },
-      {
         "id": "emission:22d5db3f3d62741b8884c83d6b9e142e5ab88485655095019639b10d24b763f3",
         "rule": "azure/monitor-workspace",
         "kind": "context",
@@ -12487,14 +12479,6 @@
         "via": "source.virtual_network_name"
       },
       {
-        "id": "emission:399ee1b3cdfc0e5a9248a3128d3250e1aac88bb7ba1fb8de58e3563d1143159c",
-        "rule": "azure/function-app-function",
-        "kind": "context",
-        "to": "azure/resource-group",
-        "dimension": "core/ownership",
-        "via": "source.resource_group_name"
-      },
-      {
         "id": "emission:3be294a475d18a708b86ba7ed75419c3a069dab19f15dce90a2000c578a3f68e",
         "rule": "azure/log-analytics-cluster",
         "kind": "context",
@@ -12549,14 +12533,6 @@
         "to": "core/dns-zone",
         "predicate": "azure/private-name-resolution",
         "via": "source.private_dns_zone_id"
-      },
-      {
-        "id": "emission:464a684b36299421db61629467c7e78a9110ecdb45bc677b3e625a2a5bd8b792",
-        "rule": "azure/function-app-function",
-        "kind": "relation",
-        "to": "azure/application-insights",
-        "predicate": "azure/observed-by",
-        "via": "source.site_config[0].application_insights_connection_string"
       },
       {
         "id": "emission:46eb6182224f89809bf3eca17e49b1db5e43999b281f6c5d9a072387c24cc35a",
@@ -12666,14 +12642,6 @@
         "dimension": "core/ownership",
         "via": "source.resource_group_name",
         "match": { "by": "target.name", "strategy": "exact" }
-      },
-      {
-        "id": "emission:618793ff38057c3ead56a70ad1e32c1334356b183181e2d4603e22191c5cedf8",
-        "rule": "azure/windows-web-app",
-        "kind": "relation",
-        "to": "azure/application-insights",
-        "predicate": "azure/observed-by",
-        "via": "source.site_config[0].application_insights_connection_string"
       },
       {
         "id": "emission:64b63f6b26b1440f74dbc0812bb3f88f8eb9347f37b21991f0ab4a94cadfcb26",
@@ -12944,14 +12912,6 @@
         "via": "source.spec[0].template[0].spec[0].service_account_name"
       },
       {
-        "id": "emission:b506d527cc458751372809237d414978a851d7b850cb64c0d8ea2ced14390e27",
-        "rule": "azure/function-app-function",
-        "kind": "context",
-        "to": "core/subnet",
-        "dimension": "core/network",
-        "via": "source.virtual_network_subnet_id"
-      },
-      {
         "id": "emission:b8687a1aa4cde3707815740bc6e6486b6c968500472f09869a125fa1218ec66a",
         "rule": "azure/container-app-job",
         "kind": "context",
@@ -13081,14 +13041,6 @@
         "dimension": "core/ownership",
         "via": "source.resource_group_name",
         "match": { "by": "target.name", "strategy": "exact" }
-      },
-      {
-        "id": "emission:eef8f323cc7e8dd71bbae1b582d36550923ad58fdf462dc81ec89c03fc7de87f",
-        "rule": "azure/function-app-function",
-        "kind": "context",
-        "to": "azure/app-service-plan",
-        "dimension": "core/runtime",
-        "via": "source.service_plan_id"
       },
       {
         "id": "emission:efa09d6d375b2f683f8920cdaefecc1b1e824371e270b55241cd28962f0db13e",

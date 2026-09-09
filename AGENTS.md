@@ -19,15 +19,21 @@ without private context.
 - Examples are synthetic and never become authoritative Terraform source.
 - Release binaries use Elastic License 2.0. Apache-2.0 covers repository source,
   contracts, docs, examples, and tooling only.
-- Producer handoffs are verified as opaque bytes. This repository never reads
-  producer source, redistributes private producer provenance, or modifies raw
-  executable contents during final assembly.
+- Release/freeze producer handoffs are verified as opaque bytes. This
+  repository never reads producer source, redistributes private producer
+  provenance, or modifies raw executable contents during final assembly.
 - Rootform name and marks are not licensed by Apache-2.0.
 
 ## Dependencies and release
 
 - Cross-repository inputs use exact commits, tags, checksums, and release
   manifests. Relative paths, symlinks, and worktree assumptions are forbidden.
+- Dev integration may import the allow-listed public export from a clean exact
+  Engine commit and validate with a deterministic transient binary whose
+  commit and checksum are recorded. These inputs make no release claim and
+  cannot be used for final assembly or publication.
+- Release/freeze requires the immutable Engine handoff, final Dialect pin, and
+  complete candidate qualification defined by the public contracts.
 - Rootform owns final archive assembly, official Dialects compatibility,
   release checksums, and publication. Action consumes published releases only.
 - Bun is the only JavaScript package manager.
