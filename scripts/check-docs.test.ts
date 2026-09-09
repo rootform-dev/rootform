@@ -1,4 +1,6 @@
 import { expect, test } from "bun:test";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import {
   checkNavigation,
   checkPage,
@@ -242,4 +244,70 @@ test("checkPages reports duplicate routes and per-page issues together", () => {
   const route = result.issues.find((issue) => issue.kind === "route");
   expect(route?.detail).toContain('route "index" collides');
   expect(result.issues.some((issue) => issue.kind === "frontmatter")).toBe(true);
+});
+
+test("installation documentation keeps supported methods in recommendation order", () => {
+  const page = readFileSync(join(import.meta.dir, "../docs/installation.md"), "utf8");
+  const section = (start: string, end: string) => {
+    const from = page.indexOf(start);
+    const to = page.indexOf(end, from + start.length);
+    expect(from).toBeGreaterThanOrEqual(0);
+    expect(to).toBeGreaterThan(from);
+    return page.slice(from, to);
+  };
+  const expectOrder = (text: string, values: string[]) => {
+    const positions = values.map((value) => text.indexOf(value));
+    expect(positions.every((position) => position >= 0)).toBe(true);
+    expect(positions).toEqual([...positions].sort((left, right) => left - right));
+  };
+
+  expectOrder(section("<!-- rootform:tab macOS -->", "<!-- rootform:tab Linux -->"), [
+    "**Recommended**",
+    "curl -fsSL https://rootform.dev/install | sh",
+    "**Verify**",
+    "rootform version",
+    "**Other options**",
+    "brew install --cask rootform",
+  ]);
+  expectOrder(section("<!-- rootform:tab Linux -->", "<!-- rootform:tab Windows -->"), [
+    "**Recommended**",
+    "curl -fsSL https://rootform.dev/install | sh",
+    "**Verify**",
+    "rootform version",
+  ]);
+  expectOrder(section("<!-- rootform:tab Windows -->", "<!-- rootform:tab Container -->"), [
+    "**Recommended**",
+    "Invoke-RestMethod https://rootform.dev/install.ps1 | Invoke-Expression",
+    "**Verify**",
+    "rootform version",
+    "**Other options**",
+    "winget install --id Rootform.Rootform --exact",
+  ]);
+  expectOrder(section("<!-- rootform:tab Container -->", "<!-- rootform:endtabs -->"), [
+    "**Recommended**",
+    "docker pull ghcr.io/rootform-dev/rootform:0.1.0",
+    "**Verify**",
+    "docker run --rm ghcr.io/rootform-dev/rootform:0.1.0 rootform version",
+    "[Container usage →](integrations/oci-image.md)",
+  ]);
+  expectOrder(page, [
+    "<!-- rootform:endtabs -->",
+    "## Manual installation",
+    "SHA256SUMS",
+    "[your first architecture →](getting-started/first-architecture.md)",
+  ]);
+  expect(page.match(/<!-- rootform:tabs /gu)).toHaveLength(1);
+  expect(page.match(/<!-- rootform:tab /gu)).toHaveLength(4);
+  expect(page.match(/\*\*Recommended\*\*/gu)).toHaveLength(4);
+  expect(page.match(/\*\*Verify\*\*/gu)).toHaveLength(4);
+  expect(page.match(/\*\*Other options\*\*/gu)).toHaveLength(2);
+  expect(page.match(/^## Manual installation$/gmu)).toHaveLength(1);
+  expect(page).not.toMatch(/^## (?:macOS|Linux|Windows|Container)$/gmu);
+  expect(page).not.toContain("## Manual downloads");
+  expect(page).not.toContain("Manual download →");
+  expect(page).not.toContain("installation/manual.md");
+  expect(page).not.toContain("A successful verification prints");
+  expect(page).not.toContain("rootform.dev/install.sh");
+  expect(page).not.toMatch(/Node\.js|Python/u);
+  expect(page).toContain("first run may need network access to download any required\n[Dialects]");
 });

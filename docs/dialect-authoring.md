@@ -16,13 +16,12 @@ semantics from resource names alone. Every rule should answer three questions:
    composition member?
 
 For product meaning and selection behavior, read [Dialects](concepts/dialects.md).
-This guide covers authoring.
 
 ## Set up an authoring checkout
 
-Clone the public Dialects repository and work from its root. Existing `core`
-vocabulary, provider Dialects, fixtures, and lock evidence make it the best
-place to validate a contribution.
+Clone the public Dialects repository and work from its root. It contains shared
+`core` vocabulary, provider Dialects, tests, and lock evidence needed to validate
+a contribution.
 
 ```sh
 git clone https://github.com/rootform-dev/dialects.git
@@ -138,10 +137,10 @@ rule "vpc" {
 `concept.name`, or to a directly required Dialect as
 `concept.dialect.name`.
 
-Add a predicate only when declarations of the same type have different proven
-meaning:
+Add a predicate inside a rule's `match` block only when declarations of the same
+type have different proven meaning:
 
-```hcl title="rule.rf"
+```hcl title="Match block inside a rule"
 match {
   kind  = "resource"
   type  = "google_compute_global_forwarding_rule"
@@ -187,12 +186,13 @@ Use each fact for one semantic claim:
 source; use it only for a fact whose evidence genuinely belongs there.
 
 Facts normally resolve a source reference. When a provider exposes an
-identifier rather than a reference, add a bounded fact match:
+identifier rather than a reference, add a bounded fact match inside the rule's
+context block:
 
-```hcl title="rule.rf"
+```hcl title="Context block inside a rule"
 context {
-  as  = context.network
-  to  = concept.subnet
+  as  = context.core.network
+  to  = concept.core.subnet
   via = source.network
 
   match {
@@ -259,7 +259,7 @@ separate visible representations.
 
 ## Compile and inspect definitions
 
-Format before validation, then compile the repository's Dialects:
+Check canonical formatting, then compile the repository's Dialects:
 
 ```sh
 rootform fmt --check .
@@ -342,16 +342,17 @@ communicate correctly.
 
 <!-- rootform:endsteps -->
 
-## Package reviewed semantics
+## Package and publish a Dialect
 
 Packaging is offline and produces an OCI layout. Supply immutable source
-metadata and the package license:
+metadata and the package license. Replace example URLs with repository-owned
+values; use the exact revision from the checkout:
 
 ```sh
 rootform package dialects . --to artifacts/oci \
   --repository registry.example/team/dialects \
   --source-url https://example.com/team/dialects \
-  --revision 0123456789abcdef0123456789abcdef01234567 \
+  --revision "$(git rev-parse HEAD)" \
   --documentation-url https://example.com/team/dialects/docs \
   --licenses MPL-2.0
 ```
@@ -372,6 +373,23 @@ rootform publish dialects artifacts/oci \
 ```
 
 Direct publication does not require an index; omit `--index` when discovery is
-managed elsewhere. See [Test and validate](language/test-validate.md) for the
-authoring loop and [Dialect reference](language/reference/dialects.md) for every
-accepted field.
+managed elsewhere.
+
+## Use a published Dialect
+
+Add a private Dialect artifact or index while preparing the project. Rootform
+reads registry credentials from standard Docker configuration:
+
+```sh
+DOCKER_CONFIG=/path/to/docker-config \
+  rootform init ./infra \
+  --source registry.example/team/dialects:dialect-company-1.2.0 \
+  --no-input
+```
+
+Review and commit the resulting `rootform.lock`. Later local or CI runs recover
+that exact artifact by digest with `rootform init ./infra --locked --no-input`;
+they do not need the original `--source` argument.
+
+See [Test and validate](language/test-validate.md) for the authoring loop and
+[Dialect reference](language/reference/dialects.md) for every accepted field.

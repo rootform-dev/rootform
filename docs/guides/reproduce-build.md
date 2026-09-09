@@ -4,22 +4,25 @@ description: "Prepare exact Dialects, preserve the lock, and rebuild from vendor
 ---
 
 Prepare a project once, then prove that the same source builds with the same
-semantic inputs without network access. Use the
+Rootform version and semantic inputs without network access. Use the
 [first architecture](../getting-started/first-architecture.md) or a supported
 Terraform/OpenTofu root. Remote modules must already be materialized.
 
 ## Establish the selection
 
-From the project root, while registry access is available:
+Use the same Rootform version for the baseline and every repeat. The lock pins
+Dialect selection, not the executable. Record the version, then prepare from
+the project root while registry access is available:
 
 ```sh
+rootform version
 rootform init . --no-input
 rootform list dialects
 ```
 
 Initialization writes or verifies `rootform.lock`. Review the selected names,
 versions, origins, and any unsupported-provider warning. Commit the lock with
-source when the selection is correct.
+the source when the selection is correct.
 
 Save a baseline using that lock:
 
@@ -39,10 +42,16 @@ rootform build . --locked --offline --no-input --output after.json
 rootform diff before.json after.json --exit-code
 ```
 
-For unchanged source and selection, the comparison prints `no architectural
-change` and exits `0`. The architecture files are byte-identical. If exact
-packages are missing, Rootform reports the missing selection and fails; it does
-not choose another version.
+For unchanged source, Rootform version, and selection, the comparison prints
+`no architectural change` and exits `0`. Verify canonical bytes too on macOS or
+Linux:
+
+```sh
+cmp -s before.json after.json
+```
+
+Status `0` confirms byte identity. If exact packages are missing, Rootform
+reports the missing selection and fails; it does not choose another version.
 
 ## Carry packages with the project
 
@@ -78,21 +87,8 @@ If vendor content is missing or damaged, explicitly repair it with
 only when exact registry recovery is permitted. Do not remove a damaged vendor
 directory to hide the failure behind a different execution source.
 
-## Update deliberately
+## Change selection separately
 
-To select newer compatible Dialects while online:
-
-```sh
-rootform init . --upgrade --no-input
-```
-
-Review the lock diff and rebuild the architecture. If you vendor packages,
-refresh that material from the new lock as well. A changed Dialect selection can
-change interpretation; old and new architecture files may then be incomparable.
-Do not attribute that mismatch to Terraform changes.
-
-For an additional package source, `rootform init --source` accepts a tagged or
-digest-pinned OCI Dialect artifact or index. It extends the configured sources
-without giving one source priority. `--locked` cannot be combined with source,
-pack-selection, or upgrade requests because those requests can change selection.
-See [initialization reference](../reference/cli/init.md) for exact flags.
+Dialect upgrades and added package sources can change interpretation, so keep
+them outside reproduction proof. Follow [project preparation](../cli.md) for a
+reviewed selection change, refresh vendor material, then establish a new baseline.

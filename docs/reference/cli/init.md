@@ -27,8 +27,6 @@ rootform init [path] [flags]
 | ` --upgrade ` | ` bool ` | ` false ` | refresh compatible dialect versions |
 | ` -v, --verbose ` | ` bool ` | ` false ` | show provider evidence and origin |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Detect providers, resolve Rootform dialects, install missing exact
@@ -60,5 +58,3 @@ rootform init --policy-pack ghcr.io/acme/policies:policy-pack-baseline-0.1.0
 rootform init ./infra --no-input
 rootform init ./infra --locked --offline
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

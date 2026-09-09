@@ -9,10 +9,53 @@
   },
   {
     "label": "Understand architecture",
-    "items": ["concepts", "concepts/architecture-ir", "concepts/dialects", "concepts/policies"]
+    "items": [
+      { "label": "Architecture concepts", "page": "concepts" },
+      "concepts/architecture-ir",
+      "concepts/dialects",
+      "concepts/policies"
+    ]
   },
   {
-    "label": "Rootform Language (.rf)",
+    "label": "Explore the renderer",
+    "items": [
+      { "label": "Read an architecture", "page": "renderer" },
+      "renderer/views",
+      { "label": "Example architectures", "page": "renderer/examples" }
+    ]
+  },
+  {
+    "label": "Use your inputs",
+    "items": [
+      { "label": "Configuration and saved architectures", "page": "inputs" },
+      { "label": "Plans", "page": "inputs/plans" }
+    ]
+  },
+  {
+    "label": "Review and automate",
+    "items": [
+      { "label": "Checks", "page": "guides/check-architecture" },
+      { "label": "Understand Diff", "page": "renderer/diff" },
+      { "label": "Compare architectures", "page": "guides/compare-architectures" },
+      { "label": "Git workflows", "page": "workflows" },
+      { "label": "CI", "page": "integrations/ci" },
+      "integrations/github-actions",
+      "integrations/oci-image"
+    ]
+  },
+  {
+    "label": "Operate safely",
+    "items": [
+      "offline-security",
+      "guides/reproduce-build",
+      "security",
+      "integrations/registry-compatibility",
+      "limitations",
+      "troubleshooting"
+    ]
+  },
+  {
+    "label": "Rootform language",
     "items": [
       {
         "label": "Learn",
@@ -25,7 +68,6 @@
         "label": "Write",
         "items": [
           { "label": "Write a Dialect", "page": "dialect-authoring" },
-          { "label": "Write a Policy", "page": "guides/check-architecture" },
           { "label": "Write a Policy Pack", "page": "language/write-policy-pack" },
           { "label": "Test and validate", "page": "language/test-validate" }
         ]
@@ -48,45 +90,13 @@
     ]
   },
   {
-    "label": "Explore the renderer",
-    "items": [
-      { "label": "Read an architecture", "page": "renderer" },
-      "renderer/views",
-      { "label": "Example architectures", "page": "renderer/examples" },
-      "renderer/diff",
-      "guides/compare-architectures"
-    ]
-  },
-  { "label": "Use your inputs", "items": ["inputs", "inputs/plans"] },
-  {
-    "label": "Work with your team",
-    "items": [
-      "workflows",
-      "integrations/ci",
-      "integrations/github-actions",
-      "integrations/oci-image"
-    ]
-  },
-  {
-    "label": "Operate safely",
-    "items": [
-      "security",
-      "offline-security",
-      "guides/reproduce-build",
-      "integrations/registry-compatibility",
-      "troubleshooting",
-      "limitations"
-    ]
-  },
-  {
     "label": "Reference",
     "items": [
-      "reference",
-      "cli",
+      { "label": "CLI reference", "page": "reference/cli" },
+      { "label": "Project preparation", "page": "cli" },
       {
         "label": "Commands",
         "items": [
-          { "label": "Overview", "page": "reference/cli" },
           { "label": "build", "page": "reference/cli/build" },
           { "label": "check", "page": "reference/cli/check" },
           { "label": "completion", "page": "reference/cli/completion" },
@@ -193,7 +203,7 @@
           { "label": "version", "page": "reference/cli/version" }
         ]
       },
-      "reference/outputs"
+      { "label": "Outputs and exit status", "page": "reference/outputs" }
     ]
   },
   { "label": "Contribute", "items": ["contributing", "contributing/writing"] }

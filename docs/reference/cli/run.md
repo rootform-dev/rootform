@@ -27,8 +27,6 @@ rootform run [input] [flags]
 | ` --port ` | ` int ` | ` 21717 ` | serve on local `port`; 0 picks a free one |
 | ` -v, --verbose ` | ` bool ` | ` false ` | show provider evidence and origin |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Build or load an architecture and serve its interactive interface
@@ -58,5 +56,3 @@ rootform run ./infra
 rootform run architecture.json --no-browser
 rootform run --plan tfplan.json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

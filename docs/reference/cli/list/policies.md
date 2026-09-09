@@ -21,8 +21,6 @@ rootform list policies [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list policies |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 List policies available from selected Policy Packs.
@@ -47,5 +45,3 @@ rootform list policies
 rootform list policies --policy-pack ./policies
 rootform list policies --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

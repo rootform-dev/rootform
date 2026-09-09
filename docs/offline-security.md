@@ -50,9 +50,8 @@ explicit initialization command reported in its diagnostic to review an update.
 
 The Rootform home normally lives at `~/.rootform/` (under the Windows user
 profile on Windows). `ROOTFORM_HOME` replaces that directory. It contains
-installed Dialects and Policy Packs, content-addressed download caches, cached
-indexes, and temporary staging. Verified installed content is distinct from a
-redownloadable cache.
+verified local Dialects, Policy Packs, and registry cache. Project vendoring is
+separate from this shared home.
 
 Vendoring materializes exact locked packages under the project:
 
@@ -90,13 +89,15 @@ The [lock contract](../contracts/rootform-lock.md) defines exact fields.
 ## OCI mirrors for locked projects
 
 Rootform supports a mirror through exact lock routing, not source priority.
-First copy every artifact descriptor graph named by the lock to one
-standards-compatible mirror repository without repackaging it. Verify that each
-copied manifest retains its locked digest. Then change only
-`entries[].artifact.repository` in `rootform.lock` to the tagless mirror
-repository. Keep manifest and layer digests, sizes, semantic and presentation
-digests, versions, `sources`, and `origins` unchanged. Review and commit that
-lock change.
+First copy every Dialect and Policy Pack artifact descriptor graph named by
+`entries` and `policy_packs` in the lock to a standards-compatible mirror
+repository without repackaging it. Include each manifest, config, and layer;
+preserve descriptor digests and sizes, including each manifest's locked digest.
+Then change only `entries[].artifact.repository` and
+`policy_packs[].artifact.repository` in `rootform.lock` to their tagless mirror
+repositories. Keep manifest and layer digests, sizes, semantic, presentation,
+and pack content digests, versions, `sources`, and `origins` unchanged. Review
+and commit that lock change.
 
 Validate the mirror from an empty store:
 
@@ -105,12 +106,26 @@ ROOTFORM_HOME=/path/to/empty-rootform-home \
   rootform init . --locked --no-input
 ```
 
-Locked recovery contacts only each entry's rewritten repository at its exact
-manifest digest. It does not read the recorded index, contact the original
-artifact repository, or fall back there when the mirror is missing, unreachable,
-or corrupt. After this acquisition, either retain the verified home or run
-`rootform vendor dialects`; subsequent `--locked --offline` commands need no
-registry or credentials.
+Locked recovery contacts only each Dialect or Policy Pack entry's rewritten
+repository at its exact manifest digest. It does not read the recorded index,
+contact the original artifact repository, or fall back there when the mirror
+is missing, unreachable, or corrupt. After this acquisition, either retain the
+verified home or vendor the locked packages:
+
+```sh
+ROOTFORM_HOME=/path/to/empty-rootform-home \
+  rootform vendor dialects --offline
+```
+
+If the lock selects Policy Packs, vendor them separately:
+
+```sh
+ROOTFORM_HOME=/path/to/empty-rootform-home \
+  rootform vendor policy-packs --offline
+```
+
+With both required package families available locally, subsequent
+`--locked --offline` commands need no registry or credentials.
 
 Do not add a rewritten copy of the official index with `--source`. The official
 index remains implicit, and same name/version entries from different artifact
@@ -118,21 +133,17 @@ repositories are an intentional source conflict even when their content
 digests match. This strict rule prevents source priority from silently changing
 artifact identity.
 
-Online OCI authentication reads standard Docker configuration only. Non-empty
-`DOCKER_CONFIG` takes precedence over current user's `~/.docker/config.json`;
-host `credHelpers`, global `credsStore`, then matching `auths` determine
-identity. Canonical `credentials not found` means no identity and permits
-anonymous registry authentication; it never falls through to inline
-credentials. Helper/store execution or decoding error never falls through to
-another configured identity.
-Rootform invokes helper `get` only, captures helper output, and keeps decoded
-credentials and ORAS Basic/Bearer tokens in process memory. It emits and stores
-no credential, Authorization header, Docker config content, or config path.
-Policy-pack acquisition and publication use this same authentication path;
-there is no pack-specific credential flag.
-When `SSL_CERT_FILE` is set online, Rootform appends its bounded PEM bundle to
-system roots; invalid content fails with a sanitized error. Offline mode creates
-no registry client and reads neither credential source nor TLS bundle.
+Online OCI authentication follows standard Docker configuration. A nonempty
+`DOCKER_CONFIG` takes precedence over user Docker configuration; `credHelpers`,
+`credsStore`, then matching `auths` determine identity. A helper reporting no
+credentials permits anonymous authentication. A helper execution or decoding
+failure is terminal rather than falling back to another configured identity.
+Policy Pack and Dialect operations use the same path; neither has a separate
+credential flag.
+
+When `SSL_CERT_FILE` is set online, Rootform adds its bounded PEM bundle to
+system roots. Invalid content fails explicitly. Offline mode reads neither
+registry credentials nor TLS bundle.
 
 ## Environment controls
 

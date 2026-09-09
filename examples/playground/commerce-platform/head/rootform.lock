@@ -40,6 +40,22 @@
       "origins": [
         "ghcr.io/rootform-dev/dialects:official-index-v1"
       ]
+    },
+    {
+      "name": "kubernetes",
+      "version": "0.1.0",
+      "digest": "sha256:1f0584dc88d9219ac60ff4a22261489220ec21d017be4fff4195e544ece3b99c",
+      "presentation_digest": "sha256:0f8be0c5ddaa1708018206d08f49c17e31390a15551823562598bab2a323d829",
+      "artifact": {
+        "repository": "ghcr.io/rootform-dev/dialects",
+        "manifest_digest": "sha256:9f90e39debbdadf6531b8444194d00e8e71d701534c6d8cece8e99442d20e8bd",
+        "layer_digest": "sha256:51748dd3b9bba5515e73d0fa2781ab2cfcddaec2e2f564c0ec6e0feca52b1dfb",
+        "download_size": 7083,
+        "install_size": 23177
+      },
+      "origins": [
+        "ghcr.io/rootform-dev/dialects:official-index-v1"
+      ]
     }
   ]
 }

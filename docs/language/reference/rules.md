@@ -217,9 +217,9 @@ composition {
 | `member` | 0 or more blocks | Ordered supporting declaration definition |
 | Other attributes or blocks | none | Rejected |
 
-An empty composition is currently accepted and records a composition with no
-supporting members. It provides no useful authoring outcome; omit the block.
-Useful compositions declare at least one member. Each member has:
+An empty composition records no supporting members and has no useful authoring
+outcome; omit it. Useful compositions declare at least one member. Each member
+has:
 
 | Member item | Cardinality | Value |
 | --- | --- | --- |

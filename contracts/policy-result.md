@@ -3,7 +3,7 @@
 Current format version: `0.1.0`.
 
 Policy evaluation consumes validated Architecture IR and deterministic
-Rootform Language policies sourced from independently distributed policy
+Rootform language policies sourced from independently distributed policy
 packs. It never re-reads Terraform or upgrades unresolved evidence.
 
 Policies belong to policy packs, never to dialects. A dialect may not carry,

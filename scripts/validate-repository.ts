@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
 import { createHash } from "node:crypto";
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { BINARY_LICENSE_FILE, BINARY_LICENSE_SPDX, readBinaryLicense } from "./release/license.ts";
 import { readRuntimeLicensing } from "./release/runtime-licenses.ts";
@@ -180,6 +180,8 @@ export function validateRepository(): void {
     "policy-packs/baseline/LICENSE",
     "policy-packs/baseline/NOTICE",
     "policy-packs/baseline/pack.rf",
+    "policy-packs/baseline/policies/cluster-network-context.rf",
+    "policy-packs/baseline/policies/private-database-reachability.rf",
     "docs/integrations/oci-image.md",
     "docs/integrations/ci/README.md",
     "docs/integrations/ci/azure-pipelines.yml",
@@ -277,23 +279,49 @@ export function validateRepository(): void {
     .filter((entry) => entry.isDirectory())
     .map(({ name }) => name)
     .sort((a, b) => a.localeCompare(b, "en"));
+  const standardExamples = [
+    "aws-vpc",
+    "azure-network",
+    "gcp-cloud-sql",
+    "kubernetes-workload",
+    "multi-cloud",
+  ];
   if (
     JSON.stringify(examples) !==
-    JSON.stringify([
-      "aws-vpc",
-      "azure-network",
-      "gcp-cloud-sql",
-      "kubernetes-workload",
-      "multi-cloud",
-    ])
+    JSON.stringify([...standardExamples, "playground"].sort((a, b) => a.localeCompare(b, "en")))
   ) {
     throw new Error(`example inventory mismatch: ${examples.join(", ")}`);
   }
-  for (const example of examples) {
+  for (const example of standardExamples) {
     const directory = join(root, "examples", example);
     validateExampleDialectLock(directory, example);
     if (!readdirSync(directory).some((name) => name.endsWith(".tf") || name.endsWith(".tf.json"))) {
       throw new Error(`example contains no Terraform source: ${example}`);
+    }
+  }
+
+  const playground = join(root, "examples", "playground");
+  const playgroundScenarios = readdirSync(playground, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map(({ name }) => name)
+    .sort((a, b) => a.localeCompare(b, "en"));
+  if (
+    JSON.stringify(playgroundScenarios) !==
+    JSON.stringify(["commerce-platform", "shared-data-platform"])
+  ) {
+    throw new Error(`playground scenario inventory mismatch: ${playgroundScenarios.join(", ")}`);
+  }
+  for (const scenario of playgroundScenarios) {
+    const directory = join(playground, scenario);
+    if (!existsSync(join(directory, "README.md"))) {
+      throw new Error(`playground scenario has no README: ${scenario}`);
+    }
+    for (const side of ["base", "head"]) {
+      const input = join(directory, side);
+      validateExampleDialectLock(input, `playground/${scenario}/${side}`);
+      if (!readdirSync(input).some((name) => name.endsWith(".tf") || name.endsWith(".tf.json"))) {
+        throw new Error(`playground scenario contains no Terraform source: ${scenario}/${side}`);
+      }
     }
   }
 
@@ -306,6 +334,8 @@ export function validateRepository(): void {
       "policy-packs/baseline/LICENSE",
       "policy-packs/baseline/NOTICE",
       "policy-packs/baseline/pack.rf",
+      "policy-packs/baseline/policies/cluster-network-context.rf",
+      "policy-packs/baseline/policies/private-database-reachability.rf",
     ])
   ) {
     throw new Error(`policy pack example boundary drifted: ${policyPackFiles.join(", ")}`);

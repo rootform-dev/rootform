@@ -19,8 +19,6 @@ rootform validate <object> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Validate an architecture or Rootform definition and report any problems
@@ -46,5 +44,3 @@ rootform validate architecture ./infra
 rootform validate dialects ./dialects
 rootform validate rule google/cloud-sql-instance
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

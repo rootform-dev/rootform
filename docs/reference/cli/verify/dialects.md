@@ -19,23 +19,22 @@ rootform verify dialects [directory] [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform verify dialects |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Verify that the resolved dialects are consistent with the
-recorded dialect resolution.
+recorded dialect resolution. The directory selects Dialect sources;
+rootform.lock is read from the current working directory.
 
-With no directory, verify reads the current directory. Matching names and
+With no directory, the current directory also supplies Dialect sources.
+Matching names and
 versions go to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
 ```text
 0  every resolved dialect matches rootform.lock
-1  a dialect differs or the lock file could not be read
+1  sources, presentation, or rootform.lock could not be verified
 2  the command was used incorrectly
-3  no complete verification was produced
 ```
 
 ## Examples
@@ -45,5 +44,3 @@ rootform verify dialects
 rootform verify dialects ./dialects
 rootform verify dialects ./vendor/dialects
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

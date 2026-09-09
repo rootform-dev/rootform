@@ -3,10 +3,10 @@ title: "Language tour"
 description: "Follow real .rf definitions from source matching to architecture facts, composition, and policy evaluation."
 ---
 
-This tour follows definitions used by official Dialects and tested fixtures.
-It starts with the subnet from [your first architecture](../getting-started/first-architecture.md),
-then adds the language features needed to explain more complex semantics and
-governance.
+Follow official definitions from source matching through architecture facts and
+policy evaluation. Start with the subnet from
+[your first architecture](../getting-started/first-architecture.md), then add
+composition and governance.
 
 You can read the tour without installing an authoring checkout. To run the
 examples, install Rootform and use the public Dialects repository as described
@@ -158,7 +158,7 @@ Each fact names its target concept and a `via` traversal. A context also names
 its dimension with `as`. The compiler rejects concept-kind combinations that
 would make the graph invalid.
 
-This tested contribution treats a node pool as supporting detail for a
+This contribution treats a node pool as supporting detail for a
 cluster:
 
 ```hcl title="rule.rf"
@@ -168,7 +168,7 @@ contribution {
 }
 ```
 
-This tested relation expresses a named, directional claim:
+This relation expresses a named, directional claim:
 
 ```hcl title="rule.rf"
 relation "reachability" {
@@ -257,40 +257,34 @@ representation.
 
 ## Ask a policy question
 
-The official baseline Policy Pack declares exact vocabulary requirements and
-groups policies under one versioned identity. This policy asks whether each
-managed database has a private-reachability relation to a virtual network or
-subnet:
+Return to tutorial subnet. A Policy Pack declares exact vocabulary requirements
+and gives related policies one versioned identity. This policy asks whether each
+subnet has network context in a virtual network:
 
-```hcl title="policy-packs/baseline/pack.rf"
-policy_pack "baseline" {
+```hcl title="policies/pack.rf"
+policy_pack "tutorial" {
   version = "0.1.0"
 
   requires {
     core = "0.1.0"
   }
-
-  policy "private-database-reachability" {
-    target = concept.core.managed-database
-
-    assert = (
-      length(relations("private-reachability", concept.core.virtual-network)) > 0 ||
-      length(relations("private-reachability", concept.core.subnet)) > 0
-    )
-
-    message = "Managed databases must be privately reachable from a virtual network or subnet."
-  }
 }
 ```
 
-The policy evaluates once for each representation whose exact concept is
-`core/managed-database`. `relations` reads outgoing facts from that target;
-`length` turns the result into an integer for comparison. A false assertion is
-a violation with the authored message and inspected fact IDs.
+```hcl title="policies/subnet-network-context.rf"
+policy "subnet-network-context" {
+  target = concept.core.subnet
+  assert = length(contexts(context.core.network, concept.core.virtual-network)) > 0
+  message = "Subnets must have an established virtual network context."
+}
+```
 
-This result is only as strong as the facts available. Absence of a relation is
-not live proof of public reachability. Review Dialect coverage before adopting
-a policy as a gate.
+Both files share one pack root, so policy identity becomes
+`tutorial/subnet-network-context` without nesting or explicit reference.
+Policy evaluates once for each representation whose exact concept is
+`core/subnet`. For tutorial, earlier `core/network` fact makes query length `1`,
+so assertion passes. If `vpc_id` no longer resolves to VPC, length becomes `0`
+and check reports violation with authored message and inspected fact IDs.
 
 ## Let diagnostics stop invalid meaning
 
@@ -310,6 +304,6 @@ Architecture IR with reviewed golden files.
 <!-- rootform:endsteps -->
 
 Continue with [Write a Dialect](../dialect-authoring.md) or
-[Write a Policy](../guides/check-architecture.md). Use the
+[Check an architecture](../guides/check-architecture.md). Use the
 [language reference](reference/index.md) when you need exact accepted forms,
 scope, and diagnostic codes.

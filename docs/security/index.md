@@ -13,7 +13,8 @@ preparation may acquire the exact Dialects and selected Policy Packs it needs.
 | --- | --- |
 | Prepare a project | May contact configured registries to resolve and acquire semantic packages. Registry authentication and certificate settings apply. |
 | Build with `--locked --offline` | Uses the existing lock and permitted local content. Missing bytes cause failure. |
-| Explore with `rootform run` | The browser reads the architecture from the local loopback server. Renderer assets are served locally. |
+| Explore a directory with `rootform run .` | May prepare missing semantic packages, then serves architecture and renderer assets on local loopback. |
+| Explore saved JSON with `rootform run architecture.json` | Acquires no semantic packages; serves saved facts and renderer assets on local loopback. |
 | Open an exported HTML file | The file contains the architecture and its browser assets; no CDN is needed. |
 
 Rootform does not contact a provider API to fill a gap in the input. Preparing
@@ -56,6 +57,9 @@ Pack determines which assertions a check evaluates. Review their sources,
 coverage and assumptions before adopting them. A package that interprets a
 declaration incorrectly can produce a reproducible but misleading result.
 
+Dialect and Policy Pack artifacts contain bounded Rootform language data; they
+do not execute provider binaries, shell commands, or package-supplied code.
+
 Digests identify exact package bytes. They do not establish that a rule is
 correct or appropriate for your infrastructure. A lock preserves reviewed
 selection; it does not replace that review. Use a known example to confirm the
@@ -65,7 +69,7 @@ zero-evaluation cases.
 Provenance answers why Rootform made a claim. It is evidence to inspect, not a
 statement that the deployed resource is healthy or reachable. See
 [Dialect interpretation](../concepts/dialects.md) and
-[policy coverage](../concepts/policies.md#match-a-policy-to-the-dialects-evidence).
+[policy claim scope](../concepts/policies.md#know-the-scope-of-a-claim).
 
 ## Share a useful reproduction
 

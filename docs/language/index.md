@@ -1,9 +1,9 @@
 ---
-title: "Rootform Language"
+title: "Rootform language"
 description: "Learn how .rf definitions turn source declarations into architecture facts and evaluate policies over those facts."
 ---
 
-Rootform Language is the public authoring language for **Dialects** and
+The Rootform language is the public authoring language for **Dialects** and
 **Policy Packs**. A Dialect explains what source declarations mean. A Policy
 Pack asks bounded questions about the architecture facts those Dialects
 produced.
@@ -12,6 +12,17 @@ Rootform reads two source forms: human-authored `.rf` and HCL JSON `.rf.json`.
 HCL provides their surface syntax. Rootform defines the accepted blocks,
 attributes, expressions, references, and evaluation rules. General Terraform
 language and general HCL expressions are not part of this contract.
+
+## Choose a path
+
+| Goal | Start here |
+| --- | --- |
+| Understand the language through one real architecture | [Language tour](tour.md) |
+| Add or change provider semantics | [Write a Dialect](../dialect-authoring.md) |
+| Express and evaluate one governance rule | [Check an architecture](../guides/check-architecture.md) |
+| Version and distribute several policies | [Write a Policy Pack](write-policy-pack.md) |
+| Format, compile, test, and inspect definitions | [Test and validate](test-validate.md) |
+| Check exact accepted forms | [Language reference](reference/index.md) |
 
 ## Two paths through the language
 
@@ -81,7 +92,10 @@ A policy targets one exact concept and evaluates once for each matching
 representation. Its assertion can count three closed fact queries:
 `contexts`, `relations`, and `contributions`.
 
-```hcl title="policies/pack.rf"
+Inside a Policy Pack source root, put the single manifest in `pack.rf`. Policies
+are top-level declarations in any discovered source file:
+
+```hcl title="policies/subnet-network-context.rf"
 policy "subnet-network-context" {
   target = concept.core.subnet
   assert = length(contexts(context.core.network, concept.core.virtual-network)) > 0
@@ -89,17 +103,20 @@ policy "subnet-network-context" {
 }
 ```
 
+The single manifest assigns pack identity to this policy through the shared
+source root. The policy needs neither nesting nor a pack reference.
+
 An empty query has length zero. Unavailable or incompatible evidence can make
 an evaluation indeterminate. No representation with the target concept means
 zero evaluations; it is not proof that the requirement passed.
 
 Read [Policies and Policy Packs](../concepts/policies.md) for governance meaning.
-Use [Write a Policy](../guides/check-architecture.md) for a complete evaluated
-example.
+Use [Check an architecture](../guides/check-architecture.md) for a complete
+evaluated example.
 
 ## Language boundaries
 
-Rootform Language is deliberately closed. Current authoring does not include:
+The Rootform language is deliberately closed. It does not include:
 
 - authoring imports or modules;
 - variables, user-defined functions, or general HCL/Terraform functions;
@@ -110,17 +127,6 @@ Rootform Language is deliberately closed. Current authoring does not include:
 Words such as `module`, `variable`, and `import` can appear as `match.kind`
 values. There they identify Terraform/OpenTofu declaration categories. They do
 not add equivalent authoring constructs to `.rf`.
-
-## Choose a path
-
-| Goal | Start here |
-| --- | --- |
-| Understand the language through one real architecture | [Language tour](tour.md) |
-| Add or change provider semantics | [Write a Dialect](../dialect-authoring.md) |
-| Express and evaluate one governance rule | [Write a Policy](../guides/check-architecture.md) |
-| Version and distribute several policies | [Write a Policy Pack](write-policy-pack.md) |
-| Format, compile, test, and inspect definitions | [Test and validate](test-validate.md) |
-| Check exact accepted forms | [Language reference](reference/index.md) |
 
 Use `rootform lsp` for editor diagnostics and `rootform fmt` for canonical
 formatting. Validation compiles definitions; `rootform test` compares Dialect

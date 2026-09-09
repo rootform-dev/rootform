@@ -1,214 +1,302 @@
 ---
 title: Writing for Rootform
-description: The shared writing standard for Rootform documentation, interface text, errors, and release notes.
+description: The shared editorial standard for Rootform documentation, interface text, errors, release notes, and product prose.
 ---
 
-Write for an engineer who knows Terraform or OpenTofu and is learning Rootform.
-Explain what Rootform adds, what evidence supports it, and what to do next.
-Use plain English with enough detail to make a decision or complete a task.
+Write for an engineer who knows infrastructure tooling and is learning
+Rootform. **Assume technical competence. Never assume Rootform knowledge.**
+Expect familiarity with Git, shells, package managers, CI, JSON,
+Terraform/OpenTofu, and GitHub Releases. Explain Rootform terms before they
+become prerequisites.
 
-This is the shared editorial standard for documentation, CLI prose, renderer
-labels, errors, release notes, and product pages. Wire identifiers and
-surface-specific output contracts remain exact. Do not rewrite a real command
-or diagnostic to make it fit a style preference.
+This standard applies to documentation, CLI prose, renderer labels, errors,
+release notes, and product pages. Exact commands, identifiers, diagnostics, and
+machine contracts keep their defined spelling.
 
-## Start with the reader's need
+## Document the product, not the process
 
-A page has one primary job. State its outcome before background. A tutorial
-guides a first success; a procedure solves a specific task; a concept explains
-meaning; a reference makes exact facts easy to find. Link between these forms
-when the reader needs a different kind of answer.
+Public content describes the final Rootform v0.1 experience. It does not narrate
+development status, unpublished distribution work, the build used to generate
+an example, local fixtures, migration history, release machinery, or backlog.
+Those facts help contributors deliver the product; they do not help someone use
+it.
 
-Assume infrastructure knowledge. Explain a Dialect before using it as a
-prerequisite. Do not explain what a directory or a terminal is. Define
-Rootform terms where their meaning differs from familiar Terraform terms.
+Treat documentation as a release contract. When documented behavior is not yet
+implemented or published, record the mismatch in an internal release checklist
+and block release until product and documentation agree. Do not weaken the page
+with a temporary disclaimer. An intentional v0.1 product limit may remain
+public when it changes what a user can do.
 
-## Make claims as precise as the evidence
+| Avoid | Write |
+| --- | --- |
+| “The installer describes the target v0.1 experience but is not published yet.” | Put the recommended install command first. Track installer publication internally. |
+| “These guides use a newer documentation verification build than the release.” | Describe the renderer users receive with v0.1. Block release until the binary contains it. |
+| “The interactive renderer has no CLI entry point yet.” | State supported Diff outputs and how to open any shipped interactive view. Track missing entry points internally. |
+| A candidate-gate matrix on a user container page. | Document supported platforms, mounts, credentials, and runtime behavior. Keep release qualification in an internal runbook. |
 
-Name the input, behavior, and boundary. A diagram describes declared
-architecture; it does not prove live connectivity. An unresolved result is
-not a pass. A lock fixes selection; it does not itself prevent downloads.
+## Give every page one job
 
-Use **architecture** in ordinary prose and **Rootform architecture file** for
-the saved document. Use **Architecture IR** when explaining the public data
-contract. Keep **Dialect**, **Policy Pack**, **Survey**, **Plan**, **Focus**,
-and **Inspector** consistent. Use lowercase `policy` for a rule within a
-Policy Pack. Reserve backticks for commands, paths, flags, identifiers, and
-literal values.
+Choose the content type before deciding the structure:
 
-Distinguish the renderer's **Plan view** from a **Terraform or OpenTofu plan**.
-Describe relations using their actual meaning. Do not turn a network context
-into a reachability claim or a source dependency into an architecture relation.
+| Type | Job | Shape |
+| --- | --- | --- |
+| Tutorial | Teach through one successful path. | Ordered actions, expected results, and only the explanation needed for the next action. |
+| How-to | Complete one known task. | Prerequisites, direct procedure, verification, and task-specific recovery. |
+| Explanation | Build a Rootform mental model. | Connected reasoning, boundaries, examples, and links to action or exact reference. |
+| Reference | Make exact facts easy to find. | Stable headings, complete tables, accepted forms, defaults, and edge behavior. |
 
-## Write directly
+Do not turn a tutorial into a concept catalog or a reference into a guided tour.
+Link to the content type that answers the reader's next question.
+
+Apply these limits before drafting:
+
+| Page | Keep here | Defer |
+| --- | --- | --- |
+| Install | Platform choice, recommended command, verification, supported alternatives, and first-run consequence. | Installer internals, release pipeline, publication status, and general shell instruction. |
+| Tutorial | One successful path, observable results, and explanation needed for next step. | Complete mental models, every alternative, and edge-case recovery. |
+| Concept | One coherent model, its evidence boundary, and consequences for decisions. | Command catalogs, registry resolution algorithms, and repeated how-to procedures. |
+| Reference | Complete accepted forms, fields, defaults, outputs, and edge behavior. | Motivation, narrative workflow, and duplicated concept teaching. |
+
+## Keep the information that changes an outcome
+
+For every detail, ask both questions:
+
+> Does this change what the reader must do, understand, decide, expect,
+> troubleshoot, secure, or reproduce?
+
+> Why does the reader need this information here?
+
+If not, remove it or move it to the internal source that needs it. Technical
+truth alone is not a reason to publish a detail.
+
+State prerequisites instead of teaching industry conventions. Explain product
+concepts with enough depth to support a correct decision: Dialects, `.rf`,
+Architecture IR, policies and Policy Packs, Survey, Plan, Focus, Diff, locks,
+vendor, offline operation, and provenance. Explain what Rootform can establish
+and what it refuses to invent.
+
+Use progressive disclosure. Put the common decision first, then alternatives,
+then advanced or manual procedures. A simple task should remain short. A concept
+page can be long when its reasoning prevents a wrong conclusion.
+
+## Give each concept one canonical home
+
+A fact may appear on several pages, but its explanation has one owner. Match
+depth to context:
+
+- a tutorial uses one sentence and a link;
+- a concept page owns the mental model and boundaries;
+- an authoring guide explains how to create or change it;
+- a reference page defines the exact syntax and behavior.
+
+Apply this rule to Dialects, policies, Architecture IR, Diff, plans, locks, and
+provenance. Do not paste a full definition into every workflow. Link to a stable
+heading when another page owns the explanation.
+
+Before adding a paragraph, search neighboring pages. If the same fact already has
+a clear home, keep only the local consequence and link. Repeated boilerplate
+across generated pages belongs in their shared overview.
+
+## Make claims precise
+
+Name the input, behavior, result, and boundary. A diagram describes declared
+architecture; it does not prove live connectivity. An unresolved result is not
+a pass. A lock fixes selection; it does not prevent downloads unless offline
+operation is also requested.
+
+Use **architecture** in ordinary prose and **Rootform architecture file** for a
+saved document. Use **Architecture IR** for the public data contract. Keep
+**Dialect**, **Policy Pack**, **Survey**, **Plan**, **Focus**, **Diff**, and
+**Inspector** consistent. Use lowercase `policy` for a rule owned by a Policy
+Pack. Reserve backticks for commands, paths, flags, identifiers, and literal
+values.
+
+Use **Rootform language** in headings and navigation and **the Rootform language**
+in prose. Keep `language` lowercase and omit `(.rf)` from the section name.
+Use `.rf` explicitly when discussing files and syntax, including `.rf files`,
+`.rf syntax`, and `.rf.json`.
+
+In new examples, put one top-level `policy_pack` manifest in a file at the pack
+root and top-level `policy` declarations in `.rf` or `.rf.json` files beneath
+that same root. The source root establishes ownership; policies need no explicit
+pack reference. Nested `policy` blocks inside `policy_pack` remain accepted for
+compatibility only. Teach the top-level form for new policies and multi-file packs.
+
+Distinguish renderer **Plan** from a Terraform or OpenTofu plan. Describe
+relations by their declared meaning. Do not turn network context into a
+reachability claim or a source dependency into an architecture relation.
+
+## Write directly, with natural rhythm
 
 Use present tense for behavior and imperative verbs for instructions. Prefer
-active voice when the actor matters. Let sentence length follow the idea.
-A short qualification is useful when it changes the reader's decision.
+active voice when the actor matters. Start with the task, result, or question,
+not an announcement about the page.
 
-Remove introductions that announce the page, explanations of the obvious,
-and conclusions that repeat it. Avoid calling a task easy or simple. State
-the prerequisites instead. Replace generic praise with an observable result.
+Combine ideas that belong together. Vary sentence length according to meaning;
+do not replace clipped fragments with overloaded sentences. Remove a sentence
+that only repeats its heading, and end when the task or explanation is complete.
+A concrete next action is useful; a summary of the page is not.
+
+Avoid forced symmetry, stock contrasts, and lists padded to three items. Do not
+repeat sentence openings such as “Rootform does,” “You can,” or “The command”
+when a natural subject is available. Use punctuation for syntax, not decoration.
+The em dash character (U+2014) is forbidden in public documentation. Use a period,
+comma, colon, or parentheses instead. `bun run check:docs` rejects this character
+in authored Markdown, including headings and metadata. Avoid decorative middle
+dots in technical prose.
 
 | Before | After |
 | --- | --- |
 | In this guide, we will explore how to get started with Rootform. | Render a VPC and subnet from a small Terraform configuration. |
 | Simply leverage the offline flag for seamless local execution. | Use `--offline` to prevent network access. Required Dialects must already be available locally. |
-| Rootform ensures your infrastructure is secure. | `rootform check` evaluates the policies selected for this project. |
-| Improved reliability and performance. | Fixed locked initialization failing when a configured credential helper returned no credentials. |
-| Invalid input. | Name the rejected input and the form the command accepts. |
+| Rootform ensures your infrastructure is secure. | `rootform check` evaluates policies selected for this project. |
+| Current access: the executable emits text, JSON, and Markdown. | `rootform diff` emits text, JSON, or Markdown. |
+| With these steps, you are ready to continue. | Link to next concrete task, or stop. |
 
-## Use structure to expose meaning
+## Use structure only when it reveals meaning
 
-Headings name tasks or questions the section answers. Use sentence case and
-stable, descriptive headings so links remain useful. Put prerequisites before
-the first command. Keep a step's explanation with that step.
+Headings name tasks or questions. Use sentence case and stable wording so links
+remain useful. Put prerequisites before the first command and keep a step's expected
+result beside that step.
 
-Use numbered lists when order matters, bullets for parallel facts, and tables
-for real comparisons. Do not invent a third item to complete a pattern. Avoid
-giving every section the same rhythm or forcing unrelated ideas into cards.
-Long reference pages can be systematic; concept pages need room to explain.
+Use numbered steps when order matters, bullets for parallel facts, and tables
+for repeated fields or real comparisons. Do not turn every topic into a card,
+every section into the same three-part pattern, or conceptual prose into a
+sequence merely to make it look actionable.
 
-Use periods and colons for ordinary sentence structure. An em dash can mark
-an interruption, but repeated interruptions make technical prose harder to
-scan. Do not use middle dots as editorial separators. Mathematical symbols,
-literal output, and quoted identifiers keep their original punctuation.
-These are readability choices, not tests of who wrote the text.
+Callouts interrupt reading, so reserve them for information whose placement or
+severity changes behavior:
 
-## Review AI-assisted drafts
+- **Warning** or **Caution**: risk of data, security, cost, or irreversible harm;
+- **Important**: prerequisite or constraint that can invalidate the task;
+- **Note**: exceptional context needed at that exact point;
+- **Tip**: optional improvement with a concrete benefit.
 
-AI-assisted drafts often repeat familiar structures instead of responding to
-the page's actual question. Review the whole page, including its layout and
-microcopy. A polished sentence can still hide an unsupported claim or say
-nothing useful. These patterns are reasons to edit, not evidence of authorship.
+Ordinary explanation, product limits, and cross-links stay in prose. A callout
+must not rescue a weak information hierarchy or hold unrelated caveats.
 
-| Pattern to catch | What it looks like | Correction |
-| --- | --- | --- |
-| Generic opening | “In today's evolving infrastructure landscape…” before any useful fact. | Open with the task, result, or concept the reader came for. |
-| Inflated vocabulary | “Seamlessly leverage powerful capabilities” without saying what changes. | Name the command, input, and observable behavior. |
-| Artificial symmetry | Every section has the same introduction, three bullets, and a conclusion. | Let each section's evidence determine its length and form. |
-| Forced triplets | “Clear, powerful, seamless” or three benefits where only two are distinct. | Keep the meaningful items. Do not write to a count. |
-| Mechanical punctuation | Middle-dot metadata rows, an em dash in every paragraph, or colons doing the same job in every heading. | Use punctuation for the sentence's meaning. Remove decorative separators. |
-| Stock contrast | “This isn't just a diagram. It's a new way to understand infrastructure.” | Explain the specific evidence the architecture contains. |
-| Empty transitions | “Importantly,” “it is worth noting,” “let's dive deeper,” repeated between facts. | Connect the facts directly or start a new paragraph. |
-| Reassurance without proof | “Simply run…”, “effortlessly integrate…”, “production-ready” with no prerequisites or evidence. | State requirements and limits. Verify the claimed workflow. |
-| Repeated explanation | A heading, lead, callout, and conclusion all restate the same point. | Give each fact one home; cross-link when another task needs it. |
-| Fabricated precision | Invented terminal output, convenient resource counts, working-looking placeholder hashes, or an unverified install command. | Run the example or label the unavailable method explicitly. |
-| Formulaic ending | “With these steps, you're now equipped to…” after the task already succeeded. | End at the result. Link to a concrete next task if one is useful. |
+## Order installation by recommendation
 
-For example, replace:
+**Installation methods are ordered by recommendation, not by implementation
+importance. Show the simplest supported path first; package managers come next;
+manual release downloads are fallback paths.**
 
-> Rootform seamlessly bridges the gap between code and clarity, empowering
-> teams to visualize, validate, and collaborate with confidence.
+- macOS: `curl -fsSL https://rootform.dev/install | sh`, then
+  `brew install --cask rootform`, then the manual archive;
+- Linux: `curl -fsSL https://rootform.dev/install | sh`, then the manual archive;
+- Windows: `Invoke-RestMethod https://rootform.dev/install.ps1 | Invoke-Expression`, then
+  `winget install --id Rootform.Rootform --exact`, then the manual ZIP;
+- Container: a top-level platform choice that goes directly to the GHCR command,
+  not an OS install sequence.
 
-with:
+Use one `[ macOS | Linux | Windows | Container ]` choice for primary content.
+Inside a platform panel, label **Recommended** and **Verify**; add **Other
+options** only when that platform has an alternative. Do not repeat the selected
+platform as a heading. Put one **Manual installation** section after all panels,
+visually secondary to recommended methods. Make `rootform version` visible
+without opening manual downloads. Keep OS and CPU detection, temporary files,
+archive layout, checksum production, and GitHub Release mechanics out of the
+primary path. Manual verification may explain checksums when performed.
 
-> Rootform builds an architecture from Terraform or OpenTofu. Select a subnet
-> to inspect which declaration and Dialect rule established its network context.
+GitHub Releases can supply binary bytes without becoming the recommended
+installation experience. **Do not expose the release pipeline merely because
+releases are the underlying source of the binary.**
 
-The second version names a real operation and a reason to use it. It does
-not need a slogan to make the operation useful.
+## Editorial choices
 
-### Check the page, not just the prose
+Use these examples to choose scope and wording:
 
-Do not turn every topic into a card, every link into a pill, or every section
-into an identical numbered block. Use numbers for a sequence and tables for a
-comparison. An eyebrow, badge, icon, or callout must add information the text
-does not already provide. Avoid fake metrics and decorative “architecture”
-diagrams that assert relationships the product has not established.
-
-The Rootform Design System owns visual identity. A draft does not get a new
-palette, type style, radius, gradient, glass surface, or animation because a
-generator supplied one. Review rendered pages for unnecessary decoration and
-repeated component patterns as well as inaccurate words.
-
-Read neighboring sections aloud or in sequence. If their rhythm is identical,
-their opening sentences are interchangeable, or their claims could describe
-any developer tool, rewrite around the actual Rootform task. Do not add
-quirks, errors, or random variation to make text appear human. Accuracy and
-natural explanation are the standard.
+| Avoid | Write |
+| --- | --- |
+| “Rootform is one executable. It needs no Node.js, Python…” at the start of Install. | Name supported platforms and the only first-run network consequence. |
+| `macOS` as a heading directly below an active `macOS` tab. | Let the selected tab identify the platform; begin with **Recommended**. |
+| A Dialects concept page teaching source-priority and registry resolution algorithms. | Explain how Dialects change architecture meaning; link acquisition details to offline operation. |
+| A check walkthrough ending with an unrelated pack that evaluates zero targets. | Follow one policy through pass, violation, indeterminate evidence, then the same gate in CI. |
+| Describing `moved` as a machine Diff entry state. | Explain that Delta strictly derives a move from removed and added context facts. |
+| “The first run needs registry access.” | “The first run may need network access to download required Dialects that are not already available locally.” |
 
 ## Make examples executable
 
-Identify the shell when syntax depends on it. Keep commands separate from
-terminal output. Do not include a shell prompt in a copyable command. Give
-configuration blocks a filename. Name placeholders and explain how to replace
-them; never put an invented token or digest into an apparently runnable command.
+Identify the shell when syntax depends on it. Do not include a prompt in a
+copyable command. Give file examples a filename. Separate commands from output.
+Name placeholders and never put an invented token or digest into an apparently
+runnable command.
 
-After a command, show an observed output or explain an observable result.
-Label excerpts and variable output. Include the binary version and fixture in
-verification evidence. Prefer a stable assertion over a snapshot of download
-progress, timing, temporary ports, or host paths.
+After a command, show stable expected output or describe an observable result.
+Label excerpts and variable fields. Public prose does not name an internal
+fixture, temporary host path, or verification binary. Internal evidence records
+those identities and proves examples before merge.
 
-Use synthetic infrastructure. Never include real state, raw plans, customer
-resources, credentials, or machine-specific paths in documentation evidence.
-Verify that a command's exit status means what the surrounding prose claims.
+Use synthetic infrastructure. Never publish customer resources, credentials,
+state, raw plans, private paths, or private implementation material. Verify that
+the exit status supports the surrounding claim.
 
-## Choose a presentation that helps the task
+## Choose documentary primitives deliberately
 
-Use a filename on file examples, `title="Command"` for a command when its purpose
-would otherwise be unclear, and `title="Output"` or a precise result name for
-captured output. Keep commands and output in separate fences so copying a
-command never includes its result. Number steps only when their order matters.
-Line numbers and highlights must help readers identify a specific line.
+Use a filename on file examples and `title="Command"` when a command's purpose
+would otherwise be unclear. Untitled output stays compact when surrounding prose
+already identifies it; add a precise result label only when ambiguity remains.
+Line numbers and highlights must point to something the reader needs.
 
-Use a table to compare the same attributes across items. Put units in column
-headings and long explanations outside cells. Use a GitHub alert such as
-`> [!WARNING]` when a reader needs a warning at that point in the task. Ordinary
-advice stays in prose.
+Use a GitHub alert such as `> [!WARNING]` only under callout rules above. Public
+Markdown supports framework-neutral markers:
 
-The site supports a few presentation markers in public Markdown. GitHub ignores
-the comments and keeps the underlying content readable:
+- `<!-- rootform:directory -->` presents orientation links;
+- `<!-- rootform:tabs Label -->` groups two or more complete alternatives.
 
-- `<!-- rootform:directory -->` before a list turns each linked term and its
-  description into an orientation row. Each item must be one paragraph.
-- `<!-- rootform:tabs Operating system -->` starts alternatives. Introduce each
-  with `<!-- rootform:tab Linux -->` or another unique label, then close the group
-  with `<!-- rootform:endtabs -->`. Include at least two complete alternatives;
-  shared instructions belong outside the group. Keep headings inside variants
-  so links and search can open the right one.
-- `<!-- rootform:lesson -->` places an optional real renderer example. The page's
-  `rendererLesson` metadata supplies its `example`, `title`, and `description`.
-  Available examples are `azure`, `multicloud`, and `delta`. Use one only when
-  interaction teaches something that the adjacent static explanation cannot.
+Shared instructions belong outside tabs. Link to a precise Playground scenario
+when interaction helps; do not embed a second renderer inside a documentation
+page. Keep light/dark figures paired with the same state, caption, and useful
+alternative text.
 
-Renderer inputs come from the verified fixture artifacts. Do not draw a substitute
-renderer or change generated JSON to improve a picture. Keep light and dark
-figures paired, with the same state, caption, and useful text alternative. Explain
-preview-only capabilities before readers try to reproduce them with the CLI.
+## Apply the standard to each product surface
 
-## Write useful errors and labels
+Documentation explains tasks, models, and exact contracts at their proper
+depth. CLI help prioritizes command purpose, accepted input, output, and exit
+behavior. Interface labels name actions and use the same term as the resulting state.
 
-An error should explain what happened, the relevant constraint, and a next
-action when one is known. Quote the user's input without exposing secrets.
-Do not invent a recovery step or disguise an unavailable result as success.
-Preserve the CLI's exact diagnostic and stream contracts in terminal output.
+Errors explain what happened, the relevant constraint, and a known next action.
+Quote user input only when safe. Do not invent recovery or hide an unavailable
+decision as success.
 
-Interface labels name actions: **Copy command**, **Search**, **Focus**.
-Use the same term in the control and its result. Essential instructions belong
-in visible text. Colour, an icon, or a tooltip cannot carry the only explanation.
+Marketing may explain why a capability matters, but factual claims keep the same
+evidence boundary. Avoid unmeasured superlatives, fake metrics, and promises
+beyond the v0.1 contract. Release notes describe a user-visible change and when a
+reader encounters it; internal refactors stay out unless they change behavior.
 
-## Write changes for users
+## Review AI-assisted drafts
 
-Release notes identify what changed and when a reader would encounter it.
-Use the command, input, or workflow as context. Internal refactors need no
-user-facing announcement unless they change a relevant behavior.
+AI-assisted prose often repeats familiar shapes instead of answering a page's
+question. Treat patterns below as review prompts, never as proof of authorship:
 
-Product pages can explain why a capability matters, but every factual claim
-still needs evidence. Avoid unmeasured superlatives, fake statistics, and
-promises that exceed the shipped product. Installation previews must be
-clearly distinguished from available methods.
+| Pattern | Test | Correction |
+| --- | --- | --- |
+| Generic opening | Could the opening introduce any developer tool? | Name the Rootform task or result. |
+| Inflated vocabulary | Does an adjective replace observable behavior? | Name the command, input, and outcome. |
+| Artificial symmetry | Do neighboring sections share the same length and structure without reason? | Let the content determine its form. |
+| Forced triplet | Was the third item added only for cadence? | Keep distinct items. |
+| Stock contrast | Does “not just X, but Y” avoid precise claim? | State actual boundary or benefit. |
+| Mechanical rhythm | Do consecutive sentences repeat subject and length? | Combine related ideas and vary structure. |
+| Decorative caveat | Is Note/Important carrying ordinary explanation or project status? | Integrate useful fact or move status internally. |
+| Repeated definition | Does another page already own it? | Keep local consequence and link. |
+| Formulaic ending | Does the conclusion only restate the completed page? | End at the result or give a concrete next action. |
+| Internal leakage | Would the detail matter only to a contributor or release operator? | Move it to an internal contract or checklist. |
+
+Review layout and microcopy with prose. Aim for accuracy and natural explanation.
+Random variation and detector scoring do not establish editorial quality.
 
 ## Review before merging
 
-Read the page as someone arriving from search. Can they identify its purpose,
-prerequisites, and next action without reading another introduction? Check
-commands against help and examples against a real binary. Check links, headings,
-and narrow-screen code blocks in the rendered page.
+Read every changed page from search arrival and within its navigation path.
+Confirm that the purpose, prerequisite, expected result, and next action are
+discoverable without an introduction. Read neighboring pages for repeated
+definitions and contradictory limits. Check commands against the intended v0.1
+contract, examples against the product, links and anchors against the built site,
+and code blocks at narrow width.
 
-The repository's documentation check validates structure and navigation.
-Editorial judgment stays with the reviewer: no word-frequency score or
-punctuation blacklist can prove that a page is accurate or useful.
+Automated checks validate structure, navigation, examples, and explicit punctuation
+rules. Editorial review evaluates usefulness, scope, rhythm, and the boundary
+between product guidance and development process.
 
 ## Sources
 
@@ -216,5 +304,5 @@ This standard draws on the [Google developer style guide](https://developers.goo
 [Google Technical Writing](https://developers.google.com/tech-writing/one),
 [Microsoft's writing tips](https://learn.microsoft.com/en-us/style-guide/top-10-tips-style-voice),
 [GitLab's documentation style guide](https://docs.gitlab.com/development/documentation/styleguide/),
-[Diátaxis](https://diataxis.fr/), and the
+[Diataxis](https://diataxis.fr/), and the
 [Command Line Interface Guidelines](https://clig.dev/).

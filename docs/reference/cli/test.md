@@ -21,8 +21,6 @@ rootform test [directory] [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform test |
 | ` --run ` | ` string ` | ` "" ` | run only the cases whose `name` contains this text |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Build dialect fixtures and compare their architectures with the
@@ -35,9 +33,9 @@ go to standard output. Diagnostics go to standard error.
 
 ```text
 0  every selected fixture passed
-1  at least one fixture differed
+1  at least one fixture differed or encountered an error
 2  the command was used incorrectly
-3  no fixture result could be decided
+3  the run could not start or be reported, or no fixtures matched
 ```
 
 ## Examples
@@ -48,5 +46,3 @@ rootform test ./fixtures
 rootform test ./fixtures --run cloud-sql
 rootform test ./fixtures --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

@@ -20,8 +20,6 @@ rootform show rule <identifier> [flags]
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show rule |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Show what a rule matches, the concept it produces, and the
@@ -48,5 +46,3 @@ rootform show rule google/cloud-sql-instance
 rootform show rule cloud-sql-instance
 rootform show rule google/cloud-sql-instance --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

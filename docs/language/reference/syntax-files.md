@@ -3,7 +3,7 @@ title: "Syntax and files"
 description: "Reference for .rf and .rf.json source discovery, structural syntax, identities, and source-unit boundaries."
 ---
 
-Rootform Language has two equivalent parsing surfaces:
+The Rootform language has two equivalent parsing surfaces:
 
 | Suffix | Purpose | Parser surface |
 | --- | --- | --- |
@@ -18,7 +18,7 @@ duplicate declarations remain duplicates.
 
 Rootform walks the supplied source root recursively and deterministically. It
 reads regular files ending in `.rf` or `.rf.json`. Plain `.hcl`, `.json`, and
-Terraform `.tf` files are not Rootform Language source.
+Terraform `.tf` files are not part of the Rootform language.
 
 Hidden organization and nested folders do not create language scope. The
 package identity comes from a `dialect` or `policy_pack` declaration, not a
@@ -42,7 +42,7 @@ dialect "example" {
 }
 ```
 
-In this example:
+The block has these structural parts:
 
 | Token | Role |
 | --- | --- |
@@ -75,9 +75,10 @@ invalid: private_subnet
 invalid: -subnet
 ```
 
-Provider source labels use their canonical `namespace/name` form. Traversal
-attribute names follow the source adapter's path vocabulary and are not Dialect
-definition labels.
+Provider source labels use canonical `namespace/name` or
+`hostname/namespace/name` form. [Provider envelopes](dialects.md#provider-envelope)
+define normalization and matching. Traversal attribute names follow source
+adapter's path vocabulary and are not Dialect definition labels.
 
 ## Source-unit boundaries
 
@@ -86,18 +87,23 @@ Dialect and Policy Pack roots are separate compilation units:
 | Source unit | Accepted top-level blocks | Required identity |
 | --- | --- | --- |
 | Dialect | `dialect`, `concept`, `context`, `rule` | Exactly one `dialect` declaration across the root. |
-| Policy Pack set | `policy_pack` | At least one declaration; every pack name is unique across the root. |
+| Policy Pack | `policy_pack`, `policy` | Exactly one `policy_pack` declaration across the root. |
 
-A `policy` belongs inside a `policy_pack`. A policy found in a Dialect package
-is rejected with `POLICY_NOT_ALLOWED`. A Dialect block in a Policy Pack source
-root is an unknown block.
+A top-level `policy` belongs to the single `policy_pack` manifest in its source
+root. It does not need to nest inside that manifest or name a pack reference. A
+policy found in a Dialect package is rejected with `POLICY_NOT_ALLOWED`. A
+Dialect block in a Policy Pack source root is an unknown block.
+
+Nested policies remain accepted for existing `0.1.0` source compatibility.
+Top-level policies are canonical because they support recursive multi-file
+authoring; all examples use that form.
 
 Definitions in a Dialect can be split across files. Their language scope is the
 Dialect, not the file. Definition identities must be unique across the whole
-root. A Policy Pack set can contain several distinct `policy_pack` blocks, but
-each pack's policy blocks stay inside its one enclosing declaration. Package
-each pack from its own source root so distribution can map bytes to one
-identity.
+root. Policy declarations can likewise be split across any files and nested
+folders beneath one Policy Pack root. A missing or second manifest makes their
+ownership invalid. Package several packs by placing each in its own source root
+beneath one parent directory.
 
 There is no source `import`, `include`, or `module` construct. Cross-Dialect
 vocabulary access uses an exact direct `requires` entry and a qualified
@@ -106,13 +112,13 @@ reference. Policy Packs have no source composition or inheritance.
 ## JSON structural syntax
 
 `.rf.json` uses standard HCL JSON block encoding. A labeled block becomes a
-nested object keyed by its label. This tested JSON source is equivalent to a
-native `dialect "fixture"` declaration:
+nested object keyed by its label. This JSON source is equivalent to a native
+`dialect "example"` declaration:
 
 ```json title="dialect.rf.json"
 {
   "dialect": {
-    "fixture": {
+    "example": {
       "version": "0.1.0",
       "requires": {
         "core": "0.1.0"
@@ -127,20 +133,36 @@ native `dialect "fixture"` declaration:
 }
 ```
 
-Literal-only fields remain plain JSON strings. Fields that accept a Rootform
-expression use HCL's interpolation-string carrier for nonliteral expressions:
+Policy Pack JSON uses same root-level ownership model. Manifest and policy are
+sibling block objects:
 
 ```json title="pack.rf.json"
 {
-  "target": "concept.core.virtual-network",
-  "assert": "${length(contexts(context.core.network, concept.core.virtual-network)) > 0}",
-  "message": "Networks must have network context."
+  "policy_pack": {
+    "baseline": {
+      "version": "0.1.0",
+      "requires": {
+        "core": "0.1.0"
+      }
+    }
+  },
+  "policy": {
+    "network-context": {
+      "target": "concept.core.virtual-network",
+      "assert": "${length(contexts(context.core.network, concept.core.virtual-network)) > 0}",
+      "message": "Networks must have network context."
+    }
+  }
 }
 ```
 
-`target` and `assert` are full-expression fields. The `${ ... }` carrier lets
-the compiler recover a traversal or call expression. A bare JSON string such as
-`"a == b"` is a literal string, not an expression to reinterpret.
+Literal-only fields remain plain JSON strings. Fields that accept a Rootform
+expression use HCL's interpolation-string carrier for nonliteral expressions.
+
+`target` is a semantic-reference field and stays a plain string in JSON.
+`assert` is a full-expression field; `${ ... }` carries its operator and call
+expression. A bare assertion string such as `"a == b"` is a literal string,
+not an expression to reinterpret.
 
 `description`, `message`, match `kind` and `type`, versions, and matching
 strategy are literal fields. Rootform does not interpolate their contents.

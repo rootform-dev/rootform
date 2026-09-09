@@ -13,7 +13,8 @@ interpret the result. A file extension alone is not evidence of success.
 | Policy result | `check --format json` | Inspect selected policies, evaluations, violations, and indeterminate outcomes. |
 | SARIF | `check --format sarif` | Present those same policy findings in a compatible code-scanning consumer. |
 | Architecture Diff | `diff --format json` | Consume determined and undetermined comparison facts. |
-| Human-readable report | `check` or `diff` | Read text or Markdown in a terminal or review. |
+| Policy text report | `check` | Read policy outcomes in a terminal. |
+| Diff text or Markdown report | `diff` | Read changes in a terminal or code review. |
 
 ## Status is command-specific
 
@@ -40,9 +41,7 @@ produced valid JSON.
 
 Text output includes more human context. For a directory build, declaration
 accounting goes to standard error. A text `check` prints its policy summary
-and declaration accounting on standard output. The
-[worked policy check](../guides/check-architecture.md) labels its displayed
-summary as an excerpt.
+and declaration accounting on standard output.
 
 Use `--format json` for a parser and preserve standard error separately.
 Merging streams with `2>&1` can turn valid JSON into unreadable input.

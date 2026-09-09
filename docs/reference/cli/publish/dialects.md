@@ -20,10 +20,8 @@ rootform publish dialects <layout> [flags]
 | ` --dry-run ` | ` bool ` | ` false ` | report verified publication plan without network access |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform publish dialects |
-| ` --index ` | ` bool ` | ` false ` | publish generated index after every dialect |
+| ` --index ` | ` bool ` | ` false ` | publish index after all dialects pass verification |
 | ` --to ` | ` string ` | ` "" ` | publish to tagless OCI `repository` |
-
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
 
 ## Behavior
 
@@ -50,5 +48,3 @@ rootform publish dialects ./oci --to registry.example/acme/dialects
 rootform publish dialects ./oci --to registry.example/acme/dialects --index
 rootform publish dialects ./oci --to example/dialects --dry-run --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

@@ -1,11 +1,10 @@
 ---
 title: "Language reference"
-description: "Exact accepted source units, expressions, references, evaluation rules, and diagnostics for Rootform Language."
+description: "Exact accepted source units, expressions, references, evaluation rules, and diagnostics for the Rootform language."
 ---
 
-This reference describes the closed Rootform Language contract. It covers the
-source forms parsed by the current compiler and the expression forms consumed
-by the architecture and policy evaluators.
+The Rootform language has a closed contract: only documented source and expression
+forms reach architecture compilation or policy evaluation.
 
 HCL is the parsing surface for `.rf` and `.rf.json`. HCL documentation can
 explain lexical details, but it cannot tell you which blocks or expressions
@@ -36,7 +35,7 @@ Rootform accepts. The pages below are authoritative for Rootform authoring.
 | --- | --- |
 | Source suffixes | `.rf`, `.rf.json` |
 | Dialect top level | `dialect`, `concept`, `context`, `rule` |
-| Policy Pack top level | `policy_pack` |
+| Policy Pack top level | `policy_pack`, `policy` |
 | Concept kinds | `entity`, `scope`, `detail` |
 | Literal value kinds | string, Boolean, signed 64-bit integer |
 | Operators | `!`, `&&`, `||`, `==`, `!=`, `<`, `<=`, `>`, `>=` |

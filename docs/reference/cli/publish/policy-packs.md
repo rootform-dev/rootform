@@ -22,13 +22,11 @@ rootform publish policy-packs <layout> [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform publish policy-packs |
 | ` --to ` | ` string ` | ` "" ` | publish to tagless OCI `repository` |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Validate an existing local Policy Pack registry layout, publish every pack
 to one registry repository, and repull each manifest by digest. Policy
-Packs have no discovery index in V0. Dry-run remains offline.
+Packs have no discovery index. Dry-run remains offline.
 
 Text or JSON result goes to standard output. Diagnostics go to standard
 error.
@@ -49,5 +47,3 @@ rootform publish policy-packs ./oci --to localhost:5000/acme/policies
 rootform publish policy-packs ./oci --to registry.example/acme/policies \
   --dry-run --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

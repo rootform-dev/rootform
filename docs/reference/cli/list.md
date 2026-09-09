@@ -19,8 +19,6 @@ rootform list <object> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 List loaded dialects, Policy Packs, policies, rules, or concepts.
@@ -43,5 +41,3 @@ rootform list policy-packs
 rootform list policies
 rootform list rules --dialect google
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

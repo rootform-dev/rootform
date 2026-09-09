@@ -1,34 +1,30 @@
 ---
-title: "Your first architecture"
-description: "Render a VPC and subnet, inspect their evidence, and save a self-contained architecture file."
+title: Your first architecture
+description: Render a VPC and subnet, inspect their evidence, and save the architecture.
 ---
 
-Render a VPC and subnet from a small Terraform configuration. Then save the
-architecture and check why the subnet appears inside the network. No cloud
-account or running infrastructure is needed.
+Render a VPC and subnet from Terraform, inspect why they appear together, and
+save the result as JSON and self-contained HTML. You need no cloud account,
+credentials, or running infrastructure.
 
 ## Before you start
 
-[Install Rootform](../installation.md). This tutorial is verified with the current
-documentation build. The [installation note](../installation.md#available-release)
-identifies the published archive and its older interface.
-
-The first run needs network access to download support for the AWS configuration.
-Those semantic packages are called Dialects. Terraform, OpenTofu, an AWS provider,
-and cloud credentials are not needed for this example.
+[Install Rootform](../installation.md). The first run needs network access only
+when required [Dialects](../concepts/dialects.md) are not already local.
+Terraform, OpenTofu, and the AWS provider are not needed for this tutorial.
 
 <!-- rootform:steps -->
 
 ## Create the input
 
-Create an empty working directory and enter it:
+Create a working directory:
 
 ```sh
 mkdir rootform-first-architecture
 cd rootform-first-architecture
 ```
 
-Save the following as `main.tf`:
+Save the following configuration as `main.tf`:
 
 ```hcl title="main.tf"
 terraform {
@@ -52,53 +48,50 @@ resource "aws_subnet" "application" {
 }
 ```
 
-`vpc_id` refers to the declared VPC. The AWS Dialect will use that reference
-to establish the subnet's network context.
-
 ## Open the architecture
 
 ```sh
 rootform run . --no-input
 ```
 
-The command starts a loopback server and opens your browser. If it does not
-open, use the `http://127.0.0.1:...` address printed by the command. Keep this
-terminal running while you explore. Press `Ctrl+C` to stop the server.
+Rootform selects the required Dialects, downloads any missing packages, records
+them in `rootform.lock`, and opens the local explorer. If your browser does not
+open, use the loopback address printed by the command. Keep it running while you
+explore.
 
-On this first run, Rootform downloads the required packages and records the
-selection in `rootform.lock`. `--no-input` permits a unique selection without
-a prompt. The [preparation guide](../cli.md) explains the choices for real projects.
+`--no-input` accepts this unique selection without prompting. The new lock
+records the exact `aws` and `core` Dialect packages used for the result.
 
-> [!NOTE]
-> You may see a warning that AWS provider compatibility is unverified because
-> this new directory has no `.terraform.lock.hcl`. That warning does not prevent
-> this synthetic example from rendering. In an initialized real project, refresh
-> provider version evidence with Terraform or OpenTofu as appropriate.
+Because the standalone example has no `.terraform.lock.hcl`, Rootform may warn
+that AWS provider compatibility is unverified. Rendering continues; initialized
+projects use provider-version evidence from their own lock file.
 
-## Read the result
+## Inspect the result
 
-Find the virtual network named `main` and the subnet named `application`.
-The subnet has network context inside the VPC.
+Find the virtual network `main` and subnet `application`. The subnet appears
+inside the VPC because `vpc_id` refers to `aws_vpc.main` and the AWS Dialect
+establishes network context from that reference.
 
-Select `application` and inspect its evidence. The source is
-`aws_subnet.application`; the rule comes from the AWS Dialect. Its `vpc_id`
-reference explains the network placement.
+Select `application`. Inspector identifies concept `core/subnet`, source
+`aws_subnet.application`, and the `vpc_id` evidence used by the AWS rule to
+establish network placement. Rootform preserves this
+[provenance](../concepts/architecture-ir.md#follow-a-fact-back-to-its-evidence)
+instead of inferring a relationship from resource names or CIDR values.
 
-In the current renderer, [Survey and Plan](../renderer/views.md) change the
-amount of visible context, [Focus](../renderer/views.md#focus) explores a local
-part, and Inspector explains a selection.
+[Survey and Plan](../renderer/views.md) control the visible context,
+[Focus](../renderer/views.md#focus) opens a local area, and Inspector explains
+the selected facts.
 
-## Save the result
+## Save the architecture
 
-Stop the server with `Ctrl+C`, then build a document using the lock already
-created:
+Stop the server, then build JSON using the recorded selection:
 
 ```sh
 rootform build . --locked --output architecture.json
 ```
 
-The command writes JSON to `architecture.json`. Its declaration summary appears
-on standard error; a provider-version warning may precede it:
+Rootform writes an Architecture IR document to `architecture.json` and reports
+the declaration accounting on standard error:
 
 ```text title="Declaration summary"
 Declarations detected           3
@@ -109,37 +102,33 @@ Unsupported                     0
 Failed                          0
 ```
 
-The VPC and subnet are represented. The third declaration is the `terraform`
-settings block, filtered as language settings. Nothing is unsupported or failed.
-This accounting is part of the result, not a count of visible shapes.
+The VPC and subnet are represented; the Terraform settings block is filtered.
+Nothing is unsupported or failed. [Architecture IR](../concepts/architecture-ir.md#from-declarations-to-architecture)
+explains why accounting and visible shapes are different views of the same
+result.
 
-The required Dialects are now available locally. Export a self-contained HTML
-file without network access:
+The required Dialects are now local, so the same input can produce
+self-contained HTML without network access:
 
 ```sh
 rootform build . --locked --offline --format html --output architecture.html
 ```
 
-Open `architecture.html` directly in your browser. No server or adjacent asset
-is needed. Your directory now contains:
-
-```text title="Generated files"
-main.tf
-rootform.lock
-architecture.json
-architecture.html
-```
-
-Rootform has not applied or modified your Terraform configuration. Review and
-commit `rootform.lock` when you use this workflow in a real project. The JSON
-and HTML are generated outputs; keep or share them according to your team's
-artifact policy.
+Open `architecture.html` directly in a browser. It needs no server or adjacent
+assets.
 
 <!-- rootform:endsteps -->
 
-## Continue with a real question
+## Use your project
 
-Read [Dialects](../concepts/dialects.md) to understand the semantics behind this
-example. Use the [input guide](../inputs/index.md) when moving to an existing
-project with modules. If preparation or rendering fails, use
-[troubleshooting](../troubleshooting/index.md) with the exact diagnostic.
+From the Terraform or OpenTofu root:
+
+```sh
+rootform run .
+```
+
+Review and commit `rootform.lock` once its selection is correct. Check
+[project preparation](../cli.md) before changing an existing lock, and check
+[supported inputs and modules](../inputs/index.md). Then use
+[Diff](../guides/compare-architectures.md) to review a source change or
+[check a policy](../guides/check-architecture.md) against the architecture.

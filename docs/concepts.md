@@ -67,6 +67,6 @@ question is whether selected rules hold. A result that cannot be determined
 is different from a pass.
 
 When you need to author semantics or governance, start with the
-[Rootform Language overview](language/index.md). Concept pages explain why
+[Rootform language overview](language/index.md). Concept pages explain why
 Dialects and policies exist; Language guides explain how to write their `.rf`
 source.

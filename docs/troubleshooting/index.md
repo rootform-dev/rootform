@@ -28,7 +28,7 @@ rootform list dialects
 Rootform does not inherit a parent directory's lock. For a plan or saved-document
 check, prepare the required current-project semantics before running the operation.
 
-## `--locked requires rootform.lock`
+## `rootform.lock` is missing with `--locked`
 
 `--locked requires rootform.lock` means that the selected project root has no
 lock. Check the directory argument and the file location. If this is a new
@@ -89,11 +89,11 @@ choosing a provider or semantic update.
 ## Initialization succeeds but the project cannot build
 
 If initialization reports only uncovered providers, the resulting lock can have
-an empty Dialect selection. The current build then reports that the resolved
-Dialects could not be compiled and the lock could not be verified.
+an empty Dialect selection. A build then reports that the resolved Dialects
+could not be compiled and the lock could not be verified.
 
 Inspect `rootform.lock` and the initialization warnings. Use the
-[official catalog](https://github.com/rootform-dev/dialects/blob/dev/dialects.json)
+[official catalog](https://github.com/rootform-dev/dialects/blob/main/dialects.json)
 to determine whether a compatible Dialect exists, or supply reviewed semantics
 through an explicit source. Reinitializing the same uncovered input will not
 create coverage. Partly covered projects can build with unsupported declarations;
@@ -163,7 +163,7 @@ An indeterminate result cannot become a pass by dropping its diagnostic.
 For a violation, inspect the target and the exact facts queried by the assertion.
 The reported source path and line refer to the Policy Pack's assertion. A policy
 may require a relation that the selected provider Dialect does not establish;
-see the [baseline coverage example](../concepts/policies.md#match-a-policy-to-the-dialects-evidence).
+see [policy claim scope](../concepts/policies.md#know-the-scope-of-a-claim).
 A violation of that assertion is not itself proof about live infrastructure.
 
 ## Diff refuses the comparison
@@ -180,7 +180,7 @@ including undetermined facts, should return `1`.
 
 ## The diagram or search seems to be missing something
 
-Check whether the subject is inside a collapsed scope or outside the current
+Check whether the subject is inside a collapsed scope or outside the active
 Focus. Expand, return through the location path, or switch to Plan. Use Fit for
 an overview; large complete views can require panning.
 
@@ -203,6 +203,6 @@ is documented in [run reference](../reference/cli/run.md). On a remote machine,
 loopback refers to that machine. A local HTML export is useful when you need a
 file instead of a running server.
 
-If the next action does not resolve the issue, [report a synthetic reproduction](../contributing/index.md#report-a-semantic-gap)
+If these steps do not resolve the issue, [report a synthetic reproduction](../contributing/index.md#report-a-semantic-gap)
 with the command, version, status, and sanitized diagnostic. Keep credentials,
 raw plans, state, and customer infrastructure out of the report.

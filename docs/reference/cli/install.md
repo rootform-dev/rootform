@@ -19,8 +19,6 @@ rootform install <object> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform install |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Install dialects on this machine.
@@ -36,5 +34,3 @@ Install dialects on this machine.
 ```sh
 rootform install dialects ./dialects
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

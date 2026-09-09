@@ -24,8 +24,6 @@ rootform package policy-packs <directory> [flags]
 | ` --source-url ` | ` string ` | ` "" ` | record canonical source `url` in OCI provenance |
 | ` --to ` | ` string ` | ` "" ` | write registry layout to `directory` |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Compile a Policy Pack source set and write one deterministic local registry
@@ -48,5 +46,3 @@ rootform package policy-packs ./policies --to ./artifacts/policies
 rootform package policy-packs ./baseline --to ./baseline-oci
 rootform package policy-packs . --to ./oci
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

@@ -19,8 +19,6 @@ rootform version [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform version |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Print the Rootform version to standard output. Diagnostics go to
@@ -40,5 +38,3 @@ rootform version
 rootform --version
 rootform version > rootform-version.txt
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../index.md).

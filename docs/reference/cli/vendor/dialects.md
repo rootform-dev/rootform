@@ -21,8 +21,6 @@ rootform vendor dialects [flags]
 | ` --offline ` | ` bool ` | ` false ` | use only exact installed or cached dialects |
 | ` --to ` | ` string ` | ` "" ` | copy into `directory`; ./.rootform/dialects by default |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Materialize the exact rootform.lock dialect set from the installed
@@ -49,5 +47,3 @@ rootform init . --no-input
 rootform vendor dialects
 rootform vendor dialects --to ./offline/dialects
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

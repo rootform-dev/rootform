@@ -118,7 +118,7 @@
       "path": "rootform check",
       "usage": "rootform check [input] [flags]",
       "summary": "Check architecture policies",
-      "description": "Build or load an architecture and evaluate the applicable policies.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or - for an architecture file on standard input. With no input,\ncheck reads the current directory. --plan reads a plan in JSON format\ninstead. Directory input prepares missing project dialects before evaluation;\na coherent local lock is silent.\n\nThe selected text, JSON, SARIF, or Markdown result goes to standard\noutput, or to --output. Diagnostics go to standard error.\n\nExit status:\n  0  every policy passed\n  1  at least one policy was violated\n  2  the command was used incorrectly\n  3  the architecture could not be evaluated",
+      "description": "Build or load an architecture and evaluate the applicable policies.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or - for an architecture file on standard input. With no input,\ncheck reads the current directory. --plan reads a plan in JSON format\ninstead. Directory input prepares missing project dialects before evaluation;\na coherent local lock is silent. An explicit --policy-pack selection replaces\nthe project's Policy Pack selection for this invocation.\n\nThe selected text, JSON, SARIF, or Markdown result goes to standard\noutput, or to --output. Diagnostics go to standard error.\n\nExit status:\n  0  evaluation completed without violations or indeterminate results\n  1  at least one policy was violated and evaluation was determinate\n  2  the command was used incorrectly\n  3  evaluation was indeterminate or required evidence was unavailable\n\nStatus 3 takes precedence over violations. Status 0 can include zero policies\nor zero evaluations.",
       "examples": "rootform check\n  rootform check ./infra\n  rootform check . --locked\n  rootform check --plan tfplan.json\n  rootform check . --policy-pack ./policies\n  rootform build ./infra | rootform check -\n  rootform check ./infra --format sarif -o rootform.sarif",
       "flags": [
         {
@@ -173,7 +173,7 @@
           "name": "policy",
           "type": "stringArray",
           "default": "[]",
-          "usage": "evaluate only this `policy`; repeatable"
+          "usage": "select pack/name or unique policy; repeatable"
         },
         {
           "name": "policy-pack",
@@ -212,14 +212,14 @@
       "path": "rootform diff",
       "usage": "rootform diff \u003cbefore\u003e \u003cafter\u003e [flags]",
       "summary": "Compare two architectures",
-      "description": "Compare two architectures and report the architectural changes between\nthem.\n\nEach input can be an infrastructure directory, a Rootform architecture\nfile, or - for one architecture file on standard input. --plan reads\nboth sides from a plan in JSON format instead. Only one input can be -.\n\nThe selected text, JSON, or Markdown result goes to standard output, or\nto --output. Diagnostics go to standard error.\n\nExit status:\n  0  the comparison succeeded\n  1  the architectures differ, and --exit-code was given\n  2  the command was used incorrectly\n  3  the comparison could not be completed",
+      "description": "Compare two architectures and report the architectural changes between\nthem.\n\nEach input can be an infrastructure directory, a Rootform architecture\nfile, or - for one architecture file on standard input. --plan reads\nboth sides from a plan in JSON format instead. Only one input can be -.\n\nThe selected text, JSON, or Markdown result goes to standard output, or\nto --output. Diagnostics go to standard error.\n\nExit status:\n  0  the comparison succeeded\n  1  changes or undetermined facts with --exit-code\n  2  the command was used incorrectly\n  3  the comparison could not be completed",
       "examples": "rootform diff ./before ./after\n  rootform diff before.json after.json --exit-code\n  rootform diff --plan tfplan.json\n  terraform show -json tfplan | rootform diff --plan -\n  rootform diff ./before ./after --format markdown -o rootform-diff.md",
       "flags": [
         {
           "name": "exit-code",
           "type": "bool",
           "default": "false",
-          "usage": "exit 1 when the two architectures differ",
+          "usage": "exit 1 for changes or undetermined facts",
           "no_option_default": "true"
         },
         {
@@ -256,7 +256,7 @@
       "usage": "rootform explain \u003cobject\u003e \u003cname\u003e [flags]",
       "summary": "Explain an architecture result",
       "description": "Explain how an architecture element was derived, how a source\ndeclaration was interpreted, or why a policy produced a result.",
-      "examples": "rootform explain architecture google_sql_database_instance.main\n  rootform explain semantics google/cloud-sql-instance\n  rootform explain policy baseline/database-private-connectivity",
+      "examples": "rootform explain architecture google_sql_database_instance.main\n  rootform explain semantics google/cloud-sql-instance\n  rootform explain policy baseline/private-database-reachability",
       "subcommands": [
         "rootform explain architecture",
         "rootform explain policy",
@@ -306,8 +306,8 @@
       "path": "rootform explain policy",
       "usage": "rootform explain policy \u003cidentifier\u003e [flags]",
       "summary": "Explain a policy result",
-      "description": "Show why a policy passed, failed, or could not be evaluated for an\narchitecture element.\n\nThe current directory supplies the architecture.\nUse \u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
-      "examples": "rootform explain policy baseline/database-private-connectivity\n  rootform explain policy database-private-connectivity\n  rootform explain policy baseline/database-private-connectivity --format json",
+      "description": "Show why a policy passed, failed, or could not be evaluated for an\narchitecture element.\n\nThe current directory supplies the architecture.\nThe project must select the Policy Pack that owns the policy.\nUse \u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "examples": "rootform explain policy baseline/private-database-reachability\n  rootform explain policy private-database-reachability\n  rootform explain policy baseline/private-database-reachability --format json",
       "flags": [
         {
           "name": "format",
@@ -694,7 +694,7 @@
       "path": "rootform lock dialects",
       "usage": "rootform lock dialects [directory] [flags]",
       "summary": "Lock resolved dialects",
-      "description": "Record the resolved dialects and their selected versions in the\ngenerated, deterministic JSON file rootform.lock.\n\nWith no directory, lock reads the current directory. Locked names and\nversions go to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock was written\n  1  the dialects or lock file could not be read or written\n  2  the command was used incorrectly\n  3  no complete dialect resolution was produced",
+      "description": "Compile Dialect sources from the supplied directory and replace\nrootform.lock in the current working directory. Existing Policy Pack\nselections and registry acquisition pins are not preserved. Use rootform init\nfor project preparation.\n\nWith no directory, the current directory also supplies Dialect sources.\nLocked names and\nversions go to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock was written\n  1  sources or presentation could not compile, or the lock could not be written\n  2  the command was used incorrectly",
       "examples": "rootform lock dialects\n  rootform lock dialects ./dialects\n  rootform lock dialects ./vendor/dialects",
       "flags": [
         {
@@ -710,8 +710,8 @@
     {
       "path": "rootform lsp",
       "usage": "rootform lsp [flags]",
-      "summary": "Serve Rootform Language over stdio",
-      "description": "Run the Rootform Language Server Protocol service over standard input\nand standard output. Protocol frames are the only standard output. Process\ndiagnostics go to standard error; source diagnostics travel through LSP.\n\nExit status:\n  0  the client completed shutdown and exit\n  1  transport or lifecycle failed\n  2  the command was used incorrectly",
+      "summary": "Serve Rootform language features over stdio",
+      "description": "Run the Rootform language server over standard input\nand standard output. Protocol frames are the only standard output. Process\ndiagnostics go to standard error; source diagnostics travel through LSP.\n\nExit status:\n  0  the client completed shutdown and exit\n  1  transport or lifecycle failed\n  2  the command was used incorrectly",
       "examples": "rootform lsp\n  rootform lsp 2\u003erootform-lsp.log\n  rootform lsp \u003cclient.frames \u003eserver.frames",
       "flags": [
         {
@@ -898,7 +898,7 @@
           "name": "index",
           "type": "bool",
           "default": "false",
-          "usage": "publish generated index after every dialect",
+          "usage": "publish index after all dialects pass verification",
           "no_option_default": "true"
         },
         {
@@ -913,7 +913,7 @@
       "path": "rootform publish policy-packs",
       "usage": "rootform publish policy-packs \u003clayout\u003e [flags]",
       "summary": "Publish a verified Policy Pack registry layout",
-      "description": "Validate an existing local Policy Pack registry layout, publish every pack\nto one registry repository, and repull each manifest by digest. Policy\nPacks have no discovery index in V0. Dry-run remains offline.\n\nText or JSON result goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  publication or dry-run verification completed\n  2  the command was used incorrectly\n  3  publication could not be verified",
+      "description": "Validate an existing local Policy Pack registry layout, publish every pack\nto one registry repository, and repull each manifest by digest. Policy\nPacks have no discovery index. Dry-run remains offline.\n\nText or JSON result goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  publication or dry-run verification completed\n  2  the command was used incorrectly\n  3  publication could not be verified",
       "examples": "rootform publish policy-packs ./oci --to registry.example/acme/policies\n  rootform publish policy-packs ./oci --to localhost:5000/acme/policies\n  rootform publish policy-packs ./oci --to registry.example/acme/policies \\\n    --dry-run --format json",
       "flags": [
         {
@@ -970,7 +970,7 @@
       "usage": "rootform remove dialect \u003cname\u003e \u003cversion\u003e [flags]",
       "summary": "Remove a dialect",
       "description": "Remove one installed version of a dialect from the local Rootform\nstore.\n\nThe removed name and version go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the dialect was removed\n  1  the dialect could not be removed\n  2  the command was used incorrectly",
-      "examples": "rootform remove dialect google 0.1.0\n  rootform remove dialect kubernetes 0.1.0\n  rootform list dialects",
+      "examples": "rootform remove dialect google 0.1.0\n  rootform remove dialect kubernetes 0.1.0\n  rootform list dialects --installed",
       "flags": [
         {
           "name": "help",
@@ -1059,7 +1059,7 @@
       "usage": "rootform show \u003cobject\u003e \u003cname\u003e [flags]",
       "summary": "Show a Rootform definition",
       "description": "Show a dialect, Policy Pack, policy, rule, or concept by name.\n\nPolicy identifiers use \"\u003cpolicy-pack\u003e/\u003cname\u003e\"; semantic declaration\nidentifiers use \"\u003cdialect\u003e/\u003cname\u003e\". A bare declaration name is accepted\nwhen it resolves unambiguously.",
-      "examples": "rootform show dialect google\n  rootform show policy-pack baseline\n  rootform show policy baseline/database-private-connectivity\n  rootform show rule google/cloud-sql-instance",
+      "examples": "rootform show dialect google\n  rootform show policy-pack baseline\n  rootform show policy baseline/private-database-reachability\n  rootform show rule google/cloud-sql-instance",
       "subcommands": [
         "rootform show concept",
         "rootform show dialect",
@@ -1128,8 +1128,8 @@
       "path": "rootform show policy",
       "usage": "rootform show policy \u003cidentifier\u003e [flags]",
       "summary": "Show a policy definition",
-      "description": "Show a policy's target, assertion, message, Policy Pack, and source\nlocation.\n\nUse \"rootform explain policy\" to understand why a policy produced a\nresult for an architecture element.\n\nUse \u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name when unambiguous.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
-      "examples": "rootform show policy baseline/database-private-connectivity\n  rootform show policy database-private-connectivity\n  rootform show policy baseline/database-private-connectivity --format json",
+      "description": "Show a policy's target, assertion, message, Policy Pack, and source\nlocation.\n\nUse \"rootform explain policy\" to understand why a policy produced a\nresult for an architecture element.\n\nThe project must select the owning Policy Pack, or --policy-pack can\nsupply a local root. Use \u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name when unambiguous.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
+      "examples": "rootform show policy baseline/private-database-reachability\n  rootform show policy private-database-reachability\n  rootform show policy baseline/private-database-reachability --format json",
       "flags": [
         {
           "name": "format",
@@ -1209,7 +1209,7 @@
       "path": "rootform test",
       "usage": "rootform test [directory] [flags]",
       "summary": "Test dialect fixtures",
-      "description": "Build dialect fixtures and compare their architectures with the\nexpected results.\n\nWith no directory, test reads the current directory. Text or JSON results\ngo to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every selected fixture passed\n  1  at least one fixture differed\n  2  the command was used incorrectly\n  3  no fixture result could be decided",
+      "description": "Build dialect fixtures and compare their architectures with the\nexpected results.\n\nWith no directory, test reads the current directory. Text or JSON results\ngo to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every selected fixture passed\n  1  at least one fixture differed or encountered an error\n  2  the command was used incorrectly\n  3  the run could not start or be reported, or no fixtures matched",
       "examples": "rootform test\n  rootform test ./fixtures\n  rootform test ./fixtures --run cloud-sql\n  rootform test ./fixtures --format json",
       "flags": [
         {
@@ -1331,8 +1331,8 @@
       "path": "rootform validate policy",
       "usage": "rootform validate policy \u003cidentifier\u003e [flags]",
       "summary": "Validate a policy definition",
-      "description": "Validate a policy definition in its selected Policy Pack.\n\nUse \u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
-      "examples": "rootform validate policy baseline/database-private-connectivity\n  rootform validate policy database-private-connectivity\n  rootform validate policy baseline/database-private-connectivity --format json",
+      "description": "Validate a policy definition in its selected Policy Pack.\n\nThe project must select the Policy Pack that owns the policy.\nUse \u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "examples": "rootform validate policy baseline/private-database-reachability\n  rootform validate policy private-database-reachability\n  rootform validate policy baseline/private-database-reachability --format json",
       "flags": [
         {
           "name": "format",
@@ -1428,7 +1428,7 @@
       "path": "rootform vendor policy-packs",
       "usage": "rootform vendor policy-packs [flags]",
       "summary": "Vendor selected Policy Packs",
-      "description": "Materialize the exact rootform.lock Policy Pack set from the installed\nstore, content cache, or each pinned registry repository. No version is\nresolved and rootform.lock is never changed.\n\nWith no --to flag, vendor writes ./.rootform/policy-packs. Policy-aware\ncommands use that directory exclusively when present.\n\nCopied names and versions go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  every selected Policy Pack was copied\n  2  the command was used incorrectly\n  3  no complete vendored set was written",
+      "description": "Materialize the exact rootform.lock Policy Pack set from the installed\nstore, content cache, or each pinned registry repository. No version is\nresolved and rootform.lock is never changed.\n\nWith no --to flag, vendor writes ./.rootform/policy-packs. Commands using\nthe project's Policy Pack selection use that directory exclusively when\npresent. An explicit local --policy-pack selection replaces the project\nselection for that invocation.\n\nCopied names and versions go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  every selected Policy Pack was copied\n  2  the command was used incorrectly\n  3  no complete vendored set was written",
       "examples": "rootform init --policy-pack r.example/p:policy-pack-baseline-0.1.0\n  rootform vendor policy-packs\n  rootform vendor policy-packs --to ./offline/policy-packs",
       "flags": [
         {
@@ -1478,7 +1478,7 @@
       "path": "rootform verify dialects",
       "usage": "rootform verify dialects [directory] [flags]",
       "summary": "Verify locked dialects",
-      "description": "Verify that the resolved dialects are consistent with the\nrecorded dialect resolution.\n\nWith no directory, verify reads the current directory. Matching names and\nversions go to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every resolved dialect matches rootform.lock\n  1  a dialect differs or the lock file could not be read\n  2  the command was used incorrectly\n  3  no complete verification was produced",
+      "description": "Verify that the resolved dialects are consistent with the\nrecorded dialect resolution. The directory selects Dialect sources;\nrootform.lock is read from the current working directory.\n\nWith no directory, the current directory also supplies Dialect sources.\nMatching names and\nversions go to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every resolved dialect matches rootform.lock\n  1  sources, presentation, or rootform.lock could not be verified\n  2  the command was used incorrectly",
       "examples": "rootform verify dialects\n  rootform verify dialects ./dialects\n  rootform verify dialects ./vendor/dialects",
       "flags": [
         {

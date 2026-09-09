@@ -21,8 +21,6 @@ rootform explain architecture <address> [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain architecture |
 | ` --input ` | ` string ` | ` "" ` | read the architecture at `path`; - reads standard input |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Show how an architecture element is implemented and which semantic
@@ -51,5 +49,3 @@ rootform explain architecture google_compute_network.vpc
 rootform explain architecture kubernetes_deployment_v1.app --format json
 rootform explain architecture google_compute_network.vpc --input prod.json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).

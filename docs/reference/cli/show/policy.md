@@ -21,8 +21,6 @@ rootform show policy <identifier> [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show policy |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
 
-Boolean flags set `true` when supplied without a value. Set the flag value to `false` to disable one. `""` means an empty string.
-
 ## Behavior
 
 Show a policy's target, assertion, message, Policy Pack, and source
@@ -31,7 +29,8 @@ location.
 Use "rootform explain policy" to understand why a policy produced a
 result for an architecture element.
 
-Use &lt;policy-pack&gt;/&lt;name&gt;, or a bare name when unambiguous.
+The project must select the owning Policy Pack, or --policy-pack can
+supply a local root. Use &lt;policy-pack&gt;/&lt;name&gt;, or a bare name when unambiguous.
 
 The text or JSON definition goes to standard output. Diagnostics go to
 standard error.
@@ -48,9 +47,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform show policy baseline/database-private-connectivity
-rootform show policy database-private-connectivity
-rootform show policy baseline/database-private-connectivity --format json
+rootform show policy baseline/private-database-reachability
+rootform show policy private-database-reachability
+rootform show policy baseline/private-database-reachability --format json
 ```
-
-Command syntax and help are generated from the executable's command definitions. For guided tasks, start with the [reference overview](../../index.md).
