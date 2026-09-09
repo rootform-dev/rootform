@@ -167,7 +167,7 @@ Review evaluation count, outcome, target, inspected fact IDs, diagnostics, and
 violations. Include examples that pass, violate, and become indeterminate for
 the intended reasons.
 
-## Package deterministically
+## Package and publish a Policy Pack
 
 Compile source root into a local OCI registry layout. Packaging is offline and
 sends nothing to a registry. Replace example URLs with repository-owned values;

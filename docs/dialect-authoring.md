@@ -342,7 +342,7 @@ communicate correctly.
 
 <!-- rootform:endsteps -->
 
-## Package reviewed semantics
+## Package and publish a Dialect
 
 Packaging is offline and produces an OCI layout. Supply immutable source
 metadata and the package license. Replace example URLs with repository-owned
