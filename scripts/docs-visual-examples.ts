@@ -49,8 +49,15 @@ function filesBelow(directory: string): string[] {
 
 function presentationBytes(directory: string, architectures: string[]): Buffer {
   const contract = JSON.parse(readFileSync(join(directory, "example.json"), "utf8")) as {
-    dialects: string[];
+    semantics?: { dialects?: Array<{ id?: string }> };
   };
+  const dialects = contract.semantics?.dialects;
+  assert(
+    Array.isArray(dialects) &&
+      dialects.length > 0 &&
+      dialects.every(({ id }) => typeof id === "string" && id.length > 0),
+    `${directory}: example.json has no semantic Dialect inventory`,
+  );
   const usedRules = new Set<string>();
   const usedConcepts = new Set<string>();
   for (const architecture of architectures) {
@@ -71,7 +78,8 @@ function presentationBytes(directory: string, architectures: string[]): Buffer {
     rule_labels: {},
     concept_labels: {},
   };
-  for (const dialect of contract.dialects) {
+  for (const { id: dialect } of dialects) {
+    assert(dialect !== undefined, `${directory}: semantic Dialect has no id`);
     const source = JSON.parse(
       readFileSync(join(directory, ".rootform/dialects", dialect, "presentation.json"), "utf8"),
     ) as Record<string, unknown>;
