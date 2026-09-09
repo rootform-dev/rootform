@@ -40,6 +40,6 @@ Examples:
 - [Generic CI](generic-ci.sh) assumes exact checksum-verified binary is already
   on `PATH`.
 
-For private image or dialect repositories, configure runner's Docker credential
-file or helper. Rootform uses standard `DOCKER_CONFIG`; CI example never places
-credential in arguments, lock, output, or vendor.
+For private image, Dialect, or Policy Pack repositories, configure the runner's
+Docker credential file or helper. Rootform uses standard `DOCKER_CONFIG`; the CI
+example never places credentials in arguments, locks, output, or vendor content.
