@@ -345,3 +345,37 @@ test("contribution guide keeps Policy Packs user-owned", () => {
   expect(page).toContain("[write their own Policy Packs](../language/write-policy-pack.md)");
   expect(page).toContain("not an official or\ncommunity governance catalog");
 });
+
+test("sidebar uses approved user-facing labels and placement", () => {
+  const navigation = JSON.parse(
+    readFileSync(join(import.meta.dir, "../docs/navigation.json"), "utf8"),
+  ) as Array<{ label: string; items: Array<string | { label: string; page: string }> }>;
+  const labels = (group: string) =>
+    navigation
+      .find(({ label }) => label === group)
+      ?.items.map((item) => (typeof item === "string" ? item : item.label));
+
+  expect(labels("Understand architecture")).toContain("Core concepts");
+  expect(labels("Explore the renderer")).toContain("Views and navigation");
+  expect(labels("Use your inputs")).toContain("Configuration and Architecture IR");
+  expect(labels("Use your inputs")).toContain("Terraform/OpenTofu plans");
+  expect(labels("Review and automate")).toEqual([
+    "Run checks",
+    "Architecture Diff",
+    "Compare architectures",
+    "Git workflows",
+    "Run in CI",
+    "integrations/github-actions",
+  ]);
+  expect(labels("Operate safely")).toEqual([
+    "Sources, locks, and offline use",
+    "guides/reproduce-build",
+    "Security and data handling",
+    "integrations/registry-compatibility",
+    "Limitations",
+    "troubleshooting",
+  ]);
+  expect(labels("Reference")).toContain("Container image");
+  expect(labels("Reference")).toContain("Initialize a project");
+  expect(labels("Contribute")).toContain("contributing");
+});

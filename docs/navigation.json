@@ -10,7 +10,7 @@
   {
     "label": "Understand architecture",
     "items": [
-      { "label": "Architecture concepts", "page": "concepts" },
+      { "label": "Core concepts", "page": "concepts" },
       "concepts/architecture-ir",
       "concepts/dialects",
       "concepts/policies"
@@ -20,37 +20,36 @@
     "label": "Explore the renderer",
     "items": [
       { "label": "Read an architecture", "page": "renderer" },
-      "renderer/views",
+      { "label": "Views and navigation", "page": "renderer/views" },
       { "label": "Example architectures", "page": "renderer/examples" }
     ]
   },
   {
     "label": "Use your inputs",
     "items": [
-      { "label": "Configuration and saved architectures", "page": "inputs" },
-      { "label": "Plans", "page": "inputs/plans" }
+      { "label": "Configuration and Architecture IR", "page": "inputs" },
+      { "label": "Terraform/OpenTofu plans", "page": "inputs/plans" }
     ]
   },
   {
     "label": "Review and automate",
     "items": [
-      { "label": "Checks", "page": "guides/check-architecture" },
-      { "label": "Understand Diff", "page": "renderer/diff" },
+      { "label": "Run checks", "page": "guides/check-architecture" },
+      { "label": "Architecture Diff", "page": "renderer/diff" },
       { "label": "Compare architectures", "page": "guides/compare-architectures" },
       { "label": "Git workflows", "page": "workflows" },
-      { "label": "CI", "page": "integrations/ci" },
-      "integrations/github-actions",
-      "integrations/oci-image"
+      { "label": "Run in CI", "page": "integrations/ci" },
+      "integrations/github-actions"
     ]
   },
   {
     "label": "Operate safely",
     "items": [
-      "offline-security",
+      { "label": "Sources, locks, and offline use", "page": "offline-security" },
       "guides/reproduce-build",
-      "security",
+      { "label": "Security and data handling", "page": "security" },
       "integrations/registry-compatibility",
-      "limitations",
+      { "label": "Limitations", "page": "limitations" },
       "troubleshooting"
     ]
   },
@@ -93,7 +92,8 @@
     "label": "Reference",
     "items": [
       { "label": "CLI reference", "page": "reference/cli" },
-      { "label": "Project preparation", "page": "cli" },
+      { "label": "Container image", "page": "integrations/oci-image" },
+      { "label": "Initialize a project", "page": "cli" },
       {
         "label": "Commands",
         "items": [
