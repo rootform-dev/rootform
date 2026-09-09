@@ -20,7 +20,7 @@ policy_pack "tutorial" {
 ```hcl title="policies/subnet-network-context.rf"
 policy "subnet-network-context" {
   target = concept.core.subnet
-  assert = length(contexts(context.core.network, concept.core.virtual-network)) > 0
+  assert = exists(contexts(context.core.network, concept.core.virtual-network))
   message = "Subnets must have an established virtual network context."
 }
 ```
@@ -35,7 +35,6 @@ policy to `tutorial`; it needs no explicit pack reference.
 | Label | exactly 1 | Pack name; lower kebab case |
 | `version` | exactly 1 | Literal exact `MAJOR.MINOR.PATCH` string |
 | `requires` | 0 or more blocks | Exact direct Dialect requirements |
-| `policy` | 0 or more blocks | Accepted for existing `0.1.0` source; top-level form is canonical |
 | Other nested blocks | none | Rejected |
 
 Pack identity is `<name>@<version>`. Source root must contain exactly one
@@ -61,19 +60,16 @@ requires {
 | Attribute name | Required Dialect name |
 | Attribute value | Literal exact `MAJOR.MINOR.PATCH` string |
 
-Every concept and context reference in the pack must name a directly required
-Dialect. Unlike Dialect-local definitions, Policy Pack references cannot use
-an unqualified `concept.name` or `context.name` form.
+Every concept, context, and relation reference in pack must name a directly
+required Dialect. Policy Pack references cannot use unqualified forms.
 
-The requirement checks authoring scope and evaluation compatibility. If the
-loaded architecture semantics omit that Dialect or use another version, the
-whole policy run is indeterminate.
+Requirement checks authoring scope. Linking resolves it to exact Dialect
+version and semantic digest. Evaluation rejects a saved IR whose pin differs.
 
 ## Policy block
 
-`policy` can be top-level anywhere in pack source root and needs no explicit
-pack reference. Existing nested `0.1.0` declarations remain valid; use
-top-level form for new source and multi-file authoring.
+`policy` is top-level anywhere in pack source root and needs no explicit pack
+reference. Nested declarations are invalid.
 
 | Item | Cardinality | Value |
 | --- | --- | --- |
@@ -102,18 +98,19 @@ An assertion can combine:
 - integer comparisons using `==`, `!=`, `<`, `<=`, `>`, and `>=`;
 - signed 64-bit integer literals;
 - `length(...)` over one supported architecture-fact query;
+- `exists(...)` over one architecture-fact query;
 - parentheses.
 
 ```hcl title="policies/private-database-reachability.rf (excerpt)"
 assert = (
-  length(relations("private-reachability", concept.core.virtual-network)) > 0 ||
-  length(relations("private-reachability", concept.core.subnet)) > 0
+  exists(relations(relation.core.private-reachability, concept.core.virtual-network)) ||
+  exists(relations(relation.core.private-reachability, concept.core.subnet))
 )
 ```
 
-Strings are accepted only in the fixed `relations` signature, not as bare
-policy operands. A query cannot appear bare; it must be the single argument to
-`length`. General HCL/Terraform functions and user functions are rejected.
+A query cannot appear bare; it must be single argument to `length` or `exists`.
+Relation predicates are typed qualified references, never free strings.
+General HCL/Terraform functions and user functions are rejected.
 
 See [Expressions](expressions.md) and [Built-ins](built-ins.md) for exact forms.
 
@@ -148,3 +145,8 @@ Several packs can be selected for a project through CLI configuration. They
 remain independent compilation and distribution identities. See
 [Evaluation](evaluation.md) for whole-run failure behavior and
 [Write a Policy Pack](../write-policy-pack.md) for packaging.
+
+`rootform compile policy-pack --semantics <architecture.json>` persists linked
+artifact described by
+[`compiled-policy-pack.schema.json`](../../../schemas/compiled-policy-pack.schema.json).
+That artifact plus saved IR evaluates offline without producer Dialects.

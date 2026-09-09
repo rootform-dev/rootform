@@ -1,16 +1,16 @@
 ---
-title: "rootform show dialect"
-description: "Show a dialect"
+title: "rootform show relation"
+description: "Show a relation predicate"
 ---
 
 <!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
-Show a dialect.
+Show a relation predicate.
 
 ## Usage
 
 ```text
-rootform show dialect <name> [flags]
+rootform show relation <identifier> [flags]
 ```
 
 ## Flags
@@ -18,14 +18,13 @@ rootform show dialect <name> [flags]
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show dialect |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show relation |
 
 ## Behavior
 
-Show a dialect, including its version, requirements,
-providers, concepts, contexts, relations, and rules.
+Show a relation predicate, ownership, producers, and concept pairs.
 
-The name selects one loaded dialect.
+Use &lt;dialect&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
 
 The text or JSON definition goes to standard output. Diagnostics go to
 standard error.
@@ -42,7 +41,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform show dialect google
-rootform show dialect kubernetes
-rootform show dialect google --format json
+rootform show relation google/private-access
+rootform show relation private-access
+rootform show relation google/private-access --format json
 ```

@@ -17,8 +17,8 @@ The result retains the declaration and rule that explain each conclusion.
 | Part | Question it answers |
 | --- | --- |
 | Source accounting | What happened to every discovered declaration? |
-| Dialect identities | Which exact semantics produced this document? |
-| Architecture | Which entities, scopes, details, contexts, contributions, and relations were established? |
+| Semantic snapshot | Which exact Dialect versions, semantic digests, vocabulary, rules, and emissions interpret this document? |
+| Architecture | Which entities, scopes, details, contexts, contributions, relations, and proven omissions were established? |
 | Resolutions and provenance | Which evidence supports those facts? |
 | Diagnostics | What could not be established? |
 
@@ -39,7 +39,7 @@ context without becoming a scope. Network and runtime are different dimensions;
 a subject can have both without one replacing the other.
 
 A **relation** connects architectural participants with a declared meaning.
-Its direction and type matter. A **detail** is a supporting representation; a
+Its direction and qualified predicate matter. A **detail** is a supporting representation; a
 **contribution** attaches that detail to an entity or scope. Several Terraform
 declarations can therefore support one visible component; one shape does not
 necessarily equal one resource block.
@@ -64,9 +64,10 @@ Provenance explains the claim without embedding the raw configuration or its
 values. A source address and file location can still reveal infrastructure
 structure, so review saved documents before sharing them.
 
-If a reference cannot be resolved, Rootform records the limitation. It does not
-create a plausible target or claim that no target exists. This is why the
-declaration summary, diagnostics, and diagram belong to the same result.
+If a reference cannot be resolved, Rootform attaches a diagnostic to authored
+emission. It does not create a plausible target or claim no target exists.
+Known optional absence records an omission. Facts, omissions, and diagnostics
+together distinguish proven zero from unknown.
 
 ## Save and reuse a document
 
@@ -79,7 +80,8 @@ rootform explain architecture aws_subnet.application --input architecture.json
 Serving a saved architecture does not acquire Dialects or re-read its Terraform
 source. The explanation above uses the address from the first tutorial. The
 file can also be an input to `check`, `diff`, and `explain architecture --input`.
-Policy evaluation still needs the Policy Packs selected for that operation.
+Policy evaluation still needs selected compiled Policy Packs. A compiled pack
+and saved IR evaluate offline without producer Dialects or recompilation.
 
 Equivalent inputs and exact semantic selections produce deterministic output.
 A comparison must reject incompatible Dialect selections and invalid documents;

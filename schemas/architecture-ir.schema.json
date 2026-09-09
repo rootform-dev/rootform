@@ -34,6 +34,12 @@
           },
           "type": "array"
         },
+        "omissions": {
+          "items": {
+            "$ref": "#/$defs/omission"
+          },
+          "type": "array"
+        },
         "relations": {
           "items": {
             "$ref": "#/$defs/relation"
@@ -53,7 +59,8 @@
         "details",
         "contexts",
         "contributions",
-        "relations"
+        "relations",
+        "omissions"
       ],
       "type": "object"
     },
@@ -79,6 +86,44 @@
       ],
       "type": "object"
     },
+    "concept_definition": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "maxLength": 1024,
+          "minLength": 1,
+          "type": "string"
+        },
+        "dialect": {
+          "$ref": "#/$defs/dialect_id"
+        },
+        "id": {
+          "$ref": "#/$defs/qualified_id"
+        },
+        "kind": {
+          "enum": [
+            "entity",
+            "scope",
+            "detail"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "dialect",
+        "name",
+        "kind",
+        "description"
+      ],
+      "type": "object"
+    },
     "context": {
       "additionalProperties": false,
       "properties": {
@@ -91,13 +136,15 @@
         "id": {
           "$ref": "#/$defs/id"
         },
-        "rule": {
-          "$ref": "#/$defs/qualified_id"
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/fact_provenance"
+          },
+          "maxItems": 1024,
+          "minItems": 1,
+          "type": "array"
         },
         "to": {
-          "$ref": "#/$defs/id"
-        },
-        "via": {
           "$ref": "#/$defs/id"
         }
       },
@@ -106,8 +153,7 @@
         "from",
         "to",
         "dimension",
-        "via",
-        "rule"
+        "provenance"
       ],
       "type": "object"
     },
@@ -149,13 +195,15 @@
         "id": {
           "$ref": "#/$defs/id"
         },
-        "rule": {
-          "$ref": "#/$defs/qualified_id"
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/fact_provenance"
+          },
+          "maxItems": 1024,
+          "minItems": 1,
+          "type": "array"
         },
         "to": {
-          "$ref": "#/$defs/id"
-        },
-        "via": {
           "$ref": "#/$defs/id"
         }
       },
@@ -163,8 +211,7 @@
         "id",
         "from",
         "to",
-        "via",
-        "rule"
+        "provenance"
       ],
       "type": "object"
     },
@@ -227,6 +274,9 @@
         "dialect": {
           "$ref": "#/$defs/dialect_id"
         },
+        "emission": {
+          "$ref": "#/$defs/id"
+        },
         "location": {
           "$ref": "#/$defs/id"
         },
@@ -261,8 +311,16 @@
     "dialect": {
       "additionalProperties": false,
       "properties": {
+        "content_digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
         "id": {
           "$ref": "#/$defs/dialect_id"
+        },
+        "semantic_digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
         },
         "version": {
           "$ref": "#/$defs/version"
@@ -270,7 +328,9 @@
       },
       "required": [
         "id",
-        "version"
+        "version",
+        "content_digest",
+        "semantic_digest"
       ],
       "type": "object"
     },
@@ -278,6 +338,93 @@
       "maxLength": 64,
       "pattern": "^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$",
       "type": "string"
+    },
+    "emission": {
+      "additionalProperties": false,
+      "properties": {
+        "dimension": {
+          "$ref": "#/$defs/qualified_id"
+        },
+        "id": {
+          "pattern": "^emission:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "context",
+            "contribution",
+            "relation"
+          ],
+          "type": "string"
+        },
+        "match": {
+          "$ref": "#/$defs/emission_match"
+        },
+        "predicate": {
+          "$ref": "#/$defs/qualified_id"
+        },
+        "rule": {
+          "$ref": "#/$defs/qualified_id"
+        },
+        "to": {
+          "$ref": "#/$defs/qualified_id"
+        },
+        "via": {
+          "maxLength": 320,
+          "minLength": 3,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "rule",
+        "kind",
+        "to",
+        "via"
+      ],
+      "type": "object"
+    },
+    "emission_match": {
+      "additionalProperties": false,
+      "properties": {
+        "by": {
+          "maxLength": 320,
+          "minLength": 3,
+          "type": "string"
+        },
+        "strategy": {
+          "enum": [
+            "exact",
+            "dot-ancestor"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "by",
+        "strategy"
+      ],
+      "type": "object"
+    },
+    "fact_provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "emission": {
+          "$ref": "#/$defs/id"
+        },
+        "rule": {
+          "$ref": "#/$defs/qualified_id"
+        },
+        "via": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "emission",
+        "via",
+        "rule"
+      ],
+      "type": "object"
     },
     "generator": {
       "additionalProperties": false,
@@ -370,6 +517,34 @@
       "minLength": 1,
       "pattern": "^[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$",
       "type": "string"
+    },
+    "omission": {
+      "additionalProperties": false,
+      "properties": {
+        "emission": {
+          "$ref": "#/$defs/id"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "reason": {
+          "enum": [
+            "source_absent",
+            "no_match"
+          ],
+          "type": "string"
+        },
+        "representation": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "representation",
+        "emission",
+        "reason"
+      ],
+      "type": "object"
     },
     "outcome": {
       "oneOf": [
@@ -502,19 +677,18 @@
         "id": {
           "$ref": "#/$defs/id"
         },
-        "rule": {
+        "predicate": {
           "$ref": "#/$defs/qualified_id"
         },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/fact_provenance"
+          },
+          "maxItems": 1024,
+          "minItems": 1,
+          "type": "array"
+        },
         "to": {
-          "$ref": "#/$defs/id"
-        },
-        "type": {
-          "maxLength": 128,
-          "minLength": 1,
-          "pattern": "^[A-Za-z0-9_.-]+$",
-          "type": "string"
-        },
-        "via": {
           "$ref": "#/$defs/id"
         }
       },
@@ -522,9 +696,40 @@
         "id",
         "from",
         "to",
-        "type",
-        "via",
-        "rule"
+        "predicate",
+        "provenance"
+      ],
+      "type": "object"
+    },
+    "relation_definition": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "maxLength": 1024,
+          "minLength": 0,
+          "type": "string"
+        },
+        "dialect": {
+          "$ref": "#/$defs/dialect_id"
+        },
+        "id": {
+          "$ref": "#/$defs/qualified_id"
+        },
+        "name": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        "shared": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "dialect",
+        "name",
+        "shared"
       ],
       "type": "object"
     },
@@ -631,9 +836,35 @@
       ],
       "type": "object"
     },
+    "rule_definition": {
+      "additionalProperties": false,
+      "properties": {
+        "concept": {
+          "$ref": "#/$defs/qualified_id"
+        },
+        "dialect": {
+          "$ref": "#/$defs/dialect_id"
+        },
+        "id": {
+          "$ref": "#/$defs/qualified_id"
+        }
+      },
+      "required": [
+        "id",
+        "dialect",
+        "concept"
+      ],
+      "type": "object"
+    },
     "semantics": {
       "additionalProperties": false,
       "properties": {
+        "concepts": {
+          "items": {
+            "$ref": "#/$defs/concept_definition"
+          },
+          "type": "array"
+        },
         "contexts": {
           "items": {
             "$ref": "#/$defs/context_definition"
@@ -645,11 +876,33 @@
             "$ref": "#/$defs/dialect"
           },
           "type": "array"
+        },
+        "emissions": {
+          "items": {
+            "$ref": "#/$defs/emission"
+          },
+          "type": "array"
+        },
+        "relations": {
+          "items": {
+            "$ref": "#/$defs/relation_definition"
+          },
+          "type": "array"
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/$defs/rule_definition"
+          },
+          "type": "array"
         }
       },
       "required": [
         "dialects",
-        "contexts"
+        "concepts",
+        "contexts",
+        "relations",
+        "rules",
+        "emissions"
       ],
       "type": "object"
     },

@@ -6,15 +6,19 @@
     },
     {
       "path": "reference/cli.json",
-      "sha256": "d1890e9abd6e5027e1b44901c39f393576f0e4a7b13bbd481ce8733da5e82a97"
+      "sha256": "32b3add2e92b21765ca87a084b28dfcaf453cd8a67775cc833e68955698c72d7"
     },
     {
       "path": "schemas/architecture-ir.schema.json",
-      "sha256": "c03cb4382d6ef3a6a760385c3f94c790ed1ab6ff74fbcc9f88cc9bac4f0d94f0"
+      "sha256": "54883756127dc4345e47488fae6f141557be6b5b71c73f888ac47901320ffcc1"
+    },
+    {
+      "path": "schemas/compiled-policy-pack.schema.json",
+      "sha256": "b43e9807fca4b7740f620a02164963148cc20d422b26e2a4327233cd250cfd38"
     },
     {
       "path": "schemas/rootform-lock.schema.json",
-      "sha256": "132f05414151fdeb1bd31c683041dcd9e50efa7be9c528704f467251141affdb"
+      "sha256": "565047c79f8f3549b5e589bf0c925ea19ceb450ff07d9f306c8cc56e5b61696d"
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
@@ -22,6 +26,6 @@
     }
   ],
   "format_version": "1",
-  "source_commit": "9a5c4b6e99bd5bbcb15518d9bc1f536d4dbdf1c1",
+  "source_commit": "8c007f6f2db34c6be4aca6793a762f92aa3c58b9",
   "source_repository": "rootform-dev/engine"
 }

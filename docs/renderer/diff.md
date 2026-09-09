@@ -51,7 +51,7 @@ changes; review a Dialect upgrade separately.
 
 Stable identities let Diff track facts independently of display order and canvas
 coordinates. It compares representation meaning and membership, context
-dimensions, relation types, and endpoints. Source positions and rule provenance
+dimensions, qualified relation predicates, and endpoints. Source positions and rule provenance
 explain a fact but do not themselves create a change. The
 [Diff contract](../../contracts/architecture-diff.md) lists exact fields.
 

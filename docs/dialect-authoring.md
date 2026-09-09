@@ -178,8 +178,9 @@ Use each fact for one semantic claim:
 
 - `context` places a representation relative to another in a named dimension;
 - `contribution` attaches a `detail` representation to an entity or scope;
-- `relation "type"` records a directional domain relationship between
-  entities or scopes.
+- labelled `relation "name"` records a Dialect-local directional predicate;
+- unlabelled `relation { as = relation.owner.name ... }` emits a shared
+  predicate declared by its owner.
 
 `via = source.path` follows evidence from the initially matched declaration.
 `via = provider.path` reads the concrete provider configuration used by that

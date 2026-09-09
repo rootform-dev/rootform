@@ -67,8 +67,8 @@ Keep that flag in CI when the pack lives in the repository; it cannot be combine
 with `--locked`. Initialization's `--policy-pack` flag selects a published OCI
 artifact reference and records it in `rootform.lock`, so later checks can use
 `--locked`. The [policy tutorial](guides/check-architecture.md) covers both CI
-paths and explains why a successful check with zero evaluations proves no
-target-specific rule.
+paths and explains why a check with zero evaluations reports `not_evaluated`
+and exit 3.
 
 ## Inspect without changing selection
 

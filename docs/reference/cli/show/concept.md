@@ -41,7 +41,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform show concept core/service
-rootform show concept service
-rootform show concept core/service --format json
+rootform show concept core/virtual-network
+rootform show concept virtual-network
+rootform show concept core/virtual-network --format json
 ```

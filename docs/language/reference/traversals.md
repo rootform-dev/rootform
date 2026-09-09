@@ -122,7 +122,7 @@ Within a Dialect, an unqualified reference resolves only to local vocabulary.
 A qualified cross-Dialect reference resolves only when the current Dialect
 directly requires that exact Dialect version.
 
-Policy Packs have no local vocabulary, so every concept and context reference
+Policy Packs have no local vocabulary, so every concept, context, and relation reference
 is qualified and its Dialect must appear in the pack's direct `requires`.
 
 There is no implicit `core` scope and no transitive import. File paths and

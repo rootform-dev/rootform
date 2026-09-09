@@ -21,7 +21,8 @@ rootform show <object> <name> [flags]
 
 ## Behavior
 
-Show a dialect, Policy Pack, policy, rule, or concept by name.
+Show a dialect, Policy Pack, policy, rule, concept, context, or
+relation by name.
 
 Policy identifiers use "&lt;policy-pack&gt;/&lt;name&gt;"; Dialect declaration
 identifiers use "&lt;dialect&gt;/&lt;name&gt;". A bare declaration name is accepted
@@ -32,9 +33,11 @@ when it resolves unambiguously.
 | Command | Purpose |
 | --- | --- |
 | [` rootform show concept `](show/concept.md) | Show a concept definition |
+| [` rootform show context `](show/context.md) | Show a context dimension |
 | [` rootform show dialect `](show/dialect.md) | Show a dialect |
 | [` rootform show policy `](show/policy.md) | Show a policy definition |
 | [` rootform show policy-pack `](show/policy-pack.md) | Show a Policy Pack |
+| [` rootform show relation `](show/relation.md) | Show a relation predicate |
 | [` rootform show rule `](show/rule.md) | Show a rule definition |
 
 ## Examples

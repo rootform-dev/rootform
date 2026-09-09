@@ -147,8 +147,8 @@ and [registry compatibility](../integrations/registry-compatibility.md).
 
 Read `summary.policies`, `summary.evaluations`, and the selected packs. No pack
 selection gives zero policies. A selected policy whose target concept is absent
-gives zero evaluations for that policy. Verify the intended pack and target
-coverage before using status `0` as approval.
+gives zero evaluations for that policy. Both produce `not_evaluated`,
+`compliant = false`, and status `3`; verify intended pack and target coverage.
 
 Use [the worked policy example](../guides/check-architecture.md) for a known
 one-target evaluation. A local `check --policy-pack` expects a directory;

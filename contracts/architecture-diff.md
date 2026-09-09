@@ -18,15 +18,18 @@ A result contains:
 - sanitized `problems` when comparison was not possible.
 
 Changed fields are drawn from `concept`, `kind`, `name`,
-`implementation_kind`, `members`, `dimension`, `relation_type`, `from`, and
-`to`. Provenance fields may accompany a change but do not create one.
+`implementation_kind`, `members`, `dimension`, `predicate`, `from`, and `to`.
+Rule, emission, resolution, and fact provenance may accompany a change but do
+not create one.
 
 ## Safety rules
 
 - Invalid input yields indeterminate result, never empty diff.
-- Documents built with different dialect sets or versions are not compared.
-- An object present on one side and unresolved on other is undetermined, not
-  automatically added or removed.
+- Documents with different executable semantic digests are not compared;
+  description-only or presentation-only changes remain comparable.
+- An object or proven-empty emission present on one side is added or removed
+  only when the empty side has complete applicable closure. Unsupported,
+  unresolved, or incomplete absence is `undetermined`.
 - Empty means valid comparison with no changes and no undetermined entry.
 - Output ordering and bytes are deterministic and carry no host, path, time, or
   duration.

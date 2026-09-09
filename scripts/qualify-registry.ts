@@ -353,7 +353,7 @@ concept "portable-service" {
     `policy "portable-service-links" {
   target = concept.${DIALECT_NAME}.portable-service
 
-  assert = length(relations("portable-link", concept.${DIALECT_NAME}.portable-service)) >= 0
+  assert = length(relations(relation.${DIALECT_NAME}.portable-link, concept.${DIALECT_NAME}.portable-service)) >= 0
 
   message = "Portable services expose deterministic relation evidence."
 }
@@ -549,6 +549,7 @@ function lockEvidence(
     artifact.manifest_digest !== published.manifest_digest ||
     !DIGEST.test(String(artifact.layer_digest ?? "")) ||
     !DIGEST.test(String(entry.digest ?? "")) ||
+    !DIGEST.test(String(entry.semantic_digest ?? "")) ||
     !DIGEST.test(String(entry.presentation_digest ?? "")) ||
     !Array.isArray(entry.origins) ||
     !entry.origins.includes(sourceReference) ||
@@ -570,7 +571,7 @@ function lockEvidence(
     layerDigest: String(artifact.layer_digest),
     manifestDigest: String(artifact.manifest_digest),
     presentationDigest: String(entry.presentation_digest),
-    semanticDigest: String(entry.digest),
+    semanticDigest: String(entry.semantic_digest),
   };
 }
 

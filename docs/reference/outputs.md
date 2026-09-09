@@ -20,10 +20,10 @@ interpret the result. A file extension alone is not evidence of success.
 
 | Status | `check` | `diff` |
 | --- | --- | --- |
-| `0` | Evaluation completed without a violation or indeterminate result. Check the number of policies and evaluations. Both can be zero. | Comparison completed. Differences and undetermined facts still return `0` unless `--exit-code` is set. |
-| `1` | At least one policy violation, with no indeterminate outcome taking precedence. | With `--exit-code`, the comparison contains changes or undetermined facts. |
+| `0` | Every selected policy evaluated and passed. | Comparison completed. Differences and undetermined facts still return `0` unless `--exit-code` is set. |
+| `1` | At least one confirmed policy violation, including mixed runs. | With `--exit-code`, the comparison contains changes or undetermined facts. |
 | `2` | Invalid command use. | Invalid command use. |
-| `3` | Evaluation is indeterminate or required evidence is unavailable. | Comparison could not be completed, for example because an input is invalid or incompatible. |
+| `3` | Verdict unavailable: indeterminate, not evaluated, or required evidence missing. | Comparison could not be completed, for example because an input is invalid or incompatible. |
 
 An undetermined Diff fact is not itself status `3`. It can occur in a valid
 report, including one with no determined changes. Read the report rather than

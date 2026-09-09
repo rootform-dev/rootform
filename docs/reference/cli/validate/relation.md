@@ -1,16 +1,16 @@
 ---
-title: "rootform validate concept"
-description: "Validate a concept definition"
+title: "rootform validate relation"
+description: "Validate a relation predicate"
 ---
 
 <!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
-Validate a concept definition.
+Validate a relation predicate.
 
 ## Usage
 
 ```text
-rootform validate concept <identifier> [flags]
+rootform validate relation <identifier> [flags]
 ```
 
 ## Flags
@@ -18,11 +18,11 @@ rootform validate concept <identifier> [flags]
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate concept |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate relation |
 
 ## Behavior
 
-Validate a concept in the context of its dialect.
+Validate a relation and every compiled producer reference.
 
 Use &lt;dialect&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
 The text or JSON result goes to standard output. Diagnostics go to
@@ -40,7 +40,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform validate concept core/virtual-network
-rootform validate concept virtual-network
-rootform validate concept core/virtual-network --format json
+rootform validate relation google/private-access
+rootform validate relation private-access
+rootform validate relation google/private-access --format json
 ```

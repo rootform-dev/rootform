@@ -25,7 +25,7 @@ rootform check [input] [flags]
 | ` -o, --output ` | ` string ` | ` "" ` | write the result to this `file` |
 | ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
 | ` --policy ` | ` stringArray ` | ` [] ` | select pack/name or unique policy; repeatable |
-| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
+| ` --policy-pack ` | ` stringArray ` | ` [] ` | select directory or compiled JSON `path`; repeatable |
 | ` -v, --verbose ` | ` bool ` | ` false ` | show provider evidence and origin |
 
 ## Behavior
@@ -45,13 +45,15 @@ output, or to --output. Diagnostics go to standard error.
 ## Exit status
 
 ```text
-0  evaluation completed without violations or indeterminate results
-1  at least one policy was violated and evaluation was determinate
+0  all selected policies were evaluated and compliant
+1  at least one policy was violated, including in mixed runs
 2  the command was used incorrectly
-3  evaluation was indeterminate or required evidence was unavailable
+3  indeterminate or not_evaluated, with no confirmed violation
 
-Status 3 takes precedence over violations. Status 0 can include zero policies
-or zero evaluations.
+Violations take precedence: exit 1. Zero policies or zero evaluations
+are never compliant. A selected policy without targets prevents compliance.
+--policy-pack accepts a source directory or compiled JSON file; compiled
+files retain their semantic pins during evaluation.
 ```
 
 ## Examples
@@ -62,6 +64,7 @@ rootform check ./infra
 rootform check . --locked
 rootform check --plan tfplan.json
 rootform check . --policy-pack ./policies
+rootform check arch.json --policy-pack pack.json --offline
 rootform build ./infra | rootform check -
 rootform check ./infra --format sarif -o rootform.sarif
 ```

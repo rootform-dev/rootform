@@ -211,6 +211,7 @@ export function validateRepository(): void {
     "scripts/validate-oci-core-profile.ts",
     "scripts/validate-trivy-policy.ts",
     "dependencies/runtime-components.json",
+    "schemas/compiled-policy-pack.schema.json",
     "schemas/rootform-lock.schema.json",
   ]) {
     if (!files.includes(required))
@@ -264,6 +265,7 @@ export function validateRepository(): void {
     "dependencies/runtime-components.json",
     "reference/cli.json",
     "schemas/architecture-ir.schema.json",
+    "schemas/compiled-policy-pack.schema.json",
     "schemas/rootform-lock.schema.json",
   ].sort((left, right) => left.localeCompare(right, "en"));
   if (JSON.stringify(exportedPaths) !== JSON.stringify(expectedExportedPaths)) {

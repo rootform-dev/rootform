@@ -41,6 +41,7 @@ A Policy Pack participates after those facts exist:
 ```text title="Policy path"
 .rf source
   → compiled Policy Pack
+  → linked semantic pins
   → evaluation over Architecture IR facts
   → passed, violated, or indeterminate result
 ```
@@ -98,7 +99,7 @@ are top-level declarations in any discovered source file:
 ```hcl title="policies/subnet-network-context.rf"
 policy "subnet-network-context" {
   target = concept.core.subnet
-  assert = length(contexts(context.core.network, concept.core.virtual-network)) > 0
+  assert = exists(contexts(context.core.network, concept.core.virtual-network))
   message = "Subnets must have an established virtual network context."
 }
 ```
@@ -106,9 +107,10 @@ policy "subnet-network-context" {
 The single manifest assigns pack identity to this policy through the shared
 source root. The policy needs neither nesting nor a pack reference.
 
-An empty query has length zero. Unavailable or incompatible evidence can make
-an evaluation indeterminate. No representation with the target concept means
-zero evaluations; it is not proof that the requirement passed.
+An empty query means zero only when vocabulary, active emission support, and
+all applicable closure are known. Unavailable or incompatible evidence makes
+affected query indeterminate, including under negation. No representation with
+target concept yields `not_evaluated`, `compliant = false`, and exit 3.
 
 Read [Policies and Policy Packs](../concepts/policies.md) for governance meaning.
 Use [Check an architecture](../guides/check-architecture.md) for a complete
