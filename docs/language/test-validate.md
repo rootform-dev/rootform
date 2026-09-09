@@ -74,7 +74,7 @@ rootform install dialects .
 rootform verify dialects .
 ```
 
-Then inspect one object from the selected or installed semantics:
+Then inspect one object from the selected or installed Dialects:
 
 ```sh
 rootform validate rule aws/subnet
@@ -106,9 +106,9 @@ Before first comparison, complete isolated authoring setup from
 [Write a Dialect](../dialect-authoring.md#set-up-an-authoring-checkout): install
 checkout's Dialects into temporary `ROOTFORM_HOME`, then review candidate
 Architecture IR before saving it as `architecture.golden`. Repository fixture
-suite supplies exact shared semantics; `rootform test` never updates golden.
+suite supplies exact shared Dialects; `rootform test` never updates golden.
 
-Run the suite with its prepared lock and semantics:
+Run the suite with its prepared lock and Dialects:
 
 ```sh
 rootform test ./fixtures

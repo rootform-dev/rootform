@@ -25,7 +25,7 @@ reference. Nesting policies inside `policy_pack` remains accepted for compatibil
 only; use the top-level form for new policies.
 
 A pack's `requires` block names the exact Dialect vocabulary its policies use.
-It does not select provider semantics or add facts. Provider detection selects
+It does not select provider Dialects or add facts. Provider detection selects
 Dialects; you select Policy Packs explicitly and review whether their assumptions
 match the evidence those Dialects produce.
 

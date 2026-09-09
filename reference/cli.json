@@ -1058,7 +1058,7 @@
       "path": "rootform show",
       "usage": "rootform show \u003cobject\u003e \u003cname\u003e [flags]",
       "summary": "Show a Rootform definition",
-      "description": "Show a dialect, Policy Pack, policy, rule, or concept by name.\n\nPolicy identifiers use \"\u003cpolicy-pack\u003e/\u003cname\u003e\"; semantic declaration\nidentifiers use \"\u003cdialect\u003e/\u003cname\u003e\". A bare declaration name is accepted\nwhen it resolves unambiguously.",
+      "description": "Show a dialect, Policy Pack, policy, rule, or concept by name.\n\nPolicy identifiers use \"\u003cpolicy-pack\u003e/\u003cname\u003e\"; Dialect declaration\nidentifiers use \"\u003cdialect\u003e/\u003cname\u003e\". A bare declaration name is accepted\nwhen it resolves unambiguously.",
       "examples": "rootform show dialect google\n  rootform show policy-pack baseline\n  rootform show policy baseline/private-database-reachability\n  rootform show rule google/cloud-sql-instance",
       "subcommands": [
         "rootform show concept",
@@ -1157,7 +1157,7 @@
       "path": "rootform show policy-pack",
       "usage": "rootform show policy-pack \u003cname\u003e [flags]",
       "summary": "Show a Policy Pack",
-      "description": "Show a Policy Pack, including version, semantic requirements, policies,\nexact registry pins, and provenance available locally.\n\nThe name selects one loaded Policy Pack.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
+      "description": "Show a Policy Pack, including version, Dialect requirements, policies,\nexact registry pins, and provenance available locally.\n\nThe name selects one loaded Policy Pack.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
       "examples": "rootform show policy-pack baseline\n  rootform show policy-pack baseline --policy-pack ./policies\n  rootform show policy-pack baseline --format json",
       "flags": [
         {

@@ -53,7 +53,7 @@ boundary.
 
 Saved architecture and plan inputs have different preparation rules. Serving a
 saved architecture needs no Dialect acquisition. Plan operations require the
-current project's semantics to be prepared. Checks over saved documents require
+current project's Dialects to be prepared. Checks over saved documents require
 selected Policy Packs available locally. See [inputs](inputs/index.md).
 
 ## Policies are selected separately

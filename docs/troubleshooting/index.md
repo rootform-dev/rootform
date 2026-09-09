@@ -26,7 +26,7 @@ rootform list dialects
 ```
 
 Rootform does not inherit a parent directory's lock. For a plan or saved-document
-check, prepare the required current-project semantics before running the operation.
+check, prepare the required project Dialects before running the operation.
 
 ## `rootform.lock` is missing with `--locked`
 
@@ -84,7 +84,7 @@ then rerun Rootform. That IaC operation has its own network and backend requirem
 
 Unknown evidence produces a warning. Reliable incompatible evidence blocks the
 affected Dialect. Check the Dialect's declared provider-version envelope before
-choosing a provider or semantic update.
+choosing a provider or Dialect update.
 
 ## Initialization succeeds but the project cannot build
 
@@ -94,7 +94,7 @@ could not be compiled and the lock could not be verified.
 
 Inspect `rootform.lock` and the initialization warnings. Use the
 [official catalog](https://github.com/rootform-dev/dialects/blob/main/dialects.json)
-to determine whether a compatible Dialect exists, or supply reviewed semantics
+to determine whether a compatible Dialect exists, or add a reviewed Dialect
 through an explicit source. Reinitializing the same uncovered input will not
 create coverage. Partly covered projects can build with unsupported declarations;
 read their accounting before relying on the result.

@@ -23,7 +23,7 @@ rootform show policy-pack <name> [flags]
 
 ## Behavior
 
-Show a Policy Pack, including version, semantic requirements, policies,
+Show a Policy Pack, including version, Dialect requirements, policies,
 exact registry pins, and provenance available locally.
 
 The name selects one loaded Policy Pack.

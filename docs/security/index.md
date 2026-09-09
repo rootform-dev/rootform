@@ -11,10 +11,10 @@ preparation may acquire the exact Dialects and selected Policy Packs it needs.
 
 | Operation | Network boundary |
 | --- | --- |
-| Prepare a project | May contact configured registries to resolve and acquire semantic packages. Registry authentication and certificate settings apply. |
+| Prepare a project | May contact configured registries to resolve and acquire Dialects and selected Policy Packs. Registry authentication and certificate settings apply. |
 | Build with `--locked --offline` | Uses the existing lock and permitted local content. Missing bytes cause failure. |
-| Explore a directory with `rootform run .` | May prepare missing semantic packages, then serves architecture and renderer assets on local loopback. |
-| Explore saved JSON with `rootform run architecture.json` | Acquires no semantic packages; serves saved facts and renderer assets on local loopback. |
+| Explore a directory with `rootform run .` | May prepare missing Dialects, then serves architecture and renderer assets on local loopback. |
+| Explore saved JSON with `rootform run architecture.json` | Acquires no Dialects or Policy Packs; serves saved facts and renderer assets on local loopback. |
 | Open an exported HTML file | The file contains the architecture and its browser assets; no CDN is needed. |
 
 Rootform does not contact a provider API to fill a gap in the input. Preparing
@@ -50,7 +50,7 @@ Self-contained HTML loads no CDN assets. The live explorer binds to loopback.
 Rootform does not apply configuration or contact your cloud provider to verify
 that the architecture is deployed.
 
-## Review the semantics you trust
+## Review the Dialects and Policy Packs you trust
 
 A Dialect determines which architectural claims Rootform establishes. A Policy
 Pack determines which assertions a check evaluates. Review their sources,

@@ -10,7 +10,7 @@ repository that owns the change.
 | Change | Public repository |
 | --- | --- |
 | Docs, examples, contracts, distribution | [Rootform](https://github.com/rootform-dev/rootform) |
-| Provider semantics and their fixtures | [Dialects](https://github.com/rootform-dev/dialects) |
+| Provider Dialects and their fixtures | [Dialects](https://github.com/rootform-dev/dialects) |
 | GitHub Action behavior | [Action](https://github.com/rootform-dev/action) |
 
 Compiler and renderer source are private. Report reproducible product problems
@@ -40,7 +40,7 @@ the observed accounting or diagnostic, and the result you expected. Explain
 which provider documentation supports the expectation. Remove customer data,
 credentials, state, raw plans, and personal paths.
 
-To change provider semantics, follow [Write a Dialect](../dialect-authoring.md)
+To change an official provider Dialect, follow [Write a Dialect](../dialect-authoring.md)
 and contribute rules and fixtures to the Dialects repository. A provider-version
 change needs evidence, not a guessed mapping.
 

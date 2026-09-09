@@ -75,11 +75,11 @@ partly installed package as a successful result.
 
 Use a lock when teammates or later builds must interpret source the same way.
 Use a prepared home when several local projects can reuse verified packages.
-Vendor when a project must carry its own exact semantic inputs, or when the
+Vendor when a project must carry its own exact Dialects and Policy Packs, or when the
 execution environment should work from an empty home without registry access.
 
 A saved architecture is another useful boundary. Serving it, comparing saved
-architectures, or explaining its saved facts does not acquire semantics.
+architectures, or explaining its saved facts does not acquire Dialects.
 Checking it still requires selected Policy Packs available locally. Self-contained
 HTML already contains its renderer and needs no adjacent assets or CDN.
 

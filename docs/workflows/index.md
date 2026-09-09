@@ -3,7 +3,7 @@ title: "Review changes with Git and CI"
 description: "Choose architecture evidence for local review, pull requests, and reproducible gates."
 ---
 
-A useful review preserves the input revision, exact semantic selection, and
+A useful review preserves the input revision, exact Dialect selection, and
 result being discussed. Commit `rootform.lock`; retain only artifacts reviewers
 need.
 

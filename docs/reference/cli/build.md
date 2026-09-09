@@ -11,7 +11,7 @@ Write canonical JSON for another command, or self-contained HTML for a browser.
 With no directory, `build` reads the current directory. Directory input prepares
 missing project Dialects before compilation. A coherent local lock is silent.
 Use `--plan` instead of a directory to read a JSON plan; `-` reads that plan
-from standard input. Plan input requires prepared semantics.
+from standard input. Plan input requires prepared Dialects.
 
 The default output format is `json`. The result goes to standard output unless
 `--output` names a file. Preparation, diagnostics, and declaration counts go
