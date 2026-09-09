@@ -352,25 +352,19 @@ to declarative technology identities and optional plain-text labels:
 }
 ```
 
-Keys are unqualified names owned by current Dialect; `aws/vpc` is not valid in
-this file. `rules` and `concepts` map those names to bounded `family/name`
-technology identities. `rule_labels` and `concept_labels` provide optional
-display labels. Missing sections mean empty objects. Example leaves concepts
-empty because rules shown above use concepts owned by `core`; AWS cannot assign
-presentation to another Dialect's concepts.
+Use unqualified names owned by the Dialect (`vpc`, not `aws/vpc`). `rules` and
+`concepts` map them to `family/name` technology identities; the label maps are
+optional. This example leaves `concepts` empty because those concepts belong to
+`core`.
 
-Manifest cannot contain SVG, HTML, URLs, styles, layout coordinates,
-architecture facts, or renderer behavior. A normal product run ignores invalid
-presentation with warning so visual metadata cannot break semantic output.
-`rootform package dialects` is strict and rejects invalid presentation before
-creating release artifact. See
+Keep the manifest declarative: no SVG, HTML, URLs, styles, layout, architecture
+facts, or renderer behavior. Normal runs warn and ignore invalid presentation;
+`rootform package dialects` rejects it. See
 [Presentation manifest contract](../contracts/presentation-manifest.md) and
 [machine schema](../schemas/presentation-manifest.schema.json) for complete
 limits.
 
-Test meaning without relying on a particular icon. Then inspect a real rendered
-fixture to confirm that entity, scope, detail, context, and composition choices
-communicate correctly.
+Test semantics independently, then inspect a rendered fixture.
 
 ## Package and publish a Dialect
 

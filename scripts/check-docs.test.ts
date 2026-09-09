@@ -334,5 +334,5 @@ test("Dialect authoring keeps presentation, publication, and use in one numbered
   expect(workflow).toContain('"concepts": {}');
   expect(workflow).toContain('"rule_labels": {');
   expect(workflow).toContain('"concept_labels": {}');
-  expect(workflow).toContain("`rootform package dialects` is strict");
+  expect(workflow).toContain("`rootform package dialects` rejects it");
 });
