@@ -1,6 +1,6 @@
 ---
 title: "Write a Dialect"
-description: "Define provider semantics in .rf, prove them with architecture fixtures, and package the reviewed result."
+description: "Define a provider Dialect in .rf, prove its architectural meaning with fixtures, and package the reviewed result."
 ---
 
 A Dialect turns source declarations into explicit Architecture IR facts. Write
@@ -284,8 +284,8 @@ rootform show rule aws/subnet
 rootform show concept core/subnet
 ```
 
-Named commands use selected or locally installed semantics available to the
-current project. A bare name is accepted only when it resolves
+Named commands use Dialects selected for the current project or installed
+locally. A bare name is accepted only when it resolves
 unambiguously. JSON output is useful for tooling; text output is easier during
 interactive authoring.
 
@@ -318,7 +318,7 @@ rootform test ./fixtures --run example/minimal
 ```
 
 `rootform test` builds each discovered case with the checkout's prepared
-semantics and compares exact architecture bytes with the golden. Review changes
+Dialects and compares exact architecture bytes with the golden. Review changes
 to concepts, contexts, relations, declaration outcomes, provenance, and
 diagnostics. Do not update a golden only to silence a difference.
 

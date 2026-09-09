@@ -4,7 +4,7 @@ description: "Prepare exact Dialects, preserve the lock, and rebuild from vendor
 ---
 
 Prepare a project once, then prove that the same source builds with the same
-Rootform version and semantic inputs without network access. Use the
+Rootform version and exact Dialects without network access. Use the
 [first architecture](../getting-started/first-architecture.md) or a supported
 Terraform/OpenTofu root. Remote modules must already be materialized.
 

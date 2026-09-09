@@ -27,7 +27,7 @@
   {
     "label": "Use your inputs",
     "items": [
-      { "label": "Configuration and Architecture IR", "page": "inputs" },
+      { "label": "Configuration and IR", "page": "inputs" },
       { "label": "Terraform/OpenTofu plans", "page": "inputs/plans" }
     ]
   },

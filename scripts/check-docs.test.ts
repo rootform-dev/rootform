@@ -357,7 +357,7 @@ test("sidebar uses approved user-facing labels and placement", () => {
 
   expect(labels("Understand architecture")).toContain("Core concepts");
   expect(labels("Explore the renderer")).toContain("Views and navigation");
-  expect(labels("Use your inputs")).toContain("Configuration and Architecture IR");
+  expect(labels("Use your inputs")).toContain("Configuration and IR");
   expect(labels("Use your inputs")).toContain("Terraform/OpenTofu plans");
   expect(labels("Review and automate")).toEqual([
     "Run checks",
@@ -378,4 +378,36 @@ test("sidebar uses approved user-facing labels and placement", () => {
   expect(labels("Reference")).toContain("Container image");
   expect(labels("Reference")).toContain("Initialize a project");
   expect(labels("Contribute")).toContain("contributing");
+});
+
+test("public docs distinguish Dialects from semantics", () => {
+  const forbidden = [
+    "provider semantics",
+    "semantic package",
+    "semantic input",
+    "semantic source",
+    "semantics store",
+    "selected semantics",
+    "installed semantics",
+    "prepared semantics",
+    "vendored semantics",
+    "current-project semantics",
+    "acquire semantics",
+    "acquires no semantics",
+    "supply reviewed semantics",
+  ];
+  const pages = [
+    ...new Bun.Glob("**/*.md").scanSync({
+      cwd: join(import.meta.dir, "../docs"),
+      absolute: true,
+    }),
+  ];
+
+  for (const page of pages) {
+    if (page.endsWith("/contributing/writing.md")) continue;
+    const prose = readFileSync(page, "utf8").toLowerCase();
+    for (const phrase of forbidden) {
+      expect(prose, `${page} uses Dialect alias ${JSON.stringify(phrase)}`).not.toContain(phrase);
+    }
+  }
 });

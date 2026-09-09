@@ -18,7 +18,7 @@ language and general HCL expressions are not part of this contract.
 | Goal | Start here |
 | --- | --- |
 | Understand the language through one real architecture | [Language tour](tour.md) |
-| Add or change provider semantics | [Write a Dialect](../dialect-authoring.md) |
+| Author a provider Dialect | [Write a Dialect](../dialect-authoring.md) |
 | Express and evaluate one governance rule | [Check an architecture](../guides/check-architecture.md) |
 | Version and distribute several policies | [Write a Policy Pack](write-policy-pack.md) |
 | Format, compile, test, and inspect definitions | [Test and validate](test-validate.md) |

@@ -11,9 +11,9 @@ and planned architecture. Rootform does not create, refresh, or apply the plan.
 
 Configuration analysis starts with declarations. A plan supplies the resource
 instances and before/planned structure from a particular planning operation.
-Rootform uses identities, provider evidence, configuration references, and
-availability information from that document. It suppresses attribute values;
-it does not copy a plan into the architecture.
+Rootform uses resource identities, provider evidence, configuration references,
+and whether those references are available. It omits attribute values from its
+outputs and does not copy the plan into Architecture IR.
 
 | Command | Result |
 | --- | --- |
@@ -28,16 +28,16 @@ much of any architecture is shown.
 ## Protect the plan files
 
 > [!WARNING]
-> Saved plans and JSON exports can contain sensitive values even when the
-> terminal display hides them. Keep both files out of Git and public artifacts.
-> Restrict access and retention; delete them when the review no longer needs them.
-> Rootform's value suppression does not sanitize the original files on disk.
+> Saved plan files and their JSON exports can contain sensitive values, even when
+> Terraform or OpenTofu hides them in terminal output. Keep both out of Git and
+> public artifacts. Rootform omits plan values from its outputs; it does not
+> modify or sanitize input files.
 
 ## Produce the accepted JSON
 
-Start in a Terraform/OpenTofu project where you are authorized to run a plan.
-Initialize it through your normal workflow first. Planning can access providers,
-backends, state, and credentials; those operations belong to Terraform/OpenTofu.
+Create the saved plan through your normal Terraform/OpenTofu workflow. Planning
+can access providers, backends, state, and credentials; Rootform does not perform
+that operation.
 
 For Terraform:
 

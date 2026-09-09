@@ -67,7 +67,7 @@ define SVG, coordinates, HTML, or renderer behavior. It also cannot execute a
 provider, fetch cloud data, read secrets, or turn unresolved evidence into a
 successful fact.
 
-## Select exact semantics
+## Select exact Dialects
 
 `rootform init` discovers project providers and proposes compatible Dialects.
 Directory forms of `build`, `check`, and `run` use the same preparation. An
@@ -113,6 +113,6 @@ A Dialect defines what the architecture means. A [Policy Pack](policies.md)
 contains assertions evaluated against that architecture. Selecting a Dialect
 never selects governance, and a policy cannot rewrite Dialect semantics.
 
-To author provider semantics, start with [Write a Dialect](../dialect-authoring.md).
+To author a provider Dialect, start with [Write a Dialect](../dialect-authoring.md).
 Use the [Language tour](../language/tour.md) for the `.rf` model or the
 [Dialect reference](../language/reference/dialects.md) for exact fields.

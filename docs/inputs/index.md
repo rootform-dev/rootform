@@ -29,7 +29,7 @@ rootform run ./infra
 
 Directory forms of `run`, `build`, and `check` prepare missing Dialects before
 compiling. They use provider declarations and compatible
-`.terraform.lock.hcl` evidence to choose semantics. Terraform and OpenTofu are
+`.terraform.lock.hcl` evidence to choose Dialects. Terraform and OpenTofu are
 not invoked by these commands.
 
 ### Modules must be available locally

@@ -23,7 +23,7 @@ rootform show <object> <name> [flags]
 
 Show a dialect, Policy Pack, policy, rule, or concept by name.
 
-Policy identifiers use "&lt;policy-pack&gt;/&lt;name&gt;"; semantic declaration
+Policy identifiers use "&lt;policy-pack&gt;/&lt;name&gt;"; Dialect declaration
 identifiers use "&lt;dialect&gt;/&lt;name&gt;". A bare declaration name is accepted
 when it resolves unambiguously.
 
