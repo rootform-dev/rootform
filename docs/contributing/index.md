@@ -1,22 +1,20 @@
 ---
 title: "Contribute to Rootform"
-description: "Improve public documentation, examples, contracts, Dialects, Policy Packs, and the GitHub Action."
+description: "Improve public documentation, examples, contracts, Dialects, and the GitHub Action."
 ---
 
 Public contributions can improve Rootform's documentation, examples, contracts,
-distribution tooling, official Dialects, Policy Packs, and the GitHub Action.
-Pick the repository that owns the change.
+distribution tooling, official Dialects, and the GitHub Action. Pick the
+repository that owns the change.
 
 | Change | Public repository |
 | --- | --- |
 | Docs, examples, contracts, distribution | [Rootform](https://github.com/rootform-dev/rootform) |
 | Provider semantics and their fixtures | [Dialects](https://github.com/rootform-dev/dialects) |
-| Policy Packs, governance rules, and their examples | [Rootform Policy Packs](../../policy-packs/README.md) |
 | GitHub Action behavior | [Action](https://github.com/rootform-dev/action) |
 
-Compiler and renderer source are private. You can still report a reproducible
-problem in the public Rootform repository. Do not submit private implementation
-material or require another contributor to have private access.
+Compiler and renderer source are private. Report reproducible product problems
+in the public Rootform repository.
 
 ## Improve a page
 
@@ -32,9 +30,8 @@ bun install --frozen-lockfile
 bun run check:docs
 ```
 
-The complete repository gate is `bun run verify` with an explicitly supplied,
-checksum-verified `ROOTFORM_BIN`. See the repository
-[contribution contract](../../CONTRIBUTING.md) for the full requirements.
+For complete repository checks, follow the
+[contribution contract](../../CONTRIBUTING.md).
 
 ## Report a semantic gap
 
@@ -47,13 +44,9 @@ To change provider semantics, follow [Write a Dialect](../dialect-authoring.md)
 and contribute rules and fixtures to the Dialects repository. A provider-version
 change needs evidence, not a guessed mapping.
 
-## Contribute a Policy Pack
-
-For architecture governance, follow [Write a Policy Pack](../language/write-policy-pack.md)
-and contribute to [Rootform's Policy Packs](../../policy-packs/README.md). State
-which Dialect facts the policies require and include synthetic examples showing
-passed, violated, and indeterminate outcomes. Confirm that the examples evaluate
-the intended targets; zero evaluations do not prove that a policy holds.
+Teams can [write their own Policy Packs](../language/write-policy-pack.md).
+Public examples illustrate authoring patterns; they are not an official or
+community governance catalog.
 
 ## Discuss contract changes first
 
