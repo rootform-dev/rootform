@@ -332,15 +332,39 @@ Strong coverage includes:
 
 ## Keep presentation separate
 
-Dialect rules produce semantics. A `presentation.json` can map rule or concept
-identities to approved technology identities. It cannot contain SVG, HTML,
-layout coordinates, architecture facts, or renderer behavior.
+Dialect rules produce semantics. One optional `presentation.json` belongs at
+the Dialect source root beside `dialect.rf`. It maps local rule or concept names
+to declarative technology identities and optional plain-text labels:
 
-Test meaning without relying on a particular icon. Then inspect a real rendered
-fixture to confirm that entity, scope, detail, context, and composition choices
-communicate correctly.
+```json title="aws/presentation.json"
+{
+  "format_version": "1",
+  "rules": {
+    "vpc": "generic/network",
+    "subnet": "generic/subnet"
+  },
+  "concepts": {},
+  "rule_labels": {
+    "vpc": "Amazon VPC",
+    "subnet": "Amazon VPC subnet"
+  },
+  "concept_labels": {}
+}
+```
 
-<!-- rootform:endsteps -->
+Use unqualified names owned by the Dialect (`vpc`, not `aws/vpc`). `rules` and
+`concepts` map them to `family/name` technology identities; the label maps are
+optional. This example leaves `concepts` empty because those concepts belong to
+`core`.
+
+Keep the manifest declarative: no SVG, HTML, URLs, styles, layout, architecture
+facts, or renderer behavior. Normal runs warn and ignore invalid presentation;
+`rootform package dialects` rejects it. See
+[Presentation manifest contract](../contracts/presentation-manifest.md) and
+[machine schema](../schemas/presentation-manifest.schema.json) for complete
+limits.
+
+Test semantics independently, then inspect a rendered fixture.
 
 ## Package and publish a Dialect
 
@@ -390,6 +414,8 @@ DOCKER_CONFIG=/path/to/docker-config \
 Review and commit the resulting `rootform.lock`. Later local or CI runs recover
 that exact artifact by digest with `rootform init ./infra --locked --no-input`;
 they do not need the original `--source` argument.
+
+<!-- rootform:endsteps -->
 
 See [Test and validate](language/test-validate.md) for the authoring loop and
 [Dialect reference](language/reference/dialects.md) for every accepted field.

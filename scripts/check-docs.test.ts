@@ -311,3 +311,28 @@ test("installation documentation keeps supported methods in recommendation order
   expect(page).not.toMatch(/Node\.js|Python/u);
   expect(page).toContain("first run may need network access to download any required\n[Dialects]");
 });
+
+test("Dialect authoring keeps presentation, publication, and use in one numbered workflow", () => {
+  const page = readFileSync(join(import.meta.dir, "../docs/dialect-authoring.md"), "utf8");
+  const start = page.indexOf("<!-- rootform:steps -->");
+  const end = page.indexOf("<!-- rootform:endsteps -->");
+  const workflow = page.slice(start, end);
+  const headings = [
+    "## Keep presentation separate",
+    "## Package and publish a Dialect",
+    "## Use a published Dialect",
+  ];
+
+  expect(start).toBeGreaterThanOrEqual(0);
+  expect(end).toBeGreaterThan(start);
+  const positions = headings.map((heading) => workflow.indexOf(heading));
+  expect(positions.every((position) => position >= 0)).toBe(true);
+  expect(positions).toEqual([...positions].sort((left, right) => left - right));
+  expect(workflow).toContain('```json title="aws/presentation.json"');
+  expect(workflow).toContain('"format_version": "1"');
+  expect(workflow).toContain('"rules": {');
+  expect(workflow).toContain('"concepts": {}');
+  expect(workflow).toContain('"rule_labels": {');
+  expect(workflow).toContain('"concept_labels": {}');
+  expect(workflow).toContain("`rootform package dialects` rejects it");
+});
