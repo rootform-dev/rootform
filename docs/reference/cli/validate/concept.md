@@ -40,7 +40,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform validate concept core/service
-rootform validate concept service
-rootform validate concept core/service --format json
+rootform validate concept core/virtual-network
+rootform validate concept virtual-network
+rootform validate concept core/virtual-network --format json
 ```

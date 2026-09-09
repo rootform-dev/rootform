@@ -58,6 +58,7 @@ function pinnedRegistryLock(directory: string): {
       throw new Error(`rootform.lock entry ${index} has invalid identity`);
     }
     digest(entry.digest, `rootform.lock entry ${index} digest`);
+    digest(entry.semantic_digest, `rootform.lock entry ${index} semantic_digest`);
     digest(entry.presentation_digest, `rootform.lock entry ${index} presentation_digest`);
     const artifact = object(entry.artifact, `rootform.lock entry ${index} artifact`);
     if (artifact.repository !== "ghcr.io/rootform-dev/dialects") {

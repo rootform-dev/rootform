@@ -40,8 +40,8 @@ before using the result for review or governance.
 ## A policy only proves its evaluated assertion
 
 No selected packs means no governance evaluation. A selected policy with no
-matching targets can also produce zero evaluations and a successful exit.
-Read selection and counts, not status alone.
+matching targets also produces zero evaluations. Both report `not_evaluated`,
+`compliant = false`, and exit 3.
 
 Policies cannot create missing facts. Review their assumptions against provider
 coverage. A violated assertion says its required architecture fact is absent; it

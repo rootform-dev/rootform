@@ -54,8 +54,8 @@ policy "cluster-network-context" {
   target = concept.core.kubernetes-cluster
 
   assert = (
-    length(contexts(context.core.network, concept.core.virtual-network)) > 0 ||
-    length(contexts(context.core.network, concept.core.subnet)) > 0
+    exists(contexts(context.core.network, concept.core.virtual-network)) ||
+    exists(contexts(context.core.network, concept.core.subnet))
   )
 
   message = "Kubernetes clusters must belong to a network context."
@@ -67,8 +67,8 @@ policy "private-database-reachability" {
   target = concept.core.managed-database
 
   assert = (
-    length(relations("private-reachability", concept.core.virtual-network)) > 0 ||
-    length(relations("private-reachability", concept.core.subnet)) > 0
+    exists(relations(relation.core.private-reachability, concept.core.virtual-network)) ||
+    exists(relations(relation.core.private-reachability, concept.core.subnet))
   )
 
   message = "Managed databases must be privately reachable from a virtual network or subnet."
@@ -93,8 +93,8 @@ reuse a version for different bytes.
 
 ## Declare direct requirements
 
-Every concept and context reference in a Policy Pack is Dialect-qualified and
-must name a directly required Dialect:
+Every concept, context, and relation reference in a Policy Pack is
+Dialect-qualified and must name a directly required Dialect:
 
 Inside `policy_pack`, `requires` remains nested because it describes manifest
 metadata:
@@ -105,9 +105,9 @@ requires {
 }
 ```
 
-The value is exact, not a range. Loading a different `core` version makes
-evaluation indeterminate because the loaded vocabulary did not necessarily
-produce the facts the pack expects.
+The value is exact, not a range. Loading a different `core` version fails
+semantic linking because compiled Policy Packs pin exact version and semantic
+digest.
 
 Requirements expose vocabulary to the compiler. They do not select a provider
 Dialect for a project and do not let the pack read that Dialect's source values.
@@ -121,8 +121,8 @@ and use a message that tells a reader what requirement failed:
 policy "cluster-network-context" {
   target = concept.core.kubernetes-cluster
   assert = (
-    length(contexts(context.core.network, concept.core.virtual-network)) > 0 ||
-    length(contexts(context.core.network, concept.core.subnet)) > 0
+    exists(contexts(context.core.network, concept.core.virtual-network)) ||
+    exists(contexts(context.core.network, concept.core.subnet))
   )
   message = "Kubernetes clusters must belong to a network context."
 }
@@ -152,8 +152,18 @@ the architecture. Point `check` at the local pack source:
 rootform check ./example --policy-pack ./baseline
 ```
 
-The directory form compiles the local pack for authoring. It does not install
-or lock it. Do not combine a local `--policy-pack` directory with `--locked`.
+The directory form compiles and links local source for authoring. It does not
+install or lock it. Persist an evaluation-ready artifact against one saved IR:
+
+```sh
+rootform compile policy-pack ./baseline --semantics architecture.json \
+  --output baseline.compiled.json
+rootform check architecture.json --policy-pack baseline.compiled.json
+```
+
+Second command needs no Terraform source, producer Dialect package, registry,
+network, or recompilation. Do not combine local source directories with
+`--locked`.
 
 Inspect the compiled definitions and machine result:
 
@@ -223,6 +233,7 @@ evaluation never substitutes another Dialect.
 
 <!-- rootform:endsteps -->
 
-See [Policy Pack reference](reference/policy-packs.md) for exact fields,
-compatibility forms, and isolation rules, and [Evaluation](reference/evaluation.md)
-for decision behavior.
+See [Policy Pack reference](reference/policy-packs.md) for exact fields and
+isolation rules, and [Evaluation](reference/evaluation.md) for decision
+behavior. Compiled artifact wire shape is published as
+[`compiled-policy-pack.schema.json`](../../schemas/compiled-policy-pack.schema.json).

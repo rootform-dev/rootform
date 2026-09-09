@@ -69,8 +69,9 @@ The file contains [Architecture IR](../concepts/architecture-ir.md). Serving it
 uses the saved facts without re-reading Terraform or acquiring Dialects. A file
 can also feed `check`, `diff`, or `explain architecture --input`.
 
-`check` still needs selected Policy Packs available locally. Comparing two
-files requires compatible Dialect identities. Rootform validates documents
+`check` still needs selected Policy Packs. A persisted compiled pack and saved
+IR need no producer Dialect package or compilation source. Comparing two files
+requires compatible semantic digests. Rootform validates documents
 before using them; malformed or incompatible input cannot support a successful
 no-change or governance claim.
 

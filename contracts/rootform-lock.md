@@ -30,7 +30,8 @@ Each dialect entry contains:
 
 - lowercase dialect `name`;
 - exact `x.y.z` `version`;
-- semantic `digest`;
+- exact compiled-content `digest`;
+- executable `semantic_digest` on current locks;
 - optional `presentation_digest`;
 - optional `artifact` acquisition pin;
 - optional canonical `origins` array naming source references that supplied
@@ -91,7 +92,7 @@ explicit upgrade can revisit same bounded set without scanning registries.
 - unknown fields, duplicate JSON keys, trailing values, invalid names,
   versions, sources, digests, sizes, and noncanonical order are rejected;
 - whitespace and object-field order are insignificant;
-- semantic and presentation digests verify independently;
+- content, semantic, and presentation digests verify independently;
 - acquisition metadata never changes semantic or presentation identity;
 - extra Terraform/OpenTofu provider lock entries never create Rootform dialect
   or unsupported-provider evidence;

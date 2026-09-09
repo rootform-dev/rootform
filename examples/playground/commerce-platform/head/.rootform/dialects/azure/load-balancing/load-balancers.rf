@@ -1,0 +1,63 @@
+rule "load-balancer" {
+  match {
+    type = "azurerm_lb"
+  }
+
+  as = concept.core.load-balancer
+
+  context {
+    as  = context.core.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+  }
+}
+
+rule "application-gateway" {
+  match {
+    type = "azurerm_application_gateway"
+  }
+
+  as = concept.core.load-balancer
+
+  context {
+    as  = context.core.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+  }
+}
+
+rule "load-balancer-backend-pool" {
+  match {
+    type = "azurerm_lb_backend_address_pool"
+  }
+
+  as = concept.load-balancer-component
+
+  contribution {
+    to  = concept.core.load-balancer
+    via = source.loadbalancer_id
+  }
+}
+
+rule "load-balancer-rule" {
+  match {
+    type = "azurerm_lb_rule"
+  }
+
+  as = concept.load-balancer-component
+
+  contribution {
+    to  = concept.core.load-balancer
+    via = source.loadbalancer_id
+  }
+}

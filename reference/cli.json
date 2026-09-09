@@ -10,6 +10,7 @@
       "subcommands": [
         "rootform build",
         "rootform check",
+        "rootform compile",
         "rootform completion",
         "rootform diff",
         "rootform explain",
@@ -118,8 +119,8 @@
       "path": "rootform check",
       "usage": "rootform check [input] [flags]",
       "summary": "Check architecture policies",
-      "description": "Build or load an architecture and evaluate the applicable policies.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or - for an architecture file on standard input. With no input,\ncheck reads the current directory. --plan reads a plan in JSON format\ninstead. Directory input prepares missing project dialects before evaluation;\na coherent local lock is silent. An explicit --policy-pack selection replaces\nthe project's Policy Pack selection for this invocation.\n\nThe selected text, JSON, SARIF, or Markdown result goes to standard\noutput, or to --output. Diagnostics go to standard error.\n\nExit status:\n  0  evaluation completed without violations or indeterminate results\n  1  at least one policy was violated and evaluation was determinate\n  2  the command was used incorrectly\n  3  evaluation was indeterminate or required evidence was unavailable\n\nStatus 3 takes precedence over violations. Status 0 can include zero policies\nor zero evaluations.",
-      "examples": "rootform check\n  rootform check ./infra\n  rootform check . --locked\n  rootform check --plan tfplan.json\n  rootform check . --policy-pack ./policies\n  rootform build ./infra | rootform check -\n  rootform check ./infra --format sarif -o rootform.sarif",
+      "description": "Build or load an architecture and evaluate the applicable policies.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or - for an architecture file on standard input. With no input,\ncheck reads the current directory. --plan reads a plan in JSON format\ninstead. Directory input prepares missing project dialects before evaluation;\na coherent local lock is silent. An explicit --policy-pack selection replaces\nthe project's Policy Pack selection for this invocation.\n\nThe selected text, JSON, SARIF, or Markdown result goes to standard\noutput, or to --output. Diagnostics go to standard error.\n\nExit status:\n  0  all selected policies were evaluated and compliant\n  1  at least one policy was violated, including in mixed runs\n  2  the command was used incorrectly\n  3  indeterminate or not_evaluated, with no confirmed violation\n\nViolations take precedence: exit 1. Zero policies or zero evaluations\nare never compliant. A selected policy without targets prevents compliance.\n--policy-pack accepts a source directory or compiled JSON file; compiled\nfiles retain their semantic pins during evaluation.",
+      "examples": "rootform check\n  rootform check ./infra\n  rootform check . --locked\n  rootform check --plan tfplan.json\n  rootform check . --policy-pack ./policies\n  rootform check arch.json --policy-pack pack.json --offline\n  rootform build ./infra | rootform check -\n  rootform check ./infra --format sarif -o rootform.sarif",
       "flags": [
         {
           "name": "format",
@@ -179,7 +180,7 @@
           "name": "policy-pack",
           "type": "stringArray",
           "default": "[]",
-          "usage": "select local Policy Pack `directory`; repeatable"
+          "usage": "select directory or compiled JSON `path`; repeatable"
         },
         {
           "name": "verbose",
@@ -188,6 +189,55 @@
           "default": "false",
           "usage": "show provider evidence and origin",
           "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform compile",
+      "usage": "rootform compile \u003cobject\u003e [flags]",
+      "summary": "Compile a Policy Pack for offline checks",
+      "description": "Compile Policy Pack sources with explicit semantic pins for later checks.",
+      "subcommands": [
+        "rootform compile policy-pack"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform compile",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform compile policy-pack",
+      "usage": "rootform compile policy-pack \u003cdirectory\u003e [flags]",
+      "summary": "Compile and pin a Policy Pack",
+      "description": "Compile one Policy Pack source directory against the semantic snapshot\nin --semantics. Write the compiled JSON file to --output, preserving its\nsemantic pins for later offline checks without producer Dialects.\nSummary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  the compiled Policy Pack was written\n  1  the Policy Pack could not be compiled or written\n  2  the command was used incorrectly",
+      "examples": "rootform compile policy-pack ./policies --semantics arch.json -o pack.json\n  rootform compile policy-pack . --semantics baseline.json -o pack.json\n  rootform compile policy-pack ./rules --semantics arch.json -o rules.json",
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform compile policy-pack",
+          "no_option_default": "true"
+        },
+        {
+          "name": "output",
+          "shorthand": "o",
+          "type": "string",
+          "default": "",
+          "usage": "write compiled Policy Pack to `file` (required)"
+        },
+        {
+          "name": "semantics",
+          "type": "string",
+          "default": "",
+          "usage": "pin semantics from an architecture `file` (required)"
         }
       ]
     },
@@ -491,13 +541,15 @@
       "path": "rootform list",
       "usage": "rootform list \u003cobject\u003e [flags]",
       "summary": "List Rootform definitions",
-      "description": "List loaded dialects, Policy Packs, policies, rules, or concepts.",
+      "description": "List loaded dialects, Policy Packs, policies, rules, concepts,\ncontexts, or relations.",
       "examples": "rootform list dialects\n  rootform list policy-packs\n  rootform list policies\n  rootform list rules --dialect google",
       "subcommands": [
         "rootform list concepts",
+        "rootform list contexts",
         "rootform list dialects",
         "rootform list policies",
         "rootform list policy-packs",
+        "rootform list relations",
         "rootform list rules"
       ],
       "flags": [
@@ -536,6 +588,35 @@
           "type": "bool",
           "default": "false",
           "usage": "show how to use rootform list concepts",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform list contexts",
+      "usage": "rootform list contexts [flags]",
+      "summary": "List context dimensions",
+      "description": "List context dimensions available from loaded dialects.\n\nWith no --dialect selection, every loaded dialect is included. The text\nor JSON listing goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the selected definitions could not be read",
+      "examples": "rootform list contexts\n  rootform list contexts --dialect core\n  rootform list contexts --format json",
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "limit results to this dialect `name`; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform list contexts",
           "no_option_default": "true"
         }
       ]
@@ -638,6 +719,35 @@
           "type": "stringArray",
           "default": "[]",
           "usage": "select local Policy Pack `directory`; repeatable"
+        }
+      ]
+    },
+    {
+      "path": "rootform list relations",
+      "usage": "rootform list relations [flags]",
+      "summary": "List relation predicates",
+      "description": "List local and shared relation predicates from loaded dialects.\n\nWith no --dialect selection, every loaded dialect is included. The text\nor JSON listing goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the selected definitions could not be read",
+      "examples": "rootform list relations\n  rootform list relations --dialect google\n  rootform list relations --format json",
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "limit results to this dialect `name`; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform list relations",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1058,13 +1168,15 @@
       "path": "rootform show",
       "usage": "rootform show \u003cobject\u003e \u003cname\u003e [flags]",
       "summary": "Show a Rootform definition",
-      "description": "Show a dialect, Policy Pack, policy, rule, or concept by name.\n\nPolicy identifiers use \"\u003cpolicy-pack\u003e/\u003cname\u003e\"; Dialect declaration\nidentifiers use \"\u003cdialect\u003e/\u003cname\u003e\". A bare declaration name is accepted\nwhen it resolves unambiguously.",
+      "description": "Show a dialect, Policy Pack, policy, rule, concept, context, or\nrelation by name.\n\nPolicy identifiers use \"\u003cpolicy-pack\u003e/\u003cname\u003e\"; Dialect declaration\nidentifiers use \"\u003cdialect\u003e/\u003cname\u003e\". A bare declaration name is accepted\nwhen it resolves unambiguously.",
       "examples": "rootform show dialect google\n  rootform show policy-pack baseline\n  rootform show policy baseline/private-database-reachability\n  rootform show rule google/cloud-sql-instance",
       "subcommands": [
         "rootform show concept",
+        "rootform show context",
         "rootform show dialect",
         "rootform show policy",
         "rootform show policy-pack",
+        "rootform show relation",
         "rootform show rule"
       ],
       "flags": [
@@ -1083,7 +1195,7 @@
       "usage": "rootform show concept \u003cidentifier\u003e [flags]",
       "summary": "Show a concept definition",
       "description": "Show a concept's kind, description, dialect, and source location.\n\nUse \u003cdialect\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
-      "examples": "rootform show concept core/service\n  rootform show concept service\n  rootform show concept core/service --format json",
+      "examples": "rootform show concept core/virtual-network\n  rootform show concept virtual-network\n  rootform show concept core/virtual-network --format json",
       "flags": [
         {
           "name": "format",
@@ -1102,10 +1214,33 @@
       ]
     },
     {
+      "path": "rootform show context",
+      "usage": "rootform show context \u003cidentifier\u003e [flags]",
+      "summary": "Show a context dimension",
+      "description": "Show a context dimension, description, and producers.\n\nUse \u003cdialect\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
+      "examples": "rootform show context core/geography\n  rootform show context geography\n  rootform show context core/geography --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform show context",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
       "path": "rootform show dialect",
       "usage": "rootform show dialect \u003cname\u003e [flags]",
       "summary": "Show a dialect",
-      "description": "Show a dialect, including its version, requirements,\nproviders, concepts, and rules.\n\nThe name selects one loaded dialect.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
+      "description": "Show a dialect, including its version, requirements,\nproviders, concepts, contexts, relations, and rules.\n\nThe name selects one loaded dialect.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
       "examples": "rootform show dialect google\n  rootform show dialect kubernetes\n  rootform show dialect google --format json",
       "flags": [
         {
@@ -1183,6 +1318,29 @@
       ]
     },
     {
+      "path": "rootform show relation",
+      "usage": "rootform show relation \u003cidentifier\u003e [flags]",
+      "summary": "Show a relation predicate",
+      "description": "Show a relation predicate, ownership, producers, and concept pairs.\n\nUse \u003cdialect\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON definition goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no single definition could be selected",
+      "examples": "rootform show relation google/private-access\n  rootform show relation private-access\n  rootform show relation google/private-access --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform show relation",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
       "path": "rootform show rule",
       "usage": "rootform show rule \u003cidentifier\u003e [flags]",
       "summary": "Show a rule definition",
@@ -1243,8 +1401,10 @@
       "subcommands": [
         "rootform validate architecture",
         "rootform validate concept",
+        "rootform validate context",
         "rootform validate dialects",
         "rootform validate policy",
+        "rootform validate relation",
         "rootform validate rule"
       ],
       "flags": [
@@ -1286,7 +1446,7 @@
       "usage": "rootform validate concept \u003cidentifier\u003e [flags]",
       "summary": "Validate a concept definition",
       "description": "Validate a concept in the context of its dialect.\n\nUse \u003cdialect\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
-      "examples": "rootform validate concept core/service\n  rootform validate concept service\n  rootform validate concept core/service --format json",
+      "examples": "rootform validate concept core/virtual-network\n  rootform validate concept virtual-network\n  rootform validate concept core/virtual-network --format json",
       "flags": [
         {
           "name": "format",
@@ -1300,6 +1460,29 @@
           "type": "bool",
           "default": "false",
           "usage": "show how to use rootform validate concept",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate context",
+      "usage": "rootform validate context \u003cidentifier\u003e [flags]",
+      "summary": "Validate a context dimension",
+      "description": "Validate a context dimension in the context of its dialect.\n\nUse \u003cdialect\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "examples": "rootform validate context core/geography\n  rootform validate context geography\n  rootform validate context core/geography --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform validate context",
           "no_option_default": "true"
         }
       ]
@@ -1346,6 +1529,29 @@
           "type": "bool",
           "default": "false",
           "usage": "show how to use rootform validate policy",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate relation",
+      "usage": "rootform validate relation \u003cidentifier\u003e [flags]",
+      "summary": "Validate a relation predicate",
+      "description": "Validate a relation and every compiled producer reference.\n\nUse \u003cdialect\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "examples": "rootform validate relation google/private-access\n  rootform validate relation private-access\n  rootform validate relation google/private-access --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform validate relation",
           "no_option_default": "true"
         }
       ]

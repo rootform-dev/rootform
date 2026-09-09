@@ -59,8 +59,8 @@
       "license_declared": "MPL-2.0",
       "license_text_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
       "name": "Rootform Dialects presentation catalogs",
-      "upstream": "https://github.com/rootform-dev/dialects/tree/8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f",
-      "version": "8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f"
+      "upstream": "https://github.com/rootform-dev/dialects/tree/0ca26d1a085f822b60e7a87d66aa3cb632f32e6c",
+      "version": "0ca26d1a085f822b60e7a87d66aa3cb632f32e6c"
     },
     {
       "copyright_text": "(c) under Patent Claims infringed by Covered Software in the absence of",
@@ -69,8 +69,8 @@
       "license_declared": "MPL-2.0",
       "license_text_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
       "name": "Rootform Dialects",
-      "upstream": "https://github.com/rootform-dev/dialects/tree/8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f",
-      "version": "8ec89c9a7aae1d6c4c24dce1b4b6cd92689a2d9f"
+      "upstream": "https://github.com/rootform-dev/dialects/tree/0ca26d1a085f822b60e7a87d66aa3cb632f32e6c",
+      "version": "0ca26d1a085f822b60e7a87d66aa3cb632f32e6c"
     },
     {
       "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2016 ALRUX Inc.",

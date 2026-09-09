@@ -1,113 +1,81 @@
 ---
 title: "Built-ins"
-description: "Exact signatures and semantics for Rootform policy queries and length."
+description: "Exact signatures and three-valued semantics for Rootform policy queries, exists, and length."
 ---
 
-Policy assertions expose four built-in names in one fixed composition:
-`length(query)`. There is no general function library and no user-defined
-function mechanism.
-
-## Supported shape
+Policy assertions expose three fact queries and two consumers. Queries cannot
+appear bare or be inspected element by element.
 
 ```text title="Built-in grammar"
-length(contexts(context.DIALECT.NAME, concept.DIALECT.NAME))
-length(relations("relation-type", concept.DIALECT.NAME))
-length(contributions(concept.DIALECT.NAME))
+exists(contexts(context.DIALECT.NAME, concept.DIALECT.NAME))
+exists(relations(relation.DIALECT.NAME, concept.DIALECT.NAME))
+exists(contributions(concept.DIALECT.NAME))
+length(query)
 ```
 
-The inner query returns opaque matching fact IDs for the current policy target.
-It cannot be used by itself or inspected element by element. `length` returns
-the number of IDs so the assertion can compare it with an integer.
+Every reference is qualified and its owner must be a direct Policy Pack
+requirement. Unknown concepts, contexts, or relation predicates fail linking
+before evaluation.
 
-## Count matches with length
+## Query value
 
-| Signature | Result |
+Each query returns opaque confirmed fact IDs plus `supported` and `complete`.
+
+| Consumer | Known result |
 | --- | --- |
-| `length(query)` | Signed integer count of matching facts |
+| `length(q)` | Fact count only when `supported && complete` |
+| `exists(q)` | `true` with any confirmed fact; `false` only for supported complete zero |
 
-Exactly one argument is required, and it must be one of the three query calls
-below. Strings, traversals, nested `length`, and other calls are invalid
-arguments.
+Unsupported or incomplete factless query is indeterminate. `!` preserves that
+state. One unresolved applicable emission keeps query incomplete even when
+another emission proves no fact.
 
-An empty, answerable query returns `0`. It is not unknown.
+## Outgoing contexts
 
-## Query contexts
-
-```hcl title="pack.rf"
-length(contexts(context.core.network, concept.core.virtual-network))
+```hcl
+exists(contexts(context.core.network, concept.core.virtual-network))
 ```
 
-| Argument | Meaning |
-| --- | --- |
-| 1 | Dialect-qualified context dimension |
-| 2 | Dialect-qualified concept of the context target |
+`contexts` selects outgoing context facts from current policy target with exact
+dimension and exact concept on `to`. It does not recurse.
 
-The query selects **outgoing context facts** whose `from` endpoint is the
-current policy target, whose dimension matches the first argument, and whose
-`to` representation has the second argument's exact concept.
+## Outgoing relations
 
-It does not search ancestors recursively and does not ask whether the current
-target itself has the concept in the second argument.
-
-## Query relations
-
-```hcl title="pack.rf"
-length(relations("private-reachability", concept.core.virtual-network))
+```hcl
+exists(relations(relation.core.private-reachability, concept.core.virtual-network))
 ```
 
-| Argument | Meaning |
-| --- | --- |
-| 1 | Literal lower-kebab relation type |
-| 2 | Dialect-qualified concept of the relation target |
+`relations` selects outgoing relation facts from current target with exact
+qualified predicate and exact target concept. Direction matters. Predicate is
+typed vocabulary, never a string.
 
-The query selects **outgoing relation facts** whose `from` endpoint is the
-current policy target, whose relation type matches the string, and whose `to`
-representation has the requested exact concept.
+## Incoming contributions
 
-Direction matters. A matching incoming relation is not returned.
-
-## Query contributions
-
-```hcl title="pack.rf"
-length(contributions(concept.core.kubernetes-node-pool))
+```hcl
+length(contributions(concept.core.kubernetes-node-pool)) >= 2
 ```
 
-| Argument | Meaning |
-| --- | --- |
-| 1 | Dialect-qualified concept of the contributor |
-
-The query selects **incoming contribution facts** whose `to` endpoint is the
-current policy target and whose contributing `from` representation has the
-requested exact concept.
-
-This direction differs from `contexts` and `relations`: a policy asks which
-details contribute to its target.
+`contributions` selects incoming facts whose `to` is current target and whose
+`from` representation has exact contributor concept. Closure ranges only over
+contributor representations present in saved IR and their active rules. Empty
+result claims nothing about all Terraform, provider resources, or deployed
+infrastructure.
 
 ## Complete assertions
 
 ```hcl title="Independent assertion examples"
-# Choose one assertion for each policy.
-assert = length(contexts(context.core.network, concept.core.virtual-network)) > 0
+assert = exists(contexts(context.core.network, concept.core.virtual-network))
 
 assert = (
-  length(relations("private-reachability", concept.core.virtual-network)) > 0 ||
-  length(relations("private-reachability", concept.core.subnet)) > 0
+  exists(relations(relation.core.private-reachability, concept.core.virtual-network)) ||
+  exists(relations(relation.core.private-reachability, concept.core.subnet))
 )
 
 assert = length(contributions(concept.core.kubernetes-node-pool)) >= 2
 ```
 
-Every concept and context argument must name a Dialect in the pack's direct
-`requires`, and the loaded semantics must declare it. Unknown vocabulary makes
-the run indeterminate rather than returning an empty collection.
+Unsupported forms include bare queries, `count`, free relation strings, wrong
+arity, unknown functions, indexing, iteration, splats, and comprehensions.
 
-The following forms are not supported:
-
-```hcl title="Unsupported forms"
-assert = contexts(context.core.network, concept.core.virtual-network)
-assert = count(contexts(context.core.network, concept.core.virtual-network)) > 0
-assert = length(contexts(context.core.network)) > 0
-assert = length(resources(concept.core.subnet)) > 0
-```
-
-See [Evaluation](evaluation.md) for target iteration and inspected fact IDs.
+See [Evaluation](evaluation.md) for target coverage, unknown propagation, and
+global status.

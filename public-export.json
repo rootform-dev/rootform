@@ -2,26 +2,30 @@
   "files": [
     {
       "path": "dependencies/runtime-components.json",
-      "sha256": "4b0c0b24534a39b19836c4f54fbc834f7f50cf6ce6630276650a8899c803fdaf"
+      "sha256": "20798f3c6185c7542a7f631ac5d55284740c7e30d631979ee4cad5deee8323fd"
     },
     {
       "path": "reference/cli.json",
-      "sha256": "d1890e9abd6e5027e1b44901c39f393576f0e4a7b13bbd481ce8733da5e82a97"
+      "sha256": "32b3add2e92b21765ca87a084b28dfcaf453cd8a67775cc833e68955698c72d7"
     },
     {
       "path": "schemas/architecture-ir.schema.json",
-      "sha256": "c03cb4382d6ef3a6a760385c3f94c790ed1ab6ff74fbcc9f88cc9bac4f0d94f0"
+      "sha256": "54883756127dc4345e47488fae6f141557be6b5b71c73f888ac47901320ffcc1"
+    },
+    {
+      "path": "schemas/compiled-policy-pack.schema.json",
+      "sha256": "b43e9807fca4b7740f620a02164963148cc20d422b26e2a4327233cd250cfd38"
     },
     {
       "path": "schemas/rootform-lock.schema.json",
-      "sha256": "132f05414151fdeb1bd31c683041dcd9e50efa7be9c528704f467251141affdb"
+      "sha256": "565047c79f8f3549b5e589bf0c925ea19ceb450ff07d9f306c8cc56e5b61696d"
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
-      "sha256": "7461ed35ac374a3a0c4cabdfc3268a2e43e1e409aef4140f62b57feb2625aaa4"
+      "sha256": "d71ea35b2065fc857b6ecf6872d3e0be21ccaa38361fd2867812412145e9b30d"
     }
   ],
   "format_version": "1",
-  "source_commit": "9a5c4b6e99bd5bbcb15518d9bc1f536d4dbdf1c1",
+  "source_commit": "c4491fc644323ac09f60d0468d0e72a1e115ba9c",
   "source_repository": "rootform-dev/engine"
 }

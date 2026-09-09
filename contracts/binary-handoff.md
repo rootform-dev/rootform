@@ -1,5 +1,11 @@
 # Binary handoff contract
 
+This contract governs release/freeze. During dev integration, Rootform may
+consume an allow-listed public export and deterministic transient executable
+from a clean exact Engine commit, with commit and SHA-256 recorded. Such inputs
+support local integration only; release assembly and publication still require
+the immutable handoff below.
+
 Rootform release tooling accepts one content-addressed producer handoff. It
 never reads producer source or a producer repository.
 

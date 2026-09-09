@@ -160,12 +160,21 @@ A useful policy test matrix includes:
 | --- | --- |
 | Passing target | Known true assertion and expected inspected fact IDs. |
 | Violating target | Known false assertion, expected message, target, and exit status `1`. |
-| Missing target | Zero evaluations, recorded as an explicit coverage case. |
+| Missing target | `not_evaluated`, `compliant = false`, coverage target count zero, exit `3`. |
 | Incomplete or incompatible architecture | Indeterminate result and exit status `3`. |
-| Unknown required vocabulary | Compile or evaluation diagnostic, never a guessed decision. |
+| Unknown required vocabulary | Compile/link diagnostic, never a guessed decision. |
 
 Do not edit generated Architecture IR to create a passing case. Change source,
 Dialect, or policy input, then rebuild the evidence.
+
+To prove saved-input autonomy, persist linked governance and run it without
+source Dialects:
+
+```sh
+rootform compile policy-pack ./policies --semantics architecture.json \
+  --output policies.compiled.json
+rootform check architecture.json --policy-pack policies.compiled.json
+```
 
 ## Inspect diagnostic ranges
 

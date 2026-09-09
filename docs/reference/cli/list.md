@@ -21,16 +21,19 @@ rootform list <object> [flags]
 
 ## Behavior
 
-List loaded dialects, Policy Packs, policies, rules, or concepts.
+List loaded dialects, Policy Packs, policies, rules, concepts,
+contexts, or relations.
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
 | [` rootform list concepts `](list/concepts.md) | List concepts |
+| [` rootform list contexts `](list/contexts.md) | List context dimensions |
 | [` rootform list dialects `](list/dialects.md) | List resolved dialects |
 | [` rootform list policies `](list/policies.md) | List policies |
 | [` rootform list policy-packs `](list/policy-packs.md) | List Policy Packs |
+| [` rootform list relations `](list/relations.md) | List relation predicates |
 | [` rootform list rules `](list/rules.md) | List rules |
 
 ## Examples

@@ -4,7 +4,8 @@ description: "Reference for Dialect identity, exact requirements, provider envel
 ---
 
 A Dialect source root compiles to one versioned semantic artifact. Its top
-level accepts `dialect`, `concept`, `context`, and `rule` blocks. Definitions
+level accepts `dialect`, `concept`, `context`, shared `relation`, and `rule`
+blocks. Definitions
 may be split across `.rf` and `.rf.json` files beneath the root.
 
 ## Dialect block
@@ -33,6 +34,8 @@ dialect "aws" {
 Exactly one `dialect` declaration must occur across the source root. Zero
 declarations produces `DIALECT_MISSING`; more than one produces
 `DIALECT_DUPLICATE`.
+Filename is unrestricted within accepted `.rf`/`.rf.json` discovery;
+`dialect.rf` is a convention only.
 
 The canonical identity is `<name>@<version>`. Source directories do not add an
 identity segment.
@@ -142,6 +145,7 @@ Within one compiled Dialect:
 
 - concept names are unique;
 - context names are unique;
+- relation names are unique;
 - rule names are unique;
 - provider sources are unique;
 - requirement names are unique.
@@ -149,6 +153,20 @@ Within one compiled Dialect:
 The same local name in two different Dialects remains distinct because the
 canonical identity includes the Dialect. Use qualified references at a
 cross-Dialect boundary.
+
+## Shared relation definition
+
+```hcl title="relations.rf"
+relation "private-reachability" {
+  description = "Private network reachability."
+}
+```
+
+Top-level relation identity is `<dialect>/<relation>`. It exists for deliberate
+sharing and requires nonempty description. Another Dialect can emit it only
+through `as = relation.owner.name` and a direct requirement on owner. Local
+relations need no top-level declaration; labelled relation blocks inside rules
+introduce them at use.
 
 See [Rules](rules.md) for mapping source declarations to this vocabulary and
 [Traversals and scope](traversals.md) for reference forms.

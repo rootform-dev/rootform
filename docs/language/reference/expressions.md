@@ -26,8 +26,8 @@ they are not expression object values.
 | `!value` | Boolean negation | Boolean expression | Boolean expression |
 | `left && right` | Boolean conjunction | Boolean expressions | Boolean expressions |
 | `left \|\| right` | Boolean disjunction | Boolean expressions | Boolean expressions |
-| `left == right` | Equality | compatible string, Boolean, or integer operands | supported numeric operands |
-| `left != right` | Inequality | compatible string, Boolean, or integer operands | supported numeric operands |
+| `left == right` | Equality | compatible string, Boolean, or integer operands | compatible Boolean or numeric operands |
+| `left != right` | Inequality | compatible string, Boolean, or integer operands | compatible Boolean or numeric operands |
 | `<`, `<=`, `>`, `>=` | Ordered comparison | integer operands | integer or `length(...)` operands |
 
 Parentheses are accepted. Use them whenever mixed logical and comparison
@@ -78,7 +78,10 @@ assertion = true | false
           | !assertion
           | assertion && assertion
           | assertion || assertion
+          | assertion == assertion
+          | assertion != assertion
           | numeric comparison numeric
+          | exists(query)
 
 numeric    = integer | length(query)
 comparison = == | != | < | <= | > | >=
@@ -87,16 +90,13 @@ comparison = == | != | < | <= | > | >=
 Independent `assert` examples:
 
 - `assert = true`
+- `assert = exists(relations(relation.core.private-reachability, concept.core.virtual-network))`
 - `assert = length(contributions(concept.core.kubernetes-node-pool)) >= 2`
 - `assert = !(length(contexts(context.core.network, concept.core.virtual-network)) < 1)`
 
-Policy strings are not bare operands. Concept and context references occur only
-in fixed query argument positions. A query collection occurs only as the one
-argument of `length`.
-
-Use direct Boolean expressions and `!` for Boolean logic. Boolean
-`==` and `!=` are outside the supported evaluated policy surface; numeric
-comparison is the portable policy comparison form.
+Policy strings are not bare operands. Concept, context, and relation references
+occur only in fixed query argument positions. Query collections occur only as
+single argument of `length` or `exists`.
 
 ## JSON expression carrier
 
@@ -107,7 +107,7 @@ Structural semantic references such as policy `target` remain plain strings:
 ```json title="pack.rf.json"
 {
   "target": "concept.core.subnet",
-  "assert": "${length(contexts(context.core.network, concept.core.virtual-network)) > 0}"
+  "assert": "${exists(contexts(context.core.network, concept.core.virtual-network))}"
 }
 ```
 

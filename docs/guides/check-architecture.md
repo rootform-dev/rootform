@@ -30,7 +30,7 @@ policy_pack "tutorial" {
 ```hcl title="policies/subnet-network-context.rf"
 policy "subnet-network-context" {
   target = concept.core.subnet
-  assert = length(contexts(context.core.network, concept.core.virtual-network)) > 0
+  assert = exists(contexts(context.core.network, concept.core.virtual-network))
   message = "Subnets must have an established virtual network context."
 }
 ```
@@ -93,7 +93,7 @@ Status is `3`, accompanied by a diagnostic explaining unavailable evidence.
 Treat that as a blocked decision, not a pass. A selected policy with no matching
 target instead has zero evaluations; see
 [policy outcomes](../concepts/policies.md#zero-evaluations-are-not-approval)
-to understand why that also needs attention.
+to understand why that reports `not_evaluated` and status `3`.
 
 To reproduce the indeterminate result, temporarily change the pack requirement
 to `core = "9.9.9"` and rerun the check. The loaded architecture does not provide that

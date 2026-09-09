@@ -9,7 +9,6 @@ architecture facts or collect supporting declarations into a composition.
 ```hcl title="rule.rf"
 rule "subnet" {
   match {
-    kind = "resource"
     type = "aws_subnet"
   }
 
@@ -51,7 +50,7 @@ match {
 
 | Attribute | Required | Value |
 | --- | --- | --- |
-| `kind` | yes | Literal string from the closed declaration-kind set |
+| `kind` | no | Closed declaration kind; defaults to `resource` |
 | `type` | yes | Nonempty literal adapter type |
 | `where` | no | Boolean source predicate |
 
@@ -77,6 +76,8 @@ Accepted `kind` values:
 
 These values classify declarations visible through the source adapter. They do
 not expose authoring modules, variables, imports, or checks inside `.rf`.
+There is one block syntax. Scalar forms such as `match = "aws_subnet"` are
+invalid. Composition member matches use the same `resource` default.
 
 ### Where predicate
 
@@ -137,7 +138,7 @@ The rule's `as` concept must be `detail`. A contribution attaches that detail
 to a target representation; it does not create a relation between two
 standalone components.
 
-## Relation fact
+## Local relation
 
 ```hcl title="rule.rf"
 relation "private-reachability" {
@@ -148,14 +149,42 @@ relation "private-reachability" {
 
 | Item | Required | Value |
 | --- | --- | --- |
-| Label | yes | Relation type; lower kebab case |
+| Label | yes | Local predicate name; lower kebab case |
 | `to` | yes | Target concept of kind `entity` or `scope` |
 | `via` | yes | `source` or `provider` traversal |
 | nested `match` | no | Explicit value matching configuration |
 
 The rule's `as` concept must also be `entity` or `scope`. Direction runs from
-the rule's representation to the resolved target. The relation label defines
-domain meaning; Rootform does not infer it from the source reference.
+the rule's representation to resolved target. Label always introduces and
+uses `<current-dialect>/private-reachability`; an imported homonym never changes
+that resolution.
+
+## Shared relation
+
+Declare vocabulary once at Dialect scope only when several Dialects should use
+same predicate:
+
+```hcl title="relations.rf"
+relation "private-reachability" {
+  description = "Private network reachability."
+}
+```
+
+Reference it explicitly from an unlabelled rule emission:
+
+```hcl title="rule.rf"
+relation {
+  as  = relation.core.private-reachability
+  to  = concept.core.virtual-network
+  via = source.private_network
+}
+```
+
+Owner must be current Dialect or direct requirement. Label plus `as` is
+invalid. Predicate identity is `owner/name`; producer rule, emission, package
+version, endpoints, and provenance remain separate. Several rules may emit
+same predicate with different source/target concept pairs. Inspection lists
+each producer shape; shared name does not claim those pairs are equivalent.
 
 ## Fact-level `match`
 
@@ -225,7 +254,7 @@ has:
 | --- | --- | --- |
 | Label | exactly 1 | Unique lower-kebab member name |
 | `via` | exactly 1 | `source` or earlier `member.<name>` traversal |
-| `match` | exactly 1 | `kind`, `type`, and optional `where` |
+| `match` | exactly 1 | `type`, optional `kind` (default `resource`), and optional `where` |
 
 Order is part of the contract. `source` means the declaration matched by the
 parent rule. `member.name` must name a member already declared above the current

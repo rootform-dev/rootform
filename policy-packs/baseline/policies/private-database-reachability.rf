@@ -2,8 +2,8 @@ policy "private-database-reachability" {
   target = concept.core.managed-database
 
   assert = (
-    length(relations("private-reachability", concept.core.virtual-network)) > 0 ||
-    length(relations("private-reachability", concept.core.subnet)) > 0
+    exists(relations(relation.core.private-reachability, concept.core.virtual-network)) ||
+    exists(relations(relation.core.private-reachability, concept.core.subnet))
   )
 
   message = "Managed databases must be privately reachable from a virtual network or subnet."

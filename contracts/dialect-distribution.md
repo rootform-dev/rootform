@@ -21,7 +21,8 @@ One dialect version is an OCI 1.1 artifact with:
 
 Config JSON is strict and canonical. It contains format version, dialect name
 and version, exact dependencies, covered provider sources and compatibility
-constraints, layer digest, semantic digest, presentation digest, download
+constraints, layer digest, compiled-content digest, executable semantic digest,
+presentation digest, download
 size, install size, and file count. Requirement and provider arrays use
 canonical lexical order.
 
@@ -55,7 +56,7 @@ Dialect index is another OCI 1.1 artifact:
 - official discovery tag `official-index-v1`.
 
 Index JSON contains repository identity, every available dialect version,
-dependencies, provider compatibility, semantic and presentation digests, file
+dependencies, provider compatibility, content, semantic, and presentation digests, file
 count, artifact repository, manifest and layer digests, and byte sizes. Provider
 recommendations are generated from indexed dialect provider declarations. A
 recommendation absent from dialect metadata makes index invalid; no handwritten

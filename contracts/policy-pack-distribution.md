@@ -48,9 +48,9 @@ with normalized mode, ownership, and timestamps. Allowed content is limited to:
 
 Compiled source contains exactly one top-level `policy_pack` manifest per
 artifact root. Every recursively discovered top-level `policy` declaration in
-that root belongs to that pack; missing or second manifest is invalid. Existing
-nested `0.1.0` declarations remain accepted, but nesting is not required.
-Internal file and directory layout carries no policy scope.
+that root belongs to that pack; missing or second manifest is invalid. Nested
+policy declarations are invalid. Internal file and directory layout carries no
+policy scope.
 
 Paths must be clean relative slash-separated paths. Absolute paths, traversal,
 backslashes, duplicates, symlinks, hard links, devices, sockets, and other
@@ -62,6 +62,14 @@ Limits are 16 MiB compressed, 64 MiB installed, 4 MiB per file, and 512 files
 per policy pack artifact. Declared digest, byte size, installed size, file
 count, name, version, policy, and content identities must all match fetched and
 compiled content.
+
+Source package and evaluation-ready artifact are separate. `rootform compile
+policy-pack SOURCE --semantics ARCHITECTURE --output FILE` links source against
+exact semantic pins and writes strict JSON described by
+[`compiled-policy-pack.schema.json`](../schemas/compiled-policy-pack.schema.json).
+Its content digest identifies authored pack; compiled digest also binds linked
+pins and executable policies. Saved IR plus this file evaluates offline without
+producer Dialects, registry access, or recompilation.
 
 ## Provenance annotations
 

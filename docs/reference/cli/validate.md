@@ -33,8 +33,10 @@ Validation checks definitions; it does not evaluate policies. Use
 | --- | --- |
 | [` rootform validate architecture `](validate/architecture.md) | Validate an architecture |
 | [` rootform validate concept `](validate/concept.md) | Validate a concept definition |
+| [` rootform validate context `](validate/context.md) | Validate a context dimension |
 | [` rootform validate dialects `](validate/dialects.md) | Validate dialect definitions |
 | [` rootform validate policy `](validate/policy.md) | Validate a policy definition |
+| [` rootform validate relation `](validate/relation.md) | Validate a relation predicate |
 | [` rootform validate rule `](validate/rule.md) | Validate a rule definition |
 
 ## Examples

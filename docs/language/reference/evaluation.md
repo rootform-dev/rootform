@@ -3,9 +3,9 @@ title: "Evaluation"
 description: "Reference for rule selection, fact resolution, composition completeness, and policy decision behavior."
 ---
 
-The Rootform language has two evaluation stages. Dialect rules participate in
-architecture compilation. Policy assertions evaluate later over a validated,
-complete Architecture IR document.
+Rootform language has two evaluation stages. Dialect rules participate in
+architecture compilation. Policy assertions evaluate later over validated,
+autonomous Architecture IR.
 
 ## Rule selection
 
@@ -45,10 +45,11 @@ After classification, a fact follows its `via` path. A direct source or
 provider reference can establish a target declaration. A fact-level match can
 compare known scalar values using `exact` or `dot-ancestor`.
 
-Rootform preserves resolved fact provenance. It does not infer a missing
-context or relation from concept names. Absent optional source configuration
-states no fact; invalid, unavailable, or ambiguous evidence remains explicit in
-declaration outcomes and diagnostics.
+Rootform preserves resolved fact provenance. It does not infer missing contexts
+or relations from concept names. Known absent optional source configuration
+closes an applicable emission with an omission. Present but unknown, ambiguous,
+partially dangling, or incomparably matched evidence produces an
+emission-scoped diagnostic. It never becomes proof of absence.
 
 Fact graph constraints are checked during language compilation:
 
@@ -69,18 +70,18 @@ composition.
 
 ## Policy preflight
 
-Before evaluating any policy, Rootform verifies the complete run boundary:
+Before evaluating policies, Rootform verifies run boundary:
 
 - no duplicate selected Policy Pack identity;
-- every pack's exact Dialect requirement is loaded at the required version;
-- every referenced concept and context exists in the loaded vocabulary;
-- loaded Dialects exactly match the semantics that produced the architecture;
-- the Architecture IR is structurally valid and complete;
-- source reference evidence is available;
+- each compiled pack's exact Dialect version and semantic digest matches IR;
+- every referenced concept, context, and relation exists in IR snapshot;
+- every active representation/emission pair has fact, omission, or diagnostic
+  closure;
 - policy and work limits are not exceeded.
 
-A preflight failure makes the whole run indeterminate. Rootform discards partial
-passes and violations because they would describe an untrusted subset.
+A run-level preflight failure makes whole run indeterminate and clears partial
+findings. Emission-scoped uncertainty affects only queries that depend on it,
+so unrelated determinate evaluations remain visible.
 
 ## Target iteration
 
@@ -105,9 +106,19 @@ Queries inspect one hop of Architecture IR from the current target:
 - `relations` reads outgoing relation facts;
 - `contributions` reads incoming contribution facts.
 
-A valid query with no matches has length `0`. Each matched fact ID is recorded
-in the evaluation's `inspected` list. Policies can count those opaque facts but
-cannot inspect their fields or traverse onward.
+Each query yields confirmed fact IDs plus support and completeness. Vocabulary
+must exist, current active rules must support exact query shape, and every
+applicable emission must close without unknown evidence before an empty answer
+means zero. `contexts` and `relations` inspect outgoing closure. Incoming
+`contributions` ranges only over contributor representations present in this
+IR and their active rules; it makes no provider-wide or Terraform-wide coverage
+claim.
+
+`length(q)` is known only for supported complete query. `exists(q)` is known
+true as soon as one confirmed fact exists, known false only for supported
+complete empty query, and indeterminate otherwise. Each consulted fact,
+emission, or omission ID enters evaluation's `inspected` list. Policies cannot
+inspect fact fields or traverse onward.
 
 ## Outcomes
 
@@ -124,12 +135,13 @@ inspect infrastructure evidence.
 
 An indeterminate per-target assertion records `POLICY_ASSERTION_UNKNOWN`. A
 whole-run failure records one reason and clears partial evaluations and
-violations.
+violations. Boolean operators use three-valued logic: known `false` decides
+`&&`, known `true` decides `||`, and `!unknown` remains unknown.
 
-Policy logical evaluation requires both operands to be known. If either side of
-`&&` or `||` is unknown, the combined assertion is unknown. This differs from
-rule-predicate selection, where a known `false` can decide `&&` and a known
-`true` can decide `||`.
+Global status is `compliant`, `violated`, `indeterminate`, or `not_evaluated`.
+A policy with zero targets contributes coverage but no fake evaluation. Mixed
+runs retain determinate results. Violation takes precedence; otherwise any
+indeterminate evaluation, then any policy without targets, prevents compliance.
 
 ## Exit behavior
 
@@ -137,14 +149,13 @@ For `rootform check`, exit status is:
 
 | Status | Meaning |
 | --- | --- |
-| `0` | Complete run with no violations or indeterminate result |
+| `0` | Every selected policy evaluated and passed |
 | `1` | One or more known violations |
 | `2` | Incorrect command use |
-| `3` | Result is indeterminate |
+| `3` | Verdict unavailable: indeterminate or not evaluated |
 
-Check expected policy and evaluation counts in automation. Status `0` with zero
-selected policies or zero targets is mechanically successful but does not prove
-that an intended requirement ran.
+Zero selected policies, zero total evaluations, or any selected policy with no
+target cannot produce compliance.
 
 ## Bounded work
 

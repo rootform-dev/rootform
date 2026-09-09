@@ -33,6 +33,7 @@ Start with rootform run ./infra to explore a directory locally.
 | --- | --- |
 | [` rootform build `](build.md) | Build an architecture |
 | [` rootform check `](check.md) | Check architecture policies |
+| [` rootform compile `](compile.md) | Compile a Policy Pack for offline checks |
 | [` rootform completion `](completion.md) | Generate shell completion |
 | [` rootform diff `](diff.md) | Compare two architectures |
 | [` rootform explain `](explain.md) | Explain an architecture result |

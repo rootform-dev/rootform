@@ -21,8 +21,7 @@ in the pack `tutorial`.
 The source root establishes ownership. One top-level `policy_pack` manifest
 defines the pack. Top-level `policy` blocks can live in any `.rf` or `.rf.json`
 file beneath that root, including subdirectories, without an explicit pack
-reference. Nesting policies inside `policy_pack` remains accepted for compatibility
-only; use the top-level form for new policies.
+reference. Nested policies are invalid.
 
 A pack's `requires` block names the exact Dialect vocabulary its policies use.
 It does not select provider Dialects or add facts. Provider detection selects
@@ -67,15 +66,17 @@ provider-version warning remains separate from the policy outcome.
 
 ### Zero evaluations are not approval
 
-A check with no selected packs can succeed with:
+A check with no selected packs reports:
 
 ```text
+status not_evaluated, compliant false
 0 policies, 0 evaluations, 0 passed, 0 violated, 0 indeterminate
 ```
 
 A selected policy also gets zero evaluations when its target concept does not
-occur. Confirm policy selection, target coverage, and evaluation count before
-treating status `0` as approval.
+occur. Both cases exit 3 because no governance verdict exists. Mixed runs keep
+other evaluations but cannot become compliant while one selected policy has no
+target.
 
 ## Turn checks into gates
 
@@ -91,10 +92,10 @@ same check non-interactively in CI. `--format json` preserves the complete resul
 
 | Status | Gate meaning |
 | --- | --- |
-| `0` | Evaluation completed without a violation or indeterminate result. Counts can still be zero. |
-| `1` | At least one policy was violated and no indeterminate result took precedence. |
+| `0` | Every selected policy evaluated and passed. |
+| `1` | At least one policy was violated, including mixed runs. |
 | `2` | Command use was invalid. |
-| `3` | Evaluation was indeterminate or required evidence was unavailable. |
+| `3` | Verdict unavailable: indeterminate, not evaluated, or evidence missing. |
 
 Accept only the expected selection, coverage, and status. Never convert status
 `3` into success. [Run in CI](../integrations/ci/README.md) and
