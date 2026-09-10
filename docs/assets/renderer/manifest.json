@@ -2,12 +2,13 @@
   "format_version": "1",
   "binary": {
     "version": "rootform 0.1.1",
-    "sha256": "72bca979c8a38e60887072c0363808453d86600f248801fb94019a2874ae71d8"
+    "sha256": "08f7b492b3a3379b267791f9009487850045ec87942417e1eab2eac03e6b6502"
   },
   "fixtures": {
     "commerce-platform-base": {
       "files": {
         ".rootform/dialects/azure/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/azure/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/azure/ai-ml/ai-foundry.rf": "517a15c091b59d379bcce3429bb45703a5a395cafbbc99021185e1ad2c3fee98",
         ".rootform/dialects/azure/ai-ml/ai-model.rf": "289fa8477c1ba1e55981323ab26da97625026ff1f9b3689c5ff7080abbef2a6c",
         ".rootform/dialects/azure/ai-ml/ai-search.rf": "688a435117bd987955497c0ad98743bd92f32666b1fb4bb9a056d693546b15c2",
@@ -110,12 +111,12 @@
         ".rootform/dialects/azure/load-balancing/load-balancer.rf": "afd437fdd7d5e3b3ad3ec307358c87aa717546fb401d7869dc0936c4e1757feb",
         ".rootform/dialects/azure/load-balancing/load-balancers.rf": "257e0b717eeb9dae4e209945a72cd2a262e12b2c7a012478a32f41de63469629",
         ".rootform/dialects/azure/load-balancing/traffic-manager.rf": "cf4cad475183c28c6b32ced937ec4998fed2d896ec9af671585cf7687f47e7dc",
-        ".rootform/dialects/azure/messaging-eventing/concepts.rf": "58c0130610c32ab42a8cf6e75e8cf98f73d2e9e7de921b27b39ed9e673481bca",
-        ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "7f0f149110472f4ccf29a1f0a1c473c8076941bce5d627578a3169e8f0eb80c4",
+        ".rootform/dialects/azure/messaging-eventing/concepts.rf": "c9c5532729e9648fc2d082d7dd47b16d02f62e5ce23ae3241acfa032511fbaa7",
+        ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "2b98019c408d7ada6fc93f968658dc70a187e0ba665b0b39dd622ba55171aa77",
         ".rootform/dialects/azure/messaging-eventing/event-hubs.rf": "a826f86de6f97534168ea04f13f31cc71c88f221d1bb92e029ec78bcfe52a0d4",
         ".rootform/dialects/azure/messaging-eventing/notification-hubs.rf": "3fd1607feb994ad27ec9411e10f8c2669f7a0edf3f5568a8014a0f7d2a74c59c",
         ".rootform/dialects/azure/messaging-eventing/relay.rf": "d98a07594c9fe1ac608debb513c9b3044f15d181037924c1ecd073ab2450cf0b",
-        ".rootform/dialects/azure/messaging-eventing/service-bus.rf": "7cdd85df463f375fc8486c8c8418bb5a104021d2a01c5524e7627881d91677ee",
+        ".rootform/dialects/azure/messaging-eventing/service-bus.rf": "1c7355546c938daba72a063451d132e92fc1c526c80da85d7323fae996d0bbaf",
         ".rootform/dialects/azure/migration/backup.rf": "2d2c9e749b780fec61e59ae513eeaace3ab54f4df3f10d72d395e53c9a145106",
         ".rootform/dialects/azure/migration/concepts.rf": "54e65d7ffeb1c1a751aa9411e23a1bde29f93ea4ff0bbb697ed580f3c39fdf09",
         ".rootform/dialects/azure/migration/data-box.rf": "d41a24ebf6090ae37496efc84397bfc06343c850d98cf3412e9a1da273e3ddc4",
@@ -164,7 +165,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "d558f4c083299285b589f02c0b9856dbaef7846d8ac75189be469b386da5b395",
+        ".rootform/dialects/azure/presentation.json": "9714d2e2a327522e7e339ed9169ecf41cb339696080f2358cf8dde014e2c8b4a",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -195,6 +196,7 @@
         ".rootform/dialects/azure/storage/storage.rf": "fafe6f1923e5c5dd246e089a7d31c65d16e48cb717d47bff23682f1c89edabc0",
         ".rootform/dialects/azure/storage/table-storage.rf": "a355a9e7d250783aa092a4117d75b53b8a05e763c4d5753bc25ed01abbb13a3e",
         ".rootform/dialects/core/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/core/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/core/ai-ml/inference-endpoint.rf": "c264ed57849ccee3946b7ad602197420943b421438d246be4b85443d8d304f8e",
         ".rootform/dialects/core/api-integration/api-gateway.rf": "a7e89c38029bf179fc39998d46bea5d3656933fb91cc4a5efa6e10d04172c2b3",
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
@@ -225,6 +227,7 @@
         ".rootform/dialects/core/storage/backup.rf": "c652d61f1d478f2fa53375a06274b7c6f82da7ab3d2a306c526f05f7f9b264af",
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
         ".rootform/dialects/kubernetes/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/kubernetes/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/kubernetes/autoscaling/horizontal-pod-autoscaler.rf": "af094a70aaf7b833c71389a15a883dcd84f14a460b2a4da589eebb1e88217446",
         ".rootform/dialects/kubernetes/cluster/namespaces.rf": "25beff7f47d0502953d588c3bc7c8780e7f450051ff8e0b69426347583b54fca",
         ".rootform/dialects/kubernetes/dialect.rf": "0744b46b9567068f6503336908cacf7512bd1bb032624e8a67f5255e8eb21b36",
@@ -233,15 +236,16 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "3ae19b454acae82f4486ed6bf33b74fd6a1f0fbef794033b241c1440f242e3a3",
+        "example.json": "d812a2be0a7118add8784661c782ad9c8c08ed6b727e6b20b7277a1adad294aa",
         "main.tf": "85a36ba8c21566f25a3f10d73de727e95a5359c75b5456f305d6057d9af32994",
-        "rootform.lock": "a7e7d3b9a1d19cb8311e77c540340ae4fb2d0cf59e013f33c9e0e4d377b61cae"
+        "rootform.lock": "f88f9fa2515cf82811bec444eaef7531d62b90af49432bb5b3ba8d32eabeb540"
       },
-      "architecture_sha256": "fa6f86722ebc3f2e4d0a1744531632b6dd21eb87c2cfc64cc62bad2f6fb9b7cd"
+      "architecture_sha256": "3ffec3b320fe6a8e702fa78d9341987470b0cfb59e22e21b78f583bfca937f10"
     },
     "commerce-platform-head": {
       "files": {
         ".rootform/dialects/azure/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/azure/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/azure/ai-ml/ai-foundry.rf": "517a15c091b59d379bcce3429bb45703a5a395cafbbc99021185e1ad2c3fee98",
         ".rootform/dialects/azure/ai-ml/ai-model.rf": "289fa8477c1ba1e55981323ab26da97625026ff1f9b3689c5ff7080abbef2a6c",
         ".rootform/dialects/azure/ai-ml/ai-search.rf": "688a435117bd987955497c0ad98743bd92f32666b1fb4bb9a056d693546b15c2",
@@ -344,12 +348,12 @@
         ".rootform/dialects/azure/load-balancing/load-balancer.rf": "afd437fdd7d5e3b3ad3ec307358c87aa717546fb401d7869dc0936c4e1757feb",
         ".rootform/dialects/azure/load-balancing/load-balancers.rf": "257e0b717eeb9dae4e209945a72cd2a262e12b2c7a012478a32f41de63469629",
         ".rootform/dialects/azure/load-balancing/traffic-manager.rf": "cf4cad475183c28c6b32ced937ec4998fed2d896ec9af671585cf7687f47e7dc",
-        ".rootform/dialects/azure/messaging-eventing/concepts.rf": "58c0130610c32ab42a8cf6e75e8cf98f73d2e9e7de921b27b39ed9e673481bca",
-        ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "7f0f149110472f4ccf29a1f0a1c473c8076941bce5d627578a3169e8f0eb80c4",
+        ".rootform/dialects/azure/messaging-eventing/concepts.rf": "c9c5532729e9648fc2d082d7dd47b16d02f62e5ce23ae3241acfa032511fbaa7",
+        ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "2b98019c408d7ada6fc93f968658dc70a187e0ba665b0b39dd622ba55171aa77",
         ".rootform/dialects/azure/messaging-eventing/event-hubs.rf": "a826f86de6f97534168ea04f13f31cc71c88f221d1bb92e029ec78bcfe52a0d4",
         ".rootform/dialects/azure/messaging-eventing/notification-hubs.rf": "3fd1607feb994ad27ec9411e10f8c2669f7a0edf3f5568a8014a0f7d2a74c59c",
         ".rootform/dialects/azure/messaging-eventing/relay.rf": "d98a07594c9fe1ac608debb513c9b3044f15d181037924c1ecd073ab2450cf0b",
-        ".rootform/dialects/azure/messaging-eventing/service-bus.rf": "7cdd85df463f375fc8486c8c8418bb5a104021d2a01c5524e7627881d91677ee",
+        ".rootform/dialects/azure/messaging-eventing/service-bus.rf": "1c7355546c938daba72a063451d132e92fc1c526c80da85d7323fae996d0bbaf",
         ".rootform/dialects/azure/migration/backup.rf": "2d2c9e749b780fec61e59ae513eeaace3ab54f4df3f10d72d395e53c9a145106",
         ".rootform/dialects/azure/migration/concepts.rf": "54e65d7ffeb1c1a751aa9411e23a1bde29f93ea4ff0bbb697ed580f3c39fdf09",
         ".rootform/dialects/azure/migration/data-box.rf": "d41a24ebf6090ae37496efc84397bfc06343c850d98cf3412e9a1da273e3ddc4",
@@ -398,7 +402,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "d558f4c083299285b589f02c0b9856dbaef7846d8ac75189be469b386da5b395",
+        ".rootform/dialects/azure/presentation.json": "9714d2e2a327522e7e339ed9169ecf41cb339696080f2358cf8dde014e2c8b4a",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -429,6 +433,7 @@
         ".rootform/dialects/azure/storage/storage.rf": "fafe6f1923e5c5dd246e089a7d31c65d16e48cb717d47bff23682f1c89edabc0",
         ".rootform/dialects/azure/storage/table-storage.rf": "a355a9e7d250783aa092a4117d75b53b8a05e763c4d5753bc25ed01abbb13a3e",
         ".rootform/dialects/core/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/core/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/core/ai-ml/inference-endpoint.rf": "c264ed57849ccee3946b7ad602197420943b421438d246be4b85443d8d304f8e",
         ".rootform/dialects/core/api-integration/api-gateway.rf": "a7e89c38029bf179fc39998d46bea5d3656933fb91cc4a5efa6e10d04172c2b3",
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
@@ -459,6 +464,7 @@
         ".rootform/dialects/core/storage/backup.rf": "c652d61f1d478f2fa53375a06274b7c6f82da7ab3d2a306c526f05f7f9b264af",
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
         ".rootform/dialects/kubernetes/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/kubernetes/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/kubernetes/autoscaling/horizontal-pod-autoscaler.rf": "af094a70aaf7b833c71389a15a883dcd84f14a460b2a4da589eebb1e88217446",
         ".rootform/dialects/kubernetes/cluster/namespaces.rf": "25beff7f47d0502953d588c3bc7c8780e7f450051ff8e0b69426347583b54fca",
         ".rootform/dialects/kubernetes/dialect.rf": "0744b46b9567068f6503336908cacf7512bd1bb032624e8a67f5255e8eb21b36",
@@ -467,15 +473,16 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "94d732bab9367a10dcf06a042fbd76aaa6cab145309e480a175eb189e199f1e6",
+        "example.json": "5c88124a616bdeb6fc3fd51daea73661041802116a01ad2217883239882fe715",
         "main.tf": "f5becb72df95ae80320084ddd1f1db3d23da43784042c1ab89bbffa051d970e8",
-        "rootform.lock": "a7e7d3b9a1d19cb8311e77c540340ae4fb2d0cf59e013f33c9e0e4d377b61cae"
+        "rootform.lock": "f88f9fa2515cf82811bec444eaef7531d62b90af49432bb5b3ba8d32eabeb540"
       },
-      "architecture_sha256": "b395a62f1df6a80a8fa998b5fd345f8a275817feba033f7ea35ac416d3d659c3"
+      "architecture_sha256": "287ca32813b1d3d1ff96eaa871dfaf20b81f1332d4d1b68bad207725d505a4bb"
     },
     "event-driven-platform-base": {
       "files": {
         ".rootform/dialects/azure/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/azure/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/azure/ai-ml/ai-foundry.rf": "517a15c091b59d379bcce3429bb45703a5a395cafbbc99021185e1ad2c3fee98",
         ".rootform/dialects/azure/ai-ml/ai-model.rf": "289fa8477c1ba1e55981323ab26da97625026ff1f9b3689c5ff7080abbef2a6c",
         ".rootform/dialects/azure/ai-ml/ai-search.rf": "688a435117bd987955497c0ad98743bd92f32666b1fb4bb9a056d693546b15c2",
@@ -578,12 +585,12 @@
         ".rootform/dialects/azure/load-balancing/load-balancer.rf": "afd437fdd7d5e3b3ad3ec307358c87aa717546fb401d7869dc0936c4e1757feb",
         ".rootform/dialects/azure/load-balancing/load-balancers.rf": "257e0b717eeb9dae4e209945a72cd2a262e12b2c7a012478a32f41de63469629",
         ".rootform/dialects/azure/load-balancing/traffic-manager.rf": "cf4cad475183c28c6b32ced937ec4998fed2d896ec9af671585cf7687f47e7dc",
-        ".rootform/dialects/azure/messaging-eventing/concepts.rf": "58c0130610c32ab42a8cf6e75e8cf98f73d2e9e7de921b27b39ed9e673481bca",
-        ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "7f0f149110472f4ccf29a1f0a1c473c8076941bce5d627578a3169e8f0eb80c4",
+        ".rootform/dialects/azure/messaging-eventing/concepts.rf": "c9c5532729e9648fc2d082d7dd47b16d02f62e5ce23ae3241acfa032511fbaa7",
+        ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "2b98019c408d7ada6fc93f968658dc70a187e0ba665b0b39dd622ba55171aa77",
         ".rootform/dialects/azure/messaging-eventing/event-hubs.rf": "a826f86de6f97534168ea04f13f31cc71c88f221d1bb92e029ec78bcfe52a0d4",
         ".rootform/dialects/azure/messaging-eventing/notification-hubs.rf": "3fd1607feb994ad27ec9411e10f8c2669f7a0edf3f5568a8014a0f7d2a74c59c",
         ".rootform/dialects/azure/messaging-eventing/relay.rf": "d98a07594c9fe1ac608debb513c9b3044f15d181037924c1ecd073ab2450cf0b",
-        ".rootform/dialects/azure/messaging-eventing/service-bus.rf": "7cdd85df463f375fc8486c8c8418bb5a104021d2a01c5524e7627881d91677ee",
+        ".rootform/dialects/azure/messaging-eventing/service-bus.rf": "1c7355546c938daba72a063451d132e92fc1c526c80da85d7323fae996d0bbaf",
         ".rootform/dialects/azure/migration/backup.rf": "2d2c9e749b780fec61e59ae513eeaace3ab54f4df3f10d72d395e53c9a145106",
         ".rootform/dialects/azure/migration/concepts.rf": "54e65d7ffeb1c1a751aa9411e23a1bde29f93ea4ff0bbb697ed580f3c39fdf09",
         ".rootform/dialects/azure/migration/data-box.rf": "d41a24ebf6090ae37496efc84397bfc06343c850d98cf3412e9a1da273e3ddc4",
@@ -632,7 +639,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "d558f4c083299285b589f02c0b9856dbaef7846d8ac75189be469b386da5b395",
+        ".rootform/dialects/azure/presentation.json": "9714d2e2a327522e7e339ed9169ecf41cb339696080f2358cf8dde014e2c8b4a",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -663,6 +670,7 @@
         ".rootform/dialects/azure/storage/storage.rf": "fafe6f1923e5c5dd246e089a7d31c65d16e48cb717d47bff23682f1c89edabc0",
         ".rootform/dialects/azure/storage/table-storage.rf": "a355a9e7d250783aa092a4117d75b53b8a05e763c4d5753bc25ed01abbb13a3e",
         ".rootform/dialects/core/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/core/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/core/ai-ml/inference-endpoint.rf": "c264ed57849ccee3946b7ad602197420943b421438d246be4b85443d8d304f8e",
         ".rootform/dialects/core/api-integration/api-gateway.rf": "a7e89c38029bf179fc39998d46bea5d3656933fb91cc4a5efa6e10d04172c2b3",
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
@@ -692,15 +700,16 @@
         ".rootform/dialects/core/serverless/function.rf": "3a0cf007e0bca90caa2ba9b3d9681814635e3916bcd222fb309b19be89f10292",
         ".rootform/dialects/core/storage/backup.rf": "c652d61f1d478f2fa53375a06274b7c6f82da7ab3d2a306c526f05f7f9b264af",
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
-        "example.json": "3bb2faced61e779fb9f6ac8f6389c9c33ae0bed6ff9a54ad2d9b9b105b075e93",
+        "example.json": "88a319f98a0148fbe1c89a92a5797fb4eadb2baf046175b960c3ed2e3185d49a",
         "main.tf": "84f418865a528d0b175a4911bcd3be8067bc833e85040ad183433f387d50fd75",
-        "rootform.lock": "901c7fc1e449cfffc51bc2f686bb2d979fdad8d540800b7cd41f3e4620835de4"
+        "rootform.lock": "95bc14c04c67d51124a3ea4da2beae5a0ec734eb568ef72adc64ee9b42820572"
       },
-      "architecture_sha256": "f17f53164a36e98886de213bc4ea076f1d25fb30a92db8f16110e3d5874f23ab"
+      "architecture_sha256": "6f774c0159e1d18add8e3e03768c6309b7dbfc95621fc1d7af7ab7cc285e35db"
     },
     "event-driven-platform-head": {
       "files": {
         ".rootform/dialects/azure/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/azure/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/azure/ai-ml/ai-foundry.rf": "517a15c091b59d379bcce3429bb45703a5a395cafbbc99021185e1ad2c3fee98",
         ".rootform/dialects/azure/ai-ml/ai-model.rf": "289fa8477c1ba1e55981323ab26da97625026ff1f9b3689c5ff7080abbef2a6c",
         ".rootform/dialects/azure/ai-ml/ai-search.rf": "688a435117bd987955497c0ad98743bd92f32666b1fb4bb9a056d693546b15c2",
@@ -803,12 +812,12 @@
         ".rootform/dialects/azure/load-balancing/load-balancer.rf": "afd437fdd7d5e3b3ad3ec307358c87aa717546fb401d7869dc0936c4e1757feb",
         ".rootform/dialects/azure/load-balancing/load-balancers.rf": "257e0b717eeb9dae4e209945a72cd2a262e12b2c7a012478a32f41de63469629",
         ".rootform/dialects/azure/load-balancing/traffic-manager.rf": "cf4cad475183c28c6b32ced937ec4998fed2d896ec9af671585cf7687f47e7dc",
-        ".rootform/dialects/azure/messaging-eventing/concepts.rf": "58c0130610c32ab42a8cf6e75e8cf98f73d2e9e7de921b27b39ed9e673481bca",
-        ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "7f0f149110472f4ccf29a1f0a1c473c8076941bce5d627578a3169e8f0eb80c4",
+        ".rootform/dialects/azure/messaging-eventing/concepts.rf": "c9c5532729e9648fc2d082d7dd47b16d02f62e5ce23ae3241acfa032511fbaa7",
+        ".rootform/dialects/azure/messaging-eventing/event-grid.rf": "2b98019c408d7ada6fc93f968658dc70a187e0ba665b0b39dd622ba55171aa77",
         ".rootform/dialects/azure/messaging-eventing/event-hubs.rf": "a826f86de6f97534168ea04f13f31cc71c88f221d1bb92e029ec78bcfe52a0d4",
         ".rootform/dialects/azure/messaging-eventing/notification-hubs.rf": "3fd1607feb994ad27ec9411e10f8c2669f7a0edf3f5568a8014a0f7d2a74c59c",
         ".rootform/dialects/azure/messaging-eventing/relay.rf": "d98a07594c9fe1ac608debb513c9b3044f15d181037924c1ecd073ab2450cf0b",
-        ".rootform/dialects/azure/messaging-eventing/service-bus.rf": "7cdd85df463f375fc8486c8c8418bb5a104021d2a01c5524e7627881d91677ee",
+        ".rootform/dialects/azure/messaging-eventing/service-bus.rf": "1c7355546c938daba72a063451d132e92fc1c526c80da85d7323fae996d0bbaf",
         ".rootform/dialects/azure/migration/backup.rf": "2d2c9e749b780fec61e59ae513eeaace3ab54f4df3f10d72d395e53c9a145106",
         ".rootform/dialects/azure/migration/concepts.rf": "54e65d7ffeb1c1a751aa9411e23a1bde29f93ea4ff0bbb697ed580f3c39fdf09",
         ".rootform/dialects/azure/migration/data-box.rf": "d41a24ebf6090ae37496efc84397bfc06343c850d98cf3412e9a1da273e3ddc4",
@@ -857,7 +866,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "d558f4c083299285b589f02c0b9856dbaef7846d8ac75189be469b386da5b395",
+        ".rootform/dialects/azure/presentation.json": "9714d2e2a327522e7e339ed9169ecf41cb339696080f2358cf8dde014e2c8b4a",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -888,6 +897,7 @@
         ".rootform/dialects/azure/storage/storage.rf": "fafe6f1923e5c5dd246e089a7d31c65d16e48cb717d47bff23682f1c89edabc0",
         ".rootform/dialects/azure/storage/table-storage.rf": "a355a9e7d250783aa092a4117d75b53b8a05e763c4d5753bc25ed01abbb13a3e",
         ".rootform/dialects/core/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/core/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/core/ai-ml/inference-endpoint.rf": "c264ed57849ccee3946b7ad602197420943b421438d246be4b85443d8d304f8e",
         ".rootform/dialects/core/api-integration/api-gateway.rf": "a7e89c38029bf179fc39998d46bea5d3656933fb91cc4a5efa6e10d04172c2b3",
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
@@ -917,15 +927,16 @@
         ".rootform/dialects/core/serverless/function.rf": "3a0cf007e0bca90caa2ba9b3d9681814635e3916bcd222fb309b19be89f10292",
         ".rootform/dialects/core/storage/backup.rf": "c652d61f1d478f2fa53375a06274b7c6f82da7ab3d2a306c526f05f7f9b264af",
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
-        "example.json": "5bb2612be3e2da34a38f78ed287e851d3e0bf180fdd4ce22b500f247ad50f80e",
+        "example.json": "ff366ebea925c56fd0e0be43395dc9b16641d39285929a53bdbe162d0fe33372",
         "main.tf": "a158c56093964f40f6177fa26d49af59ec8e160c62d99f7bc70d61df8db32f5f",
-        "rootform.lock": "901c7fc1e449cfffc51bc2f686bb2d979fdad8d540800b7cd41f3e4620835de4"
+        "rootform.lock": "95bc14c04c67d51124a3ea4da2beae5a0ec734eb568ef72adc64ee9b42820572"
       },
-      "architecture_sha256": "63ffe8aa33dee7b42e4133dc6f77fe919c60afd0f4cf0fcbbb8885e68f40c27f"
+      "architecture_sha256": "5bb45bd813d7f018f961b4cfe2a7214f98479e6513fc23063aa740a5ae957fd2"
     },
     "shared-data-platform-base": {
       "files": {
         ".rootform/dialects/core/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/core/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/core/ai-ml/inference-endpoint.rf": "c264ed57849ccee3946b7ad602197420943b421438d246be4b85443d8d304f8e",
         ".rootform/dialects/core/api-integration/api-gateway.rf": "a7e89c38029bf179fc39998d46bea5d3656933fb91cc4a5efa6e10d04172c2b3",
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
@@ -956,6 +967,7 @@
         ".rootform/dialects/core/storage/backup.rf": "c652d61f1d478f2fa53375a06274b7c6f82da7ab3d2a306c526f05f7f9b264af",
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
         ".rootform/dialects/google/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/google/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/google/ai-ml/agent-registry.rf": "8d9c064a2706531e3114e2046b287e3e38c68886e37f8cd4009f3f5130ead72b",
         ".rootform/dialects/google/ai-ml/blockchain-node-engine.rf": "47ad2d4b09ef06ec3ffb21921eec74251371197cfe58dc8309181801f663548d",
         ".rootform/dialects/google/ai-ml/colab-enterprise.rf": "ea2a0157d64bd3e34833ebfc004fde922f5267d992fcb7a4a44699574c8fd133",
@@ -1079,6 +1091,7 @@
         ".rootform/dialects/google/storage/file-storage.rf": "bedd67e2f50aad76f8fa5d7e9ac4efa54cbbf6ada9d190347512001c91afddcb",
         ".rootform/dialects/google/storage/gke-backup.rf": "a6190d32ae0c53f14761f4ed561a43d7aae8c8948d84b4cca9963184a08a98a1",
         ".rootform/dialects/kubernetes/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/kubernetes/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/kubernetes/autoscaling/horizontal-pod-autoscaler.rf": "af094a70aaf7b833c71389a15a883dcd84f14a460b2a4da589eebb1e88217446",
         ".rootform/dialects/kubernetes/cluster/namespaces.rf": "25beff7f47d0502953d588c3bc7c8780e7f450051ff8e0b69426347583b54fca",
         ".rootform/dialects/kubernetes/dialect.rf": "0744b46b9567068f6503336908cacf7512bd1bb032624e8a67f5255e8eb21b36",
@@ -1087,15 +1100,16 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "8547d26da7ffbbaa5fec588de517b8f387681761790e01c6f5d6f7871616c73d",
+        "example.json": "e5fa2caf35fdbb9103815b0342a0aeffe90618242287bccd8f0dc6ad62409423",
         "main.tf": "1265e2c5b6e215e624efc985ebe5b1200b0d0cc950b1b282a5d7252c0f069c18",
-        "rootform.lock": "256d32472c06ebfb776e35cdd9ce4cc6dadbca46d8b5559b8bfd59751c445460"
+        "rootform.lock": "dd9157200feede6a4561cf199a7379c57ed6a2b5b5f4aac189624e34ee299d8c"
       },
       "architecture_sha256": "e299b7732f464b0e041503c099a03b671b03c95490811b2a57853b19654c7535"
     },
     "shared-data-platform-head": {
       "files": {
         ".rootform/dialects/core/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/core/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/core/ai-ml/inference-endpoint.rf": "c264ed57849ccee3946b7ad602197420943b421438d246be4b85443d8d304f8e",
         ".rootform/dialects/core/api-integration/api-gateway.rf": "a7e89c38029bf179fc39998d46bea5d3656933fb91cc4a5efa6e10d04172c2b3",
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
@@ -1126,6 +1140,7 @@
         ".rootform/dialects/core/storage/backup.rf": "c652d61f1d478f2fa53375a06274b7c6f82da7ab3d2a306c526f05f7f9b264af",
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
         ".rootform/dialects/google/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/google/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/google/ai-ml/agent-registry.rf": "8d9c064a2706531e3114e2046b287e3e38c68886e37f8cd4009f3f5130ead72b",
         ".rootform/dialects/google/ai-ml/blockchain-node-engine.rf": "47ad2d4b09ef06ec3ffb21921eec74251371197cfe58dc8309181801f663548d",
         ".rootform/dialects/google/ai-ml/colab-enterprise.rf": "ea2a0157d64bd3e34833ebfc004fde922f5267d992fcb7a4a44699574c8fd133",
@@ -1249,6 +1264,7 @@
         ".rootform/dialects/google/storage/file-storage.rf": "bedd67e2f50aad76f8fa5d7e9ac4efa54cbbf6ada9d190347512001c91afddcb",
         ".rootform/dialects/google/storage/gke-backup.rf": "a6190d32ae0c53f14761f4ed561a43d7aae8c8948d84b4cca9963184a08a98a1",
         ".rootform/dialects/kubernetes/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        ".rootform/dialects/kubernetes/THIRD_PARTY_NOTICES.md": "07a67affdd56fabb1cbd22d6cb6f6b00c8671d7fed1e883fb59311c0283d9792",
         ".rootform/dialects/kubernetes/autoscaling/horizontal-pod-autoscaler.rf": "af094a70aaf7b833c71389a15a883dcd84f14a460b2a4da589eebb1e88217446",
         ".rootform/dialects/kubernetes/cluster/namespaces.rf": "25beff7f47d0502953d588c3bc7c8780e7f450051ff8e0b69426347583b54fca",
         ".rootform/dialects/kubernetes/dialect.rf": "0744b46b9567068f6503336908cacf7512bd1bb032624e8a67f5255e8eb21b36",
@@ -1257,9 +1273,9 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "7f182f64c4d3c011a7996e2898120a0c6d1fafd14cada5e9942bfd606dc653f9",
+        "example.json": "7c0e852b79ba79c7afbcea56d217ef7d3898ba0839db87aa142f470298b29499",
         "main.tf": "d874304a18320bf19027b85bf37b5d3e37286431120b3961f626fa5628214ffa",
-        "rootform.lock": "256d32472c06ebfb776e35cdd9ce4cc6dadbca46d8b5559b8bfd59751c445460"
+        "rootform.lock": "dd9157200feede6a4561cf199a7379c57ed6a2b5b5f4aac189624e34ee299d8c"
       },
       "architecture_sha256": "a9763afd0781d8cf454c637025b00d3d98f6298c383757db585174dd89c7d551"
     }
@@ -1269,13 +1285,13 @@
       "base": "commerce-platform-base",
       "head": "commerce-platform-head",
       "diff": "commerce-platform-diff",
-      "sha256": "4e40894f346d95d5188a308826b72b80323c38e912c2aec5ec41591df19147dc"
+      "sha256": "9b29ace940abf2d170a9491b0c059c6b2a355e9926af3c63a911ca1f8a90ffaa"
     },
     "event-driven-platform": {
       "base": "event-driven-platform-base",
       "head": "event-driven-platform-head",
       "diff": "event-driven-platform-diff",
-      "sha256": "920f0886f71a18b9aa9057591d46432abe007de3e0139cac5846f90c5b491e4b"
+      "sha256": "abc3ded05a0a1195ef09a77f5bb881e6c179568e862a1bc99e2524c23ce005a6"
     },
     "shared-data-platform": {
       "base": "shared-data-platform-base",

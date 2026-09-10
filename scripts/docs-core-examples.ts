@@ -231,20 +231,20 @@ export function verifyCoreExamples(
     .replace("vpc_id     = aws_vpc.main.id", 'vpc_id     = "vpc-0123456789abcdef0"');
   assert(missingContextSource !== original.toString(), "tutorial subnet reference was not found");
   writeFileSync(join(workspace, "main.tf"), missingContextSource);
-  const violatedExcerpt = run(["check", ".", "--offline", "--policy-pack", "./policies"], 1)
-    .stdout.trim()
-    .split("\n")
-    .slice(0, 3)
-    .join("\n");
+  const unresolvedExcerpt =
+    run(["check", ".", "--offline", "--policy-pack", "./policies"], 3)
+      .stdout.trim()
+      .split("\n")
+      .at(0) ?? "";
   assert(
     policyPage.includes(
-      `${fence}text title="Violated check (excerpt)"\n${violatedExcerpt}\n${fence}`,
+      `${fence}text title="Indeterminate check (unresolved traversal)"\n${unresolvedExcerpt}\n${fence}`,
     ),
-    "displayed policy violation differs from observed stdout",
+    `displayed unresolved-evidence result differs from observed stdout: ${JSON.stringify(unresolvedExcerpt)}`,
   );
   writeFileSync(join(workspace, "main.tf"), original);
-  const noPack = JSON.parse(run(["check", "architecture.json", "--format", "json"]).stdout);
-  const noPackText = run(["check", "architecture.json"]).stdout.trim().split("\n")[0];
+  const noPack = JSON.parse(run(["check", "architecture.json", "--format", "json"], 3).stdout);
+  const noPackText = run(["check", "architecture.json"], 3).stdout.trim().split("\n")[0];
   assert(
     page("concepts/policies.md").includes(`${fence}text\n${noPackText}\n${fence}`),
     "displayed zero-policy result differs from the real command",
@@ -258,7 +258,7 @@ export function verifyCoreExamples(
     policySource.replace("target = concept.core.subnet", "target = concept.core.managed-database"),
   );
   const noTarget = JSON.parse(
-    run(["check", ".", "--policy-pack", "./policies", "--format", "json"]).stdout,
+    run(["check", ".", "--policy-pack", "./policies", "--format", "json"], 3).stdout,
   );
   assert(
     noTarget.summary.policies === 1 && noTarget.summary.evaluations === 0,
@@ -290,7 +290,7 @@ export function verifyCoreExamples(
     policyPage.includes(
       `${fence}text title="Indeterminate check (excerpt)"\n${unavailableExcerpt}\n${fence}`,
     ),
-    "displayed indeterminate policy result differs from observed stdout",
+    `displayed indeterminate policy result differs from observed stdout: ${JSON.stringify(unavailableExcerpt)}`,
   );
   const unavailable = JSON.parse(
     run(["check", ".", "--policy-pack", "./policies", "--format", "json"], 3).stdout,

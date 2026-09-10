@@ -94,9 +94,10 @@ Every context and relation in the generated documents comes from a Dialect
 rule with a direct Terraform reference. Facts the Dialects do not express yet
 are absent rather than approximated: private endpoints are placed in their
 subnet but carry no relation to the resource they expose, Kubernetes services
-and ingresses carry no relation to the workloads behind them, Service Bus
-subscriptions reference their topic but not the namespace that owns it, and the
+and ingresses carry no relation to the workloads behind them, and the
 Application Gateway is owned by its resource group without a subnet placement.
+Service Bus topics are scopes owned by their namespace, and each subscription
+is owned by the exact topic named by `topic_id`.
 Private DNS zones and the public zone appear as scopes whose links and records
 are contributions. Log Analytics workspaces are scopes without members; the
 ContainerInsights solution contributes to its workspace. The NAT gateway
@@ -105,7 +106,7 @@ associations contribute to the gateway, its public IP, and the subnets.
 ## Dialects and build
 
 Dialect sources vendored from
-rootform-dev/dialects@22be31dc38fb4402b1ec47af604f77f84c31b0af (semantics not
+rootform-dev/dialects@40957e81b5c4606c03325c3c014642b0dcf62f83 (semantics not
 yet published to the official index). Each project keeps the `azure`, `core`,
 and `kubernetes` sources under
 `.rootform/dialects/` with the MPL-2.0 license, and `rootform.lock` pins their

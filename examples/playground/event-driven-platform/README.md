@@ -68,18 +68,21 @@ reports the queue and workspace switches as removed and added facts.
 ## Modeling notes
 
 Every context and relation comes from a Dialect rule and a direct Terraform
-reference. Event Grid domain subscriptions expose destination relations but no
-source-topic relation in this Dialect release, so their `scope` references do
-not become `subscribes-to` edges. The system-topic subscriptions expose both
-the source topic and supported destinations. Storage queue delivery resolves
-to the storage account because that is the destination represented by the
-rule; the queue remains owned by that account. API Management does not expose
-a backend relation here, so it remains an owned entry entity.
+reference. Event Grid domain topics and system topics are scopes. A system
+topic subscription is owned by its exact system topic and exposes both that
+source and supported destinations. Generic Event Grid subscriptions expose
+destination relations but no source-topic relation because `scope` accepts
+multiple Azure resource kinds while the language requires one target concept.
+Storage queue delivery resolves to the storage account represented by the
+rule; the queue remains owned by that account. Service Bus topics are scopes
+owned by their namespace, and subscriptions are owned by their exact topic.
+API Management does not expose a backend relation here, so it remains an owned
+entry entity.
 
 ## Dialects and build
 
 Dialect sources vendored from
-rootform-dev/dialects@22be31dc38fb4402b1ec47af604f77f84c31b0af (semantics not
+rootform-dev/dialects@40957e81b5c4606c03325c3c014642b0dcf62f83 (semantics not
 yet published to the official index). Each project keeps the `azure` and
 `core` sources under `.rootform/dialects/` with the MPL-2.0 license, and
 `rootform.lock` pins their digests.

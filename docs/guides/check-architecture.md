@@ -54,23 +54,22 @@ It does not add the pack to `rootform.lock`. For the unchanged tutorial input,
 the result starts with:
 
 ```text title="Passed check (excerpt)"
-1 policy, 1 evaluation, 1 passed, 0 violated, 0 indeterminate
+status compliant; 1 policy, 1 evaluation, 1 passed, 0 violated, 0 indeterminate, 0 not evaluated
 ```
 
 Status is `0`. One evaluation exists because the architecture contains one
 representation with the exact `core/subnet` concept.
 
-If the subnet no longer has a resolvable reference to the declared VPC, the same
-policy produces a real violation:
+If the subnet no longer has a resolvable reference to the declared VPC, Rootform
+cannot determine the assertion from complete architecture evidence:
 
-```text title="Violated check (excerpt)"
-scope:aws_subnet.application
-  Subnets must have an established virtual network context.
-1 policy, 1 evaluation, 0 passed, 1 violated, 0 indeterminate
+```text title="Indeterminate check (unresolved traversal)"
+status indeterminate; 1 policy, 1 evaluation, 0 passed, 0 violated, 1 indeterminate, 0 not evaluated
 ```
 
-Status is `1`. The message states which required architecture fact is absent;
-it does not claim that deployed connectivity is broken.
+Status is `3`. The accompanying `TRAVERSAL_UNRESOLVED` diagnostic identifies
+missing source evidence; Rootform does not claim that deployed connectivity is
+broken.
 
 To reproduce this outcome, replace the tutorial subnet reference with a literal,
 then run the same check:
@@ -86,7 +85,7 @@ If required vocabulary cannot be loaded or validated, Rootform cannot evaluate
 the assertion:
 
 ```text title="Indeterminate check (excerpt)"
-1 policy, 0 evaluations, 0 passed, 0 violated, 1 indeterminate
+status indeterminate; 0 policies, 0 evaluations, 0 passed, 0 violated, 1 indeterminate, 0 not evaluated
 ```
 
 Status is `3`, accompanied by a diagnostic explaining unavailable evidence.
