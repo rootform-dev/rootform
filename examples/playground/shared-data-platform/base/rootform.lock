@@ -4,7 +4,7 @@
     {
       "kind": "index",
       "reference": "ghcr.io/rootform-dev/dialects:official-index-v1",
-      "manifest_digest": "sha256:5ea68114c9b525afd27645b008771237d9b546bd7ea929e59931c41d1895ce10"
+      "manifest_digest": "sha256:7fe132a47aa5be0a2613b3d86bd689230175befc2ffbdc717f6869fc2d4a33da"
     }
   ],
   "unsupported_providers": [],
@@ -17,7 +17,7 @@
       "presentation_digest": "sha256:6250b078276b44c2db9361c26c6c92351d26f49de7ac6daf22c9859cd2f962c8",
       "artifact": {
         "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:874779a88c900c58d5dba654a7501180d68063ae39d8d1e85cae11d426a9d495",
+        "manifest_digest": "sha256:f7dc2b5adff7b5b0e76882bd9603e99194d78cf5a77585064c2efa55f24b7f53",
         "layer_digest": "sha256:89f57cbb6b236421ba7431cb39877ee0987266c14eadfdccb8fef057306a217a",
         "download_size": 9108,
         "install_size": 25164
@@ -34,7 +34,7 @@
       "presentation_digest": "sha256:caf31531224f2f5c63548c94733b2a32059ffef1604c22f10012b6990bcb944e",
       "artifact": {
         "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:7c7d3d192c4c758db403b5443c3692a2bae776a6b170a401aeb61cd37bed97d6",
+        "manifest_digest": "sha256:d5a08ce306e745a62bc7988adad1f42b5f5d7afe63088dc94ef171bf61c870bd",
         "layer_digest": "sha256:b407accaf9c3578a3b4b454f536cdd9d32438924ccea5dbb2ab3651786073079",
         "download_size": 31026,
         "install_size": 142732
@@ -51,7 +51,7 @@
       "presentation_digest": "sha256:d1ce9b767e71c58abc5d69aaa1d9e52ebf6e1d86edc60d2e8eeb23b6fb7edc6e",
       "artifact": {
         "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:fce59474c11ba05c73723f16bb1ba71948994cedbbf7057f2a50f173d9f4bf2e",
+        "manifest_digest": "sha256:073edefe74bdd1f6e74c30850cf03d583b6df0aba7c77d78f6bbf12c5b0940ce",
         "layer_digest": "sha256:8c5aa94777ea283079084b868c6c284f11e2aabc8a9881134c415ebcec1902c5",
         "download_size": 7192,
         "install_size": 23834
