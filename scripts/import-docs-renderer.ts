@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 // Import reviewed opaque capture output; never acquire or read producer source.
@@ -11,32 +11,46 @@ const manifestBytes = readFileSync(resolve(input, "manifest.json"));
 const manifest = JSON.parse(manifestBytes.toString("utf8"));
 if (manifest.format_version !== "1") throw new Error("Unknown renderer evidence format.");
 
-const fixtures = ["azure-platform", "azure-platform-next", "multicloud-base", "multicloud"];
-const comparisons = ["commerce-platform", "shared-data-platform"];
+const fixtures = [
+  "commerce-platform-base",
+  "commerce-platform-head",
+  "event-driven-platform-base",
+  "event-driven-platform-head",
+  "shared-data-platform-base",
+  "shared-data-platform-head",
+];
+const comparisons = ["commerce-platform", "event-driven-platform", "shared-data-platform"];
 if (JSON.stringify(Object.keys(manifest.fixtures).sort()) !== JSON.stringify(fixtures.sort()))
   throw new Error("Unexpected renderer fixture inventory.");
 if (JSON.stringify(Object.keys(manifest.comparisons).sort()) !== JSON.stringify(comparisons.sort()))
   throw new Error("Unexpected renderer comparison inventory.");
 
 const files = [
-  "azure-platform.json",
-  "azure-platform-next.json",
-  "multicloud-base.json",
-  "multicloud.json",
-  "azure-delta.json",
-  "multicloud-delta.json",
-  "azure-platform-presentation.json",
-  "multicloud-presentation.json",
+  "commerce-platform-base.json",
+  "commerce-platform-head.json",
+  "commerce-platform-diff.json",
+  "commerce-platform-presentation.json",
+  "event-driven-platform-base.json",
+  "event-driven-platform-head.json",
+  "event-driven-platform-diff.json",
+  "event-driven-platform-presentation.json",
+  "shared-data-platform-base.json",
+  "shared-data-platform-head.json",
+  "shared-data-platform-diff.json",
+  "shared-data-platform-presentation.json",
 ];
 const architectureFixture: Record<string, string> = {
-  "azure-platform.json": "azure-platform",
-  "azure-platform-next.json": "azure-platform-next",
-  "multicloud-base.json": "multicloud-base",
-  "multicloud.json": "multicloud",
+  "commerce-platform-base.json": "commerce-platform-base",
+  "commerce-platform-head.json": "commerce-platform-head",
+  "event-driven-platform-base.json": "event-driven-platform-base",
+  "event-driven-platform-head.json": "event-driven-platform-head",
+  "shared-data-platform-base.json": "shared-data-platform-base",
+  "shared-data-platform-head.json": "shared-data-platform-head",
 };
 const diffComparison: Record<string, string> = {
-  "azure-delta.json": "commerce-platform",
-  "multicloud-delta.json": "shared-data-platform",
+  "commerce-platform-diff.json": "commerce-platform",
+  "event-driven-platform-diff.json": "event-driven-platform",
+  "shared-data-platform-diff.json": "shared-data-platform",
 };
 const hashes: Record<string, string> = {};
 const pending: [string, Buffer][] = [];
@@ -62,21 +76,15 @@ for (const file of files) {
   pending.push([file, bytes]);
 }
 
-const figures = Object.entries(manifest.figures) as [string, { sha256: string }][];
-if (figures.length !== 20) throw new Error("Unexpected renderer figure inventory.");
-for (const [file, evidence] of figures) {
-  if (!/^[a-z-]+\.png$/u.test(file)) throw new Error(`Invalid renderer figure path: ${file}`);
-  const bytes = readFileSync(resolve(input, file));
-  if (bytes.length > 5 * 1024 * 1024) throw new Error(`Renderer figure exceeds bound: ${file}`);
-  const hash = createHash("sha256").update(bytes).digest("hex");
-  if (hash !== evidence.sha256) throw new Error(`Renderer figure digest differs: ${file}`);
-  pending.push([file, bytes]);
+for (const stale of readdirSync(output).filter(
+  (file) => file.endsWith(".json") && !files.includes(file) && file !== "interactive.json",
+)) {
+  unlinkSync(resolve(output, stale));
 }
-
 for (const [file, bytes] of pending) writeFileSync(resolve(output, file), bytes);
 writeFileSync(resolve(output, "manifest.json"), manifestBytes);
 writeFileSync(
   resolve(output, "interactive.json"),
   `${JSON.stringify({ format_version: "1", files: hashes }, null, 2)}\n`,
 );
-console.log(`Imported ${files.length} renderer inputs and ${figures.length} reviewed figures.`);
+console.log(`Imported ${files.length} renderer inputs.`);

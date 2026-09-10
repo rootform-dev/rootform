@@ -1,10 +1,10 @@
 {
   "format_version": "1",
   "binary": {
-    "version": "0.1.0",
+    "version": "0.1.1",
     "platform": "darwin/arm64",
-    "sha256": "1c5582e1f54e4999aba159ae353aa402902730f07606cd4be0954c917a93dc02",
+    "sha256": "08f7b492b3a3379b267791f9009487850045ec87942417e1eab2eac03e6b6502",
     "edition": "documentation verification build"
   },
-  "cli_reference_sha256": "d1890e9abd6e5027e1b44901c39f393576f0e4a7b13bbd481ce8733da5e82a97"
+  "cli_reference_sha256": "151da4306aed8c9ed76ce94e3029ac82d7e0b7022171f69d6af6516d5db5091a"
 }

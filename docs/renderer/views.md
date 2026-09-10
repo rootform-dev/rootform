@@ -22,12 +22,9 @@ subjects are represented through the appropriate visible boundary; an aggregate
 retains the relations it stands for. Do not infer that hidden resources or
 connections have been removed.
 
-![Survey shows the production and staging Azure networks, nested subnets, AKS clusters and private endpoints. Resource groups remain summarized.](../assets/renderer/azure-survey-light.png#gh-light-mode-only)
-![Survey shows the production and staging Azure networks, nested subnets, AKS clusters and private endpoints. Resource groups remain summarized.](../assets/renderer/azure-survey-dark.png#gh-dark-mode-only)
-
-Survey on the [Commerce platform](examples.md#commerce-platform): 16 of 50
-canvas subjects are visible. The rest remain in the architecture and can be
-disclosed.
+Survey on the [Commerce platform](examples.md#commerce-platform) keeps the hub,
+spoke, resource-group, and cluster boundaries visible while deeper data and
+workload scopes remain available for local disclosure.
 
 ### Expand only what you need
 
@@ -53,12 +50,9 @@ the part you need.
 Plan is an exploration mode for any supported architecture. It does not run
 Terraform or create a [Terraform/OpenTofu plan](../inputs/plans.md).
 
-![Plan shows both Azure environments with databases, DNS zones, storage accounts and SQL server scopes in addition to their networks.](../assets/renderer/azure-plan-light.png#gh-light-mode-only)
-![Plan shows both Azure environments with databases, DNS zones, storage accounts and SQL server scopes in addition to their networks.](../assets/renderer/azure-plan-dark.png#gh-dark-mode-only)
-
-The same input in Plan, after **Fit architecture**. All 50 canvas subjects
-participate in this view. Fitting everything makes labels smaller; Focus is
-more useful for reading one area.
+The same input in Plan exposes private DNS, data, messaging, service-plan, and
+namespace scopes. Fitting everything makes labels smaller; Focus is more
+useful for reading one area.
 
 ## Focus
 
@@ -82,11 +76,8 @@ Focus opens its root without Survey's automatic summarization.
 Explicit disclosure choices still apply inside it. Focusing a very large scope
 can therefore require panning or further local disclosure.
 
-![Focus on the production virtual network exposes its three subnets and preserves an external connection to the orders database at the left boundary.](../assets/renderer/azure-focus-light.png#gh-light-mode-only)
-![Focus on the production virtual network exposes its three subnets and preserves an external connection to the orders database at the left boundary.](../assets/renderer/azure-focus-dark.png#gh-dark-mode-only)
-
-Focus on the production network. The dashed boundary item preserves its
-connection to `production_orders`, which is outside this Focus.
+Focus on `vnet-commerce-prod` to inspect AKS, data, and Function integration
+subnets while preserving connections that cross the focused boundary.
 
 ## Inspector
 
@@ -109,10 +100,7 @@ You can also open Inspector without a selection for architecture-level context.
 Resize the panel if you need more room for evidence. Selecting a relation or an
 aggregate can change its contents without changing Focus.
 
-![The analytics AKS cluster is selected. Inspector lists its subnet, resource group, node-pool contribution and expandable evidence.](../assets/renderer/azure-inspector-light.png#gh-light-mode-only)
-![The analytics AKS cluster is selected. Inspector lists its subnet, resource group, node-pool contribution and expandable evidence.](../assets/renderer/azure-inspector-dark.png#gh-dark-mode-only)
-
-The cluster's **Where** section retains both network and ownership context.
+Selecting `aks-commerce-prod` shows network and resource-group context.
 **Made of** identifies its node-pool contribution, even though that detail is
 not a separate canvas tile.
 

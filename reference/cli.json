@@ -433,8 +433,8 @@
       "path": "rootform init",
       "usage": "rootform init [path] [flags]",
       "summary": "Initialize a Rootform project",
-      "description": "Detect providers, resolve Rootform dialects, install missing exact\ndialect packages, and write rootform.lock. Path defaults to . and is both the\nproject and Terraform or OpenTofu root. Unlocked resolution includes the\nofficial index; repeat --source to add a Rootform dialect or index registry\nreference. Repeat --policy-pack to select an independent Policy Pack\nexplicitly.\n\nMachine JSON goes to standard output. Diagnostics and verbose detail go\nto standard error.\n\nExit status:\n  0  initialization completed\n  1  initialization failed\n  2  the command was used incorrectly\n  3  no deterministic initialization was available",
-      "examples": "rootform init\n  rootform init ./infra\n  rootform init --source ghcr.io/acme/rootform/company-core:1.2.0\n  rootform init --policy-pack ghcr.io/acme/policies:policy-pack-baseline-0.1.0\n  rootform init ./infra --no-input\n  rootform init ./infra --locked --offline",
+      "description": "Detect providers, resolve Rootform dialects, install missing exact\ndialect packages, and write rootform.lock. Path defaults to . and is both the\nproject and Terraform or OpenTofu root. Unlocked resolution includes the\nofficial index; repeat --source to add a Rootform dialect or index registry\nreference. --official-layout replaces the official index with a local package\nlayout while explicit sources remain additive. Repeat --policy-pack to select\nan independent Policy Pack explicitly.\n\nMachine JSON goes to standard output. Diagnostics and verbose detail go\nto standard error.\n\nExit status:\n  0  initialization completed\n  1  initialization failed\n  2  the command was used incorrectly\n  3  no deterministic initialization was available",
+      "examples": "rootform init\n  rootform init ./infra\n  rootform init ./infra --official-layout ./dialects-layout\n  rootform init --source ghcr.io/acme/rootform/company-core:1.2.0\n  rootform init --policy-pack ghcr.io/acme/policies:policy-pack-baseline-0.1.0\n  rootform init ./infra --no-input\n  rootform init ./infra --locked --offline",
       "flags": [
         {
           "name": "format",
@@ -463,6 +463,12 @@
           "default": "false",
           "usage": "never prompt; require deterministic action",
           "no_option_default": "true"
+        },
+        {
+          "name": "official-layout",
+          "type": "string",
+          "default": "",
+          "usage": "use local package `layout` as official index"
         },
         {
           "name": "offline",

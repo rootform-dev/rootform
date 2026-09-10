@@ -324,7 +324,7 @@ export function validateRepository(): void {
     .sort((a, b) => a.localeCompare(b, "en"));
   if (
     JSON.stringify(playgroundScenarios) !==
-    JSON.stringify(["commerce-platform", "shared-data-platform"])
+    JSON.stringify(["commerce-platform", "event-driven-platform", "shared-data-platform"])
   ) {
     throw new Error(`playground scenario inventory mismatch: ${playgroundScenarios.join(", ")}`);
   }

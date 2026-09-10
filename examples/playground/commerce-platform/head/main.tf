@@ -26,6 +26,18 @@ variable "dba_group_object_id" {
   type        = string
 }
 
+variable "payments_psp_api_key" {
+  description = "API key of the external payment service provider, stored in Key Vault."
+  type        = string
+  sensitive   = true
+}
+
+variable "notifications_smtp_password" {
+  description = "Password of the transactional e-mail relay used by the notification workers."
+  type        = string
+  sensitive   = true
+}
+
 locals {
   location = "westeurope"
   tags = {
@@ -214,6 +226,30 @@ resource "azurerm_application_gateway" "hub" {
     backend_address_pool_name  = "aks-ingress"
     backend_http_settings_name = "https-ingress"
   }
+}
+
+# Public DNS: the apex alias record points at the Application Gateway public IP.
+
+resource "azurerm_dns_zone" "public" {
+  name                = "brightcart.io"
+  resource_group_name = azurerm_resource_group.hub.name
+  tags                = local.tags
+}
+
+resource "azurerm_dns_a_record" "apex" {
+  name                = "@"
+  zone_name           = azurerm_dns_zone.public.name
+  resource_group_name = azurerm_resource_group.hub.name
+  ttl                 = 300
+  target_resource_id  = azurerm_public_ip.appgw.id
+}
+
+resource "azurerm_dns_cname_record" "www" {
+  name                = "www"
+  zone_name           = azurerm_dns_zone.public.name
+  resource_group_name = azurerm_resource_group.hub.name
+  ttl                 = 3600
+  record              = "brightcart.io"
 }
 
 # Private DNS zones for private link, linked to both virtual networks.
@@ -408,6 +444,40 @@ resource "azurerm_key_vault" "platform" {
   tags                          = local.tags
 }
 
+resource "azurerm_key_vault_secret" "payments_psp_api_key" {
+  name         = "payments-psp-api-key"
+  value        = var.payments_psp_api_key
+  content_type = "text/plain"
+  key_vault_id = azurerm_key_vault.platform.id
+  tags         = local.tags
+}
+
+resource "azurerm_key_vault_secret" "notifications_smtp_password" {
+  name         = "notifications-smtp-password"
+  value        = var.notifications_smtp_password
+  content_type = "text/plain"
+  key_vault_id = azurerm_key_vault.platform.id
+  tags         = local.tags
+}
+
+resource "azurerm_key_vault_key" "token_signing" {
+  name         = "key-commerce-token-signing"
+  key_vault_id = azurerm_key_vault.platform.id
+  key_type     = "RSA"
+  key_size     = 3072
+  key_opts     = ["sign", "verify"]
+  tags         = local.tags
+
+  rotation_policy {
+    expire_after         = "P365D"
+    notify_before_expiry = "P30D"
+
+    automatic {
+      time_before_expiry = "P60D"
+    }
+  }
+}
+
 resource "azurerm_private_endpoint" "key_vault" {
   name                = "pe-kv-commerce-prod"
   location            = azurerm_resource_group.hub.location
@@ -438,11 +508,18 @@ resource "azurerm_virtual_network" "prod" {
   tags                = local.tags
 }
 
-resource "azurerm_subnet" "prod_aks" {
-  name                 = "snet-aks"
+resource "azurerm_subnet" "prod_aks_system" {
+  name                 = "snet-aks-system"
   resource_group_name  = azurerm_resource_group.prod.name
   virtual_network_name = azurerm_virtual_network.prod.name
-  address_prefixes     = ["10.20.0.0/22"]
+  address_prefixes     = ["10.20.0.0/23"]
+}
+
+resource "azurerm_subnet" "prod_aks_user" {
+  name                 = "snet-aks-user"
+  resource_group_name  = azurerm_resource_group.prod.name
+  virtual_network_name = azurerm_virtual_network.prod.name
+  address_prefixes     = ["10.20.2.0/23"]
 }
 
 resource "azurerm_subnet" "prod_data" {
@@ -510,8 +587,13 @@ resource "azurerm_nat_gateway_public_ip_association" "prod" {
   public_ip_address_id = azurerm_public_ip.natgw.id
 }
 
-resource "azurerm_subnet_nat_gateway_association" "aks" {
-  subnet_id      = azurerm_subnet.prod_aks.id
+resource "azurerm_subnet_nat_gateway_association" "aks_system" {
+  subnet_id      = azurerm_subnet.prod_aks_system.id
+  nat_gateway_id = azurerm_nat_gateway.prod.id
+}
+
+resource "azurerm_subnet_nat_gateway_association" "aks_user" {
+  subnet_id      = azurerm_subnet.prod_aks_user.id
   nat_gateway_id = azurerm_nat_gateway.prod.id
 }
 
@@ -579,6 +661,20 @@ resource "azurerm_application_insights" "prod" {
   tags                = local.tags
 }
 
+resource "azurerm_log_analytics_solution" "container_insights" {
+  solution_name         = "ContainerInsights"
+  location              = azurerm_resource_group.ops.location
+  resource_group_name   = azurerm_resource_group.ops.name
+  workspace_resource_id = azurerm_log_analytics_workspace.platform.id
+  workspace_name        = azurerm_log_analytics_workspace.platform.name
+  tags                  = local.tags
+
+  plan {
+    publisher = "Microsoft"
+    product   = "OMSGallery/ContainerInsights"
+  }
+}
+
 # Compute: one AKS cluster with a system pool and a user pool.
 
 resource "azurerm_kubernetes_cluster" "prod" {
@@ -598,7 +694,7 @@ resource "azurerm_kubernetes_cluster" "prod" {
     vm_size                      = "Standard_D4ds_v5"
     node_count                   = 3
     zones                        = ["1", "2", "3"]
-    vnet_subnet_id               = azurerm_subnet.prod_aks.id
+    vnet_subnet_id               = azurerm_subnet.prod_aks_system.id
     only_critical_addons_enabled = true
 
     upgrade_settings {
@@ -641,7 +737,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "apps" {
   min_count             = 3
   max_count             = 12
   zones                 = ["1", "2", "3"]
-  vnet_subnet_id        = azurerm_subnet.prod_aks.id
+  vnet_subnet_id        = azurerm_subnet.prod_aks_user.id
   tags                  = local.tags
 
   node_labels = {
@@ -784,6 +880,25 @@ resource "azurerm_cosmosdb_account" "catalog" {
   }
 }
 
+resource "azurerm_cosmosdb_sql_database" "catalog" {
+  name                = "catalog"
+  resource_group_name = azurerm_resource_group.data.name
+  account_name        = azurerm_cosmosdb_account.catalog.name
+}
+
+resource "azurerm_cosmosdb_sql_container" "products" {
+  name                  = "products"
+  resource_group_name   = azurerm_resource_group.data.name
+  account_name          = azurerm_cosmosdb_account.catalog.name
+  database_name         = azurerm_cosmosdb_sql_database.catalog.name
+  partition_key_paths   = ["/categoryId"]
+  partition_key_version = 2
+
+  autoscale_settings {
+    max_throughput = 4000
+  }
+}
+
 resource "azurerm_private_endpoint" "cosmos" {
   name                = "pe-cosmos-commerce-catalog"
   location            = azurerm_resource_group.data.location
@@ -832,6 +947,24 @@ resource "azurerm_storage_account" "backups" {
   allow_nested_items_to_be_public = false
   public_network_access_enabled   = false
   tags                            = local.tags
+}
+
+resource "azurerm_storage_container" "media_uploads" {
+  name                  = "uploads"
+  storage_account_id    = azurerm_storage_account.media.id
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_container" "media_renditions" {
+  name                  = "renditions"
+  storage_account_id    = azurerm_storage_account.media.id
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_container" "backups_exports" {
+  name                  = "database-exports"
+  storage_account_id    = azurerm_storage_account.backups.id
+  container_access_type = "private"
 }
 
 resource "azurerm_private_endpoint" "media" {
@@ -915,8 +1048,8 @@ resource "azurerm_servicebus_topic" "orders" {
   support_ordering = true
 }
 
-resource "azurerm_servicebus_topic" "orders_v2" {
-  name             = "orders-v2"
+resource "azurerm_servicebus_topic" "orders_enriched" {
+  name             = "orders-enriched"
   namespace_id     = azurerm_servicebus_namespace.prod.id
   support_ordering = true
 }
@@ -936,7 +1069,7 @@ resource "azurerm_servicebus_queue" "notifications" {
 
 resource "azurerm_servicebus_subscription" "orders_fulfillment" {
   name               = "fulfillment"
-  topic_id           = azurerm_servicebus_topic.orders_v2.id
+  topic_id           = azurerm_servicebus_topic.orders_enriched.id
   max_delivery_count = 10
 }
 
@@ -1049,11 +1182,21 @@ resource "azurerm_linux_function_app" "order_notifications" {
   }
 }
 
-# Eventing: blob events on the media account fan out to the processor and to the notifications queue.
+# Eventing: system topics on the media account and the Service Bus namespace fan events out to the functions and to the notifications queue.
 
-resource "azurerm_eventgrid_event_subscription" "media_processor" {
+resource "azurerm_eventgrid_system_topic" "media" {
+  name                = "evgst-stcommercemedia"
+  location            = azurerm_resource_group.data.location
+  resource_group_name = azurerm_resource_group.data.name
+  source_resource_id  = azurerm_storage_account.media.id
+  topic_type          = "Microsoft.Storage.StorageAccounts"
+  tags                = local.tags
+}
+
+resource "azurerm_eventgrid_system_topic_event_subscription" "media_processor" {
   name                 = "evgs-media-processor"
-  scope                = azurerm_storage_account.media.id
+  system_topic         = azurerm_eventgrid_system_topic.media.name
+  resource_group_name  = azurerm_resource_group.data.name
   included_event_types = ["Microsoft.Storage.BlobCreated"]
 
   azure_function_endpoint {
@@ -1066,16 +1209,27 @@ resource "azurerm_eventgrid_event_subscription" "media_processor" {
   }
 }
 
-resource "azurerm_eventgrid_event_subscription" "media_notifications" {
+resource "azurerm_eventgrid_system_topic_event_subscription" "media_notifications" {
   name                 = "evgs-media-notifications"
-  scope                = azurerm_storage_account.media.id
+  system_topic         = azurerm_eventgrid_system_topic.media.name
+  resource_group_name  = azurerm_resource_group.data.name
   included_event_types = ["Microsoft.Storage.BlobCreated", "Microsoft.Storage.BlobDeleted"]
   service_bus_queue_id = azurerm_servicebus_queue.notifications.id
 }
 
-resource "azurerm_eventgrid_event_subscription" "order_notifications" {
+resource "azurerm_eventgrid_system_topic" "service_bus" {
+  name                = "evgst-sb-commerce-prod"
+  location            = azurerm_resource_group.prod.location
+  resource_group_name = azurerm_resource_group.prod.name
+  source_resource_id  = azurerm_servicebus_namespace.prod.id
+  topic_type          = "Microsoft.ServiceBus.Namespaces"
+  tags                = local.tags
+}
+
+resource "azurerm_eventgrid_system_topic_event_subscription" "order_notifications" {
   name                 = "evgs-order-notifications"
-  scope                = azurerm_servicebus_namespace.prod.id
+  system_topic         = azurerm_eventgrid_system_topic.service_bus.name
+  resource_group_name  = azurerm_resource_group.prod.name
   included_event_types = ["Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners"]
 
   azure_function_endpoint {
@@ -2424,4 +2578,3 @@ resource "kubernetes_horizontal_pod_autoscaler_v1" "orders_api" {
     }
   }
 }
-

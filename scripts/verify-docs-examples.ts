@@ -14,6 +14,17 @@ const buildRefPath = join(repoRoot, "docs", "reference", "cli", "build.md");
 const examplePath = join(repoRoot, "examples", "aws-vpc", "main.tf");
 const FENCE = "```";
 
+function resolveOfficialLayout(
+  environment: Record<string, string | undefined> = process.env,
+): string | undefined {
+  const supplied = environment.ROOTFORM_OFFICIAL_LAYOUT?.trim();
+  if (!supplied) return undefined;
+  if (!isAbsolute(supplied)) {
+    fail(`ROOTFORM_OFFICIAL_LAYOUT must be an absolute path, got: ${supplied}`);
+  }
+  return requireFile(supplied, "Rootform official Dialect layout");
+}
+
 function fail(message: string): never {
   throw new Error(message);
 }
@@ -180,6 +191,7 @@ function noted(label: string, value: string): void {
 }
 
 const binary = resolveBinary();
+const officialLayout = resolveOfficialLayout();
 requireFile(binary, "Rootform binary");
 requireFile(examplePath, "examples/aws-vpc/main.tf");
 const page = readFileSync(
@@ -209,6 +221,18 @@ try {
     fail(`rootform version failed: ${version.stderr.trim()}`);
   }
   const binaryVersion = version.stdout.trim().replace(/^rootform\s+/u, "");
+
+  if (officialLayout) {
+    const initialized = run(
+      binary,
+      ["init", ".", "--official-layout", officialLayout, "--offline", "--no-input"],
+      workspace,
+      home,
+    );
+    if (initialized.exitCode !== 0) {
+      fail(`local official Dialect initialization failed:\n${initialized.stderr}`);
+    }
+  }
 
   await verifyLocalExplorer(binary, workspace, home);
 
@@ -395,7 +419,12 @@ try {
       createHash("sha256").update(readFileSync(binary)).digest("hex"),
   );
   noted("main.tf fence", "matches examples/aws-vpc/main.tf");
-  noted("first run", "implicit preparation from empty home, local explorer serves HTML");
+  noted(
+    "first run",
+    officialLayout
+      ? "local official Dialect layout prepared an empty home; local explorer serves HTML"
+      : "implicit preparation from empty home, local explorer serves HTML",
+  );
   noted("first build", "prepared tutorial source, exit 0");
   noted("offline rebuild", "byte-identical to first build, --locked --offline");
   noted(

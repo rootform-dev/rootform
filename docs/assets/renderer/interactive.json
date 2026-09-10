@@ -1,13 +1,17 @@
 {
   "format_version": "1",
   "files": {
-    "azure-platform.json": "db1bb882162d5af4bbd8f40f1d28240033d0d5f10701e45949f55e86bd6827df",
-    "azure-platform-next.json": "b30a9ddc0adcbadea805b5c821c407117fd2ecaa2425ed7ac293d5abb68b386f",
-    "multicloud-base.json": "5f0b7938b6530ffb46f8f4fc4a2cb0fe2fdc516d7bb941a14ea22be6cdd51fdc",
-    "multicloud.json": "8dea44d601155443e95869c596c0589c400fb0f7d621733e1ec66ba4a297a8d5",
-    "azure-delta.json": "13bf08226206ee6dd78b6b1354e64141113ac99815547a84e77dc7c72f25959b",
-    "multicloud-delta.json": "3f0b0173c7fe0e1fff769a2f831fbc34c1cd9b41bc7b81940bd6a4e2516ec663",
-    "azure-platform-presentation.json": "6b8f232cd5c5c236ec245e4b18ea87190a637dc0a35e3d1e159a588ef44f3d98",
-    "multicloud-presentation.json": "c00e1d9d8962506c3f0d3052ea3eee76047f6c0d5abb89a296a95f7d72cbe777"
+    "commerce-platform-base.json": "c2ec1f57d88f8c2c007619bfca2432b6ad3a9202ea597963dca285c45610e265",
+    "commerce-platform-head.json": "4251156a648d4969a6f054f59a9a6511d5fe481792f679395890397d174dbdaa",
+    "commerce-platform-diff.json": "cca23da212cdace9afa19238eb6305d1761ea186f707f69c39aaee17461a9a42",
+    "commerce-platform-presentation.json": "ac3f93727e64e65fb2fa7b48a2788a2458a4ced54d1ae6b65d97beb9fd7ee4f8",
+    "event-driven-platform-base.json": "a223c9efd3111690862591d0a8b7946dbfe33cf85e2dcade7c24c1dc181c6685",
+    "event-driven-platform-head.json": "5cdd883098aaca8ff4d269095a3554d28de3c9dbfb75ea0acc0e683c31287627",
+    "event-driven-platform-diff.json": "abc3ded05a0a1195ef09a77f5bb881e6c179568e862a1bc99e2524c23ce005a6",
+    "event-driven-platform-presentation.json": "b2618788cd47d481d577ef9c302b95956bb13af7c589beb696c723656fb7d11b",
+    "shared-data-platform-base.json": "e05303b518e1d488c3b9e3ceab0678ae1de3b72a9572bfd86a7a02fb903b6f2b",
+    "shared-data-platform-head.json": "00ff20609d7ac2b396445e7f6cdfd7b329b87eff30209582f6c0b80d2fd5d134",
+    "shared-data-platform-diff.json": "82aaef4db12b1262274a49877fd652cdb300329a9f83945f8622b591ad32a22e",
+    "shared-data-platform-presentation.json": "7ff7568712ac5acb7432dfbe3ad760528b3e208049dfeedef7937d895f148b96"
   }
 }

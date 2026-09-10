@@ -1,0 +1,15 @@
+rule "cloud-run-function" {
+  match {
+    type = "google_cloudfunctions_function"
+  }
+
+  as = concept.core.serverless-function
+}
+
+rule "cloud-run-function-v2" {
+  match {
+    type = "google_cloudfunctions2_function"
+  }
+
+  as = concept.core.serverless-function
+}

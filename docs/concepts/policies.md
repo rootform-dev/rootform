@@ -69,8 +69,7 @@ provider-version warning remains separate from the policy outcome.
 A check with no selected packs reports:
 
 ```text
-status not_evaluated, compliant false
-0 policies, 0 evaluations, 0 passed, 0 violated, 0 indeterminate
+status not_evaluated; 0 policies, 0 evaluations, 0 passed, 0 violated, 0 indeterminate, 0 not evaluated
 ```
 
 A selected policy also gets zero evaluations when its target concept does not

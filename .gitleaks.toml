@@ -2,3 +2,11 @@ title = "Rootform secret scanning"
 
 [extend]
 useDefault = true
+
+[[allowlists]]
+description = "Generated renderer manifest SHA-256 values"
+targetRules = ["generic-api-key", "new-relic-user-api-id"]
+condition = "AND"
+paths = ['''^docs/assets/renderer/manifest\.json$''']
+regexTarget = "match"
+regexes = ['''\.rf": "[0-9a-f]{40,64}''']
