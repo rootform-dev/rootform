@@ -1,12 +1,12 @@
 {
   "format_version": "1",
   "files": {
-    "commerce-platform-base.json": "c2ec1f57d88f8c2c007619bfca2432b6ad3a9202ea597963dca285c45610e265",
-    "commerce-platform-head.json": "4251156a648d4969a6f054f59a9a6511d5fe481792f679395890397d174dbdaa",
-    "commerce-platform-diff.json": "cca23da212cdace9afa19238eb6305d1761ea186f707f69c39aaee17461a9a42",
+    "commerce-platform-base.json": "08f2f088bf4fac97ed18eb4a451c8c07b24c2aac54db5979b9275e22b3e8e204",
+    "commerce-platform-head.json": "ffe067da3ac575867c23fd6cb7e1f19093d7121dfccfefae8af1c9684accb819",
+    "commerce-platform-diff.json": "b314a4d542bc9e255672e54f9b5716b5d6038d444ebcdb3b80c79c1063c1e186",
     "commerce-platform-presentation.json": "ac3f93727e64e65fb2fa7b48a2788a2458a4ced54d1ae6b65d97beb9fd7ee4f8",
-    "event-driven-platform-base.json": "a223c9efd3111690862591d0a8b7946dbfe33cf85e2dcade7c24c1dc181c6685",
-    "event-driven-platform-head.json": "5cdd883098aaca8ff4d269095a3554d28de3c9dbfb75ea0acc0e683c31287627",
+    "event-driven-platform-base.json": "0c92f77186f4b447adb63f6cffb1995f1479faefbb5ebb583f549a1cf7480060",
+    "event-driven-platform-head.json": "1af198a496fb361e952c31f3b0974346d0962291539b20d3ae973c26f18c06f4",
     "event-driven-platform-diff.json": "abc3ded05a0a1195ef09a77f5bb881e6c179568e862a1bc99e2524c23ce005a6",
     "event-driven-platform-presentation.json": "b2618788cd47d481d577ef9c302b95956bb13af7c589beb696c723656fb7d11b",
     "shared-data-platform-base.json": "e05303b518e1d488c3b9e3ceab0678ae1de3b72a9572bfd86a7a02fb903b6f2b",

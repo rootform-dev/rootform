@@ -4,7 +4,7 @@
     {
       "kind": "index",
       "reference": "ghcr.io/rootform-dev/dialects:official-index-v1",
-      "manifest_digest": "sha256:5ea68114c9b525afd27645b008771237d9b546bd7ea929e59931c41d1895ce10"
+      "manifest_digest": "sha256:7fe132a47aa5be0a2613b3d86bd689230175befc2ffbdc717f6869fc2d4a33da"
     }
   ],
   "unsupported_providers": [],
@@ -12,15 +12,15 @@
     {
       "name": "azure",
       "version": "0.1.0",
-      "digest": "sha256:ab7e1e84f4e8320fb4cddd35d5c9b279e1200fe6cbca2f83bf384ce446dc3569",
-      "semantic_digest": "sha256:f12e5edf8e3c3ee2dbfab9cabea3eba1bfc1b11658e06e7dc73a4799695d6afb",
+      "digest": "sha256:074719eca0db066f7a7cee2ce117f260024929a07a6b2dbfa8aee3a457689a59",
+      "semantic_digest": "sha256:f44c042c8194926c1cf08bfca0a20222e391a1f17ecbf3440a320f5cce1e0652",
       "presentation_digest": "sha256:a24a0a650490cfbcd4a319c22fdf891a567786a6ac728086f864b20bbb0615dc",
       "artifact": {
         "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:ae333048438d3c1d34712d1997402c3366f62ed6471a11a18f3a918ed70b8cc6",
-        "layer_digest": "sha256:27307671476fe28f80c6a3a70103f331c5a34e5ac0ba37258027cdfb77b0658e",
-        "download_size": 36672,
-        "install_size": 193677
+        "manifest_digest": "sha256:eb3df0aa8e32b7c5d89d5364bbe62a25f6d3652ba39a6c14fc44640150d4ca2b",
+        "layer_digest": "sha256:a040964c5587ae78d486f0371d0d4e7ce88d87a7b2d5595dbe8005c5ca85b394",
+        "download_size": 36699,
+        "install_size": 193904
       },
       "origins": [
         "ghcr.io/rootform-dev/dialects:official-index-v1"
@@ -34,7 +34,7 @@
       "presentation_digest": "sha256:6250b078276b44c2db9361c26c6c92351d26f49de7ac6daf22c9859cd2f962c8",
       "artifact": {
         "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:874779a88c900c58d5dba654a7501180d68063ae39d8d1e85cae11d426a9d495",
+        "manifest_digest": "sha256:f7dc2b5adff7b5b0e76882bd9603e99194d78cf5a77585064c2efa55f24b7f53",
         "layer_digest": "sha256:89f57cbb6b236421ba7431cb39877ee0987266c14eadfdccb8fef057306a217a",
         "download_size": 9108,
         "install_size": 25164
