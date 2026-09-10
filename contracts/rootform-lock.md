@@ -12,8 +12,6 @@ versions remain owned by source code and
 ## Top-level fields
 
 - `format_version`: exact string `1`;
-- `index`: optional legacy singular index provenance containing OCI
-  `repository` and exact `manifest_digest`;
 - `sources`: optional canonical array of bounded OCI source provenance;
 - `unsupported_providers`: required, sorted, unique array of canonical provider
   sources such as `registry.terraform.io/hashicorp/aws`;
@@ -37,13 +35,12 @@ Each dialect entry contains:
 - optional canonical `origins` array naming source references that supplied
   exact entry metadata.
 
-`index` and `sources` are mutually exclusive. Current initialized locks use
-`sources`; earlier format-1 locks with singular `index` remain valid. Each
-source contains `kind` (`index`, `dialect`, or `policy-pack`), canonical full
-OCI `reference` with tag or SHA-256 digest, and exact `manifest_digest`
-resolved for that operation. Dialect origins reference only dialect/index
-sources. Every Policy Pack artifact origin references exactly one direct
-`policy-pack` source with same artifact repository and manifest digest.
+`sources` is the only provenance field. Each source contains `kind` (`index`,
+`dialect`, or `policy-pack`), canonical full OCI `reference` with tag or
+SHA-256 digest, and exact `manifest_digest` resolved for that operation.
+Dialect origins reference only dialect/index sources. Every Policy Pack
+artifact origin references exactly one direct `policy-pack` source with same
+artifact repository and manifest digest.
 Credentials, registry tokens, Docker config paths, retrieval times, and full
 OCI manifests are never lock fields.
 
@@ -67,15 +64,15 @@ dialects.
 
 Artifact pin contains exact OCI `repository`, `manifest_digest`, `layer_digest`,
 positive `download_size`, and positive `install_size`. Digests use lowercase
-`sha256:<64 hexadecimal characters>`. Local authoring locks may omit index and
-source provenance and artifact pins. Lock used to reacquire missing remote
+`sha256:<64 hexadecimal characters>`. Local authoring locks may omit source
+provenance and artifact pins. Lock used to reacquire missing remote
 content must contain complete artifact pins for that content.
 
 For locked acquisition, `artifact.repository` is tagless OCI repository
 location and `manifest_digest` is exact artifact identity. Each entry may name
 different standards-compatible public or private repository. Client resolves
 manifest by digest from that entry's repository; official repository and
-top-level index/source provenance have no special role on this path. Registry
+top-level source provenance has no special role on this path. Registry
 identity never replaces descriptor, archive, semantic, presentation,
 dependency, or provider verification.
 
@@ -104,8 +101,8 @@ explicit upgrade can revisit same bounded set without scanning registries.
   creation fails before selection;
 - source and entry-origin arrays use canonical order and unique values.
 
-Current shape is format 1. Normal init may normalize a valid earlier minimal
-format-1 lock while recomputing current evidence.
+Current shape is format 1. Normal init may normalize a valid minimal format-1
+lock while recomputing current evidence.
 `rootform init --locked` never normalizes, creates, or modifies lock. Unknown
 formats, malformed input, and current code incompatible with locked selection
 fail before acquisition and are never overwritten.

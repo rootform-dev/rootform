@@ -94,8 +94,7 @@ root. It does not need to nest inside that manifest or name a pack reference. A
 policy found in a Dialect package is rejected with `POLICY_NOT_ALLOWED`. A
 Dialect block in a Policy Pack source root is an unknown block.
 
-Nested policies remain accepted for existing `0.1.0` source compatibility.
-Top-level policies are canonical because they support recursive multi-file
+Nested policies are invalid. Top-level policies support recursive multi-file
 authoring; all examples use that form.
 
 Definitions in a Dialect can be split across files. Their language scope is the
