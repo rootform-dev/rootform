@@ -4,7 +4,7 @@
     {
       "kind": "index",
       "reference": "ghcr.io/rootform-dev/dialects:official-index-v1",
-      "manifest_digest": "sha256:7fe132a47aa5be0a2613b3d86bd689230175befc2ffbdc717f6869fc2d4a33da"
+      "manifest_digest": "sha256:5d7c28d72cc80cf21db1b93e270b910c84f92329ce168c53972221edc48cdfc7"
     }
   ],
   "unsupported_providers": [],
