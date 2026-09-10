@@ -1,9 +1,6 @@
 {
   "format_version": "0.1.0",
-  "generator": {
-    "name": "rootform",
-    "version": "0.1.1"
-  },
+  "generator": { "name": "rootform", "version": "0.1.1" },
   "source": {
     "language": "terraform",
     "locations": [
@@ -11,3696 +8,1848 @@
         "id": "location:main.tf:2:1-2:10",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 2,
-            "column": 1,
-            "byte_offset": 101
-          },
-          "end": {
-            "line": 2,
-            "column": 10,
-            "byte_offset": 110
-          }
+          "start": { "line": 2, "column": 1, "byte_offset": 101 },
+          "end": { "line": 2, "column": 10, "byte_offset": 110 }
         }
       },
       {
         "id": "location:main.tf:15:1-15:18",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 15,
-            "column": 1,
-            "byte_offset": 316
-          },
-          "end": {
-            "line": 15,
-            "column": 18,
-            "byte_offset": 333
-          }
+          "start": { "line": 15, "column": 1, "byte_offset": 316 },
+          "end": { "line": 15, "column": 18, "byte_offset": 333 }
         }
       },
       {
         "id": "location:main.tf:19:1-19:18",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 19,
-            "column": 1,
-            "byte_offset": 365
-          },
-          "end": {
-            "line": 19,
-            "column": 18,
-            "byte_offset": 382
-          }
+          "start": { "line": 19, "column": 1, "byte_offset": 365 },
+          "end": { "line": 19, "column": 18, "byte_offset": 382 }
         }
       },
       {
         "id": "location:main.tf:24:1-24:27",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 24,
-            "column": 1,
-            "byte_offset": 497
-          },
-          "end": {
-            "line": 24,
-            "column": 27,
-            "byte_offset": 523
-          }
+          "start": { "line": 24, "column": 1, "byte_offset": 497 },
+          "end": { "line": 24, "column": 27, "byte_offset": 523 }
         }
       },
       {
         "id": "location:main.tf:29:1-29:27",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 29,
-            "column": 1,
-            "byte_offset": 612
-          },
-          "end": {
-            "line": 29,
-            "column": 27,
-            "byte_offset": 638
-          }
+          "start": { "line": 29, "column": 1, "byte_offset": 612 },
+          "end": { "line": 29, "column": 27, "byte_offset": 638 }
         }
       },
       {
         "id": "location:main.tf:35:1-35:33",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 35,
-            "column": 1,
-            "byte_offset": 759
-          },
-          "end": {
-            "line": 35,
-            "column": 33,
-            "byte_offset": 791
-          }
+          "start": { "line": 35, "column": 1, "byte_offset": 759 },
+          "end": { "line": 35, "column": 33, "byte_offset": 791 }
         }
       },
       {
         "id": "location:main.tf:41:1-41:40",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 41,
-            "column": 1,
-            "byte_offset": 916
-          },
-          "end": {
-            "line": 41,
-            "column": 40,
-            "byte_offset": 955
-          }
+          "start": { "line": 41, "column": 1, "byte_offset": 916 },
+          "end": { "line": 41, "column": 40, "byte_offset": 955 }
         }
       },
       {
         "id": "location:main.tf:48:3-48:26",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 48,
-            "column": 3,
-            "byte_offset": 1115
-          },
-          "end": {
-            "line": 48,
-            "column": 26,
-            "byte_offset": 1138
-          }
+          "start": { "line": 48, "column": 3, "byte_offset": 1115 },
+          "end": { "line": 48, "column": 26, "byte_offset": 1138 }
         }
       },
       {
         "id": "location:main.tf:49:3-54:4",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 49,
-            "column": 3,
-            "byte_offset": 1141
-          },
-          "end": {
-            "line": 54,
-            "column": 4,
-            "byte_offset": 1294
-          }
+          "start": { "line": 49, "column": 3, "byte_offset": 1141 },
+          "end": { "line": 54, "column": 4, "byte_offset": 1294 }
         }
       },
       {
         "id": "location:main.tf:59:1-59:36",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 59,
-            "column": 1,
-            "byte_offset": 1419
-          },
-          "end": {
-            "line": 59,
-            "column": 36,
-            "byte_offset": 1454
-          }
+          "start": { "line": 59, "column": 1, "byte_offset": 1419 },
+          "end": { "line": 59, "column": 36, "byte_offset": 1454 }
         }
       },
       {
         "id": "location:main.tf:68:1-68:33",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 68,
-            "column": 1,
-            "byte_offset": 1673
-          },
-          "end": {
-            "line": 68,
-            "column": 33,
-            "byte_offset": 1705
-          }
+          "start": { "line": 68, "column": 1, "byte_offset": 1673 },
+          "end": { "line": 68, "column": 33, "byte_offset": 1705 }
         }
       },
       {
         "id": "location:main.tf:79:1-79:43",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 79,
-            "column": 1,
-            "byte_offset": 2025
-          },
-          "end": {
-            "line": 79,
-            "column": 43,
-            "byte_offset": 2067
-          }
+          "start": { "line": 79, "column": 1, "byte_offset": 2025 },
+          "end": { "line": 79, "column": 43, "byte_offset": 2067 }
         }
       },
       {
         "id": "location:main.tf:81:29-81:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 81,
-            "column": 29,
-            "byte_offset": 2144
-          },
-          "end": {
-            "line": 81,
-            "column": 62,
-            "byte_offset": 2177
-          }
+          "start": { "line": 81, "column": 29, "byte_offset": 2144 },
+          "end": { "line": 81, "column": 62, "byte_offset": 2177 }
         }
       },
       {
         "id": "location:main.tf:86:1-86:43",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 86,
-            "column": 1,
-            "byte_offset": 2254
-          },
-          "end": {
-            "line": 86,
-            "column": 43,
-            "byte_offset": 2296
-          }
+          "start": { "line": 86, "column": 1, "byte_offset": 2254 },
+          "end": { "line": 86, "column": 43, "byte_offset": 2296 }
         }
       },
       {
         "id": "location:main.tf:88:30-88:63",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 88,
-            "column": 30,
-            "byte_offset": 2368
-          },
-          "end": {
-            "line": 88,
-            "column": 63,
-            "byte_offset": 2401
-          }
+          "start": { "line": 88, "column": 30, "byte_offset": 2368 },
+          "end": { "line": 88, "column": 63, "byte_offset": 2401 }
         }
       },
       {
         "id": "location:main.tf:90:30-90:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 90,
-            "column": 30,
-            "byte_offset": 2473
-          },
-          "end": {
-            "line": 90,
-            "column": 62,
-            "byte_offset": 2505
-          }
+          "start": { "line": 90, "column": 30, "byte_offset": 2473 },
+          "end": { "line": 90, "column": 62, "byte_offset": 2505 }
         }
       },
       {
         "id": "location:main.tf:111:1-111:44",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 111,
-            "column": 1,
-            "byte_offset": 2916
-          },
-          "end": {
-            "line": 111,
-            "column": 44,
-            "byte_offset": 2959
-          }
+          "start": { "line": 111, "column": 1, "byte_offset": 2916 },
+          "end": { "line": 111, "column": 44, "byte_offset": 2959 }
         }
       },
       {
         "id": "location:main.tf:113:30-113:63",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 113,
-            "column": 30,
-            "byte_offset": 3032
-          },
-          "end": {
-            "line": 113,
-            "column": 63,
-            "byte_offset": 3065
-          }
+          "start": { "line": 113, "column": 30, "byte_offset": 3032 },
+          "end": { "line": 113, "column": 63, "byte_offset": 3065 }
         }
       },
       {
         "id": "location:main.tf:115:30-115:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 115,
-            "column": 30,
-            "byte_offset": 3137
-          },
-          "end": {
-            "line": 115,
-            "column": 62,
-            "byte_offset": 3169
-          }
+          "start": { "line": 115, "column": 30, "byte_offset": 3137 },
+          "end": { "line": 115, "column": 62, "byte_offset": 3169 }
         }
       },
       {
         "id": "location:main.tf:120:1-120:50",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 120,
-            "column": 1,
-            "byte_offset": 3252
-          },
-          "end": {
-            "line": 120,
-            "column": 50,
-            "byte_offset": 3301
-          }
+          "start": { "line": 120, "column": 1, "byte_offset": 3252 },
+          "end": { "line": 120, "column": 50, "byte_offset": 3301 }
         }
       },
       {
         "id": "location:main.tf:122:19-122:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 122,
-            "column": 19,
-            "byte_offset": 3358
-          },
-          "end": {
-            "line": 122,
-            "column": 52,
-            "byte_offset": 3391
-          }
+          "start": { "line": 122, "column": 19, "byte_offset": 3358 },
+          "end": { "line": 122, "column": 52, "byte_offset": 3391 }
         }
       },
       {
         "id": "location:main.tf:124:19-124:51",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 124,
-            "column": 19,
-            "byte_offset": 3441
-          },
-          "end": {
-            "line": 124,
-            "column": 51,
-            "byte_offset": 3473
-          }
+          "start": { "line": 124, "column": 19, "byte_offset": 3441 },
+          "end": { "line": 124, "column": 51, "byte_offset": 3473 }
         }
       },
       {
         "id": "location:main.tf:128:1-128:42",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 128,
-            "column": 1,
-            "byte_offset": 3511
-          },
-          "end": {
-            "line": 128,
-            "column": 42,
-            "byte_offset": 3552
-          }
+          "start": { "line": 128, "column": 1, "byte_offset": 3511 },
+          "end": { "line": 128, "column": 42, "byte_offset": 3552 }
         }
       },
       {
         "id": "location:main.tf:130:13-130:46",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 130,
-            "column": 13,
-            "byte_offset": 3596
-          },
-          "end": {
-            "line": 130,
-            "column": 46,
-            "byte_offset": 3629
-          }
+          "start": { "line": 130, "column": 13, "byte_offset": 3596 },
+          "end": { "line": 130, "column": 46, "byte_offset": 3629 }
         }
       },
       {
         "id": "location:main.tf:132:13-132:45",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 132,
-            "column": 13,
-            "byte_offset": 3667
-          },
-          "end": {
-            "line": 132,
-            "column": 45,
-            "byte_offset": 3699
-          }
+          "start": { "line": 132, "column": 13, "byte_offset": 3667 },
+          "end": { "line": 132, "column": 45, "byte_offset": 3699 }
         }
       },
       {
         "id": "location:main.tf:135:1-135:46",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 135,
-            "column": 1,
-            "byte_offset": 3703
-          },
-          "end": {
-            "line": 135,
-            "column": 46,
-            "byte_offset": 3748
-          }
+          "start": { "line": 135, "column": 1, "byte_offset": 3703 },
+          "end": { "line": 135, "column": 46, "byte_offset": 3748 }
         }
       },
       {
         "id": "location:main.tf:137:40-137:73",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 137,
-            "column": 40,
-            "byte_offset": 3847
-          },
-          "end": {
-            "line": 137,
-            "column": 73,
-            "byte_offset": 3880
-          }
+          "start": { "line": 137, "column": 40, "byte_offset": 3847 },
+          "end": { "line": 137, "column": 73, "byte_offset": 3880 }
         }
       },
       {
         "id": "location:main.tf:139:40-139:73",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 139,
-            "column": 40,
-            "byte_offset": 3972
-          },
-          "end": {
-            "line": 139,
-            "column": 73,
-            "byte_offset": 4005
-          }
+          "start": { "line": 139, "column": 40, "byte_offset": 3972 },
+          "end": { "line": 139, "column": 73, "byte_offset": 4005 }
         }
       },
       {
         "id": "location:main.tf:150:1-150:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 150,
-            "column": 1,
-            "byte_offset": 4240
-          },
-          "end": {
-            "line": 150,
-            "column": 52,
-            "byte_offset": 4291
-          }
+          "start": { "line": 150, "column": 1, "byte_offset": 4240 },
+          "end": { "line": 150, "column": 52, "byte_offset": 4291 }
         }
       },
       {
         "id": "location:main.tf:152:15-152:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 152,
-            "column": 15,
-            "byte_offset": 4354
-          },
-          "end": {
-            "line": 152,
-            "column": 48,
-            "byte_offset": 4387
-          }
+          "start": { "line": 152, "column": 15, "byte_offset": 4354 },
+          "end": { "line": 152, "column": 48, "byte_offset": 4387 }
         }
       },
       {
         "id": "location:main.tf:153:15-153:47",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 153,
-            "column": 15,
-            "byte_offset": 4402
-          },
-          "end": {
-            "line": 153,
-            "column": 47,
-            "byte_offset": 4434
-          }
+          "start": { "line": 153, "column": 15, "byte_offset": 4402 },
+          "end": { "line": 153, "column": 47, "byte_offset": 4434 }
         }
       },
       {
         "id": "location:main.tf:172:1-172:57",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 172,
-            "column": 1,
-            "byte_offset": 4658
-          },
-          "end": {
-            "line": 172,
-            "column": 57,
-            "byte_offset": 4714
-          }
+          "start": { "line": 172, "column": 1, "byte_offset": 4658 },
+          "end": { "line": 172, "column": 57, "byte_offset": 4714 }
         }
       },
       {
         "id": "location:main.tf:174:15-174:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 174,
-            "column": 15,
-            "byte_offset": 4782
-          },
-          "end": {
-            "line": 174,
-            "column": 48,
-            "byte_offset": 4815
-          }
+          "start": { "line": 174, "column": 15, "byte_offset": 4782 },
+          "end": { "line": 174, "column": 48, "byte_offset": 4815 }
         }
       },
       {
         "id": "location:main.tf:175:15-175:47",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 175,
-            "column": 15,
-            "byte_offset": 4830
-          },
-          "end": {
-            "line": 175,
-            "column": 47,
-            "byte_offset": 4862
-          }
+          "start": { "line": 175, "column": 15, "byte_offset": 4830 },
+          "end": { "line": 175, "column": 47, "byte_offset": 4862 }
         }
       },
       {
         "id": "location:main.tf:188:1-188:60",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 188,
-            "column": 1,
-            "byte_offset": 5075
-          },
-          "end": {
-            "line": 188,
-            "column": 60,
-            "byte_offset": 5134
-          }
+          "start": { "line": 188, "column": 1, "byte_offset": 5075 },
+          "end": { "line": 188, "column": 60, "byte_offset": 5134 }
         }
       },
       {
         "id": "location:main.tf:190:19-190:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 190,
-            "column": 19,
-            "byte_offset": 5191
-          },
-          "end": {
-            "line": 190,
-            "column": 52,
-            "byte_offset": 5224
-          }
+          "start": { "line": 190, "column": 19, "byte_offset": 5191 },
+          "end": { "line": 190, "column": 52, "byte_offset": 5224 }
         }
       },
       {
         "id": "location:main.tf:194:19-194:51",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 194,
-            "column": 19,
-            "byte_offset": 5325
-          },
-          "end": {
-            "line": 194,
-            "column": 51,
-            "byte_offset": 5357
-          }
+          "start": { "line": 194, "column": 19, "byte_offset": 5325 },
+          "end": { "line": 194, "column": 51, "byte_offset": 5357 }
         }
       },
       {
         "id": "location:main.tf:197:1-197:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 197,
-            "column": 1,
-            "byte_offset": 5361
-          },
-          "end": {
-            "line": 197,
-            "column": 67,
-            "byte_offset": 5427
-          }
+          "start": { "line": 197, "column": 1, "byte_offset": 5361 },
+          "end": { "line": 197, "column": 67, "byte_offset": 5427 }
         }
       },
       {
         "id": "location:main.tf:198:29-198:61",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 198,
-            "column": 29,
-            "byte_offset": 5458
-          },
-          "end": {
-            "line": 198,
-            "column": 61,
-            "byte_offset": 5490
-          }
+          "start": { "line": 198, "column": 29, "byte_offset": 5458 },
+          "end": { "line": 198, "column": 61, "byte_offset": 5490 }
         }
       },
       {
         "id": "location:main.tf:200:30-200:81",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 200,
-            "column": 30,
-            "byte_offset": 5583
-          },
-          "end": {
-            "line": 200,
-            "column": 81,
-            "byte_offset": 5634
-          }
+          "start": { "line": 200, "column": 30, "byte_offset": 5583 },
+          "end": { "line": 200, "column": 81, "byte_offset": 5634 }
         }
       },
       {
         "id": "location:main.tf:203:1-203:46",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 203,
-            "column": 1,
-            "byte_offset": 5639
-          },
-          "end": {
-            "line": 203,
-            "column": 46,
-            "byte_offset": 5684
-          }
+          "start": { "line": 203, "column": 1, "byte_offset": 5639 },
+          "end": { "line": 203, "column": 46, "byte_offset": 5684 }
         }
       },
       {
         "id": "location:main.tf:205:19-205:49",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 205,
-            "column": 19,
-            "byte_offset": 5739
-          },
-          "end": {
-            "line": 205,
-            "column": 49,
-            "byte_offset": 5769
-          }
+          "start": { "line": 205, "column": 19, "byte_offset": 5739 },
+          "end": { "line": 205, "column": 49, "byte_offset": 5769 }
         }
       },
       {
         "id": "location:main.tf:212:18-212:59",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 212,
-            "column": 18,
-            "byte_offset": 5899
-          },
-          "end": {
-            "line": 212,
-            "column": 59,
-            "byte_offset": 5940
-          }
+          "start": { "line": 212, "column": 18, "byte_offset": 5899 },
+          "end": { "line": 212, "column": 59, "byte_offset": 5940 }
         }
       },
       {
         "id": "location:main.tf:213:18-213:51",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 213,
-            "column": 18,
-            "byte_offset": 5958
-          },
-          "end": {
-            "line": 213,
-            "column": 51,
-            "byte_offset": 5991
-          }
+          "start": { "line": 213, "column": 18, "byte_offset": 5958 },
+          "end": { "line": 213, "column": 51, "byte_offset": 5991 }
         }
       },
       {
         "id": "location:main.tf:219:1-219:46",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 219,
-            "column": 1,
-            "byte_offset": 6070
-          },
-          "end": {
-            "line": 219,
-            "column": 46,
-            "byte_offset": 6115
-          }
+          "start": { "line": 219, "column": 1, "byte_offset": 6070 },
+          "end": { "line": 219, "column": 46, "byte_offset": 6115 }
         }
       },
       {
         "id": "location:main.tf:221:18-221:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 221,
-            "column": 18,
-            "byte_offset": 6167
-          },
-          "end": {
-            "line": 221,
-            "column": 48,
-            "byte_offset": 6197
-          }
+          "start": { "line": 221, "column": 18, "byte_offset": 6167 },
+          "end": { "line": 221, "column": 48, "byte_offset": 6197 }
         }
       },
       {
         "id": "location:main.tf:225:1-225:47",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 225,
-            "column": 1,
-            "byte_offset": 6243
-          },
-          "end": {
-            "line": 225,
-            "column": 47,
-            "byte_offset": 6289
-          }
+          "start": { "line": 225, "column": 1, "byte_offset": 6243 },
+          "end": { "line": 225, "column": 47, "byte_offset": 6289 }
         }
       },
       {
         "id": "location:main.tf:227:18-227:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 227,
-            "column": 18,
-            "byte_offset": 6342
-          },
-          "end": {
-            "line": 227,
-            "column": 48,
-            "byte_offset": 6372
-          }
+          "start": { "line": 227, "column": 18, "byte_offset": 6342 },
+          "end": { "line": 227, "column": 48, "byte_offset": 6372 }
         }
       },
       {
         "id": "location:main.tf:231:1-231:47",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 231,
-            "column": 1,
-            "byte_offset": 6423
-          },
-          "end": {
-            "line": 231,
-            "column": 47,
-            "byte_offset": 6469
-          }
+          "start": { "line": 231, "column": 1, "byte_offset": 6423 },
+          "end": { "line": 231, "column": 47, "byte_offset": 6469 }
         }
       },
       {
         "id": "location:main.tf:233:18-233:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 233,
-            "column": 18,
-            "byte_offset": 6522
-          },
-          "end": {
-            "line": 233,
-            "column": 48,
-            "byte_offset": 6552
-          }
+          "start": { "line": 233, "column": 18, "byte_offset": 6522 },
+          "end": { "line": 233, "column": 48, "byte_offset": 6552 }
         }
       },
       {
         "id": "location:main.tf:237:1-237:53",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 237,
-            "column": 1,
-            "byte_offset": 6603
-          },
-          "end": {
-            "line": 237,
-            "column": 53,
-            "byte_offset": 6655
-          }
+          "start": { "line": 237, "column": 1, "byte_offset": 6603 },
+          "end": { "line": 237, "column": 53, "byte_offset": 6655 }
         }
       },
       {
         "id": "location:main.tf:239:18-239:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 239,
-            "column": 18,
-            "byte_offset": 6714
-          },
-          "end": {
-            "line": 239,
-            "column": 48,
-            "byte_offset": 6744
-          }
+          "start": { "line": 239, "column": 18, "byte_offset": 6714 },
+          "end": { "line": 239, "column": 48, "byte_offset": 6744 }
         }
       },
       {
         "id": "location:main.tf:243:1-243:46",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 243,
-            "column": 1,
-            "byte_offset": 6801
-          },
-          "end": {
-            "line": 243,
-            "column": 46,
-            "byte_offset": 6846
-          }
+          "start": { "line": 243, "column": 1, "byte_offset": 6801 },
+          "end": { "line": 243, "column": 46, "byte_offset": 6846 }
         }
       },
       {
         "id": "location:main.tf:245:18-245:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 245,
-            "column": 18,
-            "byte_offset": 6898
-          },
-          "end": {
-            "line": 245,
-            "column": 48,
-            "byte_offset": 6928
-          }
+          "start": { "line": 245, "column": 18, "byte_offset": 6898 },
+          "end": { "line": 245, "column": 48, "byte_offset": 6928 }
         }
       },
       {
         "id": "location:main.tf:249:1-249:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 249,
-            "column": 1,
-            "byte_offset": 6980
-          },
-          "end": {
-            "line": 249,
-            "column": 48,
-            "byte_offset": 7027
-          }
+          "start": { "line": 249, "column": 1, "byte_offset": 6980 },
+          "end": { "line": 249, "column": 48, "byte_offset": 7027 }
         }
       },
       {
         "id": "location:main.tf:251:18-251:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 251,
-            "column": 18,
-            "byte_offset": 7081
-          },
-          "end": {
-            "line": 251,
-            "column": 48,
-            "byte_offset": 7111
-          }
+          "start": { "line": 251, "column": 18, "byte_offset": 7081 },
+          "end": { "line": 251, "column": 48, "byte_offset": 7111 }
         }
       },
       {
         "id": "location:main.tf:255:1-255:60",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 255,
-            "column": 1,
-            "byte_offset": 7165
-          },
-          "end": {
-            "line": 255,
-            "column": 60,
-            "byte_offset": 7224
-          }
+          "start": { "line": 255, "column": 1, "byte_offset": 7165 },
+          "end": { "line": 255, "column": 60, "byte_offset": 7224 }
         }
       },
       {
         "id": "location:main.tf:256:13-256:43",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 256,
-            "column": 13,
-            "byte_offset": 7239
-          },
-          "end": {
-            "line": 256,
-            "column": 43,
-            "byte_offset": 7269
-          }
+          "start": { "line": 256, "column": 13, "byte_offset": 7239 },
+          "end": { "line": 256, "column": 43, "byte_offset": 7269 }
         }
       },
       {
         "id": "location:main.tf:258:13-258:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 258,
-            "column": 13,
-            "byte_offset": 7320
-          },
-          "end": {
-            "line": 258,
-            "column": 52,
-            "byte_offset": 7359
-          }
+          "start": { "line": 258, "column": 13, "byte_offset": 7320 },
+          "end": { "line": 258, "column": 52, "byte_offset": 7359 }
         }
       },
       {
         "id": "location:main.tf:261:1-261:63",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 261,
-            "column": 1,
-            "byte_offset": 7363
-          },
-          "end": {
-            "line": 261,
-            "column": 63,
-            "byte_offset": 7425
-          }
+          "start": { "line": 261, "column": 1, "byte_offset": 7363 },
+          "end": { "line": 261, "column": 63, "byte_offset": 7425 }
         }
       },
       {
         "id": "location:main.tf:262:13-262:43",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 262,
-            "column": 13,
-            "byte_offset": 7440
-          },
-          "end": {
-            "line": 262,
-            "column": 43,
-            "byte_offset": 7470
-          }
+          "start": { "line": 262, "column": 13, "byte_offset": 7440 },
+          "end": { "line": 262, "column": 43, "byte_offset": 7470 }
         }
       },
       {
         "id": "location:main.tf:264:13-264:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 264,
-            "column": 13,
-            "byte_offset": 7527
-          },
-          "end": {
-            "line": 264,
-            "column": 52,
-            "byte_offset": 7566
-          }
+          "start": { "line": 264, "column": 13, "byte_offset": 7527 },
+          "end": { "line": 264, "column": 52, "byte_offset": 7566 }
         }
       },
       {
         "id": "location:main.tf:267:1-267:60",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 267,
-            "column": 1,
-            "byte_offset": 7570
-          },
-          "end": {
-            "line": 267,
-            "column": 60,
-            "byte_offset": 7629
-          }
+          "start": { "line": 267, "column": 1, "byte_offset": 7570 },
+          "end": { "line": 267, "column": 60, "byte_offset": 7629 }
         }
       },
       {
         "id": "location:main.tf:268:13-268:43",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 268,
-            "column": 13,
-            "byte_offset": 7644
-          },
-          "end": {
-            "line": 268,
-            "column": 43,
-            "byte_offset": 7674
-          }
+          "start": { "line": 268, "column": 13, "byte_offset": 7644 },
+          "end": { "line": 268, "column": 43, "byte_offset": 7674 }
         }
       },
       {
         "id": "location:main.tf:270:13-270:53",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 270,
-            "column": 13,
-            "byte_offset": 7724
-          },
-          "end": {
-            "line": 270,
-            "column": 53,
-            "byte_offset": 7764
-          }
+          "start": { "line": 270, "column": 13, "byte_offset": 7724 },
+          "end": { "line": 270, "column": 53, "byte_offset": 7764 }
         }
       },
       {
         "id": "location:main.tf:273:1-273:60",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 273,
-            "column": 1,
-            "byte_offset": 7768
-          },
-          "end": {
-            "line": 273,
-            "column": 60,
-            "byte_offset": 7827
-          }
+          "start": { "line": 273, "column": 1, "byte_offset": 7768 },
+          "end": { "line": 273, "column": 60, "byte_offset": 7827 }
         }
       },
       {
         "id": "location:main.tf:274:13-274:43",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 274,
-            "column": 13,
-            "byte_offset": 7842
-          },
-          "end": {
-            "line": 274,
-            "column": 43,
-            "byte_offset": 7872
-          }
+          "start": { "line": 274, "column": 13, "byte_offset": 7842 },
+          "end": { "line": 274, "column": 43, "byte_offset": 7872 }
         }
       },
       {
         "id": "location:main.tf:276:13-276:53",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 276,
-            "column": 13,
-            "byte_offset": 7922
-          },
-          "end": {
-            "line": 276,
-            "column": 53,
-            "byte_offset": 7962
-          }
+          "start": { "line": 276, "column": 13, "byte_offset": 7922 },
+          "end": { "line": 276, "column": 53, "byte_offset": 7962 }
         }
       },
       {
         "id": "location:main.tf:279:1-279:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 279,
-            "column": 1,
-            "byte_offset": 7966
-          },
-          "end": {
-            "line": 279,
-            "column": 67,
-            "byte_offset": 8032
-          }
+          "start": { "line": 279, "column": 1, "byte_offset": 7966 },
+          "end": { "line": 279, "column": 67, "byte_offset": 8032 }
         }
       },
       {
         "id": "location:main.tf:280:13-280:43",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 280,
-            "column": 13,
-            "byte_offset": 8047
-          },
-          "end": {
-            "line": 280,
-            "column": 43,
-            "byte_offset": 8077
-          }
+          "start": { "line": 280, "column": 13, "byte_offset": 8047 },
+          "end": { "line": 280, "column": 43, "byte_offset": 8077 }
         }
       },
       {
         "id": "location:main.tf:282:13-282:59",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 282,
-            "column": 13,
-            "byte_offset": 8126
-          },
-          "end": {
-            "line": 282,
-            "column": 59,
-            "byte_offset": 8172
-          }
+          "start": { "line": 282, "column": 13, "byte_offset": 8126 },
+          "end": { "line": 282, "column": 59, "byte_offset": 8172 }
         }
       },
       {
         "id": "location:main.tf:285:1-285:60",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 285,
-            "column": 1,
-            "byte_offset": 8176
-          },
-          "end": {
-            "line": 285,
-            "column": 60,
-            "byte_offset": 8235
-          }
+          "start": { "line": 285, "column": 1, "byte_offset": 8176 },
+          "end": { "line": 285, "column": 60, "byte_offset": 8235 }
         }
       },
       {
         "id": "location:main.tf:286:13-286:43",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 286,
-            "column": 13,
-            "byte_offset": 8250
-          },
-          "end": {
-            "line": 286,
-            "column": 43,
-            "byte_offset": 8280
-          }
+          "start": { "line": 286, "column": 13, "byte_offset": 8250 },
+          "end": { "line": 286, "column": 43, "byte_offset": 8280 }
         }
       },
       {
         "id": "location:main.tf:288:13-288:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 288,
-            "column": 13,
-            "byte_offset": 8331
-          },
-          "end": {
-            "line": 288,
-            "column": 52,
-            "byte_offset": 8370
-          }
+          "start": { "line": 288, "column": 13, "byte_offset": 8331 },
+          "end": { "line": 288, "column": 52, "byte_offset": 8370 }
         }
       },
       {
         "id": "location:main.tf:291:1-291:59",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 291,
-            "column": 1,
-            "byte_offset": 8374
-          },
-          "end": {
-            "line": 291,
-            "column": 59,
-            "byte_offset": 8432
-          }
+          "start": { "line": 291, "column": 1, "byte_offset": 8374 },
+          "end": { "line": 291, "column": 59, "byte_offset": 8432 }
         }
       },
       {
         "id": "location:main.tf:292:13-292:43",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 292,
-            "column": 13,
-            "byte_offset": 8447
-          },
-          "end": {
-            "line": 292,
-            "column": 43,
-            "byte_offset": 8477
-          }
+          "start": { "line": 292, "column": 13, "byte_offset": 8447 },
+          "end": { "line": 292, "column": 43, "byte_offset": 8477 }
         }
       },
       {
         "id": "location:main.tf:294:13-294:54",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 294,
-            "column": 13,
-            "byte_offset": 8522
-          },
-          "end": {
-            "line": 294,
-            "column": 54,
-            "byte_offset": 8563
-          }
+          "start": { "line": 294, "column": 13, "byte_offset": 8522 },
+          "end": { "line": 294, "column": 54, "byte_offset": 8563 }
         }
       },
       {
         "id": "location:main.tf:299:1-299:54",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 299,
-            "column": 1,
-            "byte_offset": 8656
-          },
-          "end": {
-            "line": 299,
-            "column": 54,
-            "byte_offset": 8709
-          }
+          "start": { "line": 299, "column": 1, "byte_offset": 8656 },
+          "end": { "line": 299, "column": 54, "byte_offset": 8709 }
         }
       },
       {
         "id": "location:main.tf:301:15-301:45",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 301,
-            "column": 15,
-            "byte_offset": 8758
-          },
-          "end": {
-            "line": 301,
-            "column": 45,
-            "byte_offset": 8788
-          }
+          "start": { "line": 301, "column": 15, "byte_offset": 8758 },
+          "end": { "line": 301, "column": 45, "byte_offset": 8788 }
         }
       },
       {
         "id": "location:main.tf:309:1-309:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 309,
-            "column": 1,
-            "byte_offset": 8852
-          },
-          "end": {
-            "line": 309,
-            "column": 62,
-            "byte_offset": 8913
-          }
+          "start": { "line": 309, "column": 1, "byte_offset": 8852 },
+          "end": { "line": 309, "column": 62, "byte_offset": 8913 }
         }
       },
       {
         "id": "location:main.tf:310:17-310:60",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 310,
-            "column": 17,
-            "byte_offset": 8932
-          },
-          "end": {
-            "line": 310,
-            "column": 60,
-            "byte_offset": 8975
-          }
+          "start": { "line": 310, "column": 17, "byte_offset": 8932 },
+          "end": { "line": 310, "column": 60, "byte_offset": 8975 }
         }
       },
       {
         "id": "location:main.tf:314:1-314:64",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 314,
-            "column": 1,
-            "byte_offset": 9015
-          },
-          "end": {
-            "line": 314,
-            "column": 64,
-            "byte_offset": 9078
-          }
+          "start": { "line": 314, "column": 1, "byte_offset": 9015 },
+          "end": { "line": 314, "column": 64, "byte_offset": 9078 }
         }
       },
       {
         "id": "location:main.tf:316:15-316:45",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 316,
-            "column": 15,
-            "byte_offset": 9133
-          },
-          "end": {
-            "line": 316,
-            "column": 45,
-            "byte_offset": 9163
-          }
+          "start": { "line": 316, "column": 15, "byte_offset": 9133 },
+          "end": { "line": 316, "column": 45, "byte_offset": 9163 }
         }
       },
       {
         "id": "location:main.tf:324:1-324:72",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 324,
-            "column": 1,
-            "byte_offset": 9227
-          },
-          "end": {
-            "line": 324,
-            "column": 72,
-            "byte_offset": 9298
-          }
+          "start": { "line": 324, "column": 1, "byte_offset": 9227 },
+          "end": { "line": 324, "column": 72, "byte_offset": 9298 }
         }
       },
       {
         "id": "location:main.tf:325:17-325:70",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 325,
-            "column": 17,
-            "byte_offset": 9317
-          },
-          "end": {
-            "line": 325,
-            "column": 70,
-            "byte_offset": 9370
-          }
+          "start": { "line": 325, "column": 17, "byte_offset": 9317 },
+          "end": { "line": 325, "column": 70, "byte_offset": 9370 }
         }
       },
       {
         "id": "location:main.tf:329:1-329:59",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 329,
-            "column": 1,
-            "byte_offset": 9416
-          },
-          "end": {
-            "line": 329,
-            "column": 59,
-            "byte_offset": 9474
-          }
+          "start": { "line": 329, "column": 1, "byte_offset": 9416 },
+          "end": { "line": 329, "column": 59, "byte_offset": 9474 }
         }
       },
       {
         "id": "location:main.tf:331:15-331:45",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 331,
-            "column": 15,
-            "byte_offset": 9536
-          },
-          "end": {
-            "line": 331,
-            "column": 45,
-            "byte_offset": 9566
-          }
+          "start": { "line": 331, "column": 15, "byte_offset": 9536 },
+          "end": { "line": 331, "column": 45, "byte_offset": 9566 }
         }
       },
       {
         "id": "location:main.tf:339:1-339:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 339,
-            "column": 1,
-            "byte_offset": 9630
-          },
-          "end": {
-            "line": 339,
-            "column": 67,
-            "byte_offset": 9696
-          }
+          "start": { "line": 339, "column": 1, "byte_offset": 9630 },
+          "end": { "line": 339, "column": 67, "byte_offset": 9696 }
         }
       },
       {
         "id": "location:main.tf:340:17-340:65",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 340,
-            "column": 17,
-            "byte_offset": 9715
-          },
-          "end": {
-            "line": 340,
-            "column": 65,
-            "byte_offset": 9763
-          }
+          "start": { "line": 340, "column": 17, "byte_offset": 9715 },
+          "end": { "line": 340, "column": 65, "byte_offset": 9763 }
         }
       },
       {
         "id": "location:main.tf:346:1-346:47",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 346,
-            "column": 1,
-            "byte_offset": 9898
-          },
-          "end": {
-            "line": 346,
-            "column": 47,
-            "byte_offset": 9944
-          }
+          "start": { "line": 346, "column": 1, "byte_offset": 9898 },
+          "end": { "line": 346, "column": 47, "byte_offset": 9944 }
         }
       },
       {
         "id": "location:main.tf:348:25-348:55",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 348,
-            "column": 25,
-            "byte_offset": 10011
-          },
-          "end": {
-            "line": 348,
-            "column": 55,
-            "byte_offset": 10041
-          }
+          "start": { "line": 348, "column": 25, "byte_offset": 10011 },
+          "end": { "line": 348, "column": 55, "byte_offset": 10041 }
         }
       },
       {
         "id": "location:main.tf:364:55-364:87",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 364,
-            "column": 55,
-            "byte_offset": 10541
-          },
-          "end": {
-            "line": 364,
-            "column": 87,
-            "byte_offset": 10573
-          }
+          "start": { "line": 364, "column": 55, "byte_offset": 10541 },
+          "end": { "line": 364, "column": 87, "byte_offset": 10573 }
         }
       },
       {
         "id": "location:main.tf:390:17-390:70",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 390,
-            "column": 17,
-            "byte_offset": 11146
-          },
-          "end": {
-            "line": 390,
-            "column": 70,
-            "byte_offset": 11199
-          }
+          "start": { "line": 390, "column": 17, "byte_offset": 11146 },
+          "end": { "line": 390, "column": 70, "byte_offset": 11199 }
         }
       },
       {
         "id": "location:main.tf:393:1-393:40",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 393,
-            "column": 1,
-            "byte_offset": 11204
-          },
-          "end": {
-            "line": 393,
-            "column": 40,
-            "byte_offset": 11243
-          }
+          "start": { "line": 393, "column": 1, "byte_offset": 11204 },
+          "end": { "line": 393, "column": 40, "byte_offset": 11243 }
         }
       },
       {
         "id": "location:main.tf:395:29-395:59",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 395,
-            "column": 29,
-            "byte_offset": 11320
-          },
-          "end": {
-            "line": 395,
-            "column": 59,
-            "byte_offset": 11350
-          }
+          "start": { "line": 395, "column": 29, "byte_offset": 11320 },
+          "end": { "line": 395, "column": 59, "byte_offset": 11350 }
         }
       },
       {
         "id": "location:main.tf:400:29-400:61",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 400,
-            "column": 29,
-            "byte_offset": 11532
-          },
-          "end": {
-            "line": 400,
-            "column": 61,
-            "byte_offset": 11564
-          }
+          "start": { "line": 400, "column": 29, "byte_offset": 11532 },
+          "end": { "line": 400, "column": 61, "byte_offset": 11564 }
         }
       },
       {
         "id": "location:main.tf:406:17-406:70",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 406,
-            "column": 17,
-            "byte_offset": 11761
-          },
-          "end": {
-            "line": 406,
-            "column": 70,
-            "byte_offset": 11814
-          }
+          "start": { "line": 406, "column": 17, "byte_offset": 11761 },
+          "end": { "line": 406, "column": 70, "byte_offset": 11814 }
         }
       },
       {
         "id": "location:main.tf:411:1-411:44",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 411,
-            "column": 1,
-            "byte_offset": 11916
-          },
-          "end": {
-            "line": 411,
-            "column": 44,
-            "byte_offset": 11959
-          }
+          "start": { "line": 411, "column": 1, "byte_offset": 11916 },
+          "end": { "line": 411, "column": 44, "byte_offset": 11959 }
         }
       },
       {
         "id": "location:main.tf:413:32-413:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 413,
-            "column": 32,
-            "byte_offset": 12037
-          },
-          "end": {
-            "line": 413,
-            "column": 62,
-            "byte_offset": 12067
-          }
+          "start": { "line": 413, "column": 32, "byte_offset": 12037 },
+          "end": { "line": 413, "column": 62, "byte_offset": 12067 }
         }
       },
       {
         "id": "location:main.tf:418:1-418:49",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 418,
-            "column": 1,
-            "byte_offset": 12156
-          },
-          "end": {
-            "line": 418,
-            "column": 49,
-            "byte_offset": 12204
-          }
+          "start": { "line": 418, "column": 1, "byte_offset": 12156 },
+          "end": { "line": 418, "column": 49, "byte_offset": 12204 }
         }
       },
       {
         "id": "location:main.tf:420:32-420:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 420,
-            "column": 32,
-            "byte_offset": 12287
-          },
-          "end": {
-            "line": 420,
-            "column": 62,
-            "byte_offset": 12317
-          }
+          "start": { "line": 420, "column": 32, "byte_offset": 12287 },
+          "end": { "line": 420, "column": 62, "byte_offset": 12317 }
         }
       },
       {
         "id": "location:main.tf:425:1-425:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 425,
-            "column": 1,
-            "byte_offset": 12406
-          },
-          "end": {
-            "line": 425,
-            "column": 62,
-            "byte_offset": 12467
-          }
+          "start": { "line": 425, "column": 1, "byte_offset": 12406 },
+          "end": { "line": 425, "column": 62, "byte_offset": 12467 }
         }
       },
       {
         "id": "location:main.tf:427:26-427:56",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 427,
-            "column": 26,
-            "byte_offset": 12544
-          },
-          "end": {
-            "line": 427,
-            "column": 56,
-            "byte_offset": 12574
-          }
+          "start": { "line": 427, "column": 26, "byte_offset": 12544 },
+          "end": { "line": 427, "column": 56, "byte_offset": 12574 }
         }
       },
       {
         "id": "location:main.tf:428:26-428:59",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 428,
-            "column": 26,
-            "byte_offset": 12600
-          },
-          "end": {
-            "line": 428,
-            "column": 59,
-            "byte_offset": 12633
-          }
+          "start": { "line": 428, "column": 26, "byte_offset": 12600 },
+          "end": { "line": 428, "column": 59, "byte_offset": 12633 }
         }
       },
       {
         "id": "location:main.tf:433:21-433:63",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 433,
-            "column": 21,
-            "byte_offset": 12737
-          },
-          "end": {
-            "line": 433,
-            "column": 63,
-            "byte_offset": 12779
-          }
+          "start": { "line": 433, "column": 21, "byte_offset": 12737 },
+          "end": { "line": 433, "column": 63, "byte_offset": 12779 }
         }
       },
       {
         "id": "location:main.tf:436:31-436:71",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 436,
-            "column": 31,
-            "byte_offset": 12828
-          },
-          "end": {
-            "line": 436,
-            "column": 71,
-            "byte_offset": 12868
-          }
+          "start": { "line": 436, "column": 31, "byte_offset": 12828 },
+          "end": { "line": 436, "column": 71, "byte_offset": 12868 }
         }
       },
       {
         "id": "location:main.tf:450:1-450:66",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 450,
-            "column": 1,
-            "byte_offset": 13001
-          },
-          "end": {
-            "line": 450,
-            "column": 66,
-            "byte_offset": 13066
-          }
+          "start": { "line": 450, "column": 1, "byte_offset": 13001 },
+          "end": { "line": 450, "column": 66, "byte_offset": 13066 }
         }
       },
       {
         "id": "location:main.tf:452:26-452:56",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 452,
-            "column": 26,
-            "byte_offset": 13147
-          },
-          "end": {
-            "line": 452,
-            "column": 56,
-            "byte_offset": 13177
-          }
+          "start": { "line": 452, "column": 26, "byte_offset": 13147 },
+          "end": { "line": 452, "column": 56, "byte_offset": 13177 }
         }
       },
       {
         "id": "location:main.tf:453:26-453:64",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 453,
-            "column": 26,
-            "byte_offset": 13203
-          },
-          "end": {
-            "line": 453,
-            "column": 64,
-            "byte_offset": 13241
-          }
+          "start": { "line": 453, "column": 26, "byte_offset": 13203 },
+          "end": { "line": 453, "column": 64, "byte_offset": 13241 }
         }
       },
       {
         "id": "location:main.tf:458:21-458:69",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 458,
-            "column": 21,
-            "byte_offset": 13346
-          },
-          "end": {
-            "line": 458,
-            "column": 69,
-            "byte_offset": 13394
-          }
+          "start": { "line": 458, "column": 21, "byte_offset": 13346 },
+          "end": { "line": 458, "column": 69, "byte_offset": 13394 }
         }
       },
       {
         "id": "location:main.tf:461:31-461:71",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 461,
-            "column": 31,
-            "byte_offset": 13443
-          },
-          "end": {
-            "line": 461,
-            "column": 71,
-            "byte_offset": 13483
-          }
+          "start": { "line": 461, "column": 31, "byte_offset": 13443 },
+          "end": { "line": 461, "column": 71, "byte_offset": 13483 }
         }
       },
       {
         "id": "location:main.tf:475:1-475:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 475,
-            "column": 1,
-            "byte_offset": 13616
-          },
-          "end": {
-            "line": 475,
-            "column": 67,
-            "byte_offset": 13682
-          }
+          "start": { "line": 475, "column": 1, "byte_offset": 13616 },
+          "end": { "line": 475, "column": 67, "byte_offset": 13682 }
         }
       },
       {
         "id": "location:main.tf:477:32-477:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 477,
-            "column": 32,
-            "byte_offset": 13776
-          },
-          "end": {
-            "line": 477,
-            "column": 62,
-            "byte_offset": 13806
-          }
+          "start": { "line": 477, "column": 32, "byte_offset": 13776 },
+          "end": { "line": 477, "column": 62, "byte_offset": 13806 }
         }
       },
       {
         "id": "location:main.tf:478:32-478:65",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 478,
-            "column": 32,
-            "byte_offset": 13838
-          },
-          "end": {
-            "line": 478,
-            "column": 65,
-            "byte_offset": 13871
-          }
+          "start": { "line": 478, "column": 32, "byte_offset": 13838 },
+          "end": { "line": 478, "column": 65, "byte_offset": 13871 }
         }
       },
       {
         "id": "location:main.tf:488:1-488:65",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 488,
-            "column": 1,
-            "byte_offset": 14033
-          },
-          "end": {
-            "line": 488,
-            "column": 65,
-            "byte_offset": 14097
-          }
+          "start": { "line": 488, "column": 1, "byte_offset": 14033 },
+          "end": { "line": 488, "column": 65, "byte_offset": 14097 }
         }
       },
       {
         "id": "location:main.tf:490:32-490:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 490,
-            "column": 32,
-            "byte_offset": 14189
-          },
-          "end": {
-            "line": 490,
-            "column": 62,
-            "byte_offset": 14219
-          }
+          "start": { "line": 490, "column": 32, "byte_offset": 14189 },
+          "end": { "line": 490, "column": 62, "byte_offset": 14219 }
         }
       },
       {
         "id": "location:main.tf:491:32-491:70",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 491,
-            "column": 32,
-            "byte_offset": 14251
-          },
-          "end": {
-            "line": 491,
-            "column": 70,
-            "byte_offset": 14289
-          }
+          "start": { "line": 491, "column": 32, "byte_offset": 14251 },
+          "end": { "line": 491, "column": 70, "byte_offset": 14289 }
         }
       },
       {
         "id": "location:main.tf:503:1-503:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 503,
-            "column": 1,
-            "byte_offset": 14552
-          },
-          "end": {
-            "line": 503,
-            "column": 52,
-            "byte_offset": 14603
-          }
+          "start": { "line": 503, "column": 1, "byte_offset": 14552 },
+          "end": { "line": 503, "column": 52, "byte_offset": 14603 }
         }
       },
       {
         "id": "location:main.tf:505:25-505:55",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 505,
-            "column": 25,
-            "byte_offset": 14667
-          },
-          "end": {
-            "line": 505,
-            "column": 55,
-            "byte_offset": 14697
-          }
+          "start": { "line": 505, "column": 25, "byte_offset": 14667 },
+          "end": { "line": 505, "column": 55, "byte_offset": 14697 }
         }
       },
       {
         "id": "location:main.tf:512:23-512:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 512,
-            "column": 23,
-            "byte_offset": 14883
-          },
-          "end": {
-            "line": 512,
-            "column": 62,
-            "byte_offset": 14922
-          }
+          "start": { "line": 512, "column": 23, "byte_offset": 14883 },
+          "end": { "line": 512, "column": 62, "byte_offset": 14922 }
         }
       },
       {
         "id": "location:main.tf:520:19-520:54",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 520,
-            "column": 19,
-            "byte_offset": 15039
-          },
-          "end": {
-            "line": 520,
-            "column": 54,
-            "byte_offset": 15074
-          }
+          "start": { "line": 520, "column": 19, "byte_offset": 15039 },
+          "end": { "line": 520, "column": 54, "byte_offset": 15074 }
         }
       },
       {
         "id": "location:main.tf:536:17-536:50",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 536,
-            "column": 17,
-            "byte_offset": 15407
-          },
-          "end": {
-            "line": 536,
-            "column": 50,
-            "byte_offset": 15440
-          }
+          "start": { "line": 536, "column": 17, "byte_offset": 15407 },
+          "end": { "line": 536, "column": 50, "byte_offset": 15440 }
         }
       },
       {
         "id": "location:main.tf:544:23-544:73",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 544,
-            "column": 23,
-            "byte_offset": 15568
-          },
-          "end": {
-            "line": 544,
-            "column": 73,
-            "byte_offset": 15618
-          }
+          "start": { "line": 544, "column": 23, "byte_offset": 15568 },
+          "end": { "line": 544, "column": 73, "byte_offset": 15618 }
         }
       },
       {
         "id": "location:main.tf:553:1-553:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 553,
-            "column": 1,
-            "byte_offset": 15693
-          },
-          "end": {
-            "line": 553,
-            "column": 52,
-            "byte_offset": 15744
-          }
+          "start": { "line": 553, "column": 1, "byte_offset": 15693 },
+          "end": { "line": 553, "column": 52, "byte_offset": 15744 }
         }
       },
       {
         "id": "location:main.tf:555:25-555:55",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 555,
-            "column": 25,
-            "byte_offset": 15808
-          },
-          "end": {
-            "line": 555,
-            "column": 55,
-            "byte_offset": 15838
-          }
+          "start": { "line": 555, "column": 25, "byte_offset": 15808 },
+          "end": { "line": 555, "column": 55, "byte_offset": 15838 }
         }
       },
       {
         "id": "location:main.tf:562:23-562:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 562,
-            "column": 23,
-            "byte_offset": 16034
-          },
-          "end": {
-            "line": 562,
-            "column": 62,
-            "byte_offset": 16073
-          }
+          "start": { "line": 562, "column": 23, "byte_offset": 16034 },
+          "end": { "line": 562, "column": 62, "byte_offset": 16073 }
         }
       },
       {
         "id": "location:main.tf:570:19-570:54",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 570,
-            "column": 19,
-            "byte_offset": 16190
-          },
-          "end": {
-            "line": 570,
-            "column": 54,
-            "byte_offset": 16225
-          }
+          "start": { "line": 570, "column": 19, "byte_offset": 16190 },
+          "end": { "line": 570, "column": 54, "byte_offset": 16225 }
         }
       },
       {
         "id": "location:main.tf:586:17-586:55",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 586,
-            "column": 17,
-            "byte_offset": 16561
-          },
-          "end": {
-            "line": 586,
-            "column": 55,
-            "byte_offset": 16599
-          }
+          "start": { "line": 586, "column": 17, "byte_offset": 16561 },
+          "end": { "line": 586, "column": 55, "byte_offset": 16599 }
         }
       },
       {
         "id": "location:main.tf:591:17-591:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 591,
-            "column": 17,
-            "byte_offset": 16666
-          },
-          "end": {
-            "line": 591,
-            "column": 48,
-            "byte_offset": 16697
-          }
+          "start": { "line": 591, "column": 17, "byte_offset": 16666 },
+          "end": { "line": 591, "column": 48, "byte_offset": 16697 }
         }
       },
       {
         "id": "location:main.tf:597:1-597:58",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 597,
-            "column": 1,
-            "byte_offset": 16719
-          },
-          "end": {
-            "line": 597,
-            "column": 58,
-            "byte_offset": 16776
-          }
+          "start": { "line": 597, "column": 1, "byte_offset": 16719 },
+          "end": { "line": 597, "column": 58, "byte_offset": 16776 }
         }
       },
       {
         "id": "location:main.tf:599:25-599:55",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 599,
-            "column": 25,
-            "byte_offset": 16846
-          },
-          "end": {
-            "line": 599,
-            "column": 55,
-            "byte_offset": 16876
-          }
+          "start": { "line": 599, "column": 25, "byte_offset": 16846 },
+          "end": { "line": 599, "column": 55, "byte_offset": 16876 }
         }
       },
       {
         "id": "location:main.tf:606:23-606:68",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 606,
-            "column": 23,
-            "byte_offset": 17072
-          },
-          "end": {
-            "line": 606,
-            "column": 68,
-            "byte_offset": 17117
-          }
+          "start": { "line": 606, "column": 23, "byte_offset": 17072 },
+          "end": { "line": 606, "column": 68, "byte_offset": 17117 }
         }
       },
       {
         "id": "location:main.tf:614:19-614:54",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 614,
-            "column": 19,
-            "byte_offset": 17234
-          },
-          "end": {
-            "line": 614,
-            "column": 54,
-            "byte_offset": 17269
-          }
+          "start": { "line": 614, "column": 19, "byte_offset": 17234 },
+          "end": { "line": 614, "column": 54, "byte_offset": 17269 }
         }
       },
       {
         "id": "location:main.tf:630:17-630:66",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 630,
-            "column": 17,
-            "byte_offset": 17615
-          },
-          "end": {
-            "line": 630,
-            "column": 66,
-            "byte_offset": 17664
-          }
+          "start": { "line": 630, "column": 17, "byte_offset": 17615 },
+          "end": { "line": 630, "column": 66, "byte_offset": 17664 }
         }
       },
       {
         "id": "location:main.tf:638:23-638:83",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 638,
-            "column": 23,
-            "byte_offset": 17798
-          },
-          "end": {
-            "line": 638,
-            "column": 83,
-            "byte_offset": 17858
-          }
+          "start": { "line": 638, "column": 23, "byte_offset": 17798 },
+          "end": { "line": 638, "column": 83, "byte_offset": 17858 }
         }
       },
       {
         "id": "location:main.tf:647:1-647:59",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 647,
-            "column": 1,
-            "byte_offset": 17933
-          },
-          "end": {
-            "line": 647,
-            "column": 59,
-            "byte_offset": 17991
-          }
+          "start": { "line": 647, "column": 1, "byte_offset": 17933 },
+          "end": { "line": 647, "column": 59, "byte_offset": 17991 }
         }
       },
       {
         "id": "location:main.tf:649:25-649:55",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 649,
-            "column": 25,
-            "byte_offset": 18066
-          },
-          "end": {
-            "line": 649,
-            "column": 55,
-            "byte_offset": 18096
-          }
+          "start": { "line": 649, "column": 25, "byte_offset": 18066 },
+          "end": { "line": 649, "column": 55, "byte_offset": 18096 }
         }
       },
       {
         "id": "location:main.tf:658:25-658:70",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 658,
-            "column": 25,
-            "byte_offset": 18274
-          },
-          "end": {
-            "line": 658,
-            "column": 70,
-            "byte_offset": 18319
-          }
+          "start": { "line": 658, "column": 25, "byte_offset": 18274 },
+          "end": { "line": 658, "column": 70, "byte_offset": 18319 }
         }
       },
       {
         "id": "location:main.tf:663:21-663:56",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 663,
-            "column": 21,
-            "byte_offset": 18418
-          },
-          "end": {
-            "line": 663,
-            "column": 56,
-            "byte_offset": 18453
-          }
+          "start": { "line": 663, "column": 21, "byte_offset": 18418 },
+          "end": { "line": 663, "column": 56, "byte_offset": 18453 }
         }
       },
       {
         "id": "location:main.tf:672:19-672:68",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 672,
-            "column": 19,
-            "byte_offset": 18714
-          },
-          "end": {
-            "line": 672,
-            "column": 68,
-            "byte_offset": 18763
-          }
+          "start": { "line": 672, "column": 19, "byte_offset": 18714 },
+          "end": { "line": 672, "column": 68, "byte_offset": 18763 }
         }
       },
       {
         "id": "location:main.tf:680:25-680:80",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 680,
-            "column": 25,
-            "byte_offset": 18916
-          },
-          "end": {
-            "line": 680,
-            "column": 80,
-            "byte_offset": 18971
-          }
+          "start": { "line": 680, "column": 25, "byte_offset": 18916 },
+          "end": { "line": 680, "column": 80, "byte_offset": 18971 }
         }
       },
       {
         "id": "location:main.tf:692:1-692:50",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 692,
-            "column": 1,
-            "byte_offset": 19171
-          },
-          "end": {
-            "line": 692,
-            "column": 50,
-            "byte_offset": 19220
-          }
+          "start": { "line": 692, "column": 1, "byte_offset": 19171 },
+          "end": { "line": 692, "column": 50, "byte_offset": 19220 }
         }
       },
       {
         "id": "location:main.tf:694:18-694:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 694,
-            "column": 18,
-            "byte_offset": 19270
-          },
-          "end": {
-            "line": 694,
-            "column": 48,
-            "byte_offset": 19300
-          }
+          "start": { "line": 694, "column": 18, "byte_offset": 19270 },
+          "end": { "line": 694, "column": 48, "byte_offset": 19300 }
         }
       },
       {
         "id": "location:main.tf:701:22-701:65",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 701,
-            "column": 22,
-            "byte_offset": 19426
-          },
-          "end": {
-            "line": 701,
-            "column": 65,
-            "byte_offset": 19469
-          }
+          "start": { "line": 701, "column": 22, "byte_offset": 19426 },
+          "end": { "line": 701, "column": 65, "byte_offset": 19469 }
         }
       },
       {
         "id": "location:main.tf:707:1-707:59",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 707,
-            "column": 1,
-            "byte_offset": 19517
-          },
-          "end": {
-            "line": 707,
-            "column": 59,
-            "byte_offset": 19575
-          }
+          "start": { "line": 707, "column": 1, "byte_offset": 19517 },
+          "end": { "line": 707, "column": 59, "byte_offset": 19575 }
         }
       },
       {
         "id": "location:main.tf:708:25-708:72",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 708,
-            "column": 25,
-            "byte_offset": 19602
-          },
-          "end": {
-            "line": 708,
-            "column": 72,
-            "byte_offset": 19649
-          }
+          "start": { "line": 708, "column": 25, "byte_offset": 19602 },
+          "end": { "line": 708, "column": 72, "byte_offset": 19649 }
         }
       },
       {
         "id": "location:main.tf:709:25-709:55",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 709,
-            "column": 25,
-            "byte_offset": 19674
-          },
-          "end": {
-            "line": 709,
-            "column": 55,
-            "byte_offset": 19704
-          }
+          "start": { "line": 709, "column": 25, "byte_offset": 19674 },
+          "end": { "line": 709, "column": 55, "byte_offset": 19704 }
         }
       },
       {
         "id": "location:main.tf:722:1-722:65",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 722,
-            "column": 1,
-            "byte_offset": 19949
-          },
-          "end": {
-            "line": 722,
-            "column": 65,
-            "byte_offset": 20013
-          }
+          "start": { "line": 722, "column": 1, "byte_offset": 19949 },
+          "end": { "line": 722, "column": 65, "byte_offset": 20013 }
         }
       },
       {
         "id": "location:main.tf:724:18-724:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 724,
-            "column": 18,
-            "byte_offset": 20090
-          },
-          "end": {
-            "line": 724,
-            "column": 48,
-            "byte_offset": 20120
-          }
+          "start": { "line": 724, "column": 18, "byte_offset": 20090 },
+          "end": { "line": 724, "column": 48, "byte_offset": 20120 }
         }
       },
       {
         "id": "location:main.tf:747:1-747:43",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 747,
-            "column": 1,
-            "byte_offset": 20696
-          },
-          "end": {
-            "line": 747,
-            "column": 43,
-            "byte_offset": 20738
-          }
+          "start": { "line": 747, "column": 1, "byte_offset": 20696 },
+          "end": { "line": 747, "column": 43, "byte_offset": 20738 }
         }
       },
       {
         "id": "location:main.tf:749:30-749:60",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 749,
-            "column": 30,
-            "byte_offset": 20815
-          },
-          "end": {
-            "line": 749,
-            "column": 60,
-            "byte_offset": 20845
-          }
+          "start": { "line": 749, "column": 30, "byte_offset": 20815 },
+          "end": { "line": 749, "column": 60, "byte_offset": 20845 }
         }
       },
       {
         "id": "location:main.tf:751:30-751:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 751,
-            "column": 30,
-            "byte_offset": 20917
-          },
-          "end": {
-            "line": 751,
-            "column": 62,
-            "byte_offset": 20949
-          }
+          "start": { "line": 751, "column": 30, "byte_offset": 20917 },
+          "end": { "line": 751, "column": 62, "byte_offset": 20949 }
         }
       },
       {
         "id": "location:main.tf:752:30-752:62",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 752,
-            "column": 30,
-            "byte_offset": 20979
-          },
-          "end": {
-            "line": 752,
-            "column": 62,
-            "byte_offset": 21011
-          }
+          "start": { "line": 752, "column": 30, "byte_offset": 20979 },
+          "end": { "line": 752, "column": 62, "byte_offset": 21011 }
         }
       },
       {
         "id": "location:main.tf:761:37-761:99",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 761,
-            "column": 37,
-            "byte_offset": 21306
-          },
-          "end": {
-            "line": 761,
-            "column": 99,
-            "byte_offset": 21368
-          }
+          "start": { "line": 761, "column": 37, "byte_offset": 21306 },
+          "end": { "line": 761, "column": 99, "byte_offset": 21368 }
         }
       },
       {
         "id": "location:main.tf:762:37-762:99",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 762,
-            "column": 37,
-            "byte_offset": 21405
-          },
-          "end": {
-            "line": 762,
-            "column": 99,
-            "byte_offset": 21467
-          }
+          "start": { "line": 762, "column": 37, "byte_offset": 21405 },
+          "end": { "line": 762, "column": 99, "byte_offset": 21467 }
         }
       },
       {
         "id": "location:main.tf:783:24-783:54",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 783,
-            "column": 24,
-            "byte_offset": 21865
-          },
-          "end": {
-            "line": 783,
-            "column": 54,
-            "byte_offset": 21895
-          }
+          "start": { "line": 783, "column": 24, "byte_offset": 21865 },
+          "end": { "line": 783, "column": 54, "byte_offset": 21895 }
         }
       },
       {
         "id": "location:main.tf:809:1-809:50",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 809,
-            "column": 1,
-            "byte_offset": 22276
-          },
-          "end": {
-            "line": 809,
-            "column": 50,
-            "byte_offset": 22325
-          }
+          "start": { "line": 809, "column": 1, "byte_offset": 22276 },
+          "end": { "line": 809, "column": 50, "byte_offset": 22325 }
         }
       },
       {
         "id": "location:main.tf:811:14-811:44",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 811,
-            "column": 14,
-            "byte_offset": 22369
-          },
-          "end": {
-            "line": 811,
-            "column": 44,
-            "byte_offset": 22399
-          }
+          "start": { "line": 811, "column": 14, "byte_offset": 22369 },
+          "end": { "line": 811, "column": 44, "byte_offset": 22399 }
         }
       },
       {
         "id": "location:main.tf:813:14-813:46",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 813,
-            "column": 14,
-            "byte_offset": 22439
-          },
-          "end": {
-            "line": 813,
-            "column": 46,
-            "byte_offset": 22471
-          }
+          "start": { "line": 813, "column": 14, "byte_offset": 22439 },
+          "end": { "line": 813, "column": 46, "byte_offset": 22471 }
         }
       },
       {
         "id": "location:main.tf:829:23-829:61",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 829,
-            "column": 23,
-            "byte_offset": 22746
-          },
-          "end": {
-            "line": 829,
-            "column": 61,
-            "byte_offset": 22784
-          }
+          "start": { "line": 829, "column": 23, "byte_offset": 22746 },
+          "end": { "line": 829, "column": 61, "byte_offset": 22784 }
         }
       },
       {
         "id": "location:main.tf:847:1-847:22",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 847,
-            "column": 1,
-            "byte_offset": 23224
-          },
-          "end": {
-            "line": 847,
-            "column": 22,
-            "byte_offset": 23245
-          }
+          "start": { "line": 847, "column": 1, "byte_offset": 23224 },
+          "end": { "line": 847, "column": 22, "byte_offset": 23245 }
         }
       },
       {
         "id": "location:main.tf:848:39-848:77",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 848,
-            "column": 39,
-            "byte_offset": 23286
-          },
-          "end": {
-            "line": 848,
-            "column": 77,
-            "byte_offset": 23324
-          }
+          "start": { "line": 848, "column": 39, "byte_offset": 23286 },
+          "end": { "line": 848, "column": 77, "byte_offset": 23324 }
         }
       },
       {
         "id": "location:main.tf:856:1-856:43",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 856,
-            "column": 1,
-            "byte_offset": 23552
-          },
-          "end": {
-            "line": 856,
-            "column": 43,
-            "byte_offset": 23594
-          }
+          "start": { "line": 856, "column": 1, "byte_offset": 23552 },
+          "end": { "line": 856, "column": 43, "byte_offset": 23594 }
         }
       },
       {
         "id": "location:main.tf:868:1-868:47",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 868,
-            "column": 1,
-            "byte_offset": 23841
-          },
-          "end": {
-            "line": 868,
-            "column": 47,
-            "byte_offset": 23887
-          }
+          "start": { "line": 868, "column": 1, "byte_offset": 23841 },
+          "end": { "line": 868, "column": 47, "byte_offset": 23887 }
         }
       },
       {
         "id": "location:main.tf:880:1-880:47",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 880,
-            "column": 1,
-            "byte_offset": 24131
-          },
-          "end": {
-            "line": 880,
-            "column": 47,
-            "byte_offset": 24177
-          }
+          "start": { "line": 880, "column": 1, "byte_offset": 24131 },
+          "end": { "line": 880, "column": 47, "byte_offset": 24177 }
         }
       },
       {
         "id": "location:main.tf:892:1-892:51",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 892,
-            "column": 1,
-            "byte_offset": 24421
-          },
-          "end": {
-            "line": 892,
-            "column": 51,
-            "byte_offset": 24471
-          }
+          "start": { "line": 892, "column": 1, "byte_offset": 24421 },
+          "end": { "line": 892, "column": 51, "byte_offset": 24471 }
         }
       },
       {
         "id": "location:main.tf:906:1-906:59",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 906,
-            "column": 1,
-            "byte_offset": 24839
-          },
-          "end": {
-            "line": 906,
-            "column": 59,
-            "byte_offset": 24897
-          }
+          "start": { "line": 906, "column": 1, "byte_offset": 24839 },
+          "end": { "line": 906, "column": 59, "byte_offset": 24897 }
         }
       },
       {
         "id": "location:main.tf:909:17-909:63",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 909,
-            "column": 17,
-            "byte_offset": 24963
-          },
-          "end": {
-            "line": 909,
-            "column": 63,
-            "byte_offset": 25009
-          }
+          "start": { "line": 909, "column": 17, "byte_offset": 24963 },
+          "end": { "line": 909, "column": 63, "byte_offset": 25009 }
         }
       },
       {
         "id": "location:main.tf:913:1-913:57",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 913,
-            "column": 1,
-            "byte_offset": 25017
-          },
-          "end": {
-            "line": 913,
-            "column": 57,
-            "byte_offset": 25073
-          }
+          "start": { "line": 913, "column": 1, "byte_offset": 25017 },
+          "end": { "line": 913, "column": 57, "byte_offset": 25073 }
         }
       },
       {
         "id": "location:main.tf:916:17-916:63",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 916,
-            "column": 17,
-            "byte_offset": 25137
-          },
-          "end": {
-            "line": 916,
-            "column": 63,
-            "byte_offset": 25183
-          }
+          "start": { "line": 916, "column": 17, "byte_offset": 25137 },
+          "end": { "line": 916, "column": 63, "byte_offset": 25183 }
         }
       },
       {
         "id": "location:main.tf:920:1-920:57",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 920,
-            "column": 1,
-            "byte_offset": 25191
-          },
-          "end": {
-            "line": 920,
-            "column": 57,
-            "byte_offset": 25247
-          }
+          "start": { "line": 920, "column": 1, "byte_offset": 25191 },
+          "end": { "line": 920, "column": 57, "byte_offset": 25247 }
         }
       },
       {
         "id": "location:main.tf:923:17-923:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 923,
-            "column": 17,
-            "byte_offset": 25311
-          },
-          "end": {
-            "line": 923,
-            "column": 67,
-            "byte_offset": 25361
-          }
+          "start": { "line": 923, "column": 17, "byte_offset": 25311 },
+          "end": { "line": 923, "column": 67, "byte_offset": 25361 }
         }
       },
       {
         "id": "location:main.tf:927:1-927:59",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 927,
-            "column": 1,
-            "byte_offset": 25369
-          },
-          "end": {
-            "line": 927,
-            "column": 59,
-            "byte_offset": 25427
-          }
+          "start": { "line": 927, "column": 1, "byte_offset": 25369 },
+          "end": { "line": 927, "column": 59, "byte_offset": 25427 }
         }
       },
       {
         "id": "location:main.tf:930:17-930:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 930,
-            "column": 17,
-            "byte_offset": 25493
-          },
-          "end": {
-            "line": 930,
-            "column": 67,
-            "byte_offset": 25543
-          }
+          "start": { "line": 930, "column": 17, "byte_offset": 25493 },
+          "end": { "line": 930, "column": 67, "byte_offset": 25543 }
         }
       },
       {
         "id": "location:main.tf:933:42-933:80",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 933,
-            "column": 42,
-            "byte_offset": 25606
-          },
-          "end": {
-            "line": 933,
-            "column": 80,
-            "byte_offset": 25644
-          }
+          "start": { "line": 933, "column": 42, "byte_offset": 25606 },
+          "end": { "line": 933, "column": 80, "byte_offset": 25644 }
         }
       },
       {
         "id": "location:main.tf:938:1-938:60",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 938,
-            "column": 1,
-            "byte_offset": 25658
-          },
-          "end": {
-            "line": 938,
-            "column": 60,
-            "byte_offset": 25717
-          }
+          "start": { "line": 938, "column": 1, "byte_offset": 25658 },
+          "end": { "line": 938, "column": 60, "byte_offset": 25717 }
         }
       },
       {
         "id": "location:main.tf:941:17-941:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 941,
-            "column": 17,
-            "byte_offset": 25784
-          },
-          "end": {
-            "line": 941,
-            "column": 67,
-            "byte_offset": 25834
-          }
+          "start": { "line": 941, "column": 17, "byte_offset": 25784 },
+          "end": { "line": 941, "column": 67, "byte_offset": 25834 }
         }
       },
       {
         "id": "location:main.tf:944:42-944:80",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 944,
-            "column": 42,
-            "byte_offset": 25897
-          },
-          "end": {
-            "line": 944,
-            "column": 80,
-            "byte_offset": 25935
-          }
+          "start": { "line": 944, "column": 42, "byte_offset": 25897 },
+          "end": { "line": 944, "column": 80, "byte_offset": 25935 }
         }
       },
       {
         "id": "location:main.tf:949:1-949:58",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 949,
-            "column": 1,
-            "byte_offset": 25949
-          },
-          "end": {
-            "line": 949,
-            "column": 58,
-            "byte_offset": 26006
-          }
+          "start": { "line": 949, "column": 1, "byte_offset": 25949 },
+          "end": { "line": 949, "column": 58, "byte_offset": 26006 }
         }
       },
       {
         "id": "location:main.tf:952:17-952:71",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 952,
-            "column": 17,
-            "byte_offset": 26071
-          },
-          "end": {
-            "line": 952,
-            "column": 71,
-            "byte_offset": 26125
-          }
+          "start": { "line": 952, "column": 17, "byte_offset": 26071 },
+          "end": { "line": 952, "column": 71, "byte_offset": 26125 }
         }
       },
       {
         "id": "location:main.tf:956:1-956:54",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 956,
-            "column": 1,
-            "byte_offset": 26133
-          },
-          "end": {
-            "line": 956,
-            "column": 54,
-            "byte_offset": 26186
-          }
+          "start": { "line": 956, "column": 1, "byte_offset": 26133 },
+          "end": { "line": 956, "column": 54, "byte_offset": 26186 }
         }
       },
       {
         "id": "location:main.tf:959:17-959:71",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 959,
-            "column": 17,
-            "byte_offset": 26247
-          },
-          "end": {
-            "line": 959,
-            "column": 71,
-            "byte_offset": 26301
-          }
+          "start": { "line": 959, "column": 17, "byte_offset": 26247 },
+          "end": { "line": 959, "column": 71, "byte_offset": 26301 }
         }
       },
       {
         "id": "location:main.tf:965:1-965:54",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 965,
-            "column": 1,
-            "byte_offset": 26323
-          },
-          "end": {
-            "line": 965,
-            "column": 54,
-            "byte_offset": 26376
-          }
+          "start": { "line": 965, "column": 1, "byte_offset": 26323 },
+          "end": { "line": 965, "column": 54, "byte_offset": 26376 }
         }
       },
       {
         "id": "location:main.tf:968:17-968:63",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 968,
-            "column": 17,
-            "byte_offset": 26442
-          },
-          "end": {
-            "line": 968,
-            "column": 63,
-            "byte_offset": 26488
-          }
+          "start": { "line": 968, "column": 17, "byte_offset": 26442 },
+          "end": { "line": 968, "column": 63, "byte_offset": 26488 }
         }
       },
       {
         "id": "location:main.tf:995:32-995:94",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 995,
-            "column": 32,
-            "byte_offset": 27029
-          },
-          "end": {
-            "line": 995,
-            "column": 94,
-            "byte_offset": 27091
-          }
+          "start": { "line": 995, "column": 32, "byte_offset": 27029 },
+          "end": { "line": 995, "column": 94, "byte_offset": 27091 }
         }
       },
       {
         "id": "location:main.tf:1003:21-1003:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1003,
-            "column": 21,
-            "byte_offset": 27326
-          },
-          "end": {
-            "line": 1003,
-            "column": 52,
-            "byte_offset": 27357
-          }
+          "start": { "line": 1003, "column": 21, "byte_offset": 27326 },
+          "end": { "line": 1003, "column": 52, "byte_offset": 27357 }
         }
       },
       {
         "id": "location:main.tf:1027:1-1027:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1027,
-            "column": 1,
-            "byte_offset": 27757
-          },
-          "end": {
-            "line": 1027,
-            "column": 52,
-            "byte_offset": 27808
-          }
+          "start": { "line": 1027, "column": 1, "byte_offset": 27757 },
+          "end": { "line": 1027, "column": 52, "byte_offset": 27808 }
         }
       },
       {
         "id": "location:main.tf:1030:17-1030:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1030,
-            "column": 17,
-            "byte_offset": 27872
-          },
-          "end": {
-            "line": 1030,
-            "column": 67,
-            "byte_offset": 27922
-          }
+          "start": { "line": 1030, "column": 17, "byte_offset": 27872 },
+          "end": { "line": 1030, "column": 67, "byte_offset": 27922 }
         }
       },
       {
         "id": "location:main.tf:1057:32-1057:92",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1057,
-            "column": 32,
-            "byte_offset": 28453
-          },
-          "end": {
-            "line": 1057,
-            "column": 92,
-            "byte_offset": 28513
-          }
+          "start": { "line": 1057, "column": 32, "byte_offset": 28453 },
+          "end": { "line": 1057, "column": 92, "byte_offset": 28513 }
         }
       },
       {
         "id": "location:main.tf:1070:21-1070:70",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1070,
-            "column": 21,
-            "byte_offset": 28859
-          },
-          "end": {
-            "line": 1070,
-            "column": 70,
-            "byte_offset": 28908
-          }
+          "start": { "line": 1070, "column": 21, "byte_offset": 28859 },
+          "end": { "line": 1070, "column": 70, "byte_offset": 28908 }
         }
       },
       {
         "id": "location:main.tf:1089:1-1089:54",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1089,
-            "column": 1,
-            "byte_offset": 29180
-          },
-          "end": {
-            "line": 1089,
-            "column": 54,
-            "byte_offset": 29233
-          }
+          "start": { "line": 1089, "column": 1, "byte_offset": 29180 },
+          "end": { "line": 1089, "column": 54, "byte_offset": 29233 }
         }
       },
       {
         "id": "location:main.tf:1092:17-1092:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1092,
-            "column": 17,
-            "byte_offset": 29299
-          },
-          "end": {
-            "line": 1092,
-            "column": 67,
-            "byte_offset": 29349
-          }
+          "start": { "line": 1092, "column": 17, "byte_offset": 29299 },
+          "end": { "line": 1092, "column": 67, "byte_offset": 29349 }
         }
       },
       {
         "id": "location:main.tf:1119:32-1119:94",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1119,
-            "column": 32,
-            "byte_offset": 29896
-          },
-          "end": {
-            "line": 1119,
-            "column": 94,
-            "byte_offset": 29958
-          }
+          "start": { "line": 1119, "column": 32, "byte_offset": 29896 },
+          "end": { "line": 1119, "column": 94, "byte_offset": 29958 }
         }
       },
       {
         "id": "location:main.tf:1127:21-1127:79",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1127,
-            "column": 21,
-            "byte_offset": 30202
-          },
-          "end": {
-            "line": 1127,
-            "column": 79,
-            "byte_offset": 30260
-          }
+          "start": { "line": 1127, "column": 21, "byte_offset": 30202 },
+          "end": { "line": 1127, "column": 79, "byte_offset": 30260 }
         }
       },
       {
         "id": "location:main.tf:1132:21-1132:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1132,
-            "column": 21,
-            "byte_offset": 30343
-          },
-          "end": {
-            "line": 1132,
-            "column": 52,
-            "byte_offset": 30374
-          }
+          "start": { "line": 1132, "column": 21, "byte_offset": 30343 },
+          "end": { "line": 1132, "column": 52, "byte_offset": 30374 }
         }
       },
       {
         "id": "location:main.tf:1151:1-1151:55",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1151,
-            "column": 1,
-            "byte_offset": 30646
-          },
-          "end": {
-            "line": 1151,
-            "column": 55,
-            "byte_offset": 30700
-          }
+          "start": { "line": 1151, "column": 1, "byte_offset": 30646 },
+          "end": { "line": 1151, "column": 55, "byte_offset": 30700 }
         }
       },
       {
         "id": "location:main.tf:1154:17-1154:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1154,
-            "column": 17,
-            "byte_offset": 30767
-          },
-          "end": {
-            "line": 1154,
-            "column": 67,
-            "byte_offset": 30817
-          }
+          "start": { "line": 1154, "column": 17, "byte_offset": 30767 },
+          "end": { "line": 1154, "column": 67, "byte_offset": 30817 }
         }
       },
       {
         "id": "location:main.tf:1181:32-1181:95",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1181,
-            "column": 32,
-            "byte_offset": 31367
-          },
-          "end": {
-            "line": 1181,
-            "column": 95,
-            "byte_offset": 31430
-          }
+          "start": { "line": 1181, "column": 32, "byte_offset": 31367 },
+          "end": { "line": 1181, "column": 95, "byte_offset": 31430 }
         }
       },
       {
         "id": "location:main.tf:1189:21-1189:77",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1189,
-            "column": 21,
-            "byte_offset": 31676
-          },
-          "end": {
-            "line": 1189,
-            "column": 77,
-            "byte_offset": 31732
-          }
+          "start": { "line": 1189, "column": 21, "byte_offset": 31676 },
+          "end": { "line": 1189, "column": 77, "byte_offset": 31732 }
         }
       },
       {
         "id": "location:main.tf:1208:1-1208:54",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1208,
-            "column": 1,
-            "byte_offset": 32002
-          },
-          "end": {
-            "line": 1208,
-            "column": 54,
-            "byte_offset": 32055
-          }
+          "start": { "line": 1208, "column": 1, "byte_offset": 32002 },
+          "end": { "line": 1208, "column": 54, "byte_offset": 32055 }
         }
       },
       {
         "id": "location:main.tf:1211:17-1211:63",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1211,
-            "column": 17,
-            "byte_offset": 32119
-          },
-          "end": {
-            "line": 1211,
-            "column": 63,
-            "byte_offset": 32165
-          }
+          "start": { "line": 1211, "column": 17, "byte_offset": 32119 },
+          "end": { "line": 1211, "column": 63, "byte_offset": 32165 }
         }
       },
       {
         "id": "location:main.tf:1239:32-1239:92",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1239,
-            "column": 32,
-            "byte_offset": 32739
-          },
-          "end": {
-            "line": 1239,
-            "column": 92,
-            "byte_offset": 32799
-          }
+          "start": { "line": 1239, "column": 32, "byte_offset": 32739 },
+          "end": { "line": 1239, "column": 92, "byte_offset": 32799 }
         }
       },
       {
         "id": "location:main.tf:1288:1-1288:51",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1288,
-            "column": 1,
-            "byte_offset": 33708
-          },
-          "end": {
-            "line": 1288,
-            "column": 51,
-            "byte_offset": 33758
-          }
+          "start": { "line": 1288, "column": 1, "byte_offset": 33708 },
+          "end": { "line": 1288, "column": 51, "byte_offset": 33758 }
         }
       },
       {
         "id": "location:main.tf:1291:17-1291:71",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1291,
-            "column": 17,
-            "byte_offset": 33819
-          },
-          "end": {
-            "line": 1291,
-            "column": 71,
-            "byte_offset": 33873
-          }
+          "start": { "line": 1291, "column": 17, "byte_offset": 33819 },
+          "end": { "line": 1291, "column": 71, "byte_offset": 33873 }
         }
       },
       {
         "id": "location:main.tf:1319:32-1319:89",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1319,
-            "column": 32,
-            "byte_offset": 34439
-          },
-          "end": {
-            "line": 1319,
-            "column": 89,
-            "byte_offset": 34496
-          }
+          "start": { "line": 1319, "column": 32, "byte_offset": 34439 },
+          "end": { "line": 1319, "column": 89, "byte_offset": 34496 }
         }
       },
       {
         "id": "location:main.tf:1368:1-1368:53",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1368,
-            "column": 1,
-            "byte_offset": 35362
-          },
-          "end": {
-            "line": 1368,
-            "column": 53,
-            "byte_offset": 35414
-          }
+          "start": { "line": 1368, "column": 1, "byte_offset": 35362 },
+          "end": { "line": 1368, "column": 53, "byte_offset": 35414 }
         }
       },
       {
         "id": "location:main.tf:1371:17-1371:71",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1371,
-            "column": 17,
-            "byte_offset": 35479
-          },
-          "end": {
-            "line": 1371,
-            "column": 71,
-            "byte_offset": 35533
-          }
+          "start": { "line": 1371, "column": 17, "byte_offset": 35479 },
+          "end": { "line": 1371, "column": 71, "byte_offset": 35533 }
         }
       },
       {
         "id": "location:main.tf:1396:32-1396:93",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1396,
-            "column": 32,
-            "byte_offset": 36061
-          },
-          "end": {
-            "line": 1396,
-            "column": 93,
-            "byte_offset": 36122
-          }
+          "start": { "line": 1396, "column": 32, "byte_offset": 36061 },
+          "end": { "line": 1396, "column": 93, "byte_offset": 36122 }
         }
       },
       {
         "id": "location:main.tf:1420:1-1420:49",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1420,
-            "column": 1,
-            "byte_offset": 36533
-          },
-          "end": {
-            "line": 1420,
-            "column": 49,
-            "byte_offset": 36581
-          }
+          "start": { "line": 1420, "column": 1, "byte_offset": 36533 },
+          "end": { "line": 1420, "column": 49, "byte_offset": 36581 }
         }
       },
       {
         "id": "location:main.tf:1423:17-1423:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1423,
-            "column": 17,
-            "byte_offset": 36645
-          },
-          "end": {
-            "line": 1423,
-            "column": 67,
-            "byte_offset": 36695
-          }
+          "start": { "line": 1423, "column": 17, "byte_offset": 36645 },
+          "end": { "line": 1423, "column": 67, "byte_offset": 36695 }
         }
       },
       {
         "id": "location:main.tf:1445:1-1445:49",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1445,
-            "column": 1,
-            "byte_offset": 36988
-          },
-          "end": {
-            "line": 1445,
-            "column": 49,
-            "byte_offset": 37036
-          }
+          "start": { "line": 1445, "column": 1, "byte_offset": 36988 },
+          "end": { "line": 1445, "column": 49, "byte_offset": 37036 }
         }
       },
       {
         "id": "location:main.tf:1448:17-1448:63",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1448,
-            "column": 17,
-            "byte_offset": 37100
-          },
-          "end": {
-            "line": 1448,
-            "column": 63,
-            "byte_offset": 37146
-          }
+          "start": { "line": 1448, "column": 17, "byte_offset": 37100 },
+          "end": { "line": 1448, "column": 63, "byte_offset": 37146 }
         }
       },
       {
         "id": "location:main.tf:1467:1-1467:46",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1467,
-            "column": 1,
-            "byte_offset": 37389
-          },
-          "end": {
-            "line": 1467,
-            "column": 46,
-            "byte_offset": 37434
-          }
+          "start": { "line": 1467, "column": 1, "byte_offset": 37389 },
+          "end": { "line": 1467, "column": 46, "byte_offset": 37434 }
         }
       },
       {
         "id": "location:main.tf:1470:17-1470:71",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1470,
-            "column": 17,
-            "byte_offset": 37495
-          },
-          "end": {
-            "line": 1470,
-            "column": 71,
-            "byte_offset": 37549
-          }
+          "start": { "line": 1470, "column": 17, "byte_offset": 37495 },
+          "end": { "line": 1470, "column": 71, "byte_offset": 37549 }
         }
       },
       {
         "id": "location:main.tf:1488:1-1488:45",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1488,
-            "column": 1,
-            "byte_offset": 37759
-          },
-          "end": {
-            "line": 1488,
-            "column": 45,
-            "byte_offset": 37803
-          }
+          "start": { "line": 1488, "column": 1, "byte_offset": 37759 },
+          "end": { "line": 1488, "column": 45, "byte_offset": 37803 }
         }
       },
       {
         "id": "location:main.tf:1491:17-1491:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1491,
-            "column": 17,
-            "byte_offset": 37863
-          },
-          "end": {
-            "line": 1491,
-            "column": 67,
-            "byte_offset": 37913
-          }
+          "start": { "line": 1491, "column": 17, "byte_offset": 37863 },
+          "end": { "line": 1491, "column": 67, "byte_offset": 37913 }
         }
       },
       {
         "id": "location:main.tf:1510:22-1510:74",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1510,
-            "column": 22,
-            "byte_offset": 38303
-          },
-          "end": {
-            "line": 1510,
-            "column": 74,
-            "byte_offset": 38355
-          }
+          "start": { "line": 1510, "column": 22, "byte_offset": 38303 },
+          "end": { "line": 1510, "column": 74, "byte_offset": 38355 }
         }
       },
       {
         "id": "location:main.tf:1525:1-1525:48",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1525,
-            "column": 1,
-            "byte_offset": 38583
-          },
-          "end": {
-            "line": 1525,
-            "column": 48,
-            "byte_offset": 38630
-          }
+          "start": { "line": 1525, "column": 1, "byte_offset": 38583 },
+          "end": { "line": 1525, "column": 48, "byte_offset": 38630 }
         }
       },
       {
         "id": "location:main.tf:1528:17-1528:63",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1528,
-            "column": 17,
-            "byte_offset": 38708
-          },
-          "end": {
-            "line": 1528,
-            "column": 63,
-            "byte_offset": 38754
-          }
+          "start": { "line": 1528, "column": 17, "byte_offset": 38708 },
+          "end": { "line": 1528, "column": 63, "byte_offset": 38754 }
         }
       },
       {
         "id": "location:main.tf:1539:45-1539:95",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1539,
-            "column": 45,
-            "byte_offset": 38948
-          },
-          "end": {
-            "line": 1539,
-            "column": 95,
-            "byte_offset": 38998
-          }
+          "start": { "line": 1539, "column": 45, "byte_offset": 38948 },
+          "end": { "line": 1539, "column": 95, "byte_offset": 38998 }
         }
       },
       {
         "id": "location:main.tf:1547:45-1547:95",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1547,
-            "column": 45,
-            "byte_offset": 39143
-          },
-          "end": {
-            "line": 1547,
-            "column": 95,
-            "byte_offset": 39193
-          }
+          "start": { "line": 1547, "column": 45, "byte_offset": 39143 },
+          "end": { "line": 1547, "column": 95, "byte_offset": 39193 }
         }
       },
       {
         "id": "location:main.tf:1555:1-1555:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1555,
-            "column": 1,
-            "byte_offset": 39237
-          },
-          "end": {
-            "line": 1555,
-            "column": 52,
-            "byte_offset": 39288
-          }
+          "start": { "line": 1555, "column": 1, "byte_offset": 39237 },
+          "end": { "line": 1555, "column": 52, "byte_offset": 39288 }
         }
       },
       {
         "id": "location:main.tf:1558:17-1558:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1558,
-            "column": 17,
-            "byte_offset": 39359
-          },
-          "end": {
-            "line": 1558,
-            "column": 67,
-            "byte_offset": 39409
-          }
+          "start": { "line": 1558, "column": 17, "byte_offset": 39359 },
+          "end": { "line": 1558, "column": 67, "byte_offset": 39409 }
         }
       },
       {
         "id": "location:main.tf:1567:1-1567:52",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1567,
-            "column": 1,
-            "byte_offset": 39482
-          },
-          "end": {
-            "line": 1567,
-            "column": 52,
-            "byte_offset": 39533
-          }
+          "start": { "line": 1567, "column": 1, "byte_offset": 39482 },
+          "end": { "line": 1567, "column": 52, "byte_offset": 39533 }
         }
       },
       {
         "id": "location:main.tf:1570:17-1570:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1570,
-            "column": 17,
-            "byte_offset": 39604
-          },
-          "end": {
-            "line": 1570,
-            "column": 67,
-            "byte_offset": 39654
-          }
+          "start": { "line": 1570, "column": 17, "byte_offset": 39604 },
+          "end": { "line": 1570, "column": 67, "byte_offset": 39654 }
         }
       },
       {
         "id": "location:main.tf:1579:1-1579:56",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1579,
-            "column": 1,
-            "byte_offset": 39727
-          },
-          "end": {
-            "line": 1579,
-            "column": 56,
-            "byte_offset": 39782
-          }
+          "start": { "line": 1579, "column": 1, "byte_offset": 39727 },
+          "end": { "line": 1579, "column": 56, "byte_offset": 39782 }
         }
       },
       {
         "id": "location:main.tf:1582:17-1582:71",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1582,
-            "column": 17,
-            "byte_offset": 39853
-          },
-          "end": {
-            "line": 1582,
-            "column": 71,
-            "byte_offset": 39907
-          }
+          "start": { "line": 1582, "column": 17, "byte_offset": 39853 },
+          "end": { "line": 1582, "column": 71, "byte_offset": 39907 }
         }
       },
       {
         "id": "location:main.tf:1593:45-1593:95",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1593,
-            "column": 45,
-            "byte_offset": 40101
-          },
-          "end": {
-            "line": 1593,
-            "column": 95,
-            "byte_offset": 40151
-          }
+          "start": { "line": 1593, "column": 45, "byte_offset": 40101 },
+          "end": { "line": 1593, "column": 95, "byte_offset": 40151 }
         }
       },
       {
         "id": "location:main.tf:1603:1-1603:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1603,
-            "column": 1,
-            "byte_offset": 40211
-          },
-          "end": {
-            "line": 1603,
-            "column": 67,
-            "byte_offset": 40277
-          }
+          "start": { "line": 1603, "column": 1, "byte_offset": 40211 },
+          "end": { "line": 1603, "column": 67, "byte_offset": 40277 }
         }
       },
       {
         "id": "location:main.tf:1606:17-1606:67",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1606,
-            "column": 17,
-            "byte_offset": 40341
-          },
-          "end": {
-            "line": 1606,
-            "column": 67,
-            "byte_offset": 40391
-          }
+          "start": { "line": 1606, "column": 17, "byte_offset": 40341 },
+          "end": { "line": 1606, "column": 67, "byte_offset": 40391 }
         }
       },
       {
         "id": "location:main.tf:1617:21-1617:76",
         "path": "main.tf",
         "range": {
-          "start": {
-            "line": 1617,
-            "column": 21,
-            "byte_offset": 40641
-          },
-          "end": {
-            "line": 1617,
-            "column": 76,
-            "byte_offset": 40696
-          }
+          "start": { "line": 1617, "column": 21, "byte_offset": 40641 },
+          "end": { "line": 1617, "column": 76, "byte_offset": 40696 }
         }
       }
     ],
@@ -3711,10 +1860,7 @@
         "name": "labels",
         "address": "local.labels",
         "location": "location:main.tf:49:3-54:4",
-        "outcome": {
-          "kind": "filtered",
-          "reason": "language-local"
-        }
+        "outcome": { "kind": "filtered", "reason": "language-local" }
       },
       {
         "id": "source:local.region",
@@ -3722,10 +1868,7 @@
         "name": "region",
         "address": "local.region",
         "location": "location:main.tf:48:3-48:26",
-        "outcome": {
-          "kind": "filtered",
-          "reason": "language-local"
-        }
+        "outcome": { "kind": "filtered", "reason": "language-local" }
       },
       {
         "id": "source:provider.google",
@@ -3734,10 +1877,7 @@
         "address": "provider.google",
         "provider": "registry.terraform.io/hashicorp/google",
         "location": "location:main.tf:15:1-15:18",
-        "outcome": {
-          "kind": "filtered",
-          "reason": "provider-configuration"
-        }
+        "outcome": { "kind": "filtered", "reason": "provider-configuration" }
       },
       {
         "id": "source:provider.kubernetes",
@@ -3746,10 +1886,7 @@
         "address": "provider.kubernetes",
         "provider": "registry.terraform.io/hashicorp/kubernetes",
         "location": "location:main.tf:847:1-847:22",
-        "outcome": {
-          "kind": "filtered",
-          "reason": "provider-configuration"
-        }
+        "outcome": { "kind": "filtered", "reason": "provider-configuration" }
       },
       {
         "id": "source:google_cloud_run_v2_job.legacy_warehouse_sync",
@@ -3930,7 +2067,7 @@
         "location": "location:main.tf:747:1-747:43",
         "outcome": {
           "kind": "represented",
-          "representation": "entity:google_container_cluster.data"
+          "representation": "scope:google_container_cluster.data"
         }
       },
       {
@@ -3993,10 +2130,7 @@
         "address": "google_project.data",
         "provider": "registry.terraform.io/hashicorp/google",
         "location": "location:main.tf:68:1-68:33",
-        "outcome": {
-          "kind": "represented",
-          "representation": "scope:google_project.data"
-        }
+        "outcome": { "kind": "represented", "representation": "scope:google_project.data" }
       },
       {
         "id": "source:google_project.network",
@@ -4006,10 +2140,7 @@
         "address": "google_project.network",
         "provider": "registry.terraform.io/hashicorp/google",
         "location": "location:main.tf:59:1-59:36",
-        "outcome": {
-          "kind": "represented",
-          "representation": "scope:google_project.network"
-        }
+        "outcome": { "kind": "represented", "representation": "scope:google_project.network" }
       },
       {
         "id": "source:google_project_iam_member.enrichment_publisher",
@@ -4188,10 +2319,7 @@
         "address": "google_redis_instance.data",
         "provider": "registry.terraform.io/hashicorp/google",
         "location": "location:main.tf:393:1-393:40",
-        "outcome": {
-          "kind": "represented",
-          "representation": "entity:google_redis_instance.data"
-        }
+        "outcome": { "kind": "represented", "representation": "entity:google_redis_instance.data" }
       },
       {
         "id": "source:google_secret_manager_secret.ingest_hmac",
@@ -4744,10 +2872,7 @@
         "kind": "settings",
         "address": "terraform",
         "location": "location:main.tf:2:1-2:10",
-        "outcome": {
-          "kind": "filtered",
-          "reason": "language-settings"
-        }
+        "outcome": { "kind": "filtered", "reason": "language-settings" }
       },
       {
         "id": "source:var.billing_account",
@@ -4755,10 +2880,7 @@
         "name": "billing_account",
         "address": "var.billing_account",
         "location": "location:main.tf:24:1-24:27",
-        "outcome": {
-          "kind": "filtered",
-          "reason": "language-variable"
-        }
+        "outcome": { "kind": "filtered", "reason": "language-variable" }
       },
       {
         "id": "source:var.ingest_hmac_key",
@@ -4766,10 +2888,7 @@
         "name": "ingest_hmac_key",
         "address": "var.ingest_hmac_key",
         "location": "location:main.tf:29:1-29:27",
-        "outcome": {
-          "kind": "filtered",
-          "reason": "language-variable"
-        }
+        "outcome": { "kind": "filtered", "reason": "language-variable" }
       },
       {
         "id": "source:var.legacy_warehouse_credentials",
@@ -4777,10 +2896,7 @@
         "name": "legacy_warehouse_credentials",
         "address": "var.legacy_warehouse_credentials",
         "location": "location:main.tf:41:1-41:40",
-        "outcome": {
-          "kind": "filtered",
-          "reason": "language-variable"
-        }
+        "outcome": { "kind": "filtered", "reason": "language-variable" }
       },
       {
         "id": "source:var.org_id",
@@ -4788,10 +2904,7 @@
         "name": "org_id",
         "address": "var.org_id",
         "location": "location:main.tf:19:1-19:18",
-        "outcome": {
-          "kind": "filtered",
-          "reason": "language-variable"
-        }
+        "outcome": { "kind": "filtered", "reason": "language-variable" }
       },
       {
         "id": "source:var.warehouse_db_password",
@@ -4799,10 +2912,7 @@
         "name": "warehouse_db_password",
         "address": "var.warehouse_db_password",
         "location": "location:main.tf:35:1-35:33",
-        "outcome": {
-          "kind": "filtered",
-          "reason": "language-variable"
-        }
+        "outcome": { "kind": "filtered", "reason": "language-variable" }
       }
     ],
     "dependencies": [
@@ -7384,8 +5494,8 @@
       {
         "id": "core",
         "version": "0.1.0",
-        "content_digest": "sha256:64a0ffe85a143eca51f1425a9af19207e3201e5df9a4d65346ea0c8635587643",
-        "semantic_digest": "sha256:a93f2c9cba7974c504d7513c7b9a009b94eaaa71950aa3fdac7c7d4da6f50275"
+        "content_digest": "sha256:532a7d2ebff484592cfb673c9824d54597242ae9a965f8f920e548000757d902",
+        "semantic_digest": "sha256:3e4c44d79c444172c817c4c6fca07d74052bed59e09fb9ccc02bd3c6354dee6e"
       },
       {
         "id": "google",
@@ -7503,8 +5613,8 @@
         "id": "core/kubernetes-cluster",
         "dialect": "core",
         "name": "kubernetes-cluster",
-        "kind": "entity",
-        "description": "A Kubernetes cluster providing a workload runtime."
+        "kind": "scope",
+        "description": "A Kubernetes cluster forming a workload runtime boundary for its namespaced resources."
       },
       {
         "id": "core/kubernetes-node-pool",
@@ -9144,42 +7254,17 @@
         "description": "Private network reachability between an architecture component and a network boundary.",
         "shared": true
       },
-      {
-        "id": "google/delivers-to",
-        "dialect": "google",
-        "name": "delivers-to",
-        "shared": false
-      },
-      {
-        "id": "google/routes-to",
-        "dialect": "google",
-        "name": "routes-to",
-        "shared": false
-      },
-      {
-        "id": "google/runs-as",
-        "dialect": "google",
-        "name": "runs-as",
-        "shared": false
-      },
-      {
-        "id": "google/stores-in",
-        "dialect": "google",
-        "name": "stores-in",
-        "shared": false
-      },
+      { "id": "google/delivers-to", "dialect": "google", "name": "delivers-to", "shared": false },
+      { "id": "google/routes-to", "dialect": "google", "name": "routes-to", "shared": false },
+      { "id": "google/runs-as", "dialect": "google", "name": "runs-as", "shared": false },
+      { "id": "google/stores-in", "dialect": "google", "name": "stores-in", "shared": false },
       {
         "id": "google/subscribes-to",
         "dialect": "google",
         "name": "subscribes-to",
         "shared": false
       },
-      {
-        "id": "kubernetes/runs-as",
-        "dialect": "kubernetes",
-        "name": "runs-as",
-        "shared": false
-      }
+      { "id": "kubernetes/runs-as", "dialect": "kubernetes", "name": "runs-as", "shared": false }
     ],
     "rules": [
       {
@@ -9187,11 +7272,7 @@
         "dialect": "google",
         "concept": "google/access-context-policy"
       },
-      {
-        "id": "google/agent-gateway",
-        "dialect": "google",
-        "concept": "google/agent-gateway"
-      },
+      { "id": "google/agent-gateway", "dialect": "google", "concept": "google/agent-gateway" },
       {
         "id": "google/agent-registry-binding",
         "dialect": "google",
@@ -9202,11 +7283,7 @@
         "dialect": "google",
         "concept": "google/agent-registry-service"
       },
-      {
-        "id": "google/alloydb-cluster",
-        "dialect": "google",
-        "concept": "core/managed-database"
-      },
+      { "id": "google/alloydb-cluster", "dialect": "google", "concept": "core/managed-database" },
       {
         "id": "google/alloydb-instance",
         "dialect": "google",
@@ -9232,16 +7309,8 @@
         "dialect": "google",
         "concept": "google/analytics-hub-subscription"
       },
-      {
-        "id": "google/api-gateway",
-        "dialect": "google",
-        "concept": "core/api-gateway"
-      },
-      {
-        "id": "google/api-hub",
-        "dialect": "google",
-        "concept": "google/api-hub"
-      },
+      { "id": "google/api-gateway", "dialect": "google", "concept": "core/api-gateway" },
+      { "id": "google/api-hub", "dialect": "google", "concept": "google/api-hub" },
       {
         "id": "google/apigee-api-product",
         "dialect": "google",
@@ -9257,11 +7326,7 @@
         "dialect": "google",
         "concept": "google/apigee-environment"
       },
-      {
-        "id": "google/apigee-instance",
-        "dialect": "google",
-        "concept": "google/apigee-instance"
-      },
+      { "id": "google/apigee-instance", "dialect": "google", "concept": "google/apigee-instance" },
       {
         "id": "google/apigee-organization",
         "dialect": "google",
@@ -9287,11 +7352,7 @@
         "dialect": "google",
         "concept": "google/app-hub-application"
       },
-      {
-        "id": "google/app-hub-service",
-        "dialect": "google",
-        "concept": "google/app-hub-service"
-      },
+      { "id": "google/app-hub-service", "dialect": "google", "concept": "google/app-hub-service" },
       {
         "id": "google/app-hub-workload",
         "dialect": "google",
@@ -9312,11 +7373,7 @@
         "dialect": "google",
         "concept": "google/assured-workloads-boundary"
       },
-      {
-        "id": "google/backup-dr-backup-plan",
-        "dialect": "google",
-        "concept": "core/backup-plan"
-      },
+      { "id": "google/backup-dr-backup-plan", "dialect": "google", "concept": "core/backup-plan" },
       {
         "id": "google/backup-dr-backup-vault",
         "dialect": "google",
@@ -9347,11 +7404,7 @@
         "dialect": "google",
         "concept": "google/beyondcorp-security-gateway"
       },
-      {
-        "id": "google/biglake-catalog",
-        "dialect": "google",
-        "concept": "google/biglake-catalog"
-      },
+      { "id": "google/biglake-catalog", "dialect": "google", "concept": "google/biglake-catalog" },
       {
         "id": "google/biglake-database",
         "dialect": "google",
@@ -9367,11 +7420,7 @@
         "dialect": "google",
         "concept": "google/biglake-database"
       },
-      {
-        "id": "google/biglake-hive-table",
-        "dialect": "google",
-        "concept": "google/biglake-table"
-      },
+      { "id": "google/biglake-hive-table", "dialect": "google", "concept": "google/biglake-table" },
       {
         "id": "google/biglake-iceberg-catalog",
         "dialect": "google",
@@ -9387,11 +7436,7 @@
         "dialect": "google",
         "concept": "google/biglake-table"
       },
-      {
-        "id": "google/biglake-table",
-        "dialect": "google",
-        "concept": "google/biglake-table"
-      },
+      { "id": "google/biglake-table", "dialect": "google", "concept": "google/biglake-table" },
       {
         "id": "google/bigquery-dataset",
         "dialect": "google",
@@ -9402,26 +7447,14 @@
         "dialect": "google",
         "concept": "google/access-binding"
       },
-      {
-        "id": "google/bigquery-table",
-        "dialect": "google",
-        "concept": "google/bigquery-table"
-      },
+      { "id": "google/bigquery-table", "dialect": "google", "concept": "google/bigquery-table" },
       {
         "id": "google/bigquery-table-iam-member",
         "dialect": "google",
         "concept": "google/access-binding"
       },
-      {
-        "id": "google/bigtable-instance",
-        "dialect": "google",
-        "concept": "core/managed-database"
-      },
-      {
-        "id": "google/bigtable-table",
-        "dialect": "google",
-        "concept": "google/bigtable-table"
-      },
+      { "id": "google/bigtable-instance", "dialect": "google", "concept": "core/managed-database" },
+      { "id": "google/bigtable-table", "dialect": "google", "concept": "google/bigtable-table" },
       {
         "id": "google/binary-authorization-attestor",
         "dialect": "google",
@@ -9432,21 +7465,13 @@
         "dialect": "google",
         "concept": "google/binary-authorization-policy"
       },
-      {
-        "id": "google/blockchain-node",
-        "dialect": "google",
-        "concept": "google/blockchain-node"
-      },
+      { "id": "google/blockchain-node", "dialect": "google", "concept": "google/blockchain-node" },
       {
         "id": "google/certificate-manager-certificate",
         "dialect": "google",
         "concept": "google/managed-certificate"
       },
-      {
-        "id": "google/certificate-map",
-        "dialect": "google",
-        "concept": "google/certificate-map"
-      },
+      { "id": "google/certificate-map", "dialect": "google", "concept": "google/certificate-map" },
       {
         "id": "google/chronicle-detection-rule",
         "dialect": "google",
@@ -9457,16 +7482,8 @@
         "dialect": "google",
         "concept": "google/chronicle-environment"
       },
-      {
-        "id": "google/chronicle-feed",
-        "dialect": "google",
-        "concept": "google/chronicle-feed"
-      },
-      {
-        "id": "google/classic-vpn-gateway",
-        "dialect": "google",
-        "concept": "core/vpn-gateway"
-      },
+      { "id": "google/chronicle-feed", "dialect": "google", "concept": "google/chronicle-feed" },
+      { "id": "google/classic-vpn-gateway", "dialect": "google", "concept": "core/vpn-gateway" },
       {
         "id": "google/cloud-armor-security-policy",
         "dialect": "google",
@@ -9532,11 +7549,7 @@
         "dialect": "google",
         "concept": "google/cloud-deploy-target"
       },
-      {
-        "id": "google/cloud-dns-managed-zone",
-        "dialect": "google",
-        "concept": "core/dns-zone"
-      },
+      { "id": "google/cloud-dns-managed-zone", "dialect": "google", "concept": "core/dns-zone" },
       {
         "id": "google/cloud-dns-record-set",
         "dialect": "google",
@@ -9572,11 +7585,7 @@
         "dialect": "google",
         "concept": "core/dedicated-interconnect"
       },
-      {
-        "id": "google/cloud-kms-key",
-        "dialect": "google",
-        "concept": "core/encryption-key"
-      },
+      { "id": "google/cloud-kms-key", "dialect": "google", "concept": "core/encryption-key" },
       {
         "id": "google/cloud-kms-key-ring",
         "dialect": "google",
@@ -9647,16 +7656,8 @@
         "dialect": "google",
         "concept": "google/cloud-monitoring-slo"
       },
-      {
-        "id": "google/cloud-nat",
-        "dialect": "google",
-        "concept": "core/managed-nat"
-      },
-      {
-        "id": "google/cloud-router",
-        "dialect": "google",
-        "concept": "google/cloud-router"
-      },
+      { "id": "google/cloud-nat", "dialect": "google", "concept": "core/managed-nat" },
+      { "id": "google/cloud-router", "dialect": "google", "concept": "google/cloud-router" },
       {
         "id": "google/cloud-run-function",
         "dialect": "google",
@@ -9667,11 +7668,7 @@
         "dialect": "google",
         "concept": "core/serverless-function"
       },
-      {
-        "id": "google/cloud-run-job",
-        "dialect": "google",
-        "concept": "google/cloud-run-job"
-      },
+      { "id": "google/cloud-run-job", "dialect": "google", "concept": "google/cloud-run-job" },
       {
         "id": "google/cloud-run-service",
         "dialect": "google",
@@ -9712,21 +7709,13 @@
         "dialect": "google",
         "concept": "google/access-binding"
       },
-      {
-        "id": "google/cloud-tasks-queue",
-        "dialect": "google",
-        "concept": "core/message-queue"
-      },
+      { "id": "google/cloud-tasks-queue", "dialect": "google", "concept": "core/message-queue" },
       {
         "id": "google/cloud-trace-scope",
         "dialect": "google",
         "concept": "google/cloud-trace-scope"
       },
-      {
-        "id": "google/cloud-vpn-tunnel",
-        "dialect": "google",
-        "concept": "core/vpn-connection"
-      },
+      { "id": "google/cloud-vpn-tunnel", "dialect": "google", "concept": "core/vpn-connection" },
       {
         "id": "google/colab-enterprise-runtime",
         "dialect": "google",
@@ -9847,11 +7836,7 @@
         "dialect": "google",
         "concept": "google/data-fusion-instance"
       },
-      {
-        "id": "google/data-pipeline",
-        "dialect": "google",
-        "concept": "google/data-pipeline"
-      },
+      { "id": "google/data-pipeline", "dialect": "google", "concept": "google/data-pipeline" },
       {
         "id": "google/database-migration-connection-profile",
         "dialect": "google",
@@ -9872,11 +7857,7 @@
         "dialect": "google",
         "concept": "google/dataflow-job"
       },
-      {
-        "id": "google/dataflow-job",
-        "dialect": "google",
-        "concept": "google/dataflow-job"
-      },
+      { "id": "google/dataflow-job", "dialect": "google", "concept": "google/dataflow-job" },
       {
         "id": "google/dataform-repository",
         "dialect": "google",
@@ -9887,11 +7868,7 @@
         "dialect": "google",
         "concept": "google/dataform-workflow"
       },
-      {
-        "id": "google/dataplex-asset",
-        "dialect": "google",
-        "concept": "google/dataplex-asset"
-      },
+      { "id": "google/dataplex-asset", "dialect": "google", "concept": "google/dataplex-asset" },
       {
         "id": "google/dataplex-data-asset",
         "dialect": "google",
@@ -9902,21 +7879,9 @@
         "dialect": "google",
         "concept": "google/dataplex-data-product"
       },
-      {
-        "id": "google/dataplex-lake",
-        "dialect": "google",
-        "concept": "google/dataplex-lake"
-      },
-      {
-        "id": "google/dataplex-zone",
-        "dialect": "google",
-        "concept": "google/dataplex-zone"
-      },
-      {
-        "id": "google/dataproc-batch",
-        "dialect": "google",
-        "concept": "google/dataproc-batch"
-      },
+      { "id": "google/dataplex-lake", "dialect": "google", "concept": "google/dataplex-lake" },
+      { "id": "google/dataplex-zone", "dialect": "google", "concept": "google/dataplex-zone" },
+      { "id": "google/dataproc-batch", "dialect": "google", "concept": "google/dataproc-batch" },
       {
         "id": "google/dataproc-cluster",
         "dialect": "google",
@@ -9997,21 +7962,13 @@
         "dialect": "google",
         "concept": "core/kubernetes-node-pool"
       },
-      {
-        "id": "google/edge-network",
-        "dialect": "google",
-        "concept": "core/virtual-network"
-      },
+      { "id": "google/edge-network", "dialect": "google", "concept": "core/virtual-network" },
       {
         "id": "google/edge-network-interconnect-attachment",
         "dialect": "google",
         "concept": "google/edge-network-interconnect-attachment"
       },
-      {
-        "id": "google/edge-network-subnet",
-        "dialect": "google",
-        "concept": "core/subnet"
-      },
+      { "id": "google/edge-network-subnet", "dialect": "google", "concept": "core/subnet" },
       {
         "id": "google/eventarc-channel",
         "dialect": "google",
@@ -10067,11 +8024,7 @@
         "dialect": "google",
         "concept": "core/kubernetes-cluster"
       },
-      {
-        "id": "google/gke-aws-cluster",
-        "dialect": "google",
-        "concept": "core/kubernetes-cluster"
-      },
+      { "id": "google/gke-aws-cluster", "dialect": "google", "concept": "core/kubernetes-cluster" },
       {
         "id": "google/gke-aws-node-pool",
         "dialect": "google",
@@ -10092,31 +8045,15 @@
         "dialect": "google",
         "concept": "google/gke-backup-channel"
       },
-      {
-        "id": "google/gke-backup-plan",
-        "dialect": "google",
-        "concept": "core/backup-plan"
-      },
-      {
-        "id": "google/gke-cluster",
-        "dialect": "google",
-        "concept": "core/kubernetes-cluster"
-      },
-      {
-        "id": "google/gke-fleet",
-        "dialect": "google",
-        "concept": "google/gke-fleet"
-      },
+      { "id": "google/gke-backup-plan", "dialect": "google", "concept": "core/backup-plan" },
+      { "id": "google/gke-cluster", "dialect": "google", "concept": "core/kubernetes-cluster" },
+      { "id": "google/gke-fleet", "dialect": "google", "concept": "google/gke-fleet" },
       {
         "id": "google/gke-fleet-membership",
         "dialect": "google",
         "concept": "google/gke-fleet-membership"
       },
-      {
-        "id": "google/gke-node-pool",
-        "dialect": "google",
-        "concept": "core/kubernetes-node-pool"
-      },
+      { "id": "google/gke-node-pool", "dialect": "google", "concept": "core/kubernetes-node-pool" },
       {
         "id": "google/gke-restore-channel",
         "dialect": "google",
@@ -10137,11 +8074,7 @@
         "dialect": "google",
         "concept": "google/google-cloud-project"
       },
-      {
-        "id": "google/ha-vpn-gateway",
-        "dialect": "google",
-        "concept": "core/vpn-gateway"
-      },
+      { "id": "google/ha-vpn-gateway", "dialect": "google", "concept": "core/vpn-gateway" },
       {
         "id": "google/healthcare-consent-store",
         "dialect": "google",
@@ -10222,11 +8155,7 @@
         "dialect": "google",
         "concept": "google/interconnect-vlan-attachment"
       },
-      {
-        "id": "google/looker-instance",
-        "dialect": "google",
-        "concept": "google/looker-instance"
-      },
+      { "id": "google/looker-instance", "dialect": "google", "concept": "google/looker-instance" },
       {
         "id": "google/managed-kafka-cluster",
         "dialect": "google",
@@ -10242,11 +8171,7 @@
         "dialect": "google",
         "concept": "google/managed-kafka-connector"
       },
-      {
-        "id": "google/managed-kafka-topic",
-        "dialect": "google",
-        "concept": "core/message-topic"
-      },
+      { "id": "google/managed-kafka-topic", "dialect": "google", "concept": "core/message-topic" },
       {
         "id": "google/managed-lustre-instance",
         "dialect": "google",
@@ -10277,11 +8202,7 @@
         "dialect": "google",
         "concept": "google/cloud-cdn-service"
       },
-      {
-        "id": "google/memorystore-instance",
-        "dialect": "google",
-        "concept": "core/managed-cache"
-      },
+      { "id": "google/memorystore-instance", "dialect": "google", "concept": "core/managed-cache" },
       {
         "id": "google/memorystore-memcached-instance",
         "dialect": "google",
@@ -10407,11 +8328,7 @@
         "dialect": "google",
         "concept": "google/netapp-storage-pool"
       },
-      {
-        "id": "google/netapp-volume",
-        "dialect": "google",
-        "concept": "core/managed-file-storage"
-      },
+      { "id": "google/netapp-volume", "dialect": "google", "concept": "core/managed-file-storage" },
       {
         "id": "google/network-connectivity-center-hub",
         "dialect": "google",
@@ -10472,16 +8389,8 @@
         "dialect": "google",
         "concept": "google/oracle-exadata-infrastructure"
       },
-      {
-        "id": "google/oracle-odb-network",
-        "dialect": "google",
-        "concept": "core/virtual-network"
-      },
-      {
-        "id": "google/oracle-odb-subnet",
-        "dialect": "google",
-        "concept": "core/subnet"
-      },
+      { "id": "google/oracle-odb-network", "dialect": "google", "concept": "core/virtual-network" },
+      { "id": "google/oracle-odb-subnet", "dialect": "google", "concept": "core/subnet" },
       {
         "id": "google/parallelstore-instance",
         "dialect": "google",
@@ -10492,11 +8401,7 @@
         "dialect": "google",
         "concept": "core/block-storage-volume"
       },
-      {
-        "id": "google/private-ca-pool",
-        "dialect": "google",
-        "concept": "google/private-ca-pool"
-      },
+      { "id": "google/private-ca-pool", "dialect": "google", "concept": "google/private-ca-pool" },
       {
         "id": "google/private-certificate",
         "dialect": "google",
@@ -10557,21 +8462,13 @@
         "dialect": "google",
         "concept": "core/message-subscription"
       },
-      {
-        "id": "google/pubsub-lite-topic",
-        "dialect": "google",
-        "concept": "core/message-topic"
-      },
+      { "id": "google/pubsub-lite-topic", "dialect": "google", "concept": "core/message-topic" },
       {
         "id": "google/pubsub-subscription",
         "dialect": "google",
         "concept": "core/message-subscription"
       },
-      {
-        "id": "google/pubsub-topic",
-        "dialect": "google",
-        "concept": "core/message-topic"
-      },
+      { "id": "google/pubsub-topic", "dialect": "google", "concept": "core/message-topic" },
       {
         "id": "google/recaptcha-enterprise-key",
         "dialect": "google",
@@ -10697,11 +8594,7 @@
         "dialect": "google",
         "concept": "google/service-directory-service"
       },
-      {
-        "id": "google/service-mesh",
-        "dialect": "google",
-        "concept": "google/service-mesh"
-      },
+      { "id": "google/service-mesh", "dialect": "google", "concept": "google/service-mesh" },
       {
         "id": "google/service-networking-connection",
         "dialect": "google",
@@ -10717,11 +8610,7 @@
         "dialect": "google",
         "concept": "google/spanner-database"
       },
-      {
-        "id": "google/spanner-instance",
-        "dialect": "google",
-        "concept": "core/managed-database"
-      },
+      { "id": "google/spanner-instance", "dialect": "google", "concept": "core/managed-database" },
       {
         "id": "google/storage-transfer-agent-pool",
         "dialect": "google",
@@ -10732,11 +8621,7 @@
         "dialect": "google",
         "concept": "google/storage-transfer-job"
       },
-      {
-        "id": "google/tpu-vm",
-        "dialect": "google",
-        "concept": "core/compute-instance"
-      },
+      { "id": "google/tpu-vm", "dialect": "google", "concept": "core/compute-instance" },
       {
         "id": "google/unmanaged-instance-group",
         "dialect": "google",
@@ -10852,11 +8737,7 @@
         "dialect": "google",
         "concept": "google/vmware-engine-private-cloud"
       },
-      {
-        "id": "google/vmware-engine-subnet",
-        "dialect": "google",
-        "concept": "core/subnet"
-      },
+      { "id": "google/vmware-engine-subnet", "dialect": "google", "concept": "core/subnet" },
       {
         "id": "google/vmware-gdc-admin-cluster",
         "dialect": "google",
@@ -10877,31 +8758,19 @@
         "dialect": "google",
         "concept": "google/vpc-firewall-rule"
       },
-      {
-        "id": "google/vpc-network",
-        "dialect": "google",
-        "concept": "core/virtual-network"
-      },
+      { "id": "google/vpc-network", "dialect": "google", "concept": "core/virtual-network" },
       {
         "id": "google/vpc-network-peering",
         "dialect": "google",
         "concept": "core/network-peering"
       },
-      {
-        "id": "google/vpc-subnetwork",
-        "dialect": "google",
-        "concept": "core/subnet"
-      },
+      { "id": "google/vpc-subnetwork", "dialect": "google", "concept": "core/subnet" },
       {
         "id": "google/web-security-scan",
         "dialect": "google",
         "concept": "google/web-security-scan"
       },
-      {
-        "id": "google/workflows-workflow",
-        "dialect": "google",
-        "concept": "core/workflow"
-      },
+      { "id": "google/workflows-workflow", "dialect": "google", "concept": "core/workflow" },
       {
         "id": "google/workforce-identity-pool",
         "dialect": "google",
@@ -10912,11 +8781,7 @@
         "dialect": "google",
         "concept": "google/workload-identity-pool"
       },
-      {
-        "id": "google/workstation",
-        "dialect": "google",
-        "concept": "google/workstation"
-      },
+      { "id": "google/workstation", "dialect": "google", "concept": "google/workstation" },
       {
         "id": "google/workstation-configuration",
         "dialect": "google",
@@ -10991,10 +8856,7 @@
         "to": "google/bigquery-dataset",
         "dimension": "core/ownership",
         "via": "source.dataset_id",
-        "match": {
-          "by": "target.dataset_id",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.dataset_id", "strategy": "exact" }
       },
       {
         "id": "emission:00825664cd3532d595c64cfd102594048695ce9bfb08d884b79da55a92870e31",
@@ -11074,10 +8936,7 @@
         "to": "kubernetes/namespace",
         "dimension": "core/ownership",
         "via": "source.metadata[0].namespace",
-        "match": {
-          "by": "target.metadata[0].name",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.metadata[0].name", "strategy": "exact" }
       },
       {
         "id": "emission:25a589cfbae077cd3cd2844e902c9f63431c21135d8b7a15dd62e831d99522b8",
@@ -11133,10 +8992,7 @@
         "to": "kubernetes/namespace",
         "dimension": "core/ownership",
         "via": "source.metadata[0].namespace",
-        "match": {
-          "by": "target.metadata[0].name",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.metadata[0].name", "strategy": "exact" }
       },
       {
         "id": "emission:32320179d93287e455a7c5eea5cf25887333ece696ecf98043c50d0bdbccc59f",
@@ -11177,10 +9033,7 @@
         "to": "kubernetes/namespace",
         "dimension": "core/ownership",
         "via": "source.metadata[0].namespace",
-        "match": {
-          "by": "target.metadata[0].name",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.metadata[0].name", "strategy": "exact" }
       },
       {
         "id": "emission:4609d5c0f58175e6dfacd2f5f4c104084ef8b94222447a75e90c61a9f21918e5",
@@ -11204,10 +9057,7 @@
         "kind": "contribution",
         "to": "core/service-identity",
         "via": "source.member",
-        "match": {
-          "by": "target.email",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.email", "strategy": "exact" }
       },
       {
         "id": "emission:4a7fe9a0aa40b59ec5235cd7b357af3b5fbfc1a0ed216b30ee24bde8ceccd608",
@@ -11216,10 +9066,7 @@
         "to": "kubernetes/namespace",
         "dimension": "core/ownership",
         "via": "source.metadata[0].namespace",
-        "match": {
-          "by": "target.metadata[0].name",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.metadata[0].name", "strategy": "exact" }
       },
       {
         "id": "emission:4a8f9e84f7ab10f61bfcbd4918f83b990f968ace193d546b7a9778408fda4580",
@@ -11287,10 +9134,7 @@
         "kind": "contribution",
         "to": "core/dns-zone",
         "via": "source.managed_zone",
-        "match": {
-          "by": "target.name",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.name", "strategy": "exact" }
       },
       {
         "id": "emission:5fbc5067e814646dff7b53fb6ee61468e629ab9a1b4af209c53e0530e647c357",
@@ -11321,10 +9165,7 @@
         "to": "kubernetes/namespace",
         "dimension": "core/ownership",
         "via": "source.metadata[0].namespace",
-        "match": {
-          "by": "target.metadata[0].name",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.metadata[0].name", "strategy": "exact" }
       },
       {
         "id": "emission:6625290202fe0beb6dc8d570cfd9abf8d1fca46993ac09288a8225ace350deb0",
@@ -11348,10 +9189,7 @@
         "kind": "contribution",
         "to": "core/object-storage-container",
         "via": "source.bucket",
-        "match": {
-          "by": "target.name",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.name", "strategy": "exact" }
       },
       {
         "id": "emission:6ac7152cf62a26fc2f3ff93c0362c4984dad794ca11f8a5f9330f9e6abcebf12",
@@ -11460,10 +9298,7 @@
         "to": "kubernetes/namespace",
         "dimension": "core/ownership",
         "via": "source.metadata[0].namespace",
-        "match": {
-          "by": "target.metadata[0].name",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.metadata[0].name", "strategy": "exact" }
       },
       {
         "id": "emission:940d76af67f835f514acf3229e2d77b18598d8f8bbfe21b6f8d3b4dcf348a761",
@@ -11534,10 +9369,7 @@
         "to": "kubernetes/namespace",
         "dimension": "core/ownership",
         "via": "source.metadata[0].namespace",
-        "match": {
-          "by": "target.metadata[0].name",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.metadata[0].name", "strategy": "exact" }
       },
       {
         "id": "emission:a8a456f629fc98b13b9b01909bf9f27c9121dfa5121df89e90c060c64caaa60f",
@@ -11578,10 +9410,7 @@
         "to": "kubernetes/namespace",
         "dimension": "core/ownership",
         "via": "source.metadata[0].namespace",
-        "match": {
-          "by": "target.metadata[0].name",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.metadata[0].name", "strategy": "exact" }
       },
       {
         "id": "emission:b4964f752f31e4e0138fe45efcf400a65c967a8f60e39e798a6b90884e9ef363",
@@ -11597,10 +9426,7 @@
         "kind": "contribution",
         "to": "core/service-identity",
         "via": "source.members",
-        "match": {
-          "by": "target.email",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.email", "strategy": "exact" }
       },
       {
         "id": "emission:b8d916b4cb5f1c17323d36b9e414853e761951dd288816cbedde83bb2226f48a",
@@ -11656,10 +9482,7 @@
         "kind": "contribution",
         "to": "google/bigquery-dataset",
         "via": "source.dataset_id",
-        "match": {
-          "by": "target.dataset_id",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.dataset_id", "strategy": "exact" }
       },
       {
         "id": "emission:c6403646ff92493d9038073a19806b2754cb1cdb681d8067aa1b46ccdf2fcc6a",
@@ -11691,10 +9514,7 @@
         "kind": "contribution",
         "to": "google/bigquery-table",
         "via": "source.table_id",
-        "match": {
-          "by": "target.table_id",
-          "strategy": "exact"
-        }
+        "match": { "by": "target.table_id", "strategy": "exact" }
       },
       {
         "id": "emission:d547b1ba0519b1725de89d65556929ce0585034d98b44eed0e0fb6c91f5a80bf",
@@ -11867,16 +9687,6 @@
         "rule": "google/cloud-nat"
       },
       {
-        "id": "entity:google_container_cluster.data",
-        "concept": "core/kubernetes-cluster",
-        "name": "data",
-        "implementation": {
-          "kind": "direct",
-          "declaration": "source:google_container_cluster.data"
-        },
-        "rule": "google/gke-cluster"
-      },
-      {
         "id": "entity:google_monitoring_alert_policy.subscription_backlog",
         "concept": "google/cloud-monitoring-alerting-policy",
         "name": "subscription_backlog",
@@ -11960,10 +9770,7 @@
         "id": "entity:google_redis_instance.data",
         "concept": "core/managed-cache",
         "name": "data",
-        "implementation": {
-          "kind": "direct",
-          "declaration": "source:google_redis_instance.data"
-        },
+        "implementation": { "kind": "direct", "declaration": "source:google_redis_instance.data" },
         "rule": "google/memorystore-redis-instance"
       },
       {
@@ -12339,23 +10146,27 @@
         "rule": "google/vpc-subnetwork"
       },
       {
-        "id": "scope:google_project.data",
-        "concept": "google/google-cloud-project",
+        "id": "scope:google_container_cluster.data",
+        "concept": "core/kubernetes-cluster",
         "name": "data",
         "implementation": {
           "kind": "direct",
-          "declaration": "source:google_project.data"
+          "declaration": "source:google_container_cluster.data"
         },
+        "rule": "google/gke-cluster"
+      },
+      {
+        "id": "scope:google_project.data",
+        "concept": "google/google-cloud-project",
+        "name": "data",
+        "implementation": { "kind": "direct", "declaration": "source:google_project.data" },
         "rule": "google/google-cloud-project"
       },
       {
         "id": "scope:google_project.network",
         "concept": "google/google-cloud-project",
         "name": "network",
-        "implementation": {
-          "kind": "direct",
-          "declaration": "source:google_project.network"
-        },
+        "implementation": { "kind": "direct", "declaration": "source:google_project.network" },
         "rule": "google/google-cloud-project"
       },
       {
@@ -12632,7 +10443,7 @@
       },
       {
         "id": "context:core/network:google_container_cluster.data:google_compute_network.shared",
-        "from": "entity:google_container_cluster.data",
+        "from": "scope:google_container_cluster.data",
         "to": "scope:google_compute_network.shared",
         "dimension": "core/network",
         "provenance": [
@@ -12645,7 +10456,7 @@
       },
       {
         "id": "context:core/network:google_container_cluster.data:google_compute_subnetwork.gke",
-        "from": "entity:google_container_cluster.data",
+        "from": "scope:google_container_cluster.data",
         "to": "scope:google_compute_subnetwork.gke",
         "dimension": "core/network",
         "provenance": [
@@ -12749,7 +10560,7 @@
       },
       {
         "id": "context:core/ownership:google_container_cluster.data:google_project.data",
-        "from": "entity:google_container_cluster.data",
+        "from": "scope:google_container_cluster.data",
         "to": "scope:google_project.data",
         "dimension": "core/ownership",
         "provenance": [
@@ -13322,7 +11133,7 @@
       {
         "id": "context:core/runtime:kubernetes_daemon_set_v1.otel_collector:google_container_cluster.data",
         "from": "entity:kubernetes_daemon_set_v1.otel_collector",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13335,7 +11146,7 @@
       {
         "id": "context:core/runtime:kubernetes_deployment_v1.analytics_api:google_container_cluster.data",
         "from": "entity:kubernetes_deployment_v1.analytics_api",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13348,7 +11159,7 @@
       {
         "id": "context:core/runtime:kubernetes_deployment_v1.feature_builder:google_container_cluster.data",
         "from": "entity:kubernetes_deployment_v1.feature_builder",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13361,7 +11172,7 @@
       {
         "id": "context:core/runtime:kubernetes_deployment_v1.session_windower:google_container_cluster.data",
         "from": "entity:kubernetes_deployment_v1.session_windower",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13374,7 +11185,7 @@
       {
         "id": "context:core/runtime:kubernetes_deployment_v1.stream_consumer:google_container_cluster.data",
         "from": "entity:kubernetes_deployment_v1.stream_consumer",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13387,7 +11198,7 @@
       {
         "id": "context:core/runtime:kubernetes_ingress_v1.analytics:google_container_cluster.data",
         "from": "entity:kubernetes_ingress_v1.analytics",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13400,7 +11211,7 @@
       {
         "id": "context:core/runtime:kubernetes_namespace_v1.analytics:google_container_cluster.data",
         "from": "scope:kubernetes_namespace_v1.analytics",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13413,7 +11224,7 @@
       {
         "id": "context:core/runtime:kubernetes_namespace_v1.batch:google_container_cluster.data",
         "from": "scope:kubernetes_namespace_v1.batch",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13426,7 +11237,7 @@
       {
         "id": "context:core/runtime:kubernetes_namespace_v1.observability:google_container_cluster.data",
         "from": "scope:kubernetes_namespace_v1.observability",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13439,7 +11250,7 @@
       {
         "id": "context:core/runtime:kubernetes_namespace_v1.streaming:google_container_cluster.data",
         "from": "scope:kubernetes_namespace_v1.streaming",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13452,7 +11263,7 @@
       {
         "id": "context:core/runtime:kubernetes_network_policy_v1.analytics:google_container_cluster.data",
         "from": "entity:kubernetes_network_policy_v1.analytics",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13465,7 +11276,7 @@
       {
         "id": "context:core/runtime:kubernetes_network_policy_v1.batch:google_container_cluster.data",
         "from": "entity:kubernetes_network_policy_v1.batch",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13478,7 +11289,7 @@
       {
         "id": "context:core/runtime:kubernetes_network_policy_v1.observability:google_container_cluster.data",
         "from": "entity:kubernetes_network_policy_v1.observability",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13491,7 +11302,7 @@
       {
         "id": "context:core/runtime:kubernetes_network_policy_v1.streaming:google_container_cluster.data",
         "from": "entity:kubernetes_network_policy_v1.streaming",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13504,7 +11315,7 @@
       {
         "id": "context:core/runtime:kubernetes_service_account_v1.analytics_api:google_container_cluster.data",
         "from": "entity:kubernetes_service_account_v1.analytics_api",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13517,7 +11328,7 @@
       {
         "id": "context:core/runtime:kubernetes_service_account_v1.feature_builder:google_container_cluster.data",
         "from": "entity:kubernetes_service_account_v1.feature_builder",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13530,7 +11341,7 @@
       {
         "id": "context:core/runtime:kubernetes_service_account_v1.feature_store:google_container_cluster.data",
         "from": "entity:kubernetes_service_account_v1.feature_store",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13543,7 +11354,7 @@
       {
         "id": "context:core/runtime:kubernetes_service_account_v1.otel_collector:google_container_cluster.data",
         "from": "entity:kubernetes_service_account_v1.otel_collector",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13556,7 +11367,7 @@
       {
         "id": "context:core/runtime:kubernetes_service_account_v1.prometheus:google_container_cluster.data",
         "from": "entity:kubernetes_service_account_v1.prometheus",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13569,7 +11380,7 @@
       {
         "id": "context:core/runtime:kubernetes_service_account_v1.session_windower:google_container_cluster.data",
         "from": "entity:kubernetes_service_account_v1.session_windower",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13582,7 +11393,7 @@
       {
         "id": "context:core/runtime:kubernetes_service_account_v1.stream_consumer:google_container_cluster.data",
         "from": "entity:kubernetes_service_account_v1.stream_consumer",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13595,7 +11406,7 @@
       {
         "id": "context:core/runtime:kubernetes_service_v1.analytics_api:google_container_cluster.data",
         "from": "entity:kubernetes_service_v1.analytics_api",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13608,7 +11419,7 @@
       {
         "id": "context:core/runtime:kubernetes_service_v1.feature_store:google_container_cluster.data",
         "from": "entity:kubernetes_service_v1.feature_store",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13621,7 +11432,7 @@
       {
         "id": "context:core/runtime:kubernetes_service_v1.prometheus:google_container_cluster.data",
         "from": "entity:kubernetes_service_v1.prometheus",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13634,7 +11445,7 @@
       {
         "id": "context:core/runtime:kubernetes_stateful_set_v1.feature_store:google_container_cluster.data",
         "from": "entity:kubernetes_stateful_set_v1.feature_store",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13647,7 +11458,7 @@
       {
         "id": "context:core/runtime:kubernetes_stateful_set_v1.prometheus:google_container_cluster.data",
         "from": "entity:kubernetes_stateful_set_v1.prometheus",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "dimension": "core/runtime",
         "provenance": [
           {
@@ -13674,7 +11485,7 @@
       {
         "id": "contribution:google_container_node_pool.workloads:google_container_cluster.data",
         "from": "detail:google_container_node_pool.workloads",
-        "to": "entity:google_container_cluster.data",
+        "to": "scope:google_container_cluster.data",
         "provenance": [
           {
             "emission": "emission:eaa2ac94a20b95398f431c94e48bbd0f5b57401bb5762df2d729aef0801e82de",
@@ -14172,10 +11983,7 @@
     {
       "id": "resolution:google_cloud_run_v2_service.enrichment:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_cloud_run_v2_service.enrichment",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_cloud_run_v2_service.enrichment", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:555:25-555:55"
     },
@@ -14202,10 +12010,7 @@
     {
       "id": "resolution:google_cloud_run_v2_service.ingest_api:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_cloud_run_v2_service.ingest_api",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_cloud_run_v2_service.ingest_api", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:505:25-505:55"
     },
@@ -14272,10 +12077,7 @@
     {
       "id": "resolution:google_compute_firewall.allow_internal:network:google_compute_network.shared",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_compute_firewall.allow_internal",
-        "path": "network"
-      },
+      "from": { "declaration": "source:google_compute_firewall.allow_internal", "path": "network" },
       "to": "source:google_compute_network.shared",
       "location": "location:main.tf:153:15-153:47"
     },
@@ -14292,90 +12094,63 @@
     {
       "id": "resolution:google_compute_router.shared:network:google_compute_network.shared",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_compute_router.shared",
-        "path": "network"
-      },
+      "from": { "declaration": "source:google_compute_router.shared", "path": "network" },
       "to": "source:google_compute_network.shared",
       "location": "location:main.tf:132:13-132:45"
     },
     {
       "id": "resolution:google_compute_router_nat.shared:router:google_compute_router.shared",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_compute_router_nat.shared",
-        "path": "router"
-      },
+      "from": { "declaration": "source:google_compute_router_nat.shared", "path": "router" },
       "to": "source:google_compute_router.shared",
       "location": "location:main.tf:139:40-139:73"
     },
     {
       "id": "resolution:google_compute_subnetwork.data:network:google_compute_network.shared",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_compute_subnetwork.data",
-        "path": "network"
-      },
+      "from": { "declaration": "source:google_compute_subnetwork.data", "path": "network" },
       "to": "source:google_compute_network.shared",
       "location": "location:main.tf:115:30-115:62"
     },
     {
       "id": "resolution:google_compute_subnetwork.gke:network:google_compute_network.shared",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_compute_subnetwork.gke",
-        "path": "network"
-      },
+      "from": { "declaration": "source:google_compute_subnetwork.gke", "path": "network" },
       "to": "source:google_compute_network.shared",
       "location": "location:main.tf:90:30-90:62"
     },
     {
       "id": "resolution:google_compute_subnetwork.serverless:network:google_compute_network.shared",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_compute_subnetwork.serverless",
-        "path": "network"
-      },
+      "from": { "declaration": "source:google_compute_subnetwork.serverless", "path": "network" },
       "to": "source:google_compute_network.shared",
       "location": "location:main.tf:124:19-124:51"
     },
     {
       "id": "resolution:google_container_cluster.data:network:google_compute_network.shared",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_container_cluster.data",
-        "path": "network"
-      },
+      "from": { "declaration": "source:google_container_cluster.data", "path": "network" },
       "to": "source:google_compute_network.shared",
       "location": "location:main.tf:751:30-751:62"
     },
     {
       "id": "resolution:google_container_cluster.data:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_container_cluster.data",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_container_cluster.data", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:749:30-749:60"
     },
     {
       "id": "resolution:google_container_cluster.data:subnetwork:google_compute_subnetwork.gke",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_container_cluster.data",
-        "path": "subnetwork"
-      },
+      "from": { "declaration": "source:google_container_cluster.data", "path": "subnetwork" },
       "to": "source:google_compute_subnetwork.gke",
       "location": "location:main.tf:752:30-752:62"
     },
     {
       "id": "resolution:google_container_node_pool.workloads:cluster:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_container_node_pool.workloads",
-        "path": "cluster"
-      },
+      "from": { "declaration": "source:google_container_node_pool.workloads", "path": "cluster" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:813:14-813:46"
     },
@@ -14392,10 +12167,7 @@
     {
       "id": "resolution:google_monitoring_service.ingest_api:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_monitoring_service.ingest_api",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_monitoring_service.ingest_api", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:694:18-694:48"
     },
@@ -14592,40 +12364,28 @@
     {
       "id": "resolution:google_pubsub_topic.events_enriched:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_pubsub_topic.events_enriched",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_pubsub_topic.events_enriched", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:420:32-420:62"
     },
     {
       "id": "resolution:google_pubsub_topic.events_raw:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_pubsub_topic.events_raw",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_pubsub_topic.events_raw", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:413:32-413:62"
     },
     {
       "id": "resolution:google_redis_instance.data:authorized_network:google_compute_network.shared",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_redis_instance.data",
-        "path": "authorized_network"
-      },
+      "from": { "declaration": "source:google_redis_instance.data", "path": "authorized_network" },
       "to": "source:google_compute_network.shared",
       "location": "location:main.tf:400:29-400:61"
     },
     {
       "id": "resolution:google_redis_instance.data:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_redis_instance.data",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_redis_instance.data", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:395:29-395:59"
     },
@@ -14692,50 +12452,35 @@
     {
       "id": "resolution:google_service_account.enrichment:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_service_account.enrichment",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_service_account.enrichment", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:233:18-233:48"
     },
     {
       "id": "resolution:google_service_account.gke_nodes:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_service_account.gke_nodes",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_service_account.gke_nodes", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:221:18-221:48"
     },
     {
       "id": "resolution:google_service_account.ingest_api:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_service_account.ingest_api",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_service_account.ingest_api", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:227:18-227:48"
     },
     {
       "id": "resolution:google_service_account.pubsub_push:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_service_account.pubsub_push",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_service_account.pubsub_push", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:251:18-251:48"
     },
     {
       "id": "resolution:google_service_account.streaming:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_service_account.streaming",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_service_account.streaming", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:245:18-245:48"
     },
@@ -14762,10 +12507,7 @@
     {
       "id": "resolution:google_sql_database_instance.data:project:google_project.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:google_sql_database_instance.data",
-        "path": "project"
-      },
+      "from": { "declaration": "source:google_sql_database_instance.data", "path": "project" },
       "to": "source:google_project.data",
       "location": "location:main.tf:348:25-348:55"
     },
@@ -14792,10 +12534,7 @@
     {
       "id": "resolution:kubernetes_daemon_set_v1.otel_collector:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_daemon_set_v1.otel_collector",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_daemon_set_v1.otel_collector", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -14812,10 +12551,7 @@
     {
       "id": "resolution:kubernetes_deployment_v1.analytics_api:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_deployment_v1.analytics_api",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_deployment_v1.analytics_api", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -14842,10 +12578,7 @@
     {
       "id": "resolution:kubernetes_deployment_v1.feature_builder:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_deployment_v1.feature_builder",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_deployment_v1.feature_builder", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -14872,10 +12605,7 @@
     {
       "id": "resolution:kubernetes_deployment_v1.session_windower:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_deployment_v1.session_windower",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_deployment_v1.session_windower", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -14902,10 +12632,7 @@
     {
       "id": "resolution:kubernetes_deployment_v1.stream_consumer:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_deployment_v1.stream_consumer",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_deployment_v1.stream_consumer", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -14942,10 +12669,7 @@
     {
       "id": "resolution:kubernetes_ingress_v1.analytics:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_ingress_v1.analytics",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_ingress_v1.analytics", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -14962,50 +12686,35 @@
     {
       "id": "resolution:kubernetes_namespace_v1.analytics:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_namespace_v1.analytics",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_namespace_v1.analytics", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
     {
       "id": "resolution:kubernetes_namespace_v1.batch:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_namespace_v1.batch",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_namespace_v1.batch", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
     {
       "id": "resolution:kubernetes_namespace_v1.observability:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_namespace_v1.observability",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_namespace_v1.observability", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
     {
       "id": "resolution:kubernetes_namespace_v1.streaming:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_namespace_v1.streaming",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_namespace_v1.streaming", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
     {
       "id": "resolution:kubernetes_network_policy_v1.analytics:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_network_policy_v1.analytics",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_network_policy_v1.analytics", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -15022,10 +12731,7 @@
     {
       "id": "resolution:kubernetes_network_policy_v1.batch:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_network_policy_v1.batch",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_network_policy_v1.batch", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -15062,10 +12768,7 @@
     {
       "id": "resolution:kubernetes_network_policy_v1.streaming:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_network_policy_v1.streaming",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_network_policy_v1.streaming", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -15162,10 +12865,7 @@
     {
       "id": "resolution:kubernetes_service_account_v1.prometheus:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_service_account_v1.prometheus",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_service_account_v1.prometheus", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -15222,10 +12922,7 @@
     {
       "id": "resolution:kubernetes_service_v1.analytics_api:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_service_v1.analytics_api",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_service_v1.analytics_api", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -15242,10 +12939,7 @@
     {
       "id": "resolution:kubernetes_service_v1.feature_store:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_service_v1.feature_store",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_service_v1.feature_store", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -15262,10 +12956,7 @@
     {
       "id": "resolution:kubernetes_service_v1.prometheus:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_service_v1.prometheus",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_service_v1.prometheus", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -15282,10 +12973,7 @@
     {
       "id": "resolution:kubernetes_stateful_set_v1.feature_store:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_stateful_set_v1.feature_store",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_stateful_set_v1.feature_store", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },
@@ -15312,10 +13000,7 @@
     {
       "id": "resolution:kubernetes_stateful_set_v1.prometheus:host:google_container_cluster.data",
       "kind": "reference",
-      "from": {
-        "declaration": "source:kubernetes_stateful_set_v1.prometheus",
-        "path": "host"
-      },
+      "from": { "declaration": "source:kubernetes_stateful_set_v1.prometheus", "path": "host" },
       "to": "source:google_container_cluster.data",
       "location": "location:main.tf:848:39-848:77"
     },

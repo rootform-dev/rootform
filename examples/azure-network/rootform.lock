@@ -4,7 +4,7 @@
     {
       "kind": "index",
       "reference": "ghcr.io/rootform-dev/dialects:official-index-v1",
-      "manifest_digest": "sha256:5ca7b45ec6a516b4e281a330ba5d3bfd926be92085c0346a0c1d06dcb639e48f"
+      "manifest_digest": "sha256:5ea68114c9b525afd27645b008771237d9b546bd7ea929e59931c41d1895ce10"
     }
   ],
   "unsupported_providers": [],
@@ -17,7 +17,7 @@
       "presentation_digest": "sha256:a24a0a650490cfbcd4a319c22fdf891a567786a6ac728086f864b20bbb0615dc",
       "artifact": {
         "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:c43f7dd7cd941d635047bea4806798060a3dc1026bd29936be7ed9da4be1e750",
+        "manifest_digest": "sha256:ae333048438d3c1d34712d1997402c3366f62ed6471a11a18f3a918ed70b8cc6",
         "layer_digest": "sha256:27307671476fe28f80c6a3a70103f331c5a34e5ac0ba37258027cdfb77b0658e",
         "download_size": 36672,
         "install_size": 193677
@@ -29,15 +29,15 @@
     {
       "name": "core",
       "version": "0.1.0",
-      "digest": "sha256:64a0ffe85a143eca51f1425a9af19207e3201e5df9a4d65346ea0c8635587643",
-      "semantic_digest": "sha256:a93f2c9cba7974c504d7513c7b9a009b94eaaa71950aa3fdac7c7d4da6f50275",
+      "digest": "sha256:532a7d2ebff484592cfb673c9824d54597242ae9a965f8f920e548000757d902",
+      "semantic_digest": "sha256:3e4c44d79c444172c817c4c6fca07d74052bed59e09fb9ccc02bd3c6354dee6e",
       "presentation_digest": "sha256:6250b078276b44c2db9361c26c6c92351d26f49de7ac6daf22c9859cd2f962c8",
       "artifact": {
         "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:aaa5806e303698f7a30a5b941a72a85d28b0a320ae0b14ff40a3ef92d320dced",
-        "layer_digest": "sha256:3f6ce36086679d906502f80f162cbd8a3430c174d6ec26c053d7932aa822cb1a",
-        "download_size": 9092,
-        "install_size": 25129
+        "manifest_digest": "sha256:874779a88c900c58d5dba654a7501180d68063ae39d8d1e85cae11d426a9d495",
+        "layer_digest": "sha256:89f57cbb6b236421ba7431cb39877ee0987266c14eadfdccb8fef057306a217a",
+        "download_size": 9108,
+        "install_size": 25164
       },
       "origins": [
         "ghcr.io/rootform-dev/dialects:official-index-v1"

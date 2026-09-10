@@ -202,7 +202,7 @@
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
         ".rootform/dialects/core/architecture/relations.rf": "e90dd1b4bf2b8ee6c6e318a204076a1f50598c81181c9b8bd2ac7531620b025b",
         ".rootform/dialects/core/compute/compute-instance.rf": "6bf4fe181e8bafe39b20eb7b6bb5363921bcb3b9c852cfc924579d313e031622",
-        ".rootform/dialects/core/containers/kubernetes.rf": "73986bffab10ae558d1153affa9301a9cdc060eea2dd1dc3aff5c817363b8310",
+        ".rootform/dialects/core/containers/kubernetes.rf": "116a461f53e0b1e3715d9903ade0085032dc0346c6e873ced174a5b3d476db70",
         ".rootform/dialects/core/databases/managed-cache.rf": "1d10ec4198fa73cc4157386a944b9d2c88f57805c31282b3144d196e38af3177",
         ".rootform/dialects/core/databases/managed-database.rf": "dd070f9430c575a9a4726486fdf8fac656bb7ed75c1f55a78dd78566748b24c5",
         ".rootform/dialects/core/dialect.rf": "e58d56b87eedeca88de76eac44e92e422c5203c4671a48184e3db50484ba2502",
@@ -236,11 +236,11 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "d812a2be0a7118add8784661c782ad9c8c08ed6b727e6b20b7277a1adad294aa",
+        "example.json": "d532c71fcb54ad432fc90ee9747bef004577f224d057d5a8122f50dba5ddfdaa",
         "main.tf": "85a36ba8c21566f25a3f10d73de727e95a5359c75b5456f305d6057d9af32994",
-        "rootform.lock": "f88f9fa2515cf82811bec444eaef7531d62b90af49432bb5b3ba8d32eabeb540"
+        "rootform.lock": "d34d0377c432a4d9712a783d27e59628f9b68b720e085c8feb8f1ab8f5a79238"
       },
-      "architecture_sha256": "3ffec3b320fe6a8e702fa78d9341987470b0cfb59e22e21b78f583bfca937f10"
+      "architecture_sha256": "c2ec1f57d88f8c2c007619bfca2432b6ad3a9202ea597963dca285c45610e265"
     },
     "commerce-platform-head": {
       "files": {
@@ -439,7 +439,7 @@
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
         ".rootform/dialects/core/architecture/relations.rf": "e90dd1b4bf2b8ee6c6e318a204076a1f50598c81181c9b8bd2ac7531620b025b",
         ".rootform/dialects/core/compute/compute-instance.rf": "6bf4fe181e8bafe39b20eb7b6bb5363921bcb3b9c852cfc924579d313e031622",
-        ".rootform/dialects/core/containers/kubernetes.rf": "73986bffab10ae558d1153affa9301a9cdc060eea2dd1dc3aff5c817363b8310",
+        ".rootform/dialects/core/containers/kubernetes.rf": "116a461f53e0b1e3715d9903ade0085032dc0346c6e873ced174a5b3d476db70",
         ".rootform/dialects/core/databases/managed-cache.rf": "1d10ec4198fa73cc4157386a944b9d2c88f57805c31282b3144d196e38af3177",
         ".rootform/dialects/core/databases/managed-database.rf": "dd070f9430c575a9a4726486fdf8fac656bb7ed75c1f55a78dd78566748b24c5",
         ".rootform/dialects/core/dialect.rf": "e58d56b87eedeca88de76eac44e92e422c5203c4671a48184e3db50484ba2502",
@@ -473,11 +473,11 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "5c88124a616bdeb6fc3fd51daea73661041802116a01ad2217883239882fe715",
+        "example.json": "de66ec67a7e9a9b535135e5f52c5def95c91a5c6c89bff4cf200a1b109482908",
         "main.tf": "f5becb72df95ae80320084ddd1f1db3d23da43784042c1ab89bbffa051d970e8",
-        "rootform.lock": "f88f9fa2515cf82811bec444eaef7531d62b90af49432bb5b3ba8d32eabeb540"
+        "rootform.lock": "d34d0377c432a4d9712a783d27e59628f9b68b720e085c8feb8f1ab8f5a79238"
       },
-      "architecture_sha256": "287ca32813b1d3d1ff96eaa871dfaf20b81f1332d4d1b68bad207725d505a4bb"
+      "architecture_sha256": "4251156a648d4969a6f054f59a9a6511d5fe481792f679395890397d174dbdaa"
     },
     "event-driven-platform-base": {
       "files": {
@@ -676,7 +676,7 @@
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
         ".rootform/dialects/core/architecture/relations.rf": "e90dd1b4bf2b8ee6c6e318a204076a1f50598c81181c9b8bd2ac7531620b025b",
         ".rootform/dialects/core/compute/compute-instance.rf": "6bf4fe181e8bafe39b20eb7b6bb5363921bcb3b9c852cfc924579d313e031622",
-        ".rootform/dialects/core/containers/kubernetes.rf": "73986bffab10ae558d1153affa9301a9cdc060eea2dd1dc3aff5c817363b8310",
+        ".rootform/dialects/core/containers/kubernetes.rf": "116a461f53e0b1e3715d9903ade0085032dc0346c6e873ced174a5b3d476db70",
         ".rootform/dialects/core/databases/managed-cache.rf": "1d10ec4198fa73cc4157386a944b9d2c88f57805c31282b3144d196e38af3177",
         ".rootform/dialects/core/databases/managed-database.rf": "dd070f9430c575a9a4726486fdf8fac656bb7ed75c1f55a78dd78566748b24c5",
         ".rootform/dialects/core/dialect.rf": "e58d56b87eedeca88de76eac44e92e422c5203c4671a48184e3db50484ba2502",
@@ -700,11 +700,11 @@
         ".rootform/dialects/core/serverless/function.rf": "3a0cf007e0bca90caa2ba9b3d9681814635e3916bcd222fb309b19be89f10292",
         ".rootform/dialects/core/storage/backup.rf": "c652d61f1d478f2fa53375a06274b7c6f82da7ab3d2a306c526f05f7f9b264af",
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
-        "example.json": "88a319f98a0148fbe1c89a92a5797fb4eadb2baf046175b960c3ed2e3185d49a",
+        "example.json": "29e7361816579e3b0cda1e7d045940c0d748b9e1416642c10da11676b1c4d7d1",
         "main.tf": "84f418865a528d0b175a4911bcd3be8067bc833e85040ad183433f387d50fd75",
-        "rootform.lock": "95bc14c04c67d51124a3ea4da2beae5a0ec734eb568ef72adc64ee9b42820572"
+        "rootform.lock": "4afdca05f4a771fe35f21ab4ac5be924a67a53fb353e117846d7b71744d3cdc6"
       },
-      "architecture_sha256": "6f774c0159e1d18add8e3e03768c6309b7dbfc95621fc1d7af7ab7cc285e35db"
+      "architecture_sha256": "a223c9efd3111690862591d0a8b7946dbfe33cf85e2dcade7c24c1dc181c6685"
     },
     "event-driven-platform-head": {
       "files": {
@@ -903,7 +903,7 @@
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
         ".rootform/dialects/core/architecture/relations.rf": "e90dd1b4bf2b8ee6c6e318a204076a1f50598c81181c9b8bd2ac7531620b025b",
         ".rootform/dialects/core/compute/compute-instance.rf": "6bf4fe181e8bafe39b20eb7b6bb5363921bcb3b9c852cfc924579d313e031622",
-        ".rootform/dialects/core/containers/kubernetes.rf": "73986bffab10ae558d1153affa9301a9cdc060eea2dd1dc3aff5c817363b8310",
+        ".rootform/dialects/core/containers/kubernetes.rf": "116a461f53e0b1e3715d9903ade0085032dc0346c6e873ced174a5b3d476db70",
         ".rootform/dialects/core/databases/managed-cache.rf": "1d10ec4198fa73cc4157386a944b9d2c88f57805c31282b3144d196e38af3177",
         ".rootform/dialects/core/databases/managed-database.rf": "dd070f9430c575a9a4726486fdf8fac656bb7ed75c1f55a78dd78566748b24c5",
         ".rootform/dialects/core/dialect.rf": "e58d56b87eedeca88de76eac44e92e422c5203c4671a48184e3db50484ba2502",
@@ -927,11 +927,11 @@
         ".rootform/dialects/core/serverless/function.rf": "3a0cf007e0bca90caa2ba9b3d9681814635e3916bcd222fb309b19be89f10292",
         ".rootform/dialects/core/storage/backup.rf": "c652d61f1d478f2fa53375a06274b7c6f82da7ab3d2a306c526f05f7f9b264af",
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
-        "example.json": "ff366ebea925c56fd0e0be43395dc9b16641d39285929a53bdbe162d0fe33372",
+        "example.json": "246e00d91e7f5e9173b0996feb981e2c7f7eefc5509ed8da5ff2e3dc541e4b47",
         "main.tf": "a158c56093964f40f6177fa26d49af59ec8e160c62d99f7bc70d61df8db32f5f",
-        "rootform.lock": "95bc14c04c67d51124a3ea4da2beae5a0ec734eb568ef72adc64ee9b42820572"
+        "rootform.lock": "4afdca05f4a771fe35f21ab4ac5be924a67a53fb353e117846d7b71744d3cdc6"
       },
-      "architecture_sha256": "5bb45bd813d7f018f961b4cfe2a7214f98479e6513fc23063aa740a5ae957fd2"
+      "architecture_sha256": "5cdd883098aaca8ff4d269095a3554d28de3c9dbfb75ea0acc0e683c31287627"
     },
     "shared-data-platform-base": {
       "files": {
@@ -942,7 +942,7 @@
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
         ".rootform/dialects/core/architecture/relations.rf": "e90dd1b4bf2b8ee6c6e318a204076a1f50598c81181c9b8bd2ac7531620b025b",
         ".rootform/dialects/core/compute/compute-instance.rf": "6bf4fe181e8bafe39b20eb7b6bb5363921bcb3b9c852cfc924579d313e031622",
-        ".rootform/dialects/core/containers/kubernetes.rf": "73986bffab10ae558d1153affa9301a9cdc060eea2dd1dc3aff5c817363b8310",
+        ".rootform/dialects/core/containers/kubernetes.rf": "116a461f53e0b1e3715d9903ade0085032dc0346c6e873ced174a5b3d476db70",
         ".rootform/dialects/core/databases/managed-cache.rf": "1d10ec4198fa73cc4157386a944b9d2c88f57805c31282b3144d196e38af3177",
         ".rootform/dialects/core/databases/managed-database.rf": "dd070f9430c575a9a4726486fdf8fac656bb7ed75c1f55a78dd78566748b24c5",
         ".rootform/dialects/core/dialect.rf": "e58d56b87eedeca88de76eac44e92e422c5203c4671a48184e3db50484ba2502",
@@ -1100,11 +1100,11 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "e5fa2caf35fdbb9103815b0342a0aeffe90618242287bccd8f0dc6ad62409423",
+        "example.json": "932570473fb9ecc8d8f6b7dfbed00db095a84fa96a160fc97168d655efbe9cab",
         "main.tf": "1265e2c5b6e215e624efc985ebe5b1200b0d0cc950b1b282a5d7252c0f069c18",
-        "rootform.lock": "dd9157200feede6a4561cf199a7379c57ed6a2b5b5f4aac189624e34ee299d8c"
+        "rootform.lock": "1e8d957e7bf0967af62d4e90a752b7f146906e91dc59f7a9e539034322c7505d"
       },
-      "architecture_sha256": "e299b7732f464b0e041503c099a03b671b03c95490811b2a57853b19654c7535"
+      "architecture_sha256": "e05303b518e1d488c3b9e3ceab0678ae1de3b72a9572bfd86a7a02fb903b6f2b"
     },
     "shared-data-platform-head": {
       "files": {
@@ -1115,7 +1115,7 @@
         ".rootform/dialects/core/architecture/contexts.rf": "3797bcd9c69666e89e60ef154f04bd7b526002a53b083930c3bd1d6e17dcc534",
         ".rootform/dialects/core/architecture/relations.rf": "e90dd1b4bf2b8ee6c6e318a204076a1f50598c81181c9b8bd2ac7531620b025b",
         ".rootform/dialects/core/compute/compute-instance.rf": "6bf4fe181e8bafe39b20eb7b6bb5363921bcb3b9c852cfc924579d313e031622",
-        ".rootform/dialects/core/containers/kubernetes.rf": "73986bffab10ae558d1153affa9301a9cdc060eea2dd1dc3aff5c817363b8310",
+        ".rootform/dialects/core/containers/kubernetes.rf": "116a461f53e0b1e3715d9903ade0085032dc0346c6e873ced174a5b3d476db70",
         ".rootform/dialects/core/databases/managed-cache.rf": "1d10ec4198fa73cc4157386a944b9d2c88f57805c31282b3144d196e38af3177",
         ".rootform/dialects/core/databases/managed-database.rf": "dd070f9430c575a9a4726486fdf8fac656bb7ed75c1f55a78dd78566748b24c5",
         ".rootform/dialects/core/dialect.rf": "e58d56b87eedeca88de76eac44e92e422c5203c4671a48184e3db50484ba2502",
@@ -1273,11 +1273,11 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "7c0e852b79ba79c7afbcea56d217ef7d3898ba0839db87aa142f470298b29499",
+        "example.json": "7ee08b98a42b9199c2a9763bfb7c7247a9a5948fe2f688787a4ef2665fc7f733",
         "main.tf": "d874304a18320bf19027b85bf37b5d3e37286431120b3961f626fa5628214ffa",
-        "rootform.lock": "dd9157200feede6a4561cf199a7379c57ed6a2b5b5f4aac189624e34ee299d8c"
+        "rootform.lock": "1e8d957e7bf0967af62d4e90a752b7f146906e91dc59f7a9e539034322c7505d"
       },
-      "architecture_sha256": "a9763afd0781d8cf454c637025b00d3d98f6298c383757db585174dd89c7d551"
+      "architecture_sha256": "00ff20609d7ac2b396445e7f6cdfd7b329b87eff30209582f6c0b80d2fd5d134"
     }
   },
   "comparisons": {
@@ -1285,7 +1285,7 @@
       "base": "commerce-platform-base",
       "head": "commerce-platform-head",
       "diff": "commerce-platform-diff",
-      "sha256": "9b29ace940abf2d170a9491b0c059c6b2a355e9926af3c63a911ca1f8a90ffaa"
+      "sha256": "cca23da212cdace9afa19238eb6305d1761ea186f707f69c39aaee17461a9a42"
     },
     "event-driven-platform": {
       "base": "event-driven-platform-base",
@@ -1297,7 +1297,7 @@
       "base": "shared-data-platform-base",
       "head": "shared-data-platform-head",
       "diff": "shared-data-platform-diff",
-      "sha256": "837f0a17af57741d4fc84939eac02e3ced8c43a453530aac095acd2990c4e89a"
+      "sha256": "82aaef4db12b1262274a49877fd652cdb300329a9f83945f8622b591ad32a22e"
     }
   }
 }

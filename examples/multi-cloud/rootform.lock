@@ -4,7 +4,7 @@
     {
       "kind": "index",
       "reference": "ghcr.io/rootform-dev/dialects:official-index-v1",
-      "manifest_digest": "sha256:5ca7b45ec6a516b4e281a330ba5d3bfd926be92085c0346a0c1d06dcb639e48f"
+      "manifest_digest": "sha256:5ea68114c9b525afd27645b008771237d9b546bd7ea929e59931c41d1895ce10"
     }
   ],
   "unsupported_providers": [],
@@ -12,15 +12,15 @@
     {
       "name": "core",
       "version": "0.1.0",
-      "digest": "sha256:64a0ffe85a143eca51f1425a9af19207e3201e5df9a4d65346ea0c8635587643",
-      "semantic_digest": "sha256:a93f2c9cba7974c504d7513c7b9a009b94eaaa71950aa3fdac7c7d4da6f50275",
+      "digest": "sha256:532a7d2ebff484592cfb673c9824d54597242ae9a965f8f920e548000757d902",
+      "semantic_digest": "sha256:3e4c44d79c444172c817c4c6fca07d74052bed59e09fb9ccc02bd3c6354dee6e",
       "presentation_digest": "sha256:6250b078276b44c2db9361c26c6c92351d26f49de7ac6daf22c9859cd2f962c8",
       "artifact": {
         "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:aaa5806e303698f7a30a5b941a72a85d28b0a320ae0b14ff40a3ef92d320dced",
-        "layer_digest": "sha256:3f6ce36086679d906502f80f162cbd8a3430c174d6ec26c053d7932aa822cb1a",
-        "download_size": 9092,
-        "install_size": 25129
+        "manifest_digest": "sha256:874779a88c900c58d5dba654a7501180d68063ae39d8d1e85cae11d426a9d495",
+        "layer_digest": "sha256:89f57cbb6b236421ba7431cb39877ee0987266c14eadfdccb8fef057306a217a",
+        "download_size": 9108,
+        "install_size": 25164
       },
       "origins": [
         "ghcr.io/rootform-dev/dialects:official-index-v1"
@@ -34,7 +34,7 @@
       "presentation_digest": "sha256:caf31531224f2f5c63548c94733b2a32059ffef1604c22f10012b6990bcb944e",
       "artifact": {
         "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:236afa5b0525bb7af92a720d22a6dc15f9c5575dedace3cfbb8dc1ad9ee42334",
+        "manifest_digest": "sha256:7c7d3d192c4c758db403b5443c3692a2bae776a6b170a401aeb61cd37bed97d6",
         "layer_digest": "sha256:b407accaf9c3578a3b4b454f536cdd9d32438924ccea5dbb2ab3651786073079",
         "download_size": 31026,
         "install_size": 142732
@@ -51,7 +51,7 @@
       "presentation_digest": "sha256:d1ce9b767e71c58abc5d69aaa1d9e52ebf6e1d86edc60d2e8eeb23b6fb7edc6e",
       "artifact": {
         "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:3ac4bdfc61bf9ec91835e789e4abe27d33e7ec26927afc9300105e012a8fc46b",
+        "manifest_digest": "sha256:fce59474c11ba05c73723f16bb1ba71948994cedbbf7057f2a50f173d9f4bf2e",
         "layer_digest": "sha256:8c5aa94777ea283079084b868c6c284f11e2aabc8a9881134c415ebcec1902c5",
         "download_size": 7192,
         "install_size": 23834

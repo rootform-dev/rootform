@@ -82,7 +82,7 @@ entry entity.
 ## Dialects and build
 
 Dialect sources vendored from
-rootform-dev/dialects@40957e81b5c4606c03325c3c014642b0dcf62f83 (semantics not
+rootform-dev/dialects@8e0df6aa12323e100d63cbc071f8225439fc795d (semantics not
 yet published to the official index). Each project keeps the `azure` and
 `core` sources under `.rootform/dialects/` with the MPL-2.0 license, and
 `rootform.lock` pins their digests.
