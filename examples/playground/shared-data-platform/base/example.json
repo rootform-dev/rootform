@@ -7390,8 +7390,8 @@
       {
         "id": "google",
         "version": "0.1.0",
-        "content_digest": "sha256:adb746d3b54f6fc4c12c9acedb140752530d1a660e530b70548faa319fc00b0b",
-        "semantic_digest": "sha256:c0e755e574192d3e136a8dbc7c133c9bc6a2462af65f0f8fded4270c80b8f29d"
+        "content_digest": "sha256:6ebb8424c37950d2296a6c8e914b54b0d83a4cbae2aab9cb95896c69311c2886",
+        "semantic_digest": "sha256:aeb69414223a497339a30c7b8140b1917c63a7bf93333573ed0806e99b352e5c"
       },
       {
         "id": "kubernetes",
@@ -11335,6 +11335,14 @@
         "via": "source.metadata[0].namespace"
       },
       {
+        "id": "emission:67312acf422a6291f42824d9e525b8429d612d00b2d93d703a69ba13a9c42605",
+        "rule": "google/vpc-subnetwork",
+        "kind": "context",
+        "to": "google/google-cloud-project",
+        "dimension": "core/ownership",
+        "via": "source.project"
+      },
+      {
         "id": "emission:675e6c7f25580dbfe07358c1d61116e49d6924bb1f51e65c048b49ab988503fe",
         "rule": "google/memorystore-redis-instance",
         "kind": "context",
@@ -11375,6 +11383,14 @@
         "to": "core/kubernetes-cluster",
         "dimension": "core/runtime",
         "via": "provider.host"
+      },
+      {
+        "id": "emission:6f4b173dd88ee901f90ae8b03c0f3e3329a8fd6672592e7b5d8ef87dd58e26aa",
+        "rule": "google/vpc-firewall-rule",
+        "kind": "context",
+        "to": "google/google-cloud-project",
+        "dimension": "core/ownership",
+        "via": "source.project"
       },
       {
         "id": "emission:754eea753bc07f7d87a0896b1b4dfb486fc4781c03a2b9ffba2a8d9033f78a31",
@@ -11767,12 +11783,36 @@
         "via": "source.network"
       },
       {
+        "id": "emission:ec2e921c1d6b0d0a17e140b7a596ff39ddc3125a25a25ef52e71d0e8ec8efcd9",
+        "rule": "google/vpc-network",
+        "kind": "context",
+        "to": "google/google-cloud-project",
+        "dimension": "core/ownership",
+        "via": "source.project"
+      },
+      {
+        "id": "emission:f6d869390263588f79b857eee1b8bd8679fc2095f75a885ac05de260e3dbe08b",
+        "rule": "google/cloud-router",
+        "kind": "context",
+        "to": "google/google-cloud-project",
+        "dimension": "core/ownership",
+        "via": "source.project"
+      },
+      {
         "id": "emission:f7a9ce47e08662af6bdeb34d9f0ce3f1eb34b9b16f12fcefc1c19297344de1ab",
         "rule": "google/pubsub-subscription",
         "kind": "relation",
         "to": "core/message-topic",
         "predicate": "google/subscribes-to",
         "via": "source.topic"
+      },
+      {
+        "id": "emission:fbf7ed4c2fee47ec55c10f90a6d6a68c916ffc25b8fe591b4e2175fcc7f3d16d",
+        "rule": "google/serverless-vpc-access-connector",
+        "kind": "context",
+        "to": "google/google-cloud-project",
+        "dimension": "core/ownership",
+        "via": "source.project"
       },
       {
         "id": "emission:fdc93e41e031aeed5bb30e3146cbf5ba9f0a4df54fb6416a10babf0dffba1762",
@@ -12735,6 +12775,58 @@
         ]
       },
       {
+        "id": "context:core/ownership:google_compute_firewall.allow_health_checks:google_project.network",
+        "from": "entity:google_compute_firewall.allow_health_checks",
+        "to": "scope:google_project.network",
+        "dimension": "core/ownership",
+        "provenance": [
+          {
+            "emission": "emission:6f4b173dd88ee901f90ae8b03c0f3e3329a8fd6672592e7b5d8ef87dd58e26aa",
+            "via": "resolution:google_compute_firewall.allow_health_checks:project:google_project.network",
+            "rule": "google/vpc-firewall-rule"
+          }
+        ]
+      },
+      {
+        "id": "context:core/ownership:google_compute_firewall.allow_internal:google_project.network",
+        "from": "entity:google_compute_firewall.allow_internal",
+        "to": "scope:google_project.network",
+        "dimension": "core/ownership",
+        "provenance": [
+          {
+            "emission": "emission:6f4b173dd88ee901f90ae8b03c0f3e3329a8fd6672592e7b5d8ef87dd58e26aa",
+            "via": "resolution:google_compute_firewall.allow_internal:project:google_project.network",
+            "rule": "google/vpc-firewall-rule"
+          }
+        ]
+      },
+      {
+        "id": "context:core/ownership:google_compute_network.shared:google_project.network",
+        "from": "scope:google_compute_network.shared",
+        "to": "scope:google_project.network",
+        "dimension": "core/ownership",
+        "provenance": [
+          {
+            "emission": "emission:ec2e921c1d6b0d0a17e140b7a596ff39ddc3125a25a25ef52e71d0e8ec8efcd9",
+            "via": "resolution:google_compute_network.shared:project:google_project.network",
+            "rule": "google/vpc-network"
+          }
+        ]
+      },
+      {
+        "id": "context:core/ownership:google_compute_router.shared:google_project.network",
+        "from": "entity:google_compute_router.shared",
+        "to": "scope:google_project.network",
+        "dimension": "core/ownership",
+        "provenance": [
+          {
+            "emission": "emission:f6d869390263588f79b857eee1b8bd8679fc2095f75a885ac05de260e3dbe08b",
+            "via": "resolution:google_compute_router.shared:project:google_project.network",
+            "rule": "google/cloud-router"
+          }
+        ]
+      },
+      {
         "id": "context:core/ownership:google_compute_router_nat.shared:google_compute_router.shared",
         "from": "entity:google_compute_router_nat.shared",
         "to": "entity:google_compute_router.shared",
@@ -12744,6 +12836,45 @@
             "emission": "emission:fdc93e41e031aeed5bb30e3146cbf5ba9f0a4df54fb6416a10babf0dffba1762",
             "via": "resolution:google_compute_router_nat.shared:router:google_compute_router.shared",
             "rule": "google/cloud-nat"
+          }
+        ]
+      },
+      {
+        "id": "context:core/ownership:google_compute_subnetwork.data:google_project.network",
+        "from": "scope:google_compute_subnetwork.data",
+        "to": "scope:google_project.network",
+        "dimension": "core/ownership",
+        "provenance": [
+          {
+            "emission": "emission:67312acf422a6291f42824d9e525b8429d612d00b2d93d703a69ba13a9c42605",
+            "via": "resolution:google_compute_subnetwork.data:project:google_project.network",
+            "rule": "google/vpc-subnetwork"
+          }
+        ]
+      },
+      {
+        "id": "context:core/ownership:google_compute_subnetwork.gke:google_project.network",
+        "from": "scope:google_compute_subnetwork.gke",
+        "to": "scope:google_project.network",
+        "dimension": "core/ownership",
+        "provenance": [
+          {
+            "emission": "emission:67312acf422a6291f42824d9e525b8429d612d00b2d93d703a69ba13a9c42605",
+            "via": "resolution:google_compute_subnetwork.gke:project:google_project.network",
+            "rule": "google/vpc-subnetwork"
+          }
+        ]
+      },
+      {
+        "id": "context:core/ownership:google_compute_subnetwork.serverless:google_project.network",
+        "from": "scope:google_compute_subnetwork.serverless",
+        "to": "scope:google_project.network",
+        "dimension": "core/ownership",
+        "provenance": [
+          {
+            "emission": "emission:67312acf422a6291f42824d9e525b8429d612d00b2d93d703a69ba13a9c42605",
+            "via": "resolution:google_compute_subnetwork.serverless:project:google_project.network",
+            "rule": "google/vpc-subnetwork"
           }
         ]
       },
@@ -13017,6 +13148,19 @@
             "emission": "emission:111649c53fae937f33df0303d4909ab849d0940bcecd34c689e4e75f74f542bd",
             "via": "resolution:google_sql_database_instance.data:project:google_project.data",
             "rule": "google/cloud-sql-instance"
+          }
+        ]
+      },
+      {
+        "id": "context:core/ownership:google_vpc_access_connector.data:google_project.data",
+        "from": "entity:google_vpc_access_connector.data",
+        "to": "scope:google_project.data",
+        "dimension": "core/ownership",
+        "provenance": [
+          {
+            "emission": "emission:fbf7ed4c2fee47ec55c10f90a6d6a68c916ffc25b8fe591b4e2175fcc7f3d16d",
+            "via": "resolution:google_vpc_access_connector.data:project:google_project.data",
+            "rule": "google/serverless-vpc-access-connector"
           }
         ]
       },
@@ -14270,6 +14414,16 @@
       "location": "location:main.tf:175:15-175:47"
     },
     {
+      "id": "resolution:google_compute_firewall.allow_health_checks:project:google_project.network",
+      "kind": "reference",
+      "from": {
+        "declaration": "source:google_compute_firewall.allow_health_checks",
+        "path": "project"
+      },
+      "to": "source:google_project.network",
+      "location": "location:main.tf:174:15-174:48"
+    },
+    {
       "id": "resolution:google_compute_firewall.allow_internal:network:google_compute_network.shared",
       "kind": "reference",
       "from": {
@@ -14278,6 +14432,16 @@
       },
       "to": "source:google_compute_network.shared",
       "location": "location:main.tf:153:15-153:47"
+    },
+    {
+      "id": "resolution:google_compute_firewall.allow_internal:project:google_project.network",
+      "kind": "reference",
+      "from": {
+        "declaration": "source:google_compute_firewall.allow_internal",
+        "path": "project"
+      },
+      "to": "source:google_project.network",
+      "location": "location:main.tf:152:15-152:48"
     },
     {
       "id": "resolution:google_compute_global_address.private_services:network:google_compute_network.shared",
@@ -14290,6 +14454,16 @@
       "location": "location:main.tf:194:19-194:51"
     },
     {
+      "id": "resolution:google_compute_network.shared:project:google_project.network",
+      "kind": "reference",
+      "from": {
+        "declaration": "source:google_compute_network.shared",
+        "path": "project"
+      },
+      "to": "source:google_project.network",
+      "location": "location:main.tf:81:29-81:62"
+    },
+    {
       "id": "resolution:google_compute_router.shared:network:google_compute_network.shared",
       "kind": "reference",
       "from": {
@@ -14298,6 +14472,16 @@
       },
       "to": "source:google_compute_network.shared",
       "location": "location:main.tf:132:13-132:45"
+    },
+    {
+      "id": "resolution:google_compute_router.shared:project:google_project.network",
+      "kind": "reference",
+      "from": {
+        "declaration": "source:google_compute_router.shared",
+        "path": "project"
+      },
+      "to": "source:google_project.network",
+      "location": "location:main.tf:130:13-130:46"
     },
     {
       "id": "resolution:google_compute_router_nat.shared:router:google_compute_router.shared",
@@ -14320,6 +14504,16 @@
       "location": "location:main.tf:115:30-115:62"
     },
     {
+      "id": "resolution:google_compute_subnetwork.data:project:google_project.network",
+      "kind": "reference",
+      "from": {
+        "declaration": "source:google_compute_subnetwork.data",
+        "path": "project"
+      },
+      "to": "source:google_project.network",
+      "location": "location:main.tf:113:30-113:63"
+    },
+    {
       "id": "resolution:google_compute_subnetwork.gke:network:google_compute_network.shared",
       "kind": "reference",
       "from": {
@@ -14330,6 +14524,16 @@
       "location": "location:main.tf:90:30-90:62"
     },
     {
+      "id": "resolution:google_compute_subnetwork.gke:project:google_project.network",
+      "kind": "reference",
+      "from": {
+        "declaration": "source:google_compute_subnetwork.gke",
+        "path": "project"
+      },
+      "to": "source:google_project.network",
+      "location": "location:main.tf:88:30-88:63"
+    },
+    {
       "id": "resolution:google_compute_subnetwork.serverless:network:google_compute_network.shared",
       "kind": "reference",
       "from": {
@@ -14338,6 +14542,16 @@
       },
       "to": "source:google_compute_network.shared",
       "location": "location:main.tf:124:19-124:51"
+    },
+    {
+      "id": "resolution:google_compute_subnetwork.serverless:project:google_project.network",
+      "kind": "reference",
+      "from": {
+        "declaration": "source:google_compute_subnetwork.serverless",
+        "path": "project"
+      },
+      "to": "source:google_project.network",
+      "location": "location:main.tf:122:19-122:52"
     },
     {
       "id": "resolution:google_container_cluster.data:network:google_compute_network.shared",
@@ -14778,6 +14992,16 @@
       },
       "to": "source:google_compute_network.shared",
       "location": "location:main.tf:364:55-364:87"
+    },
+    {
+      "id": "resolution:google_vpc_access_connector.data:project:google_project.data",
+      "kind": "reference",
+      "from": {
+        "declaration": "source:google_vpc_access_connector.data",
+        "path": "project"
+      },
+      "to": "source:google_project.data",
+      "location": "location:main.tf:205:19-205:49"
     },
     {
       "id": "resolution:google_vpc_access_connector.data:subnet[0].name:google_compute_subnetwork.serverless",

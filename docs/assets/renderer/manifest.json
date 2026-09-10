@@ -238,7 +238,7 @@
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
         "example.json": "ef5c57312f22687a0b680290348317ab9db5b4852165c1d3e7142f015b9b3546",
         "main.tf": "85a36ba8c21566f25a3f10d73de727e95a5359c75b5456f305d6057d9af32994",
-        "rootform.lock": "6588226b9eb7a34beef7c711fd5d90c3d37b288380c0e427d706053bb69497d9"
+        "rootform.lock": "48451dcce6bf66944e353639e1c15d264391d22332e97940ffc8829842acdbc3"
       },
       "architecture_sha256": "08f2f088bf4fac97ed18eb4a451c8c07b24c2aac54db5979b9275e22b3e8e204"
     },
@@ -475,7 +475,7 @@
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
         "example.json": "728e6b0b9e4e27fa0bff02ecd3f500c65c14913c82c0be716a19b6de60aead4b",
         "main.tf": "f5becb72df95ae80320084ddd1f1db3d23da43784042c1ab89bbffa051d970e8",
-        "rootform.lock": "6588226b9eb7a34beef7c711fd5d90c3d37b288380c0e427d706053bb69497d9"
+        "rootform.lock": "48451dcce6bf66944e353639e1c15d264391d22332e97940ffc8829842acdbc3"
       },
       "architecture_sha256": "ffe067da3ac575867c23fd6cb7e1f19093d7121dfccfefae8af1c9684accb819"
     },
@@ -591,15 +591,15 @@
         ".rootform/dialects/google/migration/storage-transfer.rf": "bf1c3a266afc679333becb79d85d2fb0fd9b0396afca3cb7874eba19799a0ca2",
         ".rootform/dialects/google/network/agent-gateway.rf": "c324adeb65f6d3306f303cbf0fde270946a5c7246839363b21235a8151a52835",
         ".rootform/dialects/google/network/cloud-multicast.rf": "78e7fd575e3d6e6aab364a56b782758060800fd2254942e80649e7a5797c30b5",
-        ".rootform/dialects/google/network/cloud-router.rf": "1c41d9b669dd4a29b010757e29af3442ebcb4f07877de94c8d9e0851993d2832",
+        ".rootform/dialects/google/network/cloud-router.rf": "5af8ec9532484d37b2355fce4a6de59b49fe2014aaa0e1a3e6f8f12c6dab28e9",
         ".rootform/dialects/google/network/connectivity.rf": "f1339e332c63a60d8e33e0f49996729788b7843138cb41bf1e0bd2bca9f86c9c",
         ".rootform/dialects/google/network/interconnect.rf": "62c28469c0e1d1321581bab181f55c92ad2ad636b69820afe9ea5f34ea4f0c4c",
         ".rootform/dialects/google/network/network-connectivity-center.rf": "f5c1e3fb98dc21de55f4fe2eda5c0062a0fcd9f616506b47418d45fcf5f64e53",
         ".rootform/dialects/google/network/private-services-access.rf": "b007287ec29f0ab8d71806620b9e74271f4fe8a784449d9ec43fc60dedd78364",
         ".rootform/dialects/google/network/service-directory.rf": "d1cf18243338ff42aee81b86c864ec341c8f83796a5509f1b675cae9f9bd32de",
         ".rootform/dialects/google/network/service-mesh.rf": "b3c98975b212ca2474a4d41602560574de16980e348fd9a0b087c94aae67782f",
-        ".rootform/dialects/google/network/vpc-access.rf": "f4579777ad4976eb350bc726c3cc2b37c8d5f58403ee054e00968a77ffa83842",
-        ".rootform/dialects/google/network/vpc.rf": "ff33d4b78322b68b259b5c3ddf381c25597af9a0a1dbacbd4c68281968c8b90c",
+        ".rootform/dialects/google/network/vpc-access.rf": "e36037fe1b8aae04ba8b9ad413b05b6570be8995fa8fa174a472e4509ceebb3f",
+        ".rootform/dialects/google/network/vpc.rf": "499ba74a6d3c98900ebabaedc5ef4a0ee29337b61003a8b6c2eacf2cea221f09",
         ".rootform/dialects/google/operations/cloud-logging.rf": "9794f34abbb8d324c1b5bafa601ccdfb9a038dc4d2b6b8ab604ea69a90347c6e",
         ".rootform/dialects/google/operations/cloud-monitoring.rf": "7b991011eb33ac016cae6709be031cc28bfd84d2a9f67f83e695521a880c7869",
         ".rootform/dialects/google/operations/managed-prometheus.rf": "a05eebd5a16a4c40dc84d8d3d999c964d757a56d11f997d0f5f0186593284962",
@@ -615,7 +615,7 @@
         ".rootform/dialects/google/security/cloud-ids.rf": "97ffd08e6dde732f15b9b0ad73369fcb21429971250fe7e0a881de43f10f937e",
         ".rootform/dialects/google/security/cloud-kms.rf": "d3fdd9664c9c62e39270838d5725c8606462854d5ecceb21f33ca80631c1fb60",
         ".rootform/dialects/google/security/compliance-manager.rf": "f874604c6717edce53c903e55f6528c607845d46e29c7ec6adbbc6b0951fc52d",
-        ".rootform/dialects/google/security/firewall.rf": "8959ee367a64f1eb835dd774bf6154f0b07c05117c80b30dbd06000ef9bf592d",
+        ".rootform/dialects/google/security/firewall.rf": "e866f9ae7dd930b949d4acb40d2bddd2b4745edb07099cc3ee1fac63150da2fe",
         ".rootform/dialects/google/security/iap.rf": "ac5538d087c728b8b6c3fc3125e98e77e2100fd29884134558e4f6bf874d48a1",
         ".rootform/dialects/google/security/model-armor.rf": "8d2605bc1c18c8dbeeed76c6579656b6194951bc4a3b621e6b03d270fb1a0150",
         ".rootform/dialects/google/security/private-ca.rf": "a983aaf00c4fdccbf928a8b7b8882e97d5226f843d65039f63e1cfcb00edafbc",
@@ -646,11 +646,11 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "a40940cb6424eacd00a47efc56ddc507cf34ab89371fce146730ac158e572c99",
+        "example.json": "4fe487ce2b442d719abad5abc1b1014d9646ef5cd631826bf12af242f742528a",
         "main.tf": "1265e2c5b6e215e624efc985ebe5b1200b0d0cc950b1b282a5d7252c0f069c18",
-        "rootform.lock": "51a02a85f3aefbb1cea356404f7bc6606e74a6f551191e0f7c162f110a4b0089"
+        "rootform.lock": "cc2f178ee82c74ab82ba36c71f99a4809f286530a8ba20b7ece584b97be156bd"
       },
-      "architecture_sha256": "e05303b518e1d488c3b9e3ceab0678ae1de3b72a9572bfd86a7a02fb903b6f2b"
+      "architecture_sha256": "c0c9b585b14929d33a77d70b8e42fb6469e80b827eab45015305223bac3315df"
     },
     "shared-data-platform-head": {
       "files": {
@@ -764,15 +764,15 @@
         ".rootform/dialects/google/migration/storage-transfer.rf": "bf1c3a266afc679333becb79d85d2fb0fd9b0396afca3cb7874eba19799a0ca2",
         ".rootform/dialects/google/network/agent-gateway.rf": "c324adeb65f6d3306f303cbf0fde270946a5c7246839363b21235a8151a52835",
         ".rootform/dialects/google/network/cloud-multicast.rf": "78e7fd575e3d6e6aab364a56b782758060800fd2254942e80649e7a5797c30b5",
-        ".rootform/dialects/google/network/cloud-router.rf": "1c41d9b669dd4a29b010757e29af3442ebcb4f07877de94c8d9e0851993d2832",
+        ".rootform/dialects/google/network/cloud-router.rf": "5af8ec9532484d37b2355fce4a6de59b49fe2014aaa0e1a3e6f8f12c6dab28e9",
         ".rootform/dialects/google/network/connectivity.rf": "f1339e332c63a60d8e33e0f49996729788b7843138cb41bf1e0bd2bca9f86c9c",
         ".rootform/dialects/google/network/interconnect.rf": "62c28469c0e1d1321581bab181f55c92ad2ad636b69820afe9ea5f34ea4f0c4c",
         ".rootform/dialects/google/network/network-connectivity-center.rf": "f5c1e3fb98dc21de55f4fe2eda5c0062a0fcd9f616506b47418d45fcf5f64e53",
         ".rootform/dialects/google/network/private-services-access.rf": "b007287ec29f0ab8d71806620b9e74271f4fe8a784449d9ec43fc60dedd78364",
         ".rootform/dialects/google/network/service-directory.rf": "d1cf18243338ff42aee81b86c864ec341c8f83796a5509f1b675cae9f9bd32de",
         ".rootform/dialects/google/network/service-mesh.rf": "b3c98975b212ca2474a4d41602560574de16980e348fd9a0b087c94aae67782f",
-        ".rootform/dialects/google/network/vpc-access.rf": "f4579777ad4976eb350bc726c3cc2b37c8d5f58403ee054e00968a77ffa83842",
-        ".rootform/dialects/google/network/vpc.rf": "ff33d4b78322b68b259b5c3ddf381c25597af9a0a1dbacbd4c68281968c8b90c",
+        ".rootform/dialects/google/network/vpc-access.rf": "e36037fe1b8aae04ba8b9ad413b05b6570be8995fa8fa174a472e4509ceebb3f",
+        ".rootform/dialects/google/network/vpc.rf": "499ba74a6d3c98900ebabaedc5ef4a0ee29337b61003a8b6c2eacf2cea221f09",
         ".rootform/dialects/google/operations/cloud-logging.rf": "9794f34abbb8d324c1b5bafa601ccdfb9a038dc4d2b6b8ab604ea69a90347c6e",
         ".rootform/dialects/google/operations/cloud-monitoring.rf": "7b991011eb33ac016cae6709be031cc28bfd84d2a9f67f83e695521a880c7869",
         ".rootform/dialects/google/operations/managed-prometheus.rf": "a05eebd5a16a4c40dc84d8d3d999c964d757a56d11f997d0f5f0186593284962",
@@ -788,7 +788,7 @@
         ".rootform/dialects/google/security/cloud-ids.rf": "97ffd08e6dde732f15b9b0ad73369fcb21429971250fe7e0a881de43f10f937e",
         ".rootform/dialects/google/security/cloud-kms.rf": "d3fdd9664c9c62e39270838d5725c8606462854d5ecceb21f33ca80631c1fb60",
         ".rootform/dialects/google/security/compliance-manager.rf": "f874604c6717edce53c903e55f6528c607845d46e29c7ec6adbbc6b0951fc52d",
-        ".rootform/dialects/google/security/firewall.rf": "8959ee367a64f1eb835dd774bf6154f0b07c05117c80b30dbd06000ef9bf592d",
+        ".rootform/dialects/google/security/firewall.rf": "e866f9ae7dd930b949d4acb40d2bddd2b4745edb07099cc3ee1fac63150da2fe",
         ".rootform/dialects/google/security/iap.rf": "ac5538d087c728b8b6c3fc3125e98e77e2100fd29884134558e4f6bf874d48a1",
         ".rootform/dialects/google/security/model-armor.rf": "8d2605bc1c18c8dbeeed76c6579656b6194951bc4a3b621e6b03d270fb1a0150",
         ".rootform/dialects/google/security/private-ca.rf": "a983aaf00c4fdccbf928a8b7b8882e97d5226f843d65039f63e1cfcb00edafbc",
@@ -819,11 +819,11 @@
         ".rootform/dialects/kubernetes/presentation.json": "502ef0a2b8776081175d4e6016695c6e395dd46441d679c67a2d0b013c521393",
         ".rootform/dialects/kubernetes/storage/persistent-volume-claims.rf": "1d85ceef1f9eee2d2255644cc8c47cd0fa96917775b5a8aa4b21546d47ee8219",
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
-        "example.json": "879a401dabf9f3bc3a4730db59b645de9903f6dca4a51d26a6d8fc7e3d3b051b",
+        "example.json": "f1e45ef5dc6130d6dbed5b1dca679f332eda400b7a41368b6726c93d9baf2441",
         "main.tf": "d874304a18320bf19027b85bf37b5d3e37286431120b3961f626fa5628214ffa",
-        "rootform.lock": "51a02a85f3aefbb1cea356404f7bc6606e74a6f551191e0f7c162f110a4b0089"
+        "rootform.lock": "cc2f178ee82c74ab82ba36c71f99a4809f286530a8ba20b7ece584b97be156bd"
       },
-      "architecture_sha256": "00ff20609d7ac2b396445e7f6cdfd7b329b87eff30209582f6c0b80d2fd5d134"
+      "architecture_sha256": "0d28f3164bb41f8786bdc4e3a6be2ea7e6508284d20722d7115c2bf25e093aaf"
     },
     "event-driven-platform-base": {
       "files": {
@@ -1048,7 +1048,7 @@
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
         "example.json": "79127d707cfdfe50e3fb65cff2ada11ea9a10cf48f1067a3ac8d60a40f5638e1",
         "main.tf": "84f418865a528d0b175a4911bcd3be8067bc833e85040ad183433f387d50fd75",
-        "rootform.lock": "0c77207c9fc847867b5fd5f8884662c6d1651f16de503d4202756d0c18547654"
+        "rootform.lock": "f09e073c48246baabd10b01fb2514848e76a3dbe152542380976098b4bf93637"
       },
       "architecture_sha256": "0c92f77186f4b447adb63f6cffb1995f1479faefbb5ebb583f549a1cf7480060"
     },
@@ -1275,7 +1275,7 @@
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
         "example.json": "718af4f3eb5eac1e9ff2a928cad0f81255ac1249553d60eccbb8d014932740c1",
         "main.tf": "a158c56093964f40f6177fa26d49af59ec8e160c62d99f7bc70d61df8db32f5f",
-        "rootform.lock": "0c77207c9fc847867b5fd5f8884662c6d1651f16de503d4202756d0c18547654"
+        "rootform.lock": "f09e073c48246baabd10b01fb2514848e76a3dbe152542380976098b4bf93637"
       },
       "architecture_sha256": "1af198a496fb361e952c31f3b0974346d0962291539b20d3ae973c26f18c06f4"
     }
@@ -1291,7 +1291,7 @@
       "base": "shared-data-platform-base",
       "head": "shared-data-platform-head",
       "diff": "shared-data-platform-diff",
-      "sha256": "82aaef4db12b1262274a49877fd652cdb300329a9f83945f8622b591ad32a22e"
+      "sha256": "094dcb5f7d78ba795c92e107d3abc756d4d2ce7f902c04fd4c3d41c54a30afdb"
     },
     "event-driven-platform": {
       "base": "event-driven-platform-base",
