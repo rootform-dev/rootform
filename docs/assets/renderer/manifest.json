@@ -165,7 +165,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "9714d2e2a327522e7e339ed9169ecf41cb339696080f2358cf8dde014e2c8b4a",
+        ".rootform/dialects/azure/presentation.json": "05c1455ae7241b27eba89e342bbd6e826cb320a27cb96c1664cdcb758f8ae284",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -238,7 +238,7 @@
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
         "example.json": "ef5c57312f22687a0b680290348317ab9db5b4852165c1d3e7142f015b9b3546",
         "main.tf": "85a36ba8c21566f25a3f10d73de727e95a5359c75b5456f305d6057d9af32994",
-        "rootform.lock": "48451dcce6bf66944e353639e1c15d264391d22332e97940ffc8829842acdbc3"
+        "rootform.lock": "09e07fd1cfa42403a4987ce9fd41e828e349b20322959d40555be41c59685df0"
       },
       "architecture_sha256": "08f2f088bf4fac97ed18eb4a451c8c07b24c2aac54db5979b9275e22b3e8e204"
     },
@@ -402,7 +402,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "9714d2e2a327522e7e339ed9169ecf41cb339696080f2358cf8dde014e2c8b4a",
+        ".rootform/dialects/azure/presentation.json": "05c1455ae7241b27eba89e342bbd6e826cb320a27cb96c1664cdcb758f8ae284",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -475,7 +475,7 @@
         ".rootform/dialects/kubernetes/workloads/controllers.rf": "de884bc2735cd0234b636771fbaf83e6fc63e6b582b77b294c0203003f4f99db",
         "example.json": "728e6b0b9e4e27fa0bff02ecd3f500c65c14913c82c0be716a19b6de60aead4b",
         "main.tf": "f5becb72df95ae80320084ddd1f1db3d23da43784042c1ab89bbffa051d970e8",
-        "rootform.lock": "48451dcce6bf66944e353639e1c15d264391d22332e97940ffc8829842acdbc3"
+        "rootform.lock": "09e07fd1cfa42403a4987ce9fd41e828e349b20322959d40555be41c59685df0"
       },
       "architecture_sha256": "ffe067da3ac575867c23fd6cb7e1f19093d7121dfccfefae8af1c9684accb819"
     },
@@ -985,7 +985,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "9714d2e2a327522e7e339ed9169ecf41cb339696080f2358cf8dde014e2c8b4a",
+        ".rootform/dialects/azure/presentation.json": "05c1455ae7241b27eba89e342bbd6e826cb320a27cb96c1664cdcb758f8ae284",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -1048,7 +1048,7 @@
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
         "example.json": "79127d707cfdfe50e3fb65cff2ada11ea9a10cf48f1067a3ac8d60a40f5638e1",
         "main.tf": "84f418865a528d0b175a4911bcd3be8067bc833e85040ad183433f387d50fd75",
-        "rootform.lock": "f09e073c48246baabd10b01fb2514848e76a3dbe152542380976098b4bf93637"
+        "rootform.lock": "aa11b05f47a70738351ec5f2ea16cfe259bc12f96547d3d86626324463f94a68"
       },
       "architecture_sha256": "0c92f77186f4b447adb63f6cffb1995f1479faefbb5ebb583f549a1cf7480060"
     },
@@ -1212,7 +1212,7 @@
         ".rootform/dialects/azure/operations/network-watcher.rf": "e5b15d26ddef6cd4c7147c62122d6d0e171b6d3eedacd82e8d0e14055b533988",
         ".rootform/dialects/azure/operations/new-relic.rf": "92ad98f5591c38efa06b5515a69e67cb129423682a9716b4682394dacc1bfb1f",
         ".rootform/dialects/azure/operations/portal-dashboard.rf": "6bf3d790e1409bdc13c3057102526c7c68729907d3104cd68f66f41318e36d42",
-        ".rootform/dialects/azure/presentation.json": "9714d2e2a327522e7e339ed9169ecf41cb339696080f2358cf8dde014e2c8b4a",
+        ".rootform/dialects/azure/presentation.json": "05c1455ae7241b27eba89e342bbd6e826cb320a27cb96c1664cdcb758f8ae284",
         ".rootform/dialects/azure/security/advanced-threat.rf": "094aa12d7171f134038b74c9111bbb9577a2ad65e53118207329bffc69a2b709",
         ".rootform/dialects/azure/security/attestation-provider.rf": "3eac1cddb0e1ccc24d3c2c5a23b41e5561312c269ddf1d304e95dc48bcce1d94",
         ".rootform/dialects/azure/security/concepts.rf": "2c651e319973c15c06d2757d15e2785b579dc7c8e32a0efd1786f9f785321b72",
@@ -1275,7 +1275,7 @@
         ".rootform/dialects/core/storage/storage.rf": "6beeae39826814c0378b5d1e902748bfa2624158486f4143609e1f4c4b51d59b",
         "example.json": "718af4f3eb5eac1e9ff2a928cad0f81255ac1249553d60eccbb8d014932740c1",
         "main.tf": "a158c56093964f40f6177fa26d49af59ec8e160c62d99f7bc70d61df8db32f5f",
-        "rootform.lock": "f09e073c48246baabd10b01fb2514848e76a3dbe152542380976098b4bf93637"
+        "rootform.lock": "aa11b05f47a70738351ec5f2ea16cfe259bc12f96547d3d86626324463f94a68"
       },
       "architecture_sha256": "1af198a496fb361e952c31f3b0974346d0962291539b20d3ae973c26f18c06f4"
     }
