@@ -14,13 +14,13 @@
       "version": "0.1.0",
       "digest": "sha256:074719eca0db066f7a7cee2ce117f260024929a07a6b2dbfa8aee3a457689a59",
       "semantic_digest": "sha256:f44c042c8194926c1cf08bfca0a20222e391a1f17ecbf3440a320f5cce1e0652",
-      "presentation_digest": "sha256:a24a0a650490cfbcd4a319c22fdf891a567786a6ac728086f864b20bbb0615dc",
+      "presentation_digest": "sha256:7db76eb5376bbb73ad6b725e8620f007ce60d2532583a0a6158646e75e627cf7",
       "artifact": {
         "repository": "ghcr.io/rootform-dev/dialects",
         "manifest_digest": "sha256:eb3df0aa8e32b7c5d89d5364bbe62a25f6d3652ba39a6c14fc44640150d4ca2b",
-        "layer_digest": "sha256:a040964c5587ae78d486f0371d0d4e7ce88d87a7b2d5595dbe8005c5ca85b394",
-        "download_size": 36699,
-        "install_size": 193904
+        "layer_digest": "sha256:b1ba75feff126e38a5bc6d097d37d1f0309f0e799b6a84246ec81494f164b32f",
+        "download_size": 36381,
+        "install_size": 192177
       },
       "origins": [
         "ghcr.io/rootform-dev/dialects:official-index-v1"
