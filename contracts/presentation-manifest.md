@@ -2,13 +2,24 @@
 
 Current format version: `1`.
 
-A dialect may contain one `presentation.json`. It maps dialect-owned rule and
-concept names to declarative `family/name` technology identities and optional
-plain-text labels.
+A Dialect may contain one `presentation.json`. It maps normalized source
+identities and optional local Rule or Concept names to declarative
+`family/name` technology identities and plain-text labels.
 
-Sections are `rules`, `concepts`, `rule_labels`, and `concept_labels`. Missing
-sections mean empty objects. Keys are unqualified lowercase kebab-case names
-owned by current dialect. Identity values are bounded lowercase kebab-case
+This independence is normative: a resource without any Rule or Concept may
+possess its own presentation identity and icon, and a catalog with many icons
+does not require an equivalent Rule catalog. An icon is never a classification,
+evidence, or policy contract.
+
+Sections are `resources`, `rules`, `concepts`, `resource_labels`,
+`rule_labels`, and `concept_labels`. Missing sections mean empty objects.
+Resource sections are independent from Rules: they map exact normalized keys
+such as `resource/aws_vpc` or `data/aws_ami`. Rule and Concept sections use
+unqualified local names owned by this Dialect.
+
+Resource keys begin with source kind `resource`, `data`, `ephemeral`, or
+`action`, then slash and exact normalized type. Local names are bounded
+lowercase kebab-case. Identity values are bounded lowercase kebab-case
 `family/name` strings.
 
 Labels are trimmed non-empty UTF-8 up to 256 bytes. Markup, URLs, styles,
@@ -18,11 +29,16 @@ are rejected.
 
 Manifest never carries SVG, HTML, asset URL, color, size, layout, or behavior.
 It does not enter semantic artifacts, semantic digest, Architecture IR, diff,
-or policy input.
+or policy input. A presentation-only content change may alter the delivered
+bytes without changing any semantic contract or policy pin.
 
-Resolved manifests merge into deterministic presentation catalog keyed by
-qualified `dialect/name`. Invalid manifest is ignored with warning during a
-normal product run; authoring and release validation must reject it.
+Resolved manifests merge into deterministic catalog. Rule keys become exact
+`owner.rule.name` identities and Concept keys become exact
+`owner.concept.name` identities; source identities remain normalized kind/type
+keys and conflicting owners warn deterministically. Architecture IR retains
+source metadata needed for lookup and never embeds SVG assets. Invalid manifest
+is ignored with warning during normal run; authoring and release validation
+reject it.
 
 Machine schemas:
 
