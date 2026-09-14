@@ -3,9 +3,10 @@ title: Install Rootform
 description: Install Rootform on macOS, Linux, or Windows, or run it from a container.
 ---
 
-Install Rootform on macOS, Linux, or Windows, or run it from a container. The
-first run may need network access to download any required
-[Dialects](concepts/dialects.md) that aren't already available locally.
+Install Rootform on macOS, Linux, or Windows, or run it from a container.
+Supplied [Dialects](concepts/dialects.md) ship inside Rootform and need no
+network access. Only explicit `rootform init --locked` preparation may acquire
+exact OCI pins recorded for additional third-party Dialects or Policy Packs.
 
 <!-- rootform:tabs Operating system -->
 <!-- rootform:tab macOS -->
@@ -86,9 +87,10 @@ docker run --rm ghcr.io/rootform-dev/rootform:0.1.0 rootform version
 
 ## Manual installation
 
-Use release archives when you need exact binary bytes, checksum evidence, or
-an offline transfer. Download `SHA256SUMS` and the archive for your platform
-from [Rootform v0.1.0](https://github.com/rootform-dev/rootform/releases/tag/v0.1.0):
+Use a release archive when you need exact binary bytes, checksum evidence, or a
+transfer to a machine without network access. From
+[Rootform v0.1.0](https://github.com/rootform-dev/rootform/releases/tag/v0.1.0),
+take the archive for your platform and `SHA256SUMS`:
 
 | Platform | Archive |
 | --- | --- |
@@ -98,8 +100,8 @@ from [Rootform v0.1.0](https://github.com/rootform-dev/rootform/releases/tag/v0.
 | Linux, ARM64 | `rootform_0.1.0_linux_arm64.tar.gz` |
 | Windows, x86-64 | `rootform_0.1.0_windows_amd64.zip` |
 
-Release archives include binary license and third-party notices. Find archive
-filename in `SHA256SUMS`, then require exact checksum match before extraction:
+Release archives include binary license and third-party notices. Match the
+archive against its `SHA256SUMS` entry before extraction:
 
 ```sh title="macOS"
 shasum -a 256 rootform_0.1.0_darwin_arm64.tar.gz
@@ -113,12 +115,12 @@ sha256sum rootform_0.1.0_linux_amd64.tar.gz
 Get-FileHash .\rootform_0.1.0_windows_amd64.zip -Algorithm SHA256
 ```
 
-Extract `.tar.gz` or `.zip`, then place `rootform` or `rootform.exe` in a
-directory on `PATH`. Run `rootform version` to verify selected executable.
+Extract the `.tar.gz` or `.zip`, then place `rootform` or `rootform.exe` in
+a directory on `PATH`. Run `rootform version` to confirm the executable.
 
-For a container, pin image by index digest instead of using an archive; see
-[Container usage](integrations/oci-image.md#run-against-a-project). For a
-disconnected project, also prepare exact Dialects and Policy Packs as described
-in [Offline operation](offline-security.md).
+To run a container, pin the image by index digest instead of using an archive;
+see [Container usage](integrations/oci-image.md#run-against-a-project). For a
+disconnected project, prepare exact third-party Dialects and Policy Packs as
+described in [Locks and offline operation](offline-security.md).
 
 Continue with [your first architecture →](getting-started/first-architecture.md).

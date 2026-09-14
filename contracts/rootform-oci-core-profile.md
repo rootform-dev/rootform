@@ -2,10 +2,13 @@
 
 Profile identifier: `rootform-oci-core-v1`.
 
-This profile defines only OCI Distribution behavior Rootform needs to publish
-and consume Dialects, Dialect indexes, and Policy Packs. It applies equally to
-hosted, self-managed, public, and private registries. Passing this profile says
-nothing about registry features outside this boundary.
+This profile defines only OCI Distribution behavior Rootform needs to consume
+third-party Dialects and publish and consume Policy Packs. The RF
+Vocabulary and supplied Dialects are embedded in the Rootform binary and never
+travel through a registry. There is no Dialect index artifact and no
+discovery index tag. The profile applies equally to hosted, self-managed,
+public, and private registries. Passing this profile says nothing about
+registry features outside this boundary.
 
 ## Content contract
 
@@ -15,17 +18,11 @@ types, and manifest annotations byte-for-byte. OCI manifest schema version `2`
 is defined by OCI and is unrelated to Rootform document `format_version`,
 which remains `"1"`.
 
-Rootform dialect content uses:
+Rootform Dialect content uses:
 
 - artifact type `application/vnd.rootform.dialect.v1`;
 - config type `application/vnd.rootform.dialect.manifest.v1+json`;
 - layer type `application/vnd.rootform.dialect.layer.v1.tar+gzip`.
-
-Rootform index content uses:
-
-- artifact type `application/vnd.rootform.dialect-index.v1`;
-- config type `application/vnd.rootform.dialect-index.config.v1+json`;
-- layer type `application/vnd.rootform.dialect-index.v1+json`.
 
 Rootform Policy Pack content uses:
 
@@ -33,7 +30,8 @@ Rootform Policy Pack content uses:
 - config type `application/vnd.rootform.policy-pack.manifest.v1+json`;
 - layer type `application/vnd.rootform.policy-pack.layer.v1.tar+gzip`.
 
-Policy Pack V0 defines no index artifact.
+Policy Packs define no index artifact in V0. Dialects define no index
+artifact in V0.
 
 Every descriptor uses SHA-256. Rootform validates returned digest, size, media
 type, manifest shape, config, layer, and compiled semantic and presentation
@@ -52,10 +50,10 @@ Registry must implement standard OCI Distribution endpoints needed for:
   content and digest-bearing `PUT`;
 - manifest and tag creation with `PUT`.
 
-Rootform never enumerates repositories or tags. Dialect discovery happens
-through known index or direct artifact references. Policy Pack selection uses
-an explicit direct artifact reference. Locked acquisition resolves each
-manifest by exact digest from repository recorded in `rootform.lock`.
+Rootform never enumerates repositories or tags. Dialect and Policy
+Pack selection uses explicit direct artifact references. Locked acquisition
+resolves each manifest by exact digest from repository recorded in
+`rootform.lock`. Supplied units are never acquired from a registry.
 
 ## Authentication
 
@@ -77,11 +75,9 @@ preflights every destination tag, pushes only missing descriptor graphs, then
 resolves and repulls exact digest before success. Existing equal digest is
 idempotent; existing different digest fails before first write.
 
-Dialect tags are `dialect-<name>-<version>`. Generic index publication uses
-immutable `index-sha256-<manifest-hex>` tags. Moving
-`official-index-v1` belongs only to separately authorized official publication.
-Policy Pack tags are `policy-pack-<name>-<version>` and no Policy Pack index or
-mutable discovery tag exists in V0.
+Dialect tags are `dialect-<owner>-<version>`. Policy Pack tags are
+`policy-pack-<name>-<version>`. V0 defines no Dialect index and no Policy Pack
+index, and never moves a mutable discovery tag.
 Registry-side tag immutability or serialized publishers is recommended where
 late concurrent writers must be excluded.
 
@@ -105,18 +101,18 @@ them.
 ## Portability test
 
 Registry compatibility is established only by reusable Rootform qualification
-against real endpoint. Test publishes custom media types, pulls direct Dialect
-and Policy Pack artifacts by tag and digest, consumes additional Dialect index,
-reacquires locked content into empty stores, repairs both vendor trees from
-exact pins, verifies offline vendor execution, checks standard provenance, and
-rejects source or digest drift.
+against real endpoints. Test publishes custom media types, pulls direct Dialect
+Dialect and Policy Pack artifacts by tag and digest, reacquires locked
+content into empty stores, repairs vendor trees from exact pins, verifies
+offline vendor execution, checks standard provenance, and rejects source or
+digest drift.
 
 Local qualification covers CNCF Distribution with anonymous, private Basic,
 TLS, and Docker credential-helper paths. Candidate qualification against a
 transient public GHCR package covers Bearer challenge exchange under GitHub
 Actions' repository-inherited package visibility. Qualification content is
 synthetic, and the package is deleted before the job ends. Hosted registry
-compatibility is reported only for products that pass same profile suite.
+compatibility is reported only for products that pass the same profile suite.
 
 Related contracts:
 

@@ -1,47 +1,7 @@
 {
   "format_version": "1",
-  "sources": [
-    {
-      "kind": "index",
-      "reference": "ghcr.io/rootform-dev/dialects:official-index-v1",
-      "manifest_digest": "sha256:5d7c28d72cc80cf21db1b93e270b910c84f92329ce168c53972221edc48cdfc7"
-    }
-  ],
-  "unsupported_providers": [],
-  "entries": [
-    {
-      "name": "azure",
-      "version": "0.1.0",
-      "digest": "sha256:074719eca0db066f7a7cee2ce117f260024929a07a6b2dbfa8aee3a457689a59",
-      "semantic_digest": "sha256:f44c042c8194926c1cf08bfca0a20222e391a1f17ecbf3440a320f5cce1e0652",
-      "presentation_digest": "sha256:7db76eb5376bbb73ad6b725e8620f007ce60d2532583a0a6158646e75e627cf7",
-      "artifact": {
-        "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:eb3df0aa8e32b7c5d89d5364bbe62a25f6d3652ba39a6c14fc44640150d4ca2b",
-        "layer_digest": "sha256:b1ba75feff126e38a5bc6d097d37d1f0309f0e799b6a84246ec81494f164b32f",
-        "download_size": 36381,
-        "install_size": 192177
-      },
-      "origins": [
-        "ghcr.io/rootform-dev/dialects:official-index-v1"
-      ]
-    },
-    {
-      "name": "core",
-      "version": "0.1.0",
-      "digest": "sha256:532a7d2ebff484592cfb673c9824d54597242ae9a965f8f920e548000757d902",
-      "semantic_digest": "sha256:3e4c44d79c444172c817c4c6fca07d74052bed59e09fb9ccc02bd3c6354dee6e",
-      "presentation_digest": "sha256:6250b078276b44c2db9361c26c6c92351d26f49de7ac6daf22c9859cd2f962c8",
-      "artifact": {
-        "repository": "ghcr.io/rootform-dev/dialects",
-        "manifest_digest": "sha256:f7dc2b5adff7b5b0e76882bd9603e99194d78cf5a77585064c2efa55f24b7f53",
-        "layer_digest": "sha256:89f57cbb6b236421ba7431cb39877ee0987266c14eadfdccb8fef057306a217a",
-        "download_size": 9108,
-        "install_size": 25164
-      },
-      "origins": [
-        "ghcr.io/rootform-dev/dialects:official-index-v1"
-      ]
-    }
-  ]
+  "dialects": [],
+  "policy_packs": [],
+  "excluded_owners": [],
+  "replacements": []
 }

@@ -1,159 +1,105 @@
 ---
 title: "Write a Policy Pack"
-description: "Group related policies behind one reviewed identity, declare their exact vocabulary, and package them deterministically."
+description: "Group portable policies, link them to exact architecture semantics, and package them deterministically."
 ---
 
-A Policy Pack is the versioned source and distribution unit for one or more
-policies. It declares the exact Dialect vocabulary its assertions use. It does
-not add architecture facts, select provider Dialects, or inherit policies from
-another pack.
-
-Write and evaluate one policy first with
-[Check an architecture](../guides/check-architecture.md).
-Create a pack boundary when several policies share ownership, release cadence,
-and semantic assumptions.
+A Policy Pack is an independent source unit. It owns a name, version, and
+Policies. It never adds architecture facts and never declares semantic
+dependency versions. Exact RF Vocabulary and Dialect pins are derived during
+linking from qualified references.
 
 ## Start with one source root
-
-A pack source root contains `.rf` or `.rf.json` plus accepted legal files. Keep
-its purpose and assumptions reviewable:
 
 ```text title="Policy Pack source"
 baseline/
 ├── pack.rf
 ├── policies/
 │   ├── cluster-network-context.rf
-│   └── private-database-reachability.rf
+│   └── managed-database-network-context.rf
 ├── LICENSE
 └── NOTICE
 ```
 
-Rootform discovers language files recursively. Keep exactly one `policy_pack`
-declaration in each independently released pack root. Every top-level `policy`
-beneath that root belongs to its manifest; no `pack` attribute, import, or
-filename convention is needed. A missing or second manifest and any Dialect
-declaration are invalid.
-
-To package several packs in one command, place each pack in its own immediate
-child directory and pass their parent.
-
-The public baseline example keeps manifest metadata separate from policies:
+Rootform discovers `.rf` and `.rf.json` recursively. Exactly one
+`policy_pack` declaration owns every top-level `policy` below this root.
 
 ```hcl title="policy-packs/baseline/pack.rf"
 policy_pack "baseline" {
   version = "0.1.0"
-
-  requires {
-    core = "0.1.0"
-  }
 }
 ```
 
 ```hcl title="policy-packs/baseline/policies/cluster-network-context.rf"
 policy "cluster-network-context" {
-  target = concept.core.kubernetes-cluster
+  target {
+    concept = rf.concept.kubernetes-cluster
+  }
 
   assert = (
-    exists(contexts(context.core.network, concept.core.virtual-network)) ||
-    exists(contexts(context.core.network, concept.core.subnet))
+    exists(contexts(rf.context.network, rf.concept.virtual-network)) ||
+    exists(contexts(rf.context.network, rf.concept.subnet))
   )
 
   message = "Kubernetes clusters must belong to a network context."
 }
 ```
 
-```hcl title="policy-packs/baseline/policies/private-database-reachability.rf"
-policy "private-database-reachability" {
-  target = concept.core.managed-database
+```hcl title="policy-packs/baseline/policies/managed-database-network-context.rf"
+policy "managed-database-network-context" {
+  target {
+    concept = rf.concept.managed-database
+  }
 
-  assert = (
-    exists(relations(relation.core.private-reachability, concept.core.virtual-network)) ||
-    exists(relations(relation.core.private-reachability, concept.core.subnet))
-  )
+  assert = exists(contexts(rf.context.network, rf.concept.virtual-network))
 
-  message = "Managed databases must be privately reachable from a virtual network or subnet."
+  message = "Managed databases must declare a virtual-network context."
 }
 ```
 
-This is a demonstration pack, not universal assurance. Its database policy
-expects a `private-reachability` relation that every provider Dialect does not
-necessarily produce. Document that coverage boundary with any real pack.
+These fences match public baseline source exactly.
 
 <!-- rootform:steps -->
 
-## Name and version the pack
+## Name and version pack
 
-`policy_pack "baseline"` establishes package name for its whole source root.
-Policy identities are `<pack>/<policy>`, such as
-`baseline/private-database-reachability`. Names use lower kebab case.
+`policy_pack "baseline"` establishes source identity. Policy IDs use
+owner-first form, for example `baseline.policy.cluster-network-context`.
+Names use lowercase kebab case. Version is exact `MAJOR.MINOR.PATCH`.
 
-`version` is an exact semantic version. Change it when released policy source,
-requirements, or meaning changes. Published version tags are immutable; do not
-reuse a version for different bytes.
+No `requires` block exists. Policies use qualified references only. Linker
+resolves each referenced owner and symbol against the given Architecture IR,
+then records exact versions and digests in compiled artifact.
 
-## Declare direct requirements
+## Define target
 
-Every concept, context, and relation reference in a Policy Pack is
-Dialect-qualified and must name a directly required Dialect:
+Target is one block:
 
-`requires` is nested inside `policy_pack` because it describes manifest
-metadata:
-
-```hcl title="pack.rf (excerpt)"
-requires {
-  core = "0.1.0"
+```hcl title="Policy target"
+target {
+  concept  = rf.concept.kubernetes-cluster
+  rules    = [aws.rule.eks-cluster]
+  dialects = [aws]
 }
 ```
 
-The value is exact, not a range. Loading a different `core` version fails
-semantic linking because compiled Policy Packs pin exact version and semantic
-digest.
-
-Requirements expose vocabulary to the compiler. They do not select a provider
-Dialect for a project and do not let the pack read that Dialect's source values.
-
-## Keep policies cohesive
-
-Each policy should express one inspectable requirement. Name the target concept
-and use a message that tells a reader what requirement failed:
-
-```hcl title="policies/cluster-network-context.rf"
-policy "cluster-network-context" {
-  target = concept.core.kubernetes-cluster
-  assert = (
-    exists(contexts(context.core.network, concept.core.virtual-network)) ||
-    exists(contexts(context.core.network, concept.core.subnet))
-  )
-  message = "Kubernetes clusters must belong to a network context."
-}
-```
-
-This assertion accepts network context established to either a virtual network
-or a subnet. It does not look for another Kubernetes cluster.
-
-One policy per file keeps reviews focused, but filenames and subdirectories do
-not affect ownership or identity. Multiple top-level policies in one source
-file are also valid.
-
-Do not encode a severity in the name or message. Policies have no author-defined
-severity. A known false assertion is a violation; an unknown
-decision is indeterminate.
-
-Before adding a policy, identify which Dialect facts can satisfy it. If the
-answer differs by provider or version, narrow the supported environment in the
-pack documentation or split ownership rather than implying uniform coverage.
+At least `concept` or `rules` is required. Values within each list are OR;
+present dimensions combine with AND. `dialects` filters owner of applied Rule.
+One selected representation is evaluated once. Base representation without
+matching Concept or applied Rule is not selected.
 
 ## Evaluate locally
 
-Use a prepared infrastructure project whose lock selects the Dialects needed by
-the architecture. Point `check` at the local pack source:
+Point `check` at local source while authoring:
 
 ```sh
 rootform check ./example --policy-pack ./baseline
+rootform list policies --policy-pack ./baseline
+rootform show policy baseline.policy.cluster-network-context --policy-pack ./baseline
 ```
 
-The directory form compiles and links local source for authoring. It does not
-install or lock it. Persist an evaluation-ready artifact against one saved IR:
+Local source is neither installed nor written to `rootform.lock`. Save exact
+linked form against Architecture IR when replay must not need producer
+Dialects:
 
 ```sh
 rootform compile policy-pack ./baseline --semantics architecture.json \
@@ -161,27 +107,12 @@ rootform compile policy-pack ./baseline --semantics architecture.json \
 rootform check architecture.json --policy-pack baseline.compiled.json
 ```
 
-Second command needs no Terraform source, producer Dialect package, registry,
-network, or recompilation. Do not combine local source directories with
-`--locked`.
-
-Inspect the compiled definitions and machine result:
-
-```sh
-rootform list policies --policy-pack ./baseline
-rootform show policy baseline/cluster-network-context --policy-pack ./baseline
-rootform check ./example --policy-pack ./baseline --format json
-```
-
-Review evaluation count, outcome, target, inspected fact IDs, diagnostics, and
-violations. Include examples that pass, violate, and become indeterminate for
-the intended reasons.
+Compiled artifact records authored content digest, linked digest, RF Language
+version, and exact semantic pins. Any mismatch fails closed.
 
 ## Package and publish a Policy Pack
 
-Compile source root into a local OCI registry layout. Packaging is offline and
-sends nothing to a registry. Replace example URLs with repository-owned values;
-use exact revision from checkout:
+Packaging is local and offline:
 
 ```sh
 rootform package policy-packs ./baseline \
@@ -192,48 +123,32 @@ rootform package policy-packs ./baseline \
   --licenses Apache-2.0
 ```
 
-Run packaging twice from identical inputs when establishing a release process
-and compare the output. Provenance values are explicit inputs; Rootform does not
-discover them from a local Git checkout.
-
-Publishing is a separate network operation:
+Publication is separate and generic:
 
 ```sh
 rootform publish policy-packs ./artifacts/policies \
   --to registry.example/team/policy-packs
 ```
 
-## Use a published Policy Pack
+V0 has no mutable Policy Pack index. Existing version tag with different
+digest is rejected.
 
-Projects select governance explicitly. Provider discovery never selects a
-Policy Pack. When the pack requires a private Dialect, select both artifacts in
-the same reviewed initialization; Rootform uses the same Docker configuration
-for each repository:
+## Use published Policy Pack
 
-```sh
-DOCKER_CONFIG=/path/to/docker-config \
-  rootform init ./infra \
-  --source registry.example/team/dialects:dialect-company-1.2.0 \
-  --policy-pack registry.example/team/policy-packs:policy-pack-baseline-0.1.0 \
-  --no-input
-```
-
-The pack must declare `company = "1.2.0"` in `requires`. It does not embed or
-select that Dialect. Review and commit `rootform.lock`, then use the pinned
-selection:
+Record exact OCI identity in `rootform.lock`, including content, manifest, and
+layer digests plus sizes. Then acquire only those pins:
 
 ```sh
-rootform check ./infra --locked --no-input
+rootform init ./infra --locked --no-input
+rootform check ./infra --locked
 ```
 
-On a clean runner, run `rootform init ./infra --locked --no-input` first so
-Rootform can recover missing exact packages from repositories recorded in the
-lock. Missing credentials, Dialect, or required version makes preparation fail;
-evaluation never substitutes another Dialect.
+Installed packs live under `$ROOTFORM_HOME/policy-packs/<name>/<version>`.
+Project vendoring uses `.rootform/policy-packs`. Linked execution cache lives
+under `$ROOTFORM_HOME/cache/linked-policy-packs` and is always derivable.
 
 <!-- rootform:endsteps -->
 
-See [Policy Pack reference](reference/policy-packs.md) for exact fields and
-isolation rules, and [Evaluation](reference/evaluation.md) for decision
-behavior. Compiled artifact wire shape is published as
+See [Policy Pack reference](reference/policy-packs.md),
+[evaluation](reference/evaluation.md), and
 [`compiled-policy-pack.schema.json`](../../schemas/compiled-policy-pack.schema.json).

@@ -309,7 +309,12 @@ test("installation documentation keeps supported methods in recommendation order
   expect(page).not.toContain("A successful verification prints");
   expect(page).not.toContain("rootform.dev/install.sh");
   expect(page).not.toMatch(/Node\.js|Python/u);
-  expect(page).toContain("first run may need network access to download any required\n[Dialects]");
+  expect(page).toContain(
+    "Supplied [Dialects](concepts/dialects.md) ship inside Rootform and need no\nnetwork access",
+  );
+  expect(page).toContain(
+    "Only explicit `rootform init --locked` preparation may acquire\nexact OCI pins",
+  );
 });
 
 test("Dialect authoring keeps presentation, publication, and use in one numbered workflow", () => {
@@ -349,35 +354,52 @@ test("contribution guide keeps Policy Packs user-owned", () => {
 test("sidebar uses approved user-facing labels and placement", () => {
   const navigation = JSON.parse(
     readFileSync(join(import.meta.dir, "../docs/navigation.json"), "utf8"),
-  ) as Array<{ label: string; items: Array<string | { label: string; page: string }> }>;
+  ) as Array<{
+    label: string;
+    items: Array<string | { label: string; page?: string; items?: unknown[] }>;
+  }>;
   const labels = (group: string) =>
     navigation
       .find(({ label }) => label === group)
       ?.items.map((item) => (typeof item === "string" ? item : item.label));
 
-  expect(labels("Understand architecture")).toContain("Core concepts");
-  expect(labels("Explore the renderer")).toContain("Views and navigation");
-  expect(labels("Use your inputs")).toContain("Configuration and IR");
-  expect(labels("Use your inputs")).toContain("Terraform/OpenTofu plans");
-  expect(labels("Review and automate")).toEqual([
-    "Run checks",
+  expect(labels("Get started")).toEqual(["Overview", "Install", "Your first architecture"]);
+  expect(labels("Understand Rootform")).toEqual([
+    "Mental model",
+    "Architecture IR",
+    "Dialects and RF Vocabulary",
+    "Policies and Policy Packs",
     "Architecture Diff",
+  ]);
+  expect(labels("Work with projects")).toEqual([
+    "Inputs",
+    "Terraform and OpenTofu plans",
+    "Project selection and preparation",
+    "Add third-party content",
+    "Locks, vendor, and offline use",
+    "Reproduce a build offline",
+  ]);
+  expect(labels("Review and automate")).toEqual([
+    "Check an architecture",
     "Compare architectures",
     "Git workflows",
     "Run in CI",
-    "integrations/github-actions",
+    "GitHub Actions",
   ]);
   expect(labels("Operate safely")).toEqual([
-    "Sources, locks, and offline use",
-    "guides/reproduce-build",
     "Security and data handling",
-    "integrations/registry-compatibility",
+    "Container image",
+    "Registry compatibility",
     "Limitations",
-    "troubleshooting",
+    "Troubleshooting",
   ]);
-  expect(labels("Reference")).toContain("Container image");
-  expect(labels("Reference")).toContain("Initialize a project");
-  expect(labels("Contribute")).toContain("contributing");
+  expect(labels("Reference")).toEqual(["Outputs and exit status", "CLI reference", "Commands"]);
+  expect(labels("Contribute")).toEqual(["Contribute to Rootform", "Writing standard"]);
+  expect(navigation.map(({ label }) => label)).not.toContain("Explore the renderer");
+  expect(JSON.stringify(navigation)).not.toMatch(/Survey|Focus|Inspector|"page":"renderer/u);
+  expect([
+    ...new Bun.Glob("renderer/**/*.md").scanSync({ cwd: join(import.meta.dir, "../docs") }),
+  ]).toEqual([]);
 });
 
 test("public docs distinguish Dialects from semantics", () => {

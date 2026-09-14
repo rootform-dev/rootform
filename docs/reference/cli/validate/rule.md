@@ -24,7 +24,7 @@ rootform validate rule <identifier> [flags]
 
 Validate a rule and its references in the context of its dialect.
 
-Use &lt;dialect&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
+Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
 The text or JSON result goes to standard output. Diagnostics go to
 standard error.
 
@@ -40,7 +40,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform validate rule google/cloud-sql-instance
+rootform validate rule google.rule.cloud-sql-instance
 rootform validate rule cloud-sql-instance
-rootform validate rule google/cloud-sql-instance --format json
+rootform validate rule google.rule.cloud-sql-instance --format json
 ```

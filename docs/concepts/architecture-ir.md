@@ -1,103 +1,88 @@
 ---
 title: "Architecture IR"
-description: "Understand the architecture document, its evidence, and the boundary between semantics and rendering."
+description: "Understand the saved architecture document: sections, identities, accounting, closure, and what makes it valid."
 ---
 
-Architecture IR is Rootform's saved, provider-neutral architecture document.
-It records what the selected Dialects could establish from your inputs. The
-renderer reads this document; it does not re-interpret Terraform.
+Architecture IR is Rootform's saved, provider-neutral architecture document. It
+records every discovered declaration, every normalized resource base, the exact
+semantic contracts used to interpret those bases, and the evidence behind each
+established fact. Consumers read this document without reinterpreting Terraform.
 
-## From declarations to architecture
+## Document sections
 
-A Terraform resource declaration names a provider object. A Dialect rule assigns
-its architectural meaning. For example, an `aws_vpc` can become a virtual-network
-scope, and an `aws_subnet` can become a subnet scope within its network context.
-The result retains the declaration and rule that explain each conclusion.
-
-| Part | Question it answers |
+| Section | Contents |
 | --- | --- |
-| Source accounting | What happened to every discovered declaration? |
-| Semantic snapshot | Which exact Dialect versions, semantic digests, vocabulary, rules, and emissions interpret this document? |
-| Architecture | Which entities, scopes, details, contexts, contributions, relations, and proven omissions were established? |
-| Resolutions and provenance | Which evidence supports those facts? |
-| Diagnostics | What could not be established? |
+| `format_version`, `generator` | Document contract version and producer identity |
+| `source` | Normalization contract, declarations, locations, source dependencies, and source accounting |
+| `semantics` | RF language version, release-set identity and units, effective selection, owners, definitions, Rules, and emission contracts |
+| `architecture` | Uniform representations, contexts, contributions, relations, omissions, and architecture accounting |
+| `resolutions` | Bounded provenance records that back successful facts |
+| `diagnostics` | Canonical sanitized diagnostics tied to their phase and object |
 
-A declaration is **represented** when it creates an architectural subject,
-**supporting a composition** when it contributes to a combined subject,
-**filtered** when a matching rule intentionally omits it, **unsupported** when
-no rule covers it, or **failed** when Rootform cannot establish its outcome.
-A small graph therefore does not prove complete coverage. Read the accounting
-alongside it.
+`format_version` is independent of the executable version. Use `rootform version` to identify the binary and `format_version` to identify the document contract.
 
-## Meaning stays separate from layout
+## Identities and ordering
 
-An **entity** is an architectural thing, such as a compute workload. A **scope**
-is a boundary that provides context, such as a virtual network. A **context**
-relates a subject to a context-providing representation along a named dimension.
-That target can be a scope or an entity: a cluster entity can provide runtime
-context without becoming a scope. Network and runtime are different dimensions;
-a subject can have both without one replacing the other.
+Every stable object uses content-derived identity, never a display label or array position. Source IDs and representation IDs derive from the normalized identity of the source root; they never depend on Rule, Concept, label, icon, version, or textual location. Collections serialize in canonical order, independent of traversal order. Editing generated JSON by hand can break identities, references, accounting, closure, or provenance.
 
-A **relation** connects architectural participants with a declared meaning.
-Its direction and qualified predicate matter. A **detail** is a supporting representation; a
-**contribution** attaches that detail to an entity or scope. Several Terraform
-declarations can therefore support one visible component; one shape does not
-necessarily equal one resource block.
+## Five accounting axes
 
-The document contains stable identities and semantic facts. It contains no
-canvas coordinates, route geometry, or UI state. Changing from Survey to Plan,
-opening Focus, or moving the camera does not change the architecture.
+The document accounts the source, representation, interpretation, composition, and emission axes separately, with coherent links between them.
 
-A context asserts a dimension such as network placement. A relation asserts
-its declared architectural meaning. Neither is interchangeable with a raw
-Terraform dependency. See [Dialects](dialects.md) for the rule boundary.
+| Axis | Question it answers |
+| --- | --- |
+| Source | Which declarations were discovered, and which source evidence was available? |
+| Representation | Which declarations have representations? |
+| Interpretation | Which Rule applied to each representation, and did selection or application fail? |
+| Composition | Which proven members support a composed representation? |
+| Emission | Which facts, omissions, or diagnostics close each active emission? |
 
-## Follow a fact back to its evidence
+Representation coverage and Rule coverage are distinct. Resource bases count in representation accounting even when no Rule applies. A missing Rule never means an unsupported resource, and a data declaration without successful interpretation remains source-accounted without a representation.
 
-For the first tutorial, the subnet's source address is
-`aws_subnet.application`. Its `vpc_id` expression refers to `aws_vpc.main`.
-The AWS Dialect uses that evidence to resolve the subnet's network context.
-Inspector exposes the supporting source and rule; the document retains the
-successful resolution behind that conclusion.
+## Uniform representations
 
-Provenance explains the claim without embedding the raw configuration or its
-values. A source address and file location can still reveal infrastructure
-structure, so review saved documents before sharing them.
+`architecture.representations` is the single representation collection. Each
+representation references its source declaration, carries its name and direct
+or composed implementation, and can carry an applied Rule and optional Concept.
+The source declaration holds kind, type, address, provider evidence, and
+location. Rule and Concept are omitted when absent; no synthetic Rule, generic
+Concept, or architectural fact is created for coverage.
 
-If a reference cannot be resolved, Rootform attaches a diagnostic to authored
-emission. It does not create a plausible target or claim no target exists.
-Known optional absence records an omission. Facts, omissions, and diagnostics
-together distinguish proven zero from unknown.
+A Rule-free resource base remains valid and complete about structural existence. Contexts, relations, contributions, and memberships connect existing representations. None turns a raw Terraform dependency into architecture meaning automatically.
 
-## Save and reuse a document
+## Semantic snapshot and release set
+
+`semantics` records the RF language version, the release set with its identity, version, manifest digest, and each unit's owner, kind, version, content digest, and semantic digest, the effective selection of active, excluded, and replaced owners, and each owner's origin, provider envelopes, and dependencies. Consumers of a saved document use only this snapshot. They never reload producer Dialects and never substitute the release set embedded in a newer binary. [Architecture Diff](diff.md) keeps source continuity while reporting incompatible semantic environments as undetermined.
+
+## Facts close with evidence
+
+Each active emission on an applied Rule closes with one or more confirmed facts, one proven omission, or an emission-scoped diagnostic. An omission is exclusive and means conclusively empty. Unknown, ambiguous, partially dangling, or incomparable evidence produces a diagnostic; it never proves absence. Confirmed facts and an incompleteness diagnostic can coexist when only part of a query is known. Missing closure is invalid.
+
+Facts carry bounded provenance naming the successful resolution, Rule, and emission. Provenance explains why a fact exists without embedding raw configuration or values.
+
+## Partial is not invalid
+
+A document is normally partial. Uninterpreted resource bases, data declarations without representations, and explicit diagnostics are valid and expected. Unknown or unsupported input stays explicit; a document with unknown data is never truncated and presented as complete.
+
+A document is invalid when it has an unsupported `format_version`, forbidden unknown fields, invalid identifiers, dangling references, duplicate identities, noncanonical ordering, inconsistent accounting, references, or closure, unresolved successful provenance, or an active emission without closure. A rejected document supports no compliance or no-change claim in any consumer.
+
+## Saved IR stays self-contained
 
 ```sh
-rootform build . --locked --output architecture.json
-rootform run architecture.json
+rootform build . --output architecture.json
 rootform explain architecture aws_subnet.application --input architecture.json
 ```
 
-Serving a saved architecture does not acquire Dialects or re-read its Terraform
-source. The explanation above uses the address from the first tutorial. The
-file can also be an input to `check`, `diff`, and `explain architecture --input`.
-Policy evaluation still needs selected compiled Policy Packs. A compiled pack
-and saved IR evaluate offline without producer Dialects or recompilation.
+A saved document is self-contained for inspection, Diff, explanation, Policy
+linking, and Policy evaluation. Consumers use its semantic snapshot; linking on
+a saved document uses only that snapshot. Policy Pack selection does not modify
+the document.
 
-Equivalent inputs and exact semantic selections produce deterministic output.
-A comparison must reject incompatible Dialect selections and invalid documents;
-it cannot report an empty diff when comparison was unavailable.
-
-The file is a generated artifact. Change Terraform/OpenTofu to change declared
-infrastructure, then rebuild. Editing JSON by hand can break identities,
-references, accounting, or provenance; consumers validate those constraints.
-
-The Architecture IR format version is independent of the executable version.
-Use `rootform version` to identify your binary and the document's
-`format_version` to identify its data contract.
+The document excludes raw HCL, secrets, raw plans and state, absolute paths,
+`.rf` source, and UI state. Equivalent inputs and exact semantic selections
+produce deterministic output. Source addresses and relative locations remain in
+the document, so review it before sharing.
 
 ## Read the contract
 
-The [Architecture IR contract](../../contracts/architecture-ir.md) and
-[JSON Schema](../../schemas/architecture-ir.schema.json) define the public
-format. Use them when building a consumer. Use the [renderer guide](../renderer/index.md)
-when you want to understand the picture.
+The [Architecture IR contract](../../contracts/architecture-ir.md) and [JSON Schema](../../schemas/architecture-ir.schema.json) define the public format. Use them when building a consumer. [Architecture Diff](diff.md) explains comparison, and [Core concepts](../concepts.md) places the document in the mental model.

@@ -1,168 +1,251 @@
 ---
 title: "Evaluation"
-description: "Reference for rule selection, fact resolution, composition completeness, and policy decision behavior."
+description: "Normative RF evaluation order for Rule selection, representation, composition, facts, Policy queries, outcomes, and exit status."
 ---
 
-Rootform language has two evaluation stages. Dialect rules participate in
-architecture compilation. Policy assertions evaluate later over validated,
-autonomous Architecture IR.
+RF evaluation fails closed. Unknown evidence remains unknown; it is never
+converted to false, absence, or compliance.
+
+## Architecture evaluation pipeline
+
+Rootform builds Architecture IR in this order:
+
+1. normalize source declarations;
+2. classify Rule candidates and select at most one Rule per declaration;
+3. apply or roll back composition;
+4. create representations, first guaranteeing every managed-resource base,
+   then attaching applied Rule, optional Concept, and composition meaning;
+5. derive Context, Relation, and Contribution facts;
+6. close source accounting, validate, and serialize autonomous Architecture IR.
+
+Policies run later against validated Architecture IR. They do not reopen source
+files or Dialect source.
+
+## Base representation
+
+Every normalized managed resource gets representation, even with no applicable
+Rule or failed interpretation. This preserves resource coverage and source
+provenance.
+
+Other source kinds get representation only when Rule applies successfully.
+Concept is always optional. Result can therefore have:
+
+- represented resource without Rule;
+- represented declaration with Rule and no Concept;
+- represented declaration with Rule and Concept;
+- represented composition root;
+- source declaration without representation.
+
+Resource coverage, Rule coverage, and Concept coverage are distinct.
 
 ## Rule selection
 
-For each normalized source declaration, Rootform evaluates available rules in
-stable order. A rule matches only when:
+Each Rule candidate first checks kind, type, provider source, exact provider
+version when available, then optional predicate. Candidate state is accepted,
+rejected, predicate-indeterminate, provider-unresolved, or
+version-incompatible.
 
-1. `match.kind` equals the declaration category;
-2. `match.type` equals the declaration type;
-3. the declaration's provider is eligible for the rule's Dialect;
-4. optional `where` produces known `true`.
+Selection precedence for one declaration:
 
-A source-matching Dialect with no provider declaration is invalid. Zero matching
-rules leaves the declaration unrepresented or filtered according to source
-accounting. One match classifies it. More than one match fails the declaration
-with `AMBIGUOUS_RULE_MATCH`; Rootform does not choose by order.
+| Priority | Candidate set | Outcome |
+| --- | --- | --- |
+| 1 | More than one accepted | `AMBIGUOUS_RULE_MATCH` |
+| 2 | Any predicate-indeterminate | `PREDICATE_UNRESOLVED` |
+| 3 | Any provider-unresolved | `PROVIDER_IDENTITY_UNRESOLVED` |
+| 4 | Exactly one accepted | Apply Rule |
+| 5 | Any version-incompatible | `PROVIDER_VERSION_INCOMPATIBLE` |
+| 6 | None | No Rule |
 
-### Unknown predicate values
+Higher row wins. For example, one accepted Rule plus one predicate-indeterminate
+Rule is indeterminate, while one accepted Rule plus one version-incompatible
+Rule applies accepted Rule.
 
-Predicates read bounded source-adapter scalar evidence. Missing values,
-unevaluated source expressions, and incompatible types are unknown.
+Kind, type, and unrelated provider-source mismatches are ordinary rejected
+candidates and produce no diagnostic. There is no Rule priority or first-match
+behavior.
 
-Logical evaluation uses useful three-value decisions:
+## Predicate truth
 
-| Expression | Result with unknown side |
+Predicate comparisons use known string, Boolean, or signed integer scalars.
+Equality requires same type; ordering requires integers.
+
+Boolean operators use three-valued logic:
+
+| A | B | `A && B` | <code>A &#124;&#124; B</code> |
+| --- | --- | --- | --- |
+| `true` | `true` | `true` | `true` |
+| `true` | `false` | `false` | `true` |
+| `false` | `true` | `false` | `true` |
+| `false` | `false` | `false` | `false` |
+| `true` | unknown | unknown | `true` |
+| `false` | unknown | `false` | unknown |
+| unknown | `true` | unknown | `true` |
+| unknown | `false` | `false` | unknown |
+| unknown | unknown | unknown | unknown |
+
+`!unknown` is unknown. Known `false` decides conjunction; known `true`
+decides disjunction. Only final known `true` accepts candidate.
+
+## Composition application
+
+Rule without composition applies after selection. Rule with composition applies
+only if every ordered member resolves, matches, and remains exclusive.
+
+Composition failure is transactional: selected Rule, Concept, emissions, and
+partial membership roll back. Managed-resource base remains. See
+[Composition](composition.md#transactional-behavior).
+
+## Fact derivation
+
+Emission runs only for applied Rule representation. For each emission:
+
+1. attempt direct `via` resolution, then use explicit attribute `match` only
+   where direct evidence permits fallback;
+2. require represented target;
+3. require target's applied Rule to satisfy `to`;
+4. emit deduplicated fact with provenance.
+
+Results:
+
+| Evidence | Result |
 | --- | --- |
-| `false && unknown` | known `false` |
-| `true && unknown` | unknown |
-| `true \|\| unknown` | known `true` |
-| `false \|\| unknown` | unknown |
-| `!unknown` | unknown |
+| Target proven | Context, Relation, or Contribution fact |
+| Source path proven absent | `source_absent` omission |
+| Complete explicit comparison with no target | `no_match` omission |
+| Unknown, dangling, ambiguous, unrepresented, or mismatched target | Warning and incomplete emission |
 
-Only known `true` selects a rule.
+Facts and warnings may coexist for partial collections. Omission is positive
+evidence that compiler proved no fact for that emission instance. Warning is
+not omission.
 
-## Fact resolution
+## Policy linking
 
-After classification, a fact follows its `via` path. A direct source or
-provider reference can establish a target declaration. A fact-level match can
-compare known scalar values using `exact` or `dot-ancestor`.
+Portable Policy Pack source must link against Architecture IR before
+evaluation. Linker:
 
-Rootform preserves resolved fact provenance. It does not infer missing contexts
-or relations from concept names. Known absent optional source configuration
-closes an applicable emission with an omission. Present but unknown, ambiguous,
-partially dangling, or incomparably matched evidence produces an
-emission-scoped diagnostic. It never becomes proof of absence.
+- validates Architecture IR;
+- resolves every qualified symbol and owner;
+- rejects contradictory target dimensions;
+- derives exact semantic owner pins;
+- emits deterministic compiled Pack.
 
-Fact graph constraints are checked during language compilation:
+At evaluation, language version and every pinned owner kind, version, and
+semantic digest must match Architecture IR. Mismatch makes run indeterminate;
+Rootform never substitutes another Dialect or relinks silently.
 
-- context targets are entities or scopes;
-- contribution sources are details and targets are entities or scopes;
-- relation endpoints are entities or scopes.
+## Policy target selection
 
-## Composition resolution
+Policy target dimensions combine with AND; entries within lists combine with
+OR. Only representations with applied Rule can be selected.
 
-Composition members resolve in authored order. Every declared member is
-required. If one member is absent, mismatched, conflicting, or unresolved, the
-composition produces no partial representation. The root declaration fails and
-members already consumed return to ordinary declaration accounting.
+Target domain is incomplete when a failed declaration could have satisfied
+target or source/selection errors could hide another target. Incomplete target
+domain produces `POLICY_TARGET_DOMAIN_INCOMPLETE`; run cannot be compliant.
 
-A complete composition produces one representation with ordered member
-provenance. Member source declarations are accounted as supporting that
-composition.
+A Policy selecting zero representations produces no per-target evaluation and
+counts as `not_evaluated`. Zero targets never means pass.
 
-## Policy preflight
+## Query truth
 
-Before evaluating policies, Rootform verifies run boundary:
+Architecture query result carries confirmed facts plus support and completeness.
 
-- no duplicate selected Policy Pack identity;
-- each compiled pack's exact Dialect version and semantic digest matches IR;
-- every referenced concept, context, and relation exists in IR snapshot;
-- every active representation/emission pair has fact, omission, or diagnostic
-  closure;
-- policy and work limits are not exceeded.
+### `exists(query)`
 
-A run-level preflight failure makes whole run indeterminate and clears partial
-findings. Emission-scoped uncertainty affects only queries that depend on it,
-so unrelated determinate evaluations remain visible.
+| Facts | Supported | Complete | Result |
+| --- | --- | --- | --- |
+| One or more | Any | Any | `true` |
+| Zero | Yes | Yes | `false` |
+| Zero | No | Any | Unknown |
+| Zero | Yes | No | Unknown |
 
-## Target iteration
+### `length(query)`
 
-Each policy runs once for every entity, scope, or detail representation whose
-concept exactly equals `target`.
+| Supported | Complete | Result |
+| --- | --- | --- |
+| Yes | Yes | Exact deduplicated fact count |
+| No | Any | Unknown |
+| Yes | No | Unknown |
 
-```hcl title="pack.rf"
-target = concept.core.subnet
+Policy Boolean operators use same three-valued truth table as predicates.
+Final unknown assertion produces `POLICY_ASSERTION_UNKNOWN`, never violation
+or pass.
+
+## Worked example
+
+Suppose Architecture IR contains:
+
+- `aws_vpc.main`, interpreted by `aws.rule.vpc` as
+  `rf.concept.virtual-network`;
+- `aws_subnet.application`, interpreted by `aws.rule.subnet` as
+  `rf.concept.subnet`;
+- subnet `vpc_id` referencing VPC.
+
+Policy:
+
+```hcl title="worked Policy"
+policy "subnet-has-network" {
+  target {
+    rules = [aws.rule.subnet]
+  }
+
+  assert = exists(
+    contexts(rf.context.network, rf.concept.virtual-network)
+  )
+
+  message = "Each subnet must declare its virtual network."
+}
 ```
 
-One policy and three `core/subnet` representations produce three evaluations.
-No matching representation produces zero evaluations. Zero is not a pass and
-does not prove target coverage.
+Outcomes:
 
-Targets and findings are emitted in canonical stable order.
-
-## Query evaluation
-
-Queries inspect one hop of Architecture IR from the current target:
-
-- `contexts` reads outgoing context facts;
-- `relations` reads outgoing relation facts;
-- `contributions` reads incoming contribution facts.
-
-Each query yields confirmed fact IDs plus support and completeness. Vocabulary
-must exist, current active rules must support exact query shape, and every
-applicable emission must close without unknown evidence before an empty answer
-means zero. `contexts` and `relations` inspect outgoing closure. Incoming
-`contributions` ranges only over contributor representations present in this
-IR and their active rules; it makes no provider-wide or Terraform-wide coverage
-claim.
-
-`length(q)` is known only for supported complete query. `exists(q)` is known
-true as soon as one confirmed fact exists, known false only for supported
-complete empty query, and indeterminate otherwise. Each consulted fact,
-emission, or omission ID enters evaluation's `inspected` list. Policies cannot
-inspect fact fields or traverse onward.
-
-## Outcomes
-
-| Outcome | Condition | Finding |
+| Source evidence | Query | Evaluation |
 | --- | --- | --- |
-| `passed` | Assertion is known `true` | Evaluation only |
-| `violated` | Assertion is known `false` | Evaluation plus violation using authored message |
-| `indeterminate` | Rootform cannot produce a trusted Boolean decision | Diagnostic; no compliance claim |
+| `vpc_id` resolves to represented VPC | One confirmed Context | `passed` |
+| `vpc_id` is proven absent | Supported, complete, zero Contexts | `violated` |
+| `vpc_id` is unknown or dangling | Incomplete, zero confirmed Contexts | `indeterminate` |
+| No subnet representation exists | No target evaluation | `not_evaluated` |
 
-A violation records pack/policy identity, target, Policy Pack source path and
-line, message, and inspected fact IDs. Its source location points to policy
-source, not Terraform/OpenTofu source. Follow target and fact provenance to
-inspect infrastructure evidence.
+## Per-target outcomes
 
-An indeterminate per-target assertion records `POLICY_ASSERTION_UNKNOWN`. A
-whole-run failure records one reason and clears partial evaluations and
-violations. Boolean operators use three-valued logic: known `false` decides
-`&&`, known `true` decides `||`, and `!unknown` remains unknown.
-
-Global status is `compliant`, `violated`, `indeterminate`, or `not_evaluated`.
-A policy with zero targets contributes coverage but no fake evaluation. Mixed
-runs retain determinate results. Violation takes precedence; otherwise any
-indeterminate evaluation, then any policy without targets, prevents compliance.
-
-## Exit behavior
-
-For `rootform check`, exit status is:
-
-| Status | Meaning |
+| Outcome | Meaning |
 | --- | --- |
-| `0` | Every selected policy evaluated and passed |
-| `1` | One or more known violations |
-| `2` | Incorrect command use |
-| `3` | Verdict unavailable: indeterminate or not evaluated |
+| `passed` | Assertion is known `true` |
+| `violated` | Assertion is known `false`; Policy message becomes violation |
+| `indeterminate` | Assertion or required evidence cannot be decided |
 
-Zero selected policies, zero total evaluations, or any selected policy with no
-target cannot produce compliance.
+`not_evaluated` is aggregate count/status for Policy with no selected target,
+not a per-target evaluation outcome.
 
-## Bounded work
+## Aggregate result status
 
-One run accepts at most 1,024 policies, 100,000 evaluations, and 100,000
-inspected fact references. An assertion is limited to 4,096 source bytes.
-Exceeding a bound produces `POLICY_LIMIT_EXCEEDED`, clears partial findings,
-and returns an indeterminate result.
+Overall status uses this precedence:
 
-Policies never read Terraform payloads, plans, state, variables, provider APIs,
-or renderer state. Their evidence boundary is validated Architecture IR.
+| Priority | Condition | Status |
+| --- | --- | --- |
+| 1 | At least one confirmed violation | `violated` |
+| 2 | Any indeterminate evaluation or diagnostic | `indeterminate` |
+| 3 | Any not-evaluated Policy or zero evaluations | `not_evaluated` |
+| 4 | Every selected evaluation passed | `compliant` |
+
+Violation takes precedence in mixed run. Only `compliant` sets result
+`compliant` Boolean to true.
+
+## `rootform check` exit status
+
+| Exit | Meaning |
+| --- | --- |
+| `0` | All selected Policies evaluated and compliant |
+| `1` | At least one confirmed violation, including mixed runs |
+| `2` | Invalid CLI usage |
+| `3` | Indeterminate or not evaluated, with no confirmed violation |
+
+Runtime or compilation failure during `check` is indeterminate, not
+compliant.
+
+## Determinism and limits
+
+Canonical output ordering does not depend on source discovery order. Facts are
+deduplicated while retaining bounded provenance. Exceeding evaluation or
+semantic-expansion bound fails closed and clears unsafe partial conclusions.
+
+See [Diagnostics and limits](diagnostics.md#limits) for exact numbers.

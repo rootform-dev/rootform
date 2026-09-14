@@ -1,11 +1,11 @@
 ---
 title: "rootform list dialects"
-description: "List resolved dialects"
+description: "List the dialect catalog"
 ---
 
 <!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
-List resolved dialects.
+List the dialect catalog.
 
 ## Usage
 
@@ -20,13 +20,11 @@ rootform list dialects [flags]
 | ` --dialect ` | ` stringArray ` | ` [] ` | limit results to this dialect `name`; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list dialects |
-| ` --installed ` | ` bool ` | ` false ` | list versions installed in the local store |
-| ` --outdated ` | ` bool ` | ` false ` | compare locked versions with the cached official index |
 
 ## Behavior
 
-List the dialects resolved for the current project and
-their selected versions.
+List the dialect catalog available to this project: provided
+dialects and the selected dialects.
 
 With no --dialect selection, every loaded dialect is included. The text
 or JSON listing goes to standard output. Diagnostics go to standard
@@ -44,8 +42,6 @@ error.
 
 ```sh
 rootform list dialects
-rootform list dialects --installed
-rootform list dialects --outdated
 rootform list dialects --dialect google
 rootform list dialects --format json
 ```

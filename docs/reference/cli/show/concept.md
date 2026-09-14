@@ -24,7 +24,7 @@ rootform show concept <identifier> [flags]
 
 Show a concept's kind, description, dialect, and source location.
 
-Use &lt;dialect&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
+Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
 
 The text or JSON definition goes to standard output. Diagnostics go to
 standard error.
@@ -41,7 +41,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform show concept core/virtual-network
+rootform show concept rf.concept.virtual-network
 rootform show concept virtual-network
-rootform show concept core/virtual-network --format json
+rootform show concept rf.concept.virtual-network --format json
 ```

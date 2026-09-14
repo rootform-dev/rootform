@@ -24,7 +24,7 @@ rootform validate concept <identifier> [flags]
 
 Validate a concept in the context of its dialect.
 
-Use &lt;dialect&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
+Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
 The text or JSON result goes to standard output. Diagnostics go to
 standard error.
 
@@ -40,7 +40,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform validate concept core/virtual-network
+rootform validate concept rf.concept.virtual-network
 rootform validate concept virtual-network
-rootform validate concept core/virtual-network --format json
+rootform validate concept rf.concept.virtual-network --format json
 ```

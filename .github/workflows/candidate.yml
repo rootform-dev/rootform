@@ -72,15 +72,6 @@ jobs:
             exit 1
           fi
 
-      - name: Check out exact official dialects
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: rootform-dev/dialects
-          ref: 8e0df6aa12323e100d63cbc071f8225439fc795d
-          path: build/dialects
-          fetch-depth: 0
-          persist-credentials: false
-
       - name: Install exact Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
@@ -99,10 +90,6 @@ jobs:
           driver-opts: image=moby/buildkit:v0.32.2@sha256:28a898719c18a33f4e8000685287fa36fd0dd9560c6440227d3a732d79bb41d8
 
       - name: Install exact distribution dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Install exact Dialects dependencies
-        working-directory: build/dialects
         run: bun install --frozen-lockfile
 
       - name: Install verified repository tools
@@ -189,13 +176,6 @@ jobs:
           ROOTFORM_BIN: ${{ github.workspace }}/build/bin/rootform
         run: bun run verify
 
-      - name: Verify complete official Dialects matrix
-        env:
-          ROOTFORM_BIN: ${{ github.workspace }}/build/bin/rootform
-          ROOTFORM_VERSION: ${{ inputs.version }}
-        working-directory: build/dialects
-        run: bun scripts/verify.ts --rootform-version "$ROOTFORM_VERSION"
-
       - name: Reverify final assets
         env:
           ROOTFORM_VERSION: ${{ inputs.version }}
@@ -217,7 +197,7 @@ jobs:
             --revision "$GITHUB_SHA" \
             --output build/image
 
-      - name: Qualify OCI image runtime and dialect acquisition
+      - name: Qualify OCI image runtime and third-party Dialect acquisition
         env:
           ROOTFORM_VERSION: ${{ inputs.version }}
         run: |
@@ -225,7 +205,6 @@ jobs:
             --version "$ROOTFORM_VERSION" \
             --revision "$GITHUB_SHA" \
             --image build/image \
-            --dialects build/dialects \
             --rootform-bin build/bin/rootform \
             --oras "$RUNNER_TEMP/oras" \
             --trivy "$RUNNER_TEMP/trivy" \
@@ -305,18 +284,15 @@ jobs:
             '.format_version == "1" and
              .profile == "rootform-oci-core-v1" and
              .repository == $repository and
-             .capabilities.additional_index == true and
              .capabilities.docker_credential_helper == true and
              .capabilities.locked_empty_store == true and
              .capabilities.offline_vendor_execution == true and
              .capabilities.policy_pack_locked_empty_store == true and
              .capabilities.policy_pack_offline_vendor_execution == true and
              .capabilities.policy_pack_pull_by_digest == true and
-             .capabilities.policy_pack_pull_by_tag == true and
              .capabilities.policy_pack_vendor_exact_repair == true and
              .capabilities.policy_pack_vendor_exclusive == true and
-             .capabilities.pull_by_digest == true and
-             .capabilities.pull_by_tag == true' \
+             .capabilities.pull_by_digest == true' \
             build/registry-evidence/ghcr.json >/dev/null
 
       - name: Require qualification package to remain public

@@ -86,11 +86,21 @@
       ],
       "type": "object"
     },
+    "concept_id": {
+      "allOf": [
+        {
+          "pattern": "^[^.]{1,64}\\.concept\\.[^.]{1,64}(?![\\s\\S])"
+        }
+      ],
+      "maxLength": 137,
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*\\.concept\\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?![\\s\\S])",
+      "type": "string"
+    },
     "concept_ref": {
       "additionalProperties": false,
       "properties": {
         "id": {
-          "$ref": "#/$defs/qualified_id"
+          "$ref": "#/$defs/concept_id"
         },
         "range": {
           "$ref": "#/$defs/range"
@@ -102,11 +112,21 @@
       ],
       "type": "object"
     },
+    "context_id": {
+      "allOf": [
+        {
+          "pattern": "^[^.]{1,64}\\.context\\.[^.]{1,64}(?![\\s\\S])"
+        }
+      ],
+      "maxLength": 137,
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*\\.context\\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?![\\s\\S])",
+      "type": "string"
+    },
     "context_ref": {
       "additionalProperties": false,
       "properties": {
         "id": {
-          "$ref": "#/$defs/qualified_id"
+          "$ref": "#/$defs/context_id"
         },
         "range": {
           "$ref": "#/$defs/range"
@@ -131,14 +151,13 @@
           "$ref": "#/$defs/range"
         },
         "target": {
-          "$ref": "#/$defs/concept_ref"
+          "$ref": "#/$defs/target_ref"
         }
       },
       "required": [
         "dimension",
         "kind",
-        "range",
-        "target"
+        "range"
       ],
       "type": "object"
     },
@@ -146,7 +165,7 @@
       "additionalProperties": false,
       "properties": {
         "contributor": {
-          "$ref": "#/$defs/concept_ref"
+          "$ref": "#/$defs/target_ref"
         },
         "kind": {
           "const": "contributions"
@@ -298,7 +317,7 @@
           "$ref": "#/$defs/boolean_expression"
         },
         "id": {
-          "$ref": "#/$defs/qualified_id"
+          "$ref": "#/$defs/policy_id"
         },
         "message": {
           "maxLength": 1024,
@@ -315,7 +334,7 @@
           "$ref": "#/$defs/range"
         },
         "target": {
-          "$ref": "#/$defs/concept_ref"
+          "$ref": "#/$defs/policy_target"
         }
       },
       "required": [
@@ -328,6 +347,16 @@
         "target"
       ],
       "type": "object"
+    },
+    "policy_id": {
+      "allOf": [
+        {
+          "pattern": "^[^.]{1,64}\\.policy\\.[^.]{1,64}(?![\\s\\S])"
+        }
+      ],
+      "maxLength": 137,
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*\\.policy\\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?![\\s\\S])",
+      "type": "string"
     },
     "policy_pack": {
       "additionalProperties": false,
@@ -347,6 +376,46 @@
         "range",
         "version"
       ],
+      "type": "object"
+    },
+    "policy_target": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "concept"
+          ]
+        },
+        {
+          "required": [
+            "rules"
+          ]
+        }
+      ],
+      "properties": {
+        "concept": {
+          "$ref": "#/$defs/concept_ref"
+        },
+        "dialects": {
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "maxItems": 1024,
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/$defs/rule_ref"
+          },
+          "maxItems": 1024,
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [],
       "type": "object"
     },
     "position": {
@@ -374,15 +443,6 @@
         "line"
       ],
       "type": "object"
-    },
-    "qualified_id": {
-      "allOf": [
-        {
-          "pattern": "^[^/]{1,64}/[^/]{1,64}(?![\\s\\S])"
-        }
-      ],
-      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*/[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?![\\s\\S])",
-      "type": "string"
     },
     "query": {
       "oneOf": [
@@ -419,11 +479,21 @@
       ],
       "type": "object"
     },
+    "relation_id": {
+      "allOf": [
+        {
+          "pattern": "^[^.]{1,64}\\.relation\\.[^.]{1,64}(?![\\s\\S])"
+        }
+      ],
+      "maxLength": 137,
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*\\.relation\\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?![\\s\\S])",
+      "type": "string"
+    },
     "relation_ref": {
       "additionalProperties": false,
       "properties": {
         "id": {
-          "$ref": "#/$defs/qualified_id"
+          "$ref": "#/$defs/relation_id"
         },
         "range": {
           "$ref": "#/$defs/range"
@@ -448,21 +518,52 @@
           "$ref": "#/$defs/range"
         },
         "target": {
-          "$ref": "#/$defs/concept_ref"
+          "$ref": "#/$defs/target_ref"
         }
       },
       "required": [
         "kind",
         "predicate",
-        "range",
-        "target"
+        "range"
+      ],
+      "type": "object"
+    },
+    "rule_id": {
+      "allOf": [
+        {
+          "pattern": "^[^.]{1,64}\\.rule\\.[^.]{1,64}(?![\\s\\S])"
+        }
+      ],
+      "maxLength": 137,
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*\\.rule\\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?![\\s\\S])",
+      "type": "string"
+    },
+    "rule_ref": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/rule_id"
+        },
+        "range": {
+          "$ref": "#/$defs/range"
+        }
+      },
+      "required": [
+        "id",
+        "range"
       ],
       "type": "object"
     },
     "semantic_pin": {
       "additionalProperties": false,
       "properties": {
-        "id": {
+        "kind": {
+          "enum": [
+            "vocabulary",
+            "dialect"
+          ]
+        },
+        "owner": {
           "$ref": "#/$defs/identifier"
         },
         "semantic_digest": {
@@ -473,11 +574,56 @@
         }
       },
       "required": [
-        "id",
+        "kind",
+        "owner",
         "semantic_digest",
         "version"
       ],
       "type": "object"
+    },
+    "target_ref": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/concept_id"
+            },
+            "kind": {
+              "const": "concept"
+            },
+            "range": {
+              "$ref": "#/$defs/range"
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "range"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/rule_id"
+            },
+            "kind": {
+              "const": "rule"
+            },
+            "range": {
+              "$ref": "#/$defs/range"
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "range"
+          ],
+          "type": "object"
+        }
+      ]
     },
     "unary_expression": {
       "additionalProperties": false,
@@ -512,18 +658,29 @@
   "$id": "https://rootform.dev/schemas/compiled-policy-pack.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
-  "description": "Evaluation-ready Policy Pack with exact historical semantic pins; no producer Dialect sources are required. Schema validation checks structure, not digest integrity or semantic linking. The decoder additionally verifies content_digest and compiled_digest, owner visibility, policy identity, unique IDs, canonical collection order, UTF-8 and duplicate JSON keys. String limits here count Unicode characters; the decoder enforces UTF-8 byte limits (4096 per string, 1024 per message, 4 MiB total). It also enforces 16 MiB serialized size, expression depth 64, 1024 expression nodes per Policy and 65536 per pack, JSON depth 80 and 2097152 JSON values. JSON Schema integers are mathematical values; the wire decoder requires int64 integer tokens, and positions must fit the host int. Definition ranges are retained for explanations and excluded from both digests.",
+  "description": "Evaluation-ready Policy Pack with exact owner-kind semantic pins. Schema validation checks structure, not digest integrity or semantic linking. Decoder additionally verifies content_digest and linked_digest, pin/target consistency, policy identity, unique IDs, canonical collection order, UTF-8 and duplicate JSON keys. String limits here count Unicode characters; decoder enforces UTF-8 byte limits (4096 per string, 1024 per message, 4 MiB total). It also enforces 16 MiB serialized size, expression depth 64, 1024 expression nodes per Policy and 65536 per pack, JSON depth 80 and 2097152 JSON values. JSON Schema integers are mathematical values; wire decoder requires int64 integer tokens, and positions must fit host int. Definition ranges remain available for explanations and are excluded from both digests.",
   "properties": {
-    "compiled_digest": {
-      "$ref": "#/$defs/digest",
-      "description": "Canonical linked artifact digest, including content_digest and exact semantic pins; compiled_digest itself and all definition ranges excluded."
-    },
     "content_digest": {
       "$ref": "#/$defs/digest",
-      "description": "Canonical source Policy Pack digest: metadata, requirements reconstructed from pin IDs and versions, and policies; definition ranges excluded."
+      "description": "Canonical portable Policy Pack source digest: language contract, metadata, targets, and assertions; definition ranges excluded."
     },
     "format_version": {
       "const": "v1"
+    },
+    "language_version": {
+      "const": "0.1.0"
+    },
+    "linked_digest": {
+      "$ref": "#/$defs/digest",
+      "description": "Canonical linked artifact digest, including content_digest and exact semantic pins; linked_digest itself and all definition ranges excluded."
+    },
+    "pins": {
+      "items": {
+        "$ref": "#/$defs/semantic_pin"
+      },
+      "maxItems": 1024,
+      "type": "array",
+      "uniqueItems": true
     },
     "policies": {
       "items": {
@@ -535,23 +692,16 @@
     },
     "policy_pack": {
       "$ref": "#/$defs/policy_pack"
-    },
-    "semantics": {
-      "items": {
-        "$ref": "#/$defs/semantic_pin"
-      },
-      "maxItems": 1024,
-      "type": "array",
-      "uniqueItems": true
     }
   },
   "required": [
-    "compiled_digest",
     "content_digest",
     "format_version",
+    "language_version",
+    "linked_digest",
+    "pins",
     "policies",
-    "policy_pack",
-    "semantics"
+    "policy_pack"
   ],
   "title": "Rootform compiled Policy Pack",
   "type": "object"

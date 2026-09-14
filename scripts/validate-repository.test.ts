@@ -36,15 +36,23 @@ test("engine path guard rejects private Engine paths in public files", () => {
 test("engine path guard keeps legitimate public provenance and handoff contracts", () => {
   const exportManifest = readFileSync(join(root, "public-export.json"), "utf8");
   expect(findEnginePathReference(exportManifest)).toBeNull();
-  const dialectPin = JSON.parse(
-    readFileSync(join(root, "dependencies", "dialects.json"), "utf8"),
-  ) as { commit: string };
   const provenance = JSON.parse(exportManifest) as { source_commit: string };
   expect(
     findEnginePathReference(
       JSON.stringify({
-        inputs: {
-          dialects: { commit: dialectPin.commit, repository: "rootform-dev/dialects" },
+        release_set: {
+          format_version: "1",
+          rf_language: { contract_sha256: "a".repeat(64), version: "0.1.0" },
+          units: [
+            {
+              content_digest: "b".repeat(64),
+              kind: "vocabulary",
+              owner: "rf",
+              semantic_digest: "c".repeat(64),
+              version: "0.1.0",
+            },
+          ],
+          version: "0.1.0",
         },
         source: { commit: provenance.source_commit, repository: "rootform-dev/engine" },
       }),
@@ -67,66 +75,49 @@ test("workflow URL controls require one exact line", () => {
   expect(hasExactLine(`${expected}.evil.example`, expected)).toBeFalse();
 });
 
-test("example dialect contract matches its generated lock", () => {
+test("example dialect lock follows the v0.1 selection model", () => {
   const directory = mkdtempSync(join(tmpdir(), "rootform-distribution-example-"));
   try {
     writeFileSync(
-      join(directory, "example.json"),
-      '{"semantics":{"dialects":[{"id":"core"},{"id":"google"}]}}\n',
-    );
-    writeFileSync(
       join(directory, "rootform.lock"),
-      '{"format_version":"1","unsupported_providers":[],"entries":[{"name":"core","version":"0.1.0"},{"name":"google","version":"0.1.0"}]}\n',
+      '{"format_version":"1","dialects":[],"policy_packs":[],"excluded_owners":[],"replacements":[]}\n',
     );
     expect(() => validateExampleDialectLock(directory, "fixture")).not.toThrow();
 
-    writeFileSync(join(directory, "example.json"), '{"semantics":{"dialects":[{"id":"core"}]}}\n');
+    writeFileSync(join(directory, "rootform.lock"), '{"format_version":"1"}\n');
     expect(() => validateExampleDialectLock(directory, "fixture")).toThrow(
-      "fixture dialect contract does not match rootform.lock",
+      "fixture rootform.lock dialects must be an array",
     );
 
-    writeFileSync(
-      join(directory, "example.json"),
-      '{"semantics":{"dialects":[{"id":"core"},{"id":"google"}]}}\n',
-    );
-    writeFileSync(
-      join(directory, "rootform.lock"),
-      '{"format_version":"unsupported","unsupported_providers":[],"entries":[{"name":"core","version":"0.1.0"},{"name":"google","version":"0.1.0"}]}\n',
-    );
+    writeFileSync(join(directory, "rootform.lock"), '{"format_version":"1","entries":[]}\n');
     expect(() => validateExampleDialectLock(directory, "fixture")).toThrow(
       "fixture rootform.lock has invalid structure",
     );
 
     writeFileSync(
       join(directory, "rootform.lock"),
-      '{"format_version":"1","entries":[{"name":"core","version":"0.1.0"},{"name":"google","version":"0.1.0"}]}\n',
+      '{"format_version":"1","unsupported_providers":[]}\n',
     );
     expect(() => validateExampleDialectLock(directory, "fixture")).toThrow(
       "fixture rootform.lock has invalid structure",
     );
 
-    writeFileSync(
-      join(directory, "rootform.lock"),
-      '{"format_version":"1","unsupported_providers":[],"entries":[{"name":"core"},{"name":"google","version":"0.1.0"}]}\n',
-    );
+    writeFileSync(join(directory, "rootform.lock"), '{"format_version":"unsupported"}\n');
     expect(() => validateExampleDialectLock(directory, "fixture")).toThrow(
       "fixture rootform.lock has invalid structure",
     );
 
-    writeFileSync(
-      join(directory, "rootform.lock"),
-      '{"format_version":"1","unsupported_providers":[],"entries":[{"name":"core","version":"latest"},{"name":"google","version":"0.1.0"}]}\n',
-    );
+    writeFileSync(join(directory, "rootform.lock"), '{"format_version":"1","dialects":{}}\n');
     expect(() => validateExampleDialectLock(directory, "fixture")).toThrow(
-      "fixture rootform.lock has invalid structure",
+      "fixture rootform.lock dialects must be an array",
     );
 
     writeFileSync(
       join(directory, "rootform.lock"),
-      '{"format_version":"1","unsupported_providers":[],"entries":[{"name":"core","version":"00.1.0"},{"name":"google","version":"0.1.0"}]}\n',
+      '{"format_version":"1","dialects":[],"policy_packs":[],"excluded_owners":[],"replacements":"rf"}\n',
     );
     expect(() => validateExampleDialectLock(directory, "fixture")).toThrow(
-      "fixture rootform.lock has invalid structure",
+      "fixture rootform.lock replacements must be an array",
     );
   } finally {
     rmSync(directory, { force: true, recursive: true });

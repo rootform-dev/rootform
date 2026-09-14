@@ -1,32 +1,20 @@
 ---
 title: "Language tour"
-description: "Follow real .rf definitions from source matching to architecture facts, composition, and policy evaluation."
+description: "Follow a .rf source set from declaration matching to base representations, facts, composition, and policy linking."
 ---
 
-Follow official definitions from source matching through architecture facts and
-policy evaluation. Start with the subnet from
-[your first architecture](../getting-started/first-architecture.md), then add
-composition and governance.
-
-You can read the tour without installing an authoring checkout. To run the
-examples, install Rootform and use the public Dialects repository as described
-in [Write a Dialect](../dialect-authoring.md).
+The Rootform language turns normalized Terraform and OpenTofu evidence into
+Architecture IR. Rootform ships RF Vocabulary and its supplied Dialects with
+every release, and every authoring source stays inspectable and independently
+testable.
 
 <!-- rootform:steps -->
 
 ## Declare a Dialect
 
-Every Dialect source root has exactly one `dialect` declaration. The official
-AWS Dialect identifies itself, requires exact shared vocabulary from `core`,
-and declares its provider compatibility envelope:
-
 ```hcl title="aws/dialect.rf"
 dialect "aws" {
   version = "0.1.0"
-
-  requires {
-    core = "0.1.0"
-  }
 
   provider "hashicorp/aws" {
     version = "= 6.62.0"
@@ -34,181 +22,87 @@ dialect "aws" {
 }
 ```
 
-Requirements expose vocabulary across Dialect boundaries. They do not copy
-files or create an authoring import. Provider constraints participate in
-Dialect selection; individual rules still state which source declarations they
-recognize.
+A Dialect owns its local definitions and Rules and imports no other Dialect. Any
+reference to `rf.*` derives a dependency on the embedded RF Vocabulary.
 
-## Define vocabulary
+## Start from the complete resource base
 
-Concepts give architectural representations stable meaning. This definition
-comes from the official `core` Dialect:
+Every normalized `resource` becomes a base representation even when no Rule
+recognizes its type. The base holds the known source identity, address, type,
+provider, name, and location, so a missing Rule or Concept is not an error.
 
-```hcl title="core/network/virtual-network.rf"
-concept "virtual-network" {
-  kind        = scope
-  description = "A virtual network that provides connectivity and isolation."
-}
+A data source differs: its declaration stays in the source inventory, and a
+representation requires a successfully applied Rule.
 
-concept "subnet" {
-  kind        = scope
-  description = "A subnet that segments a virtual network."
-}
-```
+## Use common and local vocabulary
 
-`scope` is one of three closed concept kinds:
+RF Vocabulary is part of the language contract and uses the reserved `rf` owner.
+Version 0.1 defines six Concepts:
 
-| Kind | Architecture role |
-| --- | --- |
-| `entity` | An independently represented component. |
-| `scope` | A representation that can provide visible context or containment. |
-| `detail` | Supporting information contributed to another representation. |
+- `rf.concept.virtual-network`;
+- `rf.concept.subnet`;
+- `rf.concept.kubernetes-cluster`;
+- `rf.concept.managed-database`;
+- `rf.concept.object-storage-container`;
+- `rf.concept.service-identity`.
 
-A context definition names a dimension in which placement has meaning:
+It also defines `rf.context.network` and `rf.context.runtime`, and no Relations.
+RF Vocabulary ships with the release, so it is never installed or vendored.
+Dialect-specific meaning stays local:
 
-```hcl title="core/architecture/contexts.rf"
-context "network" {
-  description = "Network placement or containment."
+```hcl title="google/vocabulary.rf"
+concept "load-balancer" {
+  description = "A load-balancing service composed from routing infrastructure."
 }
 ```
 
-Concepts classify representations. Contexts classify placement facts. Neither
-definition matches source by itself.
-
-## Match a source declaration
-
-A rule turns source evidence into a representation. The first half of the
-official AWS subnet rule matches Terraform/OpenTofu managed resources whose
-type is exactly `aws_subnet`:
+## Match and enrich a declaration
 
 ```hcl title="aws/network/vpc.rf"
+rule "vpc" {
+  match {
+    kind = "resource"
+    type = "aws_vpc"
+  }
+
+  as = rf.concept.virtual-network
+}
+
 rule "subnet" {
   match {
     kind = "resource"
     type = "aws_subnet"
   }
 
-  as = concept.core.subnet
-}
-```
-
-`as` uses vocabulary from the directly required `core` Dialect. Compilation
-resolves that reference to the canonical concept ID `core/subnet`. During an
-architecture build, each matching declaration can produce one subnet
-representation with source and rule provenance.
-
-Rules can narrow a match with `where` when type alone is insufficient:
-
-```hcl title="rule.rf"
-match {
-  kind  = "resource"
-  type  = "google_compute_global_forwarding_rule"
-  where = source.load_balancing_scheme == "EXTERNAL"
-}
-```
-
-Predicates read fields from the initially matched source declaration. Missing,
-unknown, or incompatible values do not become a safe match.
-
-## Establish an architecture fact
-
-The complete subnet rule adds network context:
-
-```hcl title="aws/network/vpc.rf"
-rule "subnet" {
-  match {
-    kind = "resource"
-    type = "aws_subnet"
-  }
-
-  as = concept.core.subnet
+  as = rf.concept.subnet
 
   context {
-    as  = context.core.network
-    to  = concept.core.virtual-network
+    as  = rf.context.network
+    to  = rf.concept.virtual-network
     via = source.vpc_id
   }
 }
 ```
 
-For the tutorial input, `source.vpc_id` resolves from
-`aws_subnet.application` to `aws_vpc.main`. Rootform can therefore record:
+`as` adds optional nominal classification. The subnet context exists only when
+the `vpc_id` traversal proves a target representation with the requested Concept.
+A source dependency alone never becomes an architecture fact.
 
-| Produced fact | Proven by |
-| --- | --- |
-| `scope:aws_subnet.application` has concept `core/subnet` | Rule `aws/subnet` matched the source declaration. |
-| `scope:aws_vpc.main` has concept `core/virtual-network` | Rule `aws/vpc` matched the referenced declaration. |
-| Subnet has `core/network` context in the VPC | `aws_subnet.application.vpc_id` resolved to `aws_vpc.main`. |
+A Rule must add classification, emission, or composition; a match-only Rule is
+invalid. One accepted Rule is applied, and an ambiguous or undecidable predicate
+keeps the resource base and records diagnostics.
 
-The renderer can present the subnet inside the VPC because this context fact
-exists. It does not infer containment from names, CIDR values, or a drawing
-heuristic.
+## Choose a fact shape
 
-## Choose the fact shape
+- `context` records placement in a named dimension;
+- a labeled `relation "name"` records a local directed predicate;
+- an unlabeled `relation { as = ... }` reuses an existing local predicate;
+- `contribution` links a contributor without absorbing it.
 
-Rules can emit three kinds of connection fact:
+Each emission requires a `to` Concept or Rule and a `via` evidence path. Explicit
+target matching supports only `exact` and `dot-ancestor`.
 
-| Block | Meaning | Source concept | Target concept |
-| --- | --- | --- | --- |
-| `context` | Placement in a named dimension | any represented kind | `entity` or `scope` |
-| `contribution` | Supporting detail belongs to a representation | `detail` | `entity` or `scope` |
-| `relation "type"` | A directional domain relationship | `entity` or `scope` | `entity` or `scope` |
-
-Each fact names its target concept and a `via` traversal. A context also names
-its dimension with `as`. The compiler rejects concept-kind combinations that
-would make the graph invalid.
-
-This contribution treats a node pool as supporting detail for a
-cluster:
-
-```hcl title="rule.rf"
-contribution {
-  to  = concept.cluster
-  via = source.cluster
-}
-```
-
-This relation expresses a named, directional claim:
-
-```hcl title="rule.rf"
-relation "reachability" {
-  to  = concept.cluster
-  via = source.cluster
-}
-```
-
-Relation names carry domain meaning defined by the Dialect. A plain Terraform
-reference does not automatically become a relation.
-
-## Match by a value when no reference exists
-
-Most facts follow source references directly. Some providers identify another
-declaration with an equal scalar value instead. A fact-level `match` makes that
-choice explicit:
-
-```hcl title="rule.rf"
-context {
-  as  = context.network
-  to  = concept.subnet
-  via = source.network
-
-  match {
-    by       = target.name
-    strategy = "exact"
-  }
-}
-```
-
-Here Rootform compares the source value at `network` with candidate subnet
-values at `name`. `dot-ancestor` is the other supported strategy; it accepts an
-exact match or a candidate followed by `.` as a namespace ancestor. Both are
-closed matching strategies, not general search expressions.
-
-## Compose several declarations
-
-Some provider APIs represent one architectural component with several linked
-resources. The official Google Dialect composes a forwarding rule, HTTPS
-proxy, URL map, and backend service into one load balancer representation:
+## Compose source declarations transactionally
 
 ```hcl title="google/load-balancing/application-load-balancer.rf"
 rule "application-load-balancer" {
@@ -217,7 +111,7 @@ rule "application-load-balancer" {
     type = "google_compute_global_forwarding_rule"
   }
 
-  as = concept.core.load-balancer
+  as = concept.load-balancer
 
   composition {
     member "target-https-proxy" {
@@ -237,73 +131,54 @@ rule "application-load-balancer" {
         type = "google_compute_url_map"
       }
     }
-
-    member "backend-service" {
-      via = member.url-map.default_service
-
-      match {
-        kind = "resource"
-        type = "google_compute_backend_service"
-      }
-    }
   }
 }
 ```
 
-Members are ordered. A member can follow `source` or an earlier named member;
-it cannot refer forward or to itself. Supporting source declarations remain in
-declaration accounting while the architecture gets one load balancer
-representation.
+Members are ordered, required, and exclusive. Any member failure rejects the
+whole Rule application, including `as` and emissions, and the root resource keeps
+its base. Member declarations remain, and every resource member keeps its own
+base without inheriting the root Rule or Concept.
 
 ## Ask a policy question
-
-Return to tutorial subnet. A Policy Pack declares exact vocabulary requirements
-and gives related policies one versioned identity. This policy asks whether each
-subnet has network context in a virtual network:
 
 ```hcl title="policies/pack.rf"
 policy_pack "tutorial" {
   version = "0.1.0"
-
-  requires {
-    core = "0.1.0"
-  }
 }
 ```
 
 ```hcl title="policies/subnet-network-context.rf"
 policy "subnet-network-context" {
-  target = concept.core.subnet
-  assert = length(contexts(context.core.network, concept.core.virtual-network)) > 0
+  target {
+    concept = rf.concept.subnet
+  }
+
+  assert = exists(contexts(rf.context.network, rf.concept.virtual-network))
   message = "Subnets must have an established virtual network context."
 }
 ```
 
-Both files share one pack root, so policy identity becomes
-`tutorial/subnet-network-context` without nesting or explicit reference.
-Policy evaluates once for each representation whose exact concept is
-`core/subnet`. For tutorial, earlier `core/network` fact makes query length `1`,
-so assertion passes. If `vpc_id` no longer resolves to VPC, length becomes `0`
-and check reports violation with authored message and inspected fact IDs.
+A policy source declares no dependencies. The linker derives exact RF Vocabulary
+and Dialect pins from qualified references and the Architecture IR. The policy ID
+is `tutorial.policy.subnet-network-context`.
 
-## Let diagnostics stop invalid meaning
+## Keep uncertainty explicit
 
-Rootform rejects unknown blocks, attributes, references, kinds, and expression
-forms instead of silently ignoring them. For example, a misspelled fact target
-can produce a stable code with a source range:
+Unknown traversal, ambiguous target, incompatible provider, and failed
+composition produce stable diagnostics. Proven absence produces omission.
+Neither case deletes a resource base or invents fallback meaning.
 
 ```text title="Diagnostic shape"
 CONCEPT_UNKNOWN  rules/network.rf:18:10
 ```
 
-Use `rootform validate dialects` while authoring a Dialect. Use
-`rootform check` to evaluate a Policy Pack against a prepared architecture.
-`rootform test` has a third role: it builds Dialect fixtures and compares their
-Architecture IR with reviewed golden files.
+Compiled definitions build Architecture IR. Use `rootform validate dialects` for
+language source, `rootform test` for reviewed Architecture IR fixtures, and
+`rootform check` for policies. `rootform diff` compares two built documents.
 
 <!-- rootform:endsteps -->
 
-Continue with [Write a Dialect](../dialect-authoring.md) or
-[Check an architecture](../guides/check-architecture.md). Use the
-[language reference](reference/index.md) when you need exact accepted forms,
-scope, and diagnostic codes.
+Continue with [Write a Dialect](../dialect-authoring.md),
+[Write a Policy Pack](write-policy-pack.md), or
+[language reference](reference/index.md).

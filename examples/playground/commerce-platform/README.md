@@ -3,16 +3,17 @@
 `brightcart.io` runs a production commerce platform on Azure. The scenario
 models one environment: a hub virtual network fronting a spoke that hosts an
 AKS cluster, a private data tier, Service Bus and Event Grid messaging, Azure
-Functions, and shared observability. `head` is the Architecture scenario shown
-in the Playground; the Diff scenario compares `base` with `head`.
+Functions, and shared observability. Both `base` and `head` build into
+Architecture IR, and the Diff compares the two documents.
 
 Both sides build statically. No Azure account, credentials, provider
 process, plan, or state is required.
 
 ## What the scenario models
 
-- Ownership: `rg-commerce-hub`, `rg-commerce-prod`, `rg-commerce-data`, and
-  `rg-commerce-ops` split the platform by lifecycle.
+- Ownership: `azure.context.ownership` places resources relative to
+  `rg-commerce-hub`, `rg-commerce-prod`, `rg-commerce-data`, and
+  `rg-commerce-ops` by lifecycle.
 - Network: `vnet-commerce-hub` holds `snet-appgw` (Application Gateway with WAF
   with its public IP and identity) and `snet-shared` (private endpoints for the
   container registry and Key Vault). It is peered both ways with
@@ -29,10 +30,11 @@ process, plan, or state is required.
   and an OMS agent sending logs to
   `log-commerce-prod`, where the ContainerInsights solution is installed. The
   Kubernetes provider is bound to the cluster host, so every Kubernetes object
-  gets a runtime context inside the cluster. Namespaces `platform-ingress`,
-  `checkout`, `catalog`, `orders`, and `observability` own deployments,
-  stateful sets, a daemon set, service accounts, services, ingresses, network
-  policies, autoscalers, and a persistent volume claim.
+  carries a runtime context pointing at the cluster. The namespaces
+  `platform-ingress`, `checkout`, `catalog`, `orders`, and `observability`
+  provide ownership context for deployments, stateful sets, a daemon set,
+  service accounts, services, ingresses, network policies, autoscalers, and a
+  persistent volume claim.
 - Data: `sql-commerce-prod` with `sqldb-commerce-orders`, `psql-commerce-prod`
   on the delegated subnet with its private DNS zone, `redis-commerce-prod`,
   `cosmos-commerce-catalog` with the `catalog` SQL database and its `products`
@@ -50,20 +52,23 @@ process, plan, or state is required.
   payment provider API key, the e-mail relay password, and the token signing
   key; one user-assigned identity exists per platform role.
 
-## What to look at
+## Reading the facts
 
-- Survey: the hub and spoke networks, the resource groups, and the cluster with
-  its namespaces are all visible at once as nested scopes.
-- Plan: follow `snet-data` to see every private endpoint that terminates the
-  data tier inside the spoke, then open `stcommercemedia`, `kv-commerce-prod`,
-  and `cosmos-commerce-catalog` to see their containers, secrets, and database.
-- Focus on `evgs-media-processor`: the subscription subscribes to the
-  `evgst-stcommercemedia` system topic and delivers to
-  `func-commerce-media-processor`, which is observed by `appi-commerce-prod`,
-  which is observed by `log-commerce-prod`. The same workspace observes the AKS
-  cluster.
-- Focus on any deployment: it runs as its own service account, inside its
-  namespace, inside the cluster.
+The generated documents are the source of truth for this scenario, and each
+entry can be checked against the Terraform source and the Dialect Rule that
+produced it.
+
+- Ownership context: resources point to their Azure resource groups, storage
+  containers and secrets point to their owning resources, and Kubernetes
+  workloads point to their namespaces.
+- Network and runtime context: private endpoints point to `snet-data`; that
+  subnet points to `vnet-commerce-prod`; Functions point to their integration
+  subnet and service plan; Kubernetes objects point to the AKS cluster.
+- Relation: the subscription on `evgst-stcommercemedia` relates to
+  `func-commerce-media-processor`. The Function and Application Insights have
+  `observed-by` facts leading to `log-commerce-prod`.
+- Service identity: each deployment relates to its own service account, and
+  both are placed relative to a namespace and the cluster through contexts.
 
 ## Diff: private data path and payments split
 
@@ -84,40 +89,35 @@ process, plan, or state is required.
 - adds `log-commerce-platform`, switches the AKS OMS agent to it, and moves the
   ContainerInsights solution with it.
 
-Rootform reports the namespace and plan moves as ownership and runtime context
-changes, and the subscription and workspace switches as removed and added
-relations.
+Rootform reports the namespace and plan moves as removed and added contexts,
+and the subscription and workspace switches as removed and added relations.
 
 ## Modeling notes
 
-Every context and relation in the generated documents comes from a Dialect
-rule with a direct Terraform reference. Facts the Dialects do not express yet
-are absent rather than approximated: private endpoints are placed in their
-subnet but carry no relation to the resource they expose, Kubernetes services
-and ingresses carry no relation to the workloads behind them, and the
-Application Gateway is owned by its resource group without a subnet placement.
-Service Bus topics are scopes owned by their namespace, and each subscription
-is owned by the exact topic named by `topic_id`.
-Private DNS zones and the public zone appear as scopes whose links and records
-are contributions. Log Analytics workspaces are scopes without members; the
-ContainerInsights solution contributes to its workspace. The NAT gateway
-associations contribute to the gateway, its public IP, and the subnets.
+Every context, relation, and contribution in generated documents comes from a
+Dialect Rule with direct Terraform evidence. These scenarios establish no
+composition memberships. Ownership is represented by named context facts.
+
+No relation connects private endpoints to exposed resources, Kubernetes
+services or ingresses to workloads, or Application Gateway to a subnet. This
+describes facts established in these documents, not deployed infrastructure.
+Service Bus subscriptions have ownership context pointing to exact topics
+named by `topic_id`. Private DNS links and records are contributions, as are
+ContainerInsights and NAT gateway associations.
 
 ## Dialects and build
 
-Dialect sources vendored from
-rootform-dev/dialects@8e0df6aa12323e100d63cbc071f8225439fc795d (semantics not
-yet published to the official index). Each project keeps the `azure`, `core`,
-and `kubernetes` sources under
-`.rootform/dialects/` with the MPL-2.0 license, and `rootform.lock` pins their
-digests.
+The `azure` and `kubernetes` Dialects belong to the Rootform release set and are
+embedded in the binary. Shared definitions come from the embedded RF
+Vocabulary, not another Dialect. Supplied units are never installed, vendored,
+or indexed separately, so this scenario needs no preparation command and no
+lock to build.
 
 From each project directory:
 
 ```sh
 terraform init -backend=false && terraform validate
-rootform init . --locked --no-input
-rootform build . --locked --offline --no-input --output architecture.json
+rootform build . --output architecture.json
 ```
 
 Then compare the two documents:

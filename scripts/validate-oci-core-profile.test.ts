@@ -13,7 +13,7 @@ test("OCI Core Profile names exact used capabilities and exclusions", () => {
   for (const required of [
     "manifest resolution by tag or digest",
     "application/vnd.rootform.policy-pack.v1",
-    "Policy Pack V0 defines no index artifact",
+    "Policy Packs define no index artifact in V0",
   ]) {
     expect(() => validateOCICoreProfile(profile.replace(required, ""))).toThrow(
       "OCI Core Profile omits",

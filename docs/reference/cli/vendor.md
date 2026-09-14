@@ -1,11 +1,11 @@
 ---
 title: "rootform vendor"
-description: "Vendor resolved Rootform packages"
+description: "Vendor selected non-embedded content"
 ---
 
 <!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
-Vendor resolved Rootform packages.
+Vendor selected non-embedded content.
 
 ## Usage
 
@@ -21,14 +21,14 @@ rootform vendor <object> [flags]
 
 ## Behavior
 
-Copy exact locked Rootform packages to project-local directories
-for reproducible offline use.
+Materialize the project's exact non-embedded selections: dialects
+and Policy Pack sources, with their licenses and notices.
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform vendor dialects `](vendor/dialects.md) | Vendor resolved dialects |
+| [` rootform vendor dialects `](vendor/dialects.md) | Vendor selected dialects |
 | [` rootform vendor policy-packs `](vendor/policy-packs.md) | Vendor selected Policy Packs |
 
 ## Examples

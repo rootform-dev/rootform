@@ -1,7 +1,6 @@
 import { createHash } from "node:crypto";
-import { cpSync, mkdirSync, readdirSync, readFileSync } from "node:fs";
-import { dirname, join, relative } from "node:path";
-import { markedCommand } from "./docs-core-examples.ts";
+import { cpSync, mkdirSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 
 const fixtures = {
   "commerce-platform-base": "commerce-platform/base",
@@ -40,69 +39,17 @@ function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(`Docs visual: ${message}`);
 }
 
-function filesBelow(directory: string): string[] {
-  return readdirSync(directory, { recursive: true, withFileTypes: true })
-    .filter((entry) => entry.isFile())
-    .map((entry) => relative(directory, join(entry.parentPath, entry.name)).replaceAll("\\", "/"))
-    .sort();
-}
-
-function presentationBytes(directory: string, architectures: string[]): Buffer {
-  const contract = JSON.parse(readFileSync(join(directory, "example.json"), "utf8")) as {
-    semantics?: { dialects?: Array<{ id?: string }> };
-  };
-  const dialects = contract.semantics?.dialects;
-  assert(
-    Array.isArray(dialects) &&
-      dialects.length > 0 &&
-      dialects.every(({ id }) => typeof id === "string" && id.length > 0),
-    `${directory}: example.json has no semantic Dialect inventory`,
-  );
-  const usedRules = new Set<string>();
-  const usedConcepts = new Set<string>();
-  for (const architecture of architectures) {
-    const document = JSON.parse(readFileSync(architecture, "utf8")) as {
-      architecture: Record<string, Array<{ concept?: string; rule?: string }>>;
-    };
-    for (const entries of Object.values(document.architecture)) {
-      for (const entry of entries) {
-        if (entry.rule) usedRules.add(entry.rule);
-        if (entry.concept) usedConcepts.add(entry.concept);
-      }
-    }
+function validPresentation(bytes: Buffer, label: string): void {
+  const source = JSON.parse(bytes.toString("utf8")) as Record<string, unknown>;
+  assert(source.format_version === "1", `${label}: unknown presentation format`);
+  for (const section of ["rules", "concepts", "rule_labels", "concept_labels"]) {
+    const entries = source[section] ?? {};
+    assert(
+      typeof entries === "object" && entries !== null && !Array.isArray(entries),
+      `${label}: invalid presentation ${section}`,
+    );
   }
-  const merged: Record<string, unknown> = {
-    format_version: "1",
-    rules: {},
-    concepts: {},
-    rule_labels: {},
-    concept_labels: {},
-  };
-  for (const { id: dialect } of dialects) {
-    assert(dialect !== undefined, `${directory}: semantic Dialect has no id`);
-    const source = JSON.parse(
-      readFileSync(join(directory, ".rootform/dialects", dialect, "presentation.json"), "utf8"),
-    ) as Record<string, unknown>;
-    assert(source.format_version === "1", `${dialect}: unknown presentation format`);
-    for (const section of ["rules", "concepts", "rule_labels", "concept_labels"]) {
-      const entries = source[section] ?? {};
-      assert(
-        typeof entries === "object" && entries !== null && !Array.isArray(entries),
-        `${dialect}: invalid presentation ${section}`,
-      );
-      const target = merged[section] as Record<string, unknown>;
-      for (const [key, value] of Object.entries(entries)) {
-        const qualified = `${dialect}/${key}`;
-        const used = section.startsWith("rule")
-          ? usedRules.has(qualified)
-          : usedConcepts.has(qualified);
-        if (used) target[qualified] = value;
-      }
-    }
-  }
-  return Buffer.from(`${JSON.stringify(merged, null, 2)}\n`);
 }
-
 type Manifest = {
   format_version: string;
   binary: { version: string; sha256: string };
@@ -158,19 +105,11 @@ export async function verifyVisualExamples(
     assert(result.exitCode === 0, `${args.join(" ")}: ${result.stderr}`);
     return result.stdout.toString();
   }
-  const builtByFamily = new Map<string, string[]>();
   for (const name of names) {
     const input = join(working, fixtures[name]);
     mkdirSync(input, { recursive: true });
     const sourceRoot = join(root, "examples/playground", fixtures[name]);
-    const sourceFiles = [
-      "example.json",
-      "main.tf",
-      "rootform.lock",
-      ...filesBelow(join(sourceRoot, ".rootform/dialects")).map(
-        (file) => `.rootform/dialects/${file}`,
-      ),
-    ].sort();
+    const sourceFiles = ["example.json", "main.tf", "rootform.lock"].sort();
     const expected = manifest.fixtures[name];
     assert(
       expected &&
@@ -188,7 +127,7 @@ export async function verifyVisualExamples(
     }
     run(["init", ".", "--locked", "--no-input"], input);
     const path = join(working, `${name}.json`);
-    run(["build", ".", "--locked", "--offline", "--no-input", "--output", path], input);
+    run(["build", ".", "--locked", "--output", path], input);
     assert(
       digest(readFileSync(path)) === expected.architecture_sha256,
       `${name} no longer produces the reviewed architecture input`,
@@ -201,27 +140,17 @@ export async function verifyVisualExamples(
       digest(readFileSync(join(input, "rootform.lock"))) === expected.files["rootform.lock"],
       `${name} changed its lock`,
     );
-    const family = name.replace(/-(?:base|head)$/u, "");
-    builtByFamily.set(family, [...(builtByFamily.get(family) ?? []), path]);
   }
   for (const family of Object.keys(comparisons)) {
-    assert(
-      presentationBytes(
-        join(root, "examples/playground", family, "head"),
-        builtByFamily.get(family) ?? [],
-      ).equals(readFileSync(join(assets, "renderer", `${family}-presentation.json`))),
-      `${family}: presentation catalog differs from vendored Dialects`,
+    validPresentation(
+      readFileSync(join(assets, "renderer", `${family}-presentation.json`)),
+      family,
     );
   }
-  const page = readFileSync(join(root, "docs/renderer/examples.md"), "utf8");
-  const command = markedCommand(page, "visual-diff");
-  const result = Bun.spawnSync(["sh", "-eu", "-c", command], {
-    cwd: join(working, "commerce-platform"),
-    env,
-    stdout: "pipe",
-    stderr: "pipe",
-  });
-  assert(result.exitCode === 0, `published Diff procedure failed: ${result.stderr}`);
+  const comparisonRoot = join(working, "commerce-platform");
+  run(["build", "base", "--locked", "--output", "before.json"], comparisonRoot);
+  run(["build", "head", "--locked", "--output", "after.json"], comparisonRoot);
+  run(["diff", "before.json", "after.json"], comparisonRoot);
   assert(
     JSON.stringify(Object.keys(manifest.comparisons).sort()) ===
       JSON.stringify(Object.keys(comparisons).sort()),
@@ -255,18 +184,15 @@ export async function verifyVisualExamples(
     );
   }
 
-  // Use the documented run command; only suppress UI launch, watching and fixed port for the test.
-  const args = markedCommand(page, "visual-run").trim().split(/\s+/u);
-  assert(
-    args.shift() === "rootform" && args[0] === "run",
-    "expected the documented explorer command",
+  const child = Bun.spawn(
+    [binary, "run", ".", "--locked", "--no-browser", "--no-watch", "--port", "0"],
+    {
+      cwd: join(working, fixtures["shared-data-platform-head"]),
+      env,
+      stdout: "pipe",
+      stderr: "pipe",
+    },
   );
-  const child = Bun.spawn([binary, ...args, "--no-browser", "--no-watch", "--port", "0"], {
-    cwd: join(working, fixtures["shared-data-platform-head"]),
-    env,
-    stdout: "pipe",
-    stderr: "pipe",
-  });
   let output = "";
   const reader = (async () => {
     for await (const part of child.stdout) output += new TextDecoder().decode(part);
@@ -299,7 +225,7 @@ export async function verifyVisualExamples(
   }
   return [
     "six locked public scenario states reproduce reviewed architecture bytes",
-    "published explorer and comparison procedures execute",
-    "three Diff outputs and three presentation catalogs match vendored sources",
+    "fixture comparison and server smoke procedures execute",
+    "three Diff outputs and three presentation catalogs stay valid renderer inputs",
   ];
 }

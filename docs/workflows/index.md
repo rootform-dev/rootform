@@ -1,47 +1,71 @@
 ---
-title: "Review changes with Git and CI"
-description: "Choose architecture evidence for local review, pull requests, and reproducible gates."
+title: "Git workflows"
+description: "Produce comparable architecture evidence for local review, pull requests, and CI gates."
 ---
 
-A useful review preserves the input revision, exact Dialect selection, and
-result being discussed. Commit `rootform.lock`; retain only artifacts reviewers
-need.
+A useful review preserves input revision, exact Rootform binary or image,
+external selection, and result. When the project has explicit external
+selection, commit `rootform.lock` with the change. Retain only the artifacts
+reviewers need.
 
 ## Choose the review question
 
 | Question | Rootform workflow |
 | --- | --- |
-| What architecture meaning changed between source revisions? | Build both revisions with the same lock, then run `rootform diff`. |
-| What architectural changes does this Terraform/OpenTofu plan describe? | Run `rootform diff --plan` on the plan's JSON export. |
-| Does the architecture satisfy our reviewed rules? | Run `rootform check` with expected Policy Packs and evaluation coverage. |
+| What architecture meaning changed between source revisions? | Build both revisions with the same binary and the same external selection, then run `rootform diff`. |
+| What architectural changes does a Terraform or OpenTofu plan describe? | Run `rootform diff --plan` on the plan's JSON export. |
+| Does the architecture satisfy reviewed policies? | Run `rootform check` with the expected Policy Pack selection and evaluation coverage. |
+
+## Keep comparisons comparable
+
+`rootform diff` compares two [Architecture IR](../concepts/architecture-ir.md)
+documents. Build both sides with the same Rootform binary or image and effective
+Dialect selection when question is limited to source change. A different
+release set or Dialect lock selection can change interpretation. Diff still
+accepts valid documents with different semantic environments, but marks affected
+conclusions as undetermined instead of attributing them to infrastructure.
+
+Review a Dialect update as a change in architecture meaning. Review a Policy
+Pack update as a change in governance; Policy Packs do not alter Architecture
+IR or Diff.
 
 ## Review locally first
 
-For a source change, keep base and head outputs separate:
+Keep base and head outputs separate:
 
 ```sh
-rootform build ./base --locked --offline --no-input --output before.json
-rootform build ./head --locked --offline --no-input --output after.json
+rootform build ./base --output before.json
+rootform build ./head --output after.json
 rootform diff before.json after.json
 ```
 
 Separate checkouts or worktrees preserve both revisions without rewriting the
-working copy under review. Use the same Dialect versions on both sides; review a
-Dialect update separately because it can change interpretation.
+working copy under review.
 
-Run project checks against the revision under review:
+When the project lock selects Policy Packs, prepare the revision under review
+and check it:
 
 ```sh
-rootform check ./head --locked --offline --no-input
+rootform init ./head --locked --no-input
+rootform check ./head --locked
 ```
 
-Confirm selected policies and evaluation count, not only status. The
-[check guide](../guides/check-architecture.md) shows pass, violation, and
+Confirm the selected policies and the evaluation count, not only the status.
+The [check guide](../guides/check-architecture.md) shows pass, violation, and
 indeterminate behavior.
+
+## Read policy status as a gate
+
+Policy coverage is not approval. `rootform check` exits `0` only when every
+selected policy was evaluated and compliant. Zero policies or zero evaluations
+are never compliant and return status `3`; a selected policy without targets
+also prevents compliance. Confirmed violations take precedence and return
+`1`; invalid command use returns `2`. Read
+[Policies and Policy Packs](../concepts/policies.md) before choosing a gate.
 
 ## Put evidence in the pull request
 
-Choose output for its reader:
+Choose the output for its reader:
 
 | Artifact | Reader |
 | --- | --- |
@@ -49,24 +73,27 @@ Choose output for its reader:
 | Diff JSON | Automation consuming determined and undetermined facts. |
 | Policy SARIF | Code-review UI showing policy target and message. |
 | Policy JSON | Automation inspecting selection, evaluations, and evidence. |
-| Self-contained HTML | Interactive review of one architecture. |
+| Self-contained HTML | Open and share one architecture. |
 
-Use Diff `--exit-code` when any change or undetermined fact should return status
-`1`. A policy violation returns `1`; an indeterminate check returns `3`. Preserve
-those distinctions instead of collapsing every nonzero result into the same
-message.
+Use `rootform diff --exit-code` when any change or undetermined fact should
+return status `1`. A policy violation returns `1`; an indeterminate or
+not-evaluated check returns `3`; invalid command use returns `2`. Preserve
+those distinctions instead of collapsing every nonzero result into one message.
 
-Architecture artifacts can reveal names, paths, structure, and relationships.
-Apply repository access and retention rules. Never attach raw plans, state, or
+Architecture artifacts reveal names, paths, structure, and provenance. Apply
+repository access and retention rules. Never attach raw plans, state, or
 credentials as Rootform evidence.
 
 ## Reproduce the review in CI
 
-Pin an exact Rootform binary or image, use committed selection, and disable
-prompts. A connected locked job may acquire missing artifacts pinned by the
-lock. Add `--offline` only after supplying complete local or vendored packages.
+Pin the exact Rootform binary or image and commit the project's external
+selection. A supplied-only build needs no preparation: no lock, no `init`, and
+no network. When a project has a lock, run
+`rootform init --locked --no-input` to verify local entries and fetch only the
+exact OCI pins that the lock already names. `build`, `run`, and `check`
+perform no acquisition and never prompt.
 
 The [portable CI guide](../integrations/ci/README.md) provides runner examples.
-[GitHub Actions](../integrations/github-actions.md) covers Summary, artifacts,
-and explicit PR reporting. Privileged reporting must never execute untrusted
-infrastructure code; choose event and permissions accordingly.
+[GitHub Actions](../integrations/github-actions.md) covers binary setup,
+analysis, and explicit PR reporting. Privileged reporting must never execute
+untrusted infrastructure code; choose the event and permissions accordingly.

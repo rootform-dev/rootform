@@ -35,9 +35,10 @@ One policy pack version is an OCI 1.1 artifact with:
   `application/vnd.rootform.policy-pack.layer.v1.tar+gzip`.
 
 Config JSON is strict and canonical. It contains format version, pack name and
-version, exact dialect requirements, pack content digest, layer digest,
-download size, install size, and file count. Requirement arrays use canonical
-lexical order.
+version, pack content digest, layer digest, download size, install size, and
+file count. The source declares no semantic dependency versions; RF Vocabulary
+and Dialect pins are derived at linking and recorded in the linked artifact,
+never in the source package.
 
 Layer is deterministic gzip over deterministic tar. Entries are regular files
 with normalized mode, ownership, and timestamps. Allowed content is limited to:
@@ -122,18 +123,17 @@ Publication reuses the same Docker configuration, credential-helper, Basic,
 and Bearer path as acquisition. Rootform exposes no pack-specific credential
 flag and persists no credential.
 
-## Explicit source resolution
+## Explicit source selection
 
-Repeatable `rootform init --policy-pack` accepts canonical
-registry/repository references by tag or SHA-256 digest. Validated artifact
-type must identify one direct Policy Pack. URLs, embedded credentials,
-repository-only values, other Rootform artifact types, registry enumeration,
-and VCS resolution are rejected.
+Policy Pack selection exists only in `rootform.lock`. Each entry records exact
+name, version, content digest, and either relative local path or complete OCI
+identity. OCI identity includes repository, manifest digest, layer digest,
+download size, and install size. No tag, mutable index, registry enumeration,
+VCS lookup, or command-order priority participates in execution.
 
-Repeated identical references deduplicate. References resolving more than once
-to same pack name conflict rather than choosing by order. Missing exact packs
-never trigger arbitrary registry search. `--policy-pack` is incompatible with
-`--locked`.
+`rootform init --locked` validates existing lock and may acquire only exact OCI
+pins already recorded. It never creates or edits lock and accepts no source
+selection flag. Missing exact packs never trigger arbitrary registry search.
 
 ## Integrity and installation
 
@@ -154,6 +154,20 @@ materialization and repair boundary. It copies exact lock pins from verified
 store or cache and may download exact manifest digest from recorded artifact
 repository. It performs no discovery, new selection, upgrade, or lock
 modification. Legal and notice files inside artifact remain vendored.
+
+## Source portability and derived dependencies
+
+A Policy Pack source declares its name, version, and Policies only. It never
+declares semantic dependency versions for the RF Vocabulary or Dialects. The
+linker derives dependencies from static references, target definitions,
+assertions, and dialect filters, resolves owners and symbols, adds the needed
+RF Vocabulary dependency, and produces exact pins in the linked artifact.
+Dependencies are verified against the derived pins; a relink changes the linked
+artifact identity, never the pack source version.
+
+Before linking, the compiler may check syntax, reference shapes, expression
+types, and grammatical signatures. The existence of owners and symbols is
+verified at linking.
 
 ## Honest limits
 

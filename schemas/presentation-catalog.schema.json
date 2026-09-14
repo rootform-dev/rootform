@@ -4,32 +4,76 @@
   "title": "Rootform presentation catalog",
   "type": "object",
   "additionalProperties": false,
-  "required": ["format_version", "rules", "concepts", "rule_labels", "concept_labels"],
+  "required": [
+    "format_version",
+    "resources",
+    "rules",
+    "concepts",
+    "resource_labels",
+    "rule_labels",
+    "concept_labels"
+  ],
   "properties": {
     "format_version": { "const": "1" },
-    "rules": { "$ref": "#/$defs/identities" },
-    "concepts": { "$ref": "#/$defs/identities" },
-    "rule_labels": { "$ref": "#/$defs/labels" },
-    "concept_labels": { "$ref": "#/$defs/labels" }
+    "resources": { "$ref": "#/$defs/resourceIdentities" },
+    "rules": { "$ref": "#/$defs/qualifiedRuleIdentities" },
+    "concepts": { "$ref": "#/$defs/qualifiedConceptIdentities" },
+    "resource_labels": { "$ref": "#/$defs/resourceLabels" },
+    "rule_labels": { "$ref": "#/$defs/qualifiedRuleLabels" },
+    "concept_labels": { "$ref": "#/$defs/qualifiedConceptLabels" }
   },
   "$defs": {
-    "qualifiedName": {
+    "visualIdentity": {
       "type": "string",
+      "maxLength": 129,
       "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*/[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
     },
-    "identities": {
-      "type": "object",
-      "propertyNames": { "$ref": "#/$defs/qualifiedName" },
-      "additionalProperties": { "$ref": "#/$defs/qualifiedName" }
+    "qualifiedRuleName": {
+      "maxLength": 134,
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*\\.rule\\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
     },
-    "labels": {
+    "qualifiedConceptName": {
+      "maxLength": 137,
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*\\.concept\\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+    },
+    "resourceName": {
+      "maxLength": 129,
+      "pattern": "^(?:resource|data|ephemeral|action)/[a-z][a-z0-9_-]*$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "resourceIdentities": {
       "type": "object",
-      "propertyNames": { "$ref": "#/$defs/qualifiedName" },
-      "additionalProperties": {
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 256
-      }
+      "propertyNames": { "$ref": "#/$defs/resourceName" },
+      "additionalProperties": { "$ref": "#/$defs/visualIdentity" }
+    },
+    "qualifiedRuleIdentities": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/qualifiedRuleName" },
+      "additionalProperties": { "$ref": "#/$defs/visualIdentity" }
+    },
+    "qualifiedConceptIdentities": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/qualifiedConceptName" },
+      "additionalProperties": { "$ref": "#/$defs/visualIdentity" }
+    },
+    "resourceLabels": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/resourceName" },
+      "additionalProperties": { "$ref": "#/$defs/label" }
+    },
+    "qualifiedRuleLabels": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/qualifiedRuleName" },
+      "additionalProperties": { "$ref": "#/$defs/label" }
+    },
+    "qualifiedConceptLabels": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/qualifiedConceptName" },
+      "additionalProperties": { "$ref": "#/$defs/label" }
     }
   }
 }

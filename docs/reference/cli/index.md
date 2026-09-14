@@ -38,20 +38,16 @@ Start with rootform run ./infra to explore a directory locally.
 | [` rootform diff `](diff.md) | Compare two architectures |
 | [` rootform explain `](explain.md) | Explain an architecture result |
 | [` rootform fmt `](fmt.md) | Format Rootform files |
-| [` rootform init `](init.md) | Initialize a Rootform project |
-| [` rootform install `](install.md) | Install dialects |
+| [` rootform init `](init.md) | Prepare a Rootform project |
 | [` rootform list `](list.md) | List Rootform definitions |
-| [` rootform lock `](lock.md) | Lock resolved dialects |
 | [` rootform lsp `](lsp.md) | Serve Rootform language features over stdio |
 | [` rootform package `](package.md) | Package Rootform content for distribution |
 | [` rootform publish `](publish.md) | Publish packaged Rootform content |
-| [` rootform remove `](remove.md) | Remove a dialect |
 | [` rootform run `](run.md) | Explore an architecture locally |
 | [` rootform show `](show.md) | Show a Rootform definition |
 | [` rootform test `](test.md) | Test dialect fixtures |
 | [` rootform validate `](validate.md) | Validate a Rootform object |
-| [` rootform vendor `](vendor.md) | Vendor resolved Rootform packages |
-| [` rootform verify `](verify.md) | Verify locked dialects |
+| [` rootform vendor `](vendor.md) | Vendor selected non-embedded content |
 | [` rootform version `](version.md) | Show the Rootform version |
 
 ## Examples

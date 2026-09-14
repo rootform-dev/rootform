@@ -24,7 +24,7 @@ rootform show context <identifier> [flags]
 
 Show a context dimension, description, and producers.
 
-Use &lt;dialect&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
+Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
 
 The text or JSON definition goes to standard output. Diagnostics go to
 standard error.
@@ -41,7 +41,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform show context core/geography
-rootform show context geography
-rootform show context core/geography --format json
+rootform show context rf.context.network
+rootform show context network
+rootform show context rf.context.network --format json
 ```

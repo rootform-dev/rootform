@@ -46,17 +46,17 @@ export type JourneyStep = { detail?: string; name: string; ok: boolean };
 export type JourneyEvidence = {
   binary: string;
   check_sha256: string | null;
-  lock_recreated_byte_identical: boolean;
+  lock_absence_preserved: boolean;
   lock_unchanged: boolean;
+  empty_vendor_rejected: boolean;
   offline_inspection_no_credentials: boolean;
-  offline_from_vendor_no_credentials: boolean;
-  offline_run_no_credentials: boolean;
   online_offline_identical: boolean;
   passed: boolean;
   local_policy_pack_inspection: boolean;
   steps: JourneyStep[];
+  supplied_dialects_not_installed: boolean;
+  supplied_release_set_offline: boolean;
   target: TargetLabel;
-  vendor_swap_removed_stale: boolean;
   version: string | null;
 };
 
@@ -147,9 +147,9 @@ export class JourneyError extends Error {
   }
 }
 
-type SpawnOutcome = { stderr: string; stdout: string };
+type SpawnOutcome = { exitCode: number; stderr: string; stdout: string };
 
-export function runBinary(
+export function runBinaryStatus(
   binary: string,
   arguments_: string[],
   options: { cwd: string; environment: Record<string, string>; redactions: readonly Redaction[] },
@@ -163,14 +163,23 @@ export function runBinary(
   });
   const stdout = redact(result.stdout.toString("utf8"), options.redactions);
   const stderr = redact(result.stderr.toString("utf8"), options.redactions);
-  const exitCode = result.exitCode;
-  if (exitCode !== 0) {
+  return { exitCode: result.exitCode, stderr, stdout };
+}
+
+export function runBinary(
+  binary: string,
+  arguments_: string[],
+  options: { cwd: string; environment: Record<string, string>; redactions: readonly Redaction[] },
+): Omit<SpawnOutcome, "exitCode"> {
+  const result = runBinaryStatus(binary, arguments_, options);
+  if (result.exitCode !== 0) {
+    const { exitCode, stderr, stdout } = result;
     const suffix = stderr.trim() === "" ? stdout.trim() : stderr.trim();
     throw new Error(
       `rootform ${arguments_[0] ?? "(command)"} failed (exit ${String(exitCode)}): ${suffix}`,
     );
   }
-  return { stderr, stdout };
+  return { stderr: result.stderr, stdout: result.stdout };
 }
 
 export async function readRunAddress(stream: ReadableStream<Uint8Array>): Promise<string> {
@@ -266,24 +275,19 @@ function lockBody(project: string): Buffer {
   return readFileSync(join(project, "rootform.lock"));
 }
 
-function lockEntries(project: string): { name: string; version: string }[] {
-  const lock = JSON.parse(lockBody(project).toString("utf8")) as { entries?: unknown };
-  if (!Array.isArray(lock.entries)) throw new Error("rootform.lock has no entries array");
-  return lock.entries.map((entry, index) => {
-    const value = entry as { name?: unknown; version?: unknown };
-    if (typeof value.name !== "string" || typeof value.version !== "string") {
-      throw new Error(`rootform.lock entry ${index} has invalid identity`);
+function lockSelections(project: string): void {
+  const lock = JSON.parse(lockBody(project).toString("utf8")) as Record<string, unknown>;
+  if (lock.format_version !== "1") throw new Error("rootform.lock format_version drifted");
+  for (const obsolete of ["entries", "sources", "unsupported_providers", "index"]) {
+    if (obsolete in lock) throw new Error(`rootform.lock uses obsolete field ${obsolete}`);
+  }
+  for (const key of ["dialects", "policy_packs", "excluded_owners", "replacements"]) {
+    if (!Array.isArray(lock[key])) {
+      throw new Error(`rootform.lock ${key} must be an array`);
     }
-    return { name: value.name, version: value.version };
-  });
-}
-
-function requireStoreMarkers(home: string, entries: { name: string; version: string }[]): void {
-  for (const entry of entries) {
-    const marker = join(home, "dialects", entry.name, entry.version, ".rootform-artifact.json");
-    if (!existsSync(marker)) {
-      throw new Error(`store artifact marker is missing: ${entry.name}@${entry.version}`);
-    }
+  }
+  if (Array.isArray(lock.dialects) && lock.dialects.length !== 0) {
+    throw new Error("supplied example locks must not select Dialects");
   }
 }
 
@@ -315,20 +319,6 @@ export async function runJourney(
       return failed(step, error);
     }
   };
-  const attemptAsync = async <T>(
-    step: string,
-    action: () => Promise<T>,
-    detail?: (result: T) => string,
-  ): Promise<T> => {
-    try {
-      const result = await action();
-      record(step, detail?.(result));
-      return result;
-    } catch (error) {
-      return failed(step, error);
-    }
-  };
-
   attempt("target-matches-host", () =>
     assertTargetMatchesHost(arguments_.target, host.platform, host.arch),
   );
@@ -361,8 +351,17 @@ export async function runJourney(
     activeRedactions = redactions;
     const run = (command: string[], cwd: string, environment: Record<string, string>) =>
       runBinary(arguments_.binary, command, { cwd, environment, redactions });
+    const check = (command: string[], cwd: string, environment: Record<string, string>) => {
+      const outcome = runBinaryStatus(arguments_.binary, command, { cwd, environment, redactions });
+      if (outcome.exitCode !== 3) {
+        throw new Error(
+          `rootform check exit ${outcome.exitCode}, expected not_evaluated exit 3: ${outcome.stderr.trim()}`,
+        );
+      }
+      return outcome;
+    };
 
-    const entries = attempt("sandbox-preparation", () => {
+    attempt("sandbox-preparation", () => {
       mkdirSync(outputs);
       mkdirSync(freshHome);
       mkdirSync(registryConfig);
@@ -374,7 +373,7 @@ export async function runJourney(
       if (!lockBody(project).equals(lockBody(example))) {
         throw new Error("copied example lock differs from versioned aws-vpc lock");
       }
-      return lockEntries(project);
+      lockSelections(project);
     });
     const expectedLock = lockBody(example);
     const onlineEnvironment = {
@@ -411,22 +410,19 @@ export async function runJourney(
       (reported) => reported,
     );
 
-    attempt(
-      "init-registry-recreates-lock",
-      () => {
-        rmSync(join(project, "rootform.lock"));
-        const outcome = run(
-          ["init", project, "--no-input", "--format", "json"],
-          project,
-          onlineEnvironment,
-        );
-        if (!lockBody(project).equals(expectedLock)) {
-          throw new Error("registry init did not recreate the exact versioned lock bytes");
-        }
-        return digest(outcome.stdout);
-      },
-      (sha) => `init stdout sha256:${sha}`,
-    );
+    attempt("init-without-lock-preserves-absence", () => {
+      const noLockProject = join(sandbox as string, "project without lock");
+      cpSync(project, noLockProject, { recursive: true });
+      rmSync(join(noLockProject, "rootform.lock"));
+      run(
+        ["init", noLockProject, "--no-input", "--format", "json"],
+        noLockProject,
+        onlineEnvironment,
+      );
+      if (existsSync(join(noLockProject, "rootform.lock"))) {
+        throw new Error("init created rootform.lock for an empty selection");
+      }
+    });
 
     attempt("init-locked-preserves-lock", () => {
       run(
@@ -435,7 +431,7 @@ export async function runJourney(
         onlineEnvironment,
       );
       if (!lockBody(project).equals(expectedLock)) {
-        throw new Error("init --locked changed the recreated lock");
+        throw new Error("init --locked changed rootform.lock");
       }
     });
 
@@ -444,7 +440,7 @@ export async function runJourney(
       "build-online-locked",
       () => {
         run(
-          ["build", project, "--locked", "--no-input", "--format", "json", "--output", onlineBuild],
+          ["build", project, "--locked", "--format", "json", "--output", onlineBuild],
           project,
           onlineEnvironment,
         );
@@ -456,8 +452,8 @@ export async function runJourney(
     checkSha = attempt(
       "check-online-locked",
       () => {
-        const outcome = run(
-          ["check", project, "--locked", "--no-input", "--format", "json"],
+        const outcome = check(
+          ["check", project, "--locked", "--format", "json"],
           project,
           onlineEnvironment,
         );
@@ -467,42 +463,39 @@ export async function runJourney(
       (sha) => `sha256:${sha}`,
     );
 
-    attempt("store-removed-cache-restores", () => {
+    attempt("supplied-dialects-never-install", () => {
       rmSync(join(home, "dialects"), { force: true, recursive: true });
       run(
         ["init", project, "--locked", "--offline", "--no-input", "--format", "json"],
         project,
         offlineEnvironment,
       );
-      requireStoreMarkers(home, entries);
+      if (existsSync(join(home, "dialects"))) {
+        throw new Error("supplied Dialects must never materialize in the store");
+      }
       if (!lockBody(project).equals(expectedLock)) {
-        throw new Error("cache-restored init --locked changed the lock");
+        throw new Error("offline init --locked changed the lock");
       }
     });
 
     const vendorDirectory = join(project, ".rootform", "dialects");
-    const vendorDigest = attempt(
-      "vendor-dialects-offline",
-      () => {
-        run(["vendor", "dialects", "--offline"], project, offlineEnvironment);
-        for (const entry of entries) {
-          const installed = join(vendorDirectory, entry.name);
-          if (!existsSync(installed) || !lstatSync(installed).isDirectory()) {
-            throw new Error(`vendored dialect is missing: ${entry.name}`);
-          }
-        }
-        return treeDigest(vendorDirectory);
-      },
-      (digestValue) => `tree sha256:${digestValue}`,
-    );
-
-    const stale = join(vendorDirectory, "stale.injected");
-    attempt("vendor-swap-removes-stale", () => {
-      writeFileSync(stale, "stale injected content\n");
-      run(["vendor", "dialects", "--offline"], project, offlineEnvironment);
-      if (existsSync(stale)) throw new Error("vendor did not remove the injected stale file");
-      if (treeDigest(vendorDirectory) !== vendorDigest) {
-        throw new Error("revendored tree differs from the original vendored tree");
+    attempt("empty-dialect-vendor-rejected", () => {
+      const outcome = Bun.spawnSync({
+        cmd: [arguments_.binary, "vendor", "dialects", "--offline"],
+        cwd: project,
+        env: { ...process.env, ...offlineEnvironment },
+        stderr: "pipe",
+        stdout: "pipe",
+      });
+      if (outcome.exitCode !== 3) {
+        const output = redact(
+          `${outcome.stdout.toString("utf8")}\n${outcome.stderr.toString("utf8")}`,
+          redactions,
+        );
+        throw new Error(`empty Dialect vendor exit ${outcome.exitCode}: ${output.trim()}`);
+      }
+      if (existsSync(vendorDirectory)) {
+        throw new Error("vendor created a supplied-Dialect tree");
       }
     });
 
@@ -510,26 +503,12 @@ export async function runJourney(
     attempt(
       "offline-build-without-credentials",
       () => {
-        run(
-          [
-            "build",
-            project,
-            "--locked",
-            "--offline",
-            "--no-input",
-            "--format",
-            "json",
-            "--output",
-            offlineBuild,
-          ],
-          project,
-          {
-            ...offlineEnvironment,
-            ROOTFORM_HOME: freshHome,
-          },
-        );
+        run(["build", project, "--locked", "--format", "json", "--output", offlineBuild], project, {
+          ...offlineEnvironment,
+          ROOTFORM_HOME: freshHome,
+        });
         if (!readFileSync(onlineBuild).equals(readFileSync(offlineBuild))) {
-          throw new Error("offline build output differs from the registry-backed build output");
+          throw new Error("offline build output differs from supplied release-set output");
         }
         if (!lockBody(project).equals(expectedLock)) {
           throw new Error("offline --locked build changed the lock");
@@ -540,19 +519,15 @@ export async function runJourney(
     );
 
     attempt("offline-check-without-credentials", () => {
-      const outcome = run(
-        ["check", project, "--locked", "--offline", "--no-input", "--format", "json"],
-        project,
-        {
-          ...offlineEnvironment,
-          ROOTFORM_HOME: freshHome,
-        },
-      );
+      const outcome = check(["check", project, "--locked", "--format", "json"], project, {
+        ...offlineEnvironment,
+        ROOTFORM_HOME: freshHome,
+      });
       if (outcome.stdout !== onlineCheck) {
-        throw new Error("offline check output differs from the registry-backed check output");
+        throw new Error("offline check output differs from supplied release-set output");
       }
-      if (readdirSync(freshHome).length !== 0) {
-        throw new Error("vendored offline commands mutated the empty Rootform home");
+      if (existsSync(join(freshHome, "dialects"))) {
+        throw new Error("offline check installed supplied Dialects");
       }
     });
 
@@ -563,31 +538,24 @@ export async function runJourney(
       };
       const listed = JSON.parse(
         run(["list", "dialects", "--format", "json"], project, environment).stdout,
-      ) as { execution_source?: unknown; name?: unknown; version?: unknown }[];
-      const actual = listed
-        .map((entry) => ({
-          executionSource: entry.execution_source,
-          name: entry.name,
-          version: entry.version,
-        }))
-        .sort((left, right) => String(left.name).localeCompare(String(right.name), "en"));
-      const expected = entries
-        .map((entry) => ({ executionSource: "vendor", ...entry }))
-        .sort((left, right) => left.name.localeCompare(right.name, "en"));
-      if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-        throw new Error("offline vendored dialect listing differs from rootform.lock");
+      ) as { name?: unknown; origin?: unknown; version?: unknown }[];
+      const names = listed.map((entry) => String(entry.name ?? ""));
+      if (!names.includes("aws") || names.includes("core")) {
+        throw new Error("effective Dialect catalog lost AWS or retained legacy core");
       }
-      const selected = entries.find((entry) => entry.name === "aws") ?? entries[0];
-      if (!selected) throw new Error("rootform.lock has no dialect to inspect");
+      for (const entry of listed) {
+        if (typeof entry.name !== "string" || typeof entry.version !== "string") {
+          throw new Error("dialect listing lost name or version");
+        }
+        if (entry.origin !== "supplied") {
+          throw new Error("supplied Dialect listing has another origin");
+        }
+      }
       const shown = JSON.parse(
-        run(["show", "dialect", selected.name, "--format", "json"], project, environment).stdout,
-      ) as { execution_source?: unknown; name?: unknown; version?: unknown };
-      if (
-        shown.name !== selected.name ||
-        shown.version !== selected.version ||
-        shown.execution_source !== "vendor"
-      ) {
-        throw new Error("offline vendored dialect inspection differs from rootform.lock");
+        run(["show", "dialect", "aws", "--format", "json"], project, environment).stdout,
+      ) as { name?: unknown; origin?: unknown; version?: unknown };
+      if (shown.name !== "aws" || shown.origin !== "supplied") {
+        throw new Error("embedded supplied Dialect inspection drifted");
       }
     });
 
@@ -603,13 +571,8 @@ export async function runJourney(
           project,
           environment,
         ).stdout,
-      ) as { execution_source?: unknown; name?: unknown; version?: unknown }[];
-      if (
-        listed.length !== 1 ||
-        listed[0]?.name !== "baseline" ||
-        listed[0]?.version !== "0.1.0" ||
-        listed[0]?.execution_source !== "local"
-      ) {
+      ) as { name?: unknown; version?: unknown }[];
+      if (listed.length !== 1 || listed[0]?.name !== "baseline" || listed[0]?.version !== "0.1.0") {
         throw new Error("local Policy Pack listing differs from the versioned baseline pack");
       }
       const shown = JSON.parse(
@@ -619,7 +582,6 @@ export async function runJourney(
           environment,
         ).stdout,
       ) as {
-        execution_source?: unknown;
         name?: unknown;
         policies?: unknown;
         version?: unknown;
@@ -627,44 +589,12 @@ export async function runJourney(
       if (
         shown.name !== "baseline" ||
         shown.version !== "0.1.0" ||
-        shown.execution_source !== "local" ||
         !Array.isArray(shown.policies) ||
         shown.policies.length !== 2
       ) {
         throw new Error("local Policy Pack inspection differs from the versioned baseline pack");
       }
     });
-
-    await attemptAsync(
-      "offline-run-without-credentials",
-      () =>
-        probeRun(
-          arguments_.binary,
-          [
-            "run",
-            project,
-            "--locked",
-            "--offline",
-            "--no-input",
-            "--no-browser",
-            "--no-watch",
-            "--port",
-            "0",
-          ],
-          {
-            cwd: project,
-            environment: {
-              ...offlineEnvironment,
-              ROOTFORM_HOME: freshHome,
-            },
-            redactions,
-          },
-        ),
-      (address) => address.replace(/:\d+$/u, ":<ephemeral>"),
-    );
-    if (readdirSync(freshHome).length !== 0) {
-      throw new Error("vendored offline journey mutated the empty Rootform home");
-    }
   } catch (error) {
     if (error instanceof JourneyError) throw error;
     const raw = error instanceof Error ? error.message : String(error);
@@ -681,17 +611,17 @@ export async function runJourney(
   return {
     binary: basename(arguments_.binary),
     check_sha256: checkSha,
-    lock_recreated_byte_identical: true,
+    lock_absence_preserved: true,
     lock_unchanged: true,
+    empty_vendor_rejected: true,
     offline_inspection_no_credentials: true,
-    offline_from_vendor_no_credentials: true,
-    offline_run_no_credentials: true,
     online_offline_identical: true,
     passed: true,
     local_policy_pack_inspection: true,
     steps,
+    supplied_dialects_not_installed: true,
+    supplied_release_set_offline: true,
     target: arguments_.target,
-    vendor_swap_removed_stale: true,
     version,
   };
 }
@@ -724,17 +654,17 @@ async function main(): Promise<void> {
     evidence = {
       binary: basename(parsed.binary),
       check_sha256: null,
-      lock_recreated_byte_identical: false,
+      lock_absence_preserved: false,
       lock_unchanged: false,
+      empty_vendor_rejected: false,
       offline_inspection_no_credentials: false,
-      offline_from_vendor_no_credentials: false,
-      offline_run_no_credentials: false,
       online_offline_identical: false,
       passed: false,
       local_policy_pack_inspection: false,
       steps,
+      supplied_dialects_not_installed: false,
+      supplied_release_set_offline: false,
       target: parsed.target,
-      vendor_swap_removed_stale: false,
       version: null,
     };
     process.stderr.write(

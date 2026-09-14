@@ -36,6 +36,6 @@ declaration was interpreted, or why a policy produced a result.
 
 ```sh
 rootform explain architecture google_sql_database_instance.main
-rootform explain semantics google/cloud-sql-instance
-rootform explain policy baseline/private-database-reachability
+rootform explain semantics google.rule.cloud-sql-instance
+rootform explain policy baseline.policy.cluster-network-context
 ```

@@ -1,4 +1,0 @@
-concept "access-binding" {
-  kind        = detail
-  description = "An access-control declaration attached to a data resource."
-}

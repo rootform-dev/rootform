@@ -1,269 +1,214 @@
 ---
-title: "Rules"
-description: "Reference for source matching, predicates, architecture facts, value matching, and composition."
+title: "Rules and matching"
+description: "Complete reference for Rule declarations, source matching, all match kinds, classification, and selection precedence."
 ---
 
-A `rule` recognizes one source declaration, assigns one concept, and can emit
-architecture facts or collect supporting declarations into a composition.
+A Rule interprets one normalized source declaration. Successful application
+adds Rule identity, may add optional Concept classification, and may emit
+architecture facts or claim composition members.
 
-```hcl title="rule.rf"
-rule "subnet" {
+## Complete example
+
+```hcl title="reference/dialect.rf"
+dialect "example" {
+  version = "0.1.0"
+
+  provider "hashicorp/example" {
+    version = ">= 1.0.0, < 2.0.0"
+  }
+}
+
+concept "application" {
+  description = "A deployable application."
+}
+
+rule "web-service" {
   match {
-    type = "aws_subnet"
+    kind  = "resource"
+    type  = "example_service"
+    where = source.enabled == true && source.replicas >= 2
   }
 
-  as = concept.core.subnet
-
-  context {
-    as  = context.core.network
-    to  = concept.core.virtual-network
-    via = source.vpc_id
-  }
+  as = concept.application
 }
 ```
 
-## Rule block
+## `rule` block
 
-| Item | Cardinality | Value |
+| Property | Contract |
+| --- | --- |
+| Placement | Top level of a Dialect source root |
+| Cardinality | Zero or more |
+| Labels | Exactly one required Rule name |
+| Attributes | Optional `as` |
+| Nested blocks | Exactly one `match`; zero or more emissions; zero or one `composition` |
+
+### Parameters
+
+| Name | Type | Required | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| Label | Identifier | Yes | None | Lowercase kebab case, 1-64 bytes; unique within Dialect |
+| `as` | Concept reference | No | No Concept | Local/current-owner or supported `rf.concept.*` reference |
+
+### Nested blocks
+
+| Block | Cardinality | Purpose |
 | --- | --- | --- |
-| Label | exactly 1 | Rule name; lower kebab case |
-| `match` | exactly 1 block | Initial source selector |
-| `as` | exactly 1 attribute | Local or directly required concept reference |
-| `context` | 0 or more blocks | Context facts |
-| `contribution` | 0 or more blocks | Contribution facts |
-| `relation` | 0 or more blocks | Directional relation facts |
-| `composition` | 0 or 1 block | Ordered supporting members |
+| `match` | Exactly 1 | Select source declarations |
+| `context` | 0 or more | Emit directed Context facts |
+| `relation` | 0 or more | Emit directed Relation facts |
+| `contribution` | 0 or more | Emit directed Contribution facts |
+| `composition` | 0 or 1 | Claim ordered implementation members |
 
-Rule identity is `<dialect>/<rule>`. Two rules that safely match the same
-source declaration are not merged; architecture compilation reports
-`AMBIGUOUS_RULE_MATCH`.
+A Rule must provide architecture meaning through at least one of:
 
-## Initial `match`
+- `as`;
+- one or more emissions;
+- a nonempty `composition`.
 
-```hcl title="rule.rf"
+A match-only Rule is invalid with `RULE_NO_ARCHITECTURE`. A Rule has no
+`description` attribute. Its name and source type do not implicitly create a
+Concept.
+
+## `match` block
+
+```hcl title="match block"
 match {
   kind  = "resource"
-  type  = "google_compute_global_forwarding_rule"
-  where = source.load_balancing_scheme == "EXTERNAL"
+  type  = "example_service"
+  where = source.enabled == true && source.replicas >= 2
 }
 ```
 
-| Attribute | Required | Value |
-| --- | --- | --- |
-| `kind` | no | Closed declaration kind; defaults to `resource` |
-| `type` | yes | Nonempty literal adapter type |
-| `where` | no | Boolean source predicate |
-
-Accepted `kind` values:
-
-| Value | Source declaration category |
+| Property | Contract |
 | --- | --- |
-| `settings` | Terraform/OpenTofu settings block |
-| `provider` | Provider configuration |
-| `resource` | Managed resource |
-| `data` | Data source |
-| `ephemeral` | Ephemeral resource |
-| `action` | Action declaration |
-| `module` | Module call |
-| `variable` | Input variable |
-| `local` | Local value |
-| `output` | Output value |
-| `moved` | Moved declaration |
-| `removed` | Removed declaration |
-| `import` | Import declaration |
-| `check` | Check declaration |
-| `language` | Language-settings declaration |
+| Placement | Exactly once inside `rule`; exactly once inside each composition `member` |
+| Cardinality | Exactly one at either placement |
+| Labels | Forbidden |
+| Attributes | `kind`, `type`, `where` |
+| Nested blocks | None |
 
-These values classify declarations visible through the source adapter. They do
-not expose authoring modules, variables, imports, or checks inside `.rf`.
-There is one block syntax. Scalar forms such as `match = "aws_subnet"` are
-invalid. Composition member matches use the same `resource` default.
+### Parameters
 
-### Where predicate
+| Name | Type | Required | Default | Constraints |
+| --- | --- | --- | --- | --- |
+| `kind` | Static string enum | No | `"resource"` | One of 15 values below |
+| `type` | Static string | Yes | None | Nonempty, exact adapter-owned declaration type |
+| `where` | Predicate expression | No | Equivalent to known `true` | Must follow [predicate grammar](expressions.md#predicate-expressions) |
 
-A predicate must produce a Boolean from:
+`type` is case-sensitive and exact. RF does not glob, prefix-match, or infer
+it from Rule name.
 
-- `true` or `false`;
-- `!`, `&&`, and `||` over Boolean predicate expressions;
-- `==` or `!=` between compatible string, Boolean, or integer operands;
-- `<`, `<=`, `>`, or `>=` between integer operands;
-- literal operands and `source` traversals.
+## `match.kind` values
 
-```hcl title="rule.rf"
-where = source.enabled == true && source.mode == "private" && source.priority >= 10
-```
+Set is closed. Dialects cannot introduce new kinds.
 
-Calls, concept references, context references, other traversal roots, and bare
-non-Boolean values are invalid in a rule predicate. Missing, unknown, or
-incompatible source evidence does not become a match. See
-[Evaluation](evaluation.md) for unknown behavior.
-
-## Context fact
-
-```hcl title="rule.rf"
-context {
-  as  = context.core.network
-  to  = concept.core.virtual-network
-  via = source.vpc_id
-}
-```
-
-| Attribute | Required | Value |
+| Value | Normalized source construct | Automatic base representation |
 | --- | --- | --- |
-| `as` | yes | Local or directly required context definition |
-| `to` | yes | Target concept of kind `entity` or `scope` |
-| `via` | yes | `source` or `provider` traversal |
-| nested `match` | no | Explicit value matching configuration |
+| `settings` | Terraform/OpenTofu `terraform` settings block | No |
+| `provider` | Provider configuration | No |
+| `resource` | Managed resource | Yes |
+| `data` | Data source | No |
+| `ephemeral` | Ephemeral resource | No |
+| `action` | Action block | No |
+| `module` | Module call | No |
+| `variable` | Input variable | No |
+| `local` | Individual local value | No |
+| `output` | Output value | No |
+| `moved` | Moved declaration | No |
+| `removed` | Removed declaration | No |
+| `import` | Import declaration | No |
+| `check` | Check block | No |
+| `language` | OpenTofu `language` settings block | No |
 
-The rule's representation becomes the context source. `as` names the placement
-dimension. `to` constrains the target representation's concept. A successful
-`via` resolution establishes the fact; unresolved evidence remains explicit.
+Current Terraform and OpenTofu adapters expose a nonempty declaration
+`type` for managed resources, data sources, ephemeral resources, and actions.
+Other kinds remain part of RF's closed kind vocabulary but require source
+adapter evidence with a nonempty type before a Rule can match them.
 
-## Contribution fact
+Only `resource` receives a base representation without a Rule. Every other
+kind receives a representation only after one Rule applies successfully.
+Therefore resource coverage and Rule coverage are different measurements.
 
-```hcl title="rule.rf"
-contribution {
-  to  = concept.core.kubernetes-cluster
-  via = source.cluster_id
-}
+## Classification with `as`
+
+```hcl title="optional Concept classification"
+as = concept.application
+as = rf.concept.virtual-network
 ```
 
-| Attribute | Required | Value |
+`as` attaches exactly one Concept to representation. It is optional when Rule
+emits facts or has composition. RF has no Concept inference, inheritance, union,
+or list classification.
+
+Local reference resolves only in current Dialect. Qualified reference may name
+current owner or an available [RF Vocabulary](rf-vocabulary.md) Concept.
+
+## Eligibility pipeline
+
+For each source declaration and Rule, Rootform evaluates:
+
+1. `kind` equality;
+2. exact `type` equality;
+3. declared provider source compatibility;
+4. exact provider version compatibility when exact evidence exists;
+5. optional `where` predicate.
+
+Kind, type, or unrelated provider-source mismatch rejects candidate silently.
+Missing provider identity can be indeterminate when Dialect has a compatible
+provider envelope. Known exact version outside envelope marks candidate
+incompatible. Unknown predicate input never becomes `false`; candidate is
+indeterminate.
+
+## Selection precedence
+
+After all candidate Rules are classified for one declaration, outcome uses this
+precedence:
+
+| Priority | Condition | Result |
 | --- | --- | --- |
-| `to` | yes | Target concept of kind `entity` or `scope` |
-| `via` | yes | `source` or `provider` traversal |
-| nested `match` | no | Explicit value matching configuration |
+| 1 | More than one accepted Rule | `AMBIGUOUS_RULE_MATCH`; no Rule applies |
+| 2 | Any predicate-indeterminate candidate | `PREDICATE_UNRESOLVED`; no Rule applies |
+| 3 | Any provider-unresolved candidate | `PROVIDER_IDENTITY_UNRESOLVED`; no Rule applies |
+| 4 | Exactly one accepted Rule | Rule applies |
+| 5 | One or more version-incompatible candidates | `PROVIDER_VERSION_INCOMPATIBLE`; no Rule applies |
+| 6 | No candidate remains | No Rule applies, without match diagnostic |
 
-The rule's `as` concept must be `detail`. A contribution attaches that detail
-to a target representation; it does not create a relation between two
-standalone components.
+This precedence means one accepted Rule is not selected around a predicate or
+provider uncertainty. Version-incompatible candidates do not block a sole
+accepted Rule because accepted selection has higher precedence. There is no
+priority by file order, package origin, or Rule name.
 
-## Local relation
+See [Evaluation](evaluation.md#rule-selection) for representation and policy
+effects.
 
-```hcl title="rule.rf"
-relation "private-reachability" {
-  to  = concept.core.virtual-network
-  via = source.private_network
+## Rejected forms
+
+This complete source has a match-only Rule:
+
+```hcl title="invalid/match-only.rf"
+dialect "example" {
+  version = "0.1.0"
+
+  provider "hashicorp/example" {
+    version = ">= 1.0.0"
+  }
 }
-```
 
-| Item | Required | Value |
-| --- | --- | --- |
-| Label | yes | Local predicate name; lower kebab case |
-| `to` | yes | Target concept of kind `entity` or `scope` |
-| `via` | yes | `source` or `provider` traversal |
-| nested `match` | no | Explicit value matching configuration |
-
-The rule's `as` concept must also be `entity` or `scope`. Direction runs from
-the rule's representation to resolved target. Label always introduces and
-uses `<current-dialect>/private-reachability`; an imported homonym never changes
-that resolution.
-
-## Shared relation
-
-Declare vocabulary once at Dialect scope only when several Dialects should use
-same predicate:
-
-```hcl title="relations.rf"
-relation "private-reachability" {
-  description = "Private network reachability."
-}
-```
-
-Reference it explicitly from an unlabelled rule emission:
-
-```hcl title="rule.rf"
-relation {
-  as  = relation.core.private-reachability
-  to  = concept.core.virtual-network
-  via = source.private_network
-}
-```
-
-Owner must be current Dialect or direct requirement. Label plus `as` is
-invalid. Predicate identity is `owner/name`; producer rule, emission, package
-version, endpoints, and provenance remain separate. Several rules may emit
-same predicate with different source/target concept pairs. Inspection lists
-each producer shape; shared name does not claim those pairs are equivalent.
-
-## Fact-level `match`
-
-Use a nested match when `via` yields a scalar identity rather than a direct
-source reference:
-
-```hcl title="rule.rf"
-context {
-  as  = context.network
-  to  = concept.subnet
-  via = source.network
-
+rule "no-architecture" {
   match {
-    by       = target.name
-    strategy = "exact"
+    type = "example_service"
   }
 }
 ```
 
-| Attribute | Required | Value |
-| --- | --- | --- |
-| `by` | yes | `target` traversal with at least one path step |
-| `strategy` | yes | Literal `"exact"` or `"dot-ancestor"` |
+It produces `RULE_NO_ARCHITECTURE`.
 
-When fact-level `match` exists, `via` must begin at `source`; `provider` is not
-accepted. `exact` compares known scalar values for equality.
-`dot-ancestor` also accepts a target value followed by `.` as an ancestor of
-the source value. Ambiguous matches do not become arbitrary facts.
+A bare traversal is not a Boolean predicate:
 
-## Composition
-
-A composition gathers linked source declarations into the representation
-created by the parent rule:
-
-```hcl title="rule.rf"
-composition {
-  member "tls-proxy" {
-    via = source.target
-
-    match {
-      kind = "resource"
-      type = "google_compute_target_https_proxy"
-    }
-  }
-
-  member "routing" {
-    via = member.tls-proxy.url_map
-
-    match {
-      kind = "resource"
-      type = "google_compute_url_map"
-    }
-  }
-}
+```hcl title="invalid predicate"
+where = source.enabled
 ```
 
-| Composition item | Cardinality | Value |
-| --- | --- | --- |
-| `member` | 0 or more blocks | Ordered supporting declaration definition |
-| Other attributes or blocks | none | Rejected |
-
-An empty composition records no supporting members and has no useful authoring
-outcome; omit it. Useful compositions declare at least one member. Each member
-has:
-
-| Member item | Cardinality | Value |
-| --- | --- | --- |
-| Label | exactly 1 | Unique lower-kebab member name |
-| `via` | exactly 1 | `source` or earlier `member.<name>` traversal |
-| `match` | exactly 1 | `type`, optional `kind` (default `resource`), and optional `where` |
-
-Order is part of the contract. `source` means the declaration matched by the
-parent rule. `member.name` must name a member already declared above the current
-member. `provider`, `target`, forward references, and self references are
-invalid as composition links.
-
-A composition changes declaration accounting: member sources support one
-representation. It does not create a new concept, context, or generic visual
-group.
-
-See [Traversals and scope](traversals.md) for path syntax and
-[Expressions](expressions.md) for predicate operators.
+Use an explicit comparison such as `source.enabled == true`. Bare traversal
+produces `PREDICATE_UNRESOLVED`.

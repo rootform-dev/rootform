@@ -20,10 +20,11 @@ export type CandidateEvidence = {
   artifacts: ArtifactEvidence[];
   checksums: string;
   componentCount: number;
-  dialectCommit: string;
   distributionCommit: string;
   handoffSha256: string;
   licenseSpdx: string;
+  releaseSetSha256: string;
+  releaseSetVersion: string;
   releaseUrl: string;
   runUrl: string;
   version: string;
@@ -67,7 +68,10 @@ function mebibytes(bytes: number): string {
 function validateEvidence(value: CandidateEvidence): CandidateEvidence {
   const version = normalizeVersion(value.version);
   string(value.distributionCommit, "distribution commit", /^[0-9a-f]{40}$/u);
-  string(value.dialectCommit, "Dialects commit", /^[0-9a-f]{40}$/u);
+  string(value.releaseSetSha256, "release-set manifest digest", /^[0-9a-f]{64}$/u);
+  if (!/^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$/u.test(value.releaseSetVersion)) {
+    throw new Error("release-set version is invalid");
+  }
   string(value.handoffSha256, "handoff digest", /^[0-9a-f]{64}$/u);
   if (value.licenseSpdx !== "Elastic-2.0") throw new Error("binary license is invalid");
   if (!Number.isSafeInteger(value.componentCount) || value.componentCount < 1) {
@@ -144,7 +148,7 @@ export function renderCandidateEvidence(input: CandidateEvidence): string {
 | Opaque handoff | Authenticated two-asset input · \`${short(evidence.handoffSha256)}\` |
 | Executable integrity | Raw bytes preserved across every archive |
 | Product exercises | 5 deterministic Terraform/OpenTofu examples |
-| Dialects compatibility | Complete official matrix · \`${short(evidence.dialectCommit)}\` |
+  | Release set | \`release-set:${short(evidence.releaseSetSha256)}\` · v${evidence.releaseSetVersion} |
 | Licensing | ${evidence.licenseSpdx} · ${evidence.componentCount} inventoried components |
 | Final assets | Canonical inventory and checksums reverified |
 
@@ -181,15 +185,17 @@ function readEvidence(options: {
   }
   const distribution = object(manifest.distribution, "release distribution");
   const handoff = object(manifest.handoff, "release handoff");
-  const compatibility = object(manifest.compatibility, "release compatibility");
-  const dialects = object(compatibility.dialects, "release Dialects compatibility");
+  const releaseSet = object(manifest.release_set, "release set");
   const license = object(manifest.license, "release license");
   const binary = object(license.binary, "release binary license");
   const notices = object(license.third_party_notices, "release third-party notices");
   if (
     distribution.repository !== "rootform-dev/rootform" ||
-    dialects.repository !== "rootform-dev/dialects" ||
-    dialects.scope !== "complete-official-matrix" ||
+    releaseSet.id !== `release-set:${String(releaseSet.manifest_sha256 ?? "")}` ||
+    !/^[0-9a-f]{64}$/u.test(String(releaseSet.manifest_sha256 ?? "")) ||
+    !/^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$/u.test(
+      String(releaseSet.version ?? ""),
+    ) ||
     binary.status !== "licensed" ||
     binary.public_release_allowed !== true
   ) {
@@ -214,10 +220,11 @@ function readEvidence(options: {
     artifacts,
     checksums: readFileSync(join(options.release, "SHA256SUMS"), "utf8"),
     componentCount: Number(notices.component_count),
-    dialectCommit: String(dialects.commit ?? ""),
     distributionCommit: String(distribution.commit ?? ""),
     handoffSha256: String(handoff.bundle_sha256 ?? ""),
     licenseSpdx: String(binary.spdx ?? ""),
+    releaseSetSha256: String(releaseSet.manifest_sha256 ?? ""),
+    releaseSetVersion: String(releaseSet.version ?? ""),
     releaseUrl: options.releaseUrl,
     runUrl: options.runUrl,
     version,

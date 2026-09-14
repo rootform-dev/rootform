@@ -2,8 +2,8 @@
 
 An insurance claims platform on Azure uses Event Grid, Service Bus, Functions,
 Container Apps, Cosmos DB, private storage, and shared observability.
-`head` is the Architecture scenario shown in the Playground. The Diff scenario
-compares `base` with `head`.
+Both `base` and `head` build into Architecture IR, and the Diff compares the
+two documents.
 
 Both sides build statically. No Azure account, credentials, provider
 process, plan, or state is required.
@@ -31,20 +31,26 @@ process, plan, or state is required.
   topics. The system topic on `stclaimsdocs` fans blob events out through
   separate subscriptions to Functions, Service Bus, Event Hubs, and the
   storage queue.
-- Edge and observability: API Management is the public entry entity.
+- Edge and observability: API Management is the public entry point.
   Application Insights sends telemetry to `log-claims-prod`; the Container
   Apps environment uses its own workspace in `head`.
 
-## What to look at
+## Reading the facts
 
-- Survey: compare resource-group, virtual-network, messaging-namespace,
-  Event Grid domain, service-plan, and Container Apps environment scopes.
-- Plan: follow the system topic subscriptions to their Function, queue, topic,
-  event-stream, and storage destinations.
-- Focus on `evgs-docs-fraud-scoring`: it subscribes to the document system
-  topic and delivers to `func-fraud-scoring`, which runs in
-  `snet-functions` on `asp-claims-fraud` and reports through Application
-  Insights.
+The generated documents are the source of truth for this scenario, and each
+entry can be checked against the Terraform source and the Dialect Rule that
+produced it.
+
+- Ownership context: resources point to their Azure resource groups, topics
+  point to namespaces or domains, and subscriptions point to exact topics.
+- Network and runtime context: `func-fraud-scoring` points to
+  `snet-functions` and `asp-claims-fraud`.
+- Relation: system topic subscriptions point to their topic and to Function,
+  Service Bus, Event Hubs, or storage-queue destinations;
+  `evgs-docs-fraud-scoring` subscribes to the document system topic and
+  delivers to `func-fraud-scoring`.
+- Provenance: every entry derives from a Dialect Rule and a Terraform
+  reference, so any fact can be traced back to the source that produced it.
 
 ## Diff: from polling to events
 
@@ -67,32 +73,30 @@ reports the queue and workspace switches as removed and added facts.
 
 ## Modeling notes
 
-Every context and relation comes from a Dialect rule and a direct Terraform
-reference. Event Grid domain topics and system topics are scopes. A system
-topic subscription is owned by its exact system topic and exposes both that
-source and supported destinations. Generic Event Grid subscriptions expose
-destination relations but no source-topic relation because `scope` accepts
-multiple Azure resource kinds while the language requires one target concept.
-Storage queue delivery resolves to the storage account represented by the
-rule; the queue remains owned by that account. Service Bus topics are scopes
-owned by their namespace, and subscriptions are owned by their exact topic.
-API Management does not expose a backend relation here, so it remains an owned
-entry entity.
+Every fact comes from a Dialect Rule and direct Terraform evidence. These
+scenarios establish no composition memberships. Event Grid domain topics,
+system topics, Service Bus topics, queues, and subscriptions use ownership
+contexts instead.
+
+A system topic subscription has an ownership context pointing to its exact
+topic and relations for source and supported destinations. Generic Event Grid
+subscriptions expose destination relations but no source-topic relation because
+source field can identify several Azure resource types while one emission
+target must be typed explicitly. API Management carries no backend relation to
+a workload here.
 
 ## Dialects and build
 
-Dialect sources vendored from
-rootform-dev/dialects@8e0df6aa12323e100d63cbc071f8225439fc795d (semantics not
-yet published to the official index). Each project keeps the `azure` and
-`core` sources under `.rootform/dialects/` with the MPL-2.0 license, and
-`rootform.lock` pins their digests.
+The `azure` Dialect belongs to the Rootform release set and is embedded in the
+binary. Shared definitions come from the embedded RF Vocabulary, not another
+Dialect. Supplied units are never vendored, installed, or indexed separately,
+so this scenario needs no preparation command and no lock to build.
 
 From each project directory:
 
 ```sh
 terraform init -backend=false && terraform validate
-rootform init . --locked --no-input
-rootform build . --locked --offline --no-input --output architecture.json
+rootform build . --output architecture.json
 ```
 
 Then compare the two documents:

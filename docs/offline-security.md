@@ -1,162 +1,128 @@
 ---
 title: "Locks, sources, vendor, and offline operation"
-description: "Understand how Rootform fixes interpretation, verifies package identity, and runs without a registry."
+description: "Fix Dialect and Policy Pack selection, verify exact bytes, and execute without discovery."
 ---
 
-An architecture depends on its source and the rules used to interpret it. Two
-engineers using different Dialects can reach different architectural results
-from the same Terraform. Rootform separates **selection**, **verified bytes**,
-and **network access** so you can control each part.
+Rootform separates supplied release set, explicit project selection, verified
+bytes, and network acquisition.
 
-## A source offers packages; a lock selects them
+## Release set and project lock
 
-A package source is an OCI artifact or index reference used during preparation.
-The official Dialect index supports discovery. You can add an explicit Dialect
-artifact or index with `init --source`; Policy Packs require an explicit direct
-artifact reference through `init --policy-pack`.
+Rootform binary embeds RF Vocabulary and supplied Dialects as one immutable
+release set. They need no install and never appear as ordinary project pins. A
+project that uses only supplied content needs no lock, no init, and no network
+access. See [Dialects and RF Vocabulary](concepts/dialects.md).
 
-A tag is useful for finding a release, but it is not its final identity.
-Initialization resolves the selection and records exact versions, content
-identities, artifact repositories, manifest and layer digests, and sizes in
-`rootform.lock`. These pins let another machine verify what it downloaded.
+`rootform.lock` format 1 selects only explicit changes:
 
-A **manifest digest** identifies an OCI manifest; a **layer digest** identifies
-its payload bytes. Semantic and presentation digests identify different parts
-of a Dialect. They are not interchangeable hashes. For example, changing OCI
-provenance annotations can change a manifest digest without changing its layer.
+- additional third-party Dialects;
+- whole-owner exclusions or replacements of supplied Dialects;
+- Policy Pack sources.
 
-Commit the reviewed project lock alongside your source. Do not copy one from an
-unrelated project or hand-edit a version to request an upgrade. Rootform rejects
-conflicting source identities instead of assigning implicit source priority.
+Each selected entry records exact owner or pack name, version, content digest,
+and local or OCI source. OCI source includes tagless repository, manifest
+digest, layer digest, download size, and install size. No mutable tag or index
+participates in execution.
 
-## Choose what must stay fixed
+Rootform commands never create or modify the lock.
+[Add a third-party Dialect or Policy Pack](guides/external-content.md) defines
+the entry shape. `rootform init` validates the existing lock; with
+`--locked`, a missing lock fails. When an exact OCI pin is missing locally
+and network is allowed, init may acquire only the recorded manifest digest.
 
-| Control | What it fixes | What it still permits |
-| --- | --- | --- |
-| Existing `rootform.lock` | The project's recorded selection. | Explicit reviewed initialization can update it. |
-| `--locked` | Requires the lock and preserves its bytes. | Downloading a missing artifact at its exact locked identity. |
-| `--offline` | Prevents network access. | Reading verified local packages and cached discovery data. |
-| `--no-input` | Prevents prompts and ambiguous choices. | A unique deterministic first selection; it does not imply offline. |
+## Controls
 
-Combine `--locked --offline --no-input` when a run must preserve selection,
-use only local material, and never prompt. Missing material is then a failure,
-not permission to fetch a substitute.
+| Control | Scope |
+| --- | --- |
+| `init --locked` | Require valid existing lock; preserve bytes; acquire exact missing OCI pins if allowed |
+| `init --offline` | Forbid registry access during preparation |
+| `init --no-input` | Forbid prompts; no effect on selection |
+| `vendor … --offline` | Materialize only verified local/cache bytes |
+| `build/check/run --locked` | Require lock and execute without acquisition |
 
-A normal directory command can initialize a missing lock and resume its work.
-With no input allowed, it never silently rewrites an existing lock. Use the
-explicit initialization command reported in its diagnostic to review an update.
+Build, check, run, diff, explain, list, show, validate, and test perform no
+network acquisition and no prompt. Prepare first with `init` or vendor.
 
-## Where verified packages live
+## Locations
 
-The Rootform home normally lives at `~/.rootform/` (under the Windows user
-profile on Windows). `ROOTFORM_HOME` replaces that directory. It contains
-verified local Dialects, Policy Packs, and registry cache. Project vendoring is
-separate from this shared home.
+Shared home:
 
-Vendoring materializes exact locked packages under the project:
-
-```text title="Package locations"
-.rootform/dialects/
-.rootform/policy-packs/
+```text title="Rootform home"
+$ROOTFORM_HOME/dialects/<owner>/<version>/
+$ROOTFORM_HOME/policy-packs/<name>/<version>/
 ```
 
-Each directory is an **exclusive execution source when present**. A missing or
-modified vendored file does not trigger a fallback to an installed store or a
-registry. Dialects and Policy Packs have separate vendor directories; vendoring
-one does not vendor the other.
+Project vendor:
 
-Use `vendor dialects` or `vendor policy-packs` explicitly to populate or repair
-those directories from the lock. These commands do not select newer versions
-or rewrite the lock. They can recover exact artifacts from recorded repositories
-unless `--offline` forbids it. Failed integrity or acquisition does not leave a
-partly installed package as a successful result.
+```text title="Project vendor"
+.rootform/dialects/<owner>/<version>/
+.rootform/policy-packs/<name>/<version>/
+```
 
-## When each mechanism helps
+Third-party and replacement Dialects install under the shared home; Policy Pack
+sources install under `$ROOTFORM_HOME/policy-packs`. When one project vendor
+family exists it is exclusive for that family. Missing or modified content
+never falls back to shared home or registry. RF Vocabulary and supplied
+Dialects are embedded and never installed or vendored.
 
-Use a lock when teammates or later builds must interpret source the same way.
-Use a prepared home when several local projects can reuse verified packages.
-Vendor when a project must carry its own exact Dialects and Policy Packs, or when the
-execution environment should work from an empty home without registry access.
+`$ROOTFORM_HOME/cache/linked-policy-packs` is derivable cache, not a source
+or trust anchor. Corruption causes rebuild; it never changes selection.
 
-A saved architecture is another useful boundary. Serving it, comparing saved
-architectures, or explaining its saved facts does not acquire Dialects.
-Checking it still requires selected Policy Packs available locally. Self-contained
-HTML already contains its renderer and needs no adjacent assets or CDN.
+## Offline transfer
 
-Follow [reproduce a build offline](guides/reproduce-build.md) for the procedure.
-The [lock contract](../contracts/rootform-lock.md) defines exact fields.
+On connected machine:
 
-## OCI mirrors for locked projects
+```sh
+rootform init . --locked --no-input
+rootform vendor dialects
+rootform vendor policy-packs
+```
 
-Rootform supports a mirror through exact lock routing, not source priority.
-First copy every Dialect and Policy Pack artifact descriptor graph named by
-`entries` and `policy_packs` in the lock to a standards-compatible mirror
-repository without repackaging it. Include each manifest, config, and layer;
-preserve descriptor digests and sizes, including each manifest's locked digest.
-Then change only `entries[].artifact.repository` and
-`policy_packs[].artifact.repository` in `rootform.lock` to their tagless mirror
-repositories. Keep manifest and layer digests, sizes, semantic, presentation,
-and pack content digests, versions, `sources`, and `origins` unchanged. Review
-and commit that lock change.
+On isolated execution machine, use committed lock and vendor directories.
+Normal execution needs no `--offline` flag because it never contacts registry.
+Use `vendor … --offline` to verify carried bytes without repair download. See
+[Reproduce a build offline](guides/reproduce-build.md) for the full transfer
+workflow.
 
-Validate the mirror from an empty store:
+Saved Architecture IR is self-contained for validation, Diff, and explanation.
+Policy evaluation also needs selected source or linked Policy Pack artifact;
+linked artifact binds exact saved semantic pins.
+
+## OCI mirror
+
+An OCI mirror copies the exact manifest, config, and layer descriptor graph
+without repackaging. The only lock change is `source.oci.repository`; all
+digests, sizes, versions, and content identities stay identical. Then validate
+from an empty home:
 
 ```sh
 ROOTFORM_HOME=/path/to/empty-rootform-home \
   rootform init . --locked --no-input
 ```
 
-Locked recovery contacts only each Dialect or Policy Pack entry's rewritten
-repository at its exact manifest digest. It does not read the recorded index,
-contact the original artifact repository, or fall back there when the mirror
-is missing, unreachable, or corrupt. After this acquisition, either retain the
-verified home or vendor the locked packages:
+The client contacts only the rewritten repository at the locked manifest
+digest. No fallback, enumeration, index, or original repository lookup occurs.
+The mirror needs the same registry behavior as direct acquisition, described
+in [registry compatibility](integrations/registry-compatibility.md).
 
-```sh
-ROOTFORM_HOME=/path/to/empty-rootform-home \
-  rootform vendor dialects --offline
-```
+Authentication follows Docker configuration (`DOCKER_CONFIG`, credential
+helpers and store, then matching `auths`). Credentials are never written to
+the lock, vendor tree, cache, or command output. `SSL_CERT_FILE` may add
+bounded PEM roots for online registry access.
 
-If the lock selects Policy Packs, vendor them separately:
-
-```sh
-ROOTFORM_HOME=/path/to/empty-rootform-home \
-  rootform vendor policy-packs --offline
-```
-
-With both required package families available locally, subsequent
-`--locked --offline` commands need no registry or credentials.
-
-Do not add a rewritten copy of the official index with `--source`. The official
-index remains implicit, and same name/version entries from different artifact
-repositories are an intentional source conflict even when their content
-digests match. This strict rule prevents source priority from silently changing
-artifact identity.
-
-Online OCI authentication follows standard Docker configuration. A nonempty
-`DOCKER_CONFIG` takes precedence over user Docker configuration; `credHelpers`,
-`credsStore`, then matching `auths` determine identity. A helper reporting no
-credentials permits anonymous authentication. A helper execution or decoding
-failure is terminal rather than falling back to another configured identity.
-Policy Pack and Dialect operations use the same path; neither has a separate
-credential flag.
-
-When `SSL_CERT_FILE` is set online, Rootform adds its bounded PEM bundle to
-system roots. Invalid content fails explicitly. Offline mode reads neither
-registry credentials nor TLS bundle.
-
-## Environment controls
+## Environment
 
 | Variable | Meaning |
 | --- | --- |
-| `ROOTFORM_HOME` | Use this directory instead of the default Rootform home. |
-| `ROOTFORM_OFFLINE=1` | Request offline operation. |
-| `ROOTFORM_INPUT=0` | Disable interactive input. |
-| `CI=true` | Disable interactive input; it does not imply offline. |
-| `DOCKER_CONFIG` | Directory containing the Docker `config.json` used for registry authentication. |
-| `SSL_CERT_FILE` | Additional bounded PEM trust bundle for online registry access. |
+| `ROOTFORM_HOME` | Override Rootform home |
+| `ROOTFORM_OFFLINE=1` | Request offline behavior for init and vendor |
+| `ROOTFORM_INPUT=0` | Disable input for init |
+| `CI=true` | Disable input; does not imply offline |
+| `DOCKER_CONFIG` | Docker registry authentication directory |
+| `SSL_CERT_FILE` | Additional bounded trust bundle for online acquisition |
 
-Project markers still belong to the selected root even when the home changes.
-The [registry guide](integrations/registry-compatibility.md) covers registry
-requirements; [troubleshooting](troubleshooting/index.md) covers missing pins,
-credentials, conflicts, and damaged vendor content.
+See the [lock contract](../contracts/rootform-lock.md),
+[Dialects and RF Vocabulary](concepts/dialects.md),
+[Policies and Policy Packs](concepts/policies.md),
+[reproduce a build](guides/reproduce-build.md), and
+[registry compatibility](integrations/registry-compatibility.md).

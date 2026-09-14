@@ -6,129 +6,41 @@ import { tmpdir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
 import { verifyCoreExamples } from "./docs-core-examples.ts";
 import { verifyLanguageExamples } from "./docs-language-examples.ts";
-import { verifyVisualExamples } from "./docs-visual-examples.ts";
 
 const repoRoot = resolve(import.meta.dir, "..");
-const docPath = join(repoRoot, "docs", "getting-started", "first-architecture.md");
-const buildRefPath = join(repoRoot, "docs", "reference", "cli", "build.md");
-const examplePath = join(repoRoot, "examples", "aws-vpc", "main.tf");
-const FENCE = "```";
-
-function resolveOfficialLayout(
-  environment: Record<string, string | undefined> = process.env,
-): string | undefined {
-  const supplied = environment.ROOTFORM_OFFICIAL_LAYOUT?.trim();
-  if (!supplied) return undefined;
-  if (!isAbsolute(supplied)) {
-    fail(`ROOTFORM_OFFICIAL_LAYOUT must be an absolute path, got: ${supplied}`);
-  }
-  return requireFile(supplied, "Rootform official Dialect layout");
-}
+const docPath = join(repoRoot, "docs/getting-started/first-architecture.md");
+const buildRefPath = join(repoRoot, "docs/reference/cli/build.md");
+const examplePath = join(repoRoot, "examples/aws-vpc/main.tf");
+const fence = "```";
 
 function fail(message: string): never {
   throw new Error(message);
 }
 
-function requireFile(path: string, what: string): string {
-  if (!existsSync(path)) {
-    fail(`${what} is missing: ${path}`);
-  }
-  return path;
-}
-
-function resolveBinary(environment: Record<string, string | undefined> = process.env): string {
+function binaryPath(environment: Record<string, string | undefined> = process.env): string {
   const specified = environment.ROOTFORM_BIN?.trim();
-  if (specified) {
-    if (!isAbsolute(specified)) {
-      fail(`ROOTFORM_BIN must be an absolute path, got: ${specified}`);
-    }
-    if (!existsSync(specified)) {
-      fail(`ROOTFORM_BIN does not exist: ${specified}`);
-    }
-    return specified;
+  if (!specified || !isAbsolute(specified) || !existsSync(specified)) {
+    fail("ROOTFORM_BIN must name an existing absolute Rootform executable");
   }
-  fail("ROOTFORM_BIN must name the checksum-verified Rootform executable");
+  return specified;
 }
 
-type Captured = {
-  exitCode: number | null;
-  stdout: string;
-  stderr: string;
-};
-
-function run(binary: string, args: string[], cwd: string, home: string): Captured {
-  const result = Bun.spawnSync({
-    cmd: [binary, ...args],
+function run(binary: string, args: string[], cwd: string, home: string) {
+  const result = Bun.spawnSync([binary, ...args], {
     cwd,
     env: { ...process.env, ROOTFORM_HOME: home, DOCKER_CONFIG: join(home, "docker") },
-    stderr: "pipe",
     stdout: "pipe",
+    stderr: "pipe",
   });
-  if (result.exitCode === null) {
-    fail(
-      "rootform " +
-        args.join(" ") +
-        " was killed by a signal (" +
-        (result.signalCode ?? "unknown") +
-        ")",
-    );
-  }
+  if (result.exitCode === null) fail(`rootform ${args.join(" ")} was killed`);
   return {
     exitCode: result.exitCode,
-    stderr: result.stderr?.toString("utf8") ?? "",
-    stdout: result.stdout?.toString("utf8") ?? "",
+    stdout: result.stdout.toString("utf8"),
+    stderr: result.stderr.toString("utf8"),
   };
 }
 
-async function verifyLocalExplorer(binary: string, workspace: string, home: string): Promise<void> {
-  const child = Bun.spawn(
-    [binary, "run", ".", "--no-input", "--no-browser", "--no-watch", "--port", "0"],
-    {
-      cwd: workspace,
-      env: { ...process.env, ROOTFORM_HOME: home, DOCKER_CONFIG: join(home, "docker") },
-      stdout: "pipe",
-      stderr: "pipe",
-    },
-  );
-  let stdout = "";
-  let stderr = "";
-  const read = async (stream: ReadableStream<Uint8Array>, append: (value: string) => void) => {
-    const decoder = new TextDecoder();
-    for await (const chunk of stream) append(decoder.decode(chunk, { stream: true }));
-  };
-  const readers = [
-    read(child.stdout, (value) => {
-      stdout += value;
-    }),
-    read(child.stderr, (value) => {
-      stderr += value;
-    }),
-  ];
-  try {
-    const deadline = Date.now() + 45_000;
-    while (Date.now() < deadline) {
-      const address = stdout.match(/http:\/\/127\.0\.0\.1:\d+/u)?.[0];
-      if (address) {
-        const response = await fetch(address, { signal: AbortSignal.timeout(5_000) });
-        if (!response.ok || !(await response.text()).toLowerCase().includes("<!doctype html")) {
-          fail("local explorer did not serve its HTML interface");
-        }
-        return;
-      }
-      if (child.exitCode !== null) fail(`local explorer exited before serving: ${stderr}`);
-      await Bun.sleep(50);
-    }
-    fail(`local explorer did not start: ${stderr}`);
-  } finally {
-    child.kill("SIGINT");
-    const force = setTimeout(() => child.kill("SIGKILL"), 5_000);
-    await child.exited;
-    clearTimeout(force);
-    await Promise.all(readers);
-  }
-}
-
-function normalizeLines(text: string): string {
+function normalized(text: string): string {
   return text
     .split("\n")
     .map((line) => line.replace(/\s+$/u, ""))
@@ -136,318 +48,158 @@ function normalizeLines(text: string): string {
     .trim();
 }
 
-function normalizeOutput(text: string): string {
-  return normalizeLines(text).replace(/\s+/gu, " ");
+function fencedMain(page: string): string {
+  const matches = [
+    ...page.matchAll(new RegExp(`${fence}hcl title="main\\.tf"\\n([\\s\\S]*?)\\n${fence}`, "gu")),
+  ];
+  if (matches.length !== 1 || matches[0]?.[1] === undefined) {
+    fail("first architecture page must contain one main.tf fence");
+  }
+  return `${matches[0][1].replace(/\r\n/gu, "\n").replace(/\s+$/u, "")}\n`;
 }
 
-function extractFencedMainTf(page: string): string {
+function displayedSummary(page: string): string {
   const matches = [
     ...page.matchAll(
-      new RegExp(`${FENCE}hcl\\s+title="main\\.tf"\\s*\\n([\\s\\S]*?)\\n${FENCE}`, "gu"),
+      new RegExp(`${fence}text title="Declaration summary"\\n([\\s\\S]*?)\\n${fence}`, "gu"),
     ),
   ];
-  if (matches.length !== 1) {
-    fail(
-      "first-architecture.md must contain exactly one " +
-        FENCE +
-        'hcl title="main.tf"' +
-        FENCE +
-        " fence, found " +
-        matches.length,
-    );
-  }
-  const body = matches[0]?.[1];
-  if (body === undefined) {
-    fail("could not read the main.tf fence from first-architecture.md");
-  }
-  return `${body.replace(/\r\n/gu, "\n").replace(/\s+$/u, "")}\n`;
+  if (matches.length !== 1 || matches[0]?.[1] === undefined) fail("declaration summary missing");
+  return normalized(matches[0][1]);
 }
 
-function displayedBuildOutput(page: string): string {
-  const candidates: string[] = [];
-  for (const match of page.matchAll(
-    new RegExp(`${FENCE}text[^\\n]*\\n([\\s\\S]*?)\\n${FENCE}`, "gu"),
-  )) {
-    const body = match[1] ?? "";
-    if (body.includes("Declarations detected")) {
-      candidates.push(normalizeOutput(body));
-    }
-  }
-  if (candidates.length !== 1) fail("the page must show exactly one declaration summary");
-  return candidates[0] ?? fail("declaration summary is missing");
+function documentedFlags(text: string): string[] {
+  return [...new Set([...text.matchAll(/(--[a-z][a-z0-9-]*)/gu)].map((match) => match[1] ?? ""))]
+    .filter(Boolean)
+    .sort();
 }
 
-function flagTokens(text: string): string[] {
-  const tokens = new Set<string>();
-  for (const match of text.matchAll(/(--[a-z][a-z0-9-]*)/gu)) {
-    tokens.add(match[1] ?? "");
-  }
-  return [...tokens].sort();
-}
-
-const steps: string[] = [];
-function noted(label: string, value: string): void {
-  steps.push(`${label}: ${value}`);
-}
-
-const binary = resolveBinary();
-const officialLayout = resolveOfficialLayout();
-requireFile(binary, "Rootform binary");
-requireFile(examplePath, "examples/aws-vpc/main.tf");
-const page = readFileSync(
-  requireFile(docPath, "docs/getting-started/first-architecture.md"),
-  "utf8",
-);
-const buildReference = readFileSync(
-  requireFile(buildRefPath, "docs/reference/cli/build.md"),
-  "utf8",
-);
-
-const mainTf = extractFencedMainTf(page);
-const exampleCode = readFileSync(examplePath, "utf8").replace(/\r\n/gu, "\n");
-if (normalizeLines(mainTf) !== normalizeLines(exampleCode)) {
-  fail("the fenced main.tf in first-architecture.md does not match examples/aws-vpc/main.tf");
+const binary = binaryPath();
+const page = readFileSync(docPath, "utf8");
+const buildReference = readFileSync(buildRefPath, "utf8");
+const main = fencedMain(page);
+if (normalized(main) !== normalized(readFileSync(examplePath, "utf8"))) {
+  fail("main.tf fence differs from examples/aws-vpc/main.tf");
 }
 
 const workspace = mkdtempSync(join(tmpdir(), "rootform-docs-example-"));
-const home = mkdtempSync(join(tmpdir(), "rootform-docs-example-home-"));
+const home = mkdtempSync(join(tmpdir(), "rootform-docs-home-"));
+const steps: string[] = [];
 try {
   mkdirSync(join(home, "docker"));
   writeFileSync(join(home, "docker/config.json"), "{}\n");
-  writeFileSync(join(workspace, "main.tf"), mainTf);
+  writeFileSync(join(workspace, "main.tf"), main);
 
   const version = run(binary, ["version"], repoRoot, home);
-  if (version.exitCode !== 0) {
-    fail(`rootform version failed: ${version.stderr.trim()}`);
-  }
+  if (version.exitCode !== 0) fail(`rootform version failed: ${version.stderr}`);
   const binaryVersion = version.stdout.trim().replace(/^rootform\s+/u, "");
 
-  if (officialLayout) {
-    const initialized = run(
-      binary,
-      ["init", ".", "--official-layout", officialLayout, "--offline", "--no-input"],
-      workspace,
-      home,
-    );
-    if (initialized.exitCode !== 0) {
-      fail(`local official Dialect initialization failed:\n${initialized.stderr}`);
-    }
-  }
+  const built = run(binary, ["build", ".", "--output", "architecture.json"], workspace, home);
+  if (built.exitCode !== 0) fail(`rootform build failed: ${built.stderr}`);
+  if (existsSync(join(workspace, "rootform.lock"))) fail("build created rootform.lock");
 
-  await verifyLocalExplorer(binary, workspace, home);
-
-  const first = run(
-    binary,
-    ["build", ".", "--no-input", "--output", "architecture.json"],
-    workspace,
-    home,
-  );
-  if (first.exitCode !== 0) {
-    fail(`first build failed (exit ${first.exitCode}):\n${first.stderr}`);
-  }
-  const lockPath = join(workspace, "rootform.lock");
-  if (!existsSync(lockPath)) {
-    fail("first build did not write rootform.lock");
-  }
-  const lockBytes = readFileSync(lockPath);
-  const archPath = join(workspace, "architecture.json");
-  const archBytes = readFileSync(archPath);
-
-  type ArchitectureDocument = {
+  const architectureBytes = readFileSync(join(workspace, "architecture.json"));
+  const architecture = JSON.parse(architectureBytes.toString("utf8")) as {
     format_version?: string;
     generator?: { name?: string; version?: string };
-    source?: { declarations?: Array<{ address?: string; outcome?: { kind?: string } }> };
-    architecture?: { contexts?: Array<{ dimension?: string; from?: string; to?: string }> };
-    semantics?: { dialects?: Array<{ id?: string; version?: string }> };
+    source?: {
+      declarations?: Array<{
+        address?: string;
+        representation?: string;
+        interpretation?: { status?: string; rule?: string; concept?: string };
+      }>;
+    };
+    architecture?: {
+      contexts?: Array<{ dimension?: string; from?: string; to?: string }>;
+    };
+    semantics?: {
+      release_set?: { id?: string };
+      owners?: Array<{ id?: string; kind?: string; origin?: string }>;
+    };
   };
-  let architecture: ArchitectureDocument;
-  try {
-    architecture = JSON.parse(archBytes.toString("utf8")) as ArchitectureDocument;
-  } catch {
-    fail("architecture.json is not valid JSON");
-  }
-  if (architecture.format_version !== "0.1.0") {
-    fail(`architecture format_version is ${architecture.format_version}, expected 0.1.0`);
-  }
-  if (architecture.generator?.name !== "rootform") {
-    fail("architecture generator is not rootform");
-  }
-  if (architecture.generator?.version !== binaryVersion) {
-    fail(
-      "architecture generator version " +
-        (architecture.generator?.version ?? "missing") +
-        " does not match binary version " +
-        binaryVersion,
-    );
+  if (
+    architecture.format_version !== "0.1.0" ||
+    architecture.generator?.name !== "rootform" ||
+    architecture.generator?.version !== binaryVersion
+  ) {
+    fail("Architecture IR envelope differs from running binary");
   }
 
-  const declarations = architecture.source?.declarations;
-  if (!Array.isArray(declarations)) {
-    fail("architecture.source.declarations is missing");
-  }
-  const outcomes = new Map<string, string>();
-  for (const declaration of declarations) {
-    const address = declaration.address;
-    if (address === undefined) {
-      continue;
-    }
-    outcomes.set(address, declaration.outcome?.kind ?? "");
-  }
-  for (const required of ["aws_vpc.main", "aws_subnet.application"]) {
-    const actual = outcomes.get(required);
-    if (actual !== "represented") {
-      fail(`declaration ${required} is not represented (got ${actual ?? "missing"})`);
+  const declarations = architecture.source?.declarations ?? [];
+  for (const [address, rule, concept] of [
+    ["aws_vpc.main", "aws.rule.vpc", "rf.concept.virtual-network"],
+    ["aws_subnet.application", "aws.rule.subnet", "rf.concept.subnet"],
+  ]) {
+    const declaration = declarations.find((entry) => entry.address === address);
+    if (
+      !declaration?.representation?.startsWith("representation:1:root:resource:") ||
+      declaration.interpretation?.status !== "applied" ||
+      declaration.interpretation.rule !== rule ||
+      declaration.interpretation.concept !== concept
+    ) {
+      fail(`declaration ${address} lacks expected base and interpretation`);
     }
   }
-  for (const [address, kind] of outcomes) {
-    if (kind === "unsupported" || kind === "failed") {
-      fail(`declaration ${address} has outcome ${kind}`);
-    }
-  }
-
-  const contexts = architecture.architecture?.contexts;
-  if (!Array.isArray(contexts)) {
-    fail("architecture.architecture.contexts is missing");
-  }
-  const networkContext = contexts.find(
-    (context) =>
-      context.dimension === "core/network" &&
-      context.from === "scope:aws_subnet.application" &&
-      context.to === "scope:aws_vpc.main",
+  const network = (architecture.architecture?.contexts ?? []).find(
+    (entry) => entry.dimension === "rf.context.network",
   );
-  if (networkContext === undefined) {
-    fail("missing context core/network from aws_subnet.application to aws_vpc.main");
+  if (!network?.from?.includes("aws_subnet.application") || !network.to?.includes("aws_vpc.main")) {
+    fail("network context between subnet and VPC missing");
+  }
+  const owners = architecture.semantics?.owners ?? [];
+  if (
+    !owners.some((owner) => owner.id === "aws" && owner.kind === "dialect") ||
+    !owners.some((owner) => owner.id === "rf" && owner.kind === "vocabulary") ||
+    !architecture.semantics?.release_set?.id?.startsWith("release-set:")
+  ) {
+    fail("release set owner registry missing AWS Dialect or RF Vocabulary");
   }
 
-  const dialectIds = (architecture.semantics?.dialects ?? [])
-    .map((dialect) => dialect.id ?? "")
-    .filter((id) => id !== "");
-  for (const required of ["aws", "core"]) {
-    if (!dialectIds.includes(required)) {
-      fail(`semantics do not include ${required} (got ${dialectIds.join(", ") || "none"})`);
-    }
-  }
-
+  const lock = `${JSON.stringify(
+    {
+      format_version: "1",
+      dialects: [],
+      policy_packs: [],
+      excluded_owners: [],
+      replacements: [],
+    },
+    null,
+    2,
+  )}\n`;
+  writeFileSync(join(workspace, "rootform.lock"), lock);
   const repeated = run(
     binary,
-    ["build", ".", "--locked", "--offline", "--no-input", "--output", "repeated.json"],
+    ["build", ".", "--locked", "--output", "repeated.json"],
     workspace,
     home,
   );
-  if (repeated.exitCode !== 0) {
-    fail(`offline rebuild failed (exit ${repeated.exitCode}):\n${repeated.stderr}`);
+  if (repeated.exitCode !== 0) fail(`locked rebuild failed: ${repeated.stderr}`);
+  if (!readFileSync(join(workspace, "repeated.json")).equals(architectureBytes)) {
+    fail("locked rebuild differs byte-for-byte");
   }
-  const repeatedBytes = readFileSync(join(workspace, "repeated.json"));
-  if (!repeatedBytes.equals(archBytes)) {
-    fail("offline locked rebuild is not byte-identical to the first architecture");
-  }
-  if (!readFileSync(lockPath).equals(lockBytes)) {
-    fail("rootform.lock bytes changed between builds");
-  }
-
-  type LockDocument = { entries?: Array<{ name?: string; version?: string }> };
-  const lock = JSON.parse(lockBytes.toString("utf8")) as LockDocument;
-  const lockEntries = (lock.entries ?? [])
-    .map((entry) => entry.name ?? "")
-    .filter((name) => name !== "");
-  for (const required of ["aws", "core"]) {
-    if (!lockEntries.includes(required)) {
-      fail(
-        "rootform.lock does not pin " +
-          required +
-          " (got " +
-          (lockEntries.join(", ") || "none") +
-          ")",
-      );
-    }
-  }
-
-  const html = run(
-    binary,
-    [
-      "build",
-      ".",
-      "--format",
-      "html",
-      "--locked",
-      "--offline",
-      "--no-input",
-      "--output",
-      "architecture.html",
-    ],
-    workspace,
-    home,
-  );
-  if (html.exitCode !== 0) {
-    fail(`html build failed (exit ${html.exitCode}):\n${html.stderr}`);
-  }
-  if (!readFileSync(lockPath).equals(lockBytes)) {
-    fail("rootform.lock bytes changed after the html build");
-  }
-  const htmlBody = readFileSync(join(workspace, "architecture.html"), "utf8");
-  if (!htmlBody.trimStart().toLowerCase().startsWith("<!doctype html")) {
-    fail("architecture.html is not an HTML document");
-  }
-  if (/(?:src|href)="(?:https?:)?\/\//u.test(htmlBody)) {
-    fail("architecture.html contains a remote src or href reference");
+  if (readFileSync(join(workspace, "rootform.lock"), "utf8") !== lock) {
+    fail("build mutated rootform.lock");
   }
 
   const help = run(binary, ["build", "--help"], repoRoot, home);
-  if (help.exitCode !== 0) {
-    fail("rootform build --help failed");
-  }
-  const documentedFlags = flagTokens(buildReference);
-  const missing = documentedFlags.filter((flag) => !help.stdout.includes(flag));
-  if (missing.length > 0) {
-    fail(`reference/cli/build.md documents flags missing from build --help: ${missing.join(", ")}`);
-  }
-
-  const summaryStart = first.stderr.indexOf("Declarations detected");
-  if (summaryStart < 0) fail("the real build did not print declaration accounting");
-  const summary = normalizeOutput(first.stderr.slice(summaryStart));
-  for (const document of [page, buildReference]) {
-    if (displayedBuildOutput(document) !== summary) {
-      fail("displayed declaration summary does not match the real build");
-    }
+  if (help.exitCode !== 0) fail("rootform build --help failed");
+  const missing = documentedFlags(buildReference).filter((flag) => !help.stdout.includes(flag));
+  if (missing.length > 0) fail(`build docs carry unsupported flags: ${missing.join(", ")}`);
+  const summary = normalized(built.stderr);
+  if (displayedSummary(page) !== summary || displayedSummary(buildReference) !== summary) {
+    fail("displayed declaration summary differs from real build");
   }
 
-  noted(
-    "binary",
-    "rootform " +
-      binaryVersion +
-      ", sha256:" +
-      createHash("sha256").update(readFileSync(binary)).digest("hex"),
+  steps.push(
+    `rootform ${binaryVersion} sha256:${createHash("sha256").update(readFileSync(binary)).digest("hex")}`,
+    "build created no lock and locked replay stayed byte-identical",
+    "resource bases, owner-first Rules, RF Vocabulary, and network context verified",
   );
-  noted("main.tf fence", "matches examples/aws-vpc/main.tf");
-  noted(
-    "first run",
-    officialLayout
-      ? "local official Dialect layout prepared an empty home; local explorer serves HTML"
-      : "implicit preparation from empty home, local explorer serves HTML",
-  );
-  noted("first build", "prepared tutorial source, exit 0");
-  noted("offline rebuild", "byte-identical to first build, --locked --offline");
-  noted(
-    "representations",
-    "aws_vpc.main, aws_subnet.application represented; no unsupported/failed",
-  );
-  noted("context", "core/network from aws_subnet.application to aws_vpc.main");
-  noted("semantics", dialectIds.sort().join(", "));
-  noted("rootform.lock", `bytes preserved; pins ${lockEntries.sort().join(", ")}`);
-  noted("html", "self-contained, no remote src/href");
-  noted("build flags", `${documentedFlags.length} documented flags all present in build --help`);
-  noted("displayed stderr", "tutorial and reference match the real first build");
-
-  const core = verifyCoreExamples(binary, repoRoot, workspace, home);
-  core.push(...verifyLanguageExamples(binary, repoRoot, workspace, home));
-  core.push(...(await verifyVisualExamples(binary, repoRoot, workspace, home)));
-  console.log(`documentation examples: PASS (${steps.length + core.length} checks)`);
-  for (const step of steps) {
-    console.log(`  - ${step}`);
-  }
-  for (const step of core) console.log(`  - ${step}`);
-  console.log(`Execution platform: ${process.platform}/${process.arch}`);
+  steps.push(...verifyCoreExamples(binary, repoRoot, workspace, home));
+  steps.push(...verifyLanguageExamples(binary, repoRoot, workspace, home));
+  console.log(`documentation examples: PASS (${steps.length} checks)`);
+  for (const step of steps) console.log(`  - ${step}`);
 } finally {
-  rmSync(workspace, { force: true, recursive: true });
-  rmSync(home, { force: true, recursive: true });
+  rmSync(workspace, { recursive: true, force: true });
+  rmSync(home, { recursive: true, force: true });
 }

@@ -1,7 +1,3 @@
 policy_pack "baseline" {
   version = "0.1.0"
-
-  requires {
-    core = "0.1.0"
-  }
 }

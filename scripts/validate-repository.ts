@@ -13,23 +13,12 @@ type ExportManifest = {
   files: Array<{ path: string; sha256: string }>;
 };
 
-type ExampleContract = {
-  dialects?: unknown;
-  semantics?: {
-    dialects?: unknown;
-  };
-};
-
 type DialectLock = {
-  entries?: unknown;
+  dialects?: unknown;
   format_version?: unknown;
-  unsupported_providers?: unknown;
-};
-
-type DialectPin = {
-  commit?: unknown;
-  format_version?: unknown;
-  repository?: unknown;
+  excluded_owners?: unknown;
+  policy_packs?: unknown;
+  replacements?: unknown;
 };
 
 const root = join(import.meta.dir, "..");
@@ -104,64 +93,20 @@ export function filesBelow(directory: string): string[] {
   return files;
 }
 
-function canonicalNames(value: unknown, label: string): string[] {
-  if (
-    !Array.isArray(value) ||
-    value.length === 0 ||
-    value.some((name) => typeof name !== "string" || !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/u.test(name))
-  ) {
-    throw new Error(`${label} has invalid dialect names`);
-  }
-  const names = value as string[];
-  const canonical = [...new Set(names)].sort((left, right) => left.localeCompare(right, "en"));
-  if (JSON.stringify(names) !== JSON.stringify(canonical)) {
-    throw new Error(`${label} dialect names are not canonical`);
-  }
-  return names;
-}
-
 export function validateExampleDialectLock(directory: string, example: string): void {
-  const contract = JSON.parse(
-    readFileSync(join(directory, "example.json"), "utf8"),
-  ) as ExampleContract;
   const lock = JSON.parse(readFileSync(join(directory, "rootform.lock"), "utf8")) as DialectLock;
-  const semanticDialects = contract.semantics?.dialects;
-  const expected = canonicalNames(
-    semanticDialects === undefined
-      ? contract.dialects
-      : Array.isArray(semanticDialects)
-        ? semanticDialects.map((dialect) =>
-            typeof dialect === "object" && dialect !== null && "id" in dialect
-              ? dialect.id
-              : undefined,
-          )
-        : semanticDialects,
-    `${example} example.json`,
-  );
   if (
     lock.format_version !== "1" ||
-    !Array.isArray(lock.unsupported_providers) ||
-    lock.unsupported_providers.length !== 0 ||
-    !Array.isArray(lock.entries) ||
-    lock.entries.some(
-      (entry) =>
-        typeof entry !== "object" ||
-        entry === null ||
-        !("version" in entry) ||
-        typeof entry.version !== "string" ||
-        !/^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$/u.test(entry.version),
-    )
+    "entries" in lock ||
+    "sources" in lock ||
+    "unsupported_providers" in lock
   ) {
     throw new Error(`${example} rootform.lock has invalid structure`);
   }
-  const locked = canonicalNames(
-    lock.entries.map((entry) =>
-      typeof entry === "object" && entry !== null && "name" in entry ? entry.name : undefined,
-    ),
-    `${example} rootform.lock`,
-  );
-  if (JSON.stringify(expected) !== JSON.stringify(locked)) {
-    throw new Error(`${example} dialect contract does not match rootform.lock`);
+  for (const key of ["dialects", "policy_packs", "excluded_owners", "replacements"] as const) {
+    if (!Array.isArray(lock[key])) {
+      throw new Error(`${example} rootform.lock ${key} must be an array`);
+    }
   }
 }
 
@@ -190,13 +135,12 @@ export function validateRepository(): void {
     "contracts/policy-pack-distribution.md",
     "contracts/rootform-oci-core-profile.md",
     "contracts/rootform-lock.md",
-    "dependencies/dialects.json",
     "policy-packs/README.md",
     "policy-packs/baseline/LICENSE",
     "policy-packs/baseline/NOTICE",
     "policy-packs/baseline/pack.rf",
     "policy-packs/baseline/policies/cluster-network-context.rf",
-    "policy-packs/baseline/policies/private-database-reachability.rf",
+    "policy-packs/baseline/policies/managed-database-network-context.rf",
     "docs/integrations/oci-image.md",
     "docs/integrations/ci/README.md",
     "docs/integrations/ci/azure-pipelines.yml",
@@ -263,17 +207,6 @@ export function validateRepository(): void {
     throw new Error("public-export.json has invalid provenance");
   }
 
-  const dialectPin = JSON.parse(
-    readFileSync(join(root, "dependencies", "dialects.json"), "utf8"),
-  ) as DialectPin;
-  if (
-    dialectPin.format_version !== "1" ||
-    dialectPin.repository !== "rootform-dev/dialects" ||
-    typeof dialectPin.commit !== "string" ||
-    !/^[0-9a-f]{40}$/u.test(dialectPin.commit)
-  ) {
-    throw new Error("dependencies/dialects.json must pin one exact official commit");
-  }
   const exportedPaths = exported.files.map(({ path }) => path);
   const expectedExportedPaths = [
     "THIRD_PARTY_NOTICES.txt",
@@ -352,7 +285,7 @@ export function validateRepository(): void {
       "policy-packs/baseline/NOTICE",
       "policy-packs/baseline/pack.rf",
       "policy-packs/baseline/policies/cluster-network-context.rf",
-      "policy-packs/baseline/policies/private-database-reachability.rf",
+      "policy-packs/baseline/policies/managed-database-network-context.rf",
     ])
   ) {
     throw new Error(`policy pack example boundary drifted: ${policyPackFiles.join(", ")}`);
@@ -374,8 +307,6 @@ export function validateRepository(): void {
     candidateWorkflow.includes("rootform-dev/engine") ||
     candidateWorkflow.includes("rootform-dev/action/") ||
     candidateWorkflow.includes("ROOTFORM_REPOSITORIES_READ_TOKEN") ||
-    candidateWorkflow.includes("DIALECTS_CONTENTS_READ_TOKEN") ||
-    !candidateWorkflow.includes(dialectPin.commit) ||
     !candidateWorkflow.includes("packages: write") ||
     !candidateWorkflow.includes("test:oci-registry-compatibility") ||
     !candidateWorkflow.includes("rootform-oci-core-v1") ||
@@ -399,9 +330,7 @@ export function validateRepository(): void {
   if (
     imageWorkflow.includes("rootform-dev/engine") ||
     imageWorkflow.includes("rootform-dev/action/") ||
-    imageWorkflow.includes("DIALECTS_CONTENTS_READ_TOKEN") ||
     !imageWorkflow.includes("packages: write") ||
-    !imageWorkflow.includes(dialectPin.commit) ||
     !imageWorkflow.includes("name: publish official image") ||
     !imageWorkflow.includes("Verify exact public release source") ||
     !imageWorkflow.includes("Require existing official GHCR package to be public") ||

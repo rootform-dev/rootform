@@ -27,12 +27,12 @@ Build deterministic local registry layouts from validated Rootform packages.
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform package dialects `](package/dialects.md) | Build dialect packages and a discovery index |
+| [` rootform package dialects `](package/dialects.md) | Build dialect packages |
 | [` rootform package policy-packs `](package/policy-packs.md) | Build Policy Pack packages |
 
 ## Examples
 
 ```sh
-rootform package dialects ./dialects --to ./artifacts/oci
+rootform package dialects ./dialects --to ./artifacts/dialects
 rootform package policy-packs ./policies --to ./artifacts/policies
 ```

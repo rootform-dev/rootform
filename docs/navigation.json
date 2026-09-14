@@ -4,93 +4,88 @@
     "items": [
       { "label": "Overview", "page": "index" },
       { "label": "Install", "page": "installation" },
-      "getting-started/first-architecture"
+      { "label": "Your first architecture", "page": "getting-started/first-architecture" }
     ]
   },
   {
-    "label": "Understand architecture",
+    "label": "Understand Rootform",
     "items": [
-      { "label": "Core concepts", "page": "concepts" },
-      "concepts/architecture-ir",
-      "concepts/dialects",
-      "concepts/policies"
+      { "label": "Mental model", "page": "concepts" },
+      { "label": "Architecture IR", "page": "concepts/architecture-ir" },
+      { "label": "Dialects and RF Vocabulary", "page": "concepts/dialects" },
+      { "label": "Policies and Policy Packs", "page": "concepts/policies" },
+      { "label": "Architecture Diff", "page": "concepts/diff" }
     ]
   },
   {
-    "label": "Explore the renderer",
+    "label": "Work with projects",
     "items": [
-      { "label": "Read an architecture", "page": "renderer" },
-      { "label": "Views and navigation", "page": "renderer/views" },
-      { "label": "Example architectures", "page": "renderer/examples" }
-    ]
-  },
-  {
-    "label": "Use your inputs",
-    "items": [
-      { "label": "Configuration and IR", "page": "inputs" },
-      { "label": "Terraform/OpenTofu plans", "page": "inputs/plans" }
+      { "label": "Inputs", "page": "inputs" },
+      { "label": "Terraform and OpenTofu plans", "page": "inputs/plans" },
+      { "label": "Project selection and preparation", "page": "cli" },
+      { "label": "Add third-party content", "page": "guides/external-content" },
+      { "label": "Locks, vendor, and offline use", "page": "offline-security" },
+      { "label": "Reproduce a build offline", "page": "guides/reproduce-build" }
     ]
   },
   {
     "label": "Review and automate",
     "items": [
-      { "label": "Run checks", "page": "guides/check-architecture" },
-      { "label": "Architecture Diff", "page": "renderer/diff" },
+      { "label": "Check an architecture", "page": "guides/check-architecture" },
       { "label": "Compare architectures", "page": "guides/compare-architectures" },
       { "label": "Git workflows", "page": "workflows" },
       { "label": "Run in CI", "page": "integrations/ci" },
-      "integrations/github-actions"
+      { "label": "GitHub Actions", "page": "integrations/github-actions" }
     ]
   },
   {
-    "label": "Operate safely",
+    "label": "Author Rootform language",
     "items": [
-      { "label": "Sources, locks, and offline use", "page": "offline-security" },
-      "guides/reproduce-build",
-      { "label": "Security and data handling", "page": "security" },
-      "integrations/registry-compatibility",
-      { "label": "Limitations", "page": "limitations" },
-      "troubleshooting"
-    ]
-  },
-  {
-    "label": "Rootform language",
-    "items": [
-      { "label": "Learn", "page": "language" },
+      { "label": "Overview", "page": "language" },
       { "label": "Language tour", "page": "language/tour" },
-      {
-        "label": "Write",
-        "items": [
-          { "label": "Write a Dialect", "page": "dialect-authoring" },
-          { "label": "Write a Policy Pack", "page": "language/write-policy-pack" },
-          { "label": "Test and validate", "page": "language/test-validate" }
-        ]
-      },
+      { "label": "Write a Dialect", "page": "dialect-authoring" },
+      { "label": "Write a Policy Pack", "page": "language/write-policy-pack" },
+      { "label": "Test and validate", "page": "language/test-validate" },
       {
         "label": "Language reference",
         "collapsed": true,
         "items": [
           { "label": "Overview", "page": "language/reference" },
           { "label": "Syntax and files", "page": "language/reference/syntax-files" },
-          { "label": "Dialects", "page": "language/reference/dialects" },
-          { "label": "Rules", "page": "language/reference/rules" },
+          { "label": "Symbols and references", "page": "language/reference/symbols" },
+          { "label": "Dialect declarations", "page": "language/reference/dialects" },
+          { "label": "RF Vocabulary", "page": "language/reference/rf-vocabulary" },
+          { "label": "Rules and matching", "page": "language/reference/rules" },
+          { "label": "Fact emissions", "page": "language/reference/emissions" },
+          { "label": "Composition", "page": "language/reference/composition" },
           { "label": "Policy Packs", "page": "language/reference/policy-packs" },
           { "label": "Expressions", "page": "language/reference/expressions" },
           { "label": "Traversals and scope", "page": "language/reference/traversals" },
           { "label": "Built-ins", "page": "language/reference/built-ins" },
           { "label": "Evaluation", "page": "language/reference/evaluation" },
-          { "label": "Diagnostics", "page": "language/reference/diagnostics" }
+          { "label": "Diagnostics and limits", "page": "language/reference/diagnostics" }
         ]
       }
     ]
   },
   {
+    "label": "Operate safely",
+    "items": [
+      { "label": "Security and data handling", "page": "security" },
+      { "label": "Container image", "page": "integrations/oci-image" },
+      { "label": "Registry compatibility", "page": "integrations/registry-compatibility" },
+      { "label": "Limitations", "page": "limitations" },
+      { "label": "Troubleshooting", "page": "troubleshooting" }
+    ]
+  },
+  {
     "label": "Reference",
     "items": [
+      { "label": "Outputs and exit status", "page": "reference/outputs" },
       { "label": "CLI reference", "page": "reference/cli" },
-      { "label": "Initialize a project", "page": "cli" },
       {
         "label": "Commands",
+        "collapsed": true,
         "items": [
           { "label": "build", "page": "reference/cli/build" },
           { "label": "check", "page": "reference/cli/check" },
@@ -115,13 +110,6 @@
           { "label": "fmt", "page": "reference/cli/fmt" },
           { "label": "init", "page": "reference/cli/init" },
           {
-            "label": "install",
-            "items": [
-              { "label": "Overview", "page": "reference/cli/install" },
-              { "label": "dialects", "page": "reference/cli/install/dialects" }
-            ]
-          },
-          {
             "label": "list",
             "items": [
               { "label": "Overview", "page": "reference/cli/list" },
@@ -132,13 +120,6 @@
               { "label": "policy-packs", "page": "reference/cli/list/policy-packs" },
               { "label": "relations", "page": "reference/cli/list/relations" },
               { "label": "rules", "page": "reference/cli/list/rules" }
-            ]
-          },
-          {
-            "label": "lock",
-            "items": [
-              { "label": "Overview", "page": "reference/cli/lock" },
-              { "label": "dialects", "page": "reference/cli/lock/dialects" }
             ]
           },
           { "label": "lsp", "page": "reference/cli/lsp" },
@@ -156,13 +137,6 @@
               { "label": "Overview", "page": "reference/cli/publish" },
               { "label": "dialects", "page": "reference/cli/publish/dialects" },
               { "label": "policy-packs", "page": "reference/cli/publish/policy-packs" }
-            ]
-          },
-          {
-            "label": "remove",
-            "items": [
-              { "label": "Overview", "page": "reference/cli/remove" },
-              { "label": "dialect", "page": "reference/cli/remove/dialect" }
             ]
           },
           { "label": "run", "page": "reference/cli/run" },
@@ -201,19 +175,16 @@
               { "label": "policy-packs", "page": "reference/cli/vendor/policy-packs" }
             ]
           },
-          {
-            "label": "verify",
-            "items": [
-              { "label": "Overview", "page": "reference/cli/verify" },
-              { "label": "dialects", "page": "reference/cli/verify/dialects" }
-            ]
-          },
           { "label": "version", "page": "reference/cli/version" }
         ]
-      },
-      { "label": "Outputs and exit status", "page": "reference/outputs" },
-      { "label": "Container image", "page": "integrations/oci-image" }
+      }
     ]
   },
-  { "label": "Contribute", "items": ["contributing", "contributing/writing"] }
+  {
+    "label": "Contribute",
+    "items": [
+      { "label": "Contribute to Rootform", "page": "contributing" },
+      { "label": "Writing standard", "page": "contributing/writing" }
+    ]
+  }
 ]

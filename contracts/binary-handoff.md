@@ -9,6 +9,13 @@ the immutable handoff below.
 Rootform release tooling accepts one content-addressed producer handoff. It
 never reads producer source or a producer repository.
 
+The handoff carries the Rootform release set: the exact RF Vocabulary and every
+supplied Dialect execution travels together with the binaries, and its identity
+is recorded in the package manifest for this handoff generation. The release
+set is selected and upgraded as one unit; Rootform never checks out, packages,
+publishes, installs, or vendors those units separately. Rootform consumes the
+release set from the handoff; it does not produce or repackage it.
+
 ## Outer assets
 
 Input directory contains exactly:
@@ -41,12 +48,14 @@ Bundle contains exactly:
 ## Producer manifest
 
 `engine-handoff.json` format version 2 binds exact product version, producer
-source identity, exact Dialects presentation input, exact private renderer
-repository/revision/release identity, renderer archive name/size/hash, renderer
-manifest name/hash, deterministic build time, toolchains, build settings,
-five-target file/size/hash records, schema hash, and SBOM hash. Renderer names
-must derive from its exact revision. JSON keys and arrays are canonical.
-Unknown fields fail.
+source identity, exact private renderer repository/revision/release identity,
+renderer archive name/size/hash, renderer manifest name/hash, deterministic
+build time, toolchains, build settings, five-target file/size/hash records,
+schema hash, release-set identity (RF Language contract, RF Vocabulary
+identity and contract digest, and every supplied Dialect with owner, version,
+content digest, and semantic digest), and SBOM hash. Renderer names must derive
+from its exact revision. JSON keys and arrays are canonical. Unknown fields
+fail.
 
 Producer manifest remains handoff evidence. Final release does not redistribute
 it or private renderer provenance; final manifest records only its SHA-256.

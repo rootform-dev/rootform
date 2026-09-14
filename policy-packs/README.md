@@ -1,98 +1,64 @@
-# Policy pack examples
+# Policy Pack examples
 
-Rootform separates architecture semantics from architecture governance.
-[Dialects](../contracts/dialect-distribution.md) define what a declaration
-means; policy packs define which meanings are acceptable. A policy always
-belongs to exactly one policy pack and never to a dialect.
+Rootform separates architecture semantics from governance. Dialects interpret
+source declarations; Policy Packs evaluate established architecture facts. A
+Policy belongs to exactly one pack and never to a Dialect.
 
-This directory holds synthetic public examples of Rootform Policy Packs. Each
-example directory is a complete pack source unit and is package-ready at the
-layer boundary described in
-[`contracts/policy-pack-distribution.md`](../contracts/policy-pack-distribution.md):
-source files are `*.rf` or `*.rf.json`, and legal text is limited to
-`LICENSE*`, `NOTICE*`, and `THIRD_PARTY_NOTICES*`. Anything else would be
-rejected by the pack layer boundary.
+This directory contains synthetic public Policy Pack sources. Each pack root
+has one `policy_pack` declaration, `.rf` or `.rf.json` source, and only allowed
+license or notice files. File paths do not create Policy identity.
 
-Each pack root contains exactly one top-level `policy_pack` manifest. Policies
-are top-level declarations in any `.rf` or `.rf.json` file beneath that root;
-their owning pack comes from the root, not nesting or a file path.
+Policy Pack source declares no semantic dependency versions. References to the
+RF Vocabulary and Dialect-owned symbols are qualified owner-first; exact
+semantic dependencies are derived when the pack links against an Architecture
+IR snapshot.
 
-Pack identity is a validated name plus an exact semantic version. The example
-below is versioned `0.1.0`, uses only the referenced `core` dialect
-vocabulary, and is provider-neutral: selecting the pack never installs a
-provider dialect.
+## `baseline/`
 
-## Example: `baseline/`
+`baseline` is a portable example with two Policies:
 
-[`baseline/`](baseline/) is a minimal provider-neutral pack that depends only
-on `core@0.1.0`. `pack.rf` contains metadata and requirements; `policies/`
-contains two demonstration policies over core concepts:
+- `baseline.policy.managed-database-network-context` requires managed
+  databases to have a virtual-network context;
+- `baseline.policy.cluster-network-context` requires Kubernetes clusters to
+  have a virtual-network or subnet context.
 
-- `baseline/private-database-reachability`: managed databases must be
-  privately reachable from a virtual network or subnet;
-- `baseline/cluster-network-context`: Kubernetes clusters must belong to a
-  network context.
+These Policies demonstrate authoring and evaluation shape. They are not an
+authoritative security baseline. Provider-neutral targets do not guarantee
+equal Dialect coverage; inspect evaluation coverage before treating any result
+as a gate.
 
-The examples are synthetic and exist only to show the pack authoring shape.
-They never become authoritative governance and never become dialect source.
+## Validate and evaluate
 
-Provider-neutral vocabulary does not guarantee equal provider coverage. The
-database assertion requires a `private-reachability` relation; the current AWS
-Dialect does not produce it. An AWS database can therefore violate this example
-assertion regardless of its real network setup. Review a pack's assumptions
-against the selected Dialects before using its result as a gate. See
-[policy coverage](../docs/concepts/policies.md#match-a-policy-to-the-dialects-evidence).
+```sh
+rootform fmt --check policy-packs/baseline
+rootform list policies --policy-pack ./policy-packs/baseline
+rootform check ./examples/gcp-cloud-sql --policy-pack ./policy-packs/baseline
+```
 
-## Validation
+Repository verification compiles this source with the exact Rootform binary,
+packages it twice to prove deterministic OCI bytes, and validates publication
+through an offline dry-run.
 
-`bun run verify` compiles this source with the exact verified Rootform binary,
-packages it twice to prove deterministic OCI bytes, and validates a publication
-dry-run. Repository checks independently enforce its legal-file and source-file
-boundary. Neither path contacts a registry.
+## Generic package and publication
 
-## Publication flow
-
-Publication is a separate, authorized step. The
-[`publish example policy packs`](../.github/workflows/publish-policy-packs.yml)
-workflow follows the same verified-release and OCI evidence boundary as
-official image publication:
+Packaging and publication remain separate for explicitly distributed Policy
+Packs:
 
 ```text
 rootform package policy-packs policy-packs/baseline \
   --to LAYOUT --source-url URL --revision REV --documentation-url URL \
   --licenses Apache-2.0
-rootform publish policy-packs LAYOUT --to ghcr.io/rootform-dev/policy-packs
+rootform publish policy-packs LAYOUT --to registry.example/team/policy-packs
 ```
 
-`package policy-packs` is local and offline; destination repository is recorded
-only at publish time. Destination tags are immutable
-`policy-pack-<name>-<version>`, for example
-`policy-pack-baseline-0.1.0`. Publication uses `workflow_dispatch`, minimal
-`packages: write` permission, pinned action SHAs, no persistent secrets, and an
-isolated `DOCKER_CONFIG`. Workflow then requires public package visibility and
-proves anonymous pulls by tag and digest before success.
+Packaging is local and offline. Publication validates the complete layout and
+writes immutable `policy-pack-<name>-<version>` tags. Provenance is supplied
+explicitly; Rootform never discovers it from Git or local machine paths.
 
-Provenance annotations (`org.opencontainers.image.source`, `revision`,
-`documentation`, `licenses`) are supplied explicitly at package time;
-provenance is never discovered from Git state or machine paths.
+Project selection comes only from an exact `rootform.lock` entry containing
+pack name, version, content digest, tagless repository, manifest digest, layer
+digest, and bounded sizes. `rootform init` acquires only that existing digest
+pin. It never resolves a tag, selects a pack, or writes the lock.
 
-## Published example
-
-The [`rootform-dev/policy-packs` GHCR package](https://github.com/orgs/rootform-dev/packages/container/package/policy-packs)
-contains `baseline@0.1.0` at:
-
-```text
-ghcr.io/rootform-dev/policy-packs:policy-pack-baseline-0.1.0
-ghcr.io/rootform-dev/policy-packs@sha256:063fc43e911bf727e37c3baec565a81b94eaecf0cff5dc89d72b6a17207ab758
-```
-
-Select it explicitly for one project:
-
-```sh
-rootform init . \
-  --policy-pack ghcr.io/rootform-dev/policy-packs:policy-pack-baseline-0.1.0 \
-  --no-input
-```
-
-Rootform resolves the tag once and writes the exact manifest, layer, and pack
-content pins to `rootform.lock`. Provider detection never selects this pack.
+See the [Policy Pack distribution contract](../contracts/policy-pack-distribution.md)
+and [Policy Pack authoring guide](../docs/language/write-policy-pack.md).

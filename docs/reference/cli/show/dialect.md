@@ -22,7 +22,7 @@ rootform show dialect <name> [flags]
 
 ## Behavior
 
-Show a dialect, including its version, requirements,
+Show a dialect, including its version, origin, content identity,
 providers, concepts, contexts, relations, and rules.
 
 The name selects one loaded dialect.
