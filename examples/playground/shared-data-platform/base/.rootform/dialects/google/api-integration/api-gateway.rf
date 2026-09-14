@@ -1,7 +1,0 @@
-rule "api-gateway" {
-  match {
-    type = "google_api_gateway_gateway"
-  }
-
-  as = concept.core.api-gateway
-}

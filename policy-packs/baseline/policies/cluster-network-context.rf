@@ -1,9 +1,11 @@
 policy "cluster-network-context" {
-  target = concept.core.kubernetes-cluster
+  target {
+    concept = rf.concept.kubernetes-cluster
+  }
 
   assert = (
-    exists(contexts(context.core.network, concept.core.virtual-network)) ||
-    exists(contexts(context.core.network, concept.core.subnet))
+    exists(contexts(rf.context.network, rf.concept.virtual-network)) ||
+    exists(contexts(rf.context.network, rf.concept.subnet))
   )
 
   message = "Kubernetes clusters must belong to a network context."

@@ -4,8 +4,8 @@ A production data platform on Google Cloud: a Shared VPC host project and a
 service project containing a private GKE cluster, Cloud Run services, Pub/Sub
 topics and subscriptions, a private Cloud SQL instance, Memorystore, Secret
 Manager, and Cloud Monitoring.
-`head` is the Architecture scenario shown in the Playground; the Diff scenario
-compares `base` with `head`.
+Both `base` and `head` build into Architecture IR, and the Diff compares the
+two documents.
 
 Both sides build statically. No Google Cloud account, credentials, provider
 process, plan, or state is required.
@@ -48,19 +48,23 @@ process, plan, or state is required.
   28-day availability objective, and an alert policy on subscription backlog
   age.
 
-## What to look at
+## Reading the facts
 
-- Survey: the project, the VPC with its subnets, and the cluster with its
-  namespaces are visible at once.
-- Plan: `vpc-data-shared` shows the cluster in `snet-gke`, the connector in
-  `snet-serverless`, the Cloud Router with its NAT, the firewall rules, and
-  Memorystore. Cloud SQL sits outside the network with a private-reachability
-  relation to it.
-- Focus on `events-raw-enrichment`: the subscription subscribes to
-  `events-raw` and delivers to `enrichment`, which routes to `vac-data-prod`
-  and runs as `sa-enrichment`, whose IAM bindings contribute to it.
-- Focus on any deployment: it runs as its own service account, inside its
-  namespace, inside the cluster.
+The generated documents are the source of truth for this scenario, and each
+entry can be checked against the Terraform source and the Dialect Rule that
+produced it.
+
+- Network and runtime context: `gke-data-prod` points to both
+  `vpc-data-shared` and `snet-gke`; firewalls, subnets, Memorystore, and Cloud
+  SQL point to the VPC; every Kubernetes namespace and workload points to the
+  cluster.
+- Relation: `events-raw-enrichment` relates `events-raw` to `enrichment`,
+  which routes through `vac-data-prod`, runs as `sa-enrichment`, and has IAM
+  bindings that contribute to it.
+- Contribution: `np-workloads` contributes to `gke-data-prod`, and the
+  enrichment IAM member contributes to `sa-enrichment`.
+- Provenance: every entry derives from a Dialect Rule and a Terraform
+  reference, so any fact can be traced back to the source that produced it.
 
 ## Diff: streaming re-architecture
 
@@ -91,33 +95,28 @@ plus new network contexts.
 
 ## Modeling notes
 
-Every context and relation in the generated documents comes from a Dialect
-rule with a direct Terraform reference. Facts the Dialects do not express yet
-are absent rather than approximated: the VPC, its subnets, the Cloud Router,
-the connector, and firewall rules carry no project ownership context, so
-`plt-shared-net` is an empty scope even though each relevant Terraform
-resource directly names that project; Kubernetes services and ingresses carry
-no relation to the workloads behind them; Workload Identity annotations,
-Secret Manager references in container environments, and IAM roles are
-declarations without a relation.
-Cloud Storage buckets and Artifact Registry repositories are entities without
-any fact in this Dialect version, so the scenario leaves them out.
+Every fact comes from a Dialect Rule with direct Terraform evidence. These
+scenarios establish no composition memberships. Some declarations carry no
+project ownership context even though Terraform names `plt-shared-net`, and no
+relation connects Kubernetes services or ingresses to workloads. This states
+only what the documents establish, not what exists in deployed infrastructure.
+
+Cloud Storage buckets and Artifact Registry repositories keep their base
+representations even when this Dialect version adds no classification or fact.
 
 ## Dialects and build
 
-Dialect sources vendored from
-rootform-dev/dialects@8e0df6aa12323e100d63cbc071f8225439fc795d (semantics not
-yet published to the official index). Each project keeps the `core`, `google`,
-and `kubernetes` sources under
-`.rootform/dialects/` with the MPL-2.0 license, and `rootform.lock` pins their
-digests.
+The `google` and `kubernetes` Dialects belong to the Rootform release set and
+are embedded in the binary. Shared definitions come from the embedded RF
+Vocabulary, not another Dialect. Supplied units are never vendored, installed,
+or indexed separately, so this scenario needs no preparation command and no
+lock to build.
 
 From each project directory:
 
 ```sh
 terraform init -backend=false && terraform validate
-rootform init . --locked --no-input
-rootform build . --locked --offline --no-input --output architecture.json
+rootform build . --output architecture.json
 ```
 
 Then compare the two documents:
