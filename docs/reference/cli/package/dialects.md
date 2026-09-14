@@ -1,11 +1,11 @@
 ---
 title: "rootform package dialects"
-description: "Build dialect packages and a discovery index"
+description: "Build dialect packages"
 ---
 
 <!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
-Build dialect packages and a discovery index.
+Build dialect packages.
 
 ## Usage
 
@@ -20,17 +20,17 @@ rootform package dialects <directory> [flags]
 | ` --documentation-url ` | ` string ` | ` "" ` | record documentation `url` in provenance |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform package dialects |
 | ` --licenses ` | ` string ` | ` "" ` | record SPDX license `expression` in OCI provenance |
-| ` --repository ` | ` string ` | ` "" ` | record target registry `repository` |
 | ` --revision ` | ` string ` | ` "" ` | record source-control `revision` in OCI provenance |
 | ` --source-url ` | ` string ` | ` "" ` | record canonical source `url` in OCI provenance |
 | ` --to ` | ` string ` | ` "" ` | write registry layout to `directory` |
 
 ## Behavior
 
-Compile a dialect source set and write one deterministic local registry
-layout containing exact dialect packages and a generated discovery index.
-Summary goes to standard output. Diagnostics go to standard error.
-Nothing is sent to a registry.
+Compile an external dialect source set and write one deterministic,
+local-only registry layout of exact dialect packages. Supplied
+dialects stay embedded and are never packaged. Summary goes to
+standard output. Diagnostics go to standard error. Nothing is sent
+to a registry.
 
 ## Exit status
 
@@ -45,5 +45,5 @@ Nothing is sent to a registry.
 ```sh
 rootform package dialects ./dialects --to ./artifacts/oci
 rootform package dialects . --to ./artifacts/oci
-rootform package dialects ./private --to ./oci --repository r.example/dialects
+rootform package dialects ./own --to ./oci --licenses MPL-2.0
 ```

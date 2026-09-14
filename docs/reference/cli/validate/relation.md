@@ -24,7 +24,7 @@ rootform validate relation <identifier> [flags]
 
 Validate a relation and every compiled producer reference.
 
-Use &lt;dialect&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
+Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
 The text or JSON result goes to standard output. Diagnostics go to
 standard error.
 
@@ -40,7 +40,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform validate relation google/private-access
+rootform validate relation google.relation.private-access
 rootform validate relation private-access
-rootform validate relation google/private-access --format json
+rootform validate relation google.relation.private-access --format json
 ```

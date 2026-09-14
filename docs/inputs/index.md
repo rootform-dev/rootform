@@ -7,8 +7,8 @@ Choose the input for the question you want to answer.
 
 | Input | What it describes | Start with |
 | --- | --- | --- |
-| Configuration directory | Architecture established from source declarations and references. | `rootform run ./infra` |
-| Rootform architecture JSON | Facts already compiled, including their provenance and diagnostics. | `rootform run architecture.json` |
+| Configuration directory | Architecture established from source declarations and references. | `rootform build ./infra` |
+| Rootform architecture JSON | Facts already compiled, including their provenance and diagnostics. | `rootform explain architecture <id> --input architecture.json` |
 | Terraform/OpenTofu JSON plan | Planned architecture, or the architectural difference stated by one plan. | `rootform build --plan tfplan.json` or `rootform diff --plan tfplan.json` |
 
 ## Analyze configuration
@@ -24,13 +24,13 @@ not search parent directories for another project's selection. In a repository
 with several independent root modules, analyze and prepare each root separately.
 
 ```sh
-rootform run ./infra
+rootform build ./infra --output architecture.json
 ```
 
-Directory forms of `run`, `build`, and `check` prepare missing Dialects before
-compiling. They use provider declarations and compatible
-`.terraform.lock.hcl` evidence to choose Dialects. Terraform and OpenTofu are
-not invoked by these commands.
+Directory forms of `run`, `build`, and `check` use the embedded supplied release set
+plus exact optional project lock. They never discover, choose, or acquire
+Dialects. Provider declarations and `.terraform.lock.hcl` provide compatibility
+evidence only. Terraform and OpenTofu are not invoked.
 
 ### Modules must be available locally
 
@@ -62,12 +62,12 @@ infrastructure inventory.
 
 ```sh
 rootform build . --output architecture.json
-rootform run architecture.json
+rootform explain architecture aws_subnet.application --input architecture.json
 ```
 
-The file contains [Architecture IR](../concepts/architecture-ir.md). Serving it
-uses the saved facts without re-reading Terraform or acquiring Dialects. A file
-can also feed `check`, `diff`, or `explain architecture --input`.
+The file contains [Architecture IR](../concepts/architecture-ir.md). Reading it
+uses saved facts without re-reading Terraform or acquiring Dialects. It can feed
+`check`, `diff`, or `explain architecture --input`.
 
 `check` still needs selected Policy Packs. A persisted compiled pack and saved
 IR need no producer Dialect package or compilation source. Comparing two files

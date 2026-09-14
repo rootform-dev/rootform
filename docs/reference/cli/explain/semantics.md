@@ -26,7 +26,7 @@ Show how a source declaration was interpreted, including the matching
 rule and the architecture it produced.
 
 The current directory supplies the architecture.
-Use &lt;dialect&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
+Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
 
 The text or JSON explanation goes to standard output. Diagnostics go to
 standard error.
@@ -43,7 +43,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform explain semantics google/cloud-sql-instance
+rootform explain semantics google.rule.cloud-sql-instance
 rootform explain semantics cloud-sql-instance
-rootform explain semantics google/cloud-sql-instance --format json
+rootform explain semantics google.rule.cloud-sql-instance --format json
 ```

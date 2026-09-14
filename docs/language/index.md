@@ -1,12 +1,12 @@
 ---
 title: "Rootform language"
-description: "Learn how .rf definitions turn source declarations into architecture facts and evaluate policies over those facts."
+description: "Learn how .rf sources give Terraform and OpenTofu declarations architectural meaning, then evaluate policies over the resulting Architecture IR."
 ---
 
 The Rootform language is the public authoring language for **Dialects** and
-**Policy Packs**. A Dialect explains what source declarations mean. A Policy
-Pack asks bounded questions about the architecture facts those Dialects
-produced.
+**Policy Packs**. A Dialect explains what Terraform or OpenTofu declarations
+mean. A Policy Pack asks bounded questions about the architecture facts those
+Dialects produced.
 
 Rootform reads two source forms: human-authored `.rf` and HCL JSON `.rf.json`.
 HCL provides their surface syntax. Rootform defines the accepted blocks,
@@ -33,7 +33,6 @@ A Dialect participates while Rootform builds an architecture:
   → compiled Dialect
   → matched Terraform/OpenTofu declarations
   → Architecture IR facts and provenance
-  → renderer
 ```
 
 A Policy Pack participates after those facts exist:
@@ -46,22 +45,32 @@ A Policy Pack participates after those facts exist:
   → passed, violated, or indeterminate result
 ```
 
-The renderer never executes `.rf`. It reads the resulting Architecture IR.
-A policy never rewrites that IR, reads a live cloud account, or repairs missing
-Dialect coverage.
+Architecture IR is the shared result. [Architecture Diff](../concepts/diff.md)
+compares two documents over that contract, and
+[Check an architecture](../guides/check-architecture.md) evaluates policies
+against one. No policy rewrites the document, reads a live cloud account, or
+repairs missing Dialect coverage.
 
-## Dialects describe meaning
+## Dialects give declarations meaning
 
-A Dialect declares vocabulary and rules:
+Every normalized `resource` has a base representation, identified by source
+facts alone: identity, address, kind, type, provider, name, and location. A Rule
+adds interpretation to that base. It can classify the representation with a
+Concept, establish contexts or relations, record a contribution, or compose
+several representations into one. A missing Rule leaves the base unclassified,
+which is not an error.
 
-- a **concept** classifies a representation as an entity, scope, or detail;
-- a **context** names a placement dimension, such as network or ownership;
-- a **rule** recognizes one kind of source declaration and assigns a concept;
+A Dialect declares provider envelopes, local definitions, and Rules:
+
+- a **Concept** is optional nominal classification;
+- a **Context** names one placement dimension;
+- a **Relation** names a directed predicate;
 - facts connect representations through contexts, contributions, or relations;
-- a composition can treat several related declarations as one representation.
+- composition records exclusive source memberships while every member keeps its
+  own base.
 
-This official AWS rule recognizes a subnet and records its VPC reference as
-network context:
+This Rule from the supplied AWS Dialect recognizes a subnet and records its VPC
+reference as network context:
 
 ```hcl title="aws/network/vpc.rf"
 rule "subnet" {
@@ -70,47 +79,58 @@ rule "subnet" {
     type = "aws_subnet"
   }
 
-  as = concept.core.subnet
+  as = rf.concept.subnet
 
   context {
-    as  = context.core.network
-    to  = concept.core.virtual-network
+    as  = rf.context.network
+    to  = rf.concept.virtual-network
     via = source.vpc_id
   }
 }
 ```
 
-The rule does not say how to draw a subnet. It establishes meaning and evidence:
-the declaration represents `core/subnet`, and its `vpc_id` reference may
-establish `core/network` context inside a `core/virtual-network`.
+The rule establishes meaning and evidence: the declaration is classified
+`rf.concept.subnet`, and its `vpc_id` reference may establish
+`rf.context.network` toward `rf.concept.virtual-network`.
 
-Read [Dialects](../concepts/dialects.md) for the product model, then
-[write a Dialect](../dialect-authoring.md) when you need to extend coverage.
+A supported provider can still contain resource types that no Rule interprets.
+Every normalized `resource` contributes a base while only Rules add
+interpretation, so representation coverage and interpretation coverage are
+separate counts. Read [Dialects and RF Vocabulary](../concepts/dialects.md) for
+the product model, then [write a Dialect](../dialect-authoring.md) to extend
+coverage.
 
 ## Policies ask about known facts
 
-A policy targets one exact concept and evaluates once for each matching
-representation. Its assertion can count three closed fact queries:
-`contexts`, `relations`, and `contributions`.
+A Policy target selects the representations it evaluates along three dimensions:
+Concept, applied Rules, and Dialect owners. Values inside a list are ORed,
+dimensions are ANDed, and at least `concept` or `rules` is required. An assertion
+uses one of three closed fact queries: `contexts`, `relations`, and
+`contributions`.
 
-Inside a Policy Pack source root, put the single manifest in `pack.rf`. Policies
-are top-level declarations in any discovered source file:
+Within a Policy Pack source root, one top-level `policy_pack` manifest names the
+pack. Policies are top-level declarations in any `.rf` or `.rf.json` file
+beneath that same root:
 
 ```hcl title="policies/subnet-network-context.rf"
 policy "subnet-network-context" {
-  target = concept.core.subnet
-  assert = exists(contexts(context.core.network, concept.core.virtual-network))
+  target {
+    concept = rf.concept.subnet
+  }
+
+  assert = exists(contexts(rf.context.network, rf.concept.virtual-network))
   message = "Subnets must have an established virtual network context."
 }
 ```
 
-The single manifest assigns pack identity to this policy through the shared
-source root. The policy needs neither nesting nor a pack reference.
+The manifest assigns pack identity to this policy through the shared source root.
+The policy needs neither nesting nor a pack reference.
 
-An empty query means zero only when vocabulary, active emission support, and
-all applicable closure are known. Unavailable or incompatible evidence makes
-affected query indeterminate, including under negation. No representation with
-target concept yields `not_evaluated`, `compliant = false`, and exit 3.
+An empty query means zero only when the vocabulary, active emission support, and
+all applicable closure are known. Unavailable or incompatible evidence makes an
+affected query indeterminate, including under negation. A selected policy whose
+target matches no representation contributes zero evaluations and is counted as
+`not_evaluated`, so the run reports `compliant = false` and exit 3.
 
 Read [Policies and Policy Packs](../concepts/policies.md) for governance meaning.
 Use [Check an architecture](../guides/check-architecture.md) for a complete
@@ -133,5 +153,5 @@ not add equivalent authoring constructs to `.rf`.
 Use `rootform lsp` for editor diagnostics and `rootform fmt` for canonical
 formatting. Validation compiles definitions; `rootform test` compares Dialect
 fixture architectures; `rootform check` evaluates policies. These operations
-answer different questions and should all appear in a serious authoring
+answer different questions, so use them together in a serious authoring
 workflow.

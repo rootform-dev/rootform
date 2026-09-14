@@ -24,7 +24,7 @@ rootform show relation <identifier> [flags]
 
 Show a relation predicate, ownership, producers, and concept pairs.
 
-Use &lt;dialect&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
+Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
 
 The text or JSON definition goes to standard output. Diagnostics go to
 standard error.
@@ -41,7 +41,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform show relation google/private-access
+rootform show relation google.relation.private-access
 rootform show relation private-access
-rootform show relation google/private-access --format json
+rootform show relation google.relation.private-access --format json
 ```

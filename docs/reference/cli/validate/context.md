@@ -24,7 +24,7 @@ rootform validate context <identifier> [flags]
 
 Validate a context dimension in the context of its dialect.
 
-Use &lt;dialect&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
+Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
 The text or JSON result goes to standard output. Diagnostics go to
 standard error.
 
@@ -40,7 +40,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform validate context core/geography
-rootform validate context geography
-rootform validate context core/geography --format json
+rootform validate context rf.context.network
+rootform validate context network
+rootform validate context rf.context.network --format json
 ```

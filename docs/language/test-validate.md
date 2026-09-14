@@ -50,7 +50,7 @@ rootform validate dialects .
 ```
 
 Successful validation proves accepted syntax, exact identities and versions,
-reference scope, concept-kind constraints, rule and fact shapes, and a complete
+reference scope, Rule and fact shapes, and a complete
 canonical artifact. It does not prove that a provider field has the meaning you
 assigned to it.
 
@@ -64,22 +64,16 @@ Diagnostics go to standard error. Exit status `0` means valid, `1` means at
 least one definition is invalid, `2` means incorrect command use, and `3` means
 validation could not decide a result.
 
-Validation above reads the source set directly. For commands that inspect
-objects or build fixtures, install the checkout into an isolated authoring
-home first:
+
+
+Validation above reads the source set directly. Inspect one object from the
+project effective Dialect set (supplied Dialects embedded in the release set
+plus explicit selected Dialects):
 
 ```sh
-export ROOTFORM_HOME="$(mktemp -d)"
-rootform install dialects .
-rootform verify dialects .
-```
-
-Then inspect one object from the selected or installed Dialects:
-
-```sh
-rootform validate rule aws/subnet
-rootform show rule aws/subnet
-rootform validate concept core/subnet
+rootform validate rule aws.rule.subnet
+rootform show rule aws.rule.subnet
+rootform validate concept rf.concept.subnet
 ```
 
 Qualification removes ambiguity. A bare object name is accepted only when it
@@ -102,13 +96,12 @@ fixtures/
         └── architecture.golden
 ```
 
-Before first comparison, complete isolated authoring setup from
-[Write a Dialect](../dialect-authoring.md#set-up-an-authoring-checkout): install
-checkout's Dialects into temporary `ROOTFORM_HOME`, then review candidate
-Architecture IR before saving it as `architecture.golden`. Repository fixture
-suite supplies exact shared Dialects; `rootform test` never updates golden.
+Before first comparison, review candidate Architecture IR from the project
+effective Dialect set before saving it as `architecture.golden`. Repository
+fixture suite supplies exact shared Dialects; `rootform test` never updates
+golden.
 
-Run the suite with its prepared lock and Dialects:
+Run suite with supplied release set plus exact optional project lock:
 
 ```sh
 rootform test ./fixtures
@@ -126,10 +119,10 @@ window; it does not dump the architecture.
 
 Review a changed golden as product behavior. Check at least:
 
-- representation IDs and concepts;
+- base representation IDs, applied Rules, and optional Concepts;
 - context, contribution, and relation facts;
 - composition membership;
-- source declaration outcomes;
+- source declaration interpretations;
 - provenance and diagnostics;
 - absence of raw sensitive values;
 - byte-identical repeat output.
@@ -199,7 +192,6 @@ repository-owned values; use exact revision from checkout:
 
 ```sh
 rootform package dialects . --to ./artifacts/dialects \
-  --repository registry.example/team/dialects \
   --source-url https://example.com/team/dialects \
   --revision "$(git rev-parse HEAD)" \
   --licenses MPL-2.0
@@ -214,8 +206,9 @@ rootform package policy-packs ./policies --to ./artifacts/policies \
   --licenses Apache-2.0
 ```
 
-Package commands are offline. Verify a Dialect layout with
-`rootform verify dialects`. Policy Pack release automation should repull the
-published tag and digest before reporting success.
+Package commands are offline. Preview a Dialect layout with
+`rootform publish dialects ./artifacts/dialects --to registry.example --dry-run`.
+Policy Pack release automation should repull the published tag and digest
+before reporting success.
 
 <!-- rootform:endsteps -->

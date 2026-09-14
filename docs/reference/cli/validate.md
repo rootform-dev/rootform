@@ -44,5 +44,5 @@ Validation checks definitions; it does not evaluate policies. Use
 ```sh
 rootform validate architecture ./infra
 rootform validate dialects ./dialects
-rootform validate rule google/cloud-sql-instance
+rootform validate rule google.rule.cloud-sql-instance
 ```

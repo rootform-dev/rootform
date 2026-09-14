@@ -1,36 +1,145 @@
 ---
 title: "Syntax and files"
-description: "Reference for .rf and .rf.json source discovery, structural syntax, identities, and source-unit boundaries."
+description: "RF source discovery, native and JSON syntax, structural grammar, identifiers, versions, and source-unit boundaries."
 ---
 
-The Rootform language has two equivalent parsing surfaces:
+RF has two equivalent source surfaces:
 
-| Suffix | Purpose | Parser surface |
+| Suffix | Encoding | Intended use |
 | --- | --- | --- |
-| `.rf` | Human authoring | HCL native syntax |
-| `.rf.json` | Generated or machine-authored source | Standard HCL JSON syntax |
+| `.rf` | HCL native syntax | Human-authored Dialects and Policy Packs |
+| `.rf.json` | HCL JSON syntax | Generated Dialects and Policy Packs |
 
-Both compile into the same closed Rootform model. They can coexist under one
-source root. A file in one form does not override a file in the other form;
-duplicate declarations remain duplicates.
+Both suffixes may coexist inside one source root. Files and directories organize
+source for people only. They do not create namespaces, imports, or evaluation
+order.
 
 ## Source discovery
 
-Rootform walks the supplied source root recursively and deterministically. It
-reads regular files ending in `.rf` or `.rf.json`. Plain `.hcl`, `.json`, and
-Terraform `.tf` files are not part of the Rootform language.
+Rootform walks requested source root recursively.
 
-Hidden organization and nested folders do not create language scope. The
-package identity comes from a `dialect` or `policy_pack` declaration, not a
-directory name.
+| Path | Behavior |
+| --- | --- |
+| Regular file ending in `.rf` or `.rf.json` | Parsed |
+| Other file suffix | Ignored |
+| Dot-prefixed file or directory | Ignored |
+| Symlink resolving to regular file inside source root | Parsed |
+| Symlink escaping source root | Rejected with `SYMLINK_OUTSIDE_ROOT` |
+| Matching file that cannot be read or is not regular | Rejected |
 
-Unreadable files, irregular files, source escaping its root, and excessive JSON
-nesting fail with explicit diagnostics. Rootform does not skip a bad language
-file silently.
+Discovery and diagnostic ordering are deterministic. Declaration resolution is
+independent of filename and file order. Only
+[composition members](composition.md) retain authored order.
 
-## Native structural syntax
+## Source units
 
-A native `.rf` file uses blocks, labels, attributes, and expressions:
+One source root has exactly one responsibility.
+
+| Unit | Required manifest | Other allowed top-level blocks |
+| --- | --- | --- |
+| Dialect | Exactly one `dialect` | `concept`, `context`, `relation`, `rule` |
+| Policy Pack | Exactly one `policy_pack` | `policy` |
+
+RF Vocabulary is embedded by Rootform and cannot be authored as a source unit.
+A Dialect cannot contain `policy`. A Policy Pack cannot contain Dialect
+blocks. RF has no `import`, `include`, `module`, `requires`, or
+cross-Dialect dependency block.
+
+## Structural grammar
+
+This grammar describes RF block structure. Brackets mean optional, braces mean
+zero or more, and a trailing `+` means one or more. Commas and semicolons are
+grammar notation, not RF tokens. Attribute order and block order are not
+significant except for `member` order.
+
+```text
+dialect-unit       = dialect-block,
+                     { concept-block | context-definition |
+                       relation-definition | rule-block } ;
+
+dialect-block      = "dialect", label, "{",
+                       version-attribute,
+                       { provider-block },
+                     "}" ;
+
+provider-block     = "provider", provider-source, "{",
+                       version-constraint-attribute,
+                     "}" ;
+
+concept-block      = "concept", label, "{", [ description-attribute ], "}" ;
+context-definition = "context", label, "{", [ description-attribute ], "}" ;
+relation-definition
+                   = "relation", label, "{", [ description-attribute ], "}" ;
+
+rule-block         = "rule", label, "{",
+                       match-block,
+                       [ as-attribute ],
+                       { context-emission | relation-emission |
+                         contribution-emission },
+                       [ composition-block ],
+                     "}" ;
+
+match-block        = "match", "{",
+                       [ kind-attribute ],
+                       type-attribute,
+                       [ where-attribute ],
+                     "}" ;
+
+context-emission   = ( "context", label | "context" ), "{",
+                       [ as-attribute ],
+                       to-attribute,
+                       via-attribute,
+                       [ fact-match-block ],
+                     "}" ;
+
+relation-emission  = ( "relation", label | "relation" ), "{",
+                       [ as-attribute ],
+                       to-attribute,
+                       via-attribute,
+                       [ fact-match-block ],
+                     "}" ;
+
+contribution-emission
+                   = "contribution", "{",
+                       to-attribute,
+                       via-attribute,
+                       [ fact-match-block ],
+                     "}" ;
+
+fact-match-block   = "match", "{",
+                       by-attribute,
+                       strategy-attribute,
+                     "}" ;
+
+composition-block  = "composition", "{", member-block+, "}" ;
+member-block       = "member", label, "{",
+                       via-attribute,
+                       match-block,
+                     "}" ;
+
+policy-pack-unit   = policy-pack-block, { policy-block } ;
+
+policy-pack-block  = "policy_pack", label, "{",
+                       version-attribute,
+                     "}" ;
+
+policy-block       = "policy", label, "{",
+                       target-block,
+                       assert-attribute,
+                       message-attribute,
+                     "}" ;
+
+target-block       = "target", "{",
+                       [ concept-attribute ],
+                       [ rules-attribute ],
+                       [ dialects-attribute ],
+                     "}" ;
+```
+
+Detailed pages define every attribute type, default, exclusivity rule, and
+runtime effect.
+
+## Native syntax
 
 ```hcl title="dialect.rf"
 dialect "example" {
@@ -42,140 +151,160 @@ dialect "example" {
 }
 ```
 
-The block has these structural parts:
+Source text is UTF-8. Native RF follows
+[HCL native lexical rules](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md):
 
-| Token | Role |
-| --- | --- |
-| `dialect` | Block type fixed by Rootform. |
-| `"example"` | Required block label. |
-| `version` | Attribute name fixed at this position. |
-| `"0.1.0"` | Literal string value. |
-| `provider` | Nested block type. |
-| `"hashicorp/example"` | Provider source label. |
+- whitespace is insignificant outside strings;
+- line comments use `#` or `//`;
+- block comments use `/* ... */`;
+- string literals use quotes or static heredocs;
+- block labels are conventionally quoted; a bare HCL identifier is also
+  accepted when resulting label satisfies RF label grammar;
+- `rootform fmt` writes canonical layout.
 
-Whitespace and newlines are not semantic outside strings. Native syntax
-accepts line comments beginning with `#` or `//` and block comments delimited
-by `/*` and `*/`. `rootform fmt` produces canonical layout.
+A field documented as a static string is evaluated in an empty HCL context.
+Result must be known, non-null string. Variables and functions are unavailable;
+multi-part interpolated templates are rejected. Constant string conditionals
+are accepted, although direct literals are canonical and recommended.
+Expression fields accept only RF subset documented under
+[Expressions](expressions.md).
 
-Unknown attributes and blocks are errors. Extra or missing labels are errors.
-Rootform never treats an unrecognized body item as extension metadata.
+## JSON syntax
 
-## Labels and names
-
-Dialect, concept, context, rule, Policy Pack, policy, and composition-member
-names use lower kebab case: lowercase ASCII letters and digits separated by
-single hyphens. Names are 1–64 bytes, cannot begin or end with a hyphen, and
-cannot contain spaces or underscores.
-
-```text title="Name examples"
-valid:   subnet
-valid:   private-database-reachability
-invalid: PrivateSubnet
-invalid: private_subnet
-invalid: -subnet
-```
-
-Provider source labels use canonical `namespace/name` or
-`hostname/namespace/name` form. [Provider envelopes](dialects.md#provider-envelope)
-define normalization and matching. Traversal attribute names follow source
-adapter's path vocabulary and are not Dialect definition labels.
-
-## Source-unit boundaries
-
-Dialect and Policy Pack roots are separate compilation units:
-
-| Source unit | Accepted top-level blocks | Required identity |
-| --- | --- | --- |
-| Dialect | `dialect`, `concept`, `context`, `rule` | Exactly one `dialect` declaration across the root. |
-| Policy Pack | `policy_pack`, `policy` | Exactly one `policy_pack` declaration across the root. |
-
-A top-level `policy` belongs to the single `policy_pack` manifest in its source
-root. It does not need to nest inside that manifest or name a pack reference. A
-policy found in a Dialect package is rejected with `POLICY_NOT_ALLOWED`. A
-Dialect block in a Policy Pack source root is an unknown block.
-
-Nested policies are invalid. Top-level policies support recursive multi-file
-authoring; all examples use that form.
-
-Definitions in a Dialect can be split across files. Their language scope is the
-Dialect, not the file. Definition identities must be unique across the whole
-root. Policy declarations can likewise be split across any files and nested
-folders beneath one Policy Pack root. A missing or second manifest makes their
-ownership invalid. Package several packs by placing each in its own source root
-beneath one parent directory.
-
-There is no source `import`, `include`, or `module` construct. Cross-Dialect
-vocabulary access uses an exact direct `requires` entry and a qualified
-reference. Policy Packs have no source composition or inheritance.
-
-## JSON structural syntax
-
-`.rf.json` uses standard HCL JSON block encoding. A labeled block becomes a
-nested object keyed by its label. This JSON source is equivalent to a native
-`dialect "example"` declaration:
+HCL JSON represents labeled blocks as nested objects. This complete Dialect is
+equivalent to native RF:
 
 ```json title="dialect.rf.json"
 {
   "dialect": {
     "example": {
       "version": "0.1.0",
-      "requires": {
-        "core": "0.1.0"
-      },
       "provider": {
         "hashicorp/example": {
           "version": ">= 1.0.0, < 2.0.0"
         }
       }
     }
+  },
+  "concept": {
+    "network": {
+      "description": "An example network."
+    }
+  },
+  "rule": {
+    "network": {
+      "match": {
+        "kind": "resource",
+        "type": "example_network"
+      },
+      "as": "${concept.network}"
+    }
   }
 }
 ```
 
-Policy Pack JSON uses same root-level ownership model. Manifest and policy are
-sibling block objects:
+Expression-valued JSON strings use HCL JSON expression carrier
+`"${...}"`. Static string fields remain ordinary JSON strings in
+`.rf.json` and are never reparsed as expressions.
+
+A Policy Pack manifest and its Policies are sibling top-level blocks:
 
 ```json title="pack.rf.json"
 {
   "policy_pack": {
     "baseline": {
-      "version": "0.1.0",
-      "requires": {
-        "core": "0.1.0"
-      }
+      "version": "0.1.0"
     }
   },
   "policy": {
     "network-context": {
-      "target": "concept.core.virtual-network",
-      "assert": "${length(contexts(context.core.network, concept.core.virtual-network)) > 0}",
-      "message": "Networks must have network context."
+      "target": {
+        "concept": "${rf.concept.subnet}",
+        "rules": [
+          "${aws.rule.subnet}"
+        ],
+        "dialects": [
+          "aws"
+        ]
+      },
+      "assert": "${exists(contexts(rf.context.network, rf.concept.virtual-network))}",
+      "message": "Subnets must declare their virtual network."
     }
   }
 }
 ```
 
-Literal-only fields remain plain JSON strings. Fields that accept a Rootform
-expression use HCL's interpolation-string carrier for nonliteral expressions.
+For repeated blocks with the same labels, HCL JSON uses arrays at the repeated
+body position. HCL JSON has no comment tokens; a `"//"` property carries
+comment text where [HCL JSON mapping](https://github.com/hashicorp/hcl/blob/main/json/spec.md)
+allows it. Generated authors should follow that mapping rather than translating
+native punctuation mechanically.
 
-`target` is a semantic-reference field and stays a plain string in JSON.
-`assert` is a full-expression field; `${ ... }` carries its operator and call
-expression. A bare assertion string such as `"a == b"` is a literal string,
-not an expression to reinterpret.
+## Identifiers
 
-`description`, `message`, match `kind` and `type`, versions, and matching
-strategy are literal fields. Rootform does not interpolate their contents.
+Most RF labels use this grammar:
 
-## Versions and string bounds
+```text
+identifier = lower, { lower | digit | "-" }, with no trailing or doubled "-" ;
+lower      = "a" ... "z" ;
+digit      = "0" ... "9" ;
+```
 
-Dialect and Policy Pack versions use exact `MAJOR.MINOR.PATCH` form with
-nonnegative decimal components, no leading zeroes, and no prerelease suffix.
-`requires` values use the same exact form. Provider compatibility is different:
-its `version` string is a validated provider constraint.
+Equivalent regular expression:
 
-Descriptions and policy messages must be nonempty and fit within 1024 UTF-8
-bytes. Expressions fit within 4096 source bytes. These bounds reject
-pathological input; concise authoring should remain well below them.
+```text
+[a-z][a-z0-9]*(?:-[a-z0-9]+)*
+```
 
-Continue with [Dialects](dialects.md) or [Policy Packs](policy-packs.md) for
-position-specific schemas.
+Identifiers are 1 to 64 UTF-8 bytes and ASCII lowercase kebab case. This
+applies to Dialect, definition, Rule, composition member, Policy Pack, and
+Policy labels. Provider source labels follow their own slash-form grammar.
+Traversal attributes follow their own adapter-name grammar.
+
+`rf` is reserved as the embedded vocabulary owner and cannot be a Dialect
+label.
+
+## Versions
+
+Dialect and Policy Pack `version` use exact three-component decimal form:
+
+```text
+version = component, ".", component, ".", component ;
+```
+
+Each component is non-negative and has no leading zero unless it is exactly
+`0`. Pre-release identifiers, build metadata, and ranges are invalid.
+
+| Accepted | Rejected |
+| --- | --- |
+| `0.1.0` | `v0.1.0` |
+| `2.0.14` | `2.0` |
+| `10.4.0` | `01.4.0` |
+| | `1.0.0-beta.1` |
+
+Provider `version` is a constraint string, not this exact-version field. See
+[Provider block](dialects.md#provider-block).
+
+## Source bounds
+
+| Value | Bound |
+| --- | --- |
+| Structural nesting | At most 10,000 levels |
+| RF identifier | 1 to 64 bytes |
+| Optional definition description | At most 1,024 UTF-8 bytes; empty is allowed |
+| Required Policy message | 1 to 1,024 UTF-8 bytes |
+| Expression source | At most 4,096 bytes |
+
+Additional compiled and evaluation bounds appear under
+[Diagnostics and limits](diagnostics.md#limits).
+
+## Rejected example
+
+```hcl title="invalid-version.rf"
+dialect "example" {
+  version = "0.1"
+}
+```
+
+`version` is required to use exact `MAJOR.MINOR.PATCH`, so this source
+produces `INVALID_VALUE`.

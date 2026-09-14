@@ -27,7 +27,7 @@ rootform package policy-packs <directory> [flags]
 ## Behavior
 
 Compile a Policy Pack source set and write one deterministic local registry
-layout containing exact Policy Pack packages and no discovery index.
+layout containing exact Policy Pack packages.
 Nothing is sent to a registry. Summary goes to standard output.
 Diagnostics go to standard error.
 

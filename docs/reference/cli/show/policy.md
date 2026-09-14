@@ -30,7 +30,8 @@ Use "rootform explain policy" to understand why a policy produced a
 result for an architecture element.
 
 The project must select the owning Policy Pack, or --policy-pack can
-supply a local root. Use &lt;policy-pack&gt;/&lt;name&gt;, or a bare name when unambiguous.
+supply a local root. Use &lt;policy-pack&gt;.policy.&lt;name&gt;, or a bare name
+when unambiguous.
 
 The text or JSON definition goes to standard output. Diagnostics go to
 standard error.
@@ -47,7 +48,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform show policy baseline/private-database-reachability
-rootform show policy private-database-reachability
-rootform show policy baseline/private-database-reachability --format json
+rootform show policy baseline.policy.cluster-network-context
+rootform show policy cluster-network-context
+rootform show policy baseline.policy.cluster-network-context --format json
 ```

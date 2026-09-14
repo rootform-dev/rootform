@@ -22,9 +22,9 @@ examples, and release metadata.
 ## Install
 
 Install an exact release version, verify its published SHA-256 checksum, and
-read the license and notices included with its archive. Then run directly from
-Terraform or OpenTofu root; project preparation initializes missing dialects
-before local server starts:
+read license and notices included with archive. Then run directly from
+Terraform or OpenTofu root; release carries RF Vocabulary and supplied
+Dialects:
 
 ```bash
 rootform run .
@@ -34,27 +34,26 @@ See [`docs/installation.md`](docs/installation.md).
 
 ## Dialect lifecycle
 
-VCS is authoring provenance. OCI registries distribute dialects. Indexes provide
-discovery. `rootform.lock` records exact selection. Project vendor is exclusive
-execution source when present; verified store/cache supports materialization
-and offline reuse. Docker-compatible credentials authenticate private
-registries. No forge or Rootform Cloud service is required.
+Rootform release embeds one immutable supplied Dialect set. Third-party
+Dialects may be packaged and published through generic OCI commands.
+`rootform.lock` records only explicit additions, exclusions, and whole-owner
+replacements. No Dialect discovery index exists. Project vendor is exclusive
+execution source when present; `$ROOTFORM_HOME/dialects` stores exact installed
+third-party units.
 
 See [`contracts/dialect-distribution.md`](contracts/dialect-distribution.md) and
 [`contracts/rootform-oci-core-profile.md`](contracts/rootform-oci-core-profile.md).
 
 ## Policy Pack lifecycle
 
-Policy Packs version and distribute governance independently from Dialect
-semantics. A policy belongs to one pack, uses pack-qualified identity, and
-declares exact Dialect requirements without installing them. Same OCI,
-authentication, lock, cache, offline, and vendor primitives apply under
-separate Policy Pack identities and paths.
+Policy Packs version and distribute governance independently from Dialects. A
+Policy belongs to one pack and uses owner-first identity. Source declares no
+semantic versions; linking derives exact RF Vocabulary and Dialect pins from
+qualified references and Architecture IR.
 
 See [`contracts/policy-pack-distribution.md`](contracts/policy-pack-distribution.md)
-and the [`baseline` example](policy-packs/baseline/pack.rf). Its published OCI
-artifact is visible in the
-[`rootform-dev/policy-packs` GHCR package](https://github.com/orgs/rootform-dev/packages/container/package/policy-packs).
+and [`baseline` example](policy-packs/baseline/pack.rf). Repository makes no
+publication claim for this local pre-release source.
 
 ## Licensing boundary
 

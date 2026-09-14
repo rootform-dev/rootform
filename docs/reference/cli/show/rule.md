@@ -25,7 +25,7 @@ rootform show rule <identifier> [flags]
 Show what a rule matches, the concept it produces, and the
 architectural facts it declares.
 
-Use &lt;dialect&gt;/&lt;name&gt;, or a bare name when it resolves unambiguously.
+Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
 
 The text or JSON definition goes to standard output. Diagnostics go to
 standard error.
@@ -42,7 +42,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform show rule google/cloud-sql-instance
+rootform show rule google.rule.cloud-sql-instance
 rootform show rule cloud-sql-instance
-rootform show rule google/cloud-sql-instance --format json
+rootform show rule google.rule.cloud-sql-instance --format json
 ```

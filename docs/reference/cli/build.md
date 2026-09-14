@@ -8,10 +8,9 @@ Write canonical JSON for another command, or self-contained HTML for a browser.
 
 ## Input and defaults
 
-With no directory, `build` reads the current directory. Directory input prepares
-missing project Dialects before compilation. A coherent local lock is silent.
-Use `--plan` instead of a directory to read a JSON plan; `-` reads that plan
-from standard input. Plan input requires prepared Dialects.
+With no directory, `build` reads current directory. It uses supplied release
+set plus explicit project selection. It performs no discovery, acquisition,
+prompt, or lock mutation. Use `--plan` for JSON plan; `-` reads standard input.
 
 The default output format is `json`. The result goes to standard output unless
 `--output` names a file. Preparation, diagnostics, and declaration counts go
@@ -31,30 +30,25 @@ rootform build [directory] [flags]
 | --- | --- | --- | --- |
 | ` --format ` | ` string ` | ` json ` | write `format` (json/html) |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform build |
-| ` --locked ` | ` bool ` | ` false ` | require and preserve the existing rootform.lock |
-| ` --no-input ` | ` bool ` | ` false ` | never prompt; require deterministic action |
-| ` --offline ` | ` bool ` | ` false ` | disable network; use only local data |
+| ` --locked ` | ` bool ` | ` false ` | require an existing valid rootform.lock |
 | ` -o, --output ` | ` string ` | ` "" ` | write the architecture to this `file` |
 | ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
-| ` -v, --verbose ` | ` bool ` | ` false ` | show provider evidence and origin |
 
 <!-- END GENERATED CLI -->
 
 > [!NOTE]
-> `--locked` can download a missing artifact at its exact locked identity.
-> Combine it with `--offline` when selection and network access must both be fixed.
-> In a non-interactive normal command, an existing lock is never silently updated;
-> run the explicit initialization command reported by the diagnostic.
+> `--locked` requires an existing valid `rootform.lock`. Prepare missing exact
+> OCI pins first with `rootform init --locked` or vendor them with `rootform vendor`.
 
 ## Save an architecture
 
-From a prepared project:
+From project using only supplied Dialects:
 
 <!-- rootform:tabs Output format -->
 <!-- rootform:tab JSON -->
 
 ```sh
-rootform build . --locked --output architecture.json
+rootform build . --output architecture.json
 ```
 
 The output file contains architecture facts and their provenance, not the raw
@@ -62,17 +56,14 @@ Terraform configuration.
 
 <!-- rootform:tab HTML -->
 
-### Export HTML offline
-
-After the required Dialects are available locally:
+### Export HTML
 
 ```sh
-rootform build . --locked --offline --format html --output architecture.html
+rootform build . --format html --output architecture.html
 ```
 
-Open the file in a browser. It contains its own renderer assets and needs no
-server or sibling file. `--offline` requires every locked Dialect to be
-available locally; it never downloads missing content.
+Open file in browser. It contains its own renderer assets and needs no server
+or sibling file.
 
 <!-- rootform:endtabs -->
 
@@ -80,16 +71,23 @@ For the [VPC and subnet example](../../getting-started/first-architecture.md),
 the declaration summary on standard error is:
 
 ```text title="Declaration summary"
-Declarations detected           3
-Represented                     2
-Supporting a composition        0
-Filtered by rule                1
-Unsupported                     0
-Failed                          0
+Declarations                    3
+Resources                       2
+Data sources                    0
+Representations                 2
+Resource bases                  2
+Data representations            0
+Applied interpretations         2
+Failed interpretations          0
+Uninterpreted resources         0
+Composition memberships         0
+Facts                           1
+Omissions                       0
+Diagnostics                     0
 ```
 
-The Terraform settings declaration is filtered as language settings. The VPC
-and subnet are represented.
+Terraform settings declaration has no representation. VPC and subnet retain
+resource bases and applied interpretations.
 
 ## Read a plan
 
@@ -108,6 +106,6 @@ or OpenTofu and handling its sensitive source data.
 | `2` | The command was used incorrectly. |
 | `3` | No complete architecture could be built. |
 
-A built architecture can still contain explicitly unsupported declarations.
-Read its accounting and diagnostics before making a coverage claim.
+A built architecture can contain unclassified resource bases and explicit
+interpretation diagnostics. Read accounting before making coverage claim.
 `build` has no policy-violation exit: use `check` for governance.

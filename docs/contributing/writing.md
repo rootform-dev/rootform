@@ -9,7 +9,7 @@ Expect familiarity with Git, shells, package managers, CI, JSON,
 Terraform/OpenTofu, and GitHub Releases. Explain Rootform terms before they
 become prerequisites.
 
-This standard applies to documentation, CLI prose, renderer labels, errors,
+This standard applies to documentation, CLI prose, output labels, errors,
 release notes, and product pages. Exact commands, identifiers, diagnostics, and
 machine contracts keep their defined spelling.
 
@@ -30,8 +30,8 @@ public when it changes what a user can do.
 | Avoid | Write |
 | --- | --- |
 | “The installer describes the target v0.1 experience but is not published yet.” | Put the recommended install command first. Track installer publication internally. |
-| “These guides use a newer documentation verification build than the release.” | Describe the renderer users receive with v0.1. Block release until the binary contains it. |
-| “The interactive renderer has no CLI entry point yet.” | State supported Diff outputs and how to open any shipped interactive view. Track missing entry points internally. |
+| “These guides use a newer documentation verification build than the release.” | Describe the behavior users receive with v0.1. Block release until the binary contains it. |
+| “The selected Dialect is only available in our documentation fixture.” | Use a supplied Dialect or document the exact external selection a user can acquire. |
 | A candidate-gate matrix on a user container page. | Document supported platforms, mounts, credentials, and runtime behavior. Keep release qualification in an internal runbook. |
 
 ## Give every page one job
@@ -70,10 +70,10 @@ If not, remove it or move it to the internal source that needs it. Technical
 truth alone is not a reason to publish a detail.
 
 State prerequisites instead of teaching industry conventions. Explain product
-concepts with enough depth to support a correct decision: Dialects, `.rf`,
-Architecture IR, policies and Policy Packs, Survey, Plan, Focus, Diff, locks,
-vendor, offline operation, and provenance. Explain what Rootform can establish
-and what it refuses to invent.
+concepts with enough depth to support a correct decision: representations,
+Rules, Concepts, RF Vocabulary, Dialects, `.rf`, Architecture IR, policies and
+Policy Packs, Diff, locks, vendor, offline operation, and provenance. Explain
+what Rootform can establish and what it refuses to invent.
 
 Use progressive disclosure. Put the common decision first, then alternatives,
 then advanced or manual procedures. A simple task should remain short. A concept
@@ -106,8 +106,9 @@ operation is also requested.
 
 Use **architecture** in ordinary prose and **Rootform architecture file** for a
 saved document. Use **Architecture IR** for the public data contract. Keep
-**Dialect**, **Policy Pack**, **Survey**, **Plan**, **Focus**, **Diff**, and
-**Inspector** consistent. Use lowercase `policy` for a rule owned by a Policy
+**Representation**, **Rule**, **Concept**, **RF Vocabulary**, **Dialect**,
+**Policy Pack**, and **Diff** consistent. Use lowercase `resource` for the
+normalized source kind and lowercase `policy` for a rule owned by a Policy
 Pack. Reserve backticks for commands, paths, flags, identifiers, and literal
 values.
 
@@ -127,9 +128,9 @@ root and top-level `policy` declarations in `.rf` or `.rf.json` files beneath
 that same root. The source root establishes ownership; policies need no explicit
 pack reference. Nested `policy` blocks are invalid.
 
-Distinguish renderer **Plan** from a Terraform or OpenTofu plan. Describe
-relations by their declared meaning. Do not turn network context into a
-reachability claim or a source dependency into an architecture relation.
+Distinguish a Terraform or OpenTofu plan input from an Architecture Diff.
+Describe relations by their declared meaning. Do not turn network context into
+a reachability claim or a source dependency into an architecture relation.
 
 ## Write directly, with natural rhythm
 
@@ -152,8 +153,8 @@ dots in technical prose.
 
 | Before | After |
 | --- | --- |
-| In this guide, we will explore how to get started with Rootform. | Render a VPC and subnet from a small Terraform configuration. |
-| Simply leverage the offline flag for seamless local execution. | Use `--offline` to prevent network access. Required Dialects must already be available locally. |
+| In this guide, we will explore how to get started with Rootform. | Build a VPC and subnet from a small Terraform configuration. |
+| Simply leverage the offline flag for seamless local execution. | Use `init --offline` or `vendor … --offline` to prevent acquisition. Selected third-party content must already be available locally. |
 | Rootform ensures your infrastructure is secure. | `rootform check` evaluates policies selected for this project. |
 | Current access: the executable emits text, JSON, and Markdown. | `rootform diff` emits text, JSON, or Markdown. |
 | With these steps, you are ready to continue. | Link to next concrete task, or stop. |
@@ -218,7 +219,7 @@ Use these examples to choose scope and wording:
 | A Dialects concept page teaching source-priority and registry resolution algorithms. | Explain how Dialects change architecture meaning; link acquisition details to offline operation. |
 | A check walkthrough ending with an unrelated pack that evaluates zero targets. | Follow one policy through pass, violation, indeterminate evidence, then the same gate in CI. |
 | Describing `moved` as a machine Diff entry state. | Explain that the Diff view strictly derives a move from removed and added context facts. |
-| “The first run needs registry access.” | “The first run may need network access to download required Dialects that are not already available locally.” |
+| “The first run needs registry access.” | “A selected third-party Dialect or Policy Pack may need network access until its pinned content is installed or vendored.” |
 
 ## Make examples executable
 
@@ -249,9 +250,9 @@ Markdown supports framework-neutral markers:
 - `<!-- rootform:directory -->` presents orientation links;
 - `<!-- rootform:tabs Label -->` groups two or more complete alternatives.
 
-Shared instructions belong outside tabs. Link to a precise Playground scenario
-when interaction helps; do not embed a second renderer inside a documentation
-page. Keep light/dark figures paired with the same state, caption, and useful
+Shared instructions belong outside tabs. Link to a precise executable example
+when it helps; do not duplicate an entire workflow inside a neighboring page.
+Keep light/dark figures paired with the same state, caption, and useful
 alternative text.
 
 ## Apply the standard to each product surface

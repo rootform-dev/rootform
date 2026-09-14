@@ -18,14 +18,11 @@ rootform run [input] [flags]
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform run |
-| ` --locked ` | ` bool ` | ` false ` | require and preserve the existing rootform.lock |
+| ` --locked ` | ` bool ` | ` false ` | require an existing valid rootform.lock |
 | ` --no-browser ` | ` bool ` | ` false ` | do not open the browser automatically |
-| ` --no-input ` | ` bool ` | ` false ` | never prompt; require deterministic action |
 | ` --no-watch ` | ` bool ` | ` false ` | build once instead of rebuilding when a file changes |
-| ` --offline ` | ` bool ` | ` false ` | disable network; use only local data |
 | ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
 | ` --port ` | ` int ` | ` 21717 ` | serve on local `port`; 0 picks a free one |
-| ` -v, --verbose ` | ` bool ` | ` false ` | show provider evidence and origin |
 
 ## Behavior
 
@@ -35,7 +32,9 @@ locally.
 The input can be an infrastructure directory or a Rootform architecture
 file. With no input, run reads the current directory. --plan reads a plan
 in JSON format instead; use - to read it from standard input. Directory
-input prepares missing project dialects before starting the server.
+input never downloads, acquires, or prompts: selected external content
+must already be available locally, or be prepared explicitly with
+rootform init or rootform vendor.
 
 The local address goes to standard output. Diagnostics go to standard
 error.

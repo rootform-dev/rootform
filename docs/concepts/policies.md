@@ -1,116 +1,116 @@
 ---
 title: "Policies and Policy Packs"
-description: "Understand what Rootform checks, how policies are selected, and what each outcome proves."
+description: "Understand what a Policy proves over Architecture IR, how Policy Packs are selected, and what each outcome means."
 ---
 
-A policy asks whether an architecture rule holds. It runs after
-[Dialects](dialects.md) have established components, placement, composition,
-relations, and provenance from the input.
+A Policy asks whether the facts established in an architecture satisfy a
+requirement. It runs after [Dialects](dialects.md) interpret the source, and it
+never contacts a cloud provider. A Policy can check whether every represented
+subnet has an established network context; it cannot test live connectivity or
+invent a missing fact.
 
-This is different from linting Terraform syntax or resource names. A policy can
-ask whether every represented subnet has an established network context, but it
-cannot contact a cloud provider to test connectivity or invent a missing fact.
+## Source stays portable
 
-## Policies, packs, and Dialects
+Every Policy belongs to one independent Policy Pack, which distributes related
+Policies under a shared name and version. Pack source declares the pack name, its
+version, and its Policies, and nothing else. It records no RF Vocabulary or
+Dialect versions; those dependencies are derived when the pack is linked.
 
-Every policy belongs to one **Policy Pack**, which gives related policies a
-shared name, version, requirements, and distribution unit.
-`tutorial/subnet-network-context` identifies the policy `subnet-network-context`
-in the pack `tutorial`.
+Pack ownership comes from the source root: one top-level `policy_pack` manifest
+names the pack, and top-level `policy` blocks beneath that root belong to it.
+Policy identity is owner-first, so `tutorial.policy.subnet-network-context`
+identifies the Policy `subnet-network-context` in the pack `tutorial`. File and
+folder names create no identity.
 
-The source root establishes ownership. One top-level `policy_pack` manifest
-defines the pack. Top-level `policy` blocks can live in any `.rf` or `.rf.json`
-file beneath that root, including subdirectories, without an explicit pack
-reference. Nested policies are invalid.
+## Target representation
 
-A pack's `requires` block names the exact Dialect vocabulary its policies use.
-It does not select provider Dialects or add facts. Provider detection selects
-Dialects; you select Policy Packs explicitly and review whether their assumptions
-match the evidence those Dialects produce.
+A Policy target selects the representations it evaluates along three dimensions:
+`concept`, `rules`, and `dialects`. Values inside a list are ORed, dimensions
+are ANDed, and at least `concept` or `rules` is required.
 
-## What gets evaluated
+```hcl title="Policy target"
+target {
+  concept  = rf.concept.kubernetes-cluster
+  rules    = [aws.rule.eks-cluster, google.rule.gke-cluster]
+  dialects = [aws, google]
+}
+```
 
-`rootform check` selects policies, validates their required vocabulary, and
-evaluates each policy once for every representation with its exact target
-concept. One policy matching ten subnets produces ten **evaluations**. Each result
-keeps the policy identity, target identity, outcome, and inspected facts.
+`concept` examines the classification established on a representation, `rules`
+examines an applied Rule, and `dialects` filters the owner of that
+interpretation. `rf` cannot appear in `dialects`, because RF Vocabulary is not a
+Dialect. A base without a selected Concept or applied Rule is never matched by
+its source type, and a composition member does not inherit its root's
+eligibility. One selected representation is evaluated once.
 
-Checks can read a configuration directory, a saved Rootform architecture, or
-the planned architecture in a [JSON plan](../inputs/plans.md). They evaluate
-Architecture IR; they do not evaluate raw Terraform expressions or deployed
-state.
+## Read outcomes
 
-The [worked check](../guides/check-architecture.md) uses one real pack and shows
-observed pass, violation, and indeterminate results.
-
-## Read outcomes and diagnostics
+Each evaluation ends in `passed`, `violated`, or `indeterminate`:
 
 | Outcome | Meaning |
 | --- | --- |
-| `passed` | The assertion is known to hold for this target. |
-| `violated` | The assertion is known to be false for this target. |
-| `indeterminate` | Available valid evidence cannot produce a trusted Boolean decision. |
+| `passed` | The assertion is known true for the target. |
+| `violated` | The assertion is known false for the target. |
+| `indeterminate` | Valid evidence cannot establish the Boolean. |
 
-A violation reports the authored message, target, and inspected fact identities.
-Its path and line point to the assertion in the Policy Pack source, not the
-Terraform declaration. Follow the target's provenance to reach the infrastructure
-source.
-
-A **diagnostic** explains why Rootform could not read, compile, or evaluate part
-of the operation. An incompatible pack requirement, unknown vocabulary, or
-unavailable evidence can make the check indeterminate. Rootform does not convert
-that condition into a pass or a known violation.
-
-Policies have no warning-only severity. SARIF presents violations as errors; a
-provider-version warning remains separate from the policy outcome.
+A violation reports the authored message, the target, the source location of the
+assertion, and the inspected fact identities. A diagnostic explains a compile,
+linking, or evidence failure. Rootform never turns an unknown into a pass or a
+violation.
 
 ### Zero evaluations are not approval
 
-A check with no selected packs reports:
+A check with no selected pack reports:
 
 ```text
 status not_evaluated; 0 policies, 0 evaluations, 0 passed, 0 violated, 0 indeterminate, 0 not evaluated
 ```
 
-A selected policy also gets zero evaluations when its target concept does not
-occur. Both cases exit 3 because no governance verdict exists. Mixed runs keep
-other evaluations but cannot become compliant while one selected policy has no
-target.
+A selected Policy whose target matches no representation also contributes zero
+evaluations and is counted as not evaluated. Neither case produces a governance
+verdict, and both exit 3. In a mixed run the other evaluations stand, but the run
+cannot become compliant while one selected Policy has no target.
 
-## Turn checks into gates
-
-Use a local pack while authoring:
+## Use as a gate
 
 ```sh
-rootform check . --offline --policy-pack ./policies
+rootform check . --policy-pack ./policies
+rootform check architecture.json --policy-pack pack.json --format json
 ```
-
-For a project gate, select reviewed packs, commit `rootform.lock`, and run the
-same check non-interactively in CI. `--format json` preserves the complete result;
-`--format sarif` exposes findings to compatible code-review tools.
 
 | Status | Gate meaning |
 | --- | --- |
-| `0` | Every selected policy evaluated and passed. |
-| `1` | At least one policy was violated, including mixed runs. |
-| `2` | Command use was invalid. |
-| `3` | Verdict unavailable: indeterminate, not evaluated, or evidence missing. |
+| `0` | Every selected Policy evaluated and passed. |
+| `1` | At least one Policy was violated. |
+| `2` | The command was used incorrectly. |
+| `3` | Verdict unavailable: indeterminate, not evaluated, or missing evidence. |
 
-Accept only the expected selection, coverage, and status. Never convert status
-`3` into success. [Run in CI](../integrations/ci/README.md) and
-[GitHub Actions](../integrations/github-actions.md) show the project workflow;
-the [outputs and exit status reference](../reference/outputs.md) defines machine
-behavior.
+Accept the expected Policy selection and evaluation coverage, not only the exit
+status. A violation takes precedence in a mixed run, so exit 1. SARIF reports
+violations as errors, and Policies carry no author-defined severity.
+
+## Select Policy Packs explicitly
+
+`rootform build` and `rootform run` ignore Policy Packs, so governance selection
+never changes Architecture IR. `check` evaluates packs recorded in
+`rootform.lock`; `--policy` can narrow that selection. A local source or compiled
+pack passed with `--policy-pack` replaces project pack selection for that
+invocation without being installed or added to the lock. Linking resolves
+qualified references against the exact Architecture IR semantic snapshot and
+records owner versions plus content and semantic digests. A linked artifact
+whose pins disagree with the evaluated document fails closed, with no relink
+and no fallback. See
+[Add a third-party Dialect or Policy Pack](../guides/external-content.md) for
+installation and vendoring.
 
 ## Know the scope of a claim
 
-A policy proves only its evaluated assertion over facts available in that
-architecture. For example, a policy requiring a `private-reachability` relation
-can be violated when a provider Dialect does not produce that relation. The
-result says the required architecture fact is absent; it does not prove that a
-database is publicly reachable.
+A Policy proves only its assertion over facts available in that architecture.
+A missing fact is known absent only when relevant emission closure establishes
+that absence. Incomplete evidence produces an indeterminate result instead. In
+either case, the result does not prove an opposite real-world condition. Review
+target coverage and evidence assumptions before adopting a pack as a gate.
 
-Review target coverage and evidence assumptions before adopting any pack as a
-gate. To author governance, continue with
-[Write a Policy Pack](../language/write-policy-pack.md). Exact syntax and query
-behavior live in the [Policy Pack reference](../language/reference/policy-packs.md).
+Continue with [Check an architecture](../guides/check-architecture.md),
+[Write a Policy Pack](../language/write-policy-pack.md), or
+[Policy Packs](../language/reference/policy-packs.md).

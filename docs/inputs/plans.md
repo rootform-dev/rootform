@@ -1,6 +1,6 @@
 ---
 title: "Terraform and OpenTofu plans"
-description: "Render planned architecture and compare the before and planned facts carried by one JSON plan."
+description: "Build planned architecture and compare the before and planned facts carried by one JSON plan."
 ---
 
 A Terraform or OpenTofu plan describes a proposed change. Rootform reads its
@@ -18,12 +18,8 @@ outputs and does not copy the plan into Architecture IR.
 | Command | Result |
 | --- | --- |
 | `build --plan` | The planned architecture only. |
-| `run --plan` | That planned architecture in the local explorer, without watching source changes. |
 | `check --plan` | Selected policies evaluated against the planned architecture. |
 | `diff --plan` | Architectural comparison between the before and planned sides of the same plan. |
-
-The renderer's **Plan view** is unrelated to this input type. It controls how
-much of any architecture is shown.
 
 ## Protect the plan files
 
@@ -58,32 +54,19 @@ planning; it is not a substitute for `show -json` on the completed saved plan.
 Rootform also rejects a raw binary plan, a state document, malformed JSON, and
 JSON that does not have a recognized plan shape.
 
-## Prepare Rootform, then build
+## Build with current project selection
 
-Plan commands use the current directory's prepared Rootform selection. From
-that project root:
+Plan commands use supplied release set plus optional `rootform.lock` from
+current project. Prepare exact external pins first only when lock selects them.
 
 <!-- docs-check:plan-build -->
 ```sh
-rootform init . --no-input
 rootform build --plan tfplan.json --output planned.json
 ```
 
-Initialization establishes the required Dialects. Unlike directory input,
-`--plan` does not infer and acquire a new project selection for you. Read the
-build's declaration summary and diagnostics, then inspect the planned resources.
-A saved plan can be valid even when Rootform cannot represent every resource in it.
-
-Open the saved result with `rootform run planned.json`.
-
-To export a portable view:
-
-<!-- docs-check:plan-html -->
-```sh
-rootform build --plan tfplan.json --format html --output planned.html
-```
-
-This HTML contains the planned architecture. It is not an interactive comparison.
+No plan command infers or acquires selection. Read declaration summary and
+diagnostics, then inspect planned resources, interpretations, and facts in
+`planned.json`.
 
 ## Compare both sides of one plan
 
@@ -115,7 +98,7 @@ The saved binary plan still exists and needs the same protection. Rootform reads
 Differences return status `0` by default. Add `--exit-code` to return `1` for a
 nonempty comparison, including undetermined facts. Status `3` means the
 comparison could not be completed. A valid report can contain undetermined facts
-and still exit `0` without `--exit-code`. The [Diff guide](../renderer/diff.md)
+and still exit `0` without `--exit-code`. [Architecture Diff](../concepts/diff.md)
 explains the outcomes and the distinction between changes and unavailable evidence.
 
 ## Why a replacement can have no architectural change

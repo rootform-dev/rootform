@@ -23,7 +23,8 @@ rootform list contexts [flags]
 
 ## Behavior
 
-List context dimensions available from loaded dialects.
+List context dimensions available from loaded dialects and the
+RF vocabulary.
 
 With no --dialect selection, every loaded dialect is included. The text
 or JSON listing goes to standard output. Diagnostics go to standard
@@ -41,6 +42,6 @@ error.
 
 ```sh
 rootform list contexts
-rootform list contexts --dialect core
+rootform list contexts --dialect google
 rootform list contexts --format json
 ```

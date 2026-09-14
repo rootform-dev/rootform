@@ -25,15 +25,16 @@ have been verified against the Rootform profile.
 A registry must preserve custom OCI media types and support:
 
 - manifest and blob reads by exact digest;
-- manifest discovery by tag;
+- immutable version tags used during publication verification;
 - blob upload and manifest publication for `rootform publish`;
 - Docker-compatible anonymous, Basic, or Bearer authentication;
 - immutable package-version handling expected by the publishing workflow.
 
-Rootform resolves a tag during selection, then records the exact manifest and layer
-digests in `rootform.lock`. Locked recovery reads those digests directly. A
-registry that rewrites manifests or custom media types cannot preserve locked
-identity.
+`rootform publish` reports exact repository, version tag, manifest digest, layer
+digest, sizes, and content digest. Record that identity in `rootform.lock` after
+review. `rootform init` reads locked manifests and blobs by exact digest; it
+never lists the repository or resolves a mutable selection. A registry that
+rewrites manifests or custom media types cannot preserve locked identity.
 
 ## Credentials and private CAs
 

@@ -21,21 +21,21 @@ The image has no entrypoint, so always include `rootform` before its arguments.
 
 ## Run against a project
 
-Every `--locked` command below requires an existing, coherent `rootform.lock`.
-[Prepare the project with `rootform init`](../cli.md) and review its selection
-first.
-
-The project must be readable by the container user and writable when Rootform
-creates `.rootform/` or an output file. Mount it at `/workspace` and choose that
-working directory:
+Project must be readable by container user and writable when output file is
+created. Mount it at `/workspace` and choose that working directory:
 
 ```sh
 docker run --rm \
   --volume "$PWD:/workspace" \
   --workdir /workspace \
   ghcr.io/rootform-dev/rootform:0.1.0 \
-  rootform build . --locked --no-input --output architecture.json
+  rootform build . --output architecture.json
 ```
+
+This supplied-only path needs no lock, package volume, or network access after
+the image is local. Add `--locked` when project has a reviewed
+`rootform.lock`; [prepare its external selection](../cli.md) before running a
+normal build.
 
 For repeatable image bytes, replace the version tag with an index digest:
 
@@ -48,10 +48,10 @@ docker run --rm \
 Replace `<index-digest>` with the complete digest of the reviewed multi-platform
 image.
 
-## Preserve downloaded packages
+## Preserve external packages
 
-The Rootform home stores verified Dialects and Policy Packs. A named volume keeps
-those packages between runs:
+Rootform home stores verified third-party Dialects and Policy Packs. A named
+volume keeps those packages between runs when lock selects OCI content:
 
 ```sh
 docker volume create rootform-home
@@ -60,7 +60,7 @@ docker run --rm \
   --volume rootform-home:/home/rootform/.rootform \
   --workdir /workspace \
   ghcr.io/rootform-dev/rootform:0.1.0 \
-  rootform init . --no-input
+  rootform init . --locked --no-input
 ```
 
 The project lock remains in the mounted workspace; the package store remains in
@@ -68,9 +68,10 @@ the named volume.
 
 ## Run offline with vendored packages
 
-Before disconnecting, commit or supply `rootform.lock` and the required
-`.rootform/dialects/` directory. Checks using locked Policy Packs also need
-`.rootform/policy-packs/`; `build` does not use Policy Packs.
+Before disconnecting, commit or supply `rootform.lock` and required vendored
+non-embedded selection under `.rootform/`. RF Vocabulary and supplied Dialects
+are embedded in image and are never vendored. A locked check using external
+Policy Packs needs `.rootform/policy-packs/`; `build` does not use Policy Packs.
 
 The selected image must already be in Docker's local image store.
 `--network none` disables container networking but does not prevent Docker from
@@ -87,7 +88,7 @@ docker run --rm \
   --volume "$PWD:/workspace:ro" \
   --workdir /workspace \
   ghcr.io/rootform-dev/rootform:0.1.0 \
-  rootform build . --locked --offline --no-input
+  rootform build . --locked
 ```
 
 Output goes to standard output because the workspace is read-only. Missing or
@@ -129,10 +130,10 @@ path.
 | Default command | `rootform --help` |
 | Binary license | Elastic-2.0 |
 
-The image contains the Rootform executable, its license, third-party notices,
-and an SPDX SBOM. It does not contain Dialects, Terraform/OpenTofu, provider
-binaries, Git, registry credentials, or source configuration. Dialects remain
-independently versioned OCI artifacts.
+Image contains Rootform executable with embedded RF Vocabulary and supplied
+Dialect release set, its license, third-party notices, and SPDX SBOM. It does
+not contain separately installed third-party Dialects, Terraform/OpenTofu,
+provider binaries, Git, registry credentials, or source configuration.
 
 The image uses the same CLI and registry contracts as the native executable. Review
 [registry compatibility](registry-compatibility.md) before choosing a private

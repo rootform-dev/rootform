@@ -1,76 +1,82 @@
 ---
-title: "Project preparation"
-description: "Understand when Rootform initializes a project, reuses a lock, or asks for an explicit update."
+title: "Project selection and preparation"
+description: "Use the embedded release set, prepare explicit selections, and see what a project resolves."
 ---
 
-Before compiling a directory, Rootform needs the Dialects that interpret its
-providers. `build`, `run`, and directory-based `check` share this preparation.
-You can also prepare explicitly with `rootform init`.
+Rootform embeds RF Vocabulary and supplied [Dialects](concepts/dialects.md) in
+its binary as one release set. A project that uses only supplied content needs
+no `rootform init`, no `rootform.lock`, and no network access.
 
-## The first command
-
-```sh
-rootform run .
-```
-
-From a new supported project, Rootform discovers providers, proposes a compatible
-selection, downloads verified packages when needed, and writes `rootform.lock`.
-It then resumes the requested command. Interactive preparation shows the proposal
-before you confirm it.
-
-For a deterministic unattended first selection:
+## Normal commands
 
 ```sh
-rootform init . --no-input
+rootform build . --output architecture.json
+rootform check .
 ```
 
-No-input mode accepts only an unambiguous selection. `ROOTFORM_INPUT=0`,
-`CI=true`, and initialization's JSON output also disable prompts. They do not
-make the command offline.
+`build`, `run`, and `check` never download, acquire, prompt, or discover
+content. They use the embedded release set and read `rootform.lock` only when
+the project has one. Without a lock, a project selects no Policy Packs.
 
-## An existing project
+Terraform and OpenTofu provider versions stay in the configuration and
+`.terraform.lock.hcl`. They never enter `rootform.lock`.
 
-When the lock and required local packages are coherent, preparation is a silent
-path with no network access. A missing exact locked artifact can be recovered
-from its recorded repository without changing the lock.
+## When a project needs a lock
 
-A normal no-input command never silently changes an existing lock. If provider
-requirements or other project inputs need a new selection, it stops and reports
-an explicit initialization command. Run that command deliberately, review the
-lock diff, and retry the original task.
+Add `rootform.lock` to select content outside the release set:
 
-Use `init --upgrade` only when you intend to revisit compatible versions. Use
-`--locked` when the existing selection must remain unchanged, and add `--offline`
-when no download is allowed. [Reproduce a build](guides/reproduce-build.md) walks
-through these choices.
+- a third-party Dialect;
+- a whole-owner exclusion or replacement of a supplied Dialect;
+- a Policy Pack.
 
-## Context belongs to the selected root
+Every entry is exact: owner or pack name, version, content digest, and a
+relative local path or a complete OCI identity. Rootform never discovers these
+selections from a provider or a registry, so the lock must already name them,
+and no Rootform command writes it. The format is `1`. The
+[third-party content guide](guides/external-content.md) defines the entry
+shape, and [Locks and offline operation](offline-security.md) covers digests
+and offline transfer.
 
-For directory input, the argument is both the Terraform/OpenTofu root and the
-Rootform project root. It owns `rootform.lock` and `.rootform/`; parent markers
-are not inherited. `ROOTFORM_HOME` controls the installed store, not the project
-boundary.
+## Prepare an explicit selection
 
-Saved architecture and plan inputs have different preparation rules. Serving a
-saved architecture needs no Dialect acquisition. Plan operations require the
-current project's Dialects to be prepared. Checks over saved documents require
-selected Policy Packs available locally. See [inputs](inputs/index.md).
+```sh
+rootform init . --locked --no-input
+```
 
-## Policies are selected separately
+`init` verifies every existing selection and may fetch only the exact OCI
+manifest digests already recorded in the lock. It never creates, edits, or
+re-resolves the lock, and it never changes the embedded release set.
+`--offline` restricts preparation to content already present locally.
 
-`build` and `run` ignore Policy Packs. `check` uses the packs selected for the
-project, and directory preparation can recover those selected packages.
-Provider detection never chooses governance for you.
+## Vendor content into the project
 
-During authoring, `check --policy-pack ./policies` reads a local pack directly.
-Keep that flag in CI when the pack lives in the repository; it cannot be combined
-with `--locked`. Initialization's `--policy-pack` flag selects a published OCI
-artifact reference and records it in `rootform.lock`, so later checks can use
-`--locked`. The [policy tutorial](guides/check-architecture.md) covers both CI
-paths and explains why a check with zero evaluations reports `not_evaluated`
-and exit 3.
+```sh
+rootform vendor dialects
+rootform vendor policy-packs
+```
 
-## Inspect without changing selection
+`vendor` copies selected non-embedded content into `.rootform/dialects` and
+`.rootform/policy-packs`. When one of those directories exists it is the only
+execution source for that kind; missing or changed content fails instead of
+falling back to the shared store or a registry. RF Vocabulary and supplied
+Dialects are embedded, so they are never installed or vendored.
+
+## Policy selection
+
+`build` and `run` ignore Policy Packs, so governance never changes
+Architecture IR. `check` evaluates the packs recorded in the lock, or an
+explicit source for one invocation:
+
+```sh
+rootform check . --policy-pack ./policies
+```
+
+`--policy-pack` accepts a source directory or a compiled pack file, and it
+cannot be combined with `--locked`. It does not add the pack to the lock or
+install it. A project with no pack selection evaluates zero policies, which is
+never compliant.
+
+## Inspect the effective selection
 
 ```sh
 rootform list dialects
@@ -78,11 +84,15 @@ rootform list policy-packs
 rootform list policies
 ```
 
-These listings are read-only. `list dialects --installed` reports local versions;
-`--outdated` compares the lock with the cached index. Neither listing contacts
-a registry or upgrades packages.
+These commands read the embedded release set and the project selection without
+network access.
 
-Use [CLI command reference](reference/cli/index.md) for the generated command
-tree, usage, defaults, and flags. [Locks and sources](offline-security.md)
-explains package identity; [troubleshooting](troubleshooting/index.md) gives
-recovery steps for preparation failures.
+Third-party content already prepared lives under `$ROOTFORM_HOME/dialects` and
+`$ROOTFORM_HOME/policy-packs`. The linked Policy Pack cache under
+`$ROOTFORM_HOME/cache/linked-policy-packs` is a derived artifact: Rootform
+rebuilds it and never treats it as a selection or a trust anchor.
+
+See the [CLI reference](reference/cli/index.md) for every flag,
+[Add a third-party Dialect or Policy Pack](guides/external-content.md) for
+publishing and selection, and [Troubleshooting](troubleshooting/index.md) when
+preparation fails.

@@ -1,124 +1,335 @@
 ---
 title: "Expressions"
-description: "Reference for Rootform literal values, operators, predicate expressions, and policy assertions."
+description: "Complete RF expression grammar, literal types, operators, precedence, typing rules, JSON encoding, and rejected forms."
 ---
 
-Rootform parses an HCL expression only where its schema allows one, then
-compiles it into a closed expression model. Unsupported HCL expression forms do
-not survive for later evaluation.
+RF expressions are a strict subset of HCL expressions. Accepted shape depends
+on position:
 
-## Literal value kinds
-
-| Kind | Native examples | Notes |
+| Position | Purpose | Accepted expression family |
 | --- | --- | --- |
-| String | `"private"`, `"network-peering"` | UTF-8 string; accepted only in specific positions |
-| Boolean | `true`, `false` | Used in predicates and assertions |
-| Integer | `0`, `42`, `-1` | Signed 64-bit exact integer |
+| Rule or member `match.where` | Test normalized source declaration | Predicate |
+| Policy `assert` | Test Architecture IR facts | Policy assertion |
+| `as`, `to`, Policy target references | Name semantic symbol | Typed reference only |
+| `via`, `by` | Navigate normalized declaration | Traversal only |
+| Static string fields | Metadata or closed enum | Constant expression producing string |
+| `target.rules`, `target.dialects` | Static target filters | Nonempty list with position-specific item type |
 
-There are no floating-point, null, list, tuple, map, object, or set literals in
-the compiled Rootform expression model. Structural JSON objects encode blocks;
-they are not expression object values.
+General HCL expression evaluation is not available in `where` or `assert`.
+Static string fields use separate constant evaluation described below.
 
-## Operators
+## Literal types
 
-| Operator | Result | Rule `where` | Policy `assert` |
+| Type | Native examples | Accepted positions | Notes |
 | --- | --- | --- | --- |
-| `!value` | Boolean negation | Boolean expression | Boolean expression |
-| `left && right` | Boolean conjunction | Boolean expressions | Boolean expressions |
-| `left \|\| right` | Boolean disjunction | Boolean expressions | Boolean expressions |
-| `left == right` | Equality | compatible string, Boolean, or integer operands | compatible Boolean or numeric operands |
-| `left != right` | Inequality | compatible string, Boolean, or integer operands | compatible Boolean or numeric operands |
-| `<`, `<=`, `>`, `>=` | Ordered comparison | integer operands | integer or `length(...)` operands |
+| String | `"prod"`, static heredoc | Predicate comparison operand | Valid UTF-8; no interpolation |
+| Boolean | `true`, `false` | Predicate and Policy assertion | Lowercase keywords |
+| Integer-valued number | `0`, `3`, `1.0`, `1e3` | Predicate comparison and Policy assertion | Exact integer value within signed 64-bit range |
+| Floating point | `1.5` | None | Rejected |
+| Null | `null` | None | Rejected |
+| Collection or object | `[]`, `{}` | No general value position | Only dedicated static list fields accept lists |
 
-Parentheses are accepted. Use them whenever mixed logical and comparison
-operators would make intent harder to scan.
+RF validates numeric value, not spelling: `1.0` and `1e3` are accepted
+because their values are exact integers. `1.5` is not. Although runtime scalar
+evidence can contain signed integers, native RF source has no unary minus
+operator. Authorable number literals are therefore non-negative. `-1` is
+rejected as unsupported unary expression.
 
-Arithmetic operators, string concatenation, conditionals, for-expressions,
-comprehensions, templates with multiple interpolated parts, splats, and dynamic
-index expressions are rejected.
+Static metadata strings may be empty only where block-specific table permits
+it. For example, definition `description` may be empty, while Policy
+`message` may not.
 
-## Rule predicates
+## Predicate expressions
 
-`match.where` narrows an initial or composition-member match. Its closed shape
-is:
+A `match.where` predicate tests declaration currently selected by its
+surrounding Rule or member `match`.
 
-```text title="Predicate grammar"
-predicate = true | false
-          | !predicate
-          | predicate && predicate
-          | predicate || predicate
-          | operand comparison operand
+```text
+predicate       = boolean-literal
+                | "!", predicate
+                | "(", predicate, ")"
+                | predicate, ("&&" | "||"), predicate
+                | comparison ;
 
-operand    = literal | source traversal
-comparison = == | != | < | <= | > | >=
+comparison      = predicate-operand, comparison-operator, predicate-operand ;
+
+predicate-operand
+                = string-literal
+                | boolean-literal
+                | integer-valued-number-literal
+                | source-traversal ;
+
+comparison-operator
+                = "==" | "!=" | "<" | "<=" | ">" | ">=" ;
 ```
 
-Equality operands must have the same effective type. Ordered comparison is
-integer-only.
+Examples:
 
-Independent `where` examples:
+```hcl title="valid predicates"
+where = source.enabled == true
+where = source.mode == "ACTIVE"
+where = source.replicas >= 2
+where = source.enabled == true && source.replicas >= 2
+where = !(source.mode == "DISABLED")
+```
 
-- `where = source.enabled == true`
-- `where = source.mode == "private"`
-- `where = source.priority >= 10 && source.priority < 20`
+Rules:
 
-A bare `source.enabled` is not a complete predicate. Compare it with `true` or
-`false`. Functions and architecture queries are not available in `where`.
+- only `source.*` traversal is accepted;
+- bare Boolean literal is accepted;
+- bare traversal is not a predicate;
+- equality and inequality require same runtime scalar type;
+- ordering requires numbers;
+- missing, unknown, collection-valued, or type-incompatible evidence makes
+  comparison unknown;
+- only known `true` accepts Rule candidate.
 
-Source values can be missing or unknown because Rootform does not evaluate
-arbitrary Terraform expressions. An unresolved comparison is unknown and does
-not select the rule.
+Compiler cannot always know traversal result type. A syntactically accepted
+comparison such as `source.enabled > true` becomes unknown at evaluation,
+rather than inventing ordering for Booleans.
 
 ## Policy assertions
 
-An assertion must compile and evaluate to a Boolean:
+Policy assertions operate on Architecture IR queries. They cannot traverse
+source declarations.
 
-```text title="Assertion grammar"
-assertion = true | false
-          | !assertion
-          | assertion && assertion
-          | assertion || assertion
-          | assertion == assertion
-          | assertion != assertion
-          | numeric comparison numeric
-          | exists(query)
+```text
+assertion       = boolean-value ;
 
-numeric    = integer | length(query)
-comparison = == | != | < | <= | > | >=
+boolean-value   = boolean-literal
+                | exists-call
+                | "!", boolean-value
+                | "(", boolean-value, ")"
+                | boolean-value, ("&&" | "||"), boolean-value
+                | boolean-value, ("==" | "!="), boolean-value
+                | number-value, numeric-operator, number-value ;
+
+number-value    = integer-valued-number-literal
+                | length-call
+                | "(", number-value, ")" ;
+
+numeric-operator
+                = "==" | "!=" | "<" | "<=" | ">" | ">=" ;
+
+exists-call     = "exists", "(", query, ")" ;
+length-call     = "length", "(", query, ")" ;
+query           = contexts-call | relations-call | contributions-call ;
 ```
 
-Independent `assert` examples:
+Grammar is type-directed and precedence follows table below. Because a
+comparison produces a Boolean, its result can participate in another Boolean
+equality or logical operation. HCL left associativity makes both expressions
+valid:
 
-- `assert = true`
-- `assert = exists(relations(relation.core.private-reachability, concept.core.virtual-network))`
-- `assert = length(contributions(concept.core.kubernetes-node-pool)) >= 2`
-- `assert = !(length(contexts(context.core.network, concept.core.virtual-network)) < 1)`
+```hcl
+assert = true == false == false
+assert = 1 < 2 == true
+```
 
-Policy strings are not bare operands. Concept, context, and relation references
-occur only in fixed query argument positions. Query collections occur only as
-single argument of `length` or `exists`.
+Practical examples:
 
-## JSON expression carrier
+```hcl title="valid Policy assertions"
+assert = true
+assert = exists(contexts(rf.context.network))
+assert = length(contexts(rf.context.network)) >= 1
+assert = !exists(relations(aws.relation.subscribes-to))
+assert = (
+  exists(contexts(rf.context.network)) &&
+  length(contributions(aws.rule.s3-bucket-versioning)) == 0
+)
+```
 
-In `.rf.json`, Boolean and integer literals can remain JSON primitives. An
-operator expression or function call uses HCL's interpolation string carrier.
-Structural semantic references such as policy `target` remain plain strings:
+This complete Pack verifies recursive Boolean results:
 
-```json title="pack.rf.json"
-{
-  "target": "concept.core.subnet",
-  "assert": "${exists(contexts(context.core.network, concept.core.virtual-network))}"
+```hcl title="expression-results/pack.rf"
+policy_pack "expression-results" {
+  version = "0.1.0"
+}
+
+policy "recursive-booleans" {
+  target {
+    rules = [aws.rule.subnet]
+  }
+
+  assert = (
+    true == false == false &&
+    1 < 2 == true
+  )
+
+  message = "Recursive Boolean expressions must remain true."
 }
 ```
 
-A bare JSON string is a string literal. Rootform does not detect expression-like
-text and reinterpret it.
+`exists` and `length` each take exactly one query call. Query call cannot be
+stored, compared directly, nested in another function, or passed as a general
+collection. See [Built-ins](built-ins.md) for exact signatures.
 
-## Expression size and failure
+## Operators and types
 
-An expression is limited to 4096 source bytes. Invalid syntax produces
-`HCL_PARSE`; a parsed but unsupported form produces `INVALID_EXPRESSION`,
-`PREDICATE_UNRESOLVED`, or `POLICY_INVALID` according to its position.
+| Operator | Operand type | Result | Predicate | Policy |
+| --- | --- | --- | --- | --- |
+| `!` | Boolean | Boolean | Yes | Yes |
+| `&&`, <code>&#124;&#124;</code> | Boolean, Boolean | Boolean | Yes | Yes |
+| `==`, `!=` | Same scalar type | Boolean | String, Boolean, integer | Boolean or number |
+| `<`, `<=`, `>`, `>=` | Integer, integer | Boolean | Yes | Yes |
 
-See [Built-ins](built-ins.md) for query signatures and
-[Evaluation](evaluation.md) for unknown values.
+No implicit conversion exists. `"3" == 3` is never true. In Policy source it
+is rejected by static typing; in predicate evaluation mismatched runtime types
+produce unknown.
+
+## Precedence and associativity
+
+From highest to lowest:
+
+| Precedence | Operators |
+| --- | --- |
+| 1 | Parentheses |
+| 2 | Unary `!` |
+| 3 | `<`, `<=`, `>`, `>=` |
+| 4 | `==`, `!=` |
+| 5 | `&&` |
+| 6 | <code>&#124;&#124;</code> |
+
+Binary operators are left-associative. Use parentheses when mixing comparisons
+or Boolean operators. Chained comparison such as `1 < source.count < 5` is
+invalid; write `source.count > 1 && source.count < 5`.
+
+## Parentheses
+
+Parentheses do not add an expression node to compiled RF artifact; they only
+control grouping.
+
+```hcl
+where = (source.enabled == true) && (source.replicas >= 2)
+```
+
+## Static string expressions
+
+Fields such as `version`, `description`, `message`, `kind`, `type`,
+provider constraints, and fact-match `strategy` use HCL constant evaluation
+separately from predicate/assertion grammar.
+
+Result must be known, non-null string in empty evaluation context. Therefore:
+
+- quoted strings and static heredocs are accepted;
+- parentheses and constant string conditionals are accepted;
+- a pure `"${expression}"` wrapper is accepted only when wrapped constant
+  result is string;
+- variables and runtime traversals are unavailable;
+- function calls are unavailable;
+- multi-part interpolation is rejected.
+
+For native `.rf`, acceptance is result-based: any HCL expression meeting
+that rule is accepted, except a multi-part template. This constant-expression
+surface is separate from closed `where` and `assert` grammars. In
+`.rf.json`, static string fields are ordinary JSON strings.
+
+```hcl title="valid static strings"
+description = "Production workload"
+
+kind = true ? "resource" : "data"
+
+message = <<-EOT
+  Workloads must declare a runtime.
+EOT
+```
+
+Direct literals are canonical and recommended. Dynamic templates are rejected:
+
+```hcl title="invalid static string"
+description = "Workload for ${source.environment}"
+```
+
+This complete Dialect demonstrates accepted constant string conditionals:
+
+```hcl title="constant-strings/dialect.rf"
+dialect "constant-example" {
+  version = true ? "0.1.0" : "9.9.9"
+
+  provider "hashicorp/example" {
+    version = true ? ">= 1.0.0" : "< 1.0.0"
+  }
+}
+
+concept "application" {
+  description = true ? "A deployable application." : "Unused"
+}
+
+rule "application" {
+  match {
+    kind = true ? "resource" : "data"
+    type = true ? "example_application" : "other"
+  }
+
+  as = concept.application
+}
+```
+
+## JSON expression carrier
+
+HCL JSON stores expression-valued fields in strings using `"${...}"`:
+
+```json
+{
+  "match": {
+    "type": "example_service",
+    "where": "${source.enabled == true}"
+  },
+  "as": "${concept.application}"
+}
+```
+
+Native `.rf` also accepts pure `"${expression}"` wrapper for
+full-expression fields and unwraps it to enclosed value. Direct native form is
+canonical:
+
+```hcl
+where = source.enabled == true
+```
+
+Boolean and numeric JSON values can directly carry literal expressions. Raw
+string fields such as `message` remain ordinary JSON strings. Rootform does
+not parse arbitrary JSON strings as RF expressions.
+
+## Rejected full-expression families
+
+In `where` and `assert`, Rootform language 0.1.0 rejects:
+
+- arithmetic: `+`, `-`, `*`, `/`, `%`;
+- unary minus;
+- conditional expressions in `where` and `assert`;
+- multi-part templates and interpolation mixed with literal text;
+- tuple, list, set, map, and object values outside dedicated list fields;
+- comprehensions and `for` expressions;
+- splats;
+- dynamic or string indexes;
+- relative traversals;
+- arbitrary function calls;
+- expanded function arguments;
+- bare architecture queries.
+
+Examples:
+
+```hcl title="invalid expressions"
+where  = source.enabled
+where  = source.replicas >= -1
+where  = source.cpu > 1.5
+assert = contexts(rf.context.network)
+assert = "yes"
+assert = length(contexts(rf.context.network))
+assert = length(contexts(rf.context.network)) + 1 > 1
+```
+
+Depending on position, these produce `INVALID_EXPRESSION`,
+`PREDICATE_UNRESOLVED`, or `POLICY_INVALID`.
+
+## Bounds
+
+| Bound | Limit |
+| --- | --- |
+| Authored expression source | 4,096 bytes |
+| Compiled expression tree depth | 64 |
+| Compiled expression nodes | 1,024 per expression |
+
+Exceeded source shape fails compilation. Compiled Policy Pack has additional
+aggregate limits under [Diagnostics and limits](diagnostics.md#limits).

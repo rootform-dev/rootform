@@ -24,8 +24,8 @@ rootform show <object> <name> [flags]
 Show a dialect, Policy Pack, policy, rule, concept, context, or
 relation by name.
 
-Policy identifiers use "&lt;policy-pack&gt;/&lt;name&gt;"; Dialect declaration
-identifiers use "&lt;dialect&gt;/&lt;name&gt;". A bare declaration name is accepted
+Policy identifiers use "&lt;policy-pack&gt;.policy.&lt;name&gt;"; Dialect declaration
+identifiers use "&lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;". A bare declaration name is accepted
 when it resolves unambiguously.
 
 ## Subcommands
@@ -45,6 +45,6 @@ when it resolves unambiguously.
 ```sh
 rootform show dialect google
 rootform show policy-pack baseline
-rootform show policy baseline/private-database-reachability
-rootform show rule google/cloud-sql-instance
+rootform show policy baseline.policy.cluster-network-context
+rootform show rule google.rule.cloud-sql-instance
 ```

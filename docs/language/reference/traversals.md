@@ -1,129 +1,197 @@
 ---
 title: "Traversals and scope"
-description: "Reference for source paths, provider paths, target matching, composition members, and vocabulary references."
+description: "Complete traversal grammar, roots, path steps, position rules, and resolution behavior."
 ---
 
-A traversal follows a bounded path through source-adapter evidence. Rootform
-recognizes four roots, then restricts each root to specific authoring positions.
+Traversals navigate normalized infrastructure declarations. They do not name
+semantic symbols; [Concept, Context, Relation, and Rule references](symbols.md)
+use separate typed syntax.
 
-## Path syntax
+## Grammar
 
-```hcl title="Traversal examples"
-source.vpc_id
-source.settings[0].ip_configuration[0].private_network
-provider.host
-target.name
-member.url-map.default_service
+```text
+traversal        = simple-root, step, { step }
+                 | member-root, step, { step } ;
+
+simple-root      = "source" | "provider" | "target" ;
+member-root      = "member", ".", member-name ;
+
+step             = ".", attribute-name
+                 | "[", non-negative-integer, "]" ;
+
+attribute-name   = letter-or-underscore,
+                   { letter | digit | underscore } ;
 ```
 
-A traversal contains:
+Every traversal needs at least one path step after root. For `member`, member
+name is part of root, so `member.proxy` alone remains incomplete.
 
-1. one recognized root;
-2. for `member`, one valid member name;
-3. at least one attribute or index path step.
+Examples:
 
-Attribute steps use adapter-owned names containing ASCII letters, digits after
-the first character, or `_`. Index steps are nonnegative integer literals.
-Splat expressions, string-key indexes, computed indexes, calls, relative
-traversals, and parent traversal are not accepted.
+```hcl title="valid traversals"
+source.vpc_id
+source.metadata[0].name
+provider.host
+target.metadata[0].name
+member.proxy.backend_id
+```
+
+## Path steps
+
+### Attribute step
+
+Adapter-owned attribute names are 1 to 64 bytes and match:
+
+```text
+[A-Za-z_][A-Za-z0-9_]*
+```
+
+They use source-adapter naming, usually snake case, not RF kebab-case
+identifier grammar.
+
+### Index step
+
+Index key must be exact non-negative signed 64-bit integer value. Canonical
+spelling is decimal whole number:
+
+```hcl
+source.backends[0].id
+```
+
+String indexes, negative indexes, dynamic indexes, slices, and splats are
+invalid:
+
+```hcl title="invalid traversal steps"
+source.tags["Name"]
+source.items[-1]
+source.items[source.index]
+source.items[*].id
+```
+
+## Roots
+
+| Root | Meaning |
+| --- | --- |
+| `source` | Declaration in current language position |
+| `provider` | Concrete provider configuration bound to matched Rule declaration |
+| `target` | Candidate target declaration during explicit fact matching |
+| `member.<name>` | Earlier accepted member in current composition |
+
+Meaning of `source` depends on placement:
+
+| Placement | `source` declaration |
+| --- | --- |
+| Rule `match.where` | Candidate for Rule |
+| Member `match.where` | Candidate for that member |
+| Emission `via` | Rule's interpreted root declaration |
+| Composition member `via` | Composition root declaration |
+
+`provider` follows actual normalized binding, including aliases and module
+inheritance. It does not expose canonical provider source identity as free
+metadata.
 
 ## Root availability
 
-| Authoring position | `source` | `provider` | `target` | `member.<name>` |
+| Position | `source` | `provider` | `target` | `member.<name>` |
 | --- | --- | --- | --- | --- |
-| Rule or member `match.where` | yes | no | no | no |
-| Fact `via` without nested match | yes | yes | no | no |
-| Fact `via` with nested match | yes | no | no | no |
-| Fact nested `match.by` | no | no | yes | no |
-| Composition member `via` | yes | no | no | earlier members only |
+| Rule `match.where` | Yes | No | No | No |
+| Member `match.where` | Yes | No | No | No |
+| Emission `via`, without nested fact `match` | Yes | Yes | No | No |
+| Emission `via`, with nested fact `match` | Yes | No | No | No |
+| Fact `match.by` | No | No | Yes | No |
+| Composition member `via` | Yes | No | No | Earlier members only |
 
-Availability is checked at compilation. A recognized root in the wrong
-position produces `INVALID_REFERENCE` or `COMPOSITION_INVALID`.
+Using known root in wrong position produces `INVALID_REFERENCE`,
+`FACT_INVALID`, or `COMPOSITION_INVALID` according to enclosing construct.
 
-## Source root
+## Traversal use by position
 
-`source` is the declaration currently being examined:
+### Predicate scalar inspection
 
-- in the parent rule's `match.where`, it is the initial candidate;
-- in a composition member's `match.where`, it is that member candidate;
-- in a fact `via`, it is the representation's initially matched declaration;
-- in a composition member `via`, it is the parent rule's initial declaration.
-
-```hcl title="source examples"
-where = source.load_balancing_scheme == "EXTERNAL"
-via   = source.vpc_id
+```hcl
+where = source.enabled == true
 ```
 
-Rootform reads only source-adapter evidence available at the path. A traversal
-does not invoke Terraform evaluation, read state, or fetch a provider.
+Predicate traversal must resolve to known string, Boolean, or signed integer
+scalar. Missing, collection-valued, dynamic, or type-incompatible result is
+unknown.
 
-## Provider root
+### Fact reference resolution
 
-`provider` means the concrete provider configuration used by the matched source
-declaration. It is available only as a direct fact `via`:
-
-```hcl title="kubernetes/workloads/controllers.rf"
-context {
-  as  = context.core.runtime
-  to  = concept.core.kubernetes-cluster
-  via = provider.host
-}
+```hcl
+via = source.vpc_id
 ```
 
-It does not mean the abstract provider envelope in `dialect.rf`. It cannot be
-used in a predicate, value-matching fact, or composition link.
+Emission `via` resolves infrastructure references represented by source
+expression. It can produce zero, one, or several declarations. Result must also
+satisfy emission `to` semantic type.
 
-## Target root
+### Provider configuration resolution
 
-`target` is a candidate target declaration during explicit fact matching. It
-is available only under the fact's nested `match.by`:
+```hcl
+via = provider.host
+```
 
-```hcl title="target example"
+This reads `host` from concrete provider configuration used by matched source
+declaration. A proven missing configuration or attribute yields ordinary
+`source_absent` omission. A binding or value that source analysis attempted but
+could not decide produces incomplete emission evidence. `provider.*` is valid
+only for direct emission resolution, without nested fact `match`.
+
+### Explicit target comparison
+
+```hcl
 match {
-  by       = target.name
+  by       = target.metadata[0].name
   strategy = "exact"
 }
 ```
 
-The surrounding fact's `via = source.path` supplies the source value. Rootform
-compares it with candidate values at `target.path` using the declared strategy.
+For each candidate satisfying emission `to`, `target` reads candidate's
+attribute. See [Explicit attribute match](emissions.md#explicit-attribute-match).
 
-## Composition member root
+### Composition chaining
 
-A composition member can follow a member resolved earlier in author order:
-
-```hcl title="member example"
-member "routing" {
-  via = member.tls-proxy.url_map
+```hcl
+member "url-map" {
+  via = member.proxy.url_map
 
   match {
-    kind = "resource"
-    type = "google_compute_url_map"
+    type = "example_url_map"
   }
 }
 ```
 
-`tls-proxy` must already be declared above `routing`. `member` with no name,
-an unknown name, a self reference, or a forward reference is invalid.
+`proxy` must precede `url-map` in same composition. Members from another
+Rule or later position are not in scope.
 
-## Concept and context references
+## Resolution states
 
-Concept and context references name semantic vocabulary. They are not source
-traversals:
+Traversal evaluation distinguishes:
 
-| Scope | Concept form | Context form |
-| --- | --- | --- |
-| Current Dialect | `concept.subnet` | `context.network` |
-| Current Dialect, explicit | `concept.aws.subnet` | `context.aws.network` |
-| Directly required Dialect | `concept.core.subnet` | `context.core.network` |
-| Policy Pack | `concept.core.subnet` | `context.core.network` |
+| State | Meaning |
+| --- | --- |
+| Resolved | Required value or declaration is known |
+| Absent | Path is known not to exist |
+| Dangling | Reference names declaration absent from normalized source |
+| Ambiguous | More than one incompatible declaration remains |
+| Unresolved | Evidence is unknown or unsupported |
 
-Within a Dialect, an unqualified reference resolves only to local vocabulary.
-A qualified cross-Dialect reference resolves only when the current Dialect
-directly requires that exact Dialect version.
+Context decides whether absence becomes normal omission or diagnostic.
+Uncertainty never becomes empty evidence. See
+[Fact emissions](emissions.md#omission-and-uncertainty) and
+[Evaluation](evaluation.md).
 
-Policy Packs have no local vocabulary, so every concept, context, and relation reference
-is qualified and its Dialect must appear in the pack's direct `requires`.
+## Rejected roots and forms
 
-There is no implicit `core` scope and no transitive import. File paths and
-folder nesting do not affect reference resolution.
+```hcl title="invalid traversals"
+source
+provider
+target.name
+member.future.id
+aws_vpc.main.id
+```
+
+First two lack path step. `target` is invalid outside fact `match.by`.
+`member.future` is invalid unless `future` is earlier composition member.
+Terraform address `aws_vpc.main.id` has no RF traversal root.

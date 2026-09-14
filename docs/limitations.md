@@ -1,6 +1,6 @@
 ---
 title: "Rootform v0.1 limits"
-description: "Know the input, coverage, governance, comparison, and renderer boundaries of Rootform v0.1."
+description: "Know the input, coverage, governance, comparison, and offline boundaries of Rootform v0.1."
 ---
 
 Rootform's conclusions are limited to the evidence in its accepted inputs and
@@ -25,17 +25,15 @@ Local modules must stay within the selected root. Remote modules must already
 be materialized and match their module-manifest entries. Raw binary plans, state
 files, and planning event streams are not JSON plan inputs. See [inputs](inputs/index.md).
 
-## Provider support is not complete resource coverage
+## Resource coverage is not Rule coverage
 
-A provider can have a Dialect while some resource types remain unsupported.
-References can be missing, ambiguous, dynamic, or unresolved. Accounting and
-diagnostics expose those cases; a small or empty canvas is not evidence of
-complete coverage.
+Every normalized resource gets base representation even when no Dialect or Rule
+recognizes its type. Dialect coverage measures architectural enrichment, not
+resource visibility. References can remain missing, ambiguous, dynamic, or
+unresolved; accounting and diagnostics expose those cases.
 
-A project with only uncovered providers can initialize with an empty Dialect
-selection but cannot build from that selection. A partly supported
-project can build with unsupported declarations. Check the declaration outcomes
-before using the result for review or governance.
+Base-only representation has no synthetic Rule, Concept, or facts and therefore
+does not satisfy Policy targets by source type alone.
 
 ## A policy only proves its evaluated assertion
 
@@ -44,9 +42,10 @@ matching targets also produces zero evaluations. Both report `not_evaluated`,
 `compliant = false`, and exit 3.
 
 Policies cannot create missing facts. Review their assumptions against provider
-coverage. A violated assertion says its required architecture fact is absent; it
-does not prove an opposite condition in deployed infrastructure. Policies have
-no configurable severity or warning-only threshold. See
+coverage. A missing fact is known absent only when relevant emission closure is
+complete; otherwise evaluation is indeterminate. Neither result proves an
+opposite condition in deployed infrastructure. Policies have no configurable
+severity or warning-only threshold. See
 [policy outcomes](concepts/policies.md).
 
 ## Closed language surface
@@ -58,32 +57,21 @@ for the exact accepted set.
 
 ## Diff compares architectural meaning
 
-Diff requires valid compatible documents and the same Dialect identities and
-versions. Formatting and provenance-only changes are ignored. A Terraform
-replacement can leave architectural facts unchanged. Before-side evidence that
-cannot be reconstructed remains undetermined.
+Diff requires valid documents. Source normalization mismatch limits structural
+comparison; semantic-owner mismatch preserves source continuity while marking
+interpretation and fact changes undetermined. Formatting-only changes are
+ignored. Terraform replacement can leave architecture facts unchanged.
 
-`rootform diff` emits text, JSON, or Markdown reports. `run --plan` shows only
-the planned architecture, not both comparison sides. The [Diff guide](renderer/diff.md)
-explains the report and Diff view.
+`rootform diff` emits text, JSON, or Markdown reports. [Architecture Diff](concepts/diff.md)
+explains report contents and the evidence boundary.
 
-## Large views need exploration
+## Offline means exact inputs already exist
 
-Survey summarizes according to the viewport. Plan starts with the complete
-graph; Focus opens local context without Survey's automatic collapse budget.
-A large Plan or Focus can need panning and explicit disclosure. Fit can make
-labels too small to read when showing the whole view at once.
-
-Search indexes names, concepts, and context paths rather than exact Terraform
-addresses. Toolbar controls are keyboard-focusable, but the canvas has no
-dedicated keyboard panning shortcuts. See [views and inspection](renderer/views.md).
-
-## Offline means the inputs must already exist
-
-`--locked` alone does not forbid downloads. `--offline` cannot recover a missing
-artifact from a registry. Present vendor directories are exclusive, so damaged
-content cannot fall back to another source. Prepare exact packages beforehand
-with [the offline procedure](guides/reproduce-build.md).
+Normal execution never downloads. `init --locked` may acquire exact OCI pins;
+add `--offline` to forbid it. `vendor … --offline` cannot repair missing bytes
+from registry. Present vendor directories are exclusive, so damaged content
+cannot fall back. Prepare exact packages with
+[offline procedure](guides/reproduce-build.md).
 
 Use [troubleshooting](troubleshooting/index.md) for failures within these boundaries,
 and [report a synthetic reproduction](contributing/index.md#report-a-semantic-gap)

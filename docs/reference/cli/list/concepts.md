@@ -23,7 +23,8 @@ rootform list concepts [flags]
 
 ## Behavior
 
-List concepts available from the loaded dialects.
+List concepts available from the loaded dialects and the RF
+vocabulary.
 
 With no --dialect selection, every loaded dialect is included. The text
 or JSON listing goes to standard output. Diagnostics go to standard
@@ -41,6 +42,6 @@ error.
 
 ```sh
 rootform list concepts
-rootform list concepts --dialect core
+rootform list concepts --dialect google
 rootform list concepts --format json
 ```
