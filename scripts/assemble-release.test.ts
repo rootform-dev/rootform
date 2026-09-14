@@ -19,12 +19,36 @@ const version = "0.1.0-dev.2";
 const producerCommit = (
   JSON.parse(readFileSync(join(root, "public-export.json"), "utf8")) as { source_commit: string }
 ).source_commit;
-const dialectCommit = (
-  JSON.parse(readFileSync(join(root, "dependencies", "dialects.json"), "utf8")) as {
-    commit: string;
-  }
-).commit;
-const driftDialectCommit = "a".repeat(40);
+const releaseSet = {
+  format_version: "1",
+  rf_language: { contract_sha256: "a".repeat(64), version: "0.1.0" },
+  units: [
+    {
+      content_digest: "d".repeat(64),
+      kind: "dialect",
+      owner: "aws",
+      semantic_digest: "e".repeat(64),
+      version: "0.1.0",
+    },
+    {
+      content_digest: "f".repeat(64),
+      kind: "dialect",
+      owner: "azure",
+      semantic_digest: "6".repeat(64),
+      version: "0.1.0",
+    },
+    {
+      content_digest: "b".repeat(64),
+      kind: "vocabulary",
+      owner: "rf",
+      semantic_digest: "c".repeat(64),
+      version: "0.1.0",
+    },
+  ],
+  version: "0.1.0",
+};
+const releaseSetJson = `${JSON.stringify(releaseSet, null, 2)}\n`;
+const releaseSetManifestSha256 = sha256(releaseSetJson);
 const distributionCommit = "d".repeat(40);
 const rendererRevision = "b".repeat(40);
 const rendererAssetSha256 = "c".repeat(64);
@@ -37,11 +61,11 @@ const runtimeComponents = readRuntimeLicensing(root).components.filter(
 
 type FixtureOptions = {
   binaryRendererProvenanceLeak?: boolean;
-  dialectCommitDrift?: boolean;
   extraEntry?: boolean;
   manifestExtraField?: boolean;
   manifestFormatDrift?: boolean;
   producerCommitDrift?: boolean;
+  releaseSetDrift?: boolean;
   rendererAssetDrift?: boolean;
   rendererIdentityDrift?: boolean;
   rendererManifestDrift?: boolean;
@@ -202,11 +226,10 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
       toolchains: { bun: "1.3.14", go: "go1.26.7" },
     },
     format_version: options.manifestFormatDrift ? "1" : "2",
+    release_set: options.releaseSetDrift
+      ? { ...releaseSet, units: [...releaseSet.units].reverse() }
+      : releaseSet,
     inputs: {
-      dialects: {
-        commit: options.dialectCommitDrift ? driftDialectCommit : dialectCommit,
-        repository: "rootform-dev/dialects",
-      },
       renderer: {
         asset: {
           bytes: 1_617_784,
@@ -288,7 +311,8 @@ describe("strict handoff verification", () => {
         skipNative,
       );
       expect(verified.binaries).toHaveLength(5);
-      expect(verified.buildDialectCommit).toBe(dialectCommit);
+      expect(verified.releaseSetManifestSha256).toBe(releaseSetManifestSha256);
+      expect(verified.releaseSetVersion).toBe("0.1.0");
       expect(verified.producerSourceCommit).toBe(producerCommit);
       expect(verified.sbom.toString("utf8")).not.toContain(producerCommit);
       expect(verified.sbom.toString("utf8")).not.toContain(rendererRevision);
@@ -304,6 +328,7 @@ describe("strict handoff verification", () => {
       [{ manifestExtraField: true }, "unexpected fields"],
       [{ manifestFormatDrift: true }, "producer manifest format drifted"],
       [{ producerCommitDrift: true }, "public export provenance drifted"],
+      [{ releaseSetDrift: true }, "release-set manifest units are not canonical"],
       [{ rendererAssetDrift: true }, "producer renderer asset drifted"],
       [{ rendererIdentityDrift: true }, "producer renderer identity drifted"],
       [{ rendererManifestDrift: true }, "producer renderer manifest drifted"],
@@ -401,6 +426,7 @@ describe("final release assembly", () => {
       expect(manifest).not.toContain(rendererAssetSha256);
       expect(manifest).not.toContain(rendererManifestSha256);
       expect(manifest).toContain(verified.producerManifestSha256);
+      expect(manifest).toContain(releaseSetManifestSha256);
       const parsed = JSON.parse(manifest) as {
         license: {
           binary: { public_release_allowed: boolean; spdx: string; status: string };
@@ -469,60 +495,6 @@ describe("final release assembly", () => {
       ).toThrow("final executable bytes drifted");
     } finally {
       rmSync(fixture.parent, { force: true, recursive: true });
-    }
-  });
-
-  test("assembly rejects a handoff built against a different Dialects commit than the pin", () => {
-    const fixture = makeFixture({ dialectCommitDrift: true });
-    const output = join(fixture.parent, "release");
-    try {
-      expect(() =>
-        assembleRelease({
-          distributionCommit,
-          githubAssets: fixture.githubAssets,
-          handoffDirectory: fixture.directory,
-          nativeVerifier: skipNative,
-          output,
-          root,
-          version,
-        }),
-      ).toThrow(
-        `dialects commit mismatch: handoff was built against ${driftDialectCommit} ` +
-          `but dependencies/dialects.json pins ${dialectCommit}`,
-      );
-    } finally {
-      rmSync(fixture.parent, { force: true, recursive: true });
-    }
-  });
-
-  test("verify --check rejects a handoff built against a different Dialects commit than the pin", () => {
-    const honest = makeFixture();
-    const drifted = makeFixture({ dialectCommitDrift: true });
-    const output = join(honest.parent, "release");
-    try {
-      assembleRelease({
-        distributionCommit,
-        githubAssets: honest.githubAssets,
-        handoffDirectory: honest.directory,
-        nativeVerifier: skipNative,
-        output,
-        root,
-        version,
-      });
-      expect(() =>
-        verifyFinalDirectory({
-          distributionCommit,
-          githubAssets: drifted.githubAssets,
-          handoffDirectory: drifted.directory,
-          nativeVerifier: skipNative,
-          output,
-          root,
-          version,
-        }),
-      ).toThrow("dialects commit mismatch");
-    } finally {
-      rmSync(honest.parent, { force: true, recursive: true });
-      rmSync(drifted.parent, { force: true, recursive: true });
     }
   });
 });

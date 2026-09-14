@@ -31,13 +31,29 @@ export type VerifiedBinary = {
 
 export type VerifiedHandoff = {
   binaries: VerifiedBinary[];
-  buildDialectCommit: string;
   bundleName: string;
   bundleSha256: string;
   producerManifestSha256: string;
   producerSourceCommit: string;
   sbom: Buffer;
   schema: Buffer;
+  releaseSetManifestSha256: string;
+  releaseSetVersion: string;
+  version: string;
+};
+
+export type ReleaseSetUnit = {
+  content_digest: string;
+  kind: "vocabulary" | "dialect";
+  owner: string;
+  semantic_digest: string;
+  version: string;
+};
+
+export type ReleaseSetManifest = {
+  format_version: string;
+  rf_language: { contract_sha256: string; version: string };
+  units: ReleaseSetUnit[];
   version: string;
 };
 
@@ -451,10 +467,11 @@ function verifyBinaryProvenance(
 }
 
 type ParsedManifest = {
-  buildDialectCommit: string;
   created: string;
   privateRendererProvenance: string[];
   producerCommit: string;
+  releaseSetManifestSha256: string;
+  releaseSetVersion: string;
   targetRecords: Array<{
     architecture: string;
     bytes: number;
@@ -464,12 +481,104 @@ type ParsedManifest = {
   }>;
 };
 
+const SEMVER =
+  /^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/u;
+const OWNER = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/u;
+
+function releaseSetManifest(value: unknown): ReleaseSetManifest {
+  const manifest = exactObject(value, "release-set manifest", [
+    "format_version",
+    "rf_language",
+    "units",
+    "version",
+  ]);
+  if (manifest.format_version !== "1") throw new Error("release-set manifest format drifted");
+  const version = stringField(manifest, "version", "release-set manifest");
+  if (!SEMVER.test(version)) throw new Error("release-set manifest version is invalid");
+  const language = exactObject(manifest.rf_language, "release-set RF Language contract", [
+    "contract_sha256",
+    "version",
+  ]);
+  const languageVersion = stringField(language, "version", "release-set RF Language contract");
+  const contractSha256 = stringField(
+    language,
+    "contract_sha256",
+    "release-set RF Language contract",
+  );
+  if (!SEMVER.test(languageVersion) || !/^[0-9a-f]{64}$/u.test(contractSha256)) {
+    throw new Error("release-set RF Language contract is invalid");
+  }
+  if (!Array.isArray(manifest.units) || manifest.units.length === 0) {
+    throw new Error("release-set manifest unit inventory is empty");
+  }
+  const keys = new Set<string>();
+  let vocabularyCount = 0;
+  const units = manifest.units.map((raw, index): ReleaseSetUnit => {
+    if (typeof raw !== "object" || raw === null || Array.isArray(raw)) {
+      throw new Error(`release-set manifest unit ${index} must be an object`);
+    }
+    const unit = exactObject(raw, `release-set manifest unit ${index}`, [
+      "content_digest",
+      "kind",
+      "owner",
+      "semantic_digest",
+      "version",
+    ]);
+    const kind = stringField(unit, "kind", `release-set manifest unit ${index}`);
+    const owner = stringField(unit, "owner", `release-set manifest unit ${index}`);
+    const unitVersion = stringField(unit, "version", `release-set manifest unit ${index}`);
+    const contentDigest = stringField(unit, "content_digest", `release-set manifest unit ${index}`);
+    const semanticDigest = stringField(
+      unit,
+      "semantic_digest",
+      `release-set manifest unit ${index}`,
+    );
+    if ((kind !== "vocabulary" && kind !== "dialect") || !OWNER.test(owner)) {
+      throw new Error(`release-set manifest unit ${index} identity is invalid`);
+    }
+    if ((owner === "rf" && kind !== "vocabulary") || (owner !== "rf" && kind === "vocabulary")) {
+      throw new Error(`release-set manifest unit ${index} nature is invalid`);
+    }
+    if (
+      !SEMVER.test(unitVersion) ||
+      !/^[0-9a-f]{64}$/u.test(contentDigest) ||
+      !/^[0-9a-f]{64}$/u.test(semanticDigest) ||
+      keys.has(owner)
+    ) {
+      throw new Error(`release-set manifest unit ${index} is invalid or duplicated`);
+    }
+    keys.add(owner);
+    if (kind === "vocabulary") vocabularyCount += 1;
+    return {
+      content_digest: contentDigest,
+      kind: kind as ReleaseSetUnit["kind"],
+      owner,
+      semantic_digest: semanticDigest,
+      version: unitVersion,
+    };
+  });
+  if (vocabularyCount !== 1 || !keys.has("rf")) {
+    throw new Error("release-set manifest must contain exactly one RF Vocabulary unit");
+  }
+  const ordered = [...units].sort((left, right) => left.owner.localeCompare(right.owner, "en"));
+  if (JSON.stringify(units) !== JSON.stringify(ordered)) {
+    throw new Error("release-set manifest units are not canonical");
+  }
+  return {
+    format_version: "1",
+    rf_language: { contract_sha256: contractSha256, version: languageVersion },
+    units,
+    version,
+  };
+}
+
 function parseProducerManifest(body: string, version: string): ParsedManifest {
   const manifest = exactObject(canonicalJson(body, "producer manifest"), "producer manifest", [
     "build",
     "format_version",
     "inputs",
     "product",
+    "release_set",
     "sbom",
     "schema",
     "source",
@@ -485,18 +594,10 @@ function parseProducerManifest(body: string, version: string): ParsedManifest {
   if (source.repository !== "rootform-dev/engine" || !/^[0-9a-f]{40}$/u.test(producerCommit)) {
     throw new Error("producer source identity drifted");
   }
-  const inputs = exactObject(manifest.inputs, "producer inputs", ["dialects", "renderer"]);
-  const dialects = exactObject(inputs.dialects, "producer Dialects input", [
-    "commit",
-    "repository",
-  ]);
-  const buildDialectCommit = stringField(dialects, "commit", "producer Dialects input");
-  if (
-    dialects.repository !== "rootform-dev/dialects" ||
-    !/^[0-9a-f]{40}$/u.test(buildDialectCommit)
-  ) {
-    throw new Error("producer Dialects input drifted");
-  }
+  const inputs = exactObject(manifest.inputs, "producer inputs", ["renderer"]);
+  const releaseSet = releaseSetManifest(manifest.release_set);
+  const releaseSetJson = JSON.stringify(releaseSet, null, 2) + String.fromCharCode(10);
+  const releaseSetManifestSha256 = sha256(releaseSetJson);
   const renderer = exactObject(inputs.renderer, "producer renderer input", [
     "asset",
     "manifest",
@@ -631,7 +732,6 @@ function parseProducerManifest(body: string, version: string): ParsedManifest {
     throw new Error("producer target order or inventory drifted");
   }
   return {
-    buildDialectCommit,
     created,
     privateRendererProvenance: [
       rendererAssetFile,
@@ -641,6 +741,8 @@ function parseProducerManifest(body: string, version: string): ParsedManifest {
       rendererRevision,
     ],
     producerCommit,
+    releaseSetManifestSha256,
+    releaseSetVersion: releaseSet.version,
     targetRecords,
   };
 }
@@ -826,13 +928,14 @@ export function verifyHandoffDirectory(
 
   return {
     binaries,
-    buildDialectCommit: manifest.buildDialectCommit,
     bundleName,
     bundleSha256: sha256(bundle),
     producerManifestSha256: sha256(manifestBody),
     producerSourceCommit: manifest.producerCommit,
     sbom,
     schema,
+    releaseSetManifestSha256: manifest.releaseSetManifestSha256,
+    releaseSetVersion: manifest.releaseSetVersion,
     version,
   };
 }

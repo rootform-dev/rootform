@@ -1,5 +1,9 @@
 import { expect, test } from "bun:test";
-import { parseRegistryQualificationArguments } from "./qualify-registry.ts";
+import {
+  encodeSelectionLock,
+  type PackagePin,
+  parseRegistryQualificationArguments,
+} from "./qualify-registry.ts";
 
 const revision = "a".repeat(40);
 
@@ -84,4 +88,26 @@ test("registry qualification requires canonical explicit provenance", () => {
       "/workspace",
     ),
   ).toThrow("canonical HTTPS URL");
+});
+
+test("qualification lock selects only exact third-party content", () => {
+  const pin = (marker: string): PackagePin => ({
+    contentDigest: `sha256:${marker.repeat(64)}`,
+    downloadSize: 100,
+    installSize: 200,
+    layerDigest: `sha256:${marker.repeat(64)}`,
+    manifestDigest: `sha256:${marker.repeat(64)}`,
+    manifestSize: 300,
+    tag: "unused",
+  });
+  const lock = JSON.parse(
+    encodeSelectionLock("registry.example/team/catalog", pin("a"), pin("b")),
+  ) as Record<string, unknown>;
+  expect(lock.format_version).toBe("1");
+  expect(lock.dialects).toHaveLength(1);
+  expect(lock.policy_packs).toHaveLength(1);
+  expect(lock.excluded_owners).toEqual([]);
+  expect(lock.replacements).toEqual([]);
+  expect(lock).not.toHaveProperty("extensions");
+  expect(lock).not.toHaveProperty("index");
 });

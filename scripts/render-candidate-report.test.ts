@@ -34,10 +34,11 @@ function evidence(): CandidateEvidence {
       { body: "sbom", name: "rootform_0.1.0-pr.39.1_sbom.spdx.json" },
     ]),
     componentCount: 83,
-    dialectCommit: commit("a"),
     distributionCommit: commit("b"),
     handoffSha256: digest("c"),
     licenseSpdx: "Elastic-2.0",
+    releaseSetSha256: digest("d"),
+    releaseSetVersion: "0.1.0",
     releaseUrl: "https://github.com/rootform-dev/rootform/releases/tag/v0.1.0-pr.39.1",
     runUrl: "https://github.com/rootform-dev/rootform/actions/runs/12",
     version: "0.1.0-pr.39.1",
@@ -51,6 +52,7 @@ test("renders public-safe deterministic candidate evidence", () => {
   expect(first.startsWith(DISTRIBUTION_EVIDENCE_MARKER)).toBe(true);
   expect(first).toContain("handoff:cccccccccccc → rootform:bbbbbbbbbbbb → draft:v0.1.0-pr.39.1");
   expect(first).toContain("5/5 target archives · 83 licensed components · Elastic-2.0");
+  expect(first).toContain("`release-set:dddddddddddd` · v0.1.0");
   expect(first).toContain(
     `| windows / amd64 | 32.0 MiB | \`555555555555\` | \`${sha256("archive-5").slice(0, 12)}\` |`,
   );

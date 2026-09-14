@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import type { ArchiveEntry } from "./archive.ts";
 import {
   normalizeVersion,
@@ -21,26 +19,6 @@ export type FinalArtifactRecord = {
   raw_executable_sha256: string;
   sha256: string;
 };
-
-export type DialectPin = {
-  commit: string;
-  format_version: string;
-  repository: string;
-};
-
-export function readDialectPin(root: string): DialectPin {
-  const pin = JSON.parse(
-    readFileSync(join(root, "dependencies", "dialects.json"), "utf8"),
-  ) as DialectPin;
-  if (
-    pin.format_version !== "1" ||
-    pin.repository !== "rootform-dev/dialects" ||
-    !/^[0-9a-f]{40}$/u.test(pin.commit)
-  ) {
-    throw new Error("dependencies/dialects.json must pin one exact official commit");
-  }
-  return pin;
-}
 
 export function releaseArchiveEntries(options: {
   binary: Uint8Array;
@@ -72,11 +50,12 @@ export function createReleaseManifest(options: {
   artifacts: FinalArtifactRecord[];
   binaryLicense: Uint8Array;
   componentCount: number;
-  dialectCommit: string;
   distributionCommit: string;
   handoffBundleSha256: string;
   notices: Uint8Array;
   producerManifestSha256: string;
+  releaseSetManifestSha256: string;
+  releaseSetVersion: string;
   runtimeInventorySha256: string;
   sbom: Uint8Array;
   schema: Uint8Array;
@@ -84,18 +63,21 @@ export function createReleaseManifest(options: {
 }): string {
   const version = normalizeVersion(options.version);
   validateBinaryLicense(options.binaryLicense);
-  for (const [label, value] of [
-    ["Dialects commit", options.dialectCommit],
-    ["distribution commit", options.distributionCommit],
-  ] as const) {
+  for (const [label, value] of [["distribution commit", options.distributionCommit]] as const) {
     if (!/^[0-9a-f]{40}$/u.test(value)) throw new Error(`${label} is invalid`);
   }
   for (const [label, value] of [
     ["handoff bundle", options.handoffBundleSha256],
     ["producer manifest", options.producerManifestSha256],
+    ["release-set manifest", options.releaseSetManifestSha256],
     ["runtime license inventory", options.runtimeInventorySha256],
   ] as const) {
     if (!/^[0-9a-f]{64}$/u.test(value)) throw new Error(`${label} digest is invalid`);
+  }
+  if (
+    !/^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$/u.test(options.releaseSetVersion)
+  ) {
+    throw new Error("release-set version is invalid");
   }
   if (!Number.isSafeInteger(options.componentCount) || options.componentCount < 1) {
     throw new Error("runtime license component count is invalid");
@@ -144,13 +126,6 @@ export function createReleaseManifest(options: {
           verification: "required-after-publication",
         },
       },
-      compatibility: {
-        dialects: {
-          commit: options.dialectCommit,
-          repository: "rootform-dev/dialects",
-          scope: "complete-official-matrix",
-        },
-      },
       distribution: {
         commit: options.distributionCommit,
         repository: "rootform-dev/rootform",
@@ -179,6 +154,11 @@ export function createReleaseManifest(options: {
         name: "rootform",
         tag: `v${version}`,
         version,
+      },
+      release_set: {
+        id: `release-set:${options.releaseSetManifestSha256}`,
+        manifest_sha256: options.releaseSetManifestSha256,
+        version: options.releaseSetVersion,
       },
       sbom: {
         file: `rootform_${version}_sbom.spdx.json`,
