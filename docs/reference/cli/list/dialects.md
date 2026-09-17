@@ -18,16 +18,20 @@ rootform list dialects [flags]
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --dialect ` | ` stringArray ` | ` [] ` | limit results to this dialect `name`; repeatable |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
+| ` -o, --format ` | ` string ` | ` "" ` | output `format`: text, wide, or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list dialects |
 
 ## Behavior
 
-List the dialect catalog available to this project: provided
-dialects and the selected dialects.
+List the dialect catalog available to this project: the dialects
+supplied with rootform and the dialects the project selects.
 
-With no --dialect selection, every loaded dialect is included. The text
-or JSON listing goes to standard output. Diagnostics go to standard
+With no --dialect selection, every loaded dialect is included. The
+default listing names one dialect per line, -o wide adds version,
+origin and how much each dialect declares, and -o json carries the
+exact version, origin and content digest of every selection.
+
+The listing goes to standard output. Diagnostics go to standard
 error.
 
 ## Exit status
@@ -42,6 +46,7 @@ error.
 
 ```sh
 rootform list dialects
+rootform list dialects -o wide
 rootform list dialects --dialect google
-rootform list dialects --format json
+rootform list dialects -o json
 ```

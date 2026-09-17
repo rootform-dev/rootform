@@ -245,7 +245,7 @@ export function verifyLanguageExamples(
   run(["fmt", "--check", native], working);
   const compiled = run(["validate", "dialects", native], working);
   for (const identity of ["aws@0.1.0", "google@0.1.0"]) {
-    assert(compiled.stdout.includes(`${identity} compiles`), `${identity} did not compile`);
+    assert(compiled.stdout.includes(identity), `${identity} did not validate`);
   }
 
   const jsonRoot = join(working, "json");
@@ -257,10 +257,7 @@ export function verifyLanguageExamples(
   );
   run(["fmt", "--check", jsonRoot], working);
   const jsonCompiled = run(["validate", "dialects", jsonRoot], working);
-  assert(
-    jsonCompiled.stdout.includes("example@0.1.0 compiles"),
-    ".rf.json fixture did not compile",
-  );
+  assert(jsonCompiled.stdout.includes("example@0.1.0"), ".rf.json fixture did not validate");
 
   const jsonPack = join(working, "json-policy-pack");
   mkdirSync(jsonPack);
@@ -314,10 +311,7 @@ export function verifyLanguageExamples(
     );
     run(["fmt", "--check", directory], working);
     const result = run(["validate", "dialects", directory], working);
-    assert(
-      result.stdout.includes(`${example.identity} compiles`),
-      `${example.title} did not compile`,
-    );
+    assert(result.stdout.includes(example.identity), `${example.title} did not validate`);
   }
 
   const architecture = join(workspace, "architecture.json");

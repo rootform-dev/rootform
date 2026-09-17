@@ -117,12 +117,15 @@ in the lock. See
 
 ```sh
 rootform list dialects
-rootform show dialect aws
+rootform list dialects -o wide
+rootform show aws
+rootform show aws.rule.subnet
 ```
 
-`list dialects` reports the catalog available to the project, and `show dialect`
-reports one dialect's version, origin, content identity, providers, definitions,
-and Rules. Neither command changes the selection. Follow
+`list dialects` prints one Dialect name per line. Add `-o wide` for versions,
+origins and symbol counts. `show aws` reports the Dialect summary and qualified
+references for its Concepts, Contexts, Relations and Rules. Copy a reference
+into `show` to inspect its definition. Neither command changes the selection. Follow
 [Reproduce a build offline](../guides/reproduce-build.md) for an intentional
 update.
 

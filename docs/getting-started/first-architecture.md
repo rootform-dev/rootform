@@ -51,27 +51,20 @@ rootform build . --output architecture.json
 discover, acquire, or prompt for packages, and it does not create
 `rootform.lock`: a project that uses only supplied Dialects needs no lock and
 no `rootform init`. The command writes Architecture IR to
-`architecture.json` and reports declaration accounting on standard error:
+`architecture.json` and reports a compact declaration summary on standard error:
 
 ```text title="Declaration summary"
-Declarations                    3
-Resources                       2
-Data sources                    0
-Representations                 2
-Resource bases                  2
-Data representations            0
-Applied interpretations         2
-Failed interpretations          0
-Uninterpreted resources         0
-Composition memberships         0
-Facts                           1
-Omissions                       0
-Diagnostics                     0
+Architecture built -> architecture.json
+
+Resources     2 represented
+Declarations  3 total, including 1 other declaration
+Facts         1 resolved, 0 omitted
 ```
 
-The Terraform settings declaration stays a source declaration with no
-representation. Both resources have a base representation and a successfully
-applied Rule.
+The result line names the destination. The summary says that both resources
+are represented, while the third declaration is the Terraform settings block.
+That settings declaration remains source data without a representation. The
+VPC and subnet each retain a base representation and an applied Rule.
 
 ## Explain the architecture
 

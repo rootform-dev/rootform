@@ -17,19 +17,20 @@ rootform show policy-pack <name> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
+| ` -o, --format ` | ` string ` | ` "" ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show policy-pack |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
 
 ## Behavior
 
-Show a selected or local Policy Pack, including version, policies,
-content identity, and source location.
+Show a selected or local Policy Pack, including its version, the
+policies it declares, its content identity, and its source location.
 
-The name selects one loaded Policy Pack.
+The name selects one loaded Policy Pack. With --policy-pack, only the
+supplied local authoring roots are read.
 
-The text or JSON definition goes to standard output. Diagnostics go to
-standard error.
+The text or JSON definition goes to standard output. Diagnostics go
+to standard error.
 
 ## Exit status
 
@@ -45,5 +46,5 @@ standard error.
 ```sh
 rootform show policy-pack baseline
 rootform show policy-pack baseline --policy-pack ./policies
-rootform show policy-pack baseline --format json
+rootform show policy-pack baseline -o json
 ```

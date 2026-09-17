@@ -113,13 +113,9 @@
             "label": "list",
             "items": [
               { "label": "Overview", "page": "reference/cli/list" },
-              { "label": "concepts", "page": "reference/cli/list/concepts" },
-              { "label": "contexts", "page": "reference/cli/list/contexts" },
               { "label": "dialects", "page": "reference/cli/list/dialects" },
               { "label": "policies", "page": "reference/cli/list/policies" },
-              { "label": "policy-packs", "page": "reference/cli/list/policy-packs" },
-              { "label": "relations", "page": "reference/cli/list/relations" },
-              { "label": "rules", "page": "reference/cli/list/rules" }
+              { "label": "policy-packs", "page": "reference/cli/list/policy-packs" }
             ]
           },
           { "label": "lsp", "page": "reference/cli/lsp" },
@@ -144,13 +140,8 @@
             "label": "show",
             "items": [
               { "label": "Overview", "page": "reference/cli/show" },
-              { "label": "concept", "page": "reference/cli/show/concept" },
-              { "label": "context", "page": "reference/cli/show/context" },
-              { "label": "dialect", "page": "reference/cli/show/dialect" },
               { "label": "policy", "page": "reference/cli/show/policy" },
-              { "label": "policy-pack", "page": "reference/cli/show/policy-pack" },
-              { "label": "relation", "page": "reference/cli/show/relation" },
-              { "label": "rule", "page": "reference/cli/show/rule" }
+              { "label": "policy-pack", "page": "reference/cli/show/policy-pack" }
             ]
           },
           { "label": "test", "page": "reference/cli/test" },

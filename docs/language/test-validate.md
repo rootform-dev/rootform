@@ -72,7 +72,7 @@ plus explicit selected Dialects):
 
 ```sh
 rootform validate rule aws.rule.subnet
-rootform show rule aws.rule.subnet
+rootform show aws.rule.subnet
 rootform validate concept rf.concept.subnet
 ```
 
@@ -114,8 +114,8 @@ rootform test ./fixtures --run example/minimal
 ```
 
 Rootform builds every selected case and compares exact output bytes with the
-reviewed golden. A difference reports the first byte position and a bounded
-window; it does not dump the architecture.
+reviewed golden. A difference reports architectural changes by source address
+and limits the number of detail lines; it does not dump the architecture.
 
 Review a changed golden as product behavior. Check at least:
 

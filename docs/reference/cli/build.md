@@ -71,23 +71,15 @@ For the [VPC and subnet example](../../getting-started/first-architecture.md),
 the declaration summary on standard error is:
 
 ```text title="Declaration summary"
-Declarations                    3
-Resources                       2
-Data sources                    0
-Representations                 2
-Resource bases                  2
-Data representations            0
-Applied interpretations         2
-Failed interpretations          0
-Uninterpreted resources         0
-Composition memberships         0
-Facts                           1
-Omissions                       0
-Diagnostics                     0
+Architecture built -> architecture.json
+
+Resources     2 represented
+Declarations  3 total, including 1 other declaration
+Facts         1 resolved, 0 omitted
 ```
 
 Terraform settings declaration has no representation. VPC and subnet retain
-resource bases and applied interpretations.
+resource bases and applied Rules.
 
 ## Read a plan
 
@@ -107,5 +99,5 @@ or OpenTofu and handling its sensitive source data.
 | `3` | No complete architecture could be built. |
 
 A built architecture can contain unclassified resource bases and explicit
-interpretation diagnostics. Read accounting before making coverage claim.
+interpretation diagnostics. Read the summary before making a coverage claim.
 `build` has no policy-violation exit: use `check` for governance.

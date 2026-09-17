@@ -39,9 +39,9 @@ Progress and operational warnings use standard error. Structured diagnostics
 also belong to their result document; do not discard them because the command
 produced valid JSON.
 
-Text output includes more human context. For a directory build, declaration
-accounting goes to standard error. A text `check` prints its policy summary
-and declaration accounting on standard output.
+Text output includes more human context. For a directory build, its result and
+compact declaration summary go to standard error. A text `check` prints its
+policy summary and policy detail on standard output.
 
 Use `--format json` for a parser and preserve standard error separately.
 Merging streams with `2>&1` can turn valid JSON into unreadable input.

@@ -17,17 +17,21 @@ rootform list policies [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
+| ` -o, --format ` | ` string ` | ` "" ` | output `format`: text, wide, or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list policies |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
 
 ## Behavior
 
-List policies available from selected Policy Packs.
+List the policies the selected Policy Packs declare.
 
-With --policy-pack, only supplied local authoring roots are used;
-otherwise the project selection is loaded. The text
-or JSON listing goes to standard output. Diagnostics go to standard
+With --policy-pack, only the supplied local authoring roots are
+read; otherwise the project selection is loaded. The default
+listing names one qualified policy per line, -o wide adds what
+each policy targets, and -o json carries the owning Policy Pack
+and target of every policy.
+
+The listing goes to standard output. Diagnostics go to standard
 error.
 
 ## Exit status
@@ -42,6 +46,7 @@ error.
 
 ```sh
 rootform list policies
+rootform list policies -o wide
 rootform list policies --policy-pack ./policies
-rootform list policies --format json
+rootform list policies -o json
 ```

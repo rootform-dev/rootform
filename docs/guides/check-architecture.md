@@ -41,14 +41,20 @@ Local source is compiled for this invocation and never added to
 `rootform.lock`. Unchanged tutorial starts with:
 
 ```text title="Passed check (excerpt)"
-status compliant; 1 policy, 1 evaluation, 1 passed, 0 violated, 0 indeterminate, 0 not evaluated
+Policies: compliant
+
+Scope    1 policy, 1 evaluation
+Results  1 passed
 ```
 
 If subnet `vpc_id` becomes unresolved literal, context emission is incomplete.
 Result is indeterminate, not violation:
 
 ```text title="Indeterminate check (unresolved traversal)"
-status indeterminate; 1 policy, 1 evaluation, 0 passed, 0 violated, 1 indeterminate, 0 not evaluated
+Policies: indeterminate
+
+Scope    1 policy, 1 evaluation
+Results  1 indeterminate
 ```
 
 Target with no matching representation yields zero evaluations and

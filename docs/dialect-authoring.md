@@ -121,8 +121,8 @@ representations; members do not inherit root Rule or Concept.
 rootform fmt --check .
 rootform validate dialects .
 rootform validate rule aws.rule.subnet
-rootform show rule aws.rule.subnet
-rootform show concept rf.concept.subnet
+rootform show aws.rule.subnet
+rootform show rf.concept.subnet
 ```
 
 Named commands use owner-first IDs. Bare name works only when unambiguous.

@@ -62,7 +62,10 @@ Facts carry bounded provenance naming the successful resolution, Rule, and emiss
 
 ## Partial is not invalid
 
-A document is normally partial. Uninterpreted resource bases, data declarations without representations, and explicit diagnostics are valid and expected. Unknown or unsupported input stays explicit; a document with unknown data is never truncated and presented as complete.
+A document is normally partial. Resource bases without an applied Rule, data
+declarations without representations, and explicit diagnostics are valid and
+expected. Unknown or unsupported input stays explicit; a document with unknown
+data is never truncated and presented as complete.
 
 A document is invalid when it has an unsupported `format_version`, forbidden unknown fields, invalid identifiers, dangling references, duplicate identities, noncanonical ordering, inconsistent accounting, references, or closure, unresolved successful provenance, or an active emission without closure. A rejected document supports no compliance or no-change claim in any consumer.
 

@@ -124,7 +124,7 @@ export function verifyCoreExamples(
   const passed =
     command("guides/check-architecture.md", "policy-local").trim().split("\n")[0] ?? "";
   assert(
-    policyPage.includes(`${fence}text title="Passed check (excerpt)"\n${passed}\n${fence}`),
+    fencedBlock(policyPage, "text", "Passed check (excerpt)").trim().split("\n")[0] === passed,
     "displayed compliant result differs from command",
   );
   command("guides/check-architecture.md", "policy-show");
@@ -146,9 +146,9 @@ export function verifyCoreExamples(
     .stdout.trim()
     .split("\n")[0];
   assert(
-    policyPage.includes(
-      `${fence}text title="Indeterminate check (unresolved traversal)"\n${unresolved}\n${fence}`,
-    ),
+    fencedBlock(policyPage, "text", "Indeterminate check (unresolved traversal)")
+      .trim()
+      .split("\n")[0] === unresolved,
     "displayed indeterminate result differs from command",
   );
   writeFileSync(join(workspace, "main.tf"), original);
@@ -216,7 +216,7 @@ export function verifyCoreExamples(
   );
   assert(
     command("guides/compare-architectures.md", "diff-identical").trim() ===
-      "no architectural change",
+      "No architectural change.",
     "identical Diff result changed",
   );
   command("guides/compare-architectures.md", "diff-json");

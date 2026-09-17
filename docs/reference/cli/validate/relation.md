@@ -40,7 +40,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform validate relation google.relation.private-access
-rootform validate relation private-access
-rootform validate relation google.relation.private-access --format json
+rootform validate relation google.relation.runs-as
+rootform validate relation runs-as
+rootform validate relation google.relation.runs-as --format json
 ```
