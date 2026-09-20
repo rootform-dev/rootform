@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
 
@@ -48,10 +48,7 @@ function boundaryScenarios(): BoundaryScenario[] {
   return scenarios.sort((left, right) => left.fixture.localeCompare(right.fixture, "en"));
 }
 
-function buildBoundary(
-  environment: Record<string, string>,
-  scenario: BoundaryScenario,
-): string {
+function buildBoundary(environment: Record<string, string>, scenario: BoundaryScenario): string {
   if (!/^fixtures\/[a-z0-9-]+\/boundary$/u.test(scenario.fixture)) {
     throw new Error(`invalid boundary fixture path: ${scenario.fixture}`);
   }
@@ -107,7 +104,9 @@ try {
   const boundaries = boundaryScenarios();
   if (boundaries.length === 0) throw new Error("no official Dialect boundary evidence is declared");
   for (const scenario of boundaries) {
-    if (buildBoundary(environment, scenario) !== buildBoundary(environment, scenario)) {
+    const first = buildBoundary(environment, scenario);
+    const second = buildBoundary(environment, scenario);
+    if (first !== second) {
       throw new Error(`${scenario.fixture} partial Architecture IR is nondeterministic`);
     }
   }

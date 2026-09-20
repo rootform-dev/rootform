@@ -52,14 +52,7 @@ const allowedTopLevel = new Set([
   "scripts",
   "tsconfig.json",
 ]);
-const forbiddenTopLevel = new Set([
-  "apps",
-  "cmd",
-  "internal",
-  "packages",
-  "specs",
-  "web",
-]);
+const forbiddenTopLevel = new Set(["apps", "cmd", "internal", "packages", "specs", "web"]);
 const forbiddenText =
   /(?:\/Users\/|\/home\/(?!rootform(?:\/|$))[A-Za-z0-9._-]+\/|[A-Za-z]:\\Users\\|BEGIN (?:RSA|OPENSSH|EC|DSA) PRIVATE KEY|github_pat_|ghp_)/u;
 const enginePathReference =

@@ -421,7 +421,6 @@ export function validateRepository(): void {
       .join("; ");
     throw new Error(`${danglingRules.length} undeclared rule reference(s) in evidence: ${sample}`);
   }
-
 }
 
 if (import.meta.main) {

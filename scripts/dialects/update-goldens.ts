@@ -4,7 +4,8 @@ import { mkdtempSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 
-const root = join(import.meta.dir, "../../dialects");
+const rootform = join(import.meta.dir, "../..");
+const root = join(rootform, "dialects");
 const configuredBinary = process.env.ROOTFORM_BIN;
 if (!configuredBinary) throw new Error("ROOTFORM_BIN must name a Rootform executable");
 const binary = isAbsolute(configuredBinary) ? configuredBinary : resolve(root, configuredBinary);
@@ -38,7 +39,7 @@ try {
       env: {
         ...process.env,
         ROOTFORM_HOME: home,
-        ROOTFORM_DIALECTS_SOURCE: root,
+        ROOTFORM_SOURCE: rootform,
       },
       stderr: "pipe",
       stdout: "pipe",
