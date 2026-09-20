@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { cpSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { validateRendererPresentation } from "./renderer-presentation.ts";
 
 const fixtures = {
   "commerce-platform-base": "commerce-platform/base",
@@ -40,14 +41,10 @@ function assert(condition: unknown, message: string): asserts condition {
 }
 
 function validPresentation(bytes: Buffer, label: string): void {
-  const source = JSON.parse(bytes.toString("utf8")) as Record<string, unknown>;
-  assert(source.format_version === "1", `${label}: unknown presentation format`);
-  for (const section of ["rules", "concepts", "rule_labels", "concept_labels"]) {
-    const entries = source[section] ?? {};
-    assert(
-      typeof entries === "object" && entries !== null && !Array.isArray(entries),
-      `${label}: invalid presentation ${section}`,
-    );
+  try {
+    validateRendererPresentation(JSON.parse(bytes.toString("utf8")), label);
+  } catch (error) {
+    assert(false, error instanceof Error ? error.message : `${label}: invalid presentation`);
   }
 }
 type Manifest = {

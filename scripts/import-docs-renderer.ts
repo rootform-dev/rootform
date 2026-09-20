@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { validateRendererPresentation } from "./renderer-presentation.ts";
 
 // Import reviewed opaque capture output; never acquire or read producer source.
 const input = process.argv[2];
@@ -74,8 +75,7 @@ for (const file of files) {
       : undefined;
   if (expected && hash !== expected)
     throw new Error(`Evidence differs from reviewed capture: ${file}`);
-  if (file.endsWith("-presentation.json") && value.format_version !== "1")
-    throw new Error(`Unknown presentation format: ${file}`);
+  if (file.endsWith("-presentation.json")) validateRendererPresentation(value, file);
   if (/\/Users\/|\/home\/|[A-Z]:\\\\/u.test(bytes.toString("utf8")))
     throw new Error(`Evidence contains a machine path: ${file}`);
   hashes[file] = hash;

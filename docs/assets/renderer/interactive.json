@@ -2,16 +2,16 @@
   "format_version": "1",
   "files": {
     "commerce-platform-base.json": "6d6e5e556760e2672768f7d160843574633741ad378ede8cae79c6f2bc0b7572",
-    "commerce-platform-diff.json": "5e0899c8fbbfdac93ff6e4223d74af695391e850831b5c20fae80bbee2133cce",
     "commerce-platform-head.json": "d4327ab519cebe80debe2123371b3b28df9688b2d5927fdc1df11ae6cf6d4f4a",
-    "commerce-platform-presentation.json": "d72c544fdf47b970143ff57c145d6f7d4792d42194b9f08a3d9de49adcd0b574",
+    "commerce-platform-diff.json": "5e0899c8fbbfdac93ff6e4223d74af695391e850831b5c20fae80bbee2133cce",
+    "commerce-platform-presentation.json": "3d2255decc36a11f2e9e6e9f90240e29389182a9edc042d786ef136ee59608d1",
     "event-driven-platform-base.json": "6e010fe8c42f92946733d122761754eafaf2505184ff13e3e7572e30146a8408",
-    "event-driven-platform-diff.json": "ff60034fbc6ad82390b6578ac84af4345a526497f41a4b62f4b1a720d906d717",
     "event-driven-platform-head.json": "810d59b7202b61733a3bd2d42811e3da2a1deffce4d6e3ec118aa1fbb84b5d3f",
-    "event-driven-platform-presentation.json": "612dda31520e7875ff7df4076918afb14331e8df0bd18004d01901e7d7e4ae72",
+    "event-driven-platform-diff.json": "ff60034fbc6ad82390b6578ac84af4345a526497f41a4b62f4b1a720d906d717",
+    "event-driven-platform-presentation.json": "3d2255decc36a11f2e9e6e9f90240e29389182a9edc042d786ef136ee59608d1",
     "shared-data-platform-base.json": "94d9ad5d7e23983c99f4854922a406065058017c044b2b67d0f25bfd494450b9",
-    "shared-data-platform-diff.json": "d2f4e246b375f2b833bf625ecd55f76d9c1e069dc61438637cf9e6c71d4b4137",
     "shared-data-platform-head.json": "bfdef486385520a1944e2d792dd3ad2d3590841bc274875cc8ff55a814dd6a58",
-    "shared-data-platform-presentation.json": "1b3b007c4f76715703079ac9f5af114cb44eb589777314aa717de6fec7961ef5"
+    "shared-data-platform-diff.json": "d2f4e246b375f2b833bf625ecd55f76d9c1e069dc61438637cf9e6c71d4b4137",
+    "shared-data-platform-presentation.json": "3d2255decc36a11f2e9e6e9f90240e29389182a9edc042d786ef136ee59608d1"
   }
 }
