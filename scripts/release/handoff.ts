@@ -495,7 +495,7 @@ function releaseSetManifest(value: unknown): ReleaseSetManifest {
   if (manifest.format_version !== "1") throw new Error("release-set manifest format drifted");
   const version = stringField(manifest, "version", "release-set manifest");
   if (!SEMVER.test(version)) throw new Error("release-set manifest version is invalid");
-  const language = exactObject(manifest.rf.hcl_language, "release-set RF Language contract", [
+  const language = exactObject(manifest.rf_language, "release-set RF Language contract", [
     "contract_sha256",
     "version",
   ]);

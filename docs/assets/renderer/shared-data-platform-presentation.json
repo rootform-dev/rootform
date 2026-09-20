@@ -29,16 +29,6 @@
     "kubernetes/kubernetes-stateful-set": "kubernetes/stateful-set"
   },
   "concepts": {
-    "core/kubernetes-cluster": "kubernetes/cluster",
-    "core/managed-cache": "generic/database",
-    "core/managed-database": "generic/database",
-    "core/managed-nat": "generic/network",
-    "core/managed-secret": "generic/entity",
-    "core/message-subscription": "generic/entity",
-    "core/message-topic": "generic/entity",
-    "core/service-identity": "generic/identity",
-    "core/subnet": "generic/subnet",
-    "core/virtual-network": "generic/network",
     "google/cloud-monitoring-alerting-policy": "generic/entity",
     "google/cloud-monitoring-service": "generic/entity",
     "google/cloud-router": "generic/network",

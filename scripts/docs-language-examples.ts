@@ -350,7 +350,10 @@ export function verifyLanguageExamples(
   for (const example of referencePacks) {
     const directory = join(working, example.directory);
     mkdirSync(directory);
-    writeFileSync(join(directory, "pack.rf.hcl"), fenced(readPage(example.page), "hcl", example.title));
+    writeFileSync(
+      join(directory, "pack.rf.hcl"),
+      fenced(readPage(example.page), "hcl", example.title),
+    );
     run(["fmt", "--check", directory], working);
     const output = join(working, `${example.directory}.json`);
     run(
@@ -450,7 +453,11 @@ export function verifyLanguageExamples(
   mkdirSync(invalidPolicy);
   writeFileSync(
     join(invalidPolicy, "pack.rf.hcl"),
-    fenced(readPage("language/reference/policy-packs.md"), "hcl", "invalid/dialect-only-pack.rf.hcl"),
+    fenced(
+      readPage("language/reference/policy-packs.md"),
+      "hcl",
+      "invalid/dialect-only-pack.rf.hcl",
+    ),
   );
   const invalidPolicyResult = run(
     [
