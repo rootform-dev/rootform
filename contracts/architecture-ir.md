@@ -80,7 +80,7 @@ No unit excluded or replaced becomes active by mere presence in the binary.
 Saved IR is self-contained for rendering, inspection, Diff, explain, and
 Policy evaluation. Consumers never reload producer Dialects, and linking on a
 saved IR uses only its snapshot, never the currently embedded release set.
-Snapshot excludes raw HCL, secrets, raw plans/state, absolute paths, `.rf`
+Snapshot excludes raw HCL, secrets, raw plans/state, absolute paths, `.rf.hcl`
 source, full attempt ledgers, provider-wide coverage, and authored capability
 catalogs.
 

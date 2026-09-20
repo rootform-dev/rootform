@@ -51,7 +51,7 @@ severity or warning-only threshold. See
 
 ## Closed language surface
 
-`.rf` uses HCL syntax but exposes a closed, domain-specific expression surface,
+`.rf.hcl` uses HCL syntax but exposes a closed, domain-specific expression surface,
 not general HCL or Terraform evaluation. Unsupported definitions and expression
 forms are compilation errors. See the [Language reference](language/reference/index.md)
 for the exact accepted set.

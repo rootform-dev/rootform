@@ -12,24 +12,24 @@ linking from qualified references.
 
 ```text title="Policy Pack source"
 baseline/
-├── pack.rf
+├── pack.rf.hcl
 ├── policies/
-│   ├── cluster-network-context.rf
-│   └── managed-database-network-context.rf
+│   ├── cluster-network-context.rf.hcl
+│   └── managed-database-network-context.rf.hcl
 ├── LICENSE
 └── NOTICE
 ```
 
-Rootform discovers `.rf` and `.rf.json` recursively. Exactly one
+Rootform discovers `.rf.hcl` and `.rf.json` recursively. Exactly one
 `policy_pack` declaration owns every top-level `policy` below this root.
 
-```hcl title="policy-packs/baseline/pack.rf"
+```hcl title="policy-packs/baseline/pack.rf.hcl"
 policy_pack "baseline" {
   version = "0.1.0"
 }
 ```
 
-```hcl title="policy-packs/baseline/policies/cluster-network-context.rf"
+```hcl title="policy-packs/baseline/policies/cluster-network-context.rf.hcl"
 policy "cluster-network-context" {
   target {
     concept = rf.concept.kubernetes-cluster
@@ -44,7 +44,7 @@ policy "cluster-network-context" {
 }
 ```
 
-```hcl title="policy-packs/baseline/policies/managed-database-network-context.rf"
+```hcl title="policy-packs/baseline/policies/managed-database-network-context.rf.hcl"
 policy "managed-database-network-context" {
   target {
     concept = rf.concept.managed-database

@@ -526,12 +526,12 @@ describe("image audit", () => {
         buildArchive([
           {
             architecture: "amd64",
-            extraFile: { body: Buffer.from("dialect\n"), path: "/opt/aws/dialect.rf" },
+            extraFile: { body: Buffer.from("dialect\n"), path: "/opt/aws/dialect.rf.hcl" },
           },
           { architecture: "arm64" },
         ]),
       ),
-    ).toThrow("image carries an unexpected file: /opt/aws/dialect.rf");
+    ).toThrow("image carries an unexpected file: /opt/aws/dialect.rf.hcl");
     expect(() =>
       verify(
         buildArchive([

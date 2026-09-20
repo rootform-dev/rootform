@@ -8,7 +8,7 @@ Rootform language is a closed, statically validated language for two jobs:
 - Dialects interpret normalized infrastructure declarations as architecture.
 - Policy Packs evaluate that architecture without reading infrastructure source.
 
-HCL supplies lexical syntax for `.rf` and `.rf.json`. Rootform defines the
+HCL supplies lexical syntax for `.rf.hcl` and `.rf.json`. Rootform defines the
 accepted blocks, attributes, expressions, references, types, defaults, and
 runtime meaning. General HCL or Terraform expressions are not implicitly part
 of RF.

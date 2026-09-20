@@ -12,7 +12,7 @@ OpenTofu source values directly.
 
 ## Complete example
 
-```hcl title="policy-reference/pack.rf"
+```hcl title="policy-reference/pack.rf.hcl"
 policy_pack "network-baseline" {
   version = "0.1.0"
 }
@@ -214,7 +214,7 @@ overall compliant result.
 
 This Policy has only an owner filter:
 
-```hcl title="invalid/dialect-only-pack.rf"
+```hcl title="invalid/dialect-only-pack.rf.hcl"
 policy_pack "invalid" {
   version = "0.1.0"
 }

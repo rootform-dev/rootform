@@ -325,7 +325,7 @@ function expectedOverlay(options: {
 }
 
 const FORBIDDEN_PAYLOAD =
-  /(?:^\/[^/]*(?:terraform|tofu)|\.rootform\/|dialect\.rf$|\.tfstate$|(?:^|\/)id_rsa$|\.pem$)/u;
+  /(?:^\/[^/]*(?:terraform|tofu)|\.rootform\/|dialect\.rf\.hcl$|\.tfstate$|(?:^|\/)id_rsa$|\.pem$)/u;
 
 /**
  * Audits a built image archive against the release evidence. This runs offline

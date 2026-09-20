@@ -1,6 +1,6 @@
 ---
 title: "Rootform language"
-description: "Learn how .rf sources give Terraform and OpenTofu declarations architectural meaning, then evaluate policies over the resulting Architecture IR."
+description: "Learn how .rf.hcl sources give Terraform and OpenTofu declarations architectural meaning, then evaluate policies over the resulting Architecture IR."
 ---
 
 The Rootform language is the public authoring language for **Dialects** and
@@ -8,7 +8,7 @@ The Rootform language is the public authoring language for **Dialects** and
 mean. A Policy Pack asks bounded questions about the architecture facts those
 Dialects produced.
 
-Rootform reads two source forms: human-authored `.rf` and HCL JSON `.rf.json`.
+Rootform reads two source forms: human-authored `.rf.hcl` and HCL JSON `.rf.json`.
 HCL provides their surface syntax. Rootform defines the accepted blocks,
 attributes, expressions, references, and evaluation rules. General Terraform
 language and general HCL expressions are not part of this contract.
@@ -29,7 +29,7 @@ language and general HCL expressions are not part of this contract.
 A Dialect participates while Rootform builds an architecture:
 
 ```text title="Dialect path"
-.rf source
+.rf.hcl source
   → compiled Dialect
   → matched Terraform/OpenTofu declarations
   → Architecture IR facts and provenance
@@ -38,7 +38,7 @@ A Dialect participates while Rootform builds an architecture:
 A Policy Pack participates after those facts exist:
 
 ```text title="Policy path"
-.rf source
+.rf.hcl source
   → compiled Policy Pack
   → linked semantic pins
   → evaluation over Architecture IR facts
@@ -72,7 +72,7 @@ A Dialect declares provider envelopes, local definitions, and Rules:
 This Rule from the supplied AWS Dialect recognizes a subnet and records its VPC
 reference as network context:
 
-```hcl title="aws/network/vpc.rf"
+```hcl title="aws/network/vpc.rf.hcl"
 rule "subnet" {
   match {
     kind = "resource"
@@ -109,10 +109,10 @@ uses one of three closed fact queries: `contexts`, `relations`, and
 `contributions`.
 
 Within a Policy Pack source root, one top-level `policy_pack` manifest names the
-pack. Policies are top-level declarations in any `.rf` or `.rf.json` file
+pack. Policies are top-level declarations in any `.rf.hcl` or `.rf.json` file
 beneath that same root:
 
-```hcl title="policies/subnet-network-context.rf"
+```hcl title="policies/subnet-network-context.rf.hcl"
 policy "subnet-network-context" {
   target {
     concept = rf.concept.subnet
@@ -148,7 +148,7 @@ The Rootform language is deliberately closed. It does not include:
 
 Words such as `module`, `variable`, and `import` can appear as `match.kind`
 values. There they identify Terraform/OpenTofu declaration categories. They do
-not add equivalent authoring constructs to `.rf`.
+not add equivalent authoring constructs to `.rf.hcl`.
 
 Use `rootform lsp` for editor diagnostics and `rootform fmt` for canonical
 formatting. Validation compiles definitions; `rootform test` compares Dialect

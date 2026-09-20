@@ -52,7 +52,7 @@ semantic versions; linking derives exact RF Vocabulary and Dialect pins from
 qualified references and Architecture IR.
 
 See [`contracts/policy-pack-distribution.md`](contracts/policy-pack-distribution.md)
-and [`baseline` example](policy-packs/baseline/pack.rf). Repository makes no
+and [`baseline` example](policy-packs/baseline/pack.rf.hcl). Repository makes no
 publication claim for this local pre-release source.
 
 ## Licensing boundary

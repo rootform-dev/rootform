@@ -138,9 +138,9 @@ export function validateRepository(): void {
     "policy-packs/README.md",
     "policy-packs/baseline/LICENSE",
     "policy-packs/baseline/NOTICE",
-    "policy-packs/baseline/pack.rf",
-    "policy-packs/baseline/policies/cluster-network-context.rf",
-    "policy-packs/baseline/policies/managed-database-network-context.rf",
+    "policy-packs/baseline/pack.rf.hcl",
+    "policy-packs/baseline/policies/cluster-network-context.rf.hcl",
+    "policy-packs/baseline/policies/managed-database-network-context.rf.hcl",
     "docs/integrations/oci-image.md",
     "docs/integrations/ci/README.md",
     "docs/integrations/ci/azure-pipelines.yml",
@@ -283,9 +283,9 @@ export function validateRepository(): void {
     JSON.stringify([
       "policy-packs/baseline/LICENSE",
       "policy-packs/baseline/NOTICE",
-      "policy-packs/baseline/pack.rf",
-      "policy-packs/baseline/policies/cluster-network-context.rf",
-      "policy-packs/baseline/policies/managed-database-network-context.rf",
+      "policy-packs/baseline/pack.rf.hcl",
+      "policy-packs/baseline/policies/cluster-network-context.rf.hcl",
+      "policy-packs/baseline/policies/managed-database-network-context.rf.hcl",
     ])
   ) {
     throw new Error(`policy pack example boundary drifted: ${policyPackFiles.join(", ")}`);

@@ -27,7 +27,7 @@ or disappear without creating or deleting the underlying representation.
 
 ## Follow one declaration
 
-```hcl title="aws/network/vpc.rf"
+```hcl title="aws/network/vpc.rf.hcl"
 rule "subnet" {
   match {
     kind = "resource"

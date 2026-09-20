@@ -82,7 +82,7 @@ a saved document uses only that snapshot. Policy Pack selection does not modify
 the document.
 
 The document excludes raw HCL, secrets, raw plans and state, absolute paths,
-`.rf` source, and UI state. Equivalent inputs and exact semantic selections
+`.rf.hcl` source, and UI state. Equivalent inputs and exact semantic selections
 produce deterministic output. Source addresses and relative locations remain in
 the document, so review it before sharing.
 

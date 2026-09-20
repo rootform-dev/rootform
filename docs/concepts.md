@@ -74,4 +74,4 @@ Policy Packs; `rootform check` evaluates selected policies. Building an
 architecture does not run governance checks, and selecting a Dialect never
 selects governance.
 
-When you need to author semantics or governance, start with the [Rootform language overview](language/index.md). Concept pages explain why Dialects and policies exist; Language guides explain how to write their `.rf` source.
+When you need to author semantics or governance, start with the [Rootform language overview](language/index.md). Concept pages explain why Dialects and policies exist; Language guides explain how to write their `.rf.hcl` source.

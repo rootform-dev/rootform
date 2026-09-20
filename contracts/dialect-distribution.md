@@ -37,7 +37,7 @@ dependency list.
 Layer is deterministic gzip over deterministic tar. Entries are regular files
 with normalized mode, ownership, and timestamps. Allowed content is limited to:
 
-- Rootform dialect sources: `*.rf` and `*.rf.json`;
+- Rootform dialect sources: `*.rf.hcl` and `*.rf.json`;
 - one `presentation.json`;
 - license and notice text named `LICENSE*`, `NOTICE*`, or
   `THIRD_PARTY_NOTICES*`.

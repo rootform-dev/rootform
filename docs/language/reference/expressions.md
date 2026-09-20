@@ -141,7 +141,7 @@ assert = (
 
 This complete Pack verifies recursive Boolean results:
 
-```hcl title="expression-results/pack.rf"
+```hcl title="expression-results/pack.rf.hcl"
 policy_pack "expression-results" {
   version = "0.1.0"
 }
@@ -219,7 +219,7 @@ Result must be known, non-null string in empty evaluation context. Therefore:
 - function calls are unavailable;
 - multi-part interpolation is rejected.
 
-For native `.rf`, acceptance is result-based: any HCL expression meeting
+For native `.rf.hcl`, acceptance is result-based: any HCL expression meeting
 that rule is accepted, except a multi-part template. This constant-expression
 surface is separate from closed `where` and `assert` grammars. In
 `.rf.json`, static string fields are ordinary JSON strings.
@@ -242,7 +242,7 @@ description = "Workload for ${source.environment}"
 
 This complete Dialect demonstrates accepted constant string conditionals:
 
-```hcl title="constant-strings/dialect.rf"
+```hcl title="constant-strings/dialect.rf.hcl"
 dialect "constant-example" {
   version = true ? "0.1.0" : "9.9.9"
 
@@ -279,7 +279,7 @@ HCL JSON stores expression-valued fields in strings using `"${...}"`:
 }
 ```
 
-Native `.rf` also accepts pure `"${expression}"` wrapper for
+Native `.rf.hcl` also accepts pure `"${expression}"` wrapper for
 full-expression fields and unwraps it to enclosed value. Direct native form is
 canonical:
 

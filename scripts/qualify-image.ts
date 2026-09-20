@@ -687,11 +687,11 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
       "third-party init result",
     );
     requireRegularFile(
-      join(home, "dialects", DIALECT_OWNER, DIALECT_VERSION, "dialect.rf"),
+      join(home, "dialects", DIALECT_OWNER, DIALECT_VERSION, "dialect.rf.hcl"),
       "installed third-party Dialect",
     );
     requireRegularFile(
-      join(home, "policy-packs", POLICY_PACK_NAME, POLICY_PACK_VERSION, "pack.rf"),
+      join(home, "policy-packs", POLICY_PACK_NAME, POLICY_PACK_VERSION, "pack.rf.hcl"),
       "installed Policy Pack",
     );
     if (sha256(readFileSync(join(project, "rootform.lock"))) !== lockDigest) {
@@ -747,11 +747,11 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
       project,
     });
     requireRegularFile(
-      join(project, ".rootform", "dialects", DIALECT_OWNER, "dialect.rf"),
+      join(project, ".rootform", "dialects", DIALECT_OWNER, "dialect.rf.hcl"),
       "vendored Dialect",
     );
     requireRegularFile(
-      join(project, ".rootform", "policy-packs", POLICY_PACK_NAME, "pack.rf"),
+      join(project, ".rootform", "policy-packs", POLICY_PACK_NAME, "pack.rf.hcl"),
       "vendored Policy Pack",
     );
     const vendorHome = join(temporary, "vendor-home");

@@ -10,13 +10,13 @@ does not inspect live cloud state.
 
 Create `policies/` beside tutorial infrastructure:
 
-```hcl title="policies/pack.rf"
+```hcl title="policies/pack.rf.hcl"
 policy_pack "tutorial" {
   version = "0.1.0"
 }
 ```
 
-```hcl title="policies/subnet-network-context.rf"
+```hcl title="policies/subnet-network-context.rf.hcl"
 policy "subnet-network-context" {
   target {
     concept = rf.concept.subnet
