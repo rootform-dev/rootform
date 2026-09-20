@@ -54,6 +54,117 @@ type Manifest = {
   comparisons: Record<string, { base: string; head: string; diff: string; sha256: string }>;
 };
 
+type CapturedArchitecture = {
+  architecture: {
+    representations: Array<{ id: string; rule?: string }>;
+    contexts: Array<{
+      from: string;
+      to: string;
+      dimension: string;
+      provenance: unknown[];
+    }>;
+    relations: Array<{
+      from: string;
+      to: string;
+      predicate: string;
+      provenance: unknown[];
+    }>;
+  };
+};
+
+function verifyEventDrivenPlacement(bytes: Buffer): void {
+  const captured = JSON.parse(bytes.toString("utf8")) as CapturedArchitecture;
+  const architecture = captured.architecture;
+  const eventTopic = "representation:1:root:resource:azurerm_eventgrid_system_topic.docs";
+  const busTopic = "representation:1:root:resource:azurerm_servicebus_topic.claims_events";
+  const namespace = "representation:1:root:resource:azurerm_servicebus_namespace.prod";
+  const dataGroup = "representation:1:root:resource:azurerm_resource_group.data";
+  const prodGroup = "representation:1:root:resource:azurerm_resource_group.prod";
+  const systemSubscriptions = [
+    "docs_claims_events",
+    "docs_fraud_scoring",
+    "docs_intake",
+    "docs_review_queue",
+    "docs_scan_queue",
+    "docs_telemetry",
+  ].map(
+    (name) =>
+      `representation:1:root:resource:azurerm_eventgrid_system_topic_event_subscription.${name}`,
+  );
+  const busSubscriptions = ["claims_events_fraud_audit", "claims_events_notifications"].map(
+    (name) => `representation:1:root:resource:azurerm_servicebus_subscription.${name}`,
+  );
+  const expectedParents = new Map<string, string>([
+    ...systemSubscriptions.map((id) => [id, eventTopic] as const),
+    ...busSubscriptions.map((id) => [id, busTopic] as const),
+    [eventTopic, dataGroup],
+    [busTopic, namespace],
+    [namespace, prodGroup],
+  ]);
+  for (const [child, parent] of expectedParents) {
+    const placement = architecture.contexts.filter(
+      (context) =>
+        context.from === child &&
+        context.to === parent &&
+        context.dimension === "azure.context.ownership",
+    );
+    assert(
+      placement.length === 1 && (placement[0]?.provenance.length ?? 0) > 0,
+      `${child}: ownership placement or provenance missing`,
+    );
+  }
+  for (const subscription of [...systemSubscriptions, ...busSubscriptions]) {
+    const target = expectedParents.get(subscription);
+    const subscribes = architecture.relations.filter(
+      (relation) =>
+        relation.from === subscription &&
+        relation.to === target &&
+        relation.predicate === "azure.relation.subscribes-to",
+    );
+    assert(
+      subscribes.length === 1 && (subscribes[0]?.provenance.length ?? 0) > 0,
+      `${subscription}: subscribes-to Relation or provenance missing`,
+    );
+  }
+  for (const subscription of systemSubscriptions) {
+    const delivers = architecture.relations.filter(
+      (relation) =>
+        relation.from === subscription && relation.predicate === "azure.relation.delivers-to",
+    );
+    assert(
+      delivers.length === 1 && (delivers[0]?.provenance.length ?? 0) > 0,
+      `${subscription}: delivers-to Relation or provenance missing`,
+    );
+  }
+  const placed = new Set(architecture.contexts.map((context) => context.from));
+  assert(
+    architecture.representations.filter((representation) => !placed.has(representation.id))
+      .length === 18,
+    "event-driven head must project 18 root representations",
+  );
+  const genericSubscriptions = new Set([
+    "claims_scored_review",
+    "claims_submitted_events",
+    "claims_submitted_intake",
+    "documents_processed_telemetry",
+  ]);
+  for (const representation of architecture.representations) {
+    const address = representation.id.split(":").at(-1) ?? "";
+    const name = address.split(".").at(-1) ?? "";
+    if (
+      representation.rule === "azure.rule.event-grid-event-subscription" &&
+      genericSubscriptions.has(name)
+    ) {
+      assert(
+        !placed.has(representation.id),
+        `${representation.id}: unresolved scope invented a parent`,
+      );
+      genericSubscriptions.delete(name);
+    }
+  }
+  assert(genericSubscriptions.size === 0, "generic Event Grid subscription inventory changed");
+}
+
 export async function verifyVisualExamples(
   binary: string,
   root: string,
@@ -125,6 +236,9 @@ export async function verifyVisualExamples(
     run(["init", ".", "--locked", "--no-input"], input);
     const path = join(working, `${name}.json`);
     run(["build", ".", "--locked", "--output", path], input);
+    if (name === "event-driven-platform-head") {
+      verifyEventDrivenPlacement(readFileSync(path));
+    }
     assert(
       digest(readFileSync(path)) === expected.architecture_sha256,
       `${name} no longer produces the reviewed architecture input`,
