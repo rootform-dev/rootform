@@ -127,6 +127,12 @@ rule "event-grid-system-topic-subscription" {
 
   as = concept.message-subscription
 
+  context {
+    as  = context.ownership
+    to  = concept.event-grid-topic
+    via = source.system_topic
+  }
+
   relation "subscribes-to" {
     to  = concept.event-grid-topic
     via = source.system_topic
