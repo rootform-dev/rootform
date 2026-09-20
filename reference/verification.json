@@ -3,7 +3,7 @@
   "binary": {
     "version": "0.1.0",
     "platform": "darwin/arm64",
-    "sha256": "6bdd865a6e85c3eb5a507141c51cd7ab22daa9d29c78f6a33ce580bff1f2c0d9",
+    "sha256": "52bd84bb2c6de982fe71c8af49c5b869d54b65c6d6a9592781ec46fe146f8058",
     "edition": "documentation verification build"
   },
   "cli_reference_sha256": "637ebf1fb8b9705726bddbded8889909089687f35dee55880b3b6515049d5b0e"

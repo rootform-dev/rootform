@@ -2,7 +2,7 @@
   "format_version": "1",
   "binary": {
     "version": "rootform 0.1.0",
-    "sha256": "6bdd865a6e85c3eb5a507141c51cd7ab22daa9d29c78f6a33ce580bff1f2c0d9"
+    "sha256": "52bd84bb2c6de982fe71c8af49c5b869d54b65c6d6a9592781ec46fe146f8058"
   },
   "fixtures": {
     "commerce-platform-base": {
