@@ -19,14 +19,14 @@ Dialects. Engine and Web consume an exact Rootform source commit when building
 release artifacts. The former standalone source repository is archival and is
 not a runtime or build dependency.
 
-Rootform Dialects use OCI image manifests and content-addressed
-blobs. This document defines wire compatibility; it does not claim that any
-registry artifact has been published. There is no Dialect index artifact and
-no implicit discovery default. Required registry
+Explicit third-party and replacement Dialects use OCI image manifests and
+content-addressed blobs. This document defines that wire compatibility; it does
+not claim that any registry artifact has been published. There is no Dialect
+index artifact and no implicit discovery default. Required registry
 behavior is the forge-neutral
 [`rootform-oci-core-v1`](rootform-oci-core-profile.md) profile.
 
-## Dialect artifact
+## Third-party Dialect artifact
 
 One dialect version is an OCI 1.1 artifact with:
 
