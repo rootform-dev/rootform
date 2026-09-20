@@ -1,12 +1,15 @@
 import { createHash } from "node:crypto";
 import { readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { validateRendererPresentation } from "./renderer-presentation.ts";
 
 // Import reviewed opaque capture output; never acquire or read producer source.
 const input = process.argv[2];
 if (!input)
   throw new Error("Usage: bun scripts/import-docs-renderer.ts /absolute/capture-directory");
 const output = resolve(import.meta.dir, "../docs/assets/renderer");
+const maxArchitectureBytes = 16 * 1024 * 1024;
+const maxEvidenceBytes = 1024 * 1024;
 const manifestBytes = readFileSync(resolve(input, "manifest.json"));
 const manifest = JSON.parse(manifestBytes.toString("utf8"));
 if (manifest.format_version !== "1") throw new Error("Unknown renderer evidence format.");
@@ -56,7 +59,11 @@ const hashes: Record<string, string> = {};
 const pending: [string, Buffer][] = [];
 for (const file of files) {
   const bytes = readFileSync(resolve(input, file));
-  if (bytes.length > 1024 * 1024) throw new Error(`Renderer evidence exceeds bound: ${file}`);
+  const limit =
+    file.endsWith("-base.json") || file.endsWith("-head.json")
+      ? maxArchitectureBytes
+      : maxEvidenceBytes;
+  if (bytes.length > limit) throw new Error(`Renderer evidence exceeds bound: ${file}`);
   const value = JSON.parse(bytes.toString("utf8"));
   const hash = createHash("sha256").update(bytes).digest("hex");
   const fixture = architectureFixture[file];
@@ -68,8 +75,7 @@ for (const file of files) {
       : undefined;
   if (expected && hash !== expected)
     throw new Error(`Evidence differs from reviewed capture: ${file}`);
-  if (file.endsWith("-presentation.json") && value.format_version !== "1")
-    throw new Error(`Unknown presentation format: ${file}`);
+  if (file.endsWith("-presentation.json")) validateRendererPresentation(value, file);
   if (/\/Users\/|\/home\/|[A-Z]:\\\\/u.test(bytes.toString("utf8")))
     throw new Error(`Evidence contains a machine path: ${file}`);
   hashes[file] = hash;

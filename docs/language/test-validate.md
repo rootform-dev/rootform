@@ -1,6 +1,6 @@
 ---
 title: "Test and validate"
-description: "Use formatting, compilation, fixtures, and policy evaluation to prove .rf source before packaging it."
+description: "Use formatting, compilation, fixtures, and policy evaluation to prove .rf.hcl source before packaging it."
 ---
 
 Language authoring needs several checks because syntax validity alone cannot
@@ -35,7 +35,7 @@ Apply canonical formatting during authoring:
 rootform fmt .
 ```
 
-Rootform formats `.rf` with its native formatter and indents `.rf.json`
+Rootform formats `.rf.hcl` with its native formatter and indents `.rf.json`
 lexically. Formatting does not validate references or prove equivalence with a
 different source file. Keep both forms only when both are intended source;
 Rootform discovers both and neither overrides the other.
@@ -72,7 +72,7 @@ plus explicit selected Dialects):
 
 ```sh
 rootform validate rule aws.rule.subnet
-rootform show rule aws.rule.subnet
+rootform show aws.rule.subnet
 rootform validate concept rf.concept.subnet
 ```
 
@@ -114,8 +114,8 @@ rootform test ./fixtures --run example/minimal
 ```
 
 Rootform builds every selected case and compares exact output bytes with the
-reviewed golden. A difference reports the first byte position and a bounded
-window; it does not dump the architecture.
+reviewed golden. A difference reports architectural changes by source address
+and limits the number of detail lines; it does not dump the architecture.
 
 Review a changed golden as product behavior. Check at least:
 
@@ -176,7 +176,7 @@ people, but codes are the better automation boundary:
 
 ```text title="Example assertion"
 code: CONCEPT_UNKNOWN
-path: network/rules.rf
+path: network/rules.rf.hcl
 line: 18
 column: 10
 ```

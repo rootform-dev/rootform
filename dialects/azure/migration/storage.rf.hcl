@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "storage-mover" {
+  match {
+    type = "azurerm_storage_mover"
+  }
+
+  as = concept.migration-service
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

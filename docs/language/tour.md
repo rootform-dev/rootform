@@ -1,6 +1,6 @@
 ---
 title: "Language tour"
-description: "Follow a .rf source set from declaration matching to base representations, facts, composition, and policy linking."
+description: "Follow a .rf.hcl source set from declaration matching to base representations, facts, composition, and policy linking."
 ---
 
 The Rootform language turns normalized Terraform and OpenTofu evidence into
@@ -12,7 +12,7 @@ testable.
 
 ## Declare a Dialect
 
-```hcl title="aws/dialect.rf"
+```hcl title="aws/dialect.rf.hcl"
 dialect "aws" {
   version = "0.1.0"
 
@@ -50,7 +50,7 @@ It also defines `rf.context.network` and `rf.context.runtime`, and no Relations.
 RF Vocabulary ships with the release, so it is never installed or vendored.
 Dialect-specific meaning stays local:
 
-```hcl title="google/vocabulary.rf"
+```hcl title="google/vocabulary.rf.hcl"
 concept "load-balancer" {
   description = "A load-balancing service composed from routing infrastructure."
 }
@@ -58,7 +58,7 @@ concept "load-balancer" {
 
 ## Match and enrich a declaration
 
-```hcl title="aws/network/vpc.rf"
+```hcl title="aws/network/vpc.rf.hcl"
 rule "vpc" {
   match {
     kind = "resource"
@@ -104,7 +104,7 @@ target matching supports only `exact` and `dot-ancestor`.
 
 ## Compose source declarations transactionally
 
-```hcl title="google/load-balancing/application-load-balancer.rf"
+```hcl title="google/load-balancing/application-load-balancer.rf.hcl"
 rule "application-load-balancer" {
   match {
     kind = "resource"
@@ -142,13 +142,13 @@ base without inheriting the root Rule or Concept.
 
 ## Ask a policy question
 
-```hcl title="policies/pack.rf"
+```hcl title="policies/pack.rf.hcl"
 policy_pack "tutorial" {
   version = "0.1.0"
 }
 ```
 
-```hcl title="policies/subnet-network-context.rf"
+```hcl title="policies/subnet-network-context.rf.hcl"
 policy "subnet-network-context" {
   target {
     concept = rf.concept.subnet
@@ -170,7 +170,7 @@ composition produce stable diagnostics. Proven absence produces omission.
 Neither case deletes a resource base or invents fallback meaning.
 
 ```text title="Diagnostic shape"
-CONCEPT_UNKNOWN  rules/network.rf:18:10
+CONCEPT_UNKNOWN  rules/network.rf.hcl:18:10
 ```
 
 Compiled definitions build Architecture IR. Use `rootform validate dialects` for

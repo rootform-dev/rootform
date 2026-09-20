@@ -5,7 +5,7 @@ Status: development contract, version `0.1.0`.
 The Rootform language (RF) defines deterministic rules that convert Terraform
 and OpenTofu evidence into architecture meaning. It contains no renderer
 layout, network behavior, provider executable, or opaque heuristic. Sources
-are written in `.rf` or `.rf.json`.
+are written in `.rf.hcl` or `.rf.json`.
 
 ## Units
 
@@ -103,7 +103,7 @@ never enter compiled artifacts, the IR, or presentation manifests.
 
 ## Presentation separation
 
-Optional `presentation.json` lives beside `.rf` sources but is not Rootform
+Optional `presentation.json` lives beside `.rf.hcl` sources but is not Rootform
 Language source, and its resource-type keys are independent of Rule and Concept
 contracts. Presentation changes do not alter semantic artifact digest.
 See `presentation-manifest.md`.

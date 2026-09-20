@@ -20,6 +20,12 @@ rootform validate rule <identifier> [flags]
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate rule |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Validate a rule and its references in the context of its dialect.

@@ -19,7 +19,7 @@ both agree.
 
 ## Complete example
 
-```hcl title="emissions/dialect.rf"
+```hcl title="emissions/dialect.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 

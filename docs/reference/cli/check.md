@@ -25,6 +25,12 @@ rootform check [input] [flags]
 | ` --policy ` | ` stringArray ` | ` [] ` | select pack/name or unique policy; repeatable |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select directory or compiled JSON `path`; repeatable |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Build or load an architecture and evaluate the applicable policies.
@@ -47,7 +53,7 @@ output, or to --output. Diagnostics go to standard error.
 0  all selected policies were evaluated and compliant
 1  at least one policy was violated, including in mixed runs
 2  the command was used incorrectly
-3  indeterminate or not_evaluated, with no confirmed violation
+3  indeterminate or not evaluated, with no confirmed violation
 
 Violations take precedence: exit 1. Zero policies or zero evaluations
 are never compliant. A selected policy without targets prevents compliance.

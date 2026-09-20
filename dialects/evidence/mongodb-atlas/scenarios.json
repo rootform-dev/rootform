@@ -1,0 +1,238 @@
+{
+  "format_version": "1",
+  "scenarios": [
+    {
+      "id": "atlas-service-topology",
+      "fixture": "fixtures/mongodb-atlas-v2/minimal",
+      "required_rules": [
+        "mongodb-atlas.rule.advanced-cluster",
+        "mongodb-atlas.rule.cloud-backup-schedule",
+        "mongodb-atlas.rule.online-archive",
+        "mongodb-atlas.rule.organization",
+        "mongodb-atlas.rule.project",
+        "mongodb-atlas.rule.search-deployment",
+        "mongodb-atlas.rule.stream-processor",
+        "mongodb-atlas.rule.stream-workspace"
+      ],
+      "required_outcomes": {
+        "mongodbatlas_advanced_cluster.primary": "representation-present",
+        "mongodbatlas_cloud_backup_schedule.primary": "representation-present",
+        "mongodbatlas_project.application": "representation-present",
+        "mongodbatlas_stream_processor.orders": "representation-present"
+      },
+      "required_facts": [
+        {
+          "collection": "contexts",
+          "from": "representation:1:root:resource:mongodbatlas_project.application",
+          "to": "representation:1:root:resource:mongodbatlas_organization.platform",
+          "dimension": "mongodb-atlas.context.ownership",
+          "rule": "mongodb-atlas.rule.project"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_cloud_backup_schedule.primary",
+          "to": "representation:1:root:resource:mongodbatlas_advanced_cluster.primary",
+          "type": "protects",
+          "rule": "mongodb-atlas.rule.cloud-backup-schedule"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_search_deployment.primary",
+          "to": "representation:1:root:resource:mongodbatlas_advanced_cluster.primary",
+          "type": "serves",
+          "rule": "mongodb-atlas.rule.search-deployment"
+        },
+        {
+          "collection": "contexts",
+          "from": "representation:1:root:resource:mongodbatlas_stream_processor.orders",
+          "to": "representation:1:root:resource:mongodbatlas_stream_workspace.events",
+          "dimension": "rf.context.runtime",
+          "rule": "mongodb-atlas.rule.stream-processor"
+        }
+      ],
+      "minimum": {
+        "representations": 9,
+        "relations": 4,
+        "contexts": 9,
+        "contributions": 0
+      },
+      "maximum_facts": {
+        "contexts": 9,
+        "contributions": 0,
+        "relations": 4
+      },
+      "expected_diagnostic_codes": [],
+      "expected_check_violations": [],
+      "expected_html_labels": [
+        "MongoDB Atlas cluster",
+        "MongoDB Atlas project",
+        "MongoDB Search deployment",
+        "Atlas Stream Processing workspace"
+      ],
+      "forbidden_output": [
+        "ROOTFORM_ATLAS_PIPELINE_SENTINEL"
+      ],
+      "limitations": [
+        "Offline fixture proves architecture compilation from configuration only; it does not call MongoDB Atlas APIs or execute Terraform."
+      ]
+    },
+    {
+      "id": "cross-cloud-atlas-platform",
+      "fixture": "fixtures/mongodb-atlas-v2/scenarios",
+      "required_rules": [
+        "mongodb-atlas.rule.cloud-backup-schedule",
+        "mongodb-atlas.rule.encryption-at-rest",
+        "mongodb-atlas.rule.federated-database-instance",
+        "mongodb-atlas.rule.network-peering",
+        "mongodb-atlas.rule.private-endpoint-registration",
+        "mongodb-atlas.rule.search-deployment",
+        "mongodb-atlas.rule.stream-connection",
+        "mongodb-atlas.rule.stream-workspace"
+      ],
+      "required_outcomes": {
+        "mongodbatlas_advanced_cluster.primary": "representation-present",
+        "mongodbatlas_encryption_at_rest.application": "representation-present",
+        "mongodbatlas_federated_database_instance.google": "representation-present",
+        "mongodbatlas_network_peering.aws": "representation-present",
+        "mongodbatlas_network_peering.azure": "representation-present",
+        "mongodbatlas_network_peering.google": "representation-present",
+        "mongodbatlas_privatelink_endpoint_service.aws": "representation-present"
+      },
+      "required_facts": [
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_network_peering.aws",
+          "to": "representation:1:root:resource:aws_vpc.atlas",
+          "type": "connects-cloud-network",
+          "rule": "mongodb-atlas.rule.network-peering"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_network_peering.azure",
+          "to": "representation:1:root:resource:azurerm_virtual_network.atlas",
+          "type": "connects-cloud-network",
+          "rule": "mongodb-atlas.rule.network-peering"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_network_peering.google",
+          "to": "representation:1:root:resource:google_compute_network.atlas",
+          "type": "connects-cloud-network",
+          "rule": "mongodb-atlas.rule.network-peering"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_privatelink_endpoint_service.aws",
+          "to": "representation:1:root:resource:aws_vpc_endpoint.atlas",
+          "type": "registers-cloud-endpoint",
+          "rule": "mongodb-atlas.rule.private-endpoint-registration"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_privatelink_endpoint_service.azure",
+          "to": "representation:1:root:resource:azurerm_private_endpoint.atlas",
+          "type": "registers-cloud-endpoint",
+          "rule": "mongodb-atlas.rule.private-endpoint-registration"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_privatelink_endpoint_service.google",
+          "to": "representation:1:root:resource:google_compute_forwarding_rule.atlas",
+          "type": "registers-cloud-endpoint",
+          "rule": "mongodb-atlas.rule.private-endpoint-registration"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_encryption_at_rest.application",
+          "to": "representation:1:root:resource:aws_kms_key.atlas",
+          "type": "uses-key",
+          "rule": "mongodb-atlas.rule.encryption-at-rest"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_encryption_at_rest.application",
+          "to": "representation:1:root:resource:azurerm_key_vault_key.atlas",
+          "type": "uses-key",
+          "rule": "mongodb-atlas.rule.encryption-at-rest"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_encryption_at_rest.application",
+          "to": "representation:1:root:resource:google_kms_crypto_key.atlas",
+          "type": "uses-key",
+          "rule": "mongodb-atlas.rule.encryption-at-rest"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:mongodbatlas_federated_database_instance.google",
+          "to": "representation:1:root:resource:google_storage_bucket.federation",
+          "type": "reads-from-storage",
+          "rule": "mongodb-atlas.rule.federated-database-instance"
+        },
+        {
+          "collection": "contexts",
+          "from": "representation:1:root:resource:mongodbatlas_stream_connection.events",
+          "to": "representation:1:root:resource:mongodbatlas_stream_workspace.analytics",
+          "dimension": "rf.context.runtime",
+          "rule": "mongodb-atlas.rule.stream-connection"
+        },
+        {
+          "collection": "contributions",
+          "from": "representation:1:root:resource:mongodbatlas_search_index.documents",
+          "to": "representation:1:root:resource:mongodbatlas_advanced_cluster.primary",
+          "rule": "mongodb-atlas.rule.search-index"
+        }
+      ],
+      "minimum": {
+        "representations": 83,
+        "relations": 39,
+        "contexts": 61,
+        "contributions": 18
+      },
+      "maximum_facts": {
+        "contexts": 58,
+        "contributions": 18,
+        "relations": 49
+      },
+      "expected_diagnostic_codes": [],
+      "expected_check_violations": [],
+      "expected_html_labels": [
+        "MongoDB Atlas cluster",
+        "Atlas network peering connection",
+        "Encryption at Rest using Customer Key Management",
+        "Atlas federated database instance",
+        "Atlas Stream Processing workspace"
+      ],
+      "forbidden_output": [
+        "ROOTFORM_ATLAS_AWS_TRUST_SENTINEL",
+        "ROOTFORM_ATLAS_OBSERVABILITY_SECRET",
+        "ROOTFORM_ATLAS_PIPELINE_SECRET"
+      ],
+      "limitations": [
+        "Fixture proves AWS, Azure, and Google Cloud references only when explicit Terraform traversals resolve; provider aliases, literals, regions, and authentication imply no ownership."
+      ]
+    },
+    {
+      "id": "ambiguous-and-sensitive-boundary",
+      "fixture": "fixtures/mongodb-atlas-v2/boundary",
+      "expected_build_failure": true,
+      "expected_diagnostic_codes": [
+        "TRAVERSAL_AMBIGUOUS",
+        "TRAVERSAL_AMBIGUOUS",
+        "TRAVERSAL_AMBIGUOUS",
+        "TRAVERSAL_UNRESOLVED",
+        "TRAVERSAL_UNRESOLVED",
+        "TRAVERSAL_UNRESOLVED",
+        "TRAVERSAL_UNRESOLVED",
+        "TRAVERSAL_UNRESOLVED"
+      ],
+      "forbidden_output": [
+        "ROOTFORM_ATLAS_API_PRIVATE_KEY",
+        "ROOTFORM_ATLAS_SNAPSHOT_SENTINEL"
+      ],
+      "limitations": [
+        "Intentional conditional traversals prove fail-closed behavior; literal identifiers and depends_on emit no cloud, key, or cluster-private-endpoint relation."
+      ]
+    }
+  ]
+}

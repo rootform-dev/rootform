@@ -17,24 +17,30 @@ rootform show policy <identifier> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
+| ` -o, --format ` | ` string ` | ` "" ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show policy |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
+
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
 ## Behavior
 
 Show a policy's target, assertion, message, Policy Pack, and source
 location.
 
+The project must select the owning Policy Pack, or --policy-pack can
+supply a local root. Use &lt;policy-pack&gt;.policy.&lt;name&gt;, or a bare name
+when it resolves unambiguously.
+
 Use "rootform explain policy" to understand why a policy produced a
 result for an architecture element.
 
-The project must select the owning Policy Pack, or --policy-pack can
-supply a local root. Use &lt;policy-pack&gt;.policy.&lt;name&gt;, or a bare name
-when unambiguous.
-
-The text or JSON definition goes to standard output. Diagnostics go to
-standard error.
+The text or JSON definition goes to standard output. Diagnostics go
+to standard error.
 
 ## Exit status
 
@@ -50,5 +56,6 @@ standard error.
 ```sh
 rootform show policy baseline.policy.cluster-network-context
 rootform show policy cluster-network-context
-rootform show policy baseline.policy.cluster-network-context --format json
+rootform show policy cluster-network-context --policy-pack ./policies
+rootform show policy baseline.policy.cluster-network-context -o json
 ```

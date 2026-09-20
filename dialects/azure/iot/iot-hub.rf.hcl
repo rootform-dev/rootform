@@ -1,0 +1,98 @@
+# Maintained directly from pinned provider evidence.
+concept "iot-detail" {
+  description = "A route, endpoint, consumer group, certificate, or organization supporting Azure IoT."
+}
+
+concept "iot-hub" {
+  description = "An Azure IoT Hub device messaging service."
+}
+
+concept "iot-provisioning-service" {
+  description = "An Azure IoT Hub Device Provisioning Service."
+}
+
+concept "iot-update-service" {
+  description = "An Azure Device Update for IoT Hub account boundary."
+}
+
+rule "digital-twins-event-grid-endpoint" {
+  match {
+    type = "azurerm_digital_twins_endpoint_eventgrid"
+  }
+
+  as = concept.iot-detail
+}
+
+rule "iot-hub" {
+  match {
+    type = "azurerm_iothub"
+  }
+
+  as = concept.iot-hub
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "iot-hub-device-provisioning-service" {
+  match {
+    type = "azurerm_iothub_dps"
+  }
+
+  as = concept.iot-provisioning-service
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "iot-hub-device-update-account" {
+  match {
+    type = "azurerm_iothub_device_update_account"
+  }
+
+  as = concept.iot-update-service
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "iot-hub-device-update-instance" {
+  match {
+    type = "azurerm_iothub_device_update_instance"
+  }
+
+  as = concept.iot-detail
+}
+
+rule "iot-hub-event-hubs-endpoint" {
+  match {
+    type = "azurerm_iothub_endpoint_eventhub"
+  }
+
+  as = concept.iot-detail
+}
+
+rule "iot-hub-service-bus-queue-endpoint" {
+  match {
+    type = "azurerm_iothub_endpoint_servicebus_queue"
+  }
+
+  as = concept.iot-detail
+}
+
+rule "iot-hub-storage-endpoint" {
+  match {
+    type = "azurerm_iothub_endpoint_storage_container"
+  }
+
+  as = concept.iot-detail
+}

@@ -19,6 +19,12 @@ rootform lsp [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform lsp |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Run the Rootform language server over standard input

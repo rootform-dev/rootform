@@ -7,7 +7,7 @@ RF has two equivalent source surfaces:
 
 | Suffix | Encoding | Intended use |
 | --- | --- | --- |
-| `.rf` | HCL native syntax | Human-authored Dialects and Policy Packs |
+| `.rf.hcl` | HCL native syntax | Human-authored Dialects and Policy Packs |
 | `.rf.json` | HCL JSON syntax | Generated Dialects and Policy Packs |
 
 Both suffixes may coexist inside one source root. Files and directories organize
@@ -20,7 +20,7 @@ Rootform walks requested source root recursively.
 
 | Path | Behavior |
 | --- | --- |
-| Regular file ending in `.rf` or `.rf.json` | Parsed |
+| Regular file ending in `.rf.hcl` or `.rf.json` | Parsed |
 | Other file suffix | Ignored |
 | Dot-prefixed file or directory | Ignored |
 | Symlink resolving to regular file inside source root | Parsed |
@@ -141,7 +141,7 @@ runtime effect.
 
 ## Native syntax
 
-```hcl title="dialect.rf"
+```hcl title="dialect.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 
@@ -300,7 +300,7 @@ Additional compiled and evaluation bounds appear under
 
 ## Rejected example
 
-```hcl title="invalid-version.rf"
+```hcl title="invalid-version.rf.hcl"
 dialect "example" {
   version = "0.1"
 }

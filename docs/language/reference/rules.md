@@ -9,7 +9,7 @@ architecture facts or claim composition members.
 
 ## Complete example
 
-```hcl title="reference/dialect.rf"
+```hcl title="reference/dialect.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 
@@ -186,7 +186,7 @@ effects.
 
 This complete source has a match-only Rule:
 
-```hcl title="invalid/match-only.rf"
+```hcl title="invalid/match-only.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 

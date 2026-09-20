@@ -20,6 +20,12 @@ rootform validate dialects [directory] [flags]
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate dialects |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Compile and validate a dialect, including its concepts, rules,

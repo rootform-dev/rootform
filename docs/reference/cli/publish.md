@@ -19,6 +19,12 @@ rootform publish <object> [flags]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform publish |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Publish validated Rootform packages to a registry repository.

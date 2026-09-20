@@ -1,0 +1,42 @@
+# Maintained directly from pinned provider evidence.
+rule "oracle-cloud-vm-cluster" {
+  match {
+    type = "azurerm_oracle_cloud_vm_cluster"
+  }
+
+  as = concept.hybrid-platform
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "oracle-exadata-infrastructure" {
+  match {
+    type = "azurerm_oracle_exadata_infrastructure"
+  }
+
+  as = concept.hybrid-platform
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "oracle-resource-anchor" {
+  match {
+    type = "azurerm_oracle_resource_anchor"
+  }
+
+  as = concept.hybrid-platform
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

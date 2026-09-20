@@ -7,7 +7,7 @@
 #
 # The base image is pinned to a multi-platform index digest so linux/amd64 and
 # linux/arm64 resolve to the exact same Alpine release.
-FROM alpine:3.21@sha256:48b0309ca019d89d40f670aa1bc06e426dc0931948452e8491e3d65087abc07d
+FROM alpine:3.21@sha256:ce64758a109eb420d874a118f87920e625e12d3634e03b4a5573fd9f6e5d3507
 
 ARG TARGETARCH
 ARG ROOTFORM_CREATED

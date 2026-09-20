@@ -119,5 +119,23 @@ jobs:
       - name: Scan working tree
         run: gitleaks dir --no-banner --redact --config .gitleaks.toml .
 
+      - name: Scan pull request history
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin \
+            "refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+          merge_base="$(git merge-base HEAD "refs/remotes/origin/${BASE_REF}")"
+          test -n "${merge_base}"
+          gitleaks git \
+            --no-banner \
+            --redact \
+            --config .gitleaks.toml \
+            --log-opts="${merge_base}..HEAD" \
+            .
+
       - name: Scan full history
+        if: github.event_name != 'pull_request'
         run: gitleaks git --no-banner --redact --config .gitleaks.toml .

@@ -1,0 +1,120 @@
+rule "api-service-integration" {
+  match {
+    type = "okta_api_service_integration"
+  }
+
+  as = concept.identity-application
+}
+
+rule "api-service-integration-lookup" {
+  match {
+    kind = "data"
+    type = "okta_api_service_integration"
+  }
+
+  as = concept.identity-application
+}
+
+rule "app-auto-login" {
+  match {
+    type = "okta_app_auto_login"
+  }
+
+  as = concept.identity-application
+}
+
+rule "app-basic-auth" {
+  match {
+    type = "okta_app_basic_auth"
+  }
+
+  as = concept.identity-application
+}
+
+rule "app-bookmark" {
+  match {
+    type = "okta_app_bookmark"
+  }
+
+  as = concept.identity-application
+}
+
+rule "app-lookup" {
+  match {
+    kind = "data"
+    type = "okta_app"
+  }
+
+  as = concept.identity-application
+}
+
+rule "app-oauth" {
+  match {
+    type = "okta_app_oauth"
+  }
+
+  as = concept.identity-application
+}
+
+rule "app-oauth-lookup" {
+  match {
+    kind = "data"
+    type = "okta_app_oauth"
+  }
+
+  as = concept.identity-application
+}
+
+rule "app-saml" {
+  match {
+    type = "okta_app_saml"
+  }
+
+  as = concept.identity-application
+
+  relation "uses-inline-hook" {
+    to  = concept.identity-event-extension
+    via = source.inline_hook_id
+  }
+}
+
+rule "app-saml-lookup" {
+  match {
+    kind = "data"
+    type = "okta_app_saml"
+  }
+
+  as = concept.identity-application
+}
+
+rule "app-secure-password-store" {
+  match {
+    type = "okta_app_secure_password_store"
+  }
+
+  as = concept.identity-application
+}
+
+rule "app-shared-credentials" {
+  match {
+    type = "okta_app_shared_credentials"
+  }
+
+  as = concept.identity-application
+}
+
+rule "app-swa" {
+  match {
+    type = "okta_app_swa"
+  }
+
+  as = concept.identity-application
+}
+
+rule "app-three-field" {
+  match {
+    type = "okta_app_three_field"
+  }
+
+  as = concept.identity-application
+}

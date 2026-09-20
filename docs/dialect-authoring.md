@@ -18,10 +18,10 @@ For each Rule prove:
 
 ```text title="Dialect package"
 example/
-├── dialect.rf
-├── vocabulary.rf
+├── dialect.rf.hcl
+├── vocabulary.rf.hcl
 ├── network/
-│   └── virtual-network.rf
+│   └── virtual-network.rf.hcl
 └── presentation.json
 ```
 
@@ -30,7 +30,7 @@ whole recursive root.
 
 ## Declare identity and provider
 
-```hcl title="aws/dialect.rf"
+```hcl title="aws/dialect.rf.hcl"
 dialect "aws" {
   version = "0.1.0"
 
@@ -55,7 +55,7 @@ Use RF Vocabulary where contract is exact:
 
 Define distinct local meaning without Concept kind:
 
-```hcl title="vocabulary.rf"
+```hcl title="vocabulary.rf.hcl"
 concept "load-balancer" {
   description = "A load-balancing service."
 }
@@ -71,7 +71,7 @@ architectural structure or establish facts.
 
 ## Add smallest complete Rule
 
-```hcl title="aws/network/vpc.rf"
+```hcl title="aws/network/vpc.rf.hcl"
 rule "vpc" {
   match {
     kind = "resource"
@@ -121,8 +121,8 @@ representations; members do not inherit root Rule or Concept.
 rootform fmt --check .
 rootform validate dialects .
 rootform validate rule aws.rule.subnet
-rootform show rule aws.rule.subnet
-rootform show concept rf.concept.subnet
+rootform show aws.rule.subnet
+rootform show rf.concept.subnet
 ```
 
 Named commands use owner-first IDs. Bare name works only when unambiguous.

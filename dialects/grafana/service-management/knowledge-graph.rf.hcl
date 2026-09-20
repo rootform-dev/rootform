@@ -1,0 +1,94 @@
+concept "knowledge-graph" {
+  description = "A Grafana Cloud Knowledge Graph instance mapping observed services and dependencies."
+}
+
+concept "knowledge-graph-configuration" {
+  description = "A dataset, mapping, threshold, rule, or notification detail for Knowledge Graph."
+}
+
+rule "asserts-custom-model-rules" {
+  match {
+    type = "grafana_asserts_custom_model_rules"
+  }
+
+  as = concept.knowledge-graph-configuration
+}
+
+rule "asserts-log-config" {
+  match {
+    type = "grafana_asserts_log_config"
+  }
+
+  as = concept.knowledge-graph-configuration
+
+  contribution {
+    to  = concept.data-source
+    via = source.data_source_uid
+  }
+}
+
+rule "asserts-notification-alerts-config" {
+  match {
+    type = "grafana_asserts_notification_alerts_config"
+  }
+
+  as = concept.knowledge-graph-configuration
+}
+
+rule "asserts-profile-config" {
+  match {
+    type = "grafana_asserts_profile_config"
+  }
+
+  as = concept.knowledge-graph-configuration
+
+  contribution {
+    to  = concept.data-source
+    via = source.data_source_uid
+  }
+}
+
+rule "asserts-prom-rule-file" {
+  match {
+    type = "grafana_asserts_prom_rule_file"
+  }
+
+  as = concept.knowledge-graph-configuration
+}
+
+rule "asserts-stack" {
+  match {
+    type = "grafana_asserts_stack"
+  }
+
+  as = concept.knowledge-graph
+}
+
+rule "asserts-suppressed-assertions-config" {
+  match {
+    type = "grafana_asserts_suppressed_assertions_config"
+  }
+
+  as = concept.knowledge-graph-configuration
+}
+
+rule "asserts-thresholds" {
+  match {
+    type = "grafana_asserts_thresholds"
+  }
+
+  as = concept.knowledge-graph-configuration
+}
+
+rule "asserts-trace-config" {
+  match {
+    type = "grafana_asserts_trace_config"
+  }
+
+  as = concept.knowledge-graph-configuration
+
+  contribution {
+    to  = concept.data-source
+    via = source.data_source_uid
+  }
+}

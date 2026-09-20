@@ -24,6 +24,12 @@ rootform init [path] [flags]
 | ` --offline ` | ` bool ` | ` false ` | disable network; use only local data |
 | ` -v, --verbose ` | ` bool ` | ` false ` | show provider evidence and origin |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Prepare an existing rootform.lock and materialize the project's exact
@@ -32,7 +38,7 @@ non-embedded selections (dialects and Policy Pack sources) locally.
 init is explicit: it never detects providers, selects another version,
 or writes rootform.lock. With --locked the existing rootform.lock is
 required and valid; without it, a missing lock is an empty selection
-and an existing lock is always preserved. Supplied dialects ship
+and an existing lock is always preserved. Embedded dialects ship
 inside the release set and are never acquired. When network access is
 available and not disabled by --offline, init fetches only the exact
 manifest digests already pinned by rootform.lock.

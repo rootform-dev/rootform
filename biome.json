@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "maxSize": 1048576,
+    "maxSize": 16777216,
     "includes": ["**"]
   },
   "formatter": {
@@ -25,7 +25,12 @@
   },
   "overrides": [
     {
-      "includes": ["schemas/*.json", "reference/cli.json", "docs/assets/renderer/*.json"],
+      "includes": [
+        "schemas/*.json",
+        "reference/cli.json",
+        "docs/assets/renderer/*.json",
+        "examples/playground/*/*/example.json"
+      ],
       "formatter": {
         "enabled": false
       }

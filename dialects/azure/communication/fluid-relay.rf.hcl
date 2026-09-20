@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "fluid-relay" {
+  match {
+    type = "azurerm_fluid_relay_server"
+  }
+
+  as = concept.realtime-communication-service
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

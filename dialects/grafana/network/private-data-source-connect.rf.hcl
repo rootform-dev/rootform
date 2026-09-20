@@ -1,0 +1,17 @@
+concept "private-data-source-connect-network" {
+  description = "A Grafana Cloud PDC network connecting a stack to data sources hosted on a private network."
+}
+
+rule "cloud-private-data-source-connect-network" {
+  match {
+    type = "grafana_cloud_private_data_source_connect_network"
+  }
+
+  as = concept.private-data-source-connect-network
+
+  context {
+    as  = context.ownership
+    to  = concept.observability-tenant
+    via = source.stack_identifier
+  }
+}

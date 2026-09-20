@@ -115,16 +115,16 @@ export function verifyCoreExamples(
   checks.push("saved architecture explains subnet source and owner-first Rule");
 
   const policyPage = page("guides/check-architecture.md");
-  const pack = configuration(policyPage, "policies/pack.rf");
-  const policySource = configuration(policyPage, "policies/subnet-network-context.rf");
+  const pack = configuration(policyPage, "policies/pack.rf.hcl");
+  const policySource = configuration(policyPage, "policies/subnet-network-context.rf.hcl");
   mkdirSync(join(workspace, "policies"));
-  writeFileSync(join(workspace, "policies/pack.rf"), pack);
-  writeFileSync(join(workspace, "policies/subnet-network-context.rf"), policySource);
+  writeFileSync(join(workspace, "policies/pack.rf.hcl"), pack);
+  writeFileSync(join(workspace, "policies/subnet-network-context.rf.hcl"), policySource);
 
   const passed =
     command("guides/check-architecture.md", "policy-local").trim().split("\n")[0] ?? "";
   assert(
-    policyPage.includes(`${fence}text title="Passed check (excerpt)"\n${passed}\n${fence}`),
+    fencedBlock(policyPage, "text", "Passed check (excerpt)").trim().split("\n")[0] === passed,
     "displayed compliant result differs from command",
   );
   command("guides/check-architecture.md", "policy-show");
@@ -146,15 +146,15 @@ export function verifyCoreExamples(
     .stdout.trim()
     .split("\n")[0];
   assert(
-    policyPage.includes(
-      `${fence}text title="Indeterminate check (unresolved traversal)"\n${unresolved}\n${fence}`,
-    ),
+    fencedBlock(policyPage, "text", "Indeterminate check (unresolved traversal)")
+      .trim()
+      .split("\n")[0] === unresolved,
     "displayed indeterminate result differs from command",
   );
   writeFileSync(join(workspace, "main.tf"), original);
 
   writeFileSync(
-    join(workspace, "policies/subnet-network-context.rf"),
+    join(workspace, "policies/subnet-network-context.rf.hcl"),
     policySource.replace("concept = rf.concept.subnet", "concept = rf.concept.managed-database"),
   );
   const noTarget = JSON.parse(
@@ -166,7 +166,7 @@ export function verifyCoreExamples(
   );
 
   writeFileSync(
-    join(workspace, "policies/subnet-network-context.rf"),
+    join(workspace, "policies/subnet-network-context.rf.hcl"),
     policySource.replace(/assert = .*$/mu, "assert = false"),
   );
   const violation = JSON.parse(
@@ -178,7 +178,7 @@ export function verifyCoreExamples(
     "violation lost Policy identity",
   );
 
-  writeFileSync(join(workspace, "policies/subnet-network-context.rf"), policySource);
+  writeFileSync(join(workspace, "policies/subnet-network-context.rf.hcl"), policySource);
   assert(read("main.tf").equals(original), "documentation checks mutated Terraform source");
   checks.push("Policy pass, indeterminate, not_evaluated, and violation remain distinct");
 
@@ -216,7 +216,7 @@ export function verifyCoreExamples(
   );
   assert(
     command("guides/compare-architectures.md", "diff-identical").trim() ===
-      "no architectural change",
+      "Architecture unchanged",
     "identical Diff result changed",
   );
   command("guides/compare-architectures.md", "diff-json");

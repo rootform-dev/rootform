@@ -1,0 +1,36 @@
+# Maintained directly from pinned provider evidence.
+concept "relay-connection" {
+  description = "An Azure Relay hybrid connection."
+}
+
+concept "relay-namespace" {
+  description = "An Azure Relay namespace."
+}
+
+rule "relay-hybrid-connection" {
+  match {
+    type = "azurerm_relay_hybrid_connection"
+  }
+
+  as = concept.relay-connection
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "relay-namespace" {
+  match {
+    type = "azurerm_relay_namespace"
+  }
+
+  as = concept.relay-namespace
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

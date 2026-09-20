@@ -293,7 +293,7 @@ export function writeRegistryQualificationFixture(root: string, repositoryRoot: 
   const dialect = join(root, "dialect-source", DIALECT_OWNER);
   mkdirSync(dialect, { recursive: true, mode: 0o755 });
   writeFileSync(
-    join(dialect, "dialect.rf"),
+    join(dialect, "dialect.rf.hcl"),
     `dialect "${DIALECT_OWNER}" {
   version = "${DIALECT_VERSION}"
   provider "examplecorp/portable" { version = "= ${PROVIDER_VERSION}" }
@@ -331,7 +331,7 @@ rule "portable-service" {
   const policyPack = join(root, "policy-source");
   mkdirSync(join(policyPack, "policies"), { recursive: true, mode: 0o755 });
   writeFileSync(
-    join(policyPack, "pack.rf"),
+    join(policyPack, "pack.rf.hcl"),
     `policy_pack "${POLICY_PACK_NAME}" {
   version = "${POLICY_PACK_VERSION}"
 }
@@ -339,7 +339,7 @@ rule "portable-service" {
     { flag: "wx", mode: 0o644 },
   );
   writeFileSync(
-    join(policyPack, "policies", "portable-service.rf"),
+    join(policyPack, "policies", "portable-service.rf.hcl"),
     `policy "portable-service" {
   target {
     concept = ${DIALECT_OWNER}.concept.portable-service
@@ -772,11 +772,11 @@ export function qualifyRegistry(options: Options): void {
     if (sha256(readFileSync(lockPath)) !== lockDigest)
       throw new Error("init changed rootform.lock");
     regularFile(
-      join(home, "dialects", DIALECT_OWNER, DIALECT_VERSION, "dialect.rf"),
+      join(home, "dialects", DIALECT_OWNER, DIALECT_VERSION, "dialect.rf.hcl"),
       "installed Dialect",
     );
     regularFile(
-      join(home, "policy-packs", POLICY_PACK_NAME, POLICY_PACK_VERSION, "pack.rf"),
+      join(home, "policy-packs", POLICY_PACK_NAME, POLICY_PACK_VERSION, "pack.rf.hcl"),
       "installed Policy Pack",
     );
 
@@ -819,8 +819,8 @@ export function qualifyRegistry(options: Options): void {
     );
     const vendorDialect = join(vendorProject, ".rootform", "dialects", DIALECT_OWNER);
     const vendorPolicy = join(vendorProject, ".rootform", "policy-packs", POLICY_PACK_NAME);
-    regularFile(join(vendorDialect, "dialect.rf"), "vendored Dialect");
-    regularFile(join(vendorPolicy, "pack.rf"), "vendored Policy Pack");
+    regularFile(join(vendorDialect, "dialect.rf.hcl"), "vendored Dialect");
+    regularFile(join(vendorPolicy, "pack.rf.hcl"), "vendored Policy Pack");
     if (hasFiles(join(vendorHome, "dialects")) || hasFiles(join(vendorHome, "policy-packs"))) {
       throw new Error("vendor unexpectedly populated user store");
     }
@@ -847,7 +847,7 @@ export function qualifyRegistry(options: Options): void {
       "vendored Policy result",
     );
 
-    rmSync(join(vendorDialect, "dialect.rf"));
+    rmSync(join(vendorDialect, "dialect.rf.hcl"));
     const partial = expectFailure(
       [options.rootformBinary, "build", ".", "--locked", "--format", "json"],
       commandOptions("partial Dialect vendor", vendorProject, vendorHome, offline),
@@ -859,7 +859,7 @@ export function qualifyRegistry(options: Options): void {
       [options.rootformBinary, "vendor", "dialects"],
       commandOptions("explicit Dialect vendor repair", vendorProject, vendorHome),
     );
-    regularFile(join(vendorDialect, "dialect.rf"), "repaired vendored Dialect");
+    regularFile(join(vendorDialect, "dialect.rf.hcl"), "repaired vendored Dialect");
     if (sha256(readFileSync(join(vendorProject, "rootform.lock"))) !== lockDigest) {
       throw new Error("vendor changed rootform.lock");
     }

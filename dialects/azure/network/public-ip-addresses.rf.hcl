@@ -1,0 +1,28 @@
+# Maintained directly from pinned provider evidence.
+rule "custom-ip-prefix" {
+  match {
+    type = "azurerm_custom_ip_prefix"
+  }
+
+  as = concept.public-address
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "public-ip-prefix" {
+  match {
+    type = "azurerm_public_ip_prefix"
+  }
+
+  as = concept.public-address
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

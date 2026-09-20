@@ -21,6 +21,12 @@ rootform test [directory] [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform test |
 | ` --run ` | ` string ` | ` "" ` | run only the cases whose `name` contains this text |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Build dialect fixtures and compare their architectures with the

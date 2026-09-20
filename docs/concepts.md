@@ -18,9 +18,16 @@ A Rule adds optional interpretation to an existing base: a Concept, facts such a
 
 ## Rule coverage is not resource coverage
 
-Coverage has two separate counts. Every normalized resource accounts as a resource base. Only resources whose Rule applied successfully account as interpreted. A resource without a Rule is an unclassified representation, not an unsupported resource, and it is never filtered merely because no Rule knows it.
+Coverage has two separate questions. Every normalized resource keeps a resource
+base. A Rule adds interpretation when it applies successfully. A resource
+without a Rule is an unclassified representation, not an unsupported resource,
+and it is never filtered merely because no Rule knows it.
 
-Read the accounting before making a coverage claim. `rootform build` prints declaration accounting to standard error, and a successful build can still contain resource bases without Rules and explicit interpretation diagnostics. An exit status of `0` means the architecture was built; it makes no coverage or governance claim.
+Read the summary before making a coverage claim. `rootform build` reports
+represented resources, source declarations, resolved facts, omissions, and
+diagnostics on standard error. A successful build can still contain resource
+bases without Rules and explicit interpretation diagnostics. An exit status of
+`0` means the architecture was built; it makes no coverage or governance claim.
 
 ## Meaning requires a Rule
 
@@ -52,7 +59,7 @@ The same rule applies to evaluation. A result that cannot be determined is diffe
 Given the same supported input and exact semantic selections, Rootform produces the same canonical architecture bytes. Stable identities and ordering let a comparison track meaning without depending on file traversal order or screen coordinates. Provenance lets you ask why a fact exists.
 
 A different Dialect version can change interpretation even when Terraform is
-unchanged. The Rootform binary fixes supplied semantics; `rootform.lock` fixes
+unchanged. The Rootform binary fixes embedded semantics; `rootform.lock` fixes
 external selections. [Locks and offline operation](offline-security.md) explain
 that boundary. [Architecture Diff](concepts/diff.md) distinguishes a changed
 interpretation from an added or removed resource and marks conclusions affected
@@ -67,4 +74,4 @@ Policy Packs; `rootform check` evaluates selected policies. Building an
 architecture does not run governance checks, and selecting a Dialect never
 selects governance.
 
-When you need to author semantics or governance, start with the [Rootform language overview](language/index.md). Concept pages explain why Dialects and policies exist; Language guides explain how to write their `.rf` source.
+When you need to author semantics or governance, start with the [Rootform language overview](language/index.md). Concept pages explain why Dialects and policies exist; Language guides explain how to write their `.rf.hcl` source.

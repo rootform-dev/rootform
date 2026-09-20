@@ -71,7 +71,7 @@ truth alone is not a reason to publish a detail.
 
 State prerequisites instead of teaching industry conventions. Explain product
 concepts with enough depth to support a correct decision: representations,
-Rules, Concepts, RF Vocabulary, Dialects, `.rf`, Architecture IR, policies and
+Rules, Concepts, RF Vocabulary, Dialects, `.rf.hcl`, Architecture IR, policies and
 Policy Packs, Diff, locks, vendor, offline operation, and provenance. Explain
 what Rootform can establish and what it refuses to invent.
 
@@ -113,9 +113,9 @@ Pack. Reserve backticks for commands, paths, flags, identifiers, and literal
 values.
 
 Use **Rootform language** in headings and navigation and **the Rootform language**
-in prose. Keep `language` lowercase and omit `(.rf)` from the section name.
-Use `.rf` explicitly when discussing files and syntax, including `.rf files`,
-`.rf syntax`, and `.rf.json`.
+in prose. Keep `language` lowercase and omit `(.rf.hcl)` from the section name.
+Use `.rf.hcl` explicitly when discussing files and syntax, including `.rf.hcl files`,
+`.rf.hcl syntax`, and `.rf.json`.
 
 Use **Dialect** for the named, versioned unit, its source, selection, store, and
 distribution. Use **semantics** only for architectural meaning, evaluation
@@ -124,7 +124,7 @@ the Architecture IR `semantics` field and `rootform explain semantics`. Never
 use “semantic package,” “selected semantics,” or similar aliases for Dialects.
 
 In examples, put one top-level `policy_pack` manifest in a file at the pack
-root and top-level `policy` declarations in `.rf` or `.rf.json` files beneath
+root and top-level `policy` declarations in `.rf.hcl` or `.rf.json` files beneath
 that same root. The source root establishes ownership; policies need no explicit
 pack reference. Nested `policy` blocks are invalid.
 

@@ -1,0 +1,71 @@
+concept "connector" {
+  description = "A managed Confluent Cloud connector moving data between Kafka and an external system."
+}
+
+concept "connector-artifact" {
+  description = "A managed or custom connector artifact, plugin, or version supporting connectors."
+}
+
+rule "connector" {
+  match {
+    type = "confluent_connector"
+  }
+
+  as = concept.connector
+
+  context {
+    as  = context.ownership
+    to  = concept.environment
+    via = source.environment[0].id
+  }
+
+  context {
+    as  = rf.context.runtime
+    to  = concept.kafka-cluster
+    via = source.kafka_cluster[0].id
+  }
+}
+
+rule "connect-artifact" {
+  match {
+    type = "confluent_connect_artifact"
+  }
+
+  as = concept.connector-artifact
+
+  context {
+    as  = context.ownership
+    to  = concept.environment
+    via = source.environment[0].id
+  }
+}
+
+rule "custom-connector-plugin" {
+  match {
+    type = "confluent_custom_connector_plugin"
+  }
+
+  as = concept.connector-artifact
+}
+
+rule "custom-connector-plugin-version" {
+  match {
+    type = "confluent_custom_connector_plugin_version"
+  }
+
+  as = concept.connector-artifact
+
+  context {
+    as  = context.ownership
+    to  = concept.environment
+    via = source.environment[0].id
+  }
+}
+
+rule "legacy-connector-plugin" {
+  match {
+    type = "confluent_plugin"
+  }
+
+  as = concept.connector-artifact
+}

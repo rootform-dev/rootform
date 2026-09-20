@@ -1,0 +1,26 @@
+# Maintained directly from pinned provider evidence.
+concept "vmware-private-cloud" {
+  description = "An Azure VMware Solution private cloud."
+}
+
+rule "vmware-cluster" {
+  match {
+    type = "azurerm_vmware_cluster"
+  }
+
+  as = concept.hybrid-platform
+}
+
+rule "vmware-private-cloud" {
+  match {
+    type = "azurerm_vmware_private_cloud"
+  }
+
+  as = concept.vmware-private-cloud
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

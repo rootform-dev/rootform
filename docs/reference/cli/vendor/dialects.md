@@ -21,12 +21,18 @@ rootform vendor dialects [flags]
 | ` --offline ` | ` bool ` | ` false ` | use only exact local or cached dialects |
 | ` --to ` | ` string ` | ` "" ` | copy into `directory`; ./.rootform/dialects by default |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Materialize the exact dialect selection from rootform.lock: external
 dialects from remote or local sources, with their licenses and notices.
 Policy Packs have their own vendoring destination and are never
-materialized here. Supplied dialects, the RF vocabulary, and derived
+materialized here. Embedded dialects, the RF vocabulary, and derived
 caches are never materialized. No version is resolved and rootform.lock
 is never changed.
 

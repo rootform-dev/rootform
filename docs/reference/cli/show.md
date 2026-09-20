@@ -10,41 +10,57 @@ Show a Rootform definition.
 ## Usage
 
 ```text
-rootform show <object> <name> [flags]
+rootform show <name> [flags]
 ```
 
 ## Flags
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
+| ` -o, --format ` | ` string ` | ` "" ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show |
+
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
 ## Behavior
 
-Show a dialect, Policy Pack, policy, rule, concept, context, or
-relation by name.
+Show one dialect, the rf vocabulary, or one declaration they
+make.
 
-Policy identifiers use "&lt;policy-pack&gt;.policy.&lt;name&gt;"; Dialect declaration
-identifiers use "&lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;". A bare declaration name is accepted
-when it resolves unambiguously.
+A bare owner name such as google or rf shows that owner and every
+declaration it makes. A qualified &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt; shows one
+declaration, where kind is concept, context, relation, or rule. A
+bare declaration name is accepted when it resolves unambiguously.
+
+The text or JSON definition goes to standard output. Diagnostics go
+to standard error.
+
+## Exit status
+
+```text
+0  the definition was shown
+1  the named definition was not found
+2  the command was used incorrectly
+3  no single definition could be selected
+```
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform show concept `](show/concept.md) | Show a concept definition |
-| [` rootform show context `](show/context.md) | Show a context dimension |
-| [` rootform show dialect `](show/dialect.md) | Show a dialect |
 | [` rootform show policy `](show/policy.md) | Show a policy definition |
 | [` rootform show policy-pack `](show/policy-pack.md) | Show a Policy Pack |
-| [` rootform show relation `](show/relation.md) | Show a relation predicate |
-| [` rootform show rule `](show/rule.md) | Show a rule definition |
 
 ## Examples
 
 ```sh
-rootform show dialect google
-rootform show policy-pack baseline
-rootform show policy baseline.policy.cluster-network-context
-rootform show rule google.rule.cloud-sql-instance
+rootform show google
+rootform show google.rule.cloud-sql-instance
+rootform show google.relation.runs-as
+rootform show rf.concept.virtual-network
+rootform show google -o json
 ```

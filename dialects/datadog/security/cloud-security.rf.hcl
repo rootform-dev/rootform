@@ -1,0 +1,35 @@
+concept "security-configuration" {
+  description = "A Datadog Cloud Security policy, framework, detection, or data-scanning configuration."
+}
+
+rule "compliance-custom-framework" {
+  match {
+    type = "datadog_compliance_custom_framework"
+  }
+
+  as = concept.security-configuration
+}
+
+rule "csm-threats-policy" {
+  match {
+    type = "datadog_csm_threats_policy"
+  }
+
+  as = concept.security-configuration
+}
+
+rule "security-monitoring-rule" {
+  match {
+    type = "datadog_security_monitoring_rule"
+  }
+
+  as = concept.security-configuration
+}
+
+rule "sensitive-data-scanner-group" {
+  match {
+    type = "datadog_sensitive_data_scanner_group"
+  }
+
+  as = concept.security-configuration
+}

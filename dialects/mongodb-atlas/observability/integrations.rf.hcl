@@ -1,0 +1,114 @@
+concept "log-integration" {
+  description = "A MongoDB Atlas integration exporting project logs to an external observability or storage service."
+}
+
+concept "metric-integration" {
+  description = "A MongoDB Atlas integration exporting project metrics to an external observability service."
+}
+
+concept "observability-configuration" {
+  description = "An alert or third-party notification configuration supporting Atlas observability."
+}
+
+rule "log-integration" {
+  match {
+    type = "mongodbatlas_log_integration"
+  }
+
+  as = concept.log-integration
+
+  context {
+    as  = context.ownership
+    to  = concept.project
+    via = source.project_id
+  }
+
+  relation "exports-to-storage" {
+    to  = rf.concept.object-storage-container
+    via = source.bucket_name
+  }
+
+  relation "exports-to-storage" {
+    to  = rf.concept.object-storage-container
+    via = source.storage_container_name
+  }
+
+  relation "uses-key" {
+    to  = concept.encryption-key
+    via = source.kms_key
+  }
+
+  relation "uses-cloud-authorization" {
+    to  = concept.cloud-provider-authorization
+    via = source.iam_role_id
+  }
+
+  relation "uses-cloud-authorization" {
+    to  = concept.cloud-provider-authorization
+    via = source.role_id
+  }
+}
+
+rule "push-based-log-export" {
+  match {
+    type = "mongodbatlas_push_based_log_export"
+  }
+
+  as = concept.log-integration
+
+  context {
+    as  = context.ownership
+    to  = concept.project
+    via = source.project_id
+  }
+
+  relation "exports-to-storage" {
+    to  = rf.concept.object-storage-container
+    via = source.bucket_name
+  }
+
+  relation "uses-cloud-authorization" {
+    to  = concept.cloud-provider-authorization
+    via = source.iam_role_id
+  }
+}
+
+rule "metric-integration" {
+  match {
+    type = "mongodbatlas_metric_integration"
+  }
+
+  as = concept.metric-integration
+
+  context {
+    as  = context.ownership
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "alert-configuration" {
+  match {
+    type = "mongodbatlas_alert_configuration"
+  }
+
+  as = concept.observability-configuration
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "third-party-integration" {
+  match {
+    type = "mongodbatlas_third_party_integration"
+  }
+
+  as = concept.observability-configuration
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}

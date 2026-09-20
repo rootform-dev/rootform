@@ -1,0 +1,161 @@
+{
+  "format_version": "1",
+  "products": [
+    {
+      "id": "organizations",
+      "family": "governance-management",
+      "official_name": "Datadog organizations",
+      "source_url": "https://docs.datadoghq.com/account_management/multi_organization/",
+      "major": true,
+      "constructs": 4,
+      "counts": {
+        "rule-present": 2,
+        "partial-rule": 0,
+        "no-rule": 2
+      }
+    },
+    {
+      "id": "cloud-integrations",
+      "family": "integrations",
+      "official_name": "Datadog cloud integrations",
+      "source_url": "https://docs.datadoghq.com/integrations/",
+      "major": true,
+      "constructs": 25,
+      "counts": {
+        "rule-present": 4,
+        "partial-rule": 0,
+        "no-rule": 21
+      }
+    },
+    {
+      "id": "service-integrations",
+      "family": "integrations",
+      "official_name": "Datadog service integrations",
+      "source_url": "https://docs.datadoghq.com/getting_started/integrations/",
+      "major": true,
+      "constructs": 16,
+      "counts": {
+        "rule-present": 5,
+        "partial-rule": 2,
+        "no-rule": 9
+      }
+    },
+    {
+      "id": "observability-pipelines",
+      "family": "telemetry",
+      "official_name": "Datadog Observability Pipelines",
+      "source_url": "https://docs.datadoghq.com/observability_pipelines/configuration/",
+      "major": true,
+      "constructs": 1,
+      "counts": {
+        "rule-present": 1,
+        "partial-rule": 0,
+        "no-rule": 0
+      }
+    },
+    {
+      "id": "log-management",
+      "family": "telemetry",
+      "official_name": "Datadog Log Management",
+      "source_url": "https://docs.datadoghq.com/logs/",
+      "major": true,
+      "constructs": 31,
+      "counts": {
+        "rule-present": 2,
+        "partial-rule": 4,
+        "no-rule": 25
+      }
+    },
+    {
+      "id": "digital-experience",
+      "family": "digital-experience",
+      "official_name": "Datadog Digital Experience Monitoring",
+      "source_url": "https://docs.datadoghq.com/real_user_monitoring/",
+      "major": true,
+      "constructs": 14,
+      "counts": {
+        "rule-present": 3,
+        "partial-rule": 4,
+        "no-rule": 7
+      }
+    },
+    {
+      "id": "software-catalog",
+      "family": "service-management",
+      "official_name": "Datadog Software Catalog",
+      "source_url": "https://docs.datadoghq.com/software_catalog/",
+      "major": true,
+      "constructs": 18,
+      "counts": {
+        "rule-present": 0,
+        "partial-rule": 3,
+        "no-rule": 15
+      }
+    },
+    {
+      "id": "automation",
+      "family": "automation",
+      "official_name": "Datadog App Builder and Workflow Automation",
+      "source_url": "https://docs.datadoghq.com/service_management/workflows/",
+      "major": true,
+      "constructs": 12,
+      "counts": {
+        "rule-present": 6,
+        "partial-rule": 2,
+        "no-rule": 4
+      }
+    },
+    {
+      "id": "cloud-security",
+      "family": "security",
+      "official_name": "Datadog Cloud Security",
+      "source_url": "https://docs.datadoghq.com/security/",
+      "major": true,
+      "constructs": 34,
+      "counts": {
+        "rule-present": 0,
+        "partial-rule": 4,
+        "no-rule": 30
+      }
+    },
+    {
+      "id": "service-management",
+      "family": "service-management",
+      "official_name": "Datadog Service Management",
+      "source_url": "https://docs.datadoghq.com/service_management/",
+      "major": false,
+      "constructs": 42,
+      "counts": {
+        "rule-present": 0,
+        "partial-rule": 2,
+        "no-rule": 40
+      }
+    },
+    {
+      "id": "cost-management",
+      "family": "finops",
+      "official_name": "Datadog Cloud Cost Management",
+      "source_url": "https://docs.datadoghq.com/cloud_cost_management/",
+      "major": false,
+      "constructs": 7,
+      "counts": {
+        "rule-present": 0,
+        "partial-rule": 0,
+        "no-rule": 7
+      }
+    },
+    {
+      "id": "access-management",
+      "family": "identity-access",
+      "official_name": "Datadog access management",
+      "source_url": "https://docs.datadoghq.com/account_management/rbac/",
+      "major": false,
+      "constructs": 30,
+      "counts": {
+        "rule-present": 0,
+        "partial-rule": 0,
+        "no-rule": 30
+      }
+    }
+  ]
+}

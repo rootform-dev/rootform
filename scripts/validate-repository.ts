@@ -41,6 +41,7 @@ const allowedTopLevel = new Set([
   "contracts",
   "dependencies",
   "docs",
+  "dialects",
   "examples",
   "oci",
   "package.json",
@@ -51,15 +52,7 @@ const allowedTopLevel = new Set([
   "scripts",
   "tsconfig.json",
 ]);
-const forbiddenTopLevel = new Set([
-  "apps",
-  "cmd",
-  "dialects",
-  "internal",
-  "packages",
-  "specs",
-  "web",
-]);
+const forbiddenTopLevel = new Set(["apps", "cmd", "internal", "packages", "specs", "web"]);
 const forbiddenText =
   /(?:\/Users\/|\/home\/(?!rootform(?:\/|$))[A-Za-z0-9._-]+\/|[A-Za-z]:\\Users\\|BEGIN (?:RSA|OPENSSH|EC|DSA) PRIVATE KEY|github_pat_|ghp_)/u;
 const enginePathReference =
@@ -135,12 +128,18 @@ export function validateRepository(): void {
     "contracts/policy-pack-distribution.md",
     "contracts/rootform-oci-core-profile.md",
     "contracts/rootform-lock.md",
+    "dialects/dialects.json",
+    "dialects/LICENSE",
+    "dialects/README.md",
+    "dialects/THIRD_PARTY_NOTICES.md",
+    "dialects/evidence/auth0/scenarios.json",
+    "dialects/fixtures/auth0-v1/minimal/main.tf",
     "policy-packs/README.md",
     "policy-packs/baseline/LICENSE",
     "policy-packs/baseline/NOTICE",
-    "policy-packs/baseline/pack.rf",
-    "policy-packs/baseline/policies/cluster-network-context.rf",
-    "policy-packs/baseline/policies/managed-database-network-context.rf",
+    "policy-packs/baseline/pack.rf.hcl",
+    "policy-packs/baseline/policies/cluster-network-context.rf.hcl",
+    "policy-packs/baseline/policies/managed-database-network-context.rf.hcl",
     "docs/integrations/oci-image.md",
     "docs/integrations/ci/README.md",
     "docs/integrations/ci/azure-pipelines.yml",
@@ -181,7 +180,11 @@ export function validateRepository(): void {
       throw new Error(`private implementation material is forbidden: ${path}`);
     }
     if (
-      !["scripts/validate-repository.ts", "scripts/validate-repository.test.ts"].includes(path) &&
+      ![
+        "scripts/validate-repository.ts",
+        "scripts/validate-repository.test.ts",
+        "scripts/dialects/validate.ts",
+      ].includes(path) &&
       /\.(?:json|md|tf|ts|yml|yaml)$/u.test(path)
     ) {
       const body = readFileSync(join(root, path), "utf8");
@@ -283,9 +286,9 @@ export function validateRepository(): void {
     JSON.stringify([
       "policy-packs/baseline/LICENSE",
       "policy-packs/baseline/NOTICE",
-      "policy-packs/baseline/pack.rf",
-      "policy-packs/baseline/policies/cluster-network-context.rf",
-      "policy-packs/baseline/policies/managed-database-network-context.rf",
+      "policy-packs/baseline/pack.rf.hcl",
+      "policy-packs/baseline/policies/cluster-network-context.rf.hcl",
+      "policy-packs/baseline/policies/managed-database-network-context.rf.hcl",
     ])
   ) {
     throw new Error(`policy pack example boundary drifted: ${policyPackFiles.join(", ")}`);

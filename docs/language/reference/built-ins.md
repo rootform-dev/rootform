@@ -19,7 +19,7 @@ Query values are opaque. They can appear only as direct argument to
 
 ## Complete example
 
-```hcl title="built-ins/pack.rf"
+```hcl title="built-ins/pack.rf.hcl"
 policy_pack "architecture-contracts" {
   version = "0.1.0"
 }

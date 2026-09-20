@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "signalr-service" {
+  match {
+    type = "azurerm_signalr_service"
+  }
+
+  as = concept.realtime-communication-service
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

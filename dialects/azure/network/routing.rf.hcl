@@ -1,0 +1,40 @@
+# Maintained directly from pinned provider evidence.
+concept "route-table" {
+  description = "An Azure route table controlling subnet traffic paths."
+}
+
+rule "route-server" {
+  match {
+    type = "azurerm_route_server"
+  }
+
+  as = concept.route-table
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "route-table" {
+  match {
+    type = "azurerm_route_table"
+  }
+
+  as = concept.route-table
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "subnet-route-table-association" {
+  match {
+    type = "azurerm_subnet_route_table_association"
+  }
+
+  as = concept.network-policy-detail
+}

@@ -9,7 +9,7 @@ optional Concept classification.
 
 ## Complete example
 
-```hcl title="composition/dialect.rf"
+```hcl title="composition/dialect.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 
@@ -161,7 +161,7 @@ Composition diagnostics have error severity.
 
 ## Rejected forms
 
-```hcl title="invalid/empty-composition.rf"
+```hcl title="invalid/empty-composition.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 

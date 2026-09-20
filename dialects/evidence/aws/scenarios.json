@@ -1,0 +1,181 @@
+{
+  "format_version": "1",
+  "scenarios": [
+    {
+      "id": "release-family-coverage",
+      "fixture": "fixtures/aws-v6/release-coverage",
+      "required_rules": [
+        "aws.rule.api-gateway-rest-api",
+        "aws.rule.cloudwatch-event-bus",
+        "aws.rule.connect-instance",
+        "aws.rule.dynamodb-table",
+        "aws.rule.globalaccelerator-accelerator",
+        "aws.rule.eks-cluster",
+        "aws.rule.iam-role",
+        "aws.rule.instance",
+        "aws.rule.kms-key",
+        "aws.rule.s3-bucket",
+        "aws.rule.vpc"
+      ],
+      "required_outcomes": {
+        "aws_bedrock_guardrail.ai": "representation-present",
+        "aws_globalaccelerator_accelerator.edge": "representation-present",
+        "aws_organizations_organization.governance": "representation-present"
+      },
+      "minimum": {},
+      "expected_check_violations": [],
+      "limitations": [
+        "One architecture owner per family proves release loading; exhaustive construct decisions remain in coverage matrix."
+      ]
+    },
+    {
+      "id": "broad-multi-service-platform",
+      "fixture": "fixtures/aws-v6/scenarios",
+      "required_rules": [
+        "aws.rule.api-gateway-model",
+        "aws.rule.api-gateway-rest-api",
+        "aws.rule.apigatewayv2-api",
+        "aws.rule.apigatewayv2-model",
+        "aws.rule.appsync-graphql-api",
+        "aws.rule.bedrockagent-agent",
+        "aws.rule.bedrockagent-agent-action-group",
+        "aws.rule.cloudwatch-event-bus",
+        "aws.rule.cognito-user-group",
+        "aws.rule.cognito-user-pool",
+        "aws.rule.connect-instance",
+        "aws.rule.connect-queue",
+        "aws.rule.db-proxy",
+        "aws.rule.db-proxy-default-target-group",
+        "aws.rule.db-proxy-endpoint",
+        "aws.rule.db-instance",
+        "aws.rule.dynamodb-table",
+        "aws.rule.dynamodb-global-secondary-index",
+        "aws.rule.ec2-transit-gateway",
+        "aws.rule.ecr-repository",
+        "aws.rule.ecs-service",
+        "aws.rule.eks-cluster",
+        "aws.rule.elasticache-replication-group",
+        "aws.rule.emr-cluster",
+        "aws.rule.emr-instance-group",
+        "aws.rule.globalaccelerator-accelerator",
+        "aws.rule.iam-role",
+        "aws.rule.iam-instance-profile",
+        "aws.rule.instance",
+        "aws.rule.kms-key",
+        "aws.rule.lb",
+        "aws.rule.nat-gateway",
+        "aws.rule.network-acl",
+        "aws.rule.pinpoint-app",
+        "aws.rule.pinpoint-sms-channel",
+        "aws.rule.rds-cluster",
+        "aws.rule.rds-cluster-activity-stream",
+        "aws.rule.rds-cluster-endpoint",
+        "aws.rule.rds-cluster-instance",
+        "aws.rule.route-table",
+        "aws.rule.s3-bucket",
+        "aws.rule.security-group",
+        "aws.rule.sns-topic",
+        "aws.rule.subnet",
+        "aws.rule.vpc",
+        "aws.rule.vpc-endpoint",
+        "aws.rule.vpn-gateway"
+      ],
+      "required_outcomes": {
+        "aws_api_gateway_rest_api.public": "representation-present",
+        "aws_apigatewayv2_model.realtime": "representation-present",
+        "aws_appsync_graphql_api.graphql": "representation-present",
+        "aws_bedrockagent_agent_action_group.orders": "representation-present",
+        "aws_connect_queue.support": "representation-present",
+        "aws_db_proxy_endpoint.orders": "representation-present",
+        "aws_db_instance.orders": "representation-present",
+        "aws_dynamodb_global_secondary_index.sessions_by_owner": "representation-present",
+        "aws_ec2_transit_gateway_vpc_attachment.workloads": "representation-present",
+        "aws_eks_cluster.workloads": "representation-present",
+        "aws_emr_instance_group.analytics": "representation-present",
+        "aws_iam_instance_profile.runtime": "representation-present",
+        "aws_lb.public": "representation-present",
+        "aws_pinpoint_sms_channel.notifications": "representation-present",
+        "aws_rds_cluster_instance.aurora_reader": "representation-present",
+        "aws_vpc_endpoint.s3": "representation-present"
+      },
+      "minimum": {
+        "contexts": 13,
+        "contributions": 31,
+        "relations": 1
+      },
+      "maximum_facts": {
+        "relations": 1
+      },
+      "expected_check_violations": [],
+      "limitations": [
+        "CloudFront origins, ECS task definitions, ALB target membership, EventBridge targets, secrets use, and producer/consumer links stay unconnected where current primitives do not prove ownership or runtime flow."
+      ]
+    },
+    {
+      "id": "fail-closed-boundaries",
+      "fixture": "fixtures/aws-v6/boundary",
+      "required_rules": [
+        "aws.rule.instance",
+        "aws.rule.sns-topic",
+        "aws.rule.sns-topic-subscription",
+        "aws.rule.subnet",
+        "aws.rule.vpc"
+      ],
+      "required_outcomes": {
+        "action.aws_lambda_invoke.imperative": "no-rule",
+        "aws_cloudcontrolapi_resource.opaque": "no-rule",
+        "aws_iam_user_ssh_key.credential": "no-rule",
+        "aws_lb_listener_certificate.listener_configuration": "no-rule",
+        "aws_rds_export_task.operation": "no-rule",
+        "aws_sagemaker_training_job.operation": "no-rule",
+        "aws_s3_bucket_policy.helper": "no-rule"
+      },
+      "maximum_facts": {
+        "contexts": 0,
+        "contributions": 0,
+        "relations": 0
+      },
+      "expected_build_failure": true,
+      "expected_diagnostic_codes": [
+        "TRAVERSAL_UNRESOLVED",
+        "TRAVERSAL_UNRESOLVED",
+        "TRAVERSAL_UNRESOLVED"
+      ],
+      "expected_check_violations": [],
+      "forbidden_output": [
+        "rootform-cloudcontrol-sentinel",
+        "rootform-policy-sentinel",
+        "rootform-public-key-sentinel",
+        "999988887777"
+      ],
+      "limitations": [
+        "Dynamic, literal-only, dependency-only, helper, action, and opaque generic resource evidence fails closed."
+      ]
+    },
+    {
+      "id": "privacy",
+      "fixture": "fixtures/aws-v6/privacy",
+      "required_rules": [
+        "aws.rule.iam-role",
+        "aws.rule.instance",
+        "aws.rule.kms-key"
+      ],
+      "required_outcomes": {
+        "aws_iam_role.private": "representation-present",
+        "aws_instance.private": "representation-present",
+        "aws_kms_key.private": "representation-present",
+        "aws_secretsmanager_secret.private": "representation-present"
+      },
+      "expected_check_violations": [],
+      "forbidden_output": [
+        "rootform-user-data-secret-sentinel",
+        "rootform-iam-policy-secret-sentinel",
+        "rootform-kms-policy-secret-sentinel",
+        "rootform-secret-value-sentinel"
+      ],
+      "limitations": [
+        "User data, IAM/KMS policies, and secret metadata values stay outside Architecture IR and HTML."
+      ]
+    }
+  ]
+}

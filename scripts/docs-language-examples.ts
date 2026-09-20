@@ -222,10 +222,10 @@ export function verifyLanguageExamples(
   for (const directory of [working, native, aws, google]) mkdirSync(directory);
 
   const tour = readPage("language/tour.md");
-  writeFileSync(join(aws, "dialect.rf"), fenced(tour, "hcl", "aws/dialect.rf"));
-  writeFileSync(join(aws, "network.rf"), fenced(tour, "hcl", "aws/network/vpc.rf"));
+  writeFileSync(join(aws, "dialect.rf.hcl"), fenced(tour, "hcl", "aws/dialect.rf.hcl"));
+  writeFileSync(join(aws, "network.rf.hcl"), fenced(tour, "hcl", "aws/network/vpc.rf.hcl"));
   writeFileSync(
-    join(google, "dialect.rf"),
+    join(google, "dialect.rf.hcl"),
     [
       'dialect "google" {',
       '  version = "0.1.0"',
@@ -237,15 +237,15 @@ export function verifyLanguageExamples(
       "",
     ].join("\n"),
   );
-  writeFileSync(join(google, "vocabulary.rf"), fenced(tour, "hcl", "google/vocabulary.rf"));
+  writeFileSync(join(google, "vocabulary.rf.hcl"), fenced(tour, "hcl", "google/vocabulary.rf.hcl"));
   writeFileSync(
-    join(google, "load-balancer.rf"),
-    fenced(tour, "hcl", "google/load-balancing/application-load-balancer.rf"),
+    join(google, "load-balancer.rf.hcl"),
+    fenced(tour, "hcl", "google/load-balancing/application-load-balancer.rf.hcl"),
   );
   run(["fmt", "--check", native], working);
   const compiled = run(["validate", "dialects", native], working);
   for (const identity of ["aws@0.1.0", "google@0.1.0"]) {
-    assert(compiled.stdout.includes(`${identity} compiles`), `${identity} did not compile`);
+    assert(compiled.stdout.includes(identity), `${identity} did not validate`);
   }
 
   const jsonRoot = join(working, "json");
@@ -257,10 +257,7 @@ export function verifyLanguageExamples(
   );
   run(["fmt", "--check", jsonRoot], working);
   const jsonCompiled = run(["validate", "dialects", jsonRoot], working);
-  assert(
-    jsonCompiled.stdout.includes("example@0.1.0 compiles"),
-    ".rf.json fixture did not compile",
-  );
+  assert(jsonCompiled.stdout.includes("example@0.1.0"), ".rf.json fixture did not validate");
 
   const jsonPack = join(working, "json-policy-pack");
   mkdirSync(jsonPack);
@@ -280,25 +277,25 @@ export function verifyLanguageExamples(
   const referenceDialects = [
     {
       page: "language/reference/rules.md",
-      title: "reference/dialect.rf",
+      title: "reference/dialect.rf.hcl",
       directory: "rules",
       identity: "example@0.1.0",
     },
     {
       page: "language/reference/emissions.md",
-      title: "emissions/dialect.rf",
+      title: "emissions/dialect.rf.hcl",
       directory: "emissions",
       identity: "example@0.1.0",
     },
     {
       page: "language/reference/composition.md",
-      title: "composition/dialect.rf",
+      title: "composition/dialect.rf.hcl",
       directory: "composition",
       identity: "example@0.1.0",
     },
     {
       page: "language/reference/expressions.md",
-      title: "constant-strings/dialect.rf",
+      title: "constant-strings/dialect.rf.hcl",
       directory: "constant-strings",
       identity: "constant-example@0.1.0",
     },
@@ -309,15 +306,12 @@ export function verifyLanguageExamples(
     const directory = join(referenceDialectRoot, example.directory);
     mkdirSync(directory);
     writeFileSync(
-      join(directory, "dialect.rf"),
+      join(directory, "dialect.rf.hcl"),
       fenced(readPage(example.page), "hcl", example.title),
     );
     run(["fmt", "--check", directory], working);
     const result = run(["validate", "dialects", directory], working);
-    assert(
-      result.stdout.includes(`${example.identity} compiles`),
-      `${example.title} did not compile`,
-    );
+    assert(result.stdout.includes(example.identity), `${example.title} did not validate`);
   }
 
   const architecture = join(workspace, "architecture.json");
@@ -332,21 +326,21 @@ export function verifyLanguageExamples(
   const referencePacks = [
     {
       page: "language/reference/policy-packs.md",
-      title: "policy-reference/pack.rf",
+      title: "policy-reference/pack.rf.hcl",
       directory: "policy-reference",
       name: "network-baseline",
       policies: 1,
     },
     {
       page: "language/reference/built-ins.md",
-      title: "built-ins/pack.rf",
+      title: "built-ins/pack.rf.hcl",
       directory: "built-ins",
       name: "architecture-contracts",
       policies: 3,
     },
     {
       page: "language/reference/expressions.md",
-      title: "expression-results/pack.rf",
+      title: "expression-results/pack.rf.hcl",
       directory: "expression-results",
       name: "expression-results",
       policies: 1,
@@ -356,7 +350,10 @@ export function verifyLanguageExamples(
   for (const example of referencePacks) {
     const directory = join(working, example.directory);
     mkdirSync(directory);
-    writeFileSync(join(directory, "pack.rf"), fenced(readPage(example.page), "hcl", example.title));
+    writeFileSync(
+      join(directory, "pack.rf.hcl"),
+      fenced(readPage(example.page), "hcl", example.title),
+    );
     run(["fmt", "--check", directory], working);
     const output = join(working, `${example.directory}.json`);
     run(
@@ -429,19 +426,19 @@ export function verifyLanguageExamples(
   for (const example of [
     {
       page: "language/reference/rules.md",
-      title: "invalid/match-only.rf",
+      title: "invalid/match-only.rf.hcl",
       code: "RULE_NO_ARCHITECTURE",
     },
     {
       page: "language/reference/composition.md",
-      title: "invalid/empty-composition.rf",
+      title: "invalid/empty-composition.rf.hcl",
       code: "COMPOSITION_INVALID",
     },
   ]) {
     const directory = join(working, `invalid-${example.code.toLowerCase()}`);
     mkdirSync(directory);
     writeFileSync(
-      join(directory, "dialect.rf"),
+      join(directory, "dialect.rf.hcl"),
       fenced(readPage(example.page), "hcl", example.title),
     );
     const validation = run(["validate", "dialects", directory, "--format", "json"], working, 1);
@@ -455,8 +452,12 @@ export function verifyLanguageExamples(
   const invalidPolicy = join(working, "invalid-policy");
   mkdirSync(invalidPolicy);
   writeFileSync(
-    join(invalidPolicy, "pack.rf"),
-    fenced(readPage("language/reference/policy-packs.md"), "hcl", "invalid/dialect-only-pack.rf"),
+    join(invalidPolicy, "pack.rf.hcl"),
+    fenced(
+      readPage("language/reference/policy-packs.md"),
+      "hcl",
+      "invalid/dialect-only-pack.rf.hcl",
+    ),
   );
   const invalidPolicyResult = run(
     [
@@ -478,9 +479,9 @@ export function verifyLanguageExamples(
 
   const baselinePage = readPage("language/write-policy-pack.md");
   for (const relative of [
-    "pack.rf",
-    "policies/cluster-network-context.rf",
-    "policies/managed-database-network-context.rf",
+    "pack.rf.hcl",
+    "policies/cluster-network-context.rf.hcl",
+    "policies/managed-database-network-context.rf.hcl",
   ]) {
     const title = `policy-packs/baseline/${relative}`;
     const displayedBaseline = fenced(baselinePage, "hcl", title);
@@ -512,7 +513,7 @@ export function verifyLanguageExamples(
   const invalid = join(working, "invalid");
   mkdirSync(invalid);
   writeFileSync(
-    join(invalid, "dialect.rf"),
+    join(invalid, "dialect.rf.hcl"),
     [
       'dialect "broken" {',
       '  version = "0.1.0"',
@@ -542,7 +543,7 @@ export function verifyLanguageExamples(
 
   return [
     "closed match kinds, RF Vocabulary, and diagnostic codes are fully documented",
-    "native tour Dialects and composition compile from displayed .rf",
+    "native tour Dialects and composition compile from displayed .rf.hcl",
     "displayed .rf.json Dialect formats and compiles without imports",
     "displayed .rf.json Policy Pack compiles with sibling top-level declarations",
     "Rules, emissions, composition, and constant-string reference Dialects format and compile",

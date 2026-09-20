@@ -182,6 +182,8 @@ if (!configuredBinary)
 const binary = isAbsolute(configuredBinary) ? configuredBinary : resolve(root, configuredBinary);
 if (!existsSync(binary)) throw new Error("binary is unavailable");
 
+process.stdout.write(run(["bun", "run", "verify:dialects"], root, { ROOTFORM_BIN: binary }));
+
 function runLockedBuildJourney(
   project: string,
   environment: Record<string, string>,

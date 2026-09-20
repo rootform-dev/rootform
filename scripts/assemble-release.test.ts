@@ -92,7 +92,7 @@ function componentPurl(component: RuntimeComponent): string | undefined {
     case "asset":
       return undefined;
     case "dialect-bundle":
-      return `pkg:github/rootform-dev/dialects@${component.version}`;
+      return `pkg:github/rootform-dev/rootform@${component.version}`;
     case "go-module":
       return `pkg:golang/${path(component.name)}@${encodeURIComponent(component.version)}`;
     case "go-runtime":
@@ -438,7 +438,7 @@ describe("final release assembly", () => {
         spdx: "Elastic-2.0",
         status: "licensed",
       });
-      expect(parsed.license.third_party_notices.component_count).toBe(88);
+      expect(parsed.license.third_party_notices.component_count).toBe(69);
       expect(parsed.license.third_party_notices.inventory_sha256).toMatch(/^[0-9a-f]{64}$/);
     } finally {
       rmSync(fixture.parent, { force: true, recursive: true });

@@ -1,0 +1,18 @@
+# Maintained directly from pinned provider evidence.
+concept "ai-search-service" {
+  description = "An Azure AI Search service."
+}
+
+rule "ai-search-service" {
+  match {
+    type = "azurerm_search_service"
+  }
+
+  as = concept.ai-search-service
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

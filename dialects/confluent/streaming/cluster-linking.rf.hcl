@@ -1,0 +1,55 @@
+concept "cluster-link" {
+  description = "A Confluent Cloud Cluster Linking connection between Kafka clusters."
+}
+
+rule "cluster-link" {
+  match {
+    type = "confluent_cluster_link"
+  }
+
+  as = concept.cluster-link
+
+  relation "local-cluster" {
+    to  = concept.kafka-cluster
+    via = source.local_kafka_cluster[0].id
+  }
+
+  relation "remote-cluster" {
+    to  = concept.kafka-cluster
+    via = source.remote_kafka_cluster[0].id
+  }
+
+  relation "source-cluster" {
+    to  = concept.kafka-cluster
+    via = source.source_kafka_cluster[0].id
+  }
+
+  relation "destination-cluster" {
+    to  = concept.kafka-cluster
+    via = source.destination_kafka_cluster[0].id
+  }
+}
+
+rule "kafka-mirror-topic" {
+  match {
+    type = "confluent_kafka_mirror_topic"
+  }
+
+  as = concept.message-topic
+
+  context {
+    as  = rf.context.runtime
+    to  = concept.kafka-cluster
+    via = source.kafka_cluster[0].id
+  }
+
+  relation "mirrors" {
+    to  = concept.message-topic
+    via = source.source_kafka_topic[0].topic_name
+  }
+
+  relation "replicated-through" {
+    to  = concept.cluster-link
+    via = source.cluster_link[0].link_name
+  }
+}

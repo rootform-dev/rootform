@@ -20,6 +20,12 @@ rootform validate relation <identifier> [flags]
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate relation |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Validate a relation and every compiled producer reference.
@@ -40,7 +46,7 @@ standard error.
 ## Examples
 
 ```sh
-rootform validate relation google.relation.private-access
-rootform validate relation private-access
-rootform validate relation google.relation.private-access --format json
+rootform validate relation google.relation.runs-as
+rootform validate relation runs-as
+rootform validate relation google.relation.runs-as --format json
 ```

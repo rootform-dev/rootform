@@ -1,0 +1,8 @@
+dialect "auth0" {
+  version = "0.1.0"
+
+
+  provider "auth0/auth0" {
+    version = "= 1.56.0"
+  }
+}

@@ -1,0 +1,99 @@
+concept "discovery-chain-configuration" {
+  description = "A resolver, router, splitter, or prepared-query detail for service discovery."
+}
+
+rule "config-entry-service-resolver" {
+  match {
+    type = "consul_config_entry_service_resolver"
+  }
+
+  as = concept.discovery-chain-configuration
+
+  contribution {
+    to  = concept.consul-service
+    via = source.name
+  }
+}
+
+rule "config-entry-service-resolver-json" {
+  match {
+    type  = "consul_config_entry"
+    where = source.kind == "service-resolver"
+  }
+
+  as = concept.discovery-chain-configuration
+}
+
+rule "config-entry-service-resolver-json-lookup" {
+  match {
+    kind  = "data"
+    type  = "consul_config_entry"
+    where = source.kind == "service-resolver"
+  }
+
+  as = concept.discovery-chain-configuration
+}
+
+rule "config-entry-service-router" {
+  match {
+    type = "consul_config_entry_service_router"
+  }
+
+  as = concept.discovery-chain-configuration
+
+  contribution {
+    to  = concept.consul-service
+    via = source.name
+  }
+}
+
+rule "config-entry-service-router-json" {
+  match {
+    type  = "consul_config_entry"
+    where = source.kind == "service-router"
+  }
+
+  as = concept.discovery-chain-configuration
+}
+
+rule "config-entry-service-router-json-lookup" {
+  match {
+    kind  = "data"
+    type  = "consul_config_entry"
+    where = source.kind == "service-router"
+  }
+
+  as = concept.discovery-chain-configuration
+}
+
+rule "config-entry-service-splitter" {
+  match {
+    type = "consul_config_entry_service_splitter"
+  }
+
+  as = concept.discovery-chain-configuration
+
+  contribution {
+    to  = concept.consul-service
+    via = source.name
+  }
+}
+
+rule "config-entry-service-splitter-json" {
+  match {
+    type  = "consul_config_entry"
+    where = source.kind == "service-splitter"
+  }
+
+  as = concept.discovery-chain-configuration
+}
+
+rule "config-entry-service-splitter-json-lookup" {
+  match {
+    kind  = "data"
+    type  = "consul_config_entry"
+    where = source.kind == "service-splitter"
+  }
+
+  as = concept.discovery-chain-configuration
+}

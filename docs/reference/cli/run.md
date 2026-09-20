@@ -24,6 +24,12 @@ rootform run [input] [flags]
 | ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
 | ` --port ` | ` int ` | ` 21717 ` | serve on local `port`; 0 picks a free one |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Build or load an architecture and serve its interactive interface

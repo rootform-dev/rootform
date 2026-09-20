@@ -5,7 +5,7 @@ source declarations; Policy Packs evaluate established architecture facts. A
 Policy belongs to exactly one pack and never to a Dialect.
 
 This directory contains synthetic public Policy Pack sources. Each pack root
-has one `policy_pack` declaration, `.rf` or `.rf.json` source, and only allowed
+has one `policy_pack` declaration, `.rf.hcl` or `.rf.json` source, and only allowed
 license or notice files. File paths do not create Policy identity.
 
 Policy Pack source declares no semantic dependency versions. References to the

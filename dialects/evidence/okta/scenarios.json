@@ -1,0 +1,205 @@
+{
+  "format_version": "1",
+  "dialect": "okta",
+  "provider_version": "7.0.0",
+  "scenarios": [
+    {
+      "id": "okta-minimal",
+      "fixture": "fixtures/okta-v7/minimal",
+      "limitations": [
+        "synthetic Terraform proves roots without contacting Okta"
+      ],
+      "minimum": {
+        "representations": 5,
+        "relations": 0,
+        "contexts": 0,
+        "contributions": 0
+      },
+      "maximum_facts": {
+        "contexts": 0,
+        "contributions": 0,
+        "relations": 0
+      },
+      "required_rules": [
+        "okta.rule.org-configuration",
+        "okta.rule.app-oauth",
+        "okta.rule.auth-server",
+        "okta.rule.idp-oidc",
+        "okta.rule.event-hook"
+      ],
+      "expected_html_labels": [
+        "Okta org",
+        "Okta OIDC app integration",
+        "Okta Authorization Server",
+        "Okta OIDC Identity Provider",
+        "Okta event hook"
+      ]
+    },
+    {
+      "id": "okta-broad-identity",
+      "fixture": "fixtures/okta-v7/scenarios",
+      "limitations": [
+        "only exact Terraform references create composition or relations; routing helpers never invent authentication flows"
+      ],
+      "minimum": {
+        "representations": 86,
+        "relations": 1,
+        "contexts": 0,
+        "contributions": 22
+      },
+      "maximum_facts": {
+        "contexts": 0,
+        "contributions": 22,
+        "relations": 1
+      },
+      "required_rules": [
+        "okta.rule.api-service-integration",
+        "okta.rule.api-service-integration-lookup",
+        "okta.rule.app-access-policy-assignment",
+        "okta.rule.app-auto-login",
+        "okta.rule.app-basic-auth",
+        "okta.rule.app-bookmark",
+        "okta.rule.app-connection",
+        "okta.rule.app-connection-lookup",
+        "okta.rule.app-features",
+        "okta.rule.app-features-lookup",
+        "okta.rule.app-federated-claim",
+        "okta.rule.app-federated-claim-lookup",
+        "okta.rule.app-lookup",
+        "okta.rule.app-oauth",
+        "okta.rule.app-oauth-api-scope",
+        "okta.rule.app-oauth-lookup",
+        "okta.rule.app-oauth-post-logout-redirect-uri",
+        "okta.rule.app-oauth-redirect-uri",
+        "okta.rule.app-saml",
+        "okta.rule.app-saml-app-settings",
+        "okta.rule.app-saml-lookup",
+        "okta.rule.app-secure-password-store",
+        "okta.rule.app-shared-credentials",
+        "okta.rule.app-sign-on-policy-rule-lookup",
+        "okta.rule.app-signon-policy",
+        "okta.rule.app-signon-policy-lookup",
+        "okta.rule.app-signon-policy-rule",
+        "okta.rule.app-swa",
+        "okta.rule.app-three-field",
+        "okta.rule.auth-server",
+        "okta.rule.auth-server-claim",
+        "okta.rule.auth-server-claim-default",
+        "okta.rule.auth-server-claim-lookup",
+        "okta.rule.auth-server-default",
+        "okta.rule.auth-server-lookup",
+        "okta.rule.auth-server-policy",
+        "okta.rule.auth-server-policy-lookup",
+        "okta.rule.auth-server-policy-rule",
+        "okta.rule.auth-server-scope",
+        "okta.rule.authenticator",
+        "okta.rule.authenticator-lookup",
+        "okta.rule.authenticator-method-webauthn",
+        "okta.rule.authenticator-method-webauthn-lookup",
+        "okta.rule.authenticator-webauthn-custom-aaguid",
+        "okta.rule.authenticator-webauthn-custom-aaguids-lookup",
+        "okta.rule.behavior",
+        "okta.rule.behavior-lookup",
+        "okta.rule.captcha",
+        "okta.rule.captcha-lookup",
+        "okta.rule.domain",
+        "okta.rule.domain-certificate",
+        "okta.rule.domain-lookup",
+        "okta.rule.domain-verification",
+        "okta.rule.event-hook",
+        "okta.rule.event-hook-verification",
+        "okta.rule.hook-key",
+        "okta.rule.hook-key-lookup",
+        "okta.rule.idp-oidc",
+        "okta.rule.idp-oidc-lookup",
+        "okta.rule.idp-saml",
+        "okta.rule.idp-saml-lookup",
+        "okta.rule.idp-social",
+        "okta.rule.idp-social-lookup",
+        "okta.rule.inline-hook",
+        "okta.rule.log-stream",
+        "okta.rule.log-stream-lookup",
+        "okta.rule.network-zone",
+        "okta.rule.network-zone-lookup",
+        "okta.rule.oauth-authorization-server-lookup",
+        "okta.rule.org-captcha",
+        "okta.rule.org-captcha-lookup",
+        "okta.rule.org-configuration",
+        "okta.rule.org-metadata-lookup",
+        "okta.rule.realm",
+        "okta.rule.realm-assignment",
+        "okta.rule.realm-assignment-lookup",
+        "okta.rule.realm-lookup",
+        "okta.rule.security-events-provider",
+        "okta.rule.security-events-provider-lookup",
+        "okta.rule.threat-insight-settings",
+        "okta.rule.threat-insight-settings-lookup",
+        "okta.rule.trusted-origin",
+        "okta.rule.trusted-origin-lookup",
+        "okta.rule.trusted-server"
+      ],
+      "required_facts": [
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:okta_app_saml.portal",
+          "to": "representation:1:root:resource:okta_inline_hook.token",
+          "type": "uses-inline-hook",
+          "rule": "okta.rule.app-saml"
+        },
+        {
+          "collection": "contributions",
+          "from": "representation:1:root:resource:okta_auth_server_scope.read",
+          "to": "representation:1:root:resource:okta_auth_server.api",
+          "rule": "okta.rule.auth-server-scope"
+        },
+        {
+          "collection": "contributions",
+          "from": "representation:1:root:resource:okta_domain_verification.login",
+          "to": "representation:1:root:resource:okta_domain.login",
+          "rule": "okta.rule.domain-verification"
+        }
+      ],
+      "required_outcomes": {
+        "okta_user.must_not_create_topology": "no-rule",
+        "okta_org_configuration.primary": "representation-present",
+        "okta_auth_server.api": "representation-present",
+        "okta_policy_rule_idp_discovery.routing": "representation-present"
+      },
+      "expected_html_labels": [
+        "Okta org",
+        "Okta OIDC app integration",
+        "Okta Authorization Server",
+        "Okta SAML Identity Provider",
+        "Okta log stream",
+        "Okta Security Events Provider"
+      ],
+      "forbidden_output": [
+        "ROOTFORM_OKTA_PROVIDER_TOKEN_SENTINEL",
+        "ROOTFORM_OKTA_APP_SECRET_SENTINEL",
+        "ROOTFORM_OKTA_IDP_SECRET_SENTINEL",
+        "ROOTFORM_OKTA_DOMAIN_PRIVATE_KEY_SENTINEL",
+        "ROOTFORM_OKTA_HOOK_HEADER_SENTINEL",
+        "ROOTFORM_OKTA_LOG_TOKEN_SENTINEL",
+        "ROOTFORM_OKTA_USER_PROFILE_SENTINEL"
+      ]
+    },
+    {
+      "id": "okta-fail-closed",
+      "fixture": "fixtures/okta-v7/boundary",
+      "limitations": [
+        "negative fixture proves literals, ambiguity, dangling references, target mismatches, and depends_on create no unresolved facts while partial IR preserves bases"
+      ],
+      "expected_build_failure": true,
+      "expected_diagnostic_codes": [
+        "DEPENDENCY_DANGLING",
+        "FACT_TARGET_MISMATCH",
+        "TRAVERSAL_AMBIGUOUS",
+        "TRAVERSAL_DANGLING",
+        "TRAVERSAL_UNRESOLVED"
+      ],
+      "forbidden_output": [
+        "ROOTFORM_OKTA_BOUNDARY_SECRET_SENTINEL"
+      ]
+    }
+  ]
+}

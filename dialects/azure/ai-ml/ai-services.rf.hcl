@@ -1,0 +1,18 @@
+# Maintained directly from pinned provider evidence.
+concept "ai-service-account" {
+  description = "An Azure AI services account exposing managed AI APIs."
+}
+
+rule "ai-services-account" {
+  match {
+    type = "azurerm_cognitive_account"
+  }
+
+  as = concept.ai-service-account
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

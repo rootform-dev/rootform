@@ -10,13 +10,13 @@ does not inspect live cloud state.
 
 Create `policies/` beside tutorial infrastructure:
 
-```hcl title="policies/pack.rf"
+```hcl title="policies/pack.rf.hcl"
 policy_pack "tutorial" {
   version = "0.1.0"
 }
 ```
 
-```hcl title="policies/subnet-network-context.rf"
+```hcl title="policies/subnet-network-context.rf.hcl"
 policy "subnet-network-context" {
   target {
     concept = rf.concept.subnet
@@ -41,18 +41,27 @@ Local source is compiled for this invocation and never added to
 `rootform.lock`. Unchanged tutorial starts with:
 
 ```text title="Passed check (excerpt)"
-status compliant; 1 policy, 1 evaluation, 1 passed, 0 violated, 0 indeterminate, 0 not evaluated
+Policies compliant
+
+Policies     1 selected
+Evaluations  1
+Results      1 passed
 ```
 
 If subnet `vpc_id` becomes unresolved literal, context emission is incomplete.
 Result is indeterminate, not violation:
 
 ```text title="Indeterminate check (unresolved traversal)"
-status indeterminate; 1 policy, 1 evaluation, 0 passed, 0 violated, 1 indeterminate, 0 not evaluated
+Policies indeterminate
+
+Policies     1 selected
+Evaluations  1
+Results      1 indeterminate
 ```
 
-Target with no matching representation yields zero evaluations and
-`not_evaluated`; it is distinct from no selected Policies. See
+Target with no matching representation yields zero evaluations and is reported
+as `not evaluated`; it is distinct from no selected Policies. Machine output
+keeps status value `not_evaluated`. See
 [policy outcomes](../concepts/policies.md#zero-evaluations-are-not-approval).
 
 ## Inspect Policy and evidence

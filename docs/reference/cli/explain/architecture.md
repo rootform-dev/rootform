@@ -21,6 +21,12 @@ rootform explain architecture <address> [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain architecture |
 | ` --input ` | ` string ` | ` "" ` | read the architecture at `path`; - reads standard input |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Show how an architecture element is implemented and which semantic

@@ -9,14 +9,24 @@ packaged, published, installed, vendored, indexed, or selected independently.
 OCI dialect packaging remains the format for explicit third-party Dialects
 and explicit replacements.
 
-Rootform Dialects use OCI image manifests and content-addressed
-blobs. This document defines wire compatibility; it does not claim that any
-registry artifact has been published. There is no Dialect index artifact and
-no implicit discovery default. Required registry
+## Official source ownership
+
+Maintained supplied Dialect sources live under [`dialects/`](../dialects/) in
+the public Rootform repository. `dialects.json` inventories each owner and
+version; every owner keeps an independent content identity. The directory has
+no collection version and is the only active public source for official
+Dialects. Engine and Web consume an exact Rootform source commit when building
+release artifacts. The former standalone source repository is archival and is
+not a runtime or build dependency.
+
+Explicit third-party and replacement Dialects use OCI image manifests and
+content-addressed blobs. This document defines that wire compatibility; it does
+not claim that any registry artifact has been published. There is no Dialect
+index artifact and no implicit discovery default. Required registry
 behavior is the forge-neutral
 [`rootform-oci-core-v1`](rootform-oci-core-profile.md) profile.
 
-## Dialect artifact
+## Third-party Dialect artifact
 
 One dialect version is an OCI 1.1 artifact with:
 
@@ -37,7 +47,7 @@ dependency list.
 Layer is deterministic gzip over deterministic tar. Entries are regular files
 with normalized mode, ownership, and timestamps. Allowed content is limited to:
 
-- Rootform dialect sources: `*.rf` and `*.rf.json`;
+- Rootform dialect sources: `*.rf.hcl` and `*.rf.json`;
 - one `presentation.json`;
 - license and notice text named `LICENSE*`, `NOTICE*`, or
   `THIRD_PARTY_NOTICES*`.

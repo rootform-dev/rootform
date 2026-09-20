@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "dynatrace-monitor" {
+  match {
+    type = "azurerm_dynatrace_monitor"
+  }
+
+  as = concept.third-party-monitor
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

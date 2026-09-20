@@ -63,7 +63,12 @@ violation.
 A check with no selected pack reports:
 
 ```text
-status not_evaluated; 0 policies, 0 evaluations, 0 passed, 0 violated, 0 indeterminate, 0 not evaluated
+Policies not evaluated
+
+Policies     0 selected
+Evaluations  0
+
+No policy was selected.
 ```
 
 A selected Policy whose target matches no representation also contributes zero

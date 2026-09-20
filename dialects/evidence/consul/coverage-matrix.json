@@ -1,0 +1,1269 @@
+{
+  "format_version": "1",
+  "verified_date": "2026-08-30",
+  "provider": "hashicorp/consul",
+  "provider_version": "2.23.0",
+  "methodology": {
+    "inventory": "exhaustive",
+    "semantic_research": "deep where architecture candidates require it",
+    "coverage_decision": "exhaustive"
+  },
+  "rows": [
+    {
+      "construct": "consul_acl_auth_method",
+      "construct_kind": "data_source",
+      "contexts": [
+        "consul.context.ownership"
+      ],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/acl_auth_method",
+      "reason": "architecture-role: durable Consul service networking, tenant, identity, gateway, catalog, or connectivity boundary",
+      "relations": [],
+      "rootform_concepts": [
+        "consul.rule.acl-auth-method"
+      ],
+      "rules": [
+        "consul.rule.acl-auth-method-lookup"
+      ],
+      "semantic_research": "deep",
+      "status": "rule-present",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_acl_policy",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/acl_policy",
+      "reason": "authorization-configuration: policy, role, or attachment is detailed IAM configuration",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_acl_role",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/acl_role",
+      "reason": "authorization-configuration: policy, role, or attachment is detailed IAM configuration",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_acl_token",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/acl_token",
+      "reason": "credential-material: token, secret, or license payload has no durable architecture role",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_acl_token_secret_id",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/acl_token_secret_id",
+      "reason": "credential-material: token, secret, or license payload has no durable architecture role",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_agent_config",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "platform",
+      "product": "platform-operations",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/agent_config",
+      "reason": "lookup-helper: operational, plural, or agent inspection cannot prove an independent architecture boundary",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_agent_self",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "platform",
+      "product": "platform-operations",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/agent_self",
+      "reason": "lookup-helper: operational, plural, or agent inspection cannot prove an independent architecture boundary",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_autopilot_health",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "platform",
+      "product": "platform-operations",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/autopilot_health",
+      "reason": "lookup-helper: operational, plural, or agent inspection cannot prove an independent architecture boundary",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_catalog_nodes",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "service-catalog",
+      "product": "service-catalog",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/catalog_nodes",
+      "reason": "lookup-helper: aggregate lookup cannot be expanded into synthetic architecture nodes",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_catalog_service",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "service-catalog",
+      "product": "service-catalog",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/catalog_service",
+      "reason": "architecture-role: durable Consul service networking, tenant, identity, gateway, catalog, or connectivity boundary",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/consul-service"
+      ],
+      "rules": [
+        "consul.rule.catalog-service-lookup"
+      ],
+      "semantic_research": "deep",
+      "status": "rule-present",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_catalog_services",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "service-catalog",
+      "product": "service-catalog",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/catalog_services",
+      "reason": "lookup-helper: aggregate lookup cannot be expanded into synthetic architecture nodes",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_config_entry",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "service-networking",
+      "product": "configuration-entries",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/config_entry",
+      "reason": "kind-bounded architecture: documented kinds become durable owners or helper details while opaque config_json is never read",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/discovery-chain-configuration",
+        "consul/gateway-configuration",
+        "consul/ingress-gateway",
+        "consul/jwt-provider",
+        "consul/mesh-security-configuration",
+        "consul/operations-configuration",
+        "consul/sameness-group",
+        "consul/service-export",
+        "consul/service-mesh",
+        "consul/service-networking-configuration",
+        "consul/terminating-gateway",
+        "consul.concept.api-gateway"
+      ],
+      "rules": [
+        "consul.rule.config-entry-api-gateway-json-lookup",
+        "consul.rule.config-entry-control-plane-request-limit-json-lookup",
+        "consul.rule.config-entry-exported-services-json-lookup",
+        "consul.rule.config-entry-file-system-certificate-json-lookup",
+        "consul.rule.config-entry-http-route-json-lookup",
+        "consul.rule.config-entry-ingress-gateway-json-lookup",
+        "consul.rule.config-entry-inline-certificate-json-lookup",
+        "consul.rule.config-entry-jwt-provider-json-lookup",
+        "consul.rule.config-entry-mesh-json-lookup",
+        "consul.rule.config-entry-proxy-defaults-json-lookup",
+        "consul.rule.config-entry-sameness-group-json-lookup",
+        "consul.rule.config-entry-service-defaults-json-lookup",
+        "consul.rule.config-entry-service-intentions-json-lookup",
+        "consul.rule.config-entry-service-resolver-json-lookup",
+        "consul.rule.config-entry-service-router-json-lookup",
+        "consul.rule.config-entry-service-splitter-json-lookup",
+        "consul.rule.config-entry-tcp-route-json-lookup",
+        "consul.rule.config-entry-terminating-gateway-json-lookup"
+      ],
+      "semantic_research": "deep",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ],
+      "treatment": "mixed"
+    },
+    {
+      "construct": "consul_config_entry_v2_exported_services",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [
+        "cluster-peering",
+        "consul-service",
+        "sameness-group"
+      ],
+      "family": "connectivity",
+      "product": "connectivity",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/config_entry_v2_exported_services",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/service-export"
+      ],
+      "rules": [
+        "consul.rule.config-entry-v2-exported-services-lookup"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_datacenters",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "platform",
+      "product": "platform-operations",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/datacenters",
+      "reason": "lookup-helper: operational, plural, or agent inspection cannot prove an independent architecture boundary",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_key_prefix",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "key-value",
+      "product": "key-value",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/key_prefix",
+      "reason": "kv-payload: key/value configuration may contain secrets and owns no independent topology",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_keys",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "key-value",
+      "product": "key-value",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/keys",
+      "reason": "kv-payload: key/value configuration may contain secrets and owns no independent topology",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_network_area_members",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "connectivity",
+      "product": "connectivity",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/network_area_members",
+      "reason": "lookup-helper: operational, plural, or agent inspection cannot prove an independent architecture boundary",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_network_segments",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "multi-tenancy",
+      "product": "multi-tenancy",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/network_segments",
+      "reason": "lookup-helper: operational, plural, or agent inspection cannot prove an independent architecture boundary",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_nodes",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "service-catalog",
+      "product": "service-catalog",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/nodes",
+      "reason": "lookup-helper: aggregate lookup cannot be expanded into synthetic architecture nodes",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_peering",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "connectivity",
+      "product": "connectivity",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/peering",
+      "reason": "architecture-role: durable Consul service networking, tenant, identity, gateway, catalog, or connectivity boundary",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/cluster-peering"
+      ],
+      "rules": [
+        "consul.rule.peering-lookup"
+      ],
+      "semantic_research": "deep",
+      "status": "rule-present",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_peerings",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "connectivity",
+      "product": "connectivity",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/peerings",
+      "reason": "lookup-helper: aggregate lookup cannot be expanded into synthetic architecture nodes",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_service",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "service-catalog",
+      "product": "service-catalog",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/service",
+      "reason": "architecture-role: durable Consul service networking, tenant, identity, gateway, catalog, or connectivity boundary",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/consul-service"
+      ],
+      "rules": [
+        "consul.rule.service-lookup"
+      ],
+      "semantic_research": "deep",
+      "status": "rule-present",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_service_health",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [
+        "consul-service"
+      ],
+      "family": "service-catalog",
+      "product": "service-catalog",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/service_health",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/operations-configuration"
+      ],
+      "rules": [
+        "consul.rule.service-health-lookup"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_services",
+      "construct_kind": "data_source",
+      "contexts": [],
+      "contributions": [],
+      "family": "service-catalog",
+      "product": "service-catalog",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/data-sources/services",
+      "reason": "lookup-helper: aggregate lookup cannot be expanded into synthetic architecture nodes",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_acl_auth_method",
+      "construct_kind": "managed_resource",
+      "contexts": [
+        "consul.context.ownership"
+      ],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/acl_auth_method",
+      "reason": "architecture-role: durable Consul service networking, tenant, identity, gateway, catalog, or connectivity boundary",
+      "relations": [],
+      "rootform_concepts": [
+        "consul.rule.acl-auth-method"
+      ],
+      "rules": [
+        "consul.rule.acl-auth-method"
+      ],
+      "semantic_research": "deep",
+      "status": "rule-present",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_acl_binding_rule",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [
+        "acl-auth-method"
+      ],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/acl_binding_rule",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/access-control-configuration"
+      ],
+      "rules": [
+        "consul.rule.acl-binding-rule"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_acl_policy",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/acl_policy",
+      "reason": "authorization-configuration: policy, role, or attachment is detailed IAM configuration",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_acl_role",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/acl_role",
+      "reason": "authorization-configuration: policy, role, or attachment is detailed IAM configuration",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_acl_role_policy_attachment",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/acl_role_policy_attachment",
+      "reason": "authorization-configuration: policy, role, or attachment is detailed IAM configuration",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_acl_token",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/acl_token",
+      "reason": "credential-material: token, secret, or license payload has no durable architecture role",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_acl_token_policy_attachment",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/acl_token_policy_attachment",
+      "reason": "credential-material: token, secret, or license payload has no durable architecture role",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_acl_token_role_attachment",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/acl_token_role_attachment",
+      "reason": "credential-material: token, secret, or license payload has no durable architecture role",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_admin_partition",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "multi-tenancy",
+      "product": "multi-tenancy",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/admin_partition",
+      "reason": "architecture-role: durable Consul service networking, tenant, identity, gateway, catalog, or connectivity boundary",
+      "relations": [],
+      "rootform_concepts": [
+        "consul.rule.admin-partition"
+      ],
+      "rules": [
+        "consul.rule.admin-partition"
+      ],
+      "semantic_research": "deep",
+      "status": "rule-present",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_agent_service",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "platform",
+      "product": "platform-operations",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/agent_service",
+      "reason": "legacy-architecture-role: provider surface remains recognizable with lifecycle-qualified terminology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/consul-service"
+      ],
+      "rules": [
+        "consul.rule.agent-service"
+      ],
+      "semantic_research": "deep",
+      "status": "rule-present",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_autopilot_config",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "platform",
+      "product": "platform-operations",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/autopilot_config",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/operations-configuration"
+      ],
+      "rules": [
+        "consul.rule.autopilot-config"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_catalog_entry",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "service-catalog",
+      "product": "service-catalog",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/catalog_entry",
+      "reason": "no-rule",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/catalog-registration"
+      ],
+      "rules": [],
+      "semantic_research": "deep",
+      "status": "no-rule",
+      "tests": []
+    },
+    {
+      "construct": "consul_certificate_authority",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "service-mesh",
+      "product": "service-mesh",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/certificate_authority",
+      "reason": "no-rule",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/mesh-certificate-authority"
+      ],
+      "rules": [],
+      "semantic_research": "deep",
+      "status": "no-rule",
+      "tests": []
+    },
+    {
+      "construct": "consul_config_entry",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "service-networking",
+      "product": "configuration-entries",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/config_entry",
+      "reason": "kind-bounded architecture: documented kinds become durable owners or helper details while opaque config_json is never read",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/discovery-chain-configuration",
+        "consul/gateway-configuration",
+        "consul/ingress-gateway",
+        "consul/jwt-provider",
+        "consul/mesh-security-configuration",
+        "consul/operations-configuration",
+        "consul/sameness-group",
+        "consul/service-export",
+        "consul/service-mesh",
+        "consul/service-networking-configuration",
+        "consul/terminating-gateway",
+        "consul.concept.api-gateway"
+      ],
+      "rules": [
+        "consul.rule.config-entry-api-gateway-json",
+        "consul.rule.config-entry-control-plane-request-limit-json",
+        "consul.rule.config-entry-exported-services-json",
+        "consul.rule.config-entry-file-system-certificate-json",
+        "consul.rule.config-entry-http-route-json",
+        "consul.rule.config-entry-ingress-gateway-json",
+        "consul.rule.config-entry-inline-certificate-json",
+        "consul.rule.config-entry-jwt-provider-json",
+        "consul.rule.config-entry-mesh-json",
+        "consul.rule.config-entry-proxy-defaults-json",
+        "consul.rule.config-entry-sameness-group-json",
+        "consul.rule.config-entry-service-defaults-json",
+        "consul.rule.config-entry-service-intentions-json",
+        "consul.rule.config-entry-service-resolver-json",
+        "consul.rule.config-entry-service-router-json",
+        "consul.rule.config-entry-service-splitter-json",
+        "consul.rule.config-entry-tcp-route-json",
+        "consul.rule.config-entry-terminating-gateway-json"
+      ],
+      "semantic_research": "deep",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ],
+      "treatment": "mixed"
+    },
+    {
+      "construct": "consul_config_entry_service_defaults",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [
+        "consul-service"
+      ],
+      "family": "service-mesh",
+      "product": "service-mesh",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/config_entry_service_defaults",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/service-networking-configuration"
+      ],
+      "rules": [
+        "consul.rule.config-entry-service-defaults"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_config_entry_service_intentions",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [
+        "consul-service"
+      ],
+      "family": "service-mesh",
+      "product": "service-mesh",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/config_entry_service_intentions",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/mesh-security-configuration"
+      ],
+      "rules": [
+        "consul.rule.config-entry-service-intentions"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_config_entry_service_resolver",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [
+        "consul-service"
+      ],
+      "family": "traffic-management",
+      "product": "traffic-management",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/config_entry_service_resolver",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/discovery-chain-configuration"
+      ],
+      "rules": [
+        "consul.rule.config-entry-service-resolver"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_config_entry_service_router",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [
+        "consul-service"
+      ],
+      "family": "traffic-management",
+      "product": "traffic-management",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/config_entry_service_router",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/discovery-chain-configuration"
+      ],
+      "rules": [
+        "consul.rule.config-entry-service-router"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_config_entry_service_splitter",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [
+        "consul-service"
+      ],
+      "family": "traffic-management",
+      "product": "traffic-management",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/config_entry_service_splitter",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/discovery-chain-configuration"
+      ],
+      "rules": [
+        "consul.rule.config-entry-service-splitter"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_config_entry_v2_exported_services",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [
+        "cluster-peering",
+        "consul-service",
+        "sameness-group"
+      ],
+      "family": "connectivity",
+      "product": "connectivity",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/config_entry_v2_exported_services",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/service-export"
+      ],
+      "rules": [
+        "consul.rule.config-entry-v2-exported-services"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_intention",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [
+        "consul-service"
+      ],
+      "family": "service-mesh",
+      "product": "service-mesh",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/intention",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/mesh-security-configuration"
+      ],
+      "rules": [
+        "consul.rule.intention"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_key_prefix",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "key-value",
+      "product": "key-value",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/key_prefix",
+      "reason": "kv-payload: key/value configuration may contain secrets and owns no independent topology",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_keys",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "key-value",
+      "product": "key-value",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/keys",
+      "reason": "kv-payload: key/value configuration may contain secrets and owns no independent topology",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_license",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "platform",
+      "product": "platform-operations",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/license",
+      "reason": "credential-material: token, secret, or license payload has no durable architecture role",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_namespace",
+      "construct_kind": "managed_resource",
+      "contexts": [
+        "consul.context.ownership"
+      ],
+      "contributions": [],
+      "family": "multi-tenancy",
+      "product": "multi-tenancy",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/namespace",
+      "reason": "architecture-role: durable Consul service networking, tenant, identity, gateway, catalog, or connectivity boundary",
+      "relations": [],
+      "rootform_concepts": [
+        "consul.rule.namespace"
+      ],
+      "rules": [
+        "consul.rule.namespace"
+      ],
+      "semantic_research": "deep",
+      "status": "rule-present",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_namespace_policy_attachment",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [
+        "namespace"
+      ],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/namespace_policy_attachment",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/access-control-configuration"
+      ],
+      "rules": [
+        "consul.rule.namespace-policy-attachment"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_namespace_role_attachment",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [
+        "namespace"
+      ],
+      "family": "identity-access",
+      "product": "identity-access",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/namespace_role_attachment",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/access-control-configuration"
+      ],
+      "rules": [
+        "consul.rule.namespace-role-attachment"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_network_area",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "connectivity",
+      "product": "connectivity",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/network_area",
+      "reason": "no-rule",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "deep",
+      "status": "no-rule",
+      "tests": []
+    },
+    {
+      "construct": "consul_node",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "service-catalog",
+      "product": "service-catalog",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/node",
+      "reason": "architecture-role: durable Consul service networking, tenant, identity, gateway, catalog, or connectivity boundary",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/consul-node"
+      ],
+      "rules": [
+        "consul.rule.node"
+      ],
+      "semantic_research": "deep",
+      "status": "rule-present",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_peering",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "connectivity",
+      "product": "connectivity",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/peering",
+      "reason": "architecture-role: durable Consul service networking, tenant, identity, gateway, catalog, or connectivity boundary",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/cluster-peering"
+      ],
+      "rules": [
+        "consul.rule.peering"
+      ],
+      "semantic_research": "deep",
+      "status": "rule-present",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_peering_token",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [],
+      "family": "connectivity",
+      "product": "connectivity",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/peering_token",
+      "reason": "credential-material: token, secret, or license payload has no durable architecture role",
+      "relations": [],
+      "rootform_concepts": [],
+      "rules": [],
+      "semantic_research": "concise",
+      "status": "no-rule",
+      "tests": [
+        "consul-coverage-validator"
+      ],
+      "treatment": "no-rule"
+    },
+    {
+      "construct": "consul_prepared_query",
+      "construct_kind": "managed_resource",
+      "contexts": [],
+      "contributions": [
+        "consul-service"
+      ],
+      "family": "service-catalog",
+      "product": "service-catalog",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/prepared_query",
+      "reason": "member-configuration: configuration remains explicit without independent topology",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/discovery-chain-configuration"
+      ],
+      "rules": [
+        "consul.rule.prepared-query"
+      ],
+      "semantic_research": "concise",
+      "status": "partial-rule",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    },
+    {
+      "construct": "consul_service",
+      "construct_kind": "managed_resource",
+      "contexts": [
+        "consul.context.ownership",
+        "rf.context.runtime"
+      ],
+      "contributions": [],
+      "family": "service-catalog",
+      "product": "service-catalog",
+      "proof_url": "https://registry.terraform.io/providers/hashicorp/consul/2.23.0/docs/resources/service",
+      "reason": "architecture-role: durable Consul service networking, tenant, identity, gateway, catalog, or connectivity boundary",
+      "relations": [],
+      "rootform_concepts": [
+        "consul/consul-service"
+      ],
+      "rules": [
+        "consul.rule.service"
+      ],
+      "semantic_research": "deep",
+      "status": "rule-present",
+      "tests": [
+        "consul-compiler-scenarios"
+      ]
+    }
+  ]
+}

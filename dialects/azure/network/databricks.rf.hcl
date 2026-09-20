@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "databricks-virtual-network-peering" {
+  match {
+    type = "azurerm_databricks_virtual_network_peering"
+  }
+
+  as = concept.network-peering
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

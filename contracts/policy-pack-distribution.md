@@ -43,7 +43,7 @@ never in the source package.
 Layer is deterministic gzip over deterministic tar. Entries are regular files
 with normalized mode, ownership, and timestamps. Allowed content is limited to:
 
-- Rootform policy sources: `*.rf` and `*.rf.json`;
+- Rootform policy sources: `*.rf.hcl` and `*.rf.json`;
 - license and notice text named `LICENSE*`, `NOTICE*`, or
   `THIRD_PARTY_NOTICES*`.
 

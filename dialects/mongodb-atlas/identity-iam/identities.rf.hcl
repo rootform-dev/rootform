@@ -1,0 +1,316 @@
+concept "cloud-provider-access" {
+  description = "A MongoDB Atlas project integration prepared to access a customer cloud provider."
+}
+
+concept "cloud-provider-authorization" {
+  description = "An authorized customer cloud identity that MongoDB Atlas can assume or use."
+}
+
+concept "identity-provider" {
+  description = "An external identity provider integrated with MongoDB Atlas."
+}
+
+concept "identity-configuration" {
+  description = "An identity, role, assignment, credential boundary, or access setting supporting Atlas."
+}
+
+rule "cloud-provider-access-setup" {
+  match {
+    type = "mongodbatlas_cloud_provider_access_setup"
+  }
+
+  as = concept.cloud-provider-access
+
+  context {
+    as  = context.ownership
+    to  = concept.project
+    via = source.project_id
+  }
+
+  relation "uses-cloud-identity" {
+    to  = rf.concept.service-identity
+    via = source.azure_config[0].service_principal_id
+  }
+}
+
+rule "cloud-provider-access-authorization" {
+  match {
+    type = "mongodbatlas_cloud_provider_access_authorization"
+  }
+
+  as = concept.cloud-provider-authorization
+
+  context {
+    as  = context.ownership
+    to  = concept.project
+    via = source.project_id
+  }
+
+  relation "authorizes-cloud-identity" {
+    to  = rf.concept.service-identity
+    via = source.azure[0].service_principal_id
+  }
+
+  relation "authorizes-access" {
+    to  = concept.cloud-provider-access
+    via = source.role_id
+  }
+}
+
+rule "project-service-account" {
+  match {
+    type = "mongodbatlas_project_service_account"
+  }
+
+  as = rf.concept.service-identity
+
+  context {
+    as  = context.ownership
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "organization-service-account" {
+  match {
+    type = "mongodbatlas_service_account"
+  }
+
+  as = rf.concept.service-identity
+
+  context {
+    as  = context.ownership
+    to  = concept.organization
+    via = source.org_id
+  }
+}
+
+rule "team" {
+  match {
+    type = "mongodbatlas_team"
+  }
+
+  as = concept.identity-group
+
+  context {
+    as  = context.ownership
+    to  = concept.organization
+    via = source.org_id
+  }
+}
+
+rule "federated-identity-provider" {
+  match {
+    type = "mongodbatlas_federated_settings_identity_provider"
+  }
+
+  as = concept.identity-provider
+}
+
+rule "ldap-configuration" {
+  match {
+    type = "mongodbatlas_ldap_configuration"
+  }
+
+  as = concept.identity-provider
+
+  context {
+    as  = context.ownership
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "api-key-project-assignment" {
+  match {
+    type = "mongodbatlas_api_key_project_assignment"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "cloud-user-organization-assignment" {
+  match {
+    type = "mongodbatlas_cloud_user_org_assignment"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = concept.organization
+    via = source.org_id
+  }
+}
+
+rule "cloud-user-project-assignment" {
+  match {
+    type = "mongodbatlas_cloud_user_project_assignment"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "cloud-user-team-assignment" {
+  match {
+    type = "mongodbatlas_cloud_user_team_assignment"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = concept.organization
+    via = source.org_id
+  }
+
+  contribution {
+    to  = concept.identity-group
+    via = source.team_id
+  }
+}
+
+rule "custom-database-role" {
+  match {
+    type = "mongodbatlas_custom_db_role"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "database-user" {
+  match {
+    type = "mongodbatlas_database_user"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "federated-organization-configuration" {
+  match {
+    type = "mongodbatlas_federated_settings_org_config"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = concept.organization
+    via = source.org_id
+  }
+}
+
+rule "federated-organization-role-mapping" {
+  match {
+    type = "mongodbatlas_federated_settings_org_role_mapping"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = concept.organization
+    via = source.org_id
+  }
+}
+
+rule "project-service-account-access-list" {
+  match {
+    type = "mongodbatlas_project_service_account_access_list_entry"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = rf.concept.service-identity
+    via = source.client_id
+  }
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "organization-service-account-access-list" {
+  match {
+    type = "mongodbatlas_service_account_access_list_entry"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = rf.concept.service-identity
+    via = source.client_id
+  }
+
+  contribution {
+    to  = concept.organization
+    via = source.org_id
+  }
+}
+
+rule "service-account-project-assignment" {
+  match {
+    type = "mongodbatlas_service_account_project_assignment"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = rf.concept.service-identity
+    via = source.client_id
+  }
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "team-project-assignment" {
+  match {
+    type = "mongodbatlas_team_project_assignment"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = concept.identity-group
+    via = source.team_id
+  }
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "x509-database-user" {
+  match {
+    type = "mongodbatlas_x509_authentication_database_user"
+  }
+
+  as = concept.identity-configuration
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}

@@ -1,0 +1,72 @@
+# Maintained directly from pinned provider evidence.
+concept "event-stream" {
+  description = "An Azure Event Hubs append-only event stream."
+}
+
+rule "event-hub" {
+  match {
+    type = "azurerm_eventhub"
+  }
+
+  as = concept.event-stream
+
+  context {
+    as  = context.ownership
+    to  = concept.messaging-namespace
+    via = source.namespace_id
+  }
+}
+
+rule "event-hubs-cluster" {
+  match {
+    type = "azurerm_eventhub_cluster"
+  }
+
+  as = concept.event-stream
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "event-hubs-consumer-group" {
+  match {
+    type = "azurerm_eventhub_consumer_group"
+  }
+
+  as = concept.messaging-detail
+
+  contribution {
+    to  = concept.event-stream
+    via = source.eventhub_name
+  }
+}
+
+rule "event-hubs-namespace" {
+  match {
+    type = "azurerm_eventhub_namespace"
+  }
+
+  as = concept.messaging-namespace
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "event-hubs-schema-group" {
+  match {
+    type = "azurerm_eventhub_namespace_schema_group"
+  }
+
+  as = concept.messaging-detail
+
+  contribution {
+    to  = concept.messaging-namespace
+    via = source.namespace_id
+  }
+}

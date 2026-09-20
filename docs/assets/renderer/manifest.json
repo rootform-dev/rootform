@@ -1,57 +1,57 @@
 {
   "format_version": "1",
   "binary": {
-    "version": "rootform 0.1.1",
-    "sha256": "08f7b492b3a3379b267791f9009487850045ec87942417e1eab2eac03e6b6502"
+    "version": "rootform 0.1.0",
+    "sha256": "52bd84bb2c6de982fe71c8af49c5b869d54b65c6d6a9592781ec46fe146f8058"
   },
   "fixtures": {
     "commerce-platform-base": {
       "files": {
-        "example.json": "ef5c57312f22687a0b680290348317ab9db5b4852165c1d3e7142f015b9b3546",
+        "example.json": "c4dcfef3a4fff98f3a48103817d6e4bcb13f98792d4ecf26223583349ea802da",
         "main.tf": "85a36ba8c21566f25a3f10d73de727e95a5359c75b5456f305d6057d9af32994",
-        "rootform.lock": "09e07fd1cfa42403a4987ce9fd41e828e349b20322959d40555be41c59685df0"
+        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
       },
-      "architecture_sha256": "08f2f088bf4fac97ed18eb4a451c8c07b24c2aac54db5979b9275e22b3e8e204"
+      "architecture_sha256": "6d6e5e556760e2672768f7d160843574633741ad378ede8cae79c6f2bc0b7572"
     },
     "commerce-platform-head": {
       "files": {
-        "example.json": "728e6b0b9e4e27fa0bff02ecd3f500c65c14913c82c0be716a19b6de60aead4b",
+        "example.json": "0db3ce376306457efe72dc78381ca42824b1097eacac3d574b98c7ae2514e536",
         "main.tf": "f5becb72df95ae80320084ddd1f1db3d23da43784042c1ab89bbffa051d970e8",
-        "rootform.lock": "09e07fd1cfa42403a4987ce9fd41e828e349b20322959d40555be41c59685df0"
+        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
       },
-      "architecture_sha256": "ffe067da3ac575867c23fd6cb7e1f19093d7121dfccfefae8af1c9684accb819"
-    },
-    "shared-data-platform-base": {
-      "files": {
-        "example.json": "4fe487ce2b442d719abad5abc1b1014d9646ef5cd631826bf12af242f742528a",
-        "main.tf": "1265e2c5b6e215e624efc985ebe5b1200b0d0cc950b1b282a5d7252c0f069c18",
-        "rootform.lock": "cc2f178ee82c74ab82ba36c71f99a4809f286530a8ba20b7ece584b97be156bd"
-      },
-      "architecture_sha256": "c0c9b585b14929d33a77d70b8e42fb6469e80b827eab45015305223bac3315df"
-    },
-    "shared-data-platform-head": {
-      "files": {
-        "example.json": "f1e45ef5dc6130d6dbed5b1dca679f332eda400b7a41368b6726c93d9baf2441",
-        "main.tf": "d874304a18320bf19027b85bf37b5d3e37286431120b3961f626fa5628214ffa",
-        "rootform.lock": "cc2f178ee82c74ab82ba36c71f99a4809f286530a8ba20b7ece584b97be156bd"
-      },
-      "architecture_sha256": "0d28f3164bb41f8786bdc4e3a6be2ea7e6508284d20722d7115c2bf25e093aaf"
+      "architecture_sha256": "d4327ab519cebe80debe2123371b3b28df9688b2d5927fdc1df11ae6cf6d4f4a"
     },
     "event-driven-platform-base": {
       "files": {
-        "example.json": "79127d707cfdfe50e3fb65cff2ada11ea9a10cf48f1067a3ac8d60a40f5638e1",
+        "example.json": "a8a479308de7c868a8579965b37f1aa7ccb955da7d0f3eaa47c26a46ac58b22d",
         "main.tf": "84f418865a528d0b175a4911bcd3be8067bc833e85040ad183433f387d50fd75",
-        "rootform.lock": "aa11b05f47a70738351ec5f2ea16cfe259bc12f96547d3d86626324463f94a68"
+        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
       },
-      "architecture_sha256": "0c92f77186f4b447adb63f6cffb1995f1479faefbb5ebb583f549a1cf7480060"
+      "architecture_sha256": "6e010fe8c42f92946733d122761754eafaf2505184ff13e3e7572e30146a8408"
     },
     "event-driven-platform-head": {
       "files": {
-        "example.json": "718af4f3eb5eac1e9ff2a928cad0f81255ac1249553d60eccbb8d014932740c1",
+        "example.json": "85f5e8439ad810381c7aa1c15586a6d129f2220f23e4c7c2ac7da25a4899f093",
         "main.tf": "a158c56093964f40f6177fa26d49af59ec8e160c62d99f7bc70d61df8db32f5f",
-        "rootform.lock": "aa11b05f47a70738351ec5f2ea16cfe259bc12f96547d3d86626324463f94a68"
+        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
       },
-      "architecture_sha256": "1af198a496fb361e952c31f3b0974346d0962291539b20d3ae973c26f18c06f4"
+      "architecture_sha256": "810d59b7202b61733a3bd2d42811e3da2a1deffce4d6e3ec118aa1fbb84b5d3f"
+    },
+    "shared-data-platform-base": {
+      "files": {
+        "example.json": "d8f8d5e2cf0d41f25cd065ebf5ee4f2a5cd6b14f286cadb15b0e66c5a2c86a8b",
+        "main.tf": "1265e2c5b6e215e624efc985ebe5b1200b0d0cc950b1b282a5d7252c0f069c18",
+        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
+      },
+      "architecture_sha256": "94d9ad5d7e23983c99f4854922a406065058017c044b2b67d0f25bfd494450b9"
+    },
+    "shared-data-platform-head": {
+      "files": {
+        "example.json": "17b64450bf5418e467d7b7fd29af995e2634c12bc20b59bdc92e4a69b59be8fd",
+        "main.tf": "d874304a18320bf19027b85bf37b5d3e37286431120b3961f626fa5628214ffa",
+        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
+      },
+      "architecture_sha256": "bfdef486385520a1944e2d792dd3ad2d3590841bc274875cc8ff55a814dd6a58"
     }
   },
   "comparisons": {
@@ -59,19 +59,19 @@
       "base": "commerce-platform-base",
       "head": "commerce-platform-head",
       "diff": "commerce-platform-diff",
-      "sha256": "b314a4d542bc9e255672e54f9b5716b5d6038d444ebcdb3b80c79c1063c1e186"
-    },
-    "shared-data-platform": {
-      "base": "shared-data-platform-base",
-      "head": "shared-data-platform-head",
-      "diff": "shared-data-platform-diff",
-      "sha256": "094dcb5f7d78ba795c92e107d3abc756d4d2ce7f902c04fd4c3d41c54a30afdb"
+      "sha256": "5e0899c8fbbfdac93ff6e4223d74af695391e850831b5c20fae80bbee2133cce"
     },
     "event-driven-platform": {
       "base": "event-driven-platform-base",
       "head": "event-driven-platform-head",
       "diff": "event-driven-platform-diff",
-      "sha256": "abc3ded05a0a1195ef09a77f5bb881e6c179568e862a1bc99e2524c23ce005a6"
+      "sha256": "ff60034fbc6ad82390b6578ac84af4345a526497f41a4b62f4b1a720d906d717"
+    },
+    "shared-data-platform": {
+      "base": "shared-data-platform-base",
+      "head": "shared-data-platform-head",
+      "diff": "shared-data-platform-diff",
+      "sha256": "d2f4e246b375f2b833bf625ecd55f76d9c1e069dc61438637cf9e6c71d4b4137"
     }
   }
 }

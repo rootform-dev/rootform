@@ -1,0 +1,71 @@
+concept "dns-forwarding" {
+  description = "A private DNS forwarding boundary associated with an HVN connection."
+}
+
+rule "dns-forwarding" {
+  match {
+    type = "hcp_dns_forwarding"
+  }
+
+  as = concept.dns-forwarding
+
+  context {
+    as  = rf.context.network
+    to  = rf.concept.virtual-network
+    via = source.hvn_id
+  }
+
+  context {
+    as  = context.ownership
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "dns-forwarding-lookup" {
+  match {
+    kind = "data"
+    type = "hcp_dns_forwarding"
+  }
+
+  as = concept.dns-forwarding
+
+  context {
+    as  = rf.context.network
+    to  = rf.concept.virtual-network
+    via = source.hvn_id
+  }
+
+  context {
+    as  = context.ownership
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "dns-forwarding-rule" {
+  match {
+    type = "hcp_dns_forwarding_rule"
+  }
+
+  as = concept.network-configuration
+
+  contribution {
+    to  = concept.dns-forwarding
+    via = source.dns_forwarding_id
+  }
+}
+
+rule "dns-forwarding-rule-lookup" {
+  match {
+    kind = "data"
+    type = "hcp_dns_forwarding_rule"
+  }
+
+  as = concept.network-configuration
+
+  contribution {
+    to  = concept.dns-forwarding
+    via = source.dns_forwarding_id
+  }
+}

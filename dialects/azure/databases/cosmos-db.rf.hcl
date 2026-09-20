@@ -1,0 +1,167 @@
+# Maintained directly from pinned provider evidence.
+concept "cosmos-account" {
+  description = "An Azure Cosmos DB account defining global distribution and API boundaries."
+}
+
+rule "cosmos-account" {
+  match {
+    type = "azurerm_cosmosdb_account"
+  }
+
+  as = concept.cosmos-account
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "cosmos-cassandra-cluster" {
+  match {
+    type = "azurerm_cosmosdb_cassandra_cluster"
+  }
+
+  as = rf.concept.managed-database
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "cosmos-cassandra-keyspace" {
+  match {
+    type = "azurerm_cosmosdb_cassandra_keyspace"
+  }
+
+  as = concept.logical-database
+
+  context {
+    as  = context.ownership
+    to  = concept.cosmos-account
+    via = source.account_name
+  }
+}
+
+rule "cosmos-cassandra-table" {
+  match {
+    type = "azurerm_cosmosdb_cassandra_table"
+  }
+
+  as = concept.database-component
+
+  contribution {
+    to  = concept.logical-database
+    via = source.cassandra_keyspace_id
+  }
+}
+
+rule "cosmos-dedicated-gateway" {
+  match {
+    type = "azurerm_cosmosdb_sql_dedicated_gateway"
+  }
+
+  as = concept.database-component
+
+  contribution {
+    to  = concept.cosmos-account
+    via = source.cosmosdb_account_id
+  }
+}
+
+rule "cosmos-gremlin-database" {
+  match {
+    type = "azurerm_cosmosdb_gremlin_database"
+  }
+
+  as = concept.logical-database
+
+  context {
+    as  = context.ownership
+    to  = concept.cosmos-account
+    via = source.account_name
+  }
+}
+
+rule "cosmos-gremlin-graph" {
+  match {
+    type = "azurerm_cosmosdb_gremlin_graph"
+  }
+
+  as = concept.database-component
+
+  contribution {
+    to  = concept.logical-database
+    via = source.database_name
+  }
+}
+
+rule "cosmos-mongo-collection" {
+  match {
+    type = "azurerm_cosmosdb_mongo_collection"
+  }
+
+  as = concept.database-component
+
+  contribution {
+    to  = concept.logical-database
+    via = source.database_name
+  }
+}
+
+rule "cosmos-mongo-database" {
+  match {
+    type = "azurerm_cosmosdb_mongo_database"
+  }
+
+  as = concept.logical-database
+
+  context {
+    as  = context.ownership
+    to  = concept.cosmos-account
+    via = source.account_name
+  }
+}
+
+rule "cosmos-postgresql-cluster" {
+  match {
+    type = "azurerm_cosmosdb_postgresql_cluster"
+  }
+
+  as = rf.concept.managed-database
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "cosmos-sql-container" {
+  match {
+    type = "azurerm_cosmosdb_sql_container"
+  }
+
+  as = concept.database-component
+
+  contribution {
+    to  = concept.logical-database
+    via = source.database_name
+  }
+}
+
+rule "cosmos-sql-database" {
+  match {
+    type = "azurerm_cosmosdb_sql_database"
+  }
+
+  as = concept.logical-database
+
+  context {
+    as  = context.ownership
+    to  = concept.cosmos-account
+    via = source.account_name
+  }
+}

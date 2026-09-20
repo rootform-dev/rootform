@@ -49,7 +49,7 @@ Therefore `rf.relation.*` and `rf.rule.*` are invalid references.
 
 ## Using RF Vocabulary in a Dialect
 
-```hcl title="subnet.rf"
+```hcl title="subnet.rf.hcl"
 rule "subnet" {
   match {
     type = "example_subnet"

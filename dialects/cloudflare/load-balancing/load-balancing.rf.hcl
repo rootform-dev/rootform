@@ -1,0 +1,82 @@
+concept "origin-pool" {
+  description = "A Cloudflare Load Balancing pool grouping origin endpoints."
+}
+
+concept "load-balancer-monitoring" {
+  description = "Health monitoring configuration supporting Cloudflare Load Balancing."
+}
+
+rule "load-balancer" {
+  match {
+    type = "cloudflare_load_balancer"
+  }
+
+  as = concept.load-balancer
+
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+
+  relation "uses-origin-pool" {
+    to  = concept.origin-pool
+    via = source.default_pools
+  }
+
+  relation "uses-origin-pool" {
+    to  = concept.origin-pool
+    via = source.fallback_pool
+  }
+}
+
+rule "load-balancer-pool" {
+  match {
+    type = "cloudflare_load_balancer_pool"
+  }
+
+  as = concept.origin-pool
+
+  relation "routes-to" {
+    to  = concept.load-balancer
+    via = source.origins[0].address
+  }
+
+  relation "routes-to" {
+    to  = concept.load-balancer
+    via = source.origins[1].address
+  }
+
+  relation "routes-to" {
+    to  = concept.load-balancer
+    via = source.origins[2].address
+  }
+
+  relation "routes-to" {
+    to  = concept.load-balancer
+    via = source.origins[3].address
+  }
+}
+
+rule "load-balancer-monitor" {
+  match {
+    type = "cloudflare_load_balancer_monitor"
+  }
+
+  as = concept.load-balancer-monitoring
+}
+rule "load-balancer-monitor-group" {
+  match {
+    type = "cloudflare_load_balancer_monitor_group"
+  }
+
+  as = concept.load-balancer-monitoring
+}
+
+rule "healthcheck" {
+  match {
+    type = "cloudflare_healthcheck"
+  }
+
+  as = concept.load-balancer-monitoring
+}

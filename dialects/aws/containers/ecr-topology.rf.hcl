@@ -1,0 +1,25 @@
+rule "ecr-repository" {
+  match {
+    type = "aws_ecr_repository"
+  }
+
+  as = concept.container-repository
+}
+
+rule "ecr-lifecycle-policy" {
+  match {
+    type = "aws_ecr_lifecycle_policy"
+  }
+
+  as = concept.repository-configuration
+
+  contribution {
+    to  = concept.container-repository
+    via = source.repository
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+  }
+}

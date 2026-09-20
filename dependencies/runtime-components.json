@@ -59,8 +59,8 @@
       "license_declared": "MPL-2.0",
       "license_text_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
       "name": "Rootform Dialects presentation catalogs",
-      "upstream": "https://github.com/rootform-dev/dialects/tree/0ca26d1a085f822b60e7a87d66aa3cb632f32e6c",
-      "version": "0ca26d1a085f822b60e7a87d66aa3cb632f32e6c"
+      "upstream": "https://github.com/rootform-dev/rootform/tree/e8630dd248b6058b7f777035a7791730a3f1394f",
+      "version": "e8630dd248b6058b7f777035a7791730a3f1394f"
     },
     {
       "copyright_text": "(c) under Patent Claims infringed by Covered Software in the absence of",
@@ -69,8 +69,8 @@
       "license_declared": "MPL-2.0",
       "license_text_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
       "name": "Rootform Dialects",
-      "upstream": "https://github.com/rootform-dev/dialects/tree/0ca26d1a085f822b60e7a87d66aa3cb632f32e6c",
-      "version": "0ca26d1a085f822b60e7a87d66aa3cb632f32e6c"
+      "upstream": "https://github.com/rootform-dev/rootform/tree/e8630dd248b6058b7f777035a7791730a3f1394f",
+      "version": "e8630dd248b6058b7f777035a7791730a3f1394f"
     },
     {
       "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2016 ALRUX Inc.",
@@ -455,16 +455,6 @@
       "version": "1.40.0"
     },
     {
-      "copyright_text": "Copyright (c) 2023-2024 Quang Phan",
-      "kind": "web-package",
-      "license_concluded": "MIT",
-      "license_declared": "MIT",
-      "license_text_sha256": "648eaefbc3c5df7b73740a3878c0a02609288baa6f5f8fd01229a02a09bc91d3",
-      "name": "@svelte-put/shortcut",
-      "upstream": "https://github.com/vnphanquang/svelte-put",
-      "version": "4.2.0"
-    },
-    {
       "copyright_text": "Copyright (c) 2022 Tyreal Hu; Copyright (c) 2025 The Svelte Team",
       "kind": "web-package",
       "license_concluded": "MIT",
@@ -480,89 +470,9 @@
       "license_concluded": "MIT",
       "license_declared": "MIT",
       "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
-      "name": "@types/d3-color",
-      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-      "version": "3.1.3"
-    },
-    {
-      "copyright_text": "Copyright (c) Microsoft Corporation.",
-      "kind": "web-package",
-      "license_concluded": "MIT",
-      "license_declared": "MIT",
-      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
-      "name": "@types/d3-drag",
-      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-      "version": "3.0.7"
-    },
-    {
-      "copyright_text": "Copyright (c) Microsoft Corporation.",
-      "kind": "web-package",
-      "license_concluded": "MIT",
-      "license_declared": "MIT",
-      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
-      "name": "@types/d3-interpolate",
-      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-      "version": "3.0.4"
-    },
-    {
-      "copyright_text": "Copyright (c) Microsoft Corporation.",
-      "kind": "web-package",
-      "license_concluded": "MIT",
-      "license_declared": "MIT",
-      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
-      "name": "@types/d3-selection",
-      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-      "version": "3.0.11"
-    },
-    {
-      "copyright_text": "Copyright (c) Microsoft Corporation.",
-      "kind": "web-package",
-      "license_concluded": "MIT",
-      "license_declared": "MIT",
-      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
-      "name": "@types/d3-transition",
-      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-      "version": "3.0.9"
-    },
-    {
-      "copyright_text": "Copyright (c) Microsoft Corporation.",
-      "kind": "web-package",
-      "license_concluded": "MIT",
-      "license_declared": "MIT",
-      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
-      "name": "@types/d3-zoom",
-      "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
-      "version": "3.0.8"
-    },
-    {
-      "copyright_text": "Copyright (c) Microsoft Corporation.",
-      "kind": "web-package",
-      "license_concluded": "MIT",
-      "license_declared": "MIT",
-      "license_text_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
       "name": "@types/estree",
       "upstream": "https://github.com/DefinitelyTyped/DefinitelyTyped",
       "version": "1.0.9"
-    },
-    {
-      "copyright_text": "Copyright (c) 2019-2025 webkid GmbH",
-      "kind": "web-package",
-      "license_concluded": "MIT",
-      "license_declared": "MIT",
-      "license_text_sha256": "023119ac20fb1c8c9930abe0bcd196989a1960388529a96fc43cebf96f07c9ff",
-      "name": "@xyflow/svelte",
-      "upstream": "https://github.com/xyflow/xyflow",
-      "version": "1.6.6"
-    },
-    {
-      "copyright_text": "Copyright (c) 2019-2025 webkid GmbH",
-      "kind": "web-package",
-      "license_concluded": "MIT",
-      "license_declared": "MIT",
-      "license_text_sha256": "023119ac20fb1c8c9930abe0bcd196989a1960388529a96fc43cebf96f07c9ff",
-      "name": "@xyflow/system",
-      "upstream": "https://github.com/xyflow/xyflow",
-      "version": "0.0.82"
     },
     {
       "copyright_text": "Copyright (C) 2012-2022 by various contributors (see AUTHORS)",
@@ -615,96 +525,6 @@
       "version": "2.1.1"
     },
     {
-      "copyright_text": "Copyright 2010-2022 Mike Bostock",
-      "kind": "web-package",
-      "license_concluded": "ISC",
-      "license_declared": "ISC",
-      "license_text_sha256": "faa682e3e430941f958d26180458f5934a62f58dac4d70ccdd15608c15d0f884",
-      "name": "d3-color",
-      "upstream": "https://github.com/d3/d3-color",
-      "version": "3.1.0"
-    },
-    {
-      "copyright_text": "Copyright 2010-2021 Mike Bostock",
-      "kind": "web-package",
-      "license_concluded": "ISC",
-      "license_declared": "ISC",
-      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
-      "name": "d3-dispatch",
-      "upstream": "https://github.com/d3/d3-dispatch",
-      "version": "3.0.1"
-    },
-    {
-      "copyright_text": "Copyright 2010-2021 Mike Bostock",
-      "kind": "web-package",
-      "license_concluded": "ISC",
-      "license_declared": "ISC",
-      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
-      "name": "d3-drag",
-      "upstream": "https://github.com/d3/d3-drag",
-      "version": "3.0.0"
-    },
-    {
-      "copyright_text": "Copyright 2010-2021 Mike Bostock; Copyright 2001 Robert Penner",
-      "kind": "web-package",
-      "license_concluded": "BSD-3-Clause",
-      "license_declared": "BSD-3-Clause",
-      "license_text_sha256": "b989d9085148d21ff64a75e14462aefa06b2589a55553b07b1460c70081c7d08",
-      "name": "d3-ease",
-      "upstream": "https://github.com/d3/d3-ease",
-      "version": "3.0.1"
-    },
-    {
-      "copyright_text": "Copyright 2010-2021 Mike Bostock",
-      "kind": "web-package",
-      "license_concluded": "ISC",
-      "license_declared": "ISC",
-      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
-      "name": "d3-interpolate",
-      "upstream": "https://github.com/d3/d3-interpolate",
-      "version": "3.0.1"
-    },
-    {
-      "copyright_text": "Copyright 2010-2021 Mike Bostock",
-      "kind": "web-package",
-      "license_concluded": "ISC",
-      "license_declared": "ISC",
-      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
-      "name": "d3-selection",
-      "upstream": "https://github.com/d3/d3-selection",
-      "version": "3.0.0"
-    },
-    {
-      "copyright_text": "Copyright 2010-2021 Mike Bostock",
-      "kind": "web-package",
-      "license_concluded": "ISC",
-      "license_declared": "ISC",
-      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
-      "name": "d3-timer",
-      "upstream": "https://github.com/d3/d3-timer",
-      "version": "3.0.1"
-    },
-    {
-      "copyright_text": "Copyright 2010-2021 Mike Bostock",
-      "kind": "web-package",
-      "license_concluded": "ISC",
-      "license_declared": "ISC",
-      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
-      "name": "d3-transition",
-      "upstream": "https://github.com/d3/d3-transition",
-      "version": "3.0.1"
-    },
-    {
-      "copyright_text": "Copyright 2010-2021 Mike Bostock",
-      "kind": "web-package",
-      "license_concluded": "ISC",
-      "license_declared": "ISC",
-      "license_text_sha256": "e008c5e25a6be382593089c29bfabbc553c6378eee02895aec46ce396cc404ee",
-      "name": "d3-zoom",
-      "upstream": "https://github.com/d3/d3-zoom",
-      "version": "3.0.0"
-    },
-    {
       "copyright_text": "Copyright (c) Luke Edwards <luke.edwards05@gmail.com> (lukeed.com)",
       "kind": "web-package",
       "license_concluded": "MIT",
@@ -723,16 +543,6 @@
       "name": "devalue",
       "upstream": "https://www.npmjs.com/package/devalue",
       "version": "5.9.0"
-    },
-    {
-      "copyright_text": "NOASSERTION",
-      "kind": "web-package",
-      "license_concluded": "EPL-2.0",
-      "license_declared": "EPL-2.0 OR GPL-3.0-or-later",
-      "license_text_sha256": "637e81f4a1b6b4079535c499fca05e238cf7605c1ff5b76d60d7da7ce96700c9",
-      "name": "elkjs",
-      "upstream": "https://github.com/kieler/elkjs",
-      "version": "0.12.0"
     },
     {
       "copyright_text": "Copyright 2022 Benjamin McCann",

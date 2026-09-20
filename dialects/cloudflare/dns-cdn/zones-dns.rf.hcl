@@ -1,0 +1,265 @@
+concept "edge-route" {
+  description = "A Cloudflare proxied hostname routing edge traffic to an application endpoint."
+}
+
+concept "dns-record-detail" {
+  description = "A DNS record contributing to a Cloudflare zone without independent architecture identity."
+}
+
+concept "zone-configuration" {
+  description = "Configuration contributing to a Cloudflare zone."
+}
+
+
+concept "custom-hostname" {
+  description = "A customer hostname onboarded through Cloudflare for SaaS."
+}
+
+concept "saas-fallback-origin" {
+  description = "A default origin for Cloudflare for SaaS custom hostnames."
+}
+
+concept "web3-hostname" {
+  description = "A Cloudflare Web3 gateway hostname."
+}
+
+concept "dns-view" {
+  description = "A Cloudflare internal DNS view grouping zones for split-horizon resolution."
+}
+
+concept "dns-transfer-peer" {
+  description = "An authoritative DNS peer participating in secondary zone transfers."
+}
+
+concept "dns-transfer-configuration" {
+  description = "Secondary DNS transfer, ACL, or TSIG configuration."
+}
+
+rule "zone" {
+  match {
+    type = "cloudflare_zone"
+  }
+
+  as = concept.dns-zone
+}
+
+rule "proxied-dns-record" {
+  match {
+    type  = "cloudflare_dns_record"
+    where = source.proxied == true
+  }
+
+  as = concept.edge-route
+
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+
+  relation "routes-to" {
+    to  = concept.load-balancer
+    via = source.content
+  }
+}
+
+rule "dns-record" {
+  match {
+    type  = "cloudflare_dns_record"
+    where = source.proxied != true
+  }
+
+  as = concept.dns-record-detail
+
+  contribution {
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+}
+
+rule "zone-dnssec" {
+  match {
+    type = "cloudflare_zone_dnssec"
+  }
+
+  as = concept.zone-configuration
+
+  contribution {
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+}
+
+rule "zone-setting" {
+  match {
+    type = "cloudflare_zone_setting"
+  }
+
+  as = concept.zone-configuration
+
+  contribution {
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+}
+
+rule "zone-dns-settings" {
+  match {
+    type = "cloudflare_zone_dns_settings"
+  }
+
+  as = concept.zone-configuration
+
+  contribution {
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+}
+
+rule "zone-hold" {
+  match {
+    type = "cloudflare_zone_hold"
+  }
+
+  as = concept.zone-configuration
+
+  contribution {
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+}
+
+
+rule "custom-hostname" {
+  match {
+    type = "cloudflare_custom_hostname"
+  }
+
+  as = concept.custom-hostname
+
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+}
+
+rule "custom-hostname-fallback-origin" {
+  match {
+    type = "cloudflare_custom_hostname_fallback_origin"
+  }
+
+  as = concept.saas-fallback-origin
+
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+
+  relation "routes-to" {
+    to  = concept.load-balancer
+    via = source.origin
+  }
+}
+
+rule "web3-hostname" {
+  match {
+    type = "cloudflare_web3_hostname"
+  }
+
+  as = concept.web3-hostname
+
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+}
+
+rule "account-dns-internal-view" {
+  match {
+    type = "cloudflare_account_dns_settings_internal_view"
+  }
+
+  as = concept.dns-view
+
+  relation "includes-zone" {
+    to  = concept.dns-zone
+    via = source.zones
+  }
+}
+
+rule "regional-hostname" {
+  match {
+    type = "cloudflare_regional_hostname"
+  }
+
+  as = concept.edge-route
+
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+}
+
+rule "dns-transfer-peer" {
+  match {
+    type = "cloudflare_dns_zone_transfers_peer"
+  }
+
+  as = concept.dns-transfer-peer
+}
+
+rule "dns-transfer-incoming" {
+  match {
+    type = "cloudflare_dns_zone_transfers_incoming"
+  }
+
+  as = concept.dns-transfer-configuration
+
+  contribution {
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+
+  contribution {
+    to  = concept.dns-transfer-peer
+    via = source.peers
+  }
+}
+
+rule "dns-transfer-outgoing" {
+  match {
+    type = "cloudflare_dns_zone_transfers_outgoing"
+  }
+
+  as = concept.dns-transfer-configuration
+
+  contribution {
+    to  = concept.dns-zone
+    via = source.zone_id
+  }
+
+  contribution {
+    to  = concept.dns-transfer-peer
+    via = source.peers
+  }
+}
+
+rule "dns-transfer-acl" {
+  match {
+    type = "cloudflare_dns_zone_transfers_acl"
+  }
+
+  as = concept.dns-transfer-configuration
+}
+
+rule "dns-transfer-tsig" {
+  match {
+    type = "cloudflare_dns_zone_transfers_tsig"
+  }
+
+  as = concept.dns-transfer-configuration
+}

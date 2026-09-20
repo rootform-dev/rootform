@@ -1,0 +1,70 @@
+concept "bigquery-dataset" {
+  description = "A BigQuery dataset that organizes tables and their access boundary."
+}
+
+concept "bigquery-table" {
+  description = "A table managed inside a BigQuery dataset."
+}
+
+rule "bigquery-dataset" {
+  match {
+    type = "google_bigquery_dataset"
+  }
+
+  as = concept.bigquery-dataset
+}
+
+rule "bigquery-table" {
+  match {
+    type = "google_bigquery_table"
+  }
+
+  as = concept.bigquery-table
+
+  context {
+    as  = context.ownership
+    to  = concept.bigquery-dataset
+    via = source.dataset_id
+
+    match {
+      by       = target.dataset_id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "bigquery-dataset-access" {
+  match {
+    type = "google_bigquery_dataset_access"
+  }
+
+  as = concept.access-binding
+
+  contribution {
+    to  = concept.bigquery-dataset
+    via = source.dataset_id
+
+    match {
+      by       = target.dataset_id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "bigquery-table-iam-member" {
+  match {
+    type = "google_bigquery_table_iam_member"
+  }
+
+  as = concept.access-binding
+
+  contribution {
+    to  = concept.bigquery-table
+    via = source.table_id
+
+    match {
+      by       = target.table_id
+      strategy = "exact"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+concept "service-integration" {
+  description = "A Datadog connection that collects telemetry from an external service or account."
+}
+
+concept "service-integration-configuration" {
+  description = "A resource or service selection supporting a Datadog integration."
+}
+
+rule "action-connection" {
+  match {
+    type = "datadog_action_connection"
+  }
+
+  as = concept.service-integration
+}
+
+rule "action-connection-lookup" {
+  match {
+    kind = "data"
+    type = "datadog_action_connection"
+  }
+
+  as = concept.service-integration
+}
+
+rule "integration-cloudflare-account" {
+  match {
+    type = "datadog_integration_cloudflare_account"
+  }
+
+  as = concept.service-integration
+}
+
+rule "integration-confluent-account" {
+  match {
+    type = "datadog_integration_confluent_account"
+  }
+
+  as = concept.service-integration
+}
+
+rule "integration-confluent-resource" {
+  match {
+    type = "datadog_integration_confluent_resource"
+  }
+
+  as = concept.service-integration-configuration
+
+  contribution {
+    to  = concept.service-integration
+    via = source.account_id
+  }
+}
+
+rule "integration-fastly-account" {
+  match {
+    type = "datadog_integration_fastly_account"
+  }
+
+  as = concept.service-integration
+}
+
+rule "integration-fastly-service" {
+  match {
+    type = "datadog_integration_fastly_service"
+  }
+
+  as = concept.service-integration-configuration
+
+  contribution {
+    to  = concept.service-integration
+    via = source.account_id
+  }
+}

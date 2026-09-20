@@ -50,13 +50,26 @@ rootform diff before.json after.json
 Observed output:
 
 ```text title="Diff output"
-+ context "rf.context.network" from representation:1:root:resource:aws_subnet.database to representation:1:root:resource:aws_vpc.main
-+ rf.concept.subnet "database"
+Architecture changed
+
+Resources  +1
+Contexts   +1
+
+Resources
+  + aws_subnet.database
+      as rf.concept.subnet "database"
+
+Contexts
+  + aws_subnet.database  rf.context.network  aws_vpc.main
+
 ```
 
-The two additions are architectural results: a representation classified as
-`rf.concept.subnet` and its network context. Both came from one new source
-resource. Diff reports architectural meaning, not a list of Terraform edits.
+Each entry names the source address first and its architectural
+interpretation underneath. The two additions are architectural results: a
+resource classified as `rf.concept.subnet` and its network context. Both came
+from one new source resource. Diff reports architectural meaning, not a list
+of Terraform edits. Source declaration counts remain available in JSON for
+automation.
 
 The command exits `0` even though changes exist. Request a difference status
 when a change must gate automation:
@@ -73,7 +86,7 @@ Expect the same text and exit status `1`. For an identical pair:
 rootform diff before.json before.json --exit-code
 ```
 
-Expect `no architectural change` and status `0`.
+Expect `Architecture unchanged` and status `0`.
 
 ## Save a report
 

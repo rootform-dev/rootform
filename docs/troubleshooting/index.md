@@ -77,7 +77,8 @@ change.
 
 Read `summary.policies`, `summary.evaluations`, and linked pins. No selected
 pack means zero Policies. Selected Policy with no matching Concept/Rule target
-means `not_evaluated`. Both exit 3; machine result distinguishes them.
+means `not evaluated`. Both exit 3; machine result uses `not_evaluated` and
+distinguishes them.
 
 ## Policy indeterminate
 

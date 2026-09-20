@@ -1,0 +1,18 @@
+# Maintained directly from pinned provider evidence.
+concept "trusted-signing-account" {
+  description = "An Azure Artifact Signing account."
+}
+
+rule "trusted-signing-account" {
+  match {
+    type = "azurerm_trusted_signing_account"
+  }
+
+  as = concept.trusted-signing-account
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

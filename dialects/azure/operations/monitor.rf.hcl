@@ -1,0 +1,191 @@
+# Maintained directly from pinned provider evidence.
+concept "application-insights" {
+  description = "An Azure Monitor Application Insights application resource."
+}
+
+concept "log-analytics-workspace" {
+  description = "An Azure Log Analytics workspace collecting operational data."
+}
+
+concept "monitor-workspace" {
+  description = "An Azure Monitor workspace."
+}
+
+concept "network-watcher" {
+  description = "An Azure Network Watcher regional network monitoring service."
+}
+
+rule "application-insights" {
+  match {
+    type = "azurerm_application_insights"
+  }
+
+  as = concept.application-insights
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+
+  relation "observed-by" {
+    to  = concept.log-analytics-workspace
+    via = source.workspace_id
+  }
+}
+
+rule "application-insights-web-test" {
+  match {
+    type = "azurerm_application_insights_standard_web_test"
+  }
+
+  as = concept.operations-detail
+}
+
+rule "log-analytics-cluster" {
+  match {
+    type = "azurerm_log_analytics_cluster"
+  }
+
+  as = concept.log-analytics-workspace
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "log-analytics-data-export-rule" {
+  match {
+    type = "azurerm_log_analytics_data_export_rule"
+  }
+
+  as = concept.operations-detail
+
+  contribution {
+    to  = concept.log-analytics-workspace
+    via = source.workspace_resource_id
+  }
+}
+
+rule "log-analytics-saved-search" {
+  match {
+    type = "azurerm_log_analytics_saved_search"
+  }
+
+  as = concept.operations-detail
+
+  contribution {
+    to  = concept.log-analytics-workspace
+    via = source.log_analytics_workspace_id
+  }
+}
+
+rule "log-analytics-solution" {
+  match {
+    type = "azurerm_log_analytics_solution"
+  }
+
+  as = concept.operations-detail
+
+  contribution {
+    to  = concept.log-analytics-workspace
+    via = source.workspace_resource_id
+  }
+}
+
+rule "log-analytics-workspace" {
+  match {
+    type = "azurerm_log_analytics_workspace"
+  }
+
+  as = concept.log-analytics-workspace
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "log-analytics-workspace-table" {
+  match {
+    type = "azurerm_log_analytics_workspace_table"
+  }
+
+  as = concept.operations-detail
+
+  contribution {
+    to  = concept.log-analytics-workspace
+    via = source.workspace_id
+  }
+}
+
+rule "monitor-action-group" {
+  match {
+    type = "azurerm_monitor_action_group"
+  }
+
+  as = concept.operations-detail
+}
+
+rule "monitor-data-collection-endpoint" {
+  match {
+    type = "azurerm_monitor_data_collection_endpoint"
+  }
+
+  as = concept.operations-detail
+}
+
+rule "monitor-diagnostic-setting" {
+  match {
+    type = "azurerm_monitor_diagnostic_setting"
+  }
+
+  as = concept.operations-detail
+}
+
+rule "monitor-metric-alert" {
+  match {
+    type = "azurerm_monitor_metric_alert"
+  }
+
+  as = concept.operations-detail
+}
+
+rule "monitor-scheduled-query-alert" {
+  match {
+    type = "azurerm_monitor_scheduled_query_rules_alert_v2"
+  }
+
+  as = concept.operations-detail
+}
+
+rule "monitor-workspace" {
+  match {
+    type = "azurerm_monitor_workspace"
+  }
+
+  as = concept.monitor-workspace
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "network-watcher" {
+  match {
+    type = "azurerm_network_watcher"
+  }
+
+  as = concept.network-watcher
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

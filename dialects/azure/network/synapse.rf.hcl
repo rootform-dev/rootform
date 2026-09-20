@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "synapse-private-link-hub" {
+  match {
+    type = "azurerm_synapse_private_link_hub"
+  }
+
+  as = concept.private-link-scope
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
