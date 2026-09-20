@@ -38,8 +38,9 @@ does not satisfy Policy targets by source type alone.
 ## A policy only proves its evaluated assertion
 
 No selected packs means no governance evaluation. A selected policy with no
-matching targets also produces zero evaluations. Both report `not_evaluated`,
-`compliant = false`, and exit 3.
+matching targets also produces zero evaluations. Human output reports
+`not evaluated`; machine output keeps `not_evaluated`. Both set
+`compliant = false` and exit 3.
 
 Policies cannot create missing facts. Review their assumptions against provider
 coverage. A missing fact is known absent only when relevant emission closure is

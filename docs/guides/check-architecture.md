@@ -59,8 +59,9 @@ Evaluations  1
 Results      1 indeterminate
 ```
 
-Target with no matching representation yields zero evaluations and
-`not_evaluated`; it is distinct from no selected Policies. See
+Target with no matching representation yields zero evaluations and is reported
+as `not evaluated`; it is distinct from no selected Policies. Machine output
+keeps status value `not_evaluated`. See
 [policy outcomes](../concepts/policies.md#zero-evaluations-are-not-approval).
 
 ## Inspect Policy and evidence

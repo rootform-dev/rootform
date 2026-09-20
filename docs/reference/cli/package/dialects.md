@@ -33,8 +33,8 @@ rootform package dialects <directory> [flags]
 ## Behavior
 
 Compile an external dialect source set and write one deterministic,
-local-only registry layout of exact dialect packages. Supplied
-dialects stay embedded and are never packaged. Summary goes to
+local-only registry layout of exact dialect packages. Dialects
+embedded in Rootform are never packaged. Summary goes to
 standard output. Diagnostics go to standard error. Nothing is sent
 to a registry.
 

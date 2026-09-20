@@ -38,12 +38,12 @@ embedded in exact binary. The job skips preparation and builds directly:
 rootform build "$project"
 ```
 
-No `--locked` flag, no acquisition, and no network. Supplied Dialects are
+No `--locked` flag, no acquisition, and no network. Embedded Dialects are
 embedded in binary and are never vendored or installed. With no Policy Pack,
 script stops after build because a zero-policy check would correctly return
-`not_evaluated`, not approval.
+`not evaluated`, not approval.
 
-To gate supplied-only architecture with repository-owned policy source, set:
+To gate embedded-only architecture with repository-owned policy source, set:
 
 ```sh
 ROOTFORM_POLICY_PACK=./policies ./ci/rootform-ci.sh
@@ -77,7 +77,7 @@ Environment:
 Pin one exact Rootform release in CI. Install through a checksum-verifying
 setup Action or run an official image by exact tag; never resolve a floating
 `latest`. Verify the installed identity with `rootform version` before
-analysis. The supplied semantics a job reviews are the ones in that exact
+analysis. The embedded semantics a job reviews are the ones in that exact
 binary.
 
 ## Policy coverage and status

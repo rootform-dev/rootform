@@ -76,8 +76,9 @@ already exist locally. The Action never writes the lock.
 
 The main entrypoint always evaluates policies. The project needs a committed
 lock that selects a Policy Pack whose policies have targets for the expected
-architecture. Without that selection, check reports `not_evaluated` and the
-step fails. Check exit status drives the gate:
+architecture. Without that selection, check reports `not evaluated` and the
+machine result uses `not_evaluated`; the step fails. Check exit status drives
+the gate:
 
 | Status | Meaning | Step result |
 | --- | --- | --- |

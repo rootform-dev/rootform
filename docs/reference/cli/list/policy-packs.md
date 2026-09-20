@@ -29,10 +29,10 @@ rootform list policy-packs [flags]
 
 ## Behavior
 
-List the Policy Packs the project selects or that are supplied
+List the Policy Packs the project selects or that are provided
 locally.
 
-With --policy-pack, only the supplied local authoring roots are
+With --policy-pack, only the provided local authoring roots are
 read; otherwise the project selection is loaded. The default
 listing names one Policy Pack per line, -o wide adds version and
 how many policies each declares, and -o json carries the exact

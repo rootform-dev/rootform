@@ -30,7 +30,7 @@ rootform list dialects [flags]
 ## Behavior
 
 List the dialect catalog available to this project: the dialects
-supplied with rootform and the dialects the project selects.
+embedded in Rootform and the dialects the project selects.
 
 With no --dialect selection, every loaded dialect is included. The
 default listing names one dialect per line, -o wide adds version,

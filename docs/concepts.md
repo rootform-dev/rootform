@@ -59,7 +59,7 @@ The same rule applies to evaluation. A result that cannot be determined is diffe
 Given the same supported input and exact semantic selections, Rootform produces the same canonical architecture bytes. Stable identities and ordering let a comparison track meaning without depending on file traversal order or screen coordinates. Provenance lets you ask why a fact exists.
 
 A different Dialect version can change interpretation even when Terraform is
-unchanged. The Rootform binary fixes supplied semantics; `rootform.lock` fixes
+unchanged. The Rootform binary fixes embedded semantics; `rootform.lock` fixes
 external selections. [Locks and offline operation](offline-security.md) explain
 that boundary. [Architecture Diff](concepts/diff.md) distinguishes a changed
 interpretation from an added or removed resource and marks conclusions affected

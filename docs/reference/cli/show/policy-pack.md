@@ -33,7 +33,7 @@ Show a selected or local Policy Pack, including its version, the
 policies it declares, its content identity, and its source location.
 
 The name selects one loaded Policy Pack. With --policy-pack, only the
-supplied local authoring roots are read.
+provided local authoring roots are read.
 
 The text or JSON definition goes to standard output. Diagnostics go
 to standard error.

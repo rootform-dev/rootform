@@ -62,15 +62,14 @@ Resources
 Contexts
   + aws_subnet.database  rf.context.network  aws_vpc.main
 
-Source declarations
-  resource  2 -> 3
 ```
 
 Each entry names the source address first and its architectural
 interpretation underneath. The two additions are architectural results: a
 resource classified as `rf.concept.subnet` and its network context. Both came
 from one new source resource. Diff reports architectural meaning, not a list
-of Terraform edits.
+of Terraform edits. Source declaration counts remain available in JSON for
+automation.
 
 The command exits `0` even though changes exist. Request a difference status
 when a change must gate automation:
