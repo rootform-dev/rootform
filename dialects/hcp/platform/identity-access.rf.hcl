@@ -1,0 +1,148 @@
+concept "access-control-configuration" {
+  description = "An IAM binding, membership, policy, or constraint supporting an HCP boundary."
+}
+
+concept "workload-identity-provider" {
+  description = "An HCP federation boundary exchanging an external workload identity for a service principal."
+}
+
+rule "group" {
+  match {
+    type = "hcp_group"
+  }
+
+  as = concept.identity-group
+}
+
+rule "group-iam-binding" {
+  match {
+    type = "hcp_group_iam_binding"
+  }
+
+  as = concept.access-control-configuration
+
+  contribution {
+    to  = concept.identity-group
+    via = source.name
+  }
+}
+
+rule "group-iam-policy" {
+  match {
+    type = "hcp_group_iam_policy"
+  }
+
+  as = concept.access-control-configuration
+
+  contribution {
+    to  = concept.identity-group
+    via = source.name
+  }
+}
+
+rule "group-lookup" {
+  match {
+    kind = "data"
+    type = "hcp_group"
+  }
+
+  as = concept.identity-group
+}
+
+rule "group-members" {
+  match {
+    type = "hcp_group_members"
+  }
+
+  as = concept.access-control-configuration
+
+  contribution {
+    to  = concept.identity-group
+    via = source.group
+  }
+}
+
+rule "iam-workload-identity-provider" {
+  match {
+    type = "hcp_iam_workload_identity_provider"
+  }
+
+  as = concept.workload-identity-provider
+
+  relation "federates-to" {
+    to  = rf.concept.service-identity
+    via = source.service_principal
+  }
+}
+
+rule "organization-iam-binding" {
+  match {
+    type = "hcp_organization_iam_binding"
+  }
+
+  as = concept.access-control-configuration
+}
+
+rule "organization-iam-policy" {
+  match {
+    type = "hcp_organization_iam_policy"
+  }
+
+  as = concept.access-control-configuration
+}
+
+rule "project-iam-binding" {
+  match {
+    type = "hcp_project_iam_binding"
+  }
+
+  as = concept.access-control-configuration
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "project-iam-policy" {
+  match {
+    type = "hcp_project_iam_policy"
+  }
+
+  as = concept.access-control-configuration
+
+  contribution {
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "resource-control-policy" {
+  match {
+    type = "hcp_resource_control_policy"
+  }
+
+  as = concept.access-control-configuration
+
+  contribution {
+    to  = concept.organization
+    via = source.organization_id
+  }
+}
+
+rule "service-principal" {
+  match {
+    type = "hcp_service_principal"
+  }
+
+  as = rf.concept.service-identity
+}
+
+rule "service-principal-lookup" {
+  match {
+    kind = "data"
+    type = "hcp_service_principal"
+  }
+
+  as = rf.concept.service-identity
+}

@@ -17,6 +17,8 @@ examples, and release metadata.
   offline operation, and integrations;
 - [`examples/`](examples/): synthetic AWS, Azure, GCP, Kubernetes, and
   multi-cloud examples;
+- [`dialects/`](dialects/): maintained official Dialect sources, public
+  evidence, and fixtures embedded in Rootform releases;
 - [`policy-packs/`](policy-packs/): package-ready public Policy Pack examples.
 
 ## Install

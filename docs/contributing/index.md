@@ -10,7 +10,7 @@ repository that owns the change.
 | Change | Public repository |
 | --- | --- |
 | Docs, examples, contracts, distribution | [Rootform](https://github.com/rootform-dev/rootform) |
-| Provider Dialects and their fixtures | [Dialects](https://github.com/rootform-dev/dialects) |
+| Official Dialects and their fixtures | [`dialects/`](../../dialects/) in Rootform |
 | GitHub Action behavior | [Action](https://github.com/rootform-dev/action) |
 
 Compiler and renderer source are private. Report reproducible product problems
@@ -41,8 +41,10 @@ which provider documentation supports the expectation. Remove customer data,
 credentials, state, raw plans, and personal paths.
 
 To change an official provider Dialect, follow [Write a Dialect](../dialect-authoring.md)
-and contribute rules and fixtures to the Dialects repository. A provider-version
-change needs evidence, not a guessed mapping.
+and contribute rules and fixtures under [`dialects/`](../../dialects/). A
+provider-version change needs evidence, not a guessed mapping. Each Dialect
+keeps its own version and content identity; the directory has no collection
+version.
 
 Teams can [write their own Policy Packs](../language/write-policy-pack.md).
 Public examples illustrate authoring patterns; they are not an official or

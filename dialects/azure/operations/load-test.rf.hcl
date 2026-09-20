@@ -1,0 +1,18 @@
+# Maintained directly from pinned provider evidence.
+concept "load-test" {
+  description = "An Azure Load Testing resource."
+}
+
+rule "load-test" {
+  match {
+    type = "azurerm_load_test"
+  }
+
+  as = concept.load-test
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

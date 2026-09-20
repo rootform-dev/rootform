@@ -1,0 +1,117 @@
+concept "flink-compute-pool" {
+  description = "A regional Confluent Cloud for Apache Flink compute pool."
+}
+
+concept "flink-connection" {
+  description = "A managed connection available to Flink statements in a compute pool."
+}
+
+concept "flink-materialized-table" {
+  description = "A Confluent Cloud for Apache Flink materialized table."
+}
+
+concept "flink-artifact" {
+  description = "A user artifact available to Confluent Cloud for Apache Flink."
+}
+
+concept "flink-configuration" {
+  description = "Compute-pool configuration or a Flink SQL statement contributing processing behavior."
+}
+
+rule "flink-compute-pool" {
+  match {
+    type = "confluent_flink_compute_pool"
+  }
+
+  as = concept.flink-compute-pool
+
+  context {
+    as  = context.ownership
+    to  = concept.environment
+    via = source.environment[0].id
+  }
+}
+
+rule "flink-compute-pool-config" {
+  match {
+    type = "confluent_flink_compute_pool_config"
+  }
+
+  as = concept.flink-configuration
+}
+
+rule "flink-connection" {
+  match {
+    type = "confluent_flink_connection"
+  }
+
+  as = concept.flink-connection
+
+  context {
+    as  = rf.context.runtime
+    to  = concept.flink-compute-pool
+    via = source.compute_pool[0].id
+  }
+
+  context {
+    as  = context.ownership
+    to  = concept.environment
+    via = source.environment[0].id
+  }
+
+  relation "uses-principal" {
+    to  = rf.concept.service-identity
+    via = source.principal[0].id
+  }
+}
+
+rule "flink-materialized-table" {
+  match {
+    type = "confluent_flink_materialized_table"
+  }
+
+  as = concept.flink-materialized-table
+
+  context {
+    as  = rf.context.runtime
+    to  = concept.flink-compute-pool
+    via = source.compute_pool[0].id
+  }
+
+  relation "uses-kafka-cluster" {
+    to  = concept.kafka-cluster
+    via = source.kafka_cluster[0].id
+  }
+
+  relation "uses-principal" {
+    to  = rf.concept.service-identity
+    via = source.principal[0].id
+  }
+}
+
+rule "flink-statement" {
+  match {
+    type = "confluent_flink_statement"
+  }
+
+  as = concept.flink-configuration
+
+  contribution {
+    to  = concept.flink-compute-pool
+    via = source.compute_pool[0].id
+  }
+}
+
+rule "flink-artifact" {
+  match {
+    type = "confluent_flink_artifact"
+  }
+
+  as = concept.flink-artifact
+
+  context {
+    as  = context.ownership
+    to  = concept.environment
+    via = source.environment[0].id
+  }
+}

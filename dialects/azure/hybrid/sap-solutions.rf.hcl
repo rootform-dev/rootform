@@ -1,0 +1,42 @@
+# Maintained directly from pinned provider evidence.
+rule "sap-discovery-virtual-instance" {
+  match {
+    type = "azurerm_workloads_sap_discovery_virtual_instance"
+  }
+
+  as = concept.hybrid-platform
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "sap-single-node-virtual-instance" {
+  match {
+    type = "azurerm_workloads_sap_single_node_virtual_instance"
+  }
+
+  as = concept.hybrid-platform
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "sap-three-tier-virtual-instance" {
+  match {
+    type = "azurerm_workloads_sap_three_tier_virtual_instance"
+  }
+
+  as = concept.hybrid-platform
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

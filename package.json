@@ -14,7 +14,7 @@
   },
   "scripts": {
     "assemble:release": "bun scripts/assemble-release.ts",
-    "check": "bun scripts/validate-repository.ts && bun scripts/validate-oci-core-profile.ts && bun scripts/validate-trivy-policy.ts && bun run check:docs && bun run typecheck && bun run check:format && bun test scripts",
+    "check": "bun scripts/validate-repository.ts && bun scripts/validate-oci-core-profile.ts && bun scripts/validate-trivy-policy.ts && bun run check:dialects && bun run check:docs && bun run typecheck && bun run check:format && bun test scripts",
     "check:format": "biome check .github .trivyignore.yaml AGENTS.md README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md TRADEMARKS.md package.json public-export.json contracts dependencies docs examples policy-packs reference scripts schemas",
     "build:image": "bun scripts/build-image.ts",
     "download:handoff": "bun scripts/download-handoff.ts",
@@ -24,6 +24,8 @@
     "test:oci-registry-compatibility": "bun scripts/qualify-registry.ts",
     "typecheck": "tsc --noEmit",
     "verify": "bun scripts/verify.ts",
+    "check:dialects": "bun scripts/dialects/validate.ts && bun test scripts/dialects/*.test.ts",
+    "verify:dialects": "bun scripts/dialects/verify.ts",
     "check:docs": "bun run check:cli && bun scripts/check-docs.ts",
     "check:cli": "bun scripts/generate-cli-reference.ts --check",
     "generate:cli": "bun scripts/generate-cli-reference.ts",

@@ -1,0 +1,15 @@
+{
+  "format_version": "1",
+  "concepts": {
+    "access-role": "generic/identity",
+    "flow": "generic/entity",
+    "namespace": "generic/scope",
+    "user-account": "generic/identity"
+  },
+  "rules": {
+    "binding": "generic/identity",
+    "group": "generic/identity",
+    "namespace-secret": "generic/identity",
+    "user-password": "generic/identity"
+  }
+}

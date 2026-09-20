@@ -1,0 +1,32 @@
+concept "boundary-cluster" {
+  description = "A HashiCorp-managed Boundary control plane on HCP."
+}
+
+rule "boundary-cluster" {
+  match {
+    type = "hcp_boundary_cluster"
+  }
+
+  as = concept.boundary-cluster
+
+  context {
+    as  = context.ownership
+    to  = concept.project
+    via = source.project_id
+  }
+}
+
+rule "boundary-cluster-lookup" {
+  match {
+    kind = "data"
+    type = "hcp_boundary_cluster"
+  }
+
+  as = concept.boundary-cluster
+
+  context {
+    as  = context.ownership
+    to  = concept.project
+    via = source.project_id
+  }
+}

@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "web-pubsub" {
+  match {
+    type = "azurerm_web_pubsub"
+  }
+
+  as = concept.realtime-communication-service
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

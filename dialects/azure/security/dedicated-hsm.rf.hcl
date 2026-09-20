@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "dedicated-hardware-security-module" {
+  match {
+    type = "azurerm_dedicated_hardware_security_module"
+  }
+
+  as = concept.managed-hsm
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

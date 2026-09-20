@@ -1,0 +1,18 @@
+# Maintained directly from pinned provider evidence.
+concept "maintenance-configuration" {
+  description = "An Azure maintenance configuration defining update windows."
+}
+
+rule "maintenance-configuration" {
+  match {
+    type = "azurerm_maintenance_configuration"
+  }
+
+  as = concept.maintenance-configuration
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

@@ -1,0 +1,563 @@
+concept "secret-definition" {
+  description = "A managed Vault secret definition whose values remain outside architecture output."
+}
+
+concept "secret-read" {
+  description = "A read-only lookup of Vault secret material whose values remain outside architecture output."
+}
+
+concept "secrets-engine" {
+  description = "A mounted Vault secrets engine storing, generating, or transforming sensitive data."
+}
+
+concept "secrets-engine-configuration" {
+  description = "A connection, role, library, account, or setting supporting a Vault secrets engine."
+}
+
+rule "ad-secret-backend" {
+  match {
+    type = "vault_ad_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "ad-secret-library" {
+  match {
+    type = "vault_ad_secret_library"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "ad-secret-role" {
+  match {
+    type = "vault_ad_secret_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "alicloud-secret-backend" {
+  match {
+    type = "vault_alicloud_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "alicloud-secret-backend-role" {
+  match {
+    type = "vault_alicloud_secret_backend_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "aws-secret-backend" {
+  match {
+    type = "vault_aws_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+
+}
+
+rule "aws-secret-backend-role" {
+  match {
+    type = "vault_aws_secret_backend_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "aws-secret-backend-static-role" {
+  match {
+    type = "vault_aws_secret_backend_static_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "azure-secret-backend" {
+  match {
+    type = "vault_azure_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "azure-secret-backend-role" {
+  match {
+    type = "vault_azure_secret_backend_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "azure-secret-backend-static-role" {
+  match {
+    type = "vault_azure_secret_backend_static_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "consul-secret-backend" {
+  match {
+    type = "vault_consul_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "consul-secret-backend-role" {
+  match {
+    type = "vault_consul_secret_backend_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "database-secret-backend-connection" {
+  match {
+    type = "vault_database_secret_backend_connection"
+  }
+
+  as = concept.secrets-engine-configuration
+
+  contribution {
+    to  = concept.secrets-engine
+    via = source.backend
+  }
+}
+
+rule "database-secret-backend-role" {
+  match {
+    type = "vault_database_secret_backend_role"
+  }
+
+  as = concept.secrets-engine-configuration
+
+  contribution {
+    to  = concept.secrets-engine
+    via = source.backend
+  }
+}
+
+rule "database-secret-backend-static-role" {
+  match {
+    type = "vault_database_secret_backend_static_role"
+  }
+
+  as = concept.secrets-engine-configuration
+
+  contribution {
+    to  = concept.secrets-engine
+    via = source.backend
+  }
+}
+
+rule "database-secrets-mount" {
+  match {
+    type = "vault_database_secrets_mount"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "gcp-secret-backend" {
+  match {
+    type = "vault_gcp_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+
+  relation "uses-cloud-identity" {
+    to  = rf.concept.service-identity
+    via = source.service_account_email
+  }
+}
+
+rule "gcp-secret-impersonated-account" {
+  match {
+    type = "vault_gcp_secret_impersonated_account"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "gcp-secret-roleset" {
+  match {
+    type = "vault_gcp_secret_roleset"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "gcp-secret-static-account" {
+  match {
+    type = "vault_gcp_secret_static_account"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "gcpkms-secret-backend" {
+  match {
+    type = "vault_gcpkms_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "generic-secret" {
+  match {
+    type = "vault_generic_secret"
+  }
+
+  as = concept.secret-definition
+}
+
+rule "generic-secret-read" {
+  match {
+    kind = "data"
+    type = "vault_generic_secret"
+  }
+
+  as = concept.secret-read
+}
+
+rule "kmip-secret-backend" {
+  match {
+    type = "vault_kmip_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "kubernetes-secret-backend" {
+  match {
+    type = "vault_kubernetes_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+
+  relation "issues-kubernetes-credentials-for" {
+    to  = rf.concept.kubernetes-cluster
+    via = source.kubernetes_host
+  }
+}
+
+rule "kubernetes-secret-backend-role" {
+  match {
+    type = "vault_kubernetes_secret_backend_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "kv-secret" {
+  match {
+    type = "vault_kv_secret"
+  }
+
+  as = concept.secret-definition
+}
+
+rule "kv-secret-backend-v2" {
+  match {
+    type = "vault_kv_secret_backend_v2"
+  }
+
+  as = concept.secrets-engine-configuration
+
+  contribution {
+    to  = concept.secrets-engine
+    via = source.mount
+  }
+}
+
+rule "kv-secret-read" {
+  match {
+    kind = "data"
+    type = "vault_kv_secret"
+  }
+
+  as = concept.secret-read
+}
+
+rule "kv-secret-v2" {
+  match {
+    type = "vault_kv_secret_v2"
+  }
+
+  as = concept.secret-definition
+}
+
+rule "kv-secret-v2-read" {
+  match {
+    kind = "data"
+    type = "vault_kv_secret_v2"
+  }
+
+  as = concept.secret-read
+}
+
+rule "ldap-secret-backend" {
+  match {
+    type = "vault_ldap_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "ldap-secret-backend-dynamic-role" {
+  match {
+    type = "vault_ldap_secret_backend_dynamic_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "ldap-secret-backend-library-set" {
+  match {
+    type = "vault_ldap_secret_backend_library_set"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "ldap-secret-backend-static-role" {
+  match {
+    type = "vault_ldap_secret_backend_static_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "mongodbatlas-secret-backend" {
+  match {
+    type = "vault_mongodbatlas_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "mongodbatlas-secret-role" {
+  match {
+    type = "vault_mongodbatlas_secret_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "mount" {
+  match {
+    type = "vault_mount"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "nomad-secret-backend" {
+  match {
+    type = "vault_nomad_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "nomad-secret-role" {
+  match {
+    type = "vault_nomad_secret_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "os-secret-backend" {
+  match {
+    type = "vault_os_secret_backend"
+  }
+
+  as = concept.secrets-engine-configuration
+
+  contribution {
+    to  = concept.secrets-engine
+    via = source.mount
+  }
+}
+
+rule "os-secret-backend-account" {
+  match {
+    type = "vault_os_secret_backend_account"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "os-secret-backend-host" {
+  match {
+    type = "vault_os_secret_backend_host"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "rabbitmq-secret-backend" {
+  match {
+    type = "vault_rabbitmq_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "rabbitmq-secret-backend-role" {
+  match {
+    type = "vault_rabbitmq_secret_backend_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "spiffe-secret-backend-config" {
+  match {
+    type = "vault_spiffe_secret_backend_config"
+  }
+
+  as = concept.secrets-engine-configuration
+
+  contribution {
+    to  = concept.secrets-engine
+    via = source.mount
+  }
+}
+
+rule "spiffe-secret-backend-role" {
+  match {
+    type = "vault_spiffe_secret_backend_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "ssh-secret-backend-role" {
+  match {
+    type = "vault_ssh_secret_backend_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}
+
+rule "terraform-cloud-secret-backend" {
+  match {
+    type = "vault_terraform_cloud_secret_backend"
+  }
+
+  as = concept.secrets-engine
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.namespace
+  }
+}
+
+rule "terraform-cloud-secret-role" {
+  match {
+    type = "vault_terraform_cloud_secret_role"
+  }
+
+  as = concept.secrets-engine-configuration
+}

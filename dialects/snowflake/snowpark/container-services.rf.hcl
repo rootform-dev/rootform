@@ -1,0 +1,103 @@
+concept "compute-pool" {
+  description = "A Snowpark Container Services compute pool containing managed compute nodes."
+}
+
+concept "image-repository" {
+  description = "A Snowpark Container Services OCI image repository."
+}
+
+concept "container-service" {
+  description = "A Snowpark Container Services workload running on a compute pool."
+}
+
+rule "compute-pool" {
+  match {
+    type = "snowflake_compute_pool"
+  }
+
+  as = concept.compute-pool
+}
+
+rule "image-repository" {
+  match {
+    type = "snowflake_image_repository"
+  }
+
+  as = concept.image-repository
+
+  context {
+    as  = context.ownership
+    to  = concept.schema
+    via = source.schema
+  }
+}
+
+rule "service" {
+  match {
+    type = "snowflake_service"
+  }
+
+  as = concept.container-service
+
+  context {
+    as  = context.ownership
+    to  = concept.schema
+    via = source.schema
+  }
+
+  context {
+    as  = rf.context.runtime
+    to  = concept.compute-pool
+    via = source.compute_pool
+  }
+
+  relation "queries-on-warehouse" {
+    to  = concept.virtual-warehouse
+    via = source.query_warehouse
+  }
+
+  relation "uses-external-access" {
+    to  = concept.external-access-integration
+    via = source.external_access_integrations[0]
+  }
+
+  relation "loads-specification-from-stage" {
+    to  = concept.stage
+    via = source.from_specification[0].stage
+  }
+}
+
+rule "job-service" {
+  match {
+    type = "snowflake_job_service"
+  }
+
+  as = concept.container-service
+
+  context {
+    as  = context.ownership
+    to  = concept.schema
+    via = source.schema
+  }
+
+  context {
+    as  = rf.context.runtime
+    to  = concept.compute-pool
+    via = source.compute_pool
+  }
+
+  relation "queries-on-warehouse" {
+    to  = concept.virtual-warehouse
+    via = source.query_warehouse
+  }
+
+  relation "uses-external-access" {
+    to  = concept.external-access-integration
+    via = source.external_access_integrations[0]
+  }
+
+  relation "loads-specification-from-stage" {
+    to  = concept.stage
+    via = source.from_specification[0].stage
+  }
+}

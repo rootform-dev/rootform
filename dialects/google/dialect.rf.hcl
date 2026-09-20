@@ -1,0 +1,12 @@
+dialect "google" {
+  version = "0.1.0"
+
+
+  provider "hashicorp/google" {
+    version = "= 8.0.0"
+  }
+
+  provider "hashicorp/google-beta" {
+    version = "= 8.0.0"
+  }
+}

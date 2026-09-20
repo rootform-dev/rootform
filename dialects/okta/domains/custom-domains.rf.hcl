@@ -1,0 +1,50 @@
+concept "domain-configuration" {
+  description = "Certificate or verification configuration supporting an Okta custom domain."
+}
+
+concept "identity-domain" {
+  description = "A custom domain exposing an Okta-hosted identity endpoint."
+}
+
+rule "domain" {
+  match {
+    type = "okta_domain"
+  }
+
+  as = concept.identity-domain
+}
+
+rule "domain-certificate" {
+  match {
+    type = "okta_domain_certificate"
+  }
+
+  as = concept.domain-configuration
+
+  contribution {
+    to  = concept.identity-domain
+    via = source.domain_id
+  }
+}
+
+rule "domain-lookup" {
+  match {
+    kind = "data"
+    type = "okta_domain"
+  }
+
+  as = concept.identity-domain
+}
+
+rule "domain-verification" {
+  match {
+    type = "okta_domain_verification"
+  }
+
+  as = concept.domain-configuration
+
+  contribution {
+    to  = concept.identity-domain
+    via = source.domain_id
+  }
+}

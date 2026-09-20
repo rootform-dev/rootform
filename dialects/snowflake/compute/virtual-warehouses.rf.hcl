@@ -1,0 +1,32 @@
+concept "virtual-warehouse" {
+  description = "A Snowflake virtual warehouse providing an independent compute cluster."
+}
+
+rule "warehouse" {
+  match {
+    type = "snowflake_warehouse"
+  }
+
+  as = concept.virtual-warehouse
+}
+
+rule "adaptive-warehouse" {
+  match {
+    type = "snowflake_warehouse_adaptive"
+  }
+
+  as = concept.virtual-warehouse
+}
+
+rule "interactive-warehouse" {
+  match {
+    type = "snowflake_warehouse_interactive"
+  }
+
+  as = concept.virtual-warehouse
+
+  relation "falls-back-to-warehouse" {
+    to  = concept.virtual-warehouse
+    via = source.fallback_warehouse
+  }
+}

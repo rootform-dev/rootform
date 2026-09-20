@@ -1,0 +1,41 @@
+concept "customer-organization" {
+  description = "An Auth0 Organization representing a customer or business audience inside a tenant."
+}
+
+concept "identity-tenant" {
+  description = "An existing Auth0 tenant acting as an identity and authorization boundary."
+}
+
+rule "organization" {
+  match {
+    type = "auth0_organization"
+  }
+
+  as = concept.customer-organization
+}
+
+rule "organization-lookup" {
+  match {
+    kind = "data"
+    type = "auth0_organization"
+  }
+
+  as = concept.customer-organization
+}
+
+rule "tenant" {
+  match {
+    type = "auth0_tenant"
+  }
+
+  as = concept.identity-tenant
+}
+
+rule "tenant-lookup" {
+  match {
+    kind = "data"
+    type = "auth0_tenant"
+  }
+
+  as = concept.identity-tenant
+}

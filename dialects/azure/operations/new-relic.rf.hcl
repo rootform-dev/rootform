@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "new-relic-monitor" {
+  match {
+    type = "azurerm_new_relic_monitor"
+  }
+
+  as = concept.third-party-monitor
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

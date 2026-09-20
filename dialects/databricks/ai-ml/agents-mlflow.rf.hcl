@@ -1,0 +1,127 @@
+concept "knowledge-assistant" {
+  description = "A Databricks Knowledge Assistant grounded in governed enterprise knowledge."
+}
+
+concept "supervisor-agent" {
+  description = "A Databricks supervisor agent coordinating governed tools and specialist agents."
+}
+
+concept "registered-model" {
+  description = "A governed machine-learning model registered in Unity Catalog."
+}
+
+concept "ml-platform-detail" {
+  description = "An experiment, model version, agent tool, feature, or ML configuration supporting Databricks AI and ML."
+}
+
+rule "knowledge-assistant" {
+  match {
+    type = "databricks_knowledge_assistant"
+  }
+
+  as = concept.knowledge-assistant
+}
+
+rule "knowledge-assistant-source" {
+  match {
+    type = "databricks_knowledge_assistant_knowledge_source"
+  }
+
+  as = concept.ml-platform-detail
+
+  contribution {
+    to  = concept.knowledge-assistant
+    via = source.parent
+  }
+}
+
+rule "supervisor-agent" {
+  match {
+    type = "databricks_supervisor_agent"
+  }
+
+  as = concept.supervisor-agent
+}
+
+rule "supervisor-agent-tool" {
+  match {
+    type = "databricks_supervisor_agent_tool"
+  }
+
+  as = concept.ml-platform-detail
+
+  contribution {
+    to  = concept.supervisor-agent
+    via = source.parent
+  }
+}
+
+rule "registered-model" {
+  match {
+    type = "databricks_registered_model"
+  }
+
+  as = concept.registered-model
+
+  context {
+    as  = context.ownership
+    to  = concept.unity-catalog-schema
+    via = source.schema_name
+  }
+}
+
+rule "mlflow-experiment" {
+  match {
+    type = "databricks_mlflow_experiment"
+  }
+
+  as = concept.ml-platform-detail
+}
+
+rule "mlflow-model" {
+  match {
+    type = "databricks_mlflow_model"
+  }
+
+  as = concept.ml-platform-detail
+}
+
+rule "mlflow-webhook" {
+  match {
+    type = "databricks_mlflow_webhook"
+  }
+
+  as = concept.ml-platform-detail
+}
+
+rule "feature-engineering-feature" {
+  match {
+    type = "databricks_feature_engineering_feature"
+  }
+
+  as = concept.ml-platform-detail
+}
+
+rule "feature-engineering-kafka-config" {
+  match {
+    type = "databricks_feature_engineering_kafka_config"
+  }
+
+  as = concept.ml-platform-detail
+}
+
+rule "feature-engineering-materialized-feature" {
+  match {
+    type = "databricks_feature_engineering_materialized_feature"
+  }
+
+  as = concept.ml-platform-detail
+}
+
+rule "materialized-feature-tag" {
+  match {
+    type = "databricks_materialized_features_feature_tag"
+  }
+
+  as = concept.ml-platform-detail
+}

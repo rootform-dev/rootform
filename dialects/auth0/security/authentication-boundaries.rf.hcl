@@ -1,0 +1,98 @@
+concept "authentication-boundary" {
+  description = "An Auth0 Network ACL bounding authentication or management traffic."
+}
+
+concept "authentication-configuration" {
+  description = "Attack protection, MFA, risk, rate-limit, or encryption configuration supporting Auth0."
+}
+
+rule "attack-protection" {
+  match {
+    type = "auth0_attack_protection"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "attack-protection-lookup" {
+  match {
+    kind = "data"
+    type = "auth0_attack_protection"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "encryption-key-manager" {
+  match {
+    type = "auth0_encryption_key_manager"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "guardian" {
+  match {
+    type = "auth0_guardian"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "network-acl" {
+  match {
+    type = "auth0_network_acl"
+  }
+
+  as = concept.authentication-boundary
+}
+
+rule "network-acl-lookup" {
+  match {
+    kind = "data"
+    type = "auth0_network_acl"
+  }
+
+  as = concept.authentication-boundary
+}
+
+rule "rate-limit-policy" {
+  match {
+    type = "auth0_rate_limit_policy"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "rate-limit-policy-lookup" {
+  match {
+    kind = "data"
+    type = "auth0_rate_limit_policy"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "risk-assessments" {
+  match {
+    type = "auth0_risk_assessments"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "risk-assessments-new-device" {
+  match {
+    type = "auth0_risk_assessments_new_device"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "supplemental-signals" {
+  match {
+    type = "auth0_supplemental_signals"
+  }
+
+  as = concept.authentication-configuration
+}

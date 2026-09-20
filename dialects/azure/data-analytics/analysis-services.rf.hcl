@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "analysis-services-server" {
+  match {
+    type = "azurerm_analysis_services_server"
+  }
+
+  as = concept.analytics-cluster
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

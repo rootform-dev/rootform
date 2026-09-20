@@ -41,6 +41,7 @@ const allowedTopLevel = new Set([
   "contracts",
   "dependencies",
   "docs",
+  "dialects",
   "examples",
   "oci",
   "package.json",
@@ -54,7 +55,6 @@ const allowedTopLevel = new Set([
 const forbiddenTopLevel = new Set([
   "apps",
   "cmd",
-  "dialects",
   "internal",
   "packages",
   "specs",
@@ -135,6 +135,12 @@ export function validateRepository(): void {
     "contracts/policy-pack-distribution.md",
     "contracts/rootform-oci-core-profile.md",
     "contracts/rootform-lock.md",
+    "dialects/dialects.json",
+    "dialects/LICENSE",
+    "dialects/README.md",
+    "dialects/THIRD_PARTY_NOTICES.md",
+    "dialects/evidence/auth0/scenarios.json",
+    "dialects/fixtures/auth0-v1/minimal/main.tf",
     "policy-packs/README.md",
     "policy-packs/baseline/LICENSE",
     "policy-packs/baseline/NOTICE",
@@ -181,7 +187,11 @@ export function validateRepository(): void {
       throw new Error(`private implementation material is forbidden: ${path}`);
     }
     if (
-      !["scripts/validate-repository.ts", "scripts/validate-repository.test.ts"].includes(path) &&
+      ![
+        "scripts/validate-repository.ts",
+        "scripts/validate-repository.test.ts",
+        "scripts/dialects/validate.ts",
+      ].includes(path) &&
       /\.(?:json|md|tf|ts|yml|yaml)$/u.test(path)
     ) {
       const body = readFileSync(join(root, path), "utf8");

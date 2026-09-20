@@ -1,0 +1,18 @@
+# Maintained directly from pinned provider evidence.
+concept "network-function-service" {
+  description = "An Azure managed network-function collection or control service."
+}
+
+rule "network-function-traffic-collector" {
+  match {
+    type = "azurerm_network_function_azure_traffic_collector"
+  }
+
+  as = concept.network-function-service
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

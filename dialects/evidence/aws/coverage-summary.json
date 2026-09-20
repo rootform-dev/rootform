@@ -1,0 +1,29 @@
+{
+  "format_version": "1",
+  "total_rows": 3380,
+  "by_inventory": {
+    "catalog-product": 253,
+    "provider-construct": 3127
+  },
+  "provider_constructs": {
+    "managed_resources": 1711,
+    "data_sources": 679,
+    "ephemeral_resources": 10,
+    "actions": 12,
+    "list_resources": 210,
+    "provider_functions": 4,
+    "resource_identities": 501
+  },
+  "rules_with_rows": 108,
+  "by_decision": {
+    "rule-present": 58,
+    "partial-rule": 88,
+    "no-rule": 455
+  },
+  "catalog": {
+    "rule-present": 2,
+    "partial-rule": 36,
+    "no-rule": 215,
+    "no-provider-surface": 82
+  }
+}

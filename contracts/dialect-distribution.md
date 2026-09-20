@@ -9,6 +9,16 @@ packaged, published, installed, vendored, indexed, or selected independently.
 OCI dialect packaging remains the format for explicit third-party Dialects
 and explicit replacements.
 
+## Official source ownership
+
+Maintained supplied Dialect sources live under [`dialects/`](../dialects/) in
+the public Rootform repository. `dialects.json` inventories each owner and
+version; every owner keeps an independent content identity. The directory has
+no collection version and is the only active public source for official
+Dialects. Engine and Web consume an exact Rootform source commit when building
+release artifacts. The former standalone source repository is archival and is
+not a runtime or build dependency.
+
 Rootform Dialects use OCI image manifests and content-addressed
 blobs. This document defines wire compatibility; it does not claim that any
 registry artifact has been published. There is no Dialect index artifact and

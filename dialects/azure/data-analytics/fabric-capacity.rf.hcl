@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "fabric-capacity" {
+  match {
+    type = "azurerm_fabric_capacity"
+  }
+
+  as = concept.analytics-cluster
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

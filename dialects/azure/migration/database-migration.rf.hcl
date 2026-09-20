@@ -1,0 +1,28 @@
+# Maintained directly from pinned provider evidence.
+rule "database-migration-project" {
+  match {
+    type = "azurerm_database_migration_project"
+  }
+
+  as = concept.migration-service
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
+
+rule "database-migration-service" {
+  match {
+    type = "azurerm_database_migration_service"
+  }
+
+  as = concept.migration-service
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

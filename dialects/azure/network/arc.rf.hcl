@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "arc-private-link-scope" {
+  match {
+    type = "azurerm_arc_private_link_scope"
+  }
+
+  as = concept.private-link-scope
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

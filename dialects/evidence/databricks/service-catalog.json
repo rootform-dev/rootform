@@ -1,0 +1,263 @@
+{
+  "format_version": "1",
+  "verified_date": "2026-08-29",
+  "source_url": "https://docs.databricks.com/aws/en/lakehouse-architecture/reference",
+  "derivation": "every provider construct maps to exactly one official product family",
+  "products": [
+    {
+      "id": "account-deployment",
+      "family": "deployment",
+      "official_name": "Databricks account and workspace deployment",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/admin/workspace/",
+      "coverage": "partial-rule",
+      "coverage_reason": "workspace, cloud identity, root storage, keys, log delivery, and disaster recovery are represented; cost policy and human administration stay off topology",
+      "constructs": 13,
+      "counts": {
+        "rule-present": 6,
+        "partial-rule": 1,
+        "no-rule": 6
+      }
+    },
+    {
+      "id": "workspace-platform",
+      "family": "deployment",
+      "official_name": "Databricks workspace platform",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/workspace/",
+      "coverage": "partial-rule",
+      "coverage_reason": "durable workspace and platform settings are represented without inferring ownership from provider configuration or rendering files and notebooks",
+      "constructs": 34,
+      "counts": {
+        "rule-present": 0,
+        "partial-rule": 16,
+        "no-rule": 18
+      }
+    },
+    {
+      "id": "networking",
+      "family": "network",
+      "official_name": "Databricks networking and private connectivity",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/security/network/deployment-architecture",
+      "coverage": "rule-present",
+      "coverage_reason": "classic network registration, service-direct endpoints, private access, NCC, bindings, and private endpoint rules preserve exact cloud targets",
+      "constructs": 13,
+      "counts": {
+        "rule-present": 6,
+        "partial-rule": 2,
+        "no-rule": 5
+      }
+    },
+    {
+      "id": "unity-catalog",
+      "family": "data-governance",
+      "official_name": "Unity Catalog",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/data-governance/unity-catalog/",
+      "coverage": "rule-present",
+      "coverage_reason": "metastore, catalog, schema, external location, credentials, volumes, data details, storage, identity, and workspace assignment are represented",
+      "constructs": 43,
+      "counts": {
+        "rule-present": 8,
+        "partial-rule": 9,
+        "no-rule": 26
+      }
+    },
+    {
+      "id": "federation-sharing",
+      "family": "data-governance",
+      "official_name": "Lakehouse Federation and Delta Sharing",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/query-federation/",
+      "coverage": "rule-present",
+      "coverage_reason": "Lakehouse Federation connections and Delta Sharing provider, share, and recipient boundaries are represented without parsing opaque connection options",
+      "constructs": 7,
+      "counts": {
+        "rule-present": 4,
+        "partial-rule": 0,
+        "no-rule": 3
+      }
+    },
+    {
+      "id": "compute",
+      "family": "compute",
+      "official_name": "Databricks compute",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/compute/",
+      "coverage": "rule-present",
+      "coverage_reason": "compute clusters, instance pools, policies, environments, libraries, and cloud identity relations are represented",
+      "constructs": 20,
+      "counts": {
+        "rule-present": 2,
+        "partial-rule": 7,
+        "no-rule": 11
+      }
+    },
+    {
+      "id": "databricks-sql",
+      "family": "compute",
+      "official_name": "Databricks SQL",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/sql/",
+      "coverage": "rule-present",
+      "coverage_reason": "SQL warehouses are architecture entities while SQL access settings remain details",
+      "constructs": 8,
+      "counts": {
+        "rule-present": 1,
+        "partial-rule": 3,
+        "no-rule": 4
+      }
+    },
+    {
+      "id": "lakeflow",
+      "family": "orchestration",
+      "official_name": "Lakeflow Jobs and Lakeflow pipelines",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/data-engineering/",
+      "coverage": "rule-present",
+      "coverage_reason": "Lakeflow Jobs reuse core workflow and pipelines retain durable orchestration boundaries without task or notebook nodes",
+      "constructs": 9,
+      "counts": {
+        "rule-present": 2,
+        "partial-rule": 0,
+        "no-rule": 7
+      }
+    },
+    {
+      "id": "applications-bi",
+      "family": "applications",
+      "official_name": "Databricks Apps and AI/BI",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/dev-tools/databricks-apps/",
+      "coverage": "partial-rule",
+      "coverage_reason": "Databricks Apps, app spaces, and notification destinations are visible; dashboards, alerts, queries, and widgets remain details",
+      "constructs": 25,
+      "counts": {
+        "rule-present": 3,
+        "partial-rule": 12,
+        "no-rule": 10
+      }
+    },
+    {
+      "id": "mosaic-ai",
+      "family": "ai-ml",
+      "official_name": "Mosaic AI serving, search, gateway, and agents",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/machine-learning/model-serving",
+      "coverage": "rule-present",
+      "coverage_reason": "model serving, AI and vector search, AI Gateway, Knowledge Assistants, supervisor agents, and exact endpoint/index topology are represented",
+      "constructs": 32,
+      "counts": {
+        "rule-present": 11,
+        "partial-rule": 2,
+        "no-rule": 19
+      }
+    },
+    {
+      "id": "ml-platform",
+      "family": "ai-ml",
+      "official_name": "Databricks machine learning and MLflow",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/machine-learning/",
+      "coverage": "partial-rule",
+      "coverage_reason": "registered models are visible while experiments, model metadata, features, webhooks, and tools remain bounded details",
+      "constructs": 21,
+      "counts": {
+        "rule-present": 1,
+        "partial-rule": 7,
+        "no-rule": 13
+      }
+    },
+    {
+      "id": "lakebase",
+      "family": "databases",
+      "official_name": "Lakebase",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/oltp/projects/core-concepts",
+      "coverage": "rule-present",
+      "coverage_reason": "Autoscaling projects, branches, endpoints, databases, Data API, provisioned instances, and unmodeled database configuration are represented",
+      "constructs": 35,
+      "counts": {
+        "rule-present": 6,
+        "partial-rule": 6,
+        "no-rule": 23
+      }
+    },
+    {
+      "id": "feature-serving",
+      "family": "databases",
+      "official_name": "Databricks Feature Engineering and online serving",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/machine-learning/feature-store/",
+      "coverage": "rule-present",
+      "coverage_reason": "online stores are visible and online tables and feature materialization remain helper details",
+      "constructs": 4,
+      "counts": {
+        "rule-present": 1,
+        "partial-rule": 1,
+        "no-rule": 2
+      }
+    },
+    {
+      "id": "identity-access",
+      "family": "identity-iam",
+      "official_name": "Databricks identity and access management",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/admin/users-groups/",
+      "coverage": "partial-rule",
+      "coverage_reason": "groups, service principals, OAuth integrations, federation, assignments, and permissions are represented; human users and tokens remain intentionally absent",
+      "constructs": 63,
+      "counts": {
+        "rule-present": 7,
+        "partial-rule": 22,
+        "no-rule": 34
+      }
+    },
+    {
+      "id": "secrets-security",
+      "family": "security",
+      "official_name": "Databricks secrets and security configuration",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/security/",
+      "coverage": "partial-rule",
+      "coverage_reason": "secret scopes and non-sensitive secret identities are represented without values; credentials and user preferences remain absent",
+      "constructs": 11,
+      "counts": {
+        "rule-present": 1,
+        "partial-rule": 3,
+        "no-rule": 7
+      }
+    },
+    {
+      "id": "quality-observability",
+      "family": "observability",
+      "official_name": "Databricks data quality and Lakehouse Monitoring",
+      "major": true,
+      "source_url": "https://docs.databricks.com/aws/en/lakehouse-monitoring/",
+      "coverage": "rule-present",
+      "coverage_reason": "data quality and Lakehouse monitors are visible while refresh actions remain helper details",
+      "constructs": 11,
+      "counts": {
+        "rule-present": 4,
+        "partial-rule": 1,
+        "no-rule": 6
+      }
+    },
+    {
+      "id": "legacy-storage",
+      "family": "storage",
+      "official_name": "DBFS and legacy cloud storage mounts",
+      "major": false,
+      "source_url": "https://docs.databricks.com/aws/en/dbfs/",
+      "coverage": "partial-rule",
+      "coverage_reason": "legacy mounts remain bounded details and individual DBFS or workspace files stay intentionally unrepresented",
+      "constructs": 12,
+      "counts": {
+        "rule-present": 0,
+        "partial-rule": 5,
+        "no-rule": 7
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "disk-snapshot" {
+  match {
+    type = "azurerm_snapshot"
+  }
+
+  as = concept.disk-snapshot
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}

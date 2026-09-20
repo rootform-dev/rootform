@@ -1,0 +1,14 @@
+# Maintained directly from pinned provider evidence.
+rule "managed-service-fabric-cluster" {
+  match {
+    type = "azurerm_service_fabric_managed_cluster"
+  }
+
+  as = concept.service-fabric-cluster
+
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+}
