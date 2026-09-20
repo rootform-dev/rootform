@@ -24,6 +24,12 @@ rootform init [path] [flags]
 | ` --offline ` | ` bool ` | ` false ` | disable network; use only local data |
 | ` -v, --verbose ` | ` bool ` | ` false ` | show provider evidence and origin |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Prepare an existing rootform.lock and materialize the project's exact

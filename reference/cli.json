@@ -29,6 +29,12 @@
       ],
       "flags": [
         {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        },
+        {
           "name": "help",
           "shorthand": "h",
           "type": "bool",
@@ -87,6 +93,14 @@
           "default": "",
           "usage": "read JSON plan; - reads standard input"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -142,6 +156,14 @@
           "default": "[]",
           "usage": "select directory or compiled JSON `path`; repeatable"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -160,6 +182,14 @@
           "default": "false",
           "usage": "show how to use rootform compile",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -191,6 +221,14 @@
           "default": "",
           "usage": "pin semantics from an architecture `file` (required)"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -207,6 +245,14 @@
           "default": "false",
           "usage": "show how to use rootform completion",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -251,6 +297,14 @@
           "default": "",
           "usage": "read JSON plan; - reads standard input"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -272,6 +326,14 @@
           "default": "false",
           "usage": "show how to use rootform explain",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -302,6 +364,14 @@
           "default": "",
           "usage": "read the architecture at `path`; - reads standard input"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -325,6 +395,14 @@
           "usage": "show how to use rootform explain policy",
           "no_option_default": "true"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -347,6 +425,14 @@
           "default": "false",
           "usage": "show how to use rootform explain semantics",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -378,6 +464,14 @@
           "default": "false",
           "usage": "show how to use rootform fmt",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -431,6 +525,14 @@
           "usage": "show provider evidence and origin",
           "no_option_default": "true"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -452,6 +554,14 @@
           "default": "false",
           "usage": "show how to use rootform list",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -483,6 +593,14 @@
           "usage": "show how to use rootform list dialects",
           "no_option_default": "true"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -512,6 +630,14 @@
           "type": "stringArray",
           "default": "[]",
           "usage": "select local Policy Pack `directory`; repeatable"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -543,6 +669,14 @@
           "default": "[]",
           "usage": "select local Policy Pack `directory`; repeatable"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -559,6 +693,14 @@
           "default": "false",
           "usage": "show how to use rootform lsp",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -580,6 +722,14 @@
           "default": "false",
           "usage": "show how to use rootform package",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -628,6 +778,14 @@
           "default": "",
           "usage": "write registry layout to `directory`"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -675,6 +833,14 @@
           "default": "",
           "usage": "write registry layout to `directory`"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -695,6 +861,14 @@
           "default": "false",
           "usage": "show how to use rootform publish",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -732,6 +906,14 @@
           "default": "",
           "usage": "publish to tagless OCI `repository`"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -767,6 +949,14 @@
           "type": "string",
           "default": "",
           "usage": "publish to tagless OCI `repository`"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -818,6 +1008,14 @@
           "default": "21717",
           "usage": "serve on local `port`; 0 picks a free one"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -845,6 +1043,14 @@
           "default": "false",
           "usage": "show how to use rootform show",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -876,6 +1082,14 @@
           "default": "[]",
           "usage": "select local Policy Pack `directory`; repeatable"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -906,6 +1120,14 @@
           "default": "[]",
           "usage": "select local Policy Pack `directory`; repeatable"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -935,6 +1157,14 @@
           "default": "",
           "usage": "run only the cases whose `name` contains this text"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -961,6 +1191,14 @@
           "usage": "show how to use rootform validate",
           "no_option_default": "true"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -983,6 +1221,14 @@
           "default": "false",
           "usage": "show how to use rootform validate architecture",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -1007,6 +1253,14 @@
           "usage": "show how to use rootform validate concept",
           "no_option_default": "true"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -1029,6 +1283,14 @@
           "default": "false",
           "usage": "show how to use rootform validate context",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -1053,6 +1315,14 @@
           "usage": "show how to use rootform validate dialects",
           "no_option_default": "true"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -1075,6 +1345,14 @@
           "default": "false",
           "usage": "show how to use rootform validate policy",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -1099,6 +1377,14 @@
           "usage": "show how to use rootform validate relation",
           "no_option_default": "true"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -1122,6 +1408,14 @@
           "usage": "show how to use rootform validate rule",
           "no_option_default": "true"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -1142,6 +1436,14 @@
           "default": "false",
           "usage": "show how to use rootform vendor",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     },
@@ -1173,6 +1475,14 @@
           "default": "",
           "usage": "copy into `directory`; ./.rootform/dialects by default"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -1203,6 +1513,14 @@
           "default": "",
           "usage": "copy into `directory`; ./.rootform/policy-packs by default"
         }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
       ]
     },
     {
@@ -1219,6 +1537,14 @@
           "default": "false",
           "usage": "show how to use rootform version",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
         }
       ]
     }

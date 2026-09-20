@@ -17,6 +17,7 @@ rootform [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform |
 | ` -v, --version ` | ` bool ` | ` false ` | print the rootform version and exit |
 

@@ -21,6 +21,12 @@ rootform compile policy-pack <directory> [flags]
 | ` -o, --output ` | ` string ` | ` "" ` | write compiled Policy Pack to `file` (required) |
 | ` --semantics ` | ` string ` | ` "" ` | pin semantics from an architecture `file` (required) |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Compile one Policy Pack source directory against the semantic snapshot

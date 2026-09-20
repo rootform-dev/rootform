@@ -34,6 +34,12 @@ rootform build [directory] [flags]
 | ` -o, --output ` | ` string ` | ` "" ` | write the architecture to this `file` |
 | ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 <!-- END GENERATED CLI -->
 
 > [!NOTE]
@@ -73,13 +79,12 @@ the declaration summary on standard error is:
 ```text title="Declaration summary"
 Architecture built -> architecture.json
 
-Resources     2 represented
-Declarations  3 total, including 1 other declaration
-Facts         1 resolved, 0 omitted
+Resources  2
+Facts      1 resolved, 0 omitted
 ```
 
-Terraform settings declaration has no representation. VPC and subnet retain
-resource bases and applied Rules.
+The Terraform settings declaration is not a resource, so it is not counted
+there. VPC and subnet retain resource bases and applied Rules.
 
 ## Read a plan
 

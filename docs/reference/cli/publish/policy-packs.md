@@ -22,6 +22,12 @@ rootform publish policy-packs <layout> [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform publish policy-packs |
 | ` --to ` | ` string ` | ` "" ` | publish to tagless OCI `repository` |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Validate an existing local Policy Pack registry layout, publish every pack

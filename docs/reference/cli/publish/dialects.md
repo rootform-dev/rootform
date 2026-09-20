@@ -22,6 +22,12 @@ rootform publish dialects <layout> [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform publish dialects |
 | ` --to ` | ` string ` | ` "" ` | publish to tagless OCI `repository` |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Validate an existing local Rootform registry layout, publish its external

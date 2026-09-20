@@ -21,6 +21,12 @@ rootform list policies [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list policies |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 List the policies the selected Policy Packs declare.

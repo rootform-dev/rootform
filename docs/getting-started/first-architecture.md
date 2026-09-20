@@ -56,15 +56,14 @@ no `rootform init`. The command writes Architecture IR to
 ```text title="Declaration summary"
 Architecture built -> architecture.json
 
-Resources     2 represented
-Declarations  3 total, including 1 other declaration
-Facts         1 resolved, 0 omitted
+Resources  2
+Facts      1 resolved, 0 omitted
 ```
 
-The result line names the destination. The summary says that both resources
-are represented, while the third declaration is the Terraform settings block.
-That settings declaration remains source data without a representation. The
-VPC and subnet each retain a base representation and an applied Rule.
+The result line names the destination. The summary counts the two resources.
+The third declaration in the file is the Terraform settings block, which is
+not a resource and stays source data. The VPC and subnet each retain a base
+representation and an applied Rule.
 
 ## Explain the architecture
 

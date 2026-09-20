@@ -21,6 +21,12 @@ rootform vendor dialects [flags]
 | ` --offline ` | ` bool ` | ` false ` | use only exact local or cached dialects |
 | ` --to ` | ` string ` | ` "" ` | copy into `directory`; ./.rootform/dialects by default |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Materialize the exact dialect selection from rootform.lock: external

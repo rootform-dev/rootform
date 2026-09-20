@@ -216,7 +216,7 @@ export function verifyCoreExamples(
   );
   assert(
     command("guides/compare-architectures.md", "diff-identical").trim() ===
-      "No architectural change.",
+      "Architecture unchanged",
     "identical Diff result changed",
   );
   command("guides/compare-architectures.md", "diff-json");

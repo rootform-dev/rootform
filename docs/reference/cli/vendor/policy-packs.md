@@ -21,6 +21,12 @@ rootform vendor policy-packs [flags]
 | ` --offline ` | ` bool ` | ` false ` | use only exact local or cached Policy Packs |
 | ` --to ` | ` string ` | ` "" ` | copy into `directory`; ./.rootform/policy-packs by default |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Materialize the exact rootform.lock Policy Pack selection from the

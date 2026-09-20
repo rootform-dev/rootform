@@ -25,6 +25,12 @@ rootform check [input] [flags]
 | ` --policy ` | ` stringArray ` | ` [] ` | select pack/name or unique policy; repeatable |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select directory or compiled JSON `path`; repeatable |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Build or load an architecture and evaluate the applicable policies.

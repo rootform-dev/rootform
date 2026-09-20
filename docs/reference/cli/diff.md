@@ -23,6 +23,12 @@ rootform diff <before> <after> [flags]
 | ` -o, --output ` | ` string ` | ` "" ` | write the diff to this `file` |
 | ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Compare two architectures and report the architectural changes between

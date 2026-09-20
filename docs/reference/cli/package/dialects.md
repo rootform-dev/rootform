@@ -24,6 +24,12 @@ rootform package dialects <directory> [flags]
 | ` --source-url ` | ` string ` | ` "" ` | record canonical source `url` in OCI provenance |
 | ` --to ` | ` string ` | ` "" ` | write registry layout to `directory` |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Compile an external dialect source set and write one deterministic,

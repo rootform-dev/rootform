@@ -21,6 +21,12 @@ rootform fmt [path] [flags]
 | ` --diff ` | ` bool ` | ` false ` | show formatting changes without rewriting files |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform fmt |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Rewrite Rootform source files using the canonical format.

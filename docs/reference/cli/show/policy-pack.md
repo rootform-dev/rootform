@@ -21,6 +21,12 @@ rootform show policy-pack <name> [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show policy-pack |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
 
+## Inherited flags
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+
 ## Behavior
 
 Show a selected or local Policy Pack, including its version, the
