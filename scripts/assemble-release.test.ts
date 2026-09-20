@@ -92,7 +92,7 @@ function componentPurl(component: RuntimeComponent): string | undefined {
     case "asset":
       return undefined;
     case "dialect-bundle":
-      return `pkg:github/rootform-dev/dialects@${component.version}`;
+      return `pkg:github/rootform-dev/rootform@${component.version}`;
     case "go-module":
       return `pkg:golang/${path(component.name)}@${encodeURIComponent(component.version)}`;
     case "go-runtime":
