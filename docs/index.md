@@ -30,7 +30,7 @@ unsupported resource and it is never removed from the result.
 
 Facts record architectural meaning, such as a context that places one
 representation relative to another. Every fact keeps bounded
-[provenance](concepts/architecture-ir.md#follow-a-fact-back-to-its-evidence):
+[provenance](concepts/architecture-ir.md#facts-close-with-evidence):
 the declaration, the applied Rule, and the successful resolution behind it.
 Evidence that is missing, ambiguous, or unresolved becomes an omission or a
 diagnostic rather than a resolved fact.
