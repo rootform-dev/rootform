@@ -94,9 +94,22 @@ function verifyEventDrivenPlacement(bytes: Buffer): void {
   const busSubscriptions = ["claims_events_fraud_audit", "claims_events_notifications"].map(
     (name) => `representation:1:root:resource:azurerm_servicebus_subscription.${name}`,
   );
+  const genericSubscriptions = new Map<string, string>([
+    ["claims_scored_review", "claims_scored"],
+    ["claims_submitted_events", "claims_submitted"],
+    ["claims_submitted_intake", "claims_submitted"],
+    ["documents_processed_telemetry", "documents_processed"],
+  ]);
   const expectedParents = new Map<string, string>([
     ...systemSubscriptions.map((id) => [id, eventTopic] as const),
     ...busSubscriptions.map((id) => [id, busTopic] as const),
+    ...[...genericSubscriptions].map(
+      ([subscription, topic]) =>
+        [
+          `representation:1:root:resource:azurerm_eventgrid_event_subscription.${subscription}`,
+          `representation:1:root:resource:azurerm_eventgrid_domain_topic.${topic}`,
+        ] as const,
+    ),
     [eventTopic, dataGroup],
     [busTopic, namespace],
     [namespace, prodGroup],
@@ -113,7 +126,13 @@ function verifyEventDrivenPlacement(bytes: Buffer): void {
       `${child}: ownership placement or provenance missing`,
     );
   }
-  for (const subscription of [...systemSubscriptions, ...busSubscriptions]) {
+  for (const subscription of [
+    ...systemSubscriptions,
+    ...busSubscriptions,
+    ...[...genericSubscriptions.keys()].map(
+      (name) => `representation:1:root:resource:azurerm_eventgrid_event_subscription.${name}`,
+    ),
+  ]) {
     const target = expectedParents.get(subscription);
     const subscribes = architecture.relations.filter(
       (relation) =>
@@ -139,30 +158,9 @@ function verifyEventDrivenPlacement(bytes: Buffer): void {
   const placed = new Set(architecture.contexts.map((context) => context.from));
   assert(
     architecture.representations.filter((representation) => !placed.has(representation.id))
-      .length === 18,
-    "event-driven head must project 18 root representations",
+      .length === 6,
+    "event-driven head must retain only resource groups and unplaced NAT associations at root",
   );
-  const genericSubscriptions = new Set([
-    "claims_scored_review",
-    "claims_submitted_events",
-    "claims_submitted_intake",
-    "documents_processed_telemetry",
-  ]);
-  for (const representation of architecture.representations) {
-    const address = representation.id.split(":").at(-1) ?? "";
-    const name = address.split(".").at(-1) ?? "";
-    if (
-      representation.rule === "azure.rule.event-grid-event-subscription" &&
-      genericSubscriptions.has(name)
-    ) {
-      assert(
-        !placed.has(representation.id),
-        `${representation.id}: unresolved scope invented a parent`,
-      );
-      genericSubscriptions.delete(name);
-    }
-  }
-  assert(genericSubscriptions.size === 0, "generic Event Grid subscription inventory changed");
 }
 
 export async function verifyVisualExamples(
