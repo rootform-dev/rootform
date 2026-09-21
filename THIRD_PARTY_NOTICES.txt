@@ -10,15 +10,15 @@ line.
 URLs are provenance references only. Rootform never fetches or executes them
 at runtime.
 
-dialect-bundle: Rootform Dialects@7008557816428802c15babdd5f7c361be520eb5e
+dialect-bundle: Rootform Dialects@9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1
 --------------------------------------------------------------------------
 Declared license: MPL-2.0
 Concluded license: MPL-2.0
-Upstream: https://github.com/rootform-dev/rootform/tree/7008557816428802c15babdd5f7c361be520eb5e
+Upstream: https://github.com/rootform-dev/rootform/tree/9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1
 Copyright: (c) under Patent Claims infringed by Covered Software in the absence of
 License text SHA-256: 1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5
 
------ BEGIN LICENSE TEXT: Rootform Dialects@7008557816428802c15babdd5f7c361be520eb5e -----
+----- BEGIN LICENSE TEXT: Rootform Dialects@9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1 -----
 Mozilla Public License Version 2.0
 ==================================
 
@@ -392,7 +392,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
   This Source Code Form is "Incompatible With Secondary Licenses", as
   defined by the Mozilla Public License, v. 2.0.
------ END LICENSE TEXT: Rootform Dialects@7008557816428802c15babdd5f7c361be520eb5e -----
+----- END LICENSE TEXT: Rootform Dialects@9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1 -----
 
 
 go-module: github.com/agext/levenshtein@v1.2.1
@@ -722,6 +722,37 @@ shall not be used in advertising or otherwise to promote the sale,
 use or other dealings in these Data Files or Software without prior
 written authorization of the copyright holder.
 ----- END LICENSE TEXT: github.com/apparentlymart/go-textseg/v15@v15.0.0 -----
+
+
+go-module: github.com/apparentlymart/go-textseg/v17@v17.0.1
+-----------------------------------------------------------
+Declared license: MIT
+Concluded license: MIT
+Upstream: https://github.com/apparentlymart/go-textseg/v17
+Copyright: Copyright (c) 2017 Martin Atkins
+License text SHA-256: b033dbfc6b30f11eb1ff0fbe1ca624b6ebded5be2700ff62605469a187b6578e
+
+----- BEGIN LICENSE TEXT: github.com/apparentlymart/go-textseg/v17@v17.0.1 -----
+Copyright (c) 2017 Martin Atkins
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+----- END LICENSE TEXT: github.com/apparentlymart/go-textseg/v17@v17.0.1 -----
 
 
 go-module: github.com/docker/docker-credential-helpers@v0.9.9
@@ -1238,16 +1269,16 @@ Exhibit B - “Incompatible With Secondary Licenses” Notice
 ----- END LICENSE TEXT: github.com/hashicorp/go-version@v1.9.0 -----
 
 
-go-module: github.com/hashicorp/hcl/v2@v2.24.0
+go-module: github.com/hashicorp/hcl/v2@v2.25.0
 ----------------------------------------------
 Declared license: MPL-2.0
 Concluded license: MPL-2.0
 Upstream: https://github.com/hashicorp/hcl/v2
-Copyright: Copyright (c) 2014 HashiCorp, Inc.
-License text SHA-256: 28ca54ff46a27183631aa262673d13e3c829d909059f5c861da835fe1783fbec
+Copyright: Copyright IBM Corp. 2014, 2026
+License text SHA-256: 86be27d5864873c2ffd121fbac5b54311691cc018480610e12cef6e4e660ebb3
 
------ BEGIN LICENSE TEXT: github.com/hashicorp/hcl/v2@v2.24.0 -----
-Copyright (c) 2014 HashiCorp, Inc.
+----- BEGIN LICENSE TEXT: github.com/hashicorp/hcl/v2@v2.25.0 -----
+Copyright IBM Corp. 2014, 2026
 
 Mozilla Public License, version 2.0
 
@@ -1602,7 +1633,7 @@ Exhibit B - “Incompatible With Secondary Licenses” Notice
       This Source Code Form is “Incompatible
       With Secondary Licenses”, as defined by
       the Mozilla Public License, v. 2.0.
------ END LICENSE TEXT: github.com/hashicorp/hcl/v2@v2.24.0 -----
+----- END LICENSE TEXT: github.com/hashicorp/hcl/v2@v2.25.0 -----
 
 
 go-module: github.com/hashicorp/terraform-registry-address@v0.4.0
@@ -3218,18 +3249,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ----- END LICENSE TEXT: github.com/spf13/pflag@v1.0.10 -----
 
 
-go-module: github.com/zclconf/go-cty@v1.16.3
+go-module: github.com/zclconf/go-cty@v1.19.0
 --------------------------------------------
 Declared license: MIT
 Concluded license: MIT
 Upstream: https://github.com/zclconf/go-cty
-Copyright: Copyright (c) 2017-2018 Martin Atkins
-License text SHA-256: 5b75e242a5bf5b40228d068037a7746e86bc1f9ea96b691e5f64b555579bfa52
+Copyright: Copyright (c) 2017-2026 Martin Atkins and various other contributors
+License text SHA-256: ddbb0c0aacf1a262c6724fa82cc24af9d5f5d9a99bf3d0d9a5efe36b5a638e07
 
------ BEGIN LICENSE TEXT: github.com/zclconf/go-cty@v1.16.3 -----
+----- BEGIN LICENSE TEXT: github.com/zclconf/go-cty@v1.19.0 -----
 MIT License
 
-Copyright (c) 2017-2018 Martin Atkins
+Copyright (c) 2017-2026 Martin Atkins and various other contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -3248,7 +3279,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
------ END LICENSE TEXT: github.com/zclconf/go-cty@v1.16.3 -----
+----- END LICENSE TEXT: github.com/zclconf/go-cty@v1.19.0 -----
 
 
 go-module: go.lsp.dev/jsonrpc2@v1.0.1
@@ -4384,15 +4415,15 @@ See the official archive and catalog page for complete current terms.
 ----- END LICENSE TEXT: Microsoft Azure Architecture Icons@V24 -----
 
 
-dialect-bundle: Rootform Dialects presentation catalogs@7008557816428802c15babdd5f7c361be520eb5e
+dialect-bundle: Rootform Dialects presentation catalogs@9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1
 ------------------------------------------------------------------------------------------------
 Declared license: MPL-2.0
 Concluded license: MPL-2.0
-Upstream: https://github.com/rootform-dev/rootform/tree/7008557816428802c15babdd5f7c361be520eb5e
+Upstream: https://github.com/rootform-dev/rootform/tree/9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1
 Copyright: (c) under Patent Claims infringed by Covered Software in the absence of
 License text SHA-256: 1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5
 
------ BEGIN LICENSE TEXT: Rootform Dialects presentation catalogs@7008557816428802c15babdd5f7c361be520eb5e -----
+----- BEGIN LICENSE TEXT: Rootform Dialects presentation catalogs@9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1 -----
 Mozilla Public License Version 2.0
 ==================================
 
@@ -4766,7 +4797,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
   This Source Code Form is "Incompatible With Secondary Licenses", as
   defined by the Mozilla Public License, v. 2.0.
------ END LICENSE TEXT: Rootform Dialects presentation catalogs@7008557816428802c15babdd5f7c361be520eb5e -----
+----- END LICENSE TEXT: Rootform Dialects presentation catalogs@9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1 -----
 
 
 vendored-source: shadcn-svelte@1.5.1
@@ -5055,7 +5086,7 @@ SOFTWARE.
 ----- END LICENSE TEXT: @jridgewell/trace-mapping@0.3.31 -----
 
 
-web-package: @lucide/svelte@1.40.0
+web-package: @lucide/svelte@1.47.0
 ----------------------------------
 Declared license: ISC
 Concluded license: ISC
@@ -5063,7 +5094,7 @@ Upstream: https://github.com/lucide-icons/lucide
 Copyright: Copyright (c) 2026 Lucide Icons and Contributors; Copyright (c) 2013-present Cole Bemis
 License text SHA-256: b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57
 
------ BEGIN LICENSE TEXT: @lucide/svelte@1.40.0 -----
+----- BEGIN LICENSE TEXT: @lucide/svelte@1.47.0 -----
 ISC License
 
 Copyright (c) 2026 Lucide Icons and Contributors
@@ -5107,7 +5138,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
------ END LICENSE TEXT: @lucide/svelte@1.40.0 -----
+----- END LICENSE TEXT: @lucide/svelte@1.47.0 -----
 
 
 web-package: @sveltejs/acorn-typescript@1.0.13
@@ -5636,7 +5667,7 @@ limitations under the License.
 ----- END LICENSE TEXT: axobject-query@4.1.0 -----
 
 
-web-package: bits-ui@2.19.0
+web-package: bits-ui@2.19.2
 ---------------------------
 Declared license: MIT
 Concluded license: MIT
@@ -5644,7 +5675,7 @@ Upstream: https://www.npmjs.com/package/bits-ui
 Copyright: Copyright (c) 2023 Hunter Johnston
 License text SHA-256: 91b34549ceba8602e9a763d32443fa2ae92fba1a148b45e71ad480c723004818
 
------ BEGIN LICENSE TEXT: bits-ui@2.19.0 -----
+----- BEGIN LICENSE TEXT: bits-ui@2.19.2 -----
 MIT License
 
 Copyright (c) 2023 Hunter Johnston
@@ -5666,7 +5697,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
------ END LICENSE TEXT: bits-ui@2.19.0 -----
+----- END LICENSE TEXT: bits-ui@2.19.2 -----
 
 
 web-package: clsx@2.1.1
@@ -6069,7 +6100,7 @@ SOFTWARE.
 ----- END LICENSE TEXT: tabbable@6.5.0 -----
 
 
-web-package: tailwind-merge@3.6.0
+web-package: tailwind-merge@3.7.0
 ---------------------------------
 Declared license: MIT
 Concluded license: MIT
@@ -6077,7 +6108,7 @@ Upstream: https://github.com/dcastil/tailwind-merge
 Copyright: Copyright (c) 2021 Dany Castillo
 License text SHA-256: d4c70c7ce38cea8778f0aed3fc0bef0a9dbd27f13bd8b6773cbd6d37941971e5
 
------ BEGIN LICENSE TEXT: tailwind-merge@3.6.0 -----
+----- BEGIN LICENSE TEXT: tailwind-merge@3.7.0 -----
 MIT License
 
 Copyright (c) 2021 Dany Castillo
@@ -6099,7 +6130,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
------ END LICENSE TEXT: tailwind-merge@3.6.0 -----
+----- END LICENSE TEXT: tailwind-merge@3.7.0 -----
 
 
 web-package: tailwind-variants@3.3.1

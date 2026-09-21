@@ -59,8 +59,8 @@
       "license_declared": "MPL-2.0",
       "license_text_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
       "name": "Rootform Dialects presentation catalogs",
-      "upstream": "https://github.com/rootform-dev/rootform/tree/7008557816428802c15babdd5f7c361be520eb5e",
-      "version": "7008557816428802c15babdd5f7c361be520eb5e"
+      "upstream": "https://github.com/rootform-dev/rootform/tree/9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1",
+      "version": "9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1"
     },
     {
       "copyright_text": "(c) under Patent Claims infringed by Covered Software in the absence of",
@@ -69,8 +69,8 @@
       "license_declared": "MPL-2.0",
       "license_text_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
       "name": "Rootform Dialects",
-      "upstream": "https://github.com/rootform-dev/rootform/tree/7008557816428802c15babdd5f7c361be520eb5e",
-      "version": "7008557816428802c15babdd5f7c361be520eb5e"
+      "upstream": "https://github.com/rootform-dev/rootform/tree/9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1",
+      "version": "9ead5d4ef8ef2ea3ae9ab8e1a639e18a673da4f1"
     },
     {
       "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2016 ALRUX Inc.",
@@ -92,6 +92,16 @@
       "name": "github.com/apparentlymart/go-textseg/v15",
       "upstream": "https://github.com/apparentlymart/go-textseg/v15",
       "version": "v15.0.0"
+    },
+    {
+      "copyright_text": "Copyright (c) 2017 Martin Atkins",
+      "kind": "go-module",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "b033dbfc6b30f11eb1ff0fbe1ca624b6ebded5be2700ff62605469a187b6578e",
+      "name": "github.com/apparentlymart/go-textseg/v17",
+      "upstream": "https://github.com/apparentlymart/go-textseg/v17",
+      "version": "v17.0.1"
     },
     {
       "copyright_text": "Copyright (c) 2016 David Calavera",
@@ -144,14 +154,14 @@
       "version": "v1.9.0"
     },
     {
-      "copyright_text": "Copyright (c) 2014 HashiCorp, Inc.",
+      "copyright_text": "Copyright IBM Corp. 2014, 2026",
       "kind": "go-module",
       "license_concluded": "MPL-2.0",
       "license_declared": "MPL-2.0",
-      "license_text_sha256": "28ca54ff46a27183631aa262673d13e3c829d909059f5c861da835fe1783fbec",
+      "license_text_sha256": "86be27d5864873c2ffd121fbac5b54311691cc018480610e12cef6e4e660ebb3",
       "name": "github.com/hashicorp/hcl/v2",
       "upstream": "https://github.com/hashicorp/hcl/v2",
-      "version": "v2.24.0"
+      "version": "v2.25.0"
     },
     {
       "copyright_text": "Copyright (c) 2021 HashiCorp, Inc.",
@@ -234,14 +244,14 @@
       "version": "v1.0.10"
     },
     {
-      "copyright_text": "Copyright (c) 2017-2018 Martin Atkins",
+      "copyright_text": "Copyright (c) 2017-2026 Martin Atkins and various other contributors",
       "kind": "go-module",
       "license_concluded": "MIT",
       "license_declared": "MIT",
-      "license_text_sha256": "5b75e242a5bf5b40228d068037a7746e86bc1f9ea96b691e5f64b555579bfa52",
+      "license_text_sha256": "ddbb0c0aacf1a262c6724fa82cc24af9d5f5d9a99bf3d0d9a5efe36b5a638e07",
       "name": "github.com/zclconf/go-cty",
       "upstream": "https://github.com/zclconf/go-cty",
-      "version": "v1.16.3"
+      "version": "v1.19.0"
     },
     {
       "copyright_text": "Copyright (c) 2019, The Go Language Server Authors",
@@ -452,7 +462,7 @@
       "license_text_sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
       "name": "@lucide/svelte",
       "upstream": "https://github.com/lucide-icons/lucide",
-      "version": "1.40.0"
+      "version": "1.47.0"
     },
     {
       "copyright_text": "Copyright (c) 2022 Tyreal Hu; Copyright (c) 2025 The Svelte Team",
@@ -512,7 +522,7 @@
       "license_text_sha256": "91b34549ceba8602e9a763d32443fa2ae92fba1a148b45e71ad480c723004818",
       "name": "bits-ui",
       "upstream": "https://www.npmjs.com/package/bits-ui",
-      "version": "2.19.0"
+      "version": "2.19.2"
     },
     {
       "copyright_text": "Copyright (c) Luke Edwards <luke.edwards05@gmail.com> (lukeed.com)",
@@ -672,7 +682,7 @@
       "license_text_sha256": "d4c70c7ce38cea8778f0aed3fc0bef0a9dbd27f13bd8b6773cbd6d37941971e5",
       "name": "tailwind-merge",
       "upstream": "https://github.com/dcastil/tailwind-merge",
-      "version": "3.6.0"
+      "version": "3.7.0"
     },
     {
       "copyright_text": "Copyright (c) 2020 Tailwid Variants",
