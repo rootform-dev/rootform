@@ -38,6 +38,17 @@ rule "event-grid-event-subscription" {
 
   as = concept.message-subscription
 
+  context {
+    as  = context.ownership
+    to  = concept.event-grid-topic
+    via = source.scope
+  }
+
+  relation "subscribes-to" {
+    to  = concept.event-grid-topic
+    via = source.scope
+  }
+
   relation "delivers-to" {
     to  = concept.event-stream
     via = source.eventhub_id
