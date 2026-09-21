@@ -24,6 +24,12 @@ rule "private-dns-zone-vnet-link" {
 
   as = concept.private-network-link
 
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.private_dns_zone_id
+  }
+
   contribution {
     to  = concept.dns-zone
     via = source.private_dns_zone_id

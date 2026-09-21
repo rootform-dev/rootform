@@ -18,6 +18,12 @@ rule "dns-a-record" {
 
   as = concept.dns-record
 
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_name
+  }
+
   contribution {
     to  = concept.dns-zone
     via = source.zone_name
@@ -30,6 +36,12 @@ rule "dns-aaaa-record" {
   }
 
   as = concept.dns-record
+
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_name
+  }
 
   contribution {
     to  = concept.dns-zone
@@ -44,6 +56,12 @@ rule "dns-cname-record" {
 
   as = concept.dns-record
 
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_name
+  }
+
   contribution {
     to  = concept.dns-zone
     via = source.zone_name
@@ -56,6 +74,12 @@ rule "dns-mx-record" {
   }
 
   as = concept.dns-record
+
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_name
+  }
 
   contribution {
     to  = concept.dns-zone
@@ -70,6 +94,12 @@ rule "dns-ns-record" {
 
   as = concept.dns-record
 
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_name
+  }
+
   contribution {
     to  = concept.dns-zone
     via = source.zone_name
@@ -82,6 +112,12 @@ rule "dns-ptr-record" {
   }
 
   as = concept.dns-record
+
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_name
+  }
 
   contribution {
     to  = concept.dns-zone
@@ -96,6 +132,12 @@ rule "dns-srv-record" {
 
   as = concept.dns-record
 
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_name
+  }
+
   contribution {
     to  = concept.dns-zone
     via = source.zone_name
@@ -108,6 +150,12 @@ rule "dns-txt-record" {
   }
 
   as = concept.dns-record
+
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.zone_name
+  }
 
   contribution {
     to  = concept.dns-zone
@@ -136,6 +184,12 @@ rule "private-dns-a-record" {
 
   as = concept.dns-record
 
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.private_dns_zone_id
+  }
+
   contribution {
     to  = concept.dns-zone
     via = source.private_dns_zone_id
@@ -148,6 +202,12 @@ rule "private-dns-cname-record" {
   }
 
   as = concept.dns-record
+
+  context {
+    as  = context.ownership
+    to  = concept.dns-zone
+    via = source.private_dns_zone_id
+  }
 
   contribution {
     to  = concept.dns-zone

@@ -146,6 +146,12 @@ rule "cosmos-sql-container" {
 
   as = concept.database-component
 
+  context {
+    as  = context.ownership
+    to  = concept.logical-database
+    via = source.database_name
+  }
+
   contribution {
     to  = concept.logical-database
     via = source.database_name
