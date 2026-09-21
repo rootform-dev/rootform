@@ -38,6 +38,12 @@ rule "event-hubs-consumer-group" {
 
   as = concept.messaging-detail
 
+  context {
+    as  = context.ownership
+    to  = concept.event-stream
+    via = source.eventhub_name
+  }
+
   contribution {
     to  = concept.event-stream
     via = source.eventhub_name

@@ -250,6 +250,109 @@ test("network peerings keep containment distinct from remote connectivity", () =
   }
 });
 
+test("Azure subscriptions keep topic placement separate from subscription relations", () => {
+  const serviceBus = fixture("azure-service-bus");
+  const serviceBusSubscription = representation(
+    serviceBus,
+    "resource",
+    "azurerm_servicebus_subscription",
+    "worker",
+  );
+  const serviceBusTopic = representation(
+    serviceBus,
+    "resource",
+    "azurerm_servicebus_topic",
+    "events",
+  );
+  expect(serviceBusSubscription?.concept).toBe("azure.concept.message-subscription");
+  expect(serviceBusTopic?.concept).toBe("azure.concept.service-bus-topic");
+  expect(
+    serviceBus.architecture.contexts?.find(
+      (entry) => entry.from === serviceBusSubscription?.id && entry.to === serviceBusTopic?.id,
+    ),
+  ).toMatchObject({
+    dimension: "azure.context.ownership",
+    provenance: [{ rule: "azure.rule.service-bus-subscription" }],
+  });
+  expect(
+    serviceBus.architecture.relations?.find(
+      (entry) =>
+        entry.from === serviceBusSubscription?.id &&
+        entry.to === serviceBusTopic?.id &&
+        entry.predicate === "azure.relation.subscribes-to",
+    ),
+  ).toMatchObject({ provenance: [{ rule: "azure.rule.service-bus-subscription" }] });
+
+  const eventGrid = fixture("azure-event-grid");
+  const systemTopic = representation(
+    eventGrid,
+    "resource",
+    "azurerm_eventgrid_system_topic",
+    "storage",
+  );
+  const deliveryTargets = {
+    eventhub: ["azurerm_eventhub", "handler"],
+    function: ["azurerm_linux_function_app", "handler"],
+    queue: ["azurerm_servicebus_queue", "handler"],
+    storage: ["azurerm_storage_account", "handler"],
+    topic: ["azurerm_servicebus_topic", "handler"],
+  } as const;
+  for (const [name, [targetType, targetName]] of Object.entries(deliveryTargets)) {
+    const subscription = representation(
+      eventGrid,
+      "resource",
+      "azurerm_eventgrid_system_topic_event_subscription",
+      name,
+    );
+    const target = representation(eventGrid, "resource", targetType, targetName);
+    expect(subscription?.concept).toBe("azure.concept.message-subscription");
+    expect(
+      eventGrid.architecture.contexts?.find(
+        (entry) => entry.from === subscription?.id && entry.to === systemTopic?.id,
+      ),
+    ).toMatchObject({
+      dimension: "azure.context.ownership",
+      provenance: [{ rule: "azure.rule.event-grid-system-topic-subscription" }],
+    });
+    expect(
+      eventGrid.architecture.relations?.find(
+        (entry) =>
+          entry.from === subscription?.id &&
+          entry.to === systemTopic?.id &&
+          entry.predicate === "azure.relation.subscribes-to",
+      ),
+    ).toMatchObject({ provenance: [{ rule: "azure.rule.event-grid-system-topic-subscription" }] });
+    expect(
+      eventGrid.architecture.relations?.find(
+        (entry) =>
+          entry.from === subscription?.id &&
+          entry.to === target?.id &&
+          entry.predicate === "azure.relation.delivers-to",
+      ),
+    ).toBeDefined();
+  }
+
+  for (const [fixtureName, type, names] of [
+    ["azure-service-bus", "azurerm_servicebus_subscription", ["literal", "unknown"]],
+    [
+      "azure-event-grid",
+      "azurerm_eventgrid_system_topic_event_subscription",
+      ["literal", "unknown"],
+    ],
+  ] as const) {
+    const document = fixture(fixtureName);
+    for (const name of names) {
+      const subscription = representation(document, "resource", type, name);
+      expect(document.architecture.contexts?.some((entry) => entry.from === subscription?.id)).toBe(
+        false,
+      );
+      expect(
+        document.architecture.relations?.some((entry) => entry.from === subscription?.id),
+      ).toBe(false);
+    }
+  }
+});
+
 test("every fact is closed over representations and proofs", () => {
   for (const directory of readdirSync(join(root, "fixtures/slice"), { withFileTypes: true })) {
     if (!directory.isDirectory()) continue;
