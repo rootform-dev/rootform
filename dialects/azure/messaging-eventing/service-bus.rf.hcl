@@ -34,6 +34,12 @@ rule "service-bus-subscription" {
 
   as = concept.message-subscription
 
+  context {
+    as  = context.ownership
+    to  = concept.service-bus-topic
+    via = source.topic_id
+  }
+
   relation "subscribes-to" {
     to  = concept.service-bus-topic
     via = source.topic_id

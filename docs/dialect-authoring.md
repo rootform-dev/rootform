@@ -111,6 +111,33 @@ contribution for non-absorbing support. `to` accepts Concept or applied Rule;
 `via` starts at source or provider. Explicit scalar matching supports only
 `exact` and `dot-ancestor`.
 
+Common placement patterns stay small:
+
+```hcl title="Direct parent proved by a resource reference"
+context {
+  as  = context.ownership
+  to  = concept.parent
+  via = source.parent_id
+}
+```
+
+- Use an ownership Context for an API or lifecycle parent when the traversal
+  resolves that exact parent. A resource-group name is administrative
+  placement only when the provider contract says the resource is created in
+  that group.
+- Use a domain Context such as `rf.context.network` when the reference proves
+  placement in that domain. It may coexist with administrative ownership.
+- Keep an association with several beneficiaries as Contributions when no
+  unique parent exists. If the API independently proves one parent, emit that
+  Context and retain the distinct Contributions.
+- Add a Relation only for a documented interaction. A shared traversal may
+  prove both placement and interaction when those facts have different
+  meanings.
+
+Literal, missing, dynamic, incompatible, or ambiguous evidence establishes no
+placement. Test those cases beside the successful parent and full ancestor
+path; never add a fallback parent from resource type or naming.
+
 Composition members are required, ordered, and exclusive. Failure rejects
 whole composite Rule application. Resource root and resource members keep base
 representations; members do not inherit root Rule or Concept.

@@ -89,6 +89,12 @@ rule "log-analytics-solution" {
 
   as = concept.operations-detail
 
+  context {
+    as  = context.ownership
+    to  = concept.resource-group
+    via = source.resource_group_name
+  }
+
   contribution {
     to  = concept.log-analytics-workspace
     via = source.workspace_resource_id
