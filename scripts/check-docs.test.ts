@@ -341,6 +341,42 @@ test("user documentation navigation follows the task-oriented structure", () => 
   expect(documentedCliPages).toEqual(cliSourcePages);
 });
 
+test("input guides preserve configuration, saved-document, and plan boundaries", () => {
+  const root = join(import.meta.dir, "..");
+  const choice = readFileSync(join(root, "docs/inputs/index.md"), "utf8");
+  const plans = readFileSync(join(root, "docs/inputs/plans.md"), "utf8");
+  const explore = readFileSync(join(root, "docs/guides/explore-architecture.md"), "utf8");
+
+  for (const command of [
+    "rootform run ./infra",
+    "rootform run architecture.json",
+    "rootform run --plan tfplan.json",
+  ]) {
+    expect(choice).toContain(command);
+  }
+  expect(choice).toContain("not an isolated `.tf`");
+  expect(choice).toContain("Two valid documents with different semantic environments");
+  expect(choice).not.toContain("requires compatible semantic digests");
+
+  for (const command of [
+    "rootform run --plan tfplan.json",
+    "rootform build --plan tfplan.json --output planned.json",
+    "rootform diff --plan tfplan.json",
+    "rootform check --plan tfplan.json",
+  ]) {
+    expect(plans).toContain(command);
+  }
+  expect(plans).toContain("selection from the current working directory");
+  expect(plans).toContain("does not infer a project root");
+  expect(plans).toContain("does not necessarily\nmean the comparison failed");
+  expect(plans.match(/<!-- docs-check:plan-/gu)?.length).toBe(3);
+
+  expect(explore).toContain("rootform run architecture.json");
+  expect(explore).toContain("rootform build . --format html --output architecture.html");
+  expect(explore).not.toContain("beneficiary inspector rows");
+  expect(explore).not.toContain("same resource ID");
+});
+
 test("installation documentation keeps supported methods in recommendation order", () => {
   const page = readFileSync(join(import.meta.dir, "../docs/installation.md"), "utf8");
   const section = (start: string, end: string) => {
