@@ -397,6 +397,9 @@ test("local review guides preserve Diff, Policy, and Git boundaries", () => {
     expect(checks).toContain(`<!-- docs-check:${marker} -->`);
   }
   expect(checks).toContain("not declared in source");
+  expect(checks).toContain("aws_instance.subnet_id");
+  expect(checks).toContain("aws_instance.implicit");
+  expect(checks).not.toContain('resource "aws_subnet" "orphan"');
   expect(checks).toMatch(/accepts neither `--input` nor `--policy-pack`/u);
 
   for (const command of ["git merge-base", "git worktree add", "git worktree remove"]) {
@@ -404,6 +407,9 @@ test("local review guides preserve Diff, Policy, and Git boundaries", () => {
   }
   expect(review).not.toMatch(/git (?:reset|clean|checkout)/u);
   expect(review).not.toContain("rm -r");
+  expect(review).toContain("Uncommitted modifications");
+  expect(review).toContain("`.terraform/`");
+  expect(review).toContain("rm -f");
   expect(review).toContain("HTML shows one architecture");
 });
 

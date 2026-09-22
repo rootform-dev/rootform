@@ -40,8 +40,8 @@ Build again with the same binary and Dialect selection:
 rootform build . --output after.json
 ```
 
-`after.json` contains the VPC and both subnets. Neither build changes
-`before.json`.
+`after.json` contains the VPC and both subnets. This second build leaves
+`before.json` unchanged.
 
 ## Read the changes
 
@@ -99,7 +99,7 @@ Architecture unchanged
 An `undetermined` entry means available evidence cannot prove whether an
 architectural fact changed. It is not a proven removal and does not by itself
 mean the comparison failed. [Architecture Diff](../concepts/diff.md#unknown-is-not-absence)
-owns the complete evidence model.
+explains the complete evidence model.
 
 ## Save reports
 

@@ -8,8 +8,7 @@ copy under review. This procedure uses detached Git worktrees in a new temporary
 directory and writes every Rootform result outside them.
 
 Use one Rootform binary throughout. The same root module path must exist in both
-revisions, and every required module must already be available in each
-checkout.
+revisions.
 
 ## Choose the revisions
 
@@ -24,6 +23,11 @@ base_commit=$(git merge-base "$target_ref" "$head_ref")
 head_commit=$(git rev-parse "$head_ref")
 printf 'Before: %s\nAfter:  %s\n' "$base_commit" "$head_commit"
 ```
+
+`HEAD` names committed changes only. Uncommitted modifications in the current
+checkout are not included. Ensure that `target_ref` exists locally and update it
+when the review requires the latest target state before resolving either
+commit.
 
 That comparison answers: what architectural meaning did this branch introduce
 since it diverged from the target branch? To compare the current target head
@@ -45,8 +49,14 @@ printf 'Review directory: %s\n' "$review_root"
 ```
 
 These commands do not switch the current checkout. Set the root module path
-relative to the repository root, then build both revisions into the results
-directory:
+relative to the repository root. Before building, make every referenced module
+and external Dialect or Policy Pack selection available in each worktree. A Git
+worktree does not inherit the current checkout's `.terraform/` directory. Use
+[Reproduce a build](../guides/reproduce-build.md) and
+[external content](../guides/external-content.md) to prepare each revision from
+its own committed selection.
+
+Build both revisions into the results directory:
 
 <!-- docs-check:review-build -->
 ```sh
@@ -88,15 +98,15 @@ rootform diff "$review_root/results/before.json" \
   --format json --output "$review_root/results/architecture-diff.json"
 ```
 
-Choose gate separately from report format:
+Choose the gate independently of the report format:
 
-- Publish informative report with ordinary `rootform diff`. Completed comparison returns `0` even when changes exist
-- Block on any determined or undetermined difference with `rootform diff before.json after.json --exit-code`
-- Block on governance result with `rootform check` and expected Policy Pack selection and target coverage
+- Use ordinary `rootform diff` for an informational report. A completed comparison returns `0` even when changes exist
+- Use `rootform diff before.json after.json --exit-code` to block on any determined or undetermined difference
+- Use `rootform check` to block on governance results after confirming the expected Policy Pack selection and target coverage
 
-Architectural change is review information, not automatically defect. Likewise,
-completed process is not automatically approval. Read report contents and
-policy coverage before deciding.
+An architectural change informs the review, but it is not automatically a
+defect. Likewise, a completed command does not approve the change. Read the
+report contents and policy coverage before deciding.
 
 ## Add policy and architecture evidence
 
@@ -141,23 +151,25 @@ location. Then remove only the two worktrees and temporary files created above:
 ```sh
 git worktree remove "$review_root/base"
 git worktree remove "$review_root/head"
-rm "$review_root/results/before.json"
-rm "$review_root/results/after.json"
-rm "$review_root/results/architecture-diff.md"
-rm "$review_root/results/architecture-diff.json"
-rm "$review_root/results/policy-result.json"
-rm "$review_root/results/after.html"
+rm -f \
+  "$review_root/results/before.json" \
+  "$review_root/results/after.json" \
+  "$review_root/results/architecture-diff.md" \
+  "$review_root/results/architecture-diff.json" \
+  "$review_root/results/policy-result.json" \
+  "$review_root/results/after.html"
 rmdir "$review_root/results"
 rmdir "$review_root"
 ```
 
-No command resets branch, deletes untracked files in current checkout, or
-removes paths outside the temporary directory created by `mktemp`.
+These commands work whether or not you created the optional Policy and HTML
+artifacts. They do not reset the branch, delete untracked files in the current
+checkout, or remove paths outside the temporary directory created by `mktemp`.
 
 Architecture reports can reveal resource names, source paths, relations, and
 project structure. Never attach raw plans, state, credentials, or secrets.
 Apply repository access and retention rules before publishing any artifact.
 
-Continue with [Run in CI](../integrations/ci/README.md) for portable runner
-workflow or [GitHub Actions](../integrations/github-actions.md) for GitHub setup
-and reporting. Those pages own automation details.
+Use [Run in CI](../integrations/ci/README.md) for a portable runner workflow or
+[GitHub Actions](../integrations/github-actions.md) for GitHub setup and review
+reporting.

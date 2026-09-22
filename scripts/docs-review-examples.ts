@@ -142,9 +142,35 @@ export function verifyReviewExamples(
   assert(!existsSync(reviewRoot), "review cleanup left temporary files");
   assert(git(["status", "--porcelain"]).stdout === "", "review changed working copy");
 
+  const requiredOnlySetup = [
+    "review-revisions",
+    "review-worktrees",
+    "review-build",
+    "review-diff",
+    "review-reports",
+  ]
+    .map((marker) => markedCommand(workflow, marker))
+    .join("\n");
+  const requiredOnlyResult = run(["sh", "-eu", "-c", requiredOnlySetup]);
+  const requiredOnlyMatch = /^Review directory: (.+)$/mu.exec(requiredOnlyResult.stdout);
+  assert(requiredOnlyMatch?.[1], "required-only review directory was not reported");
+  const requiredOnlyRoot = requiredOnlyMatch[1];
+  assert(
+    !existsSync(join(requiredOnlyRoot, "results/policy-result.json")) &&
+      !existsSync(join(requiredOnlyRoot, "results/after.html")),
+    "required-only review unexpectedly created optional artifacts",
+  );
+  execute(["sh", "-eu", "-c", markedCommand(workflow, "review-cleanup")], repository, {
+    ...environment,
+    review_root: requiredOnlyRoot,
+  });
+  assert(!existsSync(requiredOnlyRoot), "required-only cleanup left temporary files");
+  assert(git(["status", "--porcelain"]).stdout === "", "required-only review changed working copy");
+
   return [
     "pull-request review built isolated merge-base and head worktrees without changing checkout",
     "equivalent commits in different worktree paths compared unchanged",
     "review Markdown, JSON, Policy JSON, and architecture HTML were created then cleaned",
+    "review without optional Policy or HTML steps created required reports and cleaned successfully",
   ];
 }
