@@ -258,7 +258,7 @@ directory and accepts neither `--input` nor `--policy-pack`. See its
 [exact reference](../reference/cli/explain/policy.md) before using it with a
 project-selected pack.
 
-## Keep machine reports
+## Use in CI
 
 Use JSON for automation or SARIF for a compatible code-review surface:
 
