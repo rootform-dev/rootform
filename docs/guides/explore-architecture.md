@@ -3,7 +3,8 @@ title: Explore an architecture
 description: Navigate an existing project, inspect resources and evidence, and follow placements and connections.
 ---
 
-Open a Terraform or OpenTofu root module in the local explorer:
+Run Rootform from a Terraform or OpenTofu root module. The local explorer opens
+the architecture derived from its declarations and references.
 
 ```sh
 rootform run .
