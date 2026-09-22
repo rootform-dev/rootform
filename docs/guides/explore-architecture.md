@@ -90,9 +90,9 @@ not bring the endpoint's surrounding resources into this context.
 ## Reveal a secondary resource
 
 Some fully resolved association resources contribute implementation detail to
-other resources without needing permanent cards. Their beneficiary inspector
-rows still link to the original resource. Select the contributor there, or find
-it by name or type in Search, to reveal and inspect the same resource ID.
+other resources without needing permanent cards. Find such a resource from the
+Inspector of an object it contributes to, or search for it by name or type.
+Either route reveals the resource so you can inspect it directly.
 
 This presentation does not remove the resource from the architecture or turn
 its contribution into a placement or relation.
@@ -105,8 +105,14 @@ Save a reusable architecture file:
 rootform build . --output architecture.json
 ```
 
-Open it later with `rootform run architecture.json`, use it as automation
-input, or create a self-contained browser artifact:
+Open that saved document later:
+
+```sh
+rootform run architecture.json
+```
+
+To rebuild the architecture from the configuration, run `rootform build .`.
+To export that configuration as a self-contained browser artifact, use:
 
 ```sh
 rootform build . --format html --output architecture.html
