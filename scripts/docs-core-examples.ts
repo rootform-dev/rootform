@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseReference } from "./generate-cli-reference.ts";
 
@@ -134,16 +134,59 @@ export function verifyCoreExamples(
   const policyPage = page("guides/check-architecture.md");
   const pack = configuration(policyPage, "policies/pack.rf.hcl");
   const policySource = configuration(policyPage, "policies/subnet-network-context.rf.hcl");
+  const orphanSource = configuration(policyPage, "orphan.tf");
+  const unresolvedSource = configuration(policyPage, "unresolved.tf");
+  const noSubnetSource = configuration(policyPage, "no-subnet/main.tf");
   mkdirSync(join(workspace, "policies"));
   writeFileSync(join(workspace, "policies/pack.rf.hcl"), pack);
   writeFileSync(join(workspace, "policies/subnet-network-context.rf.hcl"), policySource);
 
-  const passed =
-    command("guides/check-architecture.md", "policy-local").trim().split("\n")[0] ?? "";
+  const passed = command("guides/check-architecture.md", "policy-local").trim();
   assert(
-    fencedBlock(policyPage, "text", "Passed check (excerpt)").trim().split("\n")[0] === passed,
+    fencedBlock(policyPage, "text", "Passed check").trim() === passed,
     "displayed compliant result differs from command",
   );
+  command("guides/check-architecture.md", "policy-architecture");
+
+  writeFileSync(join(workspace, "orphan.tf"), orphanSource);
+  const violated = command("guides/check-architecture.md", "policy-violation", 1).trim();
+  assert(
+    fencedBlock(policyPage, "text", "Mixed check with violation").trim() === violated,
+    "displayed violation result differs from command",
+  );
+  const omitted = command("guides/check-architecture.md", "policy-violation-explain").trim();
+  assert(
+    fencedBlock(policyPage, "text", "Proven omission").trim() === omitted,
+    "displayed proven omission differs from architecture explanation",
+  );
+  command("guides/check-architecture.md", "policy-remove-violation");
+  assert(!existsSync(join(workspace, "orphan.tf")), "violation scenario was not restored");
+
+  writeFileSync(join(workspace, "unresolved.tf"), unresolvedSource);
+  const indeterminate = command("guides/check-architecture.md", "policy-indeterminate", 3).trim();
+  assert(
+    indeterminate.startsWith(fencedBlock(policyPage, "text", "Mixed indeterminate check").trim()),
+    "displayed indeterminate summary differs from command",
+  );
+  command("guides/check-architecture.md", "policy-remove-indeterminate");
+  assert(!existsSync(join(workspace, "unresolved.tf")), "indeterminate scenario was not restored");
+
+  const noneSelected = command("guides/check-architecture.md", "policy-none", 3).trim();
+  assert(
+    fencedBlock(policyPage, "text", "No Policy Pack selected").trim() === noneSelected,
+    "displayed no-selection result differs from command",
+  );
+
+  mkdirSync(join(workspace, "no-subnet"));
+  writeFileSync(join(workspace, "no-subnet/main.tf"), noSubnetSource);
+  const noTarget = command("guides/check-architecture.md", "policy-no-target", 3).trim();
+  assert(
+    fencedBlock(policyPage, "text", "Selected Policy without a target").trim() === noTarget,
+    "displayed no-target result differs from command",
+  );
+  command("guides/check-architecture.md", "policy-remove-no-target");
+  assert(!existsSync(join(workspace, "no-subnet")), "no-target scenario was not restored");
+
   command("guides/check-architecture.md", "policy-show");
   command("guides/check-architecture.md", "policy-json");
   const policy = JSON.parse(read("policy-result.json").toString());
@@ -153,49 +196,19 @@ export function verifyCoreExamples(
       policy.evaluations[0]?.policy === "tutorial.policy.subnet-network-context",
     "tutorial Policy identity or result changed",
   );
-
-  const missingContextSource = original
-    .toString()
-    .replace("vpc_id     = aws_vpc.main.id", 'vpc_id     = "vpc-0123456789abcdef0"');
-  assert(missingContextSource !== original.toString(), "tutorial subnet reference missing");
-  writeFileSync(join(workspace, "main.tf"), missingContextSource);
-  const unresolved = run(["check", ".", "--policy-pack", "./policies"], 3)
-    .stdout.trim()
-    .split("\n")[0];
+  const architectureExplanation = command(
+    "guides/check-architecture.md",
+    "policy-explain-architecture",
+  ).trim();
   assert(
-    fencedBlock(policyPage, "text", "Indeterminate check (unresolved traversal)")
-      .trim()
-      .split("\n")[0] === unresolved,
-    "displayed indeterminate result differs from command",
+    architectureExplanation ===
+      fencedBlock(
+        page("getting-started/first-architecture.md"),
+        "text",
+        "Subnet explanation excerpt",
+      ).trim(),
+    "Policy guide architecture explanation differs from saved evidence",
   );
-  writeFileSync(join(workspace, "main.tf"), original);
-
-  writeFileSync(
-    join(workspace, "policies/subnet-network-context.rf.hcl"),
-    policySource.replace("concept = rf.concept.subnet", "concept = rf.concept.managed-database"),
-  );
-  const noTarget = JSON.parse(
-    run(["check", ".", "--policy-pack", "./policies", "--format", "json"], 3).stdout,
-  );
-  assert(
-    noTarget.summary.policies === 1 && noTarget.summary.evaluations === 0,
-    "zero target no longer reports not_evaluated",
-  );
-
-  writeFileSync(
-    join(workspace, "policies/subnet-network-context.rf.hcl"),
-    policySource.replace(/assert = .*$/mu, "assert = false"),
-  );
-  const violation = JSON.parse(
-    run(["check", ".", "--policy-pack", "./policies", "--format", "json"], 1).stdout,
-  );
-  assert(
-    violation.summary.violated === 1 &&
-      violation.violations[0]?.policy === "tutorial.policy.subnet-network-context",
-    "violation lost Policy identity",
-  );
-
-  writeFileSync(join(workspace, "policies/subnet-network-context.rf.hcl"), policySource);
   assert(read("main.tf").equals(original), "documentation checks mutated Terraform source");
   checks.push("Policy pass, indeterminate, not_evaluated, and violation remain distinct");
 
@@ -237,12 +250,17 @@ export function verifyCoreExamples(
     "identical Diff result changed",
   );
   command("guides/compare-architectures.md", "diff-json");
+  command("guides/compare-architectures.md", "diff-markdown");
   const delta = JSON.parse(read("delta.json").toString());
   assert(
     delta.summary?.representations?.added === 1 &&
       delta.summary?.contexts?.added === 1 &&
       delta.undetermined?.length === 0,
     "documented Diff summary changed",
+  );
+  assert(
+    read("architecture-diff.md").toString().startsWith("## Rootform diff\n"),
+    "Markdown Diff report was not written",
   );
   checks.push("Diff tutorial reports one representation and one network context");
   return checks;

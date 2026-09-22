@@ -366,9 +366,10 @@ test("input guides preserve configuration, saved-document, and plan boundaries",
   ]) {
     expect(plans).toContain(command);
   }
-  expect(plans).toContain("selection from the current working directory");
+  expect(plans).toMatch(/project selection[\s\S]*current working directory/u);
+  expect(plans).toMatch(/need neither `rootform\.lock` nor a\s+`\.rootform\/` directory/u);
   expect(plans).toContain("does not infer a project root");
-  expect(plans).toContain("does not necessarily\nmean the comparison failed");
+  expect(plans).toMatch(/does not necessarily\s+mean the comparison failed/u);
   expect(plans.match(/<!-- docs-check:plan-/gu)?.length).toBe(3);
 
   expect(explore).toContain("rootform run architecture.json");
