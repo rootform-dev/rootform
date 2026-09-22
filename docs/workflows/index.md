@@ -26,12 +26,12 @@ printf 'Before: %s\nAfter:  %s\n' "$base_commit" "$head_commit"
 ```
 
 That comparison answers: what architectural meaning did this branch introduce
-since it diverged from target branch? To compare current target head against
-branch head instead, set `base_commit=$(git rev-parse "$target_ref")`. That
-answers a different question and can include changes made on target branch
-after divergence.
+since it diverged from the target branch? To compare the current target head
+against the branch head instead, set
+`base_commit=$(git rev-parse "$target_ref")`. That answers a different question
+and can include changes made on the target branch after divergence.
 
-Record both full commit IDs with review artifacts.
+Record both full commit IDs with the review artifacts.
 
 ## Create isolated worktrees
 
@@ -44,8 +44,9 @@ mkdir "$review_root/results"
 printf 'Review directory: %s\n' "$review_root"
 ```
 
-These commands do not switch current checkout. Set root module path relative to
-repository root, then build both revisions into results directory:
+These commands do not switch the current checkout. Set the root module path
+relative to the repository root, then build both revisions into the results
+directory:
 
 <!-- docs-check:review-build -->
 ```sh
@@ -58,16 +59,16 @@ rootform build "$review_root/head/$root_module" \
 ```
 
 Each directory build reads its own project selection. To isolate source
-changes, use same binary and comparable Dialect selection. When
-`rootform.lock` changes in pull request, do not copy one revision's lock into
-other. Build each revision as committed, then treat resulting semantic
+changes, use the same binary and comparable Dialect selection. When
+`rootform.lock` changes in the pull request, do not copy one revision's lock
+into the other. Build each revision as committed, then treat the resulting semantic
 difference as part of review. Architecture Diff can preserve source continuity
 while reporting affected conclusions as undetermined. See
 [semantic changes](../concepts/diff.md#semantic-changes-need-separate-review).
 
 ## Compare and save review artifacts
 
-Read comparison in terminal first:
+Read the comparison in the terminal first:
 
 <!-- docs-check:review-diff -->
 ```sh
@@ -99,8 +100,8 @@ policy coverage before deciding.
 
 ## Add policy and architecture evidence
 
-When repository keeps local pack at `policies/`, evaluate head revision and
-save result:
+When the repository keeps a local pack at `policies/`, evaluate the head
+revision and save the result:
 
 <!-- docs-check:review-policy -->
 ```sh
@@ -109,7 +110,7 @@ rootform check "$review_root/head/$root_module" \
   --format json --output "$review_root/results/policy-result.json"
 ```
 
-Use project-selected Policy Packs instead when lock owns governance selection.
+Use project-selected Policy Packs instead when the lock owns governance selection.
 [Run checks](../guides/check-architecture.md) explains outcomes and evidence.
 
 Export head architecture when visual inspection helps:
@@ -133,8 +134,8 @@ HTML shows one architecture. It is not an interactive Diff report.
 
 ## Preserve results and clean temporary files
 
-Copy desired files from results directory into approved review location. Then
-remove only two worktrees and temporary files created above:
+Copy the desired files from the results directory into an approved review
+location. Then remove only the two worktrees and temporary files created above:
 
 <!-- docs-check:review-cleanup -->
 ```sh
@@ -151,7 +152,7 @@ rmdir "$review_root"
 ```
 
 No command resets branch, deletes untracked files in current checkout, or
-removes paths outside temporary directory created by `mktemp`.
+removes paths outside the temporary directory created by `mktemp`.
 
 Architecture reports can reveal resource names, source paths, relations, and
 project structure. Never attach raw plans, state, credentials, or secrets.

@@ -55,7 +55,7 @@ One Policy was selected, its target matched `aws_subnet.application`, and its
 assertion passed. Status `0` means every selected Policy was evaluated and
 passed.
 
-Save architecture used by later evidence commands:
+Save the architecture used by later evidence commands:
 
 <!-- docs-check:policy-architecture -->
 ```sh
@@ -117,7 +117,7 @@ Omitted facts
                       not declared in source
 ```
 
-Restore the initial scenario before continuing. Remove only file created in
+Restore the initial scenario before continuing. Remove only the file created in
 this step:
 
 <!-- docs-check:policy-remove-violation -->
@@ -153,7 +153,7 @@ Results      1 passed, 1 indeterminate
 Rootform cannot resolve evidence for the literal reference. It does not turn
 that missing proof into a violation. The result returns status `3`.
 
-Restore initial source again:
+Restore the initial source again:
 
 <!-- docs-check:policy-remove-indeterminate -->
 ```sh
@@ -217,7 +217,7 @@ tutorial.policy.subnet-network-context
 ```
 
 The pack and Policy were selected, but no subnet matched its target. Status is
-still `3`. Restore workspace by removing only scenario files:
+still `3`. Restore the workspace by removing only the scenario files:
 
 <!-- docs-check:policy-remove-no-target -->
 ```sh
@@ -227,7 +227,7 @@ rmdir no-subnet
 
 ## Inspect definition, result, and architecture evidence
 
-Show Policy definition selected from local source:
+Show the Policy definition selected from local source:
 
 <!-- docs-check:policy-show -->
 ```sh
@@ -243,7 +243,7 @@ rootform check . --policy-pack ./policies --format json --output policy-result.j
 
 The JSON result records selected Policies, each target and outcome, inspected
 fact IDs, diagnostics, and violation details. Explain architectural evidence
-separately from saved architecture:
+separately from the saved architecture:
 
 <!-- docs-check:policy-explain-architecture -->
 ```sh
@@ -252,8 +252,8 @@ rootform explain architecture aws_subnet.application --input architecture.json
 
 `show policy` displays authored target, assertion, message, and source.
 `explain architecture` traces established facts and provenance.
-`explain policy` instead explains one evaluation from current project
-selection. It reads architecture and Policy Pack selection from current
+`explain policy` instead explains one evaluation from the current project
+selection. It reads architecture and Policy Pack selection from the current
 directory and accepts neither `--input` nor `--policy-pack`. See its
 [exact reference](../reference/cli/explain/policy.md) before using it with a
 project-selected pack.
@@ -267,12 +267,12 @@ rootform check . --policy-pack ./policies --format sarif \
   --output policy-result.sarif
 ```
 
-Review selected Policy count and evaluation coverage with status. Invalid
+Review the selected Policy count and evaluation coverage with status. Invalid
 command use returns `2`. [Outputs and exit status](../reference/outputs.md)
 owns the full command matrix.
 
 For external Policy Packs, follow
 [Project configuration](../cli.md) instead of duplicating lock, OCI, and vendor
 steps here. Continue with [Run in CI](../integrations/ci/README.md) or
-[GitHub Actions](../integrations/github-actions.md) when local results are ready
+[GitHub Actions](../integrations/github-actions.md) when the local results are ready
 for automation.
