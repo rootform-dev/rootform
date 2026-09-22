@@ -7,10 +7,11 @@ Start with a project that is ready for its usual Terraform or OpenTofu planning
 workflow. Rootform reads the completed plan export. It does not create, refresh,
 or apply a plan, execute a provider, or contact a backend.
 
-Run Rootform from the project root whose `rootform.lock` and `.rootform`
-directory define the intended selection. With `--plan`, Rootform reads project
-selection from the current working directory. It does not infer a project root
-from the directory containing the plan file.
+Run Rootform from the project directory. With `--plan`, Rootform reads any
+project selection present in the current working directory. Projects that use
+only the Dialects supplied with Rootform need neither `rootform.lock` nor a
+`.rootform/` directory. Rootform does not infer a project root from the
+directory containing the plan file.
 
 ## Protect the plan files
 
@@ -50,6 +51,8 @@ rootform run --plan tfplan.json
 
 The local explorer opens the architecture the plan would produce. Inspect the
 planned resource instances, their interpretations, and established facts.
+Keep this server running while you use a second terminal for later commands, or
+press `Ctrl+C` before continuing.
 
 ## Save the planned architecture
 
@@ -91,7 +94,7 @@ rootform check --plan tfplan.json
 This evaluates the planned architecture against Policy Packs selected for the
 current project. Select an appropriate pack in `rootform.lock` or pass an
 explicit `--policy-pack` source before treating the result as a governance
-claim. See [Check an architecture](../guides/check-architecture.md) for the
+claim. See [Run checks](../guides/check-architecture.md) for the
 Policy Pack workflow and outcome interpretation.
 
 ## Read plan comparisons correctly
