@@ -1,12 +1,11 @@
 ---
 title: Your first architecture
-description: Build a VPC and subnet from configuration and read the resulting facts and evidence.
+description: Explore a VPC and subnet, save the architecture, and explain its placement.
 ---
 
-Build a VPC and subnet from Terraform configuration and read the architecture
-Rootform derives from it. No cloud account, credentials, Terraform binary, or
-provider download is involved: the RF Vocabulary and the Dialects that
-interpret AWS resources are embedded in the Rootform release.
+Build and inspect a VPC with one subnet from Terraform configuration. Rootform
+uses its supplied AWS [Dialect](../concepts/dialects.md), so this tutorial needs
+no cloud account, credentials, Terraform binary, or provider download.
 
 <!-- rootform:steps -->
 
@@ -17,7 +16,7 @@ mkdir rootform-first-architecture
 cd rootform-first-architecture
 ```
 
-Save this configuration as `main.tf`:
+Save this complete configuration as `main.tf`:
 
 ```hcl title="main.tf"
 terraform {
@@ -41,17 +40,57 @@ resource "aws_subnet" "application" {
 }
 ```
 
+## Open the architecture
+
+```sh
+rootform run .
+```
+
+Rootform opens the local explorer and reports what it built. Output includes:
+
+```text title="Run output excerpt"
+Serving architecture
+http://127.0.0.1:21717
+
+Source     .
+Resources  2
+Facts      1 resolved, 0 omitted
+Watch      enabled
+```
+
+The command stays in the foreground and rebuilds after source changes. Leave
+this terminal running while you use the browser. Use a second terminal for the
+remaining commands, or press `Ctrl+C` after exploring and reuse the same one.
+
+## Inspect the subnet
+
+The first view contains `main`, an Amazon VPC with one nested object. Open
+`main`, then select `application`. The Details tab identifies it as
+`aws_subnet.application` and shows `main` under **Where**.
+
+This is a placement: the subnet appears inside the VPC. Rootform does not draw
+that context as a connection arrow.
+
+## Follow the placement evidence
+
+Open the subnet's Source tab. Under **Network context**, expand **Resolution**.
+The explorer names `aws.rule.subnet`, the resolved subnet and VPC, and source
+line 17. That line is the `vpc_id = aws_vpc.main.id` reference used as evidence
+for the placement.
+
+The reference alone is not architectural meaning. The AWS Dialect Rule states
+that this specific evidence establishes network context. Other Terraform
+references do not become placements or connections automatically.
+
 ## Build the architecture
+
+In the second terminal, from `rootform-first-architecture`, run:
 
 ```sh
 rootform build . --output architecture.json
 ```
 
-`build` compiles the directory with the supplied release set. It does not
-discover, acquire, or prompt for packages, and it does not create
-`rootform.lock`: a project that uses only supplied Dialects needs no lock and
-no `rootform init`. The command writes Architecture IR to
-`architecture.json` and reports a compact declaration summary on standard error:
+The command writes a Rootform architecture file and reports:
 
 ```text title="Declaration summary"
 Architecture built -> architecture.json
@@ -60,35 +99,30 @@ Resources  2
 Facts      1 resolved, 0 omitted
 ```
 
-The result line names the destination. The summary counts the two resources.
-The third declaration in the file is the Terraform settings block, which is
-not a resource and stays source data. The VPC and subnet each retain a base
-representation and an applied Rule.
+The saved [Architecture IR](../concepts/architecture-ir.md) keeps source
+accounting, interpretations, facts, diagnostics, and evidence for later
+inspection or automation.
 
 ## Explain the architecture
-
-`aws_vpc.main` and `aws_subnet.application` both start as base
-representations. The AWS Dialect then applies `aws.rule.vpc` to the first and
-`aws.rule.subnet` to the second, which classifies each representation with a
-Concept. Classification records architectural meaning; it never changes the
-representation identity established from the source declaration.
-
-The subnet's `vpc_id` argument refers to `aws_vpc.main`. That reference is
-source evidence on its own. `aws.rule.subnet` states how the evidence produces
-meaning, so the result records a `rf.context.network` fact from the subnet
-representation to the VPC representation rather than turning every reference
-into a relation.
-
-Read one element with:
 
 ```sh
 rootform explain architecture aws_subnet.application --input architecture.json
 ```
 
-The explanation names the source declaration, the applied Rule, and the
-resolution behind each fact. Base metadata, applied interpretation, and fact
-provenance stay separate, so what the source declared remains distinguishable
-from what a Dialect established.
+```text title="Subnet explanation excerpt"
+aws_subnet.application
+
+Concept  rf.concept.subnet "application"
+Rule     aws.rule.subnet
+Defined  main.tf:16
+
+Contexts
+  rf.context.network  rf.concept.virtual-network "main"
+                      via aws_subnet.application.vpc_id
+```
+
+The explanation confirms which Rule interpreted the subnet and which argument
+resolved to its VPC.
 
 ## Optional: self-contained HTML
 
@@ -96,16 +130,16 @@ from what a Dialect established.
 rootform build . --format html --output architecture.html
 ```
 
-Open `architecture.html` in a browser. The file carries its own assets and
-needs no server or adjacent files. It presents the same architecture as
-`architecture.json`.
+Open `architecture.html` in a browser. It contains its assets and the same
+architecture, so it needs no local server or adjacent files.
 
 <!-- rootform:endsteps -->
 
-Continue with [Architecture IR](../concepts/architecture-ir.md) to see how the
-document records bases, facts, and provenance,
-[compare architectures](../guides/compare-architectures.md) to read a Diff, or
-[check a policy](../guides/check-architecture.md) to evaluate the facts. When a
-project adds third-party Dialects, excludes or replaces a supplied owner, or
-selects Policy Packs, record that selection in `rootform.lock`; see
-[external content](../guides/external-content.md).
+To use your own project, run `rootform run .` from its root module. Child modules
+referenced by configuration must already be available locally. Configuration
+shows declared structure; use a [Terraform or OpenTofu plan](../inputs/plans.md)
+when your question depends on planned instances or before-and-after evidence.
+
+Next, [choose another input](../inputs/index.md),
+[compare architectures](../guides/compare-architectures.md), or
+[run checks](../guides/check-architecture.md).

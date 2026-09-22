@@ -1,5 +1,5 @@
 ---
-title: "Project selection and preparation"
+title: "Select Dialects and Policy Packs"
 description: "Use the embedded release set, prepare explicit selections, and see what a project resolves."
 ---
 

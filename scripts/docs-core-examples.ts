@@ -114,6 +114,23 @@ export function verifyCoreExamples(
   );
   checks.push("saved architecture explains subnet source and owner-first Rule");
 
+  const explanationText = run([
+    "explain",
+    "architecture",
+    "aws_subnet.application",
+    "--input",
+    "architecture.json",
+  ]).stdout.trim();
+  assert(
+    fencedBlock(
+      page("getting-started/first-architecture.md"),
+      "text",
+      "Subnet explanation excerpt",
+    ).trim() === explanationText,
+    "displayed subnet explanation differs from command",
+  );
+  checks.push("first architecture explanation matches displayed output");
+
   const policyPage = page("guides/check-architecture.md");
   const pack = configuration(policyPage, "policies/pack.rf.hcl");
   const policySource = configuration(policyPage, "policies/subnet-network-context.rf.hcl");

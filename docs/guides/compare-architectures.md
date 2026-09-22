@@ -1,5 +1,5 @@
 ---
-title: "Compare two architectures"
+title: "Compare architectures"
 description: "Add a subnet, compare before and after facts, and verify Diff exit behavior."
 ---
 

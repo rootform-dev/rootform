@@ -3,10 +3,9 @@ title: Install Rootform
 description: Install Rootform on macOS, Linux, or Windows, or run it from a container.
 ---
 
-Install Rootform on macOS, Linux, or Windows, or run it from a container.
-Supplied [Dialects](concepts/dialects.md) ship inside Rootform and need no
-network access. Only explicit `rootform init --locked` preparation may acquire
-exact OCI pins recorded for additional third-party Dialects or Policy Packs.
+Choose your platform, install Rootform, then verify the executable. Supplied
+[Dialects](concepts/dialects.md) are included and need no additional Rootform
+configuration for your first architecture.
 
 <!-- rootform:tabs Operating system -->
 <!-- rootform:tab macOS -->
@@ -118,9 +117,9 @@ Get-FileHash .\rootform_0.1.0_windows_amd64.zip -Algorithm SHA256
 Extract the `.tar.gz` or `.zip`, then place `rootform` or `rootform.exe` in
 a directory on `PATH`. Run `rootform version` to confirm the executable.
 
-To run a container, pin the image by index digest instead of using an archive;
-see [Container usage](integrations/oci-image.md#run-against-a-project). For a
+To run a container, pin the image by index digest instead of using an archive.
+See [Container usage](integrations/oci-image.md#run-against-a-project). For a
 disconnected project, prepare exact third-party Dialects and Policy Packs as
-described in [Locks and offline operation](offline-security.md).
+described in [Locks and vendored content](offline-security.md).
 
 Continue with [your first architecture →](getting-started/first-architecture.md).

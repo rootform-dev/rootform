@@ -1,5 +1,5 @@
 ---
-title: "Add a third-party Dialect or Policy Pack"
+title: "Use external Dialects and Policy Packs"
 description: "Select exact local or OCI content without changing Rootform's embedded release set."
 ---
 

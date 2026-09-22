@@ -281,11 +281,11 @@ export function generate(root: string, check: boolean): void {
   );
   const group =
     typeof reference !== "string"
-      ? reference?.items?.find((item) => typeof item !== "string" && item.label === "Commands")
+      ? reference?.items?.find((item) => typeof item !== "string" && item.label === "CLI reference")
       : undefined;
   if (!group || typeof group === "string")
-    throw new Error("Reference > Commands navigation group missing");
-  group.items = commandNavigation(commands);
+    throw new Error("Reference > CLI reference navigation group missing");
+  group.items = [{ label: "Overview", page: "reference/cli" }, ...commandNavigation(commands)];
   // Match the repository formatter without asking it to rewrite opaque input.
   const formatted = Bun.spawnSync(
     [join(root, "node_modules/.bin/biome"), "format", "--stdin-file-path=docs/navigation.json"],

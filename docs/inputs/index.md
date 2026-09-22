@@ -1,5 +1,5 @@
 ---
-title: "Terraform and OpenTofu inputs"
+title: "Choose an input"
 description: "Choose configuration, a saved architecture, or a JSON plan and understand what each input can establish."
 ---
 

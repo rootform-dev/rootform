@@ -1,5 +1,5 @@
 ---
-title: "Git workflows"
+title: "Review a pull request"
 description: "Produce comparable architecture evidence for local review, pull requests, and CI gates."
 ---
 

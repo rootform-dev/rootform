@@ -1,5 +1,5 @@
 ---
-title: "Locks, sources, vendor, and offline operation"
+title: "Locks and vendored content"
 description: "Fix Dialect and Policy Pack selection, verify exact bytes, and execute without discovery."
 ---
 

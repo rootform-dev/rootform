@@ -1,5 +1,5 @@
 ---
-title: "Rootform v0.1 limits"
+title: "Limitations"
 description: "Know the input, coverage, governance, comparison, and offline boundaries of Rootform v0.1."
 ---
 

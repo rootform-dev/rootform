@@ -1,5 +1,5 @@
 ---
-title: "Check an architecture"
+title: "Run checks"
 description: "Evaluate architecture facts against a local or exactly selected Policy Pack."
 ---
 

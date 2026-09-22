@@ -246,6 +246,101 @@ test("checkPages reports duplicate routes and per-page issues together", () => {
   expect(result.issues.some((issue) => issue.kind === "frontmatter")).toBe(true);
 });
 
+test("user documentation navigation follows the task-oriented structure", () => {
+  type Item = { label: string; page?: string; items?: Item[] };
+  type Group = { label: string; items: Item[] };
+  const root = join(import.meta.dir, "..");
+  const groups = JSON.parse(readFileSync(join(root, "docs/navigation.json"), "utf8")) as Group[];
+  const group = (label: string) => {
+    const found = groups.find((candidate) => candidate.label === label);
+    expect(found).toBeDefined();
+    return found as Group;
+  };
+  const labels = (label: string) => group(label).items.map((item) => item.label);
+  const pages = (items: Item[]): string[] =>
+    items.flatMap((item) => (item.page === undefined ? pages(item.items ?? []) : [item.page]));
+
+  expect(groups.map((candidate) => candidate.label)).toEqual([
+    "Get started",
+    "Use Rootform",
+    "Review and automate",
+    "Project configuration",
+    "Understand Rootform",
+    "Rootform language",
+    "Reference",
+    "Security and troubleshooting",
+    "Contribute",
+  ]);
+  expect(labels("Get started")).toEqual([
+    "Overview",
+    "Install Rootform",
+    "Your first architecture",
+  ]);
+  expect(labels("Use Rootform")).toEqual([
+    "Explore an architecture",
+    "Choose an input",
+    "Terraform and OpenTofu plans",
+  ]);
+  expect(labels("Review and automate")).toEqual([
+    "Compare architectures",
+    "Run checks",
+    "Review a pull request",
+    "Run in CI",
+    "GitHub Actions",
+  ]);
+  expect(labels("Project configuration")).toEqual([
+    "Select Dialects and Policy Packs",
+    "Use external Dialects and Policy Packs",
+    "Locks and vendored content",
+    "Reproduce a build offline",
+  ]);
+  expect(labels("Understand Rootform")).toEqual([
+    "Core concepts",
+    "Dialects and RF Vocabulary",
+    "Policies and Policy Packs",
+    "Architecture Diff",
+    "Architecture IR",
+  ]);
+  expect(pages(group("Rootform language").items)).toEqual([
+    "language",
+    "language/tour",
+    "dialect-authoring",
+    "language/write-policy-pack",
+    "language/test-validate",
+    "language/reference",
+    "language/reference/syntax-files",
+    "language/reference/symbols",
+    "language/reference/dialects",
+    "language/reference/rf-vocabulary",
+    "language/reference/rules",
+    "language/reference/emissions",
+    "language/reference/composition",
+    "language/reference/policy-packs",
+    "language/reference/expressions",
+    "language/reference/traversals",
+    "language/reference/built-ins",
+    "language/reference/evaluation",
+    "language/reference/diagnostics",
+  ]);
+
+  const reference = group("Reference");
+  expect(reference.items.map((item) => item.label)).toEqual([
+    "Outputs and exit status",
+    "CLI reference",
+    "Container image",
+    "Registry compatibility",
+  ]);
+  const cli = reference.items.find((item) => item.label === "CLI reference");
+  expect(cli?.items?.[0]).toMatchObject({ label: "Overview", page: "reference/cli" });
+  const documentedCliPages = pages(cli?.items ?? []).sort();
+  const cliSourcePages = [
+    ...new Bun.Glob("docs/reference/cli/**/*.md").scanSync({ cwd: root, onlyFiles: true }),
+  ]
+    .map((path) => deriveRoute(path))
+    .sort();
+  expect(documentedCliPages).toEqual(cliSourcePages);
+});
+
 test("installation documentation keeps supported methods in recommendation order", () => {
   const page = readFileSync(join(import.meta.dir, "../docs/installation.md"), "utf8");
   const section = (start: string, end: string) => {
@@ -310,10 +405,7 @@ test("installation documentation keeps supported methods in recommendation order
   expect(page).not.toContain("rootform.dev/install.sh");
   expect(page).not.toMatch(/Node\.js|Python/u);
   expect(page).toContain(
-    "Supplied [Dialects](concepts/dialects.md) ship inside Rootform and need no\nnetwork access",
-  );
-  expect(page).toContain(
-    "Only explicit `rootform init --locked` preparation may acquire\nexact OCI pins",
+    "Supplied\n[Dialects](concepts/dialects.md) are included and need no additional Rootform\nconfiguration for your first architecture",
   );
 });
 
@@ -363,38 +455,48 @@ test("sidebar uses approved user-facing labels and placement", () => {
       .find(({ label }) => label === group)
       ?.items.map((item) => (typeof item === "string" ? item : item.label));
 
-  expect(labels("Get started")).toEqual(["Overview", "Install", "Your first architecture"]);
+  expect(labels("Get started")).toEqual([
+    "Overview",
+    "Install Rootform",
+    "Your first architecture",
+  ]);
   expect(labels("Understand Rootform")).toEqual([
-    "Mental model",
-    "Architecture IR",
+    "Core concepts",
     "Dialects and RF Vocabulary",
     "Policies and Policy Packs",
     "Architecture Diff",
+    "Architecture IR",
   ]);
-  expect(labels("Work with projects")).toEqual([
-    "Inputs",
+  expect(labels("Use Rootform")).toEqual([
+    "Explore an architecture",
+    "Choose an input",
     "Terraform and OpenTofu plans",
-    "Project selection and preparation",
-    "Add third-party content",
-    "Locks, vendor, and offline use",
-    "Reproduce a build offline",
   ]);
   expect(labels("Review and automate")).toEqual([
-    "Check an architecture",
     "Compare architectures",
-    "Git workflows",
+    "Run checks",
+    "Review a pull request",
     "Run in CI",
     "GitHub Actions",
   ]);
-  expect(labels("Operate safely")).toEqual([
+  expect(labels("Project configuration")).toEqual([
+    "Select Dialects and Policy Packs",
+    "Use external Dialects and Policy Packs",
+    "Locks and vendored content",
+    "Reproduce a build offline",
+  ]);
+  expect(labels("Security and troubleshooting")).toEqual([
     "Security and data handling",
-    "Container image",
-    "Registry compatibility",
     "Limitations",
     "Troubleshooting",
   ]);
-  expect(labels("Reference")).toEqual(["Outputs and exit status", "CLI reference", "Commands"]);
-  expect(labels("Contribute")).toEqual(["Contribute to Rootform", "Writing standard"]);
+  expect(labels("Reference")).toEqual([
+    "Outputs and exit status",
+    "CLI reference",
+    "Container image",
+    "Registry compatibility",
+  ]);
+  expect(labels("Contribute")).toEqual(["Contribute to Rootform", "Writing for Rootform"]);
   expect(navigation.map(({ label }) => label)).not.toContain("Explore the renderer");
   expect(JSON.stringify(navigation)).not.toMatch(/Survey|Focus|Inspector|"page":"renderer/u);
   expect([

@@ -3,43 +3,49 @@
     "label": "Get started",
     "items": [
       { "label": "Overview", "page": "index" },
-      { "label": "Install", "page": "installation" },
+      { "label": "Install Rootform", "page": "installation" },
       { "label": "Your first architecture", "page": "getting-started/first-architecture" }
     ]
   },
   {
-    "label": "Understand Rootform",
+    "label": "Use Rootform",
     "items": [
-      { "label": "Mental model", "page": "concepts" },
-      { "label": "Architecture IR", "page": "concepts/architecture-ir" },
-      { "label": "Dialects and RF Vocabulary", "page": "concepts/dialects" },
-      { "label": "Policies and Policy Packs", "page": "concepts/policies" },
-      { "label": "Architecture Diff", "page": "concepts/diff" }
-    ]
-  },
-  {
-    "label": "Work with projects",
-    "items": [
-      { "label": "Inputs", "page": "inputs" },
-      { "label": "Terraform and OpenTofu plans", "page": "inputs/plans" },
-      { "label": "Project selection and preparation", "page": "cli" },
-      { "label": "Add third-party content", "page": "guides/external-content" },
-      { "label": "Locks, vendor, and offline use", "page": "offline-security" },
-      { "label": "Reproduce a build offline", "page": "guides/reproduce-build" }
+      { "label": "Explore an architecture", "page": "guides/explore-architecture" },
+      { "label": "Choose an input", "page": "inputs" },
+      { "label": "Terraform and OpenTofu plans", "page": "inputs/plans" }
     ]
   },
   {
     "label": "Review and automate",
     "items": [
-      { "label": "Check an architecture", "page": "guides/check-architecture" },
       { "label": "Compare architectures", "page": "guides/compare-architectures" },
-      { "label": "Git workflows", "page": "workflows" },
+      { "label": "Run checks", "page": "guides/check-architecture" },
+      { "label": "Review a pull request", "page": "workflows" },
       { "label": "Run in CI", "page": "integrations/ci" },
       { "label": "GitHub Actions", "page": "integrations/github-actions" }
     ]
   },
   {
-    "label": "Author Rootform language",
+    "label": "Project configuration",
+    "items": [
+      { "label": "Select Dialects and Policy Packs", "page": "cli" },
+      { "label": "Use external Dialects and Policy Packs", "page": "guides/external-content" },
+      { "label": "Locks and vendored content", "page": "offline-security" },
+      { "label": "Reproduce a build offline", "page": "guides/reproduce-build" }
+    ]
+  },
+  {
+    "label": "Understand Rootform",
+    "items": [
+      { "label": "Core concepts", "page": "concepts" },
+      { "label": "Dialects and RF Vocabulary", "page": "concepts/dialects" },
+      { "label": "Policies and Policy Packs", "page": "concepts/policies" },
+      { "label": "Architecture Diff", "page": "concepts/diff" },
+      { "label": "Architecture IR", "page": "concepts/architecture-ir" }
+    ]
+  },
+  {
+    "label": "Rootform language",
     "items": [
       { "label": "Overview", "page": "language" },
       { "label": "Language tour", "page": "language/tour" },
@@ -69,24 +75,14 @@
     ]
   },
   {
-    "label": "Operate safely",
-    "items": [
-      { "label": "Security and data handling", "page": "security" },
-      { "label": "Container image", "page": "integrations/oci-image" },
-      { "label": "Registry compatibility", "page": "integrations/registry-compatibility" },
-      { "label": "Limitations", "page": "limitations" },
-      { "label": "Troubleshooting", "page": "troubleshooting" }
-    ]
-  },
-  {
     "label": "Reference",
     "items": [
       { "label": "Outputs and exit status", "page": "reference/outputs" },
-      { "label": "CLI reference", "page": "reference/cli" },
       {
-        "label": "Commands",
+        "label": "CLI reference",
         "collapsed": true,
         "items": [
+          { "label": "Overview", "page": "reference/cli" },
           { "label": "build", "page": "reference/cli/build" },
           { "label": "check", "page": "reference/cli/check" },
           {
@@ -168,14 +164,24 @@
           },
           { "label": "version", "page": "reference/cli/version" }
         ]
-      }
+      },
+      { "label": "Container image", "page": "integrations/oci-image" },
+      { "label": "Registry compatibility", "page": "integrations/registry-compatibility" }
+    ]
+  },
+  {
+    "label": "Security and troubleshooting",
+    "items": [
+      { "label": "Security and data handling", "page": "security" },
+      { "label": "Limitations", "page": "limitations" },
+      { "label": "Troubleshooting", "page": "troubleshooting" }
     ]
   },
   {
     "label": "Contribute",
     "items": [
       { "label": "Contribute to Rootform", "page": "contributing" },
-      { "label": "Writing standard", "page": "contributing/writing" }
+      { "label": "Writing for Rootform", "page": "contributing/writing" }
     ]
   }
 ]
