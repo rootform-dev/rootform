@@ -36,7 +36,7 @@ only when Rootform has established at least one virtual network Context for
 that target. See [Write a Policy Pack](../language/write-policy-pack.md) for
 authoring beyond this example.
 
-## Run a passing check
+## Evaluate locally
 
 <!-- docs-check:policy-local -->
 ```sh
