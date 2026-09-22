@@ -17,7 +17,7 @@ Projects with external selection commit `rootform.lock`. The lock records every
 selected external Dialect and Policy Pack by name, version, content digest, and
 an exact local path or OCI identity. The job then runs:
 
-```text
+```sh
 rootform init "$project" --locked --no-input [--offline]
 rootform build "$project" --locked
 rootform check "$project" --locked
@@ -34,7 +34,7 @@ A supplied-only project has no `rootform.lock` and needs no `init`. Its
 architecture meaning comes entirely from supplied Dialects and RF Vocabulary
 embedded in exact binary. The job skips preparation and builds directly:
 
-```text
+```sh
 rootform build "$project"
 ```
 
