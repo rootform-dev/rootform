@@ -62,14 +62,41 @@ Save the architecture used by later evidence commands:
 rootform build . --output architecture.json
 ```
 
-## Produce a real violation
+## Require an explicit subnet for instances
 
-Create a separate scenario file. This subnet has no declared `vpc_id`, so the
-AWS Dialect can prove its network Context was omitted rather than unresolved:
+Suppose your team requires every EC2 instance to declare a resolvable subnet
+reference. The AWS provider 6.62.0 defines
+[`aws_instance.subnet_id`](https://registry.terraform.io/providers/hashicorp/aws/6.62.0/docs/resources/instance#subnet_id-1)
+as optional, so this is a team convention about facts declared in source. It
+does not claim that an instance without this argument has no network at
+runtime.
 
-```hcl title="orphan.tf"
-resource "aws_subnet" "orphan" {
-  cidr_block = "10.20.3.0/24"
+Add a separate Policy for that convention:
+
+```hcl title="policies/instance-explicit-subnet-context.rf.hcl"
+policy "instance-explicit-subnet-context" {
+  target {
+    concept = aws.concept.compute-instance
+  }
+
+  assert = exists(contexts(rf.context.network, rf.concept.subnet))
+  message = "Instances must declare a resolvable subnet reference."
+}
+```
+
+Create two valid `aws_instance` resources. One refers to the tutorial subnet,
+while the other uses the provider's permitted omission:
+
+```hcl title="instances.tf"
+resource "aws_instance" "attached" {
+  ami           = "ami-0123456789abcdef0"
+  instance_type = "t3.micro"
+  subnet_id     = aws_subnet.application.id
+}
+
+resource "aws_instance" "implicit" {
+  ami           = "ami-0123456789abcdef0"
+  instance_type = "t3.micro"
 }
 ```
 
@@ -81,59 +108,62 @@ rootform check . --policy-pack ./policies
 ```text title="Mixed check with violation"
 Policies violated
 
-Policies     1 selected
-Evaluations  2
-Results      1 passed, 1 violated
+Policies     2 selected
+Evaluations  3
+Results      2 passed, 1 violated
 
 VIOLATED
 
-tutorial.policy.subnet-network-context
-  Subnets must have an established virtual network context.
-  Target  aws_subnet.orphan
-  Source  orphan.tf:1
+tutorial.policy.instance-explicit-subnet-context
+  Instances must declare a resolvable subnet reference.
+  Target  aws_instance.implicit
+  Source  instances.tf:7
 ```
 
-The application subnet still passes. The proven omission makes the same Policy
-false for `aws_subnet.orphan`, so the mixed result returns status `1`. A
-confirmed violation takes priority over indeterminate or not-evaluated results
-in the same check.
+The subnet Policy still passes. The explicit reference from
+`aws_instance.attached` resolves to `aws_subnet.application`, so the instance
+Policy also passes for that target. Rootform can prove that
+`aws_instance.implicit` omits the declared subnet fact, so the team Policy is
+violated and the mixed result returns status `1`. A confirmed violation takes
+priority over indeterminate or not-evaluated results in the same check.
 
 Inspect why Rootform considered the fact absent:
 
 <!-- docs-check:policy-violation-explain -->
 ```sh
-rootform explain architecture aws_subnet.orphan
+rootform explain architecture aws_instance.implicit
 ```
 
 ```text title="Proven omission"
-aws_subnet.orphan
+aws_instance.implicit
 
-Concept  rf.concept.subnet "orphan"
-Rule     aws.rule.subnet
-Defined  orphan.tf:1
+Concept  aws.concept.compute-instance "implicit"
+Rule     aws.rule.instance
+Defined  instances.tf:7
 
 Omitted facts
-  rf.context.network  rf.concept.virtual-network
+  rf.context.network  rf.concept.subnet
                       not declared in source
 ```
 
-Restore the initial scenario before continuing. Remove only the file created in
-this step:
+Remove only the instance scenario file before testing unresolved evidence. Keep
+the instance Policy for the next check:
 
 <!-- docs-check:policy-remove-violation -->
 ```sh
-rm orphan.tf
+rm instances.tf
 ```
 
 ## Keep unresolved evidence indeterminate
 
-Create a distinct subnet whose `vpc_id` is a literal rather than a resolvable
+Create an instance whose `subnet_id` is a literal rather than a resolvable
 reference:
 
-```hcl title="unresolved.tf"
-resource "aws_subnet" "unresolved" {
-  vpc_id     = "vpc-0123456789abcdef0"
-  cidr_block = "10.20.4.0/24"
+```hcl title="unresolved-instance.tf"
+resource "aws_instance" "unresolved" {
+  ami           = "ami-0123456789abcdef0"
+  instance_type = "t3.micro"
+  subnet_id     = "subnet-0123456789abcdef0"
 }
 ```
 
@@ -145,19 +175,21 @@ rootform check . --policy-pack ./policies
 ```text title="Mixed indeterminate check"
 Policies indeterminate
 
-Policies     1 selected
+Policies     2 selected
 Evaluations  2
 Results      1 passed, 1 indeterminate
 ```
 
-Rootform cannot resolve evidence for the literal reference. It does not turn
-that missing proof into a violation. The result returns status `3`.
+The subnet Policy still passes for `aws_subnet.application`. Rootform cannot
+resolve the instance's literal subnet reference, so it does not fabricate a
+violation from missing proof. The result returns status `3`.
 
 Restore the initial source again:
 
 <!-- docs-check:policy-remove-indeterminate -->
 ```sh
-rm unresolved.tf
+rm unresolved-instance.tf
+rm policies/instance-explicit-subnet-context.rf.hcl
 ```
 
 ## Distinguish no selection from no target
@@ -268,11 +300,11 @@ rootform check . --policy-pack ./policies --format sarif \
 ```
 
 Review the selected Policy count and evaluation coverage with status. Invalid
-command use returns `2`. [Outputs and exit status](../reference/outputs.md)
-owns the full command matrix.
+command use returns `2`. See [Outputs and exit status](../reference/outputs.md)
+for the full command matrix.
 
-For external Policy Packs, follow
-[Project configuration](../cli.md) instead of duplicating lock, OCI, and vendor
-steps here. Continue with [Run in CI](../integrations/ci/README.md) or
-[GitHub Actions](../integrations/github-actions.md) when the local results are ready
-for automation.
+For external Policy Packs, use [Project configuration](../cli.md) to select and
+lock the required content. Continue with
+[Run in CI](../integrations/ci/README.md) or
+[GitHub Actions](../integrations/github-actions.md) when the local results are
+ready for automation.

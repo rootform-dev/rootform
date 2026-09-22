@@ -134,8 +134,12 @@ export function verifyCoreExamples(
   const policyPage = page("guides/check-architecture.md");
   const pack = configuration(policyPage, "policies/pack.rf.hcl");
   const policySource = configuration(policyPage, "policies/subnet-network-context.rf.hcl");
-  const orphanSource = configuration(policyPage, "orphan.tf");
-  const unresolvedSource = configuration(policyPage, "unresolved.tf");
+  const instancePolicySource = configuration(
+    policyPage,
+    "policies/instance-explicit-subnet-context.rf.hcl",
+  );
+  const instancesSource = configuration(policyPage, "instances.tf");
+  const unresolvedInstanceSource = configuration(policyPage, "unresolved-instance.tf");
   const noSubnetSource = configuration(policyPage, "no-subnet/main.tf");
   mkdirSync(join(workspace, "policies"));
   writeFileSync(join(workspace, "policies/pack.rf.hcl"), pack);
@@ -148,7 +152,11 @@ export function verifyCoreExamples(
   );
   command("guides/check-architecture.md", "policy-architecture");
 
-  writeFileSync(join(workspace, "orphan.tf"), orphanSource);
+  writeFileSync(
+    join(workspace, "policies/instance-explicit-subnet-context.rf.hcl"),
+    instancePolicySource,
+  );
+  writeFileSync(join(workspace, "instances.tf"), instancesSource);
   const violated = command("guides/check-architecture.md", "policy-violation", 1).trim();
   assert(
     fencedBlock(policyPage, "text", "Mixed check with violation").trim() === violated,
@@ -160,16 +168,20 @@ export function verifyCoreExamples(
     "displayed proven omission differs from architecture explanation",
   );
   command("guides/check-architecture.md", "policy-remove-violation");
-  assert(!existsSync(join(workspace, "orphan.tf")), "violation scenario was not restored");
+  assert(!existsSync(join(workspace, "instances.tf")), "violation scenario was not restored");
 
-  writeFileSync(join(workspace, "unresolved.tf"), unresolvedSource);
+  writeFileSync(join(workspace, "unresolved-instance.tf"), unresolvedInstanceSource);
   const indeterminate = command("guides/check-architecture.md", "policy-indeterminate", 3).trim();
   assert(
     indeterminate.startsWith(fencedBlock(policyPage, "text", "Mixed indeterminate check").trim()),
     "displayed indeterminate summary differs from command",
   );
   command("guides/check-architecture.md", "policy-remove-indeterminate");
-  assert(!existsSync(join(workspace, "unresolved.tf")), "indeterminate scenario was not restored");
+  assert(
+    !existsSync(join(workspace, "unresolved-instance.tf")) &&
+      !existsSync(join(workspace, "policies/instance-explicit-subnet-context.rf.hcl")),
+    "indeterminate scenario was not restored",
+  );
 
   const noneSelected = command("guides/check-architecture.md", "policy-none", 3).trim();
   assert(
@@ -210,7 +222,9 @@ export function verifyCoreExamples(
     "Policy guide architecture explanation differs from saved evidence",
   );
   assert(read("main.tf").equals(original), "documentation checks mutated Terraform source");
-  checks.push("Policy pass, indeterminate, not_evaluated, and violation remain distinct");
+  checks.push(
+    "resolved, omitted, and unresolved instance subnet evidence produce pass, violation, and indeterminate outcomes",
+  );
 
   const ciOutput = join(workspace, "ci-output");
   const ci = Bun.spawnSync(["sh", join(root, "docs/integrations/ci/rootform-ci.sh")], {
