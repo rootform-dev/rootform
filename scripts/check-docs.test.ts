@@ -378,6 +378,35 @@ test("input guides preserve configuration, saved-document, and plan boundaries",
   expect(explore).not.toContain("same resource ID");
 });
 
+test("local review guides preserve Diff, Policy, and Git boundaries", () => {
+  const root = join(import.meta.dir, "..");
+  const compare = readFileSync(join(root, "docs/guides/compare-architectures.md"), "utf8");
+  const checks = readFileSync(join(root, "docs/guides/check-architecture.md"), "utf8");
+  const review = readFileSync(join(root, "docs/workflows/index.md"), "utf8");
+
+  expect(compare).toContain("rootform diff before.json after.json --format markdown");
+  expect(compare).toMatch(/no CLI entry\s+point or HTML format for an interactive Diff/u);
+  expect(compare).not.toMatch(/rootform diff[^\n]*(?:--format html|--html)/u);
+
+  for (const marker of [
+    "policy-violation",
+    "policy-indeterminate",
+    "policy-none",
+    "policy-no-target",
+  ]) {
+    expect(checks).toContain(`<!-- docs-check:${marker} -->`);
+  }
+  expect(checks).toContain("not declared in source");
+  expect(checks).toMatch(/accepts neither `--input` nor `--policy-pack`/u);
+
+  for (const command of ["git merge-base", "git worktree add", "git worktree remove"]) {
+    expect(review).toContain(command);
+  }
+  expect(review).not.toMatch(/git (?:reset|clean|checkout)/u);
+  expect(review).not.toContain("rm -r");
+  expect(review).toContain("HTML shows one architecture");
+});
+
 test("installation documentation keeps supported methods in recommendation order", () => {
   const page = readFileSync(join(import.meta.dir, "../docs/installation.md"), "utf8");
   const section = (start: string, end: string) => {
