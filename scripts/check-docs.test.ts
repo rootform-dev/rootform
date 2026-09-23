@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
@@ -622,7 +622,7 @@ test("contribution guide keeps Policy Packs user-owned", () => {
   expect(page).not.toContain("## Contribute a Policy Pack");
   expect(page).not.toContain("Rootform Policy Packs");
   expect(page).toContain("[write their own Policy Packs](../language/write-policy-pack.md)");
-  expect(page).toContain("not an official or\ncommunity governance catalog");
+  expect(page).toMatch(/\b(?:not|never)\s+(?:an?\s+)?official\b[\s\S]{0,80}\bcatalog\b/iu);
 });
 
 test("contribution destinations and licenses match repository ownership", () => {
@@ -630,20 +630,49 @@ test("contribution destinations and licenses match repository ownership", () => 
   const guide = readFileSync(join(root, "docs/contributing/index.md"), "utf8");
   const contributing = readFileSync(join(root, "CONTRIBUTING.md"), "utf8");
   const security = readFileSync(join(root, "SECURITY.md"), "utf8");
-  const links = new Set([...guide.matchAll(/\]\(([^)]+)\)/gu)].map((match) => match[1]));
+  const links = new Set(
+    [...guide.matchAll(/\]\(([^)]+)\)/gu)].flatMap((match) =>
+      match[1] === undefined ? [] : [match[1]],
+    ),
+  );
+  const destinationFor = (topic: RegExp): string | undefined => {
+    const row = guide
+      .split("\n")
+      .find((line) => line.startsWith("|") && topic.test(line.split("|")[1] ?? ""));
+    return row?.match(/\]\(([^)]+)\)/u)?.[1];
+  };
 
   for (const destination of [
     "https://github.com/rootform-dev/rootform",
     "https://github.com/rootform-dev/rootform/issues",
+    "https://github.com/rootform-dev/rootform/security/advisories/new",
     "https://github.com/rootform-dev/action",
-    "../../dialects/",
-    "../../SECURITY.md",
-    "../../LICENSE",
-    "../../dialects/LICENSE",
-    "../../dependencies/ROOTFORM-BINARY-LICENSE.txt",
+    "https://github.com/rootform-dev/rootform/tree/dev/dialects",
+    "https://github.com/rootform-dev/rootform/blob/dev/SECURITY.md",
+    "https://github.com/rootform-dev/rootform/blob/dev/CONTRIBUTING.md",
+    "https://github.com/rootform-dev/rootform/blob/dev/LICENSE",
+    "https://github.com/rootform-dev/rootform/blob/dev/dialects/LICENSE",
+    "https://github.com/rootform-dev/rootform/blob/dev/dependencies/ROOTFORM-BINARY-LICENSE.txt",
   ]) {
     expect(links).toContain(destination);
   }
+  expect(destinationFor(/reproducible product/iu)).toBe(
+    "https://github.com/rootform-dev/rootform/issues",
+  );
+  expect(destinationFor(/vulnerability/iu)).toBe(
+    "https://github.com/rootform-dev/rootform/security/advisories/new",
+  );
+  expect(destinationFor(/official dialects/iu)).toBe(
+    "https://github.com/rootform-dev/rootform/tree/dev/dialects",
+  );
+  for (const link of links) {
+    if (/^(?:[a-z][a-z0-9+.-]*:|\/|#)/iu.test(link)) continue;
+    expect(resolveRepositoryLink("docs/contributing/index.md", link)?.startsWith("docs/")).toBe(
+      true,
+    );
+  }
+  expect(guide).not.toContain("github.com/rootform-dev/dialects");
+  expect(statSync(join(root, "dialects")).isDirectory()).toBe(true);
   expect(security).toMatch(/GitHub\s+private\s+vulnerability\s+reporting/iu);
   expect(security).toMatch(/do not open a public issue/iu);
   expect(contributing).toContain("dialects/LICENSE");
