@@ -625,6 +625,42 @@ test("contribution guide keeps Policy Packs user-owned", () => {
   expect(page).toContain("not an official or\ncommunity governance catalog");
 });
 
+test("contribution destinations and licenses match repository ownership", () => {
+  const root = join(import.meta.dir, "..");
+  const guide = readFileSync(join(root, "docs/contributing/index.md"), "utf8");
+  const contributing = readFileSync(join(root, "CONTRIBUTING.md"), "utf8");
+  const security = readFileSync(join(root, "SECURITY.md"), "utf8");
+  const links = new Set([...guide.matchAll(/\]\(([^)]+)\)/gu)].map((match) => match[1]));
+
+  for (const destination of [
+    "https://github.com/rootform-dev/rootform",
+    "https://github.com/rootform-dev/rootform/issues",
+    "https://github.com/rootform-dev/action",
+    "../../dialects/",
+    "../../SECURITY.md",
+    "../../LICENSE",
+    "../../dialects/LICENSE",
+    "../../dependencies/ROOTFORM-BINARY-LICENSE.txt",
+  ]) {
+    expect(links).toContain(destination);
+  }
+  expect(security).toMatch(/GitHub\s+private\s+vulnerability\s+reporting/iu);
+  expect(security).toMatch(/do not open a public issue/iu);
+  expect(contributing).toContain("dialects/LICENSE");
+  expect(contributing).toContain("MPL-2.0");
+  expect(readFileSync(join(root, "LICENSE"), "utf8").trimStart().startsWith("Apache License")).toBe(
+    true,
+  );
+  expect(
+    readFileSync(join(root, "dialects/LICENSE"), "utf8").startsWith(
+      "Mozilla Public License Version 2.0",
+    ),
+  ).toBe(true);
+  expect(readFileSync(join(root, "dependencies/ROOTFORM-BINARY-LICENSE.txt"), "utf8")).toContain(
+    "SPDX-License-Identifier: Elastic-2.0",
+  );
+});
+
 test("sidebar uses approved user-facing labels and placement", () => {
   const navigation = JSON.parse(
     readFileSync(join(import.meta.dir, "../docs/navigation.json"), "utf8"),

@@ -20,6 +20,8 @@ bun install --frozen-lockfile
 bun run verify
 ```
 
-By contributing, you agree that your contribution is licensed under
-Apache-2.0. Do not submit private infrastructure, state, plans, credentials,
-customer data, prompts, transcripts, or material you lack rights to distribute.
+Contributions to repository material covered by the root `LICENSE` follow
+Apache-2.0. Contributions under `dialects/` follow its own MPL-2.0
+`dialects/LICENSE`. Do not submit private infrastructure, state, plans,
+credentials, customer data, prompts, transcripts, or material you lack rights
+to distribute.
