@@ -24,7 +24,7 @@ rootform run [input] [flags]
 | ` --locked ` | ` bool ` | ` false ` | require an existing valid rootform.lock |
 | ` --no-browser ` | ` bool ` | ` false ` | do not open the browser automatically |
 | ` --no-watch ` | ` bool ` | ` false ` | build once instead of rebuilding when a file changes |
-| ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
+| ` --plan ` | ` file ` | ` "" ` | read JSON plan; use `-` for standard input |
 | ` --port ` | ` int ` | ` 21717 ` | serve on local `port`; 0 picks a free one |
 
 ## Inherited flags

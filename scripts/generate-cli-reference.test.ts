@@ -45,6 +45,12 @@ function document() {
             usage: "Write to `path`",
             required: true,
           },
+          {
+            name: "plan",
+            type: "file",
+            default: "",
+            usage: "read JSON plan; use '-' for standard input",
+          },
         ],
         inherited_flags: [
           {
@@ -85,6 +91,7 @@ test("renders exact usage, inherited defaults, aliases and required state", () =
   expect(page).toContain("## Inherited flags");
   expect(page).toContain("` false `");
   expect(page).toContain("Required.");
+  expect(page).toContain("read JSON plan; use `-` for standard input");
   expect(page).toContain("Aliases: ` compile `.");
   expect(page).toContain("```text\n0  built\n3  unavailable\n```");
   expect(page).toContain("```sh\nrootform build .\n```");

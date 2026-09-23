@@ -56,7 +56,7 @@
       "path": "rootform build",
       "usage": "rootform build [directory] [flags]",
       "summary": "Build an architecture",
-      "description": "Build a semantic architecture from Terraform or OpenTofu configuration\nor from a plan in JSON format.\n\nWith no directory, build reads the current directory. --plan reads a plan\ninstead; use - to read it from standard input. Directory input never\ndownloads, acquires, or prompts: selected external content must already\nbe available locally, or be prepared explicitly with rootform init or\nrootform vendor. A coherent local lock is silent.\n\nThe Rootform architecture file is written to standard output, or to the\nfile selected by --output. With --format html the architecture is written\nas one page that opens on its own, with no server and no other file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the architecture was built\n  2  the command was used incorrectly\n  3  no complete architecture could be built",
+      "description": "Build a semantic architecture from Terraform or OpenTofu configuration\nor from a plan in JSON format.\n\nWith no directory, build reads the current directory. --plan reads a plan\ninstead; use '-' to read it from standard input. Directory input never\ndownloads, acquires, or prompts: selected external content must already\nbe available locally, or be prepared explicitly with rootform init or\nrootform vendor. A coherent local lock is silent.\n\nThe Rootform architecture file is written to standard output, or to the\nfile selected by --output. With --format html the architecture is written\nas one page that opens on its own, with no server and no other file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the architecture was built\n  2  the command was used incorrectly\n  3  no complete architecture could be built",
       "examples": "rootform build\n  rootform build ./infra\n  rootform build ./infra -o architecture.json\n  rootform build ./infra --format html -o architecture.html\n  rootform build --plan tfplan.json",
       "flags": [
         {
@@ -91,7 +91,7 @@
           "name": "plan",
           "type": "file",
           "default": "",
-          "usage": "read JSON plan; - reads standard input"
+          "usage": "read JSON plan; use '-' for standard input"
         }
       ],
       "inherited_flags": [
@@ -107,7 +107,7 @@
       "path": "rootform check",
       "usage": "rootform check [input] [flags]",
       "summary": "Check architecture policies",
-      "description": "Build or load an architecture and evaluate the applicable policies.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or - for an architecture file on standard input. With no input,\ncheck reads the current directory. --plan reads a plan in JSON format\ninstead. Directory input never downloads, acquires, or prompts: selected\nexternal content must already be available locally, or be prepared\nexplicitly with rootform init or rootform vendor. A coherent local lock\nis silent. An explicit --policy-pack selection replaces the project's\nPolicy Pack selection for this invocation.\n\nThe selected text, JSON, SARIF, or Markdown result goes to standard\noutput, or to --output. Diagnostics go to standard error.\n\nExit status:\n  0  all selected policies were evaluated and compliant\n  1  at least one policy was violated, including in mixed runs\n  2  the command was used incorrectly\n  3  indeterminate or not evaluated, with no confirmed violation\n\nViolations take precedence: exit 1. Zero policies or zero evaluations\nare never compliant. A selected policy without targets prevents compliance.\n--policy-pack accepts a source directory or compiled JSON file; compiled\nfiles retain their semantic pins during evaluation.",
+      "description": "Build or load an architecture and evaluate the applicable policies.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or '-' for an architecture file on standard input. With no input,\ncheck reads the current directory. --plan reads a plan in JSON format\ninstead. Directory input never downloads, acquires, or prompts: selected\nexternal content must already be available locally, or be prepared\nexplicitly with rootform init or rootform vendor. A coherent local lock\nis silent. An explicit --policy-pack selection replaces the project's\nPolicy Pack selection for this invocation.\n\nThe selected text, JSON, SARIF, or Markdown result goes to standard\noutput, or to --output. Diagnostics go to standard error.\n\nExit status:\n  0  all selected policies were evaluated and compliant\n  1  at least one policy was violated, including in mixed runs\n  2  the command was used incorrectly\n  3  indeterminate or not evaluated, with no confirmed violation\n\nViolations take precedence: exit 1. Zero policies or zero evaluations\nare never compliant. A selected policy without targets prevents compliance.\n--policy-pack accepts a source directory or compiled JSON file; compiled\nfiles retain their semantic pins during evaluation.",
       "examples": "rootform check\n  rootform check ./infra\n  rootform check . --locked\n  rootform check --plan tfplan.json\n  rootform check . --policy-pack ./policies\n  rootform check arch.json --policy-pack pack.json\n  rootform build ./infra | rootform check -\n  rootform check ./infra --format sarif -o rootform.sarif",
       "flags": [
         {
@@ -142,7 +142,7 @@
           "name": "plan",
           "type": "file",
           "default": "",
-          "usage": "read JSON plan; - reads standard input"
+          "usage": "read JSON plan; use '-' for standard input"
         },
         {
           "name": "policy",
@@ -260,7 +260,7 @@
       "path": "rootform diff",
       "usage": "rootform diff \u003cbefore\u003e \u003cafter\u003e [flags]",
       "summary": "Compare two architectures",
-      "description": "Compare two architectures and report the architectural changes between\nthem.\n\nEach input can be an infrastructure directory, a Rootform architecture\nfile, or - for one architecture file on standard input. --plan reads\nboth sides from a plan in JSON format instead. Only one input can be -.\n\nThe selected text, JSON, or Markdown result goes to standard output, or\nto --output. Diagnostics go to standard error.\n\nExit status:\n  0  the comparison succeeded\n  1  changes or undetermined facts with --exit-code\n  2  the command was used incorrectly\n  3  the comparison could not be completed",
+      "description": "Compare two architectures and report the architectural changes between\nthem.\n\nEach input can be an infrastructure directory, a Rootform architecture\nfile, or '-' for one architecture file on standard input. --plan reads\nboth sides from a plan in JSON format instead. Only one input can be '-'.\n\nThe selected text, JSON, or Markdown result goes to standard output, or\nto --output. Diagnostics go to standard error.\n\nExit status:\n  0  the comparison succeeded\n  1  changes or undetermined facts with --exit-code\n  2  the command was used incorrectly\n  3  the comparison could not be completed",
       "examples": "rootform diff ./before ./after\n  rootform diff before.json after.json --exit-code\n  rootform diff --plan tfplan.json\n  terraform show -json tfplan | rootform diff --plan -\n  rootform diff ./before ./after --format markdown -o rootform-diff.md",
       "flags": [
         {
@@ -295,7 +295,7 @@
           "name": "plan",
           "type": "file",
           "default": "",
-          "usage": "read JSON plan; - reads standard input"
+          "usage": "read JSON plan; use '-' for standard input"
         }
       ],
       "inherited_flags": [
@@ -341,7 +341,7 @@
       "path": "rootform explain architecture",
       "usage": "rootform explain architecture \u003caddress\u003e [flags]",
       "summary": "Explain an architecture element",
-      "description": "Show how an architecture element is implemented and which semantic\nfacts and source locations support it.\n\nBy default, explain reads the current directory. --input accepts an\ninfrastructure directory, a Rootform architecture file, or - for an\narchitecture file on standard input.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the element was explained\n  1  the declaration or architecture element was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "description": "Show how an architecture element is implemented and which semantic\nfacts and source locations support it.\n\nBy default, explain reads the current directory. --input accepts an\ninfrastructure directory, a Rootform architecture file, or '-' for an\narchitecture file on standard input.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the element was explained\n  1  the declaration or architecture element was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
       "examples": "rootform explain architecture google_compute_network.vpc\n  rootform explain architecture kubernetes_deployment_v1.app --format json\n  rootform explain architecture google_compute_network.vpc --input prod.json",
       "flags": [
         {
@@ -362,7 +362,7 @@
           "name": "input",
           "type": "string",
           "default": "",
-          "usage": "read the architecture at `path`; - reads standard input"
+          "usage": "read architecture at `path`; use '-' for standard input"
         }
       ],
       "inherited_flags": [
@@ -964,7 +964,7 @@
       "path": "rootform run",
       "usage": "rootform run [input] [flags]",
       "summary": "Explore an architecture locally",
-      "description": "Build or load an architecture and serve its interactive interface\nlocally.\n\nThe input can be an infrastructure directory or a Rootform architecture\nfile. With no input, run reads the current directory. --plan reads a plan\nin JSON format instead; use - to read it from standard input. Directory\ninput never downloads, acquires, or prompts: selected external content\nmust already be available locally, or be prepared explicitly with\nrootform init or rootform vendor.\n\nThe local address goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  the local interface stopped cleanly\n  1  the local interface could not start\n  2  the command was used incorrectly",
+      "description": "Build or load an architecture and serve its interactive interface\nlocally.\n\nThe input can be an infrastructure directory or a Rootform architecture\nfile. With no input, run reads the current directory. --plan reads a plan\nin JSON format instead; use '-' to read it from standard input. Directory\ninput never downloads, acquires, or prompts: selected external content\nmust already be available locally, or be prepared explicitly with\nrootform init or rootform vendor.\n\nThe local address goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  the local interface stopped cleanly\n  1  the local interface could not start\n  2  the command was used incorrectly",
       "examples": "rootform run\n  rootform run ./infra\n  rootform run architecture.json --no-browser\n  rootform run --plan tfplan.json",
       "flags": [
         {
@@ -1000,7 +1000,7 @@
           "name": "plan",
           "type": "file",
           "default": "",
-          "usage": "read JSON plan; - reads standard input"
+          "usage": "read JSON plan; use '-' for standard input"
         },
         {
           "name": "port",
@@ -1205,7 +1205,7 @@
       "path": "rootform validate architecture",
       "usage": "rootform validate architecture [input] [flags]",
       "summary": "Validate an architecture",
-      "description": "Build or load an architecture and check that it is structurally valid\nand internally consistent.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or - for an architecture file on standard input. With no input,\nvalidation reads the current directory.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the architecture is valid\n  1  the architecture is not valid\n  2  the command was used incorrectly\n  3  the architecture could not be validated",
+      "description": "Build or load an architecture and check that it is structurally valid\nand internally consistent.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or '-' for an architecture file on standard input. With no input,\nvalidation reads the current directory.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the architecture is valid\n  1  the architecture is not valid\n  2  the command was used incorrectly\n  3  the architecture could not be validated",
       "examples": "rootform validate architecture\n  rootform validate architecture architecture.json\n  cat architecture.json | rootform validate architecture -",
       "flags": [
         {

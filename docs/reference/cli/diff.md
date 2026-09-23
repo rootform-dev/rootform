@@ -25,7 +25,7 @@ rootform diff <before> <after> [flags]
 | ` --format ` | ` string ` | ` text ` | output `format`: text, json, or markdown |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform diff |
 | ` -o, --output ` | ` string ` | ` "" ` | write the diff to this `file` |
-| ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
+| ` --plan ` | ` file ` | ` "" ` | read JSON plan; use `-` for standard input |
 
 ## Inherited flags
 
