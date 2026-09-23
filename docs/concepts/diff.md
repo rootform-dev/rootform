@@ -1,65 +1,71 @@
 ---
 title: "Architecture Diff"
-description: "Understand how Rootform compares stable representations, architectural facts, and incomplete evidence."
+description: "Understand how Rootform compares architectural meaning while preserving uncertainty and semantic boundaries."
 ---
 
 Architecture Diff compares two validated Architecture IR documents. It reports
-changes in architectural meaning, not text edits, Terraform actions, screen
-layout, or provenance-only differences.
-
-Use `rootform diff` with two source directories, two saved architecture files,
-or both sides of one Terraform/OpenTofu JSON plan.
+changes in representations and architectural facts, not source text edits,
+Terraform actions, provenance-only changes, or screen layout.
 
 ## Continuity starts with source identity
 
-A resource representation keeps its ID while its Rule, Concept, facts, or
-composition memberships change. This lets Diff distinguish a changed
-interpretation from a resource addition or removal.
+A representation's stable identity derives from normalized source identity. The
+same source declaration can therefore keep its identity while a Rule, Concept,
+facts, or composition change. Diff can report changed interpretation without
+pretending a resource was removed and added.
 
-Continuity requires the same source-normalization contract and comparable
-source scope. Rootform does not merge a `resource` and a `data` declaration
-because they look related, and it does not infer physical identity from names
-or provider types.
+Continuity requires comparable source scope and normalization. Rootform does
+not pair `resource` and `data` declarations because names match. It does not
+infer physical cloud identity from provider type, label, or remote identifier.
 
-## Facts carry architectural change
+## One edit can create several architectural changes
 
-Diff compares four collections:
+Adding a subnet can add a resource representation and a network Context toward
+an existing VPC. Diff reports both because they answer different questions.
+Representation says the subnet exists. Context says how the subnet is placed in
+the network architecture.
 
-- representations;
-- contexts;
-- contributions;
-- relations.
+Collections use `added`, `removed`, and `changed` classifications. Exact
+machine-level changed fields are `concept`, `kind`, `name`,
+`implementation_kind`, `members`, `dimension`, `predicate`, `from`, and `to`.
 
-Entries are `added`, `removed`, or `changed`. A context move is represented by
-one removed context and one added context. A retargeted relation follows the
-same pattern. Rule, emission, resolution, and provenance can explain a change,
-but changing only that evidence does not create an architecture change.
+There is no `moved` classification. A Context move is the removed old Context
+plus the added new Context. A retargeted Relation follows the same pattern.
 
-Formatting changes and array order do not matter. A Terraform replacement can
-also leave architecture unchanged when both sides establish the same
-representations and facts.
+## Source action and architecture change are different
 
-## Unknown is not absence
+A Terraform replacement can produce no Architecture Diff when both sides retain
+the same normalized source identity and the same meaning. Formatting and array
+order also produce no change.
 
-Rootform reports an `undetermined` entry when one side cannot prove whether a
-fact or representation is absent. Common causes include unresolved evidence,
-incomplete emission closure, incompatible semantic environments, or source
-identity that cannot be paired safely.
+The opposite can happen without adding or removing a resource. Dialect Rule
+evolution can change Concept, Context, Relation, Contribution, or Composition
+for a stable representation. Diff reports the resulting architectural meaning,
+not the Rule source edit itself.
 
-This is different from a failed comparison. A valid Diff can contain both
-determined changes and undetermined entries. Invalid input produces a problem,
-never an empty no-change report.
+Provenance explains a change but does not become an architecture change when the
+facts remain the same.
 
-## Semantic changes need separate review
+## Undetermined preserves uncertainty
 
-Each Architecture IR records its RF Language version, RF Vocabulary, Dialects,
-definitions, Rules, emissions, and effective selection. When these semantic
-environments differ, source continuity can remain comparable while
-interpretation and fact conclusions become undetermined.
+Diff reports `undetermined` when one side cannot establish whether a
+representation or fact is absent. Causes include unresolved evidence,
+incomplete emission closure, incompatible semantic units for the affected fact,
+or source identity that cannot be paired safely.
 
-To isolate infrastructure change from Dialect change, build both source
-revisions with one exact semantic set. Saved IR alone cannot reanalyze old
-source under newer Dialects.
+A valid report can contain determined changes and undetermined entries together.
+Invalid input instead produces a comparison problem. It never becomes an empty
+no-change report.
+
+A semantic difference does not automatically invalidate the entire comparison.
+Each Architecture IR records RF Language, RF Vocabulary, Dialects, Rules,
+emissions, and effective selection. Diff preserves comparable source continuity
+and marks only conclusions it cannot establish safely as undetermined.
+
+To isolate infrastructure edits, build both revisions with the same Rootform
+binary and comparable Dialect selection. To review an intentional semantic
+update, keep each revision's own selection and read affected undetermined
+conclusions as part of the change.
 
 ## Read command status with report contents
 
@@ -69,10 +75,18 @@ rootform diff before.json after.json --format markdown --output architecture-dif
 rootform diff before.json after.json --exit-code
 ```
 
-Status `0` means comparison completed. Without `--exit-code`, a completed
-report can still contain changes or undetermined entries. With `--exit-code`,
-either makes status `1`. Status `3` means comparison could not complete.
+| Status | Meaning |
+| --- | --- |
+| `0` | Comparison completed. Without `--exit-code`, report may still contain changes or undetermined entries |
+| `1` | With `--exit-code`, at least one determined or undetermined difference exists |
+| `2` | Command usage is invalid |
+| `3` | Comparison could not complete |
 
-Continue with [Compare two architectures](../guides/compare-architectures.md),
-[plan inputs](../inputs/plans.md), or the
-[Architecture Diff contract](../../contracts/architecture-diff.md).
+Report content remains the primary evidence. An empty report means no determined
+changes and no undetermined entries, not merely a successful process.
+
+Use [Compare architectures](../guides/compare-architectures.md) to produce and
+read a first report, [plan Diff](../inputs/plans.md#compare-both-sides-of-one-plan)
+when one plan supplies both sides, and [Review a pull request](../workflows/index.md)
+for isolated Git revisions and saved review artifacts. Exact classifications
+and validity rules live in [Architecture Diff contract](../../contracts/architecture-diff.md).
