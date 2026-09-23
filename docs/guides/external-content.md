@@ -1,46 +1,67 @@
 ---
-title: "Add a third-party Dialect or Policy Pack"
-description: "Select exact local or OCI content without changing Rootform's embedded release set."
+title: "Use external Dialects and Policy Packs"
+description: "Adopt reviewed local or OCI content through one exact project selection."
 ---
 
-Rootform includes RF Vocabulary and supplied Dialects in its binary. Add a
-`rootform.lock` only when a project needs a third-party Dialect, a Policy Pack,
-a supplied-owner exclusion, or an explicit Dialect replacement.
+Use this guide after choosing an existing Dialect or Policy Pack. Local source
+stays at a project-relative path. OCI content arrives with a complete identity
+from its publisher. Both forms enter the same `rootform.lock` contract.
 
-Rootform never discovers these selections from providers or a registry. The
-lock must already contain their exact identities.
+The [`rootform.lock` schema](../../schemas/rootform-lock.schema.json) requires
+all four arrays, including empty ones. Rootform never creates or updates this
+file.
 
-## Choose local source or OCI content
+## Select a local Policy Pack
 
-Each `dialects` entry names an owner, version, content digest, and one source.
-Each `policy_packs` entry uses the same shape with a pack name.
+Start from the `rootform-first-architecture` project created in
+[Your first architecture](../getting-started/first-architecture.md#create-input).
+Copy the two source files from
+[Create the Policy Pack](check-architecture.md#create-the-policy-pack) into
+`policies/pack.rf.hcl` and `policies/subnet-network-context.rf.hcl` inside that
+project. Run every command in this section from `rootform-first-architecture`.
 
-| Source | Use it when | Required identity |
-| --- | --- | --- |
-| `local` | Source lives inside or beside the project. | Relative path plus exact compiled content digest. |
-| `oci` | Reviewed content is distributed through an OCI registry. | Tagless repository, manifest and layer digests, download and install sizes, version, and content digest. |
+Inspect the local pack without a lock:
 
-The complete format is defined by the
-[`rootform.lock` schema](../../schemas/rootform-lock.schema.json). All four
-top-level arrays are required, including when empty:
+<!-- docs-check:external-local-policy-identity -->
+```sh
+rootform list policy-packs --policy-pack ./policies -o json
+```
 
-```json title="rootform.lock (local-source template)"
+```json title="Local Policy Pack identity"
+[
+  {
+    "name": "tutorial",
+    "version": "0.1.0",
+    "policies": 1,
+    "content_digest": "sha256:3f301eea6cfe95b1c66ba3c768d3d57613c847ca245cdb5ad3838e6604a19e9e"
+  }
+]
+```
+
+`content_digest` identifies compiled Policy Pack content. It is not a source
+file checksum, an OCI manifest digest, or an OCI layer digest.
+
+The Policy Pack and Dialect examples on this page are independent. The lock
+below is complete for a project that selects only `tutorial`. If your project
+already has a lock, add this `policy_packs` entry while preserving its existing
+Dialect selections, exclusions, and replacements.
+
+Record the reported name, version, digest, and project-relative source path:
+
+```json title="rootform.lock (local Policy Pack)"
 {
   "format_version": "1",
-  "dialects": [
-    {
-      "owner": "example",
-      "version": "0.1.0",
-      "content_digest": "<digest reported for the reviewed Dialect>",
-      "source": { "local": { "path": "third-party/example" } }
-    }
-  ],
+  "dialects": [],
   "policy_packs": [
     {
-      "name": "baseline",
+      "name": "tutorial",
       "version": "0.1.0",
-      "content_digest": "<digest reported for the reviewed Policy Pack>",
-      "source": { "local": { "path": "policies/baseline" } }
+      "content_digest": "sha256:3f301eea6cfe95b1c66ba3c768d3d57613c847ca245cdb5ad3838e6604a19e9e",
+      "source": {
+        "local": {
+          "path": "policies"
+        }
+      }
     }
   ],
   "excluded_owners": [],
@@ -48,72 +69,242 @@ top-level arrays are required, including when empty:
 }
 ```
 
-Replace bracketed values with exact values produced from reviewed content.
-Paths are relative to project root. Rootform recompiles local source and refuses
-a digest mismatch.
+Prepare and inspect the exact project selection:
 
-## Prepare an OCI selection
-
-Package author creates deterministic local layout, then publishes it separately:
-
+<!-- docs-check:external-local-policy-init -->
 ```sh
-rootform package dialects ./example --to ./artifacts/dialects
-rootform publish dialects ./artifacts/dialects --to registry.example/team/dialects
+rootform init . --locked --offline --no-input
+rootform list policy-packs -o json
+rootform list policies -o wide
 ```
 
-Policy Packs use `package policy-packs` and `publish policy-packs`. Publication
-reports exact repository, manifest digest, layer digest, sizes, version, and
-content digest. Record those values in lock. Do not record mutable tag.
+Evaluate the selected pack:
 
-Prepare existing selection explicitly:
+<!-- docs-check:external-local-policy-check -->
+```sh
+rootform check . --locked
+```
+
+```text title="Locked Policy check"
+Policies compliant
+
+Policies     1 selected
+Evaluations  1
+Results      1 passed
+```
+
+Preparation proves identity and availability. The check separately proves that
+the selected Policy evaluated `aws_subnet.application` and passed.
+
+## Obtain a local Dialect identity
+
+The Dialect provider should supply owner, version, and `content_digest` with
+the reviewed source. `rootform list dialects` inspects embedded or already
+selected Dialects, so it cannot bootstrap an unselected source directory.
+
+When only reviewed source is available, create a local OCI layout to expose its
+compiled identity. This example uses the
+[Confluent Dialect source](https://github.com/rootform-dev/rootform/tree/dev/dialects/confluent).
+Download or copy that complete directory to `third-party/confluent` inside
+`rootform-first-architecture`. Run the following block from the project root.
+`jq` is required only for this advanced identity extraction. Packaging stays
+local and publishes nothing. `mktemp` creates a temporary parent directory,
+while Rootform creates the previously absent `layout` destination:
+
+<!-- docs-check:external-local-dialect-identity -->
+```sh
+identity_workspace=$(mktemp -d "${TMPDIR:-/tmp}/rootform-identity.XXXXXX")
+identity_dir="$identity_workspace/layout"
+rootform package dialects ./third-party/confluent --to "$identity_dir" >/dev/null
+manifest_digest=$(jq -r '.manifests[0].digest' "$identity_dir/index.json")
+manifest_file="$identity_dir/blobs/sha256/${manifest_digest#sha256:}"
+config_digest=$(jq -r '.config.digest' "$manifest_file")
+config_file="$identity_dir/blobs/sha256/${config_digest#sha256:}"
+jq '{owner, version, content_digest}' "$config_file"
+```
+
+```json title="Extracted Dialect identity"
+{
+  "owner": "confluent",
+  "version": "0.1.0",
+  "content_digest": "sha256:57bc8a2038fc1159adf19486a7f8875ab8ca8c4d9af72865e502f36b8104470e"
+}
+```
+
+This reads Rootform's generated config artifact. It does not calculate a
+replacement digest. The `Digest` printed by `package dialects` is the OCI
+manifest digest, not `content_digest`. Keep these identities separate when
+writing the `dialects` entry. The next lock is another independent, complete
+example. It selects only the local Dialect. Add its `dialects` entry and
+replacement to an existing lock instead of replacing unrelated selections.
+
+Record a complete local selection:
+
+```json title="rootform.lock (local Dialect)"
+{
+  "format_version": "1",
+  "dialects": [
+    {
+      "owner": "confluent",
+      "version": "0.1.0",
+      "content_digest": "sha256:57bc8a2038fc1159adf19486a7f8875ab8ca8c4d9af72865e502f36b8104470e",
+      "source": {
+        "local": {
+          "path": "third-party/confluent"
+        }
+      }
+    }
+  ],
+  "policy_packs": [],
+  "excluded_owners": [],
+  "replacements": ["confluent"]
+}
+```
+
+The example owner `confluent` is already embedded in Rootform. The
+`replacements` entry explicitly authorizes the local Dialect to replace that
+embedded owner. This authorization is specific to the collision demonstrated
+here. A local Dialect with a new owner does not need a replacement entry.
+
+Prepare the local selection without changing the lock, then inspect its origin:
+
+<!-- docs-check:external-local-dialect-init -->
+```sh
+rootform init . --locked --offline --no-input
+rootform list dialects --dialect confluent -o wide
+```
+
+```text title="Selected local Dialect"
+Project prepared
+
+External dialects      1
+External Policy Packs  0
+NAME       VERSION  ORIGIN  CONCEPTS  CONTEXTS  RELATIONS  RULES
+confluent  0.1.0    local         37         1         19     62
+```
+
+## Combine the examples for offline replay
+
+The governance replay uses both examples in one project. Preserve both entries
+in the same lock:
+
+```json title="rootform.lock (combined replay selection)"
+{
+  "format_version": "1",
+  "dialects": [
+    {
+      "owner": "confluent",
+      "version": "0.1.0",
+      "content_digest": "sha256:57bc8a2038fc1159adf19486a7f8875ab8ca8c4d9af72865e502f36b8104470e",
+      "source": {
+        "local": {
+          "path": "third-party/confluent"
+        }
+      }
+    }
+  ],
+  "policy_packs": [
+    {
+      "name": "tutorial",
+      "version": "0.1.0",
+      "content_digest": "sha256:3f301eea6cfe95b1c66ba3c768d3d57613c847ca245cdb5ad3838e6604a19e9e",
+      "source": {
+        "local": {
+          "path": "policies"
+        }
+      }
+    }
+  ],
+  "excluded_owners": [],
+  "replacements": ["confluent"]
+}
+```
+
+Run `init` after saving this combined lock. The
+[offline replay](reproduce-build.md#prepare-an-external-selection-with---no-input)
+vendors each selected family it needs before transfer.
+
+## Select published OCI content
+
+Start from one publisher-provided record for each artifact:
+
+- owner or pack name and version
+- `content_digest`
+- tagless repository
+- manifest and layer digests
+- download and install sizes
+
+Do not combine values from different package builds. A mutable tag is not part
+of execution identity.
+
+The following template is schema-valid but intentionally not runnable because
+`registry.example` is a documentation domain. Replace every repository and
+descriptor field with one complete identity supplied for the content you
+reviewed:
+
+```json title="rootform.lock (OCI template)"
+{
+  "format_version": "1",
+  "dialects": [
+    {
+      "owner": "confluent",
+      "version": "0.1.0",
+      "content_digest": "sha256:57bc8a2038fc1159adf19486a7f8875ab8ca8c4d9af72865e502f36b8104470e",
+      "source": {
+        "oci": {
+          "repository": "registry.example/team/dialects/confluent",
+          "manifest_digest": "sha256:22648a24e57c0d3afd0f636b50feb3e9374e87efbc2becf1364312cfb038e7e9",
+          "layer_digest": "sha256:010ae47d7d59a7948c14e1319127bda284a6fa9051628d2258cfd7dcddb349b7",
+          "download_size": 4989,
+          "install_size": 31570
+        }
+      }
+    }
+  ],
+  "policy_packs": [
+    {
+      "name": "baseline",
+      "version": "0.1.0",
+      "content_digest": "sha256:252d152ab845848c50f1ecccee7da5b6ee8e0cedeac34e0cd7f820de5246aa47",
+      "source": {
+        "oci": {
+          "repository": "registry.example/team/policy-packs/baseline",
+          "manifest_digest": "sha256:1817ae3b3c9bffee6234f886e6484ed9a0cfab9a745aa1f3417027184f07fe5f",
+          "layer_digest": "sha256:138c55e2d1573a09fed8496dc660ed7cdb15cc1b6da0a40bdf1b1a34faa5f9a5",
+          "download_size": 4731,
+          "install_size": 12542
+        }
+      }
+    }
+  ],
+  "excluded_owners": [],
+  "replacements": ["confluent"]
+}
+```
+
+Here `replacements` authorizes the selected `confluent` Dialect to replace the
+embedded owner with the same name. After substituting the real publisher
+identity, prepare only those exact pins:
 
 ```sh
 rootform init . --locked --no-input
+rootform list dialects -o wide
+rootform list policy-packs -o wide
 ```
 
-`init` verifies local entries and installed content. It may fetch only missing
-OCI manifests already pinned in lock. It never creates or edits lock, resolves a
-version, lists a registry, or changes supplied release set.
+`init` can acquire missing OCI bytes from the recorded repositories when
+network access is allowed. It does not resolve a version, inspect tags, list a
+registry, or rewrite the lock.
 
-Installed third-party content lives under `$ROOTFORM_HOME/dialects` and
-`$ROOTFORM_HOME/policy-packs`. Supplied Dialects and RF Vocabulary remain inside
-binary.
+## Exclude or replace an owner
 
-## Use local Policy Pack while authoring
+Add an embedded owner to `excluded_owners` to remove its Dialect from the
+effective catalog. Add the owner to `replacements` only when `dialects` also
+selects another Dialect with that owner. A collision without replacement is an
+error. Reserved owner `rf` is protected and cannot appear in either array.
 
-An explicit local pack can replace project Policy Pack selection for one check:
-
-```sh
-rootform check . --policy-pack ./policies
-```
-
-This does not add pack to lock or install it. Do not combine explicit
-`--policy-pack` with `--locked`.
-
-## Vendor exact selections
-
-Vendor copies selected non-embedded content into project:
-
-```sh
-rootform vendor dialects
-rootform vendor policy-packs
-```
-
-Default destinations are `.rootform/dialects` and
-`.rootform/policy-packs`. Once present, each directory is exclusive source for
-its kind. Missing or changed vendored content fails instead of falling back to
-store or registry.
-
-Use `--offline` only when every required byte already exists locally or in
-verified cache. See [Reproduce a build offline](reproduce-build.md) for transfer
-workflow.
-
-## Exclude or replace one owner
-
-`excluded_owners` removes supplied Dialect owner from effective catalog.
-`replacements` authorizes selected Dialect with same owner to replace it.
-Without explicit replacement, owner collision is error. Reserved owner `rf`
-cannot be excluded or replaced.
-
-Review [project preparation](../cli.md) for command behavior and
-[security guidance](../security/index.md) before using private registry.
+Review [Locks and vendored content](../offline-security.md) for preparation and
+source precedence. Use [Reproduce a build offline](reproduce-build.md) to
+transport a verified selection. To distribute content you author, continue with
+the [`package`](../reference/cli/package.md) and
+[`publish`](../reference/cli/publish.md) references.

@@ -1,11 +1,14 @@
 ---
 title: "rootform validate"
-description: "Validate a Rootform object"
+description: "Validate an architecture or Rootform definition."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+Choose `architecture` to check a built or saved architecture. Other
+subcommands validate Dialect or Policy definitions and have their own
+contracts. Validation checks structure and definitions; it does not evaluate
+Policies or verify deployed cloud resources.
 
-Validate a Rootform object.
+<!-- BEGIN GENERATED CLI: rootform validate -->
 
 ## Usage
 
@@ -25,14 +28,6 @@ rootform validate <object> [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
-
-Validate an architecture or Rootform definition and report any problems
-found.
-
-Validation checks definitions; it does not evaluate policies. Use
-"rootform check" for that.
-
 ## Subcommands
 
 | Command | Purpose |
@@ -45,10 +40,14 @@ Validation checks definitions; it does not evaluate policies. Use
 | [` rootform validate relation `](validate/relation.md) | Validate a relation predicate |
 | [` rootform validate rule `](validate/rule.md) | Validate a rule definition |
 
-## Examples
+<!-- END GENERATED CLI -->
+
+Save `architecture.json` with `build`, for example from
+[Your first architecture](../../getting-started/first-architecture.md).
 
 ```sh
-rootform validate architecture ./infra
-rootform validate dialects ./dialects
-rootform validate rule google.rule.cloud-sql-instance
+rootform validate architecture architecture.json
 ```
+
+For governance use [`check`](check.md). For a complete architecture workflow,
+see [Your first architecture](../../getting-started/first-architecture.md).

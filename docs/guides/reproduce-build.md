@@ -1,87 +1,202 @@
 ---
 title: "Reproduce a build offline"
-description: "Pin Rootform, preserve exact project selection, and rebuild without registry access."
+description: "Transfer exact Rootform inputs and reproduce architecture in an independent environment."
 ---
 
-Reproduction fixes Rootform binary, project source, and any explicit external
-selection. Supplied RF Vocabulary and Dialects are already in binary.
+An offline reproduction preserves the exact Rootform binary, a compatible
+platform, project source, resolved modules, and every external selection used
+by the command. Git carries committed files only. It does not materialize
+remote modules or OCI content.
 
-## Record common inputs
+Remote modules must already exist beneath `.terraform/modules` and match
+`.terraform/modules/modules.json`. Transfer both the module directories and
+that manifest with the project. See [Make modules available locally](../inputs/index.md#make-modules-available-locally).
 
+## Choose source, replay, and report paths
+
+Replace these placeholders throughout the commands:
+
+- `/path/to/source-project` is the prepared project on the source environment
+- `/path/to/replay-project` is its independent copy on the replay environment
+- `/path/to/evidence` is the directory that carries comparison reports
+
+Create the report directory before the first build:
+
+<!-- docs-check:offline-evidence-directory -->
+```sh
+mkdir -p /path/to/evidence
+```
+
+## Reproduce a project with embedded Dialects only
+
+A supplied-only project has no `rootform.lock` and needs no preparation. On the
+source environment, record the binary identity and build the reference file:
+
+<!-- docs-check:offline-embedded-source -->
 ```sh
 rootform version
-rootform list dialects
+rootform build /path/to/source-project --output /path/to/evidence/before.json
 ```
 
-Record source revision and exact Rootform version with review evidence. The
-binary fixes supplied release set; source fixes declarations and references.
+Transfer the exact Rootform executable for the target platform, project source,
+resolved modules, and `before.json` into an independent location.
 
-## Reproduce a supplied-only build
+On the replay environment, create a genuinely new Rootform home and build the
+independent copy:
 
-A project using only supplied content needs no lock or preparation:
-
-<!-- docs-check:baseline -->
+<!-- docs-check:offline-embedded-replay -->
 ```sh
-rootform build . --output before.json
+replay_home=$(mktemp -d "${TMPDIR:-/tmp}/rootform-home.XXXXXX")
+ROOTFORM_HOME="$replay_home" \
+  rootform build /path/to/replay-project --output /path/to/evidence/after.json
+rootform diff /path/to/evidence/before.json \
+  /path/to/evidence/after.json --exit-code
+cmp -s /path/to/evidence/before.json /path/to/evidence/after.json
 ```
 
-Normal build performs no network access. Repeat with same binary and source:
+Expected Diff output:
 
-<!-- docs-check:offline -->
-```sh
-rootform build . --output after.json
-rootform diff before.json after.json --exit-code
+```text
+Architecture unchanged
 ```
 
-Expect `no architectural change` and status `0`. Compare exact bytes when
-reproduction requires canonical identity:
+Status `0` from `diff --exit-code` proves no determined or undetermined
+architecture change. Status `0` from `cmp -s` separately proves byte identity.
+Neither result substitutes for the other.
+
+A fresh `ROOTFORM_HOME` proves the replay did not use shared Rootform content.
+It does not by itself prove network isolation. Run this stage in the intended
+offline or network-disabled environment for that proof. Normal `build` does not
+acquire content.
+
+## Prepare an external selection with --no-input
+
+Start from a project with reviewed `rootform.lock`. On the connected source
+environment, prepare exact OCI pins and verify local entries:
 
 ```sh
-cmp -s before.json after.json
-```
-
-## Prepare an external selection
-
-If project uses third-party Dialects, exclusions or replacements, or Policy
-Packs, author exact format-1 `rootform.lock`. Validate local entries and acquire
-missing exact OCI pins while connected:
-
-```sh
+cd /path/to/source-project
 rootform init . --locked --no-input
-rootform build . --locked --output before.json
 ```
 
-`init` preserves lock bytes and never discovers or resolves selection. Keep
-binary, source, and lock unchanged for replay.
+Vendor only families the replay needs. A selected external Dialect is required
+for architecture construction:
 
-## Carry selected packages with project
-
-Vendor each non-embedded family selected by lock:
-
-<!-- docs-check:vendor -->
+<!-- docs-check:offline-vendor-dialects -->
 ```sh
+cd /path/to/source-project
 rootform vendor dialects --offline
+```
+
+The command acts on `/path/to/source-project/rootform.lock` because it runs
+from that project root. Embedded Dialects and RF Vocabulary are not copied.
+
+Build the reference after vendoring, so source and replay use the same
+project-local execution boundary:
+
+<!-- docs-check:offline-external-source -->
+```sh
+cd /path/to/source-project
+rootform build . --locked --output /path/to/evidence/before.json
+```
+
+Transfer these items:
+
+- exact Rootform executable for a compatible platform
+- project source and required local or materialized modules
+- unchanged `rootform.lock`
+- `.rootform/dialects` when external Dialects are selected
+- `before.json` for comparison
+
+Copy them into an independent project location. Copying only `rootform.lock`
+does not transport selected content. This walkthrough leaves the original
+`third-party/confluent` source directory behind after vendoring. Its project
+vendor copy must be sufficient on replay.
+
+On the replay environment, use another new home:
+
+<!-- docs-check:offline-external-replay -->
+```sh
+cd /path/to/replay-project
+replay_home=$(mktemp -d "${TMPDIR:-/tmp}/rootform-home.XXXXXX")
+ROOTFORM_HOME="$replay_home" \
+  rootform build . --locked --output /path/to/evidence/after.json
+rootform diff /path/to/evidence/before.json \
+  /path/to/evidence/after.json --exit-code
+cmp -s /path/to/evidence/before.json /path/to/evidence/after.json
+```
+
+This build-only path needs no Policy Pack vendor, Policy evaluation, or check
+report.
+
+### Add governance evidence when needed
+
+Governance reproduction is optional. Use the
+[combined replay selection](external-content.md#combine-the-examples-for-offline-replay),
+including the `tutorial` Policy Pack and its effective subnet target. On the
+source environment, vendor that selected family and save its result and status:
+
+<!-- docs-check:offline-vendor-policy-packs -->
+```sh
+cd /path/to/source-project
 rootform vendor policy-packs --offline
 ```
 
-Commands materialize exact selected entries under `.rootform/dialects` and
-`.rootform/policy-packs`. Supplied Dialects and RF Vocabulary are never
-vendored. A present vendor family is exclusive execution source.
-
-Prove independence from shared home:
-
-<!-- docs-check:empty-home -->
+<!-- docs-check:offline-governance-source -->
 ```sh
-ROOTFORM_HOME="$PWD/empty-rootform-home" \
-  rootform build . --locked --output vendored.json
-rootform diff before.json vendored.json --exit-code
+cd /path/to/source-project
+if rootform check . --locked --format json \
+  --output /path/to/evidence/before-check.json
+then
+  source_check_status=0
+else
+  source_check_status=$?
+fi
+printf '%s\n' "$source_check_status" > /path/to/evidence/before-check.status
 ```
 
-Damaged or incomplete vendor content fails closed. Repair explicitly with
-online `rootform vendor dialects` or `rootform vendor policy-packs`; neither
-changes selection.
+For this compliant example, `before-check.status` contains `0` and the JSON
+report records one evaluated, passed Policy. Transfer `.rootform/policy-packs`,
+`before-check.json`, and `before-check.status` with the build inputs. The
+original `policies` source directory can remain on the source environment.
 
-Keep selection changes outside reproduction proof. See
-[locks and offline use](../offline-security.md),
-[external content](external-content.md), and
-[project preparation](../cli.md).
+On the replay environment, create another new home and compare Policy evidence:
+
+<!-- docs-check:offline-governance-replay -->
+```sh
+cd /path/to/replay-project
+governance_home=$(mktemp -d "${TMPDIR:-/tmp}/rootform-home.XXXXXX")
+if ROOTFORM_HOME="$governance_home" \
+  rootform check . --locked --format json \
+  --output /path/to/evidence/after-check.json
+then
+  replay_check_status=0
+else
+  replay_check_status=$?
+fi
+printf '%s\n' "$replay_check_status" > /path/to/evidence/after-check.status
+cmp -s /path/to/evidence/before-check.json \
+  /path/to/evidence/after-check.json
+cmp -s /path/to/evidence/before-check.status \
+  /path/to/evidence/after-check.status
+```
+
+Matching Policy JSON proves evaluation result was reproduced. Matching status
+files proves command outcome was reproduced. Both remain separate from
+Architecture Diff, byte identity, home independence, and network isolation.
+
+## Detect and repair an incomplete vendor
+
+If a selected file is missing or altered beneath `.rootform/dialects` or
+`.rootform/policy-packs`, normal execution fails with status `3`. It does not
+fall back to a local source, shared home, cache, or registry.
+
+Repair the same selection explicitly. When verified bytes are available in the
+replay environment, run the matching vendor command from that project root
+with `--offline`. Otherwise rerun `init` and `vendor` in the connected source
+environment, then transfer the complete verified vendor family again. Keep
+`rootform.lock` unchanged. Do not delete it to bypass an integrity failure.
+
+[Locks and vendored content](../offline-security.md) explains source precedence
+and command controls. [Use external Dialects and Policy Packs](external-content.md)
+shows how to create the selection before transfer.

@@ -1,39 +1,29 @@
 ---
 title: "Terraform and OpenTofu plans"
-description: "Build planned architecture and compare the before and planned facts carried by one JSON plan."
+description: "Explore planned architecture and compare the before and planned facts carried by one JSON plan."
 ---
 
-A Terraform or OpenTofu plan describes a proposed change. Rootform reads its
-JSON representation to build the planned architecture or compare the before
-and planned architecture. Rootform does not create, refresh, or apply the plan.
+Start with a project that is ready for its usual Terraform or OpenTofu planning
+workflow. Rootform reads the completed plan export. It does not create, refresh,
+or apply a plan, execute a provider, or contact a backend.
 
-## What a plan adds
-
-Configuration analysis starts with declarations. A plan supplies the resource
-instances and before/planned structure from a particular planning operation.
-Rootform uses resource identities, provider evidence, configuration references,
-and whether those references are available. It omits attribute values from its
-outputs and does not copy the plan into Architecture IR.
-
-| Command | Result |
-| --- | --- |
-| `build --plan` | The planned architecture only. |
-| `check --plan` | Selected policies evaluated against the planned architecture. |
-| `diff --plan` | Architectural comparison between the before and planned sides of the same plan. |
+Run Rootform from the project directory. With `--plan`, Rootform reads any
+project selection present in the current working directory. Projects that use
+only the Dialects supplied with Rootform need neither `rootform.lock` nor a
+`.rootform/` directory. Rootform does not infer a project root from the
+directory containing the plan file.
 
 ## Protect the plan files
 
 > [!WARNING]
 > Saved plan files and their JSON exports can contain sensitive values, even when
 > Terraform or OpenTofu hides them in terminal output. Keep both out of Git and
-> public artifacts. Rootform omits plan values from its outputs; it does not
-> modify or sanitize input files.
+> public artifacts. Rootform does not modify, sanitize, or delete either input.
 
 ## Produce the accepted JSON
 
-Create the saved plan through your normal Terraform/OpenTofu workflow. Planning
-can access providers, backends, state, and credentials; Rootform does not perform
-that operation.
+Create a saved plan through your normal workflow, then export that completed
+plan as JSON.
 
 For Terraform:
 
@@ -49,24 +39,31 @@ tofu plan -out=tfplan
 tofu show -json tfplan > tfplan.json
 ```
 
-Use the saved plan from that operation. `plan -json` emits machine events while
-planning; it is not a substitute for `show -json` on the completed saved plan.
-Rootform also rejects a raw binary plan, a state document, malformed JSON, and
-JSON that does not have a recognized plan shape.
+Use `show -json` on the saved plan. `plan -json` emits an event stream while
+planning and is not the same input. Rootform also rejects a raw binary plan, a
+state document, malformed JSON, and JSON without a recognized plan shape.
 
-## Build with current project selection
+## Explore the planned architecture
 
-Plan commands use supplied release set plus optional `rootform.lock` from
-current project. Prepare exact external pins first only when lock selects them.
+```sh
+rootform run --plan tfplan.json
+```
+
+The local explorer opens the architecture the plan would produce. Inspect the
+planned resource instances, their interpretations, and established facts.
+Keep this server running while you use a second terminal for later commands, or
+press `Ctrl+C` before continuing.
+
+## Save the planned architecture
 
 <!-- docs-check:plan-build -->
 ```sh
 rootform build --plan tfplan.json --output planned.json
 ```
 
-No plan command infers or acquires selection. Read declaration summary and
-diagnostics, then inspect planned resources, interpretations, and facts in
-`planned.json`.
+`planned.json` contains the planned architecture only, not a comparison. Read
+the declaration summary and diagnostics, then inspect the saved resource
+instances, interpretations, and facts.
 
 ## Compare both sides of one plan
 
@@ -75,45 +72,66 @@ diagnostics, then inspect planned resources, interpretations, and facts in
 rootform diff --plan tfplan.json
 ```
 
-To retain the machine report:
+The text report separates determined architecture changes from facts Rootform
+could not determine. To retain the machine report:
 
 <!-- docs-check:plan-diff-json -->
 ```sh
 rootform diff --plan tfplan.json --format json --output delta.json
 ```
 
-The plan supplies both sides, so do not add positional base/head arguments.
-A create plan can have an empty before side; a destroy plan can have an empty
-planned side. Empty sides are valid.
+Inspect `changes`, `undetermined`, and their summary counts in `delta.json`.
+The plan supplies both sides, so do not add positional Before and After
+arguments. A create plan can have an empty Before side, and a destroy plan can
+have an empty planned side. Both are valid.
 
-You can avoid writing the JSON plan to disk by piping the export directly:
+## Check the planned architecture
+
+```sh
+rootform check --plan tfplan.json
+```
+
+This evaluates the planned architecture against Policy Packs selected for the
+current project. Select an appropriate pack in `rootform.lock` or pass an
+explicit `--policy-pack` source before treating the result as a governance
+claim. See [Run checks](../guides/check-architecture.md) for the
+Policy Pack workflow and outcome interpretation.
+
+## Read plan comparisons correctly
+
+`build --plan` and `run --plan` use the planned side only. `diff --plan`
+derives both Before and planned architecture from the same plan.
+
+For updated, replaced, and deleted resources, the plan may not carry the
+references needed to reconstruct the Before configuration. A reference present
+in the planned configuration does not prove that it existed before. Rootform
+reports conclusions it cannot establish as **undetermined** instead of
+inventing an addition, removal, or unchanged relationship.
+
+An undetermined entry is not a no-change result, and it does not necessarily
+mean the comparison failed. A completed comparison returns status `0` by
+default even when its report contains changes or undetermined entries. With
+`--exit-code`, either condition returns status `1`. Status `3` means the
+comparison could not be completed. See the exact
+[`rootform diff` exit contract](../reference/cli/diff.md#exit-status).
+
+Terraform may replace a resource because an attribute changed while Rootform
+reports no architectural change. This means both sides establish the same
+architectural representations and facts. It does not mean Terraform has no
+actions, or that deployed infrastructure matches source.
+
+## Stream the export
+
+You can avoid writing the JSON export to disk by piping it directly:
 
 ```sh
 terraform show -json tfplan | rootform diff --plan -
 ```
 
-The saved binary plan still exists and needs the same protection. Rootform reads
-`-` from standard input; use the OpenTofu equivalent when appropriate.
+Use `tofu show -json` for OpenTofu. The pipe avoids an intermediate JSON file,
+but the saved binary plan still exists and needs the same protection.
 
-Differences return status `0` by default. Add `--exit-code` to return `1` for a
-nonempty comparison, including undetermined facts. Status `3` means the
-comparison could not be completed. A valid report can contain undetermined facts
-and still exit `0` without `--exit-code`. [Architecture Diff](../concepts/diff.md)
-explains the outcomes and the distinction between changes and unavailable evidence.
-
-## Why a replacement can have no architectural change
-
-Terraform may replace a resource because an attribute changed. If the selected
-Dialect still establishes the same architectural representation and connections,
-Rootform can report `no architectural change`. Rootform compares architectural
-facts, not the provider's action list or every attribute value.
-
-Before-side references can also be unavailable for updated or replaced resources.
-A reference in planned configuration is not proof that the same reference existed
-before. Rootform keeps facts it cannot reconstruct **undetermined** instead of
-inventing an addition, removal, or unchanged relationship.
-
-A no-change result therefore says nothing about whether Terraform has actions
-to apply. It also does not prove that deployed infrastructure matches source.
-Rootform has no independent refresh or Drift feature; any observation represented
-in the plan came from the Terraform/OpenTofu operation that produced it.
+Rootform outputs omit raw plan values, but they can still reveal resource
+names, source paths, and architecture structure. They are not automatically
+anonymized. Review [security and data handling](../security/index.md) before
+sharing architecture files or Diff reports.

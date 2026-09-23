@@ -1,58 +1,50 @@
 ---
 title: "Outputs and exit status"
-description: "Choose architecture, HTML, policy, SARIF, and Diff outputs without confusing process success with a governance claim."
+description: "Choose an architecture, policy, or comparison result and interpret its status."
 ---
 
-Choose an output for its consumer, then use the command's exit contract to
-interpret the result. A file extension alone is not evidence of success.
+An output file's presence, extension, or valid JSON syntax does not prove the
+operation succeeded. Check the command's exit status and read its diagnostics.
 
-| Output | Produced by | Use |
+| Result | Command and format | Use |
 | --- | --- | --- |
-| Architecture JSON | `build` | Reuse semantic evidence with `run`, `check`, `diff`, or `explain`. Consumers validate the document before using it. |
-| Self-contained HTML | `build --format html` | Open or share an interactive architecture file. |
-| Policy result | `check --format json` | Inspect selected policies, evaluations, violations, and indeterminate outcomes. |
-| SARIF | `check --format sarif` | Present those same policy findings in a compatible code-scanning consumer. |
-| Architecture Diff | `diff --format json` | Consume determined and undetermined comparison facts. |
-| Policy text report | `check` | Read policy outcomes in a terminal. |
-| Diff text or Markdown report | `diff` | Read changes in a terminal or code review. |
+| Architecture JSON | `build` (default `json`) | Reusable architecture document for `run`, `check`, `diff`, and `explain architecture`. |
+| Architecture HTML | `build --format html` | Self-contained browser view of one architecture, not an interactive Diff report. |
+| Policy report | `check` (`text`, `json`, `markdown`, `sarif`) | Human review, machine processing, Markdown review, or SARIF consumer. |
+| Comparison report | `diff` (`text`, `json`, `markdown`) | Human review or processing of determined and undetermined architectural changes. |
 
-## Status is command-specific
+Architecture JSON is a reusable input. Policy and Diff reports are results of
+evaluation or comparison, not architecture inputs. HTML represents an
+architecture in a browser; it does not turn a Diff into an interactive view.
+
+## Interpret check and diff status
 
 | Status | `check` | `diff` |
 | --- | --- | --- |
-| `0` | Every selected policy evaluated and passed. | Comparison completed. Differences and undetermined facts still return `0` unless `--exit-code` is set. |
-| `1` | At least one confirmed policy violation, including mixed runs. | With `--exit-code`, the comparison contains changes or undetermined facts. |
-| `2` | Invalid command use. | Invalid command use. |
-| `3` | Verdict unavailable: indeterminate, not evaluated, or required evidence missing. | Comparison could not be completed, for example because an input is invalid. |
+| `0` | Every selected policy was evaluated and passed. | Comparison completed. Changes or undetermined facts may still be present without `--exit-code`. |
+| `1` | At least one confirmed violation, including a mixed result. | With `--exit-code`, changes or undetermined facts were reported. |
+| `2` | Command used incorrectly. | Command used incorrectly. |
+| `3` | No compliant verdict: indeterminate or not evaluated, with no confirmed violation. | Comparison could not be completed. |
 
-An undetermined Diff fact is not itself status `3`. It can occur in a valid
-report, including one with no determined changes. Read the report rather than
-treating a successful process as proof of no change.
+Zero selected policies, zero evaluations, or a selected policy without targets
+cannot establish compliance. An undetermined fact in a completed Diff is not
+status `3`. Inspect the report even when Diff exits `0`. These codes are not a
+universal contract for other commands; use the relevant [CLI reference](cli/index.md).
 
-Other commands define their own status `1` cases, including failed lookups.
-Each [command reference](cli/index.md) includes its actual exit contract.
+## Keep results and diagnostics separate
 
-## Keep machine output separate
+`build` writes architecture JSON or HTML to standard output by default, or to
+`--output`. Its preparation messages, declaration summary, and diagnostics go
+to standard error. `check` and `diff` write their selected report format to
+standard output or `--output`, with operational diagnostics on standard error.
+For a text `check`, the policy summary and detail are part of the report on
+standard output. Do not merge standard error into machine-readable output.
 
-JSON and SARIF go to standard output or the file named by `--output`.
-Progress and operational warnings use standard error. Structured diagnostics
-also belong to their result document; do not discard them because the command
-produced valid JSON.
+Structured reports can also contain diagnostics. Preserve both the report and
+standard error when investigating a failure. For artifact collection that
+keeps the actual exit status and only current-run results, see
+[Run in CI](../integrations/ci/README.md).
 
-Text output includes more human context. For a directory build, its result and
-compact declaration summary go to standard error. A text `check` prints its
-policy summary and policy detail on standard output.
-
-Use `--format json` for a parser and preserve standard error separately.
-Merging streams with `2>&1` can turn valid JSON into unreadable input.
-
-## Share the right artifact
-
-HTML carries its renderer and assets, so its recipient needs only a browser.
-Architecture JSON is smaller and works as input to another Rootform command.
-Neither is a replacement for the Terraform or OpenTofu source.
-
-Architecture files retain names, addresses, source locations and semantic
-relationships. Review them before sharing. See the
-[public contracts](../../contracts/README.md) for exact fields and
-[security guidance](../security/index.md) for the disclosure boundary.
+Architecture files retain names, addresses, source locations, and semantic
+relationships. Review them before sharing; see [security guidance](../security/index.md)
+and [public contracts](../../contracts/README.md) for fields and disclosure boundaries.

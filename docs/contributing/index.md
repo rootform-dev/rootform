@@ -1,50 +1,56 @@
 ---
 title: "Contribute to Rootform"
-description: "Improve public documentation, examples, contracts, Dialects, and the GitHub Action."
+description: "Find the right place to improve Rootform or report a reproducible problem."
 ---
 
-Public contributions can improve Rootform's documentation, examples, contracts,
-distribution tooling, official Dialects, and the GitHub Action. Pick the
-repository that owns the change.
+Found something to improve? Start with the repository or reporting channel that
+owns it. A small, reproducible report is enough to begin a product discussion.
 
-| Change | Public repository |
+| Contribution or report | Destination |
 | --- | --- |
-| Docs, examples, contracts, distribution | [Rootform](https://github.com/rootform-dev/rootform) |
-| Official Dialects and their fixtures | [`dialects/`](../../dialects/) in Rootform |
-| GitHub Action behavior | [Action](https://github.com/rootform-dev/action) |
+| Documentation, examples, public contracts, distribution tooling | [Rootform repository](https://github.com/rootform-dev/rootform) |
+| Official Dialects, Rules, and fixtures | [`dialects/`](https://github.com/rootform-dev/rootform/tree/dev/dialects) in Rootform |
+| GitHub Action | [Action repository](https://github.com/rootform-dev/action) |
+| Reproducible product behavior | [Public Rootform issues](https://github.com/rootform-dev/rootform/issues) |
+| Suspected exploitable vulnerability | [Private vulnerability reporting](https://github.com/rootform-dev/rootform/security/advisories/new) |
 
-Compiler and renderer source are private. Report reproducible product problems
-in the public Rootform repository.
+Never use a public issue for an exploitable vulnerability.
 
 ## Improve a page
 
-Use **Edit page** to reach its Markdown source. Make the smallest change
-that resolves the reader's problem. Follow [Writing for Rootform](writing.md),
-check linked commands against `--help`, and keep the example's expected result
-next to the command.
+Use **Edit this page** to reach its Markdown source. Keep the change focused and
+follow [Writing for Rootform](writing.md). Check changed commands against the
+CLI and show an observable result beside each example.
 
 For a documentation change, run from the Rootform repository:
 
 ```sh
 bun install --frozen-lockfile
 bun run check:docs
+bun run check:format
 ```
 
-For complete repository checks, follow the
-[contribution contract](../../CONTRIBUTING.md).
+Heading or anchor changes also need a check against the built documentation
+site. That rendered-HTML check is separate from `bun run verify`. Follow
+[CONTRIBUTING.md](https://github.com/rootform-dev/rootform/blob/dev/CONTRIBUTING.md)
+for executable example verification and the complete Rootform repository gate.
 
 ## Report a semantic gap
 
-Include the Rootform version, exact selected Dialects, a small synthetic input,
-the observed accounting or diagnostic, and the result you expected. Explain
-which provider documentation supports the expectation. Remove customer data,
-credentials, state, raw plans, and personal paths.
+Open a [public Rootform issue](https://github.com/rootform-dev/rootform/issues)
+with the Rootform version, a small synthetic example that reproduces the
+surprise, what you observed, and what you expected. You do not need to classify
+the internal accounting or know content digests before reporting it.
 
-To change an official provider Dialect, follow [Write a Dialect](../dialect-authoring.md)
-and contribute rules and fixtures under [`dialects/`](../../dialects/). A
-provider-version change needs evidence, not a guessed mapping. Each Dialect
-keeps its own version and content identity; the directory has no collection
-version.
+When relevant, add the provider and version, effective Dialect, diagnostic,
+and provider documentation that supports the expected interpretation. Never
+include credentials, customer data, state, real plans, or private paths.
+
+To contribute a Rule to an official Dialect, follow
+[Write a Dialect](../dialect-authoring.md). Include provider documentation,
+a reproducible fixture, and the behavior it proves under
+[`dialects/`](https://github.com/rootform-dev/rootform/tree/dev/dialects).
+A provider-version change needs evidence, not a guessed mapping.
 
 Teams can [write their own Policy Packs](../language/write-policy-pack.md).
 Public examples illustrate authoring patterns; they are not an official or
@@ -52,12 +58,17 @@ community governance catalog.
 
 ## Discuss contract changes first
 
-Open an issue before changing a public format, CLI contract, release asset
+Open an issue before changing a public wire format, CLI contract, release
 convention, license, or security behavior. Contract text and executable checks
 must change together. Generated schemas are not hand-edited.
 
-Repository documentation and tooling use Apache-2.0. Official Dialects use
-MPL-2.0. Distributed Rootform executables use Elastic License 2.0; the public
-repository license does not relicense the binary.
+The repository's [root license](https://github.com/rootform-dev/rootform/blob/dev/LICENSE)
+covers source, documentation, contracts, examples, and tooling under
+Apache-2.0. Official Dialects under
+[`dialects/`](https://github.com/rootform-dev/rootform/tree/dev/dialects) have their own
+[MPL-2.0 license](https://github.com/rootform-dev/rootform/blob/dev/dialects/LICENSE).
+Distributed Rootform executables carry an
+[Elastic-2.0 notice](https://github.com/rootform-dev/rootform/blob/dev/dependencies/ROOTFORM-BINARY-LICENSE.txt).
 
-For a vulnerability, use the [private reporting route](../../SECURITY.md).
+For reporting instructions, see the
+[security policy](https://github.com/rootform-dev/rootform/blob/dev/SECURITY.md).

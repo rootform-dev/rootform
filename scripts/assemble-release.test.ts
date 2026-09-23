@@ -321,6 +321,37 @@ describe("strict handoff verification", () => {
     }
   });
 
+  test("rejects exported commit or repository outside the verified producer", () => {
+    for (const [field, value] of [
+      ["source_commit", "f".repeat(40)],
+      ["source_repository", "rootform-dev/other"],
+    ] as const) {
+      const fixture = makeFixture();
+      try {
+        const distribution = join(fixture.parent, "distribution");
+        mkdirSync(join(distribution, "schemas"), { recursive: true });
+        writeFileSync(
+          join(distribution, "schemas/architecture-ir.schema.json"),
+          readFileSync(join(root, "schemas/architecture-ir.schema.json")),
+        );
+        const exported = JSON.parse(readFileSync(join(root, "public-export.json"), "utf8"));
+        exported[field] = value;
+        writeFileSync(join(distribution, "public-export.json"), canonical(exported));
+        expect(() =>
+          verifyHandoffDirectory(
+            distribution,
+            fixture.directory,
+            fixture.githubAssets,
+            version,
+            skipNative,
+          ),
+        ).toThrow("public export provenance drifted");
+      } finally {
+        rmSync(fixture.parent, { force: true, recursive: true });
+      }
+    }
+  });
+
   test("rejects unexpected asset, entry, field, schema, version, and GitHub digest", () => {
     const cases: Array<[FixtureOptions, string]> = [
       [{ binaryRendererProvenanceLeak: true }, "target exposes private producer provenance"],

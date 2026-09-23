@@ -1,11 +1,15 @@
 ---
 title: "rootform explain architecture"
-description: "Explain an architecture element"
+description: "Trace an architecture address to source and semantic evidence."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+Pass a resource's source address, such as `google_compute_network.vpc`. By
+default, Rootform builds from the current directory; `--input` accepts a
+Terraform/OpenTofu directory, saved architecture JSON, or `-` for architecture
+JSON on standard input. This command explains an element, not a Dialect Rule
+definition.
 
-Explain an architecture element.
+<!-- BEGIN GENERATED CLI: rootform explain architecture -->
 
 ## Usage
 
@@ -27,31 +31,19 @@ rootform explain architecture <address> [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
+<!-- END GENERATED CLI -->
 
-Show how an architecture element is implemented and which semantic
-facts and source locations support it.
+From the [first architecture](../../../getting-started/first-architecture.md)
+project, after saving `architecture.json`:
 
-By default, explain reads the current directory. --input accepts an
-infrastructure directory, a Rootform architecture file, or - for an
-architecture file on standard input.
-
-The text or JSON explanation goes to standard output. Diagnostics go to
-standard error.
-
-## Exit status
-
-```text
-0  the element was explained
-1  the declaration or architecture element was not found
-2  the command was used incorrectly
-3  no explanation could be decided
-```
-
-## Examples
-
+<!-- docs-check:cli-explain-architecture -->
 ```sh
-rootform explain architecture google_compute_network.vpc
-rootform explain architecture kubernetes_deployment_v1.app --format json
-rootform explain architecture google_compute_network.vpc --input prod.json
+rootform explain architecture aws_subnet.application --input .
+rootform explain architecture aws_subnet.application --input architecture.json --format json
 ```
+
+Text is the default; JSON is also available. The explanation goes to standard
+output and diagnostics to standard error. Status `0` means explained, `1`
+means address not found, `2` means incorrect command use, and `3` means no
+explanation could be decided. See [Explore an architecture](../../../guides/explore-architecture.md)
+for source evidence in the interface.

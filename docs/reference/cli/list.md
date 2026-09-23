@@ -1,11 +1,14 @@
 ---
 title: "rootform list"
-description: "List Rootform definitions"
+description: "See Dialects, Policy Packs, and policies accessible to a project."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`list` reports effective local content: loaded Dialects, selected Policy
+Packs, or their declared policies. It is not a remote catalog search. Use
+[`show`](show.md) to inspect one definition and [`explain`](explain.md) to
+trace a result.
 
-List Rootform definitions.
+<!-- BEGIN GENERATED CLI: rootform list -->
 
 ## Usage
 
@@ -25,13 +28,6 @@ rootform list <object> [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
-
-List the dialects a project loads, the Policy Packs it selects, or
-the policies those Policy Packs declare.
-
-Use "rootform show" to read one listed definition in full.
-
 ## Subcommands
 
 | Command | Purpose |
@@ -40,11 +36,13 @@ Use "rootform show" to read one listed definition in full.
 | [` rootform list policies `](list/policies.md) | List policies |
 | [` rootform list policy-packs `](list/policy-packs.md) | List Policy Packs |
 
-## Examples
+<!-- END GENERATED CLI -->
 
 ```sh
-rootform list dialects
 rootform list dialects -o wide
 rootform list policy-packs
 rootform list policies
 ```
+
+See [Select Dialects and Policy Packs](../../cli.md) for what the project
+loads by default.

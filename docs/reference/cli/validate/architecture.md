@@ -1,11 +1,14 @@
 ---
 title: "rootform validate architecture"
-description: "Validate an architecture"
+description: "Check architecture structure and internal consistency."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`validate architecture` builds from a Terraform/OpenTofu directory or reads a
+saved Rootform architecture file. With no input it uses the current directory.
+`-` reads architecture JSON from standard input. It checks structural
+validity and internal consistency, not Policy compliance or live cloud state.
 
-Validate an architecture.
+<!-- BEGIN GENERATED CLI: rootform validate architecture -->
 
 ## Usage
 
@@ -26,31 +29,18 @@ rootform validate architecture [input] [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
+<!-- END GENERATED CLI -->
 
-Build or load an architecture and check that it is structurally valid
-and internally consistent.
-
-The input can be an infrastructure directory, a Rootform architecture
-file, or - for an architecture file on standard input. With no input,
-validation reads the current directory.
-
-The text or JSON result goes to standard output. Diagnostics go to
-standard error.
-
-## Exit status
-
-```text
-0  the architecture is valid
-1  the architecture is not valid
-2  the command was used incorrectly
-3  the architecture could not be validated
-```
-
-## Examples
+Replace `./infra` with a prepared project directory, or save
+`architecture.json` from [Your first architecture](../../../getting-started/first-architecture.md).
 
 ```sh
-rootform validate architecture
-rootform validate architecture architecture.json
-cat architecture.json | rootform validate architecture -
+rootform validate architecture ./infra
+rootform validate architecture architecture.json --format json
 ```
+
+Text is the default result; JSON is also available. The result goes to
+standard output and diagnostics to standard error. Status `0` means valid,
+`1` means invalid, `2` means incorrect command use, and `3` means validation
+could not be completed. Use [`check`](../check.md) to evaluate Policies and
+[Architecture IR](../../../concepts/architecture-ir.md) for document meaning.

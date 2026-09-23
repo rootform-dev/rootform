@@ -1,11 +1,15 @@
 ---
 title: "rootform show"
-description: "Show a Rootform definition"
+description: "Inspect one Dialect or RF Vocabulary definition."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`show` displays a loaded Dialect, the RF Vocabulary, or one declaration.
+A bare owner such as `google` shows that owner and its declarations. Use a
+qualified `owner.kind.name` such as `google.rule.cloud-sql-instance` for one
+declaration; a bare declaration name works only when unambiguous. These are
+definition identifiers, not Terraform resource addresses.
 
-Show a Rootform definition.
+<!-- BEGIN GENERATED CLI: rootform show -->
 
 ## Usage
 
@@ -26,28 +30,6 @@ rootform show <name> [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
-
-Show one dialect, the rf vocabulary, or one declaration they
-make.
-
-A bare owner name such as google or rf shows that owner and every
-declaration it makes. A qualified &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt; shows one
-declaration, where kind is concept, context, relation, or rule. A
-bare declaration name is accepted when it resolves unambiguously.
-
-The text or JSON definition goes to standard output. Diagnostics go
-to standard error.
-
-## Exit status
-
-```text
-0  the definition was shown
-1  the named definition was not found
-2  the command was used incorrectly
-3  no single definition could be selected
-```
-
 ## Subcommands
 
 | Command | Purpose |
@@ -55,12 +37,15 @@ to standard error.
 | [` rootform show policy `](show/policy.md) | Show a policy definition |
 | [` rootform show policy-pack `](show/policy-pack.md) | Show a Policy Pack |
 
-## Examples
+<!-- END GENERATED CLI -->
 
 ```sh
-rootform show google
 rootform show google.rule.cloud-sql-instance
-rootform show google.relation.runs-as
-rootform show rf.concept.virtual-network
-rootform show google -o json
+rootform show rf.concept.virtual-network -o json
 ```
+
+Text or JSON goes to standard output, diagnostics to standard error. Status
+`0` means shown, `1` means definition not found, `2` means incorrect use,
+and `3` means no single definition could be selected. Use
+[`list dialects`](list/dialects.md) to see available owners or
+[`explain semantics`](explain/semantics.md) to trace an interpretation.

@@ -3,7 +3,7 @@
   "commands": [
     {
       "path": "rootform",
-      "usage": "rootform [flags]",
+      "usage": "rootform [command]",
       "summary": "Understand Terraform and OpenTofu as architecture",
       "description": "Rootform turns Terraform and OpenTofu into a semantic, deterministic,\nand explainable architecture.\n\nStart with rootform run ./infra to explore a directory locally.",
       "examples": "rootform run ./infra\n  rootform build ./infra -o architecture.json\n  rootform check ./infra\n  rootform diff ./before ./after",

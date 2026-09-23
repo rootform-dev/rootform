@@ -70,7 +70,7 @@ If not, remove it or move it to the internal source that needs it. Technical
 truth alone is not a reason to publish a detail.
 
 State prerequisites instead of teaching industry conventions. Explain product
-concepts with enough depth to support a correct decision: representations,
+concepts with enough depth to support a correct decision: Representations,
 Rules, Concepts, RF Vocabulary, Dialects, `.rf.hcl`, Architecture IR, policies and
 Policy Packs, Diff, locks, vendor, offline operation, and provenance. Explain
 what Rootform can establish and what it refuses to invent.
@@ -100,17 +100,22 @@ across generated pages belongs in their shared overview.
 ## Make claims precise
 
 Name the input, behavior, result, and boundary. A diagram describes declared
-architecture; it does not prove live connectivity. An unresolved result is not
-a pass. A lock fixes selection; it does not prevent downloads unless offline
-operation is also requested.
+architecture, not live connectivity. An unresolved result is not a pass. A
+`rootform.lock` fixes selection, while `--offline` controls acquisition during
+explicit `init` or `vendor`. Normal analysis does not acquire packages.
 
 Use **architecture** in ordinary prose and **Rootform architecture file** for a
 saved document. Use **Architecture IR** for the public data contract. Keep
 **Representation**, **Rule**, **Concept**, **RF Vocabulary**, **Dialect**,
 **Policy Pack**, and **Diff** consistent. Use lowercase `resource` for the
-normalized source kind and lowercase `policy` for a rule owned by a Policy
-Pack. Reserve backticks for commands, paths, flags, identifiers, and literal
-values.
+normalized source kind. Use **Policy** for a named authored assertion and
+**Policy Pack** for its owner and selection. Use lowercase `policy` only for
+generic prose. Reserve backticks for commands, paths, flags, identifiers, and
+literal values.
+
+The [RF Vocabulary](../concepts/dialects.md) supplies common architectural
+terms. A [Dialect](../concepts/dialects.md) interprets provider declarations
+using those terms. Do not describe the RF Vocabulary as a provider Dialect.
 
 Use **Rootform language** in headings and navigation and **the Rootform language**
 in prose. Keep `language` lowercase and omit `(.rf.hcl)` from the section name.
@@ -131,6 +136,15 @@ pack reference. Nested `policy` blocks are invalid.
 Distinguish a Terraform or OpenTofu plan input from an Architecture Diff.
 Describe relations by their declared meaning. Do not turn network context into
 a reachability claim or a source dependency into an architecture relation.
+Source evidence supports a Rule's architectural claim but is not itself the
+Context or Relation produced by that Rule.
+
+Keep a Representation in Architecture IR distinct from its presentation. A
+secondary resource can be present in the document without a permanent card in
+every Explorer scene. Link to [Explorer navigation](../guides/explore-architecture.md#reveal-a-secondary-resource)
+instead of calling it missing. In Diff, `undetermined` is neither no change
+nor proof that the comparison failed. Link to
+[Architecture Diff](../concepts/diff.md#undetermined-preserves-uncertainty).
 
 ## Write directly, with natural rhythm
 
@@ -183,17 +197,12 @@ must not rescue a weak information hierarchy or hold unrelated caveats.
 
 ## Order installation by recommendation
 
-**Installation methods are ordered by recommendation, not by implementation
-importance. Show the simplest supported path first; package managers come next;
-manual release downloads are fallback paths.**
-
-- macOS: `curl -fsSL https://rootform.dev/install | sh`, then
-  `brew install --cask rootform`, then the manual archive;
-- Linux: `curl -fsSL https://rootform.dev/install | sh`, then the manual archive;
-- Windows: `Invoke-RestMethod https://rootform.dev/install.ps1 | Invoke-Expression`, then
-  `winget install --id Rootform.Rootform --exact`, then the manual ZIP;
-- Container: a top-level platform choice that goes directly to the GHCR command,
-  not an OS install sequence.
+Order methods by recommendation, not implementation importance. Show the
+recommended installer first, a platform package manager where offered, and a
+manual release archive as fallback. In the container panel, lead with the
+versioned image rather than an OS install sequence. Keep the exact commands
+and current alternatives in [Install Rootform](../installation.md), their
+canonical user page.
 
 Use one `[ macOS | Linux | Windows | Container ]` choice for primary content.
 Inside a platform panel, label **Recommended** and **Verify**; add **Other
@@ -293,16 +302,21 @@ Random variation and detector scoring do not establish editorial quality.
 
 ## Review before merging
 
-Read every changed page from search arrival and within its navigation path.
-Confirm that the purpose, prerequisite, expected result, and next action are
-discoverable without an introduction. Read neighboring pages for repeated
-definitions and contradictory limits. Check commands against the intended v0.1
-contract, examples against the product, links and anchors against the built site,
-and code blocks at narrow width.
+Read the page from a search arrival and from its navigation path. Before
+merging, confirm:
 
-Automated checks validate structure, navigation, examples, and explicit punctuation
-rules. Editorial review evaluates usefulness, scope, rhythm, and the boundary
-between product guidance and development process.
+- The page has one clear job and gives the reader a useful next action.
+- Rootform terms are explained before they become prerequisites.
+- Commands and behavioral claims match the intended contract.
+- Each copyable example has an observable result or a stated expected effect.
+- No credentials, customer data, real plans, or private paths appear.
+- A canonical page owns each definition rather than duplicating it here.
+- Links and anchors work in the built site, including after heading changes.
+- Code blocks and tables remain readable at narrow width.
+- Prose reads naturally as text, not merely as valid Markdown structure.
+
+Automated checks cover structure and links. Editorial review still decides
+whether the page is useful, accurate, and human to read.
 
 ## Sources
 

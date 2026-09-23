@@ -320,6 +320,7 @@ run(["sh", join(root, "docs", "integrations", "ci", "rootform-ci.sh")], root, {
   ROOTFORM_BIN: binary,
   ROOTFORM_HOME: mkdtempSync(join(tmpdir(), "rootform-policy-ci-home-")),
   ROOTFORM_OFFLINE: "1",
+  ROOTFORM_CHECK: "1",
   ROOTFORM_OUTPUT_DIR: policyCIOutput,
   ROOTFORM_PROJECT: policyCIProject,
 });

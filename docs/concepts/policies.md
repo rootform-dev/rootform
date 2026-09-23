@@ -1,121 +1,111 @@
 ---
 title: "Policies and Policy Packs"
-description: "Understand what a Policy proves over Architecture IR, how Policy Packs are selected, and what each outcome means."
+description: "Understand governance selection, target scope, evidence outcomes, and what a Policy result proves."
 ---
 
-A Policy asks whether the facts established in an architecture satisfy a
-requirement. It runs after [Dialects](dialects.md) interpret the source, and it
-never contacts a cloud provider. A Policy can check whether every represented
-subnet has an established network context; it cannot test live connectivity or
-invent a missing fact.
+A Policy evaluates established [Architecture IR](architecture-ir.md) facts
+against a requirement. It runs after [Dialects](dialects.md) interpret source.
+It cannot contact a cloud provider, infer live state, or invent a missing fact.
 
-## Source stays portable
+## Definition, selection, and evaluation
 
-Every Policy belongs to one independent Policy Pack, which distributes related
-Policies under a shared name and version. Pack source declares the pack name, its
-version, and its Policies, and nothing else. It records no RF Vocabulary or
-Dialect versions; those dependencies are derived when the pack is linked.
+| Object | Role | Evidence boundary |
+| --- | --- | --- |
+| **Policy** | Defines a target, assertion, and violation message | Its existence does not show that it ran |
+| **Policy Pack** | Groups related Policies | Its presence does not show that it was selected |
+| **Selection** | Chooses exact Packs and optional Policy subset | Establishes the scope of a check |
+| **Result** | Records targets, outcomes, diagnostics, and aggregate status | Shows which selected Policies actually evaluated targets |
 
-Pack ownership comes from the source root: one top-level `policy_pack` manifest
-names the pack, and top-level `policy` blocks beneath that root belong to it.
-Policy identity is owner-first, so `tutorial.policy.subnet-network-context`
-identifies the Policy `subnet-network-context` in the pack `tutorial`. File and
-folder names create no identity.
+Selecting a Dialect never selects a Policy Pack. `rootform build` and `rootform run`
+do not evaluate governance. `rootform check` does, using an explicit Policy Pack
+selection.
 
-## Target representation
+## Target scope is exact
 
-A Policy target selects the representations it evaluates along three dimensions:
-`concept`, `rules`, and `dialects`. Values inside a list are ORed, dimensions
-are ANDed, and at least `concept` or `rules` is required.
+A Policy target selects representations through a Concept, applied Rules, and
+Dialect owners declared by the Pack. Values within one dimension are alternatives.
+Different dimensions must all match.
 
-```hcl title="Policy target"
-target {
-  concept  = rf.concept.kubernetes-cluster
-  rules    = [aws.rule.eks-cluster, google.rule.gke-cluster]
-  dialects = [aws, google]
-}
-```
+A base representation without the selected Concept or applied Rule is not
+selected by a similar source type. A composition member does not inherit root
+eligibility. Each selected representation is evaluated once.
 
-`concept` examines the classification established on a representation, `rules`
-examines an applied Rule, and `dialects` filters the owner of that
-interpretation. `rf` cannot appear in `dialects`, because RF Vocabulary is not a
-Dialect. A base without a selected Concept or applied Rule is never matched by
-its source type, and a composition member does not inherit its root's
-eligibility. One selected representation is evaluated once.
+This makes coverage part of the governance claim. A passing evaluation says the
+assertion was true for its matched target. It says nothing about representations
+outside the target or Policies outside the selection.
 
-## Read outcomes
+## Evidence produces three outcomes
 
-Each evaluation ends in `passed`, `violated`, or `indeterminate`:
+Each evaluation ends with one of three outcomes.
 
 | Outcome | Meaning |
 | --- | --- |
-| `passed` | The assertion is known true for the target. |
-| `violated` | The assertion is known false for the target. |
-| `indeterminate` | Valid evidence cannot establish the Boolean. |
+| `passed` | Available architecture facts establish assertion as true |
+| `violated` | Available architecture facts establish assertion as false |
+| `indeterminate` | Valid architecture cannot establish either Boolean |
 
-A violation reports the authored message, the target, the source location of the
-assertion, and the inspected fact identities. A diagnostic explains a compile,
-linking, or evidence failure. Rootform never turns an unknown into a pass or a
-violation.
+`not evaluated` is not a fourth evaluation outcome. It means a selected Policy
+had no target. A run with no selected Pack evaluates no Policies at all. Neither
+case is approval.
 
-### Zero evaluations are not approval
+[Run checks](../guides/check-architecture.md) demonstrates all boundaries with
+one subnet Policy and one EC2 team convention. An instance with an explicit,
+resolvable subnet reference passes the convention. A proven source omission
+violates it. A literal subnet identifier that Rootform cannot resolve is
+indeterminate. Those cases differ because the evidence differs, not because the
+Policy changes.
 
-A check with no selected pack reports:
+## Aggregate verdict follows strongest result
 
-```text
-Policies not evaluated
+The run summary and process status use a global priority.
 
-Policies     0 selected
-Evaluations  0
+1. Any violation makes the run `violated` and status `1`.
+2. Otherwise any indeterminate result makes the run `indeterminate` and status `3`.
+3. Otherwise, no selected Policy or any selected Policy without a target makes
+   the run `not evaluated` and status `3`.
+4. Only when at least one Policy is selected and every selected Policy evaluates
+   and passes does the run become `compliant` with status `0`.
 
-No policy was selected.
-```
+Status `2` means a command usage error. Always review the selected Policy count,
+evaluation count, and result distribution alongside process status. A violation
+can coexist with lower-priority uncertainty, and status `1` does not erase it
+from the report.
 
-A selected Policy whose target matches no representation also contributes zero
-evaluations and is counted as not evaluated. Neither case produces a governance
-verdict, and both exit 3. In a mixed run the other evaluations stand, but the run
-cannot become compliant while one selected Policy has no target.
+## What a Policy result proves
 
-## Use as a gate
+A Policy result proves only its authored assertion over matched representations
+and facts available in the evaluated architecture. A proven omission can support
+a false assertion. Missing proof caused by unresolved or incomplete evidence
+produces an indeterminate result instead.
 
-```sh
-rootform check . --policy-pack ./policies
-rootform check architecture.json --policy-pack pack.json --format json
-```
+Neither result proves the opposite real-world condition. For example, a Policy
+about a declared subnet Context evaluates source architecture evidence. It does
+not test runtime network reachability.
 
-| Status | Gate meaning |
-| --- | --- |
-| `0` | Every selected Policy evaluated and passed. |
-| `1` | At least one Policy was violated. |
-| `2` | The command was used incorrectly. |
-| `3` | Verdict unavailable: indeterminate, not evaluated, or missing evidence. |
+Review these boundaries before treating a Pack as a gate.
 
-Accept the expected Policy selection and evaluation coverage, not only the exit
-status. A violation takes precedence in a mixed run, so exit 1. SARIF reports
-violations as errors, and Policies carry no author-defined severity.
+- Exact Pack and Policy selection
+- Number and identity of matched targets
+- Outcome for every evaluation
+- Diagnostics and inspected fact identities
+- The Architecture IR semantic snapshot used for linking
 
-## Select Policy Packs explicitly
+## Portable source and linked artifact serve different stages
 
-`rootform build` and `rootform run` ignore Policy Packs, so governance selection
-never changes Architecture IR. `check` evaluates packs recorded in
-`rootform.lock`; `--policy` can narrow that selection. A local source or compiled
-pack passed with `--policy-pack` replaces project pack selection for that
-invocation without being installed or added to the lock. Linking resolves
-qualified references against the exact Architecture IR semantic snapshot and
-records owner versions plus content and semantic digests. A linked artifact
-whose pins disagree with the evaluated document fails closed, with no relink
-and no fallback. See
-[Add a third-party Dialect or Policy Pack](../guides/external-content.md) for
-installation and vendoring.
+A Policy Pack source is a portable authored unit. Before evaluation, Rootform links
+its qualified references against the exact Architecture IR semantic snapshot.
+The linked Pack records owner versions, content digests, and semantic digests.
 
-## Know the scope of a claim
+A compiled Policy Pack is a replay artifact bound to that snapshot. If an
+explicitly supplied artifact's pins disagree with the evaluated architecture,
+Rootform fails closed. It does not relink silently, reload producer Dialects, or
+fall back to another Pack.
 
-A Policy proves only its assertion over facts available in that architecture.
-A missing fact is known absent only when relevant emission closure establishes
-that absence. Incomplete evidence produces an indeterminate result instead. In
-either case, the result does not prove an opposite real-world condition. Review
-target coverage and evidence assumptions before adopting a pack as a gate.
+A project lock can select Policy Pack source. `--policy-pack` can instead provide
+local source or a compiled artifact for one invocation. Neither selection changes
+Architecture IR.
 
-Continue with [Check an architecture](../guides/check-architecture.md),
-[Write a Policy Pack](../language/write-policy-pack.md), or
-[Policy Packs](../language/reference/policy-packs.md).
+Continue with [Run checks](../guides/check-architecture.md) for executable
+examples. Use [Write a Policy Pack](../language/write-policy-pack.md) for
+authoring workflow and [Policy Packs reference](../language/reference/policy-packs.md)
+for syntax and linking rules.

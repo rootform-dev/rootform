@@ -6,7 +6,7 @@
     },
     {
       "path": "reference/cli.json",
-      "sha256": "637ebf1fb8b9705726bddbded8889909089687f35dee55880b3b6515049d5b0e"
+      "sha256": "3ba86b581a5326f3e6c4d08b919be2978e60fc9077cdcc98771f03e8f7fcf11d"
     },
     {
       "path": "schemas/architecture-ir.schema.json",
@@ -26,6 +26,6 @@
     }
   ],
   "format_version": "1",
-  "source_commit": "576256108c4f1b9e4e410454b5c92e253c8ff12c",
+  "source_commit": "bb93d996a9631fe44ec60633c30b3d1211849a9b",
   "source_repository": "rootform-dev/engine"
 }

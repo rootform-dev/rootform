@@ -1,83 +1,90 @@
 ---
-title: "Terraform and OpenTofu inputs"
-description: "Choose configuration, a saved architecture, or a JSON plan and understand what each input can establish."
+title: "Choose an input"
+description: "Choose configuration, a saved architecture, or a JSON plan according to the question you need to answer."
 ---
 
-Choose the input for the question you want to answer.
-
-| Input | What it describes | Start with |
+| Task | Input | Start with |
 | --- | --- | --- |
-| Configuration directory | Architecture established from source declarations and references. | `rootform build ./infra` |
-| Rootform architecture JSON | Facts already compiled, including their provenance and diagnostics. | `rootform explain architecture <id> --input architecture.json` |
-| Terraform/OpenTofu JSON plan | Planned architecture, or the architectural difference stated by one plan. | `rootform build --plan tfplan.json` or `rootform diff --plan tfplan.json` |
+| Explore existing configuration | Root module directory | `rootform run ./infra` |
+| Reopen or use a previous result | Rootform architecture file | `rootform run architecture.json` |
+| Examine planned instances or changes | Terraform/OpenTofu JSON plan | `rootform run --plan tfplan.json` |
 
-## Analyze configuration
+## Explore a root module
 
-Pass the Terraform or OpenTofu **root module directory**, not a single `.tf`
-file. Rootform reads native and JSON configuration (`.tf`, `.tf.json`, and
-OpenTofu's `.tofu`/`.tofu.json` forms). When matching OpenTofu and Terraform
-files coexist, the OpenTofu form takes precedence.
-
-The selected directory is also the project boundary. `rootform.lock` and
-the optional `.rootform/` vendor directory belong directly there; Rootform does
-not search parent directories for another project's selection. In a repository
-with several independent root modules, analyze and prepare each root separately.
+Pass the Terraform or OpenTofu **root module directory**, not an isolated `.tf`
+file:
 
 ```sh
-rootform build ./infra --output architecture.json
+rootform run ./infra
 ```
 
-Directory forms of `run`, `build`, and `check` use the embedded supplied release set
-plus exact optional project lock. They never discover, choose, or acquire
-Dialects. Provider declarations and `.terraform.lock.hcl` provide compatibility
-evidence only. Terraform and OpenTofu are not invoked.
+Rootform reads native and JSON configuration in `.tf`, `.tf.json`, `.tofu`,
+and `.tofu.json` files. When matching OpenTofu and Terraform files have the
+same base name and syntax form, the OpenTofu file takes precedence. For
+example, `main.tofu` shadows `main.tf`, and `main.tofu.json` shadows
+`main.tf.json`. Differently named files from both families can contribute to
+the same analysis.
 
-### Modules must be available locally
+Each independent root module is its own analysis scope. In a repository with
+several roots, run Rootform separately for each one. The selected directory is
+also the project root for Rootform selection. Rootform reads `rootform.lock`
+and optional vendored content from that project, without searching parent
+directories. See [Project configuration](../cli.md) for selection, lock, and
+vendoring details.
 
-Rootform follows local module calls within the selected root. It can also read
-remote modules already materialized by Terraform/OpenTofu and recorded in
-`.terraform/modules/modules.json`. An arbitrary directory under `.terraform`
-is not sufficient: the manifest entry must match the module call.
+### Make modules available locally
 
-If a remote module is missing, initialize the project with your IaC tool, then
-rerun Rootform. That initialization is a separate operation with its own provider,
-backend, credential, and network requirements. Rootform never performs it for you.
+Rootform follows local module calls only when their resolved paths remain
+inside the selected root. A path that escapes that boundary, directly or
+through a symlink, is refused.
 
-A local module that escapes the selected root, including through a symlink, is
-refused. Cycles and unresolved module sources remain diagnostics. Do not silence
-those diagnostics by copying an incomplete architecture into a review.
+Remote modules must already be materialized by Terraform or OpenTofu and
+matched to their calls by `.terraform/modules/modules.json`. An arbitrary
+directory under `.terraform/modules` is not enough. Missing, cyclic,
+unresolved, or out-of-bound module paths remain explicit diagnostics.
 
-### Declarations are not evaluated instances
+Rootform does not run Terraform or OpenTofu, execute providers, contact a
+backend, or evaluate the configuration as those tools would. Preparing modules
+with your IaC tool is a separate operation with its own credentials and network
+boundary.
 
-Configuration analysis reads declared structure and reference evidence. It does
-not execute Terraform expressions or providers, load live state, or use `.tfvars`
-to reproduce Terraform evaluation. A `count` or `for_each` declaration is not a
-promise that the diagram contains every deployed instance.
+### Distinguish declarations from instances
 
-Use a [JSON plan](plans.md) when you need the resource instances stated by a
-particular planning operation. A plan still does not make Rootform a live
-infrastructure inventory.
+Configuration analysis describes declarations and the references Rootform can
+establish from source. It does not load `.tfvars` or reproduce Terraform or
+OpenTofu evaluation. A declaration using `count` or `for_each` therefore does
+not promise one architecture object for every instance a planning operation
+would create.
+
+Use a JSON plan when your question depends on the instances and changes from a
+specific planning operation.
 
 ## Reuse a saved architecture
 
+A [Rootform architecture file](../concepts/architecture-ir.md) preserves the
+compiled architecture, its semantic snapshot, diagnostics, and provenance.
+You can open, inspect, explain, and compare a valid file without the original
+Terraform or OpenTofu project:
+
 ```sh
-rootform build . --output architecture.json
+rootform run architecture.json
 rootform explain architecture aws_subnet.application --input architecture.json
+rootform diff before.json after.json
 ```
 
-The file contains [Architecture IR](../concepts/architecture-ir.md). Reading it
-uses saved facts without re-reading Terraform or acquiring Dialects. It can feed
-`check`, `diff`, or `explain architecture --input`.
+Policy evaluation still needs an appropriate [Policy Pack](../concepts/policies.md)
+selection. The saved document contains the architectural evidence used by
+policies, but it does not implicitly contain every policy that should run.
+`rootform check architecture.json` reads project Policy Pack selection from the
+current working directory, or you can pass an explicit `--policy-pack` source.
 
-`check` still needs selected Policy Packs. A persisted compiled pack and saved
-IR need no producer Dialect package or compilation source. Comparing two files
-requires compatible semantic digests. Rootform validates documents
-before using them; malformed or incompatible input cannot support a successful
-no-change or governance claim.
+Rootform validates saved documents before using them. An invalid document can
+prevent comparison. Two valid documents with different semantic environments
+are not rejected as a blanket rule. Source continuity can remain comparable,
+while conclusions about interpretations or facts become undetermined when
+compatibility and evidence closure cannot prove them. See
+[Architecture Diff](../concepts/diff.md#undetermined-preserves-uncertainty)
+for that boundary.
 
-## Inputs Rootform does not accept as plans
-
-A binary saved plan, a state document, and the event stream from
-`terraform plan -json` are different formats. Export a saved plan with
-`terraform show -json` or `tofu show -json` instead. The [plan guide](plans.md)
-shows the complete procedure and its security boundary.
+To explore, export, compare, or check a planning result, follow the complete
+[Terraform and OpenTofu plan procedure](plans.md).

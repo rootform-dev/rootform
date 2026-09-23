@@ -1,79 +1,95 @@
 ---
-title: "Rootform v0.1 limits"
-description: "Know the input, coverage, governance, comparison, and offline boundaries of Rootform v0.1."
+title: "Limitations"
+description: "Find the evidence boundary behind Rootform's architecture, Policy, and Diff results."
 ---
 
-Rootform's conclusions are limited to the evidence in its accepted inputs and
-the facts established by the selected Dialects. These boundaries apply even when
-a command succeeds.
+A successful command reports what Rootform could establish from its input and
+selected [Dialects](concepts/dialects.md), not everything that exists in an
+infrastructure environment.
 
-## Infrastructure operations stay with Terraform/OpenTofu
+## Does Rootform see deployed infrastructure?
 
-Rootform does not run Terraform/OpenTofu, execute providers, contact backends,
-refresh state, download modules, or apply changes. It cannot verify live health,
-prove connectivity, or independently detect Drift. A plan contains evidence from
-the operation that produced it; Rootform does not refresh that evidence.
+No. Rootform does not run Terraform/OpenTofu, execute providers, refresh state,
+contact a backend or cloud API, or apply changes. It cannot verify deployed
+health, network reachability, or drift from source. Use your infrastructure
+tooling for live-state questions, then analyze its saved JSON plan when planned
+architecture matters. See [Choose an input](inputs/index.md).
 
-## Configuration analysis does not reproduce evaluation
+## Is configuration analysis the same as a plan?
 
-Rootform reads supported configuration syntax, declarations, and references.
-It does not evaluate every expression, load `.tfvars` to resolve values, or expand
-configuration `count`/`for_each` as a deployed-instance inventory. Use a JSON plan
-for the instances stated by a particular planning operation.
+No. A root-module directory supplies declarations and references Rootform can
+read statically. A JSON plan supplies evidence from one completed planning
+operation. Rootform does not evaluate configuration as Terraform/OpenTofu would
+or fill in facts absent from the input. Choose a
+[plan input](inputs/plans.md) for questions about planned instances and
+changes. A raw binary plan, state document, or planning event stream is not an
+accepted JSON plan.
 
-Local modules must stay within the selected root. Remote modules must already
-be materialized and match their module-manifest entries. Raw binary plans, state
-files, and planning event streams are not JSON plan inputs. See [inputs](inputs/index.md).
+## What happens with count, for_each, .tfvars, and modules?
 
-## Resource coverage is not Rule coverage
+Configuration `count` and `for_each` describe declarations, not a guaranteed
+inventory of evaluated instances. Rootform does not load `.tfvars` to resolve
+values. Use a JSON plan from a particular planning operation when the instance
+set matters.
 
-Every normalized resource gets base representation even when no Dialect or Rule
-recognizes its type. Dialect coverage measures architectural enrichment, not
-resource visibility. References can remain missing, ambiguous, dynamic, or
-unresolved; accounting and diagnostics expose those cases.
+Local module paths must remain inside the selected root. Remote modules must
+already be materialized and matched by `.terraform/modules/modules.json`.
+Missing, cyclic, unresolved, or out-of-bound modules leave diagnostics rather
+than an invented architecture. Prepare modules with Terraform/OpenTofu, then
+rerun Rootform. See [Explore a root module](inputs/index.md#explore-a-root-module).
 
-Base-only representation has no synthetic Rule, Concept, or facts and therefore
-does not satisfy Policy targets by source type alone.
+## Does a resource disappear without a Rule?
 
-## A policy only proves its evaluated assertion
+No. Every normalized resource receives a base
+[Representation](concepts/architecture-ir.md#accounting-keeps-partial-knowledge-honest).
+Without an applicable Dialect Rule it has no derived Concept or architectural
+facts, so a Policy targeting those facts cannot treat its source type as proof.
+Inspect the interpretation and diagnostics before judging coverage.
 
-No selected packs means no governance evaluation. A selected policy with no
-matching targets also produces zero evaluations. Human output reports
-`not evaluated`; machine output keeps `not_evaluated`. Both set
-`compliant = false` and exit 3.
+A Representation in Architecture IR does not necessarily have a permanent,
+standalone card in every Explorer scene. A secondary association resource can
+appear through an Inspector contribution or search and be revealed on demand.
+That presentation choice does not remove it from the document. See
+[Reveal a secondary resource](guides/explore-architecture.md#reveal-a-secondary-resource).
 
-Policies cannot create missing facts. Review their assumptions against provider
-coverage. A missing fact is known absent only when relevant emission closure is
-complete; otherwise evaluation is indeterminate. Neither result proves an
-opposite condition in deployed infrastructure. Policies have no configurable
-severity or warning-only threshold. See
-[policy outcomes](concepts/policies.md).
+## Why was a policy not evaluated or indeterminate?
 
-## Closed language surface
+No selected Policy Pack means no governance evaluation. A selected policy with
+no matching target has zero evaluations. Neither is compliant. An
+`indeterminate` evaluation means available evidence cannot establish true or
+false, for example because a relevant reference or fact remains unresolved.
+A confirmed violation takes precedence in a mixed run. Inspect counts,
+targets, and diagnostics rather than treating status alone as approval. See
+[Policy outcomes](concepts/policies.md#evidence-produces-three-outcomes) and
+[Outputs and exit status](reference/outputs.md).
 
-`.rf.hcl` uses HCL syntax but exposes a closed, domain-specific expression surface,
-not general HCL or Terraform evaluation. Unsupported definitions and expression
-forms are compilation errors. See the [Language reference](language/reference/index.md)
-for the exact accepted set.
+## Why does Diff differ from Terraform actions?
 
-## Diff compares architectural meaning
+[Architecture Diff](concepts/diff.md) compares validated architectural
+representations and facts, not Terraform actions, source formatting, or a
+screen layout. A provider replacement can leave architectural meaning
+unchanged. A changed Rule can change meaning without a new resource. Missing
+or incomparable evidence is reported as `undetermined`, not as no change.
+Read the report and use [Compare architectures](guides/compare-architectures.md)
+for a review procedure.
 
-Diff requires valid documents. Source normalization mismatch limits structural
-comparison; semantic-owner mismatch preserves source continuity while marking
-interpretation and fact changes undetermined. Formatting-only changes are
-ignored. Terraform replacement can leave architecture facts unchanged.
+## What does offline guarantee?
 
-`rootform diff` emits text, JSON, or Markdown reports. [Architecture Diff](concepts/diff.md)
-explains report contents and the evidence boundary.
+Normal analysis never acquires packages. `init` or `vendor` can acquire exact
+selected OCI content unless `--offline` forbids it. Vendored directories are
+exclusive for their selected family, so damaged content cannot silently fall
+back to a store or registry. `--locked` requires a lock but does not itself
+disable acquisition. See [Locks and vendored content](offline-security.md).
 
-## Offline means exact inputs already exist
+Other tools can still use the network. For containers, the image must already
+be local and runtime network isolation is a separate choice. See
+[Security and data handling](security/index.md#know-which-operation-crosses-a-network-boundary)
+and [Container image](integrations/oci-image.md#run-with-vendored-content-offline).
 
-Normal execution never downloads. `init --locked` may acquire exact OCI pins;
-add `--offline` to forbid it. `vendor … --offline` cannot repair missing bytes
-from registry. Present vendor directories are exclusive, so damaged content
-cannot fall back. Prepare exact packages with
-[offline procedure](guides/reproduce-build.md).
+## Where does the Rootform language stop?
 
-Use [troubleshooting](troubleshooting/index.md) for failures within these boundaries,
-and [report a synthetic reproduction](contributing/index.md#report-a-semantic-gap)
-when supported behavior does not match its documented result.
+`.rf.hcl` uses HCL syntax but has a closed Rootform expression surface, not
+general Terraform evaluation. Unsupported definitions and expressions fail
+compilation. The [Rootform language reference](language/reference/index.md)
+defines accepted forms; authoring errors belong there, not in an architecture
+coverage claim.

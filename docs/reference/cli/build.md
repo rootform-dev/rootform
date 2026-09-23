@@ -83,8 +83,8 @@ Resources  2
 Facts      1 resolved, 0 omitted
 ```
 
-The Terraform settings declaration is not a resource, so it is not counted
-there. VPC and subnet retain resource bases and applied Rules.
+The resulting architecture retains resource bases and applied Rules for both
+declarations. The summary is diagnostic context, not a separate output file.
 
 ## Read a plan
 
@@ -103,6 +103,8 @@ or OpenTofu and handling its sensitive source data.
 | `2` | The command was used incorrectly. |
 | `3` | No complete architecture could be built. |
 
-A built architecture can contain unclassified resource bases and explicit
-interpretation diagnostics. Read the summary before making a coverage claim.
-`build` has no policy-violation exit: use `check` for governance.
+A built architecture can contain unclassified resource bases and interpretation
+diagnostics. Read those diagnostics before making a coverage claim; their
+presence alone is not a build failure. Status `3` means no complete
+architecture could be built. `build` has no policy-violation exit: use
+[`check`](check.md) for governance.

@@ -53,8 +53,35 @@ const flagKeys = [
 ];
 const notice =
   "<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->";
-export const beginBuild = "<!-- BEGIN GENERATED CLI: rootform build -->";
-export const endBuild = "<!-- END GENERATED CLI -->";
+export const endGenerated = "<!-- END GENERATED CLI -->";
+export const beginGenerated = (path: string): string => `<!-- BEGIN GENERATED CLI: ${path} -->`;
+// These pages retain authored guidance; only their syntax and command inventory are generated.
+const authoredCommands = new Set([
+  "rootform",
+  "rootform build",
+  "rootform run",
+  "rootform check",
+  "rootform diff",
+  "rootform init",
+  "rootform explain",
+  "rootform explain architecture",
+  "rootform explain policy",
+  "rootform explain semantics",
+  "rootform list",
+  "rootform list dialects",
+  "rootform list policies",
+  "rootform list policy-packs",
+  "rootform show",
+  "rootform show policy",
+  "rootform show policy-pack",
+  "rootform vendor",
+  "rootform vendor dialects",
+  "rootform vendor policy-packs",
+  "rootform completion",
+  "rootform version",
+  "rootform validate",
+  "rootform validate architecture",
+]);
 
 function object(value: unknown, keys: string[]): Record<string, unknown> {
   if (value === null || typeof value !== "object" || Array.isArray(value)) {
@@ -199,6 +226,20 @@ export function syntax(cmd: Command): string {
   return parts.filter(Boolean).join("\n").trimEnd();
 }
 
+function subcommands(cmd: Command, commands: Command[]): string {
+  if (!cmd.subcommands?.length) return "";
+  const paths =
+    cmd.path === "rootform"
+      ? commands.filter((entry) => entry.path !== "rootform").map((entry) => entry.path)
+      : cmd.subcommands;
+  const rows = paths.map((path) => {
+    const child = commands.find((entry) => entry.path === path);
+    return `| [${code(path)}](${link(cmd.path, path)}) | ${cell(child?.summary ?? "")} |`;
+  });
+  const title = cmd.path === "rootform" ? "Command inventory" : "Subcommands";
+  return `## ${title}\n\n| Command | Purpose |\n| --- | --- |\n${rows.join("\n")}`;
+}
+
 export function renderCommand(cmd: Command, commands: Command[]): string {
   const chunks = [
     `---\ntitle: ${JSON.stringify(cmd.path === "rootform" ? "CLI command reference" : cmd.path)}\ndescription: ${JSON.stringify(cmd.summary)}\n---`,
@@ -211,27 +252,23 @@ export function renderCommand(cmd: Command, commands: Command[]): string {
     chunks.push(`## Behavior\n\n${prose(body ?? "")}`);
     if (exits) chunks.push(`## Exit status\n\n${fence(exits.replace(/^ {2}/gmu, ""), "text")}`);
   }
-  if (cmd.subcommands?.length) {
-    const rows = cmd.subcommands.map((path) => {
-      const child = commands.find((entry) => entry.path === path);
-      return `| [${code(path)}](${link(cmd.path, path)}) | ${cell(child?.summary ?? "")} |`;
-    });
-    chunks.push(`## Subcommands\n\n| Command | Purpose |\n| --- | --- |\n${rows.join("\n")}`);
-  }
+  if (cmd.subcommands?.length) chunks.push(subcommands(cmd, commands));
   if (cmd.examples) {
     chunks.push(`## Examples\n\n${fence(cmd.examples.replace(/^ {2}/gmu, ""), "sh")}`);
   }
   return `${chunks.join("\n\n")}\n`;
 }
 
-export function replaceBuild(page: string, cmd: Command): string {
-  if (page.split(beginBuild).length !== 2 || page.split(endBuild).length !== 2) {
-    throw new Error("Build reference needs exactly one generated block");
+export function replaceGenerated(page: string, cmd: Command, commands: Command[]): string {
+  const begin = beginGenerated(cmd.path);
+  if (page.split(begin).length !== 2 || page.split(endGenerated).length !== 2) {
+    throw new Error(`${cmd.path} reference needs exactly one generated block`);
   }
-  const start = page.indexOf(beginBuild);
-  const end = page.indexOf(endBuild);
-  if (end < start) throw new Error("Build reference markers are reversed");
-  return `${page.slice(0, start) + beginBuild}\n\n${syntax(cmd)}\n\n${page.slice(end)}`;
+  const start = page.indexOf(begin);
+  const end = page.indexOf(endGenerated);
+  if (end < start) throw new Error(`${cmd.path} reference markers are reversed`);
+  const generated = [syntax(cmd), subcommands(cmd, commands)].filter(Boolean).join("\n\n");
+  return `${page.slice(0, start) + begin}\n\n${generated}\n\n${page.slice(end)}`;
 }
 
 type Nav = string | { label: string; page?: string; items?: Nav[] };
@@ -264,14 +301,18 @@ export function generate(root: string, check: boolean): void {
   const commands = parseReference(
     JSON.parse(readFileSync(join(root, "reference/cli.json"), "utf8")),
   );
+  for (const path of authoredCommands) {
+    if (!commands.some((cmd) => cmd.path === path)) {
+      throw new Error(`Authored CLI reference has no exported command: ${path}`);
+    }
+  }
   const docs = join(root, "docs");
   const expected = new Map<string, string>();
   for (const cmd of commands) {
     const path = commandPage(cmd.path);
-    const text =
-      cmd.path === "rootform build"
-        ? replaceBuild(readFileSync(join(docs, path), "utf8"), cmd)
-        : renderCommand(cmd, commands);
+    const text = authoredCommands.has(cmd.path)
+      ? replaceGenerated(readFileSync(join(docs, path), "utf8"), cmd, commands)
+      : renderCommand(cmd, commands);
     expected.set(join(docs, path), text);
   }
   const navPath = join(docs, "navigation.json");
@@ -281,11 +322,11 @@ export function generate(root: string, check: boolean): void {
   );
   const group =
     typeof reference !== "string"
-      ? reference?.items?.find((item) => typeof item !== "string" && item.label === "Commands")
+      ? reference?.items?.find((item) => typeof item !== "string" && item.label === "CLI reference")
       : undefined;
   if (!group || typeof group === "string")
-    throw new Error("Reference > Commands navigation group missing");
-  group.items = commandNavigation(commands);
+    throw new Error("Reference > CLI reference navigation group missing");
+  group.items = [{ label: "Overview", page: "reference/cli" }, ...commandNavigation(commands)];
   // Match the repository formatter without asking it to rewrite opaque input.
   const formatted = Bun.spawnSync(
     [join(root, "node_modules/.bin/biome"), "format", "--stdin-file-path=docs/navigation.json"],

@@ -1,97 +1,203 @@
 ---
 title: "Troubleshooting"
-description: "Diagnose Rootform input, lock, package, policy, and Diff failures."
+description: "Trace an observed Rootform symptom to evidence and the next action."
 ---
 
-Keep command, exit status, stdout, and stderr together. Violation differs from
-operation that could not decide.
+Keep the command, exit status, report, and standard-error diagnostics together.
+A reported Policy violation, an uncertain result, and a command failure call
+for different actions. [Outputs and exit status](../reference/outputs.md)
+defines those boundaries.
 
-## Wrong executable
+## Rootform reports the wrong version or command set
 
-Run `command -v rootform` (or `Get-Command rootform`) and `rootform version`.
-Correct `PATH`; pin exact release in CI.
+Your shell may resolve another executable than the one you installed. Check
+the path and the running binary before comparing documentation with its help:
 
-## Missing lock with locked command
+```sh
+command -v rootform
+rootform version
+```
 
-`--locked requires rootform.lock` means chosen project root has no lock. Remove
-`--locked` when supplied release set is enough, or author complete format-1 lock
-for explicit Dialects/Policy Packs. `rootform init` never creates lock.
+On PowerShell use `Get-Command rootform`. Adjust `PATH` or the exact binary
+invoked by your script. Pin the intended version in automation.
 
-## Exact selected package missing
+## run cannot start or the expected browser does not open
 
-Compare lock with `rootform list dialects` and `rootform list policy-packs`.
-From connected machine:
+`run` stays in the foreground. Its status `1` means the local interface could
+not start; status `2` means incorrect command use. Read standard error first.
+If the chosen port is occupied, ask for a free loopback port:
+
+```sh
+rootform run . --no-browser --port 0
+```
+
+Open the local address printed on standard output yourself. If the server
+started but no browser opened, that address works without automatic browser
+launch. `--no-browser` disables launch deliberately. Stop the server with
+`Ctrl+C`; a clean stop returns `0`. See [`run`](../reference/cli/run.md).
+
+## A resource has no architectural interpretation
+
+An unrecognized normalized resource still has a base Representation, but no
+Rule-derived Concept or facts. Build the architecture and inspect the source
+address, provider/type, applied Rule, and diagnostics:
+
+```sh
+rootform build . --output architecture.json
+rootform explain architecture aws_vpc.main --input architecture.json
+```
+
+Replace the address with the one in your project. Check the effective Dialect
+selection with `rootform list dialects -o wide` after selected content is
+available. If the type is genuinely outside reviewed Rule coverage, report a
+[semantic gap](../contributing/index.md#report-a-semantic-gap). Ordinary use
+does not require adding a Rule just to create a visual card.
+
+## A Representation has no standalone card in the current scene
+
+The Explorer emphasizes one navigation scene at a time. Search by resource name or type
+across the architecture, then inspect its **Source** and contributions.
+Secondary association resources may appear through another object's Inspector
+and can be revealed on demand. Use `rootform explain architecture <address>`
+to confirm the Representation in saved evidence. A missing card alone is not
+a missing resource. See [Reveal a secondary resource](../guides/explore-architecture.md#reveal-a-secondary-resource).
+
+## A module or its resources are missing
+
+Read `build` diagnostics for a missing, cyclic, unresolved, or out-of-bound
+module. Confirm that you selected the intended root module. Local module
+paths must stay inside it; remote modules must be materialized and matched to
+their calls by `.terraform/modules/modules.json`. Prepare modules with your
+Terraform/OpenTofu workflow, then rerun Rootform. See
+[Make modules available locally](../inputs/index.md#make-modules-available-locally).
+
+## A plan input is refused
+
+Read the diagnostic from `rootform build --plan tfplan.json`. Rootform accepts
+the JSON export of a completed saved plan, not a binary plan, state document,
+`plan -json` event stream, malformed JSON, or an unknown shape. Export the
+saved plan with `terraform show -json tfplan` or the OpenTofu equivalent,
+and protect both files. See [Terraform and OpenTofu plans](../inputs/plans.md).
+
+## --locked fails because the lock is missing
+
+Confirm `rootform.lock` is in the project root selected by the command.
+`--locked` requires that existing valid file; `init` never creates it. Remove
+`--locked` if embedded content is sufficient, or record a reviewed external
+selection and prepare it. See [Select Dialects and Policy Packs](../cli.md).
+
+## Selected content is missing
+
+Read the diagnostic and the exact entries in `rootform.lock`. Do not rely on
+`rootform list` at this point: listing can fail for the same missing content.
+When the project has no damaged vendor tree, prepare its pinned selection:
 
 ```sh
 rootform init . --locked --no-input
 ```
 
-Only exact OCI manifest digests already recorded can be acquired. No index,
-version search, or substitution occurs.
+Add `--offline` only when the exact bytes are already local. `init` cannot
+select another version or change the lock. If a vendor tree exists, use the
+repair path below instead. See [Locks and vendored content](../offline-security.md).
 
-## Vendor content missing or changed
+## Vendored content is incomplete or altered
 
-Present `.rootform/dialects` or `.rootform/policy-packs` is exclusive for its
-family. Repair explicitly:
+An existing `.rootform/dialects` or `.rootform/policy-packs` directory is
+exclusive for that selected family. A normal build or check will not fall
+back to the shared store or registry. Confirm which family the diagnostic
+names, then repair only that selection from the project root:
 
 ```sh
 rootform vendor dialects
 rootform vendor policy-packs
 ```
 
-Add `--offline` only when repair bytes already exist locally/cache. Vendor
-commands preserve lock.
+Run the command for the affected family, not both by default. Use `--offline`
+only if verified source, store, or cache bytes already exist. Vendor preserves
+the lock. See [What changes when vendor exists?](../offline-security.md#what-changes-when-vendor-exists).
 
-## Provider compatibility unverified
+## Registry access, authentication, or CA validation fails
 
-Check provider constraints and `.terraform.lock.hcl`. Missing version permits
-static interpretation with unverified marker; reliable incompatible version
-blocks affected Rule but keeps resource base. Rootform does not run provider or
-refresh lock.
+This affects explicit `init`, `vendor`, or `publish`, not normal analysis.
+Confirm the repository in the lock or publish `--to` argument and the expected
+digest in the lock or package. Then check connectivity and `DOCKER_CONFIG` for
+that registry host. If `config.json` names a credential helper, confirm its
+executable is on `PATH`. A helper failure does not trigger another identity.
+For private CA errors, check the PEM bundle selected by `SSL_CERT_FILE`. Do
+not print tokens or credentials while diagnosing. See
+[Registry compatibility](../integrations/registry-compatibility.md)
+and the [OCI mirror](../offline-security.md#oci-mirror) procedure.
 
-## Resource lacks architectural meaning
+## check reports no selected policies
 
-Every normalized resource should still have base representation. If no Rule
-applies it has no Rule, Concept, or facts. Inspect source declaration,
-interpretation status/candidates, diagnostics, and active Dialect owners.
-Add reviewed Rule when evidence supports meaning; do not add match-only Rule for
-visual coverage.
+Run `rootform check . --format json` and inspect the selected Policy count in
+its summary. Zero selected policies means no Policy Pack was selected, not a
+pass. Add a reviewed pack to the project selection or pass a local
+`--policy-pack` for this invocation. See [Run checks](../guides/check-architecture.md).
 
-## Plan refused
+## A selected policy evaluates no target
 
-Use `terraform show -json tfplan` or OpenTofu equivalent on saved plan. Raw
-binary plan, `plan -json` event stream, state document, malformed JSON, and
-unknown shape are rejected. Plans may contain sensitive values; keep input out
-of public artifacts.
+If the check report shows a selected Policy but zero evaluations for it, inspect
+its target with `rootform show policy <identifier>` using the same project
+selection or explicit `--policy-pack` override. Compare that target with the
+architecture's Concepts and applied Rules. A source type alone does not satisfy
+a Concept or Rule target. Change the selection or source evidence only when
+appropriate. Zero evaluations are not compliance. See
+[Target scope is exact](../concepts/policies.md#target-scope-is-exact).
 
-## Registry request fails
+## A policy result is indeterminate
 
-Inspect exact repository/digest, connectivity, `DOCKER_CONFIG`, credential
-helper, and optional `SSL_CERT_FILE`. Helper failure is terminal. Offline init
-does not inspect credentials.
+Read the JSON or text check report and its diagnostics. Unresolved references,
+incomplete fact evidence, or incompatible semantic pins can prevent a Boolean
+answer. Inspect the affected Representation with `rootform explain architecture`
+and correct the underlying evidence or selection. Do not turn an indeterminate
+result into a pass by dropping its diagnostic. See
+[Evidence produces three outcomes](../concepts/policies.md#evidence-produces-three-outcomes).
 
-See [OCI mirror](../offline-security.md#oci-mirror) for routing without digest
-change.
+## Diff contains undetermined entries
 
-## Policy evaluates nothing
+This can be a completed comparison. Inspect the `undetermined` section of
+`rootform diff before.json after.json --format json` and its semantic or source
+evidence. Use the same Rootform binary and comparable Dialect selection for
+an infrastructure-only comparison where possible. Without `--exit-code`, a
+completed report can return `0` despite changes or uncertainty. See
+[Architecture Diff](../concepts/diff.md#undetermined-preserves-uncertainty).
 
-Read `summary.policies`, `summary.evaluations`, and linked pins. No selected
-pack means zero Policies. Selected Policy with no matching Concept/Rule target
-means `not evaluated`. Both exit 3; machine result uses `not_evaluated` and
-distinguishes them.
+## Diff cannot complete at all
 
-## Policy indeterminate
+Status `3` differs from a completed report containing undetermined facts. Check
+the input form used by the failed command before retrying. For two saved
+Architecture IR documents, validate each file separately:
 
-Read diagnostics and query completeness. Unknown traversal, unsupported query
-contract, or semantic pin mismatch cannot become pass by dropping diagnostic.
-Violation means assertion false over IR evidence, not opposite deployed fact.
+```sh
+rootform validate architecture before.json
+rootform validate architecture after.json
+```
 
-## Diff has limitations
+For root-module directories, build each root separately and read its own
+diagnostics:
 
-Two valid documents with differing semantic owners remain structurally
-comparable but fact changes become undetermined. Different source normalization
-can also limit continuity. This is valid nonempty report, not hard failure. Use
-`--exit-code` to make changes or undetermined items return 1.
+```sh
+rootform build ./before --output before.json
+rootform build ./after --output after.json
+```
 
-If unresolved, [report synthetic reproduction](../contributing/index.md#report-a-semantic-gap)
-without credentials, raw plan, state, or private infrastructure.
+For `rootform diff --plan tfplan.json`, confirm the input is a completed saved
+plan's JSON export. Re-export it as described in
+[Terraform and OpenTofu plans](../inputs/plans.md) and retry the plan input
+with `rootform build --plan tfplan.json`. Do not pass a plan to
+`validate architecture`, which accepts Architecture IR. Fix invalid or
+unreadable inputs rather than treating failure as an empty comparison. See
+[Valid partial document differs from invalid document](../concepts/architecture-ir.md#valid-partial-document-differs-from-invalid-document).
+
+## A container cannot write its output file
+
+The image runs as UID/GID `65532:65532`; the host mount may not allow that
+identity to write even when Rootform can read the project. Check the mounted
+output directory's permissions. Use a writable mount with suitable host-side
+permissions, or keep the workspace read-only and redirect Rootform's standard
+output in the host shell. Do not make the project world-writable. See
+[Run against a project](../integrations/oci-image.md#run-against-a-project).
+
+If the symptom remains, [report a synthetic reproduction](../contributing/index.md#report-a-semantic-gap)
+without credentials, raw plans, state, or private infrastructure.

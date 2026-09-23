@@ -102,17 +102,20 @@ them.
 
 Registry compatibility is established only by reusable Rootform qualification
 against real endpoints. Test publishes custom media types, pulls direct Dialect
-Dialect and Policy Pack artifacts by tag and digest, reacquires locked
+and Policy Pack artifacts by tag and digest, reacquires locked
 content into empty stores, repairs vendor trees from exact pins, verifies
 offline vendor execution, checks standard provenance, and rejects source or
 digest drift.
 
-Local qualification covers CNCF Distribution with anonymous, private Basic,
-TLS, and Docker credential-helper paths. Candidate qualification against a
-transient public GHCR package covers Bearer challenge exchange under GitHub
-Actions' repository-inherited package visibility. Qualification content is
-synthetic, and the package is deleted before the job ends. Hosted registry
-compatibility is reported only for products that pass the same profile suite.
+Local qualification covers CNCF Distribution 3.0 over anonymous TLS. Private
+Basic authentication and Docker credential-helper access to Distribution are
+not qualified by this path. Candidate qualification against a transient public
+GHCR package uses a Docker credential helper under GitHub Actions'
+repository-inherited package visibility. It does not separately prove the
+Bearer challenge exchange, anonymous pull, or private-package access.
+Qualification content is synthetic, and the package is deleted before the job
+ends. Hosted registry compatibility is reported only for products that pass
+the same profile suite.
 
 Related contracts:
 

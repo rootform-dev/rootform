@@ -1,21 +1,37 @@
-name: Rootform
+name: Rootform architecture
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
+on: [pull_request]
 
 permissions:
   contents: read
 
 jobs:
-  rootform:
+  architecture:
     runs-on: ubuntu-24.04
+    env:
+      ROOTFORM_OUTPUT_DIR: .rootform-ci-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: rootform-dev/action/setup@71eef759bff5e73b27489b1f7de818a4a76dc2e9
         with:
           version: 0.1.0
-      - name: Build architecture and run selected policy gate
-        run: ./ci/rootform-ci.sh
+      - name: Build architecture
+        env:
+          ROOTFORM_PROJECT: ./infra
+        run: sh ./ci/rootform-ci.sh
+      - name: Keep Rootform results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-results
+          path: |
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/architecture.json
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/init.json
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/init.stderr
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/build.stderr
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.json
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.stderr
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.status
+          if-no-files-found: warn

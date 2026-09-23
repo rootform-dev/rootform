@@ -1,91 +1,126 @@
 ---
 title: "Architecture IR"
-description: "Understand the saved architecture document: sections, identities, accounting, closure, and what makes it valid."
+description: "Understand how saved architecture supports inspection, comparison, explanation, and policy evaluation."
 ---
 
-Architecture IR is Rootform's saved, provider-neutral architecture document. It
-records every discovered declaration, every normalized resource base, the exact
-semantic contracts used to interpret those bases, and the evidence behind each
-established fact. Consumers read this document without reinterpreting Terraform.
+Architecture IR is Rootform's saved provider-neutral architecture document. It
+provides durable evidence for four common uses.
 
-## Document sections
+- Explore resources in their architectural Contexts
+- Explain how source evidence and a Rule produced a placement or connection
+- Compare architectural meaning between revisions
+- Evaluate architecture against selected [Policies](policies.md)
+
+Consumers read the document without reopening Terraform source or reloading
+producer Dialects. Policy selection remains separate and never becomes part of
+the architecture document.
+
+## The document captures a semantic snapshot
+
+Architecture IR records declarations, normalized resource bases, architectural
+facts, provenance, diagnostics, and the exact semantic contracts used to
+interpret source. The same document can be inspected later even when the
+current Rootform binary contains newer embedded Dialects.
+
+The semantic snapshot includes the RF Language version, release-set identity, RF
+Vocabulary, Dialects, effective exclusions and replacements, definitions,
+Rules, and emission contracts. Diff uses this snapshot to decide which
+conclusions remain comparable. Policy linking resolves qualified references
+against it.
+
+## Sections separate concerns
 
 | Section | Contents |
 | --- | --- |
 | `format_version`, `generator` | Document contract version and producer identity |
-| `source` | Normalization contract, declarations, locations, source dependencies, and source accounting |
-| `semantics` | RF language version, release-set identity and units, effective selection, owners, definitions, Rules, and emission contracts |
-| `architecture` | Uniform representations, contexts, contributions, relations, omissions, and architecture accounting |
-| `resolutions` | Bounded provenance records that back successful facts |
-| `diagnostics` | Canonical sanitized diagnostics tied to their phase and object |
+| `source` | Normalization contract, declarations, locations, dependencies, and source accounting |
+| `semantics` | Release set, effective selection, owners, definitions, Rules, and emissions |
+| `architecture` | Representations, Contexts, Contributions, Relations, omissions, and architecture accounting |
+| `resolutions` | Bounded provenance behind established facts |
+| `diagnostics` | Canonical sanitized diagnostics tied to phase and object |
 
-`format_version` is independent of the executable version. Use `rootform version` to identify the binary and `format_version` to identify the document contract.
+`format_version` identifies the data contract. The Rootform binary version
+identifies the producer implementation. They are independent and must not be
+substituted for one another.
 
-## Identities and ordering
+## Stable identities and canonical order remove noise
 
-Every stable object uses content-derived identity, never a display label or array position. Source IDs and representation IDs derive from the normalized identity of the source root; they never depend on Rule, Concept, label, icon, version, or textual location. Collections serialize in canonical order, independent of traversal order. Editing generated JSON by hand can break identities, references, accounting, closure, or provenance.
+Every stable object has a content-derived identity rather than a display label
+or array position. Source and representation identities derive from normalized
+source identity. They do not depend on Rule, Concept, icon, version, or textual
+location.
 
-## Five accounting axes
+Collections serialize in canonical order. Equivalent supported input and exact
+semantic selection therefore produce deterministic bytes. Editing generated
+JSON by hand can break identities, references, ordering, accounting, closure,
+or provenance.
 
-The document accounts the source, representation, interpretation, composition, and emission axes separately, with coherent links between them.
+## Accounting keeps partial knowledge honest
 
-| Axis | Question it answers |
+Architecture IR accounts for five axes separately.
+
+| Axis | Question answered |
 | --- | --- |
-| Source | Which declarations were discovered, and which source evidence was available? |
-| Representation | Which declarations have representations? |
-| Interpretation | Which Rule applied to each representation, and did selection or application fail? |
+| Source | Which declarations and evidence were discovered? |
+| Representation | Which declarations gained architecture representations? |
+| Interpretation | Which Rule applied, or why did interpretation not apply? |
 | Composition | Which proven members support a composed representation? |
-| Emission | Which facts, omissions, or diagnostics close each active emission? |
+| Emission | Which facts, omissions, or diagnostics close an active emission? |
 
-Representation coverage and Rule coverage are distinct. Resource bases count in representation accounting even when no Rule applies. A missing Rule never means an unsupported resource, and a data declaration without successful interpretation remains source-accounted without a representation.
+Every source declaration is accounted for exactly once. Every normalized
+resource has a representation, even without a Rule. A data declaration without
+a successful Rule remains source-accounted without a representation. This is
+valid partial knowledge, not dropped input.
 
-## Uniform representations
+## Facts preserve bounded provenance
 
-`architecture.representations` is the single representation collection. Each
-representation references its source declaration, carries its name and direct
-or composed implementation, and can carry an applied Rule and optional Concept.
-The source declaration holds kind, type, address, provider evidence, and
-location. Rule and Concept are omitted when absent; no synthetic Rule, generic
-Concept, or architectural fact is created for coverage.
+Contexts, Relations, Contributions, and Compositions connect existing
+representations according to Rule meaning. They are not raw Terraform
+dependencies. Each established fact names the bounded resolution, Rule, and
+emission that justify it.
 
-A Rule-free resource base remains valid and complete about structural existence. Contexts, relations, contributions, and memberships connect existing representations. None turns a raw Terraform dependency into architecture meaning automatically.
+An active emission closes with confirmed facts, a proven omission, or a
+diagnostic. An omission means the relevant fact is conclusively absent. Unknown,
+ambiguous, partially dangling, or incomparable evidence produces a diagnostic
+instead. Confirmed facts and an incompleteness diagnostic can coexist when a
+query resolves only in part.
 
-## Semantic snapshot and release set
+Provenance explains an architectural claim without embedding raw configuration
+values.
 
-`semantics` records the RF language version, the release set with its identity, version, manifest digest, and each unit's owner, kind, version, content digest, and semantic digest, the effective selection of active, excluded, and replaced owners, and each owner's origin, provider envelopes, and dependencies. Consumers of a saved document use only this snapshot. They never reload producer Dialects and never substitute the release set embedded in a newer binary. [Architecture Diff](diff.md) keeps source continuity while reporting incompatible semantic environments as undetermined.
+## Valid partial document differs from invalid document
 
-## Facts close with evidence
+Valid Architecture IR may include Rule-free resource bases, data declarations
+without representations, proven omissions, and diagnostics. Those states make
+limits explicit while preserving usable evidence.
 
-Each active emission on an applied Rule closes with one or more confirmed facts, one proven omission, or an emission-scoped diagnostic. An omission is exclusive and means conclusively empty. Unknown, ambiguous, partially dangling, or incomparable evidence produces a diagnostic; it never proves absence. Confirmed facts and an incompleteness diagnostic can coexist when only part of a query is known. Missing closure is invalid.
+A document becomes structurally invalid when its contract cannot be trusted.
+Examples include an unsupported format version, forbidden unknown fields,
+invalid or duplicate identities, dangling references, noncanonical order,
+inconsistent accounting, unresolved successful provenance, or an active
+emission without closure.
 
-Facts carry bounded provenance naming the successful resolution, Rule, and emission. Provenance explains why a fact exists without embedding raw configuration or values.
+An invalid document supports no compliance or no-change claim. Consumers must
+reject it rather than silently ignore a damaged section.
 
-## Partial is not invalid
+## Saved evidence still needs handling rules
 
-A document is normally partial. Resource bases without an applied Rule, data
-declarations without representations, and explicit diagnostics are valid and
-expected. Unknown or unsupported input stays explicit; a document with unknown
-data is never truncated and presented as complete.
+Architecture IR excludes raw HCL, secrets, raw plans and state, absolute paths,
+`.rf.hcl` source, and UI state. It still contains source addresses, relative
+locations, resource names, Concepts, and architectural connections.
+Those can reveal project structure.
 
-A document is invalid when it has an unsupported `format_version`, forbidden unknown fields, invalid identifiers, dangling references, duplicate identities, noncanonical ordering, inconsistent accounting, references, or closure, unresolved successful provenance, or an active emission without closure. A rejected document supports no compliance or no-change claim in any consumer.
-
-## Saved IR stays self-contained
+Review the document before sharing. Apply repository access, artifact retention,
+and review-channel rules. Diff and Policy reports inherit portions of the same
+sensitive architecture evidence.
 
 ```sh
 rootform build . --output architecture.json
 rootform explain architecture aws_subnet.application --input architecture.json
 ```
 
-A saved document is self-contained for inspection, Diff, explanation, Policy
-linking, and Policy evaluation. Consumers use its semantic snapshot; linking on
-a saved document uses only that snapshot. Policy Pack selection does not modify
-the document.
-
-The document excludes raw HCL, secrets, raw plans and state, absolute paths,
-`.rf.hcl` source, and UI state. Equivalent inputs and exact semantic selections
-produce deterministic output. Source addresses and relative locations remain in
-the document, so review it before sharing.
-
-## Read the contract
-
-The [Architecture IR contract](../../contracts/architecture-ir.md) and [JSON Schema](../../schemas/architecture-ir.schema.json) define the public format. Use them when building a consumer. [Architecture Diff](diff.md) explains comparison, and [Core concepts](../concepts.md) places the document in the mental model.
+For exact normalization, validation, identifiers, and field requirements, see
+the [Architecture IR contract](../../contracts/architecture-ir.md) and
+[JSON Schema](../../schemas/architecture-ir.schema.json). Continue with
+[Explore an architecture](../guides/explore-architecture.md),
+[Architecture Diff](diff.md), or [Policies and Policy Packs](policies.md).

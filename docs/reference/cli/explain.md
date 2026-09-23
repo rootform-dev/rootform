@@ -1,11 +1,15 @@
 ---
 title: "rootform explain"
-description: "Explain an architecture result"
+description: "Trace an architecture element, semantic interpretation, or policy result."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+Use `explain architecture` for evidence behind an architecture address,
+`explain semantics` for a source declaration's interpretation, or `explain
+policy` for an evaluated policy result. To inspect a definition without
+tracing a result, use [`show`](show.md); to see the current selection, use
+[`list`](list.md).
 
-Explain an architecture result.
+<!-- BEGIN GENERATED CLI: rootform explain -->
 
 ## Usage
 
@@ -25,11 +29,6 @@ rootform explain <object> <name> [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
-
-Explain how an architecture element was derived, how a source
-declaration was interpreted, or why a policy produced a result.
-
 ## Subcommands
 
 | Command | Purpose |
@@ -38,10 +37,8 @@ declaration was interpreted, or why a policy produced a result.
 | [` rootform explain policy `](explain/policy.md) | Explain a policy result |
 | [` rootform explain semantics `](explain/semantics.md) | Explain a semantic interpretation |
 
-## Examples
+<!-- END GENERATED CLI -->
 
-```sh
-rootform explain architecture google_sql_database_instance.main
-rootform explain semantics google.rule.cloud-sql-instance
-rootform explain policy baseline.policy.cluster-network-context
-```
+Each subcommand has its own accepted input and options. See
+[Explore an architecture](../../guides/explore-architecture.md) for following
+evidence in the local interface.

@@ -1,11 +1,13 @@
 ---
 title: "rootform completion"
-description: "Generate shell completion"
+description: "Generate completion for a supported shell."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`completion` writes a script for Bash, Zsh, Fish, or PowerShell to standard
+output; diagnostics go to standard error. Choose the shell you actually use,
+then save or load the result according to that shell's completion setup.
 
-Generate shell completion.
+<!-- BEGIN GENERATED CLI: rootform completion -->
 
 ## Usage
 
@@ -25,24 +27,17 @@ rootform completion <shell> [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
-
-Generate a completion script for bash, zsh, fish, or PowerShell.
-
-The script goes to standard output. Diagnostics go to standard error.
-
-## Exit status
-
-```text
-0  the completion script was generated
-1  the completion script could not be generated
-2  the command was used incorrectly
-```
-
-## Examples
+<!-- END GENERATED CLI -->
 
 ```sh
-rootform completion bash > /usr/local/etc/bash_completion.d/rootform
-rootform completion zsh > "${fpath[1]}/_rootform"
-rootform completion fish > ~/.config/fish/completions/rootform.fish
+rootform completion bash > rootform.bash
+rootform completion zsh > _rootform
+rootform completion fish > rootform.fish
+rootform completion powershell > rootform.ps1
 ```
+
+These examples write files in the current directory; move them to a
+completion directory configured by your shell. Status `0` means generated,
+`1` means generation failed, and `2` means incorrect command use. Use
+[`rootform version`](version.md) to identify the executable providing the
+completion script.

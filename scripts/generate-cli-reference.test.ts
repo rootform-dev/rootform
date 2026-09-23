@@ -1,11 +1,15 @@
 import { expect, test } from "bun:test";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import {
-  beginBuild,
+  beginGenerated,
   commandNavigation,
-  endBuild,
+  endGenerated,
+  generate,
   parseReference,
   renderCommand,
-  replaceBuild,
+  replaceGenerated,
   syntax,
 } from "./generate-cli-reference.ts";
 
@@ -90,14 +94,47 @@ test("renders exact usage, inherited defaults, aliases and required state", () =
   expect(commandNavigation(commands)).toEqual([{ label: "build", page: "reference/cli/build" }]);
 });
 
-test("only replaces the bounded generated block in an authored command page", () => {
-  const build = present(parseReference(document())[1]);
-  const page = `Authored introduction.\n${beginBuild}\nOld flags.\n${endBuild}\nReal example.\n`;
-  const expected = `Authored introduction.\n${beginBuild}\n\n${syntax(build)}\n\n${endBuild}\nReal example.\n`;
-  expect(replaceBuild(page, build)).toBe(expected);
-  expect(replaceBuild(expected, build)).toBe(expected);
-  expect(() => replaceBuild(page + beginBuild, build)).toThrow("exactly one");
-  expect(() => replaceBuild(endBuild + beginBuild, build)).toThrow("reversed");
+test("only replaces generated syntax and inventory, preserving authored prose", () => {
+  const commands = parseReference(document());
+  const build = present(commands[1]);
+  const begin = beginGenerated(build.path);
+  const page = `Authored introduction.\n${begin}\nOld flags.\n${endGenerated}\nReal example.\n`;
+  const expected = `Authored introduction.\n${begin}\n\n${syntax(build)}\n\n${endGenerated}\nReal example.\n`;
+  expect(replaceGenerated(page, build, commands)).toBe(expected);
+  expect(replaceGenerated(expected, build, commands)).toBe(expected);
+  expect(() => replaceGenerated(page + begin, build, commands)).toThrow("exactly one");
+  expect(() => replaceGenerated(page.replace(begin, ""), build, commands)).toThrow("exactly one");
+  expect(() => replaceGenerated(endGenerated + begin, build, commands)).toThrow("reversed");
+  const root = present(commands[0]);
+  const rootPage = replaceGenerated(
+    `${beginGenerated(root.path)}\n${endGenerated}`,
+    root,
+    commands,
+  );
+  expect(rootPage).toContain("## Command inventory");
+  expect(rootPage).toContain("](build.md)");
+});
+
+test("index inventory links every exported command, including nested ones", () => {
+  const commands = parseReference(
+    JSON.parse(readFileSync(new URL("../reference/cli.json", import.meta.url), "utf8")),
+  );
+  const root = present(commands.find((entry) => entry.path === "rootform"));
+  const page = replaceGenerated(`${beginGenerated(root.path)}\n${endGenerated}`, root, commands);
+  expect(page.match(/^\| \[` rootform /gmu)).toHaveLength(commands.length - 1);
+  expect(page).toContain("](explain/semantics.md)");
+  expect(page).toContain("](validate/rule.md)");
+});
+
+test("generation refuses an exported inventory missing an authored command", () => {
+  const root = mkdtempSync(join(tmpdir(), "rootform-cli-reference-"));
+  try {
+    mkdirSync(join(root, "reference"));
+    writeFileSync(join(root, "reference/cli.json"), JSON.stringify(document()));
+    expect(() => generate(root, true)).toThrow("Authored CLI reference has no exported command");
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });
 
 test("help containing markup or code delimiters stays readable", () => {
