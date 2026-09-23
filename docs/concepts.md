@@ -1,77 +1,126 @@
 ---
 title: "Core concepts"
-description: "Understand resource bases, Rule interpretation, facts, and evaluation before reading a Rootform result."
+description: "Understand how Rootform turns source evidence into architectural meaning, then compares and evaluates that meaning."
 ---
 
-Rootform reads Terraform or OpenTofu and builds an architecture from the facts
-it can establish. You can inspect that architecture, compare two versions, or
-evaluate it against selected policies. Terraform or OpenTofu source remains
-the place where infrastructure is defined.
+Rootform reads Terraform or OpenTofu evidence and produces an architecture that
+can be explored, compared, and evaluated. Source remains where infrastructure
+is defined. Rootform adds architectural meaning without running an apply or
+claiming knowledge it cannot establish.
 
-## Every resource has a base representation
+## From source to architecture
 
-A normalized `resource` always has a representation, even when no [Dialect](concepts/dialects.md) knows its provider or type. The representation's stable ID follows from the normalized source identity. It does not depend on a Rule, Concept, label, icon, version, or location. Base carries known identity, address, kind, type, provider, name, and location.
+Rootform keeps three layers separate.
 
-A `data` declaration is different. It enters source accounting like any other declaration, but it receives a representation only when a successful Rule justifies one. A data source without successful interpretation remains a source fact, not an architecture element.
+1. **Source evidence** records declarations, expressions, references, and
+   locations found in the selected input.
+2. A **Dialect** applies Rules that interpret that evidence as architectural
+   Concepts and facts.
+3. **Architecture IR** saves representations, facts, provenance, diagnostics,
+   and the exact semantic snapshot used to produce them.
 
-A Rule adds optional interpretation to an existing base: a Concept, facts such as a context, relation, or contribution, and an optional composition. The Concept is optional; its absence implies neither absence of the representation nor absence of its facts. Removing a Rule removes its interpretation and leaves the base and its representation ID unchanged.
+A [Policy](concepts/policies.md) evaluates the saved meaning afterward.
+[Architecture Diff](concepts/diff.md) compares meaning between two saved
+architectures. Neither operation changes the architecture it reads.
 
-## Rule coverage is not resource coverage
+## Every resource starts with a representation
 
-Coverage has two separate questions. Every normalized resource keeps a resource
-base. A Rule adds interpretation when it applies successfully. A resource
-without a Rule is an unclassified representation, not an unsupported resource,
-and it is never filtered merely because no Rule knows it.
+Every normalized `resource` has a base representation, even when no Rule knows
+its provider or type. Its stable identity derives from normalized source
+identity. It does not depend on a Rule, Concept, display label, icon, version,
+or position in a file.
 
-Read the summary before making a coverage claim. `rootform build` reports
-represented resources, source declarations, resolved facts, omissions, and
-diagnostics on standard error. A successful build can still contain resource
-bases without Rules and explicit interpretation diagnostics. An exit status of
-`0` means the architecture was built; it makes no coverage or governance claim.
+A `data` declaration is different. It is always source-accounted, but it gains
+a representation only when a successful Rule justifies one. A data source
+without successful interpretation remains known source evidence, not an
+architecture element.
 
-## Meaning requires a Rule
+A Rule enriches an existing representation. It may classify it with a Concept,
+establish facts, or compose several representations. Concept is optional. A
+representation can therefore exist without a Concept, and facts can exist
+without a Concept when their Rule establishes them.
 
-[Architecture IR](concepts/architecture-ir.md) is the saved result of reading source: normalized declarations, semantic facts, accounting, provenance, and diagnostics. Every fact in that document is justified by the declaration and Rule that produced it.
+Rule coverage and resource coverage answer different questions. Removing or
+changing a Rule can alter interpretation while the underlying resource
+representation and its stable identity remain.
 
-Consider a subnet whose `vpc_id` refers to a VPC. Rootform can read the reference without knowing what a VPC means. The AWS Dialect supplies that meaning: both resources already have stable bases, and the subnet belongs to the VPC representation through network context. The resulting fact retains the declaration and Rule that justify it.
+## References are evidence, not meaning
 
-That distinction matters for other references. An expression might refer to a name, a credential, or a configuration value. Terraform references, `depends_on` entries, provider metadata, and naming proximity are evidence, not architecture relations. A Rule states how evidence produces meaning, and none of those source facts becomes a context, relation, or contribution automatically.
+Suppose `aws_subnet.application.vpc_id` refers to `aws_vpc.main.id`. Rootform
+can read that reference as source evidence. An AWS Dialect Rule explains what it
+means architecturally and establishes a network Context from subnet to VPC.
 
-## Why Rootform does not run Terraform
+References, `depends_on`, provider metadata, and similar names do not create
+Contexts, Relations, or Contributions by themselves. They become architecture
+facts only through explicit Rule interpretation. Provenance then records which
+source evidence, Rule, and emission justified each fact.
 
-Rootform does not start Terraform/OpenTofu, execute a provider, contact a backend, refresh state, or apply a plan. It does not download modules. This keeps architecture analysis separate from operations that need cloud access, credentials, state locks, or infrastructure changes.
+## Read each architectural connection precisely
 
-You can build the [first example](getting-started/first-architecture.md) without
-a cloud account. For a real project, materialize remote modules with your IaC
-tool before analyzing configuration. To use facts from planning, give Rootform
-a [JSON plan](inputs/plans.md) produced by that tool.
+Rootform uses distinct structures because they answer distinct questions.
 
-Reading source also imposes a boundary: Rootform cannot establish live health, prove connectivity, or discover deployed drift. An architecture reflects the supplied evidence and the effective semantic catalog. Unresolved evidence stays explicit in the saved document and must not disappear behind a tidy diagram.
+| Structure | Question answered | What it does not imply |
+| --- | --- | --- |
+| **Representation** | Which architecture element exists? | That it has a Concept, Rule, or visible standalone card |
+| **Context** | In which architectural frame is one representation placed? | Network connectivity, reachability, or dependency |
+| **Relation** | Which domain-specific connection did a Rule establish? | Every source reference between both declarations |
+| **Contribution** | Which representation contributes to another? | Ownership, containment, or a parent for the contributor |
+| **Composition** | Which proven members form one composed representation? | Placement of those members in a Context |
 
-## Uncertainty stays explicit
+A representation may have several Contexts in different dimensions. A
+Contribution keeps contributor and target as distinct representations.
+Composition is stronger than visual grouping because it creates one composed
+root from proven members, yet members retain their own bases and do not inherit
+the root Concept.
 
-An emission on an applied Rule closes with confirmed facts, a proven omission, or a diagnostic. An omission is exclusive and means conclusively empty. Unknown, ambiguous, dangling, or incomparable evidence produces a diagnostic; it never proves absence, and it never converts to a pass.
+Architecture existence and rendered visibility are also different. A renderer
+may group, compose, or omit a standalone visual card while valid Architecture
+IR still contains the representation and its facts. Inspect the saved
+architecture or use `rootform explain architecture` when exact membership and
+provenance matter.
 
-The same rule applies to evaluation. A result that cannot be determined is different from a pass, and a comparison that cannot pair two sides is reported as undetermined rather than as no change.
+## Rootform reports what evidence permits
 
-## Determinism makes a result reviewable
+Each active Rule emission closes in one of three ways.
 
-Given the same supported input and exact semantic selections, Rootform produces the same canonical architecture bytes. Stable identities and ordering let a comparison track meaning without depending on file traversal order or screen coordinates. Provenance lets you ask why a fact exists.
+- A **fact** means the evidence established an architectural claim.
+- An **omission** means Rootform proved the relevant fact absent.
+- A **diagnostic** means evidence was insufficient, ambiguous, dangling, or
+  otherwise unresolved.
 
-A different Dialect version can change interpretation even when Terraform is
-unchanged. The Rootform binary fixes embedded semantics; `rootform.lock` fixes
-external selections. [Locks and offline operation](offline-security.md) explain
-that boundary. [Architecture Diff](concepts/diff.md) distinguishes a changed
-interpretation from an added or removed resource and marks conclusions affected
-by incompatible semantic environments as undetermined.
+Omission and insufficient evidence are not interchangeable. Unknown evidence
+cannot prove absence. It also cannot become a passing Policy result or a
+no-change conclusion in Diff.
 
-## Describe first, evaluate second
+Partial architectures are expected. Rule-free resource bases and explicit
+diagnostics can belong to a valid document. Structural invalidity is different
+and prevents consumers from making governance or comparison claims.
 
-A Dialect answers what the source means. A [policy](concepts/policies.md)
-evaluates facts in the resulting architecture. Policies are distributed in
-**Policy Packs**, which you select explicitly. `build` and `run` never evaluate
-Policy Packs; `rootform check` evaluates selected policies. Building an
-architecture does not run governance checks, and selecting a Dialect never
-selects governance.
+## Rootform does not run Terraform
 
-When you need to author semantics or governance, start with the [Rootform language overview](language/index.md). Concept pages explain why Dialects and policies exist; Language guides explain how to write their `.rf.hcl` source.
+Rootform does not start Terraform or OpenTofu, execute providers, contact a
+backend, refresh state, apply a plan, or download modules. Remote modules must
+already be materialized by the IaC tool. Plan-derived evidence must come from a
+[Terraform or OpenTofu JSON plan](inputs/plans.md).
+
+This boundary keeps architecture analysis away from credentials, state locks,
+and infrastructure changes. It also means Rootform cannot establish live
+health, runtime connectivity, or deployed drift. Architecture describes
+supplied evidence and effective semantic selection.
+
+## Determinism makes evidence reviewable
+
+The same supported input and exact semantic selection produce the same
+canonical Architecture IR bytes. Stable identities preserve source continuity.
+Canonical ordering removes traversal noise. Provenance explains why a fact
+exists.
+
+Dialect evolution can change interpretation even when Terraform is unchanged.
+The Rootform binary fixes embedded semantics and `rootform.lock` fixes external
+selection. [Project configuration](cli.md) explains effective selection.
+[Locks and vendored content](offline-security.md) explains reproducible use.
+
+Continue with [Dialects and RF Vocabulary](concepts/dialects.md) for
+interpretation, [Policies and Policy Packs](concepts/policies.md) for
+governance, or [Architecture IR](concepts/architecture-ir.md) for the saved data
+contract.

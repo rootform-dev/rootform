@@ -98,6 +98,19 @@ export function verifyCoreExamples(
   }
   checks.push(`all ${commands.length} command help surfaces match exported public flags`);
 
+  const dialectPage = page("concepts/dialects.md");
+  const dialectList = command("concepts/dialects.md", "concept-dialect-list").trim();
+  assert(
+    dialectList === fencedBlock(dialectPage, "text", "AWS Dialect summary").trim(),
+    "displayed AWS Dialect summary differs from command",
+  );
+  const dialectRule = command("concepts/dialects.md", "concept-dialect-show-rule").trim();
+  assert(
+    dialectRule === fencedBlock(dialectPage, "text", "Subnet Rule summary").trim(),
+    "displayed subnet Rule summary differs from command",
+  );
+  checks.push("Dialect list and Rule inspection match displayed outputs");
+
   const explanation = run([
     "explain",
     "architecture",
