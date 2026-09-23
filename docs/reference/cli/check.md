@@ -48,10 +48,15 @@ qualified `pack/name` identifiers or unique policy names. `--policy-pack` and
 `--locked` cannot be combined; neither a pack override nor a missing lock
 silently establishes compliance.
 
+The examples assume a project and local `./policies` pack as created in
+[Run checks](../../guides/check-architecture.md). Save `architecture.json`
+with `build` before using it as input.
+
+<!-- docs-check:cli-check -->
 ```sh
-rootform check ./infra --policy-pack ./policies
-rootform check architecture.json --policy-pack ./policies --policy cluster-network-context
-rootform check ./infra --policy-pack ./policies --format sarif --output result.sarif
+rootform check . --policy-pack ./policies
+rootform check architecture.json --policy-pack ./policies --policy subnet-network-context
+rootform check . --policy-pack ./policies --format sarif --output result.sarif
 ```
 
 The default `text` report goes to standard output. `json`, `markdown`, and

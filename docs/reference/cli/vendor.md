@@ -37,6 +37,9 @@ rootform vendor <object> [flags]
 
 <!-- END GENERATED CLI -->
 
+Run these commands from a project whose `rootform.lock` selects content for the
+corresponding family. An empty selection has nothing to vendor.
+
 ```sh
 rootform vendor dialects
 rootform vendor policy-packs

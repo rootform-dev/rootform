@@ -31,6 +31,9 @@ rootform validate architecture [input] [flags]
 
 <!-- END GENERATED CLI -->
 
+Replace `./infra` with a prepared project directory, or save
+`architecture.json` from [Your first architecture](../../../getting-started/first-architecture.md).
+
 ```sh
 rootform validate architecture ./infra
 rootform validate architecture architecture.json --format json

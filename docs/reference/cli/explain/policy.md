@@ -6,9 +6,8 @@ description: "Explain an evaluated policy result."
 `explain policy` evaluates the current project architecture and explains why
 a selected policy passed, failed, or could not be evaluated for an element.
 The owning Policy Pack must already be selected by the project. Use a
-qualified identifier such as `baseline.policy.cluster-network-context`, or a
-bare policy name only when unambiguous. This command has no `--input` or
-`--policy-pack` override.
+qualified identifier or a bare policy name only when unambiguous. This
+command has no `--input` or `--policy-pack` override.
 
 <!-- BEGIN GENERATED CLI: rootform explain policy -->
 
@@ -33,9 +32,14 @@ rootform explain policy <identifier> [flags]
 
 <!-- END GENERATED CLI -->
 
+From the [first architecture](../../../getting-started/first-architecture.md)
+project, first [select the tutorial Policy Pack in `rootform.lock`](../../../guides/external-content.md#select-a-local-policy-pack).
+Then run from that project root:
+
+<!-- docs-check:cli-explain-policy -->
 ```sh
-rootform explain policy baseline.policy.cluster-network-context
-rootform explain policy baseline.policy.cluster-network-context --format json
+rootform explain policy tutorial.policy.subnet-network-context
+rootform explain policy tutorial.policy.subnet-network-context --format json
 ```
 
 Text or JSON goes to standard output, diagnostics to standard error. Status

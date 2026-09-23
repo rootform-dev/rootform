@@ -33,9 +33,13 @@ rootform explain architecture <address> [flags]
 
 <!-- END GENERATED CLI -->
 
+From the [first architecture](../../../getting-started/first-architecture.md)
+project, after saving `architecture.json`:
+
+<!-- docs-check:cli-explain-architecture -->
 ```sh
-rootform explain architecture google_compute_network.vpc --input ./infra
-rootform explain architecture google_compute_network.vpc --input architecture.json --format json
+rootform explain architecture aws_subnet.application --input .
+rootform explain architecture aws_subnet.application --input architecture.json --format json
 ```
 
 Text is the default; JSON is also available. The explanation goes to standard

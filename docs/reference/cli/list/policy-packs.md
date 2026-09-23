@@ -31,6 +31,10 @@ rootform list policy-packs [flags]
 
 <!-- END GENERATED CLI -->
 
+Create `./policies` as in [Run checks](../../../guides/check-architecture.md)
+before using the explicit pack example. Without that option, `list` reads the
+current project's selection.
+
 ```sh
 rootform list policy-packs --policy-pack ./policies -o wide
 rootform list policy-packs -o json

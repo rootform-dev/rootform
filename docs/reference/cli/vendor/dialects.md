@@ -39,6 +39,10 @@ that project root use it exclusively for selected external Dialects. Use
 `--offline` to restrict copies to exact local or cached content. Neither
 vendoring nor `--to` changes the lock.
 
+Start from a project whose lock selects an external Dialect, as in
+[Use external content](../../../guides/external-content.md). The commands
+below do not create that selection.
+
 ```sh
 rootform init . --locked --no-input
 rootform vendor dialects

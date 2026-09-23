@@ -32,9 +32,13 @@ rootform explain semantics <identifier> [flags]
 
 <!-- END GENERATED CLI -->
 
+From the [first architecture](../../../getting-started/first-architecture.md)
+project, where `aws_subnet.application` is present:
+
+<!-- docs-check:cli-explain-semantics -->
 ```sh
-rootform explain semantics google.rule.cloud-sql-instance
-rootform explain semantics google.rule.cloud-sql-instance --format json
+rootform explain semantics aws.rule.subnet
+rootform explain semantics aws.rule.subnet --format json
 ```
 
 Text or JSON goes to standard output, diagnostics to standard error. Status

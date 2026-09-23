@@ -32,9 +32,12 @@ rootform show policy-pack <name> [flags]
 
 <!-- END GENERATED CLI -->
 
+After creating `./policies` in [Run checks](../../../guides/check-architecture.md):
+
+<!-- docs-check:cli-show-policy-pack -->
 ```sh
-rootform show policy-pack baseline --policy-pack ./policies
-rootform show policy-pack baseline -o json
+rootform show policy-pack tutorial --policy-pack ./policies
+rootform show policy-pack tutorial --policy-pack ./policies -o json
 ```
 
 Text or JSON goes to standard output, diagnostics to standard error. Status

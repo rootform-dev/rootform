@@ -44,6 +44,9 @@ only exact selected digests when network use is allowed. `--offline` restricts
 preparation to verified local content. `--no-input` disallows prompts and
 requires deterministic action.
 
+Replace `./infra` with an existing project directory. The `--locked` example
+requires that project to contain a valid `rootform.lock` beforehand.
+
 ```sh
 rootform init ./infra --no-input
 rootform init ./infra --locked --offline --no-input

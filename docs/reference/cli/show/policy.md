@@ -7,7 +7,7 @@ description: "Inspect one Policy definition without evaluating it."
 Pack, and source location. It reads the project-selected pack by default.
 Repeat `--policy-pack` with local authoring roots to replace that selection
 for this invocation. Use a qualified identifier such as
-`baseline.policy.cluster-network-context`, or a bare name when unambiguous.
+`tutorial.policy.subnet-network-context`, or a bare name when unambiguous.
 
 <!-- BEGIN GENERATED CLI: rootform show policy -->
 
@@ -33,9 +33,12 @@ rootform show policy <identifier> [flags]
 
 <!-- END GENERATED CLI -->
 
+After creating `./policies` in [Run checks](../../../guides/check-architecture.md):
+
+<!-- docs-check:cli-show-policy -->
 ```sh
-rootform show policy cluster-network-context --policy-pack ./policies
-rootform show policy baseline.policy.cluster-network-context -o json
+rootform show policy subnet-network-context --policy-pack ./policies
+rootform show policy tutorial.policy.subnet-network-context --policy-pack ./policies -o json
 ```
 
 Text or JSON goes to standard output, diagnostics to standard error. Status

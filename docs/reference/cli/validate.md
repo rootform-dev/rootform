@@ -42,6 +42,9 @@ rootform validate <object> [flags]
 
 <!-- END GENERATED CLI -->
 
+Save `architecture.json` with `build`, for example from
+[Your first architecture](../../getting-started/first-architecture.md).
+
 ```sh
 rootform validate architecture architecture.json
 ```

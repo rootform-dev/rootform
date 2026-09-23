@@ -39,6 +39,10 @@ exclusively there. An explicit local `--policy-pack` on a consuming command
 replaces the project selection for that invocation. `--offline` limits
 vendoring to verified local content.
 
+Start from a project whose lock selects a Policy Pack, as in
+[Use external content](../../../guides/external-content.md). The commands
+below do not create that selection.
+
 ```sh
 rootform init . --locked --no-input
 rootform vendor policy-packs

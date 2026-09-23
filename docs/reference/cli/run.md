@@ -45,6 +45,9 @@ as Terraform source. `--no-browser` leaves the browser closed. The default
 port is `21717`; `--port 0` asks the operating system for a free port. Use
 `--locked` when directory input must have a valid existing lock.
 
+Use a prepared project for `./infra`, an architecture saved by `build` for
+`architecture.json`, or a completed JSON plan from [Plan inputs](../../inputs/plans.md).
+
 ```sh
 rootform run ./infra
 rootform run architecture.json --no-browser --port 0

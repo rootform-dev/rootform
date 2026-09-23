@@ -51,6 +51,11 @@ is not by itself status `3`.
 
 ## Examples
 
+Use saved Before and After architecture files from
+[Compare architectures](../../guides/compare-architectures.md), or replace
+`./before` and `./after` with prepared project directories. Create
+`tfplan.json` as described in [Plan inputs](../../inputs/plans.md).
+
 ```sh
 rootform diff before.json after.json --exit-code
 rootform diff ./before ./after --format markdown --output changes.md
