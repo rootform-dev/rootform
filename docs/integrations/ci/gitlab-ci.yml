@@ -5,6 +5,7 @@ rootform:
     - rootform-0-1-0
   variables:
     ROOTFORM_PROJECT: ./infra
+    ROOTFORM_OUTPUT_DIR: .rootform-ci-${CI_JOB_ID}
   script:
     - test "$(pwd)" = "$CI_PROJECT_DIR"
     - test -w "$CI_PROJECT_DIR"
@@ -12,10 +13,10 @@ rootform:
   artifacts:
     when: always
     paths:
-      - .rootform-ci/architecture.json
-      - .rootform-ci/init.json
-      - .rootform-ci/init.stderr
-      - .rootform-ci/build.stderr
-      - .rootform-ci/check.json
-      - .rootform-ci/check.stderr
-      - .rootform-ci/check.status
+      - $ROOTFORM_OUTPUT_DIR/architecture.json
+      - $ROOTFORM_OUTPUT_DIR/init.json
+      - $ROOTFORM_OUTPUT_DIR/init.stderr
+      - $ROOTFORM_OUTPUT_DIR/build.stderr
+      - $ROOTFORM_OUTPUT_DIR/check.json
+      - $ROOTFORM_OUTPUT_DIR/check.stderr
+      - $ROOTFORM_OUTPUT_DIR/check.status

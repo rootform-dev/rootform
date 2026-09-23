@@ -1,5 +1,13 @@
 import { expect, test } from "bun:test";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -13,23 +21,82 @@ test("CI recipes keep exact installation and failure artifacts", () => {
   expect(github).toContain("actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a");
   expect(github).toContain(`if: \${{ !cancelled() }}`);
   expect(github).toContain("persist-credentials: false");
-  expect(github).toContain(".rootform-ci/check.status");
+  const runId = "$" + "{{ github.run_id }}";
+  const attempt = "$" + "{{ github.run_attempt }}";
+  const output = "$" + "{{ env.ROOTFORM_OUTPUT_DIR }}";
+  expect(github).toContain(`ROOTFORM_OUTPUT_DIR: .rootform-ci-${runId}-${attempt}`);
+  expect(github).toContain(`${output}/check.status`);
+  expect(github).not.toContain("foreign.txt");
   expect(github).not.toContain("pull_request_target");
 
   const gitlab = readFileSync(join(examples, "gitlab-ci.yml"), "utf8");
   expect(gitlab).toContain('test -w "$CI_PROJECT_DIR"');
   expect(gitlab).toContain("when: always");
-  expect(gitlab).toContain(".rootform-ci/check.status");
+  expect(gitlab).toContain("ROOTFORM_OUTPUT_DIR: .rootform-ci-" + "$" + "{CI_JOB_ID}");
+  expect(gitlab).toContain("$ROOTFORM_OUTPUT_DIR/check.status");
+  expect(gitlab).not.toContain("foreign.txt");
 
   const azure = readFileSync(join(examples, "azure-pipelines.yml"), "utf8");
   expect(azure).toContain("ghcr.io/rootform-dev/rootform:0.1.0");
   expect(azure).toContain('--user "$(id -u):$(id -g)"');
   expect(azure).not.toContain("container:");
   expect(azure).toContain("condition: succeededOrFailed()");
+  expect(azure).toContain("--env ROOTFORM_OUTPUT_DIR=/workspace/.rootform-ci-$(Build.BuildId)");
+  expect(azure).toContain(
+    "for file in init.json init.stderr architecture.json build.stderr check.json check.stderr check.status",
+  );
+  expect(azure).toContain('tar -cf "$archive" -C "$results" "$@"');
+  expect(azure).toContain("targetPath: $(rootformArtifactPath)");
+  expect(azure).not.toContain("foreign.txt");
 
   const generic = readFileSync(join(examples, "generic-ci.sh"), "utf8");
   expect(generic).toContain("exec sh ./ci/rootform-ci.sh");
   expect(generic).toContain(`ROOTFORM_PROJECT=\${ROOTFORM_PROJECT:-./infra}`);
+});
+
+test("Azure packages only named results from the current output directory", () => {
+  const temporary = mkdtempSync(join(tmpdir(), "rootform-azure-artifacts-"));
+  try {
+    const azure = readFileSync(join(examples, "azure-pipelines.yml"), "utf8");
+    const packageStep = azure.split("  - bash: |\n")[2]?.split("\n    displayName:")[0];
+    expect(packageStep).toBeDefined();
+    const script = packageStep
+      ?.replace(/^ {6}/gmu, "")
+      .replaceAll("$(Build.SourcesDirectory)", temporary)
+      .replaceAll("$(Build.BuildId)", "123")
+      .replaceAll("$(Agent.TempDirectory)", temporary);
+    const output = join(temporary, ".rootform-ci-123");
+    mkdirSync(output);
+    writeFileSync(join(output, "architecture.json"), "current architecture\n");
+    writeFileSync(join(output, "check.status"), "1\n");
+    writeFileSync(join(output, "foreign.txt"), "must not upload\n");
+
+    const packaged = Bun.spawnSync(["/bin/sh", "-c", script ?? ""], {
+      stdout: "pipe",
+      stderr: "pipe",
+    });
+    expect(packaged.exitCode).toBe(0);
+    const archive = packaged.stdout.toString().match(/rootformArtifactPath\](.+)\n/u)?.[1];
+    expect(archive).toBeDefined();
+    const contents = Bun.spawnSync(["tar", "-tf", archive ?? ""], { stdout: "pipe" });
+    expect(contents.exitCode).toBe(0);
+    expect(contents.stdout.toString().trim().split("\n")).toEqual([
+      "architecture.json",
+      "check.status",
+    ]);
+    expect(readFileSync(join(output, "foreign.txt"), "utf8")).toBe("must not upload\n");
+
+    rmSync(join(output, "architecture.json"));
+    rmSync(join(output, "check.status"));
+    const empty = Bun.spawnSync(["/bin/sh", "-c", script ?? ""], { stdout: "pipe" });
+    expect(empty.exitCode).toBe(0);
+    const emptyArchive = empty.stdout.toString().match(/rootformArtifactPath\](.+)\n/u)?.[1];
+    const emptyContents = Bun.spawnSync(["tar", "-tf", emptyArchive ?? ""], { stdout: "pipe" });
+    expect(emptyContents.exitCode).toBe(0);
+    expect(emptyContents.stdout.toString()).toBe("");
+  } finally {
+    rmSync(temporary, { force: true, recursive: true });
+  }
 });
 
 test("portable script separates build, selection, and requested check", () => {
@@ -41,8 +108,8 @@ test("portable script separates build, selection, and requested check", () => {
       `#!/bin/sh
 set -eu
 printf '%s\\n' "$*" >>"$ROOTFORM_TEST_LOG"
-printf '{"stage":"%s"}\\n' "$1"
-printf '%s\\n' "$1 diagnostic" >&2
+printf '{"stage":"%s","run":"%s"}\\n' "$1" "$ROOTFORM_TEST_RUN_ID"
+printf '%s diagnostic from run %s\\n' "$1" "$ROOTFORM_TEST_RUN_ID" >&2
 if [ "\${ROOTFORM_TEST_FAIL_STAGE:-}" = "$1" ]; then
   exit "\${ROOTFORM_TEST_FAIL_STATUS:-2}"
 fi
@@ -57,10 +124,12 @@ fi
     const project = join(cwd, "root module");
     const output = join(cwd, "reports with spaces");
     mkdirSync(project, { recursive: true });
+    writeFileSync(join(project, "main.tf"), "fixture\n");
     const log = join(temporary, "calls");
+    let invocation = 0;
     const invoke = (extra: Record<string, string> = {}) => {
-      rmSync(output, { force: true, recursive: true });
       rmSync(log, { force: true });
+      invocation += 1;
       const result = Bun.spawnSync({
         cmd: ["/bin/sh", lifecycle],
         cwd,
@@ -71,6 +140,7 @@ fi
           ROOTFORM_OUTPUT_DIR: "./reports with spaces",
           ROOTFORM_PROJECT: "./root module",
           ROOTFORM_TEST_LOG: log,
+          ROOTFORM_TEST_RUN_ID: String(invocation),
           ...extra,
         },
         stdout: "pipe",
@@ -84,8 +154,10 @@ fi
 
     expect(invoke()).toEqual({ code: 0, calls: ["build ./root module --format json"] });
     expect(readFileSync(join(output, "architecture.json"), "utf8")).toContain('"stage":"build"');
-    expect(readFileSync(join(output, "build.stderr"), "utf8")).toContain("build diagnostic");
+    expect(readFileSync(join(output, "architecture.json"), "utf8")).toContain('"run":"1"');
+    expect(readFileSync(join(output, "build.stderr"), "utf8")).toContain("run 1");
     expect(existsSync(join(output, "check.status"))).toBe(false);
+    writeFileSync(join(output, "foreign.txt"), "keep this file\n");
 
     writeFileSync(join(project, "rootform.lock"), "dialects-only fixture\n");
     expect(invoke({ ROOTFORM_OFFLINE: "1" })).toEqual({
@@ -107,7 +179,21 @@ fi
       ],
     });
     expect(readFileSync(join(output, "check.status"), "utf8")).toBe("0\n");
-    expect(readFileSync(join(output, "check.stderr"), "utf8")).toContain("check diagnostic");
+    expect(readFileSync(join(output, "check.json"), "utf8")).toContain('"run":"3"');
+    expect(readFileSync(join(output, "check.stderr"), "utf8")).toContain("run 3");
+
+    expect(invoke()).toEqual({
+      code: 0,
+      calls: [
+        "init ./root module --locked --no-input --format json",
+        "build ./root module --locked --format json",
+      ],
+    });
+    expect(existsSync(join(output, "check.json"))).toBe(false);
+    expect(existsSync(join(output, "check.status"))).toBe(false);
+    expect(existsSync(join(output, "check.stderr"))).toBe(false);
+    expect(readFileSync(join(output, "architecture.json"), "utf8")).toContain('"run":"4"');
+    expect(readFileSync(join(output, "init.json"), "utf8")).toContain('"run":"4"');
 
     for (const [status, meaning] of [
       ["1", "violation"],
@@ -150,6 +236,92 @@ fi
 
     expect(invoke({ ROOTFORM_POLICY_PACK: "./local pack" }).code).toBe(2);
     expect(invoke({ ROOTFORM_CHECK: "yes" }).code).toBe(2);
+
+    writeFileSync(join(project, "rootform.lock"), "reviewed lock\n");
+    expect(invoke({ ROOTFORM_CHECK: "1" }).code).toBe(0);
+    const oldCheckRun = String(invocation);
+    expect(readFileSync(join(output, "check.json"), "utf8")).toContain(`"run":"${oldCheckRun}"`);
+
+    expect(
+      invoke({
+        ROOTFORM_CHECK: "1",
+        ROOTFORM_TEST_FAIL_STAGE: "init",
+        ROOTFORM_TEST_FAIL_STATUS: "3",
+      }).code,
+    ).toBe(3);
+    expect(readFileSync(join(output, "init.json"), "utf8")).toContain(`"run":"${invocation}"`);
+    expect(readFileSync(join(output, "init.stderr"), "utf8")).toContain(`run ${invocation}`);
+    expect(existsSync(join(output, "architecture.json"))).toBe(false);
+    expect(existsSync(join(output, "check.json"))).toBe(false);
+    expect(existsSync(join(output, "check.stderr"))).toBe(false);
+    expect(existsSync(join(output, "check.status"))).toBe(false);
+    expect(readFileSync(join(project, "rootform.lock"), "utf8")).toBe("reviewed lock\n");
+
+    expect(invoke({ ROOTFORM_CHECK: "1" }).code).toBe(0);
+    expect(
+      invoke({
+        ROOTFORM_CHECK: "1",
+        ROOTFORM_TEST_FAIL_STAGE: "build",
+        ROOTFORM_TEST_FAIL_STATUS: "2",
+      }).code,
+    ).toBe(2);
+    expect(readFileSync(join(output, "init.json"), "utf8")).toContain(`"run":"${invocation}"`);
+    expect(readFileSync(join(output, "architecture.json"), "utf8")).toContain(
+      `"run":"${invocation}"`,
+    );
+    expect(readFileSync(join(output, "build.stderr"), "utf8")).toContain(`run ${invocation}`);
+    expect(existsSync(join(output, "check.json"))).toBe(false);
+    expect(existsSync(join(output, "check.status"))).toBe(false);
+    expect(readFileSync(join(project, "rootform.lock"), "utf8")).toBe("reviewed lock\n");
+
+    rmSync(join(project, "rootform.lock"));
+    expect(invoke().code).toBe(0);
+    expect(readFileSync(join(output, "architecture.json"), "utf8")).toContain(
+      `"run":"${invocation}"`,
+    );
+    expect(existsSync(join(output, "init.json"))).toBe(false);
+    expect(existsSync(join(output, "init.stderr"))).toBe(false);
+    expect(existsSync(join(output, "check.json"))).toBe(false);
+
+    expect(invoke({ ROOTFORM_CHECK: "1", ROOTFORM_POLICY_PACK: "./local pack" }).code).toBe(0);
+    expect(invoke({ ROOTFORM_CHECK: "1", ROOTFORM_TEST_CHECK_STATUS: "1" }).code).toBe(1);
+    expect(readFileSync(join(output, "check.status"), "utf8")).toBe("1\n");
+    expect(readFileSync(join(output, "check.json"), "utf8")).toContain(`"run":"${invocation}"`);
+    expect(invoke({ ROOTFORM_CHECK: "1", ROOTFORM_TEST_CHECK_STATUS: "3" }).code).toBe(3);
+    expect(readFileSync(join(output, "check.status"), "utf8")).toBe("3\n");
+    expect(readFileSync(join(output, "check.json"), "utf8")).toContain(`"run":"${invocation}"`);
+
+    expect(invoke({ ROOTFORM_POLICY_PACK: "./local pack" }).code).toBe(2);
+    for (const name of [
+      "init.json",
+      "init.stderr",
+      "architecture.json",
+      "build.stderr",
+      "check.json",
+      "check.stderr",
+      "check.status",
+    ]) {
+      expect(existsSync(join(output, name)), name).toBe(false);
+    }
+    expect(readFileSync(join(output, "foreign.txt"), "utf8")).toBe("keep this file\n");
+    expect(readFileSync(join(project, "main.tf"), "utf8")).toBe("fixture\n");
+
+    const outside = join(temporary, "outside");
+    mkdirSync(outside);
+    writeFileSync(join(outside, "check.json"), "outside evidence\n");
+    symlinkSync(outside, join(cwd, "linked results"));
+    expect(invoke({ ROOTFORM_OUTPUT_DIR: "./linked results" }).code).toBe(2);
+    expect(invoke({ ROOTFORM_OUTPUT_DIR: "./linked results/nested" }).code).toBe(2);
+    expect(invoke({ ROOTFORM_OUTPUT_DIR: join(cwd, "linked results", "nested") }).code).toBe(2);
+    expect(readFileSync(join(outside, "check.json"), "utf8")).toBe("outside evidence\n");
+    expect(existsSync(join(outside, "nested"))).toBe(false);
+    expect(invoke({ ROOTFORM_OUTPUT_DIR: "." }).code).toBe(2);
+    expect(readFileSync(join(project, "main.tf"), "utf8")).toBe("fixture\n");
+
+    symlinkSync(join(outside, "check.json"), join(output, "check.json"));
+    expect(invoke().code).toBe(0);
+    expect(readFileSync(join(outside, "check.json"), "utf8")).toBe("outside evidence\n");
+    expect(existsSync(join(output, "check.json"))).toBe(false);
   } finally {
     rmSync(temporary, { force: true, recursive: true });
   }

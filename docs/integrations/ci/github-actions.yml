@@ -8,6 +8,8 @@ permissions:
 jobs:
   architecture:
     runs-on: ubuntu-24.04
+    env:
+      ROOTFORM_OUTPUT_DIR: .rootform-ci-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -25,11 +27,11 @@ jobs:
         with:
           name: rootform-results
           path: |
-            .rootform-ci/architecture.json
-            .rootform-ci/init.json
-            .rootform-ci/init.stderr
-            .rootform-ci/build.stderr
-            .rootform-ci/check.json
-            .rootform-ci/check.stderr
-            .rootform-ci/check.status
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/architecture.json
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/init.json
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/init.stderr
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/build.stderr
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.json
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.stderr
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.status
           if-no-files-found: warn

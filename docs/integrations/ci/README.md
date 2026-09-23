@@ -88,12 +88,20 @@ acquisition. Private OCI sources use the runner's `DOCKER_CONFIG`, never
 credentials in a lock or command line. `offline` governs Rootform acquisition,
 not checkout, binary installation, hosted cache, or artifact upload.
 
-The script's paths are always relative to its invocation directory:
+Relative paths resolve from the script's invocation directory, while absolute
+paths retain their meaning:
 `ROOTFORM_PROJECT` defaults to `.`, `ROOTFORM_OUTPUT_DIR` defaults to
 `.rootform-ci`, and `ROOTFORM_POLICY_PACK` is optional. `ROOTFORM_BIN` defaults
 to `rootform` on `PATH`. `ROOTFORM_CHECK` defaults to `0` and accepts only `0`
 or `1`. Supplying a pack without requesting a check is an error. The script
 never changes directory, so paths containing spaces are safe when quoted.
+Before each invocation, the script clears only its named result files in the
+chosen output directory, including when the requested check configuration is
+invalid. Files from an earlier run cannot become this run's reports. Other
+files stay untouched. The script rejects a symbolic-link destination, traversal
+through writable symbolic links, or a directory containing the working
+directory or project. The CI recipes also use a job-specific result directory
+and collect named files only.
 
 An Architecture Diff is usually review evidence, not a default PR blocker.
 [Review a pull request](../../workflows/index.md#choose-the-revisions) shows
@@ -109,15 +117,15 @@ selection or `ROOTFORM_POLICY_PACK`. Keep the same artifact list: files not
 produced by a build-only run can be absent.
 
 The [GitHub recipe](github-actions.yml) uses `setup` and uploads named results
-after failure without changing the job's failed status. GitHub's
-[step conditions](https://docs.github.com/en/actions/reference/workflows-and-actions/expressions#always)
+from its run-specific directory after failure without changing the job's
+failed status. GitHub's [step conditions](https://docs.github.com/en/actions/reference/workflows-and-actions/expressions#always)
 explain why the upload step can run after `check` fails.
 
 The [GitLab recipe](gitlab-ci.yml) requires a shell runner with a verified
 Rootform `0.1.0` binary on `PATH`. GitLab checks out the project into
 `CI_PROJECT_DIR`; that directory must be writable by the runner user for
-`.rootform-ci/`. `artifacts: when: always` retains listed files after a Policy
-failure without changing the script's exit status. An image running as
+its job-specific result directory. `artifacts: when: always` retains listed
+files after a Policy failure without changing the script's exit status. An image running as
 Rootform's non-root UID `65532` cannot be assumed to write into GitLab's
 checkout mount. Use a runner with compatible ownership rather than granting
 world-write access. See GitLab's [artifact rules](https://docs.gitlab.com/ci/yaml/#artifactswhen)
@@ -127,8 +135,9 @@ The [Azure recipe](azure-pipelines.yml) uses an Ubuntu agent with Docker and
 invokes the exact Rootform image for one step. It mounts the checked-out
 project at `/workspace`, runs with the agent's UID and GID so reports are
 writable on the mount, and uses `/tmp/rootform-home` for Rootform content
-during that invocation. `PublishPipelineArtifact` retains only the dedicated
-`.rootform-ci` results directory after a failing check. The image is Alpine
+during that invocation. After the command, the pipeline packages only named
+results into a fresh archive, then publishes that archive even if a check
+failed. Other files in the result directory are excluded. The image is Alpine
 with a non-root user and lacks Bash, `glibc`, Node runtime, and privileges
 required for an Azure [container job](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/container-phases?view=azure-devops#requirements-for-container-jobs).
 It is a CLI image, not an agent image. Ensure Docker is available on the agent
@@ -141,5 +150,6 @@ credential configuration, which this minimal recipe does not supply.
 The [generic recipe](generic-ci.sh) assumes the runner has installed and
 checksum-verified Rootform `0.1.0` and checked out the project. Run it from
 the repository root. It inherits the script's `ROOTFORM_CHECK`, project, pack,
-and output settings. Archive the named files in `.rootform-ci/` even when the
-script exits `1` or `3`, while retaining that exit code as the job status.
+and output settings. Archive the named files in `ROOTFORM_OUTPUT_DIR` (default
+`.rootform-ci`) even when the script exits `1` or `3`, while retaining that
+exit code as the job status.
