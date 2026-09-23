@@ -1,5 +1,6 @@
 import { expect, test } from "bun:test";
-import { readFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
   checkNavigation,
@@ -9,6 +10,7 @@ import {
   deriveRoute,
   findDuplicateRoutes,
   findPlaceholders,
+  loadRenderedAnchors,
   parseFrontmatter,
   parseRelativeMarkdownLinks,
   resolveRepositoryLink,
@@ -106,7 +108,7 @@ test("parseRelativeMarkdownLinks keeps relative markdown links with fragments", 
       "See [install](installation.md#checksum) and [concepts](../concepts.md).",
       "Skip [external](https://example.com/page.md), [mail](mailto:x@example.com), " +
         "[root](/docs/cli.md), and [image](icon.png).",
-      "[fragment only](#section) is skipped.",
+      "[fragment only](#section) targets this page.",
       "",
       "```md",
       "[hidden](../hidden.md)",
@@ -116,6 +118,7 @@ test("parseRelativeMarkdownLinks keeps relative markdown links with fragments", 
   expect(links).toEqual([
     { line: 1, target: "installation.md#checksum" },
     { line: 1, target: "../concepts.md" },
+    { line: 3, target: "#section" },
   ]);
 });
 
@@ -129,6 +132,55 @@ test("resolveRepositoryLink strips fragments and normalizes within the repositor
   expect(resolveRepositoryLink("docs/cli.md", "README.md")).toBe("docs/README.md");
   expect(resolveRepositoryLink("docs/guides/install.md", "../../README.md")).toBe("README.md");
   expect(resolveRepositoryLink("docs/cli.md", "../../../escape.md")).toBeNull();
+  expect(resolveRepositoryLink("docs/cli.md", "#section")).toBe("docs/cli.md");
+});
+
+test("rendered HTML IDs validate cross-page and current-page fragments", async () => {
+  const directory = mkdtempSync(join(tmpdir(), "rootform-docs-anchors-"));
+  try {
+    mkdirSync(join(directory, "concepts", "diff"), { recursive: true });
+    writeFileSync(
+      join(directory, "concepts", "diff", "index.html"),
+      '<main><h2 id="undetermined-preserves-uncertainty">Unknown</h2></main>',
+    );
+    mkdirSync(join(directory, "inputs"), { recursive: true });
+    writeFileSync(
+      join(directory, "inputs", "index.html"),
+      '<main><h2 id="reuse-a-saved-architecture">Saved</h2></main>',
+    );
+    const sources = [
+      { path: "docs/concepts/diff.md", text: "## Unknown" },
+      {
+        path: "docs/inputs/index.md",
+        text: [
+          "---",
+          "title: Choose an input",
+          "description: Select an input.",
+          "---",
+          "",
+          "[valid](../concepts/diff.md#undetermined-preserves-uncertainty)",
+          "[broken](../concepts/diff.md#semantic-changes-need-separate-review)",
+          "[local](#reuse-a-saved-architecture)",
+          "[local broken](#missing-local-section)",
+        ].join("\n"),
+      },
+    ];
+    const anchors = await loadRenderedAnchors(sources, directory);
+    const issues = checkPage(
+      sources[1]?.path ?? "",
+      sources[1]?.text ?? "",
+      new Set(sources.map((source) => source.path)),
+      anchors,
+    );
+    expect(
+      issues.filter((issue) => issue.kind === "fragment").map((issue) => issue.detail),
+    ).toEqual([
+      expect.stringContaining("semantic-changes-need-separate-review"),
+      expect.stringContaining("missing-local-section"),
+    ]);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
 });
 
 test("checkPage flags missing frontmatter, placeholders, and dangling links", () => {

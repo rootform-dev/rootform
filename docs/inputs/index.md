@@ -85,7 +85,7 @@ prevent comparison. Two valid documents with different semantic environments
 are not rejected as a blanket rule. Source continuity can remain comparable,
 while conclusions about interpretations or facts become undetermined when
 compatibility and evidence closure cannot prove them. See
-[Architecture Diff](../concepts/diff.md#semantic-changes-need-separate-review)
+[Architecture Diff](../concepts/diff.md#undetermined-preserves-uncertainty)
 for that boundary.
 
 To explore, export, compare, or check a planning result, follow the complete

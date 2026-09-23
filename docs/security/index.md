@@ -71,7 +71,7 @@ zero-evaluation cases.
 Provenance answers why Rootform made a claim. It is evidence to inspect, not a
 statement that the deployed resource is healthy or reachable. See
 [Dialect interpretation](../concepts/dialects.md) and
-[policy claim scope](../concepts/policies.md#know-the-scope-of-a-claim).
+[policy claim scope](../concepts/policies.md#what-a-policy-result-proves).
 
 ## Share a useful reproduction
 

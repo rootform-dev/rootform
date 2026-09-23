@@ -23,6 +23,7 @@ export type DocsIssue = {
     | "placeholder"
     | "punctuation"
     | "link"
+    | "fragment"
     | "navigation"
     | "route";
   detail: string;
@@ -124,7 +125,13 @@ export function parseRelativeMarkdownLinks(text: string): Array<{ line: number; 
       const target = match[1];
       if (target === undefined) continue;
       const pathPart = target.split("#")[0];
-      if (pathPart === undefined || pathPart.length === 0) continue;
+      if (pathPart === undefined) continue;
+      if (pathPart.length === 0) {
+        if (target.startsWith("#") && target.length > 1) {
+          links.push({ line: index + 1, target });
+        }
+        continue;
+      }
       if (pathPart.startsWith("/")) continue;
       if (/^[a-z]+:/iu.test(pathPart)) continue;
       if (!/\.md$/iu.test(pathPart)) continue;
@@ -136,7 +143,8 @@ export function parseRelativeMarkdownLinks(text: string): Array<{ line: number; 
 
 export function resolveRepositoryLink(fromRepositoryPath: string, target: string): string | null {
   const [pathPart] = target.split("#");
-  if (pathPart === undefined || pathPart.length === 0) return null;
+  if (pathPart === undefined) return null;
+  if (pathPart.length === 0) return target.startsWith("#") ? fromRepositoryPath : null;
   const stack: string[] = [];
   for (const part of [...fromRepositoryPath.split("/").slice(0, -1), ...pathPart.split("/")]) {
     if (part === "" || part === ".") continue;
@@ -275,6 +283,7 @@ export function checkPage(
   path: string,
   text: string,
   existingMarkdown: ReadonlySet<string>,
+  renderedAnchors?: ReadonlyMap<string, ReadonlySet<string>>,
 ): DocsIssue[] {
   const issues: DocsIssue[] = [];
   let frontmatter: Frontmatter | null;
@@ -330,7 +339,7 @@ export function checkPage(
       detail: `line ${placeholder.line}: ${placeholder.kind} placeholder`,
     });
   }
-  for (const link of parseRelativeMarkdownLinks(body)) {
+  for (const link of parseRelativeMarkdownLinks(text)) {
     const resolved = resolveRepositoryLink(path, link.target);
     if (resolved === null) {
       issues.push({
@@ -344,9 +353,58 @@ export function checkPage(
         kind: "link",
         detail: `line ${link.line}: \`${link.target}\` resolves to missing \`${resolved}\``,
       });
+    } else if (renderedAnchors && resolved.startsWith("docs/") && link.target.includes("#")) {
+      const fragment = link.target.slice(link.target.indexOf("#") + 1);
+      if (fragment.length === 0) continue;
+      let id: string;
+      try {
+        id = decodeURIComponent(fragment);
+      } catch {
+        issues.push({
+          file: path,
+          kind: "fragment",
+          detail: `line ${link.line}: \`${link.target}\` has invalid fragment encoding`,
+        });
+        continue;
+      }
+      if (!renderedAnchors.get(resolved)?.has(id)) {
+        issues.push({
+          file: path,
+          kind: "fragment",
+          detail: `line ${link.line}: \`${link.target}\` has no matching id in rendered \`${resolved}\``,
+        });
+      }
     }
   }
   return issues;
+}
+
+export async function loadRenderedAnchors(
+  sources: SourcePage[],
+  renderedDirectory: string,
+): Promise<Map<string, ReadonlySet<string>>> {
+  const anchors = new Map<string, ReadonlySet<string>>();
+  for (const source of sources) {
+    const route = deriveRoute(source.path);
+    const htmlPath =
+      route === "404"
+        ? join(renderedDirectory, "404.html")
+        : join(renderedDirectory, ...(route === "index" ? [] : route.split("/")), "index.html");
+    if (!existsSync(htmlPath)) throw new Error(`missing rendered documentation page: ${htmlPath}`);
+    const ids = new Set<string>();
+    const html = readFileSync(htmlPath, "utf8");
+    await new HTMLRewriter()
+      .on("*", {
+        element(element) {
+          const id = element.getAttribute("id");
+          if (id) ids.add(id);
+        },
+      })
+      .transform(new Response(html))
+      .text();
+    anchors.set(source.path, ids);
+  }
+  return anchors;
 }
 
 export type PagesResult = {
@@ -357,6 +415,7 @@ export type PagesResult = {
 export function checkPages(
   sources: SourcePage[],
   existingMarkdown: ReadonlySet<string>,
+  renderedAnchors?: ReadonlyMap<string, ReadonlySet<string>>,
 ): PagesResult {
   const issues: DocsIssue[] = [];
   const routeDuplicates = findDuplicateRoutes(sources.map((source) => source.path));
@@ -368,12 +427,12 @@ export function checkPages(
     });
   }
   for (const source of sources) {
-    issues.push(...checkPage(source.path, source.text, existingMarkdown));
+    issues.push(...checkPage(source.path, source.text, existingMarkdown, renderedAnchors));
   }
   return { issues, routeDuplicates };
 }
 
-function main(): void {
+async function main(): Promise<void> {
   const root =
     process.argv[2] === undefined ? join(import.meta.dir, "..") : resolve(process.argv[2]);
   const sources: SourcePage[] = [];
@@ -390,7 +449,11 @@ function main(): void {
     existingMarkdown.add(path);
   }
   const issues: DocsIssue[] = [];
-  const pages = checkPages(sources, existingMarkdown);
+  const renderedDirectory = process.env.ROOTFORM_DOCS_HTML_DIR?.trim();
+  const renderedAnchors = renderedDirectory
+    ? await loadRenderedAnchors(sources, resolve(renderedDirectory))
+    : undefined;
+  const pages = checkPages(sources, existingMarkdown, renderedAnchors);
   issues.push(...pages.issues);
   let groups = 0;
   let leaves = 0;
@@ -453,6 +516,7 @@ function main(): void {
     `${pages.routeDuplicates.length} route conflicts`,
     `${counts.navigation ?? 0} navigation`,
     `${counts.link ?? 0} dangling links`,
+    renderedAnchors ? `${counts.fragment ?? 0} invalid fragments` : "fragments not checked",
     `${counts.placeholder ?? 0} placeholders`,
     `${counts.punctuation ?? 0} punctuation`,
     `${(counts.frontmatter ?? 0) + (counts.title ?? 0) + (counts.description ?? 0) + (counts["empty-page"] ?? 0)} frontmatter or content`,

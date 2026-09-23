@@ -98,7 +98,7 @@ Architecture unchanged
 
 An `undetermined` entry means available evidence cannot prove whether an
 architectural fact changed. It is not a proven removal and does not by itself
-mean the comparison failed. [Architecture Diff](../concepts/diff.md#unknown-is-not-absence)
+mean the comparison failed. [Architecture Diff](../concepts/diff.md#undetermined-preserves-uncertainty)
 explains the complete evidence model.
 
 ## Save reports

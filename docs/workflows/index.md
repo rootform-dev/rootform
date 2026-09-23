@@ -74,7 +74,7 @@ changes, use the same binary and comparable Dialect selection. When
 into the other. Build each revision as committed, then treat the resulting semantic
 difference as part of review. Architecture Diff can preserve source continuity
 while reporting affected conclusions as undetermined. See
-[semantic changes](../concepts/diff.md#semantic-changes-need-separate-review).
+[semantic changes](../concepts/diff.md#undetermined-preserves-uncertainty).
 
 ## Compare and save review artifacts
 
