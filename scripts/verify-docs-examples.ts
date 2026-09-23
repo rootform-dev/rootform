@@ -15,6 +15,7 @@ const docPath = join(repoRoot, "docs/getting-started/first-architecture.md");
 const buildRefPath = join(repoRoot, "docs/reference/cli/build.md");
 const examplePath = join(repoRoot, "examples/aws-vpc/main.tf");
 const fence = "```";
+const ansiSgr = new RegExp(String.fromCharCode(27) + String.raw`\[[0-9;]*m`, "gu");
 
 function fail(message: string): never {
   throw new Error(message);
@@ -64,11 +65,14 @@ function fencedMain(page: string): string {
 function displayedSummary(page: string): string {
   const matches = [
     ...page.matchAll(
-      new RegExp(`${fence}text title="Declaration summary"\\n([\\s\\S]*?)\\n${fence}`, "gu"),
+      new RegExp(
+        `${fence}(?:text|ansi) title="Declaration summary"\\n([\\s\\S]*?)\\n${fence}`,
+        "gu",
+      ),
     ),
   ];
   if (matches.length !== 1 || matches[0]?.[1] === undefined) fail("declaration summary missing");
-  return normalized(matches[0][1]);
+  return normalized(matches[0][1].replace(ansiSgr, ""));
 }
 
 function documentedFlags(text: string): string[] {

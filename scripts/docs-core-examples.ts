@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { parseReference } from "./generate-cli-reference.ts";
 
 const fence = "```";
+const ansiSgr = new RegExp(String.fromCharCode(27) + String.raw`\[[0-9;]*m`, "gu");
 
 export function markedCommand(page: string, name: string): string {
   const marker = `<!-- docs-check:${name} -->`;
@@ -14,12 +15,16 @@ export function markedCommand(page: string, name: string): string {
 }
 
 function fencedBlock(page: string, language: string, title: string): string {
-  const opening = `${fence}${language} title="${title}"\n`;
-  const parts = page.split(opening);
-  if (parts.length !== 2) throw new Error(`Expected one ${language} block: ${title}`);
-  const body = parts[1]?.split(`\n${fence}`)[0];
+  const languages = language === "text" ? ["text", "ansi"] : [language];
+  const blocks = languages.flatMap((candidate) => {
+    const opening = `${fence}${candidate} title="${title}"\n`;
+    const parts = page.split(opening);
+    return parts.length === 2 ? [parts[1]?.split(`\n${fence}`)[0]] : [];
+  });
+  if (blocks.length !== 1) throw new Error(`Expected one ${language} block: ${title}`);
+  const body = blocks[0];
   if (!body) throw new Error(`Empty ${language} block: ${title}`);
-  return `${body}\n`;
+  return `${body.replace(ansiSgr, "")}\n`;
 }
 
 export function configuration(page: string, title: string): string {
