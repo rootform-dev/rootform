@@ -426,12 +426,14 @@ test("project configuration guides keep decision, adoption, mechanism, and trans
 
   for (const title of [
     'title="rootform.lock (local Policy Pack)"',
+    'title="rootform.lock (local Dialect)"',
     'title="rootform.lock (OCI template)"',
   ]) {
     expect(external).toContain(title);
   }
   expect(external).toContain("rootform list policy-packs --policy-pack");
-  expect(external).toContain("rootform package dialects ./dialects/confluent");
+  expect(external).toContain("rootform package dialects ./third-party/confluent");
+  expect(external).toContain("Policies     1 selected");
   expect(external).not.toMatch(/rootform publish (?:dialects|policy-packs)/u);
 
   for (const heading of [
@@ -447,6 +449,7 @@ test("project configuration guides keep decision, adoption, mechanism, and trans
   expect(locks).toContain("never create, normalize, or update the lock");
 
   for (const marker of [
+    "offline-evidence-directory",
     "offline-embedded-source",
     "offline-embedded-replay",
     "offline-vendor-dialects",
@@ -457,6 +460,8 @@ test("project configuration guides keep decision, adoption, mechanism, and trans
     expect(replay).toContain(`<!-- docs-check:${marker} -->`);
   }
   expect(replay).toContain("Architecture unchanged");
+  expect(replay).toContain("before-check.status");
+  expect(replay).toContain('ROOTFORM_HOME="$replay_home" \\\n  rootform check');
   expect(replay).toContain("cmp -s");
   expect(replay).toContain("does not by itself prove network isolation");
   expect(replay).not.toContain("no architectural change");

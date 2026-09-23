@@ -13,23 +13,27 @@ file.
 
 ## Select a local Policy Pack
 
-This walkthrough uses the repository's `policy-packs/baseline` as a synthetic
-demonstration pack. It is not a catalog of official policies. Copy the reviewed
-pack into your project at `policies/baseline`, then inspect its identity without
-a lock:
+Start from the `rootform-first-architecture` project created in
+[Your first architecture](../getting-started/first-architecture.md#create-input).
+Copy the two source files from
+[Create the Policy Pack](check-architecture.md#create-the-policy-pack) into
+`policies/pack.rf.hcl` and `policies/subnet-network-context.rf.hcl` inside that
+project. Run every command in this section from `rootform-first-architecture`.
+
+Inspect the local pack without a lock:
 
 <!-- docs-check:external-local-policy-identity -->
 ```sh
-rootform list policy-packs --policy-pack ./policies/baseline -o json
+rootform list policy-packs --policy-pack ./policies -o json
 ```
 
 ```json title="Local Policy Pack identity"
 [
   {
-    "name": "baseline",
+    "name": "tutorial",
     "version": "0.1.0",
-    "policies": 2,
-    "content_digest": "sha256:252d152ab845848c50f1ecccee7da5b6ee8e0cedeac34e0cd7f820de5246aa47"
+    "policies": 1,
+    "content_digest": "sha256:3f301eea6cfe95b1c66ba3c768d3d57613c847ca245cdb5ad3838e6604a19e9e"
   }
 ]
 ```
@@ -46,12 +50,12 @@ path:
   "dialects": [],
   "policy_packs": [
     {
-      "name": "baseline",
+      "name": "tutorial",
       "version": "0.1.0",
-      "content_digest": "sha256:252d152ab845848c50f1ecccee7da5b6ee8e0cedeac34e0cd7f820de5246aa47",
+      "content_digest": "sha256:3f301eea6cfe95b1c66ba3c768d3d57613c847ca245cdb5ad3838e6604a19e9e",
       "source": {
         "local": {
-          "path": "policies/baseline"
+          "path": "policies"
         }
       }
     }
@@ -72,12 +76,21 @@ rootform list policies -o wide
 
 Evaluate the selected pack:
 
+<!-- docs-check:external-local-policy-check -->
 ```sh
 rootform check . --locked
 ```
 
-A successful preparation only proves identity and availability. Check status
-still depends on matching targets and policy outcomes.
+```text title="Locked Policy check"
+Policies compliant
+
+Policies     1 selected
+Evaluations  1
+Results      1 passed
+```
+
+Preparation proves identity and availability. The check separately proves that
+the selected Policy evaluated `aws_subnet.application` and passed.
 
 ## Obtain a local Dialect identity
 
@@ -86,16 +99,19 @@ the reviewed source. `rootform list dialects` inspects embedded or already
 selected Dialects, so it cannot bootstrap an unselected source directory.
 
 When only reviewed source is available, create a local OCI layout to expose its
-compiled identity. The public `dialects/confluent` source in the Rootform
-repository makes this extraction reproducible. That Dialect is already
-embedded, so this command demonstrates identity extraction rather than a need
-to select it. Replace the path with your reviewed external source. Packaging
-stays local and publishes nothing:
+compiled identity. This example uses the
+[Confluent Dialect source](https://github.com/rootform-dev/rootform/tree/dev/dialects/confluent).
+Download or copy that complete directory to `third-party/confluent` inside
+`rootform-first-architecture`. Run the following block from the project root.
+`jq` is required only for this advanced identity extraction. Packaging stays
+local and publishes nothing. `mktemp` creates a temporary parent directory,
+while Rootform creates the previously absent `layout` destination:
 
 <!-- docs-check:external-local-dialect-identity -->
 ```sh
-identity_dir=$(mktemp -d "${TMPDIR:-/tmp}/rootform-identity.XXXXXX")
-rootform package dialects ./dialects/confluent --to "$identity_dir"
+identity_workspace=$(mktemp -d "${TMPDIR:-/tmp}/rootform-identity.XXXXXX")
+identity_dir="$identity_workspace/layout"
+rootform package dialects ./third-party/confluent --to "$identity_dir" >/dev/null
 manifest_digest=$(jq -r '.manifests[0].digest' "$identity_dir/index.json")
 manifest_file="$identity_dir/blobs/sha256/${manifest_digest#sha256:}"
 config_digest=$(jq -r '.config.digest' "$manifest_file")
@@ -115,6 +131,51 @@ This reads Rootform's generated config artifact. It does not calculate a
 replacement digest. The `Digest` printed by `package dialects` is the OCI
 manifest digest, not `content_digest`. Keep these identities separate when
 writing the `dialects` entry.
+
+Record a complete local selection:
+
+```json title="rootform.lock (local Dialect)"
+{
+  "format_version": "1",
+  "dialects": [
+    {
+      "owner": "confluent",
+      "version": "0.1.0",
+      "content_digest": "sha256:57bc8a2038fc1159adf19486a7f8875ab8ca8c4d9af72865e502f36b8104470e",
+      "source": {
+        "local": {
+          "path": "third-party/confluent"
+        }
+      }
+    }
+  ],
+  "policy_packs": [],
+  "excluded_owners": [],
+  "replacements": ["confluent"]
+}
+```
+
+The example owner `confluent` is already embedded in Rootform. The
+`replacements` entry explicitly authorizes the local Dialect to replace that
+embedded owner. This authorization is specific to the collision demonstrated
+here. A local Dialect with a new owner does not need a replacement entry.
+
+Prepare the local selection without changing the lock, then inspect its origin:
+
+<!-- docs-check:external-local-dialect-init -->
+```sh
+rootform init . --locked --offline --no-input
+rootform list dialects --dialect confluent -o wide
+```
+
+```text title="Selected local Dialect"
+Project prepared
+
+External dialects      1
+External Policy Packs  0
+NAME       VERSION  ORIGIN  CONCEPTS  CONTEXTS  RELATIONS  RULES
+confluent  0.1.0    local         37         1         19     62
+```
 
 ## Select published OCI content
 
@@ -197,6 +258,6 @@ error. Reserved owner `rf` is protected and cannot appear in either array.
 
 Review [Locks and vendored content](../offline-security.md) for preparation and
 source precedence. Use [Reproduce a build offline](reproduce-build.md) to
-transport a verified selection. Publishing belongs to the
-[`package`](../reference/cli/package.md) and
-[`publish`](../reference/cli/publish.md) references, not this consumer flow.
+transport a verified selection. To distribute content you author, continue with
+the [`package`](../reference/cli/package.md) and
+[`publish`](../reference/cli/publish.md) references.

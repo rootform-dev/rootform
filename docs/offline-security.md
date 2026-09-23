@@ -1,5 +1,5 @@
 ---
-title: "Locks, offline preparation, and vendored content"
+title: "Locks and vendored content"
 description: "Understand exact project selection, offline preparation, storage, and fail-closed vendoring."
 ---
 
@@ -90,8 +90,8 @@ rootform vendor policy-packs
 ```
 
 These commands write `.rootform/dialects` and `.rootform/policy-packs`. Each
-must run from the project root whose `rootform.lock` it materializes, unless an
-explicit `--to` destination is used for another purpose.
+always reads selection from `rootform.lock` in the current project. An explicit
+`--to` changes only the destination and never selects another project or lock.
 
 Presence of one vendor family makes that directory exclusive for its selected
 kind. Every locked entry must be present and exact. Missing, extra, or altered

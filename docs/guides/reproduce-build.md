@@ -12,6 +12,21 @@ Remote modules must already exist beneath `.terraform/modules` and match
 `.terraform/modules/modules.json`. Transfer both the module directories and
 that manifest with the project. See [Make modules available locally](../inputs/index.md#make-modules-available-locally).
 
+## Choose source, replay, and report paths
+
+Replace these placeholders throughout the commands:
+
+- `/path/to/source-project` is the prepared project on the source environment
+- `/path/to/replay-project` is its independent copy on the replay environment
+- `/path/to/evidence` is the directory that carries comparison reports
+
+Create the report directory before the first build:
+
+<!-- docs-check:offline-evidence-directory -->
+```sh
+mkdir -p /path/to/evidence
+```
+
 ## Reproduce a project with embedded Dialects only
 
 A supplied-only project has no `rootform.lock` and needs no preparation. On the
@@ -85,13 +100,27 @@ Both commands act on `/path/to/source-project/rootform.lock` because they run
 from that project root. Embedded Dialects and RF Vocabulary are not copied.
 
 Build the reference after vendoring, so source and replay use the same
-project-local execution boundary:
+project-local execution boundary. For governance reproduction, use the
+`tutorial` Policy Pack from
+[Select a local Policy Pack](external-content.md#select-a-local-policy-pack).
+The first-architecture subnet gives that Policy one effective target.
 
 <!-- docs-check:offline-external-source -->
 ```sh
 cd /path/to/source-project
 rootform build . --locked --output /path/to/evidence/before.json
+if rootform check . --locked --format json \
+  --output /path/to/evidence/before-check.json
+then
+  source_check_status=0
+else
+  source_check_status=$?
+fi
+printf '%s\n' "$source_check_status" > /path/to/evidence/before-check.status
 ```
+
+For this compliant example, `before-check.status` contains `0` and the JSON
+report records one evaluated, passed Policy.
 
 Transfer these items:
 
@@ -100,10 +129,12 @@ Transfer these items:
 - unchanged `rootform.lock`
 - `.rootform/dialects` when external Dialects are selected
 - `.rootform/policy-packs` when a Policy check must be reproduced
-- `before.json` for comparison
+- `before.json`, `before-check.json`, and `before-check.status` for comparison
 
 Copy them into an independent project location. Copying only `rootform.lock`
-does not transport selected content.
+does not transport selected content. This walkthrough leaves the original
+`third-party/confluent` and `policies` source directories behind after
+vendoring. Their project vendor copies must be sufficient on replay.
 
 On the replay environment, use another new home:
 
@@ -113,18 +144,28 @@ cd /path/to/replay-project
 replay_home=$(mktemp -d "${TMPDIR:-/tmp}/rootform-home.XXXXXX")
 ROOTFORM_HOME="$replay_home" \
   rootform build . --locked --output /path/to/evidence/after.json
+if ROOTFORM_HOME="$replay_home" \
+  rootform check . --locked --format json \
+  --output /path/to/evidence/after-check.json
+then
+  replay_check_status=0
+else
+  replay_check_status=$?
+fi
+printf '%s\n' "$replay_check_status" > /path/to/evidence/after-check.status
 rootform diff /path/to/evidence/before.json \
   /path/to/evidence/after.json --exit-code
 cmp -s /path/to/evidence/before.json /path/to/evidence/after.json
+cmp -s /path/to/evidence/before-check.json \
+  /path/to/evidence/after-check.json
+cmp -s /path/to/evidence/before-check.status \
+  /path/to/evidence/after-check.status
 ```
 
-To reproduce governance with the transferred Policy Pack vendor, run:
-
-```sh
-rootform check . --locked
-```
-
-Compare its structured output and exit status separately from Architecture IR.
+Both `build` and `check` use the same new `ROOTFORM_HOME`. Matching Policy JSON
+proves the evaluation result was reproduced, while matching status files prove
+the command outcome was reproduced. These checks remain separate from
+Architecture Diff and byte identity.
 
 ## Detect and repair an incomplete vendor
 
