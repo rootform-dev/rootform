@@ -77,11 +77,11 @@ Boolean operators use three-valued logic:
 | `true` | `false` | `false` | `true` |
 | `false` | `true` | `false` | `true` |
 | `false` | `false` | `false` | `false` |
-| `true` | unknown | unknown | `true` |
-| `false` | unknown | `false` | unknown |
-| unknown | `true` | unknown | `true` |
-| unknown | `false` | `false` | unknown |
-| unknown | unknown | unknown | unknown |
+| `true` | `unknown` | `unknown` | `true` |
+| `false` | `unknown` | `false` | `unknown` |
+| `unknown` | `true` | `unknown` | `true` |
+| `unknown` | `false` | `false` | `unknown` |
+| `unknown` | `unknown` | `unknown` | `unknown` |
 
 `!unknown` is unknown. Known `false` decides conjunction; known `true`
 decides disjunction. Only final known `true` accepts candidate.
@@ -155,16 +155,16 @@ Architecture query result carries confirmed facts plus support and completeness.
 | --- | --- | --- | --- |
 | One or more | Any | Any | `true` |
 | Zero | Yes | Yes | `false` |
-| Zero | No | Any | Unknown |
-| Zero | Yes | No | Unknown |
+| Zero | No | Any | `Unknown` |
+| Zero | Yes | No | `Unknown` |
 
 ### `length(query)`
 
 | Supported | Complete | Result |
 | --- | --- | --- |
 | Yes | Yes | Exact deduplicated fact count |
-| No | Any | Unknown |
-| Yes | No | Unknown |
+| No | Any | `Unknown` |
+| Yes | No | `Unknown` |
 
 Policy Boolean operators use same three-valued truth table as predicates.
 Final unknown assertion produces `POLICY_ASSERTION_UNKNOWN`, never violation

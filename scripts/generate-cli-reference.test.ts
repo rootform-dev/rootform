@@ -93,7 +93,9 @@ test("renders exact usage, inherited defaults, aliases and required state", () =
   expect(page).toContain("Required.");
   expect(page).toContain("read JSON plan; use `-` for standard input");
   expect(page).toContain("Aliases: ` compile `.");
-  expect(page).toContain("```text\n0  built\n3  unavailable\n```");
+  expect(page).toContain(
+    "| Status | Meaning |\n| --- | --- |\n| `0` | built |\n| `3` | unavailable |",
+  );
   expect(page).toContain("```sh\nrootform build .\n```");
   expect(page).not.toContain("Boolean flags set");
   expect(page).not.toContain("Command syntax and help are generated");

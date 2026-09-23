@@ -40,11 +40,11 @@ to a registry.
 
 ## Exit status
 
-```text
-0  registry layout was written
-1  dialects could not be packaged
-2  the command was used incorrectly
-```
+| Status | Meaning |
+| --- | --- |
+| `0` | registry layout was written |
+| `1` | dialects could not be packaged |
+| `2` | the command was used incorrectly |
 
 ## Examples
 

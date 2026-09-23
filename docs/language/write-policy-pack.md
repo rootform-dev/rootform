@@ -10,7 +10,7 @@ linking from qualified references.
 
 ## Start with one source root
 
-```text title="Policy Pack source"
+```tree title="Policy Pack source"
 baseline/
 ├── pack.rf.hcl
 ├── policies/

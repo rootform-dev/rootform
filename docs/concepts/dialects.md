@@ -80,14 +80,14 @@ Inspect the Rule behind subnet interpretation.
 rootform show aws.rule.subnet
 ```
 
-```text title="Subnet Rule summary"
-aws.rule.subnet
+```ansi title="Subnet Rule summary"
+[1maws.rule.subnet[0m
 
-Matches   resource "aws_subnet"
-Produces  rf.concept.subnet
-Defined   network/vpc.rf.hcl:9
+[2mMatches[0m   resource "aws_subnet"
+[2mProduces[0m  rf.concept.subnet
+[2mDefined[0m   network/vpc.rf.hcl:9
 
-Contexts (1)
+[1m[38;5;208mContexts (1)[0m
   rf.context.network
     with  rf.concept.virtual-network
     via   source.vpc_id

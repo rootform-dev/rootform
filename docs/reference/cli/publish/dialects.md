@@ -40,11 +40,11 @@ error.
 
 ## Exit status
 
-```text
-0  publication or dry-run verification completed
-2  the command was used incorrectly
-3  publication could not be verified
-```
+| Status | Meaning |
+| --- | --- |
+| `0` | publication or dry-run verification completed |
+| `2` | the command was used incorrectly |
+| `3` | publication could not be verified |
 
 ## Examples
 

@@ -48,14 +48,14 @@ rootform run .
 
 Rootform opens the local explorer and reports what it built. Output includes:
 
-```text title="Run output excerpt"
-Serving architecture
+```ansi title="Run output excerpt"
+[1m[32mServing architecture[0m
 http://127.0.0.1:21717
 
-Source     .
-Resources  2
-Facts      1 resolved, 0 omitted
-Watch      enabled
+[2mSource[0m     .
+[2mResources[0m  2
+[2mFacts[0m      1 resolved, 0 omitted
+[2mWatch[0m      enabled
 ```
 
 The command stays in the foreground and rebuilds after source changes. Leave

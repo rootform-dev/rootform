@@ -94,7 +94,7 @@ Accepted clause operators are `=`, `!=`, `>`, `>=`, `<`, `<=`,
 and `~>`. Every clause must include an operator and an exact three-component
 version:
 
-```text
+```ebnf
 provider-constraint = clause, { ",", clause } ;
 clause              = operator, version ;
 operator            = "=" | "!=" | ">" | ">=" | "<" | "<=" | "~>" ;

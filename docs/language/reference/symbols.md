@@ -9,7 +9,7 @@ declarations.
 
 ## Canonical symbol IDs
 
-```text
+```ebnf
 symbol-id       = owner, ".", kind, ".", name ;
 kind            = "concept" | "context" | "relation" | "rule" ;
 local-reference = kind, ".", name ;
@@ -23,12 +23,12 @@ local-reference = kind, ".", name ;
 
 Examples of canonical IDs:
 
-```text
-aws.rule.subnet
-aws.relation.subscribes-to
-google.concept.load-balancer
-rf.context.network
-```
+| ID | Owner | Kind | Name |
+| --- | --- | --- | --- |
+| `aws.rule.subnet` | aws | rule | subnet |
+| `aws.relation.subscribes-to` | aws | relation | subscribes-to |
+| `google.concept.load-balancer` | google | concept | load-balancer |
+| `rf.context.network` | rf | context | network |
 
 Slash-form IDs and untyped free strings are not symbol references.
 

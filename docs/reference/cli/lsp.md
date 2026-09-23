@@ -33,11 +33,11 @@ diagnostics go to standard error; source diagnostics travel through LSP.
 
 ## Exit status
 
-```text
-0  the client completed shutdown and exit
-1  transport or lifecycle failed
-2  the command was used incorrectly
-```
+| Status | Meaning |
+| --- | --- |
+| `0` | the client completed shutdown and exit |
+| `1` | transport or lifecycle failed |
+| `2` | the command was used incorrectly |
 
 ## Examples
 

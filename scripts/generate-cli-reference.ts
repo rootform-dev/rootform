@@ -254,7 +254,17 @@ export function renderCommand(cmd: Command, commands: Command[]): string {
   if (cmd.description) {
     const [body, exits] = cmd.description.split(/\n\nExit status:\n/u);
     chunks.push(`## Behavior\n\n${prose(body ?? "")}`);
-    if (exits) chunks.push(`## Exit status\n\n${fence(exits.replace(/^ {2}/gmu, ""), "text")}`);
+    if (exits) {
+      const [statusLines, ...remainder] = exits.split("\n\n");
+      const rows = (statusLines ?? "").split("\n").map((line) => {
+        const match = /^ {2}(\d+) {2}(.+)$/u.exec(line);
+        if (!match) throw new Error(`Invalid exit status for ${cmd.path}: ${line}`);
+        return `| \`${match[1]}\` | ${cell(match[2] ?? "")} |`;
+      });
+      chunks.push(
+        `## Exit status\n\n| Status | Meaning |\n| --- | --- |\n${rows.join("\n")}${remainder.length ? `\n\n${remainder.join("\n\n")}` : ""}`,
+      );
+    }
   }
   if (cmd.subcommands?.length) chunks.push(subcommands(cmd, commands));
   if (cmd.examples) {

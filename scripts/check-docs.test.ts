@@ -355,6 +355,17 @@ test("user documentation navigation follows the task-oriented structure", () => 
     "Architecture Diff",
     "Architecture IR",
   ]);
+  const languageReference = group("Rootform language").items.find(
+    (item) => item.label === "Language reference",
+  );
+  expect(languageReference?.items?.map((item) => item.label)).toEqual([
+    "Overview",
+    "Source units",
+    "Dialects",
+    "Expression language",
+    "Policies",
+    "Diagnostics and limits",
+  ]);
   expect(pages(group("Rootform language").items)).toEqual([
     "language",
     "language/tour",
@@ -364,15 +375,15 @@ test("user documentation navigation follows the task-oriented structure", () => 
     "language/reference",
     "language/reference/syntax-files",
     "language/reference/symbols",
-    "language/reference/dialects",
     "language/reference/rf-vocabulary",
+    "language/reference/dialects",
     "language/reference/rules",
     "language/reference/emissions",
     "language/reference/composition",
-    "language/reference/policy-packs",
     "language/reference/expressions",
     "language/reference/traversals",
     "language/reference/built-ins",
+    "language/reference/policy-packs",
     "language/reference/evaluation",
     "language/reference/diagnostics",
   ]);

@@ -37,12 +37,12 @@ standard error.
 
 ## Exit status
 
-```text
-0  the definition is valid
-1  the definition is not valid
-2  the command was used incorrectly
-3  the definition could not be validated
-```
+| Status | Meaning |
+| --- | --- |
+| `0` | the definition is valid |
+| `1` | the definition is not valid |
+| `2` | the command was used incorrectly |
+| `3` | the definition could not be validated |
 
 ## Examples
 

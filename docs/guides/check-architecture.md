@@ -134,15 +134,15 @@ Inspect why Rootform considered the fact absent:
 rootform explain architecture aws_instance.implicit
 ```
 
-```text title="Proven omission"
-aws_instance.implicit
+```ansi title="Proven omission"
+[1maws_instance.implicit[0m
 
-Concept  aws.concept.compute-instance "implicit"
-Rule     aws.rule.instance
-Defined  instances.tf:7
+[2mConcept[0m  aws.concept.compute-instance "implicit"
+[2mRule[0m     aws.rule.instance
+[2mDefined[0m  instances.tf:7
 
-Omitted facts
-  rf.context.network  rf.concept.subnet
+[1m[38;5;208mOmitted facts[0m
+[2m  rf.context.network[0m  rf.concept.subnet
                       not declared in source
 ```
 

@@ -113,7 +113,7 @@ resource "aws_s3_bucket_versioning" "assets" {
 
 ## `exists`
 
-```text
+```signature
 exists(query) -> Boolean | unknown
 ```
 
@@ -134,7 +134,7 @@ without both support and completeness.
 
 ## `length`
 
-```text
+```signature
 length(query) -> integer | unknown
 ```
 
@@ -154,7 +154,7 @@ assert = length(contexts(rf.context.network)) == 1
 
 ## `contexts`
 
-```text
+```signature
 contexts(dimension[, target]) -> query
 ```
 
@@ -183,7 +183,7 @@ Function does not follow Contexts transitively.
 
 ## `relations`
 
-```text
+```signature
 relations(predicate[, target]) -> query
 ```
 
@@ -214,7 +214,7 @@ No inverse, recursive, or transitive relation query exists.
 
 ## `contributions`
 
-```text
+```signature
 contributions(contributor) -> query
 ```
 

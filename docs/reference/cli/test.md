@@ -37,12 +37,12 @@ go to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
-```text
-0  every selected fixture passed
-1  at least one fixture differed or encountered an error
-2  the command was used incorrectly
-3  the run could not start or be reported, or no fixtures matched
-```
+| Status | Meaning |
+| --- | --- |
+| `0` | every selected fixture passed |
+| `1` | at least one fixture differed or encountered an error |
+| `2` | the command was used incorrectly |
+| `3` | the run could not start or be reported, or no fixtures matched |
 
 ## Examples
 

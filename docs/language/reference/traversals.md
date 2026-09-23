@@ -9,7 +9,7 @@ use separate typed syntax.
 
 ## Grammar
 
-```text
+```ebnf
 traversal        = simple-root, step, { step }
                  | member-root, step, { step } ;
 
@@ -42,7 +42,7 @@ member.proxy.backend_id
 
 Adapter-owned attribute names are 1 to 64 bytes and match:
 
-```text
+```regexp
 [A-Za-z_][A-Za-z0-9_]*
 ```
 

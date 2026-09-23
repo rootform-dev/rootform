@@ -28,22 +28,18 @@ language and general HCL expressions are not part of this contract.
 
 A Dialect participates while Rootform builds an architecture:
 
-```text title="Dialect path"
-.rf.hcl source
-  → compiled Dialect
-  → matched Terraform/OpenTofu declarations
-  → Architecture IR facts and provenance
-```
+1. .rf.hcl source
+2. compiled Dialect
+3. matched Terraform/OpenTofu declarations
+4. Architecture IR facts and provenance
 
 A Policy Pack participates after those facts exist:
 
-```text title="Policy path"
-.rf.hcl source
-  → compiled Policy Pack
-  → linked semantic pins
-  → evaluation over Architecture IR facts
-  → passed, violated, or indeterminate result
-```
+1. .rf.hcl source
+2. compiled Policy Pack
+3. linked semantic pins
+4. evaluation over Architecture IR facts
+5. passed, violated, or indeterminate result
 
 Architecture IR is the shared result. [Architecture Diff](../concepts/diff.md)
 compares two documents over that contract, and

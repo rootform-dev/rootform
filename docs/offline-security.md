@@ -63,12 +63,12 @@ binary. They are never installed or vendored separately.
 
 External content can come from these locations:
 
-```text title="Shared Rootform home"
+```tree title="Shared Rootform home"
 $ROOTFORM_HOME/dialects/<owner>/<version>/
 $ROOTFORM_HOME/policy-packs/<name>/<version>/
 ```
 
-```text title="Project vendor"
+```tree title="Project vendor"
 .rootform/dialects/<owner>/
 .rootform/policy-packs/<name>/
 ```

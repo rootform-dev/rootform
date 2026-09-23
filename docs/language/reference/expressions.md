@@ -44,7 +44,7 @@ it. For example, definition `description` may be empty, while Policy
 A `match.where` predicate tests declaration currently selected by its
 surrounding Rule or member `match`.
 
-```text
+```ebnf
 predicate       = boolean-literal
                 | "!", predicate
                 | "(", predicate, ")"
@@ -93,7 +93,7 @@ rather than inventing ordering for Booleans.
 Policy assertions operate on Architecture IR queries. They cannot traverse
 source declarations.
 
-```text
+```ebnf
 assertion       = boolean-value ;
 
 boolean-value   = boolean-literal
