@@ -1,11 +1,15 @@
 ---
 title: "rootform vendor policy-packs"
-description: "Vendor selected Policy Packs"
+description: "Vendor the project's exact Policy Pack source selection."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+From the project root, `vendor policy-packs` copies Policy Pack sources pinned
+by its `rootform.lock`, with licenses and notices. The lock must select at
+least one Policy Pack. It does not copy Dialects,
+resolve versions, or change the lock. A prior `init` must target this same
+project if preparation is needed.
 
-Vendor selected Policy Packs.
+<!-- BEGIN GENERATED CLI: rootform vendor policy-packs -->
 
 ## Usage
 
@@ -27,34 +31,21 @@ rootform vendor policy-packs [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
+<!-- END GENERATED CLI -->
 
-Materialize the exact rootform.lock Policy Pack selection from the
-local store, the verified content cache, or each pinned registry
-repository when network access is explicitly allowed. Offline mode
-permits only verified local entries. No version is resolved and
-rootform.lock is never changed.
-
-With no --to flag, vendor writes ./.rootform/policy-packs. Commands
-using the project's Policy Pack selection use that directory
-exclusively when present. An explicit local --policy-pack selection
-replaces the project selection for that invocation.
-
-Copied names and versions go to standard output. Diagnostics go to
-standard error.
-
-## Exit status
-
-```text
-0  every selected Policy Pack was copied
-2  the command was used incorrectly
-3  no complete vendored set was written
-```
-
-## Examples
+`--to` changes the destination, not the project selection. The default is
+`./.rootform/policy-packs`; when present, project-selected packs are read
+exclusively there. An explicit local `--policy-pack` on a consuming command
+replaces the project selection for that invocation. `--offline` limits
+vendoring to verified local content.
 
 ```sh
+rootform init . --locked --no-input
 rootform vendor policy-packs
-rootform vendor policy-packs --to ./offline/policy-packs
-rootform package policy-packs ./policies --to ./artifacts/policies
+rootform vendor policy-packs --offline --to ./offline/policy-packs
 ```
+
+Copied names and versions go to standard output, diagnostics to standard
+error. Status `0` means every selection was copied, `2` means incorrect
+command use, and `3` means no complete vendored set was written. See
+[Reproduce a build offline](../../../guides/reproduce-build.md).

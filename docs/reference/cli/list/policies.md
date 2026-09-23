@@ -1,11 +1,13 @@
 ---
 title: "rootform list policies"
-description: "List policies"
+description: "List policies declared by selected or explicit local packs."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`list policies` reads Policy Packs selected by the current project. Repeat
+`--policy-pack` with local authoring roots to replace that project selection
+for this listing. It does not discover remote packs or evaluate policies.
 
-List policies.
+<!-- BEGIN GENERATED CLI: rootform list policies -->
 
 ## Usage
 
@@ -27,32 +29,16 @@ rootform list policies [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
-
-List the policies the selected Policy Packs declare.
-
-With --policy-pack, only the provided local authoring roots are
-read; otherwise the project selection is loaded. The default
-listing names one qualified policy per line, -o wide adds what
-each policy targets, and -o json carries the owning Policy Pack
-and target of every policy.
-
-The listing goes to standard output. Diagnostics go to standard
-error.
-
-## Exit status
-
-```text
-0  the definitions were listed
-2  the command was used incorrectly
-3  the selected definitions could not be read
-```
-
-## Examples
+<!-- END GENERATED CLI -->
 
 ```sh
-rootform list policies
-rootform list policies -o wide
-rootform list policies --policy-pack ./policies
+rootform list policies --policy-pack ./policies -o wide
 rootform list policies -o json
 ```
+
+Default output is one qualified policy name per line. `-o wide` adds targets.
+`-o json` includes owner and target. Output goes to standard output,
+diagnostics to standard error. Status `0` means listed, `2` means incorrect
+use, and `3` means selected definitions could not be read. To inspect one
+definition, use [`show policy`](../show/policy.md); to evaluate it, see
+[Run checks](../../../guides/check-architecture.md).

@@ -1,11 +1,15 @@
 ---
 title: "rootform show policy"
-description: "Show a policy definition"
+description: "Inspect one Policy definition without evaluating it."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`show policy` displays a policy's target, assertion, message, owning Policy
+Pack, and source location. It reads the project-selected pack by default.
+Repeat `--policy-pack` with local authoring roots to replace that selection
+for this invocation. Use a qualified identifier such as
+`baseline.policy.cluster-network-context`, or a bare name when unambiguous.
 
-Show a policy definition.
+<!-- BEGIN GENERATED CLI: rootform show policy -->
 
 ## Usage
 
@@ -27,35 +31,15 @@ rootform show policy <identifier> [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
-
-Show a policy's target, assertion, message, Policy Pack, and source
-location.
-
-The project must select the owning Policy Pack, or --policy-pack can
-supply a local root. Use &lt;policy-pack&gt;.policy.&lt;name&gt;, or a bare name
-when it resolves unambiguously.
-
-Use "rootform explain policy" to understand why a policy produced a
-result for an architecture element.
-
-The text or JSON definition goes to standard output. Diagnostics go
-to standard error.
-
-## Exit status
-
-```text
-0  the definition was shown
-1  the named definition was not found
-2  the command was used incorrectly
-3  no single definition could be selected
-```
-
-## Examples
+<!-- END GENERATED CLI -->
 
 ```sh
-rootform show policy baseline.policy.cluster-network-context
-rootform show policy cluster-network-context
 rootform show policy cluster-network-context --policy-pack ./policies
 rootform show policy baseline.policy.cluster-network-context -o json
 ```
+
+Text or JSON goes to standard output, diagnostics to standard error. Status
+`0` means shown, `1` means definition not found, `2` means incorrect use,
+and `3` means no single definition could be selected. This does not evaluate
+the policy; use [`explain policy`](../explain/policy.md) for an evaluated result
+or [Run checks](../../../guides/check-architecture.md) for a full report.

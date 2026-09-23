@@ -1,11 +1,16 @@
 ---
 title: "rootform check"
-description: "Check architecture policies"
+description: "Evaluate selected policies against an architecture."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`check` builds an architecture from a Terraform/OpenTofu directory or loads a
+saved architecture file. With no input it uses the current directory. A file
+input, including `-` on standard input, still uses the current directory for
+project Policy Pack selection. `--plan` reads a JSON plan instead of a
+directory or architecture file; `--plan -` reads it from standard input.
+Directory input does not acquire external content.
 
-Check architecture policies.
+<!-- BEGIN GENERATED CLI: rootform check -->
 
 ## Usage
 
@@ -31,45 +36,32 @@ rootform check [input] [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
+<!-- END GENERATED CLI -->
 
-Build or load an architecture and evaluate the applicable policies.
+## Select policies
 
-The input can be an infrastructure directory, a Rootform architecture
-file, or - for an architecture file on standard input. With no input,
-check reads the current directory. --plan reads a plan in JSON format
-instead. Directory input never downloads, acquires, or prompts: selected
-external content must already be available locally, or be prepared
-explicitly with rootform init or rootform vendor. A coherent local lock
-is silent. An explicit --policy-pack selection replaces the project's
-Policy Pack selection for this invocation.
-
-The selected text, JSON, SARIF, or Markdown result goes to standard
-output, or to --output. Diagnostics go to standard error.
-
-## Exit status
-
-```text
-0  all selected policies were evaluated and compliant
-1  at least one policy was violated, including in mixed runs
-2  the command was used incorrectly
-3  indeterminate or not evaluated, with no confirmed violation
-
-Violations take precedence: exit 1. Zero policies or zero evaluations
-are never compliant. A selected policy without targets prevents compliance.
---policy-pack accepts a source directory or compiled JSON file; compiled
-files retain their semantic pins during evaluation.
-```
-
-## Examples
+By default, `check` uses Policy Packs selected by the project's lock. A
+repeatable `--policy-pack` instead selects local source directories or compiled
+JSON packs for this invocation, replacing the project selection. A compiled
+pack retains its semantic pins. Repeatable `--policy` narrows evaluation to
+qualified `pack/name` identifiers or unique policy names. `--policy-pack` and
+`--locked` cannot be combined; neither a pack override nor a missing lock
+silently establishes compliance.
 
 ```sh
-rootform check
-rootform check ./infra
-rootform check . --locked
-rootform check --plan tfplan.json
-rootform check . --policy-pack ./policies
-rootform check arch.json --policy-pack pack.json
-rootform build ./infra | rootform check -
-rootform check ./infra --format sarif -o rootform.sarif
+rootform check ./infra --policy-pack ./policies
+rootform check architecture.json --policy-pack ./policies --policy cluster-network-context
+rootform check ./infra --policy-pack ./policies --format sarif --output result.sarif
 ```
+
+The default `text` report goes to standard output. `json`, `markdown`, and
+`sarif` are also available; `--output` writes the selected report to a file.
+Operational diagnostics go to standard error. Status `0` requires every
+selected policy to have been evaluated and passed. Status `1` means a confirmed
+violation, even if other results are indeterminate. Status `2` means incorrect
+command use. Status `3` means no compliant verdict, including zero selected
+policies, zero evaluations, or a selected policy without targets when no
+violation is confirmed.
+
+See [Run checks](../../guides/check-architecture.md) for a complete local pack
+example and [Outputs and exit status](../outputs.md) for report handling.

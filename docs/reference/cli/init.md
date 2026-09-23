@@ -1,11 +1,14 @@
 ---
 title: "rootform init"
-description: "Prepare a Rootform project"
+description: "Prepare an existing project selection locally."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`init` prepares the exact external Dialects and Policy Pack sources already
+selected by `rootform.lock`. The optional path defaults to `.` and identifies
+both project and Terraform/OpenTofu root. It does not detect providers, pick
+versions, modify the lock, or run `terraform init`.
 
-Prepare a Rootform project.
+<!-- BEGIN GENERATED CLI: rootform init -->
 
 ## Usage
 
@@ -30,38 +33,25 @@ rootform init [path] [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
+<!-- END GENERATED CLI -->
 
-Prepare an existing rootform.lock and materialize the project's exact
-non-embedded selections (dialects and Policy Pack sources) locally.
+## Lock and acquisition
 
-init is explicit: it never detects providers, selects another version,
-or writes rootform.lock. With --locked the existing rootform.lock is
-required and valid; without it, a missing lock is an empty selection
-and an existing lock is always preserved. Embedded dialects ship
-inside the release set and are never acquired. When network access is
-available and not disabled by --offline, init fetches only the exact
-manifest digests already pinned by rootform.lock.
-
-Path defaults to . and is both the project and Terraform or OpenTofu
-root. Machine JSON goes to standard output. Diagnostics and verbose
-detail go to standard error.
-
-## Exit status
-
-```text
-0  preparation completed
-1  preparation failed
-2  the command was used incorrectly
-3  no deterministic preparation was available
-```
-
-## Examples
+An existing lock is preserved. Without a lock, ordinary `init` has an empty
+selection; `--locked` instead requires an existing valid lock. Embedded
+Dialects need no acquisition. For pinned external content, `init` may fetch
+only exact selected digests when network use is allowed. `--offline` restricts
+preparation to verified local content. `--no-input` disallows prompts and
+requires deterministic action.
 
 ```sh
-rootform init
-rootform init ./infra
-rootform init ./infra --locked --offline
 rootform init ./infra --no-input
+rootform init ./infra --locked --offline --no-input
 rootform init ./infra --format json
 ```
+
+Machine JSON goes to standard output when selected; diagnostics and `--verbose`
+detail go to standard error. Status `0` means preparation completed, `1` means
+it failed, `2` means incorrect command use, and `3` means deterministic
+preparation was unavailable. See [Select Dialects and Policy Packs](../../cli.md)
+and [Locks and vendored content](../../offline-security.md).

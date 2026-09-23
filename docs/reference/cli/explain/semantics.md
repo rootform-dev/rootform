@@ -1,11 +1,15 @@
 ---
 title: "rootform explain semantics"
-description: "Explain a semantic interpretation"
+description: "Trace how a source declaration was interpreted."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`explain semantics` uses the current project to show a matching Dialect Rule
+and the architecture it produced. Pass a qualified definition identifier such
+as `google.rule.cloud-sql-instance`, or an unambiguous bare name. This is a
+semantic definition name, not a Terraform resource address; use
+[`explain architecture`](architecture.md) for an address.
 
-Explain a semantic interpretation.
+<!-- BEGIN GENERATED CLI: rootform explain semantics -->
 
 ## Usage
 
@@ -26,30 +30,16 @@ rootform explain semantics <identifier> [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
-
-Show how a source declaration was interpreted, including the matching
-rule and the architecture it produced.
-
-The current directory supplies the architecture.
-Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
-
-The text or JSON explanation goes to standard output. Diagnostics go to
-standard error.
-
-## Exit status
-
-```text
-0  the result was explained
-1  the named definition was not found
-2  the command was used incorrectly
-3  no explanation could be decided
-```
-
-## Examples
+<!-- END GENERATED CLI -->
 
 ```sh
 rootform explain semantics google.rule.cloud-sql-instance
-rootform explain semantics cloud-sql-instance
 rootform explain semantics google.rule.cloud-sql-instance --format json
 ```
+
+Text or JSON goes to standard output, diagnostics to standard error. Status
+`0` means explained, `1` means definition not found, `2` means incorrect
+command use, and `3` means no explanation could be decided. See
+[Dialects and RF Vocabulary](../../../concepts/dialects.md) for the meaning of
+Rules and [Explore an architecture](../../../guides/explore-architecture.md)
+for following their evidence.

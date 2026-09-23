@@ -1,11 +1,14 @@
 ---
 title: "rootform run"
-description: "Explore an architecture locally"
+description: "Serve an architecture in a local explorer."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`run` builds from a Terraform/OpenTofu directory or loads a saved Rootform
+architecture document. With no input it reads the current directory. Use
+`--plan` for a JSON plan instead; `--plan -` reads that plan from standard
+input. Directory input uses locally available content and does not acquire it.
 
-Explore an architecture locally.
+<!-- BEGIN GENERATED CLI: rootform run -->
 
 ## Usage
 
@@ -30,34 +33,24 @@ rootform run [input] [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
+<!-- END GENERATED CLI -->
 
-Build or load an architecture and serve its interactive interface
-locally.
+## Local server
 
-The input can be an infrastructure directory or a Rootform architecture
-file. With no input, run reads the current directory. --plan reads a plan
-in JSON format instead; use - to read it from standard input. Directory
-input never downloads, acquires, or prompts: selected external content
-must already be available locally, or be prepared explicitly with
-rootform init or rootform vendor.
-
-The local address goes to standard output. Diagnostics go to standard
-error.
-
-## Exit status
-
-```text
-0  the local interface stopped cleanly
-1  the local interface could not start
-2  the command was used incorrectly
-```
-
-## Examples
+`run` serves the explorer in the foreground and opens a browser by default.
+It prints the local address to standard output and diagnostics to standard
+error. Stop it with `Ctrl+C`. For directory input, source changes trigger
+rebuilds unless `--no-watch` is set; a saved document or plan is not watched
+as Terraform source. `--no-browser` leaves the browser closed. The default
+port is `21717`; `--port 0` asks the operating system for a free port. Use
+`--locked` when directory input must have a valid existing lock.
 
 ```sh
-rootform run
 rootform run ./infra
-rootform run architecture.json --no-browser
-rootform run --plan tfplan.json
+rootform run architecture.json --no-browser --port 0
+rootform run --plan tfplan.json --no-watch
 ```
+
+Status `0` means the local interface stopped cleanly, `1` means it could not
+start, and `2` means incorrect command use. For navigation and evidence in the
+explorer, see [Explore an architecture](../../guides/explore-architecture.md).

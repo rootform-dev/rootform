@@ -1,11 +1,15 @@
 ---
 title: "rootform diff"
-description: "Compare two architectures"
+description: "Compare architectural meaning between two inputs."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`diff` accepts two Terraform/OpenTofu directories or saved Rootform
+architecture files, in before/after order. One of those architecture-file
+inputs may be `-` for standard input, but not both. Alternatively, `--plan`
+reads one JSON plan containing both sides; `--plan -` reads that plan from
+standard input. Do not combine `--plan` with two positional inputs.
 
-Compare two architectures.
+<!-- BEGIN GENERATED CLI: rootform diff -->
 
 ## Usage
 
@@ -29,33 +33,29 @@ rootform diff <before> <after> [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
+<!-- END GENERATED CLI -->
 
-Compare two architectures and report the architectural changes between
-them.
+## Report
 
-Each input can be an infrastructure directory, a Rootform architecture
-file, or - for one architecture file on standard input. --plan reads
-both sides from a plan in JSON format instead. Only one input can be -.
-
-The selected text, JSON, or Markdown result goes to standard output, or
-to --output. Diagnostics go to standard error.
+The default text report goes to standard output; choose `json` or `markdown`
+with `--format`, and use `--output` for a file. Diagnostics go to standard
+error.
 
 ## Exit status
 
-```text
-0  the comparison succeeded
-1  changes or undetermined facts with --exit-code
-2  the command was used incorrectly
-3  the comparison could not be completed
-```
+A completed comparison can contain changes or undetermined facts.
+Without `--exit-code` it returns `0` even then. With `--exit-code`, such a
+report returns `1`. Status `2` means incorrect command use; `3` means the
+comparison could not be completed. An undetermined fact in a completed report
+is not by itself status `3`.
 
 ## Examples
 
 ```sh
-rootform diff ./before ./after
 rootform diff before.json after.json --exit-code
-rootform diff --plan tfplan.json
-terraform show -json tfplan | rootform diff --plan -
-rootform diff ./before ./after --format markdown -o rootform-diff.md
+rootform diff ./before ./after --format markdown --output changes.md
+rootform diff --plan tfplan.json --format json
 ```
+
+See [Compare architectures](../../guides/compare-architectures.md) for reading
+the facts and [Plan inputs](../../inputs/plans.md) for producing plan JSON.

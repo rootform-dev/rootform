@@ -1,11 +1,14 @@
 ---
 title: "rootform show policy-pack"
-description: "Show a Policy Pack"
+description: "Inspect one selected or local Policy Pack."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`show policy-pack` displays a pack's version, declared policies, content
+identity, and source location. It reads the current project's selection by
+default. Repeat `--policy-pack` with local authoring roots to replace that
+selection for this invocation; the positional name chooses one loaded pack.
 
-Show a Policy Pack.
+<!-- BEGIN GENERATED CLI: rootform show policy-pack -->
 
 ## Usage
 
@@ -27,30 +30,15 @@ rootform show policy-pack <name> [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
-
-Show a selected or local Policy Pack, including its version, the
-policies it declares, its content identity, and its source location.
-
-The name selects one loaded Policy Pack. With --policy-pack, only the
-provided local authoring roots are read.
-
-The text or JSON definition goes to standard output. Diagnostics go
-to standard error.
-
-## Exit status
-
-```text
-0  the definition was shown
-1  the named definition was not found
-2  the command was used incorrectly
-3  no single definition could be selected
-```
-
-## Examples
+<!-- END GENERATED CLI -->
 
 ```sh
-rootform show policy-pack baseline
 rootform show policy-pack baseline --policy-pack ./policies
 rootform show policy-pack baseline -o json
 ```
+
+Text or JSON goes to standard output, diagnostics to standard error. Status
+`0` means shown, `1` means name not found, `2` means incorrect use, and `3`
+means no single pack could be selected. Use
+[`list policy-packs`](../list/policy-packs.md) for the available names and
+[Select Dialects and Policy Packs](../../../cli.md) for project selection.

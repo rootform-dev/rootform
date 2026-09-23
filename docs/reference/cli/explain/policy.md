@@ -1,11 +1,16 @@
 ---
 title: "rootform explain policy"
-description: "Explain a policy result"
+description: "Explain an evaluated policy result."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`explain policy` evaluates the current project architecture and explains why
+a selected policy passed, failed, or could not be evaluated for an element.
+The owning Policy Pack must already be selected by the project. Use a
+qualified identifier such as `baseline.policy.cluster-network-context`, or a
+bare policy name only when unambiguous. This command has no `--input` or
+`--policy-pack` override.
 
-Explain a policy result.
+<!-- BEGIN GENERATED CLI: rootform explain policy -->
 
 ## Usage
 
@@ -26,31 +31,15 @@ rootform explain policy <identifier> [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
-
-Show why a policy passed, failed, or could not be evaluated for an
-architecture element.
-
-The current directory supplies the architecture.
-The project must select the Policy Pack that owns the policy.
-Use &lt;policy-pack&gt;.policy.&lt;name&gt;, or a bare name when it resolves unambiguously.
-
-The text or JSON explanation goes to standard output. Diagnostics go to
-standard error.
-
-## Exit status
-
-```text
-0  the result was explained
-1  the named definition was not found
-2  the command was used incorrectly
-3  no explanation could be decided
-```
-
-## Examples
+<!-- END GENERATED CLI -->
 
 ```sh
 rootform explain policy baseline.policy.cluster-network-context
-rootform explain policy cluster-network-context
 rootform explain policy baseline.policy.cluster-network-context --format json
 ```
+
+Text or JSON goes to standard output, diagnostics to standard error. Status
+`0` means explained, `1` means definition not found, `2` means incorrect
+command use, and `3` means no explanation could be decided. To inspect the
+definition instead, use [`show policy`](../show/policy.md); for a complete
+evaluation, see [Run checks](../../../guides/check-architecture.md).

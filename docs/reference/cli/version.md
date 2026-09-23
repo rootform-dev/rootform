@@ -1,11 +1,12 @@
 ---
 title: "rootform version"
-description: "Show the Rootform version"
+description: "Identify the Rootform executable."
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+`version` prints the running Rootform executable's version to standard output.
+Diagnostics go to standard error. `rootform --version` is the root flag form.
 
-Show the Rootform version.
+<!-- BEGIN GENERATED CLI: rootform version -->
 
 ## Usage
 
@@ -25,22 +26,11 @@ rootform version [flags]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
 
-## Behavior
-
-Print the Rootform version to standard output. Diagnostics go to
-standard error.
-
-## Exit status
-
-```text
-0  the version was printed
-2  the command was used incorrectly
-```
-
-## Examples
+<!-- END GENERATED CLI -->
 
 ```sh
 rootform version
 rootform --version
-rootform version > rootform-version.txt
 ```
+
+Status `0` means version printed; `2` means incorrect command use.
