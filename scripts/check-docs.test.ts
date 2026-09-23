@@ -413,6 +413,55 @@ test("local review guides preserve Diff, Policy, and Git boundaries", () => {
   expect(review).toContain("HTML shows one architecture");
 });
 
+test("project configuration guides keep decision, adoption, mechanism, and transfer separate", () => {
+  const root = join(import.meta.dir, "..");
+  const selection = readFileSync(join(root, "docs/cli.md"), "utf8");
+  const external = readFileSync(join(root, "docs/guides/external-content.md"), "utf8");
+  const locks = readFileSync(join(root, "docs/offline-security.md"), "utf8");
+  const replay = readFileSync(join(root, "docs/guides/reproduce-build.md"), "utf8");
+
+  expect(selection).toContain("returns status\n`3`, not compliance");
+  expect(selection).not.toContain("manifest_digest");
+  expect(selection).not.toContain("$ROOTFORM_HOME/cache");
+
+  for (const title of [
+    'title="rootform.lock (local Policy Pack)"',
+    'title="rootform.lock (OCI template)"',
+  ]) {
+    expect(external).toContain(title);
+  }
+  expect(external).toContain("rootform list policy-packs --policy-pack");
+  expect(external).toContain("rootform package dialects ./dialects/confluent");
+  expect(external).not.toMatch(/rootform publish (?:dialects|policy-packs)/u);
+
+  for (const heading of [
+    "## What does rootform.lock fix?",
+    "## How is this different from .terraform.lock.hcl?",
+    "## What does init do?",
+    "## How do --locked and --offline differ?",
+    "## Where does Rootform read selected content?",
+    "## What changes when vendor exists?",
+  ]) {
+    expect(locks).toContain(heading);
+  }
+  expect(locks).toContain("never create, normalize, or update the lock");
+
+  for (const marker of [
+    "offline-embedded-source",
+    "offline-embedded-replay",
+    "offline-vendor-dialects",
+    "offline-vendor-policy-packs",
+    "offline-external-source",
+    "offline-external-replay",
+  ]) {
+    expect(replay).toContain(`<!-- docs-check:${marker} -->`);
+  }
+  expect(replay).toContain("Architecture unchanged");
+  expect(replay).toContain("cmp -s");
+  expect(replay).toContain("does not by itself prove network isolation");
+  expect(replay).not.toContain("no architectural change");
+});
+
 test("installation documentation keeps supported methods in recommendation order", () => {
   const page = readFileSync(join(import.meta.dir, "../docs/installation.md"), "utf8");
   const section = (start: string, end: string) => {

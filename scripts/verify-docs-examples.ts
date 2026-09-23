@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
 import { verifyCoreExamples } from "./docs-core-examples.ts";
 import { verifyLanguageExamples } from "./docs-language-examples.ts";
+import { verifyProjectConfigurationExamples } from "./docs-project-configuration-examples.ts";
 import { verifyReviewExamples } from "./docs-review-examples.ts";
 
 const repoRoot = resolve(import.meta.dir, "..");
@@ -198,6 +199,7 @@ try {
   );
   steps.push(...verifyCoreExamples(binary, repoRoot, workspace, home));
   steps.push(...verifyReviewExamples(binary, repoRoot, workspace, home));
+  steps.push(...verifyProjectConfigurationExamples(binary, repoRoot, workspace, home));
   steps.push(...verifyLanguageExamples(binary, repoRoot, workspace, home));
   console.log(`documentation examples: PASS (${steps.length} checks)`);
   for (const step of steps) console.log(`  - ${step}`);
