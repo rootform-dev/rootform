@@ -1,15 +1,12 @@
 ---
 title: Container image
-description: Run Rootform from GHCR with explicit versions, project mounts, package storage, and offline inputs.
+description: Run Rootform with project mounts, persistent package storage, and offline inputs.
 ---
 
-Rootform publishes a multi-platform image for `linux/amd64` and `linux/arm64`:
-
-```text
-ghcr.io/rootform-dev/rootform:<version>
-```
-
-Use an exact version or digest. Rootform does not publish a moving `latest` tag.
+The Rootform image targets `linux/amd64` and `linux/arm64`. Use an exact version
+tag such as `ghcr.io/rootform-dev/rootform:0.1.0`, or the reviewed multi-platform
+index digest. There is no moving `latest` tag. The image has no entrypoint, so
+put `rootform` after the image reference in every command.
 
 ## Check the CLI version
 
@@ -17,12 +14,26 @@ Use an exact version or digest. Rootform does not publish a moving `latest` tag.
 docker run --rm ghcr.io/rootform-dev/rootform:0.1.0 rootform version
 ```
 
-The image has no entrypoint, so always include `rootform` before its arguments.
+To pin exact image bytes, replace the version tag with
+`ghcr.io/rootform-dev/rootform@sha256:<index-digest>`, using the complete
+reviewed index digest. The image must be present locally for disconnected use.
 
 ## Run against a project
 
-Project must be readable by container user and writable when output file is
-created. Mount it at `/workspace` and choose that working directory:
+Mount a Terraform or OpenTofu root at `/workspace` and run from there. For a
+result on standard output, a read-only project mount is enough:
+
+```sh
+docker run --rm \
+  --volume "$PWD:/workspace:ro" \
+  --workdir /workspace \
+  ghcr.io/rootform-dev/rootform:0.1.0 \
+  rootform build . > architecture.json
+```
+
+The host shell writes `architecture.json`; Rootform writes to standard output.
+To let Rootform create the file inside the mount instead, use a writable mount
+and `--output`:
 
 ```sh
 docker run --rm \
@@ -32,58 +43,56 @@ docker run --rm \
   rootform build . --output architecture.json
 ```
 
-This supplied-only path needs no lock, package volume, or network access after
-the image is local. Add `--locked` when project has a reviewed
-`rootform.lock`; [prepare its external selection](../cli.md) before running a
-normal build.
+The process runs as UID/GID `65532:65532`. A host bind mount may be readable
+but not writable by that identity. Give the output directory suitable host-side
+permissions or use standard output. Ownership behavior differs across Linux,
+Docker Desktop, and other runtimes; broad permissions such as `chmod 777` are
+not required. A project using only embedded Dialects needs no Rootform lock or
+package volume. For an external selection, prepare its exact content first as
+described in [Project configuration](../cli.md).
 
-For repeatable image bytes, replace the version tag with an index digest:
+## Keep external packages between runs
 
-```sh
-docker run --rm \
-  ghcr.io/rootform-dev/rootform@sha256:<index-digest> \
-  rootform version
-```
-
-Replace `<index-digest>` with the complete digest of the reviewed multi-platform
-image.
-
-## Preserve external packages
-
-Rootform home stores verified third-party Dialects and Policy Packs. A named
-volume keeps those packages between runs when lock selects OCI content:
+`ROOTFORM_HOME` holds verified external Dialects and Policy Packs. A named
+volume preserves them across containers while the project lock stays in the
+workspace. Prepare an existing selection explicitly:
 
 ```sh
 docker volume create rootform-home
 docker run --rm \
-  --volume "$PWD:/workspace" \
+  --volume "$PWD:/workspace:ro" \
   --volume rootform-home:/home/rootform/.rootform \
   --workdir /workspace \
   ghcr.io/rootform-dev/rootform:0.1.0 \
   rootform init . --locked --no-input
 ```
 
-The project lock remains in the mounted workspace; the package store remains in
-the named volume.
+Mount the same volume on later `build` or `check` runs. `init` may acquire only
+the exact OCI content selected by the lock; normal analysis commands never
+acquire it. See [Locks and vendored content](../offline-security.md) for source
+precedence and [Run in CI](ci/README.md) for runner orchestration.
 
-## Run offline with vendored packages
+## Run with vendored content offline
 
-Before disconnecting, commit or supply `rootform.lock` and required vendored
-non-embedded selection under `.rootform/`. RF Vocabulary and supplied Dialects
-are embedded in image and are never vendored. A locked check using external
-Policy Packs needs `.rootform/policy-packs/`; `build` does not use Policy Packs.
+Prepare `rootform.lock` and the needed `.rootform/dialects` and
+`.rootform/policy-packs` directories before disconnecting. A build needs
+selected Dialects, while a locked check also needs selected Policy Packs.
+Embedded RF Vocabulary and supplied Dialects are already in the image.
 
-The selected image must already be in Docker's local image store.
-`--network none` disables container networking but does not prevent Docker from
-trying to pull a missing image. Once the image and vendored packages are local,
-run:
+Docker must have the chosen image locally before the container starts.
+`--network none` isolates the running container but does not stop Docker from
+pulling a missing image. `--pull never` makes a missing local image fail before
+startup. With exact vendored content, this read-only workspace can produce an
+architecture on standard output:
 
 ```sh
 docker run --rm \
+  --pull never \
+  --network none \
   --read-only \
   --cap-drop ALL \
   --security-opt no-new-privileges \
-  --network none \
+  --tmpfs /tmp:uid=65532,gid=65532,mode=0700 \
   --tmpfs /home/rootform/.rootform:uid=65532,gid=65532,mode=0700 \
   --volume "$PWD:/workspace:ro" \
   --workdir /workspace \
@@ -91,30 +100,37 @@ docker run --rm \
   rootform build . --locked
 ```
 
-Output goes to standard output because the workspace is read-only. Missing or
-damaged vendor content fails without a store or registry fallback. See
-[reproduce a build offline](../guides/reproduce-build.md) to prepare it.
+The temporary directories are writable to the container user, not the host
+workspace. A damaged or incomplete vendor tree fails closed instead of falling
+back to the package store or a registry. Follow
+[Reproduce a build offline](../guides/reproduce-build.md) to prepare and check
+the selection.
 
-## Use private registries
+## Use private registry credentials
 
-Rootform reads standard Docker credentials. Mount the selected Docker
-configuration read-only and set `DOCKER_CONFIG` to the directory containing
-`config.json`:
+For an explicit `init` or `vendor` acquisition, mount a Docker configuration
+directory read-only and point `DOCKER_CONFIG` at its directory, not at
+`config.json` itself:
 
 ```sh
 docker run --rm \
-  --volume "$PWD:/workspace" \
-  --volume "$HOME/.docker:/docker-config:ro" \
-  --env DOCKER_CONFIG=/docker-config \
+  --volume "$PWD:/workspace:ro" \
+  --volume "$HOME/.docker:/run/docker-config:ro" \
+  --volume rootform-home:/home/rootform/.rootform \
+  --env DOCKER_CONFIG=/run/docker-config \
   --workdir /workspace \
   ghcr.io/rootform-dev/rootform:0.1.0 \
   rootform init . --locked --no-input
 ```
 
-Credential helpers named by the Docker configuration must be available on the
-container `PATH`; the official image does not include them. For a private
-certificate authority, mount a PEM bundle and set `SSL_CERT_FILE` to its mounted
-path.
+Rootform reads `config.json` and chooses credentials for the registry host.
+If it names a `credHelpers` or `credsStore` executable, that helper must also
+exist inside the container on `PATH`. The official image does not include host
+credential helpers, and mounting `config.json` alone does not mount their
+binaries. Supply a trusted helper separately or use a protected Docker config
+that does not depend on one. Never copy credentials into the image. For a
+private CA, mount its PEM bundle read-only and set `SSL_CERT_FILE` to the path
+inside the container. See [Registry compatibility](registry-compatibility.md).
 
 ## Runtime contract
 
@@ -130,11 +146,7 @@ path.
 | Default command | `rootform --help` |
 | Binary license | Elastic-2.0 |
 
-Image contains Rootform executable with embedded RF Vocabulary and supplied
-Dialect release set, its license, third-party notices, and SPDX SBOM. It does
-not contain separately installed third-party Dialects, Terraform/OpenTofu,
-provider binaries, Git, registry credentials, or source configuration.
-
-The image uses the same CLI and registry contracts as the native executable. Review
-[registry compatibility](registry-compatibility.md) before choosing a private
-registry and [CI examples](ci/README.md) for runner configuration.
+The image includes the Rootform executable, embedded RF Vocabulary and
+supplied Dialects, binary license, third-party notices, and SPDX SBOM. It does
+not include external Dialects or Policy Packs, Terraform/OpenTofu, provider
+binaries, Git, registry credentials, or the project source.

@@ -1,85 +1,78 @@
 ---
 title: "Security and data handling"
-description: "Understand what Rootform reads, when it uses the network, and what leaves the command."
+description: "Understand Rootform's network boundary, sensitive outputs, and trust in selected content."
 ---
 
-Rootform analyzes local inputs without telemetry, cloud account, provider
-execution, or implicit package acquisition. Only explicit preparation,
-vendoring repair, and publication cross a registry boundary.
+Rootform analyzes local inputs without telemetry, cloud account access,
+provider execution, or implicit package acquisition. Network access belongs
+to explicit preparation or publication, plus the loopback server used by
+`run`.
 
-## Know which operation uses the network
+## Know which operation crosses a network boundary
 
-| Operation | Network boundary |
+| Operation | Rootform network behavior |
 | --- | --- |
-| `rootform init --locked` | May contact the recorded repository to acquire exact manifest digests already in lock. |
-| `build`, `check`, `diff`, `explain`, `list`, `show`, `validate`, and `test` | Read embedded, local, installed, or vendored exact inputs; never acquire. |
-| `rootform run` | Serves one local architecture over loopback only; makes no outbound connection. |
-| `rootform vendor dialects` or `rootform vendor policy-packs` | Materialize verified local or installed bytes; may download only the exact manifest digest recorded in lock when a pin is missing. |
+| `rootform init` | With an existing OCI selection, may acquire missing exact pinned content from its recorded registry. This is possible with or without `--locked`. |
+| `rootform vendor dialects` and `rootform vendor policy-packs` | May acquire exact locked content when local or cached bytes are missing and acquisition is allowed. |
+| `rootform publish dialects` and `rootform publish policy-packs` | Deliberately write package artifacts to a registry and repull their exact identity. |
+| `rootform package` | Creates local OCI layouts without registry access. |
+| `build`, `check`, `diff`, `explain`, `list`, `show`, `validate`, and `test` | Use available embedded, local, installed, or vendored content. They never acquire packages implicitly. |
+| `rootform run` | Serves the local architecture over loopback. It does not make an outbound Rootform connection or acquire packages. |
 
-Rootform does not contact a provider API to fill a gap in the input. Preparing
-Terraform modules or producing a plan with Terraform or OpenTofu is a separate
-operation with that tool's own credentials and network behavior. Packaging a
-Dialect or Policy Pack is local; only `rootform publish` writes to a
-registry.
+`--locked` requires and preserves an existing `rootform.lock`; it does not
+disable network acquisition by `init`. `--offline` controls acquisition for
+`init` and `vendor`. Normal analysis fails when selected external content is
+unavailable rather than repairing it silently. See
+[Locks and vendored content](../offline-security.md) for selection and
+[Registry compatibility](../integrations/registry-compatibility.md) for the
+tested transport boundary.
 
-## Control acquisition
+This matrix covers Rootform, not every tool in a workflow. Docker may pull an
+image before starting a container. Git checkout, Terraform/OpenTofu module or
+provider preparation, planning, and CI services have their own network and
+credential behavior. Rootform does not contact a cloud provider to fill an
+evidence gap.
 
-Use `--locked` to require an existing selection. Use `--offline` on init
-and vendor to forbid optional repair acquisition. Read
-[locks, vendor, and offline operation](../offline-security.md) before setting
-up a restricted environment, and
-[add a third-party Dialect or Policy Pack](../guides/external-content.md) to
-review what a lock selects. [Registry compatibility](../integrations/registry-compatibility.md)
-records the tested protocol boundary. [Reproduce a build offline](../guides/reproduce-build.md)
-shows how to transfer a checked selection.
+## Protect plans and derived outputs
 
-## Protect plans and outputs
+> [!WARNING]
+> Saved Terraform or OpenTofu plans and their JSON exports can contain sensitive
+> values even when terminal output hides them. Keep them out of Git and public
+> artifacts. Rootform does not sanitize, modify, or delete those inputs.
 
-Saved plan files and their JSON exports can contain sensitive values, even when
-Terraform or OpenTofu hides them in terminal output. Keep both out of Git and
-public artifacts. Raw source, sensitive values, plans, and state are not copied
-into Rootform outputs. Architecture IR and Diff reports describe resource
-identities, structure, and provenance; treat them as infrastructure information
-when sharing JSON or CI artifacts. The [plan guide](../inputs/plans.md#protect-the-plan-files)
-explains the protected boundary. Do not attach raw plans or state to public
-reports.
+Architecture IR does not copy raw HCL, raw source values, secrets, plan files,
+state, absolute paths, or UI state. It still records resource addresses and
+names, relative source locations, project structure, relationships,
+diagnostics, and provenance. A Diff or Policy report can expose portions of
+the same architecture evidence. No raw values does not mean anonymized.
 
-A resource address, service name, file path, or relationship can reveal how a
-private system is organized. Value suppression does not anonymize those
-identities. Review JSON, Diff reports, and diagnostics before sharing them
-outside their intended audience.
+Review saved architecture JSON or HTML, reports, and standard-error diagnostics
+before sharing them. Apply the same audience and retention rules as other
+infrastructure metadata. The [plan guide](../inputs/plans.md#protect-the-plan-files)
+explains the input risk, and [Architecture IR](../concepts/architecture-ir.md#saved-evidence-still-needs-handling-rules)
+describes the retained evidence.
 
-Rootform does not apply configuration or contact a cloud provider to verify
-that the architecture is deployed.
+## Separate integrity from trust
 
-## Review the Dialects and Policy Packs you trust
+A digest establishes which package bytes were selected and whether those bytes
+changed. It does not establish that a [Dialect](../concepts/dialects.md)
+interprets a provider correctly or that a [Policy Pack](../concepts/policies.md)
+fits a project's requirements. A wrong Rule can produce the same wrong
+architecture deterministically. A policy result covers only matched targets,
+its assertion, and the evidence available to it.
 
-A Dialect determines which architectural claims Rootform establishes. A Policy
-Pack determines which assertions a check evaluates. Review their sources,
-coverage and assumptions before adopting them. A package that interprets a
-declaration incorrectly can produce a reproducible but misleading result.
-
-Dialect and Policy Pack artifacts contain bounded Rootform language data; they
-do not execute provider binaries, shell commands, or package-supplied code.
-
-Digests identify exact package bytes. They do not establish that a rule is
-correct or appropriate for your infrastructure. A lock preserves reviewed
-selection; it does not replace that review. Use a known example to confirm the
-facts and policy outcomes you expect, including base-only declarations and
-zero-evaluation cases.
-
-Provenance answers why Rootform made a claim. It is evidence to inspect, not a
-statement that the deployed resource is healthy or reachable. See
-[Dialect interpretation](../concepts/dialects.md) and
-[policy claim scope](../concepts/policies.md#what-a-policy-result-proves).
+Review external source, coverage, and assumptions before recording exact
+identities in a lock. Dialect and Policy Pack artifacts are bounded Rootform
+language data, not provider binaries or package-supplied shell code. Provenance
+shows why a claim was made; it does not verify deployed health or reachability.
 
 ## Share a useful reproduction
 
-Reduce a failure to synthetic configuration and record the executable version,
-command, exit status and sanitized diagnostic. Preserve the relevant reference
-or module shape while removing customer names and credentials. A small source
-example is easier to verify than a screenshot of an unexplained failure.
+Reduce a failure to synthetic configuration. Record the Rootform version,
+command, exit status, and sanitized diagnostic while preserving the relevant
+reference or module shape. Never include credentials, raw plans, state, or
+customer names in a public report.
 
-Report vulnerabilities privately using the [security policy](../../SECURITY.md).
-Use [troubleshooting](../troubleshooting/index.md) for ordinary failures and
-[limitations](../limitations.md) for boundaries that are not errors.
+Use [Troubleshooting](../troubleshooting/index.md) for operational symptoms,
+[Limitations](../limitations.md) for product boundaries, and the
+[security policy](../../SECURITY.md) to report vulnerabilities privately.

@@ -1,51 +1,62 @@
 ---
 title: Registry compatibility
-description: Choose an OCI registry that supports Rootform artifacts, exact digests, and Docker authentication.
+description: Check the qualified OCI registry paths and identities needed for Rootform packages.
 ---
 
-Rootform uses the
-[`rootform-oci-core-v1`](../../contracts/rootform-oci-core-profile.md) profile
-for Dialect and Policy Pack distribution. Registry-specific APIs are not part of
-that contract.
+An OCI registry is suitable for Rootform Dialect and Policy Pack artifacts only
+when it preserves the [`rootform-oci-core-v1`](../../contracts/rootform-oci-core-profile.md)
+profile. Generic OCI support is not a Rootform qualification. A qualification
+applies to the tested registry and authentication path, not to every deployment
+or feature of that product.
 
-## Supported registries
+## Qualified registry paths
 
-| Registry | Qualified behavior |
+| Registry | Pull and authentication covered | Publication and identity covered | Boundary |
+| --- | --- | --- | --- |
+| GitHub Container Registry (GHCR) | Public package through Docker credential-helper and Bearer challenge | Custom media types, publish, exact repull by digest, locked recovery, and vendor repair | Anonymous pull and private-package access are not established by the public-package qualification. |
+| CNCF Distribution 3.0 | Anonymous TLS and private Basic-authenticated TLS repositories | Custom media types, publish, exact repull by digest, locked recovery, and vendor repair | Qualification is for those configured repository paths, not every Distribution deployment. |
+
+Do not infer qualification for GitLab Container Registry, Azure Container
+Registry, Harbor, Artifactory, Nexus, or another OCI product from protocol
+similarity. A new path needs the same Rootform profile checks before it can
+carry a locked selection.
+
+## Required registry behavior
+
+Rootform needs manifest resolution by version tag during publication and
+review, manifest and blob reads by exact digest during locked acquisition,
+and preservation of custom `artifactType`, config, and layer media types. When
+publishing, the registry must accept blob uploads and manifest creation, then
+return the exact manifest bytes for repull. Authentication must work through
+Docker-compatible credentials when anonymous access is unavailable. Rootform
+does not need registry catalog or tag listing.
+
+| Identity | Role |
 | --- | --- |
-| GitHub Container Registry | Public artifact pull, tag and digest resolution, custom media types, and Bearer authentication. |
-| CNCF Distribution 3.0 | Anonymous and private Basic-authenticated TLS repositories, publication, exact repull, and locked recovery. |
+| Version tag | Human review and publication name, such as `dialect-<owner>-<version>` or `policy-pack-<name>-<version>`. A tag alone is not the lock identity. |
+| Repository | Tagless OCI location recorded as `source.oci.repository` in `rootform.lock`. |
+| `manifest_digest` | SHA-256 of the exact OCI manifest bytes selected by the lock. A registry that rewrites the manifest breaks this identity. |
+| `layer_digest` | SHA-256 of the packaged layer bytes, checked separately from the manifest. |
+| `content_digest` | Identity of the compiled Dialect or Policy Pack content, not a substitute for either OCI digest. |
 
-Compatibility with GitLab Container Registry, Azure Container Registry,
-Harbor, Artifactory, Nexus, or another OCI registry is not implied by protocol
-similarity. Use one only after its ordinary authentication and repository policy
-have been verified against the Rootform profile.
+`rootform publish` reports the repository, tag, digests, and sizes. Review that
+identity before recording the complete pin in `rootform.lock`. `rootform init`
+then requests the recorded repository and manifest digest directly. It does
+not search tags or choose a newer version. See
+[Locks and vendored content](../offline-security.md) for exact selection and
+the [OCI mirror procedure](../offline-security.md#oci-mirror) for moving the
+same descriptor graph without changing its digests.
 
-## Required behavior
+## Private access and trust roots
 
-A registry must preserve custom OCI media types and support:
+Rootform reads Docker `config.json` from `DOCKER_CONFIG` or the standard Docker
+location. Host-specific helpers, a global credential store, or matching
+`auths` supply credentials according to the Docker configuration. A configured
+helper must be installed on `PATH`; a helper failure does not silently fall
+back to another identity. Set `SSL_CERT_FILE` to a bounded PEM bundle when a
+private certificate authority is required. Invalid trust data fails before
+Rootform uses an artifact.
 
-- manifest and blob reads by exact digest;
-- immutable version tags used during publication verification;
-- blob upload and manifest publication for `rootform publish`;
-- Docker-compatible anonymous, Basic, or Bearer authentication;
-- immutable package-version handling expected by the publishing workflow.
-
-`rootform publish` reports exact repository, version tag, manifest digest, layer
-digest, sizes, and content digest. Record that identity in `rootform.lock` after
-review. `rootform init` reads locked manifests and blobs by exact digest; it
-never lists the repository or resolves a mutable selection. A registry that
-rewrites manifests or custom media types cannot preserve locked identity.
-
-## Credentials and private CAs
-
-Rootform reads Docker `config.json` from `DOCKER_CONFIG`, or from the normal
-Docker location when the variable is unset. Configured credential helpers must be
-installed on `PATH`. A helper failure is terminal; Rootform does not silently
-try another configured identity.
-
-Set `SSL_CERT_FILE` to a bounded PEM bundle when the registry uses a private
-certificate authority. Invalid trust data fails before Rootform uses an artifact.
-Offline commands do not read registry credentials or the TLS bundle.
-
-See [locks, sources, vendor, and offline operation](../offline-security.md) for
-exact package identity and mirror routing.
+Use [Container image](oci-image.md#use-private-registry-credentials) when
+credentials must enter a container. `--offline` on `init` or `vendor` forbids
+registry acquisition, regardless of credential availability.
