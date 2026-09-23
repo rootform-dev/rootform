@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
+import { verifyCliBehavior } from "./docs-cli-behavior.ts";
 import { verifyCoreExamples } from "./docs-core-examples.ts";
 import { verifyLanguageExamples } from "./docs-language-examples.ts";
 import { verifyProjectConfigurationExamples } from "./docs-project-configuration-examples.ts";
@@ -198,6 +199,7 @@ try {
     "resource bases, owner-first Rules, RF Vocabulary, and network context verified",
   );
   steps.push(...verifyCoreExamples(binary, repoRoot, workspace, home));
+  steps.push(...(await verifyCliBehavior(binary, workspace, home)));
   steps.push(...verifyReviewExamples(binary, repoRoot, workspace, home));
   steps.push(...verifyProjectConfigurationExamples(binary, repoRoot, workspace, home));
   steps.push(...verifyLanguageExamples(binary, repoRoot, workspace, home));

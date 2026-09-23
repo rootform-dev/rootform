@@ -178,6 +178,7 @@ export function verifyProjectConfigurationExamples(
     "external-local-policy-check",
     policyProject,
   ).stdout.trim();
+  marked("reference/cli/explain/policy.md", "cli-explain-policy", policyProject);
   assert(
     lockedPolicyCheck ===
       titledBlock(page("guides/external-content.md"), "text", "Locked Policy check").trim(),
@@ -221,6 +222,13 @@ export function verifyProjectConfigurationExamples(
   assert(
     existsSync(join(policyProject, ".rootform/policy-packs/tutorial/.rootform-vendor.json")),
     "selected Policy Pack was not vendored in its project",
+  );
+  const policyCopy = join(suiteRoot, "selected-policy-copy");
+  run([binary, "vendor", "policy-packs", "--offline", "--to", policyCopy], policyProject);
+  assert(
+    existsSync(join(policyCopy, "tutorial/.rootform-vendor.json")) &&
+      readFileSync(join(policyProject, "rootform.lock")).equals(preparedLock),
+    "Policy Pack --to changed project selection or lock",
   );
   checks.push(
     "tutorial Policy Pack stays lock-free when explicit, evaluates when locked, and rejects drift",
@@ -320,6 +328,13 @@ export function verifyProjectConfigurationExamples(
     localDialectOutput === displayedSelection &&
       readFileSync(join(identityProject, "rootform.lock")).equals(localDialectLockBytes),
     `local Dialect selection output changed or preparation modified lock\n${localDialectPreparation.stderr}${localDialectPreparation.stdout}`,
+  );
+  const dialectCopy = join(suiteRoot, "selected-dialect-copy");
+  run([binary, "vendor", "dialects", "--offline", "--to", dialectCopy], identityProject);
+  assert(
+    existsSync(join(dialectCopy, "confluent/.rootform-vendor.json")) &&
+      readFileSync(join(identityProject, "rootform.lock")).equals(localDialectLockBytes),
+    "Dialect --to changed project selection or lock",
   );
   const dialectCIOutput = join(suiteRoot, "dialect-only-ci-output");
   run(["sh", join(root, "docs/integrations/ci/rootform-ci.sh")], suiteRoot, 0, {

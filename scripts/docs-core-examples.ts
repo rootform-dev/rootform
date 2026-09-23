@@ -86,6 +86,10 @@ export function verifyCoreExamples(
   );
   for (const cmd of commands) {
     const help = run([...cmd.path.split(" ").slice(1), "--help"]).stdout;
+    const usage = /^Usage:\n\s+([^\n]+)/mu.exec(help)?.[1];
+    if (cmd.path !== "rootform") {
+      assert(usage === cmd.usage, `${cmd.path} usage differs from public export`);
+    }
     const flagsStart = help.indexOf("\nFlags:\n");
     assert(flagsStart >= 0, `${cmd.path} help has no flag section`);
     const actual = [...help.slice(flagsStart).matchAll(/^\s+(?:-\w,\s+)?--([a-z][a-z0-9-]*)\b/gmu)]
@@ -95,8 +99,19 @@ export function verifyCoreExamples(
       .map((flag) => flag.name)
       .sort();
     assert(JSON.stringify(actual) === JSON.stringify(expected), `${cmd.path} flags differ`);
+    for (const flag of [...(cmd.flags ?? []), ...(cmd.inherited_flags ?? [])]) {
+      if (["", "false", "[]"].includes(flag.default)) continue;
+      const line = help
+        .slice(flagsStart)
+        .split("\n")
+        .find((candidate) => new RegExp(`\\s--${flag.name}(?:\\s|$)`, "u").test(candidate));
+      const value = flag.type === "string" ? JSON.stringify(flag.default) : flag.default;
+      assert(line?.includes(`(default ${value})`), `${cmd.path} --${flag.name} default differs`);
+    }
   }
-  checks.push(`all ${commands.length} command help surfaces match exported public flags`);
+  checks.push(
+    `all ${commands.length} command help surfaces match flags and nonempty defaults; child usages match export`,
+  );
 
   const dialectPage = page("concepts/dialects.md");
   const dialectList = command("concepts/dialects.md", "concept-dialect-list").trim();
@@ -143,6 +158,18 @@ export function verifyCoreExamples(
     "displayed subnet explanation differs from command",
   );
   checks.push("first architecture explanation matches displayed output");
+  command("reference/cli/explain/architecture.md", "cli-explain-architecture");
+  command("reference/cli/explain/semantics.md", "cli-explain-semantics");
+  const semanticRule = JSON.parse(
+    run(["explain", "semantics", "aws.rule.subnet", "--format", "json"]).stdout,
+  );
+  assert(
+    semanticRule.rule?.id === "aws.rule.subnet" &&
+      semanticRule.produced?.some(
+        (entry: { declaration?: string }) => entry.declaration === "aws_subnet.application",
+      ),
+    "CLI semantics example did not explain the documented subnet",
+  );
 
   const policyPage = page("guides/check-architecture.md");
   const pack = configuration(policyPage, "policies/pack.rf.hcl");
@@ -191,6 +218,9 @@ export function verifyCoreExamples(
   writeFileSync(join(workspace, "policies/subnet-network-context.rf.hcl"), policySource);
 
   const passed = command("guides/check-architecture.md", "policy-local").trim();
+  command("reference/cli/check.md", "cli-check");
+  command("reference/cli/show/policy.md", "cli-show-policy");
+  command("reference/cli/show/policy-pack.md", "cli-show-policy-pack");
   assert(
     fencedBlock(policyPage, "text", "Passed check").trim() === passed,
     "displayed compliant result differs from command",

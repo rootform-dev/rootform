@@ -1,9 +1,12 @@
 import { expect, test } from "bun:test";
-import { readFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import {
   beginGenerated,
   commandNavigation,
   endGenerated,
+  generate,
   parseReference,
   renderCommand,
   replaceGenerated,
@@ -121,6 +124,17 @@ test("index inventory links every exported command, including nested ones", () =
   expect(page.match(/^\| \[` rootform /gmu)).toHaveLength(commands.length - 1);
   expect(page).toContain("](explain/semantics.md)");
   expect(page).toContain("](validate/rule.md)");
+});
+
+test("generation refuses an exported inventory missing an authored command", () => {
+  const root = mkdtempSync(join(tmpdir(), "rootform-cli-reference-"));
+  try {
+    mkdirSync(join(root, "reference"));
+    writeFileSync(join(root, "reference/cli.json"), JSON.stringify(document()));
+    expect(() => generate(root, true)).toThrow("Authored CLI reference has no exported command");
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });
 
 test("help containing markup or code delimiters stays readable", () => {
