@@ -5,6 +5,16 @@ rootform_bin=${ROOTFORM_BIN:-rootform}
 project=${ROOTFORM_PROJECT:-.}
 output=${ROOTFORM_OUTPUT_DIR:-.rootform-ci}
 policy_pack=${ROOTFORM_POLICY_PACK:-}
+check=${ROOTFORM_CHECK:-0}
+
+case "$check" in
+  0|1) ;;
+  *) printf '%s\n' 'ROOTFORM_CHECK must be 0 or 1' >&2; exit 2 ;;
+esac
+if [ "$check" = 0 ] && [ -n "$policy_pack" ]; then
+  printf '%s\n' 'ROOTFORM_POLICY_PACK requires ROOTFORM_CHECK=1' >&2
+  exit 2
+fi
 
 mkdir -p "$output"
 
@@ -15,24 +25,26 @@ fi
 
 if [ "$locked" = 1 ]; then
   if [ "${ROOTFORM_OFFLINE:-0}" = "1" ]; then
-    "$rootform_bin" init "$project" --locked --no-input --offline --format json >"$output/init.json"
+    "$rootform_bin" init "$project" --locked --no-input --offline --format json >"$output/init.json" 2>"$output/init.stderr"
   else
-    "$rootform_bin" init "$project" --locked --no-input --format json >"$output/init.json"
+    "$rootform_bin" init "$project" --locked --no-input --format json >"$output/init.json" 2>"$output/init.stderr"
   fi
-  "$rootform_bin" build "$project" --locked --format json >"$output/architecture.json"
+  "$rootform_bin" build "$project" --locked --format json >"$output/architecture.json" 2>"$output/build.stderr"
 else
-  "$rootform_bin" build "$project" --format json >"$output/architecture.json"
+  "$rootform_bin" build "$project" --format json >"$output/architecture.json" 2>"$output/build.stderr"
 fi
 
-if [ "$locked" != 1 ] && [ -z "$policy_pack" ]; then
+if [ "$check" = 0 ]; then
   exit 0
 fi
 
 set +e
 if [ -n "$policy_pack" ]; then
   "$rootform_bin" check "$project" --policy-pack "$policy_pack" --format json >"$output/check.json" 2>"$output/check.stderr"
-else
+elif [ "$locked" = 1 ]; then
   "$rootform_bin" check "$project" --locked --format json >"$output/check.json" 2>"$output/check.stderr"
+else
+  "$rootform_bin" check "$project" --format json >"$output/check.json" 2>"$output/check.stderr"
 fi
 check_status=$?
 set -e

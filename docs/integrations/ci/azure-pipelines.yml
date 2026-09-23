@@ -7,14 +7,27 @@ pr:
 pool:
   vmImage: ubuntu-24.04
 
-container: ghcr.io/rootform-dev/rootform:0.1.0
+variables:
+  ROOTFORM_CHECK: '0'
 
 steps:
   - checkout: self
-  - bash: ./ci/rootform-ci.sh
-    displayName: Build architecture and run selected policy gate
+  - bash: |
+      docker run --rm \
+        --user "$(id -u):$(id -g)" \
+        --volume "$(Build.SourcesDirectory):/workspace" \
+        --workdir /workspace \
+        --env HOME=/tmp \
+        --env ROOTFORM_HOME=/tmp/rootform-home \
+        --env ROOTFORM_PROJECT=./infra \
+        --env ROOTFORM_CHECK \
+        --env ROOTFORM_POLICY_PACK \
+        --env ROOTFORM_OFFLINE \
+        ghcr.io/rootform-dev/rootform:0.1.0 \
+        sh ./ci/rootform-ci.sh
+    displayName: Build architecture with Rootform
   - task: PublishPipelineArtifact@1
-    condition: always()
+    condition: succeededOrFailed()
     inputs:
-      targetPath: .rootform-ci
-      artifact: rootform
+      targetPath: $(Build.SourcesDirectory)/.rootform-ci
+      artifact: rootform-results

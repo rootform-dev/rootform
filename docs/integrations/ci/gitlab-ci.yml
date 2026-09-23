@@ -1,11 +1,21 @@
+# Use a shell runner with checksum-verified Rootform 0.1.0 on PATH.
+# The runner user must be able to write under CI_PROJECT_DIR.
 rootform:
-  image:
-    name: ghcr.io/rootform-dev/rootform:0.1.0
-    entrypoint:
-      - ""
+  tags:
+    - rootform-0-1-0
+  variables:
+    ROOTFORM_PROJECT: ./infra
   script:
-    - ./ci/rootform-ci.sh
+    - test "$(pwd)" = "$CI_PROJECT_DIR"
+    - test -w "$CI_PROJECT_DIR"
+    - sh ./ci/rootform-ci.sh
   artifacts:
     when: always
     paths:
-      - .rootform-ci/
+      - .rootform-ci/architecture.json
+      - .rootform-ci/init.json
+      - .rootform-ci/init.stderr
+      - .rootform-ci/build.stderr
+      - .rootform-ci/check.json
+      - .rootform-ci/check.stderr
+      - .rootform-ci/check.status

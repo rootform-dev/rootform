@@ -1,21 +1,12 @@
 ---
 title: "GitHub Actions"
-description: "Install an exact Rootform release, build and compare architecture evidence, and gate on policy status in a workflow."
+description: "Install an exact Rootform release, publish architecture evidence, and choose a policy gate."
 ---
 
-The Rootform Action installs a checksum-verified Rootform release and invokes
-the CLI. It reports the CLI's own results; it does not re-interpret Terraform,
-compute architecture semantics, or create or edit `rootform.lock`. Two
-entrypoints share one installer:
-
-- `setup` installs and verifies the binary only;
-- the main entrypoint installs the binary, prepares the project's exact
-  selection, runs build and check, and reports results.
-
-## Install the CLI for controlled commands
-
-Use `setup` when a workflow runs commands you control: a build-only job, a
-custom output path, an explicit local Policy Pack, or a custom gate.
+Use the `setup` entrypoint when your workflow controls Rootform commands. It
+installs and verifies the selected binary, but does not prepare project
+content or run analysis. This complete workflow builds an embedded-only
+project at `./infra` and keeps its Architecture IR:
 
 ```yaml title=".github/workflows/architecture.yml"
 name: Architecture
@@ -26,110 +17,112 @@ jobs:
   architecture:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - uses: rootform-dev/action/setup@71eef759bff5e73b27489b1f7de818a4a76dc2e9
         with:
           version: 0.1.0
-      - run: |
-          rootform init ./infra --locked --no-input
-          rootform build ./infra --locked --output architecture.json
-          rootform check ./infra --locked --format sarif --output policy.sarif
+      - name: Build architecture
+        run: rootform build ./infra --format json --output architecture.json
+      - name: Keep architecture
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-architecture
+          path: architecture.json
+          if-no-files-found: warn
 ```
 
-`setup` installs an exact release and verifies its checksum and identity. It
-never prepares external packages and never runs analysis. The example assumes a
-committed `rootform.lock` in `infra`; `init` verifies local entries and
-fetches only missing exact pinned packages. `build` and `check` then perform
-no acquisition, and their outputs stay local until a later step uploads them.
+No lock or `init` is needed for this build. Install and checkout may access the
+network even though the build itself does not acquire content. A build failure
+still fails the job. Prepare referenced Terraform or OpenTofu modules before
+the build if the project needs them.
 
-A supplied-only build needs no lock, no `init`, and no `--locked`:
+To gate a known local pack at `./policies`, insert this step after the build,
+then extend the artifact step's `path` list as shown. These are fragments for
+the workflow above, not a second complete workflow:
 
-```yaml
-- run: rootform build ./infra --output architecture.json
+```yaml title="Policy step to insert"
+      - name: Check selected Policies
+        run: rootform check ./infra --policy-pack ./policies --format json --output policy.json
 ```
 
-Omit `check` in that case: no Policy Pack is selected, and a zero-policy check
-is not compliant.
-
-## Run analysis with the main entrypoint
-
-The main entrypoint installs the binary, prepares the project, builds
-architecture and HTML evidence, evaluates policies, uploads artifacts, and
-writes a Job Summary and outputs:
-
-```yaml
-- uses: rootform-dev/action@71eef759bff5e73b27489b1f7de818a4a76dc2e9
-  with:
-    version: 0.1.0
-    path: ./infra
-    locked: true
+```yaml title="Artifact path list to replace"
+          path: |
+            architecture.json
+            policy.json
 ```
 
-Preparation runs one non-interactive `rootform init` command, with
-`--no-input` always present and `--locked` and `--offline` added when those
-inputs are set. `locked` requires an existing valid `rootform.lock`; the CLI
-rejects a missing or invalid lock, and the job stops with the CLI diagnostic.
-`offline` is independent and disables network, so the pinned content must
-already exist locally. The Action never writes the lock.
+The artifact step's `if: ${{ !cancelled() }}` runs after a Policy violation,
+so `policy.json` remains downloadable while the check's failure remains the
+job result. If a pack is selected by `infra/rootform.lock` instead, prepare it
+first with `rootform init ./infra --locked --no-input` and use
+`rootform check ./infra --locked --format json --output policy.json`. Do not
+combine `--locked` with an explicit `--policy-pack`. For the portable script,
+including separate diagnostics and an exact `check.status`, use
+[Run in CI](ci/README.md#request-a-policy-gate) and the
+[complete GitHub recipe](ci/github-actions.yml).
 
-The main entrypoint always evaluates policies. The project needs a committed
-lock that selects a Policy Pack whose policies have targets for the expected
-architecture. Without that selection, check reports `not evaluated` and the
-machine result uses `not_evaluated`; the step fails. Check exit status drives
-the gate:
+`check --format sarif --output policy.sarif` creates SARIF. Uploading that file
+as a workflow artifact stores it for download. Sending it to GitHub code
+scanning is a separate, permissioned operation, subject to repository
+availability and GitHub's [SARIF upload requirements](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/integrate-with-existing-tools/upload-sarif-file).
+Do not grant `security-events: write` unless the workflow actually uploads to
+code scanning.
 
-| Status | Meaning | Step result |
-| --- | --- | --- |
-| `0` | Every selected policy was evaluated and compliant. | Pass. |
-| `1` | At least one confirmed violation. | Fail unless `fail-on-violations: false`. |
-| `2` | Invalid command use. | Always fail. |
-| `3` | Indeterminate or not evaluated. | Always fail. |
+## Use the integrated Action for a project Policy gate
 
-`fail-on-violations` controls status `1` only. Status `2` and `3` fail
-regardless, because the run produced no compliant verdict. The `exit-code`
-output preserves the exact check status for later steps.
+The main Action installs Rootform, prepares project selection, builds JSON and
+HTML, runs a Policy check, and publishes its own result files and Job Summary.
+It always checks. Use it only when the project's reviewed `rootform.lock`
+selects a Policy Pack with effective targets. It has no `policy-pack` input
+for a one-off local pack and cannot be used as a build-only shortcut.
 
-Set `report-diff: true` to compare revisions. In source mode, `baseline-path`
-must name a separate checkout of the base revision. Action uses same binary for
-both sides, but each checkout retains its own `rootform.lock`; it neither copies
-nor synchronizes selection. Keep effective Dialect selections equal when review
-should isolate source change. A mismatch remains visible through Diff semantic
-comparability and undetermined results.
+```yaml title="Integrated Action step"
+      - uses: rootform-dev/action@71eef759bff5e73b27489b1f7de818a4a76dc2e9
+        with:
+          version: 0.1.0
+          path: ./infra
+          locked: true
+```
 
-Action emits Diff JSON and Markdown, and `fail-on-changes` gates Diff status `1`
-independently. In plan mode, no baseline is needed because
-`rootform diff --plan` derives both sides from one plan. Use `setup` with
-explicit commands when workflow only needs Architecture IR or Diff without a
-policy gate.
+This step belongs after checkout in a workflow with `contents: read`. The
+Action's `locked` input requires an existing valid lock during preparation.
+`offline: true` additionally forbids Rootform acquisition, so selected content
+must already be local. The `cache` input defaults to `true`, and
+`upload-artifact` defaults to `true`. The Action's fixed artifact contains
+Architecture IR, HTML, policy JSON, and SARIF, not source, plans, or state.
+It exposes `architecture`, `html`, `policy-json`, `sarif`, `exit-code`, and
+artifact outputs. A confirmed violation exits `1` and fails by default.
+`fail-on-violations: false` affects only status `1`; statuses `2` and `3`
+still fail. Verify the evaluation count before accepting `0`.
 
-See the [Action input reference](https://github.com/rootform-dev/action/blob/main/README.md)
-for the full input, output, and artifact surface.
+For source Diff reporting, `report-diff: true` requires `baseline-path` to
+name a second checkout. The Action compares that checkout with `path`, using
+each revision's own project selection. `fail-on-changes` defaults to `false`,
+so a completed Diff does not block every PR. Choose and record exact Before
+and After commits as in [Review a pull request](../workflows/index.md#choose-the-revisions).
+The default `pull_request` checkout may be a synthetic merge commit, not PR
+head. `github.event.pull_request.head.sha` is PR head, while
+`github.event.pull_request.base.sha` is target-branch head at event time.
+Neither is automatically the merge base. For the Diff meaning and an
+informational gate, see [Compare architectures](../guides/compare-architectures.md#use-exit-status-deliberately).
 
-## Pull-request reports
+## Keep PR permissions narrow
 
-PR reporting is opt-in and explicit. An ordinary analysis never posts a
-comment; the workflow must use the documented event, permissions, and
-`pull-request-token` input. Follow the
-[PR reporting workflow](https://github.com/rootform-dev/action/blob/main/README.md#pull-request-architecture-review)
-for the exact supported setup.
+The Action does not comment by default. On a same-repository `pull_request`,
+request commenting explicitly with `pull-request-token` and
+`pull-requests: write` only when the workflow and analyzed input are trusted
+for that permission. Keep `contents: read` and checkout credentials disabled.
+Do not pass a write token or privileged secret to a script from an untrusted
+PR, or switch to `pull_request_target` to obtain more permissions. Fork PRs
+normally have a read-only token and cannot be promised a comment. The Job
+Summary and artifacts are the read-only review path. GitHub documents
+[fork token limits](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#changing-the-permissions-in-a-forked-repository).
 
-Use the `pull_request` event. A same-repository PR with a
-`pull-request-token` receives an updated comment. Fork pull requests receive
-the Job Summary and artifact evidence without any write token. Do not switch
-to `pull_request_target`, which would grant an untrusted contribution more
-privileges.
-
-## Keep evidence reproducible
-
-Pin the exact Rootform version and the Action commit. Review and commit
-`rootform.lock` when the project has explicit external selection; use
-`offline: true` only when the required pinned content is already local or
-vendored. Artifacts contain selected Rootform results, not raw Terraform plans,
-state, credentials, or the whole working directory.
-
-A check with no selected policies is not a compliance review. Confirm the
-expected evaluation count and preserve indeterminate status `3`. Read
-[Policies and Policy Packs](../concepts/policies.md) and
-[Outputs and exit status](../reference/outputs.md) before choosing a gate.
+Artifacts should list only Rootform results. Never upload the workspace, raw
+plans, state, or credentials. The integrated Action's published input and
+output names are defined by its pinned
+[action metadata](https://github.com/rootform-dev/action/blob/71eef759bff5e73b27489b1f7de818a4a76dc2e9/action.yml),
+not by a CLI flag assumed to be an Action input.

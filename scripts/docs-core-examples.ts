@@ -154,6 +154,38 @@ export function verifyCoreExamples(
   const instancesSource = configuration(policyPage, "instances.tf");
   const unresolvedInstanceSource = configuration(policyPage, "unresolved-instance.tf");
   const noSubnetSource = configuration(policyPage, "no-subnet/main.tf");
+  function ciCheck(label: string, expected: number, project = workspace, pack = true) {
+    const output = join(workspace, `ci-${label}`);
+    const result = Bun.spawnSync(["sh", join(root, "docs/integrations/ci/rootform-ci.sh")], {
+      cwd: workspace,
+      env: {
+        ...env,
+        ROOTFORM_BIN: binary,
+        ROOTFORM_CHECK: "1",
+        ROOTFORM_OUTPUT_DIR: output,
+        ROOTFORM_PROJECT: project,
+        ...(pack ? { ROOTFORM_POLICY_PACK: join(workspace, "policies") } : {}),
+      },
+      stdout: "pipe",
+      stderr: "pipe",
+    });
+    assert(
+      result.exitCode === expected,
+      `CI ${label}: exit ${result.exitCode}, expected ${expected}`,
+    );
+    assert(
+      existsSync(join(output, "check.status")),
+      `CI ${label} stopped before check: ${existsSync(join(output, "build.stderr")) ? readFileSync(join(output, "build.stderr"), "utf8") : result.stderr.toString()}`,
+    );
+    assert(
+      readFileSync(join(output, "check.status"), "utf8") === `${expected}\n` &&
+        existsSync(join(output, "architecture.json")) &&
+        existsSync(join(output, "check.json")) &&
+        existsSync(join(output, "check.stderr")),
+      `CI ${label} did not preserve its reports and exact status`,
+    );
+    return JSON.parse(readFileSync(join(output, "check.json"), "utf8")) as Record<string, unknown>;
+  }
   mkdirSync(join(workspace, "policies"));
   writeFileSync(join(workspace, "policies/pack.rf.hcl"), pack);
   writeFileSync(join(workspace, "policies/subnet-network-context.rf.hcl"), policySource);
@@ -171,6 +203,7 @@ export function verifyCoreExamples(
   );
   writeFileSync(join(workspace, "instances.tf"), instancesSource);
   const violated = command("guides/check-architecture.md", "policy-violation", 1).trim();
+  assert(ciCheck("violation", 1).status === "violated", "CI violation result changed");
   assert(
     fencedBlock(policyPage, "text", "Mixed check with violation").trim() === violated,
     "displayed violation result differs from command",
@@ -185,6 +218,28 @@ export function verifyCoreExamples(
 
   writeFileSync(join(workspace, "unresolved-instance.tf"), unresolvedInstanceSource);
   const indeterminate = command("guides/check-architecture.md", "policy-indeterminate", 3).trim();
+  const unresolvedBuildOutput = join(workspace, "ci-unresolved-build");
+  const unresolvedBuild = Bun.spawnSync(["sh", join(root, "docs/integrations/ci/rootform-ci.sh")], {
+    cwd: workspace,
+    env: {
+      ...env,
+      ROOTFORM_BIN: binary,
+      ROOTFORM_CHECK: "1",
+      ROOTFORM_OUTPUT_DIR: unresolvedBuildOutput,
+      ROOTFORM_POLICY_PACK: join(workspace, "policies"),
+      ROOTFORM_PROJECT: workspace,
+    },
+    stdout: "pipe",
+    stderr: "pipe",
+  });
+  assert(
+    unresolvedBuild.exitCode === 3 &&
+      !existsSync(join(unresolvedBuildOutput, "check.status")) &&
+      readFileSync(join(unresolvedBuildOutput, "build.stderr"), "utf8").includes(
+        "TRAVERSAL_UNRESOLVED",
+      ),
+    "CI indeterminate build was mislabeled as a Policy verdict",
+  );
   assert(
     indeterminate.startsWith(fencedBlock(policyPage, "text", "Mixed indeterminate check").trim()),
     "displayed indeterminate summary differs from command",
@@ -198,6 +253,10 @@ export function verifyCoreExamples(
 
   const noneSelected = command("guides/check-architecture.md", "policy-none", 3).trim();
   assert(
+    ciCheck("no-selection", 3, workspace, false).status === "not_evaluated",
+    "CI empty selection changed",
+  );
+  assert(
     fencedBlock(policyPage, "text", "No Policy Pack selected").trim() === noneSelected,
     "displayed no-selection result differs from command",
   );
@@ -205,6 +264,10 @@ export function verifyCoreExamples(
   mkdirSync(join(workspace, "no-subnet"));
   writeFileSync(join(workspace, "no-subnet/main.tf"), noSubnetSource);
   const noTarget = command("guides/check-architecture.md", "policy-no-target", 3).trim();
+  assert(
+    ciCheck("no-target", 3, join(workspace, "no-subnet")).status === "not_evaluated",
+    "CI no-target result changed",
+  );
   assert(
     fencedBlock(policyPage, "text", "Selected Policy without a target").trim() === noTarget,
     "displayed no-target result differs from command",
@@ -239,26 +302,15 @@ export function verifyCoreExamples(
     "resolved, omitted, and unresolved instance subnet evidence produce pass, violation, and indeterminate outcomes",
   );
 
-  const ciOutput = join(workspace, "ci-output");
-  const ci = Bun.spawnSync(["sh", join(root, "docs/integrations/ci/rootform-ci.sh")], {
-    cwd: workspace,
-    env: {
-      ...env,
-      ROOTFORM_BIN: binary,
-      ROOTFORM_OUTPUT_DIR: ciOutput,
-      ROOTFORM_POLICY_PACK: join(workspace, "policies"),
-      ROOTFORM_PROJECT: workspace,
-    },
-    stdout: "pipe",
-    stderr: "pipe",
-  });
-  assert(ci.exitCode === 0, `CI example failed: ${ci.stderr}`);
-  const ciPolicy = JSON.parse(readFileSync(join(ciOutput, "check.json"), "utf8"));
+  const ciPolicy = ciCheck("compliant", 0);
   assert(
-    ciPolicy.summary?.policies === 1 && ciPolicy.summary?.passed === 1,
+    (ciPolicy.summary as Record<string, unknown>)?.policies === 1 &&
+      (ciPolicy.summary as Record<string, unknown>)?.passed === 1,
     "CI example lost selected local Policy Pack coverage",
   );
-  checks.push("portable CI script builds and preserves selected Policy result");
+  checks.push(
+    "portable CI script preserves pass, violation, zero-selection, no-target, and indeterminate build results",
+  );
 
   const diffPage = page("guides/compare-architectures.md");
   command("guides/compare-architectures.md", "diff-base");

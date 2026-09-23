@@ -201,6 +201,22 @@ export function verifyProjectConfigurationExamples(
       readFileSync(join(badProject, "rootform.lock"), "utf8") === badLock,
     "bad local identity was not rejected without lock mutation",
   );
+  const badCIOutput = join(suiteRoot, "bad-policy-ci-output");
+  run(["sh", join(root, "docs/integrations/ci/rootform-ci.sh")], suiteRoot, 3, {
+    ROOTFORM_BIN: binary,
+    ROOTFORM_CHECK: "1",
+    ROOTFORM_OFFLINE: "1",
+    ROOTFORM_OUTPUT_DIR: badCIOutput,
+    ROOTFORM_PROJECT: badProject,
+  });
+  assert(
+    !existsSync(join(badCIOutput, "check.status")) &&
+      readFileSync(join(badCIOutput, "init.stderr"), "utf8").includes(
+        "content differs from rootform.lock",
+      ) &&
+      readFileSync(join(badProject, "rootform.lock"), "utf8") === badLock,
+    "CI invalid lock was mislabeled as a Policy result or changed the lock",
+  );
   run([binary, "vendor", "policy-packs", "--offline"], policyProject);
   assert(
     existsSync(join(policyProject, ".rootform/policy-packs/tutorial/.rootform-vendor.json")),
@@ -304,6 +320,24 @@ export function verifyProjectConfigurationExamples(
     localDialectOutput === displayedSelection &&
       readFileSync(join(identityProject, "rootform.lock")).equals(localDialectLockBytes),
     `local Dialect selection output changed or preparation modified lock\n${localDialectPreparation.stderr}${localDialectPreparation.stdout}`,
+  );
+  const dialectCIOutput = join(suiteRoot, "dialect-only-ci-output");
+  run(["sh", join(root, "docs/integrations/ci/rootform-ci.sh")], suiteRoot, 0, {
+    ROOTFORM_BIN: binary,
+    ROOTFORM_CHECK: "0",
+    ROOTFORM_OFFLINE: "1",
+    ROOTFORM_OUTPUT_DIR: dialectCIOutput,
+    ROOTFORM_PROJECT: identityProject,
+  });
+  assert(
+    existsSync(join(dialectCIOutput, "init.json")) &&
+      existsSync(join(dialectCIOutput, "architecture.json")) &&
+      !existsSync(join(dialectCIOutput, "check.status")) &&
+      readFileSync(join(identityProject, "rootform.lock")).equals(localDialectLockBytes),
+    "CI dialect-only lock started a check or changed the lock",
+  );
+  checks.push(
+    "portable CI script builds a Dialects-only lock without a Policy gate and rejects invalid or missing content",
   );
 
   const ociProject = join(suiteRoot, "oci-project");
@@ -468,6 +502,25 @@ export function verifyProjectConfigurationExamples(
       !existsSync(join(externalReplay, "broken.json")) &&
       readFileSync(join(externalReplay, "rootform.lock")).equals(damagedLock),
     "damaged vendor did not fail closed before fallback or lock mutation",
+  );
+  const damagedCIOutput = join(suiteRoot, "damaged-ci-output");
+  run(["sh", join(root, "docs/integrations/ci/rootform-ci.sh")], suiteRoot, 3, {
+    ROOTFORM_BIN: binary,
+    ROOTFORM_CHECK: "1",
+    ROOTFORM_HOME: damagedHome,
+    ROOTFORM_OFFLINE: "1",
+    ROOTFORM_OUTPUT_DIR: damagedCIOutput,
+    ROOTFORM_PROJECT: externalReplay,
+  });
+  const damagedCIDiagnostic = ["init.stderr", "build.stderr"]
+    .filter((name) => existsSync(join(damagedCIOutput, name)))
+    .map((name) => readFileSync(join(damagedCIOutput, name), "utf8"))
+    .join("\n");
+  assert(
+    !existsSync(join(damagedCIOutput, "check.status")) &&
+      damagedCIDiagnostic.includes("not available locally") &&
+      readFileSync(join(externalReplay, "rootform.lock")).equals(damagedLock),
+    `CI missing content did not fail before Policy verdict: ${damagedCIDiagnostic}`,
   );
   mkdirSync(join(externalReplay, "third-party"));
   cpSync(join(root, "dialects/confluent"), join(externalReplay, "third-party/confluent"), {
