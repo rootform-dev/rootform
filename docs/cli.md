@@ -1,98 +1,90 @@
 ---
 title: "Select Dialects and Policy Packs"
-description: "Use the embedded release set, prepare explicit selections, and see what a project resolves."
+description: "Decide whether a project needs Rootform configuration and inspect its effective selection."
 ---
 
-Rootform embeds RF Vocabulary and supplied [Dialects](concepts/dialects.md) in
-its binary as one release set. A project that uses only supplied content needs
-no `rootform init`, no `rootform.lock`, and no network access.
+Most projects need no Rootform configuration. Rootform embeds RF Vocabulary and
+the supplied [Dialects](concepts/dialects.md) in its binary. Add project
+configuration only when you need content outside that embedded release set or
+want to change which embedded Dialect owners are active.
 
-## Normal commands
+| Situation | Project configuration |
+| --- | --- |
+| Build or explore with embedded Dialects | None. Run `build` or `run` directly. |
+| Evaluate one local Policy Pack | Pass `--policy-pack` for that invocation. No lock is required. |
+| Keep an external Dialect or Policy Pack selected for the project | Record its exact identity in `rootform.lock`, then prepare it with `init`. |
+| Exclude or replace an embedded Dialect owner | Record the exclusion or replacement in `rootform.lock`. |
 
+## Use embedded Dialects
+
+<!-- docs-check:selection-embedded-build -->
 ```sh
 rootform build . --output architecture.json
-rootform check .
 ```
 
-`build`, `run`, and `check` never download, acquire, prompt, or discover
-content. They use the embedded release set and read `rootform.lock` only when
-the project has one. Without a lock, a project selects no Policy Packs.
+No `rootform.lock` or `rootform init` is needed. Inspect one embedded Dialect:
 
-Terraform and OpenTofu provider versions stay in the configuration and
-`.terraform.lock.hcl`. They never enter `rootform.lock`.
-
-## When a project needs a lock
-
-Add `rootform.lock` to select content outside the release set:
-
-- a third-party Dialect;
-- a whole-owner exclusion or replacement of a supplied Dialect;
-- a Policy Pack.
-
-Every entry is exact: owner or pack name, version, content digest, and a
-relative local path or a complete OCI identity. Rootform never discovers these
-selections from a provider or a registry, so the lock must already name them,
-and no Rootform command writes it. The format is `1`. The
-[third-party content guide](guides/external-content.md) defines the entry
-shape, and [Locks and offline operation](offline-security.md) covers digests
-and offline transfer.
-
-## Prepare an explicit selection
-
+<!-- docs-check:selection-embedded-list -->
 ```sh
-rootform init . --locked --no-input
+rootform list dialects --dialect aws -o wide
 ```
 
-`init` verifies every existing selection and may fetch only the exact OCI
-manifest digests already recorded in the lock. It never creates, edits, or
-re-resolves the lock, and it never changes the embedded release set.
-`--offline` restricts preparation to content already present locally.
-
-## Vendor content into the project
-
-```sh
-rootform vendor dialects
-rootform vendor policy-packs
+```text title="Embedded Dialect"
+NAME  VERSION  ORIGIN    CONCEPTS  CONTEXTS  RELATIONS  RULES
+aws   0.1.0    embedded        64         0          1    108
 ```
 
-`vendor` copies selected non-embedded content into `.rootform/dialects` and
-`.rootform/policy-packs`. When one of those directories exists it is the only
-execution source for that kind; missing or changed content fails instead of
-falling back to the shared store or a registry. RF Vocabulary and supplied
-Dialects are embedded, so they are never installed or vendored.
+## Run one local Policy Pack
 
-## Policy selection
-
-`build` and `run` ignore Policy Packs, so governance never changes
-Architecture IR. `check` evaluates the packs recorded in the lock, or an
-explicit source for one invocation:
+Use an explicit local pack when selection is temporary or the pack is being
+reviewed. The [Run checks](guides/check-architecture.md) tutorial creates a
+pack at `./policies`:
 
 ```sh
+rootform list policy-packs --policy-pack ./policies -o wide
+rootform list policies --policy-pack ./policies -o wide
 rootform check . --policy-pack ./policies
 ```
 
-`--policy-pack` accepts a source directory or a compiled pack file, and it
-cannot be combined with `--locked`. It does not add the pack to the lock or
-install it. A project with no pack selection evaluates zero policies, which is
-never compliant.
+The two list commands show the pack and its policies before evaluation. Check
+status depends on matching targets and results. Without `--policy-pack` or a
+project selection, `rootform check .` selects no policies and returns status
+`3`, not compliance.
 
-## Inspect the effective selection
+An explicit local pack does not create a lock, install content, or change the
+project selection.
+
+## Keep external content selected
+
+Use `rootform.lock` when a project must retain an external Dialect or Policy
+Pack selection across commands and environments. The lock records exact
+Rootform content identities and their local or OCI origins. It does not pin
+Terraform or OpenTofu providers. Provider versions remain in source and
+`.terraform.lock.hcl`.
+
+A lock can select Dialects without selecting any Policy Pack. Its presence
+does not mean that `check` evaluates a policy. Inspect the current project:
 
 ```sh
-rootform list dialects
-rootform list policy-packs
-rootform list policies
+rootform list dialects -o wide
+rootform list policy-packs -o wide
+rootform list policies -o wide
 ```
 
-These commands read the embedded release set and the project selection without
-network access.
+These commands read only local project state. Follow
+[Use external Dialects and Policy Packs](guides/external-content.md) to adopt
+reviewed local or OCI content. [Locks and vendored content](offline-security.md)
+explains what the lock fixes and where selected content is read.
 
-Third-party content already prepared lives under `$ROOTFORM_HOME/dialects` and
-`$ROOTFORM_HOME/policy-packs`. The linked Policy Pack cache under
-`$ROOTFORM_HOME/cache/linked-policy-packs` is a derived artifact: Rootform
-rebuilds it and never treats it as a selection or a trust anchor.
+## Exclude or replace an embedded owner
 
-See the [CLI reference](reference/cli/index.md) for every flag,
-[Add a third-party Dialect or Policy Pack](guides/external-content.md) for
-publishing and selection, and [Troubleshooting](troubleshooting/index.md) when
-preparation fails.
+An exclusion removes one embedded Dialect owner's architecture knowledge from
+the effective catalog. A replacement selects another Dialect with that same
+owner and explicitly authorizes the collision. Both choices belong in
+`rootform.lock`. Reserved owner `rf` cannot be excluded or replaced.
+
+Use these controls only as deliberate project decisions. See
+[external content](guides/external-content.md#exclude-or-replace-an-owner) for
+the exact fields, then use
+[Reproduce a build offline](guides/reproduce-build.md) when the selection must
+move to another environment.
