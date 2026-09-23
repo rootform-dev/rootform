@@ -41,8 +41,12 @@ rootform list policy-packs --policy-pack ./policies -o json
 `content_digest` identifies compiled Policy Pack content. It is not a source
 file checksum, an OCI manifest digest, or an OCI layer digest.
 
-Record the reported name, version, and digest with the project-relative source
-path:
+The Policy Pack and Dialect examples on this page are independent. The lock
+below is complete for a project that selects only `tutorial`. If your project
+already has a lock, add this `policy_packs` entry while preserving its existing
+Dialect selections, exclusions, and replacements.
+
+Record the reported name, version, digest, and project-relative source path:
 
 ```json title="rootform.lock (local Policy Pack)"
 {
@@ -130,7 +134,9 @@ jq '{owner, version, content_digest}' "$config_file"
 This reads Rootform's generated config artifact. It does not calculate a
 replacement digest. The `Digest` printed by `package dialects` is the OCI
 manifest digest, not `content_digest`. Keep these identities separate when
-writing the `dialects` entry.
+writing the `dialects` entry. The next lock is another independent, complete
+example. It selects only the local Dialect. Add its `dialects` entry and
+replacement to an existing lock instead of replacing unrelated selections.
 
 Record a complete local selection:
 
@@ -176,6 +182,47 @@ External Policy Packs  0
 NAME       VERSION  ORIGIN  CONCEPTS  CONTEXTS  RELATIONS  RULES
 confluent  0.1.0    local         37         1         19     62
 ```
+
+## Combine the examples for offline replay
+
+The governance replay uses both examples in one project. Preserve both entries
+in the same lock:
+
+```json title="rootform.lock (combined replay selection)"
+{
+  "format_version": "1",
+  "dialects": [
+    {
+      "owner": "confluent",
+      "version": "0.1.0",
+      "content_digest": "sha256:57bc8a2038fc1159adf19486a7f8875ab8ca8c4d9af72865e502f36b8104470e",
+      "source": {
+        "local": {
+          "path": "third-party/confluent"
+        }
+      }
+    }
+  ],
+  "policy_packs": [
+    {
+      "name": "tutorial",
+      "version": "0.1.0",
+      "content_digest": "sha256:3f301eea6cfe95b1c66ba3c768d3d57613c847ca245cdb5ad3838e6604a19e9e",
+      "source": {
+        "local": {
+          "path": "policies"
+        }
+      }
+    }
+  ],
+  "excluded_owners": [],
+  "replacements": ["confluent"]
+}
+```
+
+Run `init` after saving this combined lock. The
+[offline replay](reproduce-build.md#prepare-an-external-selection-with---no-input)
+vendors each selected family it needs before transfer.
 
 ## Select published OCI content
 

@@ -427,6 +427,7 @@ test("project configuration guides keep decision, adoption, mechanism, and trans
   for (const title of [
     'title="rootform.lock (local Policy Pack)"',
     'title="rootform.lock (local Dialect)"',
+    'title="rootform.lock (combined replay selection)"',
     'title="rootform.lock (OCI template)"',
   ]) {
     expect(external).toContain(title);
@@ -456,12 +457,15 @@ test("project configuration guides keep decision, adoption, mechanism, and trans
     "offline-vendor-policy-packs",
     "offline-external-source",
     "offline-external-replay",
+    "offline-governance-source",
+    "offline-governance-replay",
   ]) {
     expect(replay).toContain(`<!-- docs-check:${marker} -->`);
   }
   expect(replay).toContain("Architecture unchanged");
   expect(replay).toContain("before-check.status");
-  expect(replay).toContain('ROOTFORM_HOME="$replay_home" \\\n  rootform check');
+  expect(replay).toContain('ROOTFORM_HOME="$governance_home" \\\n  rootform check');
+  expect(replay).toContain("This build-only path needs no Policy Pack vendor");
   expect(replay).toContain("cmp -s");
   expect(replay).toContain("does not by itself prove network isolation");
   expect(replay).not.toContain("no architectural change");

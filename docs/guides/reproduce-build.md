@@ -88,7 +88,53 @@ cd /path/to/source-project
 rootform vendor dialects --offline
 ```
 
-Vendor Policy Packs when reproducing `check`:
+The command acts on `/path/to/source-project/rootform.lock` because it runs
+from that project root. Embedded Dialects and RF Vocabulary are not copied.
+
+Build the reference after vendoring, so source and replay use the same
+project-local execution boundary:
+
+<!-- docs-check:offline-external-source -->
+```sh
+cd /path/to/source-project
+rootform build . --locked --output /path/to/evidence/before.json
+```
+
+Transfer these items:
+
+- exact Rootform executable for a compatible platform
+- project source and required local or materialized modules
+- unchanged `rootform.lock`
+- `.rootform/dialects` when external Dialects are selected
+- `before.json` for comparison
+
+Copy them into an independent project location. Copying only `rootform.lock`
+does not transport selected content. This walkthrough leaves the original
+`third-party/confluent` source directory behind after vendoring. Its project
+vendor copy must be sufficient on replay.
+
+On the replay environment, use another new home:
+
+<!-- docs-check:offline-external-replay -->
+```sh
+cd /path/to/replay-project
+replay_home=$(mktemp -d "${TMPDIR:-/tmp}/rootform-home.XXXXXX")
+ROOTFORM_HOME="$replay_home" \
+  rootform build . --locked --output /path/to/evidence/after.json
+rootform diff /path/to/evidence/before.json \
+  /path/to/evidence/after.json --exit-code
+cmp -s /path/to/evidence/before.json /path/to/evidence/after.json
+```
+
+This build-only path needs no Policy Pack vendor, Policy evaluation, or check
+report.
+
+### Add governance evidence when needed
+
+Governance reproduction is optional. Use the
+[combined replay selection](external-content.md#combine-the-examples-for-offline-replay),
+including the `tutorial` Policy Pack and its effective subnet target. On the
+source environment, vendor that selected family and save its result and status:
 
 <!-- docs-check:offline-vendor-policy-packs -->
 ```sh
@@ -96,19 +142,9 @@ cd /path/to/source-project
 rootform vendor policy-packs --offline
 ```
 
-Both commands act on `/path/to/source-project/rootform.lock` because they run
-from that project root. Embedded Dialects and RF Vocabulary are not copied.
-
-Build the reference after vendoring, so source and replay use the same
-project-local execution boundary. For governance reproduction, use the
-`tutorial` Policy Pack from
-[Select a local Policy Pack](external-content.md#select-a-local-policy-pack).
-The first-architecture subnet gives that Policy one effective target.
-
-<!-- docs-check:offline-external-source -->
+<!-- docs-check:offline-governance-source -->
 ```sh
 cd /path/to/source-project
-rootform build . --locked --output /path/to/evidence/before.json
 if rootform check . --locked --format json \
   --output /path/to/evidence/before-check.json
 then
@@ -120,31 +156,17 @@ printf '%s\n' "$source_check_status" > /path/to/evidence/before-check.status
 ```
 
 For this compliant example, `before-check.status` contains `0` and the JSON
-report records one evaluated, passed Policy.
+report records one evaluated, passed Policy. Transfer `.rootform/policy-packs`,
+`before-check.json`, and `before-check.status` with the build inputs. The
+original `policies` source directory can remain on the source environment.
 
-Transfer these items:
+On the replay environment, create another new home and compare Policy evidence:
 
-- exact Rootform executable for a compatible platform
-- project source and required local or materialized modules
-- unchanged `rootform.lock`
-- `.rootform/dialects` when external Dialects are selected
-- `.rootform/policy-packs` when a Policy check must be reproduced
-- `before.json`, `before-check.json`, and `before-check.status` for comparison
-
-Copy them into an independent project location. Copying only `rootform.lock`
-does not transport selected content. This walkthrough leaves the original
-`third-party/confluent` and `policies` source directories behind after
-vendoring. Their project vendor copies must be sufficient on replay.
-
-On the replay environment, use another new home:
-
-<!-- docs-check:offline-external-replay -->
+<!-- docs-check:offline-governance-replay -->
 ```sh
 cd /path/to/replay-project
-replay_home=$(mktemp -d "${TMPDIR:-/tmp}/rootform-home.XXXXXX")
-ROOTFORM_HOME="$replay_home" \
-  rootform build . --locked --output /path/to/evidence/after.json
-if ROOTFORM_HOME="$replay_home" \
+governance_home=$(mktemp -d "${TMPDIR:-/tmp}/rootform-home.XXXXXX")
+if ROOTFORM_HOME="$governance_home" \
   rootform check . --locked --format json \
   --output /path/to/evidence/after-check.json
 then
@@ -153,19 +175,15 @@ else
   replay_check_status=$?
 fi
 printf '%s\n' "$replay_check_status" > /path/to/evidence/after-check.status
-rootform diff /path/to/evidence/before.json \
-  /path/to/evidence/after.json --exit-code
-cmp -s /path/to/evidence/before.json /path/to/evidence/after.json
 cmp -s /path/to/evidence/before-check.json \
   /path/to/evidence/after-check.json
 cmp -s /path/to/evidence/before-check.status \
   /path/to/evidence/after-check.status
 ```
 
-Both `build` and `check` use the same new `ROOTFORM_HOME`. Matching Policy JSON
-proves the evaluation result was reproduced, while matching status files prove
-the command outcome was reproduced. These checks remain separate from
-Architecture Diff and byte identity.
+Matching Policy JSON proves evaluation result was reproduced. Matching status
+files proves command outcome was reproduced. Both remain separate from
+Architecture Diff, byte identity, home independence, and network isolation.
 
 ## Detect and repair an incomplete vendor
 

@@ -274,6 +274,7 @@ export function verifyProjectConfigurationExamples(
         config.content_digest === displayedDialectIdentity.content_digest,
       "independent OCI config reading differs from published jq extraction",
     );
+    checks.push("published jq block extracts the displayed local Dialect identity");
   }
 
   const localDialectLock = `${titledBlock(
@@ -329,9 +330,7 @@ export function verifyProjectConfigurationExamples(
       readFileSync(join(ociProject, "rootform.lock"), "utf8") === ociLock,
     "OCI template was not accepted as a valid unavailable offline selection",
   );
-  checks.push(
-    "published jq block extracts local Dialect identity, prepares its selection, and OCI template satisfies lock parser",
-  );
+  checks.push("local Dialect selection prepares unchanged and OCI template satisfies lock parser");
 
   const externalSource = join(suiteRoot, "external-source");
   const externalReplay = join(suiteRoot, "external-replay");
@@ -354,48 +353,40 @@ export function verifyProjectConfigurationExamples(
     "/path/to/evidence": externalEvidence,
   });
   assert(existsSync(externalEvidence), "external report directory was not created by guide");
-  const dialectLock = `${JSON.stringify(
-    {
-      format_version: "1",
-      dialects: [
-        {
-          owner: displayedDialectIdentity.owner,
-          version: displayedDialectIdentity.version,
-          content_digest: displayedDialectIdentity.content_digest,
-          source: { local: { path: "third-party/confluent" } },
-        },
-      ],
-      policy_packs: [
-        {
-          name: "tutorial",
-          version: "0.1.0",
-          content_digest: "sha256:3f301eea6cfe95b1c66ba3c768d3d57613c847ca245cdb5ad3838e6604a19e9e",
-          source: { local: { path: "policies" } },
-        },
-      ],
-      excluded_owners: [],
-      replacements: ["confluent"],
-    },
-    null,
-    2,
+  const combinedLock = `${titledBlock(
+    page("guides/external-content.md"),
+    "json",
+    "rootform.lock (combined replay selection)",
   )}\n`;
-  writeFileSync(join(externalSource, "rootform.lock"), dialectLock);
+  writeFileSync(join(externalSource, "rootform.lock"), combinedLock);
   run([binary, "init", ".", "--locked", "--offline", "--no-input"], externalSource);
   const externalLockBytes = readFileSync(join(externalSource, "rootform.lock"));
   marked("guides/reproduce-build.md", "offline-vendor-dialects", externalSource, {
     "/path/to/source-project": externalSource,
   });
-  marked("guides/reproduce-build.md", "offline-vendor-policy-packs", externalSource, {
-    "/path/to/source-project": externalSource,
-  });
   assert(
     existsSync(join(externalSource, ".rootform/dialects/confluent/.rootform-vendor.json")) &&
-      existsSync(join(externalSource, ".rootform/policy-packs/tutorial/.rootform-vendor.json")) &&
       readFileSync(join(externalSource, "rootform.lock")).equals(externalLockBytes) &&
       !existsSync(join(suiteRoot, ".rootform")),
     "vendoring did not act on the selected project only",
   );
   marked("guides/reproduce-build.md", "offline-external-source", externalSource, {
+    "/path/to/source-project": externalSource,
+    "/path/to/evidence": externalEvidence,
+  });
+  assert(
+    !existsSync(join(externalEvidence, "before-check.json")) &&
+      !existsSync(join(externalEvidence, "before-check.status")),
+    "build-only source path created governance evidence",
+  );
+  marked("guides/reproduce-build.md", "offline-vendor-policy-packs", externalSource, {
+    "/path/to/source-project": externalSource,
+  });
+  assert(
+    existsSync(join(externalSource, ".rootform/policy-packs/tutorial/.rootform-vendor.json")),
+    "optional governance family was not vendored",
+  );
+  marked("guides/reproduce-build.md", "offline-governance-source", externalSource, {
     "/path/to/source-project": externalSource,
     "/path/to/evidence": externalEvidence,
   });
@@ -437,13 +428,27 @@ export function verifyProjectConfigurationExamples(
       readFileSync(join(externalEvidence, "before.json")).equals(
         readFileSync(join(externalEvidence, "after.json")),
       ) &&
+      !existsSync(join(externalEvidence, "after-check.json")) &&
+      !existsSync(join(externalEvidence, "after-check.status")),
+    "build-only replay created governance evidence or changed architecture bytes",
+  );
+  const governanceHomesBefore = new Set(readdirSync(suiteRoot));
+  marked("guides/reproduce-build.md", "offline-governance-replay", externalReplay, {
+    "/path/to/replay-project": externalReplay,
+    "/path/to/evidence": externalEvidence,
+  });
+  const governanceHomesAfter = readdirSync(suiteRoot).filter(
+    (entry) => entry.startsWith("rootform-home.") && !governanceHomesBefore.has(entry),
+  );
+  assert(
+    governanceHomesAfter.length === 1 &&
       readFileSync(join(externalEvidence, "before-check.json")).equals(
         readFileSync(join(externalEvidence, "after-check.json")),
       ) &&
       readFileSync(join(externalEvidence, "before-check.status")).equals(
         readFileSync(join(externalEvidence, "after-check.status")),
       ),
-    "external replay did not preserve architecture bytes, Policy result, and status",
+    "optional governance replay did not preserve Policy result, status, or fresh home",
   );
 
   const damagedLock = readFileSync(join(externalReplay, "rootform.lock"));
@@ -480,7 +485,7 @@ export function verifyProjectConfigurationExamples(
     "explicit vendor repair did not restore byte-identical build",
   );
   checks.push(
-    "vendored architecture and governance replay without source/store, preserve status, and fail closed on damage",
+    "build-only replay stays independent, optional governance preserves result and status, and damage fails closed",
   );
 
   return checks;
