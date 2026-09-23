@@ -23,7 +23,7 @@ rootform explain architecture <address> [flags]
 | --- | --- | --- | --- |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain architecture |
-| ` --input ` | ` string ` | ` "" ` | read the architecture at `path`; - reads standard input |
+| ` --input ` | ` string ` | ` "" ` | read architecture at `path`; use `-` for standard input |
 
 ## Inherited flags
 

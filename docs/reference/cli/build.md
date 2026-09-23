@@ -32,7 +32,7 @@ rootform build [directory] [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform build |
 | ` --locked ` | ` bool ` | ` false ` | require an existing valid rootform.lock |
 | ` -o, --output ` | ` string ` | ` "" ` | write the architecture to this `file` |
-| ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
+| ` --plan ` | ` file ` | ` "" ` | read JSON plan; use `-` for standard input |
 
 ## Inherited flags
 

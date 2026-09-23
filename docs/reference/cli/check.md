@@ -26,7 +26,7 @@ rootform check [input] [flags]
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform check |
 | ` --locked ` | ` bool ` | ` false ` | require an existing valid rootform.lock |
 | ` -o, --output ` | ` string ` | ` "" ` | write the result to this `file` |
-| ` --plan ` | ` file ` | ` "" ` | read JSON plan; - reads standard input |
+| ` --plan ` | ` file ` | ` "" ` | read JSON plan; use `-` for standard input |
 | ` --policy ` | ` stringArray ` | ` [] ` | select pack/name or unique policy; repeatable |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select directory or compiled JSON `path`; repeatable |
 

@@ -172,6 +172,10 @@ function cell(text: string): string {
   return prose(text).replaceAll("|", "\\|").replaceAll("\n", " ");
 }
 
+function flagMeaning(text: string): string {
+  return cell(text).replaceAll("'-'", "`-`");
+}
+
 function code(text: string): string {
   const delimiter = "`".repeat(
     Math.max(0, ...[...text.matchAll(/`+/gu)].map((m) => m[0].length)) + 1,
@@ -210,7 +214,7 @@ function flagTable(flags: Flag[], title: string): string {
     ]
       .filter(Boolean)
       .join(" ");
-    return `| ${code(name)} | ${code(flag.type)} | ${code(flag.default === "" ? '""' : flag.default)} | ${cell(flag.usage)}${notes ? ` ${cell(notes)}` : ""} |`;
+    return `| ${code(name)} | ${code(flag.type)} | ${code(flag.default === "" ? '""' : flag.default)} | ${flagMeaning(flag.usage)}${notes ? ` ${cell(notes)}` : ""} |`;
   });
   return `## ${title}\n\n| Flag | Type | Default | Meaning |\n| --- | --- | --- | --- |\n${rows.join("\n")}\n`;
 }
