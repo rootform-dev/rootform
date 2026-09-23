@@ -92,11 +92,11 @@ rootform build . --output architecture.json
 
 The command writes a Rootform architecture file and reports:
 
-```text title="Declaration summary"
-Architecture built -> architecture.json
+```ansi title="Declaration summary"
+[1m[32mArchitecture built -> architecture.json[0m
 
-Resources  2
-Facts      1 resolved, 0 omitted
+[2mResources[0m  2
+[2mFacts[0m      1 resolved, 0 omitted
 ```
 
 The saved [Architecture IR](../concepts/architecture-ir.md) keeps source
@@ -109,15 +109,15 @@ inspection or automation.
 rootform explain architecture aws_subnet.application --input architecture.json
 ```
 
-```text title="Subnet explanation excerpt"
-aws_subnet.application
+```ansi title="Subnet explanation excerpt"
+[1maws_subnet.application[0m
 
-Concept  rf.concept.subnet "application"
-Rule     aws.rule.subnet
-Defined  main.tf:16
+[2mConcept[0m  rf.concept.subnet "application"
+[2mRule[0m     aws.rule.subnet
+[2mDefined[0m  main.tf:16
 
-Contexts
-  rf.context.network  rf.concept.virtual-network "main"
+[1m[38;5;208mContexts[0m
+[2m  rf.context.network[0m  rf.concept.virtual-network "main"
                       via aws_subnet.application.vpc_id
 ```
 
