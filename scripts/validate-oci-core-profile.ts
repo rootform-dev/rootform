@@ -34,6 +34,13 @@ const forbiddenRequirements = [
   /(?:Referrers|catalog|deletion|PATCH|signatures?|SBOM|VCS)[^\n]*(?:is required|are required)/iu,
 ] as const;
 
+const qualifiedPaths = [
+  "Local qualification covers CNCF Distribution 3.0 over anonymous TLS.",
+  "Private Basic authentication and Docker credential-helper access to Distribution are not qualified by this path.",
+  "Candidate qualification against a transient public GHCR package uses a Docker credential helper under GitHub Actions' repository-inherited package visibility.",
+  "It does not separately prove the Bearer challenge exchange, anonymous pull, or private-package access.",
+].join(" ");
+
 export function validateOCICoreProfile(body: string): void {
   const normalized = body.replace(/\s+/gu, " ");
   for (const value of required) {
@@ -45,6 +52,19 @@ export function validateOCICoreProfile(body: string): void {
   }
   if (!body.includes("Profile does not require:")) {
     throw new Error("OCI Core Profile has no explicit exclusion boundary");
+  }
+  const portability = body.split("\n## Portability test\n")[1]?.split("\n## ")[0];
+  const claims = portability?.split("Local qualification")[1]?.split("Qualification content")[0];
+  if (!claims || `Local qualification${claims}`.replace(/\s+/gu, " ").trim() !== qualifiedPaths) {
+    throw new Error("OCI Core Profile qualification paths differ from tested paths");
+  }
+  const outsideClaims = portability?.replace(`Local qualification${claims}`, "") ?? "";
+  if (
+    /private Basic|Bearer challenge exchange|anonymous pull|private-package access/iu.test(
+      outsideClaims,
+    )
+  ) {
+    throw new Error("OCI Core Profile qualification paths differ from tested paths");
   }
 }
 

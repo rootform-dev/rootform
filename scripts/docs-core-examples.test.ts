@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { configuration, markedCommand } from "./docs-core-examples.ts";
+import { assertHelpUsage, configuration, markedCommand } from "./docs-core-examples.ts";
 
 test("executable documentation markers bind one exact adjacent shell block", () => {
   const page = "<!-- docs-check:build -->\n```sh\nrootform build . --locked\n```\n";
@@ -13,4 +13,12 @@ test("configuration blocks require a unique filename", () => {
   expect(configuration(page, "main.tf")).toBe('resource "example" "one" {}\n');
   expect(() => configuration(page, "other.tf")).toThrow("Expected one");
   expect(() => configuration(page + page, "main.tf")).toThrow("Expected one");
+});
+
+test("root usage mismatch fails rather than skipping the public export", () => {
+  const help = "Usage:\n  rootform [command]\n\nFlags:\n";
+  expect(() => assertHelpUsage("rootform", "rootform [command]", help)).not.toThrow();
+  expect(() => assertHelpUsage("rootform", "rootform [flags]", help)).toThrow(
+    'rootform usage differs from public export: help "rootform [command]", export "rootform [flags]"',
+  );
 });

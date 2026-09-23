@@ -26,7 +26,7 @@ and return here for exact command contracts.
 ## Usage
 
 ```text
-rootform [flags]
+rootform [command]
 ```
 
 ## Flags

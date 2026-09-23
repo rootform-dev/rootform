@@ -30,6 +30,14 @@ function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(`Docs example: ${message}`);
 }
 
+export function assertHelpUsage(path: string, exported: string, help: string): void {
+  const actual = /^Usage:\n\s+([^\n]+)/mu.exec(help)?.[1];
+  assert(
+    actual === exported,
+    `${path} usage differs from public export: help ${JSON.stringify(actual)}, export ${JSON.stringify(exported)}`,
+  );
+}
+
 export function verifyCoreExamples(
   binary: string,
   root: string,
@@ -86,10 +94,7 @@ export function verifyCoreExamples(
   );
   for (const cmd of commands) {
     const help = run([...cmd.path.split(" ").slice(1), "--help"]).stdout;
-    const usage = /^Usage:\n\s+([^\n]+)/mu.exec(help)?.[1];
-    if (cmd.path !== "rootform") {
-      assert(usage === cmd.usage, `${cmd.path} usage differs from public export`);
-    }
+    assertHelpUsage(cmd.path, cmd.usage, help);
     const flagsStart = help.indexOf("\nFlags:\n");
     assert(flagsStart >= 0, `${cmd.path} help has no flag section`);
     const actual = [...help.slice(flagsStart).matchAll(/^\s+(?:-\w,\s+)?--([a-z][a-z0-9-]*)\b/gmu)]
@@ -110,7 +115,7 @@ export function verifyCoreExamples(
     }
   }
   checks.push(
-    `all ${commands.length} command help surfaces match flags and nonempty defaults; child usages match export`,
+    `all ${commands.length} command help surfaces match usages, flags, and nonempty defaults`,
   );
 
   const dialectPage = page("concepts/dialects.md");

@@ -31,3 +31,28 @@ test("OCI Core Profile cannot make an excluded feature mandatory", () => {
     );
   }
 });
+
+test("OCI qualification claims stay within the maintained registry paths", () => {
+  const qualifier = readFileSync(join(import.meta.dir, "qualify-image.ts"), "utf8");
+  const distributionRun = qualifier.match(
+    /docker\(\[\s*"run",\s*"--detach",[\s\S]*?REGISTRY_IMAGE,\s*\]\)/u,
+  )?.[0];
+  expect(distributionRun).toContain("REGISTRY_HTTP_TLS_CERTIFICATE=");
+  expect(distributionRun).toContain("REGISTRY_HTTP_TLS_KEY=");
+  expect(distributionRun).not.toMatch(/REGISTRY_AUTH|htpasswd|DOCKER_CONFIG/u);
+
+  for (const changed of [
+    profile.replace("anonymous TLS.", "anonymous TLS and private Basic."),
+    profile.replace("are\nnot qualified by this path.", "are\nqualified by this path."),
+    profile.replace("It does not separately prove", "It proves"),
+    profile.replace(
+      "Qualification content is synthetic",
+      "Private Basic also passed qualification. Qualification content is synthetic",
+    ),
+  ]) {
+    expect(changed).not.toBe(profile);
+    expect(() => validateOCICoreProfile(changed)).toThrow(
+      "qualification paths differ from tested paths",
+    );
+  }
+});
