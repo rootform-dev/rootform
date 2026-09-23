@@ -55,7 +55,7 @@ does not require adding a Rule just to create a visual card.
 
 ## A Representation has no standalone card in the current scene
 
-The Explorer shows one Context at a time. Search by resource name or type
+The Explorer emphasizes one navigation scene at a time. Search by resource name or type
 across the architecture, then inspect its **Source** and contributions.
 Secondary association resources may appear through another object's Inspector
 and can be revealed on demand. Use `rootform explain architecture <address>`
@@ -165,16 +165,30 @@ completed report can return `0` despite changes or uncertainty. See
 
 ## Diff cannot complete at all
 
-Status `3` differs from a report containing undetermined facts. Validate both
-saved inputs before retrying:
+Status `3` differs from a completed report containing undetermined facts. Check
+the input form used by the failed command before retrying. For two saved
+Architecture IR documents, validate each file separately:
 
 ```sh
 rootform validate architecture before.json
 rootform validate architecture after.json
 ```
 
-Fix invalid or unreadable inputs rather than treating failure as an empty
-comparison. See [Valid partial document differs from invalid document](../concepts/architecture-ir.md#valid-partial-document-differs-from-invalid-document).
+For root-module directories, build each root separately and read its own
+diagnostics:
+
+```sh
+rootform build ./before --output before.json
+rootform build ./after --output after.json
+```
+
+For `rootform diff --plan tfplan.json`, confirm the input is a completed saved
+plan's JSON export. Re-export it as described in
+[Terraform and OpenTofu plans](../inputs/plans.md) and retry the plan input
+with `rootform build --plan tfplan.json`. Do not pass a plan to
+`validate architecture`, which accepts Architecture IR. Fix invalid or
+unreadable inputs rather than treating failure as an empty comparison. See
+[Valid partial document differs from invalid document](../concepts/architecture-ir.md#valid-partial-document-differs-from-invalid-document).
 
 ## A container cannot write its output file
 

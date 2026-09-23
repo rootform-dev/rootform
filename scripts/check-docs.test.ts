@@ -2,6 +2,7 @@ import { expect, test } from "bun:test";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { IMAGE_PLATFORMS } from "./build-image.ts";
 import {
   checkNavigation,
   checkPage,
@@ -15,6 +16,7 @@ import {
   parseRelativeMarkdownLinks,
   resolveRepositoryLink,
 } from "./check-docs.ts";
+import { rootformDockerArguments } from "./qualify-image.ts";
 
 test("deriveRoute maps documented page paths to page ids", () => {
   expect(deriveRoute("docs/index.md")).toBe("index");
@@ -783,12 +785,119 @@ test("public docs distinguish Dialects from semantics", () => {
   }
 });
 
-test("operations pages keep network, offline, and diagnosis boundaries explicit", () => {
+test("container runtime table follows Dockerfile and image build platforms", () => {
+  const root = join(import.meta.dir, "..");
+  const image = readFileSync(join(root, "docs/integrations/oci-image.md"), "utf8");
+  const dockerfile = readFileSync(join(root, "oci/Dockerfile"), "utf8");
+  const rows = new Map(
+    [...image.matchAll(/^\| ([^|]+) \| ([^|]+) \|$/gmu)].map((match) => [
+      match[1]?.trim(),
+      match[2]?.trim(),
+    ]),
+  );
+  expect(rows.get("Platforms")).toBe(IMAGE_PLATFORMS.map((arch) => `\`linux/${arch}\``).join(", "));
+  expect(rows.get("Working directory")).toBe(`\`${dockerfile.match(/^WORKDIR (\S+)$/mu)?.[1]}\``);
+  expect(rows.get("Default user")).toBe(`\`${dockerfile.match(/^USER (\S+)$/mu)?.[1]}\``);
+  expect(rows.get("`HOME`")).toBe(`\`${dockerfile.match(/^ENV HOME=(\S+)/mu)?.[1]}\``);
+  expect(rows.get("`ROOTFORM_HOME`")).toBe(
+    `\`${dockerfile.match(/^\s+ROOTFORM_HOME=(\S+)$/mu)?.[1]}\``,
+  );
+  expect(rows.get("Binary")).toBe(`\`${dockerfile.match(/^COPY .* (\/\S+)$/mu)?.[1]}\``);
+  expect(dockerfile).not.toMatch(/^ENTRYPOINT\b/mu);
+  expect(rows.get("Entrypoint")).toBe("none");
+  const command = JSON.parse(dockerfile.match(/^CMD (\[.*\])$/mu)?.[1] ?? "null");
+  expect(rows.get("Default command")).toBe(`\`${command.join(" ")}\``);
+});
+
+test("offline container recipe separates qualified runtime flags from Docker-only controls", () => {
+  const image = readFileSync(join(import.meta.dir, "../docs/integrations/oci-image.md"), "utf8");
+  const recipe = image.match(
+    /## Run with vendored content offline[\s\S]*?```sh\n([\s\S]*?)\n```/u,
+  )?.[1];
+  expect(recipe).toBeDefined();
+  const qualified = rootformDockerArguments({
+    architecture: "amd64",
+    arguments: ["build", ".", "--locked"],
+    home: "/tmp/rootform-home",
+    image: "local-image",
+    network: "none",
+    project: "/tmp/rootform-project",
+    projectReadOnly: true,
+  });
+  for (const flag of ["--network", "--read-only", "--cap-drop", "--security-opt"]) {
+    expect(qualified).toContain(flag);
+    expect(recipe).toContain(flag);
+  }
+  expect(qualified).toContain("/tmp/rootform-project:/workspace:ro");
+  expect(recipe).toContain('--volume "$PWD:/workspace:ro"');
+  for (const dockerOnly of ["--pull never", "--tmpfs /tmp:", "--tmpfs /home/rootform/.rootform:"]) {
+    expect(recipe).toContain(dockerOnly);
+  }
+  expect(qualified).not.toContain("--pull");
+  expect(qualified).not.toContain("--tmpfs");
+});
+
+test("registry table stays within committed qualification paths", () => {
+  const root = join(import.meta.dir, "..");
+  const registry = readFileSync(join(root, "docs/integrations/registry-compatibility.md"), "utf8");
+  const local = readFileSync(join(root, "scripts/qualify-image.ts"), "utf8");
+  const hosted = readFileSync(join(root, ".github/workflows/candidate.yml"), "utf8");
+  const localRun = local.match(
+    /docker\(\[\s*"run",\s*"--detach",[\s\S]*?REGISTRY_IMAGE,\s*\]\)/u,
+  )?.[0];
+  expect(localRun).toBeDefined();
+  expect(localRun).toContain("REGISTRY_HTTP_TLS_CERTIFICATE=");
+  expect(localRun).toContain("REGISTRY_HTTP_TLS_KEY=");
+  expect(localRun).not.toMatch(/REGISTRY_AUTH|htpasswd|DOCKER_CONFIG/u);
+  const distribution = registry
+    .split("\n")
+    .find((line) => line.startsWith("| CNCF Distribution 3.0 |"));
+  expect(distribution).toContain("Anonymous repository over TLS");
+  expect(distribution).toContain("Private Basic authentication");
+  expect(distribution).toContain("not covered");
+
+  expect(hosted).toContain('jq -n \'{credHelpers: {"ghcr.io": "rootform-ghcr"}}\'');
+  expect(hosted).toContain("Require qualification package to start public or absent");
+  expect(hosted).toContain("Require qualification package to remain public");
+  expect(hosted).toContain('--credential-proof "$ROOTFORM_CREDENTIAL_PROOF"');
+  const ghcr = registry
+    .split("\n")
+    .find((line) => line.startsWith("| GitHub Container Registry (GHCR) |"));
+  expect(ghcr).toContain("Public package accessed with a Docker credential helper");
+  expect(ghcr).toContain("does not separately assert the Bearer challenge exchange");
+  expect(ghcr).toContain("anonymous pull, or private-package access");
+});
+
+test("security network matrix follows CLI command categories", () => {
+  const root = join(import.meta.dir, "..");
+  const security = readFileSync(join(root, "docs/security/index.md"), "utf8");
+  const reference = JSON.parse(readFileSync(join(root, "reference/cli.json"), "utf8")) as {
+    commands: { path: string; description: string; flags: { name: string }[] }[];
+  };
+  const command = (name: string) =>
+    reference.commands.find((entry) => entry.path === `rootform ${name}`);
+  for (const name of ["init", "vendor", "publish", "package", "run"]) {
+    expect(command(name), `${name} missing from generated CLI reference`).toBeDefined();
+    expect(security).toContain(`rootform ${name}`);
+  }
+  for (const name of ["build", "check", "diff", "explain", "list", "show", "validate", "test"]) {
+    expect(command(name), `${name} missing from generated CLI reference`).toBeDefined();
+    expect(security).toMatch(new RegExp(`\\b${name}\\b`, "u"));
+  }
+  expect(command("build")?.description).toContain("never\ndownloads, acquires, or prompts");
+  expect(command("init")?.description).toContain("--offline");
+  expect(command("vendor dialects")?.flags.some((flag) => flag.name === "offline")).toBe(true);
+  expect(command("vendor policy-packs")?.flags.some((flag) => flag.name === "offline")).toBe(true);
+  expect(command("publish dialects")?.description).toContain("repull every manifest by\ndigest");
+  expect(command("package dialects")?.description).toContain("Nothing is sent\nto a registry");
+  expect(security).toContain("This is possible with or without `--locked`");
+  expect(security).toContain("No raw values does not mean anonymized");
+});
+
+test("operations pages retain documented recipes and diagnosis routes", () => {
   const root = join(import.meta.dir, "../docs");
   const page = (name: string) => readFileSync(join(root, name), "utf8");
   const image = page("integrations/oci-image.md");
-  const registry = page("integrations/registry-compatibility.md");
-  const security = page("security/index.md");
   const limitations = page("limitations.md");
   const troubleshooting = page("troubleshooting/index.md");
 
@@ -803,24 +912,6 @@ test("operations pages keep network, offline, and diagnosis boundaries explicit"
   ]) {
     expect(image).toContain(marker);
   }
-  expect(registry).toContain("## Qualified registry paths");
-  expect(registry).toContain("Anonymous pull and private-package access are not established");
-  expect(registry).toContain("`manifest_digest`");
-  expect(registry).toContain("`layer_digest`");
-  expect(registry).toContain("`content_digest`");
-
-  for (const operation of [
-    "| `rootform init` |",
-    "| `rootform vendor dialects` and `rootform vendor policy-packs` |",
-    "| `rootform publish dialects` and `rootform publish policy-packs` |",
-    "| `rootform package` |",
-    "| `rootform run` |",
-  ]) {
-    expect(security).toContain(operation);
-  }
-  expect(security).toContain("This is possible with or without `--locked`");
-  expect(security).toContain("No raw values does not mean anonymized");
-
   for (const question of [
     "## Does Rootform see deployed infrastructure?",
     "## Is configuration analysis the same as a plan?",

@@ -113,6 +113,19 @@ export async function verifyCliBehavior(
   run(["diff", "before.json", after, "--format", "html"], 2);
   run(["diff", "missing.json", after], 3);
   assert(run(["diff", "--plan", planPath]).stdout.length > 0, "plan comparison missing");
+  const invalidArchitecture = resultPath("invalid-architecture.json");
+  writeFileSync(invalidArchitecture, '{"format_version":"invalid"}\n');
+  run(["diff", invalidArchitecture, after], 3);
+  run(["validate", "architecture", invalidArchitecture], 1);
+  const invalidDirectory = resultPath("invalid-directory");
+  mkdirSync(invalidDirectory);
+  writeFileSync(join(invalidDirectory, "main.tf"), "resource {\n");
+  run(["diff", invalidDirectory, "."], 3);
+  run(["build", invalidDirectory], 3);
+  const invalidPlan = resultPath("invalid-plan.json");
+  writeFileSync(invalidPlan, "{}\n");
+  run(["diff", "--plan", invalidPlan], 3);
+  run(["build", "--plan", invalidPlan], 3);
   const diffPath = resultPath("diff.md");
   assert(
     run(["diff", "before.json", after, "--format", "markdown", "--output", diffPath]).stdout ===
@@ -167,10 +180,30 @@ export async function verifyCliBehavior(
     "explain architecture stopped resolving saved addresses",
   );
   run(["validate", "architecture", "architecture.json"]);
-  const invalidPath = resultPath("invalid-architecture.json");
-  writeFileSync(invalidPath, '{"format_version":"invalid"}\n');
-  run(["validate", "architecture", invalidPath], 1);
   run(["validate", "architecture", "architecture.json", "--format", "yaml"], 2);
+
+  const baseOnly = resultPath("base-only");
+  mkdirSync(baseOnly);
+  writeFileSync(join(baseOnly, "main.tf"), 'resource "acme_unknown_widget" "probe" {}\n');
+  const baseOnlyArchitecture = join(baseOnly, "architecture.json");
+  run(["build", ".", "--output", baseOnlyArchitecture], 0, baseOnly);
+  const baseOnlyDocument = JSON.parse(readFileSync(baseOnlyArchitecture, "utf8"));
+  assert(
+    baseOnlyDocument.architecture.representations.some(
+      (representation: { id?: string; rule?: string }) =>
+        representation.id?.includes("acme_unknown_widget.probe") && !representation.rule,
+    ),
+    "unrecognized resource lost its base Representation",
+  );
+  const baseOnlyExplanation = run(
+    ["explain", "architecture", "acme_unknown_widget.probe", "--input", baseOnlyArchitecture],
+    0,
+    baseOnly,
+  ).stdout;
+  assert(
+    /Rule\s+none/u.test(baseOnlyExplanation) && /Facts\s+none/u.test(baseOnlyExplanation),
+    "explain architecture did not diagnose base-only Representation",
+  );
 
   async function serve(
     args: string[],
@@ -253,9 +286,9 @@ export async function verifyCliBehavior(
   return [
     "CLI build and plan inputs, JSON/HTML, output streams, and usage failures execute",
     "CLI check formats, project selection, override, report files, and statuses execute",
-    "CLI diff formats, stdin, plan, output files, and exit-code execute",
+    "CLI diff formats, stdin, plan, input-type failures, output files, and exit-code execute",
     "CLI init and both vendor families preserve lock and empty selection",
-    "CLI list/show/explain and validate architecture result versus usage execute",
+    "CLI list/show/explain base-only and validate architecture result versus usage execute",
     "CLI run directory, saved architecture, plan, watch state, port 0, and Ctrl+C execute",
   ];
 }

@@ -161,6 +161,22 @@ export function verifyProjectConfigurationExamples(
     "json",
     "rootform.lock (local Policy Pack)",
   )}\n`;
+  const missingProject = join(suiteRoot, "missing-selected-content");
+  mkdirSync(missingProject);
+  writeFileSync(join(missingProject, "main.tf"), main);
+  writeFileSync(join(missingProject, "rootform.lock"), localLock);
+  const missingList = run([binary, "list", "policies", "-o", "json"], missingProject, 3);
+  const missingInit = run(
+    [binary, "init", ".", "--locked", "--offline", "--no-input"],
+    missingProject,
+    3,
+  );
+  assert(
+    missingList.stderr.includes("selected Policy Pack tutorial is unavailable locally") &&
+      missingInit.stderr.includes("local source is unavailable") &&
+      readFileSync(join(missingProject, "rootform.lock"), "utf8") === localLock,
+    "missing selected content did not block list/init while preserving the lock",
+  );
   writeFileSync(join(policyProject, "rootform.lock"), localLock);
   const preparedLock = readFileSync(join(policyProject, "rootform.lock"));
   const localPreparation = marked(
@@ -231,7 +247,7 @@ export function verifyProjectConfigurationExamples(
     "Policy Pack --to changed project selection or lock",
   );
   checks.push(
-    "tutorial Policy Pack stays lock-free when explicit, evaluates when locked, and rejects drift",
+    "tutorial Policy Pack evaluates when locked, blocks list when missing, and rejects drift",
   );
 
   const identityProject = join(suiteRoot, "dialect-project");

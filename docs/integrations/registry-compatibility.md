@@ -13,8 +13,8 @@ or feature of that product.
 
 | Registry | Pull and authentication covered | Publication and identity covered | Boundary |
 | --- | --- | --- | --- |
-| GitHub Container Registry (GHCR) | Public package through Docker credential-helper and Bearer challenge | Custom media types, publish, exact repull by digest, locked recovery, and vendor repair | Anonymous pull and private-package access are not established by the public-package qualification. |
-| CNCF Distribution 3.0 | Anonymous TLS and private Basic-authenticated TLS repositories | Custom media types, publish, exact repull by digest, locked recovery, and vendor repair | Qualification is for those configured repository paths, not every Distribution deployment. |
+| GitHub Container Registry (GHCR) | Public package accessed with a Docker credential helper | Custom media types, publish, exact repull by digest, locked recovery, and vendor repair | The qualification does not separately assert the Bearer challenge exchange, anonymous pull, or private-package access. |
+| CNCF Distribution 3.0 | Anonymous repository over TLS with a test CA | Custom media types, publish, exact repull by digest, locked recovery, and vendor repair | Private Basic authentication and other Distribution configurations are not covered by this qualification. |
 
 Do not infer qualification for GitLab Container Registry, Azure Container
 Registry, Harbor, Artifactory, Nexus, or another OCI product from protocol
