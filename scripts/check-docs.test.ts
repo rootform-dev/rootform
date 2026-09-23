@@ -717,3 +717,59 @@ test("public docs distinguish Dialects from semantics", () => {
     }
   }
 });
+
+test("operations pages keep network, offline, and diagnosis boundaries explicit", () => {
+  const root = join(import.meta.dir, "../docs");
+  const page = (name: string) => readFileSync(join(root, name), "utf8");
+  const image = page("integrations/oci-image.md");
+  const registry = page("integrations/registry-compatibility.md");
+  const security = page("security/index.md");
+  const limitations = page("limitations.md");
+  const troubleshooting = page("troubleshooting/index.md");
+
+  for (const marker of [
+    "## Run against a project",
+    "--pull never",
+    "--network none",
+    "--tmpfs /tmp:uid=65532,gid=65532,mode=0700",
+    "--tmpfs /home/rootform/.rootform:uid=65532,gid=65532,mode=0700",
+    '--volume "$PWD:/workspace:ro"',
+    "--env DOCKER_CONFIG=/run/docker-config",
+  ]) {
+    expect(image).toContain(marker);
+  }
+  expect(registry).toContain("## Qualified registry paths");
+  expect(registry).toContain("Anonymous pull and private-package access are not established");
+  expect(registry).toContain("`manifest_digest`");
+  expect(registry).toContain("`layer_digest`");
+  expect(registry).toContain("`content_digest`");
+
+  for (const operation of [
+    "| `rootform init` |",
+    "| `rootform vendor dialects` and `rootform vendor policy-packs` |",
+    "| `rootform publish dialects` and `rootform publish policy-packs` |",
+    "| `rootform package` |",
+    "| `rootform run` |",
+  ]) {
+    expect(security).toContain(operation);
+  }
+  expect(security).toContain("This is possible with or without `--locked`");
+  expect(security).toContain("No raw values does not mean anonymized");
+
+  for (const question of [
+    "## Does Rootform see deployed infrastructure?",
+    "## Is configuration analysis the same as a plan?",
+    "## What happens with count, for_each, .tfvars, and modules?",
+    "## Does a resource disappear without a Rule?",
+    "## Why was a policy not evaluated or indeterminate?",
+    "## Why does Diff differ from Terraform actions?",
+    "## What does offline guarantee?",
+    "## Where does the Rootform language stop?",
+  ]) {
+    expect(limitations).toContain(question);
+  }
+  expect(limitations).toContain("does not necessarily have a permanent,");
+  expect(troubleshooting).toContain("## A Representation has no standalone card");
+  expect(troubleshooting).toContain("## Diff cannot complete at all");
+  expect(troubleshooting).toContain("Do not rely on\n`rootform list`");
+});
