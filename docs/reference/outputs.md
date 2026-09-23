@@ -3,9 +3,8 @@ title: "Outputs and exit status"
 description: "Choose an architecture, policy, or comparison result and interpret its status."
 ---
 
-Choose a result for its consumer. An output file's presence, extension, or valid
-JSON syntax does not prove the operation succeeded. Check the command's exit
-status and read its diagnostics.
+An output file's presence, extension, or valid JSON syntax does not prove the
+operation succeeded. Check the command's exit status and read its diagnostics.
 
 | Result | Command and format | Use |
 | --- | --- | --- |

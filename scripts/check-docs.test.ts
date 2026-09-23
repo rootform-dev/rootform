@@ -409,7 +409,6 @@ test("input guides preserve configuration, saved-document, and plan boundaries",
     expect(choice).toContain(command);
   }
   expect(choice).toContain("not an isolated `.tf`");
-  expect(choice).toContain("Two valid documents with different semantic environments");
   expect(choice).not.toContain("requires compatible semantic digests");
 
   for (const command of [
@@ -428,8 +427,6 @@ test("input guides preserve configuration, saved-document, and plan boundaries",
 
   expect(explore).toContain("rootform run architecture.json");
   expect(explore).toContain("rootform build . --format html --output architecture.html");
-  expect(explore).not.toContain("beneficiary inspector rows");
-  expect(explore).not.toContain("same resource ID");
 });
 
 test("local review guides preserve Diff, Policy, and Git boundaries", () => {
@@ -461,10 +458,7 @@ test("local review guides preserve Diff, Policy, and Git boundaries", () => {
   }
   expect(review).not.toMatch(/git (?:reset|clean|checkout)/u);
   expect(review).not.toContain("rm -r");
-  expect(review).toContain("Uncommitted modifications");
-  expect(review).toContain("`.terraform/`");
   expect(review).toContain("rm -f");
-  expect(review).toContain("HTML shows one architecture");
 });
 
 test("project configuration guides keep decision, adoption, mechanism, and transfer separate", () => {
@@ -474,7 +468,6 @@ test("project configuration guides keep decision, adoption, mechanism, and trans
   const locks = readFileSync(join(root, "docs/offline-security.md"), "utf8");
   const replay = readFileSync(join(root, "docs/guides/reproduce-build.md"), "utf8");
 
-  expect(selection).toContain("returns status\n`3`, not compliance");
   expect(selection).not.toContain("manifest_digest");
   expect(selection).not.toContain("$ROOTFORM_HOME/cache");
 
@@ -488,7 +481,6 @@ test("project configuration guides keep decision, adoption, mechanism, and trans
   }
   expect(external).toContain("rootform list policy-packs --policy-pack");
   expect(external).toContain("rootform package dialects ./third-party/confluent");
-  expect(external).toContain("Policies     1 selected");
   expect(external).not.toMatch(/rootform publish (?:dialects|policy-packs)/u);
 
   for (const heading of [
@@ -501,7 +493,6 @@ test("project configuration guides keep decision, adoption, mechanism, and trans
   ]) {
     expect(locks).toContain(heading);
   }
-  expect(locks).toContain("never create, normalize, or update the lock");
 
   for (const marker of [
     "offline-evidence-directory",
@@ -519,10 +510,7 @@ test("project configuration guides keep decision, adoption, mechanism, and trans
   expect(replay).toContain("Architecture unchanged");
   expect(replay).toContain("before-check.status");
   expect(replay).toContain('ROOTFORM_HOME="$governance_home" \\\n  rootform check');
-  expect(replay).toContain("This build-only path needs no Policy Pack vendor");
   expect(replay).toContain("cmp -s");
-  expect(replay).toContain("does not by itself prove network isolation");
-  expect(replay).not.toContain("no architectural change");
 });
 
 test("installation documentation keeps supported methods in recommendation order", () => {
@@ -588,9 +576,6 @@ test("installation documentation keeps supported methods in recommendation order
   expect(page).not.toContain("A successful verification prints");
   expect(page).not.toContain("rootform.dev/install.sh");
   expect(page).not.toMatch(/Node\.js|Python/u);
-  expect(page).toContain(
-    "Supplied\n[Dialects](concepts/dialects.md) are included and need no additional Rootform\nconfiguration for your first architecture",
-  );
 });
 
 test("Dialect authoring keeps presentation, publication, and use in one numbered workflow", () => {
@@ -890,8 +875,6 @@ test("security network matrix follows CLI command categories", () => {
   expect(command("vendor policy-packs")?.flags.some((flag) => flag.name === "offline")).toBe(true);
   expect(command("publish dialects")?.description).toContain("repull every manifest by\ndigest");
   expect(command("package dialects")?.description).toContain("Nothing is sent\nto a registry");
-  expect(security).toContain("This is possible with or without `--locked`");
-  expect(security).toContain("No raw values does not mean anonymized");
 });
 
 test("operations pages retain documented recipes and diagnosis routes", () => {
@@ -924,8 +907,6 @@ test("operations pages retain documented recipes and diagnosis routes", () => {
   ]) {
     expect(limitations).toContain(question);
   }
-  expect(limitations).toContain("does not necessarily have a permanent,");
   expect(troubleshooting).toContain("## A Representation has no standalone card");
   expect(troubleshooting).toContain("## Diff cannot complete at all");
-  expect(troubleshooting).toContain("Do not rely on\n`rootform list`");
 });

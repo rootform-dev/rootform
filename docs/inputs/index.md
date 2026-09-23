@@ -3,8 +3,6 @@ title: "Choose an input"
 description: "Choose configuration, a saved architecture, or a JSON plan according to the question you need to answer."
 ---
 
-Choose the input that matches your task.
-
 | Task | Input | Start with |
 | --- | --- | --- |
 | Explore existing configuration | Root module directory | `rootform run ./infra` |
