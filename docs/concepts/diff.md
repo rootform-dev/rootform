@@ -3,9 +3,9 @@ title: "Architecture Diff"
 description: "Understand how Rootform compares architectural meaning while preserving uncertainty and semantic boundaries."
 ---
 
-Architecture Diff compares two validated Architecture IR documents. It reports
-changes in representations and architectural facts, not source text edits,
-Terraform actions, provenance-only changes, or screen layout.
+Architecture Diff compares two validated [Architecture IR](architecture-ir.md)
+documents. It reports changes in representations and architectural facts, not
+source text edits, Terraform actions, provenance-only changes, or screen layout.
 
 ## Continuity starts with source identity
 
@@ -22,7 +22,7 @@ infer physical cloud identity from provider type, label, or remote identifier.
 
 Adding a subnet can add a resource representation and a network Context toward
 an existing VPC. Diff reports both because they answer different questions.
-Representation says the subnet exists. Context says how the subnet is placed in
+The Representation says the subnet exists. The Context says how it is placed in
 the network architecture.
 
 Collections use `added`, `removed`, and `changed` classifications. Exact

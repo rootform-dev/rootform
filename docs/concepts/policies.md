@@ -1,20 +1,20 @@
 ---
 title: "Policies and Policy Packs"
-description: "Understand governance selection, target scope, evidence outcomes, and what Policy result proves."
+description: "Understand governance selection, target scope, evidence outcomes, and what a Policy result proves."
 ---
 
-A Policy evaluates established Architecture IR facts against a requirement. It
-runs after Dialects interpret source. It cannot contact a cloud provider, infer
-live state, or invent a missing fact.
+A Policy evaluates established [Architecture IR](architecture-ir.md) facts
+against a requirement. It runs after [Dialects](dialects.md) interpret source.
+It cannot contact a cloud provider, infer live state, or invent a missing fact.
 
-## Four distinct objects form the governance result
+## Definition, selection, and evaluation
 
-| Object | Role | What it proves |
+| Object | Role | Evidence boundary |
 | --- | --- | --- |
-| **Policy** | Defines target, assertion, and violation message | Which requirement was evaluated |
-| **Policy Pack** | Owns and distributes related Policies | Which authored governance unit was selected |
-| **Selection** | Chooses exact Pack and optional Policy subset | Which governance was in scope for the run |
-| **Result** | Records targets, evidence, outcomes, diagnostics, and aggregate status | What selected Policies established for evaluated architecture |
+| **Policy** | Defines a target, assertion, and violation message | Its existence does not show that it ran |
+| **Policy Pack** | Groups related Policies | Its presence does not show that it was selected |
+| **Selection** | Chooses exact Packs and optional Policy subset | Establishes the scope of a check |
+| **Result** | Records targets, outcomes, diagnostics, and aggregate status | Shows which selected Policies actually evaluated targets |
 
 Selecting a Dialect never selects a Policy Pack. `rootform build` and `rootform run`
 do not evaluate governance. `rootform check` does, using an explicit Policy Pack
@@ -28,8 +28,7 @@ Different dimensions must all match.
 
 A base representation without the selected Concept or applied Rule is not
 selected by a similar source type. A composition member does not inherit root
-eligibility.
-Each selected representation is evaluated once.
+eligibility. Each selected representation is evaluated once.
 
 This makes coverage part of the governance claim. A passing evaluation says the
 assertion was true for its matched target. It says nothing about representations
@@ -53,8 +52,8 @@ case is approval.
 one subnet Policy and one EC2 team convention. An instance with an explicit,
 resolvable subnet reference passes the convention. A proven source omission
 violates it. A literal subnet identifier that Rootform cannot resolve is
-indeterminate.
-Those cases differ because evidence differs, not because Policy changes.
+indeterminate. Those cases differ because the evidence differs, not because the
+Policy changes.
 
 ## Aggregate verdict follows strongest result
 
@@ -62,17 +61,17 @@ The run summary and process status use a global priority.
 
 1. Any violation makes the run `violated` and status `1`.
 2. Otherwise any indeterminate result makes the run `indeterminate` and status `3`.
-3. Otherwise any selected Policy without a target makes the run `not evaluated` and
-   status `3`.
-4. Only a complete set of passed evaluations makes the run `compliant` and status
-   `0`.
+3. Otherwise, no selected Policy or any selected Policy without a target makes
+   the run `not evaluated` and status `3`.
+4. Only when at least one Policy is selected and every selected Policy evaluates
+   and passes does the run become `compliant` with status `0`.
 
 Status `2` means a command usage error. Always review the selected Policy count,
 evaluation count, and result distribution alongside process status. A violation
 can coexist with lower-priority uncertainty, and status `1` does not erase it
 from the report.
 
-## Policy proves bounded claim
+## What a Policy result proves
 
 A Policy result proves only its authored assertion over matched representations
 and facts available in the evaluated architecture. A proven omission can support
@@ -93,7 +92,7 @@ Review these boundaries before treating a Pack as a gate.
 
 ## Portable source and linked artifact serve different stages
 
-Policy Pack source is a portable authored unit. Before evaluation, Rootform links
+A Policy Pack source is a portable authored unit. Before evaluation, Rootform links
 its qualified references against the exact Architecture IR semantic snapshot.
 The linked Pack records owner versions, content digests, and semantic digests.
 

@@ -15,7 +15,7 @@ Consumers read the document without reopening Terraform source or reloading
 producer Dialects. Policy selection remains separate and never becomes part of
 the architecture document.
 
-## Document captures one semantic snapshot
+## The document captures a semantic snapshot
 
 Architecture IR records declarations, normalized resource bases, architectural
 facts, provenance, diagnostics, and the exact semantic contracts used to
@@ -95,10 +95,10 @@ without representations, proven omissions, and diagnostics. Those states make
 limits explicit while preserving usable evidence.
 
 A document becomes structurally invalid when its contract cannot be trusted.
-Examples include unsupported format version, forbidden unknown fields, invalid or
-duplicate identities, dangling references, noncanonical order, inconsistent
-accounting, unresolved successful provenance, or active emission without
-closure.
+Examples include an unsupported format version, forbidden unknown fields,
+invalid or duplicate identities, dangling references, noncanonical order,
+inconsistent accounting, unresolved successful provenance, or an active
+emission without closure.
 
 An invalid document supports no compliance or no-change claim. Consumers must
 reject it rather than silently ignore a damaged section.
@@ -106,8 +106,8 @@ reject it rather than silently ignore a damaged section.
 ## Saved evidence still needs handling rules
 
 Architecture IR excludes raw HCL, secrets, raw plans and state, absolute paths,
-`.rf.hcl` source, and UI state. It still contains source addresses,
-relative locations, resource names, Concepts, and architectural connections.
+`.rf.hcl` source, and UI state. It still contains source addresses, relative
+locations, resource names, Concepts, and architectural connections.
 Those can reveal project structure.
 
 Review the document before sharing. Apply repository access, artifact retention,
@@ -119,9 +119,8 @@ rootform build . --output architecture.json
 rootform explain architecture aws_subnet.application --input architecture.json
 ```
 
-This concept page gives a mental model. Exact normalization, validation,
-identifiers, and field requirements live in
-[Architecture IR contract](../../contracts/architecture-ir.md) and
+For exact normalization, validation, identifiers, and field requirements, see
+the [Architecture IR contract](../../contracts/architecture-ir.md) and
 [JSON Schema](../../schemas/architecture-ir.schema.json). Continue with
 [Explore an architecture](../guides/explore-architecture.md),
 [Architecture Diff](diff.md), or [Policies and Policy Packs](policies.md).

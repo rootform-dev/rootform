@@ -7,7 +7,7 @@ A Dialect is a named, versioned unit of source interpretation. Its Rules turn
 Terraform or OpenTofu evidence into architectural meaning. A Dialect does not
 decide which source declarations exist and does not create missing resources.
 
-## Interpretation enriches resource base
+## Interpretation enriches a resource base
 
 Every normalized `resource` already has a base representation. A Rule can then
 add a Concept, Context, Relation, Contribution, or Composition. No matching Rule
@@ -23,9 +23,9 @@ This distinction separates two coverage questions.
   interpretation.
 
 Rule coverage can be narrower than resource coverage. A successful build status
-does not claim every representation has Rule or Concept.
+does not claim every representation has a Rule or a Concept.
 
-## Rule explains why fact exists
+## How a Rule establishes a fact
 
 For a subnet whose `vpc_id` refers to a VPC, the AWS Dialect can classify the
 subnet and establish a network Context toward the VPC. The resolved reference is
@@ -42,8 +42,8 @@ representation or change the representation's stable identity.
 
 ## RF Vocabulary provides shared terms
 
-RF Vocabulary is an embedded language contract owned by the reserved `rf` namespace.
-It provides shared Concepts and Contexts such as
+RF Vocabulary is an embedded language contract owned by the reserved `rf`
+namespace. It provides shared Concepts and Contexts such as
 `rf.concept.virtual-network`, `rf.concept.subnet`, and
 `rf.context.network`.
 
@@ -100,8 +100,9 @@ evidence. These commands inspect effective selection and do not change it.
 
 The Rootform binary carries RF Vocabulary and supplied Dialects. Updating the
 binary can therefore update embedded interpretation. External Dialects are
-selected explicitly by exact owner, version, and digest in `rootform.lock`. Whole-owner
-exclusion or replacement can change which Dialect interprets source.
+selected explicitly by exact owner, version, and digest in `rootform.lock`.
+Whole-owner exclusion or replacement can change which Dialect interprets
+source.
 
 Selection consequences are semantic. The same Terraform can produce different
 Concepts, facts, diagnostics, or Rule coverage under different effective

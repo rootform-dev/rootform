@@ -14,10 +14,11 @@ Rootform keeps three layers separate.
 
 1. **Source evidence** records declarations, expressions, references, and
    locations found in the selected input.
-2. A **Dialect** applies Rules that interpret that evidence as architectural
-   Concepts and facts.
-3. **Architecture IR** saves representations, facts, provenance, diagnostics,
-   and the exact semantic snapshot used to produce them.
+2. A **[Dialect](concepts/dialects.md)** applies Rules that interpret that
+   evidence as architectural Concepts and facts.
+3. **[Architecture IR](concepts/architecture-ir.md)** saves representations,
+   facts, provenance, diagnostics, and the exact semantic snapshot used to
+   produce them.
 
 A [Policy](concepts/policies.md) evaluates the saved meaning afterward.
 [Architecture Diff](concepts/diff.md) compares meaning between two saved
@@ -36,7 +37,7 @@ without successful interpretation remains known source evidence, not an
 architecture element.
 
 A Rule enriches an existing representation. It may classify it with a Concept,
-establish facts, or compose several representations. Concept is optional. A
+establish facts, or compose several representations. A Concept is optional. A
 representation can therefore exist without a Concept, and facts can exist
 without a Concept when their Rule establishes them.
 
@@ -69,28 +70,21 @@ Rootform uses distinct structures because they answer distinct questions.
 
 A representation may have several Contexts in different dimensions. A
 Contribution keeps contributor and target as distinct representations.
-Composition is stronger than visual grouping because it creates one composed
-root from proven members, yet members retain their own bases and do not inherit
-the root Concept.
-
-Architecture existence and rendered visibility are also different. A renderer
-may group, compose, or omit a standalone visual card while valid Architecture
-IR still contains the representation and its facts. Inspect the saved
-architecture or use `rootform explain architecture` when exact membership and
-provenance matter.
+Composition establishes one architectural root from proven members. Members
+retain their own bases and do not inherit the root Concept. The renderer
+presents this structure. Visual grouping, navigation, and whether an element
+has a standalone card are presentation choices. A representation can exist in
+Architecture IR without a permanent card in every scene. Inspect the saved
+architecture or use `rootform explain architecture` for exact membership and
+provenance.
 
 ## Rootform reports what evidence permits
 
-Each active Rule emission closes in one of three ways.
-
-- A **fact** means the evidence established an architectural claim.
-- An **omission** means Rootform proved the relevant fact absent.
-- A **diagnostic** means evidence was insufficient, ambiguous, dangling, or
-  otherwise unresolved.
-
-Omission and insufficient evidence are not interchangeable. Unknown evidence
-cannot prove absence. It also cannot become a passing Policy result or a
-no-change conclusion in Diff.
+An active Rule emission can establish facts, prove an omission, or report an
+incompleteness diagnostic. Confirmed facts may coexist with a diagnostic when
+only part of the evidence resolves. An omission means the relevant fact is
+proven absent. Unknown evidence cannot justify an omission, a passing Policy
+result, or a no-change conclusion in Diff.
 
 Partial architectures are expected. Rule-free resource bases and explicit
 diagnostics can belong to a valid document. Structural invalidity is different
@@ -105,7 +99,7 @@ already be materialized by the IaC tool. Plan-derived evidence must come from a
 
 This boundary keeps architecture analysis away from credentials, state locks,
 and infrastructure changes. It also means Rootform cannot establish live
-health, runtime connectivity, or deployed drift. Architecture describes
+health, runtime connectivity, or deployed drift. Architecture describes the
 supplied evidence and effective semantic selection.
 
 ## Determinism makes evidence reviewable
