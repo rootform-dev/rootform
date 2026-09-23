@@ -70,9 +70,14 @@ rootform list policy-packs -o json
 rootform list policies -o wide
 ```
 
-Use `rootform check . --locked` to evaluate the selected pack. A successful
-preparation only proves identity and availability. Check status still depends
-on matching targets and policy outcomes.
+Evaluate the selected pack:
+
+```sh
+rootform check . --locked
+```
+
+A successful preparation only proves identity and availability. Check status
+still depends on matching targets and policy outcomes.
 
 ## Obtain a local Dialect identity
 

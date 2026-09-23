@@ -84,8 +84,12 @@ Rootform can rebuild. It is neither selection authority nor content to vendor.
 
 ## What changes when vendor exists?
 
-`rootform vendor dialects` writes `.rootform/dialects`.
-`rootform vendor policy-packs` writes `.rootform/policy-packs`. Each command
+```sh
+rootform vendor dialects
+rootform vendor policy-packs
+```
+
+These commands write `.rootform/dialects` and `.rootform/policy-packs`. Each
 must run from the project root whose `rootform.lock` it materializes, unless an
 explicit `--to` destination is used for another purpose.
 
@@ -104,10 +108,13 @@ An OCI mirror copies the exact manifest, config, and layer descriptor graph
 without repackaging. Change only `source.oci.repository` in the lock. Manifest,
 layer, content digests, sizes, names, and versions remain identical.
 
-`rootform init . --locked --no-input` then contacts only the rewritten
-repository at the recorded manifest digest. Registry compatibility and private
-authentication follow the [OCI registry compatibility](integrations/registry-compatibility.md)
-contract.
+```sh
+rootform init . --locked --no-input
+```
+
+Rootform then contacts only the rewritten repository at the recorded manifest
+digest. Registry compatibility and private authentication follow the
+[OCI registry compatibility](integrations/registry-compatibility.md) contract.
 
 Docker configuration supplies registry credentials through `DOCKER_CONFIG`.
 `SSL_CERT_FILE` can add bounded PEM roots for online acquisition.

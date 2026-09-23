@@ -118,9 +118,13 @@ rootform diff /path/to/evidence/before.json \
 cmp -s /path/to/evidence/before.json /path/to/evidence/after.json
 ```
 
-To reproduce governance, run `rootform check . --locked` with the transferred
-Policy Pack vendor. Compare its structured output and exit status separately
-from Architecture IR.
+To reproduce governance with the transferred Policy Pack vendor, run:
+
+```sh
+rootform check . --locked
+```
+
+Compare its structured output and exit status separately from Architecture IR.
 
 ## Detect and repair an incomplete vendor
 
