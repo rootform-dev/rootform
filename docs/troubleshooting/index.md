@@ -118,6 +118,17 @@ local source must be restored at its recorded path; `init` cannot install it.
 If a vendor tree exists, use the repair path below instead. See
 [Locks and vendored content](../offline-security.md).
 
+## Installed content does not match rootform.lock
+
+The Rootform home holds the version the lock names, but its bytes no longer
+match the recorded digest. `init` refuses to overwrite an installed version,
+so remove the damaged copy first, using the family and `name@version` from
+the diagnostic, for example `rootform uninstall dialects payments@0.1.0` or
+`rootform uninstall policy-packs baseline@0.1.0`. Then run
+`rootform init . --locked --no-input` to install the exact pinned bytes
+again. The lock does not change. See
+[Where Rootform stores external content](../reference/storage.md).
+
 ## Vendored content is incomplete or altered
 
 An existing `.rootform/dialects` or `.rootform/policy-packs` directory is
