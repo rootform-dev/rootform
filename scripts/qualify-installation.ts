@@ -189,6 +189,21 @@ async function qualifyWinGet(generated: string, version: string): Promise<void> 
   }
 }
 
+function replaceChecksum(sums: string, name: string, digest: string): string {
+  let matches = 0;
+  const updated = sums
+    .split("\n")
+    .map((line) => {
+      const record = /^([0-9a-f]{64}) {2}([A-Za-z0-9._-]+)$/u.exec(line);
+      if (record?.[2] !== name) return line;
+      matches += 1;
+      return `${digest}  ${name}`;
+    })
+    .join("\n");
+  if (matches !== 1) throw new Error(`release checksum entry is not unique: ${name}`);
+  return updated;
+}
+
 function releaseFixture(
   release: string,
   version: string,
@@ -204,10 +219,7 @@ function releaseFixture(
   if (scenario === "missing-metadata") files.delete(manifestName);
   if (scenario === "wrong-checksum") {
     const sums = files.get("SHA256SUMS")?.toString("utf8") ?? "";
-    files.set(
-      "SHA256SUMS",
-      Buffer.from(sums.replace(new RegExp(`^[0-9a-f]{64}(?=  ${asset}$)`, "mu"), "0".repeat(64))),
-    );
+    files.set("SHA256SUMS", Buffer.from(replaceChecksum(sums, asset, "0".repeat(64))));
   }
   if (scenario === "corrupt-archive" || scenario === "invalid-metadata") {
     const manifest = JSON.parse(files.get(manifestName)?.toString("utf8") ?? "") as {
@@ -229,11 +241,7 @@ function releaseFixture(
     let sums = files.get("SHA256SUMS")?.toString("utf8") ?? "";
     for (const name of [manifestName, asset]) {
       const body = files.get(name);
-      if (body)
-        sums = sums.replace(
-          new RegExp(`^[0-9a-f]{64}(?=  ${name.replaceAll(".", "\\.")}$)`, "mu"),
-          hash(body),
-        );
+      if (body) sums = replaceChecksum(sums, name, hash(body));
     }
     files.set("SHA256SUMS", Buffer.from(sums));
   }
