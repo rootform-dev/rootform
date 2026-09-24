@@ -170,10 +170,11 @@ rootform test ./fixtures --run example/minimal
 ```
 
 The active catalog includes embedded Dialects, project selections, and any
-invocation override. While authoring, pass `--dialect ./dialects/payments` to
-`build`, `list`, or `show` to try a source directory without changing the lock.
-Use `rootform add dialects ./dialects/payments` when the project should retain
-it. Review
+override. While authoring, pass `--dialect ./dialects/payments` to `build`,
+`test`, `validate rule`, `list`, `show`, or `explain` to try a source directory
+without changing the lock. Every command that reads Dialects accepts the same
+flag. Use `rootform add dialects ./dialects/payments` when the project should
+retain it. Review
 base representations, interpretations, facts, omissions, memberships,
 diagnostics, and deterministic bytes.
 

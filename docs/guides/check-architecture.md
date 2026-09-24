@@ -284,11 +284,31 @@ rootform explain architecture aws_subnet.application --input architecture.json
 
 `show policy` displays authored target, assertion, message, and source.
 `explain architecture` traces established facts and provenance.
-`explain policy` instead explains one evaluation from the current project
-selection. It reads architecture and Policy Pack selection from the current
-directory and accepts neither `--input` nor `--policy-pack`. See its
-[exact reference](../reference/cli/explain/policy.md) before using it with a
-project-selected pack.
+`explain policy` explains one evaluation: the authored target and assertion,
+then the outcome for each evaluated Representation. It reads the architecture
+from the current directory or from `--input`, and the Policy Pack from the
+project selection or from `--policy-pack`:
+
+<!-- docs-check:policy-explain-policy -->
+```sh
+rootform explain policy tutorial.policy.subnet-network-context \
+  --policy-pack ./policies --input architecture.json
+```
+
+```text title="Policy explanation"
+tutorial.policy.subnet-network-context
+
+Target     rf.concept.subnet
+Assertion  exists(contexts(rf.context.network, rf.concept.virtual-network))
+Message    Subnets must have an established virtual network context.
+Defined    subnet-network-context.rf.hcl:1
+
+Evaluations
+  passed  aws_subnet.application
+```
+
+Without `--input`, the command builds the current directory first. See the
+[exact reference](../reference/cli/explain/policy.md) for its flags and status.
 
 ## Use in CI
 

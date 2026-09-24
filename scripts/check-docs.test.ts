@@ -469,7 +469,10 @@ test("local review guides preserve Diff, Policy, and Git boundaries", () => {
   expect(checks).toContain("aws_instance.subnet_id");
   expect(checks).toContain("aws_instance.implicit");
   expect(checks).not.toContain('resource "aws_subnet" "orphan"');
-  expect(checks).toMatch(/accepts neither `--input` nor `--policy-pack`/u);
+  expect(checks).toContain("<!-- docs-check:policy-explain-policy -->");
+  expect(checks).toMatch(
+    /explain policy tutorial\.policy\.subnet-network-context \\\n\s+--policy-pack \.\/policies --input architecture\.json/u,
+  );
 
   for (const command of ["git merge-base", "git worktree add", "git worktree remove"]) {
     expect(review).toContain(command);

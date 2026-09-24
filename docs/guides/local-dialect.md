@@ -48,6 +48,13 @@ reinstall, package, or record: each run compiles the directory as it is. A
 compile error stops the command and points to the file and line in the source
 directory.
 
+The same flag works on every command that reads Dialects. `rootform validate
+rule payments.rule.gateway --dialect ./dialects/payments` checks one Rule from
+the source, `rootform test ./dialects/payments/fixtures --dialect
+./dialects/payments` runs its fixtures, and `rootform explain` traces what the
+source contributes. [Test and validate](../language/test-validate.md) covers
+those checks.
+
 ## Add the Dialect to the project
 
 When the results are right, select the Dialect:

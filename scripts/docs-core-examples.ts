@@ -342,6 +342,11 @@ export function verifyCoreExamples(
       ).trim(),
     "Policy guide architecture explanation differs from saved evidence",
   );
+  const policyExplanation = command("guides/check-architecture.md", "policy-explain-policy").trim();
+  assert(
+    policyExplanation === fencedBlock(policyPage, "text", "Policy explanation").trim(),
+    "Policy guide policy explanation differs from command",
+  );
   assert(read("main.tf").equals(original), "documentation checks mutated Terraform source");
   checks.push(
     "resolved, omitted, and unresolved instance subnet evidence produce pass, violation, and indeterminate outcomes",

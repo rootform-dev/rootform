@@ -76,6 +76,15 @@ rootform validate concept rf.concept.subnet
 Qualification removes ambiguity. A bare object name is accepted only when it
 resolves to one selected object.
 
+To inspect an object from a source directory the project does not select yet,
+add the same `--dialect` override that `build` accepts. It applies to that
+command only and never changes `rootform.lock`:
+
+```sh
+rootform validate rule payments.rule.gateway --dialect ./dialects/payments
+rootform explain semantics --dialect ./dialects/payments
+```
+
 ## Compare a Dialect fixture
 
 Create small source cases around observable architectural consequences. A case
@@ -107,6 +116,12 @@ Narrow by case-name substring while iterating:
 
 ```sh
 rootform test ./fixtures --run example/minimal
+```
+
+While the Dialect under test is still a source directory, add it for this run:
+
+```sh
+rootform test ./fixtures --dialect ./dialects/payments
 ```
 
 Rootform builds every selected case and compares exact output bytes with the
