@@ -59,7 +59,7 @@ no-change report.
 
 A semantic difference does not automatically invalidate the entire comparison.
 Each Architecture IR records RF Language, RF Vocabulary, Dialects, Rules,
-emissions, and effective selection. Diff preserves comparable source continuity
+emissions, and active selection. Diff preserves comparable source continuity
 and marks only conclusions it cannot establish safely as undetermined.
 
 To isolate infrastructure edits, build both revisions with the same Rootform
@@ -72,18 +72,25 @@ conclusions as part of the change.
 ```sh
 rootform diff before.json after.json
 rootform diff before.json after.json --format markdown --output architecture-diff.md
+rootform diff before.json after.json --format html --output architecture-diff.html
+rootform diff before.json after.json --serve
 rootform diff before.json after.json --exit-code
 ```
 
 | Status | Meaning |
 | --- | --- |
-| `0` | Comparison completed. Without `--exit-code`, report may still contain changes or undetermined entries |
-| `1` | With `--exit-code`, at least one determined or undetermined difference exists |
+| `0` | Comparison completed, or the served interface stopped cleanly. Without `--exit-code`, report may still contain changes or undetermined entries |
+| `1` | With `--exit-code`, at least one determined or undetermined difference exists. With `--serve`, the interface could not start |
 | `2` | Command usage is invalid |
 | `3` | Comparison could not complete |
 
 Report content remains the primary evidence. An empty report means no determined
 changes and no undetermined entries, not merely a successful process.
+
+The text, JSON, and Markdown reports list every entry. The HTML page and
+`--serve` open the same comparison in the interactive interface, where the
+Before, Diff, and After stages place each change in its architecture. They add
+no entry and drop none.
 
 Use [Compare architectures](../guides/compare-architectures.md) to produce and
 read a first report, [plan Diff](../inputs/plans.md#compare-both-sides-of-one-plan)

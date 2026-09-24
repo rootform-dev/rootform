@@ -8,7 +8,7 @@ The directory must contain its original `main.tf` and no `database.tf` or other
 additional Terraform files. If you already changed that tutorial directory,
 start from a new copy so existing files do not alter the results below.
 
-Use the same Rootform binary and effective Dialect selection for both builds.
+Use the same Rootform binary and active Dialect selection for both builds.
 This isolates architecture changes caused by the source edit.
 
 ## Save the initial architecture
@@ -118,9 +118,37 @@ undetermined entries. Use Markdown for a human review:
 rootform diff before.json after.json --format markdown --output architecture-diff.md
 ```
 
-Rootform exposes Diff reports as text, JSON, and Markdown. It has no CLI entry
-point or HTML format for an interactive Diff. `rootform build --format html`
-exports one architecture, not an interactive comparison.
+## Open the comparison in the browser
+
+Serve the comparison in the local interface:
+
+```sh
+rootform diff before.json after.json --serve
+```
+
+Rootform builds the comparison once, prints the local address alone on
+standard output, and opens a browser. The interface shows the After
+architecture with the comparison beside it. Switch between the Before, Diff,
+and After stages to see where the subnet appeared and which network Context it
+gained. The Diff stage carries the same determined changes and undetermined
+entries as the text report. Stop the server with `Ctrl+C`. `--no-browser`
+prints the address without opening a browser, and `--port` chooses the port.
+
+`--serve` prints no report and excludes `--format`, `--output`, and
+`--exit-code`. A comparison that cannot be completed is reported on standard
+error with status `3`, and no server starts.
+
+To review the same comparison without a running server, write one
+self-contained page:
+
+<!-- docs-check:diff-html -->
+```sh
+rootform diff before.json after.json --format html --output architecture-diff.html
+```
+
+The page opens from disk with the same Before, Diff, and After stages. Share
+it like the Markdown report, with the same care for the resource names and
+structure it reveals.
 
 Continue with [Review a pull request](../workflows/index.md) for isolated Git
 revisions, report placement, and cleanup. Use

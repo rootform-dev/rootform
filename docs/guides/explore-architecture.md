@@ -119,6 +119,9 @@ To export that configuration as a self-contained browser artifact, use:
 rootform build . --format html --output architecture.html
 ```
 
+To explore a comparison the same way, `rootform diff` accepts `--serve` and
+`--format html`; see [Compare architectures](compare-architectures.md#open-the-comparison-in-the-browser).
+
 Review [security and data handling](../security/index.md) before sharing either
 file. For exact output behavior and automation contracts, see
 [Outputs and exit status](../reference/outputs.md).

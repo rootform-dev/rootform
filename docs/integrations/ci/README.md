@@ -62,7 +62,7 @@ cannot be combined with `--locked`, so this script omits `--locked` on an
 override check while the lock still controls preparation and build. A lock still
 controls the build and preparation of selected Dialects. Follow [Run
 checks](../../guides/check-architecture.md) to create a pack with Policies and
-effective targets. A check requested with no selected Policy or no evaluated
+matching targets. A check requested with no selected Policy or no evaluated
 target returns `3`, not approval.
 
 After a successful build, the script writes `check.json`, `check.stderr`, and
@@ -116,7 +116,9 @@ An Architecture Diff is usually review evidence, not a default PR blocker.
 [Review a pull request](../../workflows/index.md#choose-the-revisions) shows
 how to choose Before and After commits and
 [choose a gate](../../workflows/index.md#compare-and-save-review-artifacts)
-without treating every architectural change as a violation.
+without treating every architectural change as a violation. When reviewers
+want the interactive view, save `rootform diff --format html` as one more
+artifact; it opens from disk without Rootform installed.
 
 ## Use the runner recipes
 

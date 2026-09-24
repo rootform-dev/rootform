@@ -186,7 +186,7 @@ dots in technical prose.
 | In this guide, we will explore how to get started with Rootform. | Build a VPC and subnet from a small Terraform configuration. |
 | Simply leverage the offline flag for seamless local execution. | Use `init --offline` or `vendor … --offline` to prevent acquisition. Selected third-party content must already be available locally. |
 | Rootform ensures your infrastructure is secure. | `rootform check` evaluates policies selected for this project. |
-| Current access: the executable emits text, JSON, and Markdown. | `rootform diff` emits text, JSON, or Markdown. |
+| Current access: the executable emits text, JSON, Markdown, and HTML. | `rootform diff` emits text, JSON, Markdown, or HTML. |
 | With these steps, you are ready to continue. | Link to next concrete task, or stop. |
 
 ## Use structure only when it reveals meaning

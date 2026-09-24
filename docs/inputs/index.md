@@ -70,6 +70,7 @@ Terraform or OpenTofu project:
 rootform run architecture.json
 rootform explain architecture aws_subnet.application --input architecture.json
 rootform diff before.json after.json
+rootform diff before.json after.json --serve
 ```
 
 Policy evaluation still needs an appropriate [Policy Pack](../concepts/policies.md)

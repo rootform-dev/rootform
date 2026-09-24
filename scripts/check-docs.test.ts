@@ -450,8 +450,12 @@ test("local review guides preserve Diff, Policy, and Git boundaries", () => {
   const review = readFileSync(join(root, "docs/workflows/index.md"), "utf8");
 
   expect(compare).toContain("rootform diff before.json after.json --format markdown");
-  expect(compare).toMatch(/no CLI entry\s+point or HTML format for an interactive Diff/u);
-  expect(compare).not.toMatch(/rootform diff[^\n]*(?:--format html|--html)/u);
+  expect(compare).toContain("rootform diff before.json after.json --serve");
+  expect(compare).toContain(
+    "rootform diff before.json after.json --format html --output architecture-diff.html",
+  );
+  expect(compare).toMatch(/excludes `--format`, `--output`, and\s+`--exit-code`/u);
+  expect(compare).not.toMatch(/rootform build[^\n]*--format html/u);
 
   for (const marker of [
     "policy-violation",
@@ -473,6 +477,9 @@ test("local review guides preserve Diff, Policy, and Git boundaries", () => {
   expect(review).not.toMatch(/git (?:reset|clean|checkout)/u);
   expect(review).not.toContain("rm -r");
   expect(review).toContain("rm -f");
+  expect(review).toContain('--format html --output "$review_root/results/architecture-diff.html"');
+  expect(review).toContain('"$review_root/results/architecture-diff.html"\n');
+  expect(review).not.toContain("after.html");
 });
 
 test("project configuration guides keep decision, adoption, mechanism, and transfer separate", () => {

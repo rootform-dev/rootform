@@ -386,6 +386,15 @@ export function verifyCoreExamples(
     read("architecture-diff.md").toString().startsWith("## Rootform diff\n"),
     "Markdown Diff report was not written",
   );
-  checks.push("Diff tutorial reports one representation and one network context");
+  command("guides/compare-architectures.md", "diff-html");
+  const comparisonPage = read("architecture-diff.html").toString();
+  assert(
+    comparisonPage.toLowerCase().startsWith("<!doctype html>") &&
+      comparisonPage.includes("aws_subnet.database"),
+    "HTML comparison page was not written with the compared architecture",
+  );
+  checks.push(
+    "Diff tutorial reports one representation and one network context and writes a comparison page",
+  );
   return checks;
 }

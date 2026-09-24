@@ -9,7 +9,7 @@ or apply a plan, execute a provider, or contact a backend.
 
 Run Rootform from the project directory. With `--plan`, Rootform reads any
 project selection present in the current working directory. Projects that use
-only the Dialects supplied with Rootform need neither `rootform.lock` nor a
+only the embedded Dialects need neither `rootform.lock` nor a
 `.rootform/` directory. Rootform does not infer a project root from the
 directory containing the plan file.
 
@@ -84,6 +84,19 @@ Inspect `changes`, `undetermined`, and their summary counts in `delta.json`.
 The plan supplies both sides, so do not add positional Before and After
 arguments. A create plan can have an empty Before side, and a destroy plan can
 have an empty planned side. Both are valid.
+
+To review the comparison in the browser, serve it:
+
+```sh
+rootform diff --plan tfplan.json --serve
+```
+
+The interface opens on the planned architecture with the comparison beside it.
+Switch between the Before, Diff, and After stages to place each planned change.
+`rootform diff --plan tfplan.json --format html --output plan-diff.html` writes
+the same view as one self-contained page. See
+[Open the comparison in the browser](../guides/compare-architectures.md#open-the-comparison-in-the-browser)
+for the server and page behavior.
 
 ## Check the planned architecture
 

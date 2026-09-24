@@ -110,7 +110,23 @@ export async function verifyCliBehavior(
   run(["diff", "-", "-"], 2);
   run(["diff", "--plan", planPath, "before.json", after], 2);
   run(["diff", "before.json", after, "--format", "sarif"], 2);
-  run(["diff", "before.json", after, "--format", "html"], 2);
+  const comparisonHtml = resultPath("comparison.html");
+  assert(
+    run(["diff", "before.json", after, "--format", "html", "--output", comparisonHtml]).stdout ===
+      "" && readFileSync(comparisonHtml, "utf8").toLowerCase().startsWith("<!doctype html>"),
+    "HTML diff did not create a self-contained comparison page",
+  );
+  assert(
+    run(["diff", "before.json", after, "--format", "html"])
+      .stdout.toLowerCase()
+      .startsWith("<!doctype html>"),
+    "HTML diff did not go to standard output",
+  );
+  const serveFlags = ["--serve", "--no-browser", "--port", "0"];
+  run(["diff", "before.json", after, ...serveFlags, "--format", "json"], 2);
+  run(["diff", "before.json", after, ...serveFlags, "--output", comparisonHtml], 2);
+  run(["diff", "before.json", after, ...serveFlags, "--exit-code"], 2);
+  run(["diff", "missing.json", after, ...serveFlags], 3);
   run(["diff", "missing.json", after], 3);
   assert(run(["diff", "--plan", planPath]).stdout.length > 0, "plan comparison missing");
   const invalidArchitecture = resultPath("invalid-architecture.json");
@@ -283,10 +299,69 @@ export async function verifyCliBehavior(
   run(["run", "missing.json", "--no-browser", "--port", "0"], 1);
   run(["run", ".", "--no-browser", "--port", "not-a-port"], 2);
 
+  async function serveComparison(args: string[]): Promise<void> {
+    const child = Bun.spawn([binary, "diff", ...args, ...serveFlags], {
+      cwd: workspace,
+      env,
+      stdout: "pipe",
+      stderr: "pipe",
+    });
+    let stdout = "";
+    const reader = (async () => {
+      for await (const chunk of child.stdout) stdout += new TextDecoder().decode(chunk);
+    })();
+    const stderr = new Response(child.stderr).text();
+    try {
+      const deadline = Date.now() + 15_000;
+      let observed = false;
+      while (Date.now() < deadline && child.exitCode === null) {
+        const origin = stdout.match(/http:\/\/127\.0\.0\.1:\d+/u)?.[0];
+        if (origin) {
+          const response = await fetch(`${origin}/api/v1/comparison`, {
+            signal: AbortSignal.timeout(3_000),
+          }).catch(() => null);
+          if (!response) {
+            await Bun.sleep(50);
+            continue;
+          }
+          assert(response.ok, `diff did not serve the comparison: ${args.join(" ")}`);
+          const comparison = (await response.json()) as { summary?: unknown };
+          assert(comparison.summary !== undefined, "served comparison lost its summary");
+          const architecture = await fetch(`${origin}/api/v1/architecture`, {
+            signal: AbortSignal.timeout(3_000),
+          });
+          assert(architecture.ok, "diff --serve did not serve the After architecture");
+          observed = true;
+          break;
+        }
+        await Bun.sleep(50);
+      }
+      assert(observed, `diff did not serve on an allocated loopback port: ${args.join(" ")}`);
+    } finally {
+      child.kill("SIGINT");
+      const force = setTimeout(() => child.kill("SIGKILL"), 5_000);
+      const exit = await child.exited;
+      clearTimeout(force);
+      await reader;
+      const diagnostics = await stderr;
+      assert(
+        diagnostics.includes("Serving comparison"),
+        `diff --serve lost its report: ${args.join(" ")}`,
+      );
+      assert(
+        stdout.trim().split("\n").length === 1,
+        `diff --serve printed more than the address: ${args.join(" ")}`,
+      );
+      assert(exit === 0, `Ctrl+C did not stop diff --serve cleanly: ${args.join(" ")} (${exit})`);
+    }
+  }
+  await serveComparison(["before.json", after]);
+  await serveComparison(["--plan", planPath]);
+
   return [
     "CLI build and plan inputs, JSON/HTML, output streams, and usage failures execute",
     "CLI check formats, project selection, override, report files, and statuses execute",
-    "CLI diff formats, stdin, plan, input-type failures, output files, and exit-code execute",
+    "CLI diff formats, HTML page, serve, stdin, plan, input-type failures, output files, and exit-code execute",
     "CLI init and both vendor families preserve lock and empty selection",
     "CLI list/show/explain base-only and validate architecture result versus usage execute",
     "CLI run directory, saved architecture, plan, watch state, port 0, and Ctrl+C execute",
