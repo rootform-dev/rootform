@@ -5,8 +5,9 @@ description: "Inspect one Policy definition without evaluating it."
 
 `show policy` displays a policy's target, assertion, message, owning Policy
 Pack, and source location. It reads the project-selected pack by default.
-Repeat `--policy-pack` with local authoring roots to replace that selection
-for this invocation. Use a qualified identifier such as
+Repeat `--policy-pack` with local authoring roots to overlay packs of the
+same names for this invocation. Other selected packs remain active. Use a
+qualified identifier such as
 `tutorial.policy.subnet-network-context`, or a bare name when unambiguous.
 
 <!-- BEGIN GENERATED CLI: rootform show policy -->

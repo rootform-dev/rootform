@@ -3,10 +3,10 @@ title: "rootform vendor"
 description: "Copy exact selected external content into a project-local destination."
 ---
 
-`vendor` reads the current project's `rootform.lock` and materializes its
-non-embedded selections. With no family argument, it vendors every
-family with selections. Choose `dialects` or `policy-packs` to write one
-family. Each has its own destination. It does not choose versions or change the lock. Run it from the
+`vendor` reads the current project's `rootform.lock` and copies selected
+external content into `.rootform/`. With no family argument, it vendors
+every selected family. Choose `dialects` or `policy-packs` to write one
+family. It does not choose versions or change the lock. Run it from the
 project root whose selection you intend to copy.
 
 <!-- BEGIN GENERATED CLI: rootform vendor -->

@@ -3,14 +3,13 @@ title: "Install, add, and vendor"
 description: "How Rootform separates content available on a machine from the exact dependencies of a project."
 ---
 
-Rootform answers two questions separately: which Dialects and Policy Packs
-exist on this machine, and which ones this project depends on. Keeping them
-apart means a project's result depends on its own exact selection, never on
-what else happens to be installed on the machine that runs it.
+Rootform separates content available on a machine from content selected by a
+project. Installing a Dialect or Policy Pack never makes a project use it.
+The project uses its exact selection, regardless of other installed content.
 
 ## Four states
 
-Project content can be in one or more of these states:
+A unit can be in more than one state:
 
 | State | Where it lives | What puts it there |
 | --- | --- | --- |
@@ -19,15 +18,13 @@ Project content can be in one or more of these states:
 | **Selected** | the project's `rootform.lock` | `rootform add` or `update`; `remove` drops a selection |
 | **Vendored** | the project's `.rootform/` directory | `rootform vendor`; `add` or `update` when a vendor tree exists |
 
-Embedded Dialects work in every project without any setup. Only content that
-does not ship with Rootform, or that replaces an embedded Dialect, needs to
-be selected. An explicit `--dialect` or `--policy-pack` override applies only to one
-invocation and does not create any of these project states.
+Embedded Dialects work without setup. Select external content only when the
+project needs it. An explicit `--dialect` or `--policy-pack` override applies
+to one command and does not change the project selection.
 
-The states answer different questions. Installed content is merely
-available: a project never uses a Dialect because it happens to be in your
-Rootform home. Selected content is a dependency: the project uses exactly the
-identity recorded in `rootform.lock` when its recorded source is available.
+Installed content is available to projects, but never selected automatically.
+The lock records a dependency's exact identity and source. Vendoring carries
+the selected content with the project.
 
 ## Add changes the project
 
@@ -44,22 +41,18 @@ rootform.lock updated
   add      dialect payments 0.1.0  (dialects/payments)
 ```
 
-The example assumes a valid `payments` Dialect source at that path. Rootform
-records its project-relative path and compiled content digest. The result
-shows the change without printing the digest. Commit `rootform.lock` with
-the source directory. Local content stays at that path; `add` does not
-install it in your Rootform home.
+This assumes a valid Dialect source at that path. `add` records its
+project-relative path and compiled content identity in `rootform.lock`.
+Commit the lock with the source. The local source is not installed in your
+Rootform home.
 
-For OCI content, `add` accepts a tag or digest reference, resolves and
-verifies it, installs it, and records its exact identity. The lock keeps the
-repository and content digests, never a tag, so later tag changes cannot
-change the project. Several
-operands form one change: if any of them fails, `rootform.lock` stays as it
-was.
+For OCI content, `add` resolves and verifies a tag or digest reference,
+installs the unit, and records its exact identity. A later tag change cannot
+change the selection. Multiple operands form one change; a failure leaves
+the lock unchanged.
 
-`rootform update` moves an existing selection to another version or source,
-and `rootform remove` drops it. Use these commands for normal changes instead
-of editing `rootform.lock` by hand or finding digests yourself.
+`update` records a changed version or source; `remove` drops a selection.
+[Add external content](../guides/external-content.md) shows those tasks.
 
 ## Install prepares a machine
 
@@ -74,11 +67,10 @@ rootform install dialects registry.example.com/acme/rootform/payments:0.1.0
 The registry address is illustrative. Replace it with a published Dialect
 reference; successful installation prints the verified owner and version.
 
-Use it to prepare a workstation, a CI runner image, or a machine that will
-later work offline. Adding an OCI reference installs that verified content,
-so it needs no prior `install`. Adding a local path leaves the source local.
-Several versions of the same Dialect can be installed at once; each project
-uses only the version it selects.
+Use `install` to prepare a machine before project selection, including one
+that will later work offline. `add` already installs an OCI operand, so it
+needs no prior `install`. Several versions can coexist on a machine; the
+project uses only its selected version.
 
 `rootform list dialects --installed` shows what your Rootform home holds, and
 `rootform uninstall` deletes an exact installed version.
@@ -96,58 +88,48 @@ rootform init --locked
 Successful preparation prints `Project prepared` and counts of external
 Dialects and Policy Packs.
 
-`init` reads `rootform.lock` and never changes it. It downloads a missing OCI
-selection only by the exact digest recorded in the lock, and `--offline`
-prevents even that. Without a vendor tree, it verifies local selections at
-their recorded paths. A local-only `init` leaves your Rootform home untouched.
-After `init`, `build`, `check`, and `run` use the same Dialects and Policy Packs
-as on the machine that ran `add`.
+`init` preserves `rootform.lock`. It can fetch a missing OCI selection only
+by its recorded identity; `--offline` prevents acquisition. Without vendored
+content, it verifies local selections at their recorded paths. Once prepared,
+the project can use its exact selection on that machine.
 
 ## Vendor keeps the bytes in the repository
 
-`rootform vendor` copies every selected Dialect and Policy Pack into
-`.rootform/`, so a clone carries its dependencies and needs no Rootform home
-or registry access. Once `.rootform/dialects/` or `.rootform/policy-packs/`
-exists, Rootform reads that family only from there and fails if it differs
-from `rootform.lock`, even when a matching copy is installed. `add`, `update`,
-and `remove` keep an existing `.rootform/` in step with the lock.
-Vendoring a local source copies its verified bytes directly. If selected OCI
-content is missing from your Rootform home, `vendor` installs it there before
-copying it into `.rootform/`.
+`rootform vendor` copies selected external content into `.rootform/`, so a
+clone can carry its dependencies. For each vendored family, Rootform reads
+only that project copy and rejects missing, extra, or changed content. It
+does not fall back to an installed copy. Selection changes keep an existing
+vendor family in step with the lock.
 
-Vendoring is optional. Use it when builds must work without network access
-and without a prepared Rootform home, or when reviewers should see dependency
-bytes in the repository.
+Vendoring is optional. Use it when builds need no prepared Rootform home or
+when dependency content belongs in the project review. `vendor` can acquire
+missing selected OCI content unless `--offline` is set.
 
 `rootform init --locked --offline` verifies an existing vendor tree against
 the lock. Missing, extra, or changed vendored content fails preparation.
 
 ## Which content a command uses
 
-For every command, Rootform builds the active set of Dialects in one fixed
-order:
+Rootform determines the active Dialects in this order:
 
 1. Start from the embedded Dialects.
 2. Drop the embedded owners that the project excludes.
-3. Add each selected Dialect, reading its bytes from exactly one place: the
-   vendor tree if the project has one, otherwise the recorded local path,
-   otherwise the installed copy with the recorded digests.
+3. Add selected Dialects from their vendored copy, recorded local path, or
+   installed OCI copy, according to the selection's source.
 4. Apply `--dialect` overrides given to this command.
 
 For Policy Packs, `--policy-pack` overlays one pack by name for one command;
 other selected packs remain active. An override never changes the lock. Two
 overrides with the same owner or pack name fail. `--locked` rejects overrides.
 
-A missing or different copy stops the command. Rootform never falls back from
-the vendor tree to your Rootform home, from a local path to an installed copy,
-or from one version to another, and `build`, `check`, and `run` never use the
-network. The same order applies to Policy Packs, without an embedded start.
+A missing or different copy stops the command. Rootform never substitutes
+another source or version, and normal analysis never acquires content. Policy
+Packs have no embedded starting set.
 
 ## Embedded Dialects change only by project decision
 
-Installing a Dialect whose owner matches an embedded Dialect, such as a fork
-of `aws`, changes nothing. A project replaces an embedded Dialect only when
-you say so:
+Installing a Dialect with an embedded owner's name, such as `aws`, changes
+nothing. Replacing the embedded Dialect requires a project decision:
 
 <!-- docs-check:external-content-4 -->
 ```sh
@@ -161,23 +143,18 @@ brings it back.
 
 ## Policy Packs are the unit you select
 
-Policies are selected and vendored only as part of their Policy Pack. An OCI
-Policy Pack can also be installed; a local pack stays at its recorded path.
-A Policy's identity, version, and evaluation context come from its pack,
-so a Policy on its own has nothing exact to record. To evaluate part of a
-selected pack, filter the run with `--policy`. This command reports only
-the results of the Policies in the `tutorial` pack:
+Policies are selected and vendored as part of their Policy Pack. An OCI Pack
+can also be installed; a local Pack stays at its recorded path. To evaluate
+part of a selected Pack, filter one run with `--policy`:
 
 <!-- docs-check:external-content-5 -->
 ```sh
 rootform check . --policy 'tutorial/*'
 ```
 
-This example assumes the project selects a `tutorial` Policy Pack. The check
-reports the selected Policies' results and exits according to their outcomes.
-
-The filter lasts for that run; `rootform.lock` still selects the whole pack.
-A project that always needs a smaller set should select a smaller pack.
+This assumes the project selects a `tutorial` Policy Pack. The filter does
+not change `rootform.lock`; it still selects the whole Pack. The check exits
+according to the filtered Policies' outcomes.
 
 ## Next
 

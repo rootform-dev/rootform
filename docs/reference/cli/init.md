@@ -39,12 +39,12 @@ rootform init [path] [flags]
 
 An existing lock is preserved. Without a lock, ordinary `init` has an empty
 selection; `--locked` instead requires an existing valid lock. Embedded
-Dialects need no acquisition. For pinned external content, `init` may fetch
+Dialects need no acquisition. For selected OCI content, `init` may fetch
 only exact selected digests when network use is allowed. If a vendor family
 exists, `init` verifies its exact tree, including missing, extra, or changed
-content; a valid tree needs no installed copy or registry access. `--offline` restricts
-preparation to verified local content. `--no-input` disallows prompts and
-requires deterministic action.
+content; a valid tree needs no installed copy or registry access. `--offline`
+restricts preparation to verified local content. `--no-input` disallows
+prompts and requires deterministic action.
 
 Replace `./infra` with an existing project directory. The `--locked` example
 requires that project to contain a valid `rootform.lock` beforehand.

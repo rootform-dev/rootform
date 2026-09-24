@@ -17,8 +17,8 @@ and return here for exact command contracts.
 
 - Build or explore: `build` exports an architecture; `run` serves the local explorer.
 - Review: `check` evaluates Policies; `diff` compares two architectures.
-- Inspect: `list` shows effective selections, `show` displays a definition, and `explain` traces an interpretation or result.
-- Prepare: `init` materializes pinned selections; `vendor` copies them into project-local destinations.
+- Inspect: `list` shows active content, `show` displays a definition, and `explain` traces an interpretation or result.
+- Prepare: `init` verifies selected content and can fetch missing OCI units; `vendor` copies selected content into the project.
 - Validate and author: `validate` checks an object; `fmt`, `test`, `compile`, `package`, `publish`, and `lsp` have their own contracts below.
 
 <!-- BEGIN GENERATED CLI: rootform -->

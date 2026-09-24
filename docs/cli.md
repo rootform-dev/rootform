@@ -61,9 +61,8 @@ Other selected packs stay active.
 Use `rootform.lock` when a project must retain an external Dialect or Policy
 Pack selection across commands and environments. The lock records exact
 Rootform content identities and their local or OCI origins. Use `add` to write
-it, then commit it. It does not pin Terraform or OpenTofu providers.
-Provider versions remain in source and
-`.terraform.lock.hcl`.
+it, then commit it. Terraform and OpenTofu provider constraints remain in
+source; package selections belong in `.terraform.lock.hcl`.
 
 A lock can select Dialects without selecting any Policy Pack. Its presence
 does not mean that `check` evaluates a policy. Inspect the current project:

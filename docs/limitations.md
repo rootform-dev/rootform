@@ -75,11 +75,13 @@ for a review procedure.
 
 ## What does offline guarantee?
 
-Normal analysis never acquires packages. `init` or `vendor` can acquire exact
-selected OCI content unless `--offline` forbids it. Vendored directories are
-exclusive for their selected family, so damaged content cannot silently fall
-back to a store or registry. `--locked` requires a lock but does not itself
-disable acquisition. See [Locks and vendored content](offline-security.md).
+Normal analysis never acquires packages. `install`, `add`, and `update` can
+resolve OCI references; `init` and `vendor` can acquire exact selected OCI
+content. `--offline` forbids acquisition on these commands. Vendored
+directories are exclusive for their selected family, so damaged content
+cannot silently fall back to a store or registry. `--locked` requires a lock
+but does not itself disable acquisition. See
+[Locks and vendored content](offline-security.md).
 
 Other tools can still use the network. For containers, the image must already
 be local and runtime network isolation is a separate choice. See

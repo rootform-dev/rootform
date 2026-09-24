@@ -3,20 +3,19 @@ title: "Locks and vendored content"
 description: "Understand the security boundary of exact project selection, offline preparation, and vendoring."
 ---
 
-`rootform.lock` records exact project dependencies. `rootform add`, `remove`,
-and `update` write it; `init` prepares what it already selects. A normal
-`build`, `check`, `run`, `list`, or `show` never acquires content. See
-[Install, add, and vendor](concepts/external-content.md) for the selection
-model and [Where Rootform stores external content](reference/storage.md) for
-paths, ownership, and command guarantees.
+`rootform.lock` fixes a project's external content selection. `--offline`
+controls acquisition when preparing it. Vendored content lets the project
+carry its selection without relying on installed copies. For the state model,
+see [Install, add, and vendor](concepts/external-content.md); for paths, see
+[Where Rootform stores external content](reference/storage.md).
 
 ## What does the lock fix?
 
 Format `1` records selected external Dialects and Policy Packs, embedded owner
-exclusions, and explicit replacements. Each selected unit has an exact name,
-version, compiled content digest, and either a project-relative local path or
-complete OCI identity. An OCI tag is resolved by `add` or `update` and is never
-recorded. Commit and review the lock with the source change it supports.
+exclusions, and replacements. Each selected unit has an exact name, version,
+content identity, and local path or OCI source. An OCI tag is resolved when
+selection changes and is never recorded. Commit and review the lock with the
+source change it supports.
 
 The lock does not record the Rootform binary, Terraform or OpenTofu providers,
 modules, backend state, or credentials. Provider packages remain governed by
@@ -25,41 +24,39 @@ defines exact fields and validation.
 
 ## Preparation and offline controls
 
-`rootform init --locked` requires an existing valid lock. Without a vendor
-tree, it verifies local content at its recorded path without installing it.
-It verifies installed OCI entries and may acquire a missing OCI unit only by
-the recorded repository and manifest digest. It does not select a new version or
-change the lock. When a vendor family exists, `init` verifies those exact
-bytes, including the presence and absence of entries, because analysis reads
-that family from `.rootform/`.
+`rootform init --locked` requires an existing valid lock. It verifies the
+selected local, installed, or vendored content. It may fetch missing OCI
+content only by the exact identity in the lock. It never selects a new version
+or changes the lock. Analysis commands do not acquire content.
 
-`--offline` and `ROOTFORM_OFFLINE=1` forbid acquisition by explicit commands
-that could otherwise use the network. `init --locked --offline` proves that
-every selected unit is available with its recorded content without network
-access. `--no-input` disables prompts; it does not change acquisition policy.
-`--locked` alone does not prevent `init` from acquiring exact missing pins.
+`--offline` and `ROOTFORM_OFFLINE=1` forbid acquisition by `install`, `add`,
+`update`, `init`, and `vendor`. A tag needs a registry lookup, so offline
+selection requires a local source or an already installed digest reference.
+`init --locked --offline` verifies that the selection is available locally
+without acquiring anything. `--no-input` disables prompts, not network use.
+`--locked` alone still permits `init` to fetch exact missing OCI content.
 
 ## Why vendored content is exclusive
 
-When `.rootform/dialects/` exists, selected Dialects are read only from that
-tree. The same rule applies to `.rootform/policy-packs/`. Missing, extra, or
-changed content fails closed. Rootform does not fall back to a local source,
-installed copy, cache, or registry. Run `rootform vendor` to restore the tree
-from the unchanged lock. A selection change through `add`, `remove`, or
-`update` updates an existing vendor family together with the lock.
+When `.rootform/dialects/` exists, Rootform reads selected Dialects only from
+that tree. The same rule applies to `.rootform/policy-packs/`. Missing, extra,
+or changed content fails closed; Rootform does not substitute content from
+another location. This prevents a damaged project copy from silently changing
+the result on a machine with different installed content. Restore the family
+with `rootform vendor` and verify it with `rootform init --locked --offline`.
 
 [Reproduce a build offline](guides/reproduce-build.md) walks through transfer
-and independent replay. The [storage reference](reference/storage.md) lists
-exact directories and recovery steps.
+and independent replay.
 
-## Registry identity and credentials
+## OCI mirror
 
-An OCI mirror must preserve the exact manifest, config, and layer descriptor
-graph. A manual change to `source.oci.repository` is valid only when the new
-repository serves those same pins. Run `rootform init . --locked --no-input`
-after editing to verify the result. Rootform never repairs an invalid lock.
+When moving an OCI selection to a mirror, copy the artifact without
+repackaging it. The mirror must serve the same recorded identity. Change only
+`source.oci.repository` in the lock, then run
+`rootform init . --locked --no-input` to verify the new source. Rootform
+does not repair an invalid lock.
 
 `DOCKER_CONFIG` supplies registry credentials. `SSL_CERT_FILE` may supply
 trusted PEM roots for online acquisition. Neither belongs in `rootform.lock`.
 See [OCI registry compatibility](integrations/registry-compatibility.md) for
-the acquisition contract.
+the exact registry contract.

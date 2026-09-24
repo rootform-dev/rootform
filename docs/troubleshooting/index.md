@@ -115,8 +115,7 @@ rootform init . --locked --no-input
 Add `--offline` only when the exact bytes are already local. `init` cannot
 select another version or change the lock. Without a vendor tree, a missing
 local source must be restored at its recorded path; `init` cannot install it.
-If a vendor tree exists, use the repair path below instead. See
-[Locks and vendored content](../offline-security.md).
+If a vendor tree exists, use the repair path below instead.
 
 ## Installed content does not match rootform.lock
 
@@ -131,11 +130,9 @@ again. The lock does not change. See
 
 ## Vendored content is incomplete or altered
 
-An existing `.rootform/dialects` or `.rootform/policy-packs` directory is
-exclusive for that selected family. `init --locked --offline` also verifies it
-and fails when content is missing, extra, or changed. A build or check will not
-fall back to the shared store or registry. Confirm which family the diagnostic
-names, then repair only that selection from the project root:
+`init --locked --offline` fails when a vendored family has missing, extra,
+or changed content. A build or check also refuses it. Confirm which family
+the diagnostic names, then repair that family from the project root:
 
 <!-- docs-check:docs-troubleshooting-index-5 -->
 ```sh
@@ -165,12 +162,10 @@ Dialect](../guides/external-content.md#replace-or-exclude-an-embedded-dialect).
 
 ## rootform.lock.new blocks a change
 
-`add`, `remove`, `update`, and `vendor` use `rootform.lock.new` beside the
-lock while writing. If it remains after interruption, a later writer stops and names
-that file. Confirm no Rootform writer is running, then move or delete the
-stale sentinel and retry. Review the lock and `.rootform/` before retrying;
-if vendor content differs, restore it with `rootform vendor`. See
-[Who writes this file](../../contracts/rootform-lock.md#who-writes-this-file).
+If a command names `rootform.lock.new` after an interrupted selection change,
+confirm no Rootform writer is running. Then remove that leftover file and
+retry. If vendored content differs from the lock, repair the affected family
+with `rootform vendor`. See [Who writes this file](../../contracts/rootform-lock.md#who-writes-this-file).
 
 ## Registry access, authentication, or CA validation fails
 
