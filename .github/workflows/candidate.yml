@@ -497,6 +497,8 @@ jobs:
     name: select existing candidate
     if: inputs.qualification_release_id != ''
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     outputs:
       release_id: ${{ steps.select.outputs.release_id }}
     steps:
@@ -517,6 +519,8 @@ jobs:
   installation:
     name: native installation qualification
     if: always() && (needs.qualify.result == 'success' || needs.replay.result == 'success')
+    permissions:
+      contents: write
     needs:
       - qualify
       - replay
