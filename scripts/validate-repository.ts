@@ -43,6 +43,7 @@ const allowedTopLevel = new Set([
   "docs",
   "dialects",
   "examples",
+  "installers",
   "oci",
   "package.json",
   "policy-packs",
@@ -119,6 +120,7 @@ export function validateRepository(): void {
     ".github/pull_request_template.md",
     ".github/workflows/candidate.yml",
     ".github/workflows/ci.yml",
+    ".github/workflows/installation-qualification.yml",
     ".github/workflows/publish-image.yml",
     ".github/workflows/publish-policy-packs.yml",
     ".trivyignore.yaml",
@@ -148,12 +150,16 @@ export function validateRepository(): void {
     "docs/integrations/ci/gitlab-ci.yml",
     "docs/integrations/ci/rootform-ci.sh",
     "oci/Dockerfile",
+    "installers/install.sh",
+    "installers/install.ps1",
     "docs/integrations/registry-compatibility.md",
     "scripts/assemble-release.ts",
     "scripts/build-image.ts",
     "scripts/download-handoff.ts",
     "scripts/download-release.ts",
     "scripts/extract-release-binary.ts",
+    "scripts/generate-installation.ts",
+    "scripts/qualify-installation.ts",
     "scripts/release/archive.ts",
     "scripts/release/contract.ts",
     "scripts/release/digest.ts",
@@ -185,7 +191,7 @@ export function validateRepository(): void {
         "scripts/validate-repository.test.ts",
         "scripts/dialects/validate.ts",
       ].includes(path) &&
-      /\.(?:json|md|tf|ts|yml|yaml)$/u.test(path)
+      /\.(?:json|md|ps1|sh|tf|ts|yml|yaml)$/u.test(path)
     ) {
       const body = readFileSync(join(root, path), "utf8");
       if (forbiddenText.test(body))

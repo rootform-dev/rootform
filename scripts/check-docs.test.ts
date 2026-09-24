@@ -545,7 +545,7 @@ test("installation documentation keeps supported methods in recommendation order
     "**Verify**",
     "rootform version",
     "**Other options**",
-    "brew install --cask rootform",
+    "brew install rootform-dev/tap/rootform",
   ]);
   expectOrder(section("<!-- rootform:tab Linux -->", "<!-- rootform:tab Windows -->"), [
     "**Recommended**",

@@ -5,7 +5,11 @@ on:
     inputs:
       handoff_release_id:
         description: Exact Rootform draft release ID containing the Engine handoff
-        required: true
+        required: false
+        type: string
+      qualification_release_id:
+        description: Requalify one existing draft candidate without assembly or publication
+        required: false
         type: string
       version:
         description: Exact Rootform candidate version
@@ -22,6 +26,7 @@ concurrency:
 jobs:
   qualify:
     name: assemble and qualify candidate
+    if: inputs.qualification_release_id == ''
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     permissions:
@@ -31,6 +36,7 @@ jobs:
     outputs:
       evidence: ${{ steps.candidate-evidence.outputs.body }}
       pull-request: ${{ steps.pull-request.outputs.number }}
+      release_id: ${{ steps.final-release.outputs.release_id }}
 
     steps:
       - name: Check out distribution
@@ -78,14 +84,14 @@ jobs:
           bun-version: 1.4.0
 
       - name: Install exact QEMU emulation
-        uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+        uses: docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # v4.3.0
         with:
           cache-image: false
           image: docker.io/tonistiigi/binfmt:latest@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
           platforms: arm64
 
       - name: Install exact Buildx
-        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
         with:
           driver-opts: image=moby/buildkit:v0.32.2@sha256:28a898719c18a33f4e8000685287fa36fd0dd9560c6440227d3a732d79bb41d8
 
@@ -186,6 +192,15 @@ jobs:
             --handoff build/handoff \
             --github-assets build/handoff-assets.json \
             --output build/release
+
+      - name: Generate release-bound installation metadata
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/generate-installation.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release build/release \
+            --output build/installers
 
       - name: Build and audit official OCI image
         env:
@@ -382,6 +397,7 @@ jobs:
           release_url="$(gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" --jq '.html_url')"
           [[ "$release_url" == https://github.com/* ]]
           printf 'url=%s\n' "$release_url" >> "$GITHUB_OUTPUT"
+          printf 'release_id=%s\n' "$release_id" >> "$GITHUB_OUTPUT"
 
       - name: Upload exact draft candidate for native jobs
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -391,6 +407,15 @@ jobs:
           if-no-files-found: error
           compression-level: 0
           retention-days: 1
+
+      - name: Upload generated installation metadata for review
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-installation-metadata-${{ inputs.version }}-${{ github.sha }}
+          path: build/installers
+          if-no-files-found: error
+          compression-level: 9
+          retention-days: 30
 
       - name: Render candidate evidence
         id: candidate-evidence
@@ -486,12 +511,49 @@ jobs:
           compression-level: 9
           retention-days: 30
 
+  replay:
+    name: select existing candidate
+    if: inputs.qualification_release_id != ''
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    outputs:
+      release_id: ${{ steps.select.outputs.release_id }}
+    steps:
+      - name: Verify exact draft candidate
+        id: select
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_ID: ${{ inputs.qualification_release_id }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_ID" =~ ^[1-9][0-9]*$ ]]
+          gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" \
+            | jq -e --arg version "v$ROOTFORM_VERSION" \
+              '.draft == true and .prerelease == true and .tag_name == $version' >/dev/null
+          printf 'release_id=%s\n' "$RELEASE_ID" >> "$GITHUB_OUTPUT"
+
+  installation:
+    name: native installation qualification
+    if: always() && (needs.qualify.result == 'success' || needs.replay.result == 'success')
+    permissions:
+      contents: write
+    needs:
+      - qualify
+      - replay
+    uses: ./.github/workflows/installation-qualification.yml
+    with:
+      version: ${{ inputs.version }}
+      release_id: ${{ needs.qualify.outputs.release_id || needs.replay.outputs.release_id }}
+
   evidence:
     name: PR evidence
     if: always() && needs.qualify.outputs.pull-request != ''
     needs:
       - qualify
       - platforms
+      - installation
     permissions:
       contents: read
       pull-requests: write
@@ -503,7 +565,7 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           PR_NUMBER: ${{ needs.qualify.outputs.pull-request }}
-          QUALIFY_RESULT: ${{ needs.qualify.result == 'success' && needs.platforms.result == 'success' && 'success' || 'failure' }}
+          QUALIFY_RESULT: ${{ needs.qualify.result == 'success' && needs.platforms.result == 'success' && needs.installation.result == 'success' && 'success' || 'failure' }}
           REPORT_BASE64: ${{ needs.qualify.outputs.evidence }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:

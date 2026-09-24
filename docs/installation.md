@@ -27,7 +27,7 @@ rootform version
 Homebrew:
 
 ```sh
-brew install --cask rootform
+brew install rootform-dev/tap/rootform
 ```
 
 <!-- rootform:tab Linux -->

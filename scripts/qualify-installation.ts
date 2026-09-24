@@ -1,0 +1,470 @@
+#!/usr/bin/env bun
+
+import { createHash } from "node:crypto";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  realpathSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join, resolve } from "node:path";
+import { generateInstallation } from "./generate-installation.ts";
+import { normalizeVersion } from "./release/contract.ts";
+
+const hash = (body: Uint8Array | string) => createHash("sha256").update(body).digest("hex");
+
+type Outcome = { code: number; output: string };
+
+async function run(command: string[], environment: Record<string, string>): Promise<Outcome> {
+  const process_ = Bun.spawn(command, {
+    env: { ...process.env, ...environment },
+    stderr: "pipe",
+    stdout: "pipe",
+  });
+  const [stdout, stderr, code] = await Promise.all([
+    new Response(process_.stdout).text(),
+    new Response(process_.stderr).text(),
+    process_.exited,
+  ]);
+  return { code, output: `${stdout}\n${stderr}`.trim() };
+}
+
+async function checked(command: string[], environment: Record<string, string>): Promise<string> {
+  const result = await run(command, environment);
+  if (result.code !== 0)
+    throw new Error(
+      `${command.slice(0, 3).join(" ")} failed (${result.code}): ${result.output.slice(-1800)}`,
+    );
+  return result.output;
+}
+
+async function qualifyFormula(
+  generated: string,
+  release: string,
+  platform: string,
+  version: string,
+): Promise<void> {
+  const environment = { HOMEBREW_NO_AUTO_UPDATE: "1" };
+  const prefix = (await checked(["brew", "--prefix"], environment)).trim();
+  const repository = (await checked(["brew", "--repository"], environment)).trim();
+  const binary = join(prefix, "bin", "rootform");
+  if (existsSync(binary)) throw new Error("preexisting rootform on Homebrew PATH");
+  if ((await run(["brew", "list", "--formula", "rootform"], environment)).code === 0) {
+    throw new Error("preexisting Homebrew Rootform formula");
+  }
+  const manifest = JSON.parse(
+    readFileSync(join(release, `rootform_${version}_manifest.json`), "utf8"),
+  ) as {
+    artifacts?: Array<{
+      operating_system?: string;
+      architecture?: string;
+      raw_executable_sha256?: string;
+    }>;
+  };
+  const architecture = platform.endsWith("arm64") ? "arm64" : "amd64";
+  const target = manifest.artifacts?.find(
+    (artifact) => artifact.operating_system === "darwin" && artifact.architecture === architecture,
+  );
+  if (!target?.raw_executable_sha256 || !/^[0-9a-f]{64}$/u.test(target.raw_executable_sha256)) {
+    throw new Error("release manifest lacks macOS executable checksum");
+  }
+  const tap = "rootform/qualification";
+  const tapDirectory = join(repository, "Library", "Taps", "rootform", "homebrew-qualification");
+  if (existsSync(tapDirectory)) throw new Error("qualification tap already exists");
+  const developerMode = (await checked(["brew", "developer", "state"], environment)).includes(
+    "is enabled",
+  );
+  try {
+    await checked(["brew", "tap-new", tap], environment);
+    const formulae = join(tapDirectory, "Formula");
+    mkdirSync(formulae, { recursive: true });
+    writeFileSync(
+      join(formulae, "rootform.rb"),
+      readFileSync(join(generated, "Formula", "rootform.rb")),
+    );
+    for (let iteration = 0; iteration < 2; iteration++) {
+      await checked(["brew", "install", `${tap}/rootform`], environment);
+      if (!existsSync(binary)) throw new Error("Homebrew did not expose rootform on PATH");
+      const installed = realpathSync(binary);
+      if (hash(readFileSync(installed)) !== target.raw_executable_sha256) {
+        throw new Error("Homebrew installed unexpected executable bytes");
+      }
+      if ((await run(["xattr", "-p", "com.apple.quarantine", installed], {})).code === 0) {
+        throw new Error("Homebrew formula installed a quarantined executable");
+      }
+      const result = await checked([binary, "version"], {});
+      if (!result.includes(`rootform ${version}`))
+        throw new Error("Homebrew installed wrong version");
+      for (const name of [
+        "ROOTFORM-BINARY-LICENSE.txt",
+        "THIRD_PARTY_NOTICES.txt",
+        `rootform_${version}_sbom.spdx.json`,
+        "SHA256SUMS",
+      ]) {
+        if (!existsSync(join(prefix, "share", "rootform", name))) {
+          throw new Error(`Homebrew omitted release notice: ${name}`);
+        }
+      }
+      await checked(["brew", "test", `${tap}/rootform`], environment);
+      console.log(`Homebrew formula install ${iteration + 1} completed`);
+      await checked(["brew", "uninstall", `${tap}/rootform`], environment);
+      if (existsSync(binary)) throw new Error("Homebrew uninstall left rootform binary");
+    }
+  } finally {
+    if (existsSync(binary)) await run(["brew", "uninstall", `${tap}/rootform`], environment);
+    if (existsSync(tapDirectory)) await run(["brew", "untap", tap], environment);
+    if (!developerMode) await run(["brew", "developer", "off"], environment);
+    await checked(["brew", "untrust", "--formula", `${tap}/rootform`], environment);
+    await checked(["brew", "untrust", "--cask", `${tap}/rootform`], environment);
+  }
+}
+
+async function qualifyWinGet(generated: string, version: string): Promise<void> {
+  const manifest = join(generated, "winget", "manifests", "r", "Rootform", "Rootform", version);
+  const packageId = "Rootform.Rootform";
+  const links = join(process.env.LOCALAPPDATA ?? "", "Microsoft", "WinGet", "Links");
+  if (existsSync(join(links, "rootform.exe"))) throw new Error("preexisting WinGet rootform alias");
+  await checked(["winget", "settings", "--enable", "LocalManifestFiles"], {});
+  await checked(["winget", "validate", "--manifest", manifest], {});
+  console.log("WinGet local manifest validated");
+  const installed = await run(
+    ["winget", "list", "--id", packageId, "--exact", "--accept-source-agreements"],
+    {},
+  );
+  if (installed.code === 0 && installed.output.includes(packageId)) {
+    throw new Error("preexisting WinGet Rootform installation");
+  }
+  const install = [
+    "winget",
+    "install",
+    "--manifest",
+    manifest,
+    "--scope",
+    "user",
+    "--accept-package-agreements",
+    "--accept-source-agreements",
+    "--disable-interactivity",
+  ];
+  try {
+    for (let iteration = 0; iteration < 2; iteration++) {
+      await checked(install, {});
+      console.log(`WinGet local install ${iteration + 1} completed`);
+      const command =
+        "$env:PATH=$env:LOCALAPPDATA+'\\Microsoft\\WinGet\\Links;'+$env:PATH; $binary=(Get-Command rootform -ErrorAction Stop).Source; if (-not $binary.StartsWith($env:LOCALAPPDATA+'\\Microsoft\\WinGet\\Links', [StringComparison]::OrdinalIgnoreCase)) { throw 'PATH resolved another executable' }; rootform version";
+      const result = await checked(["powershell.exe", "-NoProfile", "-Command", command], {});
+      if (!result.includes(`rootform ${version}`))
+        throw new Error("WinGet installed wrong version");
+      await checked(
+        [
+          "winget",
+          "uninstall",
+          "--manifest",
+          manifest,
+          "--accept-source-agreements",
+          "--disable-interactivity",
+        ],
+        {},
+      );
+      console.log(`WinGet local uninstall ${iteration + 1} completed`);
+      if (existsSync(join(links, "rootform.exe")))
+        throw new Error("WinGet uninstall left rootform alias");
+    }
+  } finally {
+    await run(
+      [
+        "winget",
+        "uninstall",
+        "--manifest",
+        manifest,
+        "--accept-source-agreements",
+        "--disable-interactivity",
+      ],
+      {},
+    );
+  }
+}
+
+function replaceChecksum(sums: string, name: string, digest: string): string {
+  let matches = 0;
+  const updated = sums
+    .split("\n")
+    .map((line) => {
+      const record = /^([0-9a-f]{64}) {2}([A-Za-z0-9._-]+)$/u.exec(line);
+      if (record?.[2] !== name) return line;
+      matches += 1;
+      return `${digest}  ${name}`;
+    })
+    .join("\n");
+  if (matches !== 1) throw new Error(`release checksum entry is not unique: ${name}`);
+  return updated;
+}
+
+function releaseFixture(
+  release: string,
+  version: string,
+  platform: string,
+  scenario: string,
+): Map<string, Buffer> {
+  const manifestName = `rootform_${version}_manifest.json`;
+  const asset = `rootform_${version}_${platform}.${platform === "windows_amd64" ? "zip" : "tar.gz"}`;
+  const files = new Map<string, Buffer>();
+  for (const name of ["SHA256SUMS", manifestName, asset])
+    files.set(name, readFileSync(join(release, name)));
+  if (scenario === "missing-asset") files.delete(asset);
+  if (scenario === "missing-metadata") files.delete(manifestName);
+  if (scenario === "wrong-checksum") {
+    const sums = files.get("SHA256SUMS")?.toString("utf8") ?? "";
+    files.set("SHA256SUMS", Buffer.from(replaceChecksum(sums, asset, "0".repeat(64))));
+  }
+  if (scenario === "corrupt-archive" || scenario === "invalid-metadata") {
+    const manifest = JSON.parse(files.get(manifestName)?.toString("utf8") ?? "") as {
+      product: { version: string };
+      artifacts: Array<{ asset: string; sha256: string }>;
+    };
+    if (scenario === "corrupt-archive") {
+      const corrupted = Buffer.from(files.get(asset) ?? []);
+      corrupted[0] = (corrupted[0] ?? 0) ^ 0xff;
+      files.set(asset, corrupted);
+      const record = manifest.artifacts.find((entry) => entry.asset === asset);
+      if (!record) throw new Error("candidate asset missing from manifest");
+      record.sha256 = hash(corrupted);
+    } else {
+      manifest.product.version = "9.9.9";
+    }
+    const encoded = Buffer.from(`${JSON.stringify(manifest, null, 2)}\n`);
+    files.set(manifestName, encoded);
+    let sums = files.get("SHA256SUMS")?.toString("utf8") ?? "";
+    for (const name of [manifestName, asset]) {
+      const body = files.get(name);
+      if (body) sums = replaceChecksum(sums, name, hash(body));
+    }
+    files.set("SHA256SUMS", Buffer.from(sums));
+  }
+  return files;
+}
+
+async function main(): Promise<void> {
+  const values = new Map<string, string>();
+  for (let index = 2; index < process.argv.length; index += 2) {
+    const key = process.argv[index];
+    const value = process.argv[index + 1];
+    if (!key?.startsWith("--") || !value || values.has(key))
+      throw new Error("invalid qualification arguments");
+    values.set(key, value);
+  }
+  const version = normalizeVersion(values.get("--version") ?? "");
+  const release = resolve(values.get("--release") ?? "");
+  const platform = values.get("--platform") ?? "";
+  const expected =
+    process.platform === "win32"
+      ? "windows_amd64"
+      : `${process.platform}_${process.arch === "arm64" ? "arm64" : "amd64"}`;
+  if (platform !== expected)
+    throw new Error(`qualification target ${platform} does not match host ${expected}`);
+  const root = mkdtempSync(join(tmpdir(), "rootform-install-qualification-"));
+  let script = "";
+  const scenarios = new Set([
+    "success",
+    "missing-asset",
+    "missing-metadata",
+    "wrong-checksum",
+    "corrupt-archive",
+    "invalid-metadata",
+    "redirect-away",
+  ]);
+  const server = Bun.serve({
+    hostname: "127.0.0.1",
+    port: 0,
+    fetch(request) {
+      const [scenario, name] = new URL(request.url).pathname.slice(1).split("/");
+      if (!scenario || !name || !scenarios.has(scenario))
+        return new Response("not found", { status: 404 });
+      if (scenario === "redirect-away") {
+        return new Response(null, {
+          status: 302,
+          headers: { Location: "http://example.com/untrusted" },
+        });
+      }
+      if (name === "install" || name === "install.ps1") return new Response(readFileSync(script));
+      if (scenario === "success" && name === "ROOTFORM-BINARY-LICENSE.txt") {
+        return new Response(readFileSync(join(release, name)));
+      }
+      const body = releaseFixture(release, version, platform, scenario).get(name);
+      return body ? new Response(body) : new Response("not found", { status: 404 });
+    },
+  });
+  const outcomes: Record<string, { passed: boolean; exit_code: number }> = {};
+  const evidence = values.get("--evidence");
+  try {
+    const generated = join(root, "generated");
+    generateInstallation({
+      baseUrl: `http://127.0.0.1:${server.port}/success`,
+      output: generated,
+      release,
+      version,
+    });
+    script = join(generated, process.platform === "win32" ? "install.ps1" : "install");
+    const installation = join(root, "bin");
+    mkdirSync(installation);
+    const binary = join(installation, process.platform === "win32" ? "rootform.exe" : "rootform");
+    const execute = async (scenario: string, extra: Record<string, string> = {}) => {
+      const environment = {
+        ROOTFORM_RELEASE_BASE_URL: `http://127.0.0.1:${server.port}/${scenario}`,
+        ROOTFORM_INSTALL_DIR: installation,
+        ROOTFORM_INSTALL_SCRIPT: script,
+        ROOTFORM_INSTALL_URL: `http://127.0.0.1:${server.port}/success/install.ps1`,
+        ROOTFORM_VERSION: version,
+        ...extra,
+      };
+      if (process.platform === "win32") {
+        const command =
+          scenario === "success" && Object.keys(extra).length === 0
+            ? "Invoke-RestMethod $env:ROOTFORM_INSTALL_URL | Invoke-Expression; if ((Get-Command rootform).Source -ne (Join-Path $env:ROOTFORM_INSTALL_DIR 'rootform.exe')) { throw 'PATH resolved another executable' }; rootform version"
+            : "& $env:ROOTFORM_INSTALL_SCRIPT";
+        return run(
+          ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command],
+          environment,
+        );
+      }
+      if (scenario === "success" && Object.keys(extra).length === 0) {
+        return run(
+          ["/bin/sh", "-c", `curl -fsSL http://127.0.0.1:${server.port}/success/install | sh`],
+          environment,
+        );
+      }
+      return run(["/bin/sh", script], environment);
+    };
+    for (const scenario of [
+      "missing-asset",
+      "missing-metadata",
+      "wrong-checksum",
+      "corrupt-archive",
+      "invalid-metadata",
+      "redirect-away",
+    ]) {
+      const result = await execute(scenario);
+      outcomes[scenario] = {
+        passed: result.code !== 0 && !existsSync(binary),
+        exit_code: result.code,
+      };
+      if (!outcomes[scenario]?.passed)
+        throw new Error(`${scenario} did not fail closed: ${result.output}`);
+    }
+    if (process.platform !== "win32") {
+      for (const [scenario, extra] of [
+        ["unsupported-os", { ROOTFORM_TEST_OS: "FreeBSD" }],
+        ["unsupported-arch", { ROOTFORM_TEST_ARCH: "riscv64" }],
+      ] as const) {
+        const result = await execute("success", extra);
+        outcomes[scenario] = {
+          passed: result.code !== 0 && !existsSync(binary),
+          exit_code: result.code,
+        };
+        if (!outcomes[scenario]?.passed) throw new Error(`${scenario} did not fail closed`);
+      }
+    }
+    const impossible = join(root, "blocked-target");
+    writeFileSync(impossible, "not a directory");
+    const blocked = await execute("success", { ROOTFORM_INSTALL_DIR: impossible });
+    outcomes["blocked-target"] = {
+      passed: blocked.code !== 0 && !existsSync(binary),
+      exit_code: blocked.code,
+    };
+    if (!outcomes["blocked-target"]?.passed)
+      throw new Error("blocked installation target did not fail closed");
+    const success = await execute("success");
+    if (success.code !== 0 || !existsSync(binary))
+      throw new Error(`installation failed: ${success.output}`);
+    const versionResult =
+      process.platform === "win32"
+        ? { code: success.code, output: success.output }
+        : await run(
+            [
+              "/bin/sh",
+              "-c",
+              'test "$(command -v rootform)" = "$ROOTFORM_INSTALL_DIR/rootform" && rootform version',
+            ],
+            {
+              ROOTFORM_INSTALL_DIR: installation,
+              PATH: `${installation}:/usr/bin:/bin`,
+            },
+          );
+    outcomes.success = {
+      passed: versionResult.code === 0 && versionResult.output.includes(`rootform ${version}`),
+      exit_code: success.code,
+    };
+    if (!outcomes.success.passed)
+      throw new Error(`installed executable failed: ${versionResult.output}`);
+    const installedDigest = hash(readFileSync(binary));
+    const failedReplacement = await execute("wrong-checksum");
+    outcomes["failed-replacement"] = {
+      passed: failedReplacement.code !== 0 && hash(readFileSync(binary)) === installedDigest,
+      exit_code: failedReplacement.code,
+    };
+    if (!outcomes["failed-replacement"].passed) {
+      throw new Error("failed download changed existing executable");
+    }
+    const replacement = await execute("success");
+    outcomes.replacement = {
+      passed:
+        replacement.code === 0 &&
+        hash(readFileSync(binary)) === installedDigest &&
+        JSON.stringify(readdirSync(installation)) ===
+          JSON.stringify([process.platform === "win32" ? "rootform.exe" : "rootform"]),
+      exit_code: replacement.code,
+    };
+    if (!outcomes.replacement.passed) throw new Error(`replacement failed: ${replacement.output}`);
+    console.log(`Qualified installer ${platform} ${version}: ${Object.keys(outcomes).join(", ")}`);
+    if (process.env.ROOTFORM_SKIP_PACKAGE_MANAGER !== "1" && process.platform !== "linux") {
+      if (evidence) mkdirSync(dirname(resolve(evidence)), { recursive: true });
+      const packageEvidence = evidence
+        ? resolve(evidence).replace(/\.json$/u, "-package.json")
+        : undefined;
+      try {
+        if (process.platform === "darwin")
+          await qualifyFormula(generated, release, platform, version);
+        else await qualifyWinGet(generated, version);
+        if (packageEvidence)
+          writeFileSync(
+            packageEvidence,
+            `${JSON.stringify({ platform, version, method: process.platform === "darwin" ? "homebrew-formula" : "winget", result: "passed" })}\n`,
+          );
+        console.log(
+          `Qualified ${process.platform === "darwin" ? "Homebrew formula" : "WinGet"} ${platform} ${version}`,
+        );
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        if (packageEvidence)
+          writeFileSync(
+            packageEvidence,
+            `${JSON.stringify({ platform, version, method: process.platform === "darwin" ? "homebrew-formula" : "winget", result: "failed", error: message })}\n`,
+          );
+        throw error;
+      }
+    }
+  } finally {
+    if (evidence) {
+      mkdirSync(dirname(resolve(evidence)), { recursive: true });
+      writeFileSync(
+        resolve(evidence),
+        `${JSON.stringify({ format_version: "1", platform, version, archive_sha256: hash(readFileSync(join(release, `rootform_${version}_${platform}.${platform === "windows_amd64" ? "zip" : "tar.gz"}`))), outcomes }, null, 2)}\n`,
+      );
+    }
+    server.stop(true);
+    rmSync(root, { recursive: true, force: true });
+  }
+}
+
+if (import.meta.main) {
+  try {
+    await main();
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  }
+}
