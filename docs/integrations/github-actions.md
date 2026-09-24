@@ -34,8 +34,21 @@ jobs:
           if-no-files-found: warn
 ```
 
-No lock or `init` is needed for this build. Install and checkout may access the
-network even though the build itself does not acquire content. A build failure
+No lock or `init` is needed for this embedded-only build. For a project
+with committed `infra/rootform.lock`, replace the build step with:
+
+```yaml title="Locked project steps"
+      - name: Prepare selected content
+        run: rootform init ./infra --locked --no-input
+      - name: Build architecture
+        run: rootform build ./infra --locked --format json --output architecture.json
+```
+
+Run `rootform add` during project configuration and commit the lock; never
+run it in CI. A selected Policy gate then uses `rootform check ./infra
+--locked --format json --output policy.json` after the build. Install and
+checkout may access the network even though analysis itself does not acquire
+content. A build failure
 still fails the job. Prepare referenced Terraform or OpenTofu modules before
 the build if the project needs them.
 
@@ -54,15 +67,14 @@ the workflow above, not a second complete workflow:
             policy.json
 ```
 
-The artifact step's `if: ${{ !cancelled() }}` runs after a Policy violation,
-so `policy.json` remains downloadable while the check's failure remains the
-job result. If a pack is selected by `infra/rootform.lock` instead, prepare it
-first with `rootform init ./infra --locked --no-input` and use
-`rootform check ./infra --locked --format json --output policy.json`. Do not
-combine `--locked` with an explicit `--policy-pack`. For the portable script,
-including separate diagnostics and an exact `check.status`, use
-[Run in CI](ci/README.md#request-a-policy-gate) and the
-[complete GitHub recipe](ci/github-actions.yml).
+The artifact step's `if: ${{ !cancelled() }}` runs after a Policy violation, so
+`policy.json` remains downloadable while the check's failure remains the job
+result. If a pack is selected by `infra/rootform.lock`, use the locked project
+steps above and check with `--locked`. Do not combine `--locked` with an
+explicit `--policy-pack` override. For the portable script, including separate
+diagnostics and an exact `check.status`, use [Run in
+CI](ci/README.md#request-a-policy-gate) and the [complete GitHub
+recipe](ci/github-actions.yml).
 
 `check --format sarif --output policy.sarif` creates SARIF. Uploading that file
 as a workflow artifact stores it for download. Sending it to GitHub code

@@ -54,15 +54,15 @@ Dialect-owned meaning keeps owner-first identity such as `aws.rule.subnet`.
 
 The exact symbols belong in the [RF Vocabulary reference](../language/reference/rf-vocabulary.md).
 
-## Inspect effective semantics
+## Inspect active Dialects
 
 Run these inspections from the project root with the Rootform binary used for
-the build. The embedded release set is available without a lock. External
+the build. Embedded Dialects are available without a lock. External
 selections must already be prepared according to project configuration.
 
 <!-- docs-check:concept-dialect-list -->
 ```sh
-rootform list dialects --dialect aws -o wide
+rootform list dialects aws -o wide
 ```
 
 ```text title="AWS Dialect summary"
@@ -94,23 +94,22 @@ rootform show aws.rule.subnet
 ```
 
 The output connects the source type, produced Concept, and network Context
-evidence. These commands inspect effective selection and do not change it.
+evidence. These commands inspect the active Dialects and do not change it.
 
 ## Embedded and external selection
 
-The Rootform binary carries RF Vocabulary and supplied Dialects. Updating the
-binary can therefore update embedded interpretation. External Dialects are
-selected explicitly by exact owner, version, and digest in `rootform.lock`.
-Whole-owner exclusion or replacement can change which Dialect interprets
-source.
+The Rootform binary carries RF Vocabulary and embedded Dialects. Updating it
+can change interpretation. `rootform.lock` records exact external Dialect
+selection; [Install, add, and vendor](external-content.md) explains how that
+selection becomes active.
 
 Selection consequences are semantic. The same Terraform can produce different
-Concepts, facts, diagnostics, or Rule coverage under different effective
-Dialect selection. Rootform does not reinterpret saved Architecture IR using
+Concepts, facts, diagnostics, or Rule coverage under different active
+Dialects. Rootform does not reinterpret saved Architecture IR using
 the current binary. The saved document keeps the producer's semantic snapshot.
 
-Use [Select Dialects and Policy Packs](../cli.md) to understand effective
-project selection and [Use external Dialects and Policy Packs](../guides/external-content.md)
-to configure exact external content. For authoring, continue separately with
-[Write a Dialect](../dialect-authoring.md) and
-[Dialect language reference](../language/reference/dialects.md).
+Use [Select Dialects and Policy Packs](../cli.md) to understand active project
+content and [Add external Dialects and Policy
+Packs](../guides/external-content.md) to configure exact external content. For
+authoring, continue separately with [Write a Dialect](../dialect-authoring.md)
+and [Dialect language reference](../language/reference/dialects.md).

@@ -132,40 +132,65 @@ export function verifyProjectConfigurationExamples(
   );
   checks.push("embedded selection needs no lock and replays from an independent path and home");
 
-  const policyProject = join(suiteRoot, "policy-project");
-  mkdirSync(join(policyProject, "policies"), { recursive: true });
-  writeFileSync(join(policyProject, "main.tf"), main);
   const policyGuide = page("guides/check-architecture.md");
-  writeFileSync(
-    join(policyProject, "policies/pack.rf.hcl"),
-    configuration(policyGuide, "policies/pack.rf.hcl"),
-  );
-  writeFileSync(
-    join(policyProject, "policies/subnet-network-context.rf.hcl"),
-    configuration(policyGuide, "policies/subnet-network-context.rf.hcl"),
-  );
-  const identityResult = marked(
-    "guides/external-content.md",
-    "external-local-policy-identity",
-    policyProject,
-  ).stdout.trim();
-  assert(
-    identityResult ===
-      titledBlock(page("guides/external-content.md"), "json", "Local Policy Pack identity").trim(),
-    "local Policy Pack identity differs from displayed output",
-  );
+  const tutorialDigest = "sha256:3f301eea6cfe95b1c66ba3c768d3d57613c847ca245cdb5ad3838e6604a19e9e";
+  function writeTutorialPack(project: string): void {
+    mkdirSync(join(project, "policies"), { recursive: true });
+    for (const file of ["pack.rf.hcl", "subnet-network-context.rf.hcl"]) {
+      writeFileSync(
+        join(project, "policies", file),
+        configuration(policyGuide, `policies/${file}`),
+      );
+    }
+  }
+  // The documented payments Dialect is a copy of the smallest official
+  // Dialect under a new owner, so it is external rather than embedded.
+  function writePaymentsDialect(project: string): void {
+    const destination = join(project, "dialects/payments");
+    mkdirSync(destination, { recursive: true });
+    cpSync(
+      join(root, "dialects/secrets/presentation.json"),
+      join(destination, "presentation.json"),
+    );
+    const declaration = readFileSync(join(root, "dialects/secrets/dialect.rf.hcl"), "utf8");
+    assert(declaration.includes('dialect "secrets"'), "secrets Dialect declaration moved");
+    writeFileSync(
+      join(destination, "dialect.rf.hcl"),
+      declaration.replace('dialect "secrets"', 'dialect "payments"'),
+    );
+  }
+  const lockOf = (project: string) => readFileSync(join(project, "rootform.lock"));
+
+  const policyProject = join(suiteRoot, "policy-project");
+  mkdirSync(policyProject);
+  writeFileSync(join(policyProject, "main.tf"), main);
+  writeTutorialPack(policyProject);
   assert(
     run([binary, "check", ".", "--policy-pack", "./policies"], policyProject).stdout.includes(
       "Policies compliant",
     ) && !existsSync(join(policyProject, "rootform.lock")),
     "explicit local Policy Pack did not stay lock-free",
   );
+  const adopted = marked("guides/external-content.md", "external-add-local-pack", policyProject);
+  const adoptedLock = JSON.parse(lockOf(policyProject).toString("utf8"));
+  assert(
+    adopted.stdout.includes("rootform.lock updated") &&
+      adopted.stdout.includes("Project prepared") &&
+      /^tutorial\s+0\.1\.0\s+1$/mu.test(adopted.stdout) &&
+      adoptedLock.policy_packs?.length === 1 &&
+      adoptedLock.policy_packs[0].name === "tutorial" &&
+      adoptedLock.policy_packs[0].content_digest === tutorialDigest &&
+      adoptedLock.policy_packs[0].source?.local?.path === "policies",
+    `documented add did not record the local Policy Pack\n${adopted.stdout}${adopted.stderr}`,
+  );
+  const localLock = lockOf(policyProject);
+  const repeated = run([binary, "add", "policy-packs", "./policies"], policyProject);
+  assert(
+    repeated.stdout.includes("rootform.lock already matches; nothing changed") &&
+      lockOf(policyProject).equals(localLock),
+    "repeated add changed an unchanged selection",
+  );
 
-  const localLock = `${titledBlock(
-    page("guides/external-content.md"),
-    "json",
-    "rootform.lock (local Policy Pack)",
-  )}\n`;
   const missingProject = join(suiteRoot, "missing-selected-content");
   mkdirSync(missingProject);
   writeFileSync(join(missingProject, "main.tf"), main);
@@ -179,39 +204,40 @@ export function verifyProjectConfigurationExamples(
   assert(
     missingList.stderr.includes("selected Policy Pack tutorial is unavailable locally") &&
       missingInit.stderr.includes("local source is unavailable") &&
-      readFileSync(join(missingProject, "rootform.lock"), "utf8") === localLock,
+      lockOf(missingProject).equals(localLock),
     "missing selected content did not block list/init while preserving the lock",
   );
-  writeFileSync(join(policyProject, "rootform.lock"), localLock);
-  const preparedLock = readFileSync(join(policyProject, "rootform.lock"));
-  const localPreparation = marked(
-    "guides/external-content.md",
-    "external-local-policy-init",
-    policyProject,
-  );
-  assert(
-    localPreparation.stdout.includes('"content_digest": "sha256:3f301eea') &&
-      readFileSync(join(policyProject, "rootform.lock")).equals(preparedLock),
-    "local Policy Pack preparation changed lock or lost identity",
-  );
-  const lockedPolicyCheck = marked(
-    "guides/external-content.md",
-    "external-local-policy-check",
-    policyProject,
-  ).stdout.trim();
+  const lockedPolicyCheck = run([binary, "check", ".", "--locked"], policyProject).stdout;
   marked("reference/cli/explain/policy.md", "cli-explain-policy", policyProject);
   assert(
-    lockedPolicyCheck ===
-      titledBlock(page("guides/external-content.md"), "text", "Locked Policy check").trim(),
-    "locked local Policy Pack did not evaluate to displayed result",
+    lockedPolicyCheck.includes("Policies compliant") &&
+      /Results\s+1 passed/u.test(lockedPolicyCheck),
+    "locked local Policy Pack did not evaluate its selected policy",
   );
+
+  const policyFile = join(policyProject, "policies/subnet-network-context.rf.hcl");
+  const policySource = readFileSync(policyFile, "utf8");
+  writeFileSync(policyFile, policySource.replace("Subnets must", "Every subnet must"));
+  const drifted = run([binary, "check", ".", "--locked"], policyProject, 3);
+  assert(
+    drifted.stderr.includes("rootform update policy-packs tutorial") &&
+      lockOf(policyProject).equals(localLock),
+    `edited local Policy Pack did not point to update\n${drifted.stderr}`,
+  );
+  marked("guides/external-content.md", "external-update-local", policyProject);
+  const updatedLock = JSON.parse(lockOf(policyProject).toString("utf8"));
+  assert(
+    updatedLock.policy_packs?.[0]?.content_digest !== tutorialDigest &&
+      updatedLock.policy_packs?.[0]?.source?.local?.path === "policies",
+    "documented update did not record edited local content",
+  );
+  writeFileSync(policyFile, policySource);
+  run([binary, "update", "policy-packs", "tutorial"], policyProject);
+  assert(lockOf(policyProject).equals(localLock), "restored content did not restore lock bytes");
 
   const badProject = join(suiteRoot, "bad-policy-project");
   cpSync(policyProject, badProject, { recursive: true });
-  const badLock = localLock.replace(
-    "sha256:3f301eea6cfe95b1c66ba3c768d3d57613c847ca245cdb5ad3838e6604a19e9e",
-    `sha256:${"0".repeat(64)}`,
-  );
+  const badLock = localLock.toString("utf8").replace(tutorialDigest, `sha256:${"0".repeat(64)}`);
   writeFileSync(join(badProject, "rootform.lock"), badLock);
   const badSelection = run(
     [binary, "init", ".", "--locked", "--offline", "--no-input"],
@@ -248,113 +274,58 @@ export function verifyProjectConfigurationExamples(
   run([binary, "vendor", "policy-packs", "--offline", "--to", policyCopy], policyProject);
   assert(
     existsSync(join(policyCopy, "tutorial/.rootform-vendor.json")) &&
-      readFileSync(join(policyProject, "rootform.lock")).equals(preparedLock),
+      lockOf(policyProject).equals(localLock),
     "Policy Pack --to changed project selection or lock",
   );
-  checks.push(
-    "tutorial Policy Pack evaluates when locked, blocks list when missing, and rejects drift",
-  );
-
-  const identityProject = join(suiteRoot, "dialect-project");
-  const identityTemp = join(suiteRoot, "dialect-identity-temp");
-  mkdirSync(join(identityProject, "third-party"), { recursive: true });
-  mkdirSync(identityTemp);
-  writeFileSync(join(identityProject, "main.tf"), main);
-  cpSync(join(root, "dialects/confluent"), join(identityProject, "third-party/confluent"), {
-    recursive: true,
-  });
-  const displayedDialectIdentity = JSON.parse(
-    titledBlock(page("guides/external-content.md"), "json", "Extracted Dialect identity"),
-  );
-  const jq = Bun.which("jq");
-  if (!jq) {
-    checks.push("local Dialect identity shell block: NOT RUN because jq is unavailable");
-  } else {
-    assert(
-      readdirSync(identityTemp).length === 0,
-      "identity temp directory was not initially empty",
-    );
-    const shellIdentity = marked(
-      "guides/external-content.md",
-      "external-local-dialect-identity",
-      identityProject,
-      {},
-      0,
-      { TMPDIR: identityTemp },
-    ).stdout.trim();
-    assert(
-      shellIdentity ===
-        titledBlock(
-          page("guides/external-content.md"),
-          "json",
-          "Extracted Dialect identity",
-        ).trim(),
-      "published jq identity extraction differs from displayed identity",
-    );
-    const generated = readdirSync(identityTemp);
-    assert(
-      generated.length === 1 && generated[0]?.startsWith("rootform-identity."),
-      "mktemp did not create one parent with documented template",
-    );
-    const identityLayout = join(identityTemp, generated[0] ?? "", "layout");
-    assert(existsSync(identityLayout), "Rootform did not create absent layout destination");
-    const index = JSON.parse(readFileSync(join(identityLayout, "index.json"), "utf8"));
-    const manifestDigest = String(index.manifests?.[0]?.digest ?? "");
-    const manifest = JSON.parse(
-      readFileSync(
-        join(identityLayout, "blobs/sha256", manifestDigest.replace("sha256:", "")),
-        "utf8",
-      ),
-    );
-    const configDigest = String(manifest.config?.digest ?? "");
-    const config = JSON.parse(
-      readFileSync(
-        join(identityLayout, "blobs/sha256", configDigest.replace("sha256:", "")),
-        "utf8",
-      ),
-    );
-    assert(
-      config.owner === displayedDialectIdentity.owner &&
-        config.version === displayedDialectIdentity.version &&
-        config.content_digest === displayedDialectIdentity.content_digest,
-      "independent OCI config reading differs from published jq extraction",
-    );
-    checks.push("published jq block extracts the displayed local Dialect identity");
-  }
-
-  const localDialectLock = `${titledBlock(
-    page("guides/external-content.md"),
-    "json",
-    "rootform.lock (local Dialect)",
-  )}\n`;
-  writeFileSync(join(identityProject, "rootform.lock"), localDialectLock);
-  const localDialectLockBytes = readFileSync(join(identityProject, "rootform.lock"));
-  const localDialectPreparation = marked(
-    "guides/external-content.md",
-    "external-local-dialect-init",
-    identityProject,
-  );
-  const displayedSelection = titledBlock(
-    page("guides/external-content.md"),
-    "text",
-    "Selected local Dialect",
-  ).trim();
-  const localDialectOutput = [
-    localDialectPreparation.stderr.trim(),
-    localDialectPreparation.stdout.trim(),
-  ]
-    .filter(Boolean)
-    .join("\n\n");
+  const removedProject = join(suiteRoot, "removed-policy-project");
+  cpSync(policyProject, removedProject, { recursive: true });
+  marked("guides/external-content.md", "external-remove", removedProject);
+  const removedLock = JSON.parse(lockOf(removedProject).toString("utf8"));
   assert(
-    localDialectOutput === displayedSelection &&
-      readFileSync(join(identityProject, "rootform.lock")).equals(localDialectLockBytes),
-    `local Dialect selection output changed or preparation modified lock\n${localDialectPreparation.stderr}${localDialectPreparation.stdout}`,
+    removedLock.policy_packs?.length === 0 &&
+      existsSync(join(removedProject, "policies/pack.rf.hcl")) &&
+      !existsSync(join(removedProject, ".rootform/policy-packs/tutorial")),
+    "documented remove kept the selection or its vendored copy, or deleted the source",
+  );
+  checks.push(
+    "tutorial Policy Pack is added, updated, vendored, and removed by the documented commands",
+  );
+
+  const dialectProject = join(suiteRoot, "dialect-project");
+  mkdirSync(dialectProject);
+  writeFileSync(join(dialectProject, "main.tf"), main);
+  writePaymentsDialect(dialectProject);
+  const localDialectGuide = page("guides/local-dialect.md");
+  const tried = marked("guides/local-dialect.md", "local-dialect-1", dialectProject);
+  assert(
+    tried.stderr.startsWith(
+      titledBlock(localDialectGuide, "text", "Standard error from the example").trim(),
+    ) && !existsSync(join(dialectProject, "rootform.lock")),
+    `--dialect trial changed the lock or lost its notice\n${tried.stderr}`,
+  );
+  marked("guides/local-dialect.md", "local-dialect-2", dialectProject);
+  const added = marked("guides/local-dialect.md", "local-dialect-3", dialectProject);
+  assert(
+    added.stdout.trim() === titledBlock(localDialectGuide, "text", "Example result").trim(),
+    `local Dialect add differs from displayed output\n${added.stdout}${added.stderr}`,
+  );
+  const localDialectLockBytes = lockOf(dialectProject);
+  const localDialectLock = JSON.parse(localDialectLockBytes.toString("utf8"));
+  assert(
+    localDialectLock.dialects?.[0]?.owner === "payments" &&
+      localDialectLock.dialects[0].source?.local?.path === "dialects/payments",
+    "local Dialect add did not record its project-relative path",
+  );
+  run([binary, "init", ".", "--locked", "--offline", "--no-input"], dialectProject);
+  assert(
+    lockOf(dialectProject).equals(localDialectLockBytes),
+    "local Dialect preparation modified lock",
   );
   const dialectCopy = join(suiteRoot, "selected-dialect-copy");
-  run([binary, "vendor", "dialects", "--offline", "--to", dialectCopy], identityProject);
+  run([binary, "vendor", "dialects", "--offline", "--to", dialectCopy], dialectProject);
   assert(
-    existsSync(join(dialectCopy, "confluent/.rootform-vendor.json")) &&
-      readFileSync(join(identityProject, "rootform.lock")).equals(localDialectLockBytes),
+    existsSync(join(dialectCopy, "payments/.rootform-vendor.json")) &&
+      lockOf(dialectProject).equals(localDialectLockBytes),
     "Dialect --to changed project selection or lock",
   );
   const dialectCIOutput = join(suiteRoot, "dialect-only-ci-output");
@@ -363,13 +334,13 @@ export function verifyProjectConfigurationExamples(
     ROOTFORM_CHECK: "0",
     ROOTFORM_OFFLINE: "1",
     ROOTFORM_OUTPUT_DIR: dialectCIOutput,
-    ROOTFORM_PROJECT: identityProject,
+    ROOTFORM_PROJECT: dialectProject,
   });
   assert(
     existsSync(join(dialectCIOutput, "init.json")) &&
       existsSync(join(dialectCIOutput, "architecture.json")) &&
       !existsSync(join(dialectCIOutput, "check.status")) &&
-      readFileSync(join(identityProject, "rootform.lock")).equals(localDialectLockBytes),
+      lockOf(dialectProject).equals(localDialectLockBytes),
     "CI dialect-only lock started a check or changed the lock",
   );
   checks.push(
@@ -377,66 +348,80 @@ export function verifyProjectConfigurationExamples(
   );
 
   const ociProject = join(suiteRoot, "oci-project");
-  const ociHome = join(suiteRoot, "oci-home");
   mkdirSync(ociProject);
-  mkdirSync(ociHome);
   writeFileSync(join(ociProject, "main.tf"), main);
-  const ociLock = `${titledBlock(
-    page("guides/external-content.md"),
-    "json",
-    "rootform.lock (OCI template)",
-  )}\n`;
-  writeFileSync(join(ociProject, "rootform.lock"), ociLock);
-  const ociResult = Bun.spawnSync([binary, "init", ".", "--locked", "--offline", "--no-input"], {
-    cwd: ociProject,
-    env: { ...environment, ROOTFORM_HOME: ociHome },
-    stdin: "ignore",
-    stdout: "pipe",
-    stderr: "pipe",
-  });
-  assert(
-    ociResult.exitCode === 3 &&
-      !ociResult.stderr.toString().includes("rootform.lock is invalid") &&
-      readFileSync(join(ociProject, "rootform.lock"), "utf8") === ociLock,
-    "OCI template was not accepted as a valid unavailable offline selection",
+  const offlineTag = run(
+    [binary, "add", "dialects", "registry.example.com/acme/rootform/payments:0.1.0"],
+    ociProject,
+    2,
+    { ROOTFORM_OFFLINE: "1" },
   );
-  checks.push("local Dialect selection prepares unchanged and OCI template satisfies lock parser");
+  assert(
+    offlineTag.stderr.includes("cannot be resolved offline") &&
+      !existsSync(join(ociProject, "rootform.lock")),
+    "offline tag add did not stop before writing a lock",
+  );
+
+  const replaceProject = join(suiteRoot, "replace-project");
+  mkdirSync(join(replaceProject, "dialects"), { recursive: true });
+  writeFileSync(join(replaceProject, "main.tf"), main);
+  cpSync(join(root, "dialects/aws"), join(replaceProject, "dialects/aws"), { recursive: true });
+  run([binary, "add", "dialects", "./dialects/aws"], replaceProject, 1);
+  assert(
+    !existsSync(join(replaceProject, "rootform.lock")),
+    "embedded owner collision wrote a lock without --replace",
+  );
+  const selectedOwners = () => {
+    const lock = JSON.parse(lockOf(replaceProject).toString("utf8"));
+    return {
+      excluded: JSON.stringify(lock.excluded_owners),
+      replaced: JSON.stringify(lock.replacements),
+    };
+  };
+  marked("guides/external-content.md", "external-replace", replaceProject);
+  assert(selectedOwners().replaced === '["aws"]', "documented --replace did not replace aws");
+  marked("guides/external-content.md", "external-restore", replaceProject);
+  assert(
+    selectedOwners().replaced === "[]" && selectedOwners().excluded === "[]",
+    "removing the replacement did not restore embedded aws",
+  );
+  const excluded = run([binary, "remove", "dialects", "aws", "--embedded"], replaceProject);
+  assert(
+    excluded.stdout.includes("rootform.lock updated") && selectedOwners().excluded === '["aws"]',
+    "remove --embedded did not exclude aws",
+  );
+  run([binary, "add", "dialects", "aws"], replaceProject);
+  assert(selectedOwners().excluded === "[]", "bare owner add did not include aws again");
+  marked("guides/external-content.md", "external-exclude", replaceProject);
+  assert(
+    selectedOwners().excluded === "[]" && selectedOwners().replaced === "[]",
+    "documented exclude and include sequence did not end with embedded aws",
+  );
+  checks.push(
+    "local Dialect trial, add, offline tag refusal, replacement, and exclusion follow the guides",
+  );
 
   const externalSource = join(suiteRoot, "external-source");
   const externalReplay = join(suiteRoot, "external-replay");
   const externalEvidence = join(suiteRoot, "external-evidence");
-  mkdirSync(join(externalSource, "third-party"), { recursive: true });
-  mkdirSync(join(externalSource, "policies"), { recursive: true });
+  mkdirSync(externalSource);
   writeFileSync(join(externalSource, "main.tf"), main);
-  cpSync(join(root, "dialects/confluent"), join(externalSource, "third-party/confluent"), {
-    recursive: true,
-  });
-  writeFileSync(
-    join(externalSource, "policies/pack.rf.hcl"),
-    configuration(policyGuide, "policies/pack.rf.hcl"),
-  );
-  writeFileSync(
-    join(externalSource, "policies/subnet-network-context.rf.hcl"),
-    configuration(policyGuide, "policies/subnet-network-context.rf.hcl"),
-  );
+  writePaymentsDialect(externalSource);
+  writeTutorialPack(externalSource);
   marked("guides/reproduce-build.md", "offline-evidence-directory", externalSource, {
     "/path/to/evidence": externalEvidence,
   });
   assert(existsSync(externalEvidence), "external report directory was not created by guide");
-  const combinedLock = `${titledBlock(
-    page("guides/external-content.md"),
-    "json",
-    "rootform.lock (combined replay selection)",
-  )}\n`;
-  writeFileSync(join(externalSource, "rootform.lock"), combinedLock);
-  run([binary, "init", ".", "--locked", "--offline", "--no-input"], externalSource);
-  const externalLockBytes = readFileSync(join(externalSource, "rootform.lock"));
+  marked("guides/reproduce-build.md", "offline-add-dialect", externalSource, {
+    "/path/to/source-project": externalSource,
+  });
+  const externalLockBytes = lockOf(externalSource);
   marked("guides/reproduce-build.md", "offline-vendor-dialects", externalSource, {
     "/path/to/source-project": externalSource,
   });
   assert(
-    existsSync(join(externalSource, ".rootform/dialects/confluent/.rootform-vendor.json")) &&
-      readFileSync(join(externalSource, "rootform.lock")).equals(externalLockBytes) &&
+    existsSync(join(externalSource, ".rootform/dialects/payments/.rootform-vendor.json")) &&
+      lockOf(externalSource).equals(externalLockBytes) &&
       !existsSync(join(suiteRoot, ".rootform")),
     "vendoring did not act on the selected project only",
   );
@@ -470,11 +455,10 @@ export function verifyProjectConfigurationExamples(
     "source governance evidence did not record one passed evaluation and status 0",
   );
   cpSync(externalSource, externalReplay, { recursive: true });
-  rmSync(join(externalReplay, "third-party"), { recursive: true });
+  rmSync(join(externalReplay, "dialects"), { recursive: true });
   rmSync(join(externalReplay, "policies"), { recursive: true });
   assert(
-    !existsSync(join(externalReplay, "third-party")) &&
-      !existsSync(join(externalReplay, "policies")),
+    !existsSync(join(externalReplay, "dialects")) && !existsSync(join(externalReplay, "policies")),
     "replay retained original external source directories",
   );
   const replayHomesBefore = new Set(
@@ -521,8 +505,11 @@ export function verifyProjectConfigurationExamples(
     "optional governance replay did not preserve Policy result, status, or fresh home",
   );
 
-  const damagedLock = readFileSync(join(externalReplay, "rootform.lock"));
-  rmSync(join(externalReplay, ".rootform/dialects/confluent/stream-processing/flink.rf.hcl"));
+  const damagedLock = lockOf(externalReplay);
+  const vendoredDeclaration = join(externalReplay, ".rootform/dialects/payments/dialect.rf.hcl");
+  const declaration = readFileSync(vendoredDeclaration, "utf8");
+  assert(declaration.includes(">= 3.0.0"), "vendored payments declaration moved");
+  writeFileSync(vendoredDeclaration, declaration.replace(">= 3.0.0", ">= 3.1.0"));
   const damagedHome = join(suiteRoot, "damaged-home");
   mkdirSync(damagedHome);
   const damaged = Bun.spawnSync([binary, "build", ".", "--locked", "--output", "broken.json"], {
@@ -536,7 +523,7 @@ export function verifyProjectConfigurationExamples(
     damaged.exitCode === 3 &&
       damaged.stderr.toString().includes("differs from rootform.lock") &&
       !existsSync(join(externalReplay, "broken.json")) &&
-      readFileSync(join(externalReplay, "rootform.lock")).equals(damagedLock),
+      lockOf(externalReplay).equals(damagedLock),
     "damaged vendor did not fail closed before fallback or lock mutation",
   );
   const damagedCIOutput = join(suiteRoot, "damaged-ci-output");
@@ -554,18 +541,15 @@ export function verifyProjectConfigurationExamples(
     .join("\n");
   assert(
     !existsSync(join(damagedCIOutput, "check.status")) &&
-      damagedCIDiagnostic.includes("not available locally") &&
-      readFileSync(join(externalReplay, "rootform.lock")).equals(damagedLock),
-    `CI missing content did not fail before Policy verdict: ${damagedCIDiagnostic}`,
+      damagedCIDiagnostic.includes("differs from rootform.lock") &&
+      lockOf(externalReplay).equals(damagedLock),
+    `CI damaged content did not fail before Policy verdict: ${damagedCIDiagnostic}`,
   );
-  mkdirSync(join(externalReplay, "third-party"));
-  cpSync(join(root, "dialects/confluent"), join(externalReplay, "third-party/confluent"), {
-    recursive: true,
-  });
+  writePaymentsDialect(externalReplay);
   marked("guides/reproduce-build.md", "offline-vendor-dialects", externalReplay, {
     "/path/to/source-project": externalReplay,
   });
-  rmSync(join(externalReplay, "third-party"), { recursive: true });
+  rmSync(join(externalReplay, "dialects"), { recursive: true });
   run([binary, "build", ".", "--locked", "--output", "repaired.json"], externalReplay);
   assert(
     readFileSync(join(externalReplay, "repaired.json")).equals(

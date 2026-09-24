@@ -100,19 +100,19 @@ already be materialized by the IaC tool. Plan-derived evidence must come from a
 This boundary keeps architecture analysis away from credentials, state locks,
 and infrastructure changes. It also means Rootform cannot establish live
 health, runtime connectivity, or deployed drift. Architecture describes the
-supplied evidence and effective semantic selection.
+supplied evidence and active Dialects.
 
 ## Determinism makes evidence reviewable
 
-The same supported input and exact semantic selection produce the same
+The same supported input and exact active Dialects produce the same
 canonical Architecture IR bytes. Stable identities preserve source continuity.
 Canonical ordering removes traversal noise. Provenance explains why a fact
 exists.
 
 Dialect evolution can change interpretation even when Terraform is unchanged.
-The Rootform binary fixes embedded semantics and `rootform.lock` fixes external
-selection. [Project configuration](cli.md) explains effective selection.
-[Locks and vendored content](offline-security.md) explains reproducible use.
+The Rootform binary fixes embedded Dialects, and `rootform.lock` records exact
+project selection. [Install, add, and vendor](concepts/external-content.md)
+explains how selected and installed content differ.
 
 Continue with [Dialects and RF Vocabulary](concepts/dialects.md) for
 interpretation, [Policies and Policy Packs](concepts/policies.md) for

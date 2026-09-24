@@ -160,7 +160,7 @@ export async function verifyCliBehavior(
   );
 
   assert(
-    JSON.parse(run(["list", "dialects", "--dialect", "aws", "-o", "json"]).stdout).some(
+    JSON.parse(run(["list", "dialects", "aws", "-o", "json"]).stdout).some(
       (entry: { name?: string }) => entry.name === "aws",
     ),
     "list dialects lost selected AWS definition",

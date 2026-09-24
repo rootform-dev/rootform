@@ -294,6 +294,7 @@ project-selected pack.
 
 Use JSON for automation or SARIF for a compatible code-review surface:
 
+<!-- docs-check:docs-guides-check-architecture-1 -->
 ```sh
 rootform check . --policy-pack ./policies --format sarif \
   --output policy-result.sarif
@@ -303,8 +304,16 @@ Review the selected Policy count and evaluation coverage with status. Invalid
 command use returns `2`. See [Outputs and exit status](../reference/outputs.md)
 for the full command matrix.
 
-For external Policy Packs, use [Project configuration](../cli.md) to select and
-lock the required content. Continue with
-[Run in CI](../integrations/ci/README.md) or
-[GitHub Actions](../integrations/github-actions.md) when the local results are
-ready for automation.
+To keep this pack selected for the project, record it from the project root:
+
+<!-- docs-check:policy-adopt-pack -->
+```sh
+rootform add policy-packs ./policies
+```
+
+Commit `rootform.lock` with the pack source. Later checks use that selection
+without `--policy-pack`. See [Add external Dialects and Policy
+Packs](external-content.md). Continue with [Run in
+CI](../integrations/ci/README.md) or [GitHub
+Actions](../integrations/github-actions.md) when the local results are ready for
+automation.

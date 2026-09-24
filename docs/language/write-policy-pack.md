@@ -91,16 +91,20 @@ matching Concept or applied Rule is not selected.
 
 Point `check` at local source while authoring:
 
+<!-- docs-check:docs-language-write-policy-pack-1 -->
 ```sh
 rootform check ./example --policy-pack ./baseline
 rootform list policies --policy-pack ./baseline
 rootform show policy baseline.policy.cluster-network-context --policy-pack ./baseline
 ```
 
-Local source is neither installed nor written to `rootform.lock`. Save exact
+The override lasts one command and leaves `rootform.lock` unchanged. When the
+project should retain the pack, run `rootform add policy-packs ./baseline` from
+the project root and commit the source with the lock. Save exact
 linked form against Architecture IR when replay must not need producer
 Dialects:
 
+<!-- docs-check:docs-language-write-policy-pack-2 -->
 ```sh
 rootform compile policy-pack ./baseline --semantics architecture.json \
   --output baseline.compiled.json
@@ -114,6 +118,7 @@ version, and exact semantic pins. Any mismatch fails closed.
 
 Packaging is local and offline:
 
+<!-- docs-check:docs-language-write-policy-pack-3 -->
 ```sh
 rootform package policy-packs ./baseline \
   --to ./artifacts/policies \
@@ -125,6 +130,7 @@ rootform package policy-packs ./baseline \
 
 Publication is separate and generic:
 
+<!-- docs-check:docs-language-write-policy-pack-4 -->
 ```sh
 rootform publish policy-packs ./artifacts/policies \
   --to registry.example/team/policy-packs
@@ -135,17 +141,21 @@ digest is rejected.
 
 ## Use published Policy Pack
 
-Record exact OCI identity in `rootform.lock`, including content, manifest, and
-layer digests plus sizes. Then acquire only those pins:
+From the project root, add the published reference, then prepare its exact
+selection:
 
+<!-- docs-check:policy-authoring-add-published -->
 ```sh
-rootform init ./infra --locked --no-input
-rootform check ./infra --locked
+cd ./infra
+rootform add policy-packs registry.example.com/acme/baseline:0.1.0
+rootform init . --locked --no-input
+rootform check . --locked
 ```
 
-Installed packs live under `$ROOTFORM_HOME/policy-packs/<name>/<version>`.
-Project vendoring uses `.rootform/policy-packs`. Linked execution cache lives
-under `$ROOTFORM_HOME/cache/linked-policy-packs` and is always derivable.
+The registry reference is illustrative; replace it with the published one you
+reviewed. `add` records digests without hand editing the lock. Set
+`DOCKER_CONFIG` before acquisition if the registry needs credentials. See
+[Where Rootform stores external content](../reference/storage.md) for paths.
 
 <!-- rootform:endsteps -->
 

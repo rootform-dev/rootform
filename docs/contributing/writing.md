@@ -99,6 +99,22 @@ across generated pages belongs in their shared overview.
 
 ## Make claims precise
 
+Use one term for each external-content state. The full explanation belongs in
+[Install, add, and vendor](../concepts/external-content.md).
+
+| Term | Meaning | Avoid as an alias |
+| --- | --- | --- |
+| embedded | ships inside the `rootform` binary | supplied, bundled, built-in, official as a state |
+| installed | stored in `$ROOTFORM_HOME` on this machine | cached, downloaded, available as a state |
+| selected | recorded in `rootform.lock` | configured, enabled, pinned as a state, locked as a unit state |
+| vendored | copied into `.rootform/` and read only from there | cached, bundled |
+| active | used by one command run | effective, loaded |
+| override | supplied by `--dialect` or `--policy-pack` for one run | local selection, temporary selection |
+| prepare | what `init` does: verify and make selected content present | install for `init` |
+
+“Exact identity” names what the lock records. Reserve “pin” for digests
+inside identities and “cache” for derived content under `$ROOTFORM_HOME/cache`.
+
 Name the input, behavior, result, and boundary. A diagram describes declared
 architecture, not live connectivity. An unresolved result is not a pass. A
 `rootform.lock` fixes selection, while `--offline` controls acquisition during

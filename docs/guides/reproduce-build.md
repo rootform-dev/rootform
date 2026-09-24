@@ -29,8 +29,9 @@ mkdir -p /path/to/evidence
 
 ## Reproduce a project with embedded Dialects only
 
-A supplied-only project has no `rootform.lock` and needs no preparation. On the
-source environment, record the binary identity and build the reference file:
+A project using only embedded Dialects has no `rootform.lock` and needs no
+preparation. On the source environment, record the binary identity and build the
+reference file:
 
 <!-- docs-check:offline-embedded-source -->
 ```sh
@@ -71,13 +72,19 @@ acquire content.
 
 ## Prepare an external selection with --no-input
 
-Start from a project with reviewed `rootform.lock`. On the connected source
-environment, prepare exact OCI pins and verify local entries:
+On the connected source environment, select reviewed local content from
+project-relative directories, then prepare the exact lock. This example
+assumes `./dialects/payments` is a valid Dialect source. For OCI content, use
+its reviewed registry reference with `add` instead:
 
+<!-- docs-check:offline-add-dialect -->
 ```sh
 cd /path/to/source-project
+rootform add dialects ./dialects/payments
 rootform init . --locked --no-input
 ```
+
+Commit `rootform.lock` with the selected source. `init` never changes it.
 
 Vendor only families the replay needs. A selected external Dialect is required
 for architecture construction:
@@ -109,9 +116,9 @@ Transfer these items:
 - `before.json` for comparison
 
 Copy them into an independent project location. Copying only `rootform.lock`
-does not transport selected content. This walkthrough leaves the original
-`third-party/confluent` source directory behind after vendoring. Its project
-vendor copy must be sufficient on replay.
+does not transport selected content. After vendoring, the project vendor copy is
+sufficient on replay, even if the original `dialects/payments` source directory
+stays on the source machine.
 
 On the replay environment, use another new home:
 
@@ -119,6 +126,8 @@ On the replay environment, use another new home:
 ```sh
 cd /path/to/replay-project
 replay_home=$(mktemp -d "${TMPDIR:-/tmp}/rootform-home.XXXXXX")
+ROOTFORM_HOME="$replay_home" \
+  rootform init . --locked --offline --no-input
 ROOTFORM_HOME="$replay_home" \
   rootform build . --locked --output /path/to/evidence/after.json
 rootform diff /path/to/evidence/before.json \
@@ -131,14 +140,16 @@ report.
 
 ### Add governance evidence when needed
 
-Governance reproduction is optional. Use the
-[combined replay selection](external-content.md#combine-the-examples-for-offline-replay),
-including the `tutorial` Policy Pack and its effective subnet target. On the
-source environment, vendor that selected family and save its result and status:
+Governance reproduction is optional. Use the `tutorial` Policy Pack from
+[Run checks](check-architecture.md), whose target matches the example subnet.
+On the source environment, select and vendor it, then save its result and
+status:
 
 <!-- docs-check:offline-vendor-policy-packs -->
 ```sh
 cd /path/to/source-project
+rootform add policy-packs ./policies
+rootform init . --locked --no-input
 rootform vendor policy-packs --offline
 ```
 
@@ -198,5 +209,7 @@ environment, then transfer the complete verified vendor family again. Keep
 `rootform.lock` unchanged. Do not delete it to bypass an integrity failure.
 
 [Locks and vendored content](../offline-security.md) explains source precedence
-and command controls. [Use external Dialects and Policy Packs](external-content.md)
-shows how to create the selection before transfer.
+and command controls. [Where Rootform stores external
+content](../reference/storage.md) defines vendor ownership and repair. [Add
+external Dialects and Policy Packs](external-content.md) shows how to create the
+selection before transfer.
