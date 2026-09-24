@@ -29,9 +29,9 @@ mkdir -p /path/to/evidence
 
 ## Reproduce a project with embedded Dialects only
 
-A project using only embedded Dialects has no `rootform.lock` and needs no
-preparation. On the source environment, record the binary identity and build the
-reference file:
+A project using only embedded Dialects needs no `rootform.lock` or
+preparation. On the source environment, record the binary identity and build
+the reference file:
 
 <!-- docs-check:offline-embedded-source -->
 ```sh

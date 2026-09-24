@@ -65,7 +65,7 @@ A Dialect declares provider envelopes, local definitions, and Rules:
 - composition records exclusive source memberships while every member keeps its
   own base.
 
-This Rule from the supplied AWS Dialect recognizes a subnet and records its VPC
+This Rule from the embedded AWS Dialect recognizes a subnet and records its VPC
 reference as network context:
 
 ```rf title="aws/network/vpc.rf.hcl"

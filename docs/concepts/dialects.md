@@ -9,21 +9,13 @@ decide which source declarations exist and does not create missing resources.
 
 ## Interpretation enriches a resource base
 
-Every normalized `resource` already has a base representation. A Rule can then
-add a Concept, Context, Relation, Contribution, or Composition. No matching Rule
-leaves an unclassified representation rather than an unsupported resource.
-
-`data` declarations follow a stricter boundary. They remain source-accounted but
-gain a representation only when a successful Rule justifies one.
-
-This distinction separates two coverage questions.
-
-- **Resource coverage** asks which normalized resources have representations.
-- **Rule coverage** asks which declarations received successful semantic
-  interpretation.
-
-Rule coverage can be narrower than resource coverage. A successful build status
-does not claim every representation has a Rule or a Concept.
+Every normalized `resource` has a base Representation before a Dialect Rule
+interprets it. A matching Rule can add a Concept or architectural fact. A
+resource with no matching Rule remains in the architecture without that
+interpretation. `data` declarations gain a Representation only when a Rule
+justifies one. See
+[Core concepts](../concepts.md#every-resource-starts-with-a-representation)
+for the distinction between resource and Rule coverage.
 
 ## How a Rule establishes a fact
 

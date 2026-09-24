@@ -30,7 +30,7 @@ unknown evidence as a proven absence or a successful check.
 ## How Rootform reads a project
 
 A [Dialect](concepts/dialects.md) gives provider declarations architectural
-meaning. Rootform includes the RF Vocabulary and supplied Dialects in the
+meaning. Rootform includes the RF Vocabulary and embedded Dialects in the
 executable, so projects covered by them need no additional Rootform
 configuration.
 

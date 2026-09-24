@@ -31,7 +31,7 @@ public when it changes what a user can do.
 | --- | --- |
 | “The installer describes the target v0.1 experience but is not published yet.” | Put the recommended install command first. Track installer publication internally. |
 | “These guides use a newer documentation verification build than the release.” | Describe the behavior users receive with v0.1. Block release until the binary contains it. |
-| “The selected Dialect is only available in our documentation fixture.” | Use a supplied Dialect or document the exact external selection a user can acquire. |
+| “The selected Dialect is only available in our documentation fixture.” | Use an embedded Dialect or document the exact external selection a user can acquire. |
 | A candidate-gate matrix on a user container page. | Document supported platforms, mounts, credentials, and runtime behavior. Keep release qualification in an internal runbook. |
 
 ## Give every page one job

@@ -64,11 +64,8 @@ Diagnostics go to standard error. Exit status `0` means valid, `1` means at
 least one definition is invalid, `2` means incorrect command use, and `3` means
 validation could not decide a result.
 
-
-
 Validation above reads the source set directly. Inspect one object from the
-project effective Dialect set (supplied Dialects embedded in the release set
-plus explicit selected Dialects):
+project's active Dialects (embedded and selected Dialects):
 
 ```sh
 rootform validate rule aws.rule.subnet
@@ -96,12 +93,11 @@ fixtures/
         └── architecture.golden
 ```
 
-Before first comparison, review candidate Architecture IR from the project
-effective Dialect set before saving it as `architecture.golden`. Repository
-fixture suite supplies exact shared Dialects; `rootform test` never updates
-golden.
+Before the first comparison, review the Architecture IR produced by the
+project's active Dialects, then save it as `architecture.golden`.
+`rootform test` compares against that file; it never updates it.
 
-Run suite with supplied release set plus exact optional project lock:
+Run the suite with embedded Dialects plus any project selection:
 
 ```sh
 rootform test ./fixtures
