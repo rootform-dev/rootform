@@ -28,7 +28,9 @@ async function run(command: string[], environment: Record<string, string>): Prom
 async function checked(command: string[], environment: Record<string, string>): Promise<string> {
   const result = await run(command, environment);
   if (result.code !== 0)
-    throw new Error(`${command[0]} failed (${result.code}): ${result.output.slice(-1800)}`);
+    throw new Error(
+      `${command.slice(0, 3).join(" ")} failed (${result.code}): ${result.output.slice(-1800)}`,
+    );
   return result.output;
 }
 
@@ -70,7 +72,10 @@ async function qualifyWinGet(generated: string, version: string): Promise<void> 
   const links = join(process.env.LOCALAPPDATA ?? "", "Microsoft", "WinGet", "Links");
   await checked(["winget", "settings", "--enable", "LocalManifestFiles"], {});
   await checked(["winget", "validate", "--manifest", manifest], {});
-  const installed = await run(["winget", "list", "--id", packageId, "--exact"], {});
+  const installed = await run(
+    ["winget", "list", "--id", packageId, "--exact", "--accept-source-agreements"],
+    {},
+  );
   if (installed.code === 0 && installed.output.includes(packageId)) {
     throw new Error("preexisting WinGet Rootform installation");
   }
@@ -94,14 +99,33 @@ async function qualifyWinGet(generated: string, version: string): Promise<void> 
       if (!result.includes(`rootform ${version}`))
         throw new Error("WinGet installed wrong version");
       await checked(
-        ["winget", "uninstall", "--id", packageId, "--exact", "--disable-interactivity"],
+        [
+          "winget",
+          "uninstall",
+          "--id",
+          packageId,
+          "--exact",
+          "--accept-source-agreements",
+          "--disable-interactivity",
+        ],
         {},
       );
       if (existsSync(join(links, "rootform.exe")))
         throw new Error("WinGet uninstall left rootform alias");
     }
   } finally {
-    await run(["winget", "uninstall", "--id", packageId, "--exact", "--disable-interactivity"], {});
+    await run(
+      [
+        "winget",
+        "uninstall",
+        "--id",
+        packageId,
+        "--exact",
+        "--accept-source-agreements",
+        "--disable-interactivity",
+      ],
+      {},
+    );
   }
 }
 
