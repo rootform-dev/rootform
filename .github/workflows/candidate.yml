@@ -193,6 +193,15 @@ jobs:
             --github-assets build/handoff-assets.json \
             --output build/release
 
+      - name: Generate release-bound installation metadata
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/generate-installation.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release build/release \
+            --output build/installers
+
       - name: Build and audit official OCI image
         env:
           ROOTFORM_VERSION: ${{ inputs.version }}
@@ -398,6 +407,15 @@ jobs:
           if-no-files-found: error
           compression-level: 0
           retention-days: 1
+
+      - name: Upload generated installation metadata for review
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-installation-metadata-${{ inputs.version }}-${{ github.sha }}
+          path: build/installers
+          if-no-files-found: error
+          compression-level: 9
+          retention-days: 30
 
       - name: Render candidate evidence
         id: candidate-evidence

@@ -95,7 +95,7 @@ export function generateInstallation(options: {
   name "Rootform"
   desc "Architecture compiler and policy CLI"
   homepage "https://rootform.dev"
-  depends_on macos: ">= :ventura"
+  depends_on macos: ">= :monterey"
 
   binary "rootform"
 end

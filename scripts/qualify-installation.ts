@@ -3,7 +3,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { generateInstallation } from "./generate-installation.ts";
 import { normalizeVersion } from "./release/contract.ts";
 
@@ -35,10 +35,11 @@ async function checked(command: string[], environment: Record<string, string>): 
 async function qualifyCask(generated: string, version: string): Promise<void> {
   const environment = { HOMEBREW_NO_AUTO_UPDATE: "1" };
   const prefix = (await checked(["brew", "--prefix"], environment)).trim();
+  const repository = (await checked(["brew", "--repository"], environment)).trim();
   const binary = join(prefix, "bin", "rootform");
   if (existsSync(binary)) throw new Error("preexisting rootform on Homebrew PATH");
   const tap = "rootform/qualification";
-  const tapDirectory = join(prefix, "Library", "Taps", "rootform", "homebrew-qualification");
+  const tapDirectory = join(repository, "Library", "Taps", "rootform", "homebrew-qualification");
   if (existsSync(tapDirectory)) throw new Error("qualification tap already exists");
   await checked(["brew", "tap-new", tap], environment);
   try {
@@ -131,7 +132,7 @@ function releaseFixture(
     };
     if (scenario === "corrupt-archive") {
       const corrupted = Buffer.from(files.get(asset) ?? []);
-      corrupted[100] = (corrupted[100] ?? 0) ^ 0xff;
+      corrupted[0] = (corrupted[0] ?? 0) ^ 0xff;
       files.set(asset, corrupted);
       const record = manifest.artifacts.find((entry) => entry.asset === asset);
       if (!record) throw new Error("candidate asset missing from manifest");
@@ -191,11 +192,15 @@ async function main(): Promise<void> {
       if (!scenario || !name || !scenarios.has(scenario))
         return new Response("not found", { status: 404 });
       if (name === "install" || name === "install.ps1") return new Response(readFileSync(script));
+      if (scenario === "success" && name === "ROOTFORM-BINARY-LICENSE.txt") {
+        return new Response(readFileSync(join(release, name)));
+      }
       const body = releaseFixture(release, version, platform, scenario).get(name);
       return body ? new Response(body) : new Response("not found", { status: 404 });
     },
   });
   const outcomes: Record<string, { passed: boolean; exit_code: number }> = {};
+  const evidence = values.get("--evidence");
   try {
     const generated = join(root, "generated");
     generateInstallation({
@@ -295,14 +300,6 @@ async function main(): Promise<void> {
     };
     if (!outcomes.success.passed)
       throw new Error(`installed executable failed: ${versionResult.output}`);
-    const evidence = values.get("--evidence");
-    if (evidence) {
-      mkdirSync(resolve(evidence, ".."), { recursive: true });
-      writeFileSync(
-        resolve(evidence),
-        `${JSON.stringify({ format_version: "1", platform, version, archive_sha256: hash(readFileSync(join(release, `rootform_${version}_${platform}.${platform === "windows_amd64" ? "zip" : "tar.gz"}`))), outcomes }, null, 2)}\n`,
-      );
-    }
     console.log(`Qualified installer ${platform} ${version}: ${Object.keys(outcomes).join(", ")}`);
     if (process.env.ROOTFORM_SKIP_PACKAGE_MANAGER !== "1" && process.platform !== "linux") {
       const packageEvidence = evidence
@@ -330,6 +327,13 @@ async function main(): Promise<void> {
       }
     }
   } finally {
+    if (evidence) {
+      mkdirSync(dirname(resolve(evidence)), { recursive: true });
+      writeFileSync(
+        resolve(evidence),
+        `${JSON.stringify({ format_version: "1", platform, version, archive_sha256: hash(readFileSync(join(release, `rootform_${version}_${platform}.${platform === "windows_amd64" ? "zip" : "tar.gz"}`))), outcomes }, null, 2)}\n`,
+      );
+    }
     server.stop(true);
     rmSync(root, { recursive: true, force: true });
   }
