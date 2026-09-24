@@ -125,8 +125,9 @@ try {
         [IO.File]::Copy($extracted, $staged, $false)
         $target = Join-Path $destination 'rootform.exe'
         if ([IO.File]::Exists($target)) {
-            $backup = Join-Path $work 'previous-rootform.exe'
-            [IO.File]::Replace($staged, $target, $backup)
+            $backup = Join-Path $destination ('.rootform-backup-' + [Guid]::NewGuid().ToString('N') + '.exe')
+            try { [IO.File]::Replace($staged, $target, $backup) }
+            finally { if ([IO.File]::Exists($backup)) { [IO.File]::Delete($backup) } }
         } else {
             [IO.File]::Move($staged, $target)
         }

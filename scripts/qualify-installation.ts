@@ -1,7 +1,15 @@
 #!/usr/bin/env bun
 
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { generateInstallation } from "./generate-installation.ts";
@@ -334,6 +342,25 @@ async function main(): Promise<void> {
     };
     if (!outcomes.success.passed)
       throw new Error(`installed executable failed: ${versionResult.output}`);
+    const installedDigest = hash(readFileSync(binary));
+    const failedReplacement = await execute("wrong-checksum");
+    outcomes["failed-replacement"] = {
+      passed: failedReplacement.code !== 0 && hash(readFileSync(binary)) === installedDigest,
+      exit_code: failedReplacement.code,
+    };
+    if (!outcomes["failed-replacement"].passed) {
+      throw new Error("failed download changed existing executable");
+    }
+    const replacement = await execute("success");
+    outcomes.replacement = {
+      passed:
+        replacement.code === 0 &&
+        hash(readFileSync(binary)) === installedDigest &&
+        JSON.stringify(readdirSync(installation)) ===
+          JSON.stringify([process.platform === "win32" ? "rootform.exe" : "rootform"]),
+      exit_code: replacement.code,
+    };
+    if (!outcomes.replacement.passed) throw new Error(`replacement failed: ${replacement.output}`);
     console.log(`Qualified installer ${platform} ${version}: ${Object.keys(outcomes).join(", ")}`);
     if (process.env.ROOTFORM_SKIP_PACKAGE_MANAGER !== "1" && process.platform !== "linux") {
       if (evidence) mkdirSync(dirname(resolve(evidence)), { recursive: true });
