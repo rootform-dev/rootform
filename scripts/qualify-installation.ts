@@ -7,6 +7,7 @@ import {
   mkdtempSync,
   readdirSync,
   readFileSync,
+  realpathSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -42,35 +43,84 @@ async function checked(command: string[], environment: Record<string, string>): 
   return result.output;
 }
 
-async function qualifyCask(generated: string, version: string): Promise<void> {
+async function qualifyFormula(
+  generated: string,
+  release: string,
+  platform: string,
+  version: string,
+): Promise<void> {
   const environment = { HOMEBREW_NO_AUTO_UPDATE: "1" };
   const prefix = (await checked(["brew", "--prefix"], environment)).trim();
   const repository = (await checked(["brew", "--repository"], environment)).trim();
   const binary = join(prefix, "bin", "rootform");
   if (existsSync(binary)) throw new Error("preexisting rootform on Homebrew PATH");
+  if ((await run(["brew", "list", "--formula", "rootform"], environment)).code === 0) {
+    throw new Error("preexisting Homebrew Rootform formula");
+  }
+  const manifest = JSON.parse(
+    readFileSync(join(release, `rootform_${version}_manifest.json`), "utf8"),
+  ) as {
+    artifacts?: Array<{
+      operating_system?: string;
+      architecture?: string;
+      raw_executable_sha256?: string;
+    }>;
+  };
+  const architecture = platform.endsWith("arm64") ? "arm64" : "amd64";
+  const target = manifest.artifacts?.find(
+    (artifact) => artifact.operating_system === "darwin" && artifact.architecture === architecture,
+  );
+  if (!target?.raw_executable_sha256 || !/^[0-9a-f]{64}$/u.test(target.raw_executable_sha256)) {
+    throw new Error("release manifest lacks macOS executable checksum");
+  }
   const tap = "rootform/qualification";
   const tapDirectory = join(repository, "Library", "Taps", "rootform", "homebrew-qualification");
   if (existsSync(tapDirectory)) throw new Error("qualification tap already exists");
-  await checked(["brew", "tap-new", tap], environment);
+  const developerMode = (await checked(["brew", "developer", "state"], environment)).includes(
+    "is enabled",
+  );
   try {
-    const casks = join(tapDirectory, "Casks");
-    mkdirSync(casks, { recursive: true });
-    writeFileSync(join(casks, "rootform.rb"), readFileSync(join(generated, "rootform.rb")));
+    await checked(["brew", "tap-new", tap], environment);
+    const formulae = join(tapDirectory, "Formula");
+    mkdirSync(formulae, { recursive: true });
+    writeFileSync(
+      join(formulae, "rootform.rb"),
+      readFileSync(join(generated, "Formula", "rootform.rb")),
+    );
     for (let iteration = 0; iteration < 2; iteration++) {
-      await checked(["brew", "install", "--cask", `${tap}/rootform`], environment);
+      await checked(["brew", "install", `${tap}/rootform`], environment);
       if (!existsSync(binary)) throw new Error("Homebrew did not expose rootform on PATH");
-      const assessment = await run(["spctl", "--assess", "--type", "execute", binary], {});
-      if (assessment.code !== 0) throw new Error("Gatekeeper rejected quarantined Homebrew binary");
+      const installed = realpathSync(binary);
+      if (hash(readFileSync(installed)) !== target.raw_executable_sha256) {
+        throw new Error("Homebrew installed unexpected executable bytes");
+      }
+      if ((await run(["xattr", "-p", "com.apple.quarantine", installed], {})).code === 0) {
+        throw new Error("Homebrew formula installed a quarantined executable");
+      }
       const result = await checked([binary, "version"], {});
       if (!result.includes(`rootform ${version}`))
         throw new Error("Homebrew installed wrong version");
-      await checked(["brew", "uninstall", "--cask", `${tap}/rootform`], environment);
+      for (const name of [
+        "ROOTFORM-BINARY-LICENSE.txt",
+        "THIRD_PARTY_NOTICES.txt",
+        `rootform_${version}_sbom.spdx.json`,
+        "SHA256SUMS",
+      ]) {
+        if (!existsSync(join(prefix, "share", "rootform", name))) {
+          throw new Error(`Homebrew omitted release notice: ${name}`);
+        }
+      }
+      await checked(["brew", "test", `${tap}/rootform`], environment);
+      console.log(`Homebrew formula install ${iteration + 1} completed`);
+      await checked(["brew", "uninstall", `${tap}/rootform`], environment);
       if (existsSync(binary)) throw new Error("Homebrew uninstall left rootform binary");
     }
   } finally {
-    if (existsSync(binary))
-      await run(["brew", "uninstall", "--cask", `${tap}/rootform`], environment);
-    await run(["brew", "untap", tap], environment);
+    if (existsSync(binary)) await run(["brew", "uninstall", `${tap}/rootform`], environment);
+    if (existsSync(tapDirectory)) await run(["brew", "untap", tap], environment);
+    if (!developerMode) await run(["brew", "developer", "off"], environment);
+    await checked(["brew", "untrust", "--formula", `${tap}/rootform`], environment);
+    await checked(["brew", "untrust", "--cask", `${tap}/rootform`], environment);
   }
 }
 
@@ -368,22 +418,23 @@ async function main(): Promise<void> {
         ? resolve(evidence).replace(/\.json$/u, "-package.json")
         : undefined;
       try {
-        if (process.platform === "darwin") await qualifyCask(generated, version);
+        if (process.platform === "darwin")
+          await qualifyFormula(generated, release, platform, version);
         else await qualifyWinGet(generated, version);
         if (packageEvidence)
           writeFileSync(
             packageEvidence,
-            `${JSON.stringify({ platform, version, result: "passed" })}\n`,
+            `${JSON.stringify({ platform, version, method: process.platform === "darwin" ? "homebrew-formula" : "winget", result: "passed" })}\n`,
           );
         console.log(
-          `Qualified ${process.platform === "darwin" ? "Homebrew Cask" : "WinGet"} ${platform} ${version}`,
+          `Qualified ${process.platform === "darwin" ? "Homebrew formula" : "WinGet"} ${platform} ${version}`,
         );
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         if (packageEvidence)
           writeFileSync(
             packageEvidence,
-            `${JSON.stringify({ platform, version, result: "failed", error: message })}\n`,
+            `${JSON.stringify({ platform, version, method: process.platform === "darwin" ? "homebrew-formula" : "winget", result: "failed", error: message })}\n`,
           );
         throw error;
       }

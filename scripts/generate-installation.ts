@@ -116,21 +116,40 @@ export function generateInstallation(options: {
       flag: "wx",
     });
   }
-  const cask = `cask "rootform" do
-  version "${version}"
-  arch arm: "arm64", intel: "amd64"
-  sha256 arm: "${digests.get("darwin-arm64")}", intel: "${digests.get("darwin-amd64")}"
-
-  url "${base}/rootform_#{version}_darwin_#{arch}.tar.gz"
-  name "Rootform"
+  const formula = `class Rootform < Formula
   desc "Architecture compiler and policy CLI"
   homepage "https://rootform.dev"
-  depends_on macos: ">= :monterey"
+  version "${version}"
+  license "Elastic-2.0"
 
-  binary "rootform"
+  depends_on macos: :monterey
+
+  on_arm do
+    url "${base}/rootform_#{version}_darwin_arm64.tar.gz"
+    sha256 "${digests.get("darwin-arm64")}"
+  end
+
+  on_intel do
+    url "${base}/rootform_#{version}_darwin_amd64.tar.gz"
+    sha256 "${digests.get("darwin-amd64")}"
+  end
+
+  def install
+    bin.install "rootform"
+    pkgshare.install "ROOTFORM-BINARY-LICENSE.txt"
+    pkgshare.install "THIRD_PARTY_NOTICES.txt"
+    pkgshare.install "rootform_#{version}_sbom.spdx.json"
+    pkgshare.install "SHA256SUMS"
+  end
+
+  test do
+    assert_match "rootform #{version}", shell_output("#{bin}/rootform version")
+  end
 end
 `;
-  writeFileSync(join(options.output, "rootform.rb"), cask, { flag: "wx" });
+  const formulaDirectory = join(options.output, "Formula");
+  mkdirSync(formulaDirectory);
+  writeFileSync(join(formulaDirectory, "rootform.rb"), formula, { flag: "wx" });
   const manifestDirectory = join(
     options.output,
     "winget",

@@ -27,8 +27,11 @@ rootform version
 Homebrew:
 
 ```sh
-brew install --cask rootform
+brew install rootform-dev/tap/rootform
 ```
+
+The Homebrew formula verifies the release archive checksum. Rootform's macOS
+binary is not Apple notarized.
 
 <!-- rootform:tab Linux -->
 
