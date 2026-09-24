@@ -182,7 +182,7 @@ Suppose Architecture IR contains:
 
 Policy:
 
-```hcl title="worked Policy"
+```rf title="worked Policy"
 policy "subnet-has-network" {
   target {
     rules = [aws.rule.subnet]

@@ -68,7 +68,7 @@ A Dialect declares provider envelopes, local definitions, and Rules:
 This Rule from the supplied AWS Dialect recognizes a subnet and records its VPC
 reference as network context:
 
-```hcl title="aws/network/vpc.rf.hcl"
+```rf title="aws/network/vpc.rf.hcl"
 rule "subnet" {
   match {
     kind = "resource"
@@ -108,7 +108,7 @@ Within a Policy Pack source root, one top-level `policy_pack` manifest names the
 pack. Policies are top-level declarations in any `.rf.hcl` or `.rf.json` file
 beneath that same root:
 
-```hcl title="policies/subnet-network-context.rf.hcl"
+```rf title="policies/subnet-network-context.rf.hcl"
 policy "subnet-network-context" {
   target {
     concept = rf.concept.subnet

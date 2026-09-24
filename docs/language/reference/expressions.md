@@ -65,7 +65,7 @@ comparison-operator
 
 Examples:
 
-```hcl title="valid predicates"
+```rf title="valid predicates"
 where = source.enabled == true
 where = source.mode == "ACTIVE"
 where = source.replicas >= 2
@@ -121,14 +121,14 @@ comparison produces a Boolean, its result can participate in another Boolean
 equality or logical operation. HCL left associativity makes both expressions
 valid:
 
-```hcl
+```rf
 assert = true == false == false
 assert = 1 < 2 == true
 ```
 
 Practical examples:
 
-```hcl title="valid Policy assertions"
+```rf title="valid Policy assertions"
 assert = true
 assert = exists(contexts(rf.context.network))
 assert = length(contexts(rf.context.network)) >= 1
@@ -141,7 +141,7 @@ assert = (
 
 This complete Pack verifies recursive Boolean results:
 
-```hcl title="expression-results/pack.rf.hcl"
+```rf title="expression-results/pack.rf.hcl"
 policy_pack "expression-results" {
   version = "0.1.0"
 }
@@ -199,7 +199,7 @@ invalid; write `source.count > 1 && source.count < 5`.
 Parentheses do not add an expression node to compiled RF artifact; they only
 control grouping.
 
-```hcl
+```rf
 where = (source.enabled == true) && (source.replicas >= 2)
 ```
 
@@ -224,7 +224,7 @@ that rule is accepted, except a multi-part template. This constant-expression
 surface is separate from closed `where` and `assert` grammars. In
 `.rf.json`, static string fields are ordinary JSON strings.
 
-```hcl title="valid static strings"
+```rf title="valid static strings"
 description = "Production workload"
 
 kind = true ? "resource" : "data"
@@ -236,13 +236,13 @@ EOT
 
 Direct literals are canonical and recommended. Dynamic templates are rejected:
 
-```hcl title="invalid static string"
+```rf title="invalid static string"
 description = "Workload for ${source.environment}"
 ```
 
 This complete Dialect demonstrates accepted constant string conditionals:
 
-```hcl title="constant-strings/dialect.rf.hcl"
+```rf title="constant-strings/dialect.rf.hcl"
 dialect "constant-example" {
   version = true ? "0.1.0" : "9.9.9"
 
@@ -283,7 +283,7 @@ Native `.rf.hcl` also accepts pure `"${expression}"` wrapper for
 full-expression fields and unwraps it to enclosed value. Direct native form is
 canonical:
 
-```hcl
+```rf
 where = source.enabled == true
 ```
 
@@ -310,7 +310,7 @@ In `where` and `assert`, Rootform language 0.1.0 rejects:
 
 Examples:
 
-```hcl title="invalid expressions"
+```rf title="invalid expressions"
 where  = source.enabled
 where  = source.replicas >= -1
 where  = source.cpu > 1.5

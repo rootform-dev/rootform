@@ -9,7 +9,7 @@ architecture facts or claim composition members.
 
 ## Complete example
 
-```hcl title="reference/dialect.rf.hcl"
+```rf title="reference/dialect.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 
@@ -72,7 +72,7 @@ Concept.
 
 ## `match` block
 
-```hcl title="match block"
+```rf title="match block"
 match {
   kind  = "resource"
   type  = "example_service"
@@ -132,7 +132,7 @@ Therefore resource coverage and Rule coverage are different measurements.
 
 ## Classification with `as`
 
-```hcl title="optional Concept classification"
+```rf title="optional Concept classification"
 as = concept.application
 as = rf.concept.virtual-network
 ```
@@ -186,7 +186,7 @@ effects.
 
 This complete source has a match-only Rule:
 
-```hcl title="invalid/match-only.rf.hcl"
+```rf title="invalid/match-only.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 
@@ -206,7 +206,7 @@ It produces `RULE_NO_ARCHITECTURE`.
 
 A bare traversal is not a Boolean predicate:
 
-```hcl title="invalid predicate"
+```rf title="invalid predicate"
 where = source.enabled
 ```
 

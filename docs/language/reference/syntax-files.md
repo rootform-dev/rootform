@@ -141,7 +141,7 @@ runtime effect.
 
 ## Native syntax
 
-```hcl title="dialect.rf.hcl"
+```rf title="dialect.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 
@@ -300,7 +300,7 @@ Additional compiled and evaluation bounds appear under
 
 ## Rejected example
 
-```hcl title="invalid-version.rf.hcl"
+```rf title="invalid-version.rf.hcl"
 dialect "example" {
   version = "0.1"
 }
