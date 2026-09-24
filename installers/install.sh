@@ -13,8 +13,8 @@ case "$arch" in x86_64|amd64) arch=amd64 ;; arm64|aarch64) arch=arm64 ;; *) fail
 asset="rootform_${version}_${os}_${arch}.tar.gz"
 base=${ROOTFORM_RELEASE_BASE_URL:-https://github.com/rootform-dev/rootform/releases/download/v${version}}
 case "$base" in
-  https://*) curl_protocol=https ;;
-  http://localhost:*|http://127.0.0.1:*|http://\[::1\]:*) curl_protocol=http ;;
+  https://*) curl_protocol=https; redirects=5 ;;
+  http://localhost:*|http://127.0.0.1:*|http://\[::1\]:*) curl_protocol=http; redirects=0 ;;
   *) fail "release URL must use HTTPS or localhost HTTP" ;;
 esac
 base=${base%/}
@@ -23,7 +23,7 @@ umask 077
 work=$(mktemp -d "${TMPDIR:-/tmp}/rootform-install.XXXXXXXX") || fail "cannot create temporary directory"
 trap 'rm -rf -- "$work"' 0
 fetch() {
-  curl --fail --silent --show-error --location --proto "=$curl_protocol" --proto-redir "=$curl_protocol" \
+  curl --fail --silent --show-error --location --max-redirs "$redirects" --proto "=$curl_protocol" --proto-redir "=$curl_protocol" \
     --output "$2" "$base/$1" || fail "download failed: $1"
 }
 fetch SHA256SUMS "$work/SHA256SUMS"

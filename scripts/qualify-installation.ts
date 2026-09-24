@@ -70,8 +70,10 @@ async function qualifyWinGet(generated: string, version: string): Promise<void> 
   const manifest = join(generated, "winget", "manifests", "r", "Rootform", "Rootform", version);
   const packageId = "Rootform.Rootform";
   const links = join(process.env.LOCALAPPDATA ?? "", "Microsoft", "WinGet", "Links");
+  if (existsSync(join(links, "rootform.exe"))) throw new Error("preexisting WinGet rootform alias");
   await checked(["winget", "settings", "--enable", "LocalManifestFiles"], {});
   await checked(["winget", "validate", "--manifest", manifest], {});
+  console.log("WinGet local manifest validated");
   const installed = await run(
     ["winget", "list", "--id", packageId, "--exact", "--accept-source-agreements"],
     {},
@@ -93,6 +95,7 @@ async function qualifyWinGet(generated: string, version: string): Promise<void> 
   try {
     for (let iteration = 0; iteration < 2; iteration++) {
       await checked(install, {});
+      console.log(`WinGet local install ${iteration + 1} completed`);
       const command =
         "$env:PATH=$env:LOCALAPPDATA+'\\Microsoft\\WinGet\\Links;'+$env:PATH; $binary=(Get-Command rootform -ErrorAction Stop).Source; if (-not $binary.StartsWith($env:LOCALAPPDATA+'\\Microsoft\\WinGet\\Links', [StringComparison]::OrdinalIgnoreCase)) { throw 'PATH resolved another executable' }; rootform version";
       const result = await checked(["powershell.exe", "-NoProfile", "-Command", command], {});
@@ -102,14 +105,14 @@ async function qualifyWinGet(generated: string, version: string): Promise<void> 
         [
           "winget",
           "uninstall",
-          "--id",
-          packageId,
-          "--exact",
+          "--manifest",
+          manifest,
           "--accept-source-agreements",
           "--disable-interactivity",
         ],
         {},
       );
+      console.log(`WinGet local uninstall ${iteration + 1} completed`);
       if (existsSync(join(links, "rootform.exe")))
         throw new Error("WinGet uninstall left rootform alias");
     }
@@ -118,9 +121,8 @@ async function qualifyWinGet(generated: string, version: string): Promise<void> 
       [
         "winget",
         "uninstall",
-        "--id",
-        packageId,
-        "--exact",
+        "--manifest",
+        manifest,
         "--accept-source-agreements",
         "--disable-interactivity",
       ],
@@ -207,6 +209,7 @@ async function main(): Promise<void> {
     "wrong-checksum",
     "corrupt-archive",
     "invalid-metadata",
+    "redirect-away",
   ]);
   const server = Bun.serve({
     hostname: "127.0.0.1",
@@ -215,6 +218,12 @@ async function main(): Promise<void> {
       const [scenario, name] = new URL(request.url).pathname.slice(1).split("/");
       if (!scenario || !name || !scenarios.has(scenario))
         return new Response("not found", { status: 404 });
+      if (scenario === "redirect-away") {
+        return new Response(null, {
+          status: 302,
+          headers: { Location: "http://example.com/untrusted" },
+        });
+      }
       if (name === "install" || name === "install.ps1") return new Response(readFileSync(script));
       if (scenario === "success" && name === "ROOTFORM-BINARY-LICENSE.txt") {
         return new Response(readFileSync(join(release, name)));
@@ -270,6 +279,7 @@ async function main(): Promise<void> {
       "wrong-checksum",
       "corrupt-archive",
       "invalid-metadata",
+      "redirect-away",
     ]) {
       const result = await execute(scenario);
       outcomes[scenario] = {

@@ -1,5 +1,6 @@
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.IO.Compression.FileSystem
+Add-Type -AssemblyName System.Net.Http
 
 function Assert-Digest([string] $Path, [string] $Expected) {
     $actual = (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -23,15 +24,44 @@ if (($uri.Scheme -ne 'https' -and -not ($uri.Scheme -eq 'http' -and $uri.Host -i
     throw 'release URL must use HTTPS or localhost HTTP'
 }
 
+$handler = [Net.Http.HttpClientHandler]::new()
+$handler.AllowAutoRedirect = $false
+$client = [Net.Http.HttpClient]::new($handler)
+function Save-ReleaseFile([string] $Name, [string] $Output) {
+    $current = [Uri] "$base/$Name"
+    for ($redirects = 0; $redirects -le 5; $redirects++) {
+        if ($current.Scheme -cne $uri.Scheme -or $current.UserInfo -or
+            ($uri.Scheme -eq 'http' -and $current.Authority -cne $uri.Authority)) {
+            throw 'release redirect uses an untrusted protocol or host'
+        }
+        $response = $client.GetAsync($current, [Net.Http.HttpCompletionOption]::ResponseHeadersRead).GetAwaiter().GetResult()
+        try {
+            if ([int]$response.StatusCode -in @(301, 302, 303, 307, 308)) {
+                if ($null -eq $response.Headers.Location) { throw "release redirect has no location: $Name" }
+                $current = [Uri]::new($current, $response.Headers.Location.OriginalString)
+                continue
+            }
+            if (-not $response.IsSuccessStatusCode) { throw "download failed: $Name ($([int]$response.StatusCode))" }
+            $inputStream = $response.Content.ReadAsStreamAsync().GetAwaiter().GetResult()
+            try {
+                $outputStream = [IO.File]::Create($Output)
+                try { $inputStream.CopyTo($outputStream) } finally { $outputStream.Dispose() }
+            } finally { $inputStream.Dispose() }
+            return
+        } finally { $response.Dispose() }
+    }
+    throw "too many release redirects: $Name"
+}
+
 $work = Join-Path ([IO.Path]::GetTempPath()) ("rootform-install-" + [Guid]::NewGuid().ToString('N'))
 $null = New-Item -ItemType Directory -Path $work -ErrorAction Stop
 try {
     $sumsPath = Join-Path $work 'SHA256SUMS'
     $manifestPath = Join-Path $work $manifestName
     $archivePath = Join-Path $work $asset
-    Invoke-WebRequest -Uri "$base/SHA256SUMS" -OutFile $sumsPath -MaximumRedirection 5 -UseBasicParsing
-    Invoke-WebRequest -Uri "$base/$manifestName" -OutFile $manifestPath -MaximumRedirection 5 -UseBasicParsing
-    Invoke-WebRequest -Uri "$base/$asset" -OutFile $archivePath -MaximumRedirection 5 -UseBasicParsing
+    Save-ReleaseFile 'SHA256SUMS' $sumsPath
+    Save-ReleaseFile $manifestName $manifestPath
+    Save-ReleaseFile $asset $archivePath
 
     $checksums = @{}
     foreach ($line in [IO.File]::ReadAllLines($sumsPath)) {
@@ -115,5 +145,7 @@ try {
     Write-Host "Installed Rootform $version to $target"
     Write-Host 'Run rootform version to verify. New shells inherit the updated user PATH.'
 } finally {
+    $client.Dispose()
+    $handler.Dispose()
     Remove-Item -LiteralPath $work -Recurse -Force -ErrorAction SilentlyContinue
 }
