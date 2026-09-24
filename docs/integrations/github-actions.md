@@ -88,7 +88,7 @@ code scanning.
 The main Action installs Rootform, prepares project selection, builds JSON and
 HTML, runs a Policy check, and publishes its own result files and Job Summary.
 It always checks. Use it only when the project's reviewed `rootform.lock`
-selects a Policy Pack with effective targets. It has no `policy-pack` input
+selects a Policy Pack with matching targets. It has no `policy-pack` input
 for a one-off local pack and cannot be used as a build-only shortcut.
 
 ```yaml title="Integrated Action step"
