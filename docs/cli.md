@@ -12,7 +12,7 @@ want to change which embedded Dialect owners are active.
 | --- | --- |
 | Build or explore with embedded Dialects | None. Run `build` or `run` directly. |
 | Evaluate one local Policy Pack | Pass `--policy-pack` for that invocation. No lock is required. |
-| Keep an external Dialect or Policy Pack selected for the project | Use `add`, then prepare the lock with `init`. |
+| Keep an external Dialect or Policy Pack selected for the project | Use `add`; run `init` to verify the selection or prepare a clone. |
 | Exclude or replace an embedded Dialect owner | Use `remove --embedded` or `add --replace`. |
 
 ## Use embedded Dialects
@@ -75,8 +75,8 @@ rootform list policy-packs -o wide
 rootform list policies -o wide
 ```
 
-These commands read only local project state. Follow [Add external Dialects and
-Policy Packs](guides/external-content.md) to adopt reviewed local or OCI
+These commands read only local project state. Follow [Add external
+content](guides/external-content.md) to adopt reviewed local or OCI
 content. [Install, add, and vendor](concepts/external-content.md) explains the
 selection model.
 

@@ -52,5 +52,5 @@ rootform vendor policy-packs
 When the corresponding default vendored directory exists, consuming commands
 use it as the exclusive source for that project's selected content. See
 [Where Rootform stores external content](../storage.md) for the precedence
-rules and [Add external Dialects and Policy Packs](../../guides/external-content.md)
+rules and [Add external content](../../guides/external-content.md)
 for selection setup.

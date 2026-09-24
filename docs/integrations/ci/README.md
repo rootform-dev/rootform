@@ -83,7 +83,8 @@ selection, not choose one. With a lock, the script runs `init --locked
 --no-input` before `build --locked` and, for a project-selected Policy gate,
 `check --locked`. That operation verifies local entries and may fetch only the
 exact OCI content pinned by the lock. Set `ROOTFORM_OFFLINE=1` when required
-content is already installed or vendored and acquisition must be disabled:
+content is present at its recorded local path, installed, or vendored and
+acquisition must be disabled:
 
 <!-- docs-check:docs-integrations-ci-readme-4 -->
 ```sh

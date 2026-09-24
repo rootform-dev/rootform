@@ -150,10 +150,11 @@ incomplete, unexpected, or same-version changed content fails closed.
 When project `.rootform/policy-packs/` exists, it is exclusive execution source
 for project `check` and policy listing; those commands never fall back to
 store, cache, or registry. `rootform vendor policy-packs` is explicit
-materialization and repair boundary. It copies exact lock pins from verified
-store or cache and may download exact manifest digest from recorded artifact
-repository. It performs no discovery, new selection, upgrade, or lock
-modification. Legal and notice files inside artifact remain vendored.
+materialization and repair boundary. It copies verified local source bytes
+directly or uses installed OCI content. For a missing OCI selection, it may
+fetch the exact recorded digest and install it before vendoring. It performs
+no discovery, new selection, upgrade, or lock modification. Legal and notice
+files inside artifact remain vendored.
 
 ## Source portability and derived dependencies
 

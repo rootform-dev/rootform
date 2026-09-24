@@ -312,8 +312,8 @@ rootform add policy-packs ./policies
 ```
 
 Commit `rootform.lock` with the pack source. Later checks use that selection
-without `--policy-pack`. See [Add external Dialects and Policy
-Packs](external-content.md). Continue with [Run in
+without `--policy-pack`. See [Add external
+content](external-content.md). Continue with [Run in
 CI](../integrations/ci/README.md) or [GitHub
 Actions](../integrations/github-actions.md) when the local results are ready for
 automation.

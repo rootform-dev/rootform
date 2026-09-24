@@ -23,7 +23,8 @@ in a fixed order. An identical change leaves the existing bytes and
 modification time untouched. Other commands only read the lock.
 
 Rootform creates `rootform.lock.new` exclusively beside the lock while a
-writer runs. Another writer stops if that file exists. If a command was
+writer runs; `rootform vendor` holds it too while it writes `.rootform/`.
+Another writer stops if that file exists. If a command was
 interrupted, remove the sentinel only after confirming no Rootform writer is
 running. Before replacing the lock, Rootform checks that its bytes have not
 changed since the command started. The new lock becomes visible through an
@@ -32,9 +33,10 @@ still be lost, so avoid editing the lock during a Rootform write. If a crash
 leaves vendored content ahead of the lock, normal commands fail closed;
 `rootform vendor` restores the selected bytes.
 
-Manual edits are accepted when the strict reader validates them. An invalid
-lock stops the command and is never repaired automatically. Commit the lock
-and review its diff with the source or dependency change. See
+Use `add`, `update`, and `remove` for normal selection changes. Manual edits
+remain an advanced escape hatch when the strict reader validates them. An
+invalid lock stops the command and is never repaired automatically. Commit the
+lock and review its diff with the source or dependency change. See
 [Where Rootform stores external content](../docs/reference/storage.md) for
 the storage and vendor guarantees.
 
@@ -115,8 +117,10 @@ Preparation of external contents is an explicit operation. `rootform init`
 verifies every exact existing selection and may acquire a missing OCI package
 only from the immutable repository and manifest digest already recorded in the
 lock. `rootform vendor` materializes those same exact selections under the
-project. `--offline` permits only verified local entries. `--locked` requires
-the lock and freezes its bytes; it does not prevent explicit exact acquisition
+project. With `--offline`, `init` can verify a vendor tree, while `vendor`
+needs verified local sources or installed OCI content. Neither acquires content.
+`--locked` requires the lock and freezes its bytes; it does not prevent exact
+acquisition
 by `init`. Automatic linking stays local and never changes locked sources.
 
 `rootform init` prepares exact existing selections; it does not detect

@@ -1673,10 +1673,10 @@
       "usage": "rootform update \u003cobject\u003e [flags]",
       "summary": "Change a selection in rootform.lock",
       "description": "Record new content for one selected dialect or Policy Pack, or switch\nit to another exact source.",
-      "examples": "rootform update dialects payments\n  rootform update dialects payments ./dialects/payments-next\n  rootform update dialects payments registry.example.com/acme/payments:0.2.0\n  rootform update policy-packs baseline\n  rootform update policy-packs baseline ./policies\n  rootform update policy-packs baseline registry.example.com/acme/baseline:1.1.0",
+      "examples": "rootform update dialect payments\n  rootform update dialect payments ./dialects/payments-next\n  rootform update dialect payments registry.example.com/acme/payments:0.2.0\n  rootform update policy-pack baseline\n  rootform update policy-pack baseline ./policies\n  rootform update policy-pack baseline registry.example.com/acme/baseline:1.1.0",
       "subcommands": [
-        "rootform update dialects",
-        "rootform update policy-packs"
+        "rootform update dialect",
+        "rootform update policy-pack"
       ],
       "flags": [
         {
@@ -1698,11 +1698,11 @@
       ]
     },
     {
-      "path": "rootform update dialects",
-      "usage": "rootform update dialects \u003cname\u003e [source] [flags]",
+      "path": "rootform update dialect",
+      "usage": "rootform update dialect \u003cname\u003e [source] [flags]",
       "summary": "Change one selected dialect",
       "description": "Change one selected dialect. With no source, a local selection is read\nagain from its recorded path, which records content you edited. With a\nsource, the selection switches to it. The source must declare the same\nname; a registry selection needs a source because no tag is recorded.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  nothing was written because a source or the result is invalid\n  2  the command was used incorrectly",
-      "examples": "rootform update dialects payments\n  rootform update dialects payments ./dialects/payments-next\n  rootform update dialects payments registry.example.com/acme/payments:0.2.0",
+      "examples": "rootform update dialect payments\n  rootform update dialect payments ./dialects/payments-next\n  rootform update dialect payments registry.example.com/acme/payments:0.2.0",
       "flags": [
         {
           "name": "dry-run",
@@ -1722,7 +1722,7 @@
           "shorthand": "h",
           "type": "bool",
           "default": "false",
-          "usage": "show how to use rootform update dialects",
+          "usage": "show how to use rootform update dialect",
           "no_option_default": "true"
         },
         {
@@ -1743,11 +1743,11 @@
       ]
     },
     {
-      "path": "rootform update policy-packs",
-      "usage": "rootform update policy-packs \u003cname\u003e [source] [flags]",
+      "path": "rootform update policy-pack",
+      "usage": "rootform update policy-pack \u003cname\u003e [source] [flags]",
       "summary": "Change one selected Policy Pack",
       "description": "Change one selected Policy Pack. With no source, a local selection is read\nagain from its recorded path, which records content you edited. With a\nsource, the selection switches to it. The source must declare the same\nname; a registry selection needs a source because no tag is recorded.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  nothing was written because a source or the result is invalid\n  2  the command was used incorrectly",
-      "examples": "rootform update policy-packs baseline\n  rootform update policy-packs baseline ./policies\n  rootform update policy-packs baseline registry.example.com/acme/baseline:1.1.0",
+      "examples": "rootform update policy-pack baseline\n  rootform update policy-pack baseline ./policies\n  rootform update policy-pack baseline registry.example.com/acme/baseline:1.1.0",
       "flags": [
         {
           "name": "dry-run",
@@ -1767,7 +1767,7 @@
           "shorthand": "h",
           "type": "bool",
           "default": "false",
-          "usage": "show how to use rootform update policy-packs",
+          "usage": "show how to use rootform update policy-pack",
           "no_option_default": "true"
         },
         {

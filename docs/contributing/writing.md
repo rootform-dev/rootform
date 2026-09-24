@@ -105,12 +105,12 @@ Use one term for each external-content state. The full explanation belongs in
 | Term | Meaning | Avoid as an alias |
 | --- | --- | --- |
 | embedded | ships inside the `rootform` binary | supplied, bundled, built-in, official as a state |
-| installed | stored in `$ROOTFORM_HOME` on this machine | cached, downloaded, available as a state |
+| installed | verified OCI content in `$ROOTFORM_HOME` on this machine | cached, downloaded, available as a state; local source |
 | selected | recorded in `rootform.lock` | configured, enabled, pinned as a state, locked as a unit state |
-| vendored | copied into `.rootform/` and read only from there | cached, bundled |
+| vendored | selected bytes copied into `.rootform/` and read only from there | cached, bundled |
 | active | used by one command run | effective, loaded |
 | override | supplied by `--dialect` or `--policy-pack` for one run | local selection, temporary selection |
-| prepare | what `init` does: verify and make selected content present | install for `init` |
+| prepare | what `init` does: verify local, installed, or vendored content and possibly fetch missing OCI content | install for every `init` |
 
 “Exact identity” names what the lock records. Reserve “pin” for digests
 inside identities and “cache” for derived content under `$ROOTFORM_HOME/cache`.
@@ -244,7 +244,7 @@ Use these examples to choose scope and wording:
 | A Dialects concept page teaching source-priority and registry resolution algorithms. | Explain how Dialects change architecture meaning; link acquisition details to offline operation. |
 | A check walkthrough ending with an unrelated pack that evaluates zero targets. | Follow one policy through pass, violation, indeterminate evidence, then the same gate in CI. |
 | Describing `moved` as a machine Diff entry state. | Explain that the Diff view strictly derives a move from removed and added context facts. |
-| “The first run needs registry access.” | “A selected third-party Dialect or Policy Pack may need network access until its pinned content is installed or vendored.” |
+| “The first run needs registry access.” | “A missing selected OCI Dialect or Policy Pack may need registry access during `init`. Local selections use their recorded paths.” |
 
 ## Make examples executable
 

@@ -109,7 +109,7 @@ Dialects. Rootform does not reinterpret saved Architecture IR using
 the current binary. The saved document keeps the producer's semantic snapshot.
 
 Use [Select Dialects and Policy Packs](../cli.md) to understand active project
-content and [Add external Dialects and Policy
-Packs](../guides/external-content.md) to configure exact external content. For
+content and [Add external
+content](../guides/external-content.md) to configure exact external content. For
 authoring, continue separately with [Write a Dialect](../dialect-authoring.md)
 and [Dialect language reference](../language/reference/dialects.md).

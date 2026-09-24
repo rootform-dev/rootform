@@ -34,16 +34,16 @@ it to another exact source.
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform update dialects `](update/dialects.md) | Change one selected dialect |
-| [` rootform update policy-packs `](update/policy-packs.md) | Change one selected Policy Pack |
+| [` rootform update dialect `](update/dialect.md) | Change one selected dialect |
+| [` rootform update policy-pack `](update/policy-pack.md) | Change one selected Policy Pack |
 
 ## Examples
 
 ```sh
-rootform update dialects payments
-rootform update dialects payments ./dialects/payments-next
-rootform update dialects payments registry.example.com/acme/payments:0.2.0
-rootform update policy-packs baseline
-rootform update policy-packs baseline ./policies
-rootform update policy-packs baseline registry.example.com/acme/baseline:1.1.0
+rootform update dialect payments
+rootform update dialect payments ./dialects/payments-next
+rootform update dialect payments registry.example.com/acme/payments:0.2.0
+rootform update policy-pack baseline
+rootform update policy-pack baseline ./policies
+rootform update policy-pack baseline registry.example.com/acme/baseline:1.1.0
 ```

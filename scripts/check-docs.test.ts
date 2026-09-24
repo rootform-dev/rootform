@@ -344,7 +344,7 @@ test("user documentation navigation follows the task-oriented structure", () => 
   ]);
   expect(labels("Project configuration")).toEqual([
     "Select Dialects and Policy Packs",
-    "Add external Dialects and Policy Packs",
+    "Add external content",
     "Use a local Dialect while authoring",
     "Locks and vendored content",
     "Reproduce a build offline",
@@ -491,7 +491,7 @@ test("project configuration guides keep decision, adoption, mechanism, and trans
   expect(model).toContain("## Four states");
   expect(model).toContain("## Which content a command uses");
   expect(storage).toContain("## What each command guarantees");
-  expect(localDialect).toContain("rootform update dialects payments");
+  expect(localDialect).toContain("rootform update dialect payments");
   expect(external).toContain("rootform add policy-packs ./policies");
   expect(external).toContain("rootform init . --locked --no-input");
   expect(external).not.toContain('title="rootform.lock (');
@@ -721,7 +721,7 @@ test("sidebar uses approved user-facing labels and placement", () => {
   ]);
   expect(labels("Project configuration")).toEqual([
     "Select Dialects and Policy Packs",
-    "Add external Dialects and Policy Packs",
+    "Add external content",
     "Use a local Dialect while authoring",
     "Locks and vendored content",
     "Reproduce a build offline",

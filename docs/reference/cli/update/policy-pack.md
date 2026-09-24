@@ -1,5 +1,5 @@
 ---
-title: "rootform update policy-packs"
+title: "rootform update policy-pack"
 description: "Change one selected Policy Pack"
 ---
 
@@ -10,7 +10,7 @@ Change one selected Policy Pack.
 ## Usage
 
 ```text
-rootform update policy-packs <name> [source] [flags]
+rootform update policy-pack <name> [source] [flags]
 ```
 
 ## Flags
@@ -19,7 +19,7 @@ rootform update policy-packs <name> [source] [flags]
 | --- | --- | --- | --- |
 | ` --dry-run ` | ` bool ` | ` false ` | print the planned change and write nothing |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform update policy-packs |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform update policy-pack |
 | ` --offline ` | ` bool ` | ` false ` | use no network; accept local and installed sources |
 
 ## Inherited flags
@@ -51,7 +51,7 @@ The summary goes to standard output. Diagnostics go to standard error.
 ## Examples
 
 ```sh
-rootform update policy-packs baseline
-rootform update policy-packs baseline ./policies
-rootform update policy-packs baseline registry.example.com/acme/baseline:1.1.0
+rootform update policy-pack baseline
+rootform update policy-pack baseline ./policies
+rootform update policy-pack baseline registry.example.com/acme/baseline:1.1.0
 ```

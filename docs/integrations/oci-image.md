@@ -53,9 +53,10 @@ described in [Project configuration](../cli.md).
 
 ## Keep external packages between runs
 
-`ROOTFORM_HOME` holds verified external Dialects and Policy Packs. A named
-volume preserves them across containers while the project lock stays in the
-workspace. Prepare an existing selection explicitly:
+`ROOTFORM_HOME` holds installed OCI Dialects and Policy Packs. A named volume
+preserves them across containers while the project lock stays in the workspace.
+Local selections use their recorded project paths and need no package volume.
+Prepare an existing OCI selection explicitly:
 
 ```sh
 docker volume create rootform-home

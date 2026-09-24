@@ -88,15 +88,17 @@ Confirm `rootform.lock` is in the project root selected by the command.
 `--locked` requires that existing valid file; `init` never creates it. Remove
 `--locked` if embedded content is sufficient, or use `rootform add` to record
 a reviewed external selection and then prepare it. See
-[Add external Dialects and Policy Packs](../guides/external-content.md).
+[Add external content](../guides/external-content.md).
 
 ## A local source differs from rootform.lock
 
 A selected local Dialect or Policy Pack changed after it was added. Use
 `--dialect` or `--policy-pack` to try the edited source for one command. When
-the change is ready, run `rootform update dialects <owner>` or
-`rootform update policy-packs <name>` from the project root and commit the
-lock diff. `init` does not adopt drift. See
+the change is ready, run `rootform update dialect <owner>` or
+`rootform update policy-pack <name>` from the project root and commit the
+lock diff. When you edited both a Dialect and a Policy Pack, update them in
+either order; commands keep reporting the other one until it is recorded too.
+`init` does not adopt drift. See
 [Use a local Dialect while authoring](../guides/local-dialect.md).
 
 ## Selected content is missing
@@ -111,8 +113,10 @@ rootform init . --locked --no-input
 ```
 
 Add `--offline` only when the exact bytes are already local. `init` cannot
-select another version or change the lock. If a vendor tree exists, use the
-repair path below instead. See [Locks and vendored content](../offline-security.md).
+select another version or change the lock. Without a vendor tree, a missing
+local source must be restored at its recorded path; `init` cannot install it.
+If a vendor tree exists, use the repair path below instead. See
+[Locks and vendored content](../offline-security.md).
 
 ## Vendored content is incomplete or altered
 
@@ -129,15 +133,16 @@ rootform vendor policy-packs
 ```
 
 Run the command for the affected family, not both by default. Use `--offline`
-only if verified source, store, or cache bytes already exist. Vendor preserves
-the lock. See [Where Rootform stores external content](../reference/storage.md).
+only if verified local source or installed OCI bytes already exist. Vendor
+preserves the lock. See
+[Where Rootform stores external content](../reference/storage.md).
 
 ## An offline add or update refuses a tag
 
 A tag needs a registry lookup and cannot be resolved with `--offline` or
 `ROOTFORM_OFFLINE=1`. Use a local source directory, or an exact digest reference
 already installed on this machine. Otherwise run the selection command online.
-See [Add external Dialects and Policy Packs](../guides/external-content.md).
+See [Add external content](../guides/external-content.md).
 
 ## A Dialect owner collides with an embedded owner
 
@@ -149,8 +154,8 @@ Dialect](../guides/external-content.md#replace-or-exclude-an-embedded-dialect).
 
 ## rootform.lock.new blocks a change
 
-`add`, `remove`, and `update` use `rootform.lock.new` beside the lock while
-writing. If it remains after interruption, a later writer stops and names
+`add`, `remove`, `update`, and `vendor` use `rootform.lock.new` beside the
+lock while writing. If it remains after interruption, a later writer stops and names
 that file. Confirm no Rootform writer is running, then move or delete the
 stale sentinel and retry. Review the lock and `.rootform/` before retrying;
 if vendor content differs, restore it with `rootform vendor`. See

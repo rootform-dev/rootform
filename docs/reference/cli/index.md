@@ -82,8 +82,8 @@ rootform [command]
 | [` rootform uninstall dialects `](uninstall/dialects.md) | Delete installed dialect versions |
 | [` rootform uninstall policy-packs `](uninstall/policy-packs.md) | Delete installed Policy Pack versions |
 | [` rootform update `](update.md) | Change a selection in rootform.lock |
-| [` rootform update dialects `](update/dialects.md) | Change one selected dialect |
-| [` rootform update policy-packs `](update/policy-packs.md) | Change one selected Policy Pack |
+| [` rootform update dialect `](update/dialect.md) | Change one selected dialect |
+| [` rootform update policy-pack `](update/policy-pack.md) | Change one selected Policy Pack |
 | [` rootform validate `](validate.md) | Validate a Rootform object |
 | [` rootform validate architecture `](validate/architecture.md) | Validate an architecture |
 | [` rootform validate concept `](validate/concept.md) | Validate a concept definition |

@@ -220,9 +220,14 @@ export function verifyProjectConfigurationExamples(
   writeFileSync(policyFile, policySource.replace("Subnets must", "Every subnet must"));
   const drifted = run([binary, "check", ".", "--locked"], policyProject, 3);
   assert(
-    drifted.stderr.includes("rootform update policy-packs tutorial") &&
+    drifted.stderr.includes("rootform update policy-pack tutorial") &&
       lockOf(policyProject).equals(localLock),
     `edited local Policy Pack did not point to update\n${drifted.stderr}`,
+  );
+  const triedPack = marked("guides/external-content.md", "external-try-local", policyProject);
+  assert(
+    triedPack.stderr.includes("for this command only") && lockOf(policyProject).equals(localLock),
+    `documented override did not use the edited pack alone\n${triedPack.stderr}`,
   );
   marked("guides/external-content.md", "external-update-local", policyProject);
   const updatedLock = JSON.parse(lockOf(policyProject).toString("utf8"));
@@ -232,7 +237,7 @@ export function verifyProjectConfigurationExamples(
     "documented update did not record edited local content",
   );
   writeFileSync(policyFile, policySource);
-  run([binary, "update", "policy-packs", "tutorial"], policyProject);
+  run([binary, "update", "policy-pack", "tutorial"], policyProject);
   assert(lockOf(policyProject).equals(localLock), "restored content did not restore lock bytes");
 
   const badProject = join(suiteRoot, "bad-policy-project");

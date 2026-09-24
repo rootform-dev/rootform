@@ -211,5 +211,5 @@ environment, then transfer the complete verified vendor family again. Keep
 [Locks and vendored content](../offline-security.md) explains source precedence
 and command controls. [Where Rootform stores external
 content](../reference/storage.md) defines vendor ownership and repair. [Add
-external Dialects and Policy Packs](external-content.md) shows how to create the
+external content](external-content.md) shows how to create the
 selection before transfer.

@@ -1,5 +1,5 @@
 ---
-title: "rootform update dialects"
+title: "rootform update dialect"
 description: "Change one selected dialect"
 ---
 
@@ -10,7 +10,7 @@ Change one selected dialect.
 ## Usage
 
 ```text
-rootform update dialects <name> [source] [flags]
+rootform update dialect <name> [source] [flags]
 ```
 
 ## Flags
@@ -19,7 +19,7 @@ rootform update dialects <name> [source] [flags]
 | --- | --- | --- | --- |
 | ` --dry-run ` | ` bool ` | ` false ` | print the planned change and write nothing |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform update dialects |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform update dialect |
 | ` --offline ` | ` bool ` | ` false ` | use no network; accept local and installed sources |
 
 ## Inherited flags
@@ -51,7 +51,7 @@ The summary goes to standard output. Diagnostics go to standard error.
 ## Examples
 
 ```sh
-rootform update dialects payments
-rootform update dialects payments ./dialects/payments-next
-rootform update dialects payments registry.example.com/acme/payments:0.2.0
+rootform update dialect payments
+rootform update dialect payments ./dialects/payments-next
+rootform update dialect payments registry.example.com/acme/payments:0.2.0
 ```

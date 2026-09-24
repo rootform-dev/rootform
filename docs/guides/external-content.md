@@ -1,5 +1,5 @@
 ---
-title: "Add external Dialects and Policy Packs"
+title: "Add external content"
 description: "Select reviewed local or published content for a project, then prepare that selection on another machine."
 ---
 
@@ -24,7 +24,8 @@ rootform list policy-packs -o wide
 `add` compiles the pack, records its project-relative path and compiled
 content digest, and creates `rootform.lock` if needed. The later commands
 verify and inspect the exact selection. Commit the pack source and lock
-together. To select a local Dialect, use `rootform add dialects
+together. Neither `add` nor `init` installs a local source in your Rootform
+home. To select a local Dialect, use `rootform add dialects
 ./dialects/payments` from a project with that source directory.
 
 ## Add published content
@@ -52,12 +53,19 @@ it does not select the unit for this project. Use `add` for project adoption.
 
 ## Change or drop a selection
 
-For a local source, edit it and try an invocation override first. Once ready,
-record the new content:
+For a local source, edit it, then check the edited pack for one command. The
+override uses the source without changing `rootform.lock`:
+
+<!-- docs-check:external-try-local -->
+```sh
+rootform check . --policy-pack ./policies
+```
+
+Without the override, commands fail until you record the new content:
 
 <!-- docs-check:external-update-local -->
 ```sh
-rootform update policy-packs tutorial
+rootform update policy-pack tutorial
 ```
 
 An OCI selection needs a new reference because its tag was never saved. The
@@ -65,7 +73,7 @@ new reference must resolve to the same owner or pack name:
 
 <!-- docs-check:external-update-oci -->
 ```sh
-rootform update dialects payments registry.example.com/acme/rootform/payments:0.2.0
+rootform update dialect payments registry.example.com/acme/rootform/payments:0.2.0
 ```
 
 To drop a selection, use its owner or pack name:
@@ -122,7 +130,8 @@ rootform build . --locked --output architecture.json
 ```
 
 `init` may fetch only OCI digests recorded in the lock. Add `--offline` when
-selected bytes are already installed or vendored and network access must be
-disabled. `init` verifies an existing vendor tree, including missing, extra,
-or changed content; it never rewrites `rootform.lock`. Normal analysis does
+selected content is available at its local path, installed, or vendored and
+network access must be disabled. `init` verifies an existing vendor tree,
+including missing, extra, or changed content; it never rewrites
+`rootform.lock`. Normal analysis does
 not acquire content. CI should use the committed lock and never run `add`.

@@ -13,7 +13,7 @@ to explicit preparation or publication, plus the loopback server used by
 | Operation | Rootform network behavior |
 | --- | --- |
 | `rootform init` | With an existing OCI selection, may acquire missing exact pinned content from its recorded registry. This is possible with or without `--locked`. |
-| `rootform vendor dialects` and `rootform vendor policy-packs` | May acquire exact locked content when local or cached bytes are missing and acquisition is allowed. |
+| `rootform vendor dialects` and `rootform vendor policy-packs` | Copy selected local sources directly. May acquire and install missing exact OCI content before vendoring when acquisition is allowed. |
 | `rootform publish dialects` and `rootform publish policy-packs` | Deliberately write package artifacts to a registry and repull their exact identity. |
 | `rootform package` | Creates local OCI layouts without registry access. |
 | `build`, `check`, `diff`, `explain`, `list`, `show`, `validate`, and `test` | Use available embedded, local, installed, or vendored content. They never acquire packages implicitly. |

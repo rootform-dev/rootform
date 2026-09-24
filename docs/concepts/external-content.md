@@ -10,24 +10,24 @@ what else happens to be installed on the machine that runs it.
 
 ## Four states
 
-Every Dialect or Policy Pack that Rootform can use is in one or more of these
-states:
+Project content can be in one or more of these states:
 
 | State | Where it lives | What puts it there |
 | --- | --- | --- |
-| **Embedded** | inside the `rootform` binary | the Rootform release you installed |
-| **Installed** | your Rootform home, `$ROOTFORM_HOME` | `rootform install`, `add`, `update`, `init`, or `vendor` |
-| **Selected** | the project's `rootform.lock` | `rootform add`, `remove`, or `update` |
-| **Vendored** | the project's `.rootform/` directory | `rootform vendor`, then `add`, `remove`, and `update` |
+| **Embedded** | inside the `rootform` binary | ships with Rootform |
+| **Installed** | verified OCI content in `$ROOTFORM_HOME` | `rootform install`; `add` or `update` with an OCI reference; `init` or `vendor` when a missing OCI selection is fetched |
+| **Selected** | the project's `rootform.lock` | `rootform add` or `update`; `remove` drops a selection |
+| **Vendored** | the project's `.rootform/` directory | `rootform vendor`; `add` or `update` when a vendor tree exists |
 
 Embedded Dialects work in every project without any setup. Only content that
 does not ship with Rootform, or that replaces an embedded Dialect, needs to
-be selected.
+be selected. An explicit `--dialect` or `--policy-pack` override applies only to one
+invocation and does not create any of these project states.
 
 The states answer different questions. Installed content is merely
 available: a project never uses a Dialect because it happens to be in your
 Rootform home. Selected content is a dependency: the project uses exactly the
-identity recorded in `rootform.lock`, from any machine.
+identity recorded in `rootform.lock` when its recorded source is available.
 
 ## Add changes the project
 
@@ -47,7 +47,8 @@ rootform.lock updated
 The example assumes a valid `payments` Dialect source at that path. Rootform
 records its project-relative path and compiled content digest. The result
 shows the change without printing the digest. Commit `rootform.lock` with
-the source directory.
+the source directory. Local content stays at that path; `add` does not
+install it in your Rootform home.
 
 For OCI content, `add` accepts a tag or digest reference, resolves and
 verifies it, installs it, and records its exact identity. The lock keeps the
@@ -57,8 +58,8 @@ operands form one change: if any of them fails, `rootform.lock` stays as it
 was.
 
 `rootform update` moves an existing selection to another version or source,
-and `rootform remove` drops it. You never need to edit `rootform.lock` by
-hand or know which digest belongs in which field.
+and `rootform remove` drops it. Use these commands for normal changes instead
+of editing `rootform.lock` by hand or finding digests yourself.
 
 ## Install prepares a machine
 
@@ -74,9 +75,10 @@ The registry address is illustrative. Replace it with a published Dialect
 reference; successful installation prints the verified owner and version.
 
 Use it to prepare a workstation, a CI runner image, or a machine that will
-later work offline. You never need to run `install` before `add`, because
-`add` installs what it selects. Several versions of the same Dialect can be
-installed at once; each project uses only the version it selects.
+later work offline. Adding an OCI reference installs that verified content,
+so it needs no prior `install`. Adding a local path leaves the source local.
+Several versions of the same Dialect can be installed at once; each project
+uses only the version it selects.
 
 `rootform list dialects --installed` shows what your Rootform home holds, and
 `rootform uninstall` deletes an exact installed version.
@@ -96,8 +98,10 @@ Dialects and Policy Packs.
 
 `init` reads `rootform.lock` and never changes it. It downloads a missing OCI
 selection only by the exact digest recorded in the lock, and `--offline`
-prevents even that. After `init`, `build`, `check`, and `run` use the same
-Dialects and Policy Packs as on the machine that ran `add`.
+prevents even that. Without a vendor tree, it verifies local selections at
+their recorded paths. A local-only `init` leaves your Rootform home untouched.
+After `init`, `build`, `check`, and `run` use the same Dialects and Policy Packs
+as on the machine that ran `add`.
 
 ## Vendor keeps the bytes in the repository
 
@@ -107,6 +111,9 @@ or registry access. Once `.rootform/dialects/` or `.rootform/policy-packs/`
 exists, Rootform reads that family only from there and fails if it differs
 from `rootform.lock`, even when a matching copy is installed. `add`, `update`,
 and `remove` keep an existing `.rootform/` in step with the lock.
+Vendoring a local source copies its verified bytes directly. If selected OCI
+content is missing from your Rootform home, `vendor` installs it there before
+copying it into `.rootform/`.
 
 Vendoring is optional. Use it when builds must work without network access
 and without a prepared Rootform home, or when reviewers should see dependency
@@ -154,8 +161,9 @@ brings it back.
 
 ## Policy Packs are the unit you select
 
-Policies are installed, selected, and vendored only as part of their Policy
-Pack. A Policy's identity, version, and evaluation context come from its pack,
+Policies are selected and vendored only as part of their Policy Pack. An OCI
+Policy Pack can also be installed; a local pack stays at its recorded path.
+A Policy's identity, version, and evaluation context come from its pack,
 so a Policy on its own has nothing exact to record. To evaluate part of a
 selected pack, filter the run with `--policy`. This command reports only
 the results of the Policies in the `tutorial` pack:
@@ -174,5 +182,5 @@ A project that always needs a smaller set should select a smaller pack.
 ## Next
 
 - [Use a local Dialect while authoring](../guides/local-dialect.md)
-- [Add external Dialects and Policy Packs](../guides/external-content.md)
+- [Add external content](../guides/external-content.md)
 - [Where Rootform stores external content](../reference/storage.md)

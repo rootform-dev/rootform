@@ -25,9 +25,10 @@ defines exact fields and validation.
 
 ## Preparation and offline controls
 
-`rootform init --locked` requires an existing valid lock. It verifies local
-content and installed entries, and may acquire a missing OCI unit only by the
-recorded repository and manifest digest. It does not select a new version or
+`rootform init --locked` requires an existing valid lock. Without a vendor
+tree, it verifies local content at its recorded path without installing it.
+It verifies installed OCI entries and may acquire a missing OCI unit only by
+the recorded repository and manifest digest. It does not select a new version or
 change the lock. When a vendor family exists, `init` verifies those exact
 bytes, including the presence and absence of entries, because analysis reads
 that family from `.rootform/`.

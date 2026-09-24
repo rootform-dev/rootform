@@ -26,8 +26,8 @@ for example a cache directory on a CI runner.
 
 | Path | Contents |
 | --- | --- |
-| `dialects/<owner>/<version>/` | installed Dialects |
-| `policy-packs/<name>/<version>/` | installed Policy Packs |
+| `dialects/<owner>/<version>/` | installed OCI Dialects |
+| `policy-packs/<name>/<version>/` | installed OCI Policy Packs |
 | `cache/` | derived content that Rootform can recreate |
 | `tmp/` | incomplete work; safe to delete when no Rootform command runs |
 
@@ -38,12 +38,13 @@ installed one. Any number of versions can be installed side by side.
 Installation never selects content for a project. `rootform list dialects
 --installed` and `rootform list policy-packs --installed` report installed versions;
 `rootform uninstall dialects <owner>@<version>` deletes one. A project that
-still selects an uninstalled version gets it back through `rootform init`,
-which needs network access for it unless the project vendors that content.
+still selects that OCI version can restore it through `rootform init` when
+network access is allowed. A valid vendor tree needs no installed copy.
 
 Deleting the Rootform home removes installed copies and derived content.
-Projects without vendored content then need `rootform init` again, and an OCI
-selection may require registry access.
+An unvendored OCI selection then needs `rootform init` and may require registry
+access. An unvendored local-only project still reads and verifies its recorded
+paths without the Rootform home.
 
 ## rootform.lock
 
@@ -66,7 +67,8 @@ Each write:
 - leaves the file untouched when nothing changes.
 
 While a write is in progress, Rootform holds `rootform.lock.new` beside the
-lock. A second `add`, `update`, or `remove` in the same project stops at
+lock. `rootform vendor` holds the same file while it writes `.rootform/`. A
+second `add`, `update`, `remove`, or `vendor` in the same project stops at
 once, names that file, and changes nothing; run it again when the first
 finishes. If a command was killed, the file stays behind and every later write
 stops the same way; delete it when no Rootform command is running. Rootform
@@ -85,7 +87,7 @@ Local selections record a path relative to the project root and the digest of
 the compiled content. A path outside the project, such as `../shared`, needs
 that sibling checkout on every machine unless the project is vendored. When
 that content changes, commands stop until you run
-`rootform update dialects <owner>` or `rootform update policy-packs <name>`
+`rootform update dialect <owner>` or `rootform update policy-pack <name>`
 to record the new content. OCI selections record the repository and exact
 digests. A tag is never recorded.
 
@@ -106,6 +108,10 @@ Rootform home, a local path, or a registry. `rootform vendor` restores the
 directory from the lock. While `.rootform/` exists, `add`, `update`, and
 `remove` update it together with `rootform.lock`.
 
+Removing the last selection of a family also removes its directory, and Git
+does not keep empty directories. A later `add` to that family is not vendored;
+its output names the command to run, such as `rootform vendor policy-packs`.
+
 To stop vendoring, delete `.rootform/` and run `rootform init`.
 
 ## What each command guarantees
@@ -113,9 +119,9 @@ To stop vendoring, delete `.rootform/` and run `rootform init`.
 | Command or flag | Reads | May download | Writes |
 | --- | --- | --- | --- |
 | `build`, `check`, `run`, `diff`, `list`, `show`, `explain` | lock, vendor or local paths or installed copies | never | requested outputs and `$ROOTFORM_HOME/cache` only |
-| `init` | lock, vendor or local paths or installed copies | missing OCI selections, by recorded digest | `$ROOTFORM_HOME` |
-| `vendor` | lock, local paths or installed copies | missing OCI selections, by recorded digest | `.rootform/`, `$ROOTFORM_HOME` |
-| `add`, `update` | lock, operands | operands given as OCI references | `rootform.lock`, `.rootform/` when present, `$ROOTFORM_HOME` |
+| `init` | lock, vendor or local paths or installed copies | missing OCI selections, by recorded digest | `$ROOTFORM_HOME` only when fetching missing OCI content; no write for local or vendored selections |
+| `vendor` | lock, local paths or installed copies | missing OCI selections, by recorded digest | `.rootform/`; `$ROOTFORM_HOME` only when fetching missing OCI content |
+| `add`, `update` | lock, operands | operands given as OCI references | `rootform.lock`, `.rootform/` when present; `$ROOTFORM_HOME` only for OCI operands |
 | `remove` | lock | never | `rootform.lock`, `.rootform/` when present |
 | `install` | operands | operands given as OCI references | `$ROOTFORM_HOME` |
 | `uninstall` | `$ROOTFORM_HOME` | never | `$ROOTFORM_HOME` |

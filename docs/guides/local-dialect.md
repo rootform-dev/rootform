@@ -65,9 +65,10 @@ rootform.lock updated
 
 Rootform compiles the directory, records its owner, version, content digest,
 and project-relative path in `rootform.lock`, and creates the lock if the
-project had none. Commit `rootform.lock` together with `dialects/payments`.
-From now on, every command uses the Dialect without `--dialect`, on every
-clone of the repository.
+project had none. It does not install the local source in `$ROOTFORM_HOME`.
+Commit `rootform.lock` together with `dialects/payments`. From now on, commands
+use the selected Dialect without `--dialect` on clones that have the recorded
+source path.
 
 A source outside the project, such as `../shared-dialects/payments`, is
 recorded the same way, but every machine that runs the project then needs
@@ -93,7 +94,7 @@ change is ready, record it and commit the lock:
 
 <!-- docs-check:local-dialect-5 -->
 ```sh
-rootform update dialects payments
+rootform update dialect payments
 ```
 
 The lock diff shows the new version or content digest, so reviewers see that
@@ -111,7 +112,7 @@ rootform add dialects registry.example.com/acme/rootform/payments:0.1.0
 ```
 
 To move a project from the local source to the published artifact, run
-`rootform update dialects payments <reference>` with that exact reference.
+`rootform update dialect payments <reference>` with that exact reference.
 
 ## Remove the Dialect
 
