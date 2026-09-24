@@ -12,7 +12,7 @@ OpenTofu source values directly.
 
 ## Complete example
 
-```hcl title="policy-reference/pack.rf.hcl"
+```rf title="policy-reference/pack.rf.hcl"
 policy_pack "network-baseline" {
   version = "0.1.0"
 }
@@ -81,7 +81,7 @@ accepts the constant string-expression forms described under
 
 ## `target` block
 
-```hcl title="target dimensions"
+```rf title="target dimensions"
 target {
   concept  = rf.concept.subnet
   rules    = [aws.rule.subnet, google.rule.vpc-subnetwork]
@@ -108,19 +108,19 @@ target {
 Each `dialects` item is a static string expression, not a semantic reference.
 Direct quoted strings are canonical:
 
-```hcl
+```rf
 dialects = ["aws", "google"]
 ```
 
 This is invalid:
 
-```hcl
+```rf
 dialects = [aws, google]
 ```
 
 A constant expression is accepted but normalized by compilation:
 
-```hcl
+```rf
 dialects = [true ? "aws" : "google"]
 ```
 
@@ -150,7 +150,7 @@ without matching Rule cannot satisfy Rule, Concept, or Dialect target dimension.
 
 `assert` uses closed Policy expression grammar:
 
-```hcl
+```rf
 assert = exists(contexts(rf.context.network))
 assert = length(relations(aws.relation.subscribes-to)) >= 1
 assert = (
@@ -214,7 +214,7 @@ overall compliant result.
 
 This Policy has only an owner filter:
 
-```hcl title="invalid/dialect-only-pack.rf.hcl"
+```rf title="invalid/dialect-only-pack.rf.hcl"
 policy_pack "invalid" {
   version = "0.1.0"
 }

@@ -49,7 +49,7 @@ Therefore `rf.relation.*` and `rf.rule.*` are invalid references.
 
 ## Using RF Vocabulary in a Dialect
 
-```hcl title="subnet.rf.hcl"
+```rf title="subnet.rf.hcl"
 rule "subnet" {
   match {
     type = "example_subnet"
@@ -70,7 +70,7 @@ contract. Frequency or a similar name is insufficient.
 
 ## Using RF Vocabulary in a Policy Pack
 
-```hcl title="network policy"
+```rf title="network policy"
 policy "subnet-has-network-context" {
   target {
     concept = rf.concept.subnet

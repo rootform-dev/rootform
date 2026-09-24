@@ -14,13 +14,13 @@ The pack is selected explicitly for each check and does not require a
 
 ## Create the Policy Pack
 
-```hcl title="policies/pack.rf.hcl"
+```rf title="policies/pack.rf.hcl"
 policy_pack "tutorial" {
   version = "0.1.0"
 }
 ```
 
-```hcl title="policies/subnet-network-context.rf.hcl"
+```rf title="policies/subnet-network-context.rf.hcl"
 policy "subnet-network-context" {
   target {
     concept = rf.concept.subnet
@@ -73,7 +73,7 @@ runtime.
 
 Add a separate Policy for that convention:
 
-```hcl title="policies/instance-explicit-subnet-context.rf.hcl"
+```rf title="policies/instance-explicit-subnet-context.rf.hcl"
 policy "instance-explicit-subnet-context" {
   target {
     concept = aws.concept.compute-instance

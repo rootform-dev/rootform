@@ -17,17 +17,21 @@ function normalize(value: string): string {
   return `${value.replace(/\r\n/gu, "\n").trimEnd()}\n`;
 }
 
-function fenced(
+export function fenced(
   page: string,
   language: string,
   title: string,
   occurrence = 0,
   expectedCount = 1,
 ): string {
-  const opening = `${fence}${language} title="${title}"\n`;
-  const parts = page.split(opening);
-  assert(parts.length === expectedCount + 1, `expected ${expectedCount} ${title} block(s)`);
-  const body = parts[occurrence + 1]?.split(`\n${fence}`)[0];
+  const languages = language === "hcl" && title.endsWith(".rf.hcl") ? ["hcl", "rf"] : [language];
+  const blocks = languages.flatMap((candidate) => {
+    const opening = `${fence}${candidate} title="${title}"\n`;
+    const parts = page.split(opening);
+    return parts.slice(1).map((part) => part.split(`\n${fence}`)[0]);
+  });
+  assert(blocks.length === expectedCount, `expected ${expectedCount} ${title} block(s)`);
+  const body = blocks[occurrence];
   assert(body, `empty ${title} block`);
   return normalize(body);
 }

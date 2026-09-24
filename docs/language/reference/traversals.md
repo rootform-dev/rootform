@@ -28,7 +28,7 @@ name is part of root, so `member.proxy` alone remains incomplete.
 
 Examples:
 
-```hcl title="valid traversals"
+```rf title="valid traversals"
 source.vpc_id
 source.metadata[0].name
 provider.host
@@ -54,14 +54,14 @@ identifier grammar.
 Index key must be exact non-negative signed 64-bit integer value. Canonical
 spelling is decimal whole number:
 
-```hcl
+```rf
 source.backends[0].id
 ```
 
 String indexes, negative indexes, dynamic indexes, slices, and splats are
 invalid:
 
-```hcl title="invalid traversal steps"
+```rf title="invalid traversal steps"
 source.tags["Name"]
 source.items[-1]
 source.items[source.index]
@@ -108,7 +108,7 @@ Using known root in wrong position produces `INVALID_REFERENCE`,
 
 ### Predicate scalar inspection
 
-```hcl
+```rf
 where = source.enabled == true
 ```
 
@@ -118,7 +118,7 @@ unknown.
 
 ### Fact reference resolution
 
-```hcl
+```rf
 via = source.vpc_id
 ```
 
@@ -128,7 +128,7 @@ satisfy emission `to` semantic type.
 
 ### Provider configuration resolution
 
-```hcl
+```rf
 via = provider.host
 ```
 
@@ -140,7 +140,7 @@ only for direct emission resolution, without nested fact `match`.
 
 ### Explicit target comparison
 
-```hcl
+```rf
 match {
   by       = target.metadata[0].name
   strategy = "exact"
@@ -152,7 +152,7 @@ attribute. See [Explicit attribute match](emissions.md#explicit-attribute-match)
 
 ### Composition chaining
 
-```hcl
+```rf
 member "url-map" {
   via = member.proxy.url_map
 
@@ -184,7 +184,7 @@ Uncertainty never becomes empty evidence. See
 
 ## Rejected roots and forms
 
-```hcl title="invalid traversals"
+```rf title="invalid traversals"
 source
 provider
 target.name

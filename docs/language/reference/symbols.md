@@ -59,7 +59,7 @@ Inside a Dialect:
 4. A reference to another Dialect owner is rejected.
 5. There are no imports, aliases, wildcard references, or shadowing rules.
 
-```hcl title="reference forms"
+```rf title="reference forms"
 rule "subnet" {
   match {
     type = "example_subnet"
@@ -82,7 +82,7 @@ mean `rf.concept.virtual-network`.
 
 Every semantic reference in Policy source must be owner-qualified:
 
-```hcl title="qualified Policy references"
+```rf title="qualified Policy references"
 target {
   concept = rf.concept.subnet
   rules   = [aws.rule.subnet]
@@ -118,7 +118,7 @@ definition or come from [RF Vocabulary](rf-vocabulary.md).
 
 ## Rejected forms
 
-```hcl title="invalid references"
+```rf title="invalid references"
 as = subnet
 as = rf/subnet
 as = other.concept.subnet

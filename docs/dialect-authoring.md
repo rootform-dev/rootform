@@ -30,7 +30,7 @@ whole recursive root.
 
 ## Declare identity and provider
 
-```hcl title="aws/dialect.rf.hcl"
+```rf title="aws/dialect.rf.hcl"
 dialect "aws" {
   version = "0.1.0"
 
@@ -55,7 +55,7 @@ Use RF Vocabulary where contract is exact:
 
 Define distinct local meaning without Concept kind:
 
-```hcl title="vocabulary.rf.hcl"
+```rf title="vocabulary.rf.hcl"
 concept "load-balancer" {
   description = "A load-balancing service."
 }
@@ -71,7 +71,7 @@ architectural structure or establish facts.
 
 ## Add smallest complete Rule
 
-```hcl title="aws/network/vpc.rf.hcl"
+```rf title="aws/network/vpc.rf.hcl"
 rule "vpc" {
   match {
     kind = "resource"
@@ -113,7 +113,7 @@ contribution for non-absorbing support. `to` accepts Concept or applied Rule;
 
 Common placement patterns stay small:
 
-```hcl title="Direct parent proved by a resource reference"
+```rf title="Direct parent proved by a resource reference"
 context {
   as  = context.ownership
   to  = concept.parent

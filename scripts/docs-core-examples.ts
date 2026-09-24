@@ -15,7 +15,12 @@ export function markedCommand(page: string, name: string): string {
 }
 
 function fencedBlock(page: string, language: string, title: string): string {
-  const languages = language === "text" ? ["text", "ansi"] : [language];
+  const languages =
+    language === "text"
+      ? ["text", "ansi"]
+      : language === "hcl" && title.endsWith(".rf.hcl")
+        ? ["hcl", "rf"]
+        : [language];
   const blocks = languages.flatMap((candidate) => {
     const opening = `${fence}${candidate} title="${title}"\n`;
     const parts = page.split(opening);

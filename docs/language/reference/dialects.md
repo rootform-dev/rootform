@@ -11,7 +11,7 @@ Definitions and Rules are top-level siblings of the `dialect` block. Only
 
 ## Complete layout
 
-```hcl title="example-dialect/dialect.rf.hcl"
+```rf title="example-dialect/dialect.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 
@@ -61,7 +61,7 @@ A Dialect has no authored dependency list. It may reference its own symbols and
 
 ## `provider` block
 
-```hcl title="provider envelopes"
+```rf title="provider envelopes"
 dialect "example" {
   version = "0.1.0"
 
@@ -136,7 +136,7 @@ their own provider selector.
 
 `concept`, top-level `context`, and top-level `relation` share one shape:
 
-```hcl title="definitions.rf.hcl"
+```rf title="definitions.rf.hcl"
 concept "database" {
   description = "A database service."
 }
@@ -199,7 +199,7 @@ Foreign Dialect references are invalid. File location never changes scope. See
 
 ## Rejected forms
 
-```hcl title="invalid-provider.rf.hcl"
+```rf title="invalid-provider.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 

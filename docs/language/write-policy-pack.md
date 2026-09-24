@@ -23,13 +23,13 @@ baseline/
 Rootform discovers `.rf.hcl` and `.rf.json` recursively. Exactly one
 `policy_pack` declaration owns every top-level `policy` below this root.
 
-```hcl title="policy-packs/baseline/pack.rf.hcl"
+```rf title="policy-packs/baseline/pack.rf.hcl"
 policy_pack "baseline" {
   version = "0.1.0"
 }
 ```
 
-```hcl title="policy-packs/baseline/policies/cluster-network-context.rf.hcl"
+```rf title="policy-packs/baseline/policies/cluster-network-context.rf.hcl"
 policy "cluster-network-context" {
   target {
     concept = rf.concept.kubernetes-cluster
@@ -44,7 +44,7 @@ policy "cluster-network-context" {
 }
 ```
 
-```hcl title="policy-packs/baseline/policies/managed-database-network-context.rf.hcl"
+```rf title="policy-packs/baseline/policies/managed-database-network-context.rf.hcl"
 policy "managed-database-network-context" {
   target {
     concept = rf.concept.managed-database
@@ -74,7 +74,7 @@ then records exact versions and digests in compiled artifact.
 
 Target is one block:
 
-```hcl title="Policy target"
+```rf title="Policy target"
 target {
   concept  = rf.concept.kubernetes-cluster
   rules    = [aws.rule.eks-cluster]

@@ -19,7 +19,7 @@ Query values are opaque. They can appear only as direct argument to
 
 ## Complete example
 
-```hcl title="built-ins/pack.rf.hcl"
+```rf title="built-ins/pack.rf.hcl"
 policy_pack "architecture-contracts" {
   version = "0.1.0"
 }
@@ -148,7 +148,7 @@ Exactly one argument is required.
 complete. Any relevant uncertainty makes count unknown, even if some facts are
 confirmed, because exact cardinality is not proved.
 
-```hcl
+```rf
 assert = length(contexts(rf.context.network)) == 1
 ```
 
@@ -168,7 +168,7 @@ representation.
 
 Accepted arity is one or two.
 
-```hcl
+```rf
 assert = exists(contexts(rf.context.network))
 assert = exists(
   contexts(rf.context.network, rf.concept.virtual-network)
@@ -197,7 +197,7 @@ representation.
 
 Accepted arity is one or two.
 
-```hcl
+```rf
 assert = exists(relations(aws.relation.subscribes-to))
 assert = exists(
   relations(aws.relation.subscribes-to, aws.concept.message-topic)
@@ -227,7 +227,7 @@ matching contributor.
 
 Accepted arity is exactly one.
 
-```hcl
+```rf
 assert = exists(contributions(aws.rule.s3-bucket-versioning))
 assert = length(contributions(aws.concept.storage-configuration)) >= 1
 ```
@@ -273,7 +273,7 @@ See [Evaluation](evaluation.md#query-truth) for truth tables.
 
 ## Rejected calls
 
-```hcl title="invalid built-ins"
+```rf title="invalid built-ins"
 assert = contexts(rf.context.network)
 assert = exists()
 assert = exists(contexts())

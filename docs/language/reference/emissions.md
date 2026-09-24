@@ -19,7 +19,7 @@ both agree.
 
 ## Complete example
 
-```hcl title="emissions/dialect.rf.hcl"
+```rf title="emissions/dialect.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 
@@ -102,7 +102,7 @@ identity and are rejected with `DUPLICATE_ID`.
 
 ### Referenced form
 
-```hcl title="referenced Context"
+```rf title="referenced Context"
 context {
   as  = rf.context.network
   to  = rf.concept.virtual-network
@@ -112,7 +112,7 @@ context {
 
 ### Labeled form
 
-```hcl title="labeled Context"
+```rf title="labeled Context"
 context "runtime" {
   to  = concept.cluster
   via = source.cluster_id
@@ -141,7 +141,7 @@ Exactly one of label or `as` is required. Both or neither produce
 
 ### Referenced form
 
-```hcl title="referenced Relation"
+```rf title="referenced Relation"
 relation {
   as  = relation.reads-from
   to  = concept.database
@@ -151,7 +151,7 @@ relation {
 
 ### Labeled form
 
-```hcl title="labeled Relation"
+```rf title="labeled Relation"
 relation "calls" {
   to  = concept.application
   via = source.upstream_id
@@ -172,7 +172,7 @@ RF Vocabulary 0.1.0 has no Relations.
 
 ## Contribution emission
 
-```hcl title="Contribution"
+```rf title="Contribution"
 contribution {
   to  = rf.concept.object-storage-container
   via = source.bucket
@@ -195,7 +195,7 @@ from target side with
 
 Without nested `match`, Rootform resolves references carried by `via`.
 
-```hcl
+```rf
 context {
   as  = rf.context.network
   to  = rf.concept.virtual-network
@@ -221,7 +221,7 @@ configuration, not provider source identity.
 Use nested `match` as an attribute-matching fallback when source stores a value
 rather than a direct infrastructure reference:
 
-```hcl title="fact match"
+```rf title="fact match"
 context {
   as  = context.ownership
   to  = concept.namespace
@@ -303,7 +303,7 @@ proven absence.
 
 ## Rejected forms
 
-```hcl title="invalid emission"
+```rf title="invalid emission"
 context "ownership" {
   as  = context.ownership
   to  = concept.namespace

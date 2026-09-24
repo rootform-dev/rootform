@@ -15,6 +15,18 @@ test("configuration blocks require a unique filename", () => {
   expect(() => configuration(page + page, "main.tf")).toThrow("Expected one");
 });
 
+test("Rootform configuration accepts either fence tag but requires exactly one block", () => {
+  const hcl = '```hcl title="policies/pack.rf.hcl"\npolicy_pack "sample" {}\n```\n';
+  const rf = hcl.replace("```hcl", "```rf");
+  expect(configuration(hcl, "policies/pack.rf.hcl")).toBe('policy_pack "sample" {}\n');
+  expect(configuration(rf, "policies/pack.rf.hcl")).toBe('policy_pack "sample" {}\n');
+  expect(() => configuration(hcl + rf, "policies/pack.rf.hcl")).toThrow("Expected one");
+  expect(() => configuration(rf, "main.tf")).toThrow("Expected one");
+  expect(() => configuration(hcl.replace("```hcl", "```json"), "policies/pack.rf.hcl")).toThrow(
+    "Expected one",
+  );
+});
+
 test("root usage mismatch fails rather than skipping the public export", () => {
   const help = "Usage:\n  rootform [command]\n\nFlags:\n";
   expect(() => assertHelpUsage("rootform", "rootform [command]", help)).not.toThrow();

@@ -9,7 +9,7 @@ optional Concept classification.
 
 ## Complete example
 
-```hcl title="composition/dialect.rf.hcl"
+```rf title="composition/dialect.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 
@@ -96,7 +96,7 @@ Member `match` uses same parameters as Rule `match`:
 | `type` | Static string | Yes | None | Nonempty exact adapter-owned type |
 | `where` | Predicate expression | No | Equivalent to known `true` | `source.*` reads candidate member declaration |
 
-```hcl title="filtered member"
+```rf title="filtered member"
 member "backend" {
   via = member.proxy.backend_id
 
@@ -161,7 +161,7 @@ Composition diagnostics have error severity.
 
 ## Rejected forms
 
-```hcl title="invalid/empty-composition.rf.hcl"
+```rf title="invalid/empty-composition.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 
@@ -183,7 +183,7 @@ Empty block produces `COMPOSITION_INVALID`.
 
 This forward reference is also invalid:
 
-```hcl title="invalid member order"
+```rf title="invalid member order"
 composition {
   member "backend" {
     via = member.proxy.backend_id
