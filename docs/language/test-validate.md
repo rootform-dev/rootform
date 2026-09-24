@@ -85,7 +85,7 @@ Create small source cases around observable architectural consequences. A case
 qualifies when one directory contains Terraform/OpenTofu `.tf` source and an
 `architecture.golden` file:
 
-```text title="Fixture suite"
+```tree title="Fixture suite"
 fixtures/
 └── example/
     ├── minimal/
@@ -174,7 +174,7 @@ rootform check architecture.json --policy-pack policies.compiled.json
 Keep the stable code and source range in failure assertions. Messages help
 people, but codes are the better automation boundary:
 
-```text title="Example assertion"
+```yaml title="Example assertion"
 code: CONCEPT_UNKNOWN
 path: network/rules.rf.hcl
 line: 18

@@ -52,7 +52,7 @@ zero or more, and a trailing `+` means one or more. Commas and semicolons are
 grammar notation, not RF tokens. Attribute order and block order are not
 significant except for `member` order.
 
-```text
+```ebnf
 dialect-unit       = dialect-block,
                      { concept-block | context-definition |
                        relation-definition | rule-block } ;
@@ -244,7 +244,7 @@ native punctuation mechanically.
 
 Most RF labels use this grammar:
 
-```text
+```ebnf
 identifier = lower, { lower | digit | "-" }, with no trailing or doubled "-" ;
 lower      = "a" ... "z" ;
 digit      = "0" ... "9" ;
@@ -252,7 +252,7 @@ digit      = "0" ... "9" ;
 
 Equivalent regular expression:
 
-```text
+```regexp
 [a-z][a-z0-9]*(?:-[a-z0-9]+)*
 ```
 
@@ -268,7 +268,7 @@ label.
 
 Dialect and Policy Pack `version` use exact three-component decimal form:
 
-```text
+```ebnf
 version = component, ".", component, ".", component ;
 ```
 

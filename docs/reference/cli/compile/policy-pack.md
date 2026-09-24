@@ -36,11 +36,11 @@ Summary goes to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
-```text
-0  the compiled Policy Pack was written
-1  the Policy Pack could not be compiled or written
-2  the command was used incorrectly
-```
+| Status | Meaning |
+| --- | --- |
+| `0` | the compiled Policy Pack was written |
+| `1` | the Policy Pack could not be compiled or written |
+| `2` | the command was used incorrectly |
 
 ## Examples
 

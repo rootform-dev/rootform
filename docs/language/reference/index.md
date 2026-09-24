@@ -17,21 +17,39 @@ This reference documents Rootform language version `0.1.0`.
 
 ## How to use this reference
 
+### Source units
+
 | Page | Contract covered |
 | --- | --- |
 | [Syntax and files](syntax-files.md) | Source discovery, native and JSON syntax, structural grammar, names, versions, and source-unit boundaries |
 | [Symbols and references](symbols.md) | Canonical IDs, local and qualified references, resolution, and duplicate rules |
-| [Dialect declarations](dialects.md) | `dialect`, `provider`, `concept`, `context`, and `relation` |
 | [RF Vocabulary](rf-vocabulary.md) | Complete embedded `rf.*` vocabulary and exact meanings |
+
+### Dialects
+
+| Page | Contract covered |
+| --- | --- |
+| [Dialect declarations](dialects.md) | `dialect`, `provider`, `concept`, `context`, and `relation` |
 | [Rules and matching](rules.md) | `rule`, `match`, all 15 source kinds, predicates, and selection |
 | [Fact emissions](emissions.md) | `context`, `relation`, `contribution`, explicit attribute matching, and omissions |
 | [Composition](composition.md) | Ordered members, matching, exclusivity, and transactional application |
-| [Policy Packs](policy-packs.md) | `policy_pack`, `policy`, `target`, linking, messages, and target intersections |
+
+### Expression language
+
+| Page | Contract covered |
+| --- | --- |
 | [Expressions](expressions.md) | Literal types, expression grammars, operators, precedence, and rejected forms |
 | [Traversals and scope](traversals.md) | `source`, `provider`, `target`, `member`, path steps, and position rules |
 | [Built-ins](built-ins.md) | Complete signatures and parameters for `exists`, `length`, and architecture queries |
+
+### Policies
+
+| Page | Contract covered |
+| --- | --- |
+| [Policy Packs](policy-packs.md) | `policy_pack`, `policy`, `target`, linking, messages, and target intersections |
 | [Evaluation](evaluation.md) | Rule precedence, three-valued evidence, query completeness, outcomes, and exit status |
-| [Diagnostics and limits](diagnostics.md) | Stable codes, severity, source ranges, and all author-facing bounds |
+
+[Diagnostics and limits](diagnostics.md): Stable codes, severity, source ranges, and all author-facing bounds
 
 ## Construct index
 

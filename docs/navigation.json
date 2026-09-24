@@ -57,18 +57,38 @@
         "collapsed": true,
         "items": [
           { "label": "Overview", "page": "language/reference" },
-          { "label": "Syntax and files", "page": "language/reference/syntax-files" },
-          { "label": "Symbols and references", "page": "language/reference/symbols" },
-          { "label": "Dialect declarations", "page": "language/reference/dialects" },
-          { "label": "RF Vocabulary", "page": "language/reference/rf-vocabulary" },
-          { "label": "Rules and matching", "page": "language/reference/rules" },
-          { "label": "Fact emissions", "page": "language/reference/emissions" },
-          { "label": "Composition", "page": "language/reference/composition" },
-          { "label": "Policy Packs", "page": "language/reference/policy-packs" },
-          { "label": "Expressions", "page": "language/reference/expressions" },
-          { "label": "Traversals and scope", "page": "language/reference/traversals" },
-          { "label": "Built-ins", "page": "language/reference/built-ins" },
-          { "label": "Evaluation", "page": "language/reference/evaluation" },
+          {
+            "label": "Source units",
+            "items": [
+              { "label": "Syntax and files", "page": "language/reference/syntax-files" },
+              { "label": "Symbols and references", "page": "language/reference/symbols" },
+              { "label": "RF Vocabulary", "page": "language/reference/rf-vocabulary" }
+            ]
+          },
+          {
+            "label": "Dialects",
+            "items": [
+              { "label": "Dialect declarations", "page": "language/reference/dialects" },
+              { "label": "Rules and matching", "page": "language/reference/rules" },
+              { "label": "Fact emissions", "page": "language/reference/emissions" },
+              { "label": "Composition", "page": "language/reference/composition" }
+            ]
+          },
+          {
+            "label": "Expression language",
+            "items": [
+              { "label": "Expressions", "page": "language/reference/expressions" },
+              { "label": "Traversals and scope", "page": "language/reference/traversals" },
+              { "label": "Built-ins", "page": "language/reference/built-ins" }
+            ]
+          },
+          {
+            "label": "Policies",
+            "items": [
+              { "label": "Policy Packs", "page": "language/reference/policy-packs" },
+              { "label": "Evaluation", "page": "language/reference/evaluation" }
+            ]
+          },
           { "label": "Diagnostics and limits", "page": "language/reference/diagnostics" }
         ]
       }

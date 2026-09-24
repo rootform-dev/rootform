@@ -76,11 +76,11 @@ or sibling file.
 For the [VPC and subnet example](../../getting-started/first-architecture.md),
 the declaration summary on standard error is:
 
-```text title="Declaration summary"
-Architecture built -> architecture.json
+```ansi title="Declaration summary"
+[1m[32mArchitecture built -> architecture.json[0m
 
-Resources  2
-Facts      1 resolved, 0 omitted
+[2mResources[0m  2
+[2mFacts[0m      1 resolved, 0 omitted
 ```
 
 The resulting architecture retains resource bases and applied Rules for both

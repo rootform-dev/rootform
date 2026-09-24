@@ -16,7 +16,7 @@ For each Rule prove:
 
 ## Create source root
 
-```text title="Dialect package"
+```tree title="Dialect package"
 example/
 ├── dialect.rf.hcl
 ├── vocabulary.rf.hcl
@@ -156,7 +156,7 @@ Named commands use owner-first IDs. Bare name works only when unambiguous.
 
 ## Prove consequences with fixtures
 
-```text title="Dialect fixture"
+```tree title="Dialect fixture"
 fixtures/example/minimal/
 ├── main.tf
 └── architecture.golden

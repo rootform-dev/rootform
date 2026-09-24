@@ -37,12 +37,12 @@ standard output without rewriting. Diagnostics go to standard error.
 
 ## Exit status
 
-```text
-0  the sources are formatted
-1  --check or --diff found a source that is not formatted
-2  the command was used incorrectly
-3  a source could not be read, parsed, or rewritten
-```
+| Status | Meaning |
+| --- | --- |
+| `0` | the sources are formatted |
+| `1` | --check or --diff found a source that is not formatted |
+| `2` | the command was used incorrectly |
+| `3` | a source could not be read, parsed, or rewritten |
 
 ## Examples
 

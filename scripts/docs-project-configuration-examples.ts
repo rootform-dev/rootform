@@ -11,17 +11,22 @@ import {
 import { dirname, join } from "node:path";
 import { configuration, markedCommand } from "./docs-core-examples.ts";
 
+const ansiSgr = new RegExp(String.fromCharCode(27) + String.raw`\[[0-9;]*m`, "gu");
+
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(`Docs project configuration: ${message}`);
 }
 
 function titledBlock(page: string, language: string, title: string): string {
-  const opening = `\`\`\`${language} title="${title}"\n`;
-  const parts = page.split(opening);
-  assert(parts.length === 2, `expected one ${language} block: ${title}`);
-  const body = parts[1]?.split("\n```")[0];
+  const languages = language === "text" ? ["text", "ansi"] : [language];
+  const blocks = languages.flatMap((candidate) => {
+    const parts = page.split(`\`\`\`${candidate} title="${title}"\n`);
+    return parts.length === 2 ? [parts[1]?.split("\n```")[0]] : [];
+  });
+  assert(blocks.length === 1, `expected one ${language} block: ${title}`);
+  const body = blocks[0];
   assert(body, `empty ${language} block: ${title}`);
-  return body;
+  return language === "text" ? body.replace(ansiSgr, "") : body;
 }
 
 export function verifyProjectConfigurationExamples(

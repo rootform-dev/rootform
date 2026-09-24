@@ -174,11 +174,11 @@ rootform init . --locked --offline --no-input
 rootform list dialects --dialect confluent -o wide
 ```
 
-```text title="Selected local Dialect"
-Project prepared
+```ansi title="Selected local Dialect"
+[1m[32mProject prepared[0m
 
-External dialects      1
-External Policy Packs  0
+[2mExternal dialects[0m      1
+[2mExternal Policy Packs[0m  0
 NAME       VERSION  ORIGIN  CONCEPTS  CONTEXTS  RELATIONS  RULES
 confluent  0.1.0    local         37         1         19     62
 ```

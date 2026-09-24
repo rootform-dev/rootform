@@ -36,12 +36,12 @@ JSON result goes to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
-```text
-0  every dialect is valid
-1  at least one dialect is not valid
-2  the command was used incorrectly
-3  no dialect result could be decided
-```
+| Status | Meaning |
+| --- | --- |
+| `0` | every dialect is valid |
+| `1` | at least one dialect is not valid |
+| `2` | the command was used incorrectly |
+| `3` | no dialect result could be decided |
 
 ## Examples
 
