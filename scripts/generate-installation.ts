@@ -1,0 +1,163 @@
+#!/usr/bin/env bun
+
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join, resolve } from "node:path";
+import { normalizeVersion, RELEASE_TARGETS, releaseAssetName } from "./release/contract.ts";
+import { parseChecksumFile, sha256 } from "./release/digest.ts";
+
+type Artifact = { asset: string; sha256: string; operating_system: string; architecture: string };
+
+export function installationMetadata(release: string, version: string): Map<string, string> {
+  const manifestName = `rootform_${version}_manifest.json`;
+  const sums = parseChecksumFile(readFileSync(join(release, "SHA256SUMS"), "utf8"));
+  const manifestBody = readFileSync(join(release, manifestName));
+  if (sums.get(manifestName) !== sha256(manifestBody)) {
+    throw new Error("release manifest checksum mismatch");
+  }
+  const manifest = JSON.parse(manifestBody.toString("utf8")) as {
+    format_version?: string;
+    product?: { version?: string; tag?: string; name?: string };
+    artifacts?: Artifact[];
+  };
+  if (
+    manifest.format_version !== "1" ||
+    manifest.product?.version !== version ||
+    manifest.product?.tag !== `v${version}` ||
+    manifest.product?.name !== "rootform" ||
+    !Array.isArray(manifest.artifacts) ||
+    manifest.artifacts.length !== RELEASE_TARGETS.length
+  ) {
+    throw new Error("release version metadata is invalid");
+  }
+  const digests = new Map<string, string>();
+  for (const target of RELEASE_TARGETS) {
+    const asset = releaseAssetName(version, target);
+    const records = manifest.artifacts.filter((entry) => entry.asset === asset);
+    const record = records[0];
+    if (
+      records.length !== 1 ||
+      record?.operating_system !== target.operatingSystem ||
+      record.architecture !== target.architecture ||
+      !/^[0-9a-f]{64}$/u.test(record.sha256) ||
+      sums.get(asset) !== record.sha256 ||
+      !existsSync(join(release, asset)) ||
+      sha256(readFileSync(join(release, asset))) !== record.sha256
+    ) {
+      throw new Error(`release archive metadata drifted: ${asset}`);
+    }
+    digests.set(`${target.operatingSystem}-${target.architecture}`, record.sha256);
+  }
+  return digests;
+}
+
+function releaseBase(value: string): string {
+  const parsed = new URL(value);
+  const local =
+    parsed.protocol === "http:" && ["localhost", "127.0.0.1", "[::1]"].includes(parsed.hostname);
+  if (
+    (parsed.protocol !== "https:" && !local) ||
+    parsed.username ||
+    parsed.password ||
+    parsed.search ||
+    parsed.hash
+  ) {
+    throw new Error("release base URL must use HTTPS or localhost HTTP");
+  }
+  return value.replace(/\/$/u, "");
+}
+
+export function generateInstallation(options: {
+  baseUrl: string;
+  output: string;
+  release: string;
+  version: string;
+}): void {
+  const version = normalizeVersion(options.version);
+  const base = releaseBase(options.baseUrl);
+  const digests = installationMetadata(options.release, version);
+  if (existsSync(options.output)) throw new Error("installation output already exists");
+  mkdirSync(options.output, { recursive: true });
+  for (const [source, output] of [
+    ["install.sh", "install"],
+    ["install.ps1", "install.ps1"],
+  ] as const) {
+    const body = readFileSync(join(import.meta.dir, "..", "installers", source), "utf8");
+    writeFileSync(join(options.output, output), body.replaceAll("@ROOTFORM_VERSION@", version), {
+      flag: "wx",
+    });
+  }
+  const cask = `cask "rootform" do
+  version "${version}"
+  arch arm: "arm64", intel: "amd64"
+  sha256 arm: "${digests.get("darwin-arm64")}", intel: "${digests.get("darwin-amd64")}"
+
+  url "${base}/rootform_#{version}_darwin_#{arch}.tar.gz"
+  name "Rootform"
+  desc "Architecture compiler and policy CLI"
+  homepage "https://rootform.dev"
+  depends_on macos: ">= :ventura"
+
+  binary "rootform"
+end
+`;
+  writeFileSync(join(options.output, "rootform.rb"), cask, { flag: "wx" });
+  const manifestDirectory = join(
+    options.output,
+    "winget",
+    "manifests",
+    "r",
+    "Rootform",
+    "Rootform",
+    version,
+  );
+  mkdirSync(manifestDirectory, { recursive: true });
+  const name = "Rootform.Rootform";
+  const schemaVersion = "1.10.0";
+  const header = (kind: string) =>
+    `# yaml-language-server: $schema=https://aka.ms/winget-manifest.${kind}.${schemaVersion}.schema.json\n`;
+  writeFileSync(
+    join(manifestDirectory, `${name}.yaml`),
+    `${header("version")}PackageIdentifier: ${name}\nPackageVersion: ${version}\nDefaultLocale: en-US\nManifestType: version\nManifestVersion: ${schemaVersion}\n`,
+    { flag: "wx" },
+  );
+  writeFileSync(
+    join(manifestDirectory, `${name}.locale.en-US.yaml`),
+    `${header("defaultLocale")}PackageIdentifier: ${name}\nPackageVersion: ${version}\nPackageLocale: en-US\nPublisher: Rootform\nPackageName: Rootform\nLicense: Elastic-2.0\nLicenseUrl: ${base}/ROOTFORM-BINARY-LICENSE.txt\nShortDescription: Architecture compiler and policy CLI\nPackageUrl: https://rootform.dev\nManifestType: defaultLocale\nManifestVersion: ${schemaVersion}\n`,
+    { flag: "wx" },
+  );
+  writeFileSync(
+    join(manifestDirectory, `${name}.installer.yaml`),
+    `${header("installer")}PackageIdentifier: ${name}\nPackageVersion: ${version}\nInstallerType: zip\nInstallers:\n  - Architecture: x64\n    InstallerUrl: ${base}/rootform_${version}_windows_amd64.zip\n    InstallerSha256: ${digests.get("windows-amd64")?.toUpperCase()}\n    NestedInstallerType: portable\n    NestedInstallerFiles:\n      - RelativeFilePath: rootform.exe\n        PortableCommandAlias: rootform\nManifestType: installer\nManifestVersion: ${schemaVersion}\n`,
+    { flag: "wx" },
+  );
+}
+
+if (import.meta.main) {
+  try {
+    const args = process.argv.slice(2);
+    const values = new Map<string, string>();
+    for (let index = 0; index < args.length; index += 2) {
+      const key = args[index];
+      const value = args[index + 1];
+      if (!key?.startsWith("--") || !value || values.has(key))
+        throw new Error("invalid installation generation arguments");
+      values.set(key, value);
+    }
+    const version = normalizeVersion(values.get("--version") ?? "");
+    const release = values.get("--release");
+    const output = values.get("--output");
+    if (!release || !output) throw new Error("--release and --output are required");
+    generateInstallation({
+      baseUrl:
+        values.get("--base-url") ??
+        `https://github.com/rootform-dev/rootform/releases/download/v${version}`,
+      output: resolve(output),
+      release: resolve(release),
+      version,
+    });
+    console.log(`Generated installation artifacts for Rootform ${version}.`);
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  }
+}

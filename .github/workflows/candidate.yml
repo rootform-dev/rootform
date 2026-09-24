@@ -5,7 +5,11 @@ on:
     inputs:
       handoff_release_id:
         description: Exact Rootform draft release ID containing the Engine handoff
-        required: true
+        required: false
+        type: string
+      qualification_release_id:
+        description: Requalify one existing draft candidate without assembly or publication
+        required: false
         type: string
       version:
         description: Exact Rootform candidate version
@@ -22,6 +26,7 @@ concurrency:
 jobs:
   qualify:
     name: assemble and qualify candidate
+    if: inputs.qualification_release_id == ''
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     permissions:
@@ -31,6 +36,7 @@ jobs:
     outputs:
       evidence: ${{ steps.candidate-evidence.outputs.body }}
       pull-request: ${{ steps.pull-request.outputs.number }}
+      release_id: ${{ steps.final-release.outputs.release_id }}
 
     steps:
       - name: Check out distribution
@@ -382,6 +388,7 @@ jobs:
           release_url="$(gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" --jq '.html_url')"
           [[ "$release_url" == https://github.com/* ]]
           printf 'url=%s\n' "$release_url" >> "$GITHUB_OUTPUT"
+          printf 'release_id=%s\n' "$release_id" >> "$GITHUB_OUTPUT"
 
       - name: Upload exact draft candidate for native jobs
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -486,12 +493,45 @@ jobs:
           compression-level: 9
           retention-days: 30
 
+  replay:
+    name: select existing candidate
+    if: inputs.qualification_release_id != ''
+    runs-on: ubuntu-24.04
+    outputs:
+      release_id: ${{ steps.select.outputs.release_id }}
+    steps:
+      - name: Verify exact draft candidate
+        id: select
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_ID: ${{ inputs.qualification_release_id }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_ID" =~ ^[1-9][0-9]*$ ]]
+          gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" \
+            | jq -e --arg version "v$ROOTFORM_VERSION" \
+              '.draft == true and .prerelease == true and .tag_name == $version' >/dev/null
+          printf 'release_id=%s\n' "$RELEASE_ID" >> "$GITHUB_OUTPUT"
+
+  installation:
+    name: native installation qualification
+    if: always() && (needs.qualify.result == 'success' || needs.replay.result == 'success')
+    needs:
+      - qualify
+      - replay
+    uses: ./.github/workflows/installation-qualification.yml
+    with:
+      version: ${{ inputs.version }}
+      release_id: ${{ needs.qualify.outputs.release_id || needs.replay.outputs.release_id }}
+
   evidence:
     name: PR evidence
     if: always() && needs.qualify.outputs.pull-request != ''
     needs:
       - qualify
       - platforms
+      - installation
     permissions:
       contents: read
       pull-requests: write
@@ -503,7 +543,7 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           PR_NUMBER: ${{ needs.qualify.outputs.pull-request }}
-          QUALIFY_RESULT: ${{ needs.qualify.result == 'success' && needs.platforms.result == 'success' && 'success' || 'failure' }}
+          QUALIFY_RESULT: ${{ needs.qualify.result == 'success' && needs.platforms.result == 'success' && needs.installation.result == 'success' && 'success' || 'failure' }}
           REPORT_BASE64: ${{ needs.qualify.outputs.evidence }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:

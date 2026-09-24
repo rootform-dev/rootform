@@ -1,0 +1,97 @@
+name: installation qualification
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact existing Rootform candidate version
+        required: true
+        type: string
+      release_id:
+        description: Exact existing draft candidate release ID
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+      release_id:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  native-installation:
+    name: install ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: linux_amd64
+            runner: ubuntu-24.04
+          - target: linux_arm64
+            runner: ubuntu-24.04-arm
+          - target: darwin_amd64
+            runner: macos-15-intel
+          - target: darwin_arm64
+            runner: macos-15
+          - target: windows_amd64
+            runner: windows-2025
+    steps:
+      - name: Check out distribution
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Download exact existing draft candidate
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_ID: ${{ inputs.release_id }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_ID" =~ ^[1-9][0-9]*$ ]]
+          release="$(gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID")"
+          jq -e --arg version "v$ROOTFORM_VERSION" \
+            '.draft == true and .prerelease == true and .tag_name == $version and
+             (.target_commitish | test("^[0-9a-f]{40}$"))' <<<"$release" >/dev/null
+          mkdir -p build/release
+          gh release download "v$ROOTFORM_VERSION" --repo "$GITHUB_REPOSITORY" --dir build/release
+          bun scripts/generate-installation.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release build/release \
+            --output build/installers
+
+      - name: Qualify native installer against localhost candidate
+        shell: bash
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+          ROOTFORM_TARGET: ${{ matrix.target }}
+        run: >-
+          bun scripts/qualify-installation.ts
+          --version "$ROOTFORM_VERSION"
+          --release build/release
+          --platform "$ROOTFORM_TARGET"
+          --evidence "build/installation-evidence/$ROOTFORM_TARGET.json"
+
+      - name: Upload installation evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-installation-${{ inputs.version }}-${{ matrix.target }}
+          path: |
+            build/installation-evidence/${{ matrix.target }}.json
+            build/installation-evidence/${{ matrix.target }}-package.json
+          if-no-files-found: warn
+          retention-days: 30
