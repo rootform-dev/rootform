@@ -30,8 +30,10 @@ Homebrew:
 brew install rootform-dev/tap/rootform
 ```
 
-The Homebrew formula verifies the release archive checksum. Rootform's macOS
-binary is not Apple notarized.
+Homebrew installs this formula from the
+[Rootform tap](https://github.com/rootform-dev/homebrew-tap).
+It verifies the release archive's SHA-256. Rootform's macOS binary is not Apple
+notarized; this installation uses Homebrew's formula trust model.
 
 <!-- rootform:tab Linux -->
 
