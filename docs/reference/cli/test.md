@@ -17,6 +17,7 @@ rootform test [directory] [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform test |
 | ` --run ` | ` string ` | ` "" ` | run only the cases whose `name` contains this text |

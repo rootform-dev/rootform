@@ -403,8 +403,8 @@
       "path": "rootform diff",
       "usage": "rootform diff \u003cbefore\u003e \u003cafter\u003e [flags]",
       "summary": "Compare two architectures",
-      "description": "Compare two architectures and report the architectural changes between\nthem.\n\nEach input can be an infrastructure directory, a Rootform architecture\nfile, or '-' for one architecture file on standard input. --plan reads\nboth sides from a plan in JSON format instead. Only one input can be '-'.\n\nThe selected text, JSON, or Markdown result goes to standard output, or\nto --output. Diagnostics go to standard error.\n\nExit status:\n  0  the comparison succeeded\n  1  changes or undetermined facts with --exit-code\n  2  the command was used incorrectly\n  3  the comparison could not be completed",
-      "examples": "rootform diff ./before ./after\n  rootform diff before.json after.json --exit-code\n  rootform diff --plan tfplan.json\n  terraform show -json tfplan | rootform diff --plan -\n  rootform diff ./before ./after --format markdown -o rootform-diff.md",
+      "description": "Compare two architectures and report the architectural changes between\nthem.\n\nEach input can be an infrastructure directory, a Rootform architecture\nfile, or '-' for one architecture file on standard input. --plan reads\nboth sides from a plan in JSON format instead. Only one input can be '-'.\n\nThe selected text, JSON, Markdown, or HTML result goes to standard\noutput, or to --output. HTML is one self-contained page that opens the\ncomparison in the interactive interface. --serve serves that interface\nlocally instead of printing a result and puts the local address alone on\nstandard output. Diagnostics go to standard error.\n\nExit status:\n  0  the comparison succeeded, or the local interface stopped cleanly\n  1  changes or undetermined facts with --exit-code, or the local\n     interface could not start\n  2  the command was used incorrectly\n  3  the comparison could not be completed",
+      "examples": "rootform diff ./before ./after\n  rootform diff before.json after.json --exit-code\n  rootform diff --plan tfplan.json\n  terraform show -json tfplan | rootform diff --plan -\n  rootform diff ./before ./after --format markdown -o rootform-diff.md\n  rootform diff --plan tfplan.json --format html -o rootform-diff.html\n  rootform diff --plan tfplan.json --serve",
       "flags": [
         {
           "name": "dialect",
@@ -423,7 +423,7 @@
           "name": "format",
           "type": "string",
           "default": "text",
-          "usage": "output `format`: text, json, or markdown"
+          "usage": "text/json/markdown/html `format`"
         },
         {
           "name": "help",
@@ -431,6 +431,13 @@
           "type": "bool",
           "default": "false",
           "usage": "show how to use rootform diff",
+          "no_option_default": "true"
+        },
+        {
+          "name": "no-browser",
+          "type": "bool",
+          "default": "false",
+          "usage": "--serve without opening the browser",
           "no_option_default": "true"
         },
         {
@@ -445,6 +452,19 @@
           "type": "file",
           "default": "",
           "usage": "read JSON plan; use '-' for standard input"
+        },
+        {
+          "name": "port",
+          "type": "int",
+          "default": "21717",
+          "usage": "--serve on this `port`; 0 picks a free one"
+        },
+        {
+          "name": "serve",
+          "type": "bool",
+          "default": "false",
+          "usage": "serve the comparison in the local interface",
+          "no_option_default": "true"
         }
       ],
       "inherited_flags": [
@@ -533,8 +553,8 @@
       "path": "rootform explain policy",
       "usage": "rootform explain policy \u003cidentifier\u003e [flags]",
       "summary": "Explain a policy result",
-      "description": "Show why a policy passed, failed, or could not be evaluated for an\narchitecture element.\n\nThe current directory supplies the architecture.\nThe project must select the Policy Pack that owns the policy.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
-      "examples": "rootform explain policy baseline.policy.cluster-network-context\n  rootform explain policy cluster-network-context\n  rootform explain policy baseline.policy.cluster-network-context --format json",
+      "description": "Show why a policy passed, failed, or could not be evaluated for an\narchitecture element.\n\nBy default, explain reads the current directory. --input accepts an\ninfrastructure directory, a Rootform architecture file, or '-' for an\narchitecture file on standard input.\nThe project must select the Policy Pack that owns the policy, or\n--policy-pack must name its source directory for this run only.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "examples": "rootform explain policy baseline.policy.cluster-network-context\n  rootform explain policy cluster-network-context --policy-pack ./policies\n  rootform explain policy cluster-network-context --input prod.json\n  rootform explain policy baseline.policy.cluster-network-context --format json",
       "flags": [
         {
           "name": "dialect",
@@ -555,6 +575,18 @@
           "default": "false",
           "usage": "show how to use rootform explain policy",
           "no_option_default": "true"
+        },
+        {
+          "name": "input",
+          "type": "string",
+          "default": "",
+          "usage": "read architecture at `path`; use '-' for standard input"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "select local Policy Pack `dir`; repeatable"
         }
       ],
       "inherited_flags": [
@@ -570,7 +602,7 @@
       "path": "rootform explain semantics",
       "usage": "rootform explain semantics \u003cidentifier\u003e [flags]",
       "summary": "Explain a semantic interpretation",
-      "description": "Show how a source declaration was interpreted, including the matching\nrule and the architecture it produced.\n\nThe current directory supplies the architecture.\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "description": "Show how a source declaration was interpreted, including the matching\nrule and the architecture it produced.\n\nThe current directory supplies the architecture.\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
       "examples": "rootform explain semantics google.rule.cloud-sql-instance\n  rootform explain semantics cloud-sql-instance\n  rootform explain semantics google.rule.cloud-sql-instance --format json",
       "flags": [
         {
@@ -908,7 +940,7 @@
           "name": "policy-pack",
           "type": "stringArray",
           "default": "[]",
-          "usage": "select local Policy Pack `directory`; repeatable"
+          "usage": "select local Policy Pack `dir`; repeatable"
         }
       ],
       "inherited_flags": [
@@ -953,7 +985,7 @@
           "name": "policy-pack",
           "type": "stringArray",
           "default": "[]",
-          "usage": "select local Policy Pack `directory`; repeatable"
+          "usage": "select local Policy Pack `dir`; repeatable"
         }
       ],
       "inherited_flags": [
@@ -1490,7 +1522,7 @@
           "name": "policy-pack",
           "type": "stringArray",
           "default": "[]",
-          "usage": "select local Policy Pack `directory`; repeatable"
+          "usage": "select local Policy Pack `dir`; repeatable"
         }
       ],
       "inherited_flags": [
@@ -1528,7 +1560,7 @@
           "name": "policy-pack",
           "type": "stringArray",
           "default": "[]",
-          "usage": "select local Policy Pack `directory`; repeatable"
+          "usage": "select local Policy Pack `dir`; repeatable"
         }
       ],
       "inherited_flags": [
@@ -1547,6 +1579,12 @@
       "description": "Build dialect fixtures and compare their architectures with the\nexpected results.\n\nWith no directory, test reads the current directory. Text or JSON results\ngo to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every selected fixture passed\n  1  at least one fixture differed or encountered an error\n  2  the command was used incorrectly\n  3  the run could not start or be reported, or no fixtures matched",
       "examples": "rootform test\n  rootform test ./fixtures\n  rootform test ./fixtures --run cloud-sql\n  rootform test ./fixtures --format json",
       "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "use a dialect source `dir` for this run; repeatable"
+        },
         {
           "name": "format",
           "type": "string",
@@ -1826,8 +1864,14 @@
       "usage": "rootform validate architecture [input] [flags]",
       "summary": "Validate an architecture",
       "description": "Build or load an architecture and check that it is structurally valid\nand internally consistent.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or '-' for an architecture file on standard input. With no input,\nvalidation reads the current directory.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the architecture is valid\n  1  the architecture is not valid\n  2  the command was used incorrectly\n  3  the architecture could not be validated",
-      "examples": "rootform validate architecture\n  rootform validate architecture architecture.json\n  cat architecture.json | rootform validate architecture -",
+      "examples": "rootform validate architecture\n  rootform validate architecture architecture.json\n  cat architecture.json | rootform validate architecture -\n  rootform validate architecture ./infra --dialect ./dialects/payments",
       "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "use a dialect source `dir` for this run; repeatable"
+        },
         {
           "name": "format",
           "type": "string",
@@ -1856,9 +1900,15 @@
       "path": "rootform validate concept",
       "usage": "rootform validate concept \u003cidentifier\u003e [flags]",
       "summary": "Validate a concept definition",
-      "description": "Validate a concept in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "description": "Validate a concept in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
       "examples": "rootform validate concept rf.concept.virtual-network\n  rootform validate concept virtual-network\n  rootform validate concept rf.concept.virtual-network --format json",
       "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "use a dialect source `dir` for this run; repeatable"
+        },
         {
           "name": "format",
           "type": "string",
@@ -1887,9 +1937,15 @@
       "path": "rootform validate context",
       "usage": "rootform validate context \u003cidentifier\u003e [flags]",
       "summary": "Validate a context dimension",
-      "description": "Validate a context dimension in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "description": "Validate a context dimension in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
       "examples": "rootform validate context rf.context.network\n  rootform validate context network\n  rootform validate context rf.context.network --format json",
       "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "use a dialect source `dir` for this run; repeatable"
+        },
         {
           "name": "format",
           "type": "string",
@@ -1949,9 +2005,15 @@
       "path": "rootform validate policy",
       "usage": "rootform validate policy \u003cidentifier\u003e [flags]",
       "summary": "Validate a policy definition",
-      "description": "Validate a policy definition in its selected Policy Pack.\n\nThe project must select the Policy Pack that owns the policy.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
-      "examples": "rootform validate policy baseline.policy.cluster-network-context\n  rootform validate policy cluster-network-context\n  rootform validate policy baseline.policy.cluster-network-context --format json",
+      "description": "Validate a policy definition in its selected Policy Pack.\n\nThe project must select the Policy Pack that owns the policy, or\n--policy-pack must name its source directory for this run only.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "examples": "rootform validate policy baseline.policy.cluster-network-context\n  rootform validate policy cluster-network-context\n  rootform validate policy cluster-network-context --policy-pack ./policies\n  rootform validate policy baseline.policy.cluster-network-context --format json",
       "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "use a dialect source `dir` for this run; repeatable"
+        },
         {
           "name": "format",
           "type": "string",
@@ -1965,6 +2027,12 @@
           "default": "false",
           "usage": "show how to use rootform validate policy",
           "no_option_default": "true"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "select local Policy Pack `dir`; repeatable"
         }
       ],
       "inherited_flags": [
@@ -1980,9 +2048,15 @@
       "path": "rootform validate relation",
       "usage": "rootform validate relation \u003cidentifier\u003e [flags]",
       "summary": "Validate a relation predicate",
-      "description": "Validate a relation and every compiled producer reference.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "description": "Validate a relation and every compiled producer reference.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
       "examples": "rootform validate relation google.relation.runs-as\n  rootform validate relation runs-as\n  rootform validate relation google.relation.runs-as --format json",
       "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "use a dialect source `dir` for this run; repeatable"
+        },
         {
           "name": "format",
           "type": "string",
@@ -2011,9 +2085,15 @@
       "path": "rootform validate rule",
       "usage": "rootform validate rule \u003cidentifier\u003e [flags]",
       "summary": "Validate a rule definition",
-      "description": "Validate a rule and its references in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
-      "examples": "rootform validate rule google.rule.cloud-sql-instance\n  rootform validate rule cloud-sql-instance\n  rootform validate rule google.rule.cloud-sql-instance --format json",
+      "description": "Validate a rule and its references in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "examples": "rootform validate rule google.rule.cloud-sql-instance\n  rootform validate rule cloud-sql-instance\n  rootform validate rule payments.rule.gateway --dialect ./dialects/payments\n  rootform validate rule google.rule.cloud-sql-instance --format json",
       "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "use a dialect source `dir` for this run; repeatable"
+        },
         {
           "name": "format",
           "type": "string",

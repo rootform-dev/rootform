@@ -24,6 +24,8 @@ rootform explain policy <identifier> [flags]
 | ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain policy |
+| ` --input ` | ` string ` | ` "" ` | read architecture at `path`; use `-` for standard input |
+| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `dir`; repeatable |
 
 ## Inherited flags
 

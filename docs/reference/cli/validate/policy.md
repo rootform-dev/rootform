@@ -17,8 +17,10 @@ rootform validate policy <identifier> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate policy |
+| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `dir`; repeatable |
 
 ## Inherited flags
 
@@ -30,7 +32,8 @@ rootform validate policy <identifier> [flags]
 
 Validate a policy definition in its selected Policy Pack.
 
-The project must select the Policy Pack that owns the policy.
+The project must select the Policy Pack that owns the policy, or
+--policy-pack must name its source directory for this run only.
 Use &lt;policy-pack&gt;.policy.&lt;name&gt;, or a bare name when it resolves unambiguously.
 The text or JSON result goes to standard output. Diagnostics go to
 standard error.
@@ -49,5 +52,6 @@ standard error.
 ```sh
 rootform validate policy baseline.policy.cluster-network-context
 rootform validate policy cluster-network-context
+rootform validate policy cluster-network-context --policy-pack ./policies
 rootform validate policy baseline.policy.cluster-network-context --format json
 ```

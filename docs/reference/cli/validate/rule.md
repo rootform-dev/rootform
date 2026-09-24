@@ -17,6 +17,7 @@ rootform validate rule <identifier> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate rule |
 
@@ -31,6 +32,7 @@ rootform validate rule <identifier> [flags]
 Validate a rule and its references in the context of its dialect.
 
 Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
+--dialect adds or replaces one Dialect for this run only.
 The text or JSON result goes to standard output. Diagnostics go to
 standard error.
 
@@ -48,5 +50,6 @@ standard error.
 ```sh
 rootform validate rule google.rule.cloud-sql-instance
 rootform validate rule cloud-sql-instance
+rootform validate rule payments.rule.gateway --dialect ./dialects/payments
 rootform validate rule google.rule.cloud-sql-instance --format json
 ```

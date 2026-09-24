@@ -23,7 +23,7 @@ rootform list policy-packs [flags]
 | ` -o, --format ` | ` string ` | ` "" ` | output `format`: text, wide, or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list policy-packs |
 | ` --installed ` | ` bool ` | ` false ` | list versions installed in the Rootform home |
-| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
+| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `dir`; repeatable |
 
 ## Inherited flags
 

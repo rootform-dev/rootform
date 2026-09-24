@@ -21,7 +21,7 @@ rootform list policies [flags]
 | --- | --- | --- | --- |
 | ` -o, --format ` | ` string ` | ` "" ` | output `format`: text, wide, or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list policies |
-| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
+| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `dir`; repeatable |
 
 ## Inherited flags
 
