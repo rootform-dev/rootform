@@ -4,8 +4,8 @@ description: "List policies declared by selected or explicit local packs."
 ---
 
 `list policies` reads Policy Packs selected by the current project. Repeat
-`--policy-pack` with local authoring roots to replace that project selection
-for this listing. It does not discover remote packs or evaluate policies.
+`--policy-pack` with local authoring roots to overlay packs of the same
+name for this listing. Other selected packs remain active. It does not discover remote packs or evaluate policies.
 
 <!-- BEGIN GENERATED CLI: rootform list policies -->
 
@@ -35,6 +35,7 @@ Create `./policies` as in [Run checks](../../../guides/check-architecture.md)
 before using the explicit pack example. Without that option, `list` reads the
 current project's selection.
 
+<!-- docs-check:cli-list-policies -->
 ```sh
 rootform list policies --policy-pack ./policies -o wide
 rootform list policies -o json

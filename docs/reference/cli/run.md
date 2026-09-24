@@ -20,6 +20,7 @@ rootform run [input] [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform run |
 | ` --locked ` | ` bool ` | ` false ` | require an existing valid rootform.lock |
 | ` --no-browser ` | ` bool ` | ` false ` | do not open the browser automatically |
@@ -44,10 +45,13 @@ rebuilds unless `--no-watch` is set; a saved document or plan is not watched
 as Terraform source. `--no-browser` leaves the browser closed. The default
 port is `21717`; `--port 0` asks the operating system for a free port. Use
 `--locked` when directory input must have a valid existing lock.
+`--dialect <dir>` overlays one Dialect owner for this run; repeat it for
+different owners. `--locked` rejects overrides.
 
 Use a prepared project for `./infra`, an architecture saved by `build` for
 `architecture.json`, or a completed JSON plan from [Plan inputs](../../inputs/plans.md).
 
+<!-- docs-check:docs-reference-cli-run-1 -->
 ```sh
 rootform run ./infra
 rootform run architecture.json --no-browser --port 0

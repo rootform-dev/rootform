@@ -36,13 +36,14 @@ rootform vendor policy-packs [flags]
 `--to` changes the destination, not the project selection. The default is
 `./.rootform/policy-packs`; when present, project-selected packs are read
 exclusively there. An explicit local `--policy-pack` on a consuming command
-replaces the project selection for that invocation. `--offline` limits
+overlays a pack of the same name for that invocation; other selected packs remain active. `--offline` limits
 vendoring to verified local content.
 
 Start from a project whose lock selects a Policy Pack, as in
 [Use external content](../../../guides/external-content.md). The commands
 below do not create that selection.
 
+<!-- docs-check:docs-reference-cli-vendor-policy-packs-1 -->
 ```sh
 rootform init . --locked --no-input
 rootform vendor policy-packs

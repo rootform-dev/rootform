@@ -21,6 +21,7 @@ rootform diff <before> <after> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` --exit-code ` | ` bool ` | ` false ` | exit 1 for changes or undetermined facts |
 | ` --format ` | ` string ` | ` text ` | output `format`: text, json, or markdown |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform diff |

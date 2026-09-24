@@ -41,6 +41,9 @@ rootform [command]
 
 | Command | Purpose |
 | --- | --- |
+| [` rootform add `](add.md) | Add content to rootform.lock |
+| [` rootform add dialects `](add/dialects.md) | Add dialects to rootform.lock |
+| [` rootform add policy-packs `](add/policy-packs.md) | Add Policy Packs to rootform.lock |
 | [` rootform build `](build.md) | Build an architecture |
 | [` rootform check `](check.md) | Check architecture policies |
 | [` rootform compile `](compile.md) | Compile a Policy Pack for offline checks |
@@ -53,6 +56,9 @@ rootform [command]
 | [` rootform explain semantics `](explain/semantics.md) | Explain a semantic interpretation |
 | [` rootform fmt `](fmt.md) | Format Rootform files |
 | [` rootform init `](init.md) | Prepare a Rootform project |
+| [` rootform install `](install.md) | Install registry content in the Rootform home |
+| [` rootform install dialects `](install/dialects.md) | Install dialects from registry references |
+| [` rootform install policy-packs `](install/policy-packs.md) | Install Policy Packs from registry references |
 | [` rootform list `](list.md) | List Rootform definitions |
 | [` rootform list dialects `](list/dialects.md) | List the dialect catalog |
 | [` rootform list policies `](list/policies.md) | List policies |
@@ -64,11 +70,20 @@ rootform [command]
 | [` rootform publish `](publish.md) | Publish packaged Rootform content |
 | [` rootform publish dialects `](publish/dialects.md) | Publish a verified dialect registry layout |
 | [` rootform publish policy-packs `](publish/policy-packs.md) | Publish a verified Policy Pack registry layout |
+| [` rootform remove `](remove.md) | Remove content from rootform.lock |
+| [` rootform remove dialects `](remove/dialects.md) | Remove dialects from rootform.lock |
+| [` rootform remove policy-packs `](remove/policy-packs.md) | Remove Policy Packs from rootform.lock |
 | [` rootform run `](run.md) | Explore an architecture locally |
 | [` rootform show `](show.md) | Show a Rootform definition |
 | [` rootform show policy `](show/policy.md) | Show a policy definition |
 | [` rootform show policy-pack `](show/policy-pack.md) | Show a Policy Pack |
 | [` rootform test `](test.md) | Test dialect fixtures |
+| [` rootform uninstall `](uninstall.md) | Delete installed versions from the Rootform home |
+| [` rootform uninstall dialects `](uninstall/dialects.md) | Delete installed dialect versions |
+| [` rootform uninstall policy-packs `](uninstall/policy-packs.md) | Delete installed Policy Pack versions |
+| [` rootform update `](update.md) | Change a selection in rootform.lock |
+| [` rootform update dialects `](update/dialects.md) | Change one selected dialect |
+| [` rootform update policy-packs `](update/policy-packs.md) | Change one selected Policy Pack |
 | [` rootform validate `](validate.md) | Validate a Rootform object |
 | [` rootform validate architecture `](validate/architecture.md) | Validate an architecture |
 | [` rootform validate concept `](validate/concept.md) | Validate a concept definition |

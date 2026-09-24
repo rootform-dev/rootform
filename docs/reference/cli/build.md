@@ -8,8 +8,7 @@ Write canonical JSON for another command, or self-contained HTML for a browser.
 
 ## Input and defaults
 
-With no directory, `build` reads current directory. It uses supplied release
-set plus explicit project selection. It performs no discovery, acquisition,
+With no directory, `build` reads current directory. It uses embedded Dialects plus exact project selection. It performs no discovery, acquisition,
 prompt, or lock mutation. Use `--plan` for JSON plan; `-` reads standard input.
 
 The default output format is `json`. The result goes to standard output unless
@@ -28,6 +27,7 @@ rootform build [directory] [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` --format ` | ` string ` | ` json ` | write `format` (json/html) |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform build |
 | ` --locked ` | ` bool ` | ` false ` | require an existing valid rootform.lock |
@@ -46,13 +46,18 @@ rootform build [directory] [flags]
 > `--locked` requires an existing valid `rootform.lock`. Prepare missing exact
 > OCI pins first with `rootform init --locked` or vendor them with `rootform vendor`.
 
+`--dialect <dir>` overlays one Dialect owner for this invocation and can be
+repeated for different owners. It does not change `rootform.lock`; `--locked`
+rejects overrides.
+
 ## Save an architecture
 
-From project using only supplied Dialects:
+From a project using only embedded Dialects:
 
 <!-- rootform:tabs Output format -->
 <!-- rootform:tab JSON -->
 
+<!-- docs-check:docs-reference-cli-build-1 -->
 ```sh
 rootform build . --output architecture.json
 ```
@@ -64,6 +69,7 @@ Terraform configuration.
 
 ### Export HTML
 
+<!-- docs-check:docs-reference-cli-build-2 -->
 ```sh
 rootform build . --format html --output architecture.html
 ```
@@ -88,6 +94,7 @@ declarations. The summary is diagnostic context, not a separate output file.
 
 ## Read a plan
 
+<!-- docs-check:docs-reference-cli-build-3 -->
 ```sh
 rootform build --plan tfplan.json --output planned.json
 ```
