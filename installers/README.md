@@ -20,10 +20,9 @@ bun scripts/generate-installation.ts \
 The default archive URL is the versioned GitHub release path. Installer hosting
 should serve the generated `install` and `install.ps1` bytes at `/install` and
 `/install.ps1`. The website does not own an independent installer implementation.
-The generated formula and WinGet manifests are review artifacts. Homebrew's
-public core tap does not accept proprietary binary-only formulae; publish this
-formula only through a Rootform-owned tap after owner review. Submit WinGet
-manifests separately. No package manager receives a repacked executable.
+The generated formula and WinGet manifests are review artifacts. Publish the
+formula through the Rootform-owned tap and submit WinGet manifests separately.
+No package manager receives a repacked executable.
 
 For native candidate qualification, `scripts/qualify-installation.ts` serves
 the exact candidate release assets on localhost, generates local Formula and WinGet
