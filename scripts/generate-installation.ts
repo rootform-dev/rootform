@@ -1,15 +1,41 @@
 #!/usr/bin/env bun
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { normalizeVersion, RELEASE_TARGETS, releaseAssetName } from "./release/contract.ts";
+import {
+  normalizeVersion,
+  RELEASE_TARGETS,
+  releaseAssetName,
+  releaseAssetNames,
+} from "./release/contract.ts";
 import { parseChecksumFile, sha256 } from "./release/digest.ts";
 
-type Artifact = { asset: string; sha256: string; operating_system: string; architecture: string };
+type Artifact = {
+  archive_format: string;
+  architecture: string;
+  asset: string;
+  bytes: number;
+  executable: string;
+  operating_system: string;
+  proof: string;
+  sha256: string;
+};
 
 export function installationMetadata(release: string, version: string): Map<string, string> {
   const manifestName = `rootform_${version}_manifest.json`;
   const sums = parseChecksumFile(readFileSync(join(release, "SHA256SUMS"), "utf8"));
+  const expectedNames = releaseAssetNames(version);
+  const names = readdirSync(release).sort((left, right) => left.localeCompare(right, "en"));
+  if (JSON.stringify(names) !== JSON.stringify(expectedNames)) {
+    throw new Error("release asset inventory is incomplete");
+  }
+  for (const name of expectedNames) {
+    if (name === "SHA256SUMS") continue;
+    if (sums.get(name) !== sha256(readFileSync(join(release, name)))) {
+      throw new Error(`release checksum drifted: ${name}`);
+    }
+  }
+  if (sums.size !== expectedNames.length - 1) throw new Error("release checksum inventory drifted");
   const manifestBody = readFileSync(join(release, manifestName));
   if (sums.get(manifestName) !== sha256(manifestBody)) {
     throw new Error("release manifest checksum mismatch");
@@ -38,6 +64,10 @@ export function installationMetadata(release: string, version: string): Map<stri
       records.length !== 1 ||
       record?.operating_system !== target.operatingSystem ||
       record.architecture !== target.architecture ||
+      record.archive_format !== target.archiveFormat ||
+      record.executable !== target.executable ||
+      record.proof !== "raw-byte-identity" ||
+      record.bytes !== readFileSync(join(release, asset)).byteLength ||
       !/^[0-9a-f]{64}$/u.test(record.sha256) ||
       sums.get(asset) !== record.sha256 ||
       !existsSync(join(release, asset)) ||

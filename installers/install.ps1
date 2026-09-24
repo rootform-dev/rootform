@@ -54,6 +54,17 @@ try {
         throw 'release archive metadata drifted'
     }
 
+    $archiveStream = [IO.File]::OpenRead($archivePath)
+    try {
+        if ($archiveStream.Length -lt 22) { throw 'corrupted archive' }
+        $magic = New-Object byte[] 4
+        $null = $archiveStream.Read($magic, 0, 4)
+        if ([BitConverter]::ToUInt32($magic, 0) -ne 0x04034b50) { throw 'corrupted archive' }
+        $null = $archiveStream.Seek(-22, [IO.SeekOrigin]::End)
+        $null = $archiveStream.Read($magic, 0, 4)
+        if ([BitConverter]::ToUInt32($magic, 0) -ne 0x06054b50) { throw 'corrupted archive' }
+    } finally { $archiveStream.Dispose() }
+
     $zip = [IO.Compression.ZipFile]::OpenRead($archivePath)
     try {
         $expected = @('rootform.exe', 'ROOTFORM-BINARY-LICENSE.txt', 'SHA256SUMS', 'THIRD_PARTY_NOTICES.txt', "rootform_${version}_sbom.spdx.json")

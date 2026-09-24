@@ -302,6 +302,7 @@ async function main(): Promise<void> {
       throw new Error(`installed executable failed: ${versionResult.output}`);
     console.log(`Qualified installer ${platform} ${version}: ${Object.keys(outcomes).join(", ")}`);
     if (process.env.ROOTFORM_SKIP_PACKAGE_MANAGER !== "1" && process.platform !== "linux") {
+      if (evidence) mkdirSync(dirname(resolve(evidence)), { recursive: true });
       const packageEvidence = evidence
         ? resolve(evidence).replace(/\.json$/u, "-package.json")
         : undefined;
