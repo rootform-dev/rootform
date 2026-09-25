@@ -7,7 +7,7 @@ description: "Understand the security boundary of exact project selection, offli
 controls acquisition when preparing it. Vendored content lets the project
 carry its selection without relying on installed copies. For the state model,
 see [Install, add, and vendor](concepts/external-content.md); for paths, see
-[Where Rootform stores external content](reference/storage.md).
+[External content storage](reference/storage.md).
 
 ## What does the lock fix?
 

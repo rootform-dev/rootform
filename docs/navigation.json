@@ -100,7 +100,7 @@
     "label": "Reference",
     "items": [
       { "label": "Outputs and exit status", "page": "reference/outputs" },
-      { "label": "Where Rootform stores external content", "page": "reference/storage" },
+      { "label": "External content storage", "page": "reference/storage" },
       {
         "label": "CLI reference",
         "collapsed": true,

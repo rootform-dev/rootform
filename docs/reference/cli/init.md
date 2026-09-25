@@ -60,4 +60,4 @@ Machine JSON goes to standard output when selected; diagnostics and `--verbose`
 detail go to standard error. Status `0` means preparation completed, `1` means
 it failed, `2` means incorrect command use, and `3` means deterministic
 preparation was unavailable. See [Select Dialects and Policy Packs](../../cli.md)
-and [Where Rootform stores external content](../storage.md).
+and [External content storage](../storage.md).

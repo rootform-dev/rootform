@@ -155,7 +155,7 @@ rootform check . --locked
 The registry reference is illustrative; replace it with the published one you
 reviewed. `add` records digests without hand editing the lock. Set
 `DOCKER_CONFIG` before acquisition if the registry needs credentials. See
-[Where Rootform stores external content](../reference/storage.md) for paths.
+[External content storage](../reference/storage.md) for paths.
 
 <!-- rootform:endsteps -->
 

@@ -393,7 +393,7 @@ test("user documentation navigation follows the task-oriented structure", () => 
   const reference = group("Reference");
   expect(reference.items.map((item) => item.label)).toEqual([
     "Outputs and exit status",
-    "Where Rootform stores external content",
+    "External content storage",
     "CLI reference",
     "Container image",
     "Registry compatibility",
@@ -743,7 +743,7 @@ test("sidebar uses approved user-facing labels and placement", () => {
   ]);
   expect(labels("Reference")).toEqual([
     "Outputs and exit status",
-    "Where Rootform stores external content",
+    "External content storage",
     "CLI reference",
     "Container image",
     "Registry compatibility",
