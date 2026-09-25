@@ -5,12 +5,28 @@ import { parseReference } from "./generate-cli-reference.ts";
 const fence = "```";
 const ansiSgr = new RegExp(String.fromCharCode(27) + String.raw`\[[0-9;]*m`, "gu");
 
+/* Every marker a runner extracts is recorded, so verification can prove that
+   no marked command in the documentation is left unexecuted. */
+export const extractedMarkers = new Set<string>();
+
+/* Documented `rootform run` and `--serve` commands open a browser unless they
+   pass --no-browser. Runners prepend this directory to PATH so those commands
+   run verbatim while the system opener does nothing. */
+export function browserStub(directory: string): string {
+  mkdirSync(directory, { recursive: true });
+  for (const name of ["open", "xdg-open"]) {
+    writeFileSync(join(directory, name), "#!/bin/sh\nexit 0\n", { mode: 0o755 });
+  }
+  return directory;
+}
+
 export function markedCommand(page: string, name: string): string {
   const marker = `<!-- docs-check:${name} -->`;
   const parts = page.split(marker);
   if (parts.length !== 2) throw new Error(`Expected one command marker: ${name}`);
   const match = new RegExp(`^\\s*${fence}sh\\n([\\s\\S]*?)\\n${fence}`).exec(parts[1] ?? "");
   if (!match?.[1]) throw new Error(`Expected shell block after ${name}`);
+  extractedMarkers.add(name);
   return match[1];
 }
 
@@ -236,6 +252,7 @@ export function verifyCoreExamples(
   command("reference/cli/check.md", "cli-check");
   command("reference/cli/show/policy.md", "cli-show-policy");
   command("reference/cli/show/policy-pack.md", "cli-show-policy-pack");
+  command("reference/cli/show.md", "cli-show");
   assert(
     fencedBlock(policyPage, "text", "Passed check").trim() === passed,
     "displayed compliant result differs from command",

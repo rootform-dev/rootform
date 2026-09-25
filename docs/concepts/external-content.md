@@ -61,7 +61,8 @@ without reading or changing any project:
 
 <!-- docs-check:external-content-2 -->
 ```sh
-rootform install dialects registry.example.com/acme/rootform/payments:0.1.0
+rootform install dialects \
+  registry.example.com/acme/rootform/payments:dialect-payments-0.1.0
 ```
 
 The registry address is illustrative. Replace it with a published Dialect

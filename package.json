@@ -23,6 +23,7 @@
     "test:oci-registry-e2e": "bun scripts/qualify-image.ts",
     "test:oci-registry-compatibility": "bun scripts/qualify-registry.ts",
     "test:selection-e2e": "bun scripts/qualify-selection.ts",
+    "test:docs-registry": "bun scripts/docs-registry-examples.ts",
     "typecheck": "tsc --noEmit",
     "verify": "bun scripts/verify.ts",
     "check:dialects": "bun scripts/dialects/validate.ts && bun test scripts/dialects/*.test.ts",

@@ -34,6 +34,18 @@ runs every scenario in temporary projects and Rootform homes, and fails when a
 command that must not use the network appears in the access log. It is not
 part of `bun run verify`.
 
+`bun run verify` executes every marked documentation command except the ones
+that publish to or pull from a registry, and fails when a marked command runs
+nowhere. Run the registry examples against the same kind of registry:
+
+```bash
+bun run test:docs-registry --rootform-bin /path/to/rootform --registry 127.0.0.1:5443 --ca-file ca.crt
+```
+
+It replaces the illustrative registry host in each example with a fresh
+repository prefix on that registry, then publishes, installs, selects, and
+updates the documented Dialect and Policy Pack.
+
 Contributions to repository material covered by the root `LICENSE` follow
 Apache-2.0. Contributions under `dialects/` follow its own MPL-2.0
 `dialects/LICENSE`. Do not submit private infrastructure, state, plans,

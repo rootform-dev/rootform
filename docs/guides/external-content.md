@@ -38,8 +38,10 @@ them with references for content you trust:
 
 <!-- docs-check:external-add-oci -->
 ```sh
-rootform add dialects registry.example.com/acme/rootform/payments:0.1.0
-rootform add policy-packs registry.example.com/acme/rootform/baseline:0.1.0
+rootform add dialects \
+  registry.example.com/acme/rootform/payments:dialect-payments-0.1.0
+rootform add policy-packs \
+  registry.example.com/acme/rootform/baseline:policy-pack-baseline-0.1.0
 ```
 
 Each successful change prints `rootform.lock updated` and a line naming the
@@ -73,7 +75,8 @@ new reference must resolve to the same owner or pack name:
 
 <!-- docs-check:external-update-oci -->
 ```sh
-rootform update dialect payments registry.example.com/acme/rootform/payments:0.2.0
+rootform update dialect payments \
+  registry.example.com/acme/rootform/payments:dialect-payments-0.2.0
 ```
 
 To drop a selection, use its owner or pack name:
