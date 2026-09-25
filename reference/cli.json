@@ -62,7 +62,7 @@
       "usage": "rootform add \u003cobject\u003e [flags]",
       "summary": "Add content to rootform.lock",
       "description": "Select dialects or Policy Packs for this project. rootform add, remove,\nand update are the only commands that write rootform.lock.",
-      "examples": "rootform add dialects ./dialects/payments\n  rootform add dialects registry.example.com/acme/payments:0.1.0\n  rootform add dialects ./dialects/aws --replace\n  rootform add policy-packs ./policies\n  rootform add policy-packs registry.example.com/acme/baseline:1.0.0\n  rootform add policy-packs ./policies --dry-run",
+      "examples": "rootform add dialects ./dialects/payments\n  rootform add dialects \\\n    registry.example.com/acme/dialects:dialect-payments-0.1.0\n  rootform add dialects ./dialects/aws --replace\n  rootform add policy-packs ./policies\n  rootform add policy-packs \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.1.0\n  rootform add policy-packs ./policies --dry-run",
       "subcommands": [
         "rootform add dialects",
         "rootform add policy-packs"
@@ -91,7 +91,7 @@
       "usage": "rootform add dialects \u003csource\u003e... [flags]",
       "summary": "Add dialects to rootform.lock",
       "description": "Add dialects to rootform.lock. Each source is a local directory (./path),\na registry reference with a tag or digest, or the owner of an embedded dialect\nthat the project excluded.\n\nRootform compiles and verifies every source, records its exact identity,\nand writes rootform.lock once, or not at all. A registry source is\ninstalled in the Rootform home. A tag is resolved once and never\nrecorded.\n\nA dialect whose owner is embedded in Rootform replaces the embedded\none only with --replace.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  nothing was written because a source or the result is invalid\n  2  the command was used incorrectly",
-      "examples": "rootform add dialects ./dialects/payments\n  rootform add dialects registry.example.com/acme/payments:0.1.0\n  rootform add dialects ./dialects/aws --replace",
+      "examples": "rootform add dialects ./dialects/payments\n  rootform add dialects \\\n    registry.example.com/acme/dialects:dialect-payments-0.1.0\n  rootform add dialects ./dialects/aws --replace",
       "flags": [
         {
           "name": "dry-run",
@@ -143,7 +143,7 @@
       "usage": "rootform add policy-packs \u003csource\u003e... [flags]",
       "summary": "Add Policy Packs to rootform.lock",
       "description": "Add Policy Packs to rootform.lock. Each source is a local directory (./path),\na registry reference with a tag or digest.\n\nRootform compiles and verifies every source, records its exact identity,\nand writes rootform.lock once, or not at all. A registry source is\ninstalled in the Rootform home. A tag is resolved once and never\nrecorded.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  nothing was written because a source or the result is invalid\n  2  the command was used incorrectly",
-      "examples": "rootform add policy-packs ./policies\n  rootform add policy-packs registry.example.com/acme/baseline:1.0.0\n  rootform add policy-packs ./policies --dry-run",
+      "examples": "rootform add policy-packs ./policies\n  rootform add policy-packs \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.1.0\n  rootform add policy-packs ./policies --dry-run",
       "flags": [
         {
           "name": "dry-run",
@@ -739,7 +739,7 @@
       "usage": "rootform install \u003cobject\u003e [flags]",
       "summary": "Install registry content in the Rootform home",
       "description": "Download and verify dialects or Policy Packs into the Rootform home.\nInstalling makes content available on this machine; it selects\nnothing for any project.",
-      "examples": "rootform install dialects registry.example.com/acme/payments:0.1.0\n  rootform install policy-packs registry.example.com/acme/baseline:1.0.0",
+      "examples": "rootform install dialects \\\n    registry.example.com/acme/dialects:dialect-payments-0.1.0\n  rootform install policy-packs \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.1.0",
       "subcommands": [
         "rootform install dialects",
         "rootform install policy-packs"
@@ -768,7 +768,7 @@
       "usage": "rootform install dialects \u003creference\u003e... [flags]",
       "summary": "Install dialects from registry references",
       "description": "Resolve each registry reference once, verify the dialect it\nnames, and install it in the Rootform home. A version is immutable on a\nmachine: installing the same version from other content fails.\n\nNo project file is read or written. Use rootform add to select content.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every reference is installed\n  1  a reference could not be resolved, verified, or installed\n  2  the command was used incorrectly",
-      "examples": "rootform install dialects example.com/acme/pkg:1.0.0\n  rootform install dialects --format json example.com/acme/pkg:1.0.0\n  rootform install dialects --offline \\\n    example.com/acme/pkg@sha256:\u003cdigest\u003e",
+      "examples": "rootform install dialects \\\n    registry.example.com/acme/dialects:dialect-payments-0.1.0\n  rootform install dialects --format json \\\n    registry.example.com/acme/dialects:dialect-payments-0.1.0\n  rootform install dialects --offline \\\n    registry.example.com/acme/dialects@sha256:\u003cdigest\u003e",
       "flags": [
         {
           "name": "format",
@@ -806,7 +806,7 @@
       "usage": "rootform install policy-packs \u003creference\u003e... [flags]",
       "summary": "Install Policy Packs from registry references",
       "description": "Resolve each registry reference once, verify the Policy Pack it\nnames, and install it in the Rootform home. A version is immutable on a\nmachine: installing the same version from other content fails.\n\nNo project file is read or written. Use rootform add to select content.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every reference is installed\n  1  a reference could not be resolved, verified, or installed\n  2  the command was used incorrectly",
-      "examples": "rootform install policy-packs example.com/acme/pkg:1.0.0\n  rootform install policy-packs --format json example.com/acme/pkg:1.0.0\n  rootform install policy-packs --offline \\\n    example.com/acme/pkg@sha256:\u003cdigest\u003e",
+      "examples": "rootform install policy-packs \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.1.0\n  rootform install policy-packs --format json \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.1.0\n  rootform install policy-packs --offline \\\n    registry.example.com/acme/policies@sha256:\u003cdigest\u003e",
       "flags": [
         {
           "name": "format",
@@ -1166,7 +1166,7 @@
       "usage": "rootform publish \u003cobject\u003e [flags]",
       "summary": "Publish packaged Rootform content",
       "description": "Publish validated Rootform packages to a registry repository.",
-      "examples": "rootform publish dialects ./oci --to r.example/acme/dialects\n  rootform publish policy-packs ./oci --to r.example/acme/policies",
+      "examples": "rootform publish dialects ./oci --to registry.example.com/acme/dialects\n  rootform publish policy-packs ./oci --to registry.example.com/acme/policies",
       "subcommands": [
         "rootform publish dialects",
         "rootform publish policy-packs"
@@ -1239,7 +1239,7 @@
       "usage": "rootform publish policy-packs \u003clayout\u003e [flags]",
       "summary": "Publish a verified Policy Pack registry layout",
       "description": "Validate an existing local Policy Pack registry layout, publish every pack\nto one registry repository, and repull each manifest by digest. Policy\nPacks are published exactly as selected. Dry-run remains offline.\n\nText or JSON result goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  publication or dry-run verification completed\n  2  the command was used incorrectly\n  3  publication could not be verified",
-      "examples": "rootform publish policy-packs ./oci --to registry.example/acme/policies\n  rootform publish policy-packs ./oci --to localhost:5000/acme/policies\n  rootform publish policy-packs ./oci --to registry.example/acme/policies \\\n    --dry-run --format json",
+      "examples": "rootform publish policy-packs ./oci --to registry.example.com/acme/policies\n  rootform publish policy-packs ./oci --to localhost:5000/acme/policies\n  rootform publish policy-packs ./oci --to registry.example.com/acme/policies \\\n    --dry-run --format json",
       "flags": [
         {
           "name": "dry-run",
@@ -1711,7 +1711,7 @@
       "usage": "rootform update \u003cobject\u003e [flags]",
       "summary": "Change a selection in rootform.lock",
       "description": "Record new content for one selected dialect or Policy Pack, or switch\nit to another exact source.",
-      "examples": "rootform update dialect payments\n  rootform update dialect payments ./dialects/payments-next\n  rootform update dialect payments registry.example.com/acme/payments:0.2.0\n  rootform update policy-pack baseline\n  rootform update policy-pack baseline ./policies\n  rootform update policy-pack baseline registry.example.com/acme/baseline:1.1.0",
+      "examples": "rootform update dialect payments\n  rootform update dialect payments ./dialects/payments-next\n  rootform update dialect payments \\\n    registry.example.com/acme/dialects:dialect-payments-0.2.0\n  rootform update policy-pack baseline\n  rootform update policy-pack baseline ./policies\n  rootform update policy-pack baseline \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.2.0",
       "subcommands": [
         "rootform update dialect",
         "rootform update policy-pack"
@@ -1740,7 +1740,7 @@
       "usage": "rootform update dialect \u003cname\u003e [source] [flags]",
       "summary": "Change one selected dialect",
       "description": "Change one selected dialect. With no source, a local selection is read\nagain from its recorded path, which records content you edited. With a\nsource, the selection switches to it. The source must declare the same\nname; a registry selection needs a source because no tag is recorded.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  nothing was written because a source or the result is invalid\n  2  the command was used incorrectly",
-      "examples": "rootform update dialect payments\n  rootform update dialect payments ./dialects/payments-next\n  rootform update dialect payments registry.example.com/acme/payments:0.2.0",
+      "examples": "rootform update dialect payments\n  rootform update dialect payments ./dialects/payments-next\n  rootform update dialect payments \\\n    registry.example.com/acme/dialects:dialect-payments-0.2.0",
       "flags": [
         {
           "name": "dry-run",
@@ -1785,7 +1785,7 @@
       "usage": "rootform update policy-pack \u003cname\u003e [source] [flags]",
       "summary": "Change one selected Policy Pack",
       "description": "Change one selected Policy Pack. With no source, a local selection is read\nagain from its recorded path, which records content you edited. With a\nsource, the selection switches to it. The source must declare the same\nname; a registry selection needs a source because no tag is recorded.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  nothing was written because a source or the result is invalid\n  2  the command was used incorrectly",
-      "examples": "rootform update policy-pack baseline\n  rootform update policy-pack baseline ./policies\n  rootform update policy-pack baseline registry.example.com/acme/baseline:1.1.0",
+      "examples": "rootform update policy-pack baseline\n  rootform update policy-pack baseline ./policies\n  rootform update policy-pack baseline \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.2.0",
       "flags": [
         {
           "name": "dry-run",

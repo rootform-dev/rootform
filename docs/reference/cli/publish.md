@@ -39,6 +39,6 @@ Publish validated Rootform packages to a registry repository.
 ## Examples
 
 ```sh
-rootform publish dialects ./oci --to r.example/acme/dialects
-rootform publish policy-packs ./oci --to r.example/acme/policies
+rootform publish dialects ./oci --to registry.example.com/acme/dialects
+rootform publish policy-packs ./oci --to registry.example.com/acme/policies
 ```

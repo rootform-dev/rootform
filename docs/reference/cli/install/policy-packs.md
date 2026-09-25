@@ -48,8 +48,10 @@ The summary goes to standard output. Diagnostics go to standard error.
 ## Examples
 
 ```sh
-rootform install policy-packs example.com/acme/pkg:1.0.0
-rootform install policy-packs --format json example.com/acme/pkg:1.0.0
+rootform install policy-packs \
+  registry.example.com/acme/policies:policy-pack-baseline-0.1.0
+rootform install policy-packs --format json \
+  registry.example.com/acme/policies:policy-pack-baseline-0.1.0
 rootform install policy-packs --offline \
-  example.com/acme/pkg@sha256:<digest>
+  registry.example.com/acme/policies@sha256:<digest>
 ```

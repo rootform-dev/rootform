@@ -133,7 +133,7 @@ Publication is separate and generic:
 <!-- docs-check:docs-language-write-policy-pack-4 -->
 ```sh
 rootform publish policy-packs ./artifacts/policies \
-  --to registry.example/team/policy-packs
+  --to registry.example.com/team/policy-packs
 ```
 
 V0 has no mutable Policy Pack index. Existing version tag with different

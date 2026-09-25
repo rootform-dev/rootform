@@ -55,6 +55,7 @@ The summary goes to standard output. Diagnostics go to standard error.
 
 ```sh
 rootform add policy-packs ./policies
-rootform add policy-packs registry.example.com/acme/baseline:1.0.0
+rootform add policy-packs \
+  registry.example.com/acme/policies:policy-pack-baseline-0.1.0
 rootform add policy-packs ./policies --dry-run
 ```

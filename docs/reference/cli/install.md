@@ -41,6 +41,8 @@ nothing for any project.
 ## Examples
 
 ```sh
-rootform install dialects registry.example.com/acme/payments:0.1.0
-rootform install policy-packs registry.example.com/acme/baseline:1.0.0
+rootform install dialects \
+  registry.example.com/acme/dialects:dialect-payments-0.1.0
+rootform install policy-packs \
+  registry.example.com/acme/policies:policy-pack-baseline-0.1.0
 ```
