@@ -252,7 +252,7 @@ The reference is illustrative; use the published reference you reviewed.
 Run `add` from the same project root that `init` and `build` use. Set
 `DOCKER_CONFIG` before acquisition if the registry needs credentials. `init`
 acquires only recorded exact pins. See
-[Where Rootform stores external content](reference/storage.md) for locations.
+[External content storage](reference/storage.md) for locations.
 
 <!-- rootform:endsteps -->
 

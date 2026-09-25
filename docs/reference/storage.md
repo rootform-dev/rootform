@@ -1,5 +1,5 @@
 ---
-title: "Where Rootform stores external content"
+title: "External content storage"
 description: "Locations and ownership of installed, selected, and vendored Rootform content."
 ---
 

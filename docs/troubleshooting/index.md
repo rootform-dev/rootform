@@ -126,7 +126,7 @@ the diagnostic, for example `rootform uninstall dialects payments@0.1.0` or
 `rootform uninstall policy-packs baseline@0.1.0`. Then run
 `rootform init . --locked --no-input` to install the exact pinned bytes
 again. The lock does not change. See
-[Where Rootform stores external content](../reference/storage.md).
+[External content storage](../reference/storage.md).
 
 ## Vendored content is incomplete or altered
 
@@ -143,7 +143,7 @@ rootform vendor policy-packs
 Run the command for the affected family, not both by default. Use `--offline`
 only if verified local source or installed OCI bytes already exist. Vendor
 preserves the lock. See
-[Where Rootform stores external content](../reference/storage.md).
+[External content storage](../reference/storage.md).
 
 ## An offline add or update refuses a tag
 

@@ -160,4 +160,4 @@ according to the filtered Policies' outcomes.
 
 - [Use a local Dialect while authoring](../guides/local-dialect.md)
 - [Add external content](../guides/external-content.md)
-- [Where Rootform stores external content](../reference/storage.md)
+- [External content storage](../reference/storage.md)
