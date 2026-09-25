@@ -34,7 +34,7 @@ steps:
       archive="$artifact_dir/rootform-results.tar"
       set --
       if [ -d "$results" ] && [ ! -L "$results" ]; then
-        for file in init.json init.stderr architecture.json build.stderr check.json check.stderr check.status; do
+        for file in init.json init.stderr architecture.json build.stderr diff.json diff.md diff.stderr check.json check.stderr check.status; do
           if [ -f "$results/$file" ] && [ ! -L "$results/$file" ]; then
             set -- "$@" "$file"
           fi

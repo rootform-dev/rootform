@@ -6,6 +6,7 @@ project=${ROOTFORM_PROJECT:-.}
 output=${ROOTFORM_OUTPUT_DIR:-.rootform-ci}
 policy_pack=${ROOTFORM_POLICY_PACK:-}
 check=${ROOTFORM_CHECK:-0}
+plan=${ROOTFORM_PLAN:-}
 
 case "$output" in
   -*) printf '%s\n' 'ROOTFORM_OUTPUT_DIR must not start with -' >&2; exit 2 ;;
@@ -69,13 +70,13 @@ fi
 
 # This script owns only these names. Clear them before validating run options,
 # so rejected configurations cannot expose results from a previous invocation.
-for name in init.json init.stderr architecture.json build.stderr check.json check.stderr check.status; do
+for name in init.json init.stderr architecture.json build.stderr diff.json diff.md diff.stderr check.json check.stderr check.status; do
   if [ -d "$output/$name" ] && [ ! -L "$output/$name" ]; then
     printf 'Result path is a directory: %s\n' "$output/$name" >&2
     exit 2
   fi
 done
-for name in init.json init.stderr architecture.json build.stderr check.json check.stderr check.status; do
+for name in init.json init.stderr architecture.json build.stderr diff.json diff.md diff.stderr check.json check.stderr check.status; do
   rm -f "$output/$name"
 done
 
@@ -86,6 +87,36 @@ esac
 if [ "$check" = 0 ] && [ -n "$policy_pack" ]; then
   printf '%s\n' 'ROOTFORM_POLICY_PACK requires ROOTFORM_CHECK=1' >&2
   exit 2
+fi
+
+# Plan mode reads a completed JSON plan export. Rootform reads the project
+# selection from its working directory, so every plan command runs inside the
+# project directory through a subshell. The script's own directory never
+# changes; relative plan, pack, and binary paths are resolved first.
+plan_file=
+pack_path=$policy_pack
+if [ -n "$plan" ]; then
+  case "$plan" in
+    -*) printf '%s\n' 'ROOTFORM_PLAN must name a JSON plan file, not standard input' >&2; exit 2 ;;
+  esac
+  if [ ! -f "$plan" ]; then
+    printf 'ROOTFORM_PLAN is not a file: %s\n' "$plan" >&2
+    exit 2
+  fi
+  if [ ! -d "$project" ]; then
+    printf 'ROOTFORM_PROJECT must be a directory when ROOTFORM_PLAN is set: %s\n' "$project" >&2
+    exit 2
+  fi
+  plan_file=$(cd "$(dirname "$plan")" && pwd -P)/$(basename "$plan")
+  case "$rootform_bin" in
+    /*) ;;
+    */*) rootform_bin=$(cd "$(dirname "$rootform_bin")" && pwd -P)/$(basename "$rootform_bin") ;;
+  esac
+  if [ -d "$policy_pack" ]; then
+    pack_path=$(cd "$policy_pack" && pwd -P)
+  elif [ -f "$policy_pack" ]; then
+    pack_path=$(cd "$(dirname "$policy_pack")" && pwd -P)/$(basename "$policy_pack")
+  fi
 fi
 
 locked=0
@@ -99,6 +130,17 @@ if [ "$locked" = 1 ]; then
   else
     "$rootform_bin" init "$project" --locked --no-input --format json >"$output/init.json" 2>"$output/init.stderr"
   fi
+fi
+
+if [ -n "$plan" ]; then
+  if [ "$locked" = 1 ]; then
+    (cd "$project" && "$rootform_bin" build --plan "$plan_file" --locked --format json) >"$output/architecture.json" 2>"$output/build.stderr"
+  else
+    (cd "$project" && "$rootform_bin" build --plan "$plan_file" --format json) >"$output/architecture.json" 2>"$output/build.stderr"
+  fi
+  (cd "$project" && "$rootform_bin" diff --plan "$plan_file" --format json) >"$output/diff.json" 2>"$output/diff.stderr"
+  (cd "$project" && "$rootform_bin" diff --plan "$plan_file" --format markdown) >"$output/diff.md" 2>>"$output/diff.stderr"
+elif [ "$locked" = 1 ]; then
   "$rootform_bin" build "$project" --locked --format json >"$output/architecture.json" 2>"$output/build.stderr"
 else
   "$rootform_bin" build "$project" --format json >"$output/architecture.json" 2>"$output/build.stderr"
@@ -109,7 +151,13 @@ if [ "$check" = 0 ]; then
 fi
 
 set +e
-if [ -n "$policy_pack" ]; then
+if [ -n "$plan" ] && [ -n "$policy_pack" ]; then
+  (cd "$project" && "$rootform_bin" check --plan "$plan_file" --policy-pack "$pack_path" --format json) >"$output/check.json" 2>"$output/check.stderr"
+elif [ -n "$plan" ] && [ "$locked" = 1 ]; then
+  (cd "$project" && "$rootform_bin" check --plan "$plan_file" --locked --format json) >"$output/check.json" 2>"$output/check.stderr"
+elif [ -n "$plan" ]; then
+  (cd "$project" && "$rootform_bin" check --plan "$plan_file" --format json) >"$output/check.json" 2>"$output/check.stderr"
+elif [ -n "$policy_pack" ]; then
   "$rootform_bin" check "$project" --policy-pack "$policy_pack" --format json >"$output/check.json" 2>"$output/check.stderr"
 elif [ "$locked" = 1 ]; then
   "$rootform_bin" check "$project" --locked --format json >"$output/check.json" 2>"$output/check.stderr"
