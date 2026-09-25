@@ -214,11 +214,13 @@ ignore invalid presentation; `rootform package dialects` rejects it. See
 
 ## Package and publish a Dialect
 
-Packaging stays local and offline:
+Packaging stays local and offline. Package a Dialect with its own owner, such
+as the local `payments` Dialect; embedded owners such as `aws` cannot be
+packaged:
 
 <!-- docs-check:docs-dialect-authoring-3 -->
 ```sh
-rootform package dialects . --to artifacts/oci \
+rootform package dialects ./dialects/payments --to artifacts/oci \
   --source-url https://example.com/team/dialects \
   --revision "$(git rev-parse HEAD)" \
   --documentation-url https://example.com/team/dialects/docs \
@@ -243,7 +245,8 @@ records the exact identity:
 <!-- docs-check:authoring-add-published -->
 ```sh
 cd ./infra
-rootform add dialects registry.example.com/acme/payments:0.1.0
+rootform add dialects \
+  registry.example.com/team/dialects:dialect-payments-0.1.0
 rootform init . --locked --no-input
 rootform build . --locked
 ```

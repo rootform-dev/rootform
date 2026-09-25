@@ -147,7 +147,8 @@ selection:
 <!-- docs-check:policy-authoring-add-published -->
 ```sh
 cd ./infra
-rootform add policy-packs registry.example.com/acme/baseline:0.1.0
+rootform add policy-packs \
+  registry.example.com/team/policy-packs:policy-pack-baseline-0.1.0
 rootform init . --locked --no-input
 rootform check . --locked
 ```

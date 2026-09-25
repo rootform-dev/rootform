@@ -1,13 +1,24 @@
 #!/usr/bin/env bun
 
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
-import { isAbsolute, join, resolve } from "node:path";
+import { isAbsolute, join, relative, resolve } from "node:path";
+import { verifyAuthoringExamples } from "./docs-authoring-examples.ts";
 import { verifyCliBehavior } from "./docs-cli-behavior.ts";
-import { verifyCoreExamples } from "./docs-core-examples.ts";
+import { extractedMarkers, verifyCoreExamples } from "./docs-core-examples.ts";
 import { verifyLanguageExamples } from "./docs-language-examples.ts";
 import { verifyProjectConfigurationExamples } from "./docs-project-configuration-examples.ts";
+import { verifyReferenceExamples } from "./docs-reference-examples.ts";
+import { registryMarkers } from "./docs-registry-examples.ts";
 import { verifyReviewExamples } from "./docs-review-examples.ts";
 
 const repoRoot = resolve(import.meta.dir, "..");
@@ -79,6 +90,35 @@ function documentedFlags(text: string): string[] {
   return [...new Set([...text.matchAll(/(--[a-z][a-z0-9-]*)/gu)].map((match) => match[1] ?? ""))]
     .filter(Boolean)
     .sort();
+}
+
+function documentedMarkers(directory: string): Map<string, string> {
+  const markers = new Map<string, string>();
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) {
+      for (const [name, page] of documentedMarkers(path)) markers.set(name, page);
+    } else if (entry.name.endsWith(".md")) {
+      for (const match of readFileSync(path, "utf8").matchAll(/<!-- docs-check:([^ ]+) -->/gu)) {
+        markers.set(match[1] ?? "", relative(repoRoot, path));
+      }
+    }
+  }
+  return markers;
+}
+
+/* Every marked documentation command runs either here or in the registry lane
+   (bun run test:docs-registry), so no marked example can silently drift. */
+function assertEveryMarkerExecuted(): number {
+  const covered = new Set<string>([...extractedMarkers, ...registryMarkers]);
+  const markers = documentedMarkers(join(repoRoot, "docs"));
+  const unexecuted = [...markers]
+    .filter(([name]) => !covered.has(name))
+    .map(([name, page]) => `${page}: ${name}`)
+    .sort();
+  if (unexecuted.length > 0)
+    fail(`documented commands not executed:\n  ${unexecuted.join("\n  ")}`);
+  return markers.size;
 }
 
 const binary = binaryPath();
@@ -207,6 +247,12 @@ try {
   steps.push(...verifyReviewExamples(binary, repoRoot, workspace, home));
   steps.push(...verifyProjectConfigurationExamples(binary, repoRoot, workspace, home));
   steps.push(...verifyLanguageExamples(binary, repoRoot, workspace, home));
+  steps.push(...(await verifyReferenceExamples(binary, repoRoot, workspace, home)));
+  steps.push(...verifyAuthoringExamples(binary, repoRoot, workspace, home));
+  const markerCount = assertEveryMarkerExecuted();
+  steps.push(
+    `all ${markerCount} documented command markers executed (${registryMarkers.length} in the registry lane)`,
+  );
   console.log(`documentation examples: PASS (${steps.length} checks)`);
   for (const step of steps) console.log(`  - ${step}`);
 } finally {

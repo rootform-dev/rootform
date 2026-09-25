@@ -115,7 +115,8 @@ its reference:
 
 <!-- docs-check:local-dialect-6 -->
 ```sh
-rootform add dialects registry.example.com/acme/rootform/payments:0.1.0
+rootform add dialects \
+  registry.example.com/acme/rootform/payments:dialect-payments-0.1.0
 ```
 
 To move a project from the local source to the published artifact, run
