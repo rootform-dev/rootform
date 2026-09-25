@@ -1,126 +1,62 @@
 ---
 title: "Locks and vendored content"
-description: "Understand exact project selection, offline preparation, storage, and fail-closed vendoring."
+description: "Understand the security boundary of exact project selection, offline preparation, and vendoring."
 ---
 
-`rootform.lock` records a project's explicit Rootform content selection.
-Preparation verifies that selection. Vendoring carries selected content inside
-the project and becomes an exclusive execution source.
+`rootform.lock` fixes a project's external content selection. `--offline`
+controls acquisition when preparing it. Vendored content lets the project
+carry its selection without relying on installed copies. For the state model,
+see [Install, add, and vendor](concepts/external-content.md); for paths, see
+[Where Rootform stores external content](reference/storage.md).
 
-## What does rootform.lock fix?
+## What does the lock fix?
 
-Format `1` records external Dialects, Policy Pack sources, embedded-owner
-exclusions, and explicit replacements. Each selected unit has an exact name,
-version, compiled `content_digest`, and either a local path or complete OCI
-identity.
+Format `1` records selected external Dialects and Policy Packs, embedded owner
+exclusions, and replacements. Each selected unit has an exact name, version,
+content identity, and local path or OCI source. An OCI tag is resolved when
+selection changes and is never recorded. Commit and review the lock with the
+source change it supports.
 
-The lock does not record Rootform binary version, embedded release-set pins,
-Terraform or OpenTofu provider versions, provider installation, modules,
-backend state, or credentials. It is also not proof that a Policy Pack was
-selected. The required `policy_packs` array can be empty.
+The lock does not record the Rootform binary, Terraform or OpenTofu providers,
+modules, backend state, or credentials. Provider packages remain governed by
+`.terraform.lock.hcl`. The [lock contract](../contracts/rootform-lock.md)
+defines exact fields and validation.
 
-Rootform commands never create, normalize, or update the lock. Use
-[external content](guides/external-content.md) to write one from reviewed
-identities. The exact fields are defined by the
-[`rootform.lock` contract](../contracts/rootform-lock.md).
+## Preparation and offline controls
 
-## How is this different from .terraform.lock.hcl?
+`rootform init --locked` requires an existing valid lock. It verifies the
+selected local, installed, or vendored content. It may fetch missing OCI
+content only by the exact identity in the lock. It never selects a new version
+or changes the lock. Analysis commands do not acquire content.
 
-`.terraform.lock.hcl` belongs to Terraform or OpenTofu and pins provider
-packages. `rootform.lock` belongs to Rootform and selects architecture Dialects
-and governance Policy Packs. Neither file replaces the other.
+`--offline` and `ROOTFORM_OFFLINE=1` forbid acquisition by `install`, `add`,
+`update`, `init`, and `vendor`. A tag needs a registry lookup, so offline
+selection requires a local source or an already installed digest reference.
+`init --locked --offline` verifies that the selection is available locally
+without acquiring anything. `--no-input` disables prompts, not network use.
+`--locked` alone still permits `init` to fetch exact missing OCI content.
 
-## What does init do?
+## Why vendored content is exclusive
 
-`rootform init [path]` prepares selections that already exist:
+When `.rootform/dialects/` exists, Rootform reads selected Dialects only from
+that tree. The same rule applies to `.rootform/policy-packs/`. Missing, extra,
+or changed content fails closed; Rootform does not substitute content from
+another location. This prevents a damaged project copy from silently changing
+the result on a machine with different installed content. Restore the family
+with `rootform vendor` and verify it with `rootform init --locked --offline`.
 
-- local entries are compiled and compared with locked identity
-- installed content is verified before reuse
-- missing OCI entries may be acquired only by locked repository and manifest
-  digest when network access is allowed
-- lock bytes remain unchanged
-
-With no lock, ordinary `init` prepares an empty external selection. With
-`--locked`, a missing or invalid lock fails. `init` never detects providers,
-chooses a version, or adds a Policy Pack.
-
-## How do --locked and --offline differ?
-
-| Control | Guarantee |
-| --- | --- |
-| `--locked` | Require a valid existing lock and preserve it. `init --locked` may still acquire an exact missing OCI pin. |
-| `--offline` | Forbid acquisition for commands that can prepare or vendor content. Required bytes must already be local. |
-| `--no-input` | Disable prompts. It does not change selection or network policy. |
-
-`build`, `check`, and `run` never acquire content implicitly. Their `--locked`
-flag requires the lock and keeps execution read-only with respect to selection.
-Prepare missing content explicitly with `init` or `vendor`.
-
-## Where does Rootform read selected content?
-
-Embedded RF Vocabulary and supplied Dialects stay inside the exact Rootform
-binary. They are never installed or vendored separately.
-
-External content can come from these locations:
-
-```tree title="Shared Rootform home"
-$ROOTFORM_HOME/dialects/<owner>/<version>/
-$ROOTFORM_HOME/policy-packs/<name>/<version>/
-```
-
-```tree title="Project vendor"
-.rootform/dialects/<owner>/
-.rootform/policy-packs/<name>/
-```
-
-Local lock entries read their project-relative source paths when no vendor tree
-for that family exists. OCI entries read verified installed content from
-`ROOTFORM_HOME` after explicit preparation.
-
-Policy Pack source directories contain the authored manifest and policies. A
-compiled Policy Pack is a strict replay artifact linked to one semantic
-snapshot. `$ROOTFORM_HOME/cache/linked-policy-packs` is a derived cache that
-Rootform can rebuild. It is neither selection authority nor content to vendor.
-
-## What changes when vendor exists?
-
-```sh
-rootform vendor dialects
-rootform vendor policy-packs
-```
-
-These commands write `.rootform/dialects` and `.rootform/policy-packs`. Each
-always reads selection from `rootform.lock` in the current project. An explicit
-`--to` changes only the destination and never selects another project or lock.
-
-Presence of one vendor family makes that directory exclusive for its selected
-kind. Every locked entry must be present and exact. Missing, extra, or altered
-content fails before Rootform consults local source, shared home, cache, or a
-registry. Normal execution never repairs vendor state silently.
-
-Vendoring is explicit and atomic. It stages and verifies the complete selected
-family before replacing the destination. `vendor … --offline` permits only
-verified local, installed, or cached bytes and never changes the lock.
+[Reproduce a build offline](guides/reproduce-build.md) walks through transfer
+and independent replay.
 
 ## OCI mirror
 
-An OCI mirror copies the exact manifest, config, and layer descriptor graph
-without repackaging. Change only `source.oci.repository` in the lock. Manifest,
-layer, content digests, sizes, names, and versions remain identical.
+When moving an OCI selection to a mirror, copy the artifact without
+repackaging it. The mirror must serve the same recorded identity. Change only
+`source.oci.repository` in the lock, then run
+`rootform init . --locked --no-input` to verify the new source. Rootform
+does not repair an invalid lock.
 
-```sh
-rootform init . --locked --no-input
-```
-
-Rootform then contacts only the rewritten repository at the recorded manifest
-digest. Registry compatibility and private authentication follow the
-[OCI registry compatibility](integrations/registry-compatibility.md) contract.
-
-Docker configuration supplies registry credentials through `DOCKER_CONFIG`.
-`SSL_CERT_FILE` can add bounded PEM roots for online acquisition.
-`ROOTFORM_HOME` changes the shared Rootform home. `ROOTFORM_OFFLINE=1` requests
-offline behavior for `init` and `vendor`, while `ROOTFORM_INPUT=0` disables
-input. These settings do not change project selection.
-
-For an end-to-end transfer, continue with
-[Reproduce a build offline](guides/reproduce-build.md).
+`DOCKER_CONFIG` supplies registry credentials. `SSL_CERT_FILE` may supply
+trusted PEM roots for online acquisition. Neither belongs in `rootform.lock`.
+See [OCI registry compatibility](integrations/registry-compatibility.md) for
+the exact registry contract.

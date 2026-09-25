@@ -123,12 +123,13 @@ rootform check "$review_root/head/$root_module" \
 Use project-selected Policy Packs instead when the lock owns governance selection.
 [Run checks](../guides/check-architecture.md) explains outcomes and evidence.
 
-Export head architecture when visual inspection helps:
+Export the comparison as one page when visual inspection helps:
 
 <!-- docs-check:review-html -->
 ```sh
-rootform build "$review_root/head/$root_module" --format html \
-  --output "$review_root/results/after.html"
+rootform diff "$review_root/results/before.json" \
+  "$review_root/results/after.json" \
+  --format html --output "$review_root/results/architecture-diff.html"
 ```
 
 Reviewers should read:
@@ -138,9 +139,12 @@ Reviewers should read:
 | `architecture-diff.md` | Which architectural representations and facts changed? |
 | `architecture-diff.json` | Which determined and undetermined entries should automation process? |
 | `policy-result.json` | Which Policies ran, which targets they evaluated, and what outcomes resulted? |
-| `after.html` | What does After architecture contain and how is it organized? |
+| `architecture-diff.html` | Where does each change sit in the Before and After architecture? |
 
-HTML shows one architecture. It is not an interactive Diff report.
+The HTML page opens from disk without a running server. It carries the same
+comparison as the reports, with Before, Diff, and After stages. To inspect the
+comparison while the worktrees still exist, run the same `rootform diff` with
+`--serve` instead of `--format` and `--output`.
 
 ## Preserve results and clean temporary files
 
@@ -157,7 +161,7 @@ rm -f \
   "$review_root/results/architecture-diff.md" \
   "$review_root/results/architecture-diff.json" \
   "$review_root/results/policy-result.json" \
-  "$review_root/results/after.html"
+  "$review_root/results/architecture-diff.html"
 rmdir "$review_root/results"
 rmdir "$review_root"
 ```

@@ -3,26 +3,27 @@ title: "rootform list dialects"
 description: "List embedded and project-selected Dialects."
 ---
 
-`list dialects` reads the effective local Dialect catalog: content embedded
-in Rootform plus Dialects selected by the current project. Without
-`--dialect`, it lists all loaded owners. Repeat `--dialect` to select owners.
-This option filters the listing, not the project's lock.
+`list dialects` reads active Dialects: embedded content plus project
+selections and any `--dialect <dir>` override. Positional owner names filter
+the listing. `--installed` instead reads exact versions in the Rootform home
+without loading a project.
 
 <!-- BEGIN GENERATED CLI: rootform list dialects -->
 
 ## Usage
 
 ```text
-rootform list dialects [flags]
+rootform list dialects [name]... [flags]
 ```
 
 ## Flags
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | limit results to this dialect `name`; repeatable |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` -o, --format ` | ` string ` | ` "" ` | output `format`: text, wide, or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list dialects |
+| ` --installed ` | ` bool ` | ` false ` | list versions installed in the Rootform home |
 
 ## Inherited flags
 
@@ -32,8 +33,10 @@ rootform list dialects [flags]
 
 <!-- END GENERATED CLI -->
 
+<!-- docs-check:cli-list-dialect-owners -->
 ```sh
-rootform list dialects --dialect aws --dialect google -o wide
+rootform list dialects aws google -o wide
+rootform list dialects --installed -o wide
 rootform list dialects -o json
 ```
 

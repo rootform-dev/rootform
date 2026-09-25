@@ -3,7 +3,7 @@ title: "rootform show"
 description: "Inspect one Dialect or RF Vocabulary definition."
 ---
 
-`show` displays a loaded Dialect, the RF Vocabulary, or one declaration.
+`show` displays an active Dialect, the RF Vocabulary, or one declaration.
 A bare owner such as `google` shows that owner and its declarations. Use a
 qualified `owner.kind.name` such as `google.rule.cloud-sql-instance` for one
 declaration; a bare declaration name works only when unambiguous. These are
@@ -21,6 +21,7 @@ rootform show <name> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` -o, --format ` | ` string ` | ` "" ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show |
 
@@ -39,10 +40,14 @@ rootform show <name> [flags]
 
 <!-- END GENERATED CLI -->
 
+<!-- docs-check:cli-show -->
 ```sh
 rootform show google.rule.cloud-sql-instance
 rootform show rf.concept.virtual-network -o json
 ```
+
+`--dialect <dir>` overlays one Dialect owner for this inspection and leaves
+`rootform.lock` unchanged. Repeat it for different owners.
 
 Text or JSON goes to standard output, diagnostics to standard error. Status
 `0` means shown, `1` means definition not found, `2` means incorrect use,

@@ -3,11 +3,11 @@ title: "rootform vendor dialects"
 description: "Vendor the project's exact external Dialect selection."
 ---
 
-From the project root, `vendor dialects` copies the external Dialects pinned by
-its `rootform.lock`, with licenses and notices. The lock must select at least
-one external Dialect. Embedded Dialects, RF
-Vocabulary, Policy Packs, and derived caches are not copied. A prior `init`
-must target this same project if preparation is needed.
+From the project root, `vendor dialects` copies the external Dialects selected
+by its `rootform.lock`, with licenses and notices. The lock must select at least
+one external Dialect. Embedded Dialects, RF Vocabulary, Policy Packs, and
+derived content are not copied. `vendor` can fetch missing selected OCI
+content unless `--offline` is set.
 
 <!-- BEGIN GENERATED CLI: rootform vendor dialects -->
 
@@ -36,7 +36,7 @@ rootform vendor dialects [flags]
 `--to` changes the copy destination, not which project's lock is read. The
 default destination is `./.rootform/dialects`; when present, commands run from
 that project root use it exclusively for selected external Dialects. Use
-`--offline` to restrict copies to exact local or cached content. Neither
+`--offline` to restrict copies to exact local or installed content. Neither
 vendoring nor `--to` changes the lock.
 
 Start from a project whose lock selects an external Dialect, as in

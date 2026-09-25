@@ -22,6 +22,7 @@ rootform check [input] [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` --format ` | ` string ` | ` text ` | text/json/sarif/markdown `format` |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform check |
 | ` --locked ` | ` bool ` | ` false ` | require an existing valid rootform.lock |
@@ -41,12 +42,14 @@ rootform check [input] [flags]
 ## Select policies
 
 By default, `check` uses Policy Packs selected by the project's lock. A
-repeatable `--policy-pack` instead selects local source directories or compiled
-JSON packs for this invocation, replacing the project selection. A compiled
-pack retains its semantic pins. Repeatable `--policy` narrows evaluation to
-qualified `pack/name` identifiers or unique policy names. `--policy-pack` and
-`--locked` cannot be combined; neither a pack override nor a missing lock
-silently establishes compliance.
+repeatable `--policy-pack` overlays local source directories or compiled
+JSON packs by pack name for this invocation. Other selected packs remain
+active. `--dialect` similarly overrides one Dialect owner for directory
+input. A compiled pack retains its semantic pins. Repeatable `--policy`
+narrows evaluation to qualified `pack/name` identifiers, unique Policy names,
+or `<pack>/*` for every Policy in one pack. `--policy-pack` or `--dialect`
+cannot be combined with `--locked`; neither a pack override nor a missing
+lock silently establishes compliance.
 
 The examples assume a project and local `./policies` pack as created in
 [Run checks](../../guides/check-architecture.md). Save `architecture.json`
@@ -55,7 +58,7 @@ with `build` before using it as input.
 <!-- docs-check:cli-check -->
 ```sh
 rootform check . --policy-pack ./policies
-rootform check architecture.json --policy-pack ./policies --policy subnet-network-context
+rootform check architecture.json --policy-pack ./policies --policy 'tutorial/*'
 rootform check . --policy-pack ./policies --format sarif --output result.sarif
 ```
 

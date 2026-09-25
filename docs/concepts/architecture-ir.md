@@ -23,7 +23,7 @@ interpret source. The same document can be inspected later even when the
 current Rootform binary contains newer embedded Dialects.
 
 The semantic snapshot includes the RF Language version, release-set identity, RF
-Vocabulary, Dialects, effective exclusions and replacements, definitions,
+Vocabulary, Dialects, active exclusions and replacements, definitions,
 Rules, and emission contracts. Diff uses this snapshot to decide which
 conclusions remain comparable. Policy linking resolves qualified references
 against it.
@@ -34,7 +34,7 @@ against it.
 | --- | --- |
 | `format_version`, `generator` | Document contract version and producer identity |
 | `source` | Normalization contract, declarations, locations, dependencies, and source accounting |
-| `semantics` | Release set, effective selection, owners, definitions, Rules, and emissions |
+| `semantics` | Release set, active selection, owners, definitions, Rules, and emissions |
 | `architecture` | Representations, Contexts, Contributions, Relations, omissions, and architecture accounting |
 | `resolutions` | Bounded provenance behind established facts |
 | `diagnostics` | Canonical sanitized diagnostics tied to phase and object |

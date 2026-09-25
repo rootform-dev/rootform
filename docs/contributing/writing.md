@@ -31,7 +31,7 @@ public when it changes what a user can do.
 | --- | --- |
 | “The installer describes the target v0.1 experience but is not published yet.” | Put the recommended install command first. Track installer publication internally. |
 | “These guides use a newer documentation verification build than the release.” | Describe the behavior users receive with v0.1. Block release until the binary contains it. |
-| “The selected Dialect is only available in our documentation fixture.” | Use a supplied Dialect or document the exact external selection a user can acquire. |
+| “The selected Dialect is only available in our documentation fixture.” | Use an embedded Dialect or document the exact external selection a user can acquire. |
 | A candidate-gate matrix on a user container page. | Document supported platforms, mounts, credentials, and runtime behavior. Keep release qualification in an internal runbook. |
 
 ## Give every page one job
@@ -98,6 +98,22 @@ a clear home, keep only the local consequence and link. Repeated boilerplate
 across generated pages belongs in their shared overview.
 
 ## Make claims precise
+
+Use one term for each external-content state. The full explanation belongs in
+[Install, add, and vendor](../concepts/external-content.md).
+
+| Term | Meaning | Avoid as an alias |
+| --- | --- | --- |
+| embedded | ships inside the `rootform` binary | supplied, bundled, built-in, official as a state |
+| installed | verified OCI content in `$ROOTFORM_HOME` on this machine | cached, downloaded, available as a state; local source |
+| selected | recorded in `rootform.lock` | configured, enabled, pinned as a state, locked as a unit state |
+| vendored | selected bytes copied into `.rootform/` and read only from there | cached, bundled |
+| active | used by one command run | effective, loaded |
+| override | supplied by `--dialect` or `--policy-pack` for one run | local selection, temporary selection |
+| prepare | what `init` does: verify local, installed, or vendored content and possibly fetch missing OCI content | install for every `init` |
+
+“Exact identity” names what the lock records. Reserve “pin” for digests
+inside identities and “cache” for derived content under `$ROOTFORM_HOME/cache`.
 
 Name the input, behavior, result, and boundary. A diagram describes declared
 architecture, not live connectivity. An unresolved result is not a pass. A
@@ -170,7 +186,7 @@ dots in technical prose.
 | In this guide, we will explore how to get started with Rootform. | Build a VPC and subnet from a small Terraform configuration. |
 | Simply leverage the offline flag for seamless local execution. | Use `init --offline` or `vendor … --offline` to prevent acquisition. Selected third-party content must already be available locally. |
 | Rootform ensures your infrastructure is secure. | `rootform check` evaluates policies selected for this project. |
-| Current access: the executable emits text, JSON, and Markdown. | `rootform diff` emits text, JSON, or Markdown. |
+| Current access: the executable emits text, JSON, Markdown, and HTML. | `rootform diff` emits text, JSON, Markdown, or HTML. |
 | With these steps, you are ready to continue. | Link to next concrete task, or stop. |
 
 ## Use structure only when it reveals meaning
@@ -228,7 +244,7 @@ Use these examples to choose scope and wording:
 | A Dialects concept page teaching source-priority and registry resolution algorithms. | Explain how Dialects change architecture meaning; link acquisition details to offline operation. |
 | A check walkthrough ending with an unrelated pack that evaluates zero targets. | Follow one policy through pass, violation, indeterminate evidence, then the same gate in CI. |
 | Describing `moved` as a machine Diff entry state. | Explain that the Diff view strictly derives a move from removed and added context facts. |
-| “The first run needs registry access.” | “A selected third-party Dialect or Policy Pack may need network access until its pinned content is installed or vendored.” |
+| “The first run needs registry access.” | “A missing selected OCI Dialect or Policy Pack may need registry access during `init`. Local selections use their recorded paths.” |
 
 ## Make examples executable
 

@@ -53,9 +53,10 @@ described in [Project configuration](../cli.md).
 
 ## Keep external packages between runs
 
-`ROOTFORM_HOME` holds verified external Dialects and Policy Packs. A named
-volume preserves them across containers while the project lock stays in the
-workspace. Prepare an existing selection explicitly:
+`ROOTFORM_HOME` holds installed OCI Dialects and Policy Packs. A named volume
+preserves them across containers while the project lock stays in the workspace.
+Local selections use their recorded project paths and need no package volume.
+Prepare an existing OCI selection explicitly:
 
 ```sh
 docker volume create rootform-home
@@ -77,7 +78,7 @@ precedence and [Run in CI](ci/README.md) for runner orchestration.
 Prepare `rootform.lock` and the needed `.rootform/dialects` and
 `.rootform/policy-packs` directories before disconnecting. A build needs
 selected Dialects, while a locked check also needs selected Policy Packs.
-Embedded RF Vocabulary and supplied Dialects are already in the image.
+Embedded RF Vocabulary and embedded Dialects are already in the image.
 
 Docker must have the chosen image locally before the container starts.
 `--network none` isolates the running container but does not stop Docker from
@@ -147,6 +148,6 @@ inside the container. See [Registry compatibility](registry-compatibility.md).
 | Binary license | Elastic-2.0 |
 
 The image includes the Rootform executable, embedded RF Vocabulary and
-supplied Dialects, binary license, third-party notices, and SPDX SBOM. It does
+embedded Dialects, binary license, third-party notices, and SPDX SBOM. It does
 not include external Dialects or Policy Packs, Terraform/OpenTofu, provider
 binaries, Git, registry credentials, or the project source.

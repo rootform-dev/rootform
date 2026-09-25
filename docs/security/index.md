@@ -12,17 +12,20 @@ to explicit preparation or publication, plus the loopback server used by
 
 | Operation | Rootform network behavior |
 | --- | --- |
-| `rootform init` | With an existing OCI selection, may acquire missing exact pinned content from its recorded registry. This is possible with or without `--locked`. |
-| `rootform vendor dialects` and `rootform vendor policy-packs` | May acquire exact locked content when local or cached bytes are missing and acquisition is allowed. |
+| `rootform install` | Resolves and verifies OCI references for this machine. It does not select content for a project. |
+| `rootform add` and `rootform update` | Local sources stay local. OCI references may require registry access to resolve and install exact content. |
+| `rootform init` | With an existing OCI selection, may acquire missing exact content from its recorded registry. This is possible with or without `--locked`. |
+| `rootform vendor dialects` and `rootform vendor policy-packs` | Copy selected local sources directly. May acquire and install missing exact OCI content before vendoring when acquisition is allowed. |
 | `rootform publish dialects` and `rootform publish policy-packs` | Deliberately write package artifacts to a registry and repull their exact identity. |
 | `rootform package` | Creates local OCI layouts without registry access. |
 | `build`, `check`, `diff`, `explain`, `list`, `show`, `validate`, and `test` | Use available embedded, local, installed, or vendored content. They never acquire packages implicitly. |
 | `rootform run` | Serves the local architecture over loopback. It does not make an outbound Rootform connection or acquire packages. |
 
 `--locked` requires and preserves an existing `rootform.lock`; it does not
-disable network acquisition by `init`. `--offline` controls acquisition for
-`init` and `vendor`. Normal analysis fails when selected external content is
-unavailable rather than repairing it silently. See
+disable network acquisition by `init`. `--offline` prevents acquisition by
+`install`, `add`, `update`, `init`, and `vendor`. An offline OCI tag cannot be
+resolved; an already installed digest reference can be used. Normal analysis
+fails when selected external content is unavailable. See
 [Locks and vendored content](../offline-security.md) for selection and
 [Registry compatibility](../integrations/registry-compatibility.md) for the
 tested transport boundary.

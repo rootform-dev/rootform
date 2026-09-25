@@ -40,9 +40,10 @@ does not need registry catalog or tag listing.
 | `content_digest` | Identity of the compiled Dialect or Policy Pack content, not a substitute for either OCI digest. |
 
 `rootform publish` reports the repository, tag, digests, and sizes. Review that
-identity before recording the complete pin in `rootform.lock`. `rootform init`
-then requests the recorded repository and manifest digest directly. It does
-not search tags or choose a newer version. See
+identity, then record it with `rootform add dialects REFERENCE` or
+`rootform add policy-packs REFERENCE`, which writes the complete pin to
+`rootform.lock`. `rootform init` then requests the recorded repository and
+manifest digest directly. It does not search tags or choose a newer version. See
 [Locks and vendored content](../offline-security.md) for exact selection and
 the [OCI mirror procedure](../offline-security.md#oci-mirror) for moving the
 same descriptor graph without changing its digests.

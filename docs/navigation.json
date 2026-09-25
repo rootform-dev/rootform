@@ -29,7 +29,8 @@
     "label": "Project configuration",
     "items": [
       { "label": "Select Dialects and Policy Packs", "page": "cli" },
-      { "label": "Use external Dialects and Policy Packs", "page": "guides/external-content" },
+      { "label": "Add external content", "page": "guides/external-content" },
+      { "label": "Use a local Dialect while authoring", "page": "guides/local-dialect" },
       { "label": "Locks and vendored content", "page": "offline-security" },
       { "label": "Reproduce a build offline", "page": "guides/reproduce-build" }
     ]
@@ -38,6 +39,7 @@
     "label": "Understand Rootform",
     "items": [
       { "label": "Core concepts", "page": "concepts" },
+      { "label": "Install, add, and vendor", "page": "concepts/external-content" },
       { "label": "Dialects and RF Vocabulary", "page": "concepts/dialects" },
       { "label": "Policies and Policy Packs", "page": "concepts/policies" },
       { "label": "Architecture Diff", "page": "concepts/diff" },
@@ -98,11 +100,20 @@
     "label": "Reference",
     "items": [
       { "label": "Outputs and exit status", "page": "reference/outputs" },
+      { "label": "Where Rootform stores external content", "page": "reference/storage" },
       {
         "label": "CLI reference",
         "collapsed": true,
         "items": [
           { "label": "Overview", "page": "reference/cli" },
+          {
+            "label": "add",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/add" },
+              { "label": "dialects", "page": "reference/cli/add/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/add/policy-packs" }
+            ]
+          },
           { "label": "build", "page": "reference/cli/build" },
           { "label": "check", "page": "reference/cli/check" },
           {
@@ -125,6 +136,14 @@
           },
           { "label": "fmt", "page": "reference/cli/fmt" },
           { "label": "init", "page": "reference/cli/init" },
+          {
+            "label": "install",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/install" },
+              { "label": "dialects", "page": "reference/cli/install/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/install/policy-packs" }
+            ]
+          },
           {
             "label": "list",
             "items": [
@@ -151,6 +170,14 @@
               { "label": "policy-packs", "page": "reference/cli/publish/policy-packs" }
             ]
           },
+          {
+            "label": "remove",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/remove" },
+              { "label": "dialects", "page": "reference/cli/remove/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/remove/policy-packs" }
+            ]
+          },
           { "label": "run", "page": "reference/cli/run" },
           {
             "label": "show",
@@ -161,6 +188,22 @@
             ]
           },
           { "label": "test", "page": "reference/cli/test" },
+          {
+            "label": "uninstall",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/uninstall" },
+              { "label": "dialects", "page": "reference/cli/uninstall/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/uninstall/policy-packs" }
+            ]
+          },
+          {
+            "label": "update",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/update" },
+              { "label": "dialect", "page": "reference/cli/update/dialect" },
+              { "label": "policy-pack", "page": "reference/cli/update/policy-pack" }
+            ]
+          },
           {
             "label": "validate",
             "items": [

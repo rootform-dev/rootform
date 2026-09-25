@@ -42,7 +42,7 @@ with the Rootform version, a small synthetic example that reproduces the
 surprise, what you observed, and what you expected. You do not need to classify
 the internal accounting or know content digests before reporting it.
 
-When relevant, add the provider and version, effective Dialect, diagnostic,
+When relevant, add the provider and version, active Dialect, diagnostic,
 and provider documentation that supports the expected interpretation. Never
 include credentials, customer data, state, real plans, or private paths.
 

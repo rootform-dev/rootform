@@ -344,12 +344,14 @@ test("user documentation navigation follows the task-oriented structure", () => 
   ]);
   expect(labels("Project configuration")).toEqual([
     "Select Dialects and Policy Packs",
-    "Use external Dialects and Policy Packs",
+    "Add external content",
+    "Use a local Dialect while authoring",
     "Locks and vendored content",
     "Reproduce a build offline",
   ]);
   expect(labels("Understand Rootform")).toEqual([
     "Core concepts",
+    "Install, add, and vendor",
     "Dialects and RF Vocabulary",
     "Policies and Policy Packs",
     "Architecture Diff",
@@ -391,6 +393,7 @@ test("user documentation navigation follows the task-oriented structure", () => 
   const reference = group("Reference");
   expect(reference.items.map((item) => item.label)).toEqual([
     "Outputs and exit status",
+    "Where Rootform stores external content",
     "CLI reference",
     "Container image",
     "Registry compatibility",
@@ -447,8 +450,12 @@ test("local review guides preserve Diff, Policy, and Git boundaries", () => {
   const review = readFileSync(join(root, "docs/workflows/index.md"), "utf8");
 
   expect(compare).toContain("rootform diff before.json after.json --format markdown");
-  expect(compare).toMatch(/no CLI entry\s+point or HTML format for an interactive Diff/u);
-  expect(compare).not.toMatch(/rootform diff[^\n]*(?:--format html|--html)/u);
+  expect(compare).toContain("rootform diff before.json after.json --serve");
+  expect(compare).toContain(
+    "rootform diff before.json after.json --format html --output architecture-diff.html",
+  );
+  expect(compare).toMatch(/excludes `--format`, `--output`, and\s+`--exit-code`/u);
+  expect(compare).not.toMatch(/rootform build[^\n]*--format html/u);
 
   for (const marker of [
     "policy-violation",
@@ -462,7 +469,10 @@ test("local review guides preserve Diff, Policy, and Git boundaries", () => {
   expect(checks).toContain("aws_instance.subnet_id");
   expect(checks).toContain("aws_instance.implicit");
   expect(checks).not.toContain('resource "aws_subnet" "orphan"');
-  expect(checks).toMatch(/accepts neither `--input` nor `--policy-pack`/u);
+  expect(checks).toContain("<!-- docs-check:policy-explain-policy -->");
+  expect(checks).toMatch(
+    /explain policy tutorial\.policy\.subnet-network-context \\\n\s+--policy-pack \.\/policies --input architecture\.json/u,
+  );
 
   for (const command of ["git merge-base", "git worktree add", "git worktree remove"]) {
     expect(review).toContain(command);
@@ -470,6 +480,9 @@ test("local review guides preserve Diff, Policy, and Git boundaries", () => {
   expect(review).not.toMatch(/git (?:reset|clean|checkout)/u);
   expect(review).not.toContain("rm -r");
   expect(review).toContain("rm -f");
+  expect(review).toContain('--format html --output "$review_root/results/architecture-diff.html"');
+  expect(review).toContain('"$review_root/results/architecture-diff.html"\n');
+  expect(review).not.toContain("after.html");
 });
 
 test("project configuration guides keep decision, adoption, mechanism, and transfer separate", () => {
@@ -482,28 +495,19 @@ test("project configuration guides keep decision, adoption, mechanism, and trans
   expect(selection).not.toContain("manifest_digest");
   expect(selection).not.toContain("$ROOTFORM_HOME/cache");
 
-  for (const title of [
-    'title="rootform.lock (local Policy Pack)"',
-    'title="rootform.lock (local Dialect)"',
-    'title="rootform.lock (combined replay selection)"',
-    'title="rootform.lock (OCI template)"',
-  ]) {
-    expect(external).toContain(title);
-  }
-  expect(external).toContain("rootform list policy-packs --policy-pack");
-  expect(external).toContain("rootform package dialects ./third-party/confluent");
-  expect(external).not.toMatch(/rootform publish (?:dialects|policy-packs)/u);
-
-  for (const heading of [
-    "## What does rootform.lock fix?",
-    "## How is this different from .terraform.lock.hcl?",
-    "## What does init do?",
-    "## How do --locked and --offline differ?",
-    "## Where does Rootform read selected content?",
-    "## What changes when vendor exists?",
-  ]) {
-    expect(locks).toContain(heading);
-  }
+  const model = readFileSync(join(root, "docs/concepts/external-content.md"), "utf8");
+  const storage = readFileSync(join(root, "docs/reference/storage.md"), "utf8");
+  const localDialect = readFileSync(join(root, "docs/guides/local-dialect.md"), "utf8");
+  expect(model).toContain("## Four states");
+  expect(model).toContain("## Which content a command uses");
+  expect(storage).toContain("## What each command guarantees");
+  expect(localDialect).toContain("rootform update dialect payments");
+  expect(external).toContain("rootform add policy-packs ./policies");
+  expect(external).toContain("rootform init . --locked --no-input");
+  expect(external).not.toContain('title="rootform.lock (');
+  expect(external).not.toContain("jq ");
+  expect(locks).toContain("## Preparation and offline controls");
+  expect(locks).toContain("## Why vendored content is exclusive");
 
   for (const marker of [
     "offline-evidence-directory",
@@ -707,6 +711,7 @@ test("sidebar uses approved user-facing labels and placement", () => {
   ]);
   expect(labels("Understand Rootform")).toEqual([
     "Core concepts",
+    "Install, add, and vendor",
     "Dialects and RF Vocabulary",
     "Policies and Policy Packs",
     "Architecture Diff",
@@ -726,7 +731,8 @@ test("sidebar uses approved user-facing labels and placement", () => {
   ]);
   expect(labels("Project configuration")).toEqual([
     "Select Dialects and Policy Packs",
-    "Use external Dialects and Policy Packs",
+    "Add external content",
+    "Use a local Dialect while authoring",
     "Locks and vendored content",
     "Reproduce a build offline",
   ]);
@@ -737,6 +743,7 @@ test("sidebar uses approved user-facing labels and placement", () => {
   ]);
   expect(labels("Reference")).toEqual([
     "Outputs and exit status",
+    "Where Rootform stores external content",
     "CLI reference",
     "Container image",
     "Registry compatibility",

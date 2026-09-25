@@ -9,13 +9,14 @@ operation succeeded. Check the command's exit status and read its diagnostics.
 | Result | Command and format | Use |
 | --- | --- | --- |
 | Architecture JSON | `build` (default `json`) | Reusable architecture document for `run`, `check`, `diff`, and `explain architecture`. |
-| Architecture HTML | `build --format html` | Self-contained browser view of one architecture, not an interactive Diff report. |
+| Architecture HTML | `build --format html` | Self-contained browser view of one architecture. |
 | Policy report | `check` (`text`, `json`, `markdown`, `sarif`) | Human review, machine processing, Markdown review, or SARIF consumer. |
 | Comparison report | `diff` (`text`, `json`, `markdown`) | Human review or processing of determined and undetermined architectural changes. |
+| Comparison HTML | `diff --format html` | Self-contained browser view of one comparison with Before, Diff, and After stages. |
 
 Architecture JSON is a reusable input. Policy and Diff reports are results of
-evaluation or comparison, not architecture inputs. HTML represents an
-architecture in a browser; it does not turn a Diff into an interactive view.
+evaluation or comparison, not architecture inputs. Neither HTML page is an
+input: `run` and `diff --serve` show the same views from a local server.
 
 ## Interpret check and diff status
 

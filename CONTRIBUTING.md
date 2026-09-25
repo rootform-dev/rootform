@@ -20,6 +20,20 @@ bun install --frozen-lockfile
 bun run verify
 ```
 
+The project selection lifecycle has a separate qualification against a live
+OCI Distribution registry. Start a registry that serves TLS with a CA you
+control, accepts anonymous pushes, and writes its access log to a file. Then
+run:
+
+```bash
+bun run test:selection-e2e --rootform-bin /path/to/rootform   --registry 127.0.0.1:5443 --ca-file ca.crt   --registry-log registry.log --evidence selection-evidence.json
+```
+
+It publishes test Dialects and Policy Packs under a fresh repository prefix,
+runs every scenario in temporary projects and Rootform homes, and fails when a
+command that must not use the network appears in the access log. It is not
+part of `bun run verify`.
+
 Contributions to repository material covered by the root `LICENSE` follow
 Apache-2.0. Contributions under `dialects/` follow its own MPL-2.0
 `dialects/LICENSE`. Do not submit private infrastructure, state, plans,

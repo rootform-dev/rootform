@@ -13,7 +13,7 @@ It cannot contact a cloud provider, infer live state, or invent a missing fact.
 | --- | --- | --- |
 | **Policy** | Defines a target, assertion, and violation message | Its existence does not show that it ran |
 | **Policy Pack** | Groups related Policies | Its presence does not show that it was selected |
-| **Selection** | Chooses exact Packs and optional Policy subset | Establishes the scope of a check |
+| **Selection** | Records exact Policy Packs in `rootform.lock` | Establishes the project scope of a check |
 | **Result** | Records targets, outcomes, diagnostics, and aggregate status | Shows which selected Policies actually evaluated targets |
 
 Selecting a Dialect never selects a Policy Pack. `rootform build` and `rootform run`
@@ -101,9 +101,11 @@ explicitly supplied artifact's pins disagree with the evaluated architecture,
 Rootform fails closed. It does not relink silently, reload producer Dialects, or
 fall back to another Pack.
 
-A project lock can select Policy Pack source. `--policy-pack` can instead provide
-local source or a compiled artifact for one invocation. Neither selection changes
-Architecture IR.
+A project lock selects Policy Pack source. `--policy-pack` overlays a local
+source or compiled artifact by pack name for one invocation; `--policy` filters
+results without changing selection. [Install, add, and
+vendor](external-content.md) explains the project and invocation states. Neither
+changes Architecture IR.
 
 Continue with [Run checks](../guides/check-architecture.md) for executable
 examples. Use [Write a Policy Pack](../language/write-policy-pack.md) for

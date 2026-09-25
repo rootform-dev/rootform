@@ -112,8 +112,8 @@ export function verifyReviewExamples(
     "head Policy result lost selected targets or passed outcomes",
   );
   assert(
-    readFileSync(join(results, "after.html"), "utf8").startsWith("<!doctype html>"),
-    "head architecture HTML was not written",
+    readFileSync(join(results, "architecture-diff.html"), "utf8").startsWith("<!doctype html>"),
+    "comparison HTML was not written",
   );
 
   const equivalentA = join(reviewRoot, "equivalent-a");
@@ -157,7 +157,7 @@ export function verifyReviewExamples(
   const requiredOnlyRoot = requiredOnlyMatch[1];
   assert(
     !existsSync(join(requiredOnlyRoot, "results/policy-result.json")) &&
-      !existsSync(join(requiredOnlyRoot, "results/after.html")),
+      !existsSync(join(requiredOnlyRoot, "results/architecture-diff.html")),
     "required-only review unexpectedly created optional artifacts",
   );
   execute(["sh", "-eu", "-c", markedCommand(workflow, "review-cleanup")], repository, {
@@ -170,7 +170,7 @@ export function verifyReviewExamples(
   return [
     "pull-request review built isolated merge-base and head worktrees without changing checkout",
     "equivalent commits in different worktree paths compared unchanged",
-    "review Markdown, JSON, Policy JSON, and architecture HTML were created then cleaned",
+    "review Markdown, JSON, Policy JSON, and comparison HTML were created then cleaned",
     "review without optional Policy or HTML steps created required reports and cleaned successfully",
   ];
 }

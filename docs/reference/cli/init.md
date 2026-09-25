@@ -39,14 +39,17 @@ rootform init [path] [flags]
 
 An existing lock is preserved. Without a lock, ordinary `init` has an empty
 selection; `--locked` instead requires an existing valid lock. Embedded
-Dialects need no acquisition. For pinned external content, `init` may fetch
-only exact selected digests when network use is allowed. `--offline` restricts
-preparation to verified local content. `--no-input` disallows prompts and
-requires deterministic action.
+Dialects need no acquisition. For selected OCI content, `init` may fetch
+only exact selected digests when network use is allowed. If a vendor family
+exists, `init` verifies its exact tree, including missing, extra, or changed
+content; a valid tree needs no installed copy or registry access. `--offline`
+restricts preparation to verified local content. `--no-input` disallows
+prompts and requires deterministic action.
 
 Replace `./infra` with an existing project directory. The `--locked` example
 requires that project to contain a valid `rootform.lock` beforehand.
 
+<!-- docs-check:cli-init -->
 ```sh
 rootform init ./infra --no-input
 rootform init ./infra --locked --offline --no-input
@@ -57,4 +60,4 @@ Machine JSON goes to standard output when selected; diagnostics and `--verbose`
 detail go to standard error. Status `0` means preparation completed, `1` means
 it failed, `2` means incorrect command use, and `3` means deterministic
 preparation was unavailable. See [Select Dialects and Policy Packs](../../cli.md)
-and [Locks and vendored content](../../offline-security.md).
+and [Where Rootform stores external content](../storage.md).

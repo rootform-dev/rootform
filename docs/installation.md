@@ -3,7 +3,7 @@ title: Install Rootform
 description: Install Rootform on macOS, Linux, or Windows, or run it from a container.
 ---
 
-Choose your platform, install Rootform, then verify the executable. Supplied
+Choose your platform, install Rootform, then verify the executable. Embedded
 [Dialects](concepts/dialects.md) are included and need no additional Rootform
 configuration for your first architecture.
 

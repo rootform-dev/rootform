@@ -4,8 +4,9 @@ description: "List selected or explicit local Policy Packs."
 ---
 
 `list policy-packs` reads the current project's selection. Repeat
-`--policy-pack` with local authoring roots to list only those packs for this
-invocation. This reports accessible content, not remote availability.
+`--policy-pack` with local authoring roots to overlay packs of the same
+name for this invocation. Other selected packs remain active. `--installed`
+reads the Rootform home without loading the project. This reports accessible content, not remote availability.
 
 <!-- BEGIN GENERATED CLI: rootform list policy-packs -->
 
@@ -21,7 +22,8 @@ rootform list policy-packs [flags]
 | --- | --- | --- | --- |
 | ` -o, --format ` | ` string ` | ` "" ` | output `format`: text, wide, or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list policy-packs |
-| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
+| ` --installed ` | ` bool ` | ` false ` | list versions installed in the Rootform home |
+| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `dir`; repeatable |
 
 ## Inherited flags
 
@@ -35,6 +37,7 @@ Create `./policies` as in [Run checks](../../../guides/check-architecture.md)
 before using the explicit pack example. Without that option, `list` reads the
 current project's selection.
 
+<!-- docs-check:cli-list-packs -->
 ```sh
 rootform list policy-packs --policy-pack ./policies -o wide
 rootform list policy-packs -o json

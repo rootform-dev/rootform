@@ -5,14 +5,40 @@ Current format version: `1`.
 `rootform.lock` is deterministic JSON recording the project's non-embedded
 selections: local or OCI Dialects, local or OCI Policy Pack sources, excluded
 owners, and explicit replacements. Embedded units (the RF Vocabulary and the
-supplied Dialects of the Rootform release set) are never lock fields: they are
-selected and upgraded as one release set, not per project. Terraform and
+embedded Dialects in the Rootform binary) are never lock fields: they
+change with the binary, not per project. Terraform and
 OpenTofu provider versions remain owned by source code and
 `.terraform.lock.hcl`; they never enter this file.
 
 The lock is not a semantic pin. Derived linking pins live in linked artifacts.
 It records no toolchain pin, no release-set pin, no embedded unit version or
 digest, and no unsupported-provider evidence.
+
+## Who writes this file
+
+`rootform add`, `rootform remove`, and `rootform update` are the only commands
+that write `rootform.lock`. They resolve and verify every operand, validate
+the resulting Dialects and Policy Packs, and write canonical format `1` JSON
+in a fixed order. An identical change leaves the existing bytes and
+modification time untouched. Other commands only read the lock.
+
+Rootform creates `rootform.lock.new` exclusively beside the lock while a
+writer runs; `rootform vendor` holds it too while it writes `.rootform/`.
+Another writer stops if that file exists. If a command was
+interrupted, remove the sentinel only after confirming no Rootform writer is
+running. Before replacing the lock, Rootform checks that its bytes have not
+changed since the command started. The new lock becomes visible through an
+atomic rename. An editor save between that final check and the rename may
+still be lost, so avoid editing the lock during a Rootform write. If a crash
+leaves vendored content ahead of the lock, normal commands fail closed;
+`rootform vendor` restores the selected bytes.
+
+Use `add`, `update`, and `remove` for normal selection changes. Manual edits
+remain an advanced escape hatch when the strict reader validates them. An
+invalid lock stops the command and is never repaired automatically. Commit the
+lock and review its diff with the source or dependency change. See
+[Where Rootform stores external content](../docs/reference/storage.md) for
+the storage and vendor guarantees.
 
 ## Top-level fields
 
@@ -91,8 +117,10 @@ Preparation of external contents is an explicit operation. `rootform init`
 verifies every exact existing selection and may acquire a missing OCI package
 only from the immutable repository and manifest digest already recorded in the
 lock. `rootform vendor` materializes those same exact selections under the
-project. `--offline` permits only verified local entries. `--locked` requires
-the lock and freezes its bytes; it does not prevent explicit exact acquisition
+project. With `--offline`, `init` can verify a vendor tree, while `vendor`
+needs verified local sources or installed OCI content. Neither acquires content.
+`--locked` requires the lock and freezes its bytes; it does not prevent exact
+acquisition
 by `init`. Automatic linking stays local and never changes locked sources.
 
 `rootform init` prepares exact existing selections; it does not detect
@@ -105,7 +133,7 @@ project root. No parent search occurs.
 Canonical vendor paths are `.rootform/dialects` and
 `.rootform/policy-packs`. Vendor materializes only selected non-embedded
 Dialects and Policy Pack sources, with licenses and notices. It never
-materializes toolchain, RF Vocabulary, supplied Dialects, or linked-artifact
+materializes toolchain, RF Vocabulary, embedded Dialects, or linked-artifact
 cache. When used, each vendored tree is exclusive for its selected kind;
 missing or divergent content never falls back silently to store, cache, or
 registry. Vendor preserves exact pins without discovery, upgrade, or lock

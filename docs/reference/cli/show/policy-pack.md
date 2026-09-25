@@ -5,8 +5,9 @@ description: "Inspect one selected or local Policy Pack."
 
 `show policy-pack` displays a pack's version, declared policies, content
 identity, and source location. It reads the current project's selection by
-default. Repeat `--policy-pack` with local authoring roots to replace that
-selection for this invocation; the positional name chooses one loaded pack.
+default. Repeat `--policy-pack` with local authoring roots to overlay packs
+of the same names for this invocation. Other selected packs remain active;
+the positional name chooses one loaded pack.
 
 <!-- BEGIN GENERATED CLI: rootform show policy-pack -->
 
@@ -22,7 +23,7 @@ rootform show policy-pack <name> [flags]
 | --- | --- | --- | --- |
 | ` -o, --format ` | ` string ` | ` "" ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show policy-pack |
-| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `directory`; repeatable |
+| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `dir`; repeatable |
 
 ## Inherited flags
 

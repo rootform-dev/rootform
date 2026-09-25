@@ -18,6 +18,7 @@ the Terraform or OpenTofu root module at `./infra` in the examples below.
 
 For a project using embedded Dialects, no `rootform.lock` or `init` is needed:
 
+<!-- docs-check:docs-integrations-ci-readme-1 -->
 ```sh
 ROOTFORM_PROJECT=./infra sh ./ci/rootform-ci.sh
 ```
@@ -34,8 +35,8 @@ If `infra/rootform.lock` exists, the same command first runs
 selection, then builds with `--locked`. It writes `init.json` and
 `init.stderr` as well. A lock selecting only Dialects changes architecture
 meaning, not the decision to check Policies. The script neither creates nor
-rewrites the lock. See [Project configuration](../../cli.md) for effective
-selection and [reproduce a build](../../guides/reproduce-build.md) for
+rewrites the lock. See [Project configuration](../../cli.md) for the active
+set and [reproduce a build](../../guides/reproduce-build.md) for
 preparing content on another runner.
 
 ## Request a Policy gate
@@ -43,22 +44,26 @@ preparing content on another runner.
 Set `ROOTFORM_CHECK=1` when governance is part of the job. A project lock may
 select Policy Packs, or you can choose one local pack for this invocation:
 
+<!-- docs-check:docs-integrations-ci-readme-2 -->
 ```sh
 ROOTFORM_PROJECT=./infra ROOTFORM_CHECK=1 sh ./ci/rootform-ci.sh
 ```
 
+<!-- docs-check:docs-integrations-ci-readme-3 -->
 ```sh
 ROOTFORM_PROJECT=./infra ROOTFORM_CHECK=1 \
   ROOTFORM_POLICY_PACK=./policies sh ./ci/rootform-ci.sh
 ```
 
 The second command also works without a lock. `./policies` is relative to the
-repository root, not to `./infra`. An explicit pack replaces the project's
-Policy Pack selection for this check and is never combined with `--locked` on
-the check command. A lock still controls the build and preparation of selected
-Dialects. Follow [Run checks](../../guides/check-architecture.md) to create a
-pack with Policies and effective targets. A check requested with no selected
-Policy or no evaluated target returns `3`, not approval.
+repository root, not to `./infra`. An explicit pack overlays a selected pack of
+the same name for this check; other selected packs remain active. Overrides
+cannot be combined with `--locked`, so this script omits `--locked` on an
+override check while the lock still controls preparation and build. A lock still
+controls the build and preparation of selected Dialects. Follow [Run
+checks](../../guides/check-architecture.md) to create a pack with Policies and
+matching targets. A check requested with no selected Policy or no evaluated
+target returns `3`, not approval.
 
 After a successful build, the script writes `check.json`, `check.stderr`, and
 `check.status` under `.rootform-ci/`. The final file contains the exact check
@@ -72,12 +77,16 @@ Policy result and does not produce `check.status`. See
 
 ## Prepare external selections deliberately
 
-Commit a reviewed `rootform.lock` when the project selects an external Dialect
-or Policy Pack. With a lock, the script runs `init --locked --no-input` before
-analysis. That operation verifies local entries and may fetch only the exact
-OCI content pinned by the lock. Set `ROOTFORM_OFFLINE=1` when required content
-is already installed or vendored and acquisition must be disabled:
+Run `rootform add` during project configuration and commit the reviewed
+`rootform.lock`. Never run `add` in CI: a job should verify the committed
+selection, not choose one. With a lock, the script runs `init --locked
+--no-input` before `build --locked` and, for a project-selected Policy gate,
+`check --locked`. That operation verifies local entries and may fetch only the
+exact OCI content pinned by the lock. Set `ROOTFORM_OFFLINE=1` when required
+content is present at its recorded local path, installed, or vendored and
+acquisition must be disabled:
 
+<!-- docs-check:docs-integrations-ci-readme-4 -->
 ```sh
 ROOTFORM_PROJECT=./infra ROOTFORM_OFFLINE=1 sh ./ci/rootform-ci.sh
 ```
@@ -107,7 +116,9 @@ An Architecture Diff is usually review evidence, not a default PR blocker.
 [Review a pull request](../../workflows/index.md#choose-the-revisions) shows
 how to choose Before and After commits and
 [choose a gate](../../workflows/index.md#compare-and-save-review-artifacts)
-without treating every architectural change as a violation.
+without treating every architectural change as a violation. When reviewers
+want the interactive view, save `rootform diff --format html` as one more
+artifact; it opens from disk without Rootform installed.
 
 ## Use the runner recipes
 

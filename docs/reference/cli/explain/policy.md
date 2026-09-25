@@ -21,8 +21,11 @@ rootform explain policy <identifier> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain policy |
+| ` --input ` | ` string ` | ` "" ` | read architecture at `path`; use `-` for standard input |
+| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `dir`; repeatable |
 
 ## Inherited flags
 
@@ -33,7 +36,7 @@ rootform explain policy <identifier> [flags]
 <!-- END GENERATED CLI -->
 
 From the [first architecture](../../../getting-started/first-architecture.md)
-project, first [select the tutorial Policy Pack in `rootform.lock`](../../../guides/external-content.md#select-a-local-policy-pack).
+project, first [add the tutorial Policy Pack](../../../guides/external-content.md#add-local-content).
 Then run from that project root:
 
 <!-- docs-check:cli-explain-policy -->

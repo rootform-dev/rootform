@@ -144,6 +144,7 @@ representations; members do not inherit root Rule or Concept.
 
 ## Compile and inspect definitions
 
+<!-- docs-check:docs-dialect-authoring-1 -->
 ```sh
 rootform fmt --check .
 rootform validate dialects .
@@ -162,13 +163,18 @@ fixtures/example/minimal/
 └── architecture.golden
 ```
 
+<!-- docs-check:docs-dialect-authoring-2 -->
 ```sh
 rootform test ./fixtures
 rootform test ./fixtures --run example/minimal
 ```
 
-Effective catalog comes from supplied release set plus exact `rootform.lock`.
-Third-party authoring Dialect therefore needs explicit local lock entry. Review
+The active catalog includes embedded Dialects, project selections, and any
+override. While authoring, pass `--dialect ./dialects/payments` to `build`,
+`test`, `validate rule`, `list`, `show`, or `explain` to try a source directory
+without changing the lock. Every command that reads Dialects accepts the same
+flag. Use `rootform add dialects ./dialects/payments` when the project should
+retain it. Review
 base representations, interpretations, facts, omissions, memberships,
 diagnostics, and deterministic bytes.
 
@@ -210,6 +216,7 @@ ignore invalid presentation; `rootform package dialects` rejects it. See
 
 Packaging stays local and offline:
 
+<!-- docs-check:docs-dialect-authoring-3 -->
 ```sh
 rootform package dialects . --to artifacts/oci \
   --source-url https://example.com/team/dialects \
@@ -220,6 +227,7 @@ rootform package dialects . --to artifacts/oci \
 
 Generic publication is separate:
 
+<!-- docs-check:docs-dialect-authoring-4 -->
 ```sh
 rootform publish dialects artifacts/oci \
   --to registry.example/team/dialects
@@ -229,17 +237,22 @@ V0 has no official Dialect index and no mutable discovery tag.
 
 ## Use a published Dialect
 
-Add exact OCI identity to project `rootform.lock`, including owner, version,
-content digest, repository, manifest digest, layer digest, and sizes. Then:
+From the project root, add the published reference. Rootform resolves and
+records the exact identity:
 
+<!-- docs-check:authoring-add-published -->
 ```sh
-DOCKER_CONFIG=/path/to/docker-config rootform init ./infra --locked --no-input
-rootform build ./infra --locked
+cd ./infra
+rootform add dialects registry.example.com/acme/payments:0.1.0
+rootform init . --locked --no-input
+rootform build . --locked
 ```
 
-`init` acquires only recorded exact pin. Installed Dialect lives under
-`$ROOTFORM_HOME/dialects/<owner>/<version>`; vendored copy under
-`.rootform/dialects/<owner>/<version>`.
+The reference is illustrative; use the published reference you reviewed.
+Run `add` from the same project root that `init` and `build` use. Set
+`DOCKER_CONFIG` before acquisition if the registry needs credentials. `init`
+acquires only recorded exact pins. See
+[Where Rootform stores external content](reference/storage.md) for locations.
 
 <!-- rootform:endsteps -->
 

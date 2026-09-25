@@ -284,16 +284,37 @@ rootform explain architecture aws_subnet.application --input architecture.json
 
 `show policy` displays authored target, assertion, message, and source.
 `explain architecture` traces established facts and provenance.
-`explain policy` instead explains one evaluation from the current project
-selection. It reads architecture and Policy Pack selection from the current
-directory and accepts neither `--input` nor `--policy-pack`. See its
-[exact reference](../reference/cli/explain/policy.md) before using it with a
-project-selected pack.
+`explain policy` explains one evaluation: the authored target and assertion,
+then the outcome for each evaluated Representation. It reads the architecture
+from the current directory or from `--input`, and the Policy Pack from the
+project selection or from `--policy-pack`:
+
+<!-- docs-check:policy-explain-policy -->
+```sh
+rootform explain policy tutorial.policy.subnet-network-context \
+  --policy-pack ./policies --input architecture.json
+```
+
+```text title="Policy explanation"
+tutorial.policy.subnet-network-context
+
+Target     rf.concept.subnet
+Assertion  exists(contexts(rf.context.network, rf.concept.virtual-network))
+Message    Subnets must have an established virtual network context.
+Defined    subnet-network-context.rf.hcl:1
+
+Evaluations
+  passed  aws_subnet.application
+```
+
+Without `--input`, the command builds the current directory first. See the
+[exact reference](../reference/cli/explain/policy.md) for its flags and status.
 
 ## Use in CI
 
 Use JSON for automation or SARIF for a compatible code-review surface:
 
+<!-- docs-check:docs-guides-check-architecture-1 -->
 ```sh
 rootform check . --policy-pack ./policies --format sarif \
   --output policy-result.sarif
@@ -303,8 +324,16 @@ Review the selected Policy count and evaluation coverage with status. Invalid
 command use returns `2`. See [Outputs and exit status](../reference/outputs.md)
 for the full command matrix.
 
-For external Policy Packs, use [Project configuration](../cli.md) to select and
-lock the required content. Continue with
-[Run in CI](../integrations/ci/README.md) or
-[GitHub Actions](../integrations/github-actions.md) when the local results are
-ready for automation.
+To keep this pack selected for the project, record it from the project root:
+
+<!-- docs-check:policy-adopt-pack -->
+```sh
+rootform add policy-packs ./policies
+```
+
+Commit `rootform.lock` with the pack source. Later checks use that selection
+without `--policy-pack`. See [Add external
+content](external-content.md). Continue with [Run in
+CI](../integrations/ci/README.md) or [GitHub
+Actions](../integrations/github-actions.md) when the local results are ready for
+automation.

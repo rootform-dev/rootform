@@ -4,7 +4,7 @@ description: Explore a VPC and subnet, save the architecture, and explain its pl
 ---
 
 Build and inspect a VPC with one subnet from Terraform configuration. Rootform
-uses its supplied AWS [Dialect](../concepts/dialects.md), so this tutorial needs
+uses its embedded AWS [Dialect](../concepts/dialects.md), so this tutorial needs
 no cloud account, credentials, Terraform binary, or provider download.
 
 <!-- rootform:steps -->

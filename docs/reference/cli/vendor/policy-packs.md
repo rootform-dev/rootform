@@ -3,11 +3,11 @@ title: "rootform vendor policy-packs"
 description: "Vendor the project's exact Policy Pack source selection."
 ---
 
-From the project root, `vendor policy-packs` copies Policy Pack sources pinned
+From the project root, `vendor policy-packs` copies Policy Pack sources selected
 by its `rootform.lock`, with licenses and notices. The lock must select at
 least one Policy Pack. It does not copy Dialects,
-resolve versions, or change the lock. A prior `init` must target this same
-project if preparation is needed.
+resolve versions, or change the lock. It can fetch missing selected OCI
+content unless `--offline` is set.
 
 <!-- BEGIN GENERATED CLI: rootform vendor policy-packs -->
 
@@ -36,13 +36,15 @@ rootform vendor policy-packs [flags]
 `--to` changes the destination, not the project selection. The default is
 `./.rootform/policy-packs`; when present, project-selected packs are read
 exclusively there. An explicit local `--policy-pack` on a consuming command
-replaces the project selection for that invocation. `--offline` limits
-vendoring to verified local content.
+overlays a pack of the same name for that invocation; other selected packs
+remain active. `--offline` limits vendoring to verified local or installed
+content.
 
 Start from a project whose lock selects a Policy Pack, as in
 [Use external content](../../../guides/external-content.md). The commands
 below do not create that selection.
 
+<!-- docs-check:docs-reference-cli-vendor-policy-packs-1 -->
 ```sh
 rootform init . --locked --no-input
 rootform vendor policy-packs

@@ -4,7 +4,7 @@ description: "Follow a .rf.hcl source set from declaration matching to base repr
 ---
 
 The Rootform language turns normalized Terraform and OpenTofu evidence into
-Architecture IR. Rootform ships RF Vocabulary and its supplied Dialects with
+Architecture IR. Rootform ships RF Vocabulary and its embedded Dialects with
 every release, and every authoring source stays inspectable and independently
 testable.
 
