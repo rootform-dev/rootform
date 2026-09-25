@@ -232,7 +232,7 @@ Generic publication is separate:
 <!-- docs-check:docs-dialect-authoring-4 -->
 ```sh
 rootform publish dialects artifacts/oci \
-  --to registry.example/team/dialects
+  --to registry.example.com/team/dialects
 ```
 
 V0 has no official Dialect index and no mutable discovery tag.

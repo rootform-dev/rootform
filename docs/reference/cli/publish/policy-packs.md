@@ -48,8 +48,8 @@ error.
 ## Examples
 
 ```sh
-rootform publish policy-packs ./oci --to registry.example/acme/policies
+rootform publish policy-packs ./oci --to registry.example.com/acme/policies
 rootform publish policy-packs ./oci --to localhost:5000/acme/policies
-rootform publish policy-packs ./oci --to registry.example/acme/policies \
+rootform publish policy-packs ./oci --to registry.example.com/acme/policies \
   --dry-run --format json
 ```

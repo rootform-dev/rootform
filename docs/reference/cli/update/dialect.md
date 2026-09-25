@@ -53,5 +53,6 @@ The summary goes to standard output. Diagnostics go to standard error.
 ```sh
 rootform update dialect payments
 rootform update dialect payments ./dialects/payments-next
-rootform update dialect payments registry.example.com/acme/payments:0.2.0
+rootform update dialect payments \
+  registry.example.com/acme/dialects:dialect-payments-0.2.0
 ```

@@ -41,9 +41,11 @@ and update are the only commands that write rootform.lock.
 
 ```sh
 rootform add dialects ./dialects/payments
-rootform add dialects registry.example.com/acme/payments:0.1.0
+rootform add dialects \
+  registry.example.com/acme/dialects:dialect-payments-0.1.0
 rootform add dialects ./dialects/aws --replace
 rootform add policy-packs ./policies
-rootform add policy-packs registry.example.com/acme/baseline:1.0.0
+rootform add policy-packs \
+  registry.example.com/acme/policies:policy-pack-baseline-0.1.0
 rootform add policy-packs ./policies --dry-run
 ```

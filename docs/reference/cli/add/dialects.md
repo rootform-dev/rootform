@@ -60,6 +60,7 @@ The summary goes to standard output. Diagnostics go to standard error.
 
 ```sh
 rootform add dialects ./dialects/payments
-rootform add dialects registry.example.com/acme/payments:0.1.0
+rootform add dialects \
+  registry.example.com/acme/dialects:dialect-payments-0.1.0
 rootform add dialects ./dialects/aws --replace
 ```

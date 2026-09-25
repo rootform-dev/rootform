@@ -48,8 +48,10 @@ The summary goes to standard output. Diagnostics go to standard error.
 ## Examples
 
 ```sh
-rootform install dialects example.com/acme/pkg:1.0.0
-rootform install dialects --format json example.com/acme/pkg:1.0.0
+rootform install dialects \
+  registry.example.com/acme/dialects:dialect-payments-0.1.0
+rootform install dialects --format json \
+  registry.example.com/acme/dialects:dialect-payments-0.1.0
 rootform install dialects --offline \
-  example.com/acme/pkg@sha256:<digest>
+  registry.example.com/acme/dialects@sha256:<digest>
 ```

@@ -53,5 +53,6 @@ The summary goes to standard output. Diagnostics go to standard error.
 ```sh
 rootform update policy-pack baseline
 rootform update policy-pack baseline ./policies
-rootform update policy-pack baseline registry.example.com/acme/baseline:1.1.0
+rootform update policy-pack baseline \
+  registry.example.com/acme/policies:policy-pack-baseline-0.2.0
 ```
