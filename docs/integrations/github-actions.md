@@ -1,6 +1,6 @@
 ---
 title: "GitHub Actions"
-description: "Install an exact Rootform release, publish architecture evidence, and choose a policy gate."
+description: "Install an exact Rootform release, publish architecture evidence from source or a completed plan, and choose a policy gate."
 ---
 
 Use the `setup` entrypoint when your workflow controls Rootform commands. It
@@ -83,6 +83,88 @@ availability and GitHub's [SARIF upload requirements](https://docs.github.com/en
 Do not grant `security-events: write` unless the workflow actually uploads to
 code scanning.
 
+## Review a completed plan
+
+When the pull request workflow already runs `terraform plan` or `tofu plan`,
+review that plan. The plan carries the prior state and the planned values, so
+one export gives Rootform both sides of the comparison and the architecture to
+check. This complete workflow plans, exports, compares, and checks in one job:
+
+```yaml title=".github/workflows/plan-review.yml"
+name: Plan review
+on: [pull_request]
+permissions:
+  contents: read
+jobs:
+  plan-review:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: 1.16.4
+          terraform_wrapper: false
+      - uses: rootform-dev/action/setup@71eef759bff5e73b27489b1f7de818a4a76dc2e9
+        with:
+          version: 0.1.0
+      - name: Plan and export
+        working-directory: infra
+        run: |
+          terraform init -input=false
+          terraform plan -input=false -out="$RUNNER_TEMP/tfplan"
+          terraform show -json "$RUNNER_TEMP/tfplan" > "$RUNNER_TEMP/tfplan.json"
+      - name: Compare and check the planned architecture
+        working-directory: infra
+        run: |
+          mkdir "$RUNNER_TEMP/rootform"
+          rootform diff --plan "$RUNNER_TEMP/tfplan.json" \
+            --format markdown --output "$RUNNER_TEMP/rootform/plan-diff.md"
+          cat "$RUNNER_TEMP/rootform/plan-diff.md" >> "$GITHUB_STEP_SUMMARY"
+          rootform diff --plan "$RUNNER_TEMP/tfplan.json" \
+            --format json --output "$RUNNER_TEMP/rootform/plan-diff.json"
+          rootform diff --plan "$RUNNER_TEMP/tfplan.json" \
+            --format html --output "$RUNNER_TEMP/rootform/plan-diff.html"
+          rootform check --plan "$RUNNER_TEMP/tfplan.json" --policy-pack ../policies \
+            --format json --output "$RUNNER_TEMP/rootform/plan-policy.json"
+      - name: Keep Rootform results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-plan-review
+          path: ${{ runner.temp }}/rootform/
+          if-no-files-found: warn
+```
+
+The plan step owns Terraform: give it the backend and provider credentials it
+needs, and use the OpenTofu action and `tofu` commands for an OpenTofu
+project. Rootform reads the completed export only. It never runs `terraform`
+or `tofu`, refreshes state, or contacts a backend. The saved plan and its
+export stay in `RUNNER_TEMP`, outside the workspace, and they can contain
+sensitive values: the artifact step above names Rootform results only, and no
+artifact list should ever name them.
+
+Each Rootform command runs in `infra` because `--plan` reads the project
+selection from the current working directory. `../policies` is the
+repository's local pack, relative to `infra`. When `infra/rootform.lock`
+selects the pack instead, run `rootform init . --locked --no-input` there
+first and check with `--locked` in place of `--policy-pack`. The Markdown
+Diff lands in the Job Summary, the JSON Diff serves automation,
+`plan-diff.html` opens from disk with Before, Diff, and After stages, and
+`plan-policy.json` records the gate. The check's exit status is the job
+result: `1` (confirmed violation), `2` (invalid command use), and `3` (not
+evaluated) all fail the job while the artifact step still runs, and only `0`
+with the expected evaluation count is compliant. Remove the check command to
+keep the workflow informational, or append one more `rootform diff --plan`
+with `--exit-code` as the last command to block on any determined or
+undetermined difference after the evidence is written. [Review a pull
+request](../workflows/index.md#review-a-completed-plan) reads these artifacts,
+and [Terraform and OpenTofu plans](../inputs/plans.md) is the canonical plan
+procedure. For the portable script, the same job runs
+`ROOTFORM_PLAN` through the [complete plan recipe](ci/github-actions-plan.yml)
+described in [Run in CI](ci/README.md#review-a-completed-plan).
+
 ## Use the integrated Action for a project Policy gate
 
 The main Action installs Rootform, prepares project selection, builds JSON and
@@ -120,6 +202,17 @@ head. `github.event.pull_request.head.sha` is PR head, while
 `github.event.pull_request.base.sha` is target-branch head at event time.
 Neither is automatically the merge base. For the Diff meaning and an
 informational gate, see [Compare architectures](../guides/compare-architectures.md#use-exit-status-deliberately).
+
+The integrated Action also accepts a completed plan. Set `mode: plan` and
+let `path` name the JSON export as a workspace-relative file, such as
+`infra/tfplan.json`; an export in `RUNNER_TEMP` cannot be passed to it. The
+Action then prepares the project and checks from the repository root, so the
+`rootform.lock` that selects the Policy Pack must be at the repository root.
+With `report-diff: true` it runs `rootform diff --plan` on that export and
+adds Diff JSON and Markdown to its artifact; no `baseline-path` is needed
+because the plan carries both sides. Produce the export in a workflow step
+before the Action, keep its path out of Git and of your own artifact steps,
+and never pass it to a workflow you do not trust with plan values.
 
 ## Keep PR permissions narrow
 

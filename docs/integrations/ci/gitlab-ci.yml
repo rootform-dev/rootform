@@ -17,6 +17,9 @@ rootform:
       - $ROOTFORM_OUTPUT_DIR/init.json
       - $ROOTFORM_OUTPUT_DIR/init.stderr
       - $ROOTFORM_OUTPUT_DIR/build.stderr
+      - $ROOTFORM_OUTPUT_DIR/diff.json
+      - $ROOTFORM_OUTPUT_DIR/diff.md
+      - $ROOTFORM_OUTPUT_DIR/diff.stderr
       - $ROOTFORM_OUTPUT_DIR/check.json
       - $ROOTFORM_OUTPUT_DIR/check.stderr
       - $ROOTFORM_OUTPUT_DIR/check.status

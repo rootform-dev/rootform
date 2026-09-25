@@ -148,3 +148,13 @@ Rootform outputs omit raw plan values, but they can still reveal resource
 names, source paths, and architecture structure. They are not automatically
 anonymized. Review [security and data handling](../security/index.md) before
 sharing architecture files or Diff reports.
+
+## Review the plan of a pull request
+
+A pipeline that already plans the pull request can review that plan with the
+same commands. [Review a pull request](../workflows/index.md#choose-the-review-input)
+explains when to review the plan instead of comparing source revisions,
+[Run in CI](../integrations/ci/README.md#review-a-completed-plan) runs the
+export through the portable script with `ROOTFORM_PLAN`, and
+[GitHub Actions](../integrations/github-actions.md#review-a-completed-plan)
+plans, exports, compares, and checks in one job.

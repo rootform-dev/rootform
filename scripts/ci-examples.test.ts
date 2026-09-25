@@ -4,6 +4,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  realpathSync,
   rmSync,
   symlinkSync,
   writeFileSync,
@@ -26,14 +27,36 @@ test("CI recipes keep exact installation and failure artifacts", () => {
   const output = "$" + "{{ env.ROOTFORM_OUTPUT_DIR }}";
   expect(github).toContain(`ROOTFORM_OUTPUT_DIR: .rootform-ci-${runId}-${attempt}`);
   expect(github).toContain(`${output}/check.status`);
+  for (const name of ["diff.json", "diff.md", "diff.stderr"]) {
+    expect(github).toContain(`${output}/${name}`);
+  }
   expect(github).not.toContain("foreign.txt");
   expect(github).not.toContain("pull_request_target");
+
+  const planRecipe = readFileSync(join(examples, "github-actions-plan.yml"), "utf8");
+  expect(planRecipe).toContain(
+    "hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e",
+  );
+  expect(planRecipe).toContain("terraform_wrapper: false");
+  expect(planRecipe).toContain("terraform show -json");
+  expect(planRecipe).toContain(`ROOTFORM_PLAN: ${"$" + "{{ runner.temp }}"}/tfplan.json`);
+  expect(planRecipe).toContain("persist-credentials: false");
+  expect(planRecipe).toContain(`if: \${{ !cancelled() }}`);
+  const uploadPaths = planRecipe
+    .split("          path: |\n")[1]
+    ?.split("          if-no-files-found:")[0];
+  expect(uploadPaths).toBeDefined();
+  expect(uploadPaths).not.toContain("tfplan");
+  expect(planRecipe).not.toContain("pull_request_target");
 
   const gitlab = readFileSync(join(examples, "gitlab-ci.yml"), "utf8");
   expect(gitlab).toContain('test -w "$CI_PROJECT_DIR"');
   expect(gitlab).toContain("when: always");
   expect(gitlab).toContain("ROOTFORM_OUTPUT_DIR: .rootform-ci-" + "$" + "{CI_JOB_ID}");
   expect(gitlab).toContain("$ROOTFORM_OUTPUT_DIR/check.status");
+  for (const name of ["diff.json", "diff.md", "diff.stderr"]) {
+    expect(gitlab).toContain(`$ROOTFORM_OUTPUT_DIR/${name}`);
+  }
   expect(gitlab).not.toContain("foreign.txt");
 
   const azure = readFileSync(join(examples, "azure-pipelines.yml"), "utf8");
@@ -43,7 +66,7 @@ test("CI recipes keep exact installation and failure artifacts", () => {
   expect(azure).toContain("condition: succeededOrFailed()");
   expect(azure).toContain("--env ROOTFORM_OUTPUT_DIR=/workspace/.rootform-ci-$(Build.BuildId)");
   expect(azure).toContain(
-    "for file in init.json init.stderr architecture.json build.stderr check.json check.stderr check.status",
+    "for file in init.json init.stderr architecture.json build.stderr diff.json diff.md diff.stderr check.json check.stderr check.status",
   );
   expect(azure).toContain('tar -cf "$archive" -C "$results" "$@"');
   expect(azure).toContain("targetPath: $(rootformArtifactPath)");
@@ -322,6 +345,131 @@ fi
     expect(invoke().code).toBe(0);
     expect(readFileSync(join(outside, "check.json"), "utf8")).toBe("outside evidence\n");
     expect(existsSync(join(output, "check.json"))).toBe(false);
+  } finally {
+    rmSync(temporary, { force: true, recursive: true });
+  }
+});
+
+test("portable script reviews a completed plan from the project directory", () => {
+  const temporary = mkdtempSync(join(tmpdir(), "rootform-ci-plan-"));
+  try {
+    const binary = join(temporary, "rootform");
+    writeFileSync(
+      binary,
+      `#!/bin/sh
+set -eu
+printf '%s|%s\\n' "$*" "$(pwd -P)" >>"$ROOTFORM_TEST_LOG"
+printf '{"stage":"%s"}\\n' "$1"
+printf '%s diagnostic\\n' "$1" >&2
+if [ "$1" = check ]; then
+  exit "\${ROOTFORM_TEST_CHECK_STATUS:-0}"
+fi
+`,
+      { mode: 0o755 },
+    );
+
+    const cwd = join(temporary, "repository with spaces");
+    const project = join(cwd, "root module");
+    const planDirectory = join(cwd, "plans with spaces");
+    const plan = join(planDirectory, "tfplan with spaces.json");
+    const pack = join(cwd, "policies with spaces");
+    const output = join(cwd, "reports with spaces");
+    mkdirSync(project, { recursive: true });
+    mkdirSync(planDirectory);
+    mkdirSync(pack);
+    writeFileSync(plan, "{}\n");
+    const absolutePlan = realpathSync(plan);
+    const absoluteProject = realpathSync(project);
+    const absolutePack = realpathSync(pack);
+    const log = join(temporary, "calls");
+    const invoke = (extra: Record<string, string> = {}) => {
+      rmSync(log, { force: true });
+      const result = Bun.spawnSync({
+        cmd: ["/bin/sh", lifecycle],
+        cwd,
+        env: {
+          ...process.env,
+          ROOTFORM_BIN: binary,
+          ROOTFORM_CHECK: "0",
+          ROOTFORM_OUTPUT_DIR: "./reports with spaces",
+          ROOTFORM_PLAN: "./plans with spaces/tfplan with spaces.json",
+          ROOTFORM_PROJECT: "./root module",
+          ROOTFORM_TEST_LOG: log,
+          ...extra,
+        },
+        stdout: "pipe",
+        stderr: "pipe",
+      });
+      return {
+        code: result.exitCode,
+        calls: existsSync(log) ? readFileSync(log, "utf8").trim().split("\n") : [],
+        stderr: result.stderr.toString(),
+      };
+    };
+    const expectedCalls = [
+      `build --plan ${absolutePlan} --format json|${absoluteProject}`,
+      `diff --plan ${absolutePlan} --format json|${absoluteProject}`,
+      `diff --plan ${absolutePlan} --format markdown|${absoluteProject}`,
+    ];
+
+    const build = invoke();
+    expect(build.code).toBe(0);
+    expect(build.calls).toEqual(expectedCalls);
+    for (const name of ["architecture.json", "diff.json", "diff.md", "diff.stderr"]) {
+      expect(existsSync(join(output, name)), name).toBe(true);
+    }
+    expect(existsSync(join(output, "check.status"))).toBe(false);
+
+    const checked = invoke({
+      ROOTFORM_CHECK: "1",
+      ROOTFORM_POLICY_PACK: "./policies with spaces",
+      ROOTFORM_TEST_CHECK_STATUS: "1",
+    });
+    expect(checked.code).toBe(1);
+    expect(checked.calls).toEqual([
+      ...expectedCalls,
+      `check --plan ${absolutePlan} --policy-pack ${absolutePack} --format json|${absoluteProject}`,
+    ]);
+    expect(readFileSync(join(output, "check.status"), "utf8")).toBe("1\n");
+
+    const projectFile = join(cwd, "project file");
+    writeFileSync(projectFile, "fixture\n");
+    const invalidCases: { options: Record<string, string>; message: string }[] = [
+      {
+        options: { ROOTFORM_PLAN: "-" },
+        message: "ROOTFORM_PLAN must name a JSON plan file, not standard input\n",
+      },
+      {
+        options: { ROOTFORM_PLAN: "./missing plan.json" },
+        message: "ROOTFORM_PLAN is not a file: ./missing plan.json\n",
+      },
+      {
+        options: { ROOTFORM_PROJECT: "./project file" },
+        message: "ROOTFORM_PROJECT must be a directory when ROOTFORM_PLAN is set: ./project file\n",
+      },
+    ];
+    const ownedNames = [
+      "init.json",
+      "init.stderr",
+      "architecture.json",
+      "build.stderr",
+      "diff.json",
+      "diff.md",
+      "diff.stderr",
+      "check.json",
+      "check.stderr",
+      "check.status",
+    ];
+    for (const { options, message } of invalidCases) {
+      expect(invoke({ ROOTFORM_CHECK: "1" }).code).toBe(0);
+      const invalid = invoke(options);
+      expect(invalid.code).toBe(2);
+      expect(invalid.stderr).toBe(message);
+      expect(invalid.calls).toEqual([]);
+      for (const name of ownedNames) {
+        expect(existsSync(join(output, name)), name).toBe(false);
+      }
+    }
   } finally {
     rmSync(temporary, { force: true, recursive: true });
   }

@@ -477,12 +477,65 @@ test("local review guides preserve Diff, Policy, and Git boundaries", () => {
   for (const command of ["git merge-base", "git worktree add", "git worktree remove"]) {
     expect(review).toContain(command);
   }
+  for (const text of [
+    "## Choose the review input",
+    "## Compare source revisions",
+    "## Review a completed plan",
+    'rootform diff --plan "$plan_root/tfplan.json"',
+    'rootform check --plan "$plan_root/tfplan.json"',
+    "terraform show -json",
+    "never runs Terraform or OpenTofu",
+  ]) {
+    expect(review).toContain(text);
+  }
+  for (const marker of [
+    "review-plan-directory",
+    "review-plan-diff",
+    "review-plan-reports",
+    "review-plan-check",
+    "review-plan-html",
+    "review-plan-cleanup",
+  ]) {
+    expect(review).toContain(`<!-- docs-check:${marker} -->`);
+  }
+  expect(review).not.toContain("terraform apply");
   expect(review).not.toMatch(/git (?:reset|clean|checkout)/u);
   expect(review).not.toContain("rm -r");
   expect(review).toContain("rm -f");
   expect(review).toContain('--format html --output "$review_root/results/architecture-diff.html"');
   expect(review).toContain('"$review_root/results/architecture-diff.html"\n');
   expect(review).not.toContain("after.html");
+});
+
+test("CI and GitHub Actions guides present plan review as a first-class workflow", () => {
+  const root = join(import.meta.dir, "..");
+  const ci = readFileSync(join(root, "docs/integrations/ci/README.md"), "utf8");
+  const github = readFileSync(join(root, "docs/integrations/github-actions.md"), "utf8");
+  const plans = readFileSync(join(root, "docs/inputs/plans.md"), "utf8");
+
+  for (const text of [
+    "## Review a completed plan",
+    "ROOTFORM_PLAN",
+    "<!-- docs-check:docs-integrations-ci-readme-5 -->",
+    "<!-- docs-check:docs-integrations-ci-readme-6 -->",
+    "github-actions-plan.yml",
+    "never runs",
+  ]) {
+    expect(ci).toContain(text);
+  }
+  for (const text of [
+    "## Review a completed plan",
+    "terraform show -json",
+    'rootform diff --plan "$RUNNER_TEMP/tfplan.json"',
+    'rootform check --plan "$RUNNER_TEMP/tfplan.json"',
+    "mode: plan",
+    "report-diff: true",
+    "hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e",
+  ]) {
+    expect(github).toContain(text);
+  }
+  expect(github).not.toMatch(/on:.*pull_request_target/u);
+  expect(plans).toContain("## Review the plan of a pull request");
 });
 
 test("project configuration guides keep decision, adoption, mechanism, and transfer separate", () => {
