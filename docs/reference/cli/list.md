@@ -50,5 +50,11 @@ rootform list dialects --installed -o wide
 rootform list policy-packs --installed -o wide
 ```
 
+The first three commands inspect the project's active Dialect and Policy Pack
+catalogs. The last two inspect installed OCI content in this machine's
+Rootform home; a fresh home has no installed rows. Listing does not add a
+selection or acquire content. Status `0` means listed, `2` means incorrect
+use, and `3` means a selected definition could not be read.
+
 See [Install, add, and vendor](../../concepts/external-content.md) for
 the difference between installed, selected, and active content.

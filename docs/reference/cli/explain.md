@@ -4,8 +4,8 @@ description: "Trace an architecture element, semantic interpretation, or policy 
 ---
 
 Use `explain architecture` for evidence behind an architecture address,
-`explain semantics` for a source declaration's interpretation, or `explain
-policy` for an evaluated policy result. To inspect a definition without
+`explain semantics` for a Dialect Rule and, with `--input`, the instances
+where it applied, or `explain policy` for an evaluated policy result. To inspect a definition without
 tracing a result, use [`show`](show.md); to see the current selection, use
 [`list`](list.md).
 

@@ -3,7 +3,7 @@ title: "rootform validate"
 description: "Validate an architecture or Rootform definition."
 ---
 
-Choose `architecture` to check a built or saved architecture. Other
+Choose `architecture` to check a saved Rootform document. Other
 subcommands validate Dialect or Policy definitions and have their own
 contracts. Validation checks structure and definitions; it does not evaluate
 Policies or verify deployed cloud resources.
@@ -42,12 +42,13 @@ rootform validate <object> [flags]
 
 <!-- END GENERATED CLI -->
 
-Save `architecture.json` with `run`, for example from
-[Your first architecture](../../getting-started/first-architecture.md).
+Save a Rootform document with `run --no-serve -o architecture.json`, as in
+[Your first architecture](../../getting-started/first-architecture.md), then
+check it:
 
 ```sh
 rootform validate architecture architecture.json
 ```
 
-For governance use [`run`](run.md). For a complete architecture workflow,
-see [Your first architecture](../../getting-started/first-architecture.md).
+Validation reads the document alone. To evaluate Policies, select them when
+you analyze the plan or state with [`run`](run.md).

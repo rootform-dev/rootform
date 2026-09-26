@@ -40,7 +40,8 @@ rootform vendor [object] [flags]
 <!-- END GENERATED CLI -->
 
 Run from a project whose `rootform.lock` selects content. An empty
-selection has nothing to vendor.
+selection has nothing to vendor. The first command copies both selected
+families; the subcommands limit the copy to one family.
 
 <!-- docs-check:cli-vendor -->
 ```sh
@@ -51,6 +52,9 @@ rootform vendor policy-packs
 
 When the corresponding default vendored directory exists, consuming commands
 use it as the exclusive source for that project's selected content. See
+the printed destination and selected owner or Pack names to confirm what was
+copied. Status `0` means the copy completed, `2` means incorrect use, and `3`
+means no complete vendored set was written. See
 [External content storage](../storage.md) for the precedence
 rules and [Add external content](../../guides/external-content.md)
 for selection setup.

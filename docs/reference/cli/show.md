@@ -46,6 +46,8 @@ rootform show google.rule.cloud-sql-instance
 rootform show rf.concept.virtual-network -o json
 ```
 
+The first result prints the Rule's match and emissions. The JSON result
+identifies the RF Vocabulary Concept without evaluating any instance.
 `--dialect <dir>` overlays one Dialect owner for this inspection and leaves
 `rootform.lock` unchanged. Repeat it for different owners.
 

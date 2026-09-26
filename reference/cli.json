@@ -211,8 +211,8 @@
       "path": "rootform compile policy-pack",
       "usage": "rootform compile policy-pack \u003cdirectory\u003e [flags]",
       "summary": "Compile and pin a Policy Pack",
-      "description": "Compile one Policy Pack source directory against the semantic snapshot\nin --semantics. Write the compiled JSON file to --output, preserving its\nsemantic pins for later offline checks without producer Dialects.\nSummary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  the compiled Policy Pack was written\n  1  the Policy Pack could not be compiled or written\n  2  the command was used incorrectly",
-      "examples": "rootform compile policy-pack ./policies --semantics arch.json -o pack.json\n  rootform compile policy-pack . --semantics baseline.json -o pack.json\n  rootform compile policy-pack ./rules --semantics arch.json -o rules.json",
+      "description": "Compile one Policy Pack source directory using the Rootform document\nin --semantics. Write the compiled JSON file to --output. The compiled\nPack keeps its semantic pins for later offline evaluation without the\nDialect sources that produced the document.\nSummary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  the compiled Policy Pack was written\n  1  the Policy Pack could not be compiled or written\n  2  the command was used incorrectly",
+      "examples": "rootform compile policy-pack ./policies --semantics analysis.json -o pack.json\n  rootform compile policy-pack . --semantics analysis.json -o pack.json\n  rootform compile policy-pack ./rules --semantics analysis.json -o rules.json",
       "flags": [
         {
           "name": "help",
@@ -233,7 +233,7 @@
           "name": "semantics",
           "type": "string",
           "default": "",
-          "usage": "pin semantics from an architecture `file` (required)"
+          "usage": "read semantics from a Rootform document `file` (required)"
         }
       ],
       "inherited_flags": [

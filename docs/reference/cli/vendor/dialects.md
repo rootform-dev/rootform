@@ -52,4 +52,4 @@ rootform vendor dialects --offline --to ./offline/dialects
 Copied names and versions go to standard output, diagnostics to standard
 error. Status `0` means every selection was copied, `2` means incorrect
 command use, and `3` means no complete vendored set was written. See
-[Reproduce a build offline](../../../guides/reproduce-build.md).
+[Reproduce an analysis offline](../../../guides/reproduce-build.md).

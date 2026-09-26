@@ -15,8 +15,8 @@ and return here for exact command contracts.
 
 ## Find a command
 
-- Analyze or explore: `run` reads an export, writes reports, or serves the local explorer.
-- Review: `run --policy-pack` evaluates Policies; `run --diff` compares two inputs.
+- Analyze or explore: `run` analyzes a plan or state JSON, or reopens a saved Rootform document, then serves the local Explorer or writes reports.
+- Review: `run --policy-pack` or `run --policy` evaluates Policies; `run --diff` compares two inputs.
 - Inspect: `list` shows active content, `show` displays a definition, and `explain` traces an interpretation or result.
 - Prepare: `init` verifies selected content and can fetch missing OCI units; `vendor` copies selected content into the project.
 - Validate and author: `validate` checks an object; `fmt`, `test`, `compile`, `package`, `publish`, and `lsp` have their own contracts below.

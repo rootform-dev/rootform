@@ -34,15 +34,17 @@ rootform show policy <identifier> [flags]
 
 <!-- END GENERATED CLI -->
 
-After creating `./policies` in [Run checks](../../../guides/check-architecture.md):
+From a checkout of the repository, inspect one baseline definition. The
+command shows its target and assertion without evaluating a plan.
 
 <!-- docs-check:cli-show-policy -->
 ```sh
-rootform show policy subnet-network-context --policy-pack ./policies
-rootform show policy tutorial.policy.subnet-network-context --policy-pack ./policies -o json
+rootform show policy cluster-network-context --policy-pack ./policy-packs/baseline
+rootform show policy baseline.policy.cluster-network-context --policy-pack ./policy-packs/baseline -o json
 ```
 
-Text or JSON goes to standard output, diagnostics to standard error. Status
+The definition names `rf.concept.kubernetes-cluster` as its target. Text or
+JSON goes to standard output, diagnostics to standard error. Status
 `0` means shown, `1` means definition not found, `2` means incorrect use,
 and `3` means no single definition could be selected. This does not evaluate
 the policy; use [`explain policy`](../explain/policy.md) for an evaluated result

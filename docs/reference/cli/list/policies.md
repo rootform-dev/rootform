@@ -31,17 +31,17 @@ rootform list policies [flags]
 
 <!-- END GENERATED CLI -->
 
-Create `./policies` as in [Run checks](../../../guides/check-architecture.md)
-before using the explicit pack example. Without that option, `list` reads the
-current project's selection.
+From a checkout of the repository, inspect the public baseline Pack. The
+override reads it for this command without selecting it in `rootform.lock`.
 
 <!-- docs-check:cli-list-policies -->
 ```sh
-rootform list policies --policy-pack ./policies -o wide
-rootform list policies -o json
+rootform list policies --policy-pack ./policy-packs/baseline -o wide
+rootform list policies --policy-pack ./policy-packs/baseline -o json
 ```
 
-Default output is one qualified policy name per line. `-o wide` adds targets.
+The wide list includes `baseline.policy.cluster-network-context` and its
+target Concept. Default output is one qualified policy name per line. `-o wide` adds targets.
 `-o json` includes owner and target. Output goes to standard output,
 diagnostics to standard error. Status `0` means listed, `2` means incorrect
 use, and `3` means selected definitions could not be read. To inspect one
