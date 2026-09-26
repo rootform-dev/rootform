@@ -4,7 +4,7 @@ description: "Show a Dialect Rule, its emissions, and where it applied."
 ---
 
 Without `--input`, `explain semantics` shows a Dialect Rule and its
-emissions. With a plan, state, or saved Rootform document named by `--input`,
+emissions. With a plan, state, or saved Form named by `--input`,
 it also shows where that Rule applied in the selected stage. Pass a qualified
 definition identifier such as `google.rule.cloud-sql-instance`, or an
 unambiguous bare name. This is a semantic definition name, not a Terraform
@@ -26,7 +26,7 @@ rootform explain semantics <identifier> [flags]
 | ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain semantics |
-| ` --input ` | ` string ` | ` "" ` | read `path`: a plan, state or Rootform document, or `-` |
+| ` --input ` | ` string ` | ` "" ` | read `path`: a plan, state or saved Form, or `-` |
 | ` --stage ` | ` string ` | ` "" ` | explain the `stage`: planned, refreshed or recorded |
 
 ## Inherited flags

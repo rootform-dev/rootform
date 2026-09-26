@@ -208,7 +208,7 @@
               { "label": "concept", "page": "reference/cli/validate/concept" },
               { "label": "context", "page": "reference/cli/validate/context" },
               { "label": "dialects", "page": "reference/cli/validate/dialects" },
-              { "label": "document", "page": "reference/cli/validate/document" },
+              { "label": "form", "page": "reference/cli/validate/form" },
               { "label": "policy", "page": "reference/cli/validate/policy" },
               { "label": "relation", "page": "reference/cli/validate/relation" },
               { "label": "rule", "page": "reference/cli/validate/rule" }

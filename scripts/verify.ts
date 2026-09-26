@@ -423,7 +423,7 @@ for (const example of examples) {
     `${example} plan document`,
   );
   const planned = object(
-    object(document.forms, `${example} forms`).planned,
+    object(document.stages, `${example} stages`).planned,
     `${example} planned stage`,
   );
   if (

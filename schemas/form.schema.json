@@ -109,69 +109,86 @@
       ],
       "type": "object"
     },
-    "Analysis": {
+    "Architecture": {
       "additionalProperties": false,
       "properties": {
-        "comparisons": {
-          "$ref": "#/$defs/Comparisons"
+        "accounting": {
+          "$ref": "#/$defs/Accounting"
         },
-        "default_stage": {
+        "closures": {
+          "items": {
+            "$ref": "#/$defs/Closure"
+          },
+          "type": "array"
+        },
+        "contexts": {
+          "items": {
+            "$ref": "#/$defs/Context"
+          },
+          "type": "array"
+        },
+        "contributions": {
+          "items": {
+            "$ref": "#/$defs/Contribution"
+          },
+          "type": "array"
+        },
+        "declarations": {
+          "items": {
+            "$ref": "#/$defs/Declaration"
+          },
+          "type": "array"
+        },
+        "dependencies": {
+          "items": {
+            "$ref": "#/$defs/Dependency"
+          },
+          "type": "array"
+        },
+        "deposed": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "label": {
+          "type": "string"
+        },
+        "reconstruction": {
+          "$ref": "#/$defs/Reconstruction"
+        },
+        "relations": {
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "type": "array"
+        },
+        "representations": {
+          "items": {
+            "$ref": "#/$defs/Representation"
+          },
+          "type": "array"
+        },
+        "stage": {
           "enum": [
             "planned",
             "refreshed",
             "recorded"
           ]
-        },
-        "diagnostics": {
-          "items": {
-            "$ref": "#/$defs/Diagnostic"
-          },
-          "type": "array"
-        },
-        "drift_report": {
-          "$ref": "#/$defs/DriftReport"
-        },
-        "evidence": {
-          "$ref": "#/$defs/Evidence"
-        },
-        "format_version": {
-          "const": "1"
-        },
-        "forms": {
-          "additionalProperties": {
-            "$ref": "#/$defs/Form"
-          },
-          "propertyNames": {
-            "enum": [
-              "planned",
-              "refreshed",
-              "recorded"
-            ]
-          },
-          "type": "object"
-        },
-        "generator": {
-          "$ref": "#/$defs/Generator"
-        },
-        "kind": {
-          "enum": [
-            "state",
-            "plan"
-          ]
-        },
-        "semantics": {
-          "$ref": "#/$defs/Semantics"
         }
       },
       "required": [
-        "default_stage",
-        "diagnostics",
-        "evidence",
-        "format_version",
-        "forms",
-        "generator",
-        "kind",
-        "semantics"
+        "accounting",
+        "closures",
+        "contexts",
+        "contributions",
+        "declarations",
+        "dependencies",
+        "deposed",
+        "label",
+        "relations",
+        "representations",
+        "stage"
       ],
       "type": "object"
     },
@@ -430,7 +447,7 @@
       ],
       "type": "object"
     },
-    "ComparisonDocument": {
+    "ComparisonForm": {
       "additionalProperties": false,
       "properties": {
         "after": {
@@ -1184,89 +1201,6 @@
       ],
       "type": "object"
     },
-    "Form": {
-      "additionalProperties": false,
-      "properties": {
-        "accounting": {
-          "$ref": "#/$defs/Accounting"
-        },
-        "closures": {
-          "items": {
-            "$ref": "#/$defs/Closure"
-          },
-          "type": "array"
-        },
-        "contexts": {
-          "items": {
-            "$ref": "#/$defs/Context"
-          },
-          "type": "array"
-        },
-        "contributions": {
-          "items": {
-            "$ref": "#/$defs/Contribution"
-          },
-          "type": "array"
-        },
-        "declarations": {
-          "items": {
-            "$ref": "#/$defs/Declaration"
-          },
-          "type": "array"
-        },
-        "dependencies": {
-          "items": {
-            "$ref": "#/$defs/Dependency"
-          },
-          "type": "array"
-        },
-        "deposed": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "label": {
-          "type": "string"
-        },
-        "reconstruction": {
-          "$ref": "#/$defs/Reconstruction"
-        },
-        "relations": {
-          "items": {
-            "$ref": "#/$defs/Relation"
-          },
-          "type": "array"
-        },
-        "representations": {
-          "items": {
-            "$ref": "#/$defs/Representation"
-          },
-          "type": "array"
-        },
-        "stage": {
-          "enum": [
-            "planned",
-            "refreshed",
-            "recorded"
-          ]
-        }
-      },
-      "required": [
-        "accounting",
-        "closures",
-        "contexts",
-        "contributions",
-        "declarations",
-        "dependencies",
-        "deposed",
-        "label",
-        "relations",
-        "representations",
-        "stage"
-      ],
-      "type": "object"
-    },
     "Generator": {
       "additionalProperties": false,
       "properties": {
@@ -1398,6 +1332,72 @@
       },
       "required": [
         "kind"
+      ],
+      "type": "object"
+    },
+    "InputForm": {
+      "additionalProperties": false,
+      "properties": {
+        "comparisons": {
+          "$ref": "#/$defs/Comparisons"
+        },
+        "default_stage": {
+          "enum": [
+            "planned",
+            "refreshed",
+            "recorded"
+          ]
+        },
+        "diagnostics": {
+          "items": {
+            "$ref": "#/$defs/Diagnostic"
+          },
+          "type": "array"
+        },
+        "drift_report": {
+          "$ref": "#/$defs/DriftReport"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "format_version": {
+          "const": "1"
+        },
+        "generator": {
+          "$ref": "#/$defs/Generator"
+        },
+        "kind": {
+          "enum": [
+            "state",
+            "plan"
+          ]
+        },
+        "semantics": {
+          "$ref": "#/$defs/Semantics"
+        },
+        "stages": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Architecture"
+          },
+          "propertyNames": {
+            "enum": [
+              "planned",
+              "refreshed",
+              "recorded"
+            ]
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "default_stage",
+        "diagnostics",
+        "evidence",
+        "format_version",
+        "generator",
+        "kind",
+        "semantics",
+        "stages"
       ],
       "type": "object"
     },
@@ -2084,8 +2084,8 @@
     "Side": {
       "additionalProperties": false,
       "properties": {
-        "document": {
-          "$ref": "#/$defs/Analysis"
+        "form": {
+          "$ref": "#/$defs/InputForm"
         },
         "selected_from": {
           "enum": [
@@ -2103,7 +2103,7 @@
         }
       },
       "required": [
-        "document",
+        "form",
         "selected_from",
         "stage"
       ],
@@ -2182,15 +2182,15 @@
       "type": "object"
     }
   },
-  "$id": "https://rootform.dev/schemas/rootform-document.schema.json",
+  "$id": "https://rootform.dev/schemas/form.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "oneOf": [
     {
-      "$ref": "#/$defs/Analysis"
+      "$ref": "#/$defs/InputForm"
     },
     {
-      "$ref": "#/$defs/ComparisonDocument"
+      "$ref": "#/$defs/ComparisonForm"
     }
   ],
-  "title": "Rootform document, format 1"
+  "title": "Form, format 1"
 }

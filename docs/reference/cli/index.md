@@ -15,7 +15,7 @@ and return here for exact command contracts.
 
 ## Find a command
 
-- Analyze or explore: `run` analyzes a plan or state JSON, or reopens a saved Rootform document, then serves the local Explorer or writes reports.
+- Analyze or explore: `run` compiles a plan or state JSON into a Form, or reopens a saved Form, then serves the local Explorer or writes reports.
 - Review: `run --policy-pack` or `run --policy` evaluates Policies; `run --diff` compares two inputs.
 - Inspect: `list` shows active content, `show` displays a definition, and `explain` traces an interpretation or result.
 - Prepare: `init` verifies selected content and can fetch missing OCI units; `vendor` copies selected content into the project.
@@ -70,7 +70,7 @@ rootform [command]
 | [` rootform remove `](remove.md) | Remove content from rootform.lock |
 | [` rootform remove dialects `](remove/dialects.md) | Remove dialects from rootform.lock |
 | [` rootform remove policy-packs `](remove/policy-packs.md) | Remove Policy Packs from rootform.lock |
-| [` rootform run `](run.md) | Analyze a plan or state, or open a saved Rootform document |
+| [` rootform run `](run.md) | Analyze a plan or state, or open a saved Form |
 | [` rootform show `](show.md) | Show a Rootform definition |
 | [` rootform show policy `](show/policy.md) | Show a policy definition |
 | [` rootform show policy-pack `](show/policy-pack.md) | Show a Policy Pack |
@@ -85,7 +85,7 @@ rootform [command]
 | [` rootform validate concept `](validate/concept.md) | Validate a concept definition |
 | [` rootform validate context `](validate/context.md) | Validate a context dimension |
 | [` rootform validate dialects `](validate/dialects.md) | Validate dialect definitions |
-| [` rootform validate document `](validate/document.md) | Validate a saved Rootform document |
+| [` rootform validate form `](validate/form.md) | Validate a saved Form |
 | [` rootform validate policy `](validate/policy.md) | Validate a policy definition |
 | [` rootform validate relation `](validate/relation.md) | Validate a relation predicate |
 | [` rootform validate rule `](validate/rule.md) | Validate a rule definition |
