@@ -819,7 +819,7 @@ export function verifyHandoffDirectory(
   const schema = Buffer.from(entries.get("form.schema.json")?.body ?? []);
   const expectedSchema = requireRegularFile(
     join(root, "schemas", "form.schema.json"),
-    "committed Rootform document schema",
+    "committed Form schema",
     16 * 1024 * 1024,
   );
   const publicExport = exactObject(
