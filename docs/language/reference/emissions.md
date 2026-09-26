@@ -1,6 +1,6 @@
 ---
 title: "Fact emissions"
-description: "Context, Relation, and Contribution forms, endpoint resolution, and closure outcomes."
+description: "Context, Relation, and Contribution syntax, endpoint resolution, and closure outcomes."
 ---
 
 An applied Rule may emit directed facts from its instance to a target endpoint in the same stage. `to` declares the target's required Rule or Concept. `via` reads evidence on the source instance. A Terraform dependency alone creates no Context, Relation, or Contribution.
@@ -58,7 +58,7 @@ rule "subnet" {
 
 A subnet can establish network Context through its known `vpc_id`, or through a verified saved-plan reference to the VPC's declared endpoint. The closure records how each fact was proved.
 
-## Forms and parameters
+## Emission syntax and parameters
 
 ### Common parameters
 
@@ -81,7 +81,7 @@ A missing `on_null` or `on_empty` is a compile error. Unknown values remain `ind
 
 ## Context emission
 
-### Referenced form
+### Reference syntax
 
 ```rf title="Referenced Context"
 context {
@@ -101,11 +101,11 @@ context {
 | Attributes | Exactly one of a label or `as`, plus the common parameters |
 | Nested blocks | Zero or one `match` |
 
-### Labeled form
+### Labeled syntax
 
-`context "placement" { ... }` introduces or reuses a local Context instead of referencing one through `as`. Both forms need the common emission parameters.
+`context "placement" { ... }` introduces or reuses a local Context instead of referencing one through `as`. Both syntaxes need the common emission parameters.
 
-| Form | Required | Forbidden | Meaning |
+| Syntax | Required | Forbidden | Meaning |
 | --- | --- | --- | --- |
 | Referenced | `as` Context reference | Label | Use a defined Context |
 | Labeled | Context label | `as` | Introduce or reuse a local Context |
@@ -116,7 +116,7 @@ Exactly one of a label or `as` is required. Both or neither produce `FACT_INVALI
 
 ## Relation emission
 
-### Labeled form
+### Labeled syntax
 
 ```rf title="Labeled Relation"
 relation "reads-from" {
@@ -127,11 +127,11 @@ relation "reads-from" {
 }
 ```
 
-### Referenced form
+### Reference syntax
 
 An unlabeled `relation { as = relation.reads-from ... }` references an existing local Relation. Exactly one of label or `as` is required. Relations describe only the declared predicate; Rootform never turns every dependency into a Relation. The RF Vocabulary has no predefined Relations.
 
-| Form | Required | Forbidden | Meaning |
+| Syntax | Required | Forbidden | Meaning |
 | --- | --- | --- | --- |
 | Referenced | `as` Relation reference | Label | Use a defined local Relation |
 | Labeled | Relation label | `as` | Introduce or reuse a local Relation |
@@ -194,9 +194,9 @@ has no label or nested blocks and appears at most once in that emission.
 
 ## Traversal evidence
 
-`--plan-file` verifies the saved plan against its plan JSON and reads the configuration snapshot. A bare reference or single interpolation through variables, locals, or module outputs can pair the referenced managed or data instance with a target Rule's `endpoint` attribute. A tuple written at the emitted attribute, or within one static block, pairs elements separately. This is planned-stage evidence. Functions, operators, conditionals, dynamic indexes, and transformed references do not establish endpoint identity. A fact records `value`, `traversal`, or `both` as its evidence kind. See [Traversals and scope](traversals.md#value-and-identity-evidence).
+`--plan-file` verifies the saved plan against its plan JSON and reads the configuration snapshot. A bare reference or single interpolation through variables, locals, or module outputs can pair the referenced managed or data instance with a target Rule's `endpoint` attribute. A tuple written at the emitted attribute, or within one static block, pairs elements separately. This is Planned-stage evidence. Functions, operators, conditionals, dynamic indexes, and transformed references do not establish endpoint identity. A fact records `value`, `traversal`, or `both` as its evidence kind. See [Traversals and scope](traversals.md#value-and-identity-evidence).
 
-`via = provider.host` follows the emitting instance's bound provider block. Only a verified planned-stage direct reference or supported pass-through can establish its endpoint. A literal, transformed expression, plan without verified saved plan, state JSON, historical stage, OpenTofu provider `for_each`, or JSON provider configuration leaves `indeterminate(unavailable)`. Rootform does not read literal provider configuration values.
+`via = provider.host` follows the emitting instance's bound provider block. Only a verified Planned-stage direct reference or supported pass-through can establish its endpoint. A literal, transformed expression, plan without verified saved plan, state JSON, historical stage, OpenTofu provider `for_each`, or JSON provider configuration leaves `indeterminate(unavailable)`. Rootform does not read literal provider configuration values.
 
 ## External and data endpoints
 
@@ -220,6 +220,6 @@ Other reasons include `unknown_until_apply`, `sensitive`, `ambiguous_unknown`, `
 
 `EMISSION_PATH_UNDEFINED`, `VIA_VALUE_SHAPE`, `DUPLICATE_IDENTITY`, and `EVIDENCE_CONFLICT` warn that a fact was not safely established. They are evidence limits, not instructions to suppress the closure. The [evaluation rules](evaluation.md#query-truth) explain why missing facts under indeterminate closures cannot make a negative policy assertion pass.
 
-## Rejected forms
+## Rejected syntax
 
 A Context or Relation with both a label and `as` fails with `FACT_INVALID`. A missing `to` or `via` fails likewise. Missing null or empty policy fails with `EMISSION_ON_NULL_REQUIRED` or `EMISSION_ON_EMPTY_REQUIRED`. `match.by` outside the target Rule's declared identities fails with `MATCH_IDENTITY_UNDECLARED`.

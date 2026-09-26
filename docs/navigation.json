@@ -42,8 +42,8 @@
       { "label": "Install, add, and vendor", "page": "concepts/external-content" },
       { "label": "Dialects and RF Vocabulary", "page": "concepts/dialects" },
       { "label": "Policies and Policy Packs", "page": "concepts/policies" },
-      { "label": "Architecture comparisons", "page": "concepts/diff" },
-      { "label": "Architecture documents", "page": "concepts/architecture-ir" }
+      { "label": "Comparisons and drift", "page": "concepts/comparisons" },
+      { "label": "Forms and Rootform documents", "page": "concepts/forms" }
     ]
   },
   {
@@ -205,10 +205,10 @@
             "label": "validate",
             "items": [
               { "label": "Overview", "page": "reference/cli/validate" },
-              { "label": "architecture", "page": "reference/cli/validate/architecture" },
               { "label": "concept", "page": "reference/cli/validate/concept" },
               { "label": "context", "page": "reference/cli/validate/context" },
               { "label": "dialects", "page": "reference/cli/validate/dialects" },
+              { "label": "document", "page": "reference/cli/validate/document" },
               { "label": "policy", "page": "reference/cli/validate/policy" },
               { "label": "relation", "page": "reference/cli/validate/relation" },
               { "label": "rule", "page": "reference/cli/validate/rule" }

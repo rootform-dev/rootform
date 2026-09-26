@@ -4,7 +4,7 @@ All notable public Rootform distribution changes will be recorded here.
 
 ## Unreleased
 
-- Replaced pre-v0.1 language and Architecture IR model with RF Vocabulary,
+- Replaced pre-v0.1 language and document model with RF Vocabulary,
   resource bases, owner-first symbols, explicit interpretation, and immutable
   supplied release set.
 - Replaced discovery-driven project preparation with exact format-1 lock,

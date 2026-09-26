@@ -40,7 +40,7 @@ Bundle contains exactly:
 - `rootform_darwin_amd64`;
 - `rootform_darwin_arm64`;
 - `rootform_windows_amd64.exe`;
-- `architecture-ir.schema.json`;
+- `rootform-document.schema.json`;
 - `engine-sbom.spdx.json`;
 - `engine-handoff.json`;
 - `SHA256SUMS`, covering every other bundle entry.
@@ -69,7 +69,7 @@ Rootform rejects handoff unless:
 - target set, OS, architecture, modes, sizes, and hashes are exact;
 - every executable contains requested version and host executable reports
   exactly `rootform <version>`;
-- schema bytes equal committed public Architecture IR schema and export digest;
+- schema bytes equal committed public Rootform document schema and export digest;
 - SBOM is canonical SPDX 2.3 JSON for requested version and contains no private
   repository URL, renderer identity, or local filesystem path;
 - no duplicate, unsafe, linked, irregular, unexpected, or trailing entry exists.

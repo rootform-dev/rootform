@@ -30,11 +30,11 @@ Examples of canonical IDs:
 | `google.concept.load-balancer` | google | concept | load-balancer |
 | `rf.context.network` | rf | context | network |
 
-Slash-form IDs and untyped free strings are not symbol references.
+Slash-separated IDs and untyped free strings are not symbol references.
 
-## Reference forms by position
+## Reference syntax by position
 
-| Position | Accepted kind | Local form | Qualified form |
+| Position | Accepted kind | Local syntax | Qualified syntax |
 | --- | --- | --- | --- |
 | Rule `as` | Concept | `concept.application` | Current owner or `rf` |
 | Context emission `as` | Context | `context.runtime` | Current owner or `rf` |
@@ -59,7 +59,7 @@ Inside a Dialect:
 4. A reference to another Dialect owner is rejected.
 5. There are no imports, aliases, wildcard references, or shadowing rules.
 
-```rf title="reference forms"
+```rf title="reference syntax"
 rule "subnet" {
   match {
     type = "example_subnet"
@@ -118,7 +118,7 @@ Labeled emissions can introduce local Context or Relation symbols. Concepts are
 never introduced implicitly: every Concept must have an explicit top-level
 definition or come from [RF Vocabulary](rf-vocabulary.md).
 
-## Rejected forms
+## Rejected syntax
 
 ```rf title="invalid references"
 as = subnet

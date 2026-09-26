@@ -188,7 +188,7 @@ description. Concepts always require explicit definition.
 
 A Dialect may resolve:
 
-| Form | Scope |
+| Reference syntax | Scope |
 | --- | --- |
 | `concept.name`, `context.name`, `relation.name`, `rule.name` | Current Dialect |
 | `owner.kind.name` where owner equals current Dialect | Current Dialect |
@@ -197,7 +197,7 @@ A Dialect may resolve:
 Foreign Dialect references are invalid. File location never changes scope. See
 [Symbols and references](symbols.md) for complete resolution rules.
 
-## Rejected forms
+## Rejected syntax
 
 ```rf title="invalid-provider.rf.hcl"
 dialect "example" {

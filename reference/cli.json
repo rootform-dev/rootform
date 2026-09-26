@@ -1753,12 +1753,12 @@
       "usage": "rootform validate \u003cobject\u003e [flags]",
       "summary": "Validate a Rootform object",
       "description": "Validate a saved Rootform document or a Rootform definition and\nreport any problems found.\n\nValidation checks definitions; it does not evaluate policies. Use\nrootform run plan.json --policy \u003cname\u003e for that.",
-      "examples": "rootform validate architecture analysis.json\n  rootform validate dialects ./dialects\n  rootform validate rule google.rule.cloud-sql-instance",
+      "examples": "rootform validate document analysis.json\n  rootform validate dialects ./dialects\n  rootform validate rule google.rule.cloud-sql-instance",
       "subcommands": [
-        "rootform validate architecture",
         "rootform validate concept",
         "rootform validate context",
         "rootform validate dialects",
+        "rootform validate document",
         "rootform validate policy",
         "rootform validate relation",
         "rootform validate rule"
@@ -1770,37 +1770,6 @@
           "type": "bool",
           "default": "false",
           "usage": "show how to use rootform validate",
-          "no_option_default": "true"
-        }
-      ],
-      "inherited_flags": [
-        {
-          "name": "color",
-          "type": "mode",
-          "default": "auto",
-          "usage": "color human output: auto, always, never"
-        }
-      ]
-    },
-    {
-      "path": "rootform validate architecture",
-      "usage": "rootform validate architecture \u003cdocument\u003e [flags]",
-      "summary": "Validate a saved Rootform document",
-      "description": "Check that a saved Rootform document is a valid format-1 snapshot,\nplan or comparison document. Validation reads the document alone: it\nloads no Dialect and never recompiles. Use '-' for standard input.\n\nA plan or state export is analyzed by rootform run, not validated here.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the document is valid\n  1  the document is not valid\n  2  the command was used incorrectly\n  3  the input could not be validated",
-      "examples": "rootform validate architecture analysis.json\n  cat analysis.json | rootform validate architecture -\n  rootform validate architecture comparison.json --format json",
-      "flags": [
-        {
-          "name": "format",
-          "type": "string",
-          "default": "text",
-          "usage": "output `format`: text or json"
-        },
-        {
-          "name": "help",
-          "shorthand": "h",
-          "type": "bool",
-          "default": "false",
-          "usage": "show how to use rootform validate architecture",
           "no_option_default": "true"
         }
       ],
@@ -1906,6 +1875,37 @@
           "type": "bool",
           "default": "false",
           "usage": "show how to use rootform validate dialects",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate document",
+      "usage": "rootform validate document \u003cfile\u003e [flags]",
+      "summary": "Validate a saved Rootform document",
+      "description": "Check that a saved Rootform document is a valid format-1 state,\nplan or comparison document. Validation reads the document alone: it\nloads no Dialect and never recompiles. Use '-' for standard input.\n\nA plan or state export is analyzed by rootform run, not validated here.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the document is valid\n  1  the document is not valid\n  2  the command was used incorrectly\n  3  the input could not be validated",
+      "examples": "rootform validate document analysis.json\n  cat analysis.json | rootform validate document -\n  rootform validate document comparison.json --format json",
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "default": "text",
+          "usage": "output `format`: text or json"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform validate document",
           "no_option_default": "true"
         }
       ],

@@ -44,7 +44,7 @@ type Representation = {
   implementation?: { kind?: string; members?: Array<{ representation?: string }> };
 };
 type Stage = Record<FactCollection, Fact[]> & { representations: Representation[] };
-type AnalysisDocument = { default_stage: string; stages: Record<string, Stage | undefined> };
+type AnalysisDocument = { default_stage: string; forms: Record<string, Stage | undefined> };
 
 // Scenario endpoints name a Terraform address as
 // "representation:1:root:<mode>:<address>".
@@ -74,7 +74,7 @@ function matchesFact(fact: Fact, expected: RequiredFact): boolean {
 
 export function scenarioProblems(scenario: Scenario, golden: string): string[] {
   const document = JSON.parse(golden) as AnalysisDocument;
-  const stage = document.stages[document.default_stage];
+  const stage = document.forms[document.default_stage];
   if (!stage) return [`${scenario.id}: the analysis has no ${document.default_stage} stage`];
   const problems: string[] = [];
   const say = (text: string): void => {

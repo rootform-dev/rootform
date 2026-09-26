@@ -40,17 +40,17 @@ The command returns status `0` because the comparison completed, even though it 
   [2mFacts[0m        280: 28 relations, 207 contexts, 45 contributions
   [2mClosures[0m     292: 280 resolved, 9 absent, 3 indeterminate
 
-[1m[38;5;208mChanges · before planned → after planned[0m
+[1m[38;5;208mDifferences · Before Planned → After Planned[0m
   [2mInstances[0m     16 added, 7 removed, 0 changed
   [2mFacts[0m         42 added, 23 removed
-  [2mUndetermined[0m  3 closures before (3 unknown until apply) · 3 closures after (3 unknown until apply)
+  [2mIndeterminate[0m  3 closures before (3 unknown until apply) · 3 closures after (3 unknown until apply)
 ```
 
-The instance counts cover observed resource instances, while facts count the Relations, Contexts, and Contributions that Rules established. `Undetermined` keeps closures whose evidence cannot decide a change; it does not mean the comparison failed, as [Architecture comparisons](../concepts/diff.md#undetermined-preserves-uncertainty) explains. If pairing is refused or the counts differ in your own project, inspect the warning and confirm each JSON was exported from its matching saved plan. [Plan inputs](../inputs/plans.md#verify-the-saved-plan) explains pairing.
+The instance counts cover observed resource instances, while facts count the Relations, Contexts, and Contributions that Rules established. `Indeterminate` keeps closures whose evidence cannot decide a change; it does not mean the comparison failed, as [Comparisons](../concepts/comparisons.md#indeterminate-preserves-uncertainty) explains. If pairing is refused or the counts differ in your own project, inspect the warning and confirm each JSON was exported from its matching saved plan. [Plan inputs](../inputs/plans.md#verify-the-saved-plan) explains pairing.
 
 ## Open the comparison in the browser
 
-`comparison.json` is a Rootform document with `kind: "comparison"`. Its top-level `before` and `after` hold complete input documents; `comparison.name` is `cross`. `comparison.before` and `comparison.after` name the selected stages. Review `comparable` and `problems` before treating entries as comparable, then inspect Representation and fact changes alongside `undetermined`.
+`comparison.json` is a Rootform document with `kind: "comparison"`. Its top-level `before` and `after` hold complete input documents; `comparison.name` is `cross`. `comparison.before` and `comparison.after` name the selected stages. Review `comparable` and `problems` before treating entries as comparable, then inspect Representation and fact changes alongside `indeterminate`.
 
 `comparison.md` is a reviewable summary. To inspect the same result in the Explorer without reopening the plan JSON, make a self-contained HTML copy:
 
@@ -63,7 +63,7 @@ Open `comparison.html` locally. The Before, Diff, and After views place each cha
 
 ## Compare other stage pairs
 
-A plan defaults to `planned`, while a state snapshot has only `recorded`. For plans with prior state, `--before-stage recorded --after-stage recorded` compares recorded stages of separate inputs. Use `refreshed` when the question concerns the prior snapshot after refresh. Rootform refuses a requested stage that the input does not contain; it does not treat it as empty.
+A plan defaults to Planned, while a state analysis has only a Recorded Form. For plans with prior state, `--before-stage recorded --after-stage recorded` compares Recorded Forms of separate inputs. Use `refreshed` when the question concerns prior state after refresh. Rootform refuses a requested stage that the input does not contain; it does not treat it as empty.
 
 To compare your own state JSON with a later saved plan, export each with the same Terraform or OpenTofu binary. OpenTofu users replace `terraform` with `tofu` in these commands:
 
@@ -72,14 +72,14 @@ terraform show -json > state.json
 terraform show -json later.tfplan > later-plan.json
 ```
 
-The first file is a state snapshot; the second describes the later plan. Keep both private. Compare the state with the later proposed outcome:
+The first file is state JSON; the second describes the later plan. Keep both private. Compare the state with the later proposed outcome:
 
 ```sh
 rootform run state.json --diff later-plan.json \
   --diff-plan-file later.tfplan --no-serve -o state-to-plan.json
 ```
 
-This selects `recorded` before and `planned` after. The saved plan adds verified traversal evidence only to the second input. A cross-input difference may include intervening drift, but these separate exports cannot prove its cause. To review drift reported in one plan, inspect its `recorded` to `refreshed` comparison, as in [Compare both sides of one plan](../inputs/plans.md#compare-both-sides-of-one-plan). [Architecture comparisons](../concepts/diff.md#choose-the-stage-pair) explains these boundaries.
+This selects `recorded` before and `planned` after. The saved plan adds verified traversal evidence only to the second input. A cross-input difference may include intervening drift, but these separate exports cannot prove its cause. To review drift reported in one plan, inspect its `recorded` to `refreshed` comparison, as in [Compare both sides of one plan](../inputs/plans.md#compare-both-sides-of-one-plan). [Comparisons](../concepts/comparisons.md#choose-the-stage-pair) explains these boundaries.
 
 ## Use exit status deliberately
 

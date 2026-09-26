@@ -3,7 +3,7 @@ title: "Reproduce an analysis offline"
 description: "Replay the same plan or state input and exact Rootform selection in an independent environment."
 ---
 
-A reproducible analysis needs the same plan or state JSON bytes, Rootform release, active Dialects, and relevant options. For a plan, the same verified saved plan matters when traversals establish facts. `rootform.lock` fixes external selection; it does not store the embedded Dialects, which come from the binary. A saved [Rootform document](../concepts/architecture-ir.md) offers a second path: reopen its recorded facts without the plan or state export or installed Dialects.
+A reproducible analysis needs the same plan or state JSON bytes, Rootform release, active Dialects, and relevant options. For a plan, the same verified saved plan matters when traversals establish facts. `rootform.lock` fixes external selection; it does not store the embedded Dialects, which come from the binary. A saved [Rootform document](../concepts/forms.md) offers a second path: reopen its recorded facts without the plan or state export or installed Dialects.
 
 This walkthrough uses two copies of one project, `source/` and `replay/`, and a private `evidence/` directory. Both contain the same `plan.json` and `plan.tfplan`. Keep those input files out of Git and public artifacts: saved plans and JSON exports can contain secrets in clear text. Rootform reads them locally and does not run Terraform, contact providers, or publish sensitive values. Its reports still disclose infrastructure topology and names, so keep them internal.
 
@@ -28,7 +28,7 @@ rootform run source/plan.json --project source \
 ```text title="Excerpt from analysis summary"
 Plan analyzed
 Enrichment    saved plan verified against this plan JSON (1 module)
-Stages        planned (default)
+Forms         planned (default)
 ```
 
 `--require-enrichment` makes an unverified pair fail with status `3` instead of silently relying on plan-only evidence. The saved plan contributes configuration traversal evidence; it is not the analyzed input. On a Linux host without `shasum`, use `sha256sum` for the checksum line. Keep the command flags, standard error, and document with the exact input hashes. [Terraform and OpenTofu plans](../inputs/plans.md#produce-the-accepted-json) gives the export procedure.

@@ -31,7 +31,7 @@ function documentFiles(): string[] {
 function eventPlacement(document: unknown): void {
   const analysis = document as {
     kind: string;
-    stages: {
+    forms: {
       planned: {
         representations: Array<{ id: string }>;
         contexts: Array<{ from: string; to: string; dimension: string; provenance: unknown[] }>;
@@ -39,8 +39,8 @@ function eventPlacement(document: unknown): void {
       };
     };
   };
-  assert(analysis.kind === "plan" && analysis.stages?.planned, "event analysis must be a plan");
-  const stage = analysis.stages.planned;
+  assert(analysis.kind === "plan" && analysis.forms?.planned, "event analysis must be a plan");
+  const stage = analysis.forms.planned;
   const rep = (address: string) => `representation:1:${address}`;
   const eventTopic = "azurerm_eventgrid_system_topic.docs";
   const busTopic = "azurerm_servicebus_topic.claims_events";

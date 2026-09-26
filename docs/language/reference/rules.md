@@ -62,7 +62,7 @@ A Rule must have `as`, at least one emission, or a nonempty composition. A match
 | `match` | Exactly one | Choose eligible instances |
 | `identity` | Zero or one | Name value attributes for target matching |
 | `endpoint` | Zero or one | Name attributes a saved-plan traversal can pair with this instance |
-| `context`, `relation`, `contribution` | Zero or more | Emit facts; see [Fact emissions](emissions.md#forms-and-parameters) |
+| `context`, `relation`, `contribution` | Zero or more | Emit facts; see [Fact emissions](emissions.md#emission-syntax-and-parameters) |
 | `composition` | Zero or one | Claim ordered members |
 
 ## `match` block
@@ -111,7 +111,7 @@ The other values remain accepted language syntax, but plan and state inputs cont
 | `identity` | `scope` | No | `"provider"` | `"provider"` requires compatible provider address and alias; `"global"` permits cross-provider candidates |
 | `endpoint` | `attributes` | Yes | None | Nonempty, distinct paths a verified traversal may use to identify the instance |
 
-These attributes are declared on a target Rule, not inferred from a Concept. A target with an unavailable provider alias remains a possible candidate, so Rootform cannot force a unique value match around it. `scope = "global"` changes candidate eligibility, not the meaning of an identity value. With `--plan-file`, a direct reference to a declared endpoint can establish the exact instance even if its evaluated value is unknown or shared. [Traversals and scope](traversals.md#value-and-identity-evidence) gives the supported expression forms.
+These attributes are declared on a target Rule, not inferred from a Concept. A target with an unavailable provider alias remains a possible candidate, so Rootform cannot force a unique value match around it. `scope = "global"` changes candidate eligibility, not the meaning of an identity value. With `--plan-file`, a direct reference to a declared endpoint can establish the exact instance even if its evaluated value is unknown or shared. [Traversals and scope](traversals.md#value-and-identity-evidence) gives the supported expression syntax variants.
 
 ## Classification with `as`
 
@@ -139,7 +139,7 @@ The Dialect manifest declares a provider version envelope, but plan/state Rule s
 
 If a resource type could match but no selected Dialect binds its provider address, interpretation fails with `PROVIDER_UNBOUND` before Rule selection. There is no priority by file order, Dialect origin, or Rule name. A managed or data instance with no matching Rule still has a Representation in the Rootform document. It has no invented classification or emissions. Policy selection can also include an instance whose possible Rule is indeterminate or failed, producing an indeterminate policy evaluation; see [Evaluation](evaluation.md#policy-target-selection). [Rule selection](evaluation.md#rule-selection) places this step in the analysis pipeline.
 
-## Rejected forms
+## Rejected syntax
 
 ```rf title="invalid/match-only.rf.hcl"
 dialect "example" {

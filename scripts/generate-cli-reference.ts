@@ -84,7 +84,7 @@ const authoredCommands = new Set([
   "rootform completion",
   "rootform version",
   "rootform validate",
-  "rootform validate architecture",
+  "rootform validate document",
 ]);
 
 function object(value: unknown, keys: string[]): Record<string, unknown> {

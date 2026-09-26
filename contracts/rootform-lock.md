@@ -83,7 +83,7 @@ as independent project selections.
 
 Pack selection is never automatic: only pack sources recorded in this section
 or named explicitly are evaluated. `run` evaluates Policy Packs when selected, so
-governance selection never changes Architecture IR.
+governance selection never changes a Rootform document's Forms.
 
 ## Validation and identity
 

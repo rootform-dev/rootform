@@ -64,7 +64,7 @@ diagnostics before sharing them. Apply the same audience and retention rules as
 other infrastructure metadata. The
 [plan guide](../inputs/plans.md#protect-the-plan-files) explains the input
 risk, and
-[Architecture documents](../concepts/architecture-ir.md#saved-evidence-still-needs-handling-rules)
+[Forms and Rootform documents](../concepts/forms.md#saved-evidence-still-needs-handling-rules)
 describes what a saved document retains.
 
 ## Separate integrity from trust

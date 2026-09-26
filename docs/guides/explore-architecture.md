@@ -15,7 +15,7 @@ rootform run plan.json --plan-file plan.tfplan --no-browser --port 0
 Read the address printed on standard error, open it in your browser, and
 press `Ctrl+C` in the terminal when finished. `--no-browser` leaves browser
 launch to you; `--port 0` asks the operating system for an available port.
-A saved document opens the same way with `rootform run architecture.json`.
+A saved document opens the same way with `rootform run analysis.json`.
 
 ## Move through architecture levels
 
@@ -80,16 +80,16 @@ open the home context.
 Open **Reading** to choose a stage or comparison. A plan normally opens at
 **Planned**; available **Refreshed** and **Recorded** stages depend on the
 plan evidence. A state document has **Recorded** only. Under
-**Comparisons**, a plan may offer drift, planned, and net changes. A
-cross-input comparison shows **Before**, **Diff**, and **After** views of its
+**Comparisons**, a plan may offer Reported drift, Planned changes, and Net change. An
+input comparison shows **Before**, **Diff**, and **After** views of its
 selected stages; [Compare architectures](compare-architectures.md#open-the-comparison-in-the-browser)
 opens one. The **Analysis** panel's **Changes** tab lists determined changes
-and undetermined closures; **Drift report** names drift reported by the plan
+and indeterminate closures; **Drift report** names drift reported by the plan
 with its scope.
 
 Do not read “No drift reported in this plan” as proof that no infrastructure
 changed. Terraform or OpenTofu may have skipped refresh or limited scope. See
-[comparisons and drift](../concepts/architecture-ir.md#comparisons-and-drift).
+[comparisons and drift](../concepts/forms.md#comparisons-and-drift).
 
 ## Reveal a secondary resource
 
@@ -104,7 +104,7 @@ Save a reusable document or standalone browser view from the same input:
 
 <!-- docs-check:journey-explore-export -->
 ```sh
-rootform run plan.json --plan-file plan.tfplan --no-serve -o architecture.json -o architecture.html
+rootform run plan.json --plan-file plan.tfplan --no-serve -o analysis.json -o architecture.html
 ```
 
 The HTML file embeds the Explorer and the analysis, makes no network requests,

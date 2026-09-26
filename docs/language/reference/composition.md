@@ -152,7 +152,7 @@ document. Authored source errors still produce compiler diagnostics.
 | `reference_ambiguous` | Verified traversal and evaluated identity evidence disagree |
 | `ambiguous_unknown` | An eligible candidate cannot be ruled out with the available evidence |
 
-## Rejected forms
+## Rejected syntax
 
 ```rf title="invalid/empty-composition.rf.hcl"
 dialect "example" {

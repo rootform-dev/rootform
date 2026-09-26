@@ -76,7 +76,7 @@ create sub-packs or namespaces.
 
 Message is attached to each confirmed violation. It is not a Policy assertion
 or runtime template and cannot interpolate target data. Native syntax still
-accepts the constant string-expression forms described under
+accepts the constant string-expression variants described under
 [Expressions](expressions.md#static-string-expressions).
 
 ## `target` block
@@ -162,7 +162,7 @@ assert = (
 
 Accepted result types:
 
-| Form | Type |
+| Expression | Type |
 | --- | --- |
 | `true`, `false` | Boolean |
 | `exists(query)` | Boolean |
@@ -180,7 +180,7 @@ Bare queries, traversals, strings, and arbitrary calls are invalid. See
 
 Policy Pack source stores qualified references but no semantic versions or
 digests. Before evaluation, Rootform links source against one validated
-Rootform document's semantic snapshot:
+Rootform document's semantics:
 
 Save a Rootform document from plan JSON first. The saved plan verifies the
 export and supplies reference traversals; the Policy Pack then links against
@@ -235,7 +235,7 @@ A valid Policy may select zero representations in one architecture. It is then
 `not_evaluated`, not passed. A selected Policy without targets prevents an
 overall compliant result.
 
-## Rejected forms
+## Rejected syntax
 
 This Policy has only an owner filter:
 

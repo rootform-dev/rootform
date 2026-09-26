@@ -15,7 +15,7 @@ Rule matching uses source kind, resource type, provider binding, and any predica
 
 For a subnet whose `vpc_id` identifies a VPC, an AWS Rule can classify the subnet and establish a network Context toward that VPC. The value or verified direct traversal is evidence. The Rule gives it architectural meaning. A `depends_on` edge, matching resource name, or provider type alone creates no Context or Relation. [Core concepts](../concepts.md#references-are-evidence-not-meaning) explains this boundary across all fact types.
 
-An emission closes as `resolved`, `absent`, or `indeterminate` per instance. A verified saved plan can establish a planned-stage identity traversal when a value is unknown until apply. A state export has values and masks but no traversal snapshot. If an eligible target has unknown identity, the closure can remain indeterminate even if one candidate looks plausible. [Architecture documents](architecture-ir.md#stages-and-facts) explains closures and provenance.
+An emission closes as `resolved`, `absent`, or `indeterminate` per instance. A verified saved plan can establish a planned-stage identity traversal when a value is unknown until apply. A state export has values and masks but no traversal snapshot. If an eligible target has unknown identity, the closure can remain indeterminate even if one candidate looks plausible. [Forms and Rootform documents](forms.md#stages-and-facts) explains closures and provenance.
 
 ## RF Vocabulary provides shared terms
 

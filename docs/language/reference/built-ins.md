@@ -114,7 +114,7 @@ resource "aws_s3_bucket_versioning" "assets" {
 ```
 
 Save the configuration as `built-ins/main.tf`, produce its plan JSON and saved
-plan, then run it with the displayed Policy Pack. The planned stage has six
+plan, then run it with the displayed Policy Pack. The Planned stage has six
 instances, three resolved facts (one of each kind), and three Policy targets.
 All three Policies pass with exit 0. If a closure is indeterminate, `exists`
 cannot claim absence and `length` cannot claim a complete count; inspect that

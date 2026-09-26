@@ -1,6 +1,6 @@
 ---
 title: "Expressions"
-description: "Complete RF expression grammar, literal types, operators, precedence, typing rules, JSON encoding, and rejected forms."
+description: "Complete RF expression grammar, literal types, operators, precedence, typing rules, JSON encoding, and rejected syntax."
 ---
 
 RF expressions are a strict subset of HCL expressions. Accepted shape depends
@@ -281,7 +281,7 @@ HCL JSON stores expression-valued fields in strings using `"${...}"`:
 ```
 
 Native `.rf.hcl` also accepts pure `"${expression}"` wrapper for
-full-expression fields and unwraps it to enclosed value. Direct native form is
+full-expression fields and unwraps it to enclosed value. Direct native syntax is
 canonical:
 
 ```rf

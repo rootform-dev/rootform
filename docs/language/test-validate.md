@@ -99,7 +99,7 @@ rootform run ./plan.json --plan-file ./plan.tfplan \
 [2mInput[0m         plan JSON from Terraform or OpenTofu 1.16.4
 [2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
 
-[1m[38;5;208mArchitecture · planned[0m
+[1m[38;5;208mPlanned Form[0m
   [2mInstances[0m    1 (1 managed, 0 data)
   [2mInterpreted[0m  1 of 1 instances
   [2mFacts[0m        0: 0 relations, 0 contexts, 0 contributions

@@ -183,7 +183,7 @@ rootform run violation/plan.json --plan-file violation/plan.tfplan \
 
 <!-- docs-output:check-architecture-violation -->
 ```ansi title="Violation, excerpt"
-[1m[38;5;208mArchitecture · planned[0m
+[1m[38;5;208mPlanned Form[0m
   [2mClosures[0m     1: 0 resolved, 1 absent, 0 indeterminate
 
 [1m[38;5;208mPolicies · planned[0m
@@ -205,7 +205,7 @@ rootform run pass/plan.json --policy-pack ./policies --no-serve --color always
 
 <!-- docs-output:check-architecture-indeterminate -->
 ```ansi title="Indeterminate result, excerpt"
-[1m[38;5;208mArchitecture · planned[0m
+[1m[38;5;208mPlanned Form[0m
   [2mClosures[0m     2: 0 resolved, 0 absent, 2 indeterminate
 
 [1m[38;5;208mUncertainty · planned[0m

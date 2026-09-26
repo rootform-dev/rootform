@@ -11,8 +11,8 @@ Rootform keeps four layers separate.
 
 1. **Plan or state evidence** records instances, evaluated values, and sensitivity masks. A plan can also carry configuration references, prior state, and reported drift. An optional verified saved plan adds exact configuration traversals.
 2. A [Dialect](concepts/dialects.md) applies Rules to matching instances. Its Rules classify instances with Concepts and establish architectural facts through declared emissions.
-3. The [Rootform document](concepts/architecture-ir.md) records stages, Representations, facts, closures, provenance, diagnostics, and the Dialects used to interpret them.
-4. [Comparisons](concepts/diff.md) read that meaning across stages or inputs. Selected [Policies](concepts/policies.md) evaluate it on one stage.
+3. Each [Form](concepts/forms.md) records Representations, facts, closures, provenance, diagnostics, and the Dialects used to interpret them. A Rootform document saves the analysis.
+4. [Comparisons](concepts/comparisons.md) read that meaning across Forms or inputs. Selected [Policies](concepts/policies.md) evaluate one Form.
 
 Neither comparison nor policy evaluation changes the architecture it reads. A saved document can be reopened without the original plan, state, or active Dialects.
 
@@ -44,13 +44,13 @@ One instance can have Contexts in several dimensions. Contributions keep contrib
 
 Each active emission closes for each applicable instance. A `resolved` closure records a complete, nonempty fact set. `absent` means the relevant fact is proven absent. `indeterminate` means available evidence cannot finish the answer; proven facts from other elements may still be present. Reasons include an unknown value, a sensitive value, ambiguous or duplicate identity, and unavailable evidence.
 
-An absent Context can support a Policy violation or a determined comparison. An indeterminate Context cannot justify a pass, a proven removal, or a no-change conclusion. An uninterpreted instance and an indeterminate emission are different: one lacks a matching Rule, while the other has a Rule whose evidence cannot settle its emission. [Architecture documents](concepts/architecture-ir.md#stages-and-facts) explains recorded closures.
+An absent Context can support a Policy violation or a determined comparison. An indeterminate Context cannot justify a pass, a proven removal, or a no-change conclusion. An uninterpreted instance and an indeterminate emission are different: one lacks a matching Rule, while the other has a Rule whose evidence cannot settle its emission. [Forms and Rootform documents](concepts/forms.md#stages-and-facts) explains recorded closures.
 
 ## One input can contain several stages
 
 A plan has a `planned` outcome and can also provide `refreshed` prior state. Rootform reconstructs `recorded` from drift reported in the plan when evidence permits; that reconstruction may be partial. A state JSON supplies one `recorded` stage. Rootform never refreshes these stages itself.
 
-One plan can compare recorded to refreshed as reported drift, refreshed to planned as proposed change, and recorded to planned as net change. `rootform run a.json --diff b.json` instead compares selected stages of separate inputs. That [cross-input comparison](concepts/diff.md) cannot establish drift causation.
+One plan can show Reported drift (Recorded to Refreshed), Planned changes (Refreshed to Planned), and Net change (Recorded to Planned). `rootform run a.json --diff b.json` instead compares selected Forms of separate inputs. That [input comparison](concepts/comparisons.md) shows differences, never drift.
 
 ## Rootform does not run Terraform or OpenTofu
 

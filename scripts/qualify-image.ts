@@ -377,8 +377,8 @@ function assertArchitecture(
   if (document.format_version !== "1" || document.kind !== "plan") {
     throw new Error(`${label} is not a format-1 plan`);
   }
-  const stages = parseJson(JSON.stringify(document.stages), `${label} stages`);
-  const planned = parseJson(JSON.stringify(stages.planned), `${label} planned stage`);
+  const forms = parseJson(JSON.stringify(document.forms), `${label} forms`);
+  const planned = parseJson(JSON.stringify(forms.planned), `${label} planned Form`);
   const representations = planned.representations;
   if (
     !Array.isArray(representations) ||

@@ -46,7 +46,7 @@ type Closure = {
 
 type Emission = { id: string; rule: string; kind: string; via?: string };
 
-type Architecture = {
+type Form = {
   representations: Representation[];
   contexts: Fact[];
   contributions: Fact[];
@@ -56,7 +56,7 @@ type Architecture = {
 
 type Analysis = {
   default_stage: string;
-  stages: Record<string, Architecture | undefined>;
+  forms: Record<string, Form | undefined>;
   semantics: { emissions: Emission[] };
 };
 
@@ -79,8 +79,8 @@ function analysis(name: string): Analysis {
   return JSON.parse(readFileSync(golden(name), "utf8")) as Analysis;
 }
 
-function stage(doc: Analysis): Architecture {
-  const selected = doc.stages[doc.default_stage];
+function stage(doc: Analysis): Form {
+  const selected = doc.forms[doc.default_stage];
   if (!selected) throw new Error(`the analysis has no ${doc.default_stage} stage`);
   return selected;
 }

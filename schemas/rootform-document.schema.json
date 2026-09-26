@@ -137,21 +137,9 @@
         "format_version": {
           "const": "1"
         },
-        "generator": {
-          "$ref": "#/$defs/Generator"
-        },
-        "kind": {
-          "enum": [
-            "snapshot",
-            "plan"
-          ]
-        },
-        "semantics": {
-          "$ref": "#/$defs/Semantics"
-        },
-        "stages": {
+        "forms": {
           "additionalProperties": {
-            "$ref": "#/$defs/Architecture"
+            "$ref": "#/$defs/Form"
           },
           "propertyNames": {
             "enum": [
@@ -161,6 +149,18 @@
             ]
           },
           "type": "object"
+        },
+        "generator": {
+          "$ref": "#/$defs/Generator"
+        },
+        "kind": {
+          "enum": [
+            "state",
+            "plan"
+          ]
+        },
+        "semantics": {
+          "$ref": "#/$defs/Semantics"
         }
       },
       "required": [
@@ -168,93 +168,10 @@
         "diagnostics",
         "evidence",
         "format_version",
+        "forms",
         "generator",
         "kind",
-        "semantics",
-        "stages"
-      ],
-      "type": "object"
-    },
-    "Architecture": {
-      "additionalProperties": false,
-      "properties": {
-        "accounting": {
-          "$ref": "#/$defs/Accounting"
-        },
-        "closures": {
-          "items": {
-            "$ref": "#/$defs/Closure"
-          },
-          "type": "array"
-        },
-        "contexts": {
-          "items": {
-            "$ref": "#/$defs/Context"
-          },
-          "type": "array"
-        },
-        "contributions": {
-          "items": {
-            "$ref": "#/$defs/Contribution"
-          },
-          "type": "array"
-        },
-        "declarations": {
-          "items": {
-            "$ref": "#/$defs/Declaration"
-          },
-          "type": "array"
-        },
-        "dependencies": {
-          "items": {
-            "$ref": "#/$defs/Dependency"
-          },
-          "type": "array"
-        },
-        "deposed": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "label": {
-          "type": "string"
-        },
-        "reconstruction": {
-          "$ref": "#/$defs/Reconstruction"
-        },
-        "relations": {
-          "items": {
-            "$ref": "#/$defs/Relation"
-          },
-          "type": "array"
-        },
-        "representations": {
-          "items": {
-            "$ref": "#/$defs/Representation"
-          },
-          "type": "array"
-        },
-        "stage": {
-          "enum": [
-            "planned",
-            "refreshed",
-            "recorded"
-          ]
-        }
-      },
-      "required": [
-        "accounting",
-        "closures",
-        "contexts",
-        "contributions",
-        "declarations",
-        "dependencies",
-        "deposed",
-        "label",
-        "relations",
-        "representations",
-        "stage"
+        "semantics"
       ],
       "type": "object"
     },
@@ -414,10 +331,16 @@
           },
           "type": "array"
         },
+        "indeterminate": {
+          "items": {
+            "$ref": "#/$defs/IndeterminateClosure"
+          },
+          "type": "array"
+        },
         "name": {
           "enum": [
             "drift",
-            "planned",
+            "changes",
             "net",
             "cross"
           ]
@@ -433,12 +356,6 @@
             "$ref": "#/$defs/RepresentationChange"
           },
           "type": "array"
-        },
-        "undetermined": {
-          "items": {
-            "$ref": "#/$defs/Undetermined"
-          },
-          "type": "array"
         }
       },
       "required": [
@@ -448,10 +365,10 @@
         "comparable",
         "counts",
         "facts",
+        "indeterminate",
         "name",
         "problems",
-        "representations",
-        "undetermined"
+        "representations"
       ],
       "type": "object"
     },
@@ -467,6 +384,10 @@
           "type": "integer"
         },
         "facts_removed": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "indeterminate": {
           "minimum": 0,
           "type": "integer"
         },
@@ -493,23 +414,19 @@
         "representations_removed": {
           "minimum": 0,
           "type": "integer"
-        },
-        "undetermined": {
-          "minimum": 0,
-          "type": "integer"
         }
       },
       "required": [
         "cancelled",
         "facts_added",
         "facts_removed",
+        "indeterminate",
         "moved",
         "recreated",
         "replaced",
         "representations_added",
         "representations_changed",
-        "representations_removed",
-        "undetermined"
+        "representations_removed"
       ],
       "type": "object"
     },
@@ -572,13 +489,13 @@
     "Comparisons": {
       "additionalProperties": false,
       "properties": {
+        "changes": {
+          "$ref": "#/$defs/Comparison"
+        },
         "drift": {
           "$ref": "#/$defs/Comparison"
         },
         "net": {
-          "$ref": "#/$defs/Comparison"
-        },
-        "planned": {
           "$ref": "#/$defs/Comparison"
         }
       },
@@ -960,7 +877,7 @@
           "enum": [
             "architectural",
             "none_under_dialects",
-            "undetermined",
+            "indeterminate",
             "uncovered",
             "address_only"
           ]
@@ -1267,6 +1184,89 @@
       ],
       "type": "object"
     },
+    "Form": {
+      "additionalProperties": false,
+      "properties": {
+        "accounting": {
+          "$ref": "#/$defs/Accounting"
+        },
+        "closures": {
+          "items": {
+            "$ref": "#/$defs/Closure"
+          },
+          "type": "array"
+        },
+        "contexts": {
+          "items": {
+            "$ref": "#/$defs/Context"
+          },
+          "type": "array"
+        },
+        "contributions": {
+          "items": {
+            "$ref": "#/$defs/Contribution"
+          },
+          "type": "array"
+        },
+        "declarations": {
+          "items": {
+            "$ref": "#/$defs/Declaration"
+          },
+          "type": "array"
+        },
+        "dependencies": {
+          "items": {
+            "$ref": "#/$defs/Dependency"
+          },
+          "type": "array"
+        },
+        "deposed": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "label": {
+          "type": "string"
+        },
+        "reconstruction": {
+          "$ref": "#/$defs/Reconstruction"
+        },
+        "relations": {
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "type": "array"
+        },
+        "representations": {
+          "items": {
+            "$ref": "#/$defs/Representation"
+          },
+          "type": "array"
+        },
+        "stage": {
+          "enum": [
+            "planned",
+            "refreshed",
+            "recorded"
+          ]
+        }
+      },
+      "required": [
+        "accounting",
+        "closures",
+        "contexts",
+        "contributions",
+        "declarations",
+        "dependencies",
+        "deposed",
+        "label",
+        "relations",
+        "representations",
+        "stage"
+      ],
+      "type": "object"
+    },
     "Generator": {
       "additionalProperties": false,
       "properties": {
@@ -1329,6 +1329,56 @@
       },
       "required": [
         "kind"
+      ],
+      "type": "object"
+    },
+    "IndeterminateClosure": {
+      "additionalProperties": false,
+      "properties": {
+        "closure": {
+          "type": "string"
+        },
+        "emission": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "reasons": {
+          "items": {
+            "enum": [
+              "unknown_until_apply",
+              "sensitive",
+              "ambiguous_unknown",
+              "uncomparable_candidate",
+              "reference_ambiguous",
+              "identity_incomplete",
+              "unavailable",
+              "external_denied",
+              "duplicate_identity",
+              "external_identity_withheld",
+              "interpretation_failed"
+            ]
+          },
+          "type": "array"
+        },
+        "representation": {
+          "type": "string"
+        },
+        "side": {
+          "enum": [
+            "before",
+            "after"
+          ]
+        }
+      },
+      "required": [
+        "closure",
+        "emission",
+        "id",
+        "reasons",
+        "representation",
+        "side"
       ],
       "type": "object"
     },
@@ -2105,56 +2155,6 @@
       ],
       "type": "object"
     },
-    "Undetermined": {
-      "additionalProperties": false,
-      "properties": {
-        "closure": {
-          "type": "string"
-        },
-        "emission": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "reasons": {
-          "items": {
-            "enum": [
-              "unknown_until_apply",
-              "sensitive",
-              "ambiguous_unknown",
-              "uncomparable_candidate",
-              "reference_ambiguous",
-              "identity_incomplete",
-              "unavailable",
-              "external_denied",
-              "duplicate_identity",
-              "external_identity_withheld",
-              "interpretation_failed"
-            ]
-          },
-          "type": "array"
-        },
-        "representation": {
-          "type": "string"
-        },
-        "side": {
-          "enum": [
-            "before",
-            "after"
-          ]
-        }
-      },
-      "required": [
-        "closure",
-        "emission",
-        "id",
-        "reasons",
-        "representation",
-        "side"
-      ],
-      "type": "object"
-    },
     "UnresolvedMember": {
       "additionalProperties": false,
       "properties": {
@@ -2182,7 +2182,7 @@
       "type": "object"
     }
   },
-  "$id": "https://rootform.dev/schemas/architecture-ir.schema.json",
+  "$id": "https://rootform.dev/schemas/rootform-document.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "oneOf": [
     {
@@ -2192,5 +2192,5 @@
       "$ref": "#/$defs/ComparisonDocument"
     }
   ],
-  "title": "Rootform Architecture IR, format 1"
+  "title": "Rootform document, format 1"
 }

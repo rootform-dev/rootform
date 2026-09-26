@@ -125,8 +125,8 @@ function distributionInputs(root: string): {
     license: readBinaryLicense(root),
     notices: runtimeLicensing.notices,
     schema: requireRegularFile(
-      join(root, "schemas", "architecture-ir.schema.json"),
-      "Architecture IR schema",
+      join(root, "schemas", "rootform-document.schema.json"),
+      "Rootform document schema",
     ),
   };
 }

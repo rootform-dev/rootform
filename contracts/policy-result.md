@@ -1,12 +1,13 @@
 # Policy Result contract
 
-Current format version: `0.1.0`.
+Current format version: `1`.
 
-Policy evaluation consumes validated autonomous Architecture IR and linked
+Policy evaluation consumes one Form from a validated Rootform document and linked
 Policy Pack artifacts (or their source, linked automatically and locally
 during a source check). It never re-reads Terraform, reloads producer Dialects,
 accesses the network, recompiles locked source, or upgrades unresolved
-evidence.
+evidence. A Policy evaluates exactly one Form. Its result is separate from the
+Rootform document.
 
 Policies belong to policy packs, never to dialects. A dialect may not carry,
 override, or append policy; a policy pack may not change dialect semantics.
@@ -54,7 +55,7 @@ absence of facts creates neither support, omission, nor proven zero.
 ## Outcomes
 
 Each evaluation has one outcome: `passed`, `violated`, or `indeterminate`.
-A result contains exact architecture format version and semantic pins, linked
+A result contains exact Rootform document format version and semantic pins, linked
 Policy Pack identities and pins, global `status`, `compliant`, explicit
 policy scope and target coverage, summary, ordered evaluations, ordered
 violations, and ordered sanitized diagnostics. Violations identify policy,
@@ -65,7 +66,7 @@ A result identifies each evaluated Policy Pack by name and version and every
 policy by its pack-qualified identity. Exact pack source and acquisition pins
 remain in `rootform.lock`; policy results do not duplicate them. Changing pack
 or policy identity changes result meaning; a result is valid only for the
-architecture versions and pack selection it records.
+Form semantics and pack selection it records.
 
 Global status is `compliant`, `violated`, `indeterminate`, or `not_evaluated`.
 `compliant` is true only when every selected policy is satisfied on its
@@ -85,9 +86,9 @@ does not change evaluation meaning or exit status.
 ## Linking
 
 Explicitly provided linked artifacts are replayed strictly: mismatch of
-format, contract, or pins against the evaluated IR is a terminal refusal with
-no fallback and no relink. In the source path, check derives pins from the IR
-snapshot, links deterministically and locally on cache miss, validates, caches,
+format, contract, or pins against the evaluated Form is a terminal refusal with
+no fallback and no relink. In the source path, check derives pins from the document
+semantics, links deterministically and locally on cache miss, validates, caches,
 and evaluates; a compatible evolution of a pinned unit triggers a new local
 link without prompt or network. Linked cache state never changes the verdict,
 semantic evidence, or linked digest. See

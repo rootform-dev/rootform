@@ -138,10 +138,10 @@ test("resolveRepositoryLink strips fragments and normalizes within the repositor
 test("rendered HTML IDs validate cross-page and current-page fragments", async () => {
   const directory = mkdtempSync(join(tmpdir(), "rootform-docs-anchors-"));
   try {
-    mkdirSync(join(directory, "concepts", "diff"), { recursive: true });
+    mkdirSync(join(directory, "concepts", "comparisons"), { recursive: true });
     writeFileSync(
-      join(directory, "concepts", "diff", "index.html"),
-      '<main><h2 id="undetermined-preserves-uncertainty">Unknown</h2></main>',
+      join(directory, "concepts", "comparisons", "index.html"),
+      '<main><h2 id="indeterminate-preserves-uncertainty">Unknown</h2></main>',
     );
     mkdirSync(join(directory, "inputs"), { recursive: true });
     writeFileSync(
@@ -149,7 +149,7 @@ test("rendered HTML IDs validate cross-page and current-page fragments", async (
       '<main><h2 id="reuse-a-saved-architecture">Saved</h2></main>',
     );
     const sources = [
-      { path: "docs/concepts/diff.md", text: "## Unknown" },
+      { path: "docs/concepts/comparisons.md", text: "## Unknown" },
       {
         path: "docs/inputs/index.md",
         text: [
@@ -158,8 +158,8 @@ test("rendered HTML IDs validate cross-page and current-page fragments", async (
           "description: Select an input.",
           "---",
           "",
-          "[valid](../concepts/diff.md#undetermined-preserves-uncertainty)",
-          "[broken](../concepts/diff.md#semantic-changes-need-separate-review)",
+          "[valid](../concepts/comparisons.md#indeterminate-preserves-uncertainty)",
+          "[broken](../concepts/comparisons.md#semantic-changes-need-separate-review)",
           "[local](#reuse-a-saved-architecture)",
           "[local broken](#missing-local-section)",
         ].join("\n"),
@@ -308,16 +308,16 @@ test("navigation exposes plan and state workflow without retired command pages",
   }
 });
 
-test("input and comparison pages distinguish drift from cross-input comparison", () => {
+test("input and comparison pages distinguish drift from input comparison", () => {
   const root = join(import.meta.dir, "..");
   const input = readFileSync(join(root, "docs/inputs/index.md"), "utf8");
   const plans = readFileSync(join(root, "docs/inputs/plans.md"), "utf8");
-  const comparison = readFileSync(join(root, "docs/concepts/diff.md"), "utf8");
+  const comparison = readFileSync(join(root, "docs/concepts/comparisons.md"), "utf8");
   expect(input).toContain("state JSON");
   expect(input).toContain("configuration directory is not an analysis input");
-  expect(plans).toContain("recorded to refreshed");
+  expect(plans).toContain("Recorded to Refreshed");
   expect(plans).toContain("No drift reported in this plan");
-  expect(comparison).toContain("cross-input comparison");
+  expect(comparison).toContain("input comparison");
   expect(comparison).toContain("never drift");
 });
 

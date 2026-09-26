@@ -113,7 +113,7 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
   mkdirSync(directory);
   const schema = options.schemaDrift
     ? Buffer.from('{"drift":true}\n')
-    : readFileSync(join(root, "schemas", "architecture-ir.schema.json"));
+    : readFileSync(join(root, "schemas", "rootform-document.schema.json"));
   const binaries = new Map(
     RELEASE_TARGETS.map((target, index) => [
       target.handoffFile,
@@ -247,7 +247,7 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
     },
     product: { name: "rootform", version },
     sbom: { file: "engine-sbom.spdx.json", format: "SPDX-2.3-json", sha256: sha256(sbom) },
-    schema: { file: "architecture-ir.schema.json", sha256: sha256(schema) },
+    schema: { file: "rootform-document.schema.json", sha256: sha256(schema) },
     source: {
       commit: options.producerCommitDrift ? "f".repeat(40) : producerCommit,
       repository: "rootform-dev/engine",
@@ -262,7 +262,7 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
       mode: 0o755 as const,
       name: target.handoffFile,
     })),
-    { body: schema, mode: 0o644 as const, name: "architecture-ir.schema.json" },
+    { body: schema, mode: 0o644 as const, name: "rootform-document.schema.json" },
     { body: manifestBody, mode: 0o644 as const, name: "engine-handoff.json" },
     { body: sbom, mode: 0o644 as const, name: "engine-sbom.spdx.json" },
     ...(options.extraEntry
@@ -331,8 +331,8 @@ describe("strict handoff verification", () => {
         const distribution = join(fixture.parent, "distribution");
         mkdirSync(join(distribution, "schemas"), { recursive: true });
         writeFileSync(
-          join(distribution, "schemas/architecture-ir.schema.json"),
-          readFileSync(join(root, "schemas/architecture-ir.schema.json")),
+          join(distribution, "schemas/rootform-document.schema.json"),
+          readFileSync(join(root, "schemas/rootform-document.schema.json")),
         );
         const exported = JSON.parse(readFileSync(join(root, "public-export.json"), "utf8"));
         exported[field] = value;

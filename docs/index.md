@@ -38,9 +38,9 @@ executable, so projects covered by them need no additional Rootform
 configuration.
 
 [Core concepts](concepts.md) explains how instances, Rules, facts, and
-closures fit together. [Architecture documents](concepts/architecture-ir.md)
+closures fit together. [Forms and Rootform documents](concepts/forms.md)
 describes what a saved Rootform document keeps, and
-[Architecture comparisons](concepts/diff.md) explains stages, drift, and
+[Comparisons](concepts/comparisons.md) explains stages, drift, and
 comparisons.
 
 ## Continue by task

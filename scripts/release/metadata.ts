@@ -166,7 +166,7 @@ export function createReleaseManifest(options: {
         sha256: sha256(options.sbom),
       },
       schema: {
-        file: "schemas/architecture-ir.schema.json",
+        file: "schemas/rootform-document.schema.json",
         sha256: sha256(options.schema),
       },
     },

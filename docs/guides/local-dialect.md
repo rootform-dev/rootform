@@ -76,7 +76,7 @@ Try the source for this run without changing the project selection:
 <!-- docs-check:local-dialect-run -->
 ```sh
 rootform run plan.json --plan-file plan.tfplan --require-enrichment \
-  --dialect ./dialects/network-review --no-serve -o architecture.json
+  --dialect ./dialects/network-review --no-serve -o analysis.json
 ```
 
 <!-- docs-output:local-dialect-run -->
@@ -85,12 +85,12 @@ Plan analyzed
 Enrichment    saved plan verified against this plan JSON (1 module)
 Semantics     20 Dialects, 1 vocabulary
 
-Architecture · planned
+Planned Form
   Instances    1 (1 managed, 0 data)
   Interpreted  1 of 1 instances
 ```
 
-The count rose from 19 to 20 active Dialects. The instance is interpreted, while `Facts 0` is expected because the Rule only classifies it. Inspect the document or `rootform explain architecture random_pet.service --input architecture.json` when the result differs. `--dialect` compiles current source each run and never writes the lock.
+The count rose from 19 to 20 active Dialects. The instance is interpreted, while `Facts 0` is expected because the Rule only classifies it. Inspect the document or `rootform explain architecture random_pet.service --input analysis.json` when the result differs. `--dialect` compiles current source each run and never writes the lock.
 
 ## Inspect and test the Rule
 

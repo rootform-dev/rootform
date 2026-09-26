@@ -6,15 +6,15 @@
     },
     {
       "path": "reference/cli.json",
-      "sha256": "849614cae08821b6fba0a5281f8340c3cdd481e564ba5014ccfd75c2e2762b84"
-    },
-    {
-      "path": "schemas/architecture-ir.schema.json",
-      "sha256": "566d379fa24498ac0f108101ef041e3f899baba0e7ec4871c6ed432e26c8c8a3"
+      "sha256": "5efa89f1cc318fb807b430831ca876c934cf5d69def4aadb67cbfaf06bf92e72"
     },
     {
       "path": "schemas/compiled-policy-pack.schema.json",
       "sha256": "9da71eec6254c33d58037da3483405f6205163eead7de29558a9426da4c46241"
+    },
+    {
+      "path": "schemas/rootform-document.schema.json",
+      "sha256": "a5eff43227a77e15cb634440ecacc3d893c84adf726b6198f28119f07fbb80f6"
     },
     {
       "path": "schemas/rootform-lock.schema.json",
@@ -26,6 +26,6 @@
     }
   ],
   "format_version": "1",
-  "source_commit": "be1b1431a3a088a44850404752f81ce90b027720",
+  "source_commit": "4f7a231810aeb39025c04753cc05d28f2a7d637c",
   "source_repository": "rootform-dev/engine"
 }

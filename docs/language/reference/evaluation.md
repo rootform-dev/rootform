@@ -16,17 +16,17 @@ Rootform interprets plan JSON or state JSON locally. It masks sensitive values b
 
 This order matters: a policy cannot treat an unclosed emission or failed interpretation as proof that a fact is absent.
 
-## Instance population and stages
+## Instance population and Forms
 
-| Input | Stages | Default policy target |
+| Input | Forms | Default policy target |
 | --- | --- | --- |
 | Plan JSON | `planned`; `refreshed` and reconstructed `recorded` when prior evidence permits | `planned` |
-| State JSON | One `recorded` stage | `recorded` |
-| Saved Rootform document | Its recorded stages | Document default stage |
+| State JSON | One Recorded Form | `recorded` |
+| Saved Rootform document | Its Forms | Document default stage |
 
 ## Base representation
 
-Every observed managed and data instance has a Representation, even without an applied Rule. A plan's reconstructed `recorded` stage is never a policy evaluation target. A plan can report drift between recorded and refreshed and proposed change between refreshed and planned. A cross-input [comparison](../../concepts/diff.md) has no policy predicate that proves drift.
+Every observed managed and data instance has a Representation, even without an applied Rule. A plan's reconstructed Recorded Form is never a policy evaluation target. A plan can include Reported drift (Recorded to Refreshed) and Planned changes (Refreshed to Planned). A cross-input [comparison](../../concepts/comparisons.md) has no policy predicate that proves drift.
 
 ## Rule selection
 
@@ -55,7 +55,7 @@ The operations are commutative, so swapping A and B gives the remaining cases.
 
 ### Emission closure
 
-Each active emission has one closure per source instance and stage. A known matching value or verified planned-stage identity traversal can establish a fact. `on_null` and `on_empty` decide whether a known missing value proves `absent` or remains indeterminate. Unknown, sensitive, unavailable, ambiguous, and conflicting evidence never proves absence. A list can retain proven facts while another element keeps its closure indeterminate. A fact records its Rule, emission, closure, target and `value`, `traversal`, or `both` evidence.
+Each active emission has one closure per source instance and stage. A known matching value or verified Planned-stage identity traversal can establish a fact. `on_null` and `on_empty` decide whether a known missing value proves `absent` or remains indeterminate. Unknown, sensitive, unavailable, ambiguous, and conflicting evidence never proves absence. A list can retain proven facts while another element keeps its closure indeterminate. A fact records its Rule, emission, closure, target and `value`, `traversal`, or `both` evidence.
 
 ## Policy linking
 

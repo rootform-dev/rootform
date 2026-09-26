@@ -3,14 +3,14 @@
 [![Source license](https://img.shields.io/badge/source-Apache--2.0-blue.svg)](LICENSE)
 
 Rootform turns Terraform and OpenTofu plan or state JSON into deterministic,
-explainable architecture documents.
+explainable Forms saved in Rootform documents.
 
 This repository contains Rootform's contracts, schemas, documentation,
 examples, and release metadata.
 
 ## What lives here
 
-- [`contracts/`](contracts/): Rootform language, architecture documents, comparison, policy,
+- [`contracts/`](contracts/): Rootform language, documents, comparisons, policy,
   lock, presentation, and release contracts;
 - [`schemas/`](schemas/): machine-readable public schemas;
 - [`docs/`](docs/): installation, concepts, CLI, dialect authoring, security,
@@ -53,7 +53,7 @@ See [`contracts/dialect-distribution.md`](contracts/dialect-distribution.md) and
 Policy Packs version and distribute governance independently from Dialects. A
 Policy belongs to one pack and uses owner-first identity. Source declares no
 semantic versions; linking derives exact RF Vocabulary and Dialect pins from
-qualified references and Architecture IR.
+qualified references and a Rootform document.
 
 See [`contracts/policy-pack-distribution.md`](contracts/policy-pack-distribution.md)
 and [`baseline` example](policy-packs/baseline/pack.rf.hcl). Repository makes no

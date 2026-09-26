@@ -192,7 +192,7 @@ export async function verifyJourneyExamples(binary: string, root: string): Promi
           "plan.tfplan",
           "--no-serve",
           "-o",
-          "architecture.json",
+          "analysis.json",
         ],
         {
           cwd: scratch,
@@ -237,15 +237,15 @@ export async function verifyJourneyExamples(binary: string, root: string): Promi
     }
     const outputs: Record<string, string[]> = {
       "journey-first-directory": ["rootform-first-architecture"],
-      "journey-first-save": ["architecture.json"],
+      "journey-first-save": ["analysis.json"],
       "journey-first-html": ["architecture.html"],
-      "journey-explore-export": ["architecture.json", "architecture.html"],
+      "journey-explore-export": ["analysis.json", "architecture.html"],
       "journey-inputs-reuse": ["report.md"],
       "journey-plans-verify": ["analysis.json"],
-      "journey-run-save": ["architecture.json"],
+      "journey-run-save": ["analysis.json"],
       "journey-run-compare": ["comparison.md"],
       "journey-outputs-multiple": [
-        "architecture.json",
+        "analysis.json",
         "architecture.md",
         "architecture.sarif.json",
         "architecture.html",

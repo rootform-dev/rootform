@@ -6,7 +6,7 @@ description: Choose output formats and interpret streams, file writes, SARIF, an
 `rootform run` produces one analysis result for its terminal summary, files,
 and optional local Explorer. A written file alone does not prove success:
 check the exit status and standard error. A comparison can contain changes
-or undetermined entries while returning `0`.
+or indeterminate entries while returning `0`.
 
 ## Keep standard output and errors separate
 
@@ -41,7 +41,7 @@ is not recognized. It cannot contradict a recognized extension.
 <!-- docs-check:journey-outputs-multiple -->
 ```sh
 rootform run plan.json --plan-file plan.tfplan --no-serve \
-  -o architecture.json -o architecture.md -o architecture.sarif.json -o architecture.html
+  -o analysis.json -o architecture.md -o architecture.sarif.json -o architecture.html
 ```
 
 All requested formats render before the first file is written. A duplicate
@@ -62,7 +62,7 @@ and the failed target is reported; exit status is `4`.
 | `4` | An output could not be written or the server could not start. |
 
 No selected policies means no compliance claim, even though successful
-analysis exits `0`. A difference, an undetermined comparison entry, or
+analysis exits `0`. A difference, an indeterminate comparison entry, or
 reported drift is not a command failure by itself. For policy coverage and
 results, see [Run policy checks](../guides/check-architecture.md).
 
@@ -94,7 +94,7 @@ the JSON document only; it cannot be reopened as an input. The local server
 binds `127.0.0.1` and serves the same display copy, never the plan or state
 files. The reusable `.json` document keeps the complete data; review both
 before sharing. See [security guidance](../security/index.md) and the
-[document contract](../../contracts/architecture-ir.md).
+[document contract](../../contracts/rootform-document.md).
 
 ## Expect deterministic results
 

@@ -580,8 +580,8 @@ function verifyJSON(body: string, label: string): JsonObject {
 function verifyPlan(body: string, label: string): void {
   const document = parseJSON(body, label);
   const semantics = object(document.semantics, `${label} semantics`);
-  const stages = object(document.stages, `${label} stages`);
-  const planned = object(stages.planned, `${label} planned stage`);
+  const forms = object(document.forms, `${label} forms`);
+  const planned = object(forms.planned, `${label} planned Form`);
   if (
     document.format_version !== "1" ||
     document.kind !== "plan" ||

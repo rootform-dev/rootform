@@ -28,14 +28,14 @@ forbidden. Whole manifest is at most 64 KiB. Unknown fields and trailing JSON
 are rejected.
 
 Manifest never carries SVG, HTML, asset URL, color, size, layout, or behavior.
-It does not enter semantic artifacts, semantic digest, Architecture IR, diff,
+It does not enter semantic artifacts, semantic digest, Rootform documents, comparisons,
 or policy input. A presentation-only content change may alter the delivered
 bytes without changing any semantic contract or policy pin.
 
 Resolved manifests merge into deterministic catalog. Rule keys become exact
 `owner.rule.name` identities and Concept keys become exact
 `owner.concept.name` identities; source identities remain normalized kind/type
-keys and conflicting owners warn deterministically. Architecture IR retains
+keys and conflicting owners warn deterministically. A Rootform document retains
 source metadata needed for lookup and never embeds SVG assets. Invalid manifest
 is ignored with warning during normal run; authoring and release validation
 reject it.

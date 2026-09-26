@@ -66,7 +66,7 @@ The script prints nothing itself. Open `summary.txt` and confirm that Rootform v
 ```text title="Excerpt from summary.txt"
 Plan analyzed
 Enrichment    saved plan verified against this plan JSON (1 module)
-Stages        planned (default)
+Forms         planned (default)
 ```
 
 The script passes `--plan-file --require-enrichment --no-serve` to `rootform run`. It writes the summary to `summary.txt`, diagnostics to `run.stderr`, and the exact exit code to `run.status`. A refused pair exits `3` rather than turning a missing traversal into an apparently complete review. With state JSON, omit `ROOTFORM_PLAN_FILE`: the result has one `recorded` stage.

@@ -58,7 +58,7 @@ test("offline configuration leaves providers the fixture configures itself", () 
 
 const golden = JSON.stringify({
   default_stage: "planned",
-  stages: {
+  forms: {
     planned: {
       representations: [
         {

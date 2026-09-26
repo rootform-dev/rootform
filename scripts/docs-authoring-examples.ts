@@ -351,7 +351,7 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
     ["reference/cli/explain/architecture.md", "cli-explain-architecture"],
     ["reference/cli/explain/policy.md", "cli-explain-policy"],
     ["reference/cli/explain/semantics.md", "cli-explain-semantics"],
-    ["reference/cli/validate/architecture.md", "cli-validate-architecture"],
+    ["reference/cli/validate/document.md", "cli-validate-document"],
   ];
   for (const [page, name] of explanationPages) {
     const caseDir = fresh(name);

@@ -223,7 +223,7 @@ export function validateRepository(): void {
     "THIRD_PARTY_NOTICES.txt",
     "dependencies/runtime-components.json",
     "reference/cli.json",
-    "schemas/architecture-ir.schema.json",
+    "schemas/rootform-document.schema.json",
     "schemas/compiled-policy-pack.schema.json",
     "schemas/rootform-lock.schema.json",
   ].sort((left, right) => left.localeCompare(right, "en"));

@@ -156,9 +156,9 @@ type Stage = {
 // any stage. A rule applied to a representation without emitting a fact is
 // evidence of its match only.
 export function rulesWithFacts(golden: string): Set<string> {
-  const document = JSON.parse(golden) as { stages?: Record<string, Stage | undefined> };
+  const document = JSON.parse(golden) as { forms?: Record<string, Stage | undefined> };
   const rules = new Set<string>();
-  for (const stage of Object.values(document.stages ?? {})) {
+  for (const stage of Object.values(document.forms ?? {})) {
     for (const facts of [stage?.contexts, stage?.contributions, stage?.relations]) {
       for (const fact of facts ?? []) {
         for (const { rule } of fact.provenance ?? []) {

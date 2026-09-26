@@ -89,8 +89,8 @@ press `Ctrl+C` when finished. The summary includes this excerpt:
 ```ansi title="Run output excerpt"
 [1mPlan analyzed[0m
 [2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
-[2mStages[0m        planned (default)
-[1m[38;5;208mArchitecture · planned[0m
+[2mForms[0m        planned (default)
+[1m[38;5;208mPlanned Form[0m
   [2mInstances[0m    2 (2 managed, 0 data)
   [2mFacts[0m        1: 0 relations, 1 contexts, 0 contributions
   [2mClosures[0m     1: 1 resolved, 0 absent, 0 indeterminate
@@ -126,7 +126,7 @@ rootform run plan.json --no-serve
 ```
 
 ```ansi title="Plan-only excerpt"
-[1m[38;5;208mArchitecture · planned[0m
+[1m[38;5;208mPlanned Form[0m
   [2mFacts[0m        0: 0 relations, 0 contexts, 0 contributions
   [2mClosures[0m     1: 0 resolved, 0 absent, 1 indeterminate
 [1m[38;5;208mUncertainty · planned[0m
@@ -146,26 +146,26 @@ pairing check and refusal behavior.
 
 <!-- docs-check:journey-first-save -->
 ```sh
-rootform run plan.json --plan-file plan.tfplan --no-serve -o architecture.json
+rootform run plan.json --plan-file plan.tfplan --no-serve -o analysis.json
 ```
 
 ```ansi title="Saved architecture excerpt"
 [1mPlan analyzed[0m
 [2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
-[1m[38;5;208mArchitecture · planned[0m
+[1m[38;5;208mPlanned Form[0m
   [2mFacts[0m        1: 0 relations, 1 contexts, 0 contributions
-[2mWrote     [0m architecture.json
+[2mWrote     [0m analysis.json
 ```
 
-The [Rootform document](../concepts/architecture-ir.md) retains the stages,
+The [Rootform document](../concepts/forms.md) retains the stages,
 facts, closures, diagnostics, and evidence. Reopen it with
-`rootform run architecture.json` without the plan files.
+`rootform run analysis.json` without the plan files.
 
 ## Explain the architecture
 
 <!-- docs-check:journey-first-explain -->
 ```sh
-rootform explain architecture aws_subnet.application --input architecture.json
+rootform explain architecture aws_subnet.application --input analysis.json
 ```
 
 ```ansi title="Subnet explanation excerpt"

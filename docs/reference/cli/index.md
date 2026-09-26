@@ -82,10 +82,10 @@ rootform [command]
 | [` rootform update dialect `](update/dialect.md) | Change one selected dialect |
 | [` rootform update policy-pack `](update/policy-pack.md) | Change one selected Policy Pack |
 | [` rootform validate `](validate.md) | Validate a Rootform object |
-| [` rootform validate architecture `](validate/architecture.md) | Validate a saved Rootform document |
 | [` rootform validate concept `](validate/concept.md) | Validate a concept definition |
 | [` rootform validate context `](validate/context.md) | Validate a context dimension |
 | [` rootform validate dialects `](validate/dialects.md) | Validate dialect definitions |
+| [` rootform validate document `](validate/document.md) | Validate a saved Rootform document |
 | [` rootform validate policy `](validate/policy.md) | Validate a policy definition |
 | [` rootform validate relation `](validate/relation.md) | Validate a relation predicate |
 | [` rootform validate rule `](validate/rule.md) | Validate a rule definition |

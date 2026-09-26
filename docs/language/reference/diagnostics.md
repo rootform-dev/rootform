@@ -63,7 +63,7 @@ These codes come from `rootform validate dialects`, definition validation, or Po
 | `RULE_NO_ARCHITECTURE` | Rule has no `as`, emission, or nonempty composition |
 | `MATCH_KIND_UNKNOWN` | `match.kind` is outside the closed 15-value set |
 | `PREDICATE_UNRESOLVED` | Authored predicate cannot compile safely |
-| `FACT_INVALID` | Emission lacks `to` or `via`, or Context/Relation form is invalid |
+| `FACT_INVALID` | Emission lacks `to` or `via`, or Context/Relation syntax is invalid |
 | `COMPOSITION_INVALID` | Composition is empty or a member is malformed or out of order |
 | `CONCEPT_UNKNOWN` | Concept reference does not resolve in permitted scope |
 | `CONTEXT_UNKNOWN` | Context reference does not resolve in permitted scope |
@@ -115,7 +115,7 @@ A Rule with only `match` returns `RULE_NO_ARCHITECTURE`. Add actual architecture
 | `CROSS_INPUT_NOT_DRIFT` | Info | Difference between two inputs is a comparison, not drift reported by Terraform or OpenTofu |
 | `RELEASE_SET_MISMATCH`, `SELECTION_MISMATCH` | Warning | Comparison sides use incompatible semantic selection |
 
-An `indeterminate` closure records a reason such as `unknown_until_apply`, `sensitive`, `ambiguous_unknown`, `uncomparable_candidate`, `duplicate_identity`, `identity_incomplete`, `reference_ambiguous`, `unavailable`, or `external_denied`. These are closure reasons, not interchangeable diagnostic codes. For `via = provider.<path>`, `unavailable` includes a missing verified planned-stage reference; a literal provider value is never read. See [Fact emissions](emissions.md#omission-and-uncertainty).
+An `indeterminate` closure records a reason such as `unknown_until_apply`, `sensitive`, `ambiguous_unknown`, `uncomparable_candidate`, `duplicate_identity`, `identity_incomplete`, `reference_ambiguous`, `unavailable`, or `external_denied`. These are closure reasons, not interchangeable diagnostic codes. For `via = provider.<path>`, `unavailable` includes a missing verified Planned-stage reference; a literal provider value is never read. See [Fact emissions](emissions.md#omission-and-uncertainty).
 
 ## Policy linking and evaluation diagnostics
 
@@ -133,7 +133,7 @@ An unknown assertion or incomplete target domain produces an indeterminate evalu
 
 ## Rootform document validation
 
-`rootform validate architecture analysis.json` checks a saved Rootform document. The validator reports a dotted field path and one of these code groups:
+`rootform validate document analysis.json` checks a saved Rootform document. The validator reports a dotted field path and one of these code groups:
 
 | Codes | Fault |
 | --- | --- |

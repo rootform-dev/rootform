@@ -38,7 +38,7 @@ This reference documents Rootform language version `0.1.0`.
 
 | Page | Contract covered |
 | --- | --- |
-| [Expressions](expressions.md) | Literal types, expression grammars, operators, precedence, and rejected forms |
+| [Expressions](expressions.md) | Literal types, expression grammars, operators, precedence, and rejected syntax |
 | [Traversals and scope](traversals.md) | `source`, `provider`, `target`, `member`, path steps, and position rules |
 | [Built-ins](built-ins.md) | Complete signatures and parameters for `exists`, `length`, and architecture queries |
 
@@ -90,7 +90,7 @@ Cardinality applies across one source root unless a placement says otherwise.
 floating-point values, arithmetic, conditionals, comprehensions, splats,
 dynamic indexes, or arbitrary function calls. Static string fields use
 result-based constant HCL evaluation, and dedicated Policy target fields accept
-closed list forms.
+closed list syntax.
 
 ## Reference conventions
 

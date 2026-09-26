@@ -7,7 +7,7 @@ A Rootform document describes the architecture established by its plan or state 
 
 ## Does Rootform see deployed infrastructure?
 
-No. Rootform never runs Terraform or OpenTofu, executes providers, refreshes state, contacts a backend or cloud, or applies changes. A plan describes one proposed outcome and may include the state observed during that planning run. A state JSON describes one recorded snapshot. Use your infrastructure tooling for live health, reachability, and current-state questions, then analyze a fresh export when you need its architecture. [Choose an input](inputs/index.md) distinguishes the two forms.
+No. Rootform never runs Terraform or OpenTofu, executes providers, refreshes state, contacts a backend or cloud, or applies changes. A plan describes one proposed outcome and may include the state observed during that planning run. A state JSON supplies one Recorded Form. Use your infrastructure tooling for live health, reachability, and current-state questions, then analyze a fresh export when you need its architecture. [Choose an input](inputs/index.md) distinguishes the two inputs.
 
 ## Which input forms can Rootform analyze?
 
@@ -21,7 +21,7 @@ A planned instance may be known, carried from the refreshed stage, removed by an
 
 Plan JSON often gives values but cannot distinguish a direct resource traversal from a transformed expression. A verified `--plan-file` lets Rootform inspect the configuration snapshot captured in that saved plan. It can follow a direct traversal, including supported pass-through through variables, locals, and module outputs, on the `planned` stage. Functions, operators, conditionals, `try`, splats, dynamic blocks, computed indexes, and other transformed expressions do not establish an endpoint merely because their reference list names one. Use evaluated identity values where possible; otherwise leave the closure indeterminate and inspect the source expression. A saved plan must verify against the exact JSON export; `--require-enrichment` makes refusal an error.
 
-Several static nested blocks represented as a set may be reordered when exported. Without a provider schema to map source positions, Rootform establishes an endpoint only when all candidate blocks agree. Use a direct, unambiguous expression where the provider allows it, or accept an indeterminate closure. [Architecture documents](concepts/architecture-ir.md#stages-and-facts) explains closure outcomes.
+Several static nested blocks represented as a set may be reordered when exported. Without a provider schema to map source positions, Rootform establishes an endpoint only when all candidate blocks agree. Use a direct, unambiguous expression where the provider allows it, or accept an indeterminate closure. [Forms and Rootform documents](concepts/forms.md#stages-and-facts) explains closure outcomes.
 
 ## Where does provider configuration stop?
 
@@ -29,7 +29,7 @@ Plan JSON records provider configuration expressions, not their evaluated values
 
 ## Instances without Rules
 
-Every managed or data instance gets a [Representation](concepts/architecture-ir.md#accounting-keeps-partial-knowledge-honest) in the Rootform document. Without an applicable Rule it has no derived Concept or architectural facts. A policy targeting those facts cannot call the instance compliant from its source type alone. Inspect the instance with `rootform explain architecture <address> --input analysis.json`, then assess Dialect coverage. A secondary resource may be represented without a permanent card in every Explorer scene; [reveal it on demand](guides/explore-architecture.md#reveal-a-secondary-resource).
+Every managed or data instance gets a [Representation](concepts/forms.md#accounting-keeps-partial-knowledge-honest) in the Rootform document. Without an applicable Rule it has no derived Concept or architectural facts. A policy targeting those facts cannot call the instance compliant from its source type alone. Inspect the instance with `rootform explain architecture <address> --input analysis.json`, then assess Dialect coverage. A secondary resource may be represented without a permanent card in every Explorer scene; [reveal it on demand](guides/explore-architecture.md#reveal-a-secondary-resource).
 
 ## Why can a closure remain indeterminate?
 
@@ -43,7 +43,7 @@ No selected Policy Pack means no evaluation. A selected policy with zero matchin
 
 Drift is a change outside Terraform or OpenTofu reported between the plan's recorded and refreshed stages. A missing drift record does not prove none occurred: refresh may be disabled or limited, and data sources and deposed objects are outside reported drift coverage. The reconstructed recorded stage can be partial. A `run --diff` comparison joins selected stages of separate inputs; it is not drift.
 
-Comparisons use architectural facts under the active Dialects, not raw Terraform actions. A provider replacement may leave architecture unchanged. Different Dialect selections, withheld external identities, or unresolved facts can yield `undetermined`, never a proven no-change result. Compare with the same release and selection where possible, and read `problems` and `undetermined` entries. [Architecture comparisons](concepts/diff.md) explains those outcomes.
+Comparisons use architectural facts under the active Dialects, not raw Terraform actions. A provider replacement may leave architecture unchanged. Different Dialect selections, withheld external identities, or unresolved facts can yield `indeterminate`, never a proven no-change result. Compare with the same release and selection where possible, and read `problems` and `indeterminate` entries. [Comparisons](concepts/comparisons.md) explains those outcomes.
 
 ## What does offline guarantee?
 

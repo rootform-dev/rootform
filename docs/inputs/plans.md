@@ -89,11 +89,11 @@ new plan with an earlier export.
 A plan's `planned` stage shows proposed instances. Where the plan contains
 prior state, `refreshed` describes what the tool observed before planning.
 `recorded` can be reconstructed from drift records, with a stated scope.
-The same plan may report three comparisons: drift
-(`recorded` to `refreshed`), planned change (`refreshed` to `planned`),
-and net change (`recorded` to `planned`). A state export has only
+The same plan may report three comparisons: Reported drift
+(`recorded` to `refreshed`), Planned changes (`refreshed` to `planned`),
+and Net change (`recorded` to `planned`). A state export has only
 `recorded`.
-The recorded to refreshed comparison is drift; it reports changes made
+The Recorded to Refreshed comparison is Reported drift; it reports changes made
 outside Terraform or OpenTofu when the plan contains that evidence.
 [Switch stages and comparisons](../guides/explore-architecture.md#switch-stages-and-comparisons)
 shows where the Explorer lists these views.
@@ -107,10 +107,10 @@ it does not prove that infrastructure is unchanged.
 `complete: false` for such plans, while OpenTofu may omit a completeness
 field. Rootform preserves that uncertainty. A missing planned instance is
 not automatically a deletion or proof of zero instances. When a fact cannot
-be settled on both sides, the comparison records it as undetermined rather
+be settled on both sides, the comparison records it as indeterminate rather
 than inventing an addition, removal, or no change. See
-[stages and facts](../concepts/architecture-ir.md#stages-and-facts) and
-[comparisons and drift](../concepts/architecture-ir.md#comparisons-and-drift).
+[stages and facts](../concepts/forms.md#stages-and-facts) and
+[comparisons and drift](../concepts/forms.md#comparisons-and-drift).
 
 ## Record scope and tool claims
 
@@ -147,7 +147,7 @@ For OpenTofu, replace `terraform` with `tofu`. The saved plan remains
 local. Rootform's outputs still describe infrastructure names, structure,
 and relationships, so apply your internal sharing rules.
 
-To compare two plans, or a state snapshot with a later plan, follow
+To compare two plans, or a state analysis with a later plan, follow
 [Compare architectures](../guides/compare-architectures.md). For plans from two
 Git revisions, [Review a pull request](../workflows/index.md#choose-the-review-input)
 adds isolated checkouts and cleanup.

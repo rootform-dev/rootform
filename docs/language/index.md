@@ -8,7 +8,7 @@ The Rootform language is the public authoring language for **Dialects** and
 OpenTofu plan JSON or state JSON mean. A Policy Pack asks bounded questions
 about the architecture facts those Dialects produced.
 
-Rootform reads two source forms: human-authored `.rf.hcl` and HCL JSON `.rf.json`.
+Rootform reads two source syntaxes: human-authored `.rf.hcl` and HCL JSON `.rf.json`.
 HCL provides their surface syntax. Rootform defines the accepted blocks,
 attributes, expressions, references, and evaluation rules. General Terraform
 language and general HCL expressions are not part of this contract.
@@ -22,7 +22,7 @@ language and general HCL expressions are not part of this contract.
 | Express and evaluate one governance rule | [Run checks](../guides/check-architecture.md) |
 | Version and distribute several policies | [Write a Policy Pack](write-policy-pack.md) |
 | Format, compile, test, and inspect definitions | [Test and validate](test-validate.md) |
-| Check exact accepted forms | [Language reference](reference/index.md) |
+| Check exact accepted syntax | [Language reference](reference/index.md) |
 
 ## Two paths through the language
 
@@ -38,11 +38,11 @@ A Policy Pack participates after those facts exist:
 1. .rf.hcl source
 2. compiled Policy Pack
 3. linked semantic pins
-4. evaluation of facts in a Rootform document, per instance and stage
+4. evaluation of each Policy against exactly one Form in a Rootform document
 5. passed, violated, indeterminate, or no decision result
 
-The Rootform document is the saved result. Its public data contract is
-[Architecture IR](../concepts/architecture-ir.md). [Architecture comparisons](../concepts/diff.md)
+The Rootform document is the saved result. Its public data contract is defined
+in the [Rootform document reference](../concepts/forms.md). [Architecture comparisons](../concepts/comparisons.md)
 compares two inputs over that contract, and
 [Run checks](../guides/check-architecture.md) evaluates policies
 against one. No policy rewrites the document, reads a live cloud account, or
