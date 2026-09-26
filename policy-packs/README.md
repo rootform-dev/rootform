@@ -1,8 +1,8 @@
 # Policy Pack examples
 
 Rootform separates architecture semantics from governance. Dialects interpret
-source declarations; Policy Packs evaluate established architecture facts. A
-Policy belongs to exactly one pack and never to a Dialect.
+plan and state instances; Policy Packs evaluate established architecture
+facts. A Policy belongs to exactly one pack and never to a Dialect.
 
 This directory contains synthetic public Policy Pack sources. Each pack root
 has one `policy_pack` declaration, `.rf.hcl` or `.rf.json` source, and only allowed
@@ -18,7 +18,7 @@ IR snapshot.
 `baseline` is a portable example with two Policies:
 
 - `baseline.policy.managed-database-network-context` requires managed
-  databases to have a virtual-network context;
+  databases to have a virtual-network or subnet context;
 - `baseline.policy.cluster-network-context` requires Kubernetes clusters to
   have a virtual-network or subnet context.
 
@@ -32,7 +32,10 @@ as a gate.
 ```sh
 rootform fmt --check policy-packs/baseline
 rootform list policies --policy-pack ./policy-packs/baseline
-rootform check ./examples/gcp-cloud-sql --policy-pack ./policy-packs/baseline
+rootform run ./examples/playground/commerce-platform/head/plan.json \
+  --plan-file ./examples/playground/commerce-platform/head/plan.tfplan \
+  --project ./examples/playground/commerce-platform/head \
+  --policy-pack ./policy-packs/baseline --no-serve
 ```
 
 Repository verification compiles this source with the exact Rootform binary,
