@@ -269,10 +269,6 @@
       "label": "Grafana Fleet Management collector"
     },
     {
-      "id": "grafana.concept.telemetry-pipeline",
-      "label": "Grafana Fleet Management pipeline"
-    },
-    {
       "id": "grafana.concept.performance-testing-project",
       "label": "Grafana Cloud k6 project"
     },
@@ -307,14 +303,6 @@
     {
       "id": "grafana.concept.git-sync-repository",
       "label": "Grafana Git Sync repository"
-    },
-    {
-      "id": "grafana.concept.secret-keeper",
-      "label": "Grafana Secrets Management keeper"
-    },
-    {
-      "id": "grafana.concept.assistant-integration",
-      "label": "Grafana Assistant MCP server integration"
     },
     {
       "id": "grafana.concept.agent-observability-configuration",

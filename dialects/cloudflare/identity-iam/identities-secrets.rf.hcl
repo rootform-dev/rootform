@@ -25,6 +25,15 @@ rule "secrets-store" {
   }
 
   as = concept.secrets-store
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "secrets-store-secret" {
@@ -35,8 +44,15 @@ rule "secrets-store-secret" {
   as = concept.managed-secret
 
   context {
-    as  = context.ownership
-    to  = concept.secrets-store
-    via = source.store_id
+    as       = context.ownership
+    to       = concept.secrets-store
+    via      = source.store_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

@@ -4,7 +4,7 @@ terraform {
   }
 }
 
-variable "unknown_id" { type = string }
+resource "terraform_data" "unknown_id" {}
 
 resource "azurerm_resource_group" "platform" {
   name     = "platform"
@@ -78,7 +78,7 @@ resource "azurerm_log_analytics_solution" "literal" {
 
 resource "azurerm_log_analytics_saved_search" "unknown" {
   name                       = "unknown"
-  log_analytics_workspace_id = var.unknown_id
+  log_analytics_workspace_id = terraform_data.unknown_id.id
   category                   = "platform"
   display_name               = "Unknown"
   query                      = "Heartbeat"

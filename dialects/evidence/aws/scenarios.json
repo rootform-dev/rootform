@@ -23,9 +23,8 @@
         "aws_organizations_organization.governance": "representation-present"
       },
       "minimum": {},
-      "expected_check_violations": [],
       "limitations": [
-        "One architecture owner per family proves release loading; exhaustive construct decisions remain in coverage matrix."
+        "The saved plan contains one represented instance from each AWS family; it does not establish every construct’s behavior."
       ]
     },
     {
@@ -106,9 +105,8 @@
       "maximum_facts": {
         "relations": 1
       },
-      "expected_check_violations": [],
       "limitations": [
-        "CloudFront origins, ECS task definitions, ALB target membership, EventBridge targets, secrets use, and producer/consumer links stay unconnected where current primitives do not prove ownership or runtime flow."
+        "For this saved plan, cloudFront origins, ECS task definitions, ALB target membership, EventBridge targets, secrets use, and producer/consumer links stay unconnected where current primitives do not prove ownership or runtime flow."
       ]
     },
     {
@@ -122,7 +120,6 @@
         "aws.rule.vpc"
       ],
       "required_outcomes": {
-        "action.aws_lambda_invoke.imperative": "no-rule",
         "aws_cloudcontrolapi_resource.opaque": "no-rule",
         "aws_iam_user_ssh_key.credential": "no-rule",
         "aws_lb_listener_certificate.listener_configuration": "no-rule",
@@ -135,13 +132,6 @@
         "contributions": 0,
         "relations": 0
       },
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED"
-      ],
-      "expected_check_violations": [],
       "forbidden_output": [
         "rootform-cloudcontrol-sentinel",
         "rootform-policy-sentinel",
@@ -149,7 +139,7 @@
         "999988887777"
       ],
       "limitations": [
-        "Dynamic, literal-only, dependency-only, helper, action, and opaque generic resource evidence fails closed."
+        "The plan has no instance for Terraform actions. Literal identifiers, dependencies, helper resources, and opaque generic resources do not establish architecture facts."
       ]
     },
     {
@@ -166,7 +156,6 @@
         "aws_kms_key.private": "representation-present",
         "aws_secretsmanager_secret.private": "representation-present"
       },
-      "expected_check_violations": [],
       "forbidden_output": [
         "rootform-user-data-secret-sentinel",
         "rootform-iam-policy-secret-sentinel",
@@ -174,7 +163,7 @@
         "rootform-secret-value-sentinel"
       ],
       "limitations": [
-        "User data, IAM/KMS policies, and secret metadata values stay outside Architecture IR and HTML."
+        "User data, IAM/KMS policies, and secret metadata values stay outside the architecture document or browser payload."
       ]
     }
   ]

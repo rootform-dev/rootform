@@ -12,6 +12,15 @@ rule "environment" {
   }
 
   as = concept.environment
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "business-metadata" {

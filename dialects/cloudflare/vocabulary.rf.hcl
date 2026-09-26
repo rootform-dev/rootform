@@ -22,14 +22,6 @@ concept "serverless-function" {
   description = "A managed event-driven function runtime."
 }
 
-concept "vpn-connection" {
-  description = "A virtual private network connection between network endpoints."
-}
-
-concept "vpn-gateway" {
-  description = "A managed gateway terminating virtual private network connections."
-}
-
 concept "workflow" {
   description = "A managed workflow coordinating steps and service calls."
 }

@@ -23,37 +23,32 @@ jobs:
           version: 0.1.0
       # Terraform or OpenTofu produces the plan. Give this step the backend and
       # provider credentials it needs; Rootform never receives them.
-      - name: Plan and export
+      - name: Export plan
         working-directory: infra
         run: |
           terraform init -input=false
-          terraform plan -input=false -out="$RUNNER_TEMP/tfplan"
-          terraform show -json "$RUNNER_TEMP/tfplan" > "$RUNNER_TEMP/tfplan.json"
+          terraform plan -input=false -out="$RUNNER_TEMP/plan.tfplan"
+          terraform show -json "$RUNNER_TEMP/plan.tfplan" > "$RUNNER_TEMP/plan.json"
       # Rootform reads the completed export only. It runs no Terraform command.
-      # Remove ROOTFORM_POLICY_PACK when infra/rootform.lock selects the pack.
-      # Remove ROOTFORM_CHECK and ROOTFORM_POLICY_PACK to keep the Architecture
-      # Diff informational.
-      - name: Compare and check the planned architecture
+      - name: Analyze plan
         env:
           ROOTFORM_PROJECT: ./infra
-          ROOTFORM_PLAN: ${{ runner.temp }}/tfplan.json
-          ROOTFORM_CHECK: "1"
-          ROOTFORM_POLICY_PACK: ./policies
+          ROOTFORM_INPUT: ${{ runner.temp }}/plan.json
+          ROOTFORM_PLAN_FILE: ${{ runner.temp }}/plan.tfplan
+          # Evaluate policies from a Policy Pack recorded in infra/rootform.lock:
+          # ROOTFORM_POLICY: baseline/*
         run: sh ./ci/rootform-ci.sh
+      # Upload Rootform results only, never the saved plan or its JSON export.
       - name: Keep Rootform results
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: rootform-plan-results
           path: |
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/architecture.json
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/init.json
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/init.stderr
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/build.stderr
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/diff.json
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/diff.md
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/diff.stderr
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.json
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.stderr
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.status
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/analysis.json
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/report.md
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/results.sarif
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/summary.txt
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/run.stderr
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/run.status
           if-no-files-found: warn

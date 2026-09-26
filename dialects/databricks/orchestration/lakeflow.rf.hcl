@@ -14,8 +14,15 @@ rule "lakeflow-job" {
   as = concept.workflow
 
   relation "runs-on" {
-    to  = concept.compute-cluster
-    via = source.existing_cluster_id
+    to       = concept.compute-cluster
+    via      = source.existing_cluster_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -26,13 +33,36 @@ rule "lakeflow-pipeline" {
 
   as = concept.lakeflow-pipeline
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   relation "publishes-to-catalog" {
-    to  = concept.unity-catalog-catalog
-    via = source.catalog
+    to       = concept.unity-catalog-catalog
+    via      = source.catalog
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   relation "publishes-to-schema" {
-    to  = concept.unity-catalog-schema
-    via = source.target
+    to       = concept.unity-catalog-schema
+    via      = source.target
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }

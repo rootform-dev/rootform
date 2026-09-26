@@ -4,8 +4,8 @@ These documents define Rootform's public integration surface independently of
 private implementation plans.
 
 - `rootform-language.md`: RF source model, RF Vocabulary, Dialects, Policies;
-- `architecture-ir.md`: canonical Architecture IR document contract;
-- `architecture-diff.md`: deterministic comparison result;
+- `architecture-ir.md`: format-1 snapshot, plan, and comparison documents;
+- `architecture-diff.md`: comparison semantics within that document family;
 - `policy-result.md`: policy evaluation and linking result;
 - `rootform-lock.md`: non-embedded selections and exclusions/replacements;
 - `dialect-distribution.md`: third-party Dialect packages and

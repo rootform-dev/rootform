@@ -16,6 +16,15 @@ rule "magic-transit-site" {
   }
 
   as = concept.magic-transit-site
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "magic-transit-cf1-site" {
@@ -24,6 +33,15 @@ rule "magic-transit-cf1-site" {
   }
 
   as = concept.magic-transit-site
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 
@@ -35,9 +53,16 @@ rule "magic-transit-site-lan" {
   as = concept.network-route-configuration
 
   context {
-    as  = rf.context.network
-    to  = concept.magic-transit-site
-    via = source.site_id
+    as       = rf.context.network
+    to       = concept.magic-transit-site
+    via      = source.site_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -49,9 +74,16 @@ rule "magic-transit-site-wan" {
   as = concept.network-route-configuration
 
   context {
-    as  = rf.context.network
-    to  = concept.magic-transit-site
-    via = source.site_id
+    as       = rf.context.network
+    to       = concept.magic-transit-site
+    via      = source.site_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -63,25 +95,19 @@ rule "magic-transit-site-acl" {
   as = concept.network-route-configuration
 
   context {
-    as  = rf.context.network
-    to  = concept.magic-transit-site
-    via = source.site_id
+    as       = rf.context.network
+    to       = concept.magic-transit-site
+    via      = source.site_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
-
-rule "magic-wan-ipsec-tunnel" {
-  match {
-    type = "cloudflare_magic_wan_ipsec_tunnel"
-  }
-
-  as = concept.vpn-connection
-
-  relation "connects-to" {
-    to  = concept.vpn-gateway
-    via = source.customer_endpoint
-  }
-}
 
 rule "magic-wan-static-route" {
   match {
@@ -101,7 +127,17 @@ rule "cloud-connector-rules" {
   as = concept.network-route-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

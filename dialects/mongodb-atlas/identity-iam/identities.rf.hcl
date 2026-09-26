@@ -21,15 +21,44 @@ rule "cloud-provider-access-setup" {
 
   as = concept.cloud-provider-access
 
+  identity {
+    attributes = ["id", "role_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "role_id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.azure_config[0].service_principal_id
+    to       = rf.concept.service-identity
+    via      = source.azure_config[0].service_principal_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.principal_id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -40,20 +69,56 @@ rule "cloud-provider-access-authorization" {
 
   as = concept.cloud-provider-authorization
 
+  identity {
+    attributes = ["id", "role_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "role_id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "authorizes-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.azure[0].service_principal_id
+    to       = rf.concept.service-identity
+    via      = source.azure[0].service_principal_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.principal_id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "authorizes-access" {
-    to  = concept.cloud-provider-access
-    via = source.role_id
+    to       = concept.cloud-provider-access
+    via      = source.role_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.role_id
+      strategy = "exact"
+    }
   }
 }
 
@@ -64,10 +129,29 @@ rule "project-service-account" {
 
   as = rf.concept.service-identity
 
+  identity {
+    attributes = ["client_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["client_id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -78,10 +162,29 @@ rule "organization-service-account" {
 
   as = rf.concept.service-identity
 
+  identity {
+    attributes = ["client_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["client_id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.organization
-    via = source.org_id
+    as       = context.ownership
+    to       = concept.organization
+    via      = source.org_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared organization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -92,10 +195,29 @@ rule "team" {
 
   as = concept.identity-group
 
+  identity {
+    attributes = ["id", "team_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "team_id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.organization
-    via = source.org_id
+    as       = context.ownership
+    to       = concept.organization
+    via      = source.org_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared organization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -115,9 +237,19 @@ rule "ldap-configuration" {
   as = concept.identity-provider
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -129,8 +261,18 @@ rule "api-key-project-assignment" {
   as = concept.identity-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -142,8 +284,18 @@ rule "cloud-user-organization-assignment" {
   as = concept.identity-configuration
 
   contribution {
-    to  = concept.organization
-    via = source.org_id
+    to       = concept.organization
+    via      = source.org_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared organization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -155,8 +307,18 @@ rule "cloud-user-project-assignment" {
   as = concept.identity-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -168,13 +330,30 @@ rule "cloud-user-team-assignment" {
   as = concept.identity-configuration
 
   contribution {
-    to  = concept.organization
-    via = source.org_id
+    to       = concept.organization
+    via      = source.org_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared organization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.identity-group
-    via = source.team_id
+    to       = concept.identity-group
+    via      = source.team_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.team_id
+      strategy = "exact"
+    }
   }
 }
 
@@ -186,8 +365,18 @@ rule "custom-database-role" {
   as = concept.identity-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -199,8 +388,18 @@ rule "database-user" {
   as = concept.identity-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -212,8 +411,18 @@ rule "federated-organization-configuration" {
   as = concept.identity-configuration
 
   contribution {
-    to  = concept.organization
-    via = source.org_id
+    to       = concept.organization
+    via      = source.org_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared organization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -225,8 +434,18 @@ rule "federated-organization-role-mapping" {
   as = concept.identity-configuration
 
   contribution {
-    to  = concept.organization
-    via = source.org_id
+    to       = concept.organization
+    via      = source.org_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared organization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -238,13 +457,33 @@ rule "project-service-account-access-list" {
   as = concept.identity-configuration
 
   contribution {
-    to  = rf.concept.service-identity
-    via = source.client_id
+    to       = rf.concept.service-identity
+    via      = source.client_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.client_id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -256,13 +495,33 @@ rule "organization-service-account-access-list" {
   as = concept.identity-configuration
 
   contribution {
-    to  = rf.concept.service-identity
-    via = source.client_id
+    to       = rf.concept.service-identity
+    via      = source.client_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.client_id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.organization
-    via = source.org_id
+    to       = concept.organization
+    via      = source.org_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared organization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -274,13 +533,33 @@ rule "service-account-project-assignment" {
   as = concept.identity-configuration
 
   contribution {
-    to  = rf.concept.service-identity
-    via = source.client_id
+    to       = rf.concept.service-identity
+    via      = source.client_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.client_id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -292,13 +571,30 @@ rule "team-project-assignment" {
   as = concept.identity-configuration
 
   contribution {
-    to  = concept.identity-group
-    via = source.team_id
+    to       = concept.identity-group
+    via      = source.team_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.team_id
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -310,7 +606,17 @@ rule "x509-database-user" {
   as = concept.identity-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

@@ -8,10 +8,10 @@ on position:
 
 | Position | Purpose | Accepted expression family |
 | --- | --- | --- |
-| Rule or member `match.where` | Test normalized source declaration | Predicate |
-| Policy `assert` | Test Architecture IR facts | Policy assertion |
+| Rule or member `match.where` | Test one resource instance's available values | Predicate |
+| Policy `assert` | Test facts of a Rootform document | Policy assertion |
 | `as`, `to`, Policy target references | Name semantic symbol | Typed reference only |
-| `via`, `by` | Navigate normalized declaration | Traversal only |
+| `via`, `by` | Read instance or saved-plan evidence | Traversal only |
 | Static string fields | Metadata or closed enum | Constant expression producing string |
 | `target.rules`, `target.dialects` | Static target filters | Nonempty list with position-specific item type |
 
@@ -41,8 +41,9 @@ it. For example, definition `description` may be empty, while Policy
 
 ## Predicate expressions
 
-A `match.where` predicate tests declaration currently selected by its
-surrounding Rule or member `match`.
+A `match.where` predicate tests the instance currently considered by its
+surrounding Rule or member `match`. Unknown or sensitive instance values stay
+unknown, so a predicate cannot prove that such a candidate matches.
 
 ```ebnf
 predicate       = boolean-literal
@@ -90,8 +91,8 @@ rather than inventing ordering for Booleans.
 
 ## Policy assertions
 
-Policy assertions operate on Architecture IR queries. They cannot traverse
-source declarations.
+Policy assertions operate on queries over facts in the selected stage of a
+Rootform document. They cannot traverse raw plan or state values.
 
 ```ebnf
 assertion       = boolean-value ;

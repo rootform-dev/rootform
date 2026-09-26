@@ -1,91 +1,75 @@
 ---
-title: "Choose an input"
-description: "Choose configuration, a saved architecture, or a JSON plan according to the question you need to answer."
+title: Choose an input
+description: Choose plan, state, or saved architecture evidence for the question at hand.
 ---
 
-| Task | Input | Start with |
+Choose the plan, state, or saved document that contains the evidence your question needs.
+`rootform run` detects input by content, not filename. Rootform reads local
+files and never runs Terraform or OpenTofu, contacts providers, or refreshes
+infrastructure.
+
+| Question | Input | What it establishes |
 | --- | --- | --- |
-| Explore existing configuration | Root module directory | `rootform run ./infra` |
-| Reopen or use a previous result | Rootform architecture file | `rootform run architecture.json` |
-| Examine planned instances or changes | Terraform/OpenTofu JSON plan | `rootform run --plan tfplan.json` |
+| What would this operation create or change? | Plan JSON, preferably paired with its saved plan | Planned instances; available earlier stages, drift records, and comparisons |
+| What does this plan show without its saved plan? | Plan JSON alone | Evaluated values and dependencies, with unknown identity traversals left unresolved |
+| What is recorded in state? | State JSON | One `recorded` snapshot, without plan changes, refresh evidence, or configuration traversals |
+| Can I reopen a prior analysis? | Saved Rootform document | The validated document, including its original stage evidence, without reanalyzing plan or state JSON |
+| Can I compare two points in time? | Two accepted inputs with `--diff` | An architectural comparison; it is not a drift report |
+| Can I stream an export? | `-` on standard input | The same content-based detection; at most one comparison operand may read the stream |
 
-## Explore a root module
+## Choose a plan for change evidence
 
-Pass the Terraform or OpenTofu **root module directory**, not an isolated `.tf`
-file:
+Export a completed saved plan with `terraform show -json plan.tfplan > plan.json`.
+OpenTofu users run the same command with `tofu`. A verified
+`--plan-file plan.tfplan` can establish direct identity traversals that the
+JSON export does not preserve. A plan may contain `planned`, `refreshed`, and
+`recorded` stages, depending on what the plan contains. Rootform reports
+recorded-to-refreshed drift separately from the planned change. See
+[Terraform and OpenTofu plans](plans.md) for production, verification, and
+completeness.
 
+## Choose state for a recorded snapshot
+
+When the working directory already has state, export it with
+`terraform show -json > state.json`. State JSON contains instances and
+sensitivity masks, but no configuration expressions or before and after plan
+values. It cannot prove that no drift occurred. A raw `terraform.tfstate` file
+is a different shape and is not accepted.
+
+A working directory without state, such as a new example, exports only a
+format version. Rootform refuses that file with status `3`, says that it
+records no state, and suggests the plan commands instead.
+
+## Reuse or compare documents
+
+A Rootform document is reusable input. The same `run` command can
+open it without the plan, save a report, or compare it with a later input.
+A cross-input comparison orders the first input as Before and the `--diff`
+input as After. A fact that cannot be settled on both sides stays
+[undetermined](../concepts/diff.md#undetermined-preserves-uncertainty); it
+never counts as no change. If an operand is itself a comparison document, use
+`--before-side` or `--after-side` to identify the side to compare.
+
+<!-- docs-check:journey-inputs-reuse -->
 ```sh
-rootform run ./infra
+rootform run architecture.json --no-serve -o report.md
 ```
 
-Rootform reads native and JSON configuration in `.tf`, `.tf.json`, `.tofu`,
-and `.tofu.json` files. When matching OpenTofu and Terraform files have the
-same base name and syntax form, the OpenTofu file takes precedence. For
-example, `main.tofu` shadows `main.tf`, and `main.tofu.json` shadows
-`main.tf.json`. Differently named files from both families can contribute to
-the same analysis.
+The file is a readable report of the saved architecture. It does not rerun
+Terraform or OpenTofu or add evidence missing from that document.
 
-Each independent root module is its own analysis scope. In a repository with
-several roots, run Rootform separately for each one. The selected directory is
-also the project root for Rootform selection. Rootform reads `rootform.lock`
-and optional vendored content from that project, without searching parent
-directories. See [Project configuration](../cli.md) for selection, lock, and
-vendoring details.
+A configuration directory is not an analysis input: it is a project location.
+`--project` selects its Dialects and policies; it does not supply infrastructure
+evidence. A binary saved plan alone is also not an input: export its JSON first,
+then optionally pair the two files. Rootform refuses malformed JSON, plan event
+streams from `plan -json`, and unrecognized documents rather than inferring a
+partial architecture.
 
-### Make modules available locally
+> [!WARNING]
+> Saved plans, plan JSON, and state JSON may contain secrets in clear text.
+> Keep them out of Git and public artifacts. Rootform outputs omit sensitive
+> values but still reveal names and topology; review access before sharing.
 
-Rootform follows local module calls only when their resolved paths remain
-inside the selected root. A path that escapes that boundary, directly or
-through a symlink, is refused.
-
-Remote modules must already be materialized by Terraform or OpenTofu and
-matched to their calls by `.terraform/modules/modules.json`. An arbitrary
-directory under `.terraform/modules` is not enough. Missing, cyclic,
-unresolved, or out-of-bound module paths remain explicit diagnostics.
-
-Rootform does not run Terraform or OpenTofu, execute providers, contact a
-backend, or evaluate the configuration as those tools would. Preparing modules
-with your IaC tool is a separate operation with its own credentials and network
-boundary.
-
-### Distinguish declarations from instances
-
-Configuration analysis describes declarations and the references Rootform can
-establish from source. It does not load `.tfvars` or reproduce Terraform or
-OpenTofu evaluation. A declaration using `count` or `for_each` therefore does
-not promise one architecture object for every instance a planning operation
-would create.
-
-Use a JSON plan when your question depends on the instances and changes from a
-specific planning operation.
-
-## Reuse a saved architecture
-
-A [Rootform architecture file](../concepts/architecture-ir.md) preserves the
-compiled architecture, its semantic snapshot, diagnostics, and provenance.
-You can open, inspect, explain, and compare a valid file without the original
-Terraform or OpenTofu project:
-
-```sh
-rootform run architecture.json
-rootform explain architecture aws_subnet.application --input architecture.json
-rootform diff before.json after.json
-rootform diff before.json after.json --serve
-```
-
-Policy evaluation still needs an appropriate [Policy Pack](../concepts/policies.md)
-selection. The saved document contains the architectural evidence used by
-policies, but it does not implicitly contain every policy that should run.
-`rootform check architecture.json` reads project Policy Pack selection from the
-current working directory, or you can pass an explicit `--policy-pack` source.
-
-Rootform validates saved documents before using them. An invalid document can
-prevent comparison. Two valid documents with different semantic environments
-are not rejected as a blanket rule. Source continuity can remain comparable,
-while conclusions about interpretations or facts become undetermined when
-compatibility and evidence closure cannot prove them. See
-[Architecture Diff](../concepts/diff.md#undetermined-preserves-uncertainty)
-for that boundary.
-
-To explore, export, compare, or check a planning result, follow the complete
-[Terraform and OpenTofu plan procedure](plans.md).
+To produce the export and verify its saved plan, continue with
+[Terraform and OpenTofu plans](plans.md). For a pull request with two planned
+revisions, go on to [Review a pull request](../workflows/index.md).

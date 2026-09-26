@@ -4,6 +4,15 @@ rule "backup-dr-backup-vault" {
   }
 
   as = concept.backup-vault
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "backup-dr-backup-plan" {
@@ -14,7 +23,14 @@ rule "backup-dr-backup-plan" {
   as = concept.backup-plan
 
   relation "stores-in" {
-    to  = concept.backup-vault
-    via = source.backup_vault
+    to       = concept.backup-vault
+    via      = source.backup_vault
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

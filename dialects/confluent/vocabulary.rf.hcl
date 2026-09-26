@@ -1,7 +1,3 @@
-concept "encryption-key" {
-  description = "A managed key used for cryptographic operations."
-}
-
 concept "message-topic" {
   description = "A messaging topic receiving messages from publishers."
 }

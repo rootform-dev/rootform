@@ -580,11 +580,6 @@
       "source": "https://developer.hashicorp.com/hcp/docs"
     },
     {
-      "id": "hcp.concept.audit-log-destination",
-      "label": "HCP audit log streaming destination",
-      "source": "https://developer.hashicorp.com/hcp/docs"
-    },
-    {
       "id": "hcp.rule.boundary-cluster",
       "label": "HCP Boundary cluster",
       "source": "https://developer.hashicorp.com/hcp/docs"

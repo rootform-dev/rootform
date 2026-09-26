@@ -16,6 +16,15 @@ rule "netapp-storage-pool" {
   }
 
   as = concept.netapp-storage-pool
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "netapp-volume" {
@@ -26,9 +35,16 @@ rule "netapp-volume" {
   as = concept.managed-file-storage
 
   context {
-    as  = context.ownership
-    to  = concept.netapp-storage-pool
-    via = source.storage_pool
+    as       = context.ownership
+    to       = concept.netapp-storage-pool
+    via      = source.storage_pool
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.id]
+      strategy = "exact"
+    }
   }
 }
 
@@ -40,9 +56,19 @@ rule "parallelstore-instance" {
   as = concept.managed-file-storage
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.network
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.network
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.id, target.self_link, target.name]
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 

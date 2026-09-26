@@ -97,7 +97,7 @@ for repair after an integrity failure.
 | `remove` | Yes | No | `rootform.lock` and existing vendor family |
 | `init` | No | Missing selected OCI content | `$ROOTFORM_HOME` when it fetches |
 | `vendor` | No | Missing selected OCI content | `.rootform/` and `$ROOTFORM_HOME` when it fetches |
-| `build`, `check`, `run`, `diff`, `list`, `show`, `explain` | No | No | Requested output and derived cache, when applicable |
+| `run`, `list`, `show`, `explain` | No | No | Requested output and derived cache, when applicable |
 
 `--offline` disables acquisition for commands that accept it. `--locked`
 requires an existing valid lock and does not disable exact acquisition by

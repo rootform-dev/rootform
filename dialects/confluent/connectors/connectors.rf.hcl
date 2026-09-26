@@ -14,15 +14,29 @@ rule "connector" {
   as = concept.connector
 
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = rf.context.runtime
-    to  = concept.kafka-cluster
-    via = source.kafka_cluster[0].id
+    as       = rf.context.runtime
+    to       = concept.kafka-cluster
+    via      = source.kafka_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -34,9 +48,16 @@ rule "connect-artifact" {
   as = concept.connector-artifact
 
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -56,9 +77,16 @@ rule "custom-connector-plugin-version" {
   as = concept.connector-artifact
 
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 

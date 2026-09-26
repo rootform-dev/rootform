@@ -17,8 +17,9 @@ resource "google_compute_network" "vpc" {
 }
 
 resource "google_sql_database_instance" "db" {
-  name    = "records"
-  project = google_project.platform.project_id
+  database_version = "fx-db-database-version"
+  name             = "records"
+  project          = google_project.platform.project_id
 
   settings {
     tier = "db-f1-micro"
@@ -30,6 +31,7 @@ resource "google_sql_database_instance" "db" {
 }
 
 resource "google_sql_database_instance" "provider_default_project" {
-  name = "provider-default-project"
+  database_version = "fx-provider-default-project-database-version"
+  name             = "provider-default-project"
   settings { tier = "db-f1-micro" }
 }

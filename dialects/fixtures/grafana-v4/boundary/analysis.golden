@@ -1,0 +1,1432 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+          "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
+          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+          "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+          "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+          "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+          "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+        "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
+        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+        "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+        "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+        "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+        "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "grafana.concept.data-source",
+        "owner": "grafana",
+        "name": "data-source",
+        "description": "A Grafana connection to an external or hosted telemetry data source."
+      },
+      {
+        "id": "grafana.concept.observability-tenant",
+        "owner": "grafana",
+        "name": "observability-tenant",
+        "description": "A provider-neutral account, organization, or stack boundary isolating observability data and configuration."
+      },
+      {
+        "id": "grafana.concept.private-data-source-connect-network",
+        "owner": "grafana",
+        "name": "private-data-source-connect-network",
+        "description": "A Grafana Cloud PDC network connecting a stack to data sources hosted on a private network."
+      },
+      {
+        "id": "rf.concept.virtual-network",
+        "owner": "rf",
+        "name": "virtual-network",
+        "description": "An explicitly declared virtual network."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "grafana.context.ownership",
+        "owner": "grafana",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      }
+    ],
+    "relations": [
+      {
+        "id": "grafana.relation.connects-through",
+        "owner": "grafana",
+        "name": "connects-through"
+      }
+    ],
+    "rules": [
+      {
+        "id": "aws.rule.vpc",
+        "owner": "aws",
+        "match_kind": "resource",
+        "match_type": "aws_vpc",
+        "concept": "rf.concept.virtual-network",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "cidr_block",
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "grafana.rule.cloud-private-data-source-connect-network",
+        "owner": "grafana",
+        "match_kind": "resource",
+        "match_type": "grafana_cloud_private_data_source_connect_network",
+        "concept": "grafana.concept.private-data-source-connect-network",
+        "identity": {
+          "attributes": [
+            "id",
+            "pdc_network_id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "pdc_network_id"
+          ]
+        },
+        "emissions": [
+          "emission:3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134"
+        ]
+      },
+      {
+        "id": "grafana.rule.data-source",
+        "owner": "grafana",
+        "match_kind": "resource",
+        "match_type": "grafana_data_source",
+        "concept": "grafana.concept.data-source",
+        "identity": {
+          "attributes": [
+            "id",
+            "uid"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "uid"
+          ]
+        },
+        "emissions": [
+          "emission:0bdda01ba6169b1b2b34c56ef7be25725aa38b2e5f1110cc5de414e54f83a718",
+          "emission:3702de7f3787d483f756332f47d119b56e902ea34eb4c5ee8e7ce1442491ed7b"
+        ]
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:0bdda01ba6169b1b2b34c56ef7be25725aa38b2e5f1110cc5de414e54f83a718",
+        "rule": "grafana.rule.data-source",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "grafana.concept.observability-tenant"
+        },
+        "dimension": "grafana.context.ownership",
+        "via": "source.org_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:3702de7f3787d483f756332f47d119b56e902ea34eb4c5ee8e7ce1442491ed7b",
+        "rule": "grafana.rule.data-source",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "grafana.concept.private-data-source-connect-network"
+        },
+        "predicate": "grafana.relation.connects-through",
+        "via": "source.private_data_source_connect_network_id",
+        "match": {
+          "by": [
+            "pdc_network_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134",
+        "rule": "grafana.rule.cloud-private-data-source-connect-network",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "grafana.concept.observability-tenant"
+        },
+        "dimension": "grafana.context.ownership",
+        "via": "source.stack_identifier",
+        "match": {
+          "by": [
+            "slug",
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:aws_vpc.mismatch",
+          "kind": "resource",
+          "type": "aws_vpc",
+          "name": "mismatch",
+          "address": "aws_vpc.mismatch",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:grafana_apps_secret_securevalue_v1beta1.private",
+          "kind": "resource",
+          "type": "grafana_apps_secret_securevalue_v1beta1",
+          "name": "private",
+          "address": "grafana_apps_secret_securevalue_v1beta1.private",
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:grafana_cloud_private_data_source_connect_network.first",
+          "kind": "resource",
+          "type": "grafana_cloud_private_data_source_connect_network",
+          "name": "first",
+          "address": "grafana_cloud_private_data_source_connect_network.first",
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:grafana_cloud_private_data_source_connect_network.second",
+          "kind": "resource",
+          "type": "grafana_cloud_private_data_source_connect_network",
+          "name": "second",
+          "address": "grafana_cloud_private_data_source_connect_network.second",
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:grafana_dashboard.private",
+          "kind": "resource",
+          "type": "grafana_dashboard",
+          "name": "private",
+          "address": "grafana_dashboard.private",
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:grafana_data_source.ambiguous",
+          "kind": "resource",
+          "type": "grafana_data_source",
+          "name": "ambiguous",
+          "address": "grafana_data_source.ambiguous",
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:grafana_data_source.literal",
+          "kind": "resource",
+          "type": "grafana_data_source",
+          "name": "literal",
+          "address": "grafana_data_source.literal",
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:grafana_data_source.mismatch",
+          "kind": "resource",
+          "type": "grafana_data_source",
+          "name": "mismatch",
+          "address": "grafana_data_source.mismatch",
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "external:1:grafana.concept.observability-tenant:0",
+          "kind": "external",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "external",
+          "actions": [],
+          "concept": "grafana.concept.observability-tenant",
+          "implementation": {
+            "kind": "direct"
+          },
+          "disclosure": "none",
+          "diagnostics": []
+        },
+        {
+          "id": "external:1:grafana.concept.observability-tenant:1",
+          "kind": "external",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "external",
+          "actions": [],
+          "concept": "grafana.concept.observability-tenant",
+          "implementation": {
+            "kind": "direct"
+          },
+          "disclosure": "none",
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:aws_vpc.mismatch",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_vpc.mismatch",
+          "address": "aws_vpc.mismatch",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "aws.rule.vpc"
+            ],
+            "diagnostics": []
+          },
+          "rule": "aws.rule.vpc",
+          "concept": "rf.concept.virtual-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:grafana_apps_secret_securevalue_v1beta1.private",
+          "kind": "managed",
+          "declaration": "declaration:1:grafana_apps_secret_securevalue_v1beta1.private",
+          "address": "grafana_apps_secret_securevalue_v1beta1.private",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:grafana_cloud_private_data_source_connect_network.first",
+          "kind": "managed",
+          "declaration": "declaration:1:grafana_cloud_private_data_source_connect_network.first",
+          "address": "grafana_cloud_private_data_source_connect_network.first",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "grafana.rule.cloud-private-data-source-connect-network"
+            ],
+            "diagnostics": []
+          },
+          "rule": "grafana.rule.cloud-private-data-source-connect-network",
+          "concept": "grafana.concept.private-data-source-connect-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:grafana_cloud_private_data_source_connect_network.second",
+          "kind": "managed",
+          "declaration": "declaration:1:grafana_cloud_private_data_source_connect_network.second",
+          "address": "grafana_cloud_private_data_source_connect_network.second",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "grafana.rule.cloud-private-data-source-connect-network"
+            ],
+            "diagnostics": []
+          },
+          "rule": "grafana.rule.cloud-private-data-source-connect-network",
+          "concept": "grafana.concept.private-data-source-connect-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:grafana_dashboard.private",
+          "kind": "managed",
+          "declaration": "declaration:1:grafana_dashboard.private",
+          "address": "grafana_dashboard.private",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:grafana_data_source.ambiguous",
+          "kind": "managed",
+          "declaration": "declaration:1:grafana_data_source.ambiguous",
+          "address": "grafana_data_source.ambiguous",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "grafana.rule.data-source"
+            ],
+            "diagnostics": []
+          },
+          "rule": "grafana.rule.data-source",
+          "concept": "grafana.concept.data-source",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:grafana_data_source.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:grafana_data_source.literal",
+          "address": "grafana_data_source.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "grafana.rule.data-source"
+            ],
+            "diagnostics": []
+          },
+          "rule": "grafana.rule.data-source",
+          "concept": "grafana.concept.data-source",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:grafana_data_source.mismatch",
+          "kind": "managed",
+          "declaration": "declaration:1:grafana_data_source.mismatch",
+          "address": "grafana_data_source.mismatch",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/grafana/grafana",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "grafana.rule.data-source"
+            ],
+            "diagnostics": []
+          },
+          "rule": "grafana.rule.data-source",
+          "concept": "grafana.concept.data-source",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.first:external%3A1%3Agrafana.concept.observability-tenant%3A0",
+          "from": "representation:1:grafana_cloud_private_data_source_connect_network.first",
+          "to": "external:1:grafana.concept.observability-tenant:0",
+          "dimension": "grafana.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134",
+              "rule": "grafana.rule.cloud-private-data-source-connect-network",
+              "closure": "closure:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.first:emission%3A3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.second:external%3A1%3Agrafana.concept.observability-tenant%3A1",
+          "from": "representation:1:grafana_cloud_private_data_source_connect_network.second",
+          "to": "external:1:grafana.concept.observability-tenant:1",
+          "dimension": "grafana.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134",
+              "rule": "grafana.rule.cloud-private-data-source-connect-network",
+              "closure": "closure:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.second:emission%3A3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134",
+              "evidence": "value"
+            }
+          ]
+        }
+      ],
+      "contributions": [],
+      "relations": [],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.first:emission%3A3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134",
+          "representation": "representation:1:grafana_cloud_private_data_source_connect_network.first",
+          "emission": "emission:3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134",
+          "outcome": "resolved",
+          "facts": [
+            "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.first:external%3A1%3Agrafana.concept.observability-tenant%3A0"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.second:emission%3A3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134",
+          "representation": "representation:1:grafana_cloud_private_data_source_connect_network.second",
+          "emission": "emission:3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134",
+          "outcome": "resolved",
+          "facts": [
+            "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.second:external%3A1%3Agrafana.concept.observability-tenant%3A1"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agrafana_data_source.ambiguous:emission%3A0bdda01ba6169b1b2b34c56ef7be25725aa38b2e5f1110cc5de414e54f83a718",
+          "representation": "representation:1:grafana_data_source.ambiguous",
+          "emission": "emission:0bdda01ba6169b1b2b34c56ef7be25725aa38b2e5f1110cc5de414e54f83a718",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agrafana_data_source.ambiguous:emission%3A3702de7f3787d483f756332f47d119b56e902ea34eb4c5ee8e7ce1442491ed7b",
+          "representation": "representation:1:grafana_data_source.ambiguous",
+          "emission": "emission:3702de7f3787d483f756332f47d119b56e902ea34eb4c5ee8e7ce1442491ed7b",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agrafana_data_source.literal:emission%3A0bdda01ba6169b1b2b34c56ef7be25725aa38b2e5f1110cc5de414e54f83a718",
+          "representation": "representation:1:grafana_data_source.literal",
+          "emission": "emission:0bdda01ba6169b1b2b34c56ef7be25725aa38b2e5f1110cc5de414e54f83a718",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agrafana_data_source.literal:emission%3A3702de7f3787d483f756332f47d119b56e902ea34eb4c5ee8e7ce1442491ed7b",
+          "representation": "representation:1:grafana_data_source.literal",
+          "emission": "emission:3702de7f3787d483f756332f47d119b56e902ea34eb4c5ee8e7ce1442491ed7b",
+          "outcome": "indeterminate",
+          "reason": "ambiguous_unknown",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 2,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agrafana_data_source.mismatch:emission%3A0bdda01ba6169b1b2b34c56ef7be25725aa38b2e5f1110cc5de414e54f83a718",
+          "representation": "representation:1:grafana_data_source.mismatch",
+          "emission": "emission:0bdda01ba6169b1b2b34c56ef7be25725aa38b2e5f1110cc5de414e54f83a718",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agrafana_data_source.mismatch:emission%3A3702de7f3787d483f756332f47d119b56e902ea34eb4c5ee8e7ce1442491ed7b",
+          "representation": "representation:1:grafana_data_source.mismatch",
+          "emission": "emission:3702de7f3787d483f756332f47d119b56e902ea34eb4c5ee8e7ce1442491ed7b",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Agrafana_data_source.ambiguous:declaration%3A1%3Agrafana_cloud_private_data_source_connect_network.first",
+          "from": "declaration:1:grafana_data_source.ambiguous",
+          "to": "declaration:1:grafana_cloud_private_data_source_connect_network.first",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agrafana_data_source.ambiguous:declaration%3A1%3Agrafana_cloud_private_data_source_connect_network.second",
+          "from": "declaration:1:grafana_data_source.ambiguous",
+          "to": "declaration:1:grafana_cloud_private_data_source_connect_network.second",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agrafana_data_source.literal:declaration%3A1%3Agrafana_cloud_private_data_source_connect_network.first",
+          "from": "declaration:1:grafana_data_source.literal",
+          "to": "declaration:1:grafana_cloud_private_data_source_connect_network.first",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agrafana_data_source.mismatch:declaration%3A1%3Aaws_vpc.mismatch",
+          "from": "declaration:1:grafana_data_source.mismatch",
+          "to": "declaration:1:aws_vpc.mismatch",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 8,
+        "resources": 8,
+        "data_sources": 0,
+        "instances": 8,
+        "managed_instances": 8,
+        "data_instances": 0,
+        "external_endpoints": 2,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 6,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 2,
+        "facts": 2,
+        "closures": 8,
+        "resolved": 2,
+        "absent": 3,
+        "indeterminate": 3,
+        "dependencies": 4,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

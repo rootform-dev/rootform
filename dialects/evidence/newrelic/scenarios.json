@@ -1,13 +1,14 @@
 {
   "format_version": "1",
-  "dialect": "newrelic",
-  "provider_version": "3.96.4",
   "scenarios": [
     {
       "id": "newrelic-minimal",
       "fixture": "fixtures/newrelic-v3/minimal",
-      "limitations": [
-        "synthetic Terraform proves roots without contacting New Relic"
+      "required_rules": [
+        "newrelic.rule.account-management",
+        "newrelic.rule.browser-application",
+        "newrelic.rule.fleet",
+        "newrelic.rule.synthetics-private-location"
       ],
       "minimum": {
         "representations": 4,
@@ -20,36 +21,13 @@
         "contributions": 0,
         "relations": 0
       },
-      "required_rules": [
-        "newrelic.rule.account-management",
-        "newrelic.rule.browser-application",
-        "newrelic.rule.fleet",
-        "newrelic.rule.synthetics-private-location"
-      ],
-      "expected_html_labels": [
-        "New Relic account",
-        "New Relic browser application",
-        "New Relic Fleet Control fleet",
-        "New Relic Synthetics private location"
+      "limitations": [
+        "The saved plan demonstrates roots without contacting New Relic."
       ]
     },
     {
       "id": "newrelic-broad-observability",
       "fixture": "fixtures/newrelic-v3/scenarios",
-      "limitations": [
-        "only exact Terraform references create ownership, composition, or cross-dialect relations"
-      ],
-      "minimum": {
-        "representations": 52,
-        "relations": 3,
-        "contexts": 34,
-        "contributions": 15
-      },
-      "maximum_facts": {
-        "contexts": 34,
-        "contributions": 15,
-        "relations": 7
-      },
       "required_rules": [
         "newrelic.rule.account-lookup",
         "newrelic.rule.account-management",
@@ -99,14 +77,13 @@
         "newrelic.rule.synthetics-step-monitor",
         "newrelic.rule.workload"
       ],
+      "required_outcomes": {
+        "newrelic_one_dashboard.must_not_create_topology": "no-rule",
+        "newrelic_account_management.platform": "representation-present",
+        "newrelic_fleet.production": "representation-present",
+        "newrelic_synthetics_monitor.api": "representation-present"
+      },
       "required_facts": [
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:newrelic_cloud_aws_link_account.production",
-          "to": "representation:1:root:resource:aws_iam_role.newrelic",
-          "type": "authorized-by",
-          "rule": "newrelic.rule.cloud-aws-link-account"
-        },
         {
           "collection": "relations",
           "from": "representation:1:root:resource:newrelic_cloud_gcp_link_account.production",
@@ -128,19 +105,17 @@
           "rule": "newrelic.rule.synthetics-monitor"
         }
       ],
-      "required_outcomes": {
-        "newrelic_one_dashboard.must_not_create_topology": "no-rule",
-        "newrelic_account_management.platform": "representation-present",
-        "newrelic_fleet.production": "representation-present",
-        "newrelic_synthetics_monitor.api": "representation-present"
+      "minimum": {
+        "representations": 52,
+        "relations": 3,
+        "contexts": 34,
+        "contributions": 15
       },
-      "expected_html_labels": [
-        "New Relic account",
-        "New Relic AWS linked account",
-        "New Relic Federated Logs setup",
-        "New Relic Fleet Control fleet",
-        "New Relic workload"
-      ],
+      "maximum_facts": {
+        "contexts": 35,
+        "contributions": 15,
+        "relations": 7
+      },
       "forbidden_output": [
         "ROOTFORM_NEWRELIC_PROVIDER_KEY_SENTINEL",
         "ROOTFORM_NEWRELIC_AZURE_SECRET_SENTINEL",
@@ -150,24 +125,19 @@
         "ROOTFORM_NEWRELIC_WORKFLOW_DEFINITION_SENTINEL",
         "ROOTFORM_NEWRELIC_NRQL_SENTINEL",
         "ROOTFORM_NEWRELIC_DASHBOARD_SENTINEL"
+      ],
+      "limitations": [
+        "Ownership and contribution facts require resolved plan evidence. The AWS role reference does not establish an authorization relation unless the role has an interpreted target concept."
       ]
     },
     {
       "id": "newrelic-fail-closed",
       "fixture": "fixtures/newrelic-v3/boundary",
-      "limitations": [
-        "negative fixture proves literals, ambiguity, dangling references, target mismatches, and depends_on create no unresolved facts while partial IR preserves bases"
-      ],
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "DEPENDENCY_DANGLING",
-        "FACT_TARGET_MISMATCH",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_DANGLING",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_NEWRELIC_BOUNDARY_SECRET_SENTINEL"
+      ],
+      "limitations": [
+        "In this saved plan, literals, ambiguity, dangling references, target mismatches, and dependencies establish no unsupported facts. The architecture document retains represented resources."
       ]
     }
   ]

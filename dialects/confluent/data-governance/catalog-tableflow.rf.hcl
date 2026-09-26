@@ -14,20 +14,41 @@ rule "catalog-integration" {
   as = concept.catalog-integration
 
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = rf.context.runtime
-    to  = concept.kafka-cluster
-    via = source.kafka_cluster[0].id
+    as       = rf.context.runtime
+    to       = concept.kafka-cluster
+    via      = source.kafka_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-provider-integration" {
-    to  = concept.provider-integration
-    via = source.aws_glue[0].provider_integration_id
+    to       = concept.provider-integration
+    via      = source.aws_glue[0].provider_integration_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -39,34 +60,66 @@ rule "tableflow-topic" {
   as = concept.tableflow-topic
 
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = rf.context.runtime
-    to  = concept.kafka-cluster
-    via = source.kafka_cluster[0].id
+    as       = rf.context.runtime
+    to       = concept.kafka-cluster
+    via      = source.kafka_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "stores-in" {
-    to  = rf.concept.object-storage-container
-    via = source.byob_aws[0].bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.byob_aws[0].bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "stores-in" {
-    to  = rf.concept.object-storage-container
-    via = source.azure_data_lake_storage_gen_2[0].container_name
+    to       = rf.concept.object-storage-container
+    via      = source.azure_data_lake_storage_gen_2[0].container_name
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "uses-provider-integration" {
-    to  = concept.provider-integration
-    via = source.byob_aws[0].provider_integration_id
+    to       = concept.provider-integration
+    via      = source.byob_aws[0].provider_integration_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-provider-integration" {
-    to  = concept.provider-integration
-    via = source.azure_data_lake_storage_gen_2[0].provider_integration_id
+    to       = concept.provider-integration
+    via      = source.azure_data_lake_storage_gen_2[0].provider_integration_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

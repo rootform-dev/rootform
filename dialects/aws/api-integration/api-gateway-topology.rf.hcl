@@ -4,6 +4,15 @@ rule "api-gateway-rest-api" {
   }
 
   as = concept.api-gateway
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "api-gateway-stage" {
@@ -14,8 +23,15 @@ rule "api-gateway-stage" {
   as = concept.api-component
 
   contribution {
-    to  = concept.api-gateway
-    via = source.rest_api_id
+    to       = concept.api-gateway
+    via      = source.rest_api_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -27,8 +43,15 @@ rule "api-gateway-integration" {
   as = concept.api-component
 
   contribution {
-    to  = concept.api-gateway
-    via = source.rest_api_id
+    to       = concept.api-gateway
+    via      = source.rest_api_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -40,8 +63,15 @@ rule "api-gateway-resource" {
   as = concept.api-component
 
   contribution {
-    to  = concept.api-gateway
-    via = source.rest_api_id
+    to       = concept.api-gateway
+    via      = source.rest_api_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -53,8 +83,15 @@ rule "api-gateway-model" {
   as = concept.api-component
 
   contribution {
-    to  = concept.api-gateway
-    via = source.rest_api_id
+    to       = concept.api-gateway
+    via      = source.rest_api_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -66,7 +103,14 @@ rule "apigatewayv2-model" {
   as = concept.api-component
 
   contribution {
-    to  = concept.api-gateway
-    via = source.api_id
+    to       = concept.api-gateway
+    via      = source.api_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

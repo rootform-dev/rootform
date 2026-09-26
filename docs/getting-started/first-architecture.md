@@ -1,33 +1,49 @@
 ---
 title: Your first architecture
-description: Explore a VPC and subnet, save the architecture, and explain its placement.
+description: Plan a VPC and subnet, inspect their placement, and save the architecture.
 ---
 
-Build and inspect a VPC with one subnet from Terraform configuration. Rootform
-uses its embedded AWS [Dialect](../concepts/dialects.md), so this tutorial needs
-no cloud account, credentials, Terraform binary, or provider download.
+Create a two-resource Terraform plan, then use Rootform to inspect why the
+subnet sits inside the VPC. You need Rootform, Terraform, and the AWS provider
+download for planning. This example needs no cloud account: its placeholder
+provider credentials grant no access, and the provider skips account and
+metadata checks. OpenTofu users run the Terraform commands with `tofu` in place
+of `terraform`. Rootform's embedded AWS [Dialect](../concepts/dialects.md)
+interprets these resources, so this example needs no Rootform configuration.
 
 <!-- rootform:steps -->
 
 ## Create input
 
+Create an empty directory for the example:
+
+<!-- docs-check:journey-first-directory -->
 ```sh
 mkdir rootform-first-architecture
 cd rootform-first-architecture
 ```
 
-Save this complete configuration as `main.tf`:
+Save this complete configuration as `main.tf` in that directory:
 
 ```hcl title="main.tf"
 terraform {
-  required_version = ">= 1.14.0"
-
   required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "= 6.62.0"
     }
   }
+}
+
+provider "aws" {
+  region                      = "us-east-1"
+  access_key                  = "example"
+  secret_key                  = "example"
+  max_retries                 = 1
+  skip_credentials_validation = true
+  skip_metadata_api_check     = true
+  skip_region_validation      = true
+  skip_requesting_account_id  = true
 }
 
 resource "aws_vpc" "main" {
@@ -40,106 +56,151 @@ resource "aws_subnet" "application" {
 }
 ```
 
-## Open the architecture
+The subnet's `vpc_id` references an ID that will be known only after apply.
+Rootform can still establish its placement when it verifies the saved plan.
+
+## Produce the plan
+
+Run these commands in the directory containing `main.tf`:
 
 ```sh
-rootform run .
+terraform init
+terraform plan -out=plan.tfplan
+terraform show -json plan.tfplan > plan.json
 ```
 
-Rootform opens the local explorer and reports what it built. Output includes:
+`terraform plan` creates the saved plan; `terraform show -json` exports that
+same plan in the JSON shape Rootform accepts. `init` downloads the AWS
+provider, which only the planning tool uses. Rootform reads the two exported
+files; it never runs Terraform, OpenTofu, or the provider. Keep both plan
+files out of Git: in real projects they can contain secrets in clear text.
+
+## Open the architecture
+
+<!-- docs-check:journey-first-serve -->
+```sh
+rootform run plan.json --plan-file plan.tfplan
+```
+
+The server address is printed on standard error. Open the local Explorer if
+your browser does not open automatically. The terminal stays in the foreground;
+press `Ctrl+C` when finished. The summary includes this excerpt:
 
 ```ansi title="Run output excerpt"
-[1m[32mServing architecture[0m
-http://127.0.0.1:21717
-
-[2mSource[0m     .
-[2mResources[0m  2
-[2mFacts[0m      1 resolved, 0 omitted
-[2mWatch[0m      enabled
+[1mPlan analyzed[0m
+[2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
+[2mStages[0m        planned (default)
+[1m[38;5;208mArchitecture · planned[0m
+  [2mInstances[0m    2 (2 managed, 0 data)
+  [2mFacts[0m        1: 0 relations, 1 contexts, 0 contributions
+  [2mClosures[0m     1: 1 resolved, 0 absent, 0 indeterminate
 ```
 
-The command stays in the foreground and rebuilds after source changes. Leave
-this terminal running while you use the browser. Use a second terminal for the
-remaining commands, or press `Ctrl+C` after exploring and reuse the same one.
+The two **Instances** are the VPC and subnet in the plan. One **context**
+fact places the subnet in the VPC. A **closure** records the outcome of
+that placement question; `resolved` means Rootform established it.
+**Enrichment** means the saved plan matched this JSON export, allowing
+Rootform to read the configuration reference behind the placement.
 
 ## Inspect the subnet
 
-The first view contains `main`, an Amazon VPC with one nested object. Open
-`main`, then select `application`. The Details tab identifies it as
-`aws_subnet.application` and shows `main` under **Where**.
-
-This is a placement: the subnet appears inside the VPC. Rootform does not draw
-that context as a connection arrow.
+The first scene contains the `aws_vpc.main` card. Use **Open aws_vpc.main**,
+then select `aws_subnet.application`. In the Inspector's **Details** tab,
+**Where** lists `aws_vpc.main`. The subnet appears inside that VPC because
+the AWS Dialect established a placement. Rootform does not draw every
+Terraform reference as a connection.
 
 ## Follow the placement evidence
 
-Open the subnet's Source tab. Under **Network context**, expand **Resolution**.
-The explorer names `aws.rule.subnet`, the resolved subnet and VPC, and source
-line 17. That line is the `vpc_id = aws_vpc.main.id` reference used as evidence
-for the placement.
+Open the Inspector's **Evidence** tab. Under **Network context**, expand
+**Resolution**. It names Rule `aws.rule.subnet`, `source.vpc_id`, and
+**Reference traversal** as the evidence for the fact from the subnet to
+`aws_vpc.main`. Under **Closures**, **Network placement to virtual network**
+is **Resolved** with one fact. The saved plan's direct
+`aws_vpc.main.id` reference identifies the VPC even though its ID is unknown
+until apply. Run the same analysis without the saved plan to see the limit:
 
-The reference alone is not architectural meaning. The AWS Dialect Rule states
-that this specific evidence establishes network context. Other Terraform
-references do not become placements or connections automatically.
-
-## Build the architecture
-
-In the second terminal, from `rootform-first-architecture`, run:
-
+<!-- docs-check:journey-first-without-plan -->
 ```sh
-rootform build . --output architecture.json
+rootform run plan.json --no-serve
 ```
 
-The command writes a Rootform architecture file and reports:
-
-```ansi title="Declaration summary"
-[1m[32mArchitecture built -> architecture.json[0m
-
-[2mResources[0m  2
-[2mFacts[0m      1 resolved, 0 omitted
+```ansi title="Plan-only excerpt"
+[1m[38;5;208mArchitecture · planned[0m
+  [2mFacts[0m        0: 0 relations, 0 contexts, 0 contributions
+  [2mClosures[0m     1: 0 resolved, 0 absent, 1 indeterminate
+[1m[38;5;208mUncertainty · planned[0m
+  [2mClosures[0m  1 unknown until apply
+  Pair the saved plan for traversal evidence on indeterminate closures
+    rootform run plan.json --plan-file plan.tfplan
 ```
 
-The saved [Architecture IR](../concepts/architecture-ir.md) keeps source
-accounting, interpretations, facts, diagnostics, and evidence for later
-inspection or automation.
+The VPC ID is unknown until apply. The JSON export alone does not say which
+instance `vpc_id` refers to, so the closure stays `indeterminate` rather
+than becoming a guessed placement. The next-step hint points back to the
+saved plan. See
+[saved-plan verification](../inputs/plans.md#verify-the-saved-plan) for the
+pairing check and refusal behavior.
+
+## Save the architecture
+
+<!-- docs-check:journey-first-save -->
+```sh
+rootform run plan.json --plan-file plan.tfplan --no-serve -o architecture.json
+```
+
+```ansi title="Saved architecture excerpt"
+[1mPlan analyzed[0m
+[2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
+[1m[38;5;208mArchitecture · planned[0m
+  [2mFacts[0m        1: 0 relations, 1 contexts, 0 contributions
+[2mWrote     [0m architecture.json
+```
+
+The [Rootform document](../concepts/architecture-ir.md) retains the stages,
+facts, closures, diagnostics, and evidence. Reopen it with
+`rootform run architecture.json` without the plan files.
 
 ## Explain the architecture
 
+<!-- docs-check:journey-first-explain -->
 ```sh
 rootform explain architecture aws_subnet.application --input architecture.json
 ```
 
 ```ansi title="Subnet explanation excerpt"
-[1maws_subnet.application[0m
-
-[2mConcept[0m  rf.concept.subnet "application"
-[2mRule[0m     aws.rule.subnet
-[2mDefined[0m  main.tf:16
-
-[1m[38;5;208mContexts[0m
-[2m  rf.context.network[0m  rf.concept.virtual-network "main"
-                      via aws_subnet.application.vpc_id
+[1maws_subnet.application  [2mat the planned stage[0m[0m
+[2mInterpretation[0m  applied aws.rule.subnet as subnet
+[1m[38;5;208mFacts[0m
+  → context network  aws_vpc.main  [2mevidence: traversal[0m
+[1m[38;5;208mClosures[0m
+  [32m•[0m context network → virtual-network  via source.vpc_id, match exact by id  [2mresolved, 1 fact[0m
 ```
 
-The explanation confirms which Rule interpreted the subnet and which argument
-resolved to its VPC.
+The explanation names the interpreting Rule and the evidence behind the
+placement. It makes no claim that this infrastructure has been applied.
 
 ## Optional: self-contained HTML
 
+<!-- docs-check:journey-first-html -->
 ```sh
-rootform build . --format html --output architecture.html
+rootform run plan.json --plan-file plan.tfplan --no-serve -o architecture.html
 ```
 
-Open `architecture.html` in a browser. It contains its assets and the same
-architecture, so it needs no local server or adjacent files.
+Open `architecture.html` in a browser. It contains the interactive Explorer
+and its assets in one file and makes no network requests. It still shows
+instance names and network placement, so share it only with readers allowed
+to see that information.
 
 <!-- rootform:endsteps -->
 
-To use your own project, run `rootform run .` from its root module. Child modules
-referenced by configuration must already be available locally. Configuration
-shows declared structure; use a [Terraform or OpenTofu plan](../inputs/plans.md)
-when your question depends on planned instances or before-and-after evidence.
+To use your own project, run the same three planning commands from its root
+module with your usual backend and credentials, then pass both files to
+`rootform run`. Rootform itself needs no cloud credentials. It describes
+planned **instances**, so `count` and `for_each` can make the architecture
+larger than the number of declarations. [Choose an input](../inputs/index.md)
+explains when state or a saved document answers your question better.
 
-Next, [choose another input](../inputs/index.md),
+Next, [explore the interface](../guides/explore-architecture.md),
 [compare architectures](../guides/compare-architectures.md), or
-[run checks](../guides/check-architecture.md).
+[run policy checks](../guides/check-architecture.md).

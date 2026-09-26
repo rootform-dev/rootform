@@ -27,6 +27,9 @@ resource "azurerm_subnet" "aks" {
 }
 
 resource "azurerm_kubernetes_cluster" "workloads" {
+  node_provisioning_profile {
+    default_node_pools = "Auto"
+  }
   name                = "workloads"
   location            = azurerm_resource_group.platform.location
   resource_group_name = azurerm_resource_group.platform.name

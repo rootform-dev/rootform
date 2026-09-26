@@ -668,7 +668,7 @@
       "const": "v1"
     },
     "language_version": {
-      "const": "0.1.0"
+      "const": "1"
     },
     "linked_digest": {
       "$ref": "#/$defs/digest",

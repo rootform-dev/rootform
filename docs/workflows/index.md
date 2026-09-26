@@ -1,51 +1,47 @@
 ---
-title: "Review a pull request"
-description: "Compare source revisions or review a completed plan, and keep architecture evidence for the pull request."
+title: Review a pull request
+description: Plan base and head revisions in isolated worktrees, compare them, evaluate policies, and keep review artifacts private.
 ---
 
-A pull request can be reviewed from two inputs. Comparing source revisions
-shows what the branch changed in the configuration. Reviewing a completed
-Terraform or OpenTofu plan shows what applying the branch would change against
-the prior state recorded in the plan. Both produce the same kinds of Rootform
-evidence: an Architecture Diff, a Policy result when a check is requested, and
-an interactive comparison.
+A pull request can be reviewed from two kinds of plan evidence. Comparing the
+plans of the base and head revisions shows how the branch changes the planned
+architecture. Reviewing the one completed plan that CI made for the head shows
+what that planning operation proposes and any drift it recorded. Both give the
+same kinds of Rootform evidence: an analysis or comparison, Policy results when
+a Pack is selected, and an interactive view.
 
-Use one Rootform binary throughout. Both procedures on this page write every
-result outside the checkout under review.
+Rootform never runs Terraform or OpenTofu. Planning uses your backend,
+providers, and credentials; Rootform then reads the exported files locally.
+[Terraform and OpenTofu plans](../inputs/plans.md) is the canonical plan
+procedure; this page applies it to a pull request. Use one Rootform binary
+throughout.
 
 ## Choose the review input
 
-| Review input | Before and After | Choose it when |
+| Evidence | Use it when | Limit |
 | --- | --- | --- |
-| Source revisions | Merge base and head, each built from its committed source | No plan exists, or the question is what the branch changed in source |
-| Completed plan | Prior state and planned values carried by one plan | CI already plans the pull request, or the question is what applying it changes against the prior state |
+| Base and head plans | Review the architectural difference between revisions | The plans may also reflect drift between their execution times |
+| One head plan | Review planned change against its own refreshed and recorded evidence | It does not isolate the source revision change |
+| Saved Rootform documents | Reopen or compare prior analyses without raw plans | Each document retains its original evidence and semantic selection |
 
-A source comparison needs no backend, credentials, or state. It answers the
-review question for a branch that has not been planned, and it isolates the
-configuration change from drift. A plan review needs only the completed plan
-export, which the planning step produced with its own credentials. It reflects
-drift, imported resources, and instances that exist only in state, and it is
-the natural choice when the pipeline already runs `terraform plan` or
-`tofu plan`. When both inputs are available, the source comparison explains
-the change and the plan review confirms its effect.
+Plan both revisions against an intentionally comparable backend, workspace,
+variables, and provider selection. Record the base and head commit IDs,
+Terraform or OpenTofu versions, and plan times with the review. A change in any
+of these can explain a difference unrelated to the proposed source edit.
 
-Rootform never runs Terraform or OpenTofu. It reads the completed plan export
-that your workflow produced. [Terraform and OpenTofu plans](../inputs/plans.md)
-is the canonical plan procedure; this page applies it to a pull request.
+## Compare two revisions
 
-## Compare source revisions
-
-Build review evidence without switching, resetting, or cleaning the working
-copy under review. This procedure uses detached Git worktrees in a new temporary
-directory and writes every Rootform result outside them. The same root module
-path must exist in both revisions.
+This procedure plans each revision in a detached Git worktree inside a new
+temporary directory, so it never switches, resets, or cleans the working copy
+under review. Plans and results stay in that directory until the cleanup step.
+The same root module path must exist in both revisions.
 
 ### Choose the revisions
 
-This procedure uses merge base with `origin/main` as Before and current `HEAD`
-as After:
+This procedure uses the merge base with `origin/main` as Before and the current
+`HEAD` as After:
 
-<!-- docs-check:review-revisions -->
+<!-- docs-check:journey-review-revisions -->
 ```sh
 target_ref=origin/main
 head_ref=HEAD
@@ -54,266 +50,229 @@ head_commit=$(git rev-parse "$head_ref")
 printf 'Before: %s\nAfter:  %s\n' "$base_commit" "$head_commit"
 ```
 
-`HEAD` names committed changes only. Uncommitted modifications in the current
-checkout are not included. Ensure that `target_ref` exists locally and update it
-when the review requires the latest target state before resolving either
-commit.
-
-That comparison answers: what architectural meaning did this branch introduce
-since it diverged from the target branch? To compare the current target head
-against the branch head instead, set
-`base_commit=$(git rev-parse "$target_ref")`. That answers a different question
-and can include changes made on the target branch after divergence.
-
-Record both full commit IDs with the review artifacts.
+`HEAD` names committed changes only; uncommitted edits in the current checkout
+are not included. Update `target_ref` first when the review needs the latest
+target branch. This comparison answers what the branch changed since it
+diverged from the target branch. Setting
+`base_commit=$(git rev-parse "$target_ref")` instead compares with the current
+target head, which can include changes merged there after divergence. Record
+both full commit IDs with the review artifacts.
 
 ### Create isolated worktrees
 
-<!-- docs-check:review-worktrees -->
+<!-- docs-check:journey-review-worktrees -->
 ```sh
 review_root=$(mktemp -d /tmp/rootform-review.XXXXXX)
 git worktree add --detach "$review_root/base" "$base_commit"
 git worktree add --detach "$review_root/head" "$head_commit"
-mkdir "$review_root/results"
+results="$review_root/results"
+mkdir "$results"
 printf 'Review directory: %s\n' "$review_root"
 ```
 
-These commands do not switch the current checkout. Set the root module path
-relative to the repository root. Before building, make every referenced module
-and external Dialect or Policy Pack selection available in each worktree. A Git
-worktree does not inherit the current checkout's `.terraform/` directory. Use
-[Reproduce a build](../guides/reproduce-build.md) and
-[external content](../guides/external-content.md) to prepare each revision from
-its own committed selection.
+These commands do not switch the current checkout. A worktree does not inherit
+the current checkout's `.terraform/` directory, installed modules, or provider
+selection, so each revision is initialized from its own committed
+configuration.
 
-Build both revisions into the results directory:
+### Plan each revision
 
-<!-- docs-check:review-build -->
+Set the root module path relative to the repository root, then initialize,
+plan, and export each revision with your usual backend, workspace, and variable
+options. OpenTofu users replace `terraform` with `tofu`:
+
 ```sh
 root_module=infra
-rootform version
-rootform build "$review_root/base/$root_module" \
-  --output "$review_root/results/before.json"
-rootform build "$review_root/head/$root_module" \
-  --output "$review_root/results/after.json"
+for side in base head; do
+  module_dir="$review_root/$side/$root_module"
+  terraform -chdir="$module_dir" init -input=false
+  terraform -chdir="$module_dir" plan -input=false -out="$results/$side.tfplan"
+  terraform -chdir="$module_dir" show -json "$results/$side.tfplan" > "$results/$side.json"
+done
 ```
 
-Each directory build reads its own project selection. To isolate source
-changes, use the same binary and comparable Dialect selection. When
-`rootform.lock` changes in the pull request, do not copy one revision's lock
-into the other. Build each revision as committed, then treat the resulting semantic
-difference as part of review. Architecture Diff can preserve source continuity
-while reporting affected conclusions as undetermined. See
-[semantic changes](../concepts/diff.md#undetermined-preserves-uncertainty).
+`-chdir` runs each command in that revision's root module, while the saved
+plan and its JSON export land in the results directory. Keeping each saved plan
+beside its export lets Rootform verify the pair.
+
+> [!WARNING]
+> Saved plans and JSON exports can contain cleartext secrets. Keep the results
+> directory private, and never attach these files to the pull request or to a
+> general CI artifact. [Protect the plan files](../inputs/plans.md#protect-the-plan-files)
+> explains the risk.
+
+To try the procedure without planning, copy the
+[commerce Playground](../../examples/playground/commerce-platform/README.md)
+plans instead: its `base/plan.json` and `base/plan.tfplan` become
+`$results/base.json` and `$results/base.tfplan`, and its `head` files become
+`$results/head.json` and `$results/head.tfplan`. The excerpts below come from
+those plans.
 
 ### Compare and save review artifacts
 
-Read the comparison in the terminal first:
+Run the Rootform commands from the repository root. Rootform reads both plans
+with one project selection: the current directory's, or the directory named by
+`--project`. These commands use the embedded Dialects. When the root module
+records Dialects or Policy Packs in `rootform.lock`, prepare that selection as
+described in [Reproduce an analysis offline](../guides/reproduce-build.md) and
+add `--project "$review_root/base/$root_module"`, so the selection already
+reviewed on the target branch reads both sides. If the pull request changes
+`rootform.lock`, repeat the comparison with the head root module to see what
+that change does.
 
-<!-- docs-check:review-diff -->
+Record the Rootform version, then read the comparison in the terminal:
+
+<!-- docs-check:journey-review-compare -->
 ```sh
-rootform diff "$review_root/results/before.json" \
-  "$review_root/results/after.json"
+rootform version
+rootform run "$results/base.json" --plan-file "$results/base.tfplan" \
+  --diff "$results/head.json" --diff-plan-file "$results/head.tfplan" --no-serve
 ```
 
-Then save Markdown for reviewers and JSON for automation:
+The first input is Before; the `--diff` input is After. Both default to the
+`planned` stage; choose `--before-stage` and `--after-stage` when the review
+question concerns other available stages. For the commerce plans, the summary
+includes:
 
-<!-- docs-check:review-reports -->
-```sh
-rootform diff "$review_root/results/before.json" \
-  "$review_root/results/after.json" \
-  --format markdown --output "$review_root/results/architecture-diff.md"
-rootform diff "$review_root/results/before.json" \
-  "$review_root/results/after.json" \
-  --format json --output "$review_root/results/architecture-diff.json"
+```ansi title="Comparison excerpt"
+[1mInputs compared[0m
+[1m[38;5;208mChanges · before planned → after planned[0m
+  [2mInstances[0m     16 added, 7 removed, 0 changed
+  [2mFacts[0m         42 added, 23 removed
+  [2mUndetermined[0m  3 closures before (3 unknown until apply) · 3 closures after (3 unknown until apply)
 ```
 
-Choose the gate independently of the report format:
+Here the branch adds 16 planned instances and removes 7. Inspect determined
+changes and undetermined closures together: an
+[undetermined closure](../concepts/diff.md#undetermined-preserves-uncertainty)
+is not proof of no change. A successful comparison returns `0` even when
+changes exist, so the status alone is not an approval gate. Two separately
+produced plans cannot establish drift between their runs. For a plan's own
+recorded-to-refreshed drift, inspect that plan's
+[comparison views](../concepts/architecture-ir.md#comparisons-and-drift).
 
-- Use ordinary `rootform diff` for an informational report. A completed comparison returns `0` even when changes exist
-- Use `rootform diff before.json after.json --exit-code` to block on any determined or undetermined difference
-- Use `rootform check` to block on governance results after confirming the expected Policy Pack selection and target coverage
+Then save a reusable comparison, a readable report, and a standalone
+interactive view from the same run:
 
-An architectural change informs the review, but it is not automatically a
-defect. Likewise, a completed command does not approve the change. Read the
-report contents and policy coverage before deciding.
-
-### Add policy and architecture evidence
-
-When the repository keeps a local pack at `policies/`, evaluate the head
-revision and save the result:
-
-<!-- docs-check:review-policy -->
+<!-- docs-check:journey-review-save -->
 ```sh
-rootform check "$review_root/head/$root_module" \
-  --policy-pack "$review_root/head/policies" \
-  --format json --output "$review_root/results/policy-result.json"
+rootform run "$results/base.json" --plan-file "$results/base.tfplan" \
+  --diff "$results/head.json" --diff-plan-file "$results/head.tfplan" \
+  --no-serve -o "$results/comparison.json" -o "$results/comparison.md" \
+  -o "$results/comparison.html"
 ```
-
-Use project-selected Policy Packs instead when the lock owns governance selection.
-[Run checks](../guides/check-architecture.md) explains outcomes and evidence.
-
-Export the comparison as one page when visual inspection helps:
-
-<!-- docs-check:review-html -->
-```sh
-rootform diff "$review_root/results/before.json" \
-  "$review_root/results/after.json" \
-  --format html --output "$review_root/results/architecture-diff.html"
-```
-
-Reviewers should read:
 
 | Artifact | Review question |
 | --- | --- |
-| `architecture-diff.md` | Which architectural representations and facts changed? |
-| `architecture-diff.json` | Which determined and undetermined entries should automation process? |
-| `policy-result.json` | Which Policies ran, which targets they evaluated, and what outcomes resulted? |
-| `architecture-diff.html` | Where does each change sit in the Before and After architecture? |
+| `comparison.md` | Which instances and facts changed or remain undetermined? |
+| `comparison.json` | Which structured comparison entries should automation process? |
+| `comparison.html` | Where does each change sit in the **Before**, **Diff**, and **After** views? |
 
-The HTML page opens from disk without a running server. It carries the same
-comparison as the reports, with Before, Diff, and After stages. To inspect the
-comparison while the worktrees still exist, run the same `rootform diff` with
-`--serve` instead of `--format` and `--output`.
+The HTML file opens from disk, includes its assets, and makes no network
+requests. To explore the comparison in the browser while the plans still exist,
+run the same command without `--no-serve` and the `-o` options. These
+outputs omit sensitive values but retain infrastructure names, addresses, and
+topology; restrict access and retention accordingly.
+
+### Evaluate the head with policies
+
+Evaluate the head plan with the Policy Pack from the base revision, so the pull
+request cannot relax the policies that judge it. This example assumes that the
+repository keeps its approved Pack in `policies/`:
+
+<!-- docs-check:journey-review-policy -->
+```sh
+rootform run "$results/head.json" --plan-file "$results/head.tfplan" \
+  --policy-pack "$review_root/base/policies" \
+  --no-serve -o "$results/policy.md" -o "$results/policy.sarif"
+```
+
+With the commerce head plan and the two Policies of the
+[baseline example Pack](../../policy-packs/README.md) in `policies/`, the summary
+includes:
+
+```ansi title="Policy excerpt"
+[2mPolicies[0m      passed
+[1m[38;5;208mPolicies · planned[0m
+  [2mResult[0m     passed
+  [2mEvaluated[0m  2 policies over 2 targets: 2 passed, 0 violated, 0 indeterminate
+```
+
+Both Policies found a target in the head plan and passed, so the command exits
+`0`. Read **Evaluated** before trusting the status: `0` is a passing gate only
+when the selected Policies evaluated targets and every evaluation passed.
+Status `1` blocks on a confirmed violation; `3` means no compliant verdict,
+including indeterminate results and Policies that found no target. A run
+without selected Policies makes no compliance claim. When `rootform.lock`
+selects the Policy Packs, use `--locked` with the same `--project` in place of
+`--policy-pack`. [Run policy checks](../guides/check-architecture.md) explains
+target coverage and result interpretation.
 
 ### Preserve results and clean temporary files
 
-Copy the desired files from the results directory into an approved review
-location. Then remove only the two worktrees and temporary files created above:
+Copy the reports you want to keep to an approved review location. Then remove
+the worktrees, the plan files, and the temporary results:
 
-<!-- docs-check:review-cleanup -->
+<!-- docs-check:journey-review-cleanup -->
 ```sh
-git worktree remove "$review_root/base"
-git worktree remove "$review_root/head"
+git worktree remove --force "$review_root/base"
+git worktree remove --force "$review_root/head"
 rm -f \
-  "$review_root/results/before.json" \
-  "$review_root/results/after.json" \
-  "$review_root/results/architecture-diff.md" \
-  "$review_root/results/architecture-diff.json" \
-  "$review_root/results/policy-result.json" \
-  "$review_root/results/architecture-diff.html"
-rmdir "$review_root/results"
-rmdir "$review_root"
+  "$results/base.tfplan" "$results/base.json" \
+  "$results/head.tfplan" "$results/head.json" \
+  "$results/comparison.json" "$results/comparison.md" "$results/comparison.html" \
+  "$results/policy.md" "$results/policy.sarif"
+rmdir "$results" "$review_root"
 ```
 
-These commands work whether or not you created the optional Policy and HTML
-artifacts. They do not reset the branch, delete untracked files in the current
-checkout, or remove paths outside the temporary directory created by `mktemp`.
-
-Architecture reports can reveal resource names, source paths, relations, and
-project structure. Never attach raw plans, state, credentials, or secrets.
-Apply repository access and retention rules before publishing any artifact.
+`--force` is needed because `terraform init` writes files into each temporary
+worktree. These commands work whether or not you created the optional policy
+and HTML artifacts. They remove only the paths created above; they do not reset
+the branch or delete files in the current checkout.
 
 ## Review a completed plan
 
-Run these commands from the root module directory of the head checkout, the
-directory where the plan is produced. With `--plan`, Rootform reads the
-project selection from the current working directory, so a `rootform.lock`
-there applies. In CI, run them in the job that produced the plan; the export
-never needs to leave that job.
+When CI already plans the pull request head, review that one completed plan in
+the job that produced it; the plan files never need to leave that job. Run
+Rootform from the root module directory where the plan was produced, so the
+project's `rootform.lock` applies:
 
-### Export the plan
-
-Create a directory outside the checkout for the plan and every result:
-
-<!-- docs-check:review-plan-directory -->
+<!-- docs-check:journey-review-one-plan -->
 ```sh
-plan_root=$(mktemp -d /tmp/rootform-plan-review.XXXXXX)
-printf 'Plan review directory: %s\n' "$plan_root"
+rootform run plan.json --plan-file plan.tfplan --no-serve
 ```
 
-Create the saved plan through the usual workflow, then export it as JSON:
+For the commerce head plan, the summary includes:
 
-```sh
-terraform plan -out="$plan_root/tfplan"
-terraform show -json "$plan_root/tfplan" > "$plan_root/tfplan.json"
+```ansi title="Completed plan excerpt"
+[2mStages[0m        planned (default)
+[1m[38;5;208mArchitecture · planned[0m
+  [2mInstances[0m    153 (153 managed, 0 data)
+[1m[38;5;208mDrift[0m
+  No drift reported in this plan.
 ```
 
-Use `tofu` for OpenTofu. Keeping both files outside the checkout keeps them out
-of an accidental commit or artifact upload. They can contain sensitive values;
-see [Protect the plan files](../inputs/plans.md#protect-the-plan-files).
+This example plan was made without prior state, so **Stages** lists only
+`planned` and there is nothing to report as drift. A plan made against
+existing state also lists `refreshed` and `recorded`, and **Drift** then lists
+what refresh found changed outside Terraform or OpenTofu. If no drift is
+reported, the plan may still have skipped or limited refresh; the
+[plan guide](../inputs/plans.md#read-plan-comparisons-correctly) explains that
+boundary. This review shows what one planning operation proposes; it does not
+isolate the branch change from a base plan. Save reports and evaluate policies
+with the same `-o`, `--policy-pack`, or `--locked` options as above.
 
-### Compare the planned architecture
+## Keep CI artifacts deliberate
 
-Read the comparison in the terminal first:
+Run plan production and Rootform analysis in a job with the required planning
+credentials; Rootform itself needs no cloud credentials. Upload only approved
+Rootform reports, with restricted audience and retention. Never upload
+`plan.tfplan`, `plan.json`, state JSON, provider credentials, or `.terraform/`.
+Preserve the CLI exit status separately from artifact upload so a violation or
+refusal cannot be hidden by a successful upload step. SARIF is useful for
+consumers that accept SARIF 2.1.0; the Markdown report remains readable without
+a platform integration.
 
-<!-- docs-check:review-plan-diff -->
-```sh
-rootform diff --plan "$plan_root/tfplan.json"
-```
-
-Then save Markdown for reviewers and JSON for automation:
-
-<!-- docs-check:review-plan-reports -->
-```sh
-rootform diff --plan "$plan_root/tfplan.json" \
-  --format markdown --output "$plan_root/plan-diff.md"
-rootform diff --plan "$plan_root/tfplan.json" \
-  --format json --output "$plan_root/plan-diff.json"
-```
-
-The plan supplies both sides, so do not add positional Before and After
-arguments. A create plan can have an empty Before side. Entries reported as
-undetermined are not no-change results;
-[Read plan comparisons correctly](../inputs/plans.md#read-plan-comparisons-correctly)
-explains them. The gate choice is the same as for a source comparison: an
-informational `rootform diff`, `--exit-code` to block on any determined or
-undetermined difference, or `rootform check` to block on governance results.
-
-### Check and export the planned architecture
-
-When the repository keeps a local pack at `policies/` beside the root module
-directory, evaluate the planned architecture and save the result:
-
-<!-- docs-check:review-plan-check -->
-```sh
-rootform check --plan "$plan_root/tfplan.json" \
-  --policy-pack ../policies \
-  --format json --output "$plan_root/plan-policy.json"
-```
-
-When `rootform.lock` in the root module selects the Policy Pack instead, run
-`rootform init . --locked --no-input` first and check with `--locked` in
-place of `--policy-pack`. The check evaluates the planned architecture only,
-not the prior state.
-
-Export the comparison as one page when visual inspection helps:
-
-<!-- docs-check:review-plan-html -->
-```sh
-rootform diff --plan "$plan_root/tfplan.json" \
-  --format html --output "$plan_root/plan-diff.html"
-```
-
-The page opens from disk with the same Before, Diff, and After stages. To
-inspect the comparison while the plan still exists, run
-`rootform diff --plan "$plan_root/tfplan.json" --serve` instead.
-`plan-diff.md`, `plan-diff.json`, `plan-policy.json`, and `plan-diff.html`
-answer the same review questions as the source artifacts above, for the
-planned change.
-
-### Remove the plan files
-
-Copy the desired Rootform results into an approved review location. Then
-remove the plan, its export, and the results:
-
-<!-- docs-check:review-plan-cleanup -->
-```sh
-rm -f \
-  "$plan_root/tfplan" \
-  "$plan_root/tfplan.json" \
-  "$plan_root/plan-diff.md" \
-  "$plan_root/plan-diff.json" \
-  "$plan_root/plan-policy.json" \
-  "$plan_root/plan-diff.html"
-rmdir "$plan_root"
-```
-
-Never attach `tfplan` or `tfplan.json` to the pull request or an artifact.
-Rootform results omit raw plan values, but they still reveal resource names,
-source paths, and architecture structure, so the same access and retention
-rules apply to them.
-
-Use [Run in CI](../integrations/ci/README.md) for a portable runner workflow
-that accepts either input, or [GitHub Actions](../integrations/github-actions.md)
-for a workflow that plans, exports, and reviews in one job.
+For a portable CI job, see [Run in CI](../integrations/ci/README.md). For
+GitHub-specific permissions and artifact handling, see
+[GitHub Actions](../integrations/github-actions.md).

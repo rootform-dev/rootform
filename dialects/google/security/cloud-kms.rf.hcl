@@ -12,6 +12,15 @@ rule "cloud-kms-key-ring" {
   }
 
   as = concept.cloud-kms-key-ring
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "cloud-kms-key" {
@@ -21,10 +30,26 @@ rule "cloud-kms-key" {
 
   as = concept.encryption-key
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.cloud-kms-key-ring
-    via = source.key_ring
+    as       = context.ownership
+    to       = concept.cloud-kms-key-ring
+    via      = source.key_ring
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -36,7 +61,17 @@ rule "cloud-kms-key-version" {
   as = concept.cloud-kms-key-version
 
   contribution {
-    to  = concept.encryption-key
-    via = source.crypto_key
+    to       = concept.encryption-key
+    via      = source.crypto_key
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared encryption-key instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

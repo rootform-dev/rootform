@@ -1,51 +1,104 @@
 ---
-title: "Outputs and exit status"
-description: "Choose an architecture, policy, or comparison result and interpret its status."
+title: Outputs and exit status
+description: Choose output formats and interpret streams, file writes, SARIF, and one run status.
 ---
 
-An output file's presence, extension, or valid JSON syntax does not prove the
-operation succeeded. Check the command's exit status and read its diagnostics.
+`rootform run` produces one analysis result for its terminal summary, files,
+and optional local Explorer. A written file alone does not prove success:
+check the exit status and standard error. A comparison can contain changes
+or undetermined entries while returning `0`.
 
-| Result | Command and format | Use |
+## Keep standard output and errors separate
+
+Without `--format`, standard output carries the human summary, including
+stage, instance, fact, closure, drift, policy, and diagnostic counts as
+available. Standard error carries progress, warnings, the loopback server
+address, and failures. Do not merge it into machine-readable standard output.
+
+With no `-o` file, `--format json`, `text`, `markdown`, or `sarif`
+selects the standard output format. `--no-serve` writes files and exits;
+the normal mode serves the result in the foreground. `--no-browser`
+changes browser launch, not the server or output.
+
+## Choose an output file
+
+Repeat `-o` to write several formats from the same analysis:
+
+| Extension | Content | Use |
 | --- | --- | --- |
-| Architecture JSON | `build` (default `json`) | Reusable architecture document for `run`, `check`, `diff`, and `explain architecture`. |
-| Architecture HTML | `build --format html` | Self-contained browser view of one architecture. |
-| Policy report | `check` (`text`, `json`, `markdown`, `sarif`) | Human review, machine processing, Markdown review, or SARIF consumer. |
-| Comparison report | `diff` (`text`, `json`, `markdown`) | Human review or processing of determined and undetermined architectural changes. |
-| Comparison HTML | `diff --format html` | Self-contained browser view of one comparison with Before, Diff, and After stages. |
+| `.json` | Rootform document | Reopen with `run`, inspect stages and evidence, or process as data |
+| `.md` | Markdown report | Human review in a repository or CI artifact |
+| `.txt` | Plain-text report | Terminal-oriented review |
+| `.sarif`, `.sarif.json` | SARIF 2.1.0 | A SARIF consumer |
+| `.html` | Self-contained interactive Explorer | Browser review without a server |
 
-Architecture JSON is a reusable input. Policy and Diff reports are results of
-evaluation or comparison, not architecture inputs. Neither HTML page is an
-input: `run` and `diff --serve` show the same views from a local server.
+The JSON document is reusable input. Plan documents can contain stages,
+internal comparisons, and a drift report; cross-input results have
+`kind: "comparison"`. Reports and HTML exports are outputs, not analysis
+inputs. `--format` also sets the format of one `-o` target whose extension
+is not recognized. It cannot contradict a recognized extension.
 
-## Interpret check and diff status
+<!-- docs-check:journey-outputs-multiple -->
+```sh
+rootform run plan.json --plan-file plan.tfplan --no-serve \
+  -o architecture.json -o architecture.md -o architecture.sarif.json -o architecture.html
+```
 
-| Status | `check` | `diff` |
-| --- | --- | --- |
-| `0` | Every selected policy was evaluated and passed. | Comparison completed. Changes or undetermined facts may still be present without `--exit-code`. |
-| `1` | At least one confirmed violation, including a mixed result. | With `--exit-code`, changes or undetermined facts were reported. |
-| `2` | Command used incorrectly. | Command used incorrectly. |
-| `3` | No compliant verdict: indeterminate or not evaluated, with no confirmed violation. | Comparison could not be completed. |
+All requested formats render before the first file is written. A duplicate
+target, a format-extension conflict, or an output path that resolves to an
+input, including through a link, is a usage error (`2`). Files are written
+through temporary files in their target directories, then renamed into
+place individually. If a later write fails, earlier successful files remain
+and the failed target is reported; exit status is `4`.
 
-Zero selected policies, zero evaluations, or a selected policy without targets
-cannot establish compliance. An undetermined fact in a completed Diff is not
-status `3`. Inspect the report even when Diff exits `0`. These codes are not a
-universal contract for other commands; use the relevant [CLI reference](cli/index.md).
+## Exit status
 
-## Keep results and diagnostics separate
+| Exit | Exact condition |
+| --- | --- |
+| `0` | Analysis completed; if policies were selected, every evaluation passed. |
+| `1` | A selected policy produced a confirmed violation, including a mixed result. |
+| `2` | Incorrect command use, such as an invalid flag combination or output collision. |
+| `3` | Input refused; or selected policies were indeterminate or decided nothing without a confirmed violation. |
+| `4` | An output could not be written or the server could not start. |
 
-`build` writes architecture JSON or HTML to standard output by default, or to
-`--output`. Its preparation messages, declaration summary, and diagnostics go
-to standard error. `check` and `diff` write their selected report format to
-standard output or `--output`, with operational diagnostics on standard error.
-For a text `check`, the policy summary and detail are part of the report on
-standard output. Do not merge standard error into machine-readable output.
+No selected policies means no compliance claim, even though successful
+analysis exits `0`. A difference, an undetermined comparison entry, or
+reported drift is not a command failure by itself. For policy coverage and
+results, see [Run policy checks](../guides/check-architecture.md).
 
-Structured reports can also contain diagnostics. Preserve both the report and
-standard error when investigating a failure. For artifact collection that
-keeps the actual exit status and only current-run results, see
-[Run in CI](../integrations/ci/README.md).
+## Interpret SARIF
 
-Architecture files retain names, addresses, source locations, and semantic
-relationships. Review them before sharing; see [security guidance](../security/index.md)
-and [public contracts](../../contracts/README.md) for fields and disclosure boundaries.
+SARIF includes document diagnostics and explicitly evaluated Policy
+results. A Policy rule ID is `<pack>/<policy>`; diagnostic codes are
+also stable rule IDs. A pass uses `kind: pass`, a confirmed violation
+uses `kind: fail` and `level: error`, and an indeterminate evaluation
+uses `kind: review` and `level: warning`. Result properties name the
+evaluated stage. A policy execution failure appears under
+`toolExecutionNotifications`. If no policies ran, the invocation records
+`policies_evaluated: 0` and contains no invented pass result. SARIF
+selection never changes evaluation or exit status.
+
+Each Policy result names its instance address as a logical location and its
+stage in the result properties; SARIF from Rootform has no file locations.
+The report carries no attribute values, secrets, or configuration text. It
+still exposes instance addresses and policy outcomes; apply your sharing
+rules before uploading it.
+
+## Use the HTML export
+
+`.html` embeds the Explorer and a display copy of the document in one file.
+It opens from disk, makes no network requests, and needs no server or
+neighboring files. The display copy keeps only the Dialect definitions the
+analysis uses and leaves out external identities that a Dialect records for
+the JSON document only; it cannot be reopened as an input. The local server
+binds `127.0.0.1` and serves the same display copy, never the plan or state
+files. The reusable `.json` document keeps the complete data; review both
+before sharing. See [security guidance](../security/index.md) and the
+[document contract](../../contracts/architecture-ir.md).
+
+## Expect deterministic results
+
+Given the same accepted inputs, selected Dialects, operator claims, and
+Rootform binary, the document and reports are deterministic. The plan
+or state export's completeness and uncertainty remain visible; a partial or
+targeted plan cannot become a proof of absence through output formatting.

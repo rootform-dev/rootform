@@ -13,6 +13,15 @@ rule "organization-lookup" {
   }
 
   as = concept.organization
+
+  identity {
+    attributes = ["resource_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["resource_id", "resource_name"]
+  }
 }
 
 rule "project" {
@@ -21,6 +30,15 @@ rule "project" {
   }
 
   as = concept.project
+
+  identity {
+    attributes = ["resource_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["resource_id", "resource_name"]
+  }
 }
 
 rule "project-lookup" {
@@ -30,4 +48,13 @@ rule "project-lookup" {
   }
 
   as = concept.project
+
+  identity {
+    attributes = ["resource_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["resource_id", "resource_name"]
+  }
 }

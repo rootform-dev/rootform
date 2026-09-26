@@ -4,8 +4,9 @@ terraform {
   }
 }
 
-variable "unknown_value" { type = string }
+resource "terraform_data" "unknown_value" {
 
+}
 resource "azurerm_resource_group" "platform" {
   name     = "platform"
   location = "West Europe"
@@ -61,7 +62,8 @@ resource "azurerm_linux_web_app" "linux" {
   location                  = azurerm_resource_group.platform.location
   service_plan_id           = azurerm_service_plan.apps.id
   virtual_network_subnet_id = azurerm_subnet.apps.id
-  site_config { application_insights_connection_string = azurerm_application_insights.platform.connection_string }
+  site_config {}
+  app_settings = { APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.platform.connection_string }
 }
 
 resource "azurerm_windows_web_app" "windows" {
@@ -70,7 +72,8 @@ resource "azurerm_windows_web_app" "windows" {
   location                  = azurerm_resource_group.platform.location
   service_plan_id           = azurerm_service_plan.apps.id
   virtual_network_subnet_id = azurerm_subnet.apps.id
-  site_config { application_insights_connection_string = azurerm_application_insights.platform.connection_string }
+  site_config {}
+  app_settings = { APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.platform.connection_string }
 }
 
 resource "azurerm_linux_function_app" "linux" {
@@ -79,7 +82,7 @@ resource "azurerm_linux_function_app" "linux" {
   location                   = azurerm_resource_group.platform.location
   service_plan_id            = azurerm_service_plan.apps.id
   virtual_network_subnet_id  = azurerm_subnet.apps.id
-  storage_account_name       = "fixture"
+  storage_account_name       = "fx9b0cff6cce28"
   storage_account_access_key = "ROOTFORM_AZURE_STORAGE_KEY_SENTINEL"
   site_config { application_insights_connection_string = azurerm_application_insights.platform.connection_string }
 }
@@ -90,7 +93,7 @@ resource "azurerm_windows_function_app" "windows" {
   location                   = azurerm_resource_group.platform.location
   service_plan_id            = azurerm_service_plan.apps.id
   virtual_network_subnet_id  = azurerm_subnet.apps.id
-  storage_account_name       = "fixture"
+  storage_account_name       = "fx11d0ef907e43"
   storage_account_access_key = "ROOTFORM_AZURE_STORAGE_KEY_SENTINEL"
   site_config { application_insights_connection_string = azurerm_application_insights.platform.connection_string }
 }
@@ -99,16 +102,18 @@ resource "azurerm_linux_web_app" "literal" {
   name                      = "literal"
   resource_group_name       = "platform"
   location                  = azurerm_resource_group.platform.location
-  service_plan_id           = "/subscriptions/example/plans/apps"
-  virtual_network_subnet_id = "/subscriptions/example/subnets/apps"
-  site_config { application_insights_connection_string = "InstrumentationKey=literal" }
+  service_plan_id           = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.Web/serverFarms/fx-literal-service-plan-id"
+  virtual_network_subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.Network/virtualNetworks/fx-virtualnetworks/subnets/fx-literal-virtual-network-subnet-id"
+  site_config {}
+  app_settings = { APPLICATIONINSIGHTS_CONNECTION_STRING = "InstrumentationKey=literal" }
 }
 
 resource "azurerm_linux_web_app" "unknown" {
   name                      = "unknown"
-  resource_group_name       = var.unknown_value
+  resource_group_name       = terraform_data.unknown_value.id
   location                  = azurerm_resource_group.platform.location
-  service_plan_id           = var.unknown_value
-  virtual_network_subnet_id = var.unknown_value
-  site_config { application_insights_connection_string = var.unknown_value }
+  service_plan_id           = terraform_data.unknown_value.id
+  virtual_network_subnet_id = terraform_data.unknown_value.id
+  site_config {}
+  app_settings = { APPLICATIONINSIGHTS_CONNECTION_STRING = terraform_data.unknown_value.id }
 }

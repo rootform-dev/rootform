@@ -43,6 +43,9 @@ resource "azurerm_subnet" "data" {
 }
 
 resource "azurerm_kubernetes_cluster" "workloads" {
+  node_provisioning_profile {
+    default_node_pools = "Auto"
+  }
   name                = "workloads"
   location            = azurerm_resource_group.platform.location
   resource_group_name = azurerm_resource_group.platform.name
@@ -86,6 +89,41 @@ resource "azurerm_lb" "internal" {
 }
 
 resource "azurerm_application_gateway" "edge" {
+  http_listener {
+    name                           = "fx-edge-name"
+    frontend_port_name             = "fx-edge-frontend-port-name"
+    frontend_ip_configuration_name = "fx-edge-frontend-ip-configuration-name"
+    protocol                       = "Http"
+  }
+  backend {
+    name     = "fx-edge-name"
+    protocol = "Tcp"
+    port     = 1
+  }
+  request_routing_rule {
+    rule_type          = "Basic"
+    http_listener_name = "fx-edge-http-listener-name"
+    name               = "fx-edge-name"
+  }
+  frontend_ip_configuration {
+    name = "fx-edge-name"
+  }
+  backend_address_pool {
+    name = "fx-edge-name"
+  }
+  sku {
+    tier     = "Basic"
+    name     = "Basic"
+    capacity = 1
+  }
+  frontend_port {
+    name = "fx-edge-name"
+    port = 1
+  }
+  gateway_ip_configuration {
+    name      = "fx-edge-name"
+    subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.Network/virtualNetworks/fx-vnet/subnets/fx-edge-subnet-id"
+  }
   name                = "edge"
   location            = azurerm_resource_group.platform.location
   resource_group_name = azurerm_resource_group.platform.name
@@ -98,10 +136,12 @@ resource "azurerm_user_assigned_identity" "workload" {
 }
 
 resource "azurerm_mssql_server" "unsupported" {
-  name                = "unsupported"
-  location            = azurerm_resource_group.platform.location
-  resource_group_name = azurerm_resource_group.platform.name
-  version             = "12.0"
+  administrator_login          = "fx-unsupported-administrator-login"
+  administrator_login_password = "fx-unsupported-administrator-login-password"
+  name                         = "unsupported"
+  location                     = azurerm_resource_group.platform.location
+  resource_group_name          = azurerm_resource_group.platform.name
+  version                      = "12.0"
 }
 
 resource "azurerm_mssql_database" "unsupported" {

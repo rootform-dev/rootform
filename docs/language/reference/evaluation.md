@@ -1,251 +1,150 @@
 ---
 title: "Evaluation"
-description: "Normative RF evaluation order for Rule selection, representation, composition, facts, Policy queries, outcomes, and exit status."
+description: "Instance interpretation, closure truth, policy targets, outcomes, and exit status."
 ---
 
-RF evaluation fails closed. Unknown evidence remains unknown; it is never
-converted to false, absence, or compliance.
+Rootform interprets plan JSON or state JSON locally. It masks sensitive values before retaining requested paths, selects at most one Rule per managed or data instance, closes that Rule's emissions, and evaluates selected policies over one stage. It never runs Terraform or OpenTofu or contacts providers. A saved Rootform document can be reopened after validation without reinterpreting the original input.
 
 ## Architecture evaluation pipeline
 
-Rootform builds Architecture IR in this order:
+1. Read observed instances and their provider bindings from the plan or state export.
+2. Classify Rule candidates, then select at most one per instance.
+3. Attach optional Concept meaning and resolve ordered composition members per root instance.
+4. Resolve Context, Relation, and Contribution emissions into per-instance closures and facts.
+5. Record stage accounting, diagnostics, and the Rootform document.
+6. If policies were selected, link and evaluate them against the selected stage.
 
-1. normalize source declarations;
-2. classify Rule candidates and select at most one Rule per declaration;
-3. apply or roll back composition;
-4. create representations, first guaranteeing every managed-resource base,
-   then attaching applied Rule, optional Concept, and composition meaning;
-5. derive Context, Relation, and Contribution facts;
-6. close source accounting, validate, and serialize autonomous Architecture IR.
+This order matters: a policy cannot treat an unclosed emission or failed interpretation as proof that a fact is absent.
 
-Policies run later against validated Architecture IR. They do not reopen source
-files or Dialect source.
+## Instance population and stages
+
+| Input | Stages | Default policy target |
+| --- | --- | --- |
+| Plan JSON | `planned`; `refreshed` and reconstructed `recorded` when prior evidence permits | `planned` |
+| State JSON | One `recorded` stage | `recorded` |
+| Saved Rootform document | Its recorded stages | Document default stage |
 
 ## Base representation
 
-Every normalized managed resource gets representation, even with no applicable
-Rule or failed interpretation. This preserves resource coverage and source
-provenance.
-
-Other source kinds get representation only when Rule applies successfully.
-Concept is always optional. Result can therefore have:
-
-- represented resource without Rule;
-- represented declaration with Rule and no Concept;
-- represented declaration with Rule and Concept;
-- represented composition root;
-- source declaration without representation.
-
-Resource coverage, Rule coverage, and Concept coverage are distinct.
+Every observed managed and data instance has a Representation, even without an applied Rule. A plan's reconstructed `recorded` stage is never a policy evaluation target. A plan can report drift between recorded and refreshed and proposed change between refreshed and planned. A cross-input [comparison](../../concepts/diff.md) has no policy predicate that proves drift.
 
 ## Rule selection
 
-Each Rule candidate first checks kind, type, provider source, exact provider
-version when available, then optional predicate. Candidate state is accepted,
-rejected, predicate-indeterminate, provider-unresolved, or
-version-incompatible.
+A candidate must match resource mode, exact type, provider source, then a known-true `where` predicate. The provider version envelope belongs to the Dialect manifest; the instance selector does not compare an observed exact version. More than one accepted Rule yields `RULE_MATCH_AMBIGUOUS`; an unresolved predicate prevents choosing around uncertainty. An unbound provider produces `PROVIDER_UNBOUND` and failed interpretation. Exactly one accepted Rule applies; otherwise the instance remains represented but unclassified. There is no first-match order. [Rules and matching](rules.md#selection-precedence) has the selection table.
 
-Selection precedence for one declaration:
+## Composition application
 
-| Priority | Candidate set | Outcome |
-| --- | --- | --- |
-| 1 | More than one accepted | `AMBIGUOUS_RULE_MATCH` |
-| 2 | Any predicate-indeterminate | `PREDICATE_UNRESOLVED` |
-| 3 | Any provider-unresolved | `PROVIDER_IDENTITY_UNRESOLVED` |
-| 4 | Exactly one accepted | Apply Rule |
-| 5 | Any version-incompatible | `PROVIDER_VERSION_INCOMPATIBLE` |
-| 6 | None | No Rule |
-
-Higher row wins. For example, one accepted Rule plus one predicate-indeterminate
-Rule is indeterminate, while one accepted Rule plus one version-incompatible
-Rule applies accepted Rule.
-
-Kind, type, and unrelated provider-source mismatches are ordinary rejected
-candidates and produce no diagnostic. There is no Rule priority or first-match
-behavior.
+Composition records each established member and each unresolved member on the root instance. An unresolved earlier member leaves a dependent later member unavailable, while an independent later member may still resolve. The root Rule, Concept, and emissions remain available. See [Member resolution](composition.md#member-resolution) and [Unresolved members](composition.md#unresolved-members).
 
 ## Predicate truth
 
-Predicate comparisons use known string, Boolean, or signed integer scalars.
-Equality requires same type; ordering requires integers.
-
-Boolean operators use three-valued logic:
+Rule predicates compare known scalar values. Boolean operations use three-valued logic: `false && unknown` is false, `true || unknown` is true, and `!unknown` remains unknown. Only final known true accepts a Rule. Unknown, sensitive, or missing evidence is never silently false.
 
 | A | B | `A && B` | <code>A &#124;&#124; B</code> |
 | --- | --- | --- | --- |
 | `true` | `true` | `true` | `true` |
 | `true` | `false` | `false` | `true` |
-| `false` | `true` | `false` | `true` |
-| `false` | `false` | `false` | `false` |
 | `true` | `unknown` | `unknown` | `true` |
+| `false` | `false` | `false` | `false` |
 | `false` | `unknown` | `false` | `unknown` |
-| `unknown` | `true` | `unknown` | `true` |
-| `unknown` | `false` | `false` | `unknown` |
 | `unknown` | `unknown` | `unknown` | `unknown` |
 
-`!unknown` is unknown. Known `false` decides conjunction; known `true`
-decides disjunction. Only final known `true` accepts candidate.
-
-## Composition application
-
-Rule without composition applies after selection. Rule with composition applies
-only if every ordered member resolves, matches, and remains exclusive.
-
-Composition failure is transactional: selected Rule, Concept, emissions, and
-partial membership roll back. Managed-resource base remains. See
-[Composition](composition.md#transactional-behavior).
+The operations are commutative, so swapping A and B gives the remaining cases.
 
 ## Fact derivation
 
-Emission runs only for applied Rule representation. For each emission:
+### Emission closure
 
-1. attempt direct `via` resolution, then use explicit attribute `match` only
-   where direct evidence permits fallback;
-2. require represented target;
-3. require target's applied Rule to satisfy `to`;
-4. emit deduplicated fact with provenance.
-
-Results:
-
-| Evidence | Result |
-| --- | --- |
-| Target proven | Context, Relation, or Contribution fact |
-| Source path proven absent | `source_absent` omission |
-| Complete explicit comparison with no target | `no_match` omission |
-| Unknown, dangling, ambiguous, unrepresented, or mismatched target | Warning and incomplete emission |
-
-Facts and warnings may coexist for partial collections. Omission is positive
-evidence that compiler proved no fact for that emission instance. Warning is
-not omission.
+Each active emission has one closure per source instance and stage. A known matching value or verified planned-stage identity traversal can establish a fact. `on_null` and `on_empty` decide whether a known missing value proves `absent` or remains indeterminate. Unknown, sensitive, unavailable, ambiguous, and conflicting evidence never proves absence. A list can retain proven facts while another element keeps its closure indeterminate. A fact records its Rule, emission, closure, target and `value`, `traversal`, or `both` evidence.
 
 ## Policy linking
 
-Portable Policy Pack source must link against Architecture IR before
-evaluation. Linker:
-
-- validates Architecture IR;
-- resolves every qualified symbol and owner;
-- rejects contradictory target dimensions;
-- derives exact semantic owner pins;
-- emits deterministic compiled Pack.
-
-At evaluation, language version and every pinned owner kind, version, and
-semantic digest must match Architecture IR. Mismatch makes run indeterminate;
-Rootform never substitutes another Dialect or relinks silently.
+A Policy Pack links against the document's exact semantic owner identities. A missing definition, conflicting selection, or incompatible semantic digest prevents a policy decision.
 
 ## Policy target selection
 
-Policy target dimensions combine with AND; entries within lists combine with
-OR. Only representations with applied Rule can be selected.
-
-Target domain is incomplete when a failed declaration could have satisfied
-target or source/selection errors could hide another target. Incomplete target
-domain produces `POLICY_TARGET_DOMAIN_INCOMPLETE`; run cannot be compliant.
-
-A Policy selecting zero representations produces no per-target evaluation and
-counts as `not_evaluated`. Zero targets never means pass.
+Target dimensions combine with AND; entries within one list combine with OR. Representations with an applied Rule can be selected. A failed or indeterminate interpretation whose candidate Rule could satisfy the target is also selected for an indeterminate evaluation. An unverified instance population can make target coverage incomplete. A Policy with zero targets has zero per-target evaluations and contributes no compliance decision.
 
 ## Query truth
 
-Architecture query result carries confirmed facts plus support and completeness.
-
 ### `exists(query)`
 
-| Facts | Supported | Complete | Result |
+| Matching facts | Query supported | Relevant closures complete | `exists(query)` |
 | --- | --- | --- | --- |
-| One or more | Any | Any | `true` |
-| Zero | Yes | Yes | `false` |
-| Zero | No | Any | `Unknown` |
-| Zero | Yes | No | `Unknown` |
+| One or more | Either | Either | True |
+| Zero | Yes | Yes | False |
+| Zero | No | Either | Unknown |
+| Zero | Yes | No | Unknown |
 
 ### `length(query)`
 
-| Supported | Complete | Result |
-| --- | --- | --- |
-| Yes | Yes | Exact deduplicated fact count |
-| No | Any | `Unknown` |
-| Yes | No | `Unknown` |
-
-Policy Boolean operators use same three-valued truth table as predicates.
-Final unknown assertion produces `POLICY_ASSERTION_UNKNOWN`, never violation
-or pass.
+`length(query)` has an exact deduplicated count only for supported, complete evidence. A numeric comparison may still be decided from a proven lower bound when evidence is incomplete; otherwise it is unknown. Negative assertions need complete relevant closures, so an indeterminate closure cannot make `!exists(...)` pass. Boolean operators preserve three-valued truth: a known false decides `&&`, a known true decides `||`, and other combinations with unknown remain unknown. See [Built-ins](built-ins.md#support-completeness-and-evidence) for signatures.
 
 ## Worked example
 
-Suppose Architecture IR contains:
+For a subnet Rule emitting network Context to a VPC:
 
-- `aws_vpc.main`, interpreted by `aws.rule.vpc` as
-  `rf.concept.virtual-network`;
-- `aws_subnet.application`, interpreted by `aws.rule.subnet` as
-  `rf.concept.subnet`;
-- subnet `vpc_id` referencing VPC.
-
-Policy:
-
-```rf title="worked Policy"
-policy "subnet-has-network" {
-  target {
-    rules = [aws.rule.subnet]
-  }
-
-  assert = exists(
-    contexts(rf.context.network, rf.concept.virtual-network)
-  )
-
-  message = "Each subnet must declare its virtual network."
-}
-```
-
-Outcomes:
-
-| Source evidence | Query | Evaluation |
+| Evidence for `source.vpc_id` | Closure | `exists(contexts(...))` |
 | --- | --- | --- |
-| `vpc_id` resolves to represented VPC | One confirmed Context | `passed` |
-| `vpc_id` is proven absent | Supported, complete, zero Contexts | `violated` |
-| `vpc_id` is unknown or dangling | Incomplete, zero confirmed Contexts | `indeterminate` |
-| No subnet representation exists | No target evaluation | `not_evaluated` |
+| Known matching identity or verified endpoint traversal | `resolved` | True |
+| Known null with `on_null = "absent"` | `absent` | False, if relevant population complete |
+| Unknown until apply | `indeterminate(unknown_until_apply)` | Unknown |
+| No selected subnet instance | No evaluation | No decision |
+
+A false assertion is a violation; an unknown assertion is indeterminate. If a different target has a confirmed violation, that violation still takes precedence for the run.
+
+## Indeterminate and no-decision reasons
+
+| Reason in result | Why evidence cannot decide | Reader action |
+| --- | --- | --- |
+| `unknown_until_apply` | Planned value is not known before apply | Evaluate a later state or plan when available |
+| `sensitive` | Value is masked | Change the Dialect to use safe identity evidence if possible |
+| `ambiguous_unknown`, `uncomparable_candidate`, `duplicate_identity`, `identity_incomplete` | Candidate identity or uniqueness is unsettled | Inspect candidate counts and declared identities |
+| `reference_ambiguous` | Evaluated value conflicts with verified traversal | Inspect the plan pair and Rule endpoint/identity declarations |
+| `unavailable`, `external_denied` | Evidence cannot be read or external target is disallowed | Supply a paired saved plan when relevant; review the external policy |
+| `interpretation_failed` | Candidate Rule could not apply safely | Read the instance diagnostic |
+| `population_unverified` | An instance that could affect target coverage was not verified | Analyze a complete plan or state export |
+
+These reasons can appear on a closure, evaluation, or coverage entry according to where uncertainty arose. `external_denied` does not authorize claiming that the external object is absent. A Policy with zero targets has no evaluation and status `no_decision`; a run with no selected policies has status `not_evaluated` and makes no compliance claim. An unavailable requested stage or incompatible Pack fails evaluation with its own diagnostic.
 
 ## Per-target outcomes
 
 | Outcome | Meaning |
 | --- | --- |
-| `passed` | Assertion is known `true` |
-| `violated` | Assertion is known `false`; Policy message becomes violation |
-| `indeterminate` | Assertion or required evidence cannot be decided |
+| `passed` | Assertion known true |
+| `violated` | Assertion known false; Policy message applies |
+| `indeterminate` | Required evidence or assertion undecidable |
 
-`not_evaluated` is aggregate count/status for Policy with no selected target,
-not a per-target evaluation outcome.
+`not_evaluated` describes a Policy with zero selected targets, not a passed per-target result. A run with no selected policies makes no compliance claim.
 
-## Aggregate result status
+## Aggregate result and exit status
 
-Overall status uses this precedence:
+### Aggregate result status
+
+A confirmed violation takes precedence over indeterminate evaluations. Without one, indeterminate evaluation or incomplete target coverage produces `indeterminate`; zero target evaluations produce `no_decision`; all selected evaluations passing produces `passed`. Only the last status is a compliance claim.
 
 | Priority | Condition | Status |
 | --- | --- | --- |
 | 1 | At least one confirmed violation | `violated` |
-| 2 | Any indeterminate evaluation or diagnostic | `indeterminate` |
-| 3 | Any not-evaluated Policy or zero evaluations | `not_evaluated` |
-| 4 | Every selected evaluation passed | `compliant` |
+| 2 | Indeterminate evaluation or incomplete target coverage | `indeterminate` |
+| 3 | Zero target evaluations | `no_decision` |
+| 4 | Every selected evaluation passed | `passed` |
 
-Violation takes precedence in mixed run. Only `compliant` sets result
-`compliant` Boolean to true.
+These are the status values of `rootform explain policy --format json`. Text and Markdown outputs print `no_decision` as `no decision`.
 
-## `rootform check` exit status
+### `rootform run` exit status
 
-| Exit | Meaning |
-| --- | --- |
-| `0` | All selected Policies evaluated and compliant |
-| `1` | At least one confirmed violation, including mixed runs |
-| `2` | Invalid CLI usage |
-| `3` | Indeterminate or not evaluated, with no confirmed violation |
+| Condition | Reported result | `rootform run` exit |
+| --- | --- | --- |
+| Every selected policy evaluated and passed, or analysis without selected policies succeeded | `passed` when policies were selected; otherwise no policy result | `0` |
+| At least one confirmed violation, even with indeterminate results elsewhere | `violated` | `1` |
+| Selected policy indeterminate or selected no target, with no violation | `indeterminate` or no decision | `3` |
+| Invalid command use | Usage error | `2` |
+| Input refused | Refusal | `3` |
+| Export or server failed | Operation failure | `4` |
 
-Runtime or compilation failure during `check` is indeterminate, not
-compliant.
+With `--policy-pack` and no `--policy`, Rootform evaluates every Policy in the Pack. A zero-target Pack run ends with `POLICY_NO_DECISION` and exit `3`. A reported drift entry alone does not change exit status. The JSON Rootform document stores architecture evidence, not policy results; text, Markdown, SARIF, and `explain policy` can report policy outcomes. See [Outputs and exit status](../../reference/outputs.md).
 
 ## Determinism and limits
 
-Canonical output ordering does not depend on source discovery order. Facts are
-deduplicated while retaining bounded provenance. Exceeding evaluation or
-semantic-expansion bound fails closed and clears unsafe partial conclusions.
-
-See [Diagnostics and limits](diagnostics.md#limits) for exact numbers.
+The same input and semantic selection produce canonical, byte-identical Rootform documents. Facts deduplicate while retaining bounded provenance. Exceeding a semantic or policy bound fails closed rather than returning partial compliance. [Diagnostics and limits](diagnostics.md#limits) lists the bounds. Continue with [Test and validate](../test-validate.md) to prove a Dialect against planned evidence.

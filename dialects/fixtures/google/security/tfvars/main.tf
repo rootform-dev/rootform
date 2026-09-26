@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
+      version = "= 8.0.0"
     }
   }
 }
@@ -20,6 +21,7 @@ resource "google_sql_database_instance" "db" {
   region           = "us-central1"
 
   settings {
+    tier = "fx-db-tier"
     user_labels = {
       env = var.project
     }

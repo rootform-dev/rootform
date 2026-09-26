@@ -1,359 +1,362 @@
-import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  appendFileSync,
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { configuration, markedCommand } from "./docs-core-examples.ts";
 
-function assert(condition: unknown, message: string): asserts condition {
-  if (!condition) throw new Error(`Docs authoring example: ${message}`);
+const ansiEscape = new RegExp(String.fromCharCode(27) + String.raw`\[[0-9;]*m`, "gu");
+
+function assert(value: unknown, message: string): asserts value {
+  if (!value) throw new Error(`Docs authoring: ${message}`);
 }
 
-export function verifyAuthoringExamples(
-  binary: string,
-  root: string,
-  workspace: string,
-  home: string,
-): string[] {
-  const suite = join(workspace, "authoring");
-  mkdirSync(suite, { recursive: true });
-  mkdirSync(join(home, "docker"), { recursive: true });
-  writeFileSync(join(home, "docker/config.json"), "{}\n");
-  const environment = {
+export async function verifyAuthoringExamples(binary: string, root: string): Promise<string> {
+  const base = mkdtempSync(join(tmpdir(), "rootform-docs-authoring-"));
+  /* Marked commands call `rootform`; resolve it to the binary under test. */
+  const toolDir = join(base, "bin");
+  mkdirSync(toolDir, { recursive: true });
+  symlinkSync(binary, join(toolDir, "rootform"));
+  const read = (path: string) => readFileSync(join(root, "docs", path), "utf8");
+  const fresh = (name: string) => {
+    const dir = join(base, name);
+    const home = join(dir, "home");
+    mkdirSync(join(home, "docker"), { recursive: true });
+    writeFileSync(join(home, "docker/config.json"), "{}\n");
+    return { dir, home };
+  };
+  const environment = (home: string) => ({
     ...process.env,
     ROOTFORM_HOME: home,
     ROOTFORM_INPUT: "0",
     DOCKER_CONFIG: join(home, "docker"),
-    PATH: `${dirname(binary)}:${process.env.PATH ?? ""}`,
-  };
-  const page = (path: string) => readFileSync(join(root, "docs", path), "utf8");
-  const main = readFileSync(join(root, "examples/aws-vpc/main.tf"), "utf8");
-  const lock = (dir: string) => readFileSync(join(dir, "rootform.lock"));
-
-  function run(command: string[], cwd: string, expected = 0, env = environment) {
-    const result = Bun.spawnSync(command, {
+    PATH: `${toolDir}:${process.env.PATH ?? ""}`,
+  });
+  function run(args: string[], cwd: string, home: string, status = 0) {
+    const result = Bun.spawnSync(args, {
       cwd,
-      env,
+      env: environment(home),
       stdin: "ignore",
       stdout: "pipe",
       stderr: "pipe",
     });
     const stdout = result.stdout.toString();
     const stderr = result.stderr.toString();
+    if (process.env.ROOTFORM_DOCS_EVIDENCE_FILE) {
+      appendFileSync(
+        process.env.ROOTFORM_DOCS_EVIDENCE_FILE,
+        `cwd: ${cwd}\ncommand: ${args.join(" ")}\nexit: ${result.exitCode}\nstdout:\n${stdout}\nstderr:\n${stderr}\n\n`,
+      );
+    }
     assert(
-      result.exitCode === expected,
-      `${command.join(" ")} exited ${result.exitCode}, expected ${expected}\n${stdout}${stderr}`,
+      result.exitCode === status,
+      `${args.join(" ")} exited ${result.exitCode}, expected ${status}\n${stdout}${stderr}`,
     );
     return { stdout, stderr };
   }
-
-  function marked(document: string, marker: string, cwd: string, expected = 0, env = environment) {
-    return run(["sh", "-eu", "-c", markedCommand(page(document), marker)], cwd, expected, env);
-  }
-
-  function project(name: string): string {
-    const dir = join(suite, name);
-    mkdirSync(dir, { recursive: true });
-    writeFileSync(join(dir, "main.tf"), main);
-    return dir;
-  }
-
-  function tutorial(dir: string): void {
-    const guide = page("guides/check-architecture.md");
-    mkdirSync(join(dir, "policies"), { recursive: true });
-    for (const name of ["pack.rf.hcl", "subnet-network-context.rf.hcl"]) {
-      writeFileSync(join(dir, "policies", name), configuration(guide, `policies/${name}`));
+  function marked(page: string, name: string, cwd: string, home: string, status = 0) {
+    const output = run(["sh", "-eu", "-c", markedCommand(read(page), name)], cwd, home, status);
+    const marker = `<!-- docs-output:${name} -->`;
+    const document = read(page);
+    if (document.includes(marker)) {
+      const block = new RegExp(
+        `${marker}\\s*\`\`\`(?:ansi|text) title="[^"]+"\\n([\\s\\S]*?)\\n\`\`\``,
+      ).exec(document)?.[1];
+      assert(block, `${page}: output excerpt missing after ${name}`);
+      const actual = `${output.stdout}\n${output.stderr}`.replace(ansiEscape, "");
+      let cursor = 0;
+      for (const line of block.replace(ansiEscape, "").split("\n")) {
+        if (!line) continue;
+        const next = actual.indexOf(line, cursor);
+        assert(next >= 0, `${page}: ${name} excerpt line missing or out of order: ${line}`);
+        cursor = next + line.length;
+      }
     }
+    return output;
   }
-
-  function payments(dir: string): void {
-    const destination = join(dir, "dialects/payments");
-    mkdirSync(destination, { recursive: true });
-    cpSync(
-      join(root, "dialects/secrets/presentation.json"),
-      join(destination, "presentation.json"),
-    );
-    const declaration = readFileSync(join(root, "dialects/secrets/dialect.rf.hcl"), "utf8");
-    assert(declaration.includes('dialect "secrets"'), "payments source fixture changed");
+  function commerce(dir: string) {
+    const target = join(dir, "examples/playground/commerce-platform/head");
+    mkdirSync(target, { recursive: true });
+    for (const name of ["main.tf", "plan.json", "plan.tfplan", "rootform.lock"]) {
+      cpSync(join(root, "examples/playground/commerce-platform/head", name), join(target, name));
+    }
+    cpSync(join(root, "policy-packs/baseline"), join(dir, "policy-packs/baseline"), {
+      recursive: true,
+    });
+    cpSync(join(target, "plan.json"), join(dir, "plan.json"));
+    cpSync(join(target, "plan.tfplan"), join(dir, "plan.tfplan"));
+  }
+  function payments(dir: string) {
+    const target = join(dir, "dialects/payments");
+    mkdirSync(target, { recursive: true });
+    const source = readFileSync(join(root, "dialects/secrets/dialect.rf.hcl"), "utf8");
     writeFileSync(
-      join(destination, "dialect.rf.hcl"),
-      declaration.replace('dialect "secrets"', 'dialect "payments"'),
+      join(target, "dialect.rf.hcl"),
+      source.replace('dialect "secrets"', 'dialect "payments"'),
     );
   }
+  function policies(dir: string) {
+    cpSync(join(root, "policy-packs/baseline"), join(dir, "policies"), { recursive: true });
+  }
+  function select(dir: string, home: string) {
+    payments(dir);
+    policies(dir);
+    run([binary, "add", "dialects", "./dialects/payments"], dir, home);
+    run([binary, "add", "policy-packs", "./policies"], dir, home);
+  }
 
-  // The authoring commands run from the Dialect source root. The selected local
-  // owner makes fixture tests exercise that source instead of embedded AWS.
-  const authoring = join(suite, "dialect-authoring");
-  mkdirSync(join(authoring, "network"), { recursive: true });
-  const dialectPage = page("dialect-authoring.md");
+  const authoring = fresh("dialect");
+  const dialectPage = read("dialect-authoring.md");
   writeFileSync(
-    join(authoring, "dialect.rf.hcl"),
+    join(authoring.dir, "dialect.rf.hcl"),
     configuration(dialectPage, "aws/dialect.rf.hcl"),
   );
+  mkdirSync(join(authoring.dir, "network"));
   writeFileSync(
-    join(authoring, "network/vpc.rf.hcl"),
+    join(authoring.dir, "network/vpc.rf.hcl"),
     configuration(dialectPage, "aws/network/vpc.rf.hcl"),
   );
-  run(["git", "init", "--quiet"], authoring);
-  run(["git", "config", "user.name", "Rootform docs"], authoring);
-  run(["git", "config", "user.email", "docs@example.invalid"], authoring);
-  run([binary, "add", "dialects", ".", "--replace"], authoring);
-  const definitions = marked("dialect-authoring.md", "docs-dialect-authoring-1", authoring);
-  assert(
-    definitions.stdout.includes("aws.rule.subnet") &&
-      definitions.stdout.includes("rf.concept.subnet"),
-    "Dialect definitions were not inspected",
-  );
-  const fixture = join(authoring, "fixtures/example/minimal");
+  marked("dialect-authoring.md", "docs-dialect-authoring-1", authoring.dir, authoring.home);
+  const fixture = join(authoring.dir, "fixtures/example/minimal");
   mkdirSync(fixture, { recursive: true });
-  writeFileSync(join(fixture, "main.tf"), main);
-  run(
-    [
-      binary,
-      "build",
-      fixture,
-      "--format",
-      "json",
-      "--output",
-      join(fixture, "architecture.golden"),
-    ],
-    authoring,
+  for (const name of ["main.tf", "plan.json", "plan.tfplan"]) {
+    cpSync(join(root, "examples/playground/commerce-platform/head", name), join(fixture, name));
+  }
+  marked("dialect-authoring.md", "docs-dialect-authoring-2", authoring.dir, authoring.home);
+  assert(existsSync(join(fixture, "analysis.golden")), "Dialect fixture golden missing");
+  const vocabulary = fresh("local-vocabulary");
+  writeFileSync(
+    join(vocabulary.dir, "dialect.rf.hcl"),
+    'dialect "example" {\n  version = "0.1.0"\n  provider "hashicorp/aws" {\n    version = "= 6.62.0"\n  }\n}\n',
   );
-  const tests = marked("dialect-authoring.md", "docs-dialect-authoring-2", authoring);
-  assert(
-    (tests.stdout.match(/Tests passed\n1 case/gu) ?? []).length === 2,
-    `Dialect fixture case did not run twice: ${tests.stdout}${tests.stderr}`,
+  writeFileSync(
+    join(vocabulary.dir, "vocabulary.rf.hcl"),
+    configuration(dialectPage, "vocabulary.rf.hcl"),
   );
-  payments(authoring);
-  run(["git", "add", "."], authoring);
-  run(["git", "commit", "--quiet", "-m", "reviewed dialect fixture"], authoring);
-  const packagedDialect = marked("dialect-authoring.md", "docs-dialect-authoring-3", authoring);
-  assert(
-    packagedDialect.stdout.includes("payments") && existsSync(join(authoring, "artifacts/oci")),
-    "Dialect package was not created locally",
-  );
+  run([binary, "validate", "dialects", vocabulary.dir], vocabulary.dir, vocabulary.home);
 
-  const policyRoot = join(suite, "policy-authoring");
-  mkdirSync(policyRoot);
-  const policyPage = page("language/write-policy-pack.md");
-  const baseline = join(policyRoot, "baseline");
-  cpSync(join(root, "policy-packs/baseline"), baseline, { recursive: true });
+  const tour = read("language/tour.md");
+  const tourCase = fresh("tour");
+  const tourFiles: Array<[string, string]> = [
+    ["aws/dialect.rf.hcl", "aws/dialect.rf.hcl"],
+    ["aws/network/vpc.rf.hcl", "aws/network/vpc.rf.hcl"],
+    ["google/vocabulary.rf.hcl", "google/vocabulary.rf.hcl"],
+    [
+      "google/load-balancing/application-load-balancer.rf.hcl",
+      "google/load-balancing/application-load-balancer.rf.hcl",
+    ],
+    ["policies/pack.rf.hcl", "policies/pack.rf.hcl"],
+    ["policies/subnet-network-context.rf.hcl", "policies/subnet-network-context.rf.hcl"],
+  ];
+  for (const [title, path] of tourFiles) {
+    const dest = join(tourCase.dir, path);
+    mkdirSync(dirname(dest), { recursive: true });
+    writeFileSync(dest, configuration(tour, title));
+  }
+  writeFileSync(
+    join(tourCase.dir, "google/dialect.rf.hcl"),
+    'dialect "google" {\n  version = "0.1.0"\n  provider "hashicorp/google" {\n    version = "= 8.0.0"\n  }\n}\n',
+  );
+  run([binary, "validate", "dialects", "./aws"], tourCase.dir, tourCase.home);
+  run([binary, "validate", "dialects", "./google"], tourCase.dir, tourCase.home);
+  run([binary, "list", "policies", "--policy-pack", "./policies"], tourCase.dir, tourCase.home);
+
+  const packCase = fresh("policy-pack");
+  commerce(packCase.dir);
   for (const name of [
     "pack.rf.hcl",
     "policies/cluster-network-context.rf.hcl",
     "policies/managed-database-network-context.rf.hcl",
   ]) {
     assert(
-      readFileSync(join(baseline, name), "utf8") ===
-        configuration(policyPage, `policy-packs/baseline/${name}`),
-      `documented baseline source differs: ${name}`,
+      readFileSync(join(root, "policy-packs/baseline", name), "utf8") ===
+        configuration(read("language/write-policy-pack.md"), `policy-packs/baseline/${name}`),
+      `baseline source differs: ${name}`,
     );
   }
-  const example = join(policyRoot, "example");
-  mkdirSync(example);
-  writeFileSync(
-    join(example, "main.tf"),
-    'terraform {\n  required_providers {\n    google = {\n      source  = "hashicorp/google"\n      version = "= 8.0.0"\n    }\n  }\n}\n\nresource "google_compute_network" "main" {\n  name = "main"\n}\n\nresource "google_container_cluster" "example" {\n  name    = "example"\n  network = google_compute_network.main.id\n}\n\nresource "google_sql_database_instance" "example" {\n  name = "example"\n  settings {\n    ip_configuration {\n      private_network = google_compute_network.main.id\n    }\n  }\n}\n',
-  );
-  const originalLock = existsSync(join(policyRoot, "rootform.lock"));
-  const localPolicy = marked(
+  marked(
     "language/write-policy-pack.md",
     "docs-language-write-policy-pack-1",
-    policyRoot,
+    packCase.dir,
+    packCase.home,
   );
-  assert(
-    localPolicy.stdout.includes("Policies compliant") &&
-      localPolicy.stdout.includes("baseline.policy.cluster-network-context") &&
-      !originalLock &&
-      !existsSync(join(policyRoot, "rootform.lock")),
-    "baseline local override did not evaluate or changed the lock",
-  );
-  run([binary, "build", "./example", "--output", "architecture.json"], policyRoot);
-  const compiled = marked(
+  marked(
     "language/write-policy-pack.md",
     "docs-language-write-policy-pack-2",
-    policyRoot,
+    packCase.dir,
+    packCase.home,
+  );
+  assert(existsSync(join(packCase.dir, "baseline.compiled.json")), "compiled Policy Pack missing");
+  const undecided = run(
+    [
+      binary,
+      "run",
+      "examples/playground/commerce-platform/head/plan.json",
+      "--policy-pack",
+      "./policy-packs/baseline",
+      "--no-serve",
+    ],
+    packCase.dir,
+    packCase.home,
+    3,
   );
   assert(
-    compiled.stdout.includes("Policies compliant") &&
-      existsSync(join(policyRoot, "baseline.compiled.json")),
-    "compiled baseline did not evaluate the same architecture",
+    undecided.stdout.includes("Result     indeterminate"),
+    "plan-only indeterminate outcome changed",
   );
-  run(["git", "init", "--quiet"], policyRoot);
-  run(["git", "config", "user.name", "Rootform docs"], policyRoot);
-  run(["git", "config", "user.email", "docs@example.invalid"], policyRoot);
-  run(["git", "add", "."], policyRoot);
-  run(["git", "commit", "--quiet", "-m", "reviewed policy pack"], policyRoot);
-  const packagedPack = marked(
+  const noDecision = fresh("policy-no-decision");
+  const event = join(root, "examples/playground/event-driven-platform/head");
+  const noTarget = run(
+    [
+      binary,
+      "run",
+      join(event, "plan.json"),
+      "--plan-file",
+      join(event, "plan.tfplan"),
+      "--policy-pack",
+      join(root, "policy-packs/baseline"),
+      "--no-serve",
+    ],
+    noDecision.dir,
+    noDecision.home,
+    3,
+  );
+  assert(noTarget.stdout.includes("Result     no decision"), "no-decision outcome changed");
+  const violation = fresh("policy-violation");
+  commerce(violation.dir);
+  const violatedPack = join(violation.dir, "violated-pack");
+  mkdirSync(violatedPack);
+  writeFileSync(
+    join(violatedPack, "pack.rf.hcl"),
+    'policy_pack "review" {\n  version = "0.1.0"\n}\n',
+  );
+  writeFileSync(
+    join(violatedPack, "require-network.rf.hcl"),
+    'policy "require-network" {\n  target {\n    concept = rf.concept.kubernetes-cluster\n  }\n  assert = false\n  message = "Network context required."\n}\n',
+  );
+  const failed = run(
+    [
+      binary,
+      "run",
+      "examples/playground/commerce-platform/head/plan.json",
+      "--plan-file",
+      "examples/playground/commerce-platform/head/plan.tfplan",
+      "--policy-pack",
+      "./violated-pack",
+      "--no-serve",
+    ],
+    violation.dir,
+    violation.home,
+    1,
+  );
+  assert(failed.stdout.includes("Result     violated"), "violation outcome changed");
+  marked(
     "language/write-policy-pack.md",
     "docs-language-write-policy-pack-3",
-    policyRoot,
-  );
-  assert(
-    packagedPack.stdout.includes("baseline") && existsSync(join(policyRoot, "artifacts/policies")),
-    "Policy Pack package was not created locally",
+    packCase.dir,
+    packCase.home,
   );
 
-  const policyProject = project("check-architecture");
-  tutorial(policyProject);
-  marked("guides/check-architecture.md", "docs-guides-check-architecture-1", policyProject);
-  const report = JSON.parse(readFileSync(join(policyProject, "policy-result.sarif"), "utf8"));
-  assert(
-    report.version === "2.1.0" &&
-      report.runs?.[0]?.tool?.driver?.rules?.[0]?.id === "tutorial.policy.subnet-network-context" &&
-      report.runs[0].results?.length === 0,
-    "SARIF did not record the passing subnet Policy",
-  );
-  marked("guides/check-architecture.md", "policy-adopt-pack", policyProject);
-  const adopted = JSON.parse(lock(policyProject).toString());
-  assert(
-    adopted.policy_packs?.[0]?.name === "tutorial" &&
-      adopted.policy_packs[0].source?.local?.path === "policies",
-    "tutorial pack was not selected in the lock",
-  );
+  const packageCase = fresh("dialect-package");
+  payments(packageCase.dir);
+  marked("dialect-authoring.md", "docs-dialect-authoring-3", packageCase.dir, packageCase.home);
 
-  const external = project("external-content");
-  payments(external);
-  const added = marked("concepts/external-content.md", "external-content-1", external);
-  assert(
-    added.stdout.includes("dialect payments 0.1.0") &&
-      JSON.parse(lock(external).toString()).dialects?.[0]?.source?.local?.path ===
-        "dialects/payments",
-    "external add did not select local payments",
-  );
-  const selectedLock = lock(external);
-  const initialized = marked("concepts/external-content.md", "external-content-3", external);
-  assert(
-    initialized.stdout.includes("Project prepared") && lock(external).equals(selectedLock),
-    "init changed the selected lock",
-  );
-  const replacement = project("external-replacement");
-  mkdirSync(join(replacement, "dialects"));
-  cpSync(join(root, "dialects/aws"), join(replacement, "dialects/aws"), { recursive: true });
-  marked("concepts/external-content.md", "external-content-4", replacement);
-  assert(
-    JSON.parse(lock(replacement).toString()).replacements?.includes("aws"),
-    "embedded AWS was not replaced",
-  );
-  tutorial(external);
-  run([binary, "add", "policy-packs", "./policies"], external);
-  const fullLock = lock(external);
-  const filtered = marked("concepts/external-content.md", "external-content-5", external);
-  assert(
-    filtered.stdout.includes("Policies compliant") &&
-      /Results\s+1 passed/u.test(filtered.stdout) &&
-      lock(external).equals(fullLock),
-    "filtered tutorial check did not pass or changed the lock",
-  );
+  const concept = fresh("external-concept");
+  payments(concept.dir);
+  marked("concepts/external-content.md", "external-content-1", concept.dir, concept.home);
+  marked("concepts/external-content.md", "external-content-3", concept.dir, concept.home);
+  const replacement = fresh("external-replacement");
+  cpSync(join(root, "dialects/aws"), join(replacement.dir, "dialects/aws"), { recursive: true });
+  marked("concepts/external-content.md", "external-content-4", replacement.dir, replacement.home);
+  const filter = fresh("external-filter");
+  commerce(filter.dir);
+  policies(filter.dir);
+  run([binary, "add", "policy-packs", "./policies"], filter.dir, filter.home);
+  marked("concepts/external-content.md", "external-content-5", filter.dir, filter.home);
 
-  const source = project("external-clone-source");
-  payments(source);
-  run([binary, "add", "dialects", "./dialects/payments"], source);
-  run(["git", "init", "--quiet"], source);
-  run(["git", "config", "user.name", "Rootform docs"], source);
-  run(["git", "config", "user.email", "docs@example.invalid"], source);
-  run(["git", "add", "."], source);
-  run(["git", "commit", "--quiet", "-m", "selected local dialect"], source);
-  const clone = join(suite, "external-clone");
-  run(["git", "clone", "--quiet", source, clone], suite);
-  const cloneLock = lock(clone);
-  const cloneHome = join(suite, "fresh-clone-home");
-  mkdirSync(join(cloneHome, "docker"), { recursive: true });
-  writeFileSync(join(cloneHome, "docker/config.json"), "{}\n");
-  const cloneResult = marked("guides/external-content.md", "external-init-clone", clone, 0, {
-    ...environment,
-    ROOTFORM_HOME: cloneHome,
-    DOCKER_CONFIG: join(cloneHome, "docker"),
-  });
-  assert(
-    cloneResult.stdout.includes("Project prepared") &&
-      existsSync(join(clone, "architecture.json")) &&
-      lock(clone).equals(cloneLock),
-    "fresh clone did not prepare and build without lock mutation",
-  );
-
-  const local = project("local-dialect");
-  payments(local);
-  run([binary, "add", "dialects", "./dialects/payments"], local);
-  cpSync(join(root, "dialects/aws"), join(local, "dialects/aws"), { recursive: true });
-  marked("guides/local-dialect.md", "local-dialect-4", local);
-  assert(
-    JSON.parse(lock(local).toString()).replacements?.includes("aws"),
-    "local AWS replacement was not recorded",
-  );
-  const beforeUpdate = JSON.parse(lock(local).toString()).dialects.find(
-    (item: { owner: string }) => item.owner === "payments",
-  );
-  const paymentFile = join(local, "dialects/payments/dialect.rf.hcl");
+  const guide = fresh("external-guide");
+  commerce(guide.dir);
+  marked("guides/external-content.md", "external-local-scenario", guide.dir, guide.home);
+  const demo = join(guide.dir, "content-demo");
+  marked("guides/external-content.md", "external-add-local-pack", demo, guide.home);
+  const originalLock = readFileSync(join(demo, "rootform.lock"));
+  const policySource = join(demo, "policies/policies/cluster-network-context.rf.hcl");
   writeFileSync(
-    paymentFile,
-    readFileSync(paymentFile, "utf8").replace('version = "0.1.0"', 'version = "0.1.1"'),
+    policySource,
+    readFileSync(policySource, "utf8").replace(
+      "Kubernetes clusters must belong",
+      "Selected clusters must belong",
+    ),
   );
-  marked("guides/local-dialect.md", "local-dialect-5", local);
-  const afterUpdate = JSON.parse(lock(local).toString()).dialects.find(
-    (item: { owner: string }) => item.owner === "payments",
-  );
+  marked("guides/external-content.md", "external-try-local", demo, guide.home);
+  assert(readFileSync(join(demo, "rootform.lock")).equals(originalLock), "override changed lock");
+  marked("guides/external-content.md", "external-update-local", demo, guide.home);
   assert(
-    afterUpdate?.version === "0.1.1" &&
-      afterUpdate?.content_digest !== beforeUpdate?.content_digest,
-    "payments lock did not record edited source",
+    !readFileSync(join(demo, "rootform.lock")).equals(originalLock),
+    "update did not change lock",
   );
-  marked("guides/local-dialect.md", "local-dialect-7", local);
-  assert(
-    !JSON.parse(lock(local).toString()).dialects.some(
-      (item: { owner: string }) => item.owner === "payments",
-    ) && existsSync(paymentFile),
-    "remove deleted payments source or kept selection",
-  );
+  marked("guides/external-content.md", "external-remove", demo, guide.home);
+  const guideDialect = fresh("external-guide-dialect");
+  cpSync(join(root, "dialects/aws"), join(guideDialect.dir, "dialects/aws"), { recursive: true });
+  for (const name of ["external-replace", "external-restore", "external-exclude"]) {
+    marked("guides/external-content.md", name, guideDialect.dir, guideDialect.home);
+  }
+  const clone = fresh("external-clone");
+  commerce(clone.dir);
+  policies(clone.dir);
+  run([binary, "add", "policy-packs", "./policies"], clone.dir, clone.home);
+  marked("guides/external-content.md", "external-init-clone", clone.dir, clone.home);
 
-  const ci = join(suite, "ci-repository");
-  mkdirSync(join(ci, "infra"), { recursive: true });
-  mkdirSync(join(ci, "ci"));
-  writeFileSync(join(ci, "infra/main.tf"), main);
-  cpSync(join(root, "docs/integrations/ci/rootform-ci.sh"), join(ci, "ci/rootform-ci.sh"));
-  marked("integrations/ci/README.md", "docs-integrations-ci-readme-1", ci);
-  assert(
-    existsSync(join(ci, ".rootform-ci/architecture.json")) &&
-      existsSync(join(ci, ".rootform-ci/build.stderr")) &&
-      !existsSync(join(ci, ".rootform-ci/check.status")),
-    "build-only CI did not write architecture evidence",
+  const reference = fresh("reference");
+  commerce(reference.dir);
+  select(reference.dir, reference.home);
+  marked("reference/cli/list.md", "cli-list-selection", reference.dir, reference.home);
+  marked(
+    "reference/cli/list/dialects.md",
+    "cli-list-dialect-owners",
+    reference.dir,
+    reference.home,
   );
-  tutorial(ci);
-  run([binary, "add", "policy-packs", "../policies"], join(ci, "infra"));
-  const ciLock = lock(join(ci, "infra"));
-  marked("integrations/ci/README.md", "docs-integrations-ci-readme-2", ci);
-  assert(
-    readFileSync(join(ci, ".rootform-ci/check.status"), "utf8") === "0\n" &&
-      JSON.parse(readFileSync(join(ci, ".rootform-ci/check.json"), "utf8")).summary?.passed === 1 &&
-      lock(join(ci, "infra")).equals(ciLock),
-    "locked CI Policy gate did not pass or changed lock",
+  marked("reference/cli/list/policies.md", "cli-list-policies", reference.dir, reference.home);
+  marked("reference/cli/list/policy-packs.md", "cli-list-packs", reference.dir, reference.home);
+  marked("reference/cli/show.md", "cli-show", reference.dir, reference.home);
+  marked("reference/cli/show/policy.md", "cli-show-policy", reference.dir, reference.home);
+  marked(
+    "reference/cli/show/policy-pack.md",
+    "cli-show-policy-pack",
+    reference.dir,
+    reference.home,
   );
-  marked("integrations/ci/README.md", "docs-integrations-ci-readme-4", ci);
-  assert(
-    existsSync(join(ci, ".rootform-ci/init.json")) &&
-      existsSync(join(ci, ".rootform-ci/architecture.json")) &&
-      !existsSync(join(ci, ".rootform-ci/check.status")) &&
-      lock(join(ci, "infra")).equals(ciLock),
-    "offline CI build changed lock or retained stale Policy status",
+  const infra = join(reference.dir, "infra");
+  mkdirSync(infra);
+  cpSync(join(reference.dir, "rootform.lock"), join(infra, "rootform.lock"));
+  cpSync(join(reference.dir, "dialects"), join(infra, "dialects"), { recursive: true });
+  cpSync(join(reference.dir, "policies"), join(infra, "policies"), { recursive: true });
+  marked("reference/cli/init.md", "cli-init", reference.dir, reference.home);
+  marked("reference/cli/vendor.md", "cli-vendor", reference.dir, reference.home);
+  marked(
+    "reference/cli/vendor/policy-packs.md",
+    "docs-reference-cli-vendor-policy-packs-1",
+    reference.dir,
+    reference.home,
   );
-  const ciOverride = join(suite, "ci-override");
-  mkdirSync(join(ciOverride, "infra"), { recursive: true });
-  mkdirSync(join(ciOverride, "ci"));
-  writeFileSync(join(ciOverride, "infra/main.tf"), main);
-  cpSync(join(ci, "ci/rootform-ci.sh"), join(ciOverride, "ci/rootform-ci.sh"));
-  tutorial(ciOverride);
-  marked("integrations/ci/README.md", "docs-integrations-ci-readme-3", ciOverride);
-  assert(
-    readFileSync(join(ciOverride, ".rootform-ci/check.status"), "utf8") === "0\n" &&
-      JSON.parse(readFileSync(join(ciOverride, ".rootform-ci/check.json"), "utf8")).summary
-        ?.passed === 1 &&
-      !existsSync(join(ciOverride, "infra/rootform.lock")),
-    "CI local pack override did not pass without a lock",
-  );
-
-  return [
-    "Dialect definitions, fixture tests, and local package verified",
-    "baseline Policy Pack override, compiled check, and local package verified",
-    "tutorial SARIF and project selection verified",
-    "external selection, init, replacement, filtered check, and fresh clone verified",
-    "local Dialect replacement, update, and removal verified",
-    "CI build, locked check, local override, and offline preparation verified",
+  const explanationPages: Array<[string, string]> = [
+    ["reference/cli/explain/architecture.md", "cli-explain-architecture"],
+    ["reference/cli/explain/policy.md", "cli-explain-policy"],
+    ["reference/cli/explain/semantics.md", "cli-explain-semantics"],
+    ["reference/cli/validate/architecture.md", "cli-validate-architecture"],
   ];
+  for (const [page, name] of explanationPages) {
+    const caseDir = fresh(name);
+    commerce(caseDir.dir);
+    marked(page, name, caseDir.dir, caseDir.home);
+  }
+  return "Authoring examples: Dialect, Policy Pack, tour, external content, and CLI commands verified";
 }

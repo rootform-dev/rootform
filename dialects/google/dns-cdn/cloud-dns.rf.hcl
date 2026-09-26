@@ -8,6 +8,15 @@ rule "cloud-dns-managed-zone" {
   }
 
   as = concept.dns-zone
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "cloud-dns-record-set" {
@@ -21,6 +30,11 @@ rule "cloud-dns-record-set" {
     to  = concept.dns-zone
     via = source.managed_zone
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.name
       strategy = "exact"

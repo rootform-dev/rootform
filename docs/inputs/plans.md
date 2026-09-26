@@ -1,160 +1,156 @@
 ---
-title: "Terraform and OpenTofu plans"
-description: "Explore planned architecture and compare the before and planned facts carried by one JSON plan."
+title: Terraform and OpenTofu plans
+description: Produce plan and state exports, verify a saved plan, and read evidence limits.
 ---
 
-Start with a project that is ready for its usual Terraform or OpenTofu planning
-workflow. Rootform reads the completed plan export. It does not create, refresh,
-or apply a plan, execute a provider, or contact a backend.
-
-Run Rootform from the project directory. With `--plan`, Rootform reads any
-project selection present in the current working directory. Projects that use
-only the embedded Dialects need neither `rootform.lock` nor a
-`.rootform/` directory. Rootform does not infer a project root from the
-directory containing the plan file.
+Produce a completed plan with your usual Terraform or OpenTofu workflow.
+Rootform reads its JSON export locally. It does not plan, refresh, apply,
+contact providers, or fetch missing Dialects. Run `rootform run` from the
+project whose `rootform.lock` selects the Dialects and Policy Packs you want;
+`--project` chooses another project directory explicitly.
 
 ## Protect the plan files
 
 > [!WARNING]
-> Saved plan files and their JSON exports can contain sensitive values, even when
-> Terraform or OpenTofu hides them in terminal output. Keep both out of Git and
-> public artifacts. Rootform does not modify, sanitize, or delete either input.
+> Saved plans and their JSON exports can contain sensitive values in clear
+> text, even when terminal output hides them. State JSON has the same risk.
+> Keep these files out of Git and public artifacts. Rootform does not modify
+> or delete the inputs.
 
 ## Produce the accepted JSON
 
-Create a saved plan through your normal workflow, then export that completed
-plan as JSON.
+Save the plan and export that same saved plan. OpenTofu users use `tofu`
+where Terraform users use `terraform`:
 
-For Terraform:
-
-```sh
-terraform plan -out=tfplan
-terraform show -json tfplan > tfplan.json
-```
-
-For OpenTofu:
+<!-- rootform:tabs Planning tool -->
+<!-- rootform:tab Terraform -->
 
 ```sh
-tofu plan -out=tfplan
-tofu show -json tfplan > tfplan.json
+terraform plan -out=plan.tfplan
+terraform show -json plan.tfplan > plan.json
 ```
 
-Use `show -json` on the saved plan. `plan -json` emits an event stream while
-planning and is not the same input. Rootform also rejects a raw binary plan, a
-state document, malformed JSON, and JSON without a recognized plan shape.
-
-## Explore the planned architecture
+<!-- rootform:tab OpenTofu -->
 
 ```sh
-rootform run --plan tfplan.json
+tofu plan -out=plan.tfplan
+tofu show -json plan.tfplan > plan.json
 ```
 
-The local explorer opens the architecture the plan would produce. Inspect the
-planned resource instances, their interpretations, and established facts.
-Keep this server running while you use a second terminal for later commands, or
-press `Ctrl+C` before continuing.
+<!-- rootform:endtabs -->
 
-## Save the planned architecture
+Use `show -json` on the saved plan. `plan -json` is a planning event
+stream, not the completed export Rootform accepts. Preserve the binary plan
+for verification if you need expression evidence. Where state already
+exists, export it with `terraform show -json > state.json`, or
+`tofu show -json > state.json`. A new working directory has no state to
+export.
 
-<!-- docs-check:plan-build -->
+## Verify the saved plan
+
+Pass both files from the same planning operation:
+
+<!-- docs-check:journey-plans-verify -->
 ```sh
-rootform build --plan tfplan.json --output planned.json
+rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -o analysis.json
 ```
 
-`planned.json` contains the planned architecture only, not a comparison. Read
-the declaration summary and diagnostics, then inspect the saved resource
-instances, interpretations, and facts.
+```ansi title="Verified pair excerpt"
+[1mPlan analyzed[0m
+[2mInput[0m         plan JSON from Terraform or OpenTofu 1.16.4
+[2mCompleteness[0m  complete, as reported by Terraform or OpenTofu
+[2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
+[2mWrote     [0m analysis.json
+```
+
+**Enrichment** confirms that both files come from the same planning
+operation; the count is the number of configuration modules read from the
+saved plan. **Input** names the export and the version it records. The JSON
+does not say which of the two tools wrote it, so Rootform names both unless you
+declare the tool with `--producer`. **Completeness** repeats what the plan
+itself reports.
+
+`--plan-file` checks the saved plan's recorded tool version, timestamp,
+and configuration shape against the JSON export. A verified pair lets Rootform
+inspect direct identity traversals in the saved configuration, even when an
+endpoint's evaluated ID is unknown until apply. It does not execute the
+configuration. The result records `enrichment.snapshot.status` as
+`verified`, `refused`, or `absent`.
+
+If the pair is mismatched or unreadable, Rootform reports the refusal on
+standard error. Without `--require-enrichment`, analysis continues from JSON
+alone and records `refused`; the missing traversal evidence can leave
+closures indeterminate. With `--require-enrichment`, refusal exits `3`.
+Export the JSON from the saved plan you pass, rather than trying to pair a
+new plan with an earlier export.
 
 ## Compare both sides of one plan
 
-<!-- docs-check:plan-diff-text -->
-```sh
-rootform diff --plan tfplan.json
-```
-
-The text report separates determined architecture changes from facts Rootform
-could not determine. To retain the machine report:
-
-<!-- docs-check:plan-diff-json -->
-```sh
-rootform diff --plan tfplan.json --format json --output delta.json
-```
-
-Inspect `changes`, `undetermined`, and their summary counts in `delta.json`.
-The plan supplies both sides, so do not add positional Before and After
-arguments. A create plan can have an empty Before side, and a destroy plan can
-have an empty planned side. Both are valid.
-
-To review the comparison in the browser, serve it:
-
-```sh
-rootform diff --plan tfplan.json --serve
-```
-
-The interface opens on the planned architecture with the comparison beside it.
-Switch between the Before, Diff, and After stages to place each planned change.
-`rootform diff --plan tfplan.json --format html --output plan-diff.html` writes
-the same view as one self-contained page. See
-[Open the comparison in the browser](../guides/compare-architectures.md#open-the-comparison-in-the-browser)
-for the server and page behavior.
-
-## Check the planned architecture
-
-```sh
-rootform check --plan tfplan.json
-```
-
-This evaluates the planned architecture against Policy Packs selected for the
-current project. Select an appropriate pack in `rootform.lock` or pass an
-explicit `--policy-pack` source before treating the result as a governance
-claim. See [Run checks](../guides/check-architecture.md) for the
-Policy Pack workflow and outcome interpretation.
+A plan's `planned` stage shows proposed instances. Where the plan contains
+prior state, `refreshed` describes what the tool observed before planning.
+`recorded` can be reconstructed from drift records, with a stated scope.
+The same plan may report three comparisons: drift
+(`recorded` to `refreshed`), planned change (`refreshed` to `planned`),
+and net change (`recorded` to `planned`). A state export has only
+`recorded`.
+The recorded to refreshed comparison is drift; it reports changes made
+outside Terraform or OpenTofu when the plan contains that evidence.
+[Switch stages and comparisons](../guides/explore-architecture.md#switch-stages-and-comparisons)
+shows where the Explorer lists these views.
 
 ## Read plan comparisons correctly
 
-`build --plan` and `run --plan` use the planned side only. `diff --plan`
-derives both Before and planned architecture from the same plan.
+`-refresh=false` prevents Terraform or OpenTofu from checking live objects.
+“No drift reported in this plan” means the export contains no drift records;
+it does not prove that infrastructure is unchanged.
+`-target` can omit instances outside its scope. Terraform may report
+`complete: false` for such plans, while OpenTofu may omit a completeness
+field. Rootform preserves that uncertainty. A missing planned instance is
+not automatically a deletion or proof of zero instances. When a fact cannot
+be settled on both sides, the comparison records it as undetermined rather
+than inventing an addition, removal, or no change. See
+[stages and facts](../concepts/architecture-ir.md#stages-and-facts) and
+[comparisons and drift](../concepts/architecture-ir.md#comparisons-and-drift).
 
-For updated, replaced, and deleted resources, the plan may not carry the
-references needed to reconstruct the Before configuration. A reference present
-in the planned configuration does not prove that it existed before. Rootform
-reports conclusions it cannot establish as **undetermined** instead of
-inventing an addition, removal, or unchanged relationship.
+## Record scope and tool claims
 
-An undetermined entry is not a no-change result, and it does not necessarily
-mean the comparison failed. A completed comparison returns status `0` by
-default even when its report contains changes or undetermined entries. With
-`--exit-code`, either condition returns status `1`. Status `3` means the
-comparison could not be completed. See the exact
-[`rootform diff` exit contract](../reference/cli/diff.md#exit-status).
+`--plan-complete=attested` records your explicit claim that the plan covers
+its intended scope when the export does not establish completeness. It is
+not inferred from absent entries. `--producer terraform` or
+`--producer opentofu` records the tool you used; the shared
+`terraform_version` JSON field alone does not establish that identity.
+`--provider-map observed=binding` makes an explicit provider registry
+mapping when a Dialect binding needs it. These options record your claims,
+not facts independently verified by Rootform. Do not use them to hide a targeted
+or partial plan.
 
-Terraform may replace a resource because an attribute changed while Rootform
-reports no architectural change. This means both sides establish the same
-architectural representations and facts. It does not mean Terraform has no
-actions, or that deployed infrastructure matches source.
+## Interpret unknown and sensitive evidence
+
+A planned value can be known, unknown until apply, sensitive, or unavailable.
+A verified direct traversal can identify an endpoint despite an unknown ID;
+a transformed expression or dependency list alone cannot. Sensitive values
+are discarded before document output, reports, SARIF, and the Explorer.
+Dialect-declared external identities may still be disclosed at their declared
+tier. Read [limitations](../limitations.md) before relying on a missing fact
+as a negative conclusion.
 
 ## Stream the export
 
-You can avoid writing the JSON export to disk by piping it directly:
+To avoid an intermediate JSON file, pipe the saved-plan export
+into Rootform. The binary saved plan still needs protection:
 
 ```sh
-terraform show -json tfplan | rootform diff --plan -
+terraform show -json plan.tfplan | rootform run - --plan-file plan.tfplan --no-serve
 ```
 
-Use `tofu show -json` for OpenTofu. The pipe avoids an intermediate JSON file,
-but the saved binary plan still exists and needs the same protection.
+For OpenTofu, replace `terraform` with `tofu`. The saved plan remains
+local. Rootform's outputs still describe infrastructure names, structure,
+and relationships, so apply your internal sharing rules.
 
-Rootform outputs omit raw plan values, but they can still reveal resource
-names, source paths, and architecture structure. They are not automatically
-anonymized. Review [security and data handling](../security/index.md) before
-sharing architecture files or Diff reports.
-
-## Review the plan of a pull request
-
-A pipeline that already plans the pull request can review that plan with the
-same commands. [Review a pull request](../workflows/index.md#choose-the-review-input)
-explains when to review the plan instead of comparing source revisions,
-[Run in CI](../integrations/ci/README.md#review-a-completed-plan) runs the
-export through the portable script with `ROOTFORM_PLAN`, and
-[GitHub Actions](../integrations/github-actions.md#review-a-completed-plan)
-plans, exports, compares, and checks in one job.
+To compare two plans, or a state snapshot with a later plan, follow
+[Compare architectures](../guides/compare-architectures.md). For plans from two
+Git revisions, [Review a pull request](../workflows/index.md#choose-the-review-input)
+adds isolated checkouts and cleanup.
+To review a completed plan in automation, see
+[Run in CI](../integrations/ci/README.md#review-a-completed-plan) or
+[GitHub Actions](../integrations/github-actions.md#review-a-completed-plan).

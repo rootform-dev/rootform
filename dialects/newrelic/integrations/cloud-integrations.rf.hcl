@@ -10,10 +10,29 @@ rule "cloud-account-lookup" {
 
   as = concept.cloud-observability-integration
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -25,14 +44,31 @@ rule "cloud-aws-eu-sovereign-integrations" {
   as = concept.cloud-integration-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.cloud-observability-integration
-    via = source.linked_account_id
+    to       = concept.cloud-observability-integration
+    via      = source.linked_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -43,10 +79,29 @@ rule "cloud-aws-eu-sovereign-link-account" {
 
   as = concept.cloud-observability-integration
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
 }
@@ -59,14 +114,31 @@ rule "cloud-aws-govcloud-integrations" {
   as = concept.cloud-integration-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.cloud-observability-integration
-    via = source.linked_account_id
+    to       = concept.cloud-observability-integration
+    via      = source.linked_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -77,10 +149,29 @@ rule "cloud-aws-govcloud-link-account" {
 
   as = concept.cloud-observability-integration
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
 }
@@ -93,14 +184,31 @@ rule "cloud-aws-integrations" {
   as = concept.cloud-integration-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.cloud-observability-integration
-    via = source.linked_account_id
+    to       = concept.cloud-observability-integration
+    via      = source.linked_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -111,10 +219,29 @@ rule "cloud-aws-link-account" {
 
   as = concept.cloud-observability-integration
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
 }
@@ -127,14 +254,31 @@ rule "cloud-azure-integrations" {
   as = concept.cloud-integration-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.cloud-observability-integration
-    via = source.linked_account_id
+    to       = concept.cloud-observability-integration
+    via      = source.linked_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -145,10 +289,29 @@ rule "cloud-azure-link-account" {
 
   as = concept.cloud-observability-integration
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -160,14 +323,31 @@ rule "cloud-gcp-dm-integrations" {
   as = concept.cloud-integration-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.cloud-observability-integration
-    via = source.linked_account_id
+    to       = concept.cloud-observability-integration
+    via      = source.linked_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -179,14 +359,31 @@ rule "cloud-gcp-integrations" {
   as = concept.cloud-integration-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.cloud-observability-integration
-    via = source.linked_account_id
+    to       = concept.cloud-observability-integration
+    via      = source.linked_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -197,15 +394,36 @@ rule "cloud-gcp-link-account" {
 
   as = concept.cloud-observability-integration
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "authorized-by" {
-    to  = rf.concept.service-identity
-    via = source.service_account_email
+    to       = rf.concept.service-identity
+    via      = source.service_account_email
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -216,9 +434,28 @@ rule "cloud-oci-link-account" {
 
   as = concept.cloud-observability-integration
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

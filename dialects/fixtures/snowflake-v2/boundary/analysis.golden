@@ -1,0 +1,2541 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:c4f368f2d31583b2d9af347f6e4f0511b14d4e57303c7bbd03a8052cbb501803",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:c4f368f2d31583b2d9af347f6e4f0511b14d4e57303c7bbd03a8052cbb501803",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:cc4875cd08488d87263aefc27ee7afae00c34d67ba909f85ca19f0a68f19fc1d",
+          "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:382d380e6f27543ac44621bd22aa5bc44747aa9bd5ae035466ae8abaa408be0e",
+          "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4f519fc0ea1d821b18b0fa909f76316853adf6e02a28ebe4c498de2a320c6769",
+          "semantic_digest": "sha256:890d96f98a1127fc85fd8b6b3619e9868d9616f3caad31ffa5162a511e3ec282"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:214678902975a94ec4a4807bf7200421ef146ae93dabfb236ccd04d809f193b3",
+          "semantic_digest": "sha256:d3fa2cacb39d4715a25ad256c9f9ecb93a1ed5dff4a162348660fb36cdd019b8"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e428c14993e60d35ff1e9a037ba855bc74a98df4e79f6a23d2afb028b26c4b2e",
+          "semantic_digest": "sha256:6711b8d6eff7a347ab1dec160c9d2422f15a8718c592affbb4d02eee7292682d"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9ce33af4d529ded73f03da160af6ada26f0a53433bd8fc87d3bd3890f653f5b2",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+          "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cc4875cd08488d87263aefc27ee7afae00c34d67ba909f85ca19f0a68f19fc1d",
+        "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:382d380e6f27543ac44621bd22aa5bc44747aa9bd5ae035466ae8abaa408be0e",
+        "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4f519fc0ea1d821b18b0fa909f76316853adf6e02a28ebe4c498de2a320c6769",
+        "semantic_digest": "sha256:890d96f98a1127fc85fd8b6b3619e9868d9616f3caad31ffa5162a511e3ec282",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:214678902975a94ec4a4807bf7200421ef146ae93dabfb236ccd04d809f193b3",
+        "semantic_digest": "sha256:d3fa2cacb39d4715a25ad256c9f9ecb93a1ed5dff4a162348660fb36cdd019b8",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e428c14993e60d35ff1e9a037ba855bc74a98df4e79f6a23d2afb028b26c4b2e",
+        "semantic_digest": "sha256:6711b8d6eff7a347ab1dec160c9d2422f15a8718c592affbb4d02eee7292682d",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9ce33af4d529ded73f03da160af6ada26f0a53433bd8fc87d3bd3890f653f5b2",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+        "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "aws.concept.message-topic",
+        "owner": "aws",
+        "name": "message-topic",
+        "description": "A messaging topic receiving messages from publishers."
+      },
+      {
+        "id": "rf.concept.object-storage-container",
+        "owner": "rf",
+        "name": "object-storage-container",
+        "description": "An object storage container, excluding multi-service storage accounts."
+      },
+      {
+        "id": "snowflake.concept.database",
+        "owner": "snowflake",
+        "name": "database",
+        "description": "A Snowflake database containing schemas and governed data objects."
+      },
+      {
+        "id": "snowflake.concept.external-volume",
+        "owner": "snowflake",
+        "name": "external-volume",
+        "description": "A Snowflake external volume containing one or more cloud storage locations."
+      },
+      {
+        "id": "snowflake.concept.notification-integration",
+        "owner": "snowflake",
+        "name": "notification-integration",
+        "description": "A Snowflake notification integration connecting cloud messaging or email delivery."
+      },
+      {
+        "id": "snowflake.concept.schema",
+        "owner": "snowflake",
+        "name": "schema",
+        "description": "A Snowflake schema containing named data-platform objects."
+      },
+      {
+        "id": "snowflake.concept.stage",
+        "owner": "snowflake",
+        "name": "stage",
+        "description": "A named Snowflake stage for loading, unloading, or serving files."
+      },
+      {
+        "id": "snowflake.concept.storage-integration",
+        "owner": "snowflake",
+        "name": "storage-integration",
+        "description": "A Snowflake storage integration delegating access to external cloud object storage."
+      },
+      {
+        "id": "snowflake.concept.virtual-warehouse",
+        "owner": "snowflake",
+        "name": "virtual-warehouse",
+        "description": "A Snowflake virtual warehouse providing an independent compute cluster."
+      },
+      {
+        "id": "snowflake.concept.workflow",
+        "owner": "snowflake",
+        "name": "workflow",
+        "description": "A managed workflow coordinating steps and service calls."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "rf.context.runtime",
+        "owner": "rf",
+        "name": "runtime",
+        "description": "A declared execution environment or target without proof of effective execution."
+      },
+      {
+        "id": "snowflake.context.ownership",
+        "owner": "snowflake",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      }
+    ],
+    "relations": [
+      {
+        "id": "snowflake.relation.accesses-object-storage",
+        "owner": "snowflake",
+        "name": "accesses-object-storage"
+      },
+      {
+        "id": "snowflake.relation.authorizes-object-storage",
+        "owner": "snowflake",
+        "name": "authorizes-object-storage"
+      },
+      {
+        "id": "snowflake.relation.finalizes-task",
+        "owner": "snowflake",
+        "name": "finalizes-task"
+      },
+      {
+        "id": "snowflake.relation.reports-to-notification-integration",
+        "owner": "snowflake",
+        "name": "reports-to-notification-integration"
+      },
+      {
+        "id": "snowflake.relation.runs-after-task",
+        "owner": "snowflake",
+        "name": "runs-after-task"
+      },
+      {
+        "id": "snowflake.relation.uses-external-volume",
+        "owner": "snowflake",
+        "name": "uses-external-volume"
+      },
+      {
+        "id": "snowflake.relation.uses-storage-integration",
+        "owner": "snowflake",
+        "name": "uses-storage-integration"
+      }
+    ],
+    "rules": [
+      {
+        "id": "aws.rule.s3-bucket",
+        "owner": "aws",
+        "match_kind": "resource",
+        "match_type": "aws_s3_bucket",
+        "concept": "rf.concept.object-storage-container",
+        "identity": {
+          "attributes": [
+            "bucket"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "arn",
+            "bucket",
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "aws.rule.sns-topic",
+        "owner": "aws",
+        "match_kind": "resource",
+        "match_type": "aws_sns_topic",
+        "concept": "aws.concept.message-topic",
+        "identity": {
+          "attributes": [
+            "arn"
+          ],
+          "scope": "global"
+        },
+        "endpoint": {
+          "attributes": [
+            "arn",
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "snowflake.rule.aws-storage-integration",
+        "owner": "snowflake",
+        "match_kind": "resource",
+        "match_type": "snowflake_storage_integration_aws",
+        "concept": "snowflake.concept.storage-integration",
+        "identity": {
+          "attributes": [
+            "fully_qualified_name",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "fully_qualified_name",
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:159e35fba244ea9b5b4ce4ce30687b1d35f4d0f963c6189cfc16ca528982e406",
+          "emission:9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7"
+        ]
+      },
+      {
+        "id": "snowflake.rule.database",
+        "owner": "snowflake",
+        "match_kind": "resource",
+        "match_type": "snowflake_database",
+        "concept": "snowflake.concept.database",
+        "identity": {
+          "attributes": [
+            "fully_qualified_name",
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "fully_qualified_name",
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:f9898ef23f5428bf16bb50fd431ccb4e55366375813ffba1665f55a78664c846"
+        ]
+      },
+      {
+        "id": "snowflake.rule.external-s3-stage",
+        "owner": "snowflake",
+        "match_kind": "resource",
+        "match_type": "snowflake_stage_external_s3",
+        "concept": "snowflake.concept.stage",
+        "identity": {
+          "attributes": [
+            "fully_qualified_name",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "fully_qualified_name",
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:445b150113465a1b8ed57adbfa7c75dfdfedb143df601de0b898a159b683d4d5",
+          "emission:518bc439f22238a85932f50240e35d5016322f323e69ae6e1ccedace7d694429",
+          "emission:a5b7c835fd60e015b37140056bfb9e0e554934449f80d110ac605606672885b7"
+        ]
+      },
+      {
+        "id": "snowflake.rule.notification-integration",
+        "owner": "snowflake",
+        "match_kind": "resource",
+        "match_type": "snowflake_notification_integration",
+        "concept": "snowflake.concept.notification-integration",
+        "identity": {
+          "attributes": [
+            "fully_qualified_name",
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "fully_qualified_name",
+            "id",
+            "name"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "snowflake.rule.schema",
+        "owner": "snowflake",
+        "match_kind": "resource",
+        "match_type": "snowflake_schema",
+        "concept": "snowflake.concept.schema",
+        "identity": {
+          "attributes": [
+            "fully_qualified_name",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "fully_qualified_name",
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:904bfae3815c8f82827df03d595d011aaf8393ca32fc13c753e4bdabf1ff2dd8",
+          "emission:d4501e59d64a88062268ba2dbc8e24bc2dc98faa57ddc530bda3021751c56187"
+        ]
+      },
+      {
+        "id": "snowflake.rule.task",
+        "owner": "snowflake",
+        "match_kind": "resource",
+        "match_type": "snowflake_task",
+        "concept": "snowflake.concept.workflow",
+        "identity": {
+          "attributes": [
+            "fully_qualified_name",
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "fully_qualified_name",
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:01a41d113c74fe4fec02eb319054c5014ffd05fcd46a80c04827b2270e038919",
+          "emission:2b5e82e11e566e6b9d20e3a75fa11918388aa1c7ebcaeb5048f6430880f7c3b3",
+          "emission:30c583b458ddb78eaf61de5342bc4444792ff8831bc7f5cebf53e049335f7228",
+          "emission:44f3315a5b576ff265970adcc51a20da29760bb3a7f86e38d9234ff47bdbd4f7",
+          "emission:af1c29db26ec6f22ececc5299d769454441fdc05d83722d48057d5b789550f39",
+          "emission:c3639461b2589a28752278d2080ddc75a5d9e2420bdd17e4c41e2eea55b67bc8"
+        ]
+      },
+      {
+        "id": "snowflake.rule.warehouse",
+        "owner": "snowflake",
+        "match_kind": "resource",
+        "match_type": "snowflake_warehouse",
+        "concept": "snowflake.concept.virtual-warehouse",
+        "identity": {
+          "attributes": [
+            "fully_qualified_name",
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "fully_qualified_name",
+            "id",
+            "name"
+          ]
+        },
+        "emissions": []
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:01a41d113c74fe4fec02eb319054c5014ffd05fcd46a80c04827b2270e038919",
+        "rule": "snowflake.rule.task",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "snowflake.concept.virtual-warehouse"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "source.warehouse",
+        "match": {
+          "by": [
+            "name",
+            "fully_qualified_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:159e35fba244ea9b5b4ce4ce30687b1d35f4d0f963c6189cfc16ca528982e406",
+        "rule": "snowflake.rule.aws-storage-integration",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.object-storage-container"
+        },
+        "predicate": "snowflake.relation.authorizes-object-storage",
+        "via": "source.storage_allowed_locations[0]",
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:2b5e82e11e566e6b9d20e3a75fa11918388aa1c7ebcaeb5048f6430880f7c3b3",
+        "rule": "snowflake.rule.task",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "snowflake.concept.workflow"
+        },
+        "predicate": "snowflake.relation.finalizes-task",
+        "via": "source.finalize",
+        "match": {
+          "by": [
+            "name",
+            "fully_qualified_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:30c583b458ddb78eaf61de5342bc4444792ff8831bc7f5cebf53e049335f7228",
+        "rule": "snowflake.rule.task",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "snowflake.concept.workflow"
+        },
+        "predicate": "snowflake.relation.runs-after-task",
+        "via": "source.after[1]",
+        "match": {
+          "by": [
+            "name",
+            "fully_qualified_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:445b150113465a1b8ed57adbfa7c75dfdfedb143df601de0b898a159b683d4d5",
+        "rule": "snowflake.rule.external-s3-stage",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "snowflake.concept.storage-integration"
+        },
+        "predicate": "snowflake.relation.uses-storage-integration",
+        "via": "source.storage_integration",
+        "match": {
+          "by": [
+            "name",
+            "fully_qualified_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:44f3315a5b576ff265970adcc51a20da29760bb3a7f86e38d9234ff47bdbd4f7",
+        "rule": "snowflake.rule.task",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "snowflake.concept.schema"
+        },
+        "dimension": "snowflake.context.ownership",
+        "via": "source.schema",
+        "match": {
+          "by": [
+            "name",
+            "fully_qualified_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:518bc439f22238a85932f50240e35d5016322f323e69ae6e1ccedace7d694429",
+        "rule": "snowflake.rule.external-s3-stage",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "snowflake.concept.schema"
+        },
+        "dimension": "snowflake.context.ownership",
+        "via": "source.schema",
+        "match": {
+          "by": [
+            "name",
+            "fully_qualified_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:904bfae3815c8f82827df03d595d011aaf8393ca32fc13c753e4bdabf1ff2dd8",
+        "rule": "snowflake.rule.schema",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "snowflake.concept.database"
+        },
+        "dimension": "snowflake.context.ownership",
+        "via": "source.database",
+        "match": {
+          "by": [
+            "name",
+            "fully_qualified_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7",
+        "rule": "snowflake.rule.aws-storage-integration",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.object-storage-container"
+        },
+        "predicate": "snowflake.relation.authorizes-object-storage",
+        "via": "source.storage_allowed_locations[1]",
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:a5b7c835fd60e015b37140056bfb9e0e554934449f80d110ac605606672885b7",
+        "rule": "snowflake.rule.external-s3-stage",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.object-storage-container"
+        },
+        "predicate": "snowflake.relation.accesses-object-storage",
+        "via": "source.url",
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:af1c29db26ec6f22ececc5299d769454441fdc05d83722d48057d5b789550f39",
+        "rule": "snowflake.rule.task",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "snowflake.concept.notification-integration"
+        },
+        "predicate": "snowflake.relation.reports-to-notification-integration",
+        "via": "source.error_integration",
+        "match": {
+          "by": [
+            "name",
+            "fully_qualified_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:c3639461b2589a28752278d2080ddc75a5d9e2420bdd17e4c41e2eea55b67bc8",
+        "rule": "snowflake.rule.task",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "snowflake.concept.workflow"
+        },
+        "predicate": "snowflake.relation.runs-after-task",
+        "via": "source.after[0]",
+        "match": {
+          "by": [
+            "name",
+            "fully_qualified_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:d4501e59d64a88062268ba2dbc8e24bc2dc98faa57ddc530bda3021751c56187",
+        "rule": "snowflake.rule.schema",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "snowflake.concept.external-volume"
+        },
+        "predicate": "snowflake.relation.uses-external-volume",
+        "via": "source.external_volume",
+        "match": {
+          "by": [
+            "name",
+            "fully_qualified_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:f9898ef23f5428bf16bb50fd431ccb4e55366375813ffba1665f55a78664c846",
+        "rule": "snowflake.rule.database",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "snowflake.concept.external-volume"
+        },
+        "predicate": "snowflake.relation.uses-external-volume",
+        "via": "source.external_volume",
+        "match": {
+          "by": [
+            "name",
+            "fully_qualified_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:aws_s3_bucket.first",
+          "kind": "resource",
+          "type": "aws_s3_bucket",
+          "name": "first",
+          "address": "aws_s3_bucket.first",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:aws_s3_bucket.second",
+          "kind": "resource",
+          "type": "aws_s3_bucket",
+          "name": "second",
+          "address": "aws_s3_bucket.second",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:aws_sns_topic.first",
+          "kind": "resource",
+          "type": "aws_sns_topic",
+          "name": "first",
+          "address": "aws_sns_topic.first",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:aws_sns_topic.second",
+          "kind": "resource",
+          "type": "aws_sns_topic",
+          "name": "second",
+          "address": "aws_sns_topic.second",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.snowflake_system_get_privatelink_config.lookup",
+          "kind": "data",
+          "type": "snowflake_system_get_privatelink_config",
+          "name": "lookup",
+          "address": "data.snowflake_system_get_privatelink_config.lookup",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_database.analytics",
+          "kind": "resource",
+          "type": "snowflake_database",
+          "name": "analytics",
+          "address": "snowflake_database.analytics",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_execute.operation",
+          "kind": "resource",
+          "type": "snowflake_execute",
+          "name": "operation",
+          "address": "snowflake_execute.operation",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_notification_integration.ambiguous",
+          "kind": "resource",
+          "type": "snowflake_notification_integration",
+          "name": "ambiguous",
+          "address": "snowflake_notification_integration.ambiguous",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_notification_integration.literal",
+          "kind": "resource",
+          "type": "snowflake_notification_integration",
+          "name": "literal",
+          "address": "snowflake_notification_integration.literal",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_schema.pipelines",
+          "kind": "resource",
+          "type": "snowflake_schema",
+          "name": "pipelines",
+          "address": "snowflake_schema.pipelines",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_secret_with_generic_string.credential",
+          "kind": "resource",
+          "type": "snowflake_secret_with_generic_string",
+          "name": "credential",
+          "address": "snowflake_secret_with_generic_string.credential",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_stage_external_s3.literal",
+          "kind": "resource",
+          "type": "snowflake_stage_external_s3",
+          "name": "literal",
+          "address": "snowflake_stage_external_s3.literal",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_storage_integration_aws.ambiguous",
+          "kind": "resource",
+          "type": "snowflake_storage_integration_aws",
+          "name": "ambiguous",
+          "address": "snowflake_storage_integration_aws.ambiguous",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_storage_integration_aws.literal",
+          "kind": "resource",
+          "type": "snowflake_storage_integration_aws",
+          "name": "literal",
+          "address": "snowflake_storage_integration_aws.literal",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_task.ambiguous",
+          "kind": "resource",
+          "type": "snowflake_task",
+          "name": "ambiguous",
+          "address": "snowflake_task.ambiguous",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_warehouse.first",
+          "kind": "resource",
+          "type": "snowflake_warehouse",
+          "name": "first",
+          "address": "snowflake_warehouse.first",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:snowflake_warehouse.second",
+          "kind": "resource",
+          "type": "snowflake_warehouse",
+          "name": "second",
+          "address": "snowflake_warehouse.second",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.defer_reads",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "defer_reads",
+          "address": "terraform_data.defer_reads",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "representation:1:aws_s3_bucket.first",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_s3_bucket.first",
+          "address": "aws_s3_bucket.first",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "aws.rule.s3-bucket"
+            ],
+            "diagnostics": []
+          },
+          "rule": "aws.rule.s3-bucket",
+          "concept": "rf.concept.object-storage-container",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:aws_s3_bucket.second",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_s3_bucket.second",
+          "address": "aws_s3_bucket.second",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "aws.rule.s3-bucket"
+            ],
+            "diagnostics": []
+          },
+          "rule": "aws.rule.s3-bucket",
+          "concept": "rf.concept.object-storage-container",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:aws_sns_topic.first",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_sns_topic.first",
+          "address": "aws_sns_topic.first",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "aws.rule.sns-topic"
+            ],
+            "diagnostics": []
+          },
+          "rule": "aws.rule.sns-topic",
+          "concept": "aws.concept.message-topic",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:aws_sns_topic.second",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_sns_topic.second",
+          "address": "aws_sns_topic.second",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "aws.rule.sns-topic"
+            ],
+            "diagnostics": []
+          },
+          "rule": "aws.rule.sns-topic",
+          "concept": "aws.concept.message-topic",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.snowflake_system_get_privatelink_config.lookup",
+          "kind": "data",
+          "declaration": "declaration:1:data.snowflake_system_get_privatelink_config.lookup",
+          "address": "data.snowflake_system_get_privatelink_config.lookup",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_dependency_pending",
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_database.analytics",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_database.analytics",
+          "address": "snowflake_database.analytics",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "snowflake.rule.database"
+            ],
+            "diagnostics": []
+          },
+          "rule": "snowflake.rule.database",
+          "concept": "snowflake.concept.database",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_execute.operation",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_execute.operation",
+          "address": "snowflake_execute.operation",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_notification_integration.ambiguous",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_notification_integration.ambiguous",
+          "address": "snowflake_notification_integration.ambiguous",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "snowflake.rule.notification-integration"
+            ],
+            "diagnostics": []
+          },
+          "rule": "snowflake.rule.notification-integration",
+          "concept": "snowflake.concept.notification-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_notification_integration.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_notification_integration.literal",
+          "address": "snowflake_notification_integration.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "snowflake.rule.notification-integration"
+            ],
+            "diagnostics": []
+          },
+          "rule": "snowflake.rule.notification-integration",
+          "concept": "snowflake.concept.notification-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_schema.pipelines",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_schema.pipelines",
+          "address": "snowflake_schema.pipelines",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "snowflake.rule.schema"
+            ],
+            "diagnostics": []
+          },
+          "rule": "snowflake.rule.schema",
+          "concept": "snowflake.concept.schema",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_secret_with_generic_string.credential",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_secret_with_generic_string.credential",
+          "address": "snowflake_secret_with_generic_string.credential",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_stage_external_s3.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_stage_external_s3.literal",
+          "address": "snowflake_stage_external_s3.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "snowflake.rule.external-s3-stage"
+            ],
+            "diagnostics": []
+          },
+          "rule": "snowflake.rule.external-s3-stage",
+          "concept": "snowflake.concept.stage",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_storage_integration_aws.ambiguous",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_storage_integration_aws.ambiguous",
+          "address": "snowflake_storage_integration_aws.ambiguous",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "snowflake.rule.aws-storage-integration"
+            ],
+            "diagnostics": []
+          },
+          "rule": "snowflake.rule.aws-storage-integration",
+          "concept": "snowflake.concept.storage-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_storage_integration_aws.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_storage_integration_aws.literal",
+          "address": "snowflake_storage_integration_aws.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "snowflake.rule.aws-storage-integration"
+            ],
+            "diagnostics": []
+          },
+          "rule": "snowflake.rule.aws-storage-integration",
+          "concept": "snowflake.concept.storage-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_task.ambiguous",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_task.ambiguous",
+          "address": "snowflake_task.ambiguous",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "snowflake.rule.task"
+            ],
+            "diagnostics": []
+          },
+          "rule": "snowflake.rule.task",
+          "concept": "snowflake.concept.workflow",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_warehouse.first",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_warehouse.first",
+          "address": "snowflake_warehouse.first",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "snowflake.rule.warehouse"
+            ],
+            "diagnostics": []
+          },
+          "rule": "snowflake.rule.warehouse",
+          "concept": "snowflake.concept.virtual-warehouse",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:snowflake_warehouse.second",
+          "kind": "managed",
+          "declaration": "declaration:1:snowflake_warehouse.second",
+          "address": "snowflake_warehouse.second",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/snowflakedb/snowflake",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "snowflake.rule.warehouse"
+            ],
+            "diagnostics": []
+          },
+          "rule": "snowflake.rule.warehouse",
+          "concept": "snowflake.concept.virtual-warehouse",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.defer_reads",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.defer_reads",
+          "address": "terraform_data.defer_reads",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_schema.pipelines:representation%3A1%3Asnowflake_database.analytics",
+          "from": "representation:1:snowflake_schema.pipelines",
+          "to": "representation:1:snowflake_database.analytics",
+          "dimension": "snowflake.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:904bfae3815c8f82827df03d595d011aaf8393ca32fc13c753e4bdabf1ff2dd8",
+              "rule": "snowflake.rule.schema",
+              "closure": "closure:representation%3A1%3Asnowflake_schema.pipelines:emission%3A904bfae3815c8f82827df03d595d011aaf8393ca32fc13c753e4bdabf1ff2dd8",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_stage_external_s3.literal:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_stage_external_s3.literal",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "dimension": "snowflake.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:518bc439f22238a85932f50240e35d5016322f323e69ae6e1ccedace7d694429",
+              "rule": "snowflake.rule.external-s3-stage",
+              "closure": "closure:representation%3A1%3Asnowflake_stage_external_s3.literal:emission%3A518bc439f22238a85932f50240e35d5016322f323e69ae6e1ccedace7d694429",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_task.ambiguous:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_task.ambiguous",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "dimension": "snowflake.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:44f3315a5b576ff265970adcc51a20da29760bb3a7f86e38d9234ff47bdbd4f7",
+              "rule": "snowflake.rule.task",
+              "closure": "closure:representation%3A1%3Asnowflake_task.ambiguous:emission%3A44f3315a5b576ff265970adcc51a20da29760bb3a7f86e38d9234ff47bdbd4f7",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "contributions": [],
+      "relations": [],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Asnowflake_database.analytics:emission%3Af9898ef23f5428bf16bb50fd431ccb4e55366375813ffba1665f55a78664c846",
+          "representation": "representation:1:snowflake_database.analytics",
+          "emission": "emission:f9898ef23f5428bf16bb50fd431ccb4e55366375813ffba1665f55a78664c846",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_schema.pipelines:emission%3A904bfae3815c8f82827df03d595d011aaf8393ca32fc13c753e4bdabf1ff2dd8",
+          "representation": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:904bfae3815c8f82827df03d595d011aaf8393ca32fc13c753e4bdabf1ff2dd8",
+          "outcome": "resolved",
+          "facts": [
+            "context:snowflake.context.ownership:representation%3A1%3Asnowflake_schema.pipelines:representation%3A1%3Asnowflake_database.analytics"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_schema.pipelines:emission%3Ad4501e59d64a88062268ba2dbc8e24bc2dc98faa57ddc530bda3021751c56187",
+          "representation": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:d4501e59d64a88062268ba2dbc8e24bc2dc98faa57ddc530bda3021751c56187",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_stage_external_s3.literal:emission%3A445b150113465a1b8ed57adbfa7c75dfdfedb143df601de0b898a159b683d4d5",
+          "representation": "representation:1:snowflake_stage_external_s3.literal",
+          "emission": "emission:445b150113465a1b8ed57adbfa7c75dfdfedb143df601de0b898a159b683d4d5",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_stage_external_s3.literal:emission%3A518bc439f22238a85932f50240e35d5016322f323e69ae6e1ccedace7d694429",
+          "representation": "representation:1:snowflake_stage_external_s3.literal",
+          "emission": "emission:518bc439f22238a85932f50240e35d5016322f323e69ae6e1ccedace7d694429",
+          "outcome": "resolved",
+          "facts": [
+            "context:snowflake.context.ownership:representation%3A1%3Asnowflake_stage_external_s3.literal:representation%3A1%3Asnowflake_schema.pipelines"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_stage_external_s3.literal:emission%3Aa5b7c835fd60e015b37140056bfb9e0e554934449f80d110ac605606672885b7",
+          "representation": "representation:1:snowflake_stage_external_s3.literal",
+          "emission": "emission:a5b7c835fd60e015b37140056bfb9e0e554934449f80d110ac605606672885b7",
+          "outcome": "indeterminate",
+          "reason": "identity_incomplete",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_storage_integration_aws.ambiguous:emission%3A159e35fba244ea9b5b4ce4ce30687b1d35f4d0f963c6189cfc16ca528982e406",
+          "representation": "representation:1:snowflake_storage_integration_aws.ambiguous",
+          "emission": "emission:159e35fba244ea9b5b4ce4ce30687b1d35f4d0f963c6189cfc16ca528982e406",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_storage_integration_aws.ambiguous:emission%3A9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7",
+          "representation": "representation:1:snowflake_storage_integration_aws.ambiguous",
+          "emission": "emission:9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_storage_integration_aws.literal:emission%3A159e35fba244ea9b5b4ce4ce30687b1d35f4d0f963c6189cfc16ca528982e406",
+          "representation": "representation:1:snowflake_storage_integration_aws.literal",
+          "emission": "emission:159e35fba244ea9b5b4ce4ce30687b1d35f4d0f963c6189cfc16ca528982e406",
+          "outcome": "indeterminate",
+          "reason": "identity_incomplete",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_storage_integration_aws.literal:emission%3A9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7",
+          "representation": "representation:1:snowflake_storage_integration_aws.literal",
+          "emission": "emission:9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_task.ambiguous:emission%3A01a41d113c74fe4fec02eb319054c5014ffd05fcd46a80c04827b2270e038919",
+          "representation": "representation:1:snowflake_task.ambiguous",
+          "emission": "emission:01a41d113c74fe4fec02eb319054c5014ffd05fcd46a80c04827b2270e038919",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_task.ambiguous:emission%3A2b5e82e11e566e6b9d20e3a75fa11918388aa1c7ebcaeb5048f6430880f7c3b3",
+          "representation": "representation:1:snowflake_task.ambiguous",
+          "emission": "emission:2b5e82e11e566e6b9d20e3a75fa11918388aa1c7ebcaeb5048f6430880f7c3b3",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_task.ambiguous:emission%3A30c583b458ddb78eaf61de5342bc4444792ff8831bc7f5cebf53e049335f7228",
+          "representation": "representation:1:snowflake_task.ambiguous",
+          "emission": "emission:30c583b458ddb78eaf61de5342bc4444792ff8831bc7f5cebf53e049335f7228",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_task.ambiguous:emission%3A44f3315a5b576ff265970adcc51a20da29760bb3a7f86e38d9234ff47bdbd4f7",
+          "representation": "representation:1:snowflake_task.ambiguous",
+          "emission": "emission:44f3315a5b576ff265970adcc51a20da29760bb3a7f86e38d9234ff47bdbd4f7",
+          "outcome": "resolved",
+          "facts": [
+            "context:snowflake.context.ownership:representation%3A1%3Asnowflake_task.ambiguous:representation%3A1%3Asnowflake_schema.pipelines"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_task.ambiguous:emission%3Aaf1c29db26ec6f22ececc5299d769454441fdc05d83722d48057d5b789550f39",
+          "representation": "representation:1:snowflake_task.ambiguous",
+          "emission": "emission:af1c29db26ec6f22ececc5299d769454441fdc05d83722d48057d5b789550f39",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Asnowflake_task.ambiguous:emission%3Ac3639461b2589a28752278d2080ddc75a5d9e2420bdd17e4c41e2eea55b67bc8",
+          "representation": "representation:1:snowflake_task.ambiguous",
+          "emission": "emission:c3639461b2589a28752278d2080ddc75a5d9e2420bdd17e4c41e2eea55b67bc8",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Adata.snowflake_system_get_privatelink_config.lookup:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.snowflake_system_get_privatelink_config.lookup",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_notification_integration.ambiguous:declaration%3A1%3Aaws_sns_topic.first",
+          "from": "declaration:1:snowflake_notification_integration.ambiguous",
+          "to": "declaration:1:aws_sns_topic.first",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_notification_integration.ambiguous:declaration%3A1%3Aaws_sns_topic.second",
+          "from": "declaration:1:snowflake_notification_integration.ambiguous",
+          "to": "declaration:1:aws_sns_topic.second",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_notification_integration.literal:declaration%3A1%3Aaws_sns_topic.first",
+          "from": "declaration:1:snowflake_notification_integration.literal",
+          "to": "declaration:1:aws_sns_topic.first",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_schema.pipelines:declaration%3A1%3Asnowflake_database.analytics",
+          "from": "declaration:1:snowflake_schema.pipelines",
+          "to": "declaration:1:snowflake_database.analytics",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_secret_with_generic_string.credential:declaration%3A1%3Asnowflake_database.analytics",
+          "from": "declaration:1:snowflake_secret_with_generic_string.credential",
+          "to": "declaration:1:snowflake_database.analytics",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_secret_with_generic_string.credential:declaration%3A1%3Asnowflake_schema.pipelines",
+          "from": "declaration:1:snowflake_secret_with_generic_string.credential",
+          "to": "declaration:1:snowflake_schema.pipelines",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_stage_external_s3.literal:declaration%3A1%3Aaws_s3_bucket.first",
+          "from": "declaration:1:snowflake_stage_external_s3.literal",
+          "to": "declaration:1:aws_s3_bucket.first",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_stage_external_s3.literal:declaration%3A1%3Asnowflake_database.analytics",
+          "from": "declaration:1:snowflake_stage_external_s3.literal",
+          "to": "declaration:1:snowflake_database.analytics",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_stage_external_s3.literal:declaration%3A1%3Asnowflake_schema.pipelines",
+          "from": "declaration:1:snowflake_stage_external_s3.literal",
+          "to": "declaration:1:snowflake_schema.pipelines",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_storage_integration_aws.ambiguous:declaration%3A1%3Aaws_s3_bucket.first",
+          "from": "declaration:1:snowflake_storage_integration_aws.ambiguous",
+          "to": "declaration:1:aws_s3_bucket.first",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_storage_integration_aws.ambiguous:declaration%3A1%3Aaws_s3_bucket.second",
+          "from": "declaration:1:snowflake_storage_integration_aws.ambiguous",
+          "to": "declaration:1:aws_s3_bucket.second",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_storage_integration_aws.literal:declaration%3A1%3Aaws_s3_bucket.first",
+          "from": "declaration:1:snowflake_storage_integration_aws.literal",
+          "to": "declaration:1:aws_s3_bucket.first",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_task.ambiguous:declaration%3A1%3Asnowflake_database.analytics",
+          "from": "declaration:1:snowflake_task.ambiguous",
+          "to": "declaration:1:snowflake_database.analytics",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_task.ambiguous:declaration%3A1%3Asnowflake_schema.pipelines",
+          "from": "declaration:1:snowflake_task.ambiguous",
+          "to": "declaration:1:snowflake_schema.pipelines",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_task.ambiguous:declaration%3A1%3Asnowflake_warehouse.first",
+          "from": "declaration:1:snowflake_task.ambiguous",
+          "to": "declaration:1:snowflake_warehouse.first",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Asnowflake_task.ambiguous:declaration%3A1%3Asnowflake_warehouse.second",
+          "from": "declaration:1:snowflake_task.ambiguous",
+          "to": "declaration:1:snowflake_warehouse.second",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 18,
+        "resources": 17,
+        "data_sources": 1,
+        "instances": 18,
+        "managed_instances": 17,
+        "data_instances": 1,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 14,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 4,
+        "facts": 3,
+        "closures": 16,
+        "resolved": 3,
+        "absent": 6,
+        "indeterminate": 7,
+        "dependencies": 17,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

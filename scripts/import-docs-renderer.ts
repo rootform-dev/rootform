@@ -1,96 +1,55 @@
+#!/usr/bin/env bun
+
 import { createHash } from "node:crypto";
-import { readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import { copyFileSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { validateRendererPresentation } from "./renderer-presentation.ts";
 
-// Import reviewed opaque capture output; never acquire or read producer source.
-const input = process.argv[2];
-if (!input)
+const source = process.argv[2];
+if (!source)
   throw new Error("Usage: bun scripts/import-docs-renderer.ts /absolute/capture-directory");
+const input = resolve(source);
 const output = resolve(import.meta.dir, "../docs/assets/renderer");
-const maxArchitectureBytes = 16 * 1024 * 1024;
-const maxEvidenceBytes = 1024 * 1024;
-const manifestBytes = readFileSync(resolve(input, "manifest.json"));
-const manifest = JSON.parse(manifestBytes.toString("utf8"));
-if (manifest.format_version !== "1") throw new Error("Unknown renderer evidence format.");
-
-const fixtures = [
-  "commerce-platform-base",
-  "commerce-platform-head",
-  "event-driven-platform-base",
-  "event-driven-platform-head",
-  "shared-data-platform-base",
-  "shared-data-platform-head",
-];
-const comparisons = ["commerce-platform", "event-driven-platform", "shared-data-platform"];
-if (JSON.stringify(Object.keys(manifest.fixtures).sort()) !== JSON.stringify(fixtures.sort()))
-  throw new Error("Unexpected renderer fixture inventory.");
-if (JSON.stringify(Object.keys(manifest.comparisons).sort()) !== JSON.stringify(comparisons.sort()))
-  throw new Error("Unexpected renderer comparison inventory.");
-
-const files = [
-  "commerce-platform-base.json",
-  "commerce-platform-head.json",
-  "commerce-platform-diff.json",
-  "commerce-platform-presentation.json",
-  "event-driven-platform-base.json",
-  "event-driven-platform-head.json",
-  "event-driven-platform-diff.json",
-  "event-driven-platform-presentation.json",
-  "shared-data-platform-base.json",
-  "shared-data-platform-head.json",
-  "shared-data-platform-diff.json",
-  "shared-data-platform-presentation.json",
-];
-const architectureFixture: Record<string, string> = {
-  "commerce-platform-base.json": "commerce-platform-base",
-  "commerce-platform-head.json": "commerce-platform-head",
-  "event-driven-platform-base.json": "event-driven-platform-base",
-  "event-driven-platform-head.json": "event-driven-platform-head",
-  "shared-data-platform-base.json": "shared-data-platform-base",
-  "shared-data-platform-head.json": "shared-data-platform-head",
-};
-const diffComparison: Record<string, string> = {
-  "commerce-platform-diff.json": "commerce-platform",
-  "event-driven-platform-diff.json": "event-driven-platform",
-  "shared-data-platform-diff.json": "shared-data-platform",
-};
-const hashes: Record<string, string> = {};
-const pending: [string, Buffer][] = [];
-for (const file of files) {
-  const bytes = readFileSync(resolve(input, file));
-  const limit =
-    file.endsWith("-base.json") || file.endsWith("-head.json")
-      ? maxArchitectureBytes
-      : maxEvidenceBytes;
-  if (bytes.length > limit) throw new Error(`Renderer evidence exceeds bound: ${file}`);
-  const value = JSON.parse(bytes.toString("utf8"));
-  const hash = createHash("sha256").update(bytes).digest("hex");
-  const fixture = architectureFixture[file];
-  const comparison = diffComparison[file];
-  const expected = fixture
-    ? manifest.fixtures[fixture]?.architecture_sha256
-    : comparison
-      ? manifest.comparisons[comparison]?.sha256
-      : undefined;
-  if (expected && hash !== expected)
-    throw new Error(`Evidence differs from reviewed capture: ${file}`);
-  if (file.endsWith("-presentation.json")) validateRendererPresentation(value, file);
-  if (/\/Users\/|\/home\/|[A-Z]:\\\\/u.test(bytes.toString("utf8")))
-    throw new Error(`Evidence contains a machine path: ${file}`);
-  hashes[file] = hash;
-  pending.push([file, bytes]);
+const families = ["commerce-platform", "event-driven-platform", "shared-data-platform"];
+const files = families.flatMap((family) => [
+  `${family}-analysis.json`,
+  `${family}-comparison.json`,
+  `${family}-presentation.json`,
+]);
+const sha256 = (path: string) => createHash("sha256").update(readFileSync(path)).digest("hex");
+const manifest = JSON.parse(readFileSync(resolve(input, "manifest.json"), "utf8"));
+const interactive = JSON.parse(readFileSync(resolve(input, "interactive.json"), "utf8"));
+if (manifest.format_version !== "1" || interactive.format_version !== "1") {
+  throw new Error("Unknown renderer input format");
 }
-
-for (const stale of readdirSync(output).filter(
-  (file) => file.endsWith(".json") && !files.includes(file) && file !== "interactive.json",
-)) {
-  unlinkSync(resolve(output, stale));
+if (JSON.stringify(Object.keys(interactive.files).sort()) !== JSON.stringify([...files].sort())) {
+  throw new Error("Renderer input inventory differs from the nine expected files");
 }
-for (const [file, bytes] of pending) writeFileSync(resolve(output, file), bytes);
-writeFileSync(resolve(output, "manifest.json"), manifestBytes);
-writeFileSync(
-  resolve(output, "interactive.json"),
-  `${JSON.stringify({ format_version: "1", files: hashes }, null, 2)}\n`,
-);
+for (const family of families) {
+  const entry = manifest.examples?.[family];
+  if (!entry?.inputs?.base || !entry.inputs?.head)
+    throw new Error(`${family}: missing source inputs`);
+  for (const file of files.filter((name) => name.startsWith(`${family}-`))) {
+    const path = resolve(input, file);
+    const data = readFileSync(path);
+    if (data.length > 16 * 1024 * 1024) throw new Error(`${file}: exceeds size limit`);
+    const value = JSON.parse(data.toString("utf8"));
+    if (file.endsWith("-presentation.json")) validateRendererPresentation(value, file);
+    else if (
+      value.format_version !== "1" ||
+      value.kind !== (file.endsWith("-analysis.json") ? "plan" : "comparison")
+    ) {
+      throw new Error(`${file}: unexpected document kind`);
+    }
+    if (entry.documents?.[file] !== sha256(path) || interactive.files[file] !== sha256(path)) {
+      throw new Error(`${file}: digest mismatch`);
+    }
+    if (/\/Users\/|\/home\/|[A-Z]:\\\\/u.test(data.toString("utf8"))) {
+      throw new Error(`${file}: machine path in renderer input`);
+    }
+  }
+}
+for (const file of [...files, "manifest.json", "interactive.json"]) {
+  copyFileSync(resolve(input, file), resolve(output, file));
+}
 console.log(`Imported ${files.length} renderer inputs.`);

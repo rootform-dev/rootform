@@ -16,6 +16,15 @@ rule "service-account" {
   }
 
   as = rf.concept.service-identity
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "identity-provider" {
@@ -24,6 +33,15 @@ rule "identity-provider" {
   }
 
   as = concept.identity-provider
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "identity-pool" {
@@ -34,8 +52,15 @@ rule "identity-pool" {
   as = concept.identity-pool
 
   relation "trusts" {
-    to  = concept.identity-provider
-    via = source.identity_provider[0].id
+    to       = concept.identity-provider
+    via      = source.identity_provider[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 

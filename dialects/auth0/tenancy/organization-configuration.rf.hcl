@@ -6,13 +6,27 @@ rule "organization-client" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.customer-organization
-    via = source.organization_id
+    to       = concept.customer-organization
+    via      = source.organization_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.identity-application
-    via = source.client_id
+    to       = concept.identity-application
+    via      = source.client_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -24,8 +38,15 @@ rule "organization-client-grant" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.customer-organization
-    via = source.organization_id
+    to       = concept.customer-organization
+    via      = source.organization_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -38,13 +59,27 @@ rule "organization-client-lookup" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.customer-organization
-    via = source.organization_id
+    to       = concept.customer-organization
+    via      = source.organization_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.identity-application
-    via = source.client_id
+    to       = concept.identity-application
+    via      = source.client_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -56,8 +91,15 @@ rule "organization-clients" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.customer-organization
-    via = source.organization_id
+    to       = concept.customer-organization
+    via      = source.organization_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -69,13 +111,27 @@ rule "organization-connection" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.customer-organization
-    via = source.organization_id
+    to       = concept.customer-organization
+    via      = source.organization_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.identity-connection
-    via = source.connection_id
+    to       = concept.identity-connection
+    via      = source.connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -87,8 +143,15 @@ rule "organization-connections" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.customer-organization
-    via = source.organization_id
+    to       = concept.customer-organization
+    via      = source.organization_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -100,8 +163,15 @@ rule "organization-discovery-domain" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.customer-organization
-    via = source.organization_id
+    to       = concept.customer-organization
+    via      = source.organization_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -113,7 +183,14 @@ rule "organization-discovery-domains" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.customer-organization
-    via = source.organization_id
+    to       = concept.customer-organization
+    via      = source.organization_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

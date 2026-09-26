@@ -8,6 +8,15 @@ rule "vmware-engine-network" {
   }
 
   as = rf.concept.virtual-network
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "vmware-engine-subnet" {
@@ -16,4 +25,13 @@ rule "vmware-engine-subnet" {
   }
 
   as = rf.concept.subnet
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

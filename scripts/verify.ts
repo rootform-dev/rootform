@@ -16,11 +16,12 @@ import { isAbsolute, join, resolve } from "node:path";
 
 const root = join(import.meta.dir, "..");
 const examples = [
-  "aws-vpc",
-  "azure-network",
-  "gcp-cloud-sql",
-  "kubernetes-workload",
-  "multi-cloud",
+  "commerce-platform/base",
+  "commerce-platform/head",
+  "event-driven-platform/base",
+  "event-driven-platform/head",
+  "shared-data-platform/base",
+  "shared-data-platform/head",
 ];
 
 function object(value: unknown, label: string): Record<string, unknown> {
@@ -184,17 +185,30 @@ if (!existsSync(binary)) throw new Error("binary is unavailable");
 
 process.stdout.write(run(["bun", "run", "verify:dialects"], root, { ROOTFORM_BIN: binary }));
 
-function runLockedBuildJourney(
+function runLockedJourney(
   project: string,
   environment: Record<string, string>,
   offline: boolean,
-): { architecture: Buffer; init: Buffer } {
+): { document: Buffer; init: Buffer } {
   const initFlags = ["--locked", "--no-input", "--format", "json"];
   if (offline) initFlags.push("--offline");
   return {
     init: run([binary, "init", project, ...initFlags], root, environment),
-    architecture: run(
-      [binary, "build", project, "--locked", "--format", "json"],
+    document: run(
+      [
+        binary,
+        "run",
+        join(project, "plan.json"),
+        "--project",
+        project,
+        "--plan-file",
+        join(project, "plan.tfplan"),
+        "--require-enrichment",
+        "--locked",
+        "--no-serve",
+        "--format",
+        "json",
+      ],
       root,
       environment,
     ),
@@ -208,31 +222,34 @@ const outputs = mkdtempSync(join(tmpdir(), "rootform-examples-"));
 const environment = { ROOTFORM_HOME: registryHome };
 const locks = new Map(
   examples.map((example) => {
-    const directory = join(root, "examples", example);
+    const directory = join(root, "examples", "playground", example);
     return [example, projectLock(directory)] as const;
   }),
 );
 
-const registryExample = "aws-vpc";
-const registryDirectory = join(root, "examples", registryExample);
+const registryExample = "shared-data-platform/base";
+const registryDirectory = join(root, "examples", "playground", registryExample);
 const registryLock = locks.get(registryExample);
 if (!registryLock) throw new Error("registry example lock is unavailable");
-const onlineJourney = runLockedBuildJourney(registryDirectory, environment, false);
+const onlineJourney = runLockedJourney(registryDirectory, environment, false);
 if (!readFileSync(join(registryDirectory, "rootform.lock")).equals(registryLock)) {
   throw new Error("init --locked changed the versioned example lock");
 }
-if (existsSync(join(registryHome, "dialects", "aws"))) {
+if (existsSync(join(registryHome, "dialects"))) {
   throw new Error("supplied Dialects must never materialize in the store");
 }
 
-const offlineJourney = runLockedBuildJourney(registryDirectory, environment, true);
-for (const name of ["init", "architecture"] as const) {
+const offlineJourney = runLockedJourney(registryDirectory, environment, true);
+for (const name of ["init", "document"] as const) {
   if (!onlineJourney[name].equals(offlineJourney[name])) {
-    throw new Error(`locked build journey is not deterministic: ${name}`);
+    throw new Error(`locked run journey is not deterministic: ${name}`);
   }
 }
 if (!readFileSync(join(registryDirectory, "rootform.lock")).equals(registryLock)) {
   throw new Error("offline init --locked changed the versioned example lock");
+}
+if (existsSync(join(registryHome, "dialects"))) {
+  throw new Error("offline run installed a supplied Dialect");
 }
 
 const policyPack = join(root, "policy-packs", "baseline");
@@ -320,7 +337,9 @@ run(["sh", join(root, "docs", "integrations", "ci", "rootform-ci.sh")], root, {
   ROOTFORM_BIN: binary,
   ROOTFORM_HOME: mkdtempSync(join(tmpdir(), "rootform-policy-ci-home-")),
   ROOTFORM_OFFLINE: "1",
-  ROOTFORM_CHECK: "1",
+  ROOTFORM_INPUT: join(policyCIProject, "plan.json"),
+  ROOTFORM_PLAN_FILE: join(policyCIProject, "plan.tfplan"),
+  ROOTFORM_POLICY: "baseline/*",
   ROOTFORM_OUTPUT_DIR: policyCIOutput,
   ROOTFORM_PROJECT: policyCIProject,
 });
@@ -328,62 +347,92 @@ if (!readFileSync(policyCILockPath).equals(policyCILockBody)) {
   throw new Error("policy-backed CI journey changed its exact lock");
 }
 const policyCIResult = object(
-  JSON.parse(readFileSync(join(policyCIOutput, "check.json"), "utf8")) as unknown,
-  "policy-backed CI check",
+  JSON.parse(readFileSync(join(policyCIOutput, "analysis.json"), "utf8")) as unknown,
+  "policy-backed CI analysis",
 );
-const policyCISummary = object(policyCIResult.summary, "policy-backed CI check summary");
 if (
-  policyCIResult.status !== "compliant" ||
-  policyCIResult.compliant !== true ||
-  policyCISummary.policies !== 2 ||
-  policyCISummary.evaluations !== 2 ||
-  policyCISummary.passed !== 2 ||
-  policyCISummary.violated !== 0 ||
-  policyCISummary.indeterminate !== 0 ||
-  policyCISummary.not_evaluated !== 0 ||
+  policyCIResult.format_version !== "1" ||
+  policyCIResult.kind !== "plan" ||
   !Array.isArray(policyCIResult.diagnostics) ||
   policyCIResult.diagnostics.length !== 0
 ) {
-  throw new Error("policy-backed CI check did not produce exact compliant coverage");
+  throw new Error("policy-backed CI did not produce a clean format-1 plan");
 }
-if (!Array.isArray(policyCIResult.policy_packs) || policyCIResult.policy_packs.length !== 1) {
-  throw new Error("policy-backed CI check did not report one Policy Pack");
-}
-const policyCIResultPack = object(policyCIResult.policy_packs[0], "policy-backed CI Policy Pack");
+const policyCISarif = object(
+  JSON.parse(readFileSync(join(policyCIOutput, "results.sarif"), "utf8")) as unknown,
+  "policy-backed CI SARIF",
+);
+const policyCIRuns = policyCISarif.runs;
+if (policyCISarif.version !== "2.1.0" || !Array.isArray(policyCIRuns) || policyCIRuns.length !== 1)
+  throw new Error("policy-backed CI did not produce SARIF 2.1.0");
+const policyCIEvaluations = object(policyCIRuns[0], "policy-backed CI SARIF run").results;
+const expectedPolicies = [
+  "baseline/cluster-network-context",
+  "baseline/managed-database-network-context",
+];
 if (
-  policyCIResultPack.id !== "baseline" ||
-  policyCIResultPack.version !== "0.1.0" ||
-  policyCIResultPack.content_digest !== policyPin.contentDigest
-) {
-  throw new Error("policy-backed CI check drifted from packaged baseline identity");
-}
+  !Array.isArray(policyCIEvaluations) ||
+  policyCIEvaluations.length !== 2 ||
+  JSON.stringify(
+    policyCIEvaluations.map((value) => object(value, "policy-backed CI evaluation").ruleId).sort(),
+  ) !== JSON.stringify(expectedPolicies) ||
+  policyCIEvaluations.some((value) => {
+    const result = object(value, "policy-backed CI evaluation");
+    return result.kind !== "pass" || result.level !== "none";
+  })
+)
+  throw new Error("policy-backed CI did not pass both baseline policies");
+if (
+  readFileSync(join(policyCIOutput, "run.status"), "utf8") !== "0\n" ||
+  !readFileSync(join(policyCIOutput, "summary.txt"), "utf8").includes(
+    "Evaluated  2 policies over 2 targets: 2 passed, 0 violated, 0 indeterminate",
+  )
+)
+  throw new Error("policy-backed CI did not report passing exit semantics");
+if (!readFileSync(policyCILockPath, "utf8").includes(policyPin.contentDigest))
+  throw new Error("policy-backed CI lost packaged baseline pin");
 
 for (const example of examples) {
-  const directory = join(root, "examples", example);
+  const directory = join(root, "examples", "playground", example);
   const lock = locks.get(example);
   if (!lock) throw new Error(`example lock is unavailable: ${example}`);
-  const firstPath = join(outputs, `${example}-first.json`);
-  const secondPath = join(outputs, `${example}-second.json`);
-  const firstBuild = [binary, "build", ".", "--locked", "--format", "json", "--output", firstPath];
-  run(firstBuild, directory, environment);
-  run(
-    [binary, "build", ".", "--locked", "--format", "json", "--output", secondPath],
+  const firstPath = join(outputs, `${example.replace("/", "-")}-first.json`);
+  const secondPath = join(outputs, `${example.replace("/", "-")}-second.json`);
+  const runFlags = [
+    binary,
+    "run",
+    join(directory, "plan.json"),
+    "--project",
     directory,
-    environment,
-  );
+    "--plan-file",
+    join(directory, "plan.tfplan"),
+    "--require-enrichment",
+    "--locked",
+    "--no-serve",
+  ];
+  run([...runFlags, "-o", firstPath], directory, environment);
+  run([...runFlags, "-o", secondPath], directory, environment);
   if (!readFileSync(firstPath).equals(readFileSync(secondPath))) {
     throw new Error(`example is nondeterministic: ${example}`);
   }
   if (!readFileSync(join(directory, "rootform.lock")).equals(lock)) {
     throw new Error(`locked example changed its lock: ${example}`);
   }
-  const architecture = object(
+  const document = object(
     JSON.parse(readFileSync(firstPath, "utf8")) as unknown,
-    `${example} Architecture IR`,
+    `${example} plan document`,
   );
-  const represented = object(architecture.architecture, `${example} architecture`).representations;
-  if (architecture.format_version !== "0.1.0" || !Array.isArray(represented)) {
-    throw new Error(`example did not produce current Architecture IR: ${example}`);
+  const planned = object(
+    object(document.stages, `${example} stages`).planned,
+    `${example} planned stage`,
+  );
+  if (
+    document.format_version !== "1" ||
+    document.kind !== "plan" ||
+    !Array.isArray(planned.representations) ||
+    planned.representations.length === 0
+  ) {
+    throw new Error(`example did not produce a format-1 plan: ${example}`);
   }
 }
 

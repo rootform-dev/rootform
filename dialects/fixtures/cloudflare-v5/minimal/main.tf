@@ -13,15 +13,16 @@ resource "cloudflare_zone" "application" {
 }
 
 resource "cloudflare_r2_bucket" "assets" {
-  account_id  = "account"
-  name        = "assets"
-  location    = "WNAM"
+  account_id    = "account"
+  name          = "assets"
+  location      = "WNAM"
   storage_class = "Standard"
 }
 
 resource "cloudflare_workers_script" "application" {
   account_id  = "account"
   script_name = "application"
+  content     = "export default {}"
   bindings = [{
     name        = "ASSETS"
     type        = "r2_bucket"

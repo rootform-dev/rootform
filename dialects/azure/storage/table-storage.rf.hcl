@@ -10,9 +10,28 @@ rule "table-storage-table" {
 
   as = concept.table-storage-table
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.storage-account
-    via = source.storage_account_id
+    as       = context.ownership
+    to       = concept.storage-account
+    via      = source.storage_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared storage-account instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

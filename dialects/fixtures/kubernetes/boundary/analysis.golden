@@ -1,0 +1,1937 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:fe48cbad33bd733397397af16817e33ecfa65d05dac5e2ba93d1088e1bc7527a",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:fe48cbad33bd733397397af16817e33ecfa65d05dac5e2ba93d1088e1bc7527a",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:cc4875cd08488d87263aefc27ee7afae00c34d67ba909f85ca19f0a68f19fc1d",
+          "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:382d380e6f27543ac44621bd22aa5bc44747aa9bd5ae035466ae8abaa408be0e",
+          "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:bba9603afbaf2c26859430f582f78c7db9eedde6afeebd9a6128f9ab8dd1c558",
+          "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+          "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e421468f2cb4c36fbdbeae37b526c1dbb96469c3c8299f4219203a0d97f73406",
+          "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9ce33af4d529ded73f03da160af6ada26f0a53433bd8fc87d3bd3890f653f5b2",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+          "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cc4875cd08488d87263aefc27ee7afae00c34d67ba909f85ca19f0a68f19fc1d",
+        "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:382d380e6f27543ac44621bd22aa5bc44747aa9bd5ae035466ae8abaa408be0e",
+        "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:bba9603afbaf2c26859430f582f78c7db9eedde6afeebd9a6128f9ab8dd1c558",
+        "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+        "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e421468f2cb4c36fbdbeae37b526c1dbb96469c3c8299f4219203a0d97f73406",
+        "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9ce33af4d529ded73f03da160af6ada26f0a53433bd8fc87d3bd3890f653f5b2",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+        "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "google.concept.google-cloud-project",
+        "owner": "google",
+        "name": "google-cloud-project",
+        "description": "A Google Cloud project serving as a resource and billing boundary."
+      },
+      {
+        "id": "kubernetes.concept.deployment",
+        "owner": "kubernetes",
+        "name": "deployment",
+        "description": "A declaratively managed set of replica pods."
+      },
+      {
+        "id": "kubernetes.concept.ingress",
+        "owner": "kubernetes",
+        "name": "ingress",
+        "description": "HTTP routing into cluster services from outside the cluster."
+      },
+      {
+        "id": "kubernetes.concept.namespace",
+        "owner": "kubernetes",
+        "name": "namespace",
+        "description": "A namespace partitioning one cluster's workloads, services, and storage."
+      },
+      {
+        "id": "kubernetes.concept.service",
+        "owner": "kubernetes",
+        "name": "service",
+        "description": "A stable network endpoint in front of a set of pods."
+      },
+      {
+        "id": "kubernetes.concept.service-account",
+        "owner": "kubernetes",
+        "name": "service-account",
+        "description": "An identity a pod runs under inside the cluster."
+      },
+      {
+        "id": "rf.concept.kubernetes-cluster",
+        "owner": "rf",
+        "name": "kubernetes-cluster",
+        "description": "A declared Kubernetes cluster, excluding namespaces, node pools, and workload groups."
+      },
+      {
+        "id": "rf.concept.subnet",
+        "owner": "rf",
+        "name": "subnet",
+        "description": "A declared native subnet, not a CIDR literal."
+      },
+      {
+        "id": "rf.concept.virtual-network",
+        "owner": "rf",
+        "name": "virtual-network",
+        "description": "An explicitly declared virtual network."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "google.context.ownership",
+        "owner": "google",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      },
+      {
+        "id": "kubernetes.context.ownership",
+        "owner": "kubernetes",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      },
+      {
+        "id": "rf.context.network",
+        "owner": "rf",
+        "name": "network",
+        "description": "A declared network attachment without a connectivity guarantee."
+      },
+      {
+        "id": "rf.context.runtime",
+        "owner": "rf",
+        "name": "runtime",
+        "description": "A declared execution environment or target without proof of effective execution."
+      }
+    ],
+    "relations": [
+      {
+        "id": "kubernetes.relation.runs-as",
+        "owner": "kubernetes",
+        "name": "runs-as"
+      }
+    ],
+    "rules": [
+      {
+        "id": "google.rule.gke-cluster",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_container_cluster",
+        "concept": "rf.concept.kubernetes-cluster",
+        "identity": {
+          "attributes": [
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "endpoint",
+            "id",
+            "name",
+            "self_link"
+          ]
+        },
+        "emissions": [
+          "emission:552a171f440dd93ac4c8fc31518ee40325c4cf77b51644c6c8f71b8b27a90df2",
+          "emission:9e86255b784b910b6003d5f0acc71b6741584ce8955e9720a169a21fcb712d8e",
+          "emission:e53a69ab20cfc913c3aa2b7f437eb72b3d4c09c353b09e09d3d797ab0f4cc641"
+        ]
+      },
+      {
+        "id": "kubernetes.rule.kubernetes-deployment",
+        "owner": "kubernetes",
+        "match_kind": "resource",
+        "match_type": "kubernetes_deployment_v1",
+        "concept": "kubernetes.concept.deployment",
+        "emissions": [
+          "emission:3e5a5d0988976ea3634c398b9c82f9fbab68c164256a40756f22972cf76713f2",
+          "emission:7c91a03709c22788a4e466b5a326dbc16cdf584bc48aaf3991ad9565c853596a",
+          "emission:828f7cb4302e1ae9a5423dfe2447c5310cde845ba0608ec11d09d8125d158d39"
+        ]
+      },
+      {
+        "id": "kubernetes.rule.kubernetes-ingress",
+        "owner": "kubernetes",
+        "match_kind": "resource",
+        "match_type": "kubernetes_ingress_v1",
+        "concept": "kubernetes.concept.ingress",
+        "emissions": [
+          "emission:74b3cabb3a4e516b6b44a05eb28ac5240c2ab264cc1a5ccba4f7e75303166f4e",
+          "emission:d8eb3ec7c99660327afe8b5d1cd305091b0d2f4193dff3f0a85049222eecc7da"
+        ]
+      },
+      {
+        "id": "kubernetes.rule.kubernetes-namespace",
+        "owner": "kubernetes",
+        "match_kind": "resource",
+        "match_type": "kubernetes_namespace_v1",
+        "concept": "kubernetes.concept.namespace",
+        "identity": {
+          "attributes": [
+            "id",
+            "metadata[0].name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "metadata[0].name"
+          ]
+        },
+        "emissions": [
+          "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590"
+        ]
+      },
+      {
+        "id": "kubernetes.rule.kubernetes-service",
+        "owner": "kubernetes",
+        "match_kind": "resource",
+        "match_type": "kubernetes_service_v1",
+        "concept": "kubernetes.concept.service",
+        "emissions": [
+          "emission:0ccc75b2e7fa79d85e1e3d8d3488ea4e5239e5177905b938ffd287107b9f541f",
+          "emission:99a0ddff991c1bbf48a74d6eb93811a2ec924ba885a472ba862f5d1fdbab09e5"
+        ]
+      },
+      {
+        "id": "kubernetes.rule.kubernetes-service-account",
+        "owner": "kubernetes",
+        "match_kind": "resource",
+        "match_type": "kubernetes_service_account_v1",
+        "concept": "kubernetes.concept.service-account",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "metadata[0].name"
+          ]
+        },
+        "emissions": [
+          "emission:c336de111f2524d02888ad1b8187dcd05b51b7b6d51ed0001c82ab23f56fe1b0",
+          "emission:fab42cc706b31220cd56131339659765d1a2c9d5bc17135442533cbed5d55777"
+        ]
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:0ccc75b2e7fa79d85e1e3d8d3488ea4e5239e5177905b938ffd287107b9f541f",
+        "rule": "kubernetes.rule.kubernetes-service",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "kubernetes.concept.namespace"
+        },
+        "dimension": "kubernetes.context.ownership",
+        "via": "source.metadata[0].namespace",
+        "match": {
+          "by": [
+            "metadata[0].name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:3e5a5d0988976ea3634c398b9c82f9fbab68c164256a40756f22972cf76713f2",
+        "rule": "kubernetes.rule.kubernetes-deployment",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "kubernetes.concept.service-account"
+        },
+        "predicate": "kubernetes.relation.runs-as",
+        "via": "source.spec[0].template[0].spec[0].service_account_name",
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:552a171f440dd93ac4c8fc31518ee40325c4cf77b51644c6c8f71b8b27a90df2",
+        "rule": "google.rule.gke-cluster",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.network",
+        "match": {
+          "by": [
+            "id",
+            "self_link",
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+        "rule": "kubernetes.rule.kubernetes-namespace",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.kubernetes-cluster"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "provider.host",
+        "on_null": "indeterminate",
+        "on_empty": "indeterminate",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:74b3cabb3a4e516b6b44a05eb28ac5240c2ab264cc1a5ccba4f7e75303166f4e",
+        "rule": "kubernetes.rule.kubernetes-ingress",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "kubernetes.concept.namespace"
+        },
+        "dimension": "kubernetes.context.ownership",
+        "via": "source.metadata[0].namespace",
+        "match": {
+          "by": [
+            "metadata[0].name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:7c91a03709c22788a4e466b5a326dbc16cdf584bc48aaf3991ad9565c853596a",
+        "rule": "kubernetes.rule.kubernetes-deployment",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "kubernetes.concept.namespace"
+        },
+        "dimension": "kubernetes.context.ownership",
+        "via": "source.metadata[0].namespace",
+        "match": {
+          "by": [
+            "metadata[0].name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:828f7cb4302e1ae9a5423dfe2447c5310cde845ba0608ec11d09d8125d158d39",
+        "rule": "kubernetes.rule.kubernetes-deployment",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.kubernetes-cluster"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "provider.host",
+        "on_null": "indeterminate",
+        "on_empty": "indeterminate",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:99a0ddff991c1bbf48a74d6eb93811a2ec924ba885a472ba862f5d1fdbab09e5",
+        "rule": "kubernetes.rule.kubernetes-service",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.kubernetes-cluster"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "provider.host",
+        "on_null": "indeterminate",
+        "on_empty": "indeterminate",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:9e86255b784b910b6003d5f0acc71b6741584ce8955e9720a169a21fcb712d8e",
+        "rule": "google.rule.gke-cluster",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.subnet"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.subnetwork",
+        "match": {
+          "by": [
+            "id",
+            "self_link",
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:c336de111f2524d02888ad1b8187dcd05b51b7b6d51ed0001c82ab23f56fe1b0",
+        "rule": "kubernetes.rule.kubernetes-service-account",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "kubernetes.concept.namespace"
+        },
+        "dimension": "kubernetes.context.ownership",
+        "via": "source.metadata[0].namespace",
+        "match": {
+          "by": [
+            "metadata[0].name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:d8eb3ec7c99660327afe8b5d1cd305091b0d2f4193dff3f0a85049222eecc7da",
+        "rule": "kubernetes.rule.kubernetes-ingress",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.kubernetes-cluster"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "provider.host",
+        "on_null": "indeterminate",
+        "on_empty": "indeterminate",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:e53a69ab20cfc913c3aa2b7f437eb72b3d4c09c353b09e09d3d797ab0f4cc641",
+        "rule": "google.rule.gke-cluster",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.google-cloud-project"
+        },
+        "dimension": "google.context.ownership",
+        "via": "source.project",
+        "match": {
+          "by": [
+            "project_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:fab42cc706b31220cd56131339659765d1a2c9d5bc17135442533cbed5d55777",
+        "rule": "kubernetes.rule.kubernetes-service-account",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.kubernetes-cluster"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "provider.host",
+        "on_null": "indeterminate",
+        "on_empty": "indeterminate",
+        "external": "deny",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:google_container_cluster.runtime",
+          "kind": "resource",
+          "type": "google_container_cluster",
+          "name": "runtime",
+          "address": "google_container_cluster.runtime",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kubernetes_deployment_v1.literal",
+          "kind": "resource",
+          "type": "kubernetes_deployment_v1",
+          "name": "literal",
+          "address": "kubernetes_deployment_v1.literal",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kubernetes_ingress_v1.ambiguous",
+          "kind": "resource",
+          "type": "kubernetes_ingress_v1",
+          "name": "ambiguous",
+          "address": "kubernetes_ingress_v1.ambiguous",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kubernetes_namespace_v1.app",
+          "kind": "resource",
+          "type": "kubernetes_namespace_v1",
+          "name": "app",
+          "address": "kubernetes_namespace_v1.app",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kubernetes_namespace_v1.duplicate_a",
+          "kind": "resource",
+          "type": "kubernetes_namespace_v1",
+          "name": "duplicate_a",
+          "address": "kubernetes_namespace_v1.duplicate_a",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kubernetes_namespace_v1.duplicate_b",
+          "kind": "resource",
+          "type": "kubernetes_namespace_v1",
+          "name": "duplicate_b",
+          "address": "kubernetes_namespace_v1.duplicate_b",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kubernetes_service_account_v1.mismatch",
+          "kind": "resource",
+          "type": "kubernetes_service_account_v1",
+          "name": "mismatch",
+          "address": "kubernetes_service_account_v1.mismatch",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kubernetes_service_v1.absent",
+          "kind": "resource",
+          "type": "kubernetes_service_v1",
+          "name": "absent",
+          "address": "kubernetes_service_v1.absent",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "external:1:kubernetes.concept.namespace:0",
+          "kind": "external",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "external",
+          "actions": [],
+          "concept": "kubernetes.concept.namespace",
+          "implementation": {
+            "kind": "direct"
+          },
+          "disclosure": "none",
+          "diagnostics": []
+        },
+        {
+          "id": "external:1:kubernetes.concept.namespace:1",
+          "kind": "external",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "external",
+          "actions": [],
+          "concept": "kubernetes.concept.namespace",
+          "implementation": {
+            "kind": "direct"
+          },
+          "disclosure": "none",
+          "diagnostics": []
+        },
+        {
+          "id": "external:1:rf.concept.virtual-network:0",
+          "kind": "external",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "external",
+          "actions": [],
+          "concept": "rf.concept.virtual-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "disclosure": "none",
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_container_cluster.runtime",
+          "kind": "managed",
+          "declaration": "declaration:1:google_container_cluster.runtime",
+          "address": "google_container_cluster.runtime",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.gke-cluster"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.gke-cluster",
+          "concept": "rf.concept.kubernetes-cluster",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kubernetes_deployment_v1.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:kubernetes_deployment_v1.literal",
+          "address": "kubernetes_deployment_v1.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kubernetes.rule.kubernetes-deployment"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kubernetes.rule.kubernetes-deployment",
+          "concept": "kubernetes.concept.deployment",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kubernetes_ingress_v1.ambiguous",
+          "kind": "managed",
+          "declaration": "declaration:1:kubernetes_ingress_v1.ambiguous",
+          "address": "kubernetes_ingress_v1.ambiguous",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kubernetes.rule.kubernetes-ingress"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kubernetes.rule.kubernetes-ingress",
+          "concept": "kubernetes.concept.ingress",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": [
+            "diagnostic:73a3bf5af08a9bfe6bef835bc4170a5cccf9f15412da26733dfffbe7e4e1bfca"
+          ]
+        },
+        {
+          "id": "representation:1:kubernetes_namespace_v1.app",
+          "kind": "managed",
+          "declaration": "declaration:1:kubernetes_namespace_v1.app",
+          "address": "kubernetes_namespace_v1.app",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kubernetes.rule.kubernetes-namespace"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kubernetes.rule.kubernetes-namespace",
+          "concept": "kubernetes.concept.namespace",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kubernetes_namespace_v1.duplicate_a",
+          "kind": "managed",
+          "declaration": "declaration:1:kubernetes_namespace_v1.duplicate_a",
+          "address": "kubernetes_namespace_v1.duplicate_a",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kubernetes.rule.kubernetes-namespace"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kubernetes.rule.kubernetes-namespace",
+          "concept": "kubernetes.concept.namespace",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kubernetes_namespace_v1.duplicate_b",
+          "kind": "managed",
+          "declaration": "declaration:1:kubernetes_namespace_v1.duplicate_b",
+          "address": "kubernetes_namespace_v1.duplicate_b",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kubernetes.rule.kubernetes-namespace"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kubernetes.rule.kubernetes-namespace",
+          "concept": "kubernetes.concept.namespace",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kubernetes_service_account_v1.mismatch",
+          "kind": "managed",
+          "declaration": "declaration:1:kubernetes_service_account_v1.mismatch",
+          "address": "kubernetes_service_account_v1.mismatch",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kubernetes.rule.kubernetes-service-account"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kubernetes.rule.kubernetes-service-account",
+          "concept": "kubernetes.concept.service-account",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kubernetes_service_v1.absent",
+          "kind": "managed",
+          "declaration": "declaration:1:kubernetes_service_v1.absent",
+          "address": "kubernetes_service_v1.absent",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kubernetes.rule.kubernetes-service"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kubernetes.rule.kubernetes-service",
+          "concept": "kubernetes.concept.service",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:kubernetes.context.ownership:representation%3A1%3Akubernetes_deployment_v1.literal:representation%3A1%3Akubernetes_namespace_v1.app",
+          "from": "representation:1:kubernetes_deployment_v1.literal",
+          "to": "representation:1:kubernetes_namespace_v1.app",
+          "dimension": "kubernetes.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:7c91a03709c22788a4e466b5a326dbc16cdf584bc48aaf3991ad9565c853596a",
+              "rule": "kubernetes.rule.kubernetes-deployment",
+              "closure": "closure:representation%3A1%3Akubernetes_deployment_v1.literal:emission%3A7c91a03709c22788a4e466b5a326dbc16cdf584bc48aaf3991ad9565c853596a",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:kubernetes.context.ownership:representation%3A1%3Akubernetes_service_account_v1.mismatch:external%3A1%3Akubernetes.concept.namespace%3A1",
+          "from": "representation:1:kubernetes_service_account_v1.mismatch",
+          "to": "external:1:kubernetes.concept.namespace:1",
+          "dimension": "kubernetes.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:c336de111f2524d02888ad1b8187dcd05b51b7b6d51ed0001c82ab23f56fe1b0",
+              "rule": "kubernetes.rule.kubernetes-service-account",
+              "closure": "closure:representation%3A1%3Akubernetes_service_account_v1.mismatch:emission%3Ac336de111f2524d02888ad1b8187dcd05b51b7b6d51ed0001c82ab23f56fe1b0",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:kubernetes.context.ownership:representation%3A1%3Akubernetes_service_v1.absent:external%3A1%3Akubernetes.concept.namespace%3A0",
+          "from": "representation:1:kubernetes_service_v1.absent",
+          "to": "external:1:kubernetes.concept.namespace:0",
+          "dimension": "kubernetes.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:0ccc75b2e7fa79d85e1e3d8d3488ea4e5239e5177905b938ffd287107b9f541f",
+              "rule": "kubernetes.rule.kubernetes-service",
+              "closure": "closure:representation%3A1%3Akubernetes_service_v1.absent:emission%3A0ccc75b2e7fa79d85e1e3d8d3488ea4e5239e5177905b938ffd287107b9f541f",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Agoogle_container_cluster.runtime:external%3A1%3Arf.concept.virtual-network%3A0",
+          "from": "representation:1:google_container_cluster.runtime",
+          "to": "external:1:rf.concept.virtual-network:0",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:552a171f440dd93ac4c8fc31518ee40325c4cf77b51644c6c8f71b8b27a90df2",
+              "rule": "google.rule.gke-cluster",
+              "closure": "closure:representation%3A1%3Agoogle_container_cluster.runtime:emission%3A552a171f440dd93ac4c8fc31518ee40325c4cf77b51644c6c8f71b8b27a90df2",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Akubernetes_deployment_v1.literal:representation%3A1%3Agoogle_container_cluster.runtime",
+          "from": "representation:1:kubernetes_deployment_v1.literal",
+          "to": "representation:1:google_container_cluster.runtime",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:828f7cb4302e1ae9a5423dfe2447c5310cde845ba0608ec11d09d8125d158d39",
+              "rule": "kubernetes.rule.kubernetes-deployment",
+              "closure": "closure:representation%3A1%3Akubernetes_deployment_v1.literal:emission%3A828f7cb4302e1ae9a5423dfe2447c5310cde845ba0608ec11d09d8125d158d39",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Akubernetes_ingress_v1.ambiguous:representation%3A1%3Agoogle_container_cluster.runtime",
+          "from": "representation:1:kubernetes_ingress_v1.ambiguous",
+          "to": "representation:1:google_container_cluster.runtime",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:d8eb3ec7c99660327afe8b5d1cd305091b0d2f4193dff3f0a85049222eecc7da",
+              "rule": "kubernetes.rule.kubernetes-ingress",
+              "closure": "closure:representation%3A1%3Akubernetes_ingress_v1.ambiguous:emission%3Ad8eb3ec7c99660327afe8b5d1cd305091b0d2f4193dff3f0a85049222eecc7da",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Akubernetes_namespace_v1.app:representation%3A1%3Agoogle_container_cluster.runtime",
+          "from": "representation:1:kubernetes_namespace_v1.app",
+          "to": "representation:1:google_container_cluster.runtime",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+              "rule": "kubernetes.rule.kubernetes-namespace",
+              "closure": "closure:representation%3A1%3Akubernetes_namespace_v1.app:emission%3A65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Akubernetes_namespace_v1.duplicate_a:representation%3A1%3Agoogle_container_cluster.runtime",
+          "from": "representation:1:kubernetes_namespace_v1.duplicate_a",
+          "to": "representation:1:google_container_cluster.runtime",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+              "rule": "kubernetes.rule.kubernetes-namespace",
+              "closure": "closure:representation%3A1%3Akubernetes_namespace_v1.duplicate_a:emission%3A65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Akubernetes_namespace_v1.duplicate_b:representation%3A1%3Agoogle_container_cluster.runtime",
+          "from": "representation:1:kubernetes_namespace_v1.duplicate_b",
+          "to": "representation:1:google_container_cluster.runtime",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+              "rule": "kubernetes.rule.kubernetes-namespace",
+              "closure": "closure:representation%3A1%3Akubernetes_namespace_v1.duplicate_b:emission%3A65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Akubernetes_service_account_v1.mismatch:representation%3A1%3Agoogle_container_cluster.runtime",
+          "from": "representation:1:kubernetes_service_account_v1.mismatch",
+          "to": "representation:1:google_container_cluster.runtime",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:fab42cc706b31220cd56131339659765d1a2c9d5bc17135442533cbed5d55777",
+              "rule": "kubernetes.rule.kubernetes-service-account",
+              "closure": "closure:representation%3A1%3Akubernetes_service_account_v1.mismatch:emission%3Afab42cc706b31220cd56131339659765d1a2c9d5bc17135442533cbed5d55777",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Akubernetes_service_v1.absent:representation%3A1%3Agoogle_container_cluster.runtime",
+          "from": "representation:1:kubernetes_service_v1.absent",
+          "to": "representation:1:google_container_cluster.runtime",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:99a0ddff991c1bbf48a74d6eb93811a2ec924ba885a472ba862f5d1fdbab09e5",
+              "rule": "kubernetes.rule.kubernetes-service",
+              "closure": "closure:representation%3A1%3Akubernetes_service_v1.absent:emission%3A99a0ddff991c1bbf48a74d6eb93811a2ec924ba885a472ba862f5d1fdbab09e5",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "contributions": [],
+      "relations": [],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Agoogle_container_cluster.runtime:emission%3A552a171f440dd93ac4c8fc31518ee40325c4cf77b51644c6c8f71b8b27a90df2",
+          "representation": "representation:1:google_container_cluster.runtime",
+          "emission": "emission:552a171f440dd93ac4c8fc31518ee40325c4cf77b51644c6c8f71b8b27a90df2",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Agoogle_container_cluster.runtime:external%3A1%3Arf.concept.virtual-network%3A0"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_container_cluster.runtime:emission%3A9e86255b784b910b6003d5f0acc71b6741584ce8955e9720a169a21fcb712d8e",
+          "representation": "representation:1:google_container_cluster.runtime",
+          "emission": "emission:9e86255b784b910b6003d5f0acc71b6741584ce8955e9720a169a21fcb712d8e",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_container_cluster.runtime:emission%3Ae53a69ab20cfc913c3aa2b7f437eb72b3d4c09c353b09e09d3d797ab0f4cc641",
+          "representation": "representation:1:google_container_cluster.runtime",
+          "emission": "emission:e53a69ab20cfc913c3aa2b7f437eb72b3d4c09c353b09e09d3d797ab0f4cc641",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_deployment_v1.literal:emission%3A3e5a5d0988976ea3634c398b9c82f9fbab68c164256a40756f22972cf76713f2",
+          "representation": "representation:1:kubernetes_deployment_v1.literal",
+          "emission": "emission:3e5a5d0988976ea3634c398b9c82f9fbab68c164256a40756f22972cf76713f2",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_deployment_v1.literal:emission%3A7c91a03709c22788a4e466b5a326dbc16cdf584bc48aaf3991ad9565c853596a",
+          "representation": "representation:1:kubernetes_deployment_v1.literal",
+          "emission": "emission:7c91a03709c22788a4e466b5a326dbc16cdf584bc48aaf3991ad9565c853596a",
+          "outcome": "resolved",
+          "facts": [
+            "context:kubernetes.context.ownership:representation%3A1%3Akubernetes_deployment_v1.literal:representation%3A1%3Akubernetes_namespace_v1.app"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 2
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_deployment_v1.literal:emission%3A828f7cb4302e1ae9a5423dfe2447c5310cde845ba0608ec11d09d8125d158d39",
+          "representation": "representation:1:kubernetes_deployment_v1.literal",
+          "emission": "emission:828f7cb4302e1ae9a5423dfe2447c5310cde845ba0608ec11d09d8125d158d39",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Akubernetes_deployment_v1.literal:representation%3A1%3Agoogle_container_cluster.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_ingress_v1.ambiguous:emission%3A74b3cabb3a4e516b6b44a05eb28ac5240c2ab264cc1a5ccba4f7e75303166f4e",
+          "representation": "representation:1:kubernetes_ingress_v1.ambiguous",
+          "emission": "emission:74b3cabb3a4e516b6b44a05eb28ac5240c2ab264cc1a5ccba4f7e75303166f4e",
+          "outcome": "indeterminate",
+          "reason": "duplicate_identity",
+          "facts": [],
+          "candidates": {
+            "known_equal": 2,
+            "unknown": 0,
+            "excluded": 1
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_ingress_v1.ambiguous:emission%3Ad8eb3ec7c99660327afe8b5d1cd305091b0d2f4193dff3f0a85049222eecc7da",
+          "representation": "representation:1:kubernetes_ingress_v1.ambiguous",
+          "emission": "emission:d8eb3ec7c99660327afe8b5d1cd305091b0d2f4193dff3f0a85049222eecc7da",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Akubernetes_ingress_v1.ambiguous:representation%3A1%3Agoogle_container_cluster.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_namespace_v1.app:emission%3A65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+          "representation": "representation:1:kubernetes_namespace_v1.app",
+          "emission": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Akubernetes_namespace_v1.app:representation%3A1%3Agoogle_container_cluster.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_namespace_v1.duplicate_a:emission%3A65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+          "representation": "representation:1:kubernetes_namespace_v1.duplicate_a",
+          "emission": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Akubernetes_namespace_v1.duplicate_a:representation%3A1%3Agoogle_container_cluster.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_namespace_v1.duplicate_b:emission%3A65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+          "representation": "representation:1:kubernetes_namespace_v1.duplicate_b",
+          "emission": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Akubernetes_namespace_v1.duplicate_b:representation%3A1%3Agoogle_container_cluster.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_service_account_v1.mismatch:emission%3Ac336de111f2524d02888ad1b8187dcd05b51b7b6d51ed0001c82ab23f56fe1b0",
+          "representation": "representation:1:kubernetes_service_account_v1.mismatch",
+          "emission": "emission:c336de111f2524d02888ad1b8187dcd05b51b7b6d51ed0001c82ab23f56fe1b0",
+          "outcome": "resolved",
+          "facts": [
+            "context:kubernetes.context.ownership:representation%3A1%3Akubernetes_service_account_v1.mismatch:external%3A1%3Akubernetes.concept.namespace%3A1"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 3
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_service_account_v1.mismatch:emission%3Afab42cc706b31220cd56131339659765d1a2c9d5bc17135442533cbed5d55777",
+          "representation": "representation:1:kubernetes_service_account_v1.mismatch",
+          "emission": "emission:fab42cc706b31220cd56131339659765d1a2c9d5bc17135442533cbed5d55777",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Akubernetes_service_account_v1.mismatch:representation%3A1%3Agoogle_container_cluster.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_service_v1.absent:emission%3A0ccc75b2e7fa79d85e1e3d8d3488ea4e5239e5177905b938ffd287107b9f541f",
+          "representation": "representation:1:kubernetes_service_v1.absent",
+          "emission": "emission:0ccc75b2e7fa79d85e1e3d8d3488ea4e5239e5177905b938ffd287107b9f541f",
+          "outcome": "resolved",
+          "facts": [
+            "context:kubernetes.context.ownership:representation%3A1%3Akubernetes_service_v1.absent:external%3A1%3Akubernetes.concept.namespace%3A0"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 3
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_service_v1.absent:emission%3A99a0ddff991c1bbf48a74d6eb93811a2ec924ba885a472ba862f5d1fdbab09e5",
+          "representation": "representation:1:kubernetes_service_v1.absent",
+          "emission": "emission:99a0ddff991c1bbf48a74d6eb93811a2ec924ba885a472ba862f5d1fdbab09e5",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Akubernetes_service_v1.absent:representation%3A1%3Agoogle_container_cluster.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Akubernetes_service_account_v1.mismatch:declaration%3A1%3Agoogle_container_cluster.runtime",
+          "from": "declaration:1:kubernetes_service_account_v1.mismatch",
+          "to": "declaration:1:google_container_cluster.runtime",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 8,
+        "resources": 8,
+        "data_sources": 0,
+        "instances": 8,
+        "managed_instances": 8,
+        "data_instances": 0,
+        "external_endpoints": 3,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 8,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 11,
+        "closures": 15,
+        "resolved": 11,
+        "absent": 0,
+        "indeterminate": 4,
+        "dependencies": 1,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": [
+    {
+      "id": "diagnostic:73a3bf5af08a9bfe6bef835bc4170a5cccf9f15412da26733dfffbe7e4e1bfca",
+      "phase": "resolution",
+      "severity": "warning",
+      "code": "DUPLICATE_IDENTITY",
+      "message": "Multiple in-scope instances share the matched identity",
+      "stage": "planned",
+      "representation": "representation:1:kubernetes_ingress_v1.ambiguous",
+      "emission": "emission:74b3cabb3a4e516b6b44a05eb28ac5240c2ab264cc1a5ccba4f7e75303166f4e"
+    }
+  ]
+}

@@ -9320,6 +9320,7 @@
       "contexts": [],
       "contributions": [],
       "relations": [
+        "uses-tunnel",
         "uses-tunnel"
       ],
       "proof_url": "https://github.com/cloudflare/terraform-provider-cloudflare/blob/v5.24.0/docs/resources/connectivity_directory_service.md",
@@ -9453,9 +9454,7 @@
         "cloudflare.concept.dns-zone"
       ],
       "contributions": [],
-      "relations": [
-        "routes-to"
-      ],
+      "relations": [],
       "proof_url": "https://github.com/cloudflare/terraform-provider-cloudflare/blob/v5.24.0/docs/resources/custom_hostname_fallback_origin.md",
       "tests": [
         "cloudflare-compiler-scenarios"
@@ -10218,6 +10217,7 @@
       ],
       "contributions": [],
       "relations": [
+        "uses-origin-pool",
         "uses-origin-pool"
       ],
       "proof_url": "https://github.com/cloudflare/terraform-provider-cloudflare/blob/v5.24.0/docs/resources/load_balancer.md",
@@ -10279,9 +10279,7 @@
       ],
       "contexts": [],
       "contributions": [],
-      "relations": [
-        "routes-to"
-      ],
+      "relations": [],
       "proof_url": "https://github.com/cloudflare/terraform-provider-cloudflare/blob/v5.24.0/docs/resources/load_balancer_pool.md",
       "tests": [
         "cloudflare-compiler-scenarios"
@@ -10526,21 +10524,15 @@
       "construct_kind": "managed_resource",
       "product": "cloudflare-wan",
       "family": "network",
-      "status": "rule-present",
-      "reason": "durable-architecture-role",
-      "rootform_concept": "cloudflare.concept.vpn-connection",
-      "rules": [
-        "cloudflare.rule.magic-wan-ipsec-tunnel"
-      ],
+      "status": "no-rule",
+      "reason": "no-independent-architecture-role",
+      "rootform_concept": null,
+      "rules": [],
       "contexts": [],
       "contributions": [],
-      "relations": [
-        "connects-to"
-      ],
+      "relations": [],
       "proof_url": "https://github.com/cloudflare/terraform-provider-cloudflare/blob/v5.24.0/docs/resources/magic_wan_ipsec_tunnel.md",
-      "tests": [
-        "cloudflare-compiler-scenarios"
-      ],
+      "tests": [],
       "semantic_research": "deep"
     },
     {
@@ -11547,9 +11539,7 @@
         "cloudflare.concept.dns-zone"
       ],
       "contributions": [],
-      "relations": [
-        "routes-to"
-      ],
+      "relations": [],
       "proof_url": "https://github.com/cloudflare/terraform-provider-cloudflare/blob/v5.24.0/docs/resources/spectrum_application.md",
       "tests": [
         "cloudflare-compiler-scenarios"
@@ -12355,6 +12345,12 @@
       "contexts": [],
       "contributions": [],
       "relations": [
+        "uses",
+        "uses",
+        "publishes-to",
+        "uses",
+        "uses",
+        "uses",
         "publishes-to",
         "uses"
       ],
@@ -12456,6 +12452,9 @@
       "contexts": [],
       "contributions": [],
       "relations": [
+        "protects",
+        "protects",
+        "protects",
         "protects"
       ],
       "proof_url": "https://github.com/cloudflare/terraform-provider-cloudflare/blob/v5.24.0/docs/resources/zero_trust_access_application.md",

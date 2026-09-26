@@ -4,6 +4,15 @@ rule "vpc" {
   }
 
   as = rf.concept.virtual-network
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "cidr_block"]
+  }
 }
 
 rule "subnet" {
@@ -13,10 +22,29 @@ rule "subnet" {
 
   as = rf.concept.subnet
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -28,9 +56,19 @@ rule "vpc-endpoint" {
   as = concept.private-endpoint
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -40,6 +78,15 @@ rule "ec2-transit-gateway" {
   }
 
   as = concept.transit-gateway
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "ec2-transit-gateway-vpc-attachment" {
@@ -50,14 +97,31 @@ rule "ec2-transit-gateway-vpc-attachment" {
   as = concept.transit-gateway-attachment
 
   contribution {
-    to  = concept.transit-gateway
-    via = source.transit_gateway_id
+    to       = concept.transit-gateway
+    via      = source.transit_gateway_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -69,9 +133,19 @@ rule "route-table" {
   as = concept.route-table
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -83,9 +157,19 @@ rule "security-group" {
   as = concept.security-group
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -97,9 +181,19 @@ rule "network-acl" {
   as = concept.network-acl
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -111,9 +205,19 @@ rule "internet-gateway" {
   as = concept.internet-gateway
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -125,9 +229,19 @@ rule "nat-gateway" {
   as = concept.managed-nat
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.subnet
-    via = source.subnet_id
+    as       = rf.context.network
+    to       = rf.concept.subnet
+    via      = source.subnet_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared subnet instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -138,10 +252,29 @@ rule "vpn-gateway" {
 
   as = concept.vpn-gateway
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -154,14 +287,28 @@ rule "vpn-connection" {
   as = concept.vpn-connection
 
   context {
-    as  = rf.context.network
-    to  = concept.vpn-gateway
-    via = source.vpn_gateway_id
+    as       = rf.context.network
+    to       = concept.vpn-gateway
+    via      = source.vpn_gateway_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = rf.context.network
-    to  = concept.transit-gateway
-    via = source.transit_gateway_id
+    as       = rf.context.network
+    to       = concept.transit-gateway
+    via      = source.transit_gateway_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

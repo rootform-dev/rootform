@@ -133,6 +133,7 @@
     "knowledge-graph-configuration": "generic/entity",
     "machine-learning-configuration": "generic/entity",
     "metrics-scrape-job": "generic/network",
+    "observability-tenant": "generic/scope",
     "oncall-integration": "generic/network",
     "oncall-routing": "generic/entity",
     "performance-test": "generic/entity",

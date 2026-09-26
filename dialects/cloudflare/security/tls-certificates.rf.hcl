@@ -10,8 +10,18 @@ rule "authenticated-origin-pulls" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -23,8 +33,18 @@ rule "authenticated-origin-pulls-certificate" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -36,8 +56,18 @@ rule "authenticated-origin-pulls-hostname-certificate" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -49,8 +79,18 @@ rule "authenticated-origin-pulls-settings" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -62,8 +102,18 @@ rule "certificate-authority-hostname-associations" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -75,8 +125,18 @@ rule "certificate-pack" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -88,8 +148,18 @@ rule "client-certificate" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -101,8 +171,18 @@ rule "certificate-transparency-alerting" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -114,8 +194,18 @@ rule "custom-csr" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -127,8 +217,18 @@ rule "custom-origin-trust-store" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -140,8 +240,18 @@ rule "custom-ssl" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -153,8 +263,18 @@ rule "hostname-tls-setting" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -166,8 +286,18 @@ rule "keyless-certificate" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -195,8 +325,18 @@ rule "origin-tls-compliance-modes" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -208,8 +348,18 @@ rule "total-tls" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -221,8 +371,18 @@ rule "universal-ssl-setting" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -234,7 +394,17 @@ rule "zone-auto-origin-tls-kex" {
   as = concept.tls-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

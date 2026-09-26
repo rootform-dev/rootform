@@ -33,17 +33,17 @@ rootform list policy-packs [flags]
 
 <!-- END GENERATED CLI -->
 
-Create `./policies` as in [Run checks](../../../guides/check-architecture.md)
-before using the explicit pack example. Without that option, `list` reads the
-current project's selection.
+From a checkout of the repository, inspect the public baseline Pack without
+changing the project's selection.
 
 <!-- docs-check:cli-list-packs -->
 ```sh
-rootform list policy-packs --policy-pack ./policies -o wide
-rootform list policy-packs -o json
+rootform list policy-packs --policy-pack ./policy-packs/baseline -o wide
+rootform list policy-packs --policy-pack ./policy-packs/baseline -o json
 ```
 
-Default output is one name per line. `-o wide` adds version and policy count.
+The wide row reads `baseline`, version `0.1.0`, and two Policies. Default
+output is one name per line. `-o wide` adds version and policy count.
 `-o json` includes exact version and content digest. Output goes to standard
 output, diagnostics to standard error. Status `0` means listed, `2` means
 incorrect use, and `3` means selected definitions could not be read. Use

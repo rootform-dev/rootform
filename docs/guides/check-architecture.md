@@ -1,18 +1,17 @@
 ---
 title: "Run checks"
-description: "Evaluate a known architecture with a local Policy Pack, distinguish every outcome, and inspect its evidence."
+description: "Evaluate selected policies against a plan or state architecture."
 ---
 
-Start from a fresh copy of [Your first architecture](../getting-started/first-architecture.md).
-Its `main.tf` must contain the VPC and application subnet shown there, without
-files left by another guide. Run every command below from the
-`rootform-first-architecture` directory.
+Follow one Policy through a pass, a violation, indeterminate evidence, and no target. You need Rootform, Terraform or OpenTofu, and the AWS provider download for planning. Work from a new `network-review/` directory. The `pass/`, `violation/`, and `no-target/` directories hold separate scenarios; `policies/` holds one local Policy Pack.
 
-This guide uses one local [Policy Pack](../concepts/policies.md) in `policies/`.
-The pack is selected explicitly for each check and does not require a
-`rootform.lock`.
+Plans, their JSON exports, and state files can contain secrets in clear text. Keep them out of Git and public artifacts. Rootform reads them locally and does not contact AWS. Its reports omit sensitive values but still describe topology and names.
 
-## Create the Policy Pack
+<!-- rootform:steps -->
+
+## Write one Policy Pack
+
+Create the Pack manifest and one Policy under `policies/`:
 
 ```rf title="policies/pack.rf.hcl"
 policy_pack "tutorial" {
@@ -20,201 +19,24 @@ policy_pack "tutorial" {
 }
 ```
 
-```rf title="policies/subnet-network-context.rf.hcl"
-policy "subnet-network-context" {
+```rf title="policies/network-context.rf.hcl"
+policy "network-context" {
   target {
-    concept = rf.concept.subnet
+    rules = [aws.rule.subnet, aws.rule.instance]
   }
 
-  assert = exists(contexts(rf.context.network, rf.concept.virtual-network))
-  message = "Subnets must have an established virtual network context."
+  assert  = exists(contexts(rf.context.network))
+  message = "Network resources must have an established network context."
 }
 ```
 
-The Policy evaluates every Representation classified as a subnet. It passes
-only when Rootform has established at least one virtual network Context for
-that target. See [Write a Policy Pack](../language/write-policy-pack.md) for
-authoring beyond this example.
+The target selects instances interpreted by either named AWS Rule. The assertion asks whether each selected instance has a proven network Context. A source reference alone cannot satisfy it. [Write a Policy Pack](../language/write-policy-pack.md) covers the syntax beyond this example.
 
-## Evaluate locally
+## Prepare the three plans
 
-<!-- docs-check:policy-local -->
-```sh
-rootform check . --policy-pack ./policies
-```
+Use the same AWS provider configuration in each scenario. As in [Your first architecture](../getting-started/first-architecture.md), placeholder credentials grant no account access and skipped validation lets these examples plan without an AWS account. Never copy these placeholder settings into a real project. In each directory, save this provider block as `provider.tf`:
 
-```text title="Passed check"
-Policies compliant
-
-Policies     1 selected
-Evaluations  1
-Results      1 passed
-```
-
-One Policy was selected, its target matched `aws_subnet.application`, and its
-assertion passed. Status `0` means every selected Policy was evaluated and
-passed.
-
-Save the architecture used by later evidence commands:
-
-<!-- docs-check:policy-architecture -->
-```sh
-rootform build . --output architecture.json
-```
-
-## Require an explicit subnet for instances
-
-Suppose your team requires every EC2 instance to declare a resolvable subnet
-reference. The AWS provider 6.62.0 defines
-[`aws_instance.subnet_id`](https://registry.terraform.io/providers/hashicorp/aws/6.62.0/docs/resources/instance#subnet_id-1)
-as optional, so this is a team convention about facts declared in source. It
-does not claim that an instance without this argument has no network at
-runtime.
-
-Add a separate Policy for that convention:
-
-```rf title="policies/instance-explicit-subnet-context.rf.hcl"
-policy "instance-explicit-subnet-context" {
-  target {
-    concept = aws.concept.compute-instance
-  }
-
-  assert = exists(contexts(rf.context.network, rf.concept.subnet))
-  message = "Instances must declare a resolvable subnet reference."
-}
-```
-
-Create two valid `aws_instance` resources. One refers to the tutorial subnet,
-while the other uses the provider's permitted omission:
-
-```hcl title="instances.tf"
-resource "aws_instance" "attached" {
-  ami           = "ami-0123456789abcdef0"
-  instance_type = "t3.micro"
-  subnet_id     = aws_subnet.application.id
-}
-
-resource "aws_instance" "implicit" {
-  ami           = "ami-0123456789abcdef0"
-  instance_type = "t3.micro"
-}
-```
-
-<!-- docs-check:policy-violation -->
-```sh
-rootform check . --policy-pack ./policies
-```
-
-```text title="Mixed check with violation"
-Policies violated
-
-Policies     2 selected
-Evaluations  3
-Results      2 passed, 1 violated
-
-VIOLATED
-
-tutorial.policy.instance-explicit-subnet-context
-  Instances must declare a resolvable subnet reference.
-  Target  aws_instance.implicit
-  Source  instances.tf:7
-```
-
-The subnet Policy still passes. The explicit reference from
-`aws_instance.attached` resolves to `aws_subnet.application`, so the instance
-Policy also passes for that target. Rootform can prove that
-`aws_instance.implicit` omits the declared subnet fact, so the team Policy is
-violated and the mixed result returns status `1`. A confirmed violation takes
-priority over indeterminate or not-evaluated results in the same check.
-
-Inspect why Rootform considered the fact absent:
-
-<!-- docs-check:policy-violation-explain -->
-```sh
-rootform explain architecture aws_instance.implicit
-```
-
-```ansi title="Proven omission"
-[1maws_instance.implicit[0m
-
-[2mConcept[0m  aws.concept.compute-instance "implicit"
-[2mRule[0m     aws.rule.instance
-[2mDefined[0m  instances.tf:7
-
-[1m[38;5;208mOmitted facts[0m
-[2m  rf.context.network[0m  rf.concept.subnet
-                      not declared in source
-```
-
-Remove only the instance scenario file before testing unresolved evidence. Keep
-the instance Policy for the next check:
-
-<!-- docs-check:policy-remove-violation -->
-```sh
-rm instances.tf
-```
-
-## Keep unresolved evidence indeterminate
-
-Create an instance whose `subnet_id` is a literal rather than a resolvable
-reference:
-
-```hcl title="unresolved-instance.tf"
-resource "aws_instance" "unresolved" {
-  ami           = "ami-0123456789abcdef0"
-  instance_type = "t3.micro"
-  subnet_id     = "subnet-0123456789abcdef0"
-}
-```
-
-<!-- docs-check:policy-indeterminate -->
-```sh
-rootform check . --policy-pack ./policies
-```
-
-```text title="Mixed indeterminate check"
-Policies indeterminate
-
-Policies     2 selected
-Evaluations  2
-Results      1 passed, 1 indeterminate
-```
-
-The subnet Policy still passes for `aws_subnet.application`. Rootform cannot
-resolve the instance's literal subnet reference, so it does not fabricate a
-violation from missing proof. The result returns status `3`.
-
-Restore the initial source again:
-
-<!-- docs-check:policy-remove-indeterminate -->
-```sh
-rm unresolved-instance.tf
-rm policies/instance-explicit-subnet-context.rf.hcl
-```
-
-## Distinguish no selection from no target
-
-Running without a selected pack evaluates nothing:
-
-<!-- docs-check:policy-none -->
-```sh
-rootform check .
-```
-
-```text title="No Policy Pack selected"
-Policies not evaluated
-
-Policies     0 selected
-Evaluations  0
-
-No policy was selected.
-```
-
-This returns status `3`, never compliance. A selected Policy can also have no
-matching target. To reproduce that distinct case, create an architecture with
-only a VPC:
-
-```hcl title="no-subnet/main.tf"
+```hcl title="provider.tf"
 terraform {
   required_providers {
     aws = {
@@ -224,116 +46,211 @@ terraform {
   }
 }
 
-resource "aws_vpc" "only" {
-  cidr_block = "10.30.0.0/16"
+provider "aws" {
+  region                      = "us-east-1"
+  access_key                  = "example"
+  secret_key                  = "example"
+  max_retries                 = 1
+  skip_credentials_validation = true
+  skip_metadata_api_check     = true
+  skip_region_validation      = true
+  skip_requesting_account_id  = true
 }
 ```
 
-<!-- docs-check:policy-no-target -->
+For the passing case, save these three connected resources:
+
+```hcl title="pass/main.tf"
+resource "aws_vpc" "main" {
+  cidr_block = "10.20.0.0/16"
+}
+
+resource "aws_subnet" "application" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = "10.20.1.0/24"
+}
+
+resource "aws_instance" "application" {
+  ami           = "ami-0123456789abcdef0"
+  instance_type = "t3.micro"
+  subnet_id     = aws_subnet.application.id
+}
+```
+
+The violation has a subnet with an explicitly empty VPC ID. Terraform can export this plan, but the declaration cannot establish the required network Context. Do not apply this synthetic plan:
+
+```hcl title="violation/main.tf"
+resource "aws_subnet" "application" {
+  vpc_id     = ""
+  cidr_block = "10.20.1.0/24"
+}
+```
+
+The no-target case has only a VPC, so neither Policy target Rule applies:
+
+```hcl title="no-target/main.tf"
+resource "aws_vpc" "main" {
+  cidr_block = "10.20.0.0/16"
+}
+```
+
+Initialize and save a plan in each scenario, then export JSON from that exact saved plan. OpenTofu users replace `terraform` with `tofu` in these commands:
+
 ```sh
-rootform check ./no-subnet --policy-pack ./policies
+for scenario in pass violation no-target; do
+  (cd "$scenario" && terraform init -input=false && \
+    terraform plan -out=plan.tfplan && \
+    terraform show -json plan.tfplan > plan.json)
+done
 ```
 
-```text title="Selected Policy without a target"
-Policies not evaluated
+Each directory now contains matching `plan.tfplan` and `plan.json`. If Terraform or OpenTofu rejects a scenario before writing the saved plan, inspect its diagnostic; Rootform cannot analyze a plan that was never exported. [Plan inputs](../inputs/plans.md) explains the input boundary.
 
-Policies     1 selected
-Evaluations  0
-Results      1 not evaluated
+## Observe a pass
 
-NOT EVALUATED
+Run from `network-review/`. Pairing the saved plan lets Rootform follow direct `vpc_id` and `subnet_id` traversals even though their values are unknown until apply. `--policy-pack` selects this Pack for this invocation; selecting a Dialect alone would not select it.
 
-tutorial.policy.subnet-network-context
-  Subnets must have an established virtual network context.
-  Reason  no matching target in this architecture
-```
-
-The pack and Policy were selected, but no subnet matched its target. Status is
-still `3`. Restore the workspace by removing only the scenario files:
-
-<!-- docs-check:policy-remove-no-target -->
+<!-- docs-check:check-architecture-pass -->
 ```sh
-rm no-subnet/main.tf
-rmdir no-subnet
+rootform run pass/plan.json --plan-file pass/plan.tfplan \
+  --policy-pack ./policies --no-serve \
+  -o pass/analysis.json -o pass/results.sarif --color always
 ```
 
-## Inspect definition, result, and architecture evidence
+<!-- docs-output:check-architecture-pass -->
+```ansi title="Passing result, excerpt"
+[2mPolicies[0m      passed
 
-Show the Policy definition selected from local source:
+[1m[38;5;208mPolicies · planned[0m
+  [2mResult[0m     passed
+  [2mEvaluated[0m  1 policy over 2 targets: 2 passed, 0 violated, 0 indeterminate
+```
 
-<!-- docs-check:policy-show -->
+Status `0` here means both selected targets passed. The VPC itself is not a target. `pass/analysis.json` is a Rootform document preserving the interpreted architecture; `pass/results.sarif` records explicit evaluations and diagnostics for review tools. The files do not contain sensitive plan values. If either Context stays indeterminate, confirm that `--plan-file` names the saved plan used for the JSON export.
+
+## Inspect the proof
+
+Ask why the instance has a network Context. The saved document avoids recompiling the plan:
+
+<!-- docs-check:check-architecture-explain-architecture -->
 ```sh
-rootform show policy tutorial.policy.subnet-network-context --policy-pack ./policies
+rootform explain architecture aws_instance.application \
+  --input pass/analysis.json --color always
 ```
 
-Save structured evaluation result:
+<!-- docs-output:check-architecture-explain-architecture -->
+```ansi title="Instance evidence, excerpt"
+[1maws_instance.application  [2mat the planned stage[0m[0m
+[2mInstance[0m        managed instance of aws_instance; planned (create)
+[2mProvider[0m        registry.terraform.io/hashicorp/aws
+[2mInterpretation[0m  applied aws.rule.instance as compute-instance
 
-<!-- docs-check:policy-json -->
+[1m[38;5;208mFacts[0m
+  → context network  aws_subnet.application  [2mevidence: traversal[0m
+
+[1m[38;5;208mClosures[0m
+  [32m•[0m context network → subnet  via source.subnet_id, match exact by id  [2mresolved, 1 fact[0m
+```
+
+The `traversal` label identifies saved-plan evidence, not a network probe. Explain the Policy against the same saved stage:
+
+<!-- docs-check:check-architecture-explain-policy -->
 ```sh
-rootform check . --policy-pack ./policies --format json --output policy-result.json
+rootform explain policy tutorial.policy.network-context \
+  --policy-pack ./policies --input pass/analysis.json --color always
 ```
 
-The JSON result records selected Policies, each target and outcome, inspected
-fact IDs, diagnostics, and violation details. Explain architectural evidence
-separately from the saved architecture:
+<!-- docs-output:check-architecture-explain-policy -->
+```ansi title="Policy explanation, excerpt"
+[1m[32mtutorial.policy.network-context: passed[0m
+[2mStage[0m     planned
+[2mTargets[0m   2: 2 passed, 0 violated, 0 indeterminate
+[2mCoverage[0m  complete
+[2mTarget[0m    aws.rule.instance, aws.rule.subnet
+```
 
-<!-- docs-check:policy-explain-architecture -->
+The explanation shows both target evaluations. [Explain a Policy](../reference/cli/explain/policy.md) defines its accepted inputs and flags.
+
+## Distinguish a violation
+
+Run the same Policy on the explicit empty VPC ID:
+
+<!-- docs-check:check-architecture-violation -->
 ```sh
-rootform explain architecture aws_subnet.application --input architecture.json
+rootform run violation/plan.json --plan-file violation/plan.tfplan \
+  --policy-pack ./policies --no-serve --color always
 ```
 
-`show policy` displays authored target, assertion, message, and source.
-`explain architecture` traces established facts and provenance.
-`explain policy` explains one evaluation: the authored target and assertion,
-then the outcome for each evaluated Representation. It reads the architecture
-from the current directory or from `--input`, and the Policy Pack from the
-project selection or from `--policy-pack`:
+<!-- docs-output:check-architecture-violation -->
+```ansi title="Violation, excerpt"
+[1m[38;5;208mArchitecture · planned[0m
+  [2mClosures[0m     1: 0 resolved, 1 absent, 0 indeterminate
 
-<!-- docs-check:policy-explain-policy -->
+[1m[38;5;208mPolicies · planned[0m
+  [2mResult[0m     violated
+  [2mEvaluated[0m  1 policy over 1 target: 0 passed, 1 violated, 0 indeterminate
+  [31m✗[0m aws_subnet.application  [2mtutorial/network-context: Network resources must have an established network context.[0m
+```
+
+The closure is `absent`: a known empty value proves that this subnet has no declared target for the Rule's network emission. The Policy therefore violates and returns status `1`. This says nothing about a deployed subnet; the scenario is an unapplied plan.
+
+## Keep unresolved evidence indeterminate
+
+Run the passing plan again, this time without its saved plan:
+
+<!-- docs-check:check-architecture-indeterminate -->
 ```sh
-rootform explain policy tutorial.policy.subnet-network-context \
-  --policy-pack ./policies --input architecture.json
+rootform run pass/plan.json --policy-pack ./policies --no-serve --color always
 ```
 
-```text title="Policy explanation"
-tutorial.policy.subnet-network-context
+<!-- docs-output:check-architecture-indeterminate -->
+```ansi title="Indeterminate result, excerpt"
+[1m[38;5;208mArchitecture · planned[0m
+  [2mClosures[0m     2: 0 resolved, 0 absent, 2 indeterminate
 
-Target     rf.concept.subnet
-Assertion  exists(contexts(rf.context.network, rf.concept.virtual-network))
-Message    Subnets must have an established virtual network context.
-Defined    subnet-network-context.rf.hcl:1
+[1m[38;5;208mUncertainty · planned[0m
+  [2mClosures[0m  2 unknown until apply
 
-Evaluations
-  passed  aws_subnet.application
+[1m[38;5;208mPolicies · planned[0m
+  [2mResult[0m     indeterminate
+  [2mEvaluated[0m  1 policy over 2 targets: 0 passed, 0 violated, 2 indeterminate
 ```
 
-Without `--input`, the command builds the current directory first. See the
-[exact reference](../reference/cli/explain/policy.md) for its flags and status.
+The plan values for the new VPC and subnet IDs are unknown until apply. Without verified traversals, Rootform cannot prove either connection or its absence. Status `3` prevents an uncertain result from becoming approval. The saved plan is optional for analysis, but matters to this Policy verdict.
 
-## Use in CI
+## Separate no target from no selection
 
-Use JSON for automation or SARIF for a compatible code-review surface:
+The same selected Policy finds no subnet or instance in the VPC-only plan:
 
-<!-- docs-check:docs-guides-check-architecture-1 -->
+<!-- docs-check:check-architecture-no-target -->
 ```sh
-rootform check . --policy-pack ./policies --format sarif \
-  --output policy-result.sarif
+rootform run no-target/plan.json --plan-file no-target/plan.tfplan \
+  --policy-pack ./policies --no-serve --color always
 ```
 
-Review the selected Policy count and evaluation coverage with status. Invalid
-command use returns `2`. See [Outputs and exit status](../reference/outputs.md)
-for the full command matrix.
+<!-- docs-output:check-architecture-no-target -->
+```ansi title="No target, excerpt"
+[1m[38;5;208mPolicies · planned[0m
+  [2mResult[0m     no decision
+  [2mEvaluated[0m  1 policy over 0 targets: 0 passed, 0 violated, 0 indeterminate
+  [2mNo target[0m  1 policy found nothing to evaluate
+```
 
-To keep this pack selected for the project, record it from the project root:
+Status `3` means the selected Policy made no decision. Without any Policy selection, a successful `run` exits `0` and explicitly says none was evaluated; that status is analysis success, not compliance. [Policies and Policy Packs](../concepts/policies.md#read-the-aggregate-decision) explains aggregation.
 
-<!-- docs-check:policy-adopt-pack -->
+## Use the same gate in CI
+
+The local Pack is an invocation override. To record it as project selection, run these commands from `network-review/`:
+
+<!-- docs-check:check-architecture-lock -->
 ```sh
 rootform add policy-packs ./policies
+rootform run pass/plan.json --plan-file pass/plan.tfplan \
+  --locked --policy 'tutorial/*' --no-serve -o pass/locked.sarif
 ```
 
-Commit `rootform.lock` with the pack source. Later checks use that selection
-without `--policy-pack`. See [Add external
-content](external-content.md). Continue with [Run in
-CI](../integrations/ci/README.md) or [GitHub
-Actions](../integrations/github-actions.md) when the local results are ready for
-automation.
+The first command updates `rootform.lock`; the second evaluates the selected Policy from that lock and returns status `0` for this passing plan. Commit the lock with the project once reviewed. `--locked` refuses `--policy-pack` as a usage error, so CI cannot silently override the recorded selection. [CI integration](../integrations/ci/README.md) shows the gate and artifact handling; [Outputs and exit status](../reference/outputs.md) is the status reference.
+
+<!-- rootform:endsteps -->
+
+Continue with [Review a pull request](../workflows/index.md) to apply these Policies to the head of a pull request, or with [GitHub Actions](../integrations/github-actions.md) to run the same gate in a workflow.

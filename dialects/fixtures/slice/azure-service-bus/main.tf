@@ -4,7 +4,7 @@ terraform {
   }
 }
 
-variable "unknown_id" { type = string }
+resource "terraform_data" "unknown_id" {}
 
 resource "azurerm_resource_group" "messaging" {
   name     = "messaging"
@@ -36,22 +36,22 @@ resource "azurerm_servicebus_subscription" "worker" {
 
 resource "azurerm_servicebus_queue" "literal" {
   name         = "literal"
-  namespace_id = "/subscriptions/example/namespaces/platform"
+  namespace_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.ServiceBus/namespaces/fx-literal-namespace-id"
 }
 
 resource "azurerm_servicebus_queue" "unknown" {
   name         = "unknown"
-  namespace_id = var.unknown_id
+  namespace_id = terraform_data.unknown_id.id
 }
 
 resource "azurerm_servicebus_subscription" "literal" {
   name               = "literal"
-  topic_id           = "/subscriptions/example/topics/events"
+  topic_id           = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.ServiceBus/namespaces/fx-namespace/topics/fx-literal-topic-id"
   max_delivery_count = 10
 }
 
 resource "azurerm_servicebus_subscription" "unknown" {
   name               = "unknown"
-  topic_id           = var.unknown_id
+  topic_id           = terraform_data.unknown_id.id
   max_delivery_count = 10
 }

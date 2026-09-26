@@ -1,0 +1,2624 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:c4f368f2d31583b2d9af347f6e4f0511b14d4e57303c7bbd03a8052cbb501803",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:c4f368f2d31583b2d9af347f6e4f0511b14d4e57303c7bbd03a8052cbb501803",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:cc4875cd08488d87263aefc27ee7afae00c34d67ba909f85ca19f0a68f19fc1d",
+          "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:382d380e6f27543ac44621bd22aa5bc44747aa9bd5ae035466ae8abaa408be0e",
+          "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4f519fc0ea1d821b18b0fa909f76316853adf6e02a28ebe4c498de2a320c6769",
+          "semantic_digest": "sha256:890d96f98a1127fc85fd8b6b3619e9868d9616f3caad31ffa5162a511e3ec282"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:214678902975a94ec4a4807bf7200421ef146ae93dabfb236ccd04d809f193b3",
+          "semantic_digest": "sha256:d3fa2cacb39d4715a25ad256c9f9ecb93a1ed5dff4a162348660fb36cdd019b8"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e428c14993e60d35ff1e9a037ba855bc74a98df4e79f6a23d2afb028b26c4b2e",
+          "semantic_digest": "sha256:6711b8d6eff7a347ab1dec160c9d2422f15a8718c592affbb4d02eee7292682d"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9ce33af4d529ded73f03da160af6ada26f0a53433bd8fc87d3bd3890f653f5b2",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+          "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cc4875cd08488d87263aefc27ee7afae00c34d67ba909f85ca19f0a68f19fc1d",
+        "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:382d380e6f27543ac44621bd22aa5bc44747aa9bd5ae035466ae8abaa408be0e",
+        "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4f519fc0ea1d821b18b0fa909f76316853adf6e02a28ebe4c498de2a320c6769",
+        "semantic_digest": "sha256:890d96f98a1127fc85fd8b6b3619e9868d9616f3caad31ffa5162a511e3ec282",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:214678902975a94ec4a4807bf7200421ef146ae93dabfb236ccd04d809f193b3",
+        "semantic_digest": "sha256:d3fa2cacb39d4715a25ad256c9f9ecb93a1ed5dff4a162348660fb36cdd019b8",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e428c14993e60d35ff1e9a037ba855bc74a98df4e79f6a23d2afb028b26c4b2e",
+        "semantic_digest": "sha256:6711b8d6eff7a347ab1dec160c9d2422f15a8718c592affbb4d02eee7292682d",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9ce33af4d529ded73f03da160af6ada26f0a53433bd8fc87d3bd3890f653f5b2",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+        "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "google.concept.cloud-run-job",
+        "owner": "google",
+        "name": "cloud-run-job",
+        "description": "A Cloud Run job that runs tasks to completion."
+      },
+      {
+        "id": "google.concept.cloud-run-service",
+        "owner": "google",
+        "name": "cloud-run-service",
+        "description": "A Cloud Run service that handles requests or events on managed container instances."
+      },
+      {
+        "id": "google.concept.google-cloud-project",
+        "owner": "google",
+        "name": "google-cloud-project",
+        "description": "A Google Cloud project serving as a resource and billing boundary."
+      },
+      {
+        "id": "google.concept.serverless-vpc-access-connector",
+        "owner": "google",
+        "name": "serverless-vpc-access-connector",
+        "description": "A Serverless VPC Access connector bridging serverless workloads to a VPC network."
+      },
+      {
+        "id": "rf.concept.service-identity",
+        "owner": "rf",
+        "name": "service-identity",
+        "description": "A principal explicitly intended for a non-human service or workload, excluding generic roles, permissions, bindings, and credentials."
+      },
+      {
+        "id": "rf.concept.subnet",
+        "owner": "rf",
+        "name": "subnet",
+        "description": "A declared native subnet, not a CIDR literal."
+      },
+      {
+        "id": "rf.concept.virtual-network",
+        "owner": "rf",
+        "name": "virtual-network",
+        "description": "An explicitly declared virtual network."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "google.context.ownership",
+        "owner": "google",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      },
+      {
+        "id": "rf.context.network",
+        "owner": "rf",
+        "name": "network",
+        "description": "A declared network attachment without a connectivity guarantee."
+      }
+    ],
+    "relations": [
+      {
+        "id": "google.relation.routes-to",
+        "owner": "google",
+        "name": "routes-to"
+      },
+      {
+        "id": "google.relation.runs-as",
+        "owner": "google",
+        "name": "runs-as"
+      }
+    ],
+    "rules": [
+      {
+        "id": "google.rule.cloud-run-job",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_cloud_run_v2_job",
+        "concept": "google.concept.cloud-run-job",
+        "emissions": [
+          "emission:4cf842f2c173db4cc998e6ef8dcc0807d1f86877c0c3aacd57c3978e66164551"
+        ]
+      },
+      {
+        "id": "google.rule.cloud-run-service",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_cloud_run_v2_service",
+        "concept": "google.concept.cloud-run-service",
+        "identity": {
+          "attributes": [
+            "id",
+            "uri"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "uri"
+          ]
+        },
+        "emissions": [
+          "emission:7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+          "emission:842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+          "emission:bc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+          "emission:ca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+          "emission:dcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff"
+        ]
+      },
+      {
+        "id": "google.rule.google-cloud-project",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_project",
+        "concept": "google.concept.google-cloud-project",
+        "identity": {
+          "attributes": [
+            "project_id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "project_id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "google.rule.iam-service-account",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_service_account",
+        "concept": "rf.concept.service-identity",
+        "identity": {
+          "attributes": [
+            "email",
+            "id"
+          ],
+          "scope": "global"
+        },
+        "endpoint": {
+          "attributes": [
+            "email",
+            "id",
+            "member",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        ]
+      },
+      {
+        "id": "google.rule.serverless-vpc-access-connector",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_vpc_access_connector",
+        "concept": "google.concept.serverless-vpc-access-connector",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "self_link"
+          ]
+        },
+        "emissions": [
+          "emission:c40f57e604ca72fe3d2147ce33c32f47860e9d08233226fb79ae55659643af86",
+          "emission:eca0f8db4e351be3b36c37bed22887170604c62d6dee0e64f74b3a35f4d5299f",
+          "emission:fa870c5a1d8f843f76b02387285140c544a9420d33ccdb30717dc4c4dd676201"
+        ]
+      },
+      {
+        "id": "google.rule.vpc-network",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_compute_network",
+        "concept": "rf.concept.virtual-network",
+        "identity": {
+          "attributes": [
+            "id",
+            "name",
+            "self_link"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name",
+            "self_link"
+          ]
+        },
+        "emissions": [
+          "emission:1ba66f02835f359348e7d06179cd9a61dd876dcc3cfec498a7ece4d531ce81f5"
+        ]
+      },
+      {
+        "id": "google.rule.vpc-subnetwork",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_compute_subnetwork",
+        "concept": "rf.concept.subnet",
+        "identity": {
+          "attributes": [
+            "id",
+            "name",
+            "self_link"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name",
+            "self_link"
+          ]
+        },
+        "emissions": [
+          "emission:69c00538c9216cd5ea94ca2d4a36d1c1653590d068b12ec87c0e1408c12d0943",
+          "emission:b78802715be4b6b3e38613fd67c9b8f71bd9b2e191e968c8cbccdc9c932af2b2"
+        ]
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:1ba66f02835f359348e7d06179cd9a61dd876dcc3cfec498a7ece4d531ce81f5",
+        "rule": "google.rule.vpc-network",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.google-cloud-project"
+        },
+        "dimension": "google.context.ownership",
+        "via": "source.project",
+        "match": {
+          "by": [
+            "project_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:4cf842f2c173db4cc998e6ef8dcc0807d1f86877c0c3aacd57c3978e66164551",
+        "rule": "google.rule.cloud-run-job",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.google-cloud-project"
+        },
+        "dimension": "google.context.ownership",
+        "via": "source.project",
+        "match": {
+          "by": [
+            "project_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226",
+        "rule": "google.rule.iam-service-account",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.google-cloud-project"
+        },
+        "dimension": "google.context.ownership",
+        "via": "source.project",
+        "match": {
+          "by": [
+            "project_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:69c00538c9216cd5ea94ca2d4a36d1c1653590d068b12ec87c0e1408c12d0943",
+        "rule": "google.rule.vpc-subnetwork",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.google-cloud-project"
+        },
+        "dimension": "google.context.ownership",
+        "via": "source.project",
+        "match": {
+          "by": [
+            "project_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+        "rule": "google.rule.cloud-run-service",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.service-identity"
+        },
+        "predicate": "google.relation.runs-as",
+        "via": "source.template[0].service_account",
+        "match": {
+          "by": [
+            "email"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+        "rule": "google.rule.cloud-run-service",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.template[0].vpc_access[0].network_interfaces[0].network",
+        "match": {
+          "by": [
+            "id",
+            "self_link",
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:b78802715be4b6b3e38613fd67c9b8f71bd9b2e191e968c8cbccdc9c932af2b2",
+        "rule": "google.rule.vpc-subnetwork",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.network",
+        "match": {
+          "by": [
+            "id",
+            "self_link",
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:bc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+        "rule": "google.rule.cloud-run-service",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.google-cloud-project"
+        },
+        "dimension": "google.context.ownership",
+        "via": "source.project",
+        "match": {
+          "by": [
+            "project_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:c40f57e604ca72fe3d2147ce33c32f47860e9d08233226fb79ae55659643af86",
+        "rule": "google.rule.serverless-vpc-access-connector",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.subnet"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.subnet[0].name",
+        "match": {
+          "by": [
+            "name",
+            "id",
+            "self_link"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:ca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+        "rule": "google.rule.cloud-run-service",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.serverless-vpc-access-connector"
+        },
+        "predicate": "google.relation.routes-to",
+        "via": "source.template[0].vpc_access[0].connector",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:dcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff",
+        "rule": "google.rule.cloud-run-service",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.subnet"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.template[0].vpc_access[0].network_interfaces[0].subnetwork",
+        "match": {
+          "by": [
+            "id",
+            "self_link",
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:eca0f8db4e351be3b36c37bed22887170604c62d6dee0e64f74b3a35f4d5299f",
+        "rule": "google.rule.serverless-vpc-access-connector",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.google-cloud-project"
+        },
+        "dimension": "google.context.ownership",
+        "via": "source.project",
+        "match": {
+          "by": [
+            "project_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:fa870c5a1d8f843f76b02387285140c544a9420d33ccdb30717dc4c4dd676201",
+        "rule": "google.rule.serverless-vpc-access-connector",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.network",
+        "match": {
+          "by": [
+            "id",
+            "self_link",
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:google_cloud_run_v2_job.migration",
+          "kind": "resource",
+          "type": "google_cloud_run_v2_job",
+          "name": "migration",
+          "address": "google_cloud_run_v2_job.migration",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_cloud_run_v2_service.api",
+          "kind": "resource",
+          "type": "google_cloud_run_v2_service",
+          "name": "api",
+          "address": "google_cloud_run_v2_service.api",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_cloud_run_v2_service.connector",
+          "kind": "resource",
+          "type": "google_cloud_run_v2_service",
+          "name": "connector",
+          "address": "google_cloud_run_v2_service.connector",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_cloud_run_v2_service.literal",
+          "kind": "resource",
+          "type": "google_cloud_run_v2_service",
+          "name": "literal",
+          "address": "google_cloud_run_v2_service.literal",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_cloud_run_v2_service.unknown",
+          "kind": "resource",
+          "type": "google_cloud_run_v2_service",
+          "name": "unknown",
+          "address": "google_cloud_run_v2_service.unknown",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_compute_network.runtime",
+          "kind": "resource",
+          "type": "google_compute_network",
+          "name": "runtime",
+          "address": "google_compute_network.runtime",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_compute_subnetwork.runtime",
+          "kind": "resource",
+          "type": "google_compute_subnetwork",
+          "name": "runtime",
+          "address": "google_compute_subnetwork.runtime",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_project.duplicate_a",
+          "kind": "resource",
+          "type": "google_project",
+          "name": "duplicate_a",
+          "address": "google_project.duplicate_a",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_project.duplicate_b",
+          "kind": "resource",
+          "type": "google_project",
+          "name": "duplicate_b",
+          "address": "google_project.duplicate_b",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_project.platform",
+          "kind": "resource",
+          "type": "google_project",
+          "name": "platform",
+          "address": "google_project.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_service_account.runtime",
+          "kind": "resource",
+          "type": "google_service_account",
+          "name": "runtime",
+          "address": "google_service_account.runtime",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_vpc_access_connector.runtime",
+          "kind": "resource",
+          "type": "google_vpc_access_connector",
+          "name": "runtime",
+          "address": "google_vpc_access_connector.runtime",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.unknown_connector",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "unknown_connector",
+          "address": "terraform_data.unknown_connector",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.unknown_project",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "unknown_project",
+          "address": "terraform_data.unknown_project",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.unknown_service_account",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "unknown_service_account",
+          "address": "terraform_data.unknown_service_account",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "external:1:google.concept.google-cloud-project:0",
+          "kind": "external",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "external",
+          "actions": [],
+          "concept": "google.concept.google-cloud-project",
+          "implementation": {
+            "kind": "direct"
+          },
+          "disclosure": "none",
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_cloud_run_v2_job.migration",
+          "kind": "managed",
+          "declaration": "declaration:1:google_cloud_run_v2_job.migration",
+          "address": "google_cloud_run_v2_job.migration",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.cloud-run-job"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.cloud-run-job",
+          "concept": "google.concept.cloud-run-job",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_cloud_run_v2_service.api",
+          "kind": "managed",
+          "declaration": "declaration:1:google_cloud_run_v2_service.api",
+          "address": "google_cloud_run_v2_service.api",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.cloud-run-service"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.cloud-run-service",
+          "concept": "google.concept.cloud-run-service",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_cloud_run_v2_service.connector",
+          "kind": "managed",
+          "declaration": "declaration:1:google_cloud_run_v2_service.connector",
+          "address": "google_cloud_run_v2_service.connector",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.cloud-run-service"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.cloud-run-service",
+          "concept": "google.concept.cloud-run-service",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_cloud_run_v2_service.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:google_cloud_run_v2_service.literal",
+          "address": "google_cloud_run_v2_service.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.cloud-run-service"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.cloud-run-service",
+          "concept": "google.concept.cloud-run-service",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": [
+            "diagnostic:c88a4b31e3b6c07bf91f9cf1b8897ddbb8aef58a908c64a5b7cc1108a5258acf"
+          ]
+        },
+        {
+          "id": "representation:1:google_cloud_run_v2_service.unknown",
+          "kind": "managed",
+          "declaration": "declaration:1:google_cloud_run_v2_service.unknown",
+          "address": "google_cloud_run_v2_service.unknown",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.cloud-run-service"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.cloud-run-service",
+          "concept": "google.concept.cloud-run-service",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_compute_network.runtime",
+          "kind": "managed",
+          "declaration": "declaration:1:google_compute_network.runtime",
+          "address": "google_compute_network.runtime",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.vpc-network"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.vpc-network",
+          "concept": "rf.concept.virtual-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_compute_subnetwork.runtime",
+          "kind": "managed",
+          "declaration": "declaration:1:google_compute_subnetwork.runtime",
+          "address": "google_compute_subnetwork.runtime",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.vpc-subnetwork"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.vpc-subnetwork",
+          "concept": "rf.concept.subnet",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_project.duplicate_a",
+          "kind": "managed",
+          "declaration": "declaration:1:google_project.duplicate_a",
+          "address": "google_project.duplicate_a",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.google-cloud-project"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.google-cloud-project",
+          "concept": "google.concept.google-cloud-project",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_project.duplicate_b",
+          "kind": "managed",
+          "declaration": "declaration:1:google_project.duplicate_b",
+          "address": "google_project.duplicate_b",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.google-cloud-project"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.google-cloud-project",
+          "concept": "google.concept.google-cloud-project",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_project.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:google_project.platform",
+          "address": "google_project.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.google-cloud-project"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.google-cloud-project",
+          "concept": "google.concept.google-cloud-project",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_service_account.runtime",
+          "kind": "managed",
+          "declaration": "declaration:1:google_service_account.runtime",
+          "address": "google_service_account.runtime",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.iam-service-account"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.iam-service-account",
+          "concept": "rf.concept.service-identity",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_vpc_access_connector.runtime",
+          "kind": "managed",
+          "declaration": "declaration:1:google_vpc_access_connector.runtime",
+          "address": "google_vpc_access_connector.runtime",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.serverless-vpc-access-connector"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.serverless-vpc-access-connector",
+          "concept": "google.concept.serverless-vpc-access-connector",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.unknown_connector",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.unknown_connector",
+          "address": "terraform_data.unknown_connector",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.unknown_project",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.unknown_project",
+          "address": "terraform_data.unknown_project",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.unknown_service_account",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.unknown_service_account",
+          "address": "terraform_data.unknown_service_account",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:google.context.ownership:representation%3A1%3Agoogle_cloud_run_v2_job.migration:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_cloud_run_v2_job.migration",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "dimension": "google.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:4cf842f2c173db4cc998e6ef8dcc0807d1f86877c0c3aacd57c3978e66164551",
+              "rule": "google.rule.cloud-run-job",
+              "closure": "closure:representation%3A1%3Agoogle_cloud_run_v2_job.migration:emission%3A4cf842f2c173db4cc998e6ef8dcc0807d1f86877c0c3aacd57c3978e66164551",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:google.context.ownership:representation%3A1%3Agoogle_cloud_run_v2_service.api:representation%3A1%3Agoogle_project.platform",
+          "from": "representation:1:google_cloud_run_v2_service.api",
+          "to": "representation:1:google_project.platform",
+          "dimension": "google.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:bc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+              "rule": "google.rule.cloud-run-service",
+              "closure": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.api:emission%3Abc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:google.context.ownership:representation%3A1%3Agoogle_cloud_run_v2_service.connector:representation%3A1%3Agoogle_project.platform",
+          "from": "representation:1:google_cloud_run_v2_service.connector",
+          "to": "representation:1:google_project.platform",
+          "dimension": "google.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:bc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+              "rule": "google.rule.cloud-run-service",
+              "closure": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.connector:emission%3Abc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:google.context.ownership:representation%3A1%3Agoogle_compute_network.runtime:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_compute_network.runtime",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "dimension": "google.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:1ba66f02835f359348e7d06179cd9a61dd876dcc3cfec498a7ece4d531ce81f5",
+              "rule": "google.rule.vpc-network",
+              "closure": "closure:representation%3A1%3Agoogle_compute_network.runtime:emission%3A1ba66f02835f359348e7d06179cd9a61dd876dcc3cfec498a7ece4d531ce81f5",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:google.context.ownership:representation%3A1%3Agoogle_compute_subnetwork.runtime:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_compute_subnetwork.runtime",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "dimension": "google.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:69c00538c9216cd5ea94ca2d4a36d1c1653590d068b12ec87c0e1408c12d0943",
+              "rule": "google.rule.vpc-subnetwork",
+              "closure": "closure:representation%3A1%3Agoogle_compute_subnetwork.runtime:emission%3A69c00538c9216cd5ea94ca2d4a36d1c1653590d068b12ec87c0e1408c12d0943",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.runtime:representation%3A1%3Agoogle_project.platform",
+          "from": "representation:1:google_service_account.runtime",
+          "to": "representation:1:google_project.platform",
+          "dimension": "google.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226",
+              "rule": "google.rule.iam-service-account",
+              "closure": "closure:representation%3A1%3Agoogle_service_account.runtime:emission%3A5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:google.context.ownership:representation%3A1%3Agoogle_vpc_access_connector.runtime:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_vpc_access_connector.runtime",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "dimension": "google.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:eca0f8db4e351be3b36c37bed22887170604c62d6dee0e64f74b3a35f4d5299f",
+              "rule": "google.rule.serverless-vpc-access-connector",
+              "closure": "closure:representation%3A1%3Agoogle_vpc_access_connector.runtime:emission%3Aeca0f8db4e351be3b36c37bed22887170604c62d6dee0e64f74b3a35f4d5299f",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Agoogle_cloud_run_v2_service.api:representation%3A1%3Agoogle_compute_network.runtime",
+          "from": "representation:1:google_cloud_run_v2_service.api",
+          "to": "representation:1:google_compute_network.runtime",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+              "rule": "google.rule.cloud-run-service",
+              "closure": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.api:emission%3A842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Agoogle_cloud_run_v2_service.api:representation%3A1%3Agoogle_compute_subnetwork.runtime",
+          "from": "representation:1:google_cloud_run_v2_service.api",
+          "to": "representation:1:google_compute_subnetwork.runtime",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:dcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff",
+              "rule": "google.rule.cloud-run-service",
+              "closure": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.api:emission%3Adcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Agoogle_compute_subnetwork.runtime:representation%3A1%3Agoogle_compute_network.runtime",
+          "from": "representation:1:google_compute_subnetwork.runtime",
+          "to": "representation:1:google_compute_network.runtime",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:b78802715be4b6b3e38613fd67c9b8f71bd9b2e191e968c8cbccdc9c932af2b2",
+              "rule": "google.rule.vpc-subnetwork",
+              "closure": "closure:representation%3A1%3Agoogle_compute_subnetwork.runtime:emission%3Ab78802715be4b6b3e38613fd67c9b8f71bd9b2e191e968c8cbccdc9c932af2b2",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Agoogle_vpc_access_connector.runtime:representation%3A1%3Agoogle_compute_subnetwork.runtime",
+          "from": "representation:1:google_vpc_access_connector.runtime",
+          "to": "representation:1:google_compute_subnetwork.runtime",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:c40f57e604ca72fe3d2147ce33c32f47860e9d08233226fb79ae55659643af86",
+              "rule": "google.rule.serverless-vpc-access-connector",
+              "closure": "closure:representation%3A1%3Agoogle_vpc_access_connector.runtime:emission%3Ac40f57e604ca72fe3d2147ce33c32f47860e9d08233226fb79ae55659643af86",
+              "evidence": "both"
+            }
+          ]
+        }
+      ],
+      "contributions": [],
+      "relations": [
+        {
+          "id": "relation:google.relation.routes-to:representation%3A1%3Agoogle_cloud_run_v2_service.connector:representation%3A1%3Agoogle_vpc_access_connector.runtime",
+          "from": "representation:1:google_cloud_run_v2_service.connector",
+          "to": "representation:1:google_vpc_access_connector.runtime",
+          "predicate": "google.relation.routes-to",
+          "provenance": [
+            {
+              "emission": "emission:ca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+              "rule": "google.rule.cloud-run-service",
+              "closure": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.connector:emission%3Aca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "relation:google.relation.runs-as:representation%3A1%3Agoogle_cloud_run_v2_service.api:representation%3A1%3Agoogle_service_account.runtime",
+          "from": "representation:1:google_cloud_run_v2_service.api",
+          "to": "representation:1:google_service_account.runtime",
+          "predicate": "google.relation.runs-as",
+          "provenance": [
+            {
+              "emission": "emission:7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+              "rule": "google.rule.cloud-run-service",
+              "closure": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.api:emission%3A7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "relation:google.relation.runs-as:representation%3A1%3Agoogle_cloud_run_v2_service.connector:representation%3A1%3Agoogle_service_account.runtime",
+          "from": "representation:1:google_cloud_run_v2_service.connector",
+          "to": "representation:1:google_service_account.runtime",
+          "predicate": "google.relation.runs-as",
+          "provenance": [
+            {
+              "emission": "emission:7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+              "rule": "google.rule.cloud-run-service",
+              "closure": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.connector:emission%3A7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "relation:google.relation.runs-as:representation%3A1%3Agoogle_cloud_run_v2_service.literal:representation%3A1%3Agoogle_service_account.runtime",
+          "from": "representation:1:google_cloud_run_v2_service.literal",
+          "to": "representation:1:google_service_account.runtime",
+          "predicate": "google.relation.runs-as",
+          "provenance": [
+            {
+              "emission": "emission:7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+              "rule": "google.rule.cloud-run-service",
+              "closure": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.literal:emission%3A7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+              "evidence": "value"
+            }
+          ]
+        }
+      ],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_job.migration:emission%3A4cf842f2c173db4cc998e6ef8dcc0807d1f86877c0c3aacd57c3978e66164551",
+          "representation": "representation:1:google_cloud_run_v2_job.migration",
+          "emission": "emission:4cf842f2c173db4cc998e6ef8dcc0807d1f86877c0c3aacd57c3978e66164551",
+          "outcome": "resolved",
+          "facts": [
+            "context:google.context.ownership:representation%3A1%3Agoogle_cloud_run_v2_job.migration:external%3A1%3Agoogle.concept.google-cloud-project%3A0"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 3
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.api:emission%3A7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+          "representation": "representation:1:google_cloud_run_v2_service.api",
+          "emission": "emission:7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+          "outcome": "resolved",
+          "facts": [
+            "relation:google.relation.runs-as:representation%3A1%3Agoogle_cloud_run_v2_service.api:representation%3A1%3Agoogle_service_account.runtime"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.api:emission%3A842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+          "representation": "representation:1:google_cloud_run_v2_service.api",
+          "emission": "emission:842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Agoogle_cloud_run_v2_service.api:representation%3A1%3Agoogle_compute_network.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.api:emission%3Abc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+          "representation": "representation:1:google_cloud_run_v2_service.api",
+          "emission": "emission:bc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+          "outcome": "resolved",
+          "facts": [
+            "context:google.context.ownership:representation%3A1%3Agoogle_cloud_run_v2_service.api:representation%3A1%3Agoogle_project.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 2
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.api:emission%3Aca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+          "representation": "representation:1:google_cloud_run_v2_service.api",
+          "emission": "emission:ca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.api:emission%3Adcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff",
+          "representation": "representation:1:google_cloud_run_v2_service.api",
+          "emission": "emission:dcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Agoogle_cloud_run_v2_service.api:representation%3A1%3Agoogle_compute_subnetwork.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.connector:emission%3A7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+          "representation": "representation:1:google_cloud_run_v2_service.connector",
+          "emission": "emission:7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+          "outcome": "resolved",
+          "facts": [
+            "relation:google.relation.runs-as:representation%3A1%3Agoogle_cloud_run_v2_service.connector:representation%3A1%3Agoogle_service_account.runtime"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.connector:emission%3A842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+          "representation": "representation:1:google_cloud_run_v2_service.connector",
+          "emission": "emission:842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.connector:emission%3Abc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+          "representation": "representation:1:google_cloud_run_v2_service.connector",
+          "emission": "emission:bc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+          "outcome": "resolved",
+          "facts": [
+            "context:google.context.ownership:representation%3A1%3Agoogle_cloud_run_v2_service.connector:representation%3A1%3Agoogle_project.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 2
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.connector:emission%3Aca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+          "representation": "representation:1:google_cloud_run_v2_service.connector",
+          "emission": "emission:ca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+          "outcome": "resolved",
+          "facts": [
+            "relation:google.relation.routes-to:representation%3A1%3Agoogle_cloud_run_v2_service.connector:representation%3A1%3Agoogle_vpc_access_connector.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.connector:emission%3Adcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff",
+          "representation": "representation:1:google_cloud_run_v2_service.connector",
+          "emission": "emission:dcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.literal:emission%3A7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+          "representation": "representation:1:google_cloud_run_v2_service.literal",
+          "emission": "emission:7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+          "outcome": "resolved",
+          "facts": [
+            "relation:google.relation.runs-as:representation%3A1%3Agoogle_cloud_run_v2_service.literal:representation%3A1%3Agoogle_service_account.runtime"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.literal:emission%3A842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+          "representation": "representation:1:google_cloud_run_v2_service.literal",
+          "emission": "emission:842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.literal:emission%3Abc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+          "representation": "representation:1:google_cloud_run_v2_service.literal",
+          "emission": "emission:bc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+          "outcome": "indeterminate",
+          "reason": "duplicate_identity",
+          "facts": [],
+          "candidates": {
+            "known_equal": 2,
+            "unknown": 0,
+            "excluded": 1
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.literal:emission%3Aca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+          "representation": "representation:1:google_cloud_run_v2_service.literal",
+          "emission": "emission:ca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+          "outcome": "indeterminate",
+          "reason": "ambiguous_unknown",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 1,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.literal:emission%3Adcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff",
+          "representation": "representation:1:google_cloud_run_v2_service.literal",
+          "emission": "emission:dcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.unknown:emission%3A7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+          "representation": "representation:1:google_cloud_run_v2_service.unknown",
+          "emission": "emission:7eed81c7a9ceef9cd0d8a85cb562f2d1318959422f9fe3329e1033ef9f9b724b",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.unknown:emission%3A842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+          "representation": "representation:1:google_cloud_run_v2_service.unknown",
+          "emission": "emission:842be6397dc4d77f1e4eba9915a504b45492f29ae3d563e091af9cff69b3cafc",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.unknown:emission%3Abc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+          "representation": "representation:1:google_cloud_run_v2_service.unknown",
+          "emission": "emission:bc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.unknown:emission%3Aca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+          "representation": "representation:1:google_cloud_run_v2_service.unknown",
+          "emission": "emission:ca67eeb9ad86409fc7023b3231a175473c38183dd22f5b6f8335215a90ac22d2",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_cloud_run_v2_service.unknown:emission%3Adcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff",
+          "representation": "representation:1:google_cloud_run_v2_service.unknown",
+          "emission": "emission:dcd1d83b3486113369468d3e4d53dc6e1830e6de98ac674f19a1725cc41f3eff",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_compute_network.runtime:emission%3A1ba66f02835f359348e7d06179cd9a61dd876dcc3cfec498a7ece4d531ce81f5",
+          "representation": "representation:1:google_compute_network.runtime",
+          "emission": "emission:1ba66f02835f359348e7d06179cd9a61dd876dcc3cfec498a7ece4d531ce81f5",
+          "outcome": "resolved",
+          "facts": [
+            "context:google.context.ownership:representation%3A1%3Agoogle_compute_network.runtime:external%3A1%3Agoogle.concept.google-cloud-project%3A0"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 3
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_compute_subnetwork.runtime:emission%3A69c00538c9216cd5ea94ca2d4a36d1c1653590d068b12ec87c0e1408c12d0943",
+          "representation": "representation:1:google_compute_subnetwork.runtime",
+          "emission": "emission:69c00538c9216cd5ea94ca2d4a36d1c1653590d068b12ec87c0e1408c12d0943",
+          "outcome": "resolved",
+          "facts": [
+            "context:google.context.ownership:representation%3A1%3Agoogle_compute_subnetwork.runtime:external%3A1%3Agoogle.concept.google-cloud-project%3A0"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 3
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_compute_subnetwork.runtime:emission%3Ab78802715be4b6b3e38613fd67c9b8f71bd9b2e191e968c8cbccdc9c932af2b2",
+          "representation": "representation:1:google_compute_subnetwork.runtime",
+          "emission": "emission:b78802715be4b6b3e38613fd67c9b8f71bd9b2e191e968c8cbccdc9c932af2b2",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Agoogle_compute_subnetwork.runtime:representation%3A1%3Agoogle_compute_network.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_service_account.runtime:emission%3A5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226",
+          "representation": "representation:1:google_service_account.runtime",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226",
+          "outcome": "resolved",
+          "facts": [
+            "context:google.context.ownership:representation%3A1%3Agoogle_service_account.runtime:representation%3A1%3Agoogle_project.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 2
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_vpc_access_connector.runtime:emission%3Ac40f57e604ca72fe3d2147ce33c32f47860e9d08233226fb79ae55659643af86",
+          "representation": "representation:1:google_vpc_access_connector.runtime",
+          "emission": "emission:c40f57e604ca72fe3d2147ce33c32f47860e9d08233226fb79ae55659643af86",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Agoogle_vpc_access_connector.runtime:representation%3A1%3Agoogle_compute_subnetwork.runtime"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_vpc_access_connector.runtime:emission%3Aeca0f8db4e351be3b36c37bed22887170604c62d6dee0e64f74b3a35f4d5299f",
+          "representation": "representation:1:google_vpc_access_connector.runtime",
+          "emission": "emission:eca0f8db4e351be3b36c37bed22887170604c62d6dee0e64f74b3a35f4d5299f",
+          "outcome": "resolved",
+          "facts": [
+            "context:google.context.ownership:representation%3A1%3Agoogle_vpc_access_connector.runtime:external%3A1%3Agoogle.concept.google-cloud-project%3A0"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 3
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_vpc_access_connector.runtime:emission%3Afa870c5a1d8f843f76b02387285140c544a9420d33ccdb30717dc4c4dd676201",
+          "representation": "representation:1:google_vpc_access_connector.runtime",
+          "emission": "emission:fa870c5a1d8f843f76b02387285140c544a9420d33ccdb30717dc4c4dd676201",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_cloud_run_v2_service.api:declaration%3A1%3Agoogle_compute_network.runtime",
+          "from": "declaration:1:google_cloud_run_v2_service.api",
+          "to": "declaration:1:google_compute_network.runtime",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_cloud_run_v2_service.api:declaration%3A1%3Agoogle_compute_subnetwork.runtime",
+          "from": "declaration:1:google_cloud_run_v2_service.api",
+          "to": "declaration:1:google_compute_subnetwork.runtime",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_cloud_run_v2_service.api:declaration%3A1%3Agoogle_project.platform",
+          "from": "declaration:1:google_cloud_run_v2_service.api",
+          "to": "declaration:1:google_project.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_cloud_run_v2_service.api:declaration%3A1%3Agoogle_service_account.runtime",
+          "from": "declaration:1:google_cloud_run_v2_service.api",
+          "to": "declaration:1:google_service_account.runtime",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_cloud_run_v2_service.connector:declaration%3A1%3Agoogle_project.platform",
+          "from": "declaration:1:google_cloud_run_v2_service.connector",
+          "to": "declaration:1:google_project.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_cloud_run_v2_service.connector:declaration%3A1%3Agoogle_service_account.runtime",
+          "from": "declaration:1:google_cloud_run_v2_service.connector",
+          "to": "declaration:1:google_service_account.runtime",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_cloud_run_v2_service.connector:declaration%3A1%3Agoogle_vpc_access_connector.runtime",
+          "from": "declaration:1:google_cloud_run_v2_service.connector",
+          "to": "declaration:1:google_vpc_access_connector.runtime",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_cloud_run_v2_service.unknown:declaration%3A1%3Aterraform_data.unknown_connector",
+          "from": "declaration:1:google_cloud_run_v2_service.unknown",
+          "to": "declaration:1:terraform_data.unknown_connector",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_cloud_run_v2_service.unknown:declaration%3A1%3Aterraform_data.unknown_project",
+          "from": "declaration:1:google_cloud_run_v2_service.unknown",
+          "to": "declaration:1:terraform_data.unknown_project",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_cloud_run_v2_service.unknown:declaration%3A1%3Aterraform_data.unknown_service_account",
+          "from": "declaration:1:google_cloud_run_v2_service.unknown",
+          "to": "declaration:1:terraform_data.unknown_service_account",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_compute_subnetwork.runtime:declaration%3A1%3Agoogle_compute_network.runtime",
+          "from": "declaration:1:google_compute_subnetwork.runtime",
+          "to": "declaration:1:google_compute_network.runtime",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_service_account.runtime:declaration%3A1%3Agoogle_project.platform",
+          "from": "declaration:1:google_service_account.runtime",
+          "to": "declaration:1:google_project.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_vpc_access_connector.runtime:declaration%3A1%3Agoogle_compute_subnetwork.runtime",
+          "from": "declaration:1:google_vpc_access_connector.runtime",
+          "to": "declaration:1:google_compute_subnetwork.runtime",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 15,
+        "resources": 15,
+        "data_sources": 0,
+        "instances": 15,
+        "managed_instances": 15,
+        "data_instances": 0,
+        "external_endpoints": 1,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 12,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 3,
+        "facts": 15,
+        "closures": 28,
+        "resolved": 15,
+        "absent": 7,
+        "indeterminate": 6,
+        "dependencies": 13,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": [
+    {
+      "id": "diagnostic:c88a4b31e3b6c07bf91f9cf1b8897ddbb8aef58a908c64a5b7cc1108a5258acf",
+      "phase": "resolution",
+      "severity": "warning",
+      "code": "DUPLICATE_IDENTITY",
+      "message": "Multiple in-scope instances share the matched identity",
+      "stage": "planned",
+      "representation": "representation:1:google_cloud_run_v2_service.literal",
+      "emission": "emission:bc57c72351de9939953a4ca64a51dd09c340d1e16fdc1532dc16086f764dee71"
+    }
+  ]
+}

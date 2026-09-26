@@ -6,28 +6,26 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~> 2.0"
+      version = "= 2.38.0"
     }
   }
 }
 
 provider "google" {
-  project = "demo-project"
-  region  = "us-central1"
+  access_token = "fixture"
+  project      = "demo-project"
+  region       = "us-central1"
 }
 
-variable "unknown_service_account_name" {
-  type = string
-}
+resource "terraform_data" "unknown_service_account_name" {
 
-variable "unknown_namespace" {
-  type = string
 }
+resource "terraform_data" "unknown_namespace" {
 
+}
 resource "google_compute_network" "vpc" {
   name = "demo-vpc"
 }
-
 resource "google_container_cluster" "primary" {
   name     = "demo-cluster"
   location = "us-central1"
@@ -289,7 +287,7 @@ resource "kubernetes_deployment_v1" "unknown_service_account" {
       }
 
       spec {
-        service_account_name = var.unknown_service_account_name
+        service_account_name = terraform_data.unknown_service_account_name.id
         container {
           name  = "app"
           image = "registry.example.com/app:0.1.0"
@@ -361,7 +359,7 @@ resource "kubernetes_network_policy_v1" "literal" {
 resource "kubernetes_network_policy_v1" "unknown" {
   metadata {
     name      = "unknown"
-    namespace = var.unknown_namespace
+    namespace = terraform_data.unknown_namespace.id
   }
 
   spec {

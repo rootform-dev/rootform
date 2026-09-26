@@ -1,83 +1,55 @@
 ---
 title: "Dialects and RF Vocabulary"
-description: "Understand how Dialects interpret source evidence and how RF Vocabulary provides shared architectural terms."
+description: "Understand how Dialects interpret plan and state instances using shared architectural terms."
 ---
 
-A Dialect is a named, versioned unit of source interpretation. Its Rules turn
-Terraform or OpenTofu evidence into architectural meaning. A Dialect does not
-decide which source declarations exist and does not create missing resources.
+A Dialect is a named, versioned unit of interpretation. Its Rules match Terraform or OpenTofu plan and state instances and can add Concepts, Contexts, Relations, Contributions, or composition meaning. A Dialect does not decide which observed instances exist and cannot create a missing managed or data instance.
 
-## Interpretation enriches a resource base
+## Interpretation enriches an instance base
 
-Every normalized `resource` has a base Representation before a Dialect Rule
-interprets it. A matching Rule can add a Concept or architectural fact. A
-resource with no matching Rule remains in the architecture without that
-interpretation. `data` declarations gain a Representation only when a Rule
-justifies one. See
-[Core concepts](../concepts.md#every-resource-starts-with-a-representation)
-for the distinction between resource and Rule coverage.
+Every observed managed and data instance has a Representation before a Rule interprets it. A matching Rule can classify that instance and establish facts. With no matching Rule, the instance remains represented without a guessed Concept. This is a coverage gap, not the same as a Rule whose endpoint cannot be resolved from available evidence. See [Core concepts](../concepts.md#every-observed-instance-starts-with-a-representation) for the distinction between instance and Rule coverage.
+
+Rule matching uses source kind, resource type, provider binding, and any predicate over supported instance evidence. Two instances of one Terraform declaration can therefore receive different interpretation. An ambiguous or failed interpretation leaves its own status and diagnostics. It does not silently fall back to a plausible Rule. See [Core concepts](../concepts.md#every-observed-instance-starts-with-a-representation).
 
 ## How a Rule establishes a fact
 
-For a subnet whose `vpc_id` refers to a VPC, the AWS Dialect can classify the
-subnet and establish a network Context toward the VPC. The resolved reference is
-evidence. The Rule gives that evidence architectural meaning.
+For a subnet whose `vpc_id` identifies a VPC, an AWS Rule can classify the subnet and establish a network Context toward that VPC. The value or verified direct traversal is evidence. The Rule gives it architectural meaning. A `depends_on` edge, matching resource name, or provider type alone creates no Context or Relation. [Core concepts](../concepts.md#references-are-evidence-not-meaning) explains this boundary across all fact types.
 
-Without a Rule, the reference remains a source fact only. Provider type, provider
-version, naming similarity, and `depends_on` also create no architectural
-connection automatically. [Core concepts](../concepts.md#references-are-evidence-not-meaning)
-explains this boundary across all fact types.
-
-A Rule can establish facts without assigning a Concept. Removing the Rule
-removes its interpretation, but does not delete the underlying resource
-representation or change the representation's stable identity.
+An emission closes as `resolved`, `absent`, or `indeterminate` per instance. A verified saved plan can establish a planned-stage identity traversal when a value is unknown until apply. A state export has values and masks but no traversal snapshot. If an eligible target has unknown identity, the closure can remain indeterminate even if one candidate looks plausible. [Architecture documents](architecture-ir.md#stages-and-facts) explains closures and provenance.
 
 ## RF Vocabulary provides shared terms
 
-RF Vocabulary is an embedded language contract owned by the reserved `rf`
-namespace. It provides shared Concepts and Contexts such as
-`rf.concept.virtual-network`, `rf.concept.subnet`, and
-`rf.context.network`.
+RF Vocabulary is an embedded language contract owned by the reserved `rf` namespace. It supplies shared Concepts and Contexts, including `rf.concept.virtual-network`, `rf.concept.subnet`, and `rf.context.network`. It is not a provider Dialect: it has no provider binding or Rules, cannot be excluded or replaced, and is never installed or vendored. Provider Dialects can use these terms so architectures from different providers share a vocabulary; Dialect-owned meaning retains its own owner identity, such as `aws.rule.subnet`.
 
-RF Vocabulary is not a Dialect. It has no provider envelope, cannot be excluded
-or replaced, and is never installed or vendored. Dialects can reference its
-shared terms so architecture from different providers can use common meaning.
-Dialect-owned meaning keeps owner-first identity such as `aws.rule.subnet`.
-
-The exact symbols belong in the [RF Vocabulary reference](../language/reference/rf-vocabulary.md).
+The [RF Vocabulary reference](../language/reference/rf-vocabulary.md) lists exact symbols. A shared Concept does not imply identical provider behavior. Its Rule and evidence still explain each fact.
 
 ## Inspect active Dialects
 
-Run these inspections from the project root with the Rootform binary used for
-the build. Embedded Dialects are available without a lock. External
-selections must already be prepared according to project configuration.
+The executable embeds the official Dialects and RF Vocabulary. They are available without a project lock; external selections must already be prepared as the project lock describes. Run these inspections from the project root with the binary used for the analysis, then inspect a Rule before interpreting a result:
 
 <!-- docs-check:concept-dialect-list -->
 ```sh
 rootform list dialects aws -o wide
 ```
 
-```text title="AWS Dialect summary"
+<!-- docs-output:concept-dialect-list -->
+```text title="AWS Dialect summary, excerpt"
 NAME  VERSION  ORIGIN    CONCEPTS  CONTEXTS  RELATIONS  RULES
 aws   0.1.0    embedded        64         0          1    108
 ```
 
-Origin confirms which selected unit supplies the Dialect. Counts expose the
-semantic surface, not coverage of the current project.
-
-Inspect the Rule behind subnet interpretation.
-
 <!-- docs-check:concept-dialect-show-rule -->
 ```sh
-rootform show aws.rule.subnet
+rootform show aws.rule.subnet --color always
 ```
 
-```ansi title="Subnet Rule summary"
+<!-- docs-output:concept-dialect-show-rule -->
+```ansi title="Subnet Rule, excerpt"
 [1maws.rule.subnet[0m
 
 [2mMatches[0m   resource "aws_subnet"
 [2mProduces[0m  rf.concept.subnet
-[2mDefined[0m   network/vpc.rf.hcl:9
+[2mDefined[0m   network/vpc.rf.hcl:18
 
 [1m[38;5;208mContexts (1)[0m
   rf.context.network
@@ -85,23 +57,10 @@ rootform show aws.rule.subnet
     via   source.vpc_id
 ```
 
-The output connects the source type, produced Concept, and network Context
-evidence. These commands inspect the active Dialects and do not change it.
+`ORIGIN` confirms which unit supplies the Dialect, such as `embedded` for the binary or `local` for a project source. Counts describe the Dialect's definitions, not coverage of the current project. The Rule inspection identifies the source type, produced Concept, and network Context emission. `rootform explain architecture` shows which Rule actually interpreted an instance and which closures resolved. See the [show reference](../reference/cli/show.md) for inspection forms.
 
 ## Embedded and external selection
 
-The Rootform binary carries RF Vocabulary and embedded Dialects. Updating it
-can change interpretation. `rootform.lock` records exact external Dialect
-selection; [Install, add, and vendor](external-content.md) explains how that
-selection becomes active.
+The binary fixes its embedded Dialects. `rootform.lock` records exact external selections, exclusions, and replacements. A provider binding retains the observed registry host, address, alias, and module context; Rootform does not assume two registries are equivalent because a provider name matches. Explicit provider mapping can make a binding choice visible and reviewable.
 
-Selection consequences are semantic. The same Terraform can produce different
-Concepts, facts, diagnostics, or Rule coverage under different active
-Dialects. Rootform does not reinterpret saved Architecture IR using
-the current binary. The saved document keeps the producer's semantic snapshot.
-
-Use [Select Dialects and Policy Packs](../cli.md) to understand active project
-content and [Add external
-content](../guides/external-content.md) to configure exact external content. For
-authoring, continue separately with [Write a Dialect](../dialect-authoring.md)
-and [Dialect language reference](../language/reference/dialects.md).
+Changing the active Dialect selection can change Concepts, facts, diagnostics, and coverage even when a plan is unchanged. A saved Rootform document keeps the Dialect selection used for interpretation; reopening it does not reinterpret its instances. [Select Dialects and Policy Packs](../cli.md) explains command selection, and [external content](external-content.md) explains installation and locks. To author interpretation, use [Write a Dialect](../dialect-authoring.md) and the [Dialect language reference](../language/reference/dialects.md).

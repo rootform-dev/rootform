@@ -6,8 +6,15 @@ rule "cognito-user-group" {
   as = concept.cognito-component
 
   contribution {
-    to  = concept.cognito-user-pool
-    via = source.user_pool_id
+    to       = concept.cognito-user-pool
+    via      = source.user_pool_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -19,7 +26,14 @@ rule "cognito-user-pool-domain" {
   as = concept.cognito-component
 
   contribution {
-    to  = concept.cognito-user-pool
-    via = source.user_pool_id
+    to       = concept.cognito-user-pool
+    via      = source.user_pool_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

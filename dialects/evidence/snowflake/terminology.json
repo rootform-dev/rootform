@@ -644,11 +644,6 @@
       "source": "https://docs.snowflake.com/en/user-guide/intro-key-concepts"
     },
     {
-      "id": "snowflake.concept.monitoring-configuration",
-      "label": "Snowflake monitoring configuration",
-      "source": "https://docs.snowflake.com/en/user-guide/intro-key-concepts"
-    },
-    {
       "id": "snowflake.rule.network-policy",
       "label": "Snowflake network policy",
       "source": "https://docs.snowflake.com/en/user-guide/intro-key-concepts"

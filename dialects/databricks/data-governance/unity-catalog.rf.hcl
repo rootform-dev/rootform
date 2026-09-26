@@ -41,9 +41,20 @@ rule "unity-catalog-metastore" {
 
   as = concept.unity-catalog-metastore
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   relation "stores-in" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_root
+    to       = rf.concept.object-storage-container
+    via      = source.storage_root
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -55,13 +66,27 @@ rule "metastore-assignment" {
   as = concept.unity-catalog-access-detail
 
   contribution {
-    to  = concept.unity-catalog-metastore
-    via = source.metastore_id
+    to       = concept.unity-catalog-metastore
+    via      = source.metastore_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.workspace
-    via = source.workspace_id
+    to       = concept.workspace
+    via      = source.workspace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.workspace_id
+      strategy = "exact"
+    }
   }
 }
 
@@ -72,20 +97,56 @@ rule "metastore-data-access" {
 
   as = concept.storage-credential
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.unity-catalog-metastore
-    via = source.metastore_id
+    as       = context.ownership
+    to       = concept.unity-catalog-metastore
+    via      = source.metastore_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.azure_managed_identity[0].managed_identity_id
+    to       = rf.concept.service-identity
+    via      = source.azure_managed_identity[0].managed_identity_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.gcp_service_account_key[0].email
+    to       = rf.concept.service-identity
+    via      = source.gcp_service_account_key[0].email
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.email
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -96,30 +157,69 @@ rule "unity-catalog-catalog" {
 
   as = concept.unity-catalog-catalog
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.unity-catalog-metastore
-    via = source.metastore_id
+    as       = context.ownership
+    to       = concept.unity-catalog-metastore
+    via      = source.metastore_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "stores-in" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_root
+    to       = rf.concept.object-storage-container
+    via      = source.storage_root
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "federates-through" {
-    to  = concept.lakehouse-federation-connection
-    via = source.connection_name
+    to       = concept.lakehouse-federation-connection
+    via      = source.connection_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   relation "imports-from-provider" {
-    to  = concept.delta-sharing-provider
-    via = source.provider_name
+    to       = concept.delta-sharing-provider
+    via      = source.provider_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   relation "imports-share" {
-    to  = concept.delta-share
-    via = source.share_name
+    to       = concept.delta-share
+    via      = source.share_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -130,15 +230,33 @@ rule "unity-catalog-schema" {
 
   as = concept.unity-catalog-schema
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.unity-catalog-catalog
-    via = source.catalog_name
+    as       = context.ownership
+    to       = concept.unity-catalog-catalog
+    via      = source.catalog_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   relation "stores-in" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_root
+    to       = rf.concept.object-storage-container
+    via      = source.storage_root
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -150,25 +268,37 @@ rule "external-location" {
   as = concept.external-location
 
   context {
-    as  = context.ownership
-    to  = concept.unity-catalog-metastore
-    via = source.metastore_id
+    as       = context.ownership
+    to       = concept.unity-catalog-metastore
+    via      = source.metastore_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-credential" {
-    to  = concept.storage-credential
-    via = source.credential_name
+    to       = concept.storage-credential
+    via      = source.credential_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   relation "stores-in" {
-    to  = rf.concept.object-storage-container
-    via = source.url
+    to       = rf.concept.object-storage-container
+    via      = source.url
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
-  relation "uses-key" {
-    to  = concept.encryption-key
-    via = source.encryption_details[0].sse_encryption_details[0].aws_kms_key_arn
-  }
 }
 
 rule "storage-credential" {
@@ -178,20 +308,56 @@ rule "storage-credential" {
 
   as = concept.storage-credential
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.unity-catalog-metastore
-    via = source.metastore_id
+    as       = context.ownership
+    to       = concept.unity-catalog-metastore
+    via      = source.metastore_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.azure_managed_identity[0].managed_identity_id
+    to       = rf.concept.service-identity
+    via      = source.azure_managed_identity[0].managed_identity_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.gcp_service_account_key[0].email
+    to       = rf.concept.service-identity
+    via      = source.gcp_service_account_key[0].email
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.email
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -203,14 +369,31 @@ rule "service-credential" {
   as = concept.service-credential
 
   context {
-    as  = context.ownership
-    to  = concept.unity-catalog-metastore
-    via = source.metastore_id
+    as       = context.ownership
+    to       = concept.unity-catalog-metastore
+    via      = source.metastore_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.azure_managed_identity[0].managed_identity_id
+    to       = rf.concept.service-identity
+    via      = source.azure_managed_identity[0].managed_identity_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -222,14 +405,23 @@ rule "unity-catalog-volume" {
   as = concept.unity-catalog-volume
 
   context {
-    as  = context.ownership
-    to  = concept.unity-catalog-schema
-    via = source.schema_name
+    as       = context.ownership
+    to       = concept.unity-catalog-schema
+    via      = source.schema_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   relation "stores-in" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_location
+    to       = rf.concept.object-storage-container
+    via      = source.storage_location
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 

@@ -2,21 +2,21 @@
 
 [![Source license](https://img.shields.io/badge/source-Apache--2.0-blue.svg)](LICENSE)
 
-Rootform turns Terraform and OpenTofu into deterministic, explainable
-architecture documents.
+Rootform turns Terraform and OpenTofu plan or state JSON into deterministic,
+explainable architecture documents.
 
 This repository contains Rootform's contracts, schemas, documentation,
 examples, and release metadata.
 
 ## What lives here
 
-- [`contracts/`](contracts/): Rootform language, Architecture IR, Diff, policy,
+- [`contracts/`](contracts/): Rootform language, architecture documents, comparison, policy,
   lock, presentation, and release contracts;
 - [`schemas/`](schemas/): machine-readable public schemas;
 - [`docs/`](docs/): installation, concepts, CLI, dialect authoring, security,
   offline operation, and integrations;
-- [`examples/`](examples/): synthetic AWS, Azure, GCP, Kubernetes, and
-  multi-cloud examples;
+- [`examples/`](examples/): synthetic Terraform plan projects with saved plans
+  for architecture analysis and comparison;
 - [`dialects/`](dialects/): maintained official Dialect sources, public
   evidence, and fixtures embedded in Rootform releases;
 - [`policy-packs/`](policy-packs/): package-ready public Policy Pack examples.
@@ -24,12 +24,14 @@ examples, and release metadata.
 ## Install
 
 Install an exact release version, verify its published SHA-256 checksum, and
-read license and notices included with archive. Then run directly from
-Terraform or OpenTofu root; release carries RF Vocabulary and supplied
-Dialects:
+read license and notices included with archive. Export a saved plan with
+Terraform or OpenTofu, then analyze its JSON with the project's Dialects:
 
 ```bash
-rootform run .
+terraform init
+terraform plan -out=plan.tfplan
+terraform show -json plan.tfplan > plan.json
+rootform run plan.json --plan-file plan.tfplan
 ```
 
 See [`docs/installation.md`](docs/installation.md).

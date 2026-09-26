@@ -228,9 +228,9 @@
         "data_sources": 21
       },
       "status_counts": {
-        "rule-present": 6,
+        "rule-present": 5,
         "partial-rule": 6,
-        "no-rule": 22
+        "no-rule": 23
       },
       "rules": [
         "cloudflare.rule.cloud-connector-rules",
@@ -239,7 +239,6 @@
         "cloudflare.rule.magic-transit-site-acl",
         "cloudflare.rule.magic-transit-site-lan",
         "cloudflare.rule.magic-transit-site-wan",
-        "cloudflare.rule.magic-wan-ipsec-tunnel",
         "cloudflare.rule.magic-wan-static-route",
         "cloudflare.rule.network-monitoring",
         "cloudflare.rule.network-monitoring-rule"

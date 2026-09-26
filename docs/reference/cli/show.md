@@ -21,7 +21,7 @@ rootform show <name> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
 | ` -o, --format ` | ` string ` | ` "" ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show |
 
@@ -46,6 +46,8 @@ rootform show google.rule.cloud-sql-instance
 rootform show rf.concept.virtual-network -o json
 ```
 
+The first result prints the Rule's match and emissions. The JSON result
+identifies the RF Vocabulary Concept without evaluating any instance.
 `--dialect <dir>` overlays one Dialect owner for this inspection and leaves
 `rootform.lock` unchanged. Repeat it for different owners.
 

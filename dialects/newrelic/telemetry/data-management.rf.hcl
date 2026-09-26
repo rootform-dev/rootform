@@ -18,9 +18,19 @@ rule "data-partition-rule" {
   as = concept.telemetry-processing-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -32,9 +42,19 @@ rule "events-to-metrics-rule" {
   as = concept.telemetry-processing-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -46,9 +66,19 @@ rule "log-parsing-rule" {
   as = concept.telemetry-processing-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -60,9 +90,19 @@ rule "metric-pruning-rule" {
   as = concept.telemetry-processing-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -74,9 +114,19 @@ rule "nrql-drop-rule" {
   as = concept.telemetry-processing-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -88,9 +138,19 @@ rule "obfuscation-expression" {
   as = concept.telemetry-processing-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -103,9 +163,19 @@ rule "obfuscation-expression-lookup" {
   as = concept.telemetry-processing-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -117,9 +187,19 @@ rule "obfuscation-rule" {
   as = concept.telemetry-processing-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -131,8 +211,18 @@ rule "pipeline-cloud-rule" {
   as = concept.telemetry-processing-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

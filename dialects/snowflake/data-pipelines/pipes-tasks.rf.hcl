@@ -17,29 +17,13 @@ rule "notification-integration" {
 
   as = concept.notification-integration
 
-  relation "connects-message-topic" {
-    to  = concept.message-topic
-    via = source.aws_sns_topic_arn
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
   }
 
-  relation "connects-message-topic" {
-    to  = concept.message-topic
-    via = source.gcp_pubsub_topic_name
-  }
-
-  relation "connects-message-queue" {
-    to  = concept.message-queue
-    via = source.aws_sqs_arn
-  }
-
-  relation "connects-message-queue" {
-    to  = concept.message-queue
-    via = source.azure_storage_queue_primary_uri
-  }
-
-  relation "connects-message-subscription" {
-    to  = concept.message-subscription
-    via = source.gcp_pubsub_subscription_name
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
   }
 
 }
@@ -50,6 +34,15 @@ rule "email-notification-integration" {
   }
 
   as = concept.notification-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "pipe" {
@@ -60,25 +53,42 @@ rule "pipe" {
   as = concept.data-pipe
 
   context {
-    as  = context.ownership
-    to  = concept.schema
-    via = source.schema
+    as       = context.ownership
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   relation "uses-notification-integration" {
-    to  = concept.notification-integration
-    via = source.integration
+    to       = concept.notification-integration
+    via      = source.integration
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   relation "reports-to-notification-integration" {
-    to  = concept.notification-integration
-    via = source.error_integration
+    to       = concept.notification-integration
+    via      = source.error_integration
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
-  relation "receives-storage-events" {
-    to  = concept.message-topic
-    via = source.aws_sns_topic_arn
-  }
 }
 
 rule "task" {
@@ -88,36 +98,87 @@ rule "task" {
 
   as = concept.workflow
 
-  context {
-    as  = context.ownership
-    to  = concept.schema
-    via = source.schema
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
   }
 
   context {
-    as  = rf.context.runtime
-    to  = concept.virtual-warehouse
-    via = source.warehouse
+    as       = context.ownership
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
+  }
+
+  context {
+    as       = rf.context.runtime
+    to       = concept.virtual-warehouse
+    via      = source.warehouse
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   relation "runs-after-task" {
-    to  = concept.workflow
-    via = source.after[0]
+    to       = concept.workflow
+    via      = source.after[0]
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   relation "runs-after-task" {
-    to  = concept.workflow
-    via = source.after[1]
+    to       = concept.workflow
+    via      = source.after[1]
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   relation "finalizes-task" {
-    to  = concept.workflow
-    via = source.finalize
+    to       = concept.workflow
+    via      = source.finalize
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   relation "reports-to-notification-integration" {
-    to  = concept.notification-integration
-    via = source.error_integration
+    to       = concept.notification-integration
+    via      = source.error_integration
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -129,8 +190,15 @@ rule "stream-on-table" {
   as = concept.stream-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -142,8 +210,15 @@ rule "stream-on-view" {
   as = concept.stream-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -155,8 +230,15 @@ rule "stream-on-external-table" {
   as = concept.stream-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -168,8 +250,15 @@ rule "stream-on-directory-table" {
   as = concept.stream-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
 }

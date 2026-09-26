@@ -1907,9 +1907,7 @@
       "product": "cloud-secrets",
       "proof_url": "https://registry.terraform.io/providers/hashicorp/vault/5.11.0/docs/resources/aws_secret_backend",
       "reason": "architecture-role: durable Vault scope, engine, auth, identity, PKI, encryption, sync, or operations boundary",
-      "relations": [
-        "uses-cloud-identity"
-      ],
+      "relations": [],
       "rootform_concept": "vault.concept.secrets-engine",
       "rules": [
         "vault.rule.aws-secret-backend"
@@ -5139,7 +5137,6 @@
       "proof_url": "https://registry.terraform.io/providers/hashicorp/vault/5.11.0/docs/resources/secrets_sync_aws_destination",
       "reason": "architecture-role: durable Vault scope, engine, auth, identity, PKI, encryption, sync, or operations boundary",
       "relations": [
-        "uses-cloud-identity",
         "uses-encryption-key"
       ],
       "rootform_concept": "vault.concept.secret-sync-destination",

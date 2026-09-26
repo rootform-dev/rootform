@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
+      version = "= 8.0.0"
     }
   }
 }
@@ -18,7 +19,7 @@ resource "google_compute_ssl_certificate" "cert" {
 
 resource "google_project_iam_policy" "policy" {
   project     = "SECRET_PROJECT_ID_31c"
-  policy_data = "SECRET_POLICY_DATA_31d"
+  policy_data = jsonencode({ bindings = [{ role = "roles/viewer", members = ["user:SECRET_POLICY_DATA_31d@example.com"] }] })
 }
 
 resource "google_project_iam_member" "member" {
@@ -33,8 +34,9 @@ resource "google_sql_database_instance" "db" {
   region           = "us-central1"
 
   settings {
+    tier = "db-f1-micro"
     ip_configuration {
-      require_ssl = true
+      ssl_mode = "ENCRYPTED_ONLY"
     }
   }
 }

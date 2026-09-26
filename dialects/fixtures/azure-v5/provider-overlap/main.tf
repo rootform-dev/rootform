@@ -12,7 +12,18 @@ terraform {
 }
 
 resource "azurerm_container_app" "typed" {
-  name = "typed"
+  template {
+    container {
+      name   = "fx-typed-name"
+      memory = "fx-typed-memory"
+      image  = "fx-typed-image"
+      cpu    = 1
+    }
+  }
+  container_app_environment_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.App/managedEnvironments/fx-typed-container-app-environment-id"
+  resource_group_name          = "fx-typed-resource-group-name"
+  revision_mode                = "Single"
+  name                         = "typed"
 }
 
 resource "azapi_resource" "unapproved_overlap" {

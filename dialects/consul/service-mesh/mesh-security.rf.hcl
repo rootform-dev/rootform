@@ -77,8 +77,15 @@ rule "config-entry-service-defaults" {
   as = concept.service-networking-configuration
 
   contribution {
-    to  = concept.consul-service
-    via = source.name
+    to       = concept.consul-service
+    via      = source.name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 

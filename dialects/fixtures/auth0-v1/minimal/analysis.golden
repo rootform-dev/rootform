@@ -1,0 +1,1062 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:ea7b34e8cfa8008796b740fa10d0a1dd9669de798a5e71d228ed755a1d57dfc5",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:ea7b34e8cfa8008796b740fa10d0a1dd9669de798a5e71d228ed755a1d57dfc5",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
+          "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
+          "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:fa274f3e10c1e032a6db979b3d8ea80f8900970357147a1e391b37b2d9ab4d4e",
+          "semantic_digest": "sha256:ef50339cf343ce2b02f75da1f1cefdc4ea3169b89ddcc6c1b68d3cf3ca286d12"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
+          "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
+          "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
+          "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
+          "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+          "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
+          "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
+          "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
+        "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
+        "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:fa274f3e10c1e032a6db979b3d8ea80f8900970357147a1e391b37b2d9ab4d4e",
+        "semantic_digest": "sha256:ef50339cf343ce2b02f75da1f1cefdc4ea3169b89ddcc6c1b68d3cf3ca286d12",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
+        "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
+        "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
+        "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
+        "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+        "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
+        "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
+        "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "auth0.concept.api-resource-server",
+        "owner": "auth0",
+        "name": "api-resource-server",
+        "description": "An API registered as an Auth0 resource server for authorized applications."
+      },
+      {
+        "id": "auth0.concept.customer-organization",
+        "owner": "auth0",
+        "name": "customer-organization",
+        "description": "An Auth0 Organization representing a customer or business audience inside a tenant."
+      },
+      {
+        "id": "auth0.concept.identity-application",
+        "owner": "auth0",
+        "name": "identity-application",
+        "description": "An application or relying-party client registered with an identity platform."
+      },
+      {
+        "id": "auth0.concept.identity-connection",
+        "owner": "auth0",
+        "name": "identity-connection",
+        "description": "An Auth0 Connection sourcing identities from an enterprise provider, social provider, database, or passwordless method."
+      },
+      {
+        "id": "auth0.concept.identity-tenant",
+        "owner": "auth0",
+        "name": "identity-tenant",
+        "description": "An existing Auth0 tenant acting as an identity and authorization boundary."
+      }
+    ],
+    "contexts": [],
+    "relations": [
+      {
+        "id": "auth0.relation.defaults-to-organization",
+        "owner": "auth0",
+        "name": "defaults-to-organization"
+      },
+      {
+        "id": "auth0.relation.uses-api",
+        "owner": "auth0",
+        "name": "uses-api"
+      }
+    ],
+    "rules": [
+      {
+        "id": "auth0.rule.client",
+        "owner": "auth0",
+        "match_kind": "resource",
+        "match_type": "auth0_client",
+        "concept": "auth0.concept.identity-application",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:6dbaca2894b5b7e6529da49460626fcf64114216e7de2d3b4ab01d595b001763",
+          "emission:8bce10221d6f666528d9f74288689864358ee8c4f47ac665b81f93ce87ba8c46"
+        ]
+      },
+      {
+        "id": "auth0.rule.connection",
+        "owner": "auth0",
+        "match_kind": "resource",
+        "match_type": "auth0_connection",
+        "concept": "auth0.concept.identity-connection",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "auth0.rule.resource-server",
+        "owner": "auth0",
+        "match_kind": "resource",
+        "match_type": "auth0_resource_server",
+        "concept": "auth0.concept.api-resource-server",
+        "identity": {
+          "attributes": [
+            "identifier"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "identifier"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "auth0.rule.tenant",
+        "owner": "auth0",
+        "match_kind": "resource",
+        "match_type": "auth0_tenant",
+        "concept": "auth0.concept.identity-tenant",
+        "emissions": []
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:6dbaca2894b5b7e6529da49460626fcf64114216e7de2d3b4ab01d595b001763",
+        "rule": "auth0.rule.client",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "auth0.concept.api-resource-server"
+        },
+        "predicate": "auth0.relation.uses-api",
+        "via": "source.resource_server_identifier",
+        "match": {
+          "by": [
+            "identifier"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:8bce10221d6f666528d9f74288689864358ee8c4f47ac665b81f93ce87ba8c46",
+        "rule": "auth0.rule.client",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "auth0.concept.customer-organization"
+        },
+        "predicate": "auth0.relation.defaults-to-organization",
+        "via": "source.default_organization[0].organization_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:auth0_client.portal",
+          "kind": "resource",
+          "type": "auth0_client",
+          "name": "portal",
+          "address": "auth0_client.portal",
+          "provider": {
+            "address": "registry.terraform.io/auth0/auth0",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:auth0_connection.workforce",
+          "kind": "resource",
+          "type": "auth0_connection",
+          "name": "workforce",
+          "address": "auth0_connection.workforce",
+          "provider": {
+            "address": "registry.terraform.io/auth0/auth0",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:auth0_resource_server.api",
+          "kind": "resource",
+          "type": "auth0_resource_server",
+          "name": "api",
+          "address": "auth0_resource_server.api",
+          "provider": {
+            "address": "registry.terraform.io/auth0/auth0",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:auth0_tenant.primary",
+          "kind": "resource",
+          "type": "auth0_tenant",
+          "name": "primary",
+          "address": "auth0_tenant.primary",
+          "provider": {
+            "address": "registry.terraform.io/auth0/auth0",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "representation:1:auth0_client.portal",
+          "kind": "managed",
+          "declaration": "declaration:1:auth0_client.portal",
+          "address": "auth0_client.portal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/auth0/auth0",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "auth0.rule.client"
+            ],
+            "diagnostics": []
+          },
+          "rule": "auth0.rule.client",
+          "concept": "auth0.concept.identity-application",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:auth0_connection.workforce",
+          "kind": "managed",
+          "declaration": "declaration:1:auth0_connection.workforce",
+          "address": "auth0_connection.workforce",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/auth0/auth0",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "auth0.rule.connection"
+            ],
+            "diagnostics": []
+          },
+          "rule": "auth0.rule.connection",
+          "concept": "auth0.concept.identity-connection",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:auth0_resource_server.api",
+          "kind": "managed",
+          "declaration": "declaration:1:auth0_resource_server.api",
+          "address": "auth0_resource_server.api",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/auth0/auth0",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "auth0.rule.resource-server"
+            ],
+            "diagnostics": []
+          },
+          "rule": "auth0.rule.resource-server",
+          "concept": "auth0.concept.api-resource-server",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:auth0_tenant.primary",
+          "kind": "managed",
+          "declaration": "declaration:1:auth0_tenant.primary",
+          "address": "auth0_tenant.primary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/auth0/auth0",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "auth0.rule.tenant"
+            ],
+            "diagnostics": []
+          },
+          "rule": "auth0.rule.tenant",
+          "concept": "auth0.concept.identity-tenant",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Aauth0_client.portal:emission%3A6dbaca2894b5b7e6529da49460626fcf64114216e7de2d3b4ab01d595b001763",
+          "representation": "representation:1:auth0_client.portal",
+          "emission": "emission:6dbaca2894b5b7e6529da49460626fcf64114216e7de2d3b4ab01d595b001763",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aauth0_client.portal:emission%3A8bce10221d6f666528d9f74288689864358ee8c4f47ac665b81f93ce87ba8c46",
+          "representation": "representation:1:auth0_client.portal",
+          "emission": "emission:8bce10221d6f666528d9f74288689864358ee8c4f47ac665b81f93ce87ba8c46",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 4,
+        "resources": 4,
+        "data_sources": 0,
+        "instances": 4,
+        "managed_instances": 4,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 4,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 2,
+        "resolved": 0,
+        "absent": 1,
+        "indeterminate": 1,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

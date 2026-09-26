@@ -18,10 +18,26 @@ rule "schema-registry" {
 
   as = concept.schema-registry
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -33,8 +49,15 @@ rule "schema" {
   as = concept.schema-registry-configuration
 
   contribution {
-    to  = concept.schema-registry
-    via = source.schema_registry_cluster[0].id
+    to       = concept.schema-registry
+    via      = source.schema_registry_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -46,8 +69,15 @@ rule "schema-registry-cluster-config" {
   as = concept.schema-registry-configuration
 
   contribution {
-    to  = concept.schema-registry
-    via = source.schema_registry_cluster[0].id
+    to       = concept.schema-registry
+    via      = source.schema_registry_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -59,8 +89,15 @@ rule "schema-registry-cluster-mode" {
   as = concept.schema-registry-configuration
 
   contribution {
-    to  = concept.schema-registry
-    via = source.schema_registry_cluster[0].id
+    to       = concept.schema-registry
+    via      = source.schema_registry_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -72,8 +109,15 @@ rule "schema-registry-dek" {
   as = concept.schema-registry-configuration
 
   contribution {
-    to  = concept.schema-registry
-    via = source.schema_registry_cluster[0].id
+    to       = concept.schema-registry
+    via      = source.schema_registry_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -85,8 +129,15 @@ rule "schema-registry-kek" {
   as = concept.schema-registry-configuration
 
   contribution {
-    to  = concept.schema-registry
-    via = source.schema_registry_cluster[0].id
+    to       = concept.schema-registry
+    via      = source.schema_registry_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -98,8 +149,15 @@ rule "subject-config" {
   as = concept.schema-registry-configuration
 
   contribution {
-    to  = concept.schema-registry
-    via = source.schema_registry_cluster[0].id
+    to       = concept.schema-registry
+    via      = source.schema_registry_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -111,8 +169,15 @@ rule "subject-mode" {
   as = concept.schema-registry-configuration
 
   contribution {
-    to  = concept.schema-registry
-    via = source.schema_registry_cluster[0].id
+    to       = concept.schema-registry
+    via      = source.schema_registry_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -124,12 +189,26 @@ rule "schema-exporter" {
   as = concept.schema-link
 
   relation "exports-from" {
-    to  = concept.schema-registry
-    via = source.schema_registry_cluster[0].id
+    to       = concept.schema-registry
+    via      = source.schema_registry_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "exports-to" {
-    to  = concept.schema-registry
-    via = source.destination_schema_registry_cluster[0].id
+    to       = concept.schema-registry
+    via      = source.destination_schema_registry_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

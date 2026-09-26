@@ -73,11 +73,6 @@
       "source": "https://developers.cloudflare.com/load-balancing/pools/"
     },
     {
-      "rule": "magic-wan-ipsec-tunnel",
-      "label": "Cloudflare WAN IPsec tunnel",
-      "source": "https://developers.cloudflare.com/cloudflare-one/networks/connectivity-options/"
-    },
-    {
       "rule": "pages-project",
       "label": "Cloudflare Pages project",
       "source": "https://developers.cloudflare.com/pages/"

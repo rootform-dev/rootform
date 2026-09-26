@@ -4191,7 +4191,6 @@
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
       "relations": [
         "uses-cloud-identity",
-        "uses-cloud-identity",
         "uses-driver-pool",
         "uses-pool"
       ],
@@ -4279,7 +4278,6 @@
       "proof_url": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/credential.md",
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
       "relations": [
-        "uses-cloud-identity",
         "uses-cloud-identity"
       ],
       "rootform_concept": "databricks.rule.service-credential",
@@ -4609,11 +4607,7 @@
       "product": "networking",
       "proof_url": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/endpoint.md",
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
-      "relations": [
-        "registers-endpoint",
-        "registers-endpoint",
-        "registers-endpoint"
-      ],
+      "relations": [],
       "rootform_concept": "databricks.concept.private-endpoint-registration",
       "rules": [
         "databricks.rule.service-direct-endpoint"
@@ -4737,8 +4731,7 @@
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
       "relations": [
         "stores-in",
-        "uses-credential",
-        "uses-key"
+        "uses-credential"
       ],
       "rootform_concept": "databricks.rule.external-location",
       "rules": [
@@ -5017,9 +5010,7 @@
       "product": "compute",
       "proof_url": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/instance_pool.md",
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
-      "relations": [
-        "uses-cloud-identity"
-      ],
+      "relations": [],
       "rootform_concept": "databricks.rule.instance-pool",
       "rules": [
         "databricks.rule.instance-pool"
@@ -5254,7 +5245,6 @@
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
       "relations": [
         "uses-cloud-identity",
-        "uses-cloud-identity",
         "uses-cloud-identity"
       ],
       "rootform_concept": "databricks.rule.storage-credential",
@@ -5396,9 +5386,7 @@
       "product": "account-deployment",
       "proof_url": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/mws_credentials.md",
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
-      "relations": [
-        "uses-cloud-identity"
-      ],
+      "relations": [],
       "rootform_concept": "databricks.rule.workspace-deployment-credential",
       "rules": [
         "databricks.rule.workspace-deployment-credential"
@@ -5417,20 +5405,13 @@
       "family": "deployment",
       "product": "account-deployment",
       "proof_url": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/mws_customer_managed_keys.md",
-      "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
-      "relations": [
-        "uses-key",
-        "uses-key"
-      ],
-      "rootform_concept": "databricks.concept.workspace-key-configuration",
-      "rules": [
-        "databricks.rule.workspace-customer-managed-key"
-      ],
+      "reason": "no-rule",
+      "relations": [],
+      "rootform_concept": null,
+      "rules": [],
       "semantic_research": "deep",
-      "status": "rule-present",
-      "tests": [
-        "databricks-compiler-scenarios"
-      ]
+      "status": "no-rule",
+      "tests": []
     },
     {
       "construct": "databricks_mws_log_delivery",
@@ -5490,7 +5471,6 @@
       "proof_url": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/mws_ncc_private_endpoint_rule.md",
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
       "relations": [
-        "connects-to-endpoint",
         "connects-to-storage"
       ],
       "rootform_concept": "databricks.rule.private-endpoint-rule",
@@ -5596,8 +5576,7 @@
       "proof_url": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/mws_storage_configurations.md",
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
       "relations": [
-        "stores-in",
-        "uses-cloud-identity"
+        "stores-in"
       ],
       "rootform_concept": "databricks.rule.workspace-root-storage",
       "rules": [
@@ -5618,10 +5597,7 @@
       "product": "networking",
       "proof_url": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/mws_vpc_endpoint.md",
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
-      "relations": [
-        "registers-endpoint",
-        "registers-endpoint"
-      ],
+      "relations": [],
       "rootform_concept": "databricks.concept.private-endpoint-registration",
       "rules": [
         "databricks.rule.vpc-endpoint-registration"
@@ -6192,7 +6168,7 @@
       "relations": [],
       "rootform_concept": "databricks.concept.identity-access-configuration",
       "rules": [
-        "databricks.rule.rf.hcla-access-request-destinations"
+        "databricks.rule.rfa-access-request-destinations"
       ],
       "semantic_research": "concise",
       "status": "partial-rule",
@@ -6598,7 +6574,6 @@
       "proof_url": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/storage_credential.md",
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
       "relations": [
-        "uses-cloud-identity",
         "uses-cloud-identity",
         "uses-cloud-identity"
       ],

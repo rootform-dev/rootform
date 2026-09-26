@@ -4,7 +4,7 @@ description: "Complete reference for Dialect identity, provider envelopes, Conce
 ---
 
 A Dialect is one named and versioned interpretation unit. Its Rules add
-architecture meaning to normalized source declarations.
+architecture meaning to observed plan or state instances.
 
 Definitions and Rules are top-level siblings of the `dialect` block. Only
 `provider` blocks are nested inside `dialect`.
@@ -125,12 +125,12 @@ Provider envelope participates in Rule eligibility:
 Every Rule in the Dialect uses this shared provider list. Rules do not declare
 their own provider selector.
 
-- provider source must match source declaration's resolved provider identity;
-- unresolved required identity can produce `PROVIDER_IDENTITY_UNRESOLVED`;
-- when source adapter provides exact `= MAJOR.MINOR.PATCH` evidence, version
-  must satisfy envelope or Rule becomes incompatible;
-- absent, unverified, or non-exact source constraints do not invent exact
-  version evidence and do not block Rule from continuing to its predicate.
+- a fully qualified provider address binds that exact registry host;
+- a public-registry shorthand binds equivalent Terraform and OpenTofu public
+  registry addresses for the same namespace and type;
+- an observed provider without a selected binding produces `PROVIDER_UNBOUND`
+  and leaves interpretation unsettled;
+- an unavailable provider alias is uncertain, not proof of a different provider.
 
 ## Semantic definition blocks
 

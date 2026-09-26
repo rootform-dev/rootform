@@ -27,7 +27,7 @@ resource "grafana_fleet_management_collector" "alloy" {
 
 resource "grafana_fleet_management_pipeline" "telemetry" {
   name        = "telemetry"
-  contents    = "prometheus.exporter.self rootform {}"
+  contents    = "prometheus.exporter.self \"rootform\" {}"
   enabled     = true
-  config_type = "alloy"
+  config_type = "ALLOY"
 }

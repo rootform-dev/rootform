@@ -17,19 +17,52 @@ rule "compute-cluster" {
 
   as = concept.compute-cluster
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   relation "uses-pool" {
-    to  = concept.instance-pool
-    via = source.instance_pool_id
+    to       = concept.instance-pool
+    via      = source.instance_pool_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-driver-pool" {
-    to  = concept.instance-pool
-    via = source.driver_instance_pool_id
+    to       = concept.instance-pool
+    via      = source.driver_instance_pool_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.gcp_attributes[0].google_service_account
+    to       = rf.concept.service-identity
+    via      = source.gcp_attributes[0].google_service_account
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -39,6 +72,15 @@ rule "instance-pool" {
   }
 
   as = concept.instance-pool
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 
 }
 
@@ -74,8 +116,15 @@ rule "cluster-library" {
   as = concept.compute-configuration
 
   contribution {
-    to  = concept.compute-cluster
-    via = source.cluster_id
+    to       = concept.compute-cluster
+    via      = source.cluster_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 

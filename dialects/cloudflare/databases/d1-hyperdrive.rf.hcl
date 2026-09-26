@@ -8,6 +8,15 @@ rule "d1-database" {
   }
 
   as = rf.concept.managed-database
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "hyperdrive-config" {
@@ -18,12 +27,29 @@ rule "hyperdrive-config" {
   as = concept.hyperdrive-configuration
 
   relation "connects-to" {
-    to  = rf.concept.managed-database
-    via = source.origin.host
+    to       = rf.concept.managed-database
+    via      = source.origin.host
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared managed-database instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "connects-through" {
-    to  = concept.connectivity-service
-    via = source.origin.service_id
+    to       = concept.connectivity-service
+    via      = source.origin.service_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

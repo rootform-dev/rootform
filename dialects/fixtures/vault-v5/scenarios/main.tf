@@ -1,13 +1,16 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
+      version = "= 6.62.0"
     }
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
+      version = "= 5.3.0"
     }
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
+      version = "= 8.0.0"
     }
     vault = {
       source  = "hashicorp/vault"
@@ -16,8 +19,12 @@ terraform {
   }
 }
 
+# Reads of this provider need its API, so the plan defers them until apply.
+resource "terraform_data" "defer_reads" {}
+
 resource "aws_iam_role" "vault" {
-  name = "rootform-vault"
+  assume_role_policy = jsonencode({})
+  name               = "rootform-vault"
 }
 
 resource "aws_kms_key" "vault" {
@@ -34,9 +41,11 @@ resource "azurerm_resource_group" "vault" {
 }
 
 resource "azurerm_storage_account" "vault" {
-  name                = "rootformvault"
-  resource_group_name = azurerm_resource_group.vault.name
-  location            = azurerm_resource_group.vault.location
+  account_tier             = "Premium"
+  account_replication_type = "LRS"
+  name                     = "rootformvault"
+  resource_group_name      = azurerm_resource_group.vault.name
+  location                 = azurerm_resource_group.vault.location
 }
 
 resource "azurerm_storage_container" "snapshots" {
@@ -125,8 +134,9 @@ resource "vault_kubernetes_auth_backend_config" "kubernetes" {
 }
 
 resource "vault_kubernetes_auth_backend_role" "applications" {
-  backend   = vault_auth_backend.kubernetes.path
-  role_name = "applications"
+  bound_service_account_names = ["fixture"]
+  backend                     = vault_auth_backend.kubernetes.path
+  role_name                   = "applications"
 }
 
 resource "vault_identity_entity" "application" {
@@ -189,8 +199,10 @@ resource "vault_transit_secret_backend_key" "application" {
 }
 
 resource "vault_keymgmt_aws_kms" "aws" {
-  namespace = vault_namespace.security.path
-  name      = "aws"
+  mount          = "fx-aws-mount"
+  key_collection = "fx-aws-key-collection"
+  namespace      = vault_namespace.security.path
+  name           = "aws"
 }
 
 resource "vault_secrets_sync_aws_destination" "aws" {
@@ -214,12 +226,16 @@ resource "vault_secrets_sync_gcp_destination" "google" {
 }
 
 resource "vault_secrets_sync_association" "aws" {
+  type        = "fx-aws-type"
   name        = vault_secrets_sync_aws_destination.aws.name
   mount       = "kv"
   secret_name = "application"
 }
 
 resource "vault_raft_snapshot_agent_config" "continuity" {
+  storage_type         = "local"
+  path_prefix          = "fx-continuity-path-prefix"
+  interval_seconds     = 1
   namespace            = vault_namespace.security.path
   name                 = "continuity"
   aws_s3_bucket        = aws_s3_bucket.snapshots.id
@@ -229,13 +245,16 @@ resource "vault_raft_snapshot_agent_config" "continuity" {
 }
 
 resource "vault_audit" "security" {
+  options   = {}
   namespace = vault_namespace.security.path
   type      = "file"
   path      = "security"
 }
 
 resource "vault_agent_registration" "workload" {
-  namespace = vault_namespace.security.path
+  entity_id    = "fx-workload-entity-id"
+  display_name = "fx-workload-display-name"
+  namespace    = vault_namespace.security.path
 }
 
 resource "vault_plugin_runtime" "external" {
@@ -251,6 +270,7 @@ resource "vault_generic_secret" "application" {
 }
 
 data "vault_generic_secret" "application" {
-  namespace = vault_namespace.security.path
-  path      = vault_generic_secret.application.path
+  depends_on = [terraform_data.defer_reads]
+  namespace  = vault_namespace.security.path
+  path       = vault_generic_secret.application.path
 }

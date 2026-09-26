@@ -1,127 +1,131 @@
 ---
 title: Explore an architecture
-description: Navigate an existing project, inspect resources and evidence, and follow placements and connections.
+description: Navigate scenes, inspect evidence, and read stages or comparisons in the Explorer.
 ---
 
-Run Rootform from a Terraform or OpenTofu root module. The local explorer opens
-the architecture derived from its declarations and references.
+Start with a plan JSON, state JSON, or saved Rootform document.
+For a plan, pair the saved plan when direct traversal evidence matters.
+The default `run` command starts a loopback server and opens a browser:
 
+<!-- docs-check:journey-explore-open -->
 ```sh
-rootform run .
+rootform run plan.json --plan-file plan.tfplan --no-browser --port 0
 ```
 
-To inspect a saved [Rootform architecture file](../concepts/architecture-ir.md)
-instead, pass it directly:
-
-```sh
-rootform run architecture.json
-```
-
-`run` opens a browser and keeps the terminal process active. Configuration
-input is rebuilt when local source changes. Press `Ctrl+C` in that terminal
-when you are finished. See [Choose an input](../inputs/index.md) when a plan or
-saved file better matches your question.
+Read the address printed on standard error, open it in your browser, and
+press `Ctrl+C` in the terminal when finished. `--no-browser` leaves browser
+launch to you; `--port 0` asks the operating system for an available port.
+A saved document opens the same way with `rootform run architecture.json`.
 
 ## Move through architecture levels
 
-The canvas shows one context and its direct contents. A card with nested
-objects has an **Open** action. Open it to make that resource the current
-context and read its children without the rest of the architecture competing
-for space.
+The canvas shows the current context and its direct contents. Open a card
+with nested objects to make it the current context. The **Place** controls
+show your path: **Architecture root** returns to the top, **Back** and
+**Forward** revisit locations, and the current-context menu jumps to any
+ancestor. Use the parent name to move up one level. When a resource has more
+than one established placement, its path menu lists **Also placed in**.
 
-Use the controls above the canvas to move without losing your place:
-
-- **Up** returns to the containing context.
-- The current-context menu shows the full path and lets you jump to any level.
-- **Architecture root** returns to the top level.
-- Back and forward revisit your navigation history.
-
-A resource may have more than one proven placement. Its path menu lists other
-contexts under **Also placed in**.
+The Explorer draws architectural contexts and relations emitted by Dialect
+Rules. Terraform dependencies remain evidence; they do not become connection
+arrows on their own.
 
 ## Find and inspect a resource
 
-Search by resource name or displayed type. Results cover the whole
-architecture, not only the current context. Choosing a result opens the context
-that holds it and reveals the resource when necessary.
+**Search** covers the whole architecture, including objects outside the
+current scene. Search by name or type, then select a result to open its
+containing context and reveal it. The footer shows the displayed range and
+total matches, so a short visible list is not the full result set.
 
-Select a resource card to open its inspector:
+Select a card to open the Inspector. **Details** shows the instance address,
+its interpretation, status, and provider, and lists proven placements under
+**Where**. **Connections** lists architectural relations. **Evidence** shows
+facts, closures, dependencies, and diagnostics. **Center selection** brings
+the selected object back into view after navigation.
 
-- **Details** shows its source address, normalized type, and proven placements
-  under **Where**.
-- **Connections** lists incoming and outgoing architectural relations.
-- **Source** shows implementation evidence, semantic facts, source locations,
-  and diagnostics.
+The **Analysis** panel lists changes, all instances, and evidence beyond the
+current scene. Its instance count includes objects without an applied
+architecture reading, which may have no canvas card.
 
-Use **Center selection** after following several links when you need to bring
-the selected object back into view.
+## Read a placement and its evidence
 
-## Read a placement
+A placement appears as containment on the canvas and a context fact under
+**Where**. In **Evidence**, inspect the fact and its **Resolution** to see
+the emitting Rule and source evidence. Read its closure outcome too:
+`resolved` establishes the fact; `absent` records a supported absence;
+`indeterminate` keeps a reason such as unknown until apply or sensitive
+evidence. A closure may remain indeterminate even when an instance is
+represented on the canvas.
 
-A placement appears as containment on the canvas and as a structural fact under
-**Where**. Select a listed context to open it. In the Source tab, expand the
-fact's **Resolution** to see which [Dialect](../concepts/dialects.md) Rule and
-resolved source evidence established it.
-
-Placement is not a connection. Rootform does not draw a context arrow merely
-because one resource appears inside another.
+For the VPC and subnet tutorial, the saved-plan traversal in
+`aws_subnet.application.vpc_id` establishes the network context while the
+planned VPC ID is unknown. [Verify the saved plan](../inputs/plans.md#verify-the-saved-plan)
+explains the pairing requirement.
 
 ## Read a connection
 
-Select a route on the canvas, or choose a relation from a resource's
-Connections tab. The inspector names both endpoints, the relation predicate,
-its source location, and its resolution evidence.
+Select a route or a relation in **Connections**. The Inspector identifies
+its endpoints, predicate, and evidence. If several relations share visible
+endpoints or an endpoint is inside a closed context, the canvas may show an
+aggregate route. Select the route to inspect its members, then use
+**Reveal endpoints** or open the containing context to see the actual
+resources. A route's visual shape is not a claim of live network reachability.
 
-When an endpoint is inside a closed context, or several relations share the
-same visible endpoints, the canvas can carry them as an aggregate route. The
-inspector keeps each real relation available and marks it **Included in
-aggregate route**. Use **Reveal endpoints** to show hidden endpoint resources
-inside their containing cards, or open the containing context for a full view.
+A relation that leaves the current context can show an outside reference
+card with its home context. It points to the same resource. Use **Go to** to
+open the home context.
 
-## Follow an external reference
+## Switch stages and comparisons
 
-A relation can leave the current context. The outside endpoint then appears as
-a dashed reference card labelled with its home context. It is the same
-resource, not a copy. Select it to inspect the resource here, or use **Go to**
-to open its home context.
+Open **Reading** to choose a stage or comparison. A plan normally opens at
+**Planned**; available **Refreshed** and **Recorded** stages depend on the
+plan evidence. A state document has **Recorded** only. Under
+**Comparisons**, a plan may offer drift, planned, and net changes. A
+cross-input comparison shows **Before**, **Diff**, and **After** views of its
+selected stages; [Compare architectures](compare-architectures.md#open-the-comparison-in-the-browser)
+opens one. The **Analysis** panel's **Changes** tab lists determined changes
+and undetermined closures; **Drift report** names drift reported by the plan
+with its scope.
 
-External references show only what is needed to read the current scene. They do
-not bring the endpoint's surrounding resources into this context.
+Do not read “No drift reported in this plan” as proof that no infrastructure
+changed. Terraform or OpenTofu may have skipped refresh or limited scope. See
+[comparisons and drift](../concepts/architecture-ir.md#comparisons-and-drift).
 
 ## Reveal a secondary resource
 
-Some fully resolved association resources contribute implementation detail to
-other resources without needing permanent cards. Find such a resource from the
-Inspector of an object it contributes to, or search for it by name or type.
-Either route reveals the resource so you can inspect it directly.
+Some association resources contribute implementation detail without a
+permanent card in every scene. Find one through search or from the object
+it contributes to, then reveal it for inspection. Its per-instance entry and
+provenance remain in the document even when the scene leaves it collapsed.
 
-This presentation does not remove the resource from the architecture or turn
-its contribution into a placement or relation.
+## Export and share
 
-## Save or share the result
+Save a reusable document or standalone browser view from the same input:
 
-Save a reusable architecture file:
-
+<!-- docs-check:journey-explore-export -->
 ```sh
-rootform build . --output architecture.json
+rootform run plan.json --plan-file plan.tfplan --no-serve -o architecture.json -o architecture.html
 ```
 
-Open that saved document later:
+The HTML file embeds the Explorer and the analysis, makes no network requests,
+and needs no server. The JSON file can reopen in `run` or feed `explain`.
+Neither contains sensitive values, but both reveal infrastructure names and
+topology to anyone who receives them. Review
+[security and data handling](../security/index.md) and
+[output formats](../reference/outputs.md) before sharing.
 
-```sh
-rootform run architecture.json
-```
+## Use the keyboard
 
-To rebuild the architecture from the configuration, run `rootform build .`.
-To export that configuration as a self-contained browser artifact, use:
+Shortcuts apply when focus is outside a text field. `Alt` is `Option` on
+macOS.
 
-```sh
-rootform build . --format html --output architecture.html
-```
+| Key | Action |
+| --- | --- |
+| `Escape` | Clear the selection, or move up one level when nothing is selected |
+| `Backspace` or `Alt+Left` | Go back |
+| `Alt+Right` | Go forward |
+| `+` and `-` | Zoom in and out while the canvas has focus |
+| `0` or `f` | Fit the architecture in view |
+| `c` | Center the selection |
 
-To explore a comparison the same way, `rootform diff` accepts `--serve` and
-`--format html`; see [Compare architectures](compare-architectures.md#open-the-comparison-in-the-browser).
-
-Review [security and data handling](../security/index.md) before sharing either
-file. For exact output behavior and automation contracts, see
-[Outputs and exit status](../reference/outputs.md).
+To choose evidence for another question, [choose an input](../inputs/index.md).

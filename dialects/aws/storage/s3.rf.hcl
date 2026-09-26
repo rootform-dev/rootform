@@ -9,4 +9,13 @@ rule "s3-directory-bucket" {
   }
 
   as = rf.concept.object-storage-container
+
+  identity {
+    attributes = ["bucket"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "bucket", "arn"]
+  }
 }

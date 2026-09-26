@@ -4,6 +4,15 @@ rule "appsync-graphql-api" {
   }
 
   as = concept.appsync-api
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "appsync-datasource" {
@@ -14,8 +23,15 @@ rule "appsync-datasource" {
   as = concept.appsync-component
 
   contribution {
-    to  = concept.appsync-api
-    via = source.api_id
+    to       = concept.appsync-api
+    via      = source.api_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -27,8 +43,15 @@ rule "appsync-function" {
   as = concept.appsync-component
 
   contribution {
-    to  = concept.appsync-api
-    via = source.api_id
+    to       = concept.appsync-api
+    via      = source.api_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -40,7 +63,14 @@ rule "appsync-resolver" {
   as = concept.appsync-component
 
   contribution {
-    to  = concept.appsync-api
-    via = source.api_id
+    to       = concept.appsync-api
+    via      = source.api_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

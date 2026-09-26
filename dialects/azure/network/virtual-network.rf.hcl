@@ -11,9 +11,19 @@ rule "virtual-network-manager" {
   as = concept.virtual-network-manager
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -25,19 +35,49 @@ rule "virtual-network-peering" {
   as = concept.network-peering
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.virtual_network_name
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.virtual_network_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "peers-with" {
-    to  = rf.concept.virtual-network
-    via = source.remote_virtual_network_id
+    to       = rf.concept.virtual-network
+    via      = source.remote_virtual_network_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

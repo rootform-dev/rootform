@@ -56,3 +56,55 @@ export function validateRendererPresentation(value: unknown, label: string): voi
     validateMap(value[section], keyPattern, valueValidator, `${label}: ${section}`);
   }
 }
+
+export function buildRendererPresentation(root: string): string {
+  const inventory = JSON.parse(readFileSync(join(root, "dialects/dialects.json"), "utf8")) as {
+    dialects: Array<{ name: string }>;
+  };
+  const catalog: Record<string, string | Record<string, string>> = { format_version: "1" };
+  for (const section of sections) catalog[section] = {};
+  for (const { name } of inventory.dialects) {
+    const manifest = JSON.parse(
+      readFileSync(join(root, "dialects", name, "presentation.json"), "utf8"),
+    ) as Record<string, Record<string, string>>;
+    for (const section of sections) {
+      const target = catalog[section] as Record<string, string>;
+      for (const [key, value] of Object.entries(manifest[section] ?? {})) {
+        const qualified =
+          section === "rules" || section === "rule_labels"
+            ? `${name}.rule.${key}`
+            : section === "concepts" || section === "concept_labels"
+              ? `${name}.concept.${key}`
+              : key;
+        if (target[qualified] !== undefined && target[qualified] !== value) {
+          throw new Error(`Conflicting presentation identity: ${qualified}`);
+        }
+        target[qualified] = value;
+      }
+    }
+  }
+  const concepts = catalog.concepts as Record<string, string>;
+  const labels = catalog.concept_labels as Record<string, string>;
+  for (const [name, identity, label] of [
+    ["kubernetes-cluster", "kubernetes/cluster", "Kubernetes cluster"],
+    ["managed-database", "generic/database", "Managed database"],
+    ["object-storage-container", "generic/storage", "Object storage container"],
+    ["service-identity", "generic/identity", "Service identity"],
+    ["subnet", "generic/subnet", "Subnet"],
+    ["virtual-network", "generic/network", "Virtual network"],
+  ] as const) {
+    concepts[`rf.concept.${name}`] = identity;
+    labels[`rf.concept.${name}`] = label;
+  }
+  for (const section of sections) {
+    const values = catalog[section] as Record<string, string>;
+    catalog[section] = Object.fromEntries(
+      Object.entries(values).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)),
+    );
+  }
+  validateRendererPresentation(catalog, "merged catalog");
+  return `${JSON.stringify(catalog)}\n`;
+}
+
+import { readFileSync } from "node:fs";
+import { join } from "node:path";

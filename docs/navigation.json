@@ -32,7 +32,7 @@
       { "label": "Add external content", "page": "guides/external-content" },
       { "label": "Use a local Dialect while authoring", "page": "guides/local-dialect" },
       { "label": "Locks and vendored content", "page": "offline-security" },
-      { "label": "Reproduce a build offline", "page": "guides/reproduce-build" }
+      { "label": "Reproduce an analysis offline", "page": "guides/reproduce-build" }
     ]
   },
   {
@@ -42,8 +42,8 @@
       { "label": "Install, add, and vendor", "page": "concepts/external-content" },
       { "label": "Dialects and RF Vocabulary", "page": "concepts/dialects" },
       { "label": "Policies and Policy Packs", "page": "concepts/policies" },
-      { "label": "Architecture Diff", "page": "concepts/diff" },
-      { "label": "Architecture IR", "page": "concepts/architecture-ir" }
+      { "label": "Architecture comparisons", "page": "concepts/diff" },
+      { "label": "Architecture documents", "page": "concepts/architecture-ir" }
     ]
   },
   {
@@ -114,8 +114,6 @@
               { "label": "policy-packs", "page": "reference/cli/add/policy-packs" }
             ]
           },
-          { "label": "build", "page": "reference/cli/build" },
-          { "label": "check", "page": "reference/cli/check" },
           {
             "label": "compile",
             "items": [
@@ -124,7 +122,6 @@
             ]
           },
           { "label": "completion", "page": "reference/cli/completion" },
-          { "label": "diff", "page": "reference/cli/diff" },
           {
             "label": "explain",
             "items": [

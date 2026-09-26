@@ -40,6 +40,15 @@ rule "vector-search-endpoint" {
   }
 
   as = concept.vector-search-endpoint
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "vector-search-index" {
@@ -50,8 +59,15 @@ rule "vector-search-index" {
   as = concept.vector-search-index
 
   relation "served-by" {
-    to  = concept.vector-search-endpoint
-    via = source.endpoint_name
+    to       = concept.vector-search-endpoint
+    via      = source.endpoint_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -61,6 +77,15 @@ rule "ai-search-endpoint" {
   }
 
   as = concept.ai-search-endpoint
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "ai-search-index" {
@@ -71,8 +96,15 @@ rule "ai-search-index" {
   as = concept.ai-search-index
 
   relation "served-by" {
-    to  = concept.ai-search-endpoint
-    via = source.endpoint
+    to       = concept.ai-search-endpoint
+    via      = source.endpoint
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 

@@ -7,4 +7,13 @@ rule "neptune-cluster" {
   }
 
   as = rf.concept.managed-database
+
+  identity {
+    attributes = ["arn", "cluster_identifier"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["arn", "id", "cluster_identifier"]
+  }
 }

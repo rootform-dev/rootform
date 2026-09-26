@@ -1,133 +1,183 @@
 ---
 title: "Use a local Dialect while authoring"
-description: "Try a Dialect from a source directory without changing the project, then add it to the project's exact selection."
+description: "Try a Dialect against a real plan, test its evidence, then record it in the project selection."
 ---
 
-Write a Dialect next to your Terraform or OpenTofu code, try it on real input,
-and adopt it into the project only when its results are right. Trying a
-Dialect never changes `rootform.lock`; adopting it does, once.
+A [Dialect](../concepts/dialects.md) interprets provider instances. Keep its source beside the project while authoring, pass `--dialect` for one run, and add it to `rootform.lock` only after reviewing the resulting facts. This example uses `random_pet` to keep the plan small; the same sequence applies to a provider-specific Dialect with architectural Contexts and Relations.
 
-Prerequisites:
+Prerequisites: Rootform, Terraform, and a project directory you control. OpenTofu users run the Terraform commands with `tofu`. Run commands below from that directory. The plan JSON and saved plan can carry cleartext secrets in a real project; keep them out of Git. [Plan inputs](../inputs/plans.md) gives the complete export and protection procedure.
 
-- a Rootform project directory with Terraform or OpenTofu configuration;
-- a Dialect source directory, here `dialects/payments` inside the project.
-  [Write a Dialect](../dialect-authoring.md) covers its contents.
+<!-- rootform:steps -->
 
-Run every command from the project root.
+## Write the source beside the project
 
-## Try the Dialect
+Use this small project and Dialect source to observe one interpretation:
 
-Pass the source directory to any command that reads Dialects:
+```tree title="Project files"
+.
+├── main.tf
+└── dialects/
+    └── network-review/
+        └── dialect.rf.hcl
+```
 
-<!-- docs-check:local-dialect-1 -->
+```hcl title="main.tf"
+terraform {
+  required_providers {
+    random = {
+      source  = "hashicorp/random"
+      version = "= 3.9.1"
+    }
+  }
+}
+
+resource "random_pet" "service" {
+  length = 2
+}
+```
+
+```rf title="dialects/network-review/dialect.rf.hcl"
+dialect "network-review" {
+  version = "0.1.0"
+
+  provider "hashicorp/random" {
+    version = "= 3.9.1"
+  }
+}
+
+concept "generated-identifier" {
+  description = "An identifier generated for a service."
+}
+
+rule "service-name" {
+  match {
+    kind = "resource"
+    type = "random_pet"
+  }
+
+  as = concept.generated-identifier
+}
+```
+
+The manifest binds the provider and the Rule identifies eligible instances. `as` gives an interpreted instance a Concept; this example emits no Context or Relation. [Write a Dialect](../dialect-authoring.md) explains Rules, endpoint identity, null handling, and evidence tests.
+
+## Export and analyze a plan
+
+Produce a saved plan and its JSON export. Rootform reads the completed export; it never runs Terraform or contacts the provider:
+
 ```sh
-rootform build . --dialect ./dialects/payments
+terraform init
+terraform plan -out=plan.tfplan
+terraform show -json plan.tfplan > plan.json
 ```
 
-```text title="Standard error from the example"
-Using payments 0.1.0 from ./dialects/payments for this command only
-```
+Try the source for this run without changing the project selection:
 
-`--dialect` applies to one command. Rootform compiles the directory and adds
-it to the active Dialects for that run. If the project already selects
-`payments`, or if `payments` is an embedded Dialect, the local source takes
-its place for that run. Repeat the flag to try several Dialects together.
-
-Inspect what the Dialect contributes:
-
-<!-- docs-check:local-dialect-2 -->
+<!-- docs-check:local-dialect-run -->
 ```sh
-rootform list dialects payments -o wide --dialect ./dialects/payments
-rootform show payments --dialect ./dialects/payments
+rootform run plan.json --plan-file plan.tfplan --require-enrichment \
+  --dialect ./dialects/network-review --no-serve -o architecture.json
 ```
 
-## Iterate
+<!-- docs-output:local-dialect-run -->
+```text title="Excerpt from analysis summary"
+Plan analyzed
+Enrichment    saved plan verified against this plan JSON (1 module)
+Semantics     20 Dialects, 1 vocabulary
 
-Edit the source and run the same commands again. There is nothing to
-reinstall, package, or record: each run compiles the directory as it is. A
-compile error stops the command and points to the file and line in the source
-directory.
+Architecture · planned
+  Instances    1 (1 managed, 0 data)
+  Interpreted  1 of 1 instances
+```
 
-The same flag works on every command that reads Dialects. `rootform validate
-rule payments.rule.gateway --dialect ./dialects/payments` checks one Rule from
-the source, `rootform test ./dialects/payments/fixtures --dialect
-./dialects/payments` runs its fixtures, and `rootform explain` traces what the
-source contributes. [Test and validate](../language/test-validate.md) covers
-those checks.
+The count rose from 19 to 20 active Dialects. The instance is interpreted, while `Facts 0` is expected because the Rule only classifies it. Inspect the document or `rootform explain architecture random_pet.service --input architecture.json` when the result differs. `--dialect` compiles current source each run and never writes the lock.
 
-## Add the Dialect to the project
+## Inspect and test the Rule
 
-When the results are right, select the Dialect:
+Check the Dialect source and show the Rule before recording a golden:
 
-<!-- docs-check:local-dialect-3 -->
+<!-- docs-check:local-dialect-inspect -->
 ```sh
-rootform add dialects ./dialects/payments
+rootform validate dialects ./dialects/network-review
+rootform show network-review.rule.service-name \
+  --dialect ./dialects/network-review
 ```
 
-```text title="Example result"
+<!-- docs-output:local-dialect-inspect -->
+```text title="Excerpt from definition"
+network-review.rule.service-name
+
+Matches   resource "random_pet"
+Produces  network-review.concept.generated-identifier
+Defined   dialect.rf.hcl:13
+```
+
+`validate` compiles the source; `show` confirms the selected Rule's match and output. Neither proves what a particular plan instance did. Keep a fixture for that proof:
+
+```tree title="Dialect fixture"
+fixtures/network/
+├── plan.json
+├── plan.tfplan
+└── analysis.golden
+```
+
+Copy the plan pair to the fixture. Record a reviewed golden once with `rootform test ./fixtures --dialect ./dialects/network-review --update`; then run the ordinary test after each Rule change:
+
+<!-- docs-check:local-dialect-test -->
+```sh
+rootform test ./fixtures --dialect ./dialects/network-review
+```
+
+<!-- docs-output:local-dialect-test -->
+```text title="Fixture result"
+Tests passed
+1 case
+```
+
+The test analyzes `plan.json`, verifies the adjacent saved plan, and compares the resulting document with `analysis.golden`. A mismatch is a review signal: inspect changed interpretations, facts, closures, and diagnostics before updating the golden. [Test and validate](../language/test-validate.md) covers fixture behavior.
+
+## Add the reviewed Dialect
+
+Once its result is right, select it for this project:
+
+<!-- docs-check:local-dialect-add -->
+```sh
+rootform add dialects ./dialects/network-review
+```
+
+<!-- docs-output:local-dialect-add -->
+```text title="Selection result"
 rootform.lock updated
 
-  add      dialect payments 0.1.0  (dialects/payments)
+  add      dialect network-review 0.1.0  (dialects/network-review)
 ```
 
-Rootform compiles the directory, records its owner, version, content digest,
-and project-relative path in `rootform.lock`, and creates the lock if the
-project had none. It does not install the local source in `$ROOTFORM_HOME`.
-Commit `rootform.lock` together with `dialects/payments`. From now on, commands
-use the selected Dialect without `--dialect` on clones that have the recorded
-source path.
+The lock records the owner, version, digest, and project-relative local path. Commit it with Dialect source and reviewed fixture. Future runs use the selection through `--project` without the override; `--locked` checks that it has not drifted. If the source changes later, try it with `--dialect`, then run `rootform update dialect network-review` to record the new digest. `init` never adopts source drift. If your owner collides with an embedded Dialect, `add` requires an explicit `--replace`; review the loss of that embedded owner's Rules first.
 
-A source outside the project, such as `../shared-dialects/payments`, is
-recorded the same way, but every machine that runs the project then needs
-that sibling checkout at the same relative place. Vendor the project with
-`rootform vendor`, or publish the Dialect, when that is not guaranteed.
-
-If the owner is an embedded Dialect, `add` stops. Confirm the replacement
-with `--replace`:
-
-<!-- docs-check:local-dialect-4 -->
-```sh
-rootform add dialects ./dialects/aws --replace
-```
+<!-- rootform:endsteps -->
 
 ## Record later changes
 
-After you edit an added Dialect, normal commands stop because its content no
-longer matches `rootform.lock`. The diagnostic names the selected owner and
-points to `rootform update`.
-
-Keep iterating with `--dialect`, which ignores the recorded digest. When the
-change is ready, record it and commit the lock:
-
-<!-- docs-check:local-dialect-5 -->
-```sh
-rootform update dialect payments
-```
-
-The lock diff shows the new version or content digest, so reviewers see that
-the project's architecture meaning changed.
+After selection, a source edit changes the compiled content digest. A normal locked run refuses it instead of silently adopting new meaning. Continue testing the edited source with `--dialect`; when its fixture and analysis are right, run `rootform update dialect network-review` from the project root and review the lock diff. Commit the updated source, golden, and lock together.
 
 ## Share the Dialect with other projects
 
-A Dialect used by several repositories belongs in an OCI registry. Package and
-publish it with `rootform publish dialects`, then add it in each project with
-its reference:
-
-<!-- docs-check:local-dialect-6 -->
-```sh
-rootform add dialects \
-  registry.example.com/acme/rootform/payments:dialect-payments-0.1.0
-```
-
-To move a project from the local source to the published artifact, run
-`rootform update dialect payments <reference>` with that exact reference.
+A local lock path works only where that relative source path exists. For an independent environment, [vendor the exact selection](../guides/external-content.md) with the project. For several repositories, [package and publish the Dialect](../dialect-authoring.md#package-and-publish-a-dialect), then select its reviewed OCI reference in each project. Recheck the fixture against that selected content.
 
 ## Remove the Dialect
 
-<!-- docs-check:local-dialect-7 -->
+If the project no longer needs this interpretation, remove its selection:
+
+<!-- docs-check:local-dialect-remove -->
 ```sh
-rootform remove dialects payments
+rootform remove dialects network-review
 ```
 
-The source directory stays where it is. If the Dialect replaced an embedded
-one, the embedded Dialect becomes active again.
+<!-- docs-output:local-dialect-remove -->
+```text title="Selection result"
+rootform.lock updated
+
+  remove   dialect network-review 0.1.0  (dialects/network-review)
+```
+
+The source directory remains. A later analysis can still show the base Representation for `random_pet.service`, but no Rule interprets it. [Reproduce an analysis offline](reproduce-build.md) shows how to prove another environment loaded a reviewed selection.

@@ -4,20 +4,6 @@
     {
       "id": "consul-minimal",
       "fixture": "fixtures/consul-v2/minimal",
-      "limitations": [
-        "synthetic Terraform proves partition, namespace, catalog node, service, and mesh root without contacting Consul"
-      ],
-      "minimum": {
-        "representations": 5,
-        "relations": 0,
-        "contexts": 3,
-        "contributions": 0
-      },
-      "maximum_facts": {
-        "contexts": 3,
-        "contributions": 0,
-        "relations": 0
-      },
       "required_rules": [
         "consul.rule.admin-partition",
         "consul.rule.config-entry-mesh-json",
@@ -48,30 +34,24 @@
           "rule": "consul.rule.service"
         }
       ],
-      "expected_html_labels": [
-        "Consul admin partition",
-        "Consul namespace",
-        "Consul service",
-        "Consul service mesh"
+      "minimum": {
+        "representations": 5,
+        "relations": 0,
+        "contexts": 3,
+        "contributions": 0
+      },
+      "maximum_facts": {
+        "contexts": 3,
+        "contributions": 0,
+        "relations": 0
+      },
+      "limitations": [
+        "The saved plan demonstrates partition, namespace, catalog node, service, and mesh root without contacting Consul."
       ]
     },
     {
       "id": "consul-service-networking",
       "fixture": "fixtures/consul-v2/scenarios",
-      "limitations": [
-        "synthetic references prove service catalog, tenancy, mesh, gateways, traffic management, peering, exports, and identity without provider APIs; nested repeated-block targets stay unclaimed"
-      ],
-      "minimum": {
-        "representations": 49,
-        "relations": 0,
-        "contexts": 9,
-        "contributions": 16
-      },
-      "maximum_facts": {
-        "contexts": 9,
-        "contributions": 16,
-        "relations": 0
-      },
       "required_rules": [
         "consul.rule.acl-auth-method",
         "consul.rule.config-entry-api-gateway-json",
@@ -87,6 +67,17 @@
         "consul.rule.peering",
         "consul.rule.service"
       ],
+      "required_outcomes": {
+        "consul_acl_policy.private": "no-rule",
+        "consul_acl_token.private": "no-rule",
+        "consul_config_entry.api_gateway": "representation-present",
+        "consul_config_entry.ingress_legacy": "representation-present",
+        "consul_config_entry.mesh": "representation-present",
+        "consul_keys.private": "no-rule",
+        "consul_license.private": "no-rule",
+        "consul_peering.edge": "representation-present",
+        "consul_service.api": "representation-present"
+      },
       "required_facts": [
         {
           "collection": "contexts",
@@ -114,25 +105,17 @@
           "rule": "consul.rule.intention"
         }
       ],
-      "required_outcomes": {
-        "consul_acl_policy.private": "no-rule",
-        "consul_acl_token.private": "no-rule",
-        "consul_config_entry.api_gateway": "representation-present",
-        "consul_config_entry.ingress_legacy": "representation-present",
-        "consul_config_entry.mesh": "representation-present",
-        "consul_keys.private": "no-rule",
-        "consul_license.private": "no-rule",
-        "consul_peering.edge": "representation-present",
-        "consul_service.api": "representation-present"
+      "minimum": {
+        "representations": 49,
+        "relations": 0,
+        "contexts": 9,
+        "contributions": 16
       },
-      "expected_html_labels": [
-        "Consul API gateway",
-        "Consul ingress gateway (deprecated)",
-        "Consul service mesh",
-        "Consul cluster peering",
-        "Consul service intentions",
-        "Consul intention (legacy)"
-      ],
+      "maximum_facts": {
+        "contexts": 9,
+        "contributions": 16,
+        "relations": 0
+      },
       "forbidden_output": [
         "ROOTFORM_CONSUL_CA_TOKEN_SENTINEL",
         "ROOTFORM_CONSUL_PEERING_TOKEN_SENTINEL",
@@ -144,38 +127,23 @@
         "ROOTFORM_CONSUL_KV_SENTINEL",
         "ROOTFORM_CONSUL_LICENSE_SENTINEL",
         "ROOTFORM_CONSUL_CONFIG_JSON_SENTINEL"
+      ],
+      "limitations": [
+        "Planned values and verified traversals support service catalog, tenancy, mesh, gateways, traffic management, peering, exports, and identity without provider APIs; nested repeated-block targets stay unclaimed."
       ]
     },
     {
       "id": "consul-fail-closed",
       "fixture": "fixtures/consul-v2/boundary",
-      "limitations": [
-        "negative fixture exits indeterminate while preserving resource bases and diagnostics; literals, depends_on, ambiguity, dangling references, and target mismatches create no unresolved fact"
-      ],
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "DEPENDENCY_DANGLING",
-        "DEPENDENCY_DANGLING",
-        "DEPENDENCY_DANGLING",
-        "FACT_TARGET_MISMATCH",
-        "FACT_TARGET_MISMATCH",
-        "FACT_TARGET_MISMATCH",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_DANGLING",
-        "TRAVERSAL_DANGLING",
-        "TRAVERSAL_DANGLING",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_CONSUL_BOUNDARY_CA_SENTINEL",
         "ROOTFORM_CONSUL_BOUNDARY_POLICY_SENTINEL",
         "ROOTFORM_CONSUL_BOUNDARY_TOKEN_SENTINEL",
         "ROOTFORM_CONSUL_BOUNDARY_KV_SENTINEL",
         "ROOTFORM_CONSUL_BOUNDARY_LICENSE_SENTINEL"
+      ],
+      "limitations": [
+        "In this saved plan, literals, depends_on, ambiguity, dangling references, and target mismatches create no unsupported fact. Unresolved outcomes retain their diagnostics."
       ]
     }
   ]

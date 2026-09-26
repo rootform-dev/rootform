@@ -6,15 +6,15 @@ terraform {
     }
     kestra = {
       source  = "kestra-io/kestra"
-      version = ">= 0.22.0, < 1.0.0"
+      version = "= 0.24.3"
     }
     random = {
       source  = "hashicorp/random"
-      version = ">= 3.0.0, < 4.0.0"
+      version = "= 3.9.1"
     }
     vault = {
       source  = "hashicorp/vault"
-      version = ">= 3.0.0, < 6.0.0"
+      version = "= 5.11.0"
     }
   }
 }

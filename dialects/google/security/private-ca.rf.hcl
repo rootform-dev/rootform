@@ -12,6 +12,15 @@ rule "private-ca-pool" {
   }
 
   as = concept.private-ca-pool
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "private-certificate-authority" {
@@ -22,8 +31,15 @@ rule "private-certificate-authority" {
   as = concept.private-certificate-authority
 
   context {
-    as  = context.ownership
-    to  = concept.private-ca-pool
-    via = source.pool
+    as       = context.ownership
+    to       = concept.private-ca-pool
+    via      = source.pool
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.id]
+      strategy = "exact"
+    }
   }
 }

@@ -1,13 +1,15 @@
 {
   "format_version": "1",
-  "dialect": "okta",
-  "provider_version": "7.0.0",
   "scenarios": [
     {
       "id": "okta-minimal",
       "fixture": "fixtures/okta-v7/minimal",
-      "limitations": [
-        "synthetic Terraform proves roots without contacting Okta"
+      "required_rules": [
+        "okta.rule.org-configuration",
+        "okta.rule.app-oauth",
+        "okta.rule.auth-server",
+        "okta.rule.idp-oidc",
+        "okta.rule.event-hook"
       ],
       "minimum": {
         "representations": 5,
@@ -20,38 +22,13 @@
         "contributions": 0,
         "relations": 0
       },
-      "required_rules": [
-        "okta.rule.org-configuration",
-        "okta.rule.app-oauth",
-        "okta.rule.auth-server",
-        "okta.rule.idp-oidc",
-        "okta.rule.event-hook"
-      ],
-      "expected_html_labels": [
-        "Okta org",
-        "Okta OIDC app integration",
-        "Okta Authorization Server",
-        "Okta OIDC Identity Provider",
-        "Okta event hook"
+      "limitations": [
+        "The saved plan demonstrates roots without contacting Okta."
       ]
     },
     {
       "id": "okta-broad-identity",
       "fixture": "fixtures/okta-v7/scenarios",
-      "limitations": [
-        "only exact Terraform references create composition or relations; routing helpers never invent authentication flows"
-      ],
-      "minimum": {
-        "representations": 86,
-        "relations": 1,
-        "contexts": 0,
-        "contributions": 22
-      },
-      "maximum_facts": {
-        "contexts": 0,
-        "contributions": 22,
-        "relations": 1
-      },
       "required_rules": [
         "okta.rule.api-service-integration",
         "okta.rule.api-service-integration-lookup",
@@ -138,6 +115,12 @@
         "okta.rule.trusted-origin-lookup",
         "okta.rule.trusted-server"
       ],
+      "required_outcomes": {
+        "okta_user.must_not_create_topology": "no-rule",
+        "okta_org_configuration.primary": "representation-present",
+        "okta_auth_server.api": "representation-present",
+        "okta_policy_rule_idp_discovery.routing": "representation-present"
+      },
       "required_facts": [
         {
           "collection": "relations",
@@ -159,46 +142,38 @@
           "rule": "okta.rule.domain-verification"
         }
       ],
-      "required_outcomes": {
-        "okta_user.must_not_create_topology": "no-rule",
-        "okta_org_configuration.primary": "representation-present",
-        "okta_auth_server.api": "representation-present",
-        "okta_policy_rule_idp_discovery.routing": "representation-present"
+      "minimum": {
+        "representations": 86,
+        "relations": 1,
+        "contexts": 0,
+        "contributions": 21
       },
-      "expected_html_labels": [
-        "Okta org",
-        "Okta OIDC app integration",
-        "Okta Authorization Server",
-        "Okta SAML Identity Provider",
-        "Okta log stream",
-        "Okta Security Events Provider"
-      ],
+      "maximum_facts": {
+        "contexts": 0,
+        "contributions": 22,
+        "relations": 1
+      },
       "forbidden_output": [
         "ROOTFORM_OKTA_PROVIDER_TOKEN_SENTINEL",
         "ROOTFORM_OKTA_APP_SECRET_SENTINEL",
         "ROOTFORM_OKTA_IDP_SECRET_SENTINEL",
         "ROOTFORM_OKTA_DOMAIN_PRIVATE_KEY_SENTINEL",
         "ROOTFORM_OKTA_HOOK_HEADER_SENTINEL",
-        "ROOTFORM_OKTA_LOG_TOKEN_SENTINEL",
+        "0badc0de-5e47-4e11-8000-000000000001",
         "ROOTFORM_OKTA_USER_PROFILE_SENTINEL"
+      ],
+      "limitations": [
+        "Only evaluated identity values or verified identity traversals create composition or relations; routing helpers never invent authentication flows."
       ]
     },
     {
       "id": "okta-fail-closed",
       "fixture": "fixtures/okta-v7/boundary",
-      "limitations": [
-        "negative fixture proves literals, ambiguity, dangling references, target mismatches, and depends_on create no unresolved facts while partial IR preserves bases"
-      ],
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "DEPENDENCY_DANGLING",
-        "FACT_TARGET_MISMATCH",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_DANGLING",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_OKTA_BOUNDARY_SECRET_SENTINEL"
+      ],
+      "limitations": [
+        "In this saved plan, literals, ambiguity, dangling references, target mismatches, and dependencies establish no unsupported facts. The architecture document retains represented resources."
       ]
     }
   ]

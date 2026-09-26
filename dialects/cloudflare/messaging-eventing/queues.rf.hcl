@@ -8,6 +8,15 @@ rule "queue" {
   }
 
   as = concept.message-queue
+
+  identity {
+    attributes = ["id", "queue_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "queue_name"]
+  }
 }
 
 rule "queue-consumer" {
@@ -18,12 +27,26 @@ rule "queue-consumer" {
   as = concept.queue-consumer-binding
 
   contribution {
-    to  = concept.message-queue
-    via = source.queue_id
+    to       = concept.message-queue
+    via      = source.queue_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.serverless-function
-    via = source.script_name
+    to       = concept.serverless-function
+    via      = source.script_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }

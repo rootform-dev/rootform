@@ -16,6 +16,15 @@ rule "organization" {
   }
 
   as = concept.organization
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "project" {
@@ -25,10 +34,29 @@ rule "project" {
 
   as = concept.project
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.organization
-    via = source.org_id
+    as       = context.ownership
+    to       = concept.organization
+    via      = source.org_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared organization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -40,7 +68,17 @@ rule "resource-policy" {
   as = concept.governance-configuration
 
   contribution {
-    to  = concept.organization
-    via = source.org_id
+    to       = concept.organization
+    via      = source.org_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared organization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

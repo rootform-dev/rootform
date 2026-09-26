@@ -10,9 +10,19 @@ rule "connections-metrics-endpoint-scrape-job" {
   as = concept.metrics-scrape-job
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.stack_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.stack_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -25,8 +35,18 @@ rule "connections-metrics-endpoint-scrape-job-lookup" {
   as = concept.metrics-scrape-job
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.stack_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.stack_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

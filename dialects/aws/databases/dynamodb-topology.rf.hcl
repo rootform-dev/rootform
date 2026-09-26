@@ -9,6 +9,8 @@ rule "dynamodb-global-secondary-index" {
     to  = concept.dynamodb-table
     via = source.table_name
 
+    on_null  = "absent"
+    on_empty = "absent"
     match {
       by       = target.name
       strategy = "exact"

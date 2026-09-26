@@ -12,6 +12,15 @@ rule "bigquery-dataset" {
   }
 
   as = concept.bigquery-dataset
+
+  identity {
+    attributes = ["dataset_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["dataset_id", "id", "self_link"]
+  }
 }
 
 rule "bigquery-table" {
@@ -21,11 +30,22 @@ rule "bigquery-table" {
 
   as = concept.bigquery-table
 
+  identity {
+    attributes = ["table_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "self_link", "table_id"]
+  }
+
   context {
     as  = context.ownership
     to  = concept.bigquery-dataset
     via = source.dataset_id
 
+    on_null  = "absent"
+    on_empty = "absent"
     match {
       by       = target.dataset_id
       strategy = "exact"
@@ -44,6 +64,8 @@ rule "bigquery-dataset-access" {
     to  = concept.bigquery-dataset
     via = source.dataset_id
 
+    on_null  = "absent"
+    on_empty = "absent"
     match {
       by       = target.dataset_id
       strategy = "exact"
@@ -62,9 +84,11 @@ rule "bigquery-table-iam-member" {
     to  = concept.bigquery-table
     via = source.table_id
 
+    on_null  = "absent"
+    on_empty = "absent"
     match {
       by       = target.table_id
-      strategy = "exact"
+      strategy = "last-segment"
     }
   }
 }

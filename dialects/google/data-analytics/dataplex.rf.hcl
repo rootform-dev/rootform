@@ -17,6 +17,15 @@ rule "dataplex-lake" {
   }
 
   as = concept.dataplex-lake
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "dataplex-zone" {
@@ -27,9 +36,16 @@ rule "dataplex-zone" {
   as = concept.dataplex-zone
 
   context {
-    as  = context.ownership
-    to  = concept.dataplex-lake
-    via = source.lake
+    as       = context.ownership
+    to       = concept.dataplex-lake
+    via      = source.lake
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.id]
+      strategy = "exact"
+    }
   }
 }
 

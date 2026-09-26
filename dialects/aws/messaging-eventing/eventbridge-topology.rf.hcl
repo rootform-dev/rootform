@@ -4,6 +4,15 @@ rule "cloudwatch-event-bus" {
   }
 
   as = concept.event-bus
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "cloudwatch-event-rule" {
@@ -17,6 +26,8 @@ rule "cloudwatch-event-rule" {
     to  = concept.event-bus
     via = source.event_bus_name
 
+    on_null  = "absent"
+    on_empty = "absent"
     match {
       by       = target.name
       strategy = "exact"

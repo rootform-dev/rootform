@@ -10,8 +10,15 @@ rule "token-exchange-profile" {
   as = concept.token-exchange-profile
 
   relation "executes-action" {
-    to  = concept.identity-extension
-    via = source.action_id
+    to       = concept.identity-extension
+    via      = source.action_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -24,7 +31,14 @@ rule "token-exchange-profile-lookup" {
   as = concept.token-exchange-profile
 
   relation "executes-action" {
-    to  = concept.identity-extension
-    via = source.action_id
+    to       = concept.identity-extension
+    via      = source.action_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

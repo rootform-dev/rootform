@@ -14,4 +14,13 @@ rule "db-proxy" {
   }
 
   as = concept.db-proxy
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }

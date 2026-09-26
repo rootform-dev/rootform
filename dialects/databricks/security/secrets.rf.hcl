@@ -12,6 +12,15 @@ rule "secret-scope" {
   }
 
   as = concept.secret-scope
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "secret" {
@@ -22,8 +31,15 @@ rule "secret" {
   as = concept.secret-configuration
 
   contribution {
-    to  = concept.secret-scope
-    via = source.scope
+    to       = concept.secret-scope
+    via      = source.scope
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -35,8 +51,15 @@ rule "secret-acl" {
   as = concept.secret-configuration
 
   contribution {
-    to  = concept.secret-scope
-    via = source.scope
+    to       = concept.secret-scope
+    via      = source.scope
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 

@@ -21,6 +21,8 @@ resource "snowflake_warehouse" "transform" {
 }
 
 resource "snowflake_dynamic_table" "orders" {
+  target_lag {
+  }
   database  = snowflake_database.analytics.name
   schema    = snowflake_schema.pipelines.fully_qualified_name
   name      = "ORDERS"
@@ -29,6 +31,7 @@ resource "snowflake_dynamic_table" "orders" {
 }
 
 resource "snowflake_task" "refresh" {
+  started       = false
   database      = snowflake_database.analytics.name
   schema        = snowflake_schema.pipelines.fully_qualified_name
   name          = "REFRESH"

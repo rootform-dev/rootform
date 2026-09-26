@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
+      version = "= 6.62.0"
     }
     hcp = {
       source  = "hashicorp/hcp"
@@ -16,38 +17,45 @@ variable "choose_first" {
 }
 
 resource "hcp_project" "first" {
-  name = "rootform-first"
-}
 
+  name = "rootform-first"
+
+}
 resource "hcp_project" "second" {
-  name = "rootform-second"
-}
 
+  name = "rootform-second"
+
+}
 resource "hcp_service_principal" "first" {
+
   name = "rootform-first"
-}
 
+}
 resource "hcp_service_principal" "second" {
+
   name = "rootform-second"
-}
 
+}
 resource "aws_vpc" "first" {
+
   cidr_block = "10.10.0.0/16"
-}
 
+}
 resource "aws_vpc" "second" {
-  cidr_block = "10.20.0.0/16"
-}
 
+  cidr_block = "10.20.0.0/16"
+
+}
 resource "aws_iam_role" "mismatch" {
-  name = "rootform-mismatch"
+  assume_role_policy = jsonencode({ Version = "2012-10-17", Statement = [{ Effect = "Allow", Action = "sts:AssumeRole", Principal = { Service = "ec2.amazonaws.com" } }] })
+  name               = "rootform-mismatch"
 }
 
 resource "hcp_hvn" "literal" {
   hvn_id         = "rootform-literal"
   cloud_provider = "aws"
   region         = "us-west-2"
-  project_id     = "literal-project"
+  project_id     = "00000000-0000-0000-0000-000000000001"
   depends_on     = [hcp_project.first]
 }
 
@@ -56,13 +64,6 @@ resource "hcp_hvn" "ambiguous" {
   cloud_provider = "aws"
   region         = "us-west-2"
   project_id     = var.choose_first ? hcp_project.first.resource_id : hcp_project.second.resource_id
-}
-
-resource "hcp_hvn" "dangling" {
-  hvn_id         = "rootform-dangling"
-  cloud_provider = "aws"
-  region         = "us-west-2"
-  project_id     = hcp_project.missing.resource_id
 }
 
 resource "hcp_hvn" "mismatch" {
@@ -89,14 +90,6 @@ resource "hcp_aws_network_peering" "ambiguous" {
   peer_vpc_region = "us-west-2"
 }
 
-resource "hcp_aws_network_peering" "dangling" {
-  hvn_id          = hcp_hvn.literal.hvn_id
-  peering_id      = "rootform-dangling"
-  peer_vpc_id     = aws_vpc.missing.id
-  peer_account_id = "123456789012"
-  peer_vpc_region = "us-west-2"
-}
-
 resource "hcp_aws_network_peering" "mismatch" {
   hvn_id          = hcp_hvn.literal.hvn_id
   peering_id      = "rootform-mismatch"
@@ -106,28 +99,28 @@ resource "hcp_aws_network_peering" "mismatch" {
 }
 
 resource "hcp_iam_workload_identity_provider" "literal" {
-  name              = "rootform-literal"
-  service_principal = "principal-literal"
-  conditional_access = "true"
-  depends_on        = [hcp_service_principal.first]
+  name               = "rootform-literal"
+  service_principal  = "iam/project/00000000-0000-0000-0000-000000000001/service-principal/principal-literal"
+  conditional_access = "true0"
+  depends_on         = [hcp_service_principal.first]
   aws = {
     account_id = "123456789012"
   }
 }
 
 resource "hcp_iam_workload_identity_provider" "ambiguous" {
-  name              = "rootform-ambiguous"
-  service_principal = var.choose_first ? hcp_service_principal.first.resource_name : hcp_service_principal.second.resource_name
-  conditional_access = "true"
+  name               = "rootform-ambiguous"
+  service_principal  = var.choose_first ? hcp_service_principal.first.resource_name : hcp_service_principal.second.resource_name
+  conditional_access = "true0"
   aws = {
     account_id = "123456789012"
   }
 }
 
 resource "hcp_iam_workload_identity_provider" "mismatch" {
-  name              = "rootform-mismatch"
-  service_principal = aws_vpc.first.id
-  conditional_access = "true"
+  name               = "rootform-mismatch"
+  service_principal  = aws_vpc.first.id
+  conditional_access = "true0"
   aws = {
     account_id = "123456789012"
   }
@@ -141,8 +134,8 @@ resource "hcp_boundary_cluster" "private" {
 }
 
 resource "hcp_vault_secrets_secret" "private" {
-  app_name    = "rootform-private"
-  secret_name = "private"
+  app_name     = "rootform-private"
+  secret_name  = "private"
   secret_value = "ROOTFORM_HCP_SECRET_PRIVATE_SENTINEL"
 }
 
@@ -174,13 +167,17 @@ resource "hcp_waypoint_tfc_config" "private" {
 }
 
 resource "hcp_vault_cluster_admin_token" "private" {
-  cluster_id = "rootform-private"
-}
 
+  cluster_id = "rootform-private"
+
+}
 resource "hcp_consul_cluster_root_token" "private" {
-  cluster_id = "rootform-private"
-}
 
+  cluster_id = "rootform-private"
+
+}
 resource "hcp_service_principal_key" "private" {
+
   service_principal = hcp_service_principal.first.resource_name
+
 }

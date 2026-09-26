@@ -1,55 +1,19 @@
 trigger:
   - main
 
-pr:
-  - main
-
 pool:
   vmImage: ubuntu-24.04
 
-variables:
-  ROOTFORM_CHECK: '0'
-
 steps:
   - checkout: self
-  - bash: |
-      docker run --rm \
-        --user "$(id -u):$(id -g)" \
-        --volume "$(Build.SourcesDirectory):/workspace" \
-        --workdir /workspace \
-        --env HOME=/tmp \
-        --env ROOTFORM_HOME=/tmp/rootform-home \
-        --env ROOTFORM_PROJECT=./infra \
-        --env ROOTFORM_OUTPUT_DIR=/workspace/.rootform-ci-$(Build.BuildId) \
-        --env ROOTFORM_CHECK \
-        --env ROOTFORM_POLICY_PACK \
-        --env ROOTFORM_OFFLINE \
-        ghcr.io/rootform-dev/rootform:0.1.0 \
-        sh ./ci/rootform-ci.sh
-    displayName: Build architecture with Rootform
+    persistCredentials: false
   - bash: |
       set -eu
-      results="$(Build.SourcesDirectory)/.rootform-ci-$(Build.BuildId)"
-      artifact_dir=$(mktemp -d "$(Agent.TempDirectory)/rootform-artifact.XXXXXX")
-      archive="$artifact_dir/rootform-results.tar"
-      set --
-      if [ -d "$results" ] && [ ! -L "$results" ]; then
-        for file in init.json init.stderr architecture.json build.stderr diff.json diff.md diff.stderr check.json check.stderr check.status; do
-          if [ -f "$results/$file" ] && [ ! -L "$results/$file" ]; then
-            set -- "$@" "$file"
-          fi
-        done
-      fi
-      if [ "$#" -eq 0 ]; then
-        tar -cf "$archive" -T /dev/null
-      else
-        tar -cf "$archive" -C "$results" "$@"
-      fi
-      printf '##vso[task.setvariable variable=rootformArtifactPath]%s\n' "$archive"
-    displayName: Package current Rootform results
+      terraform -chdir=infra init -input=false
+      terraform -chdir=infra plan -input=false -out="$(Agent.TempDirectory)/plan.tfplan"
+      terraform -chdir=infra show -json "$(Agent.TempDirectory)/plan.tfplan" > "$(Agent.TempDirectory)/plan.json"
+      ROOTFORM_PROJECT=./infra ROOTFORM_INPUT="$(Agent.TempDirectory)/plan.json" ROOTFORM_PLAN_FILE="$(Agent.TempDirectory)/plan.tfplan" ROOTFORM_OUTPUT_DIR="$(Build.SourcesDirectory)/.rootform-ci-$(Build.BuildId)" sh ./ci/rootform-ci.sh
+    displayName: Analyze plan
+  - publish: $(Build.SourcesDirectory)/.rootform-ci-$(Build.BuildId)
+    artifact: rootform-results
     condition: succeededOrFailed()
-  - task: PublishPipelineArtifact@1
-    condition: and(succeededOrFailed(), ne(variables['rootformArtifactPath'], ''))
-    inputs:
-      targetPath: $(rootformArtifactPath)
-      artifact: rootform-results

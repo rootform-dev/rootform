@@ -4,15 +4,6 @@
     {
       "id": "vault-minimal",
       "fixture": "fixtures/vault-v5/minimal",
-      "limitations": [
-        "synthetic Terraform proves namespace ownership and unmodeled database configuration without contacting Vault"
-      ],
-      "minimum": {
-        "representations": 6,
-        "relations": 0,
-        "contexts": 4,
-        "contributions": 1
-      },
       "required_rules": [
         "vault.rule.database-secret-backend-connection",
         "vault.rule.identity-entity",
@@ -35,31 +26,19 @@
           "rule": "vault.rule.database-secret-backend-connection"
         }
       ],
-      "expected_html_labels": [
-        "Vault namespace",
-        "Vault mount"
-      ],
-      "forbidden_output": [
-        "ROOTFORM_VAULT_SECRET_SENTINEL"
+      "minimum": {
+        "representations": 6,
+        "relations": 0,
+        "contexts": 4,
+        "contributions": 1
+      },
+      "limitations": [
+        "The saved plan demonstrates namespace ownership and unmodeled database configuration without contacting Vault."
       ]
     },
     {
       "id": "vault-cross-cloud",
       "fixture": "fixtures/vault-v5/scenarios",
-      "limitations": [
-        "synthetic references prove GCP, AWS, Azure, and Kubernetes facts; provider APIs and credentials are never used"
-      ],
-      "minimum": {
-        "representations": 43,
-        "relations": 10,
-        "contexts": 28,
-        "contributions": 3
-      },
-      "maximum_facts": {
-        "relations": 15,
-        "contexts": 27,
-        "contributions": 3
-      },
       "required_rules": [
         "vault.rule.aws-secret-backend",
         "vault.rule.gcp-secret-backend",
@@ -72,14 +51,11 @@
         "vault.rule.secrets-sync-aws-destination",
         "vault.rule.transit-secret-backend-key"
       ],
+      "required_outcomes": {
+        "vault_generic_secret.application": "representation-present",
+        "data.vault_generic_secret.application": "representation-present"
+      },
       "required_facts": [
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:vault_aws_secret_backend.aws",
-          "to": "representation:1:root:resource:aws_iam_role.vault",
-          "type": "uses-cloud-identity",
-          "rule": "vault.rule.aws-secret-backend"
-        },
         {
           "collection": "relations",
           "from": "representation:1:root:resource:vault_kubernetes_auth_backend_config.kubernetes",
@@ -108,36 +84,35 @@
           "rule": "vault.rule.secrets-sync-association"
         }
       ],
-      "required_outcomes": {
-        "vault_generic_secret.application": "representation-present",
-        "data.vault_generic_secret.application": "representation-present"
+      "minimum": {
+        "representations": 43,
+        "relations": 10,
+        "contexts": 28,
+        "contributions": 3
       },
-      "expected_html_labels": [
-        "Vault namespace",
-        "Vault PKI secrets engine root certificate",
-        "Vault Transit secrets engine key",
-        "Vault Secrets Sync AWS destination"
-      ],
+      "maximum_facts": {
+        "relations": 15,
+        "contexts": 30,
+        "contributions": 3
+      },
       "forbidden_output": [
         "ROOTFORM_VAULT_SECRET_SENTINEL"
+      ],
+      "limitations": [
+        "GCP, AWS, Azure, and Kubernetes facts require resolved plan evidence. An AWS IAM role reference cannot establish cloud identity while that role lacks the target service identity interpretation."
       ]
     },
     {
       "id": "vault-fail-closed",
       "fixture": "fixtures/vault-v5/boundary",
-      "limitations": [
-        "negative fixture exits indeterminate while preserving resource bases and diagnostics; literal and depends_on evidence creates no unresolved fact"
-      ],
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "DEPENDENCY_DANGLING",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_VAULT_BOUNDARY_SECRET_SENTINEL",
         "ROOTFORM_VAULT_BOUNDARY_TOKEN_SENTINEL",
         "ROOTFORM_VAULT_GENERIC_ENDPOINT_SENTINEL",
         "ROOTFORM_VAULT_EPHEMERAL_SENTINEL"
+      ],
+      "limitations": [
+        "In this saved plan, literal and depends_on evidence creates no unsupported fact. Unresolved outcomes retain their diagnostics."
       ]
     }
   ]

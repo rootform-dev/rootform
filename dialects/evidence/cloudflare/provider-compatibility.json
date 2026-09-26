@@ -39,8 +39,7 @@
         "destinations[0].worker_id",
         "destinations[1].worker_id",
         "destinations[2].worker_id",
-        "destinations[3].worker_id",
-        "domain"
+        "destinations[3].worker_id"
       ],
       "file": "dialects/cloudflare/security/access.rf.hcl",
       "schema_verified": true,
@@ -860,12 +859,7 @@
     {
       "rule_id": "cloudflare.rule.load-balancer-pool",
       "resource_type": "cloudflare_load_balancer_pool",
-      "paths": [
-        "origins[0].address",
-        "origins[1].address",
-        "origins[2].address",
-        "origins[3].address"
-      ],
+      "paths": [],
       "file": "dialects/cloudflare/load-balancing/load-balancing.rf.hcl",
       "schema_verified": true,
       "meaning_verified": true,
@@ -930,17 +924,6 @@
       "schema_verified": true,
       "meaning_verified": true,
       "source_url": "https://github.com/cloudflare/terraform-provider-cloudflare/blob/v5.24.0/docs/resources/magic_transit_site_wan.md"
-    },
-    {
-      "rule_id": "cloudflare.rule.magic-wan-ipsec-tunnel",
-      "resource_type": "cloudflare_magic_wan_ipsec_tunnel",
-      "paths": [
-        "customer_endpoint"
-      ],
-      "file": "dialects/cloudflare/network/cloudflare-wan.rf.hcl",
-      "schema_verified": true,
-      "meaning_verified": true,
-      "source_url": "https://github.com/cloudflare/terraform-provider-cloudflare/blob/v5.24.0/docs/resources/magic_wan_ipsec_tunnel.md"
     },
     {
       "rule_id": "cloudflare.rule.magic-wan-static-route",
@@ -1104,7 +1087,6 @@
       "rule_id": "cloudflare.rule.proxied-dns-record",
       "resource_type": "cloudflare_dns_record",
       "paths": [
-        "content",
         "proxied",
         "zone_id"
       ],
@@ -1376,7 +1358,6 @@
       "rule_id": "cloudflare.rule.spectrum-application",
       "resource_type": "cloudflare_spectrum_application",
       "paths": [
-        "origin_direct",
         "zone_id"
       ],
       "file": "dialects/cloudflare/edge-applications/edge-services.rf.hcl",

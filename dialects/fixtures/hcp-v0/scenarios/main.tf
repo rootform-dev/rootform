@@ -1,16 +1,20 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
+      version = "= 6.62.0"
     }
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
+      version = "= 5.3.0"
     }
     confluent = {
-      source = "confluentinc/confluent"
+      source  = "confluentinc/confluent"
+      version = "= 2.83.0"
     }
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
+      version = "= 8.0.0"
     }
     hcp = {
       source  = "hashicorp/hcp"
@@ -19,12 +23,17 @@ terraform {
   }
 }
 
+# Reads of this provider need its API, so the plan defers them until apply.
+resource "terraform_data" "defer_reads" {
+}
 resource "hcp_project" "platform" {
   name = "rootform-platform"
 }
+data "hcp_organization" "current" {
 
-data "hcp_organization" "current" {}
+  depends_on = [terraform_data.defer_reads]
 
+}
 resource "hcp_project_iam_binding" "automation" {
   project_id   = hcp_project.platform.resource_id
   principal_id = hcp_service_principal.automation.resource_id
@@ -32,16 +41,18 @@ resource "hcp_project_iam_binding" "automation" {
 }
 
 resource "hcp_resource_control_policy" "products" {
-  organization_id    = data.hcp_organization.current.resource_id
+  organization_id     = data.hcp_organization.current.resource_id
   enabled_constraints = ["hcp.disable_product.consul"]
 }
 
 resource "aws_vpc" "applications" {
-  cidr_block = "10.10.0.0/16"
-}
 
+  cidr_block = "10.10.0.0/16"
+
+}
 resource "aws_iam_role" "vault" {
-  name = "rootform-hcp-vault"
+  assume_role_policy = jsonencode({ Version = "2012-10-17", Statement = [{ Effect = "Allow", Action = "sts:AssumeRole", Principal = { Service = "ec2.amazonaws.com" } }] })
+  name               = "rootform-hcp-vault"
 }
 
 resource "azurerm_resource_group" "applications" {
@@ -63,22 +74,25 @@ resource "azurerm_user_assigned_identity" "vault" {
 }
 
 resource "google_service_account" "vault" {
-  account_id = "rootform-hcp-vault"
-}
 
+  account_id = "rootform-hcp-vault"
+
+}
 resource "confluent_service_account" "vault" {
   display_name = "rootform-hcp-vault"
   description  = "Synthetic HCP fixture identity"
 }
 
 resource "hcp_service_principal" "automation" {
+
   name = "rootform-automation"
-}
 
+}
 resource "hcp_group" "platform" {
-  display_name = "Rootform platform"
-}
 
+  display_name = "Rootform platform"
+
+}
 resource "hcp_group_members" "platform" {
   group   = hcp_group.platform.resource_name
   members = [hcp_service_principal.automation.resource_name]
@@ -91,8 +105,8 @@ resource "hcp_group_iam_binding" "platform" {
 }
 
 resource "hcp_iam_workload_identity_provider" "aws" {
-  name              = "rootform-aws"
-  service_principal = hcp_service_principal.automation.resource_name
+  name               = "rootform-aws"
+  service_principal  = hcp_service_principal.automation.resource_name
   conditional_access = "aws.arn matches `^arn:aws:sts::123456789012:assumed-role/rootform`"
   aws = {
     account_id = "123456789012"
@@ -156,20 +170,25 @@ resource "hcp_hvn_route" "applications" {
 }
 
 resource "hcp_dns_forwarding" "applications" {
+  forwarding_rule {
+    rule_id              = "fx-applications-rule-id"
+    inbound_endpoint_ips = ["fx-applications-inbound-endpoint-ips"]
+    domain_name          = "fx-applications-domain-name"
+  }
   dns_forwarding_id = "rootform-applications"
-  hvn_id             = hcp_hvn.aws.hvn_id
-  connection_type    = "hvn-peering"
-  peering_id         = hcp_aws_network_peering.applications.peering_id
-  project_id         = hcp_project.platform.resource_id
+  hvn_id            = hcp_hvn.aws.hvn_id
+  connection_type   = "hvn-peering"
+  peering_id        = hcp_aws_network_peering.applications.peering_id
+  project_id        = hcp_project.platform.resource_id
 }
 
 resource "hcp_dns_forwarding_rule" "internal" {
-  dns_forwarding_id  = hcp_dns_forwarding.applications.dns_forwarding_id
-  hvn_id              = hcp_hvn.aws.hvn_id
-  rule_id             = "rootform-internal"
-  domain_name         = "internal.rootform.invalid"
+  dns_forwarding_id    = hcp_dns_forwarding.applications.dns_forwarding_id
+  hvn_id               = hcp_hvn.aws.hvn_id
+  rule_id              = "rootform-internal"
+  domain_name          = "internal.rootform.invalid"
   inbound_endpoint_ips = ["10.10.0.10"]
-  project_id          = hcp_project.platform.resource_id
+  project_id           = hcp_project.platform.resource_id
 }
 
 resource "hcp_vault_cluster" "security" {
@@ -225,24 +244,26 @@ resource "hcp_packer_channel" "production" {
 }
 
 data "hcp_packer_version" "base" {
+  depends_on   = [terraform_data.defer_reads]
   bucket_name  = hcp_packer_bucket.base.name
   channel_name = hcp_packer_channel.production.name
   project_id   = hcp_project.platform.resource_id
 }
 
 data "hcp_packer_artifact" "aws" {
-  bucket_name        = hcp_packer_bucket.base.name
+  depends_on          = [terraform_data.defer_reads]
+  bucket_name         = hcp_packer_bucket.base.name
   version_fingerprint = data.hcp_packer_version.base.fingerprint
-  platform           = "aws"
-  region             = "us-west-2"
-  project_id         = hcp_project.platform.resource_id
+  platform            = "aws"
+  region              = "us-west-2"
+  project_id          = hcp_project.platform.resource_id
 }
 
 resource "hcp_packer_channel_assignment" "production" {
-  bucket_name        = hcp_packer_bucket.base.name
-  channel_name       = hcp_packer_channel.production.name
+  bucket_name         = hcp_packer_bucket.base.name
+  channel_name        = hcp_packer_channel.production.name
   version_fingerprint = data.hcp_packer_version.base.fingerprint
-  project_id         = hcp_project.platform.resource_id
+  project_id          = hcp_project.platform.resource_id
 }
 
 resource "hcp_waypoint_template" "service" {
@@ -351,7 +372,7 @@ resource "hcp_vault_secrets_integration_confluent" "confluent" {
 
 resource "hcp_vault_secrets_dynamic_secret" "aws" {
   app_name         = hcp_vault_secrets_app.api.app_name
-  name             = "rootform-aws"
+  name             = "rootform_aws"
   secret_provider  = "aws"
   integration_name = hcp_vault_secrets_integration.aws.name
   project_id       = hcp_project.platform.resource_id
@@ -361,34 +382,34 @@ resource "hcp_vault_secrets_dynamic_secret" "aws" {
 }
 
 resource "hcp_vault_secrets_rotating_secret" "google" {
-  app_name            = hcp_vault_secrets_app.api.app_name
-  name                = "rootform-google"
-  secret_provider     = "gcp"
-  integration_name    = hcp_vault_secrets_integration.google.name
+  app_name             = hcp_vault_secrets_app.api.app_name
+  name                 = "rootform_google"
+  secret_provider      = "gcp"
+  integration_name     = hcp_vault_secrets_integration.google.name
   rotation_policy_name = "built-in:60-days-2-active"
-  project_id          = hcp_project.platform.resource_id
+  project_id           = hcp_project.platform.resource_id
   gcp_service_account_key = {
     service_account_email = google_service_account.vault.email
   }
 }
 
 resource "hcp_vault_secrets_rotating_secret" "confluent" {
-  app_name            = hcp_vault_secrets_app.api.app_name
-  name                = "rootform-confluent"
-  secret_provider     = "confluent"
-  integration_name    = hcp_vault_secrets_integration_confluent.confluent.name
+  app_name             = hcp_vault_secrets_app.api.app_name
+  name                 = "rootform_confluent"
+  secret_provider      = "confluent"
+  integration_name     = hcp_vault_secrets_integration_confluent.confluent.name
   rotation_policy_name = "built-in:60-days-2-active"
-  project_id          = hcp_project.platform.resource_id
+  project_id           = hcp_project.platform.resource_id
   confluent_service_account = {
     service_account_id = confluent_service_account.vault.id
   }
 }
 
 resource "hcp_vault_secrets_secret" "api" {
-  app_name    = hcp_vault_secrets_app.api.app_name
-  secret_name = "api-key"
+  app_name     = hcp_vault_secrets_app.api.app_name
+  secret_name  = "api_key"
   secret_value = "ROOTFORM_HCP_VAULT_SECRET_SENTINEL"
-  project_id  = hcp_project.platform.resource_id
+  project_id   = hcp_project.platform.resource_id
 }
 
 resource "hcp_vault_secrets_sync" "gitlab" {
@@ -397,7 +418,7 @@ resource "hcp_vault_secrets_sync" "gitlab" {
   project_id       = hcp_project.platform.resource_id
   gitlab_config = {
     group_id = "rootform"
-    scope    = "group"
+    scope    = "GROUP"
   }
 }
 
@@ -414,10 +435,10 @@ resource "hcp_vault_radar_source_github_cloud" "source" {
 }
 
 resource "hcp_vault_radar_source_github_enterprise" "source" {
-  domain_name        = "github.rootform.invalid"
+  domain_name         = "github.rootform.invalid"
   github_organization = "rootform"
-  token              = "ROOTFORM_HCP_RADAR_GHE_TOKEN_SENTINEL"
-  project_id         = hcp_project.platform.resource_id
+  token               = "ROOTFORM_HCP_RADAR_GHE_TOKEN_SENTINEL"
+  project_id          = hcp_project.platform.resource_id
 }
 
 resource "hcp_vault_radar_integration_jira_connection" "security" {
@@ -458,7 +479,7 @@ resource "hcp_vault_radar_secret_manager_vault_dedicated" "security" {
 }
 
 resource "hcp_vault_radar_resource_iam_binding" "viewer" {
-  resource_name = "radar/project/rootform/source/github"
+  resource_name = "vault-radar/project/00000000-0000-0000-0000-000000000001/scan-target/6789BCDFGHJKLMNPQRTW"
   principal_id  = hcp_service_principal.automation.resource_id
   role          = "roles/viewer"
 }
@@ -481,7 +502,10 @@ resource "hcp_notifications_webhook" "lifecycle" {
     url      = "https://events.rootform.invalid/hcp"
   }
   subscriptions = [{
-    events      = ["resource.created"]
+    events = [{
+      actions = ["create"]
+      source  = "hashicorp.vault.cluster"
+    }]
     resource_id = hcp_vault_cluster.security.id
   }]
 }

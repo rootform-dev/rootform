@@ -1,113 +1,67 @@
 ---
 title: "Policies and Policy Packs"
-description: "Understand governance selection, target scope, evidence outcomes, and what a Policy result proves."
+description: "Understand selection, evaluation, and evidence limits of Rootform policies."
 ---
 
-A Policy evaluates established [Architecture IR](architecture-ir.md) facts
-against a requirement. It runs after [Dialects](dialects.md) interpret source.
-It cannot contact a cloud provider, infer live state, or invent a missing fact.
+A Policy evaluates a named assertion over the architecture that Dialects establish. It cannot contact a provider, infer live state, or invent a missing fact. A Policy Pack owns related Policies and their selection. A [Rootform document](architecture-ir.md) preserves the architecture used for evaluation.
 
 ## Definition, selection, and evaluation
 
 | Object | Role | Evidence boundary |
 | --- | --- | --- |
-| **Policy** | Defines a target, assertion, and violation message | Its existence does not show that it ran |
-| **Policy Pack** | Groups related Policies | Its presence does not show that it was selected |
-| **Selection** | Records exact Policy Packs in `rootform.lock` | Establishes the project scope of a check |
-| **Result** | Records targets, outcomes, diagnostics, and aggregate status | Shows which selected Policies actually evaluated targets |
+| **Policy** | Defines target, assertion, and message | Its existence does not mean it ran |
+| **Policy Pack** | Owns a set of Policies | Its presence does not mean it was selected |
+| **Selection** | Chooses a Pack or specific Policies for one run | A Dialect selection alone selects no Policies |
+| **Result** | Records targets, outcomes, and diagnostics | Shows which selected Policies actually evaluated instances |
 
-Selecting a Dialect never selects a Policy Pack. `rootform build` and `rootform run`
-do not evaluate governance. `rootform check` does, using an explicit Policy Pack
-selection.
+`--policy-pack ./policies` selects a local Pack for one invocation. A project can record a Pack in `rootform.lock` and use `--policy` to select specific Policies under `--locked`; `--policy-pack` is refused with `--locked`. A run without Policy selection performs analysis and returns status `0` when successful, but makes no compliance claim. See [Run checks](../guides/check-architecture.md) for the procedure and [external content](external-content.md) for project selection.
 
 ## Target scope is exact
 
-A Policy target selects representations through a Concept, applied Rules, and
-Dialect owners declared by the Pack. Values within one dimension are alternatives.
-Different dimensions must all match.
+A Policy target matches each eligible Representation on the evaluated stage through authored Concept, Rule, and Dialect conditions. Values within one condition are alternatives; different conditions must all match. Similar provider types and source dependencies do not substitute for a selected Concept or applied Rule. Each matching instance is evaluated separately; an instance cannot borrow a sibling's proven Context. Composition members do not inherit the root's Concept.
 
-A base representation without the selected Concept or applied Rule is not
-selected by a similar source type. A composition member does not inherit root
-eligibility. Each selected representation is evaluated once.
+This makes coverage part of the governance claim. A passing evaluation applies only to its matched target and authored assertion. It says nothing about instances outside that target or Policies outside the selection. Review the selected Policy count, matched target count, and each outcome before treating a run as a gate.
 
-This makes coverage part of the governance claim. A passing evaluation says the
-assertion was true for its matched target. It says nothing about representations
-outside the target or Policies outside the selection.
+## Evaluate a supported stage
+
+A plan evaluates `planned` by default and can evaluate `refreshed` when present. It never evaluates a plan's reconstructed `recorded` stage. A state snapshot evaluates its sole `recorded` stage. `--stage` chooses an available stage for a single input; a cross-input run uses its selected after stage. A Policy does not directly ask whether drift occurred. It evaluates architectural facts on the chosen stage.
 
 ## Evidence produces three outcomes
 
-Each evaluation ends with one of three outcomes.
-
 | Outcome | Meaning |
 | --- | --- |
-| `passed` | Available architecture facts establish assertion as true |
-| `violated` | Available architecture facts establish assertion as false |
-| `indeterminate` | Valid architecture cannot establish either Boolean |
+| Passed | Available facts and population establish the assertion as true |
+| Violated | Available facts establish the assertion as false |
+| Indeterminate | Valid architecture cannot establish either Boolean |
 
-`not evaluated` is not a fourth evaluation outcome. It means a selected Policy
-had no target. A run with no selected Pack evaluates no Policies at all. Neither
-case is approval.
+A proven `absent` closure can make an assertion false. Unknown, sensitive, conflicting, or unavailable evidence stays indeterminate when it affects the answer. A negative assertion needs complete relevant population before absence can count as a pass. A selected Policy with no matching target is *not evaluated*; that is no decision, not a fourth evaluation outcome. [Run checks](../guides/check-architecture.md) shows the outcomes on small plans: the same Policy passes, is violated, or stays indeterminate because the evidence differs, not because the Policy changes. [Evaluation semantics](../language/reference/evaluation.md) defines the exact truth rules.
 
-[Run checks](../guides/check-architecture.md) demonstrates all boundaries with
-one subnet Policy and one EC2 team convention. An instance with an explicit,
-resolvable subnet reference passes the convention. A proven source omission
-violates it. A literal subnet identifier that Rootform cannot resolve is
-indeterminate. Those cases differ because the evidence differs, not because the
-Policy changes.
+## Read the aggregate decision
 
-## Aggregate verdict follows strongest result
+The run summary and exit status follow one priority:
 
-The run summary and process status use a global priority.
+1. Any violation makes the result violated and returns status `1`.
+2. Otherwise, any indeterminate evaluation, or a selected Policy that evaluated no target, returns status `3`.
+3. Only when at least one selected Policy evaluates and every evaluation passes is the result compliant, with status `0`.
 
-1. Any violation makes the run `violated` and status `1`.
-2. Otherwise any indeterminate result makes the run `indeterminate` and status `3`.
-3. Otherwise, no selected Policy or any selected Policy without a target makes
-   the run `not evaluated` and status `3`.
-4. Only when at least one Policy is selected and every selected Policy evaluates
-   and passes does the run become `compliant` with status `0`.
-
-Status `2` means a command usage error. Always review the selected Policy count,
-evaluation count, and result distribution alongside process status. A violation
-can coexist with lower-priority uncertainty, and status `1` does not erase it
-from the report.
+A run with no Policy selected also returns `0` after successful analysis, with an explicit no-policy message; that is not a compliance claim. Invalid usage returns `2`, refused input `3`, and an output or server failure `4`. A violation can coexist with lower-priority uncertainty, and status `1` does not remove it from the report. Always read the selected Policy count, evaluation count, and result distribution with the status. [Outputs and exit status](../reference/outputs.md) has the full command matrix.
 
 ## What a Policy result proves
 
-A Policy result proves only its authored assertion over matched representations
-and facts available in the evaluated architecture. A proven omission can support
-a false assertion. Missing proof caused by unresolved or incomplete evidence
-produces an indeterminate result instead.
+A subnet Context Policy can establish that the supplied stage includes a Dialect-proven network placement. It cannot establish runtime reachability. A failed match can mean proven absence, or uncertainty can prevent a verdict; those are different review decisions. Architecture and SARIF reports preserve diagnostic and evaluation detail. SARIF states when nothing was evaluated instead of implying approval.
 
-Neither result proves the opposite real-world condition. For example, a Policy
-about a declared subnet Context evaluates source architecture evidence. It does
-not test runtime network reachability.
+Review these boundaries before treating a Pack as a gate:
 
-Review these boundaries before treating a Pack as a gate.
+- the exact Pack and Policy selection;
+- the number and identity of matched targets;
+- the outcome of every evaluation;
+- diagnostics and the facts they cite;
+- the semantic snapshot used for linking.
 
-- Exact Pack and Policy selection
-- Number and identity of matched targets
-- Outcome for every evaluation
-- Diagnostics and inspected fact identities
-- The Architecture IR semantic snapshot used for linking
+## Portable source and compiled Pack serve different stages
 
-## Portable source and linked artifact serve different stages
+A Policy Pack source is a portable authored unit. Before evaluation, Rootform links its qualified references against the semantic snapshot of the evaluated Rootform document: the vocabulary, Dialects, and Rules that interpreted it. The linked Pack records owner versions, content digests, and semantic digests. A saved document keeps its Dialect meaning, so reopening it with a newer binary does not rewrite that meaning.
 
-A Policy Pack source is a portable authored unit. Before evaluation, Rootform links
-its qualified references against the exact Architecture IR semantic snapshot.
-The linked Pack records owner versions, content digests, and semantic digests.
+`rootform compile policy-pack` pins a Pack to one document's semantic snapshot, so the Pack can be evaluated later and offline without the Dialect sources that interpreted that document. When a compiled Pack's pins disagree with the evaluated document, for example after a Dialect version changes, evaluation fails closed with `POLICY_SEMANTICS_MISMATCH: compiled Policy Pack semantic pin differs from the document` and exit status `3`. Rootform does not relink silently, reload other Dialects, or fall back to another Pack.
 
-A compiled Policy Pack is a replay artifact bound to that snapshot. If an
-explicitly supplied artifact's pins disagree with the evaluated architecture,
-Rootform fails closed. It does not relink silently, reload producer Dialects, or
-fall back to another Pack.
-
-A project lock selects Policy Pack source. `--policy-pack` overlays a local
-source or compiled artifact by pack name for one invocation; `--policy` filters
-results without changing selection. [Install, add, and
-vendor](external-content.md) explains the project and invocation states. Neither
-changes Architecture IR.
-
-Continue with [Run checks](../guides/check-architecture.md) for executable
-examples. Use [Write a Policy Pack](../language/write-policy-pack.md) for
-authoring workflow and [Policy Packs reference](../language/reference/policy-packs.md)
-for syntax and linking rules.
+A project lock selects Policy Pack source. `--policy-pack` supplies a local source directory or compiled Pack for one invocation; `--policy` narrows which selected Policies evaluate without changing the selection. Neither changes the Rootform document. Continue with [Run checks](../guides/check-architecture.md), [Write a Policy Pack](../language/write-policy-pack.md), or [Policy Packs reference](../language/reference/policy-packs.md).

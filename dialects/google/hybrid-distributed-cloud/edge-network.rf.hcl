@@ -5,6 +5,15 @@ rule "edge-network" {
   }
 
   as = rf.concept.virtual-network
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "edge-network-subnet" {
@@ -13,4 +22,13 @@ rule "edge-network-subnet" {
   }
 
   as = rf.concept.subnet
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

@@ -74,9 +74,9 @@
       "major": true,
       "constructs": 14,
       "counts": {
-        "rule-present": 3,
+        "rule-present": 2,
         "partial-rule": 4,
-        "no-rule": 7
+        "no-rule": 8
       }
     },
     {

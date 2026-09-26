@@ -12,6 +12,15 @@ rule "network-connectivity-center-hub" {
   }
 
   as = concept.network-connectivity-center-hub
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "network-connectivity-center-spoke" {
@@ -22,7 +31,14 @@ rule "network-connectivity-center-spoke" {
   as = concept.network-connectivity-center-spoke
 
   contribution {
-    to  = concept.network-connectivity-center-hub
-    via = source.hub
+    to       = concept.network-connectivity-center-hub
+    via      = source.hub
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

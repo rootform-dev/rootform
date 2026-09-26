@@ -13,6 +13,15 @@ rule "agent-service" {
   }
 
   as = concept.consul-service
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 
@@ -23,6 +32,15 @@ rule "catalog-service-lookup" {
   }
 
   as = concept.consul-service
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "node" {
@@ -31,6 +49,15 @@ rule "node" {
   }
 
   as = concept.consul-node
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "service" {
@@ -40,16 +67,42 @@ rule "service" {
 
   as = concept.consul-service
 
-  context {
-    as  = rf.context.runtime
-    to  = concept.consul-node
-    via = source.node
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
   }
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = rf.context.runtime
+    to       = concept.consul-node
+    via      = source.node
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+  }
+
+  context {
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -60,4 +113,13 @@ rule "service-lookup" {
   }
 
   as = concept.consul-service
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }

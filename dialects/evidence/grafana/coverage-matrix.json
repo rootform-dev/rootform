@@ -94,9 +94,7 @@
       "product": "cloud-provider-observability",
       "proof_url": "https://registry.terraform.io/providers/grafana/grafana/4.45.2/docs/data-sources/cloud_provider_aws_account",
       "reason": "architecture-role: durable provider-backed service, boundary, integration, pipeline, destination, or runtime",
-      "relations": [
-        "authorized-by"
-      ],
+      "relations": [],
       "rootform_concepts": [
         "grafana.concept.cloud-observability-integration"
       ],
@@ -2059,9 +2057,7 @@
       "product": "cloud-provider-observability",
       "proof_url": "https://registry.terraform.io/providers/grafana/grafana/4.45.2/docs/resources/cloud_provider_aws_account",
       "reason": "architecture-role: durable provider-backed service, boundary, integration, pipeline, destination, or runtime",
-      "relations": [
-        "authorized-by"
-      ],
+      "relations": [],
       "rootform_concepts": [
         "grafana.concept.cloud-observability-integration"
       ],

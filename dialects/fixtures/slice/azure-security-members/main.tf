@@ -4,7 +4,7 @@ terraform {
   }
 }
 
-variable "unknown_id" { type = string }
+resource "terraform_data" "unknown_id" {}
 
 resource "azurerm_resource_group" "platform" {
   name     = "platform"
@@ -12,16 +12,18 @@ resource "azurerm_resource_group" "platform" {
 }
 
 resource "azurerm_key_vault" "platform" {
-  name                = "rootform-platform"
-  resource_group_name = azurerm_resource_group.platform.name
-  location            = azurerm_resource_group.platform.location
-  tenant_id           = "00000000-0000-0000-0000-000000000001"
-  sku_name            = "standard"
+  rbac_authorization_enabled = false
+  name                       = "rootform-platform"
+  resource_group_name        = azurerm_resource_group.platform.name
+  location                   = azurerm_resource_group.platform.location
+  tenant_id                  = "00000000-0000-0000-0000-000000000001"
+  sku_name                   = "standard"
 }
 
 variable "database_password" {
   type      = string
   sensitive = true
+  default   = "fixture-database-password"
 }
 
 resource "azurerm_key_vault_secret" "database_password" {
@@ -39,6 +41,9 @@ resource "azurerm_key_vault_key" "signing" {
 }
 
 resource "azurerm_key_vault_certificate" "ingress" {
+  certificate {
+    contents = "fx-ingress-contents"
+  }
   name         = "ingress"
   key_vault_id = azurerm_key_vault.platform.id
 }
@@ -71,18 +76,21 @@ resource "azurerm_key_vault_managed_hardware_security_module_key" "wrapping" {
 resource "azurerm_key_vault_secret" "literal" {
   name         = "literal"
   value        = var.database_password
-  key_vault_id = "/subscriptions/example/vaults/rootform-platform"
+  key_vault_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.KeyVault/vaults/fx-literal-key-vault-id"
 }
 
 resource "azurerm_key_vault_key" "unknown" {
   name         = "unknown"
-  key_vault_id = var.unknown_id
+  key_vault_id = terraform_data.unknown_id.id
   key_type     = "RSA"
   key_size     = 2048
   key_opts     = ["sign"]
 }
 
 resource "azurerm_key_vault_certificate" "unknown" {
+  certificate {
+    contents = "fx-unknown-contents"
+  }
   name         = "unknown"
-  key_vault_id = var.unknown_id
+  key_vault_id = terraform_data.unknown_id.id
 }

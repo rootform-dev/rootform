@@ -12,6 +12,15 @@ rule "event-hook" {
   }
 
   as = concept.identity-event-extension
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "event-hook-verification" {
@@ -22,8 +31,15 @@ rule "event-hook-verification" {
   as = concept.hook-configuration
 
   contribution {
-    to  = concept.identity-event-extension
-    via = source.event_hook_id
+    to       = concept.identity-event-extension
+    via      = source.event_hook_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -50,4 +66,13 @@ rule "inline-hook" {
   }
 
   as = concept.identity-event-extension
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

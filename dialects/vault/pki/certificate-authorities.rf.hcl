@@ -26,9 +26,19 @@ rule "kmip-secret-ca-generated" {
   as = concept.certificate-authority
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -40,9 +50,19 @@ rule "kmip-secret-ca-imported" {
   as = concept.certificate-authority
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -54,9 +74,19 @@ rule "kmip-secret-listener" {
   as = concept.kmip-listener
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -76,9 +106,19 @@ rule "kmip-secret-scope" {
   as = concept.kmip-scope
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -90,9 +130,19 @@ rule "pki-external-ca-secret-backend-role" {
   as = concept.external-ca-integration
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -104,8 +154,15 @@ rule "pki-secret-backend-config-acme" {
   as = concept.pki-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -117,8 +174,15 @@ rule "pki-secret-backend-config-auto-tidy" {
   as = concept.pki-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -130,8 +194,15 @@ rule "pki-secret-backend-config-cluster" {
   as = concept.pki-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -143,8 +214,15 @@ rule "pki-secret-backend-config-cmpv2" {
   as = concept.pki-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -156,8 +234,15 @@ rule "pki-secret-backend-config-est" {
   as = concept.pki-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -169,8 +254,15 @@ rule "pki-secret-backend-config-issuers" {
   as = concept.pki-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -182,8 +274,15 @@ rule "pki-secret-backend-config-scep" {
   as = concept.pki-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -195,8 +294,15 @@ rule "pki-secret-backend-config-urls" {
   as = concept.pki-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -208,8 +314,15 @@ rule "pki-secret-backend-crl-config" {
   as = concept.pki-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -221,8 +334,15 @@ rule "pki-secret-backend-intermediate-set-signed" {
   as = concept.pki-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -234,9 +354,19 @@ rule "pki-secret-backend-issuer" {
   as = concept.certificate-authority
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -247,10 +377,29 @@ rule "pki-secret-backend-key" {
 
   as = concept.encryption-key
 
+  identity {
+    attributes = ["key_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "key_id", "key_name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -262,8 +411,15 @@ rule "pki-secret-backend-role" {
   as = concept.pki-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -275,9 +431,19 @@ rule "pki-secret-backend-root-cert" {
   as = concept.certificate-authority
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -289,8 +455,18 @@ rule "ssh-secret-backend-ca" {
   as = concept.certificate-authority
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

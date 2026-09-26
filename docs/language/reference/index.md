@@ -5,8 +5,8 @@ description: "Complete reference for Rootform language 0.1.0 source units, decla
 
 Rootform language is a closed, statically validated language for two jobs:
 
-- Dialects interpret normalized infrastructure declarations as architecture.
-- Policy Packs evaluate that architecture without reading infrastructure source.
+- Dialects interpret managed and data resource instances from plan JSON or state JSON.
+- Policy Packs evaluate the resulting architecture without reading raw infrastructure values.
 
 HCL supplies lexical syntax for `.rf.hcl` and `.rf.json`. Rootform defines the
 accepted blocks, attributes, expressions, references, types, defaults, and
@@ -30,9 +30,9 @@ This reference documents Rootform language version `0.1.0`.
 | Page | Contract covered |
 | --- | --- |
 | [Dialect declarations](dialects.md) | `dialect`, `provider`, `concept`, `context`, and `relation` |
-| [Rules and matching](rules.md) | `rule`, `match`, all 15 source kinds, predicates, and selection |
+| [Rules and matching](rules.md) | `rule`, `match`, managed and data instance kinds, predicates, and selection |
 | [Fact emissions](emissions.md) | `context`, `relation`, `contribution`, explicit attribute matching, and omissions |
-| [Composition](composition.md) | Ordered members, matching, exclusivity, and transactional application |
+| [Composition](composition.md) | Ordered members, per-instance resolution, and unresolved-member reasons |
 
 ### Expression language
 

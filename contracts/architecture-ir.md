@@ -1,96 +1,45 @@
-# Architecture IR contract
+# Architecture document contract
 
-Current format version: `0.1.0`.
+Current format version: `"1"`.
 
-Architecture IR is Rootform's canonical, provider-neutral architecture
-document. [`../schemas/architecture-ir.schema.json`](../schemas/architecture-ir.schema.json)
-is machine-readable source for field types and bounds.
+Rootform serializes architecture as one document family. The [JSON Schema](../schemas/architecture-ir.schema.json) defines exact fields, types, bounds, and validation. Consumers validate documents before drawing conclusions from them. Format version and executable version are independent.
 
-## Required properties
+## Document kinds
 
-- Every stable object uses content-derived identity, never display label or
-  array position.
-- Collections serialize in canonical order.
-- Every discovered declaration appears in source accounting exactly once.
-- Every representation has a stable ID derived from the normalized identity of
-  its source root; the ID never depends on Rule, Concept, label, version, icon,
-  or textual location.
-- Every fact carries bounded provenance entries naming successful resolutions,
-  rules, and emissions.
-- Unknown and unsupported input stays explicit; a document with unknown data
-  is never truncated and presented as complete.
-- Architecture relations express accepted domain meaning, not raw Terraform
-  dependency edges. Source dependencies remain source facts.
-- Semantic meaning carries no renderer coordinates, icon assets, or layout
-  instructions.
+| `kind` | Evidence and contents |
+| --- | --- |
+| `snapshot` | One `recorded` stage from a state JSON export. No planned stage or drift report. |
+| `plan` | A `planned` stage and, when prior evidence supports them, `refreshed` and reconstructed `recorded` stages. Supported internal comparisons and drift report. |
+| `comparison` | Two embedded analysis documents, selected sides and stages, and one `cross` comparison. A difference between separate inputs is never called drift. |
 
-## Main sections
+An analysis document has `generator`, `evidence`, `semantics`, `stages`, `default_stage`, and `diagnostics`. A plan also carries supported `comparisons` and `drift_report`. A comparison document has `before`, `after`, `comparison`, `generator`, and `diagnostics`. Embedded sides are analysis documents. Saved documents retain their semantic definitions and reopen without resolving the original Dialects.
 
-- `format_version` and `generator`: document contract and effective
-  producer/release-set identity;
-- `source`: normalized identity, declarations, locations, source
-  dependencies, and distinct accounting for source, representation,
-  interpretation, composition, and emissions;
-- `semantics`: RF Language contract, exact owners with nature/origin/versions
-  and digests, definitions, Rules, emission contracts, and
-  release-set/selection identities;
-- `architecture`: uniform representations with optional Rule and Concept,
-  proven memberships, contexts, relations, contributions, and omissions;
-- `resolutions`: bounded provenance records backing successful facts;
-- `diagnostics`: canonical sanitized diagnostics tied to their phase and
-  object.
+## Evidence and stages
 
-## Uniform representations
+`evidence.origin` identifies a plan or state export. Producer identity and input format retain their uncertainty. `completeness` distinguishes producer-declared completeness, attestation, and unavailable information. `enrichment` records whether an optional saved plan verified and supplied configuration snapshot evidence. `scope` records drift record presence and refresh and drift coverage limits.
 
-`architecture.representations` is the single representation collection. Each
-representation carries a stable ID, a reference to its root source declaration,
-base metadata (kind, type, address, name, observed provider, location), an
-optional applied Rule, and an optional Concept. Rule applied and Concept are
-omitted when absent; no synthetic Rule, generic Concept, or architectural fact
-is created for coverage.
+Each stage has declarations, representations, facts, closures, dependencies, accounting, and diagnostics. `planned` describes the proposed outcome. `refreshed` describes the producer's prior snapshot. A plan's `recorded` stage reconstructs values before reported drift and may be partial. A state input has one `recorded` stage representing its exported state. Stage absence cannot be treated as empty architecture.
 
-For every representation and emission of its active Rule, closure consists of
-one or more confirmed facts, one omission, or an emission-scoped diagnostic.
-Facts may coexist with a diagnostic when another candidate remains unknown;
-that query is incomplete despite confirmed evidence. Missing closure is
-invalid.
+Representation identity is the Terraform or OpenTofu instance address. An instance without an applicable Rule remains represented without an invented Concept or fact. Relations are emitted architectural claims, not raw dependency edges. Source dependencies remain separate evidence.
 
-A Rule-free resource base remains valid and complete as to structural
-existence. `entity/scope/detail` categories no longer exist; N/F is derived at
-presentation time from declared children, not from a stored category.
+## Emissions, closures, and facts
 
-## Accounting
+`semantics` records selected definitions, Rules, and emission contracts. An emission may declare `via`, `on_null`, `on_empty`, `external`, `disclose`, `prefix`, and a `match` whose `by` array tries target identity attributes in order. `match.strategy` is `exact`, `dot-ancestor`, or `last-segment`. Rule identity scope is `provider` or `global`.
 
-Source, representation, interpretation, composition, and emission accounting
-are recorded separately with coherent links. Old exclusive outcomes
-(`represented`/`supporting`/`filtered`/`unsupported`/`failed`) are not the
-model; `unsupported` is never a synonym for missing Rule. A normalized
-resource is never filtered merely because no Rule knows it.
+Each active emission has one closure per source instance. Its `outcome` is `resolved`, `absent`, or `indeterminate`. An indeterminate closure carries one of `unknown_until_apply`, `sensitive`, `ambiguous_unknown`, `uncomparable_candidate`, `reference_ambiguous`, `identity_incomplete`, `unavailable`, `external_denied`, or `duplicate_identity`. `reference_ambiguous` means a verified traversal and an evaluated value name different endpoints. An eligible unknown or uncomparable candidate cannot be ignored to claim a unique endpoint or synthesize an external endpoint.
 
-## Semantics and selection
+Every fact cites its closure, emission, Rule, and evidence kind: `value`, `traversal`, or `both`. Traversal evidence comes from a verified saved-plan snapshot. It can name a target when values are unknown or shared, including across providers. A known value that conflicts with the traversal produces a diagnostic. Sensitive values are never serialized.
 
-`semantics` records the RF Language contract, active owners (vocabulary or
-dialect) with versions and digests, public definitions, Rules with optional
-classifications, emission signatures and typed targets, composition contracts,
-release-set identity, and effective selection (exclusions and replacements).
-No unit excluded or replaced becomes active by mere presence in the binary.
+External endpoint identity follows the declared `disclose` tier. Document-local external ordinals are not identities for matching separate documents. A display copy may withhold recorded external identities.
 
-## Saved IR
+## Comparisons and drift
 
-Saved IR is self-contained for rendering, inspection, Diff, explain, and
-Policy evaluation. Consumers never reload producer Dialects, and linking on a
-saved IR uses only its snapshot, never the currently embedded release set.
-Snapshot excludes raw HCL, secrets, raw plans/state, absolute paths, `.rf.hcl`
-source, full attempt ledgers, provider-wide coverage, and authored capability
-catalogs.
+Within a plan, `drift` compares recorded to refreshed, `planned` compares refreshed to planned, and `net` compares recorded to planned. Each comparison states its sides, comparability, counts, representation and fact changes, undetermined entries, problems, and cancelled changes where applicable. A fact is added or removed only when the other side's relevant closure proves absence. Unknown or incomplete evidence remains undetermined.
 
-## Validation
+`drift_report.entries` correspond to producer-reported drift records. Each has a consequence of `architectural`, `none_under_dialects`, `undetermined`, `uncovered`, or `address_only`. Moves and replacements are never themselves labelled drift. Absence of reported records is expressed as “No drift reported in this plan” with the plan's scope; it does not prove that no drift occurred.
 
-A consumer must reject unsupported `format_version`, forbidden unknown fields,
-invalid identifiers, dangling references, duplicate identities, noncanonical
-ordering, inconsistent accounting/references/closure, unresolved successful
-provenance, or an active emission without closure. A rejected document
-supports no compliance or no-change claim in any consumer.
+`run --diff` produces a `comparison` document. It selects one stage on each side and records a `cross` comparison. A comparison between separate inputs does not establish what changed outside Terraform or OpenTofu.
 
-Format version is independent from Rootform executable version. Breaking field
-or meaning changes require a new format version.
+## Validation and privacy
+
+Decoders reject unsupported versions, unknown fields, invalid or duplicate identities, dangling references, noncanonical order, inconsistent accounting, and missing emission closure. A rejected document supports no compliance or no-change claim. Raw plan, state, configuration, sensitive values, host paths, and renderer layout are outside this document contract.

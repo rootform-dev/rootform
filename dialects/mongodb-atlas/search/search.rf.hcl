@@ -14,14 +14,34 @@ rule "search-deployment" {
   as = concept.search-deployment
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "serves" {
-    to  = rf.concept.managed-database
-    via = source.cluster_name
+    to       = rf.concept.managed-database
+    via      = source.cluster_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared managed-database instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -33,8 +53,18 @@ rule "search-index" {
   as = concept.search-configuration
 
   contribution {
-    to  = rf.concept.managed-database
-    via = source.cluster_name
+    to       = rf.concept.managed-database
+    via      = source.cluster_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared managed-database instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -46,7 +76,17 @@ rule "ai-model-rate-limit" {
   as = concept.search-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

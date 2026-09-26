@@ -20,7 +20,7 @@ rootform list dialects [name]... [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
 | ` -o, --format ` | ` string ` | ` "" ` | output `format`: text, wide, or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list dialects |
 | ` --installed ` | ` bool ` | ` false ` | list versions installed in the Rootform home |
@@ -41,7 +41,9 @@ rootform list dialects -o json
 ```
 
 Default output is one name per line. `-o wide` adds version, origin, and
-declaration counts; `-o json` includes exact identity and digest. Output goes
+declaration counts; `-o json` includes exact identity and digest. `aws` and
+`google` show `embedded` as their origin. A fresh Rootform home gives no rows
+for `--installed`; this does not remove embedded Dialects. Output goes
 to standard output, diagnostics to standard error. Status `0` means listed,
 `2` means incorrect use, and `3` means selected definitions could not be
 read. See [Dialects and RF Vocabulary](../../../concepts/dialects.md).

@@ -11,8 +11,22 @@ states involved. For a Dialect still being edited, follow
 
 ## Add local content
 
-The [Run checks](check-architecture.md) tutorial creates a Policy Pack at
-`./policies`. From that project root, adopt it after checking its results:
+From a checkout of the repository, make a small project with the public
+baseline Pack and synthetic commerce plan. This keeps the example selection
+separate from the repository's own lock. Plan JSON and saved plans can contain
+secrets in real projects; keep them out of Git and public artifacts. Rootform
+reads them locally and runs neither Terraform nor OpenTofu.
+
+<!-- docs-check:external-local-scenario -->
+```sh
+mkdir -p content-demo/policies
+cp -R policy-packs/baseline/. content-demo/policies/
+cp examples/playground/commerce-platform/head/plan.json content-demo/plan.json
+cp examples/playground/commerce-platform/head/plan.tfplan content-demo/plan.tfplan
+cd content-demo
+```
+
+From `content-demo/`, adopt the reviewed source:
 
 <!-- docs-check:external-add-local-pack -->
 ```sh
@@ -21,7 +35,8 @@ rootform init . --locked --offline --no-input
 rootform list policy-packs -o wide
 ```
 
-`add` compiles the pack, records its project-relative path and compiled
+The `list` result shows the selected name, version, and Policy count. `add`
+compiles the pack, records its project-relative path and compiled
 content digest, and creates `rootform.lock` if needed. The later commands
 verify and inspect the exact selection. Commit the pack source and lock
 together. Neither `add` nor `init` installs a local source in your Rootform
@@ -55,20 +70,26 @@ it does not select the unit for this project. Use `add` for project adoption.
 
 ## Change or drop a selection
 
-For a local source, edit it, then check the edited pack for one command. The
-override uses the source without changing `rootform.lock`:
+For a local source, edit it, then check the edited Pack for one command. The
+override uses the source without changing `rootform.lock`. This synthetic
+plan has two baseline targets, so a passing run reports two passes and
+status `0`:
 
 <!-- docs-check:external-try-local -->
 ```sh
-rootform check . --policy-pack ./policies
+rootform run plan.json --plan-file plan.tfplan --policy-pack ./policies --no-serve
 ```
 
-Without the override, commands fail until you record the new content:
+Without the override, commands refuse a selected local source that differs
+from the lock. Record the reviewed edit before normal runs:
 
 <!-- docs-check:external-update-local -->
 ```sh
-rootform update policy-pack tutorial
+rootform update policy-pack baseline
 ```
+
+`rootform.lock updated` means the lock now records the new source digest. A
+second `update` with unchanged source reports that the lock already matches.
 
 An OCI selection needs a new reference because its tag was never saved. The
 new reference must resolve to the same owner or pack name:
@@ -83,10 +104,10 @@ To drop a selection, use its owner or pack name:
 
 <!-- docs-check:external-remove -->
 ```sh
-rootform remove policy-packs tutorial
+rootform remove policy-packs baseline
 ```
 
-`remove` keeps local source files and installed copies. In a vendored project,
+The lock records the removal; `./policies` remains on disk. In a vendored project,
 `add`, `update`, and `remove` also update the affected `.rootform/` family
 with the lock. [Storage reference](../reference/storage.md) defines that
 coupling and recovery when vendored bytes differ.
@@ -109,6 +130,8 @@ Removing the replacement makes the embedded owner active again:
 rootform remove dialects aws
 ```
 
+The lock drops the replacement, so later runs use embedded `aws` again.
+
 To exclude an embedded owner without replacing it, use `--embedded`; add the
 bare owner to include it again:
 
@@ -117,6 +140,10 @@ bare owner to include it again:
 rootform remove dialects aws --embedded
 rootform add dialects aws
 ```
+
+The first command records `exclude dialect aws`; the second records `include
+dialect aws`. Inspect the next run's interpreted instance count before
+adopting an exclusion, since it changes architecture meaning.
 
 The reserved `rf` vocabulary cannot be excluded or replaced. A selected Policy
 Pack that needs a Dialect symbol can prevent an incompatible removal or
@@ -129,10 +156,13 @@ After cloning the project, make its selected content present and verified:
 <!-- docs-check:external-init-clone -->
 ```sh
 rootform init . --locked --no-input
-rootform build . --locked --output architecture.json
+rootform run plan.json --locked --no-serve -o architecture.json
 ```
 
-`init` may fetch only OCI digests recorded in the lock. Add `--offline` when
+`Project prepared` confirms the selection is present and verified.
+`architecture.json` is a saved Rootform document. Status `0` means every
+selected Policy passed or no Policies were selected; status `3` means
+indeterminate evidence or no decision. `init` may fetch only OCI digests recorded in the lock. Add `--offline` when
 selected content is available at its local path, installed, or vendored and
 network access must be disabled. `init` verifies an existing vendor tree,
 including missing, extra, or changed content; it never rewrites

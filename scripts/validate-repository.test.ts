@@ -75,7 +75,7 @@ test("workflow URL controls require one exact line", () => {
   expect(hasExactLine(`${expected}.evil.example`, expected)).toBeFalse();
 });
 
-test("example dialect lock follows the v0.1 selection model", () => {
+test("example dialect lock follows format-1 selection", () => {
   const directory = mkdtempSync(join(tmpdir(), "rootform-distribution-example-"));
   try {
     writeFileSync(

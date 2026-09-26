@@ -8,16 +8,16 @@ import {
   mkdtempSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
-import { basename, dirname, isAbsolute, join, resolve } from "node:path";
+import { basename, isAbsolute, join, resolve } from "node:path";
 import { markedCommand } from "./docs-core-examples.ts";
 
 export const registryMarkers = [
   "external-content-2",
   "external-add-oci",
   "external-update-oci",
-  "local-dialect-6",
   "docs-dialect-authoring-4",
   "authoring-add-published",
   "docs-language-write-policy-pack-4",
@@ -104,6 +104,11 @@ export function verifyRegistryExamples(options: Options): string[] {
   const docker = join(workspace, "docker");
   mkdirSync(docker);
   writeFileSync(join(docker, "config.json"), "{}\n");
+  /* Pages call "rootform" by name. A directory holding only a link to the
+     binary under test keeps an older rootform elsewhere on PATH out of reach. */
+  const tools = join(workspace, "bin");
+  mkdirSync(tools);
+  symlinkSync(options.binary, join(tools, "rootform"));
   const page = (path: string) => readFileSync(join(root, "docs", path), "utf8");
   const home = (name: string) => {
     const path = join(workspace, "homes", name);
@@ -116,7 +121,7 @@ export function verifyRegistryExamples(options: Options): string[] {
     ROOTFORM_INPUT: "0",
     DOCKER_CONFIG: docker,
     SSL_CERT_FILE: options.caFile,
-    PATH: `${dirname(options.binary)}:${process.env.PATH ?? ""}`,
+    PATH: `${tools}:${process.env.PATH ?? ""}`,
     NO_COLOR: "1",
   });
   function run(command: string[], cwd: string, homeName: string, expected = 0): Result {
@@ -206,7 +211,10 @@ export function verifyRegistryExamples(options: Options): string[] {
     );
     return digest;
   }
-  const main = readFileSync(join(root, "examples/aws-vpc/main.tf"), "utf8");
+  const main = readFileSync(
+    join(root, "examples/playground/commerce-platform/base/main.tf"),
+    "utf8",
+  );
   const checks: string[] = [];
   try {
     const paymentRepository = `${registryBase}/acme/rootform/payments`;
@@ -303,17 +311,6 @@ export function verifyRegistryExamples(options: Options): string[] {
     );
     checks.push("external-update-oci moved payments to version 0.2.0 and its digest");
 
-    const localGuide = project("local-guide", main);
-    payments(join(localGuide, "dialects/payments"), "0.1.0");
-    marked("guides/local-dialect.md", "local-dialect-6", localGuide, "local-guide");
-    const localSelection = lockEntry(localGuide, "dialects", "payments");
-    assert(
-      pinnedDigest(localSelection) === paymentDigests.get("0.1.0") &&
-        !(localSelection?.source as Record<string, unknown>)?.local,
-      "local guide did not select published content",
-    );
-    checks.push("local-dialect-6 selected the published Dialect");
-
     const dialectAuthoring = project("dialect-authoring", main);
     payments(join(dialectAuthoring, "dialects/payments"), "0.1.0");
     run(
@@ -350,9 +347,8 @@ export function verifyRegistryExamples(options: Options): string[] {
       "authoring-consumer",
     );
     assert(
-      authoringAdd.stdout.includes("rootform.lock updated") &&
-        authoringAdd.stdout.includes('"architecture"'),
-      "published Dialect was not added and built",
+      authoringAdd.stdout.includes("rootform.lock updated"),
+      "published Dialect was not selected",
     );
     const authoringProject = join(dialectAuthoring, "infra");
     const authoringDigest = pinnedDigest(lockEntry(authoringProject, "dialects", "payments"));
@@ -372,7 +368,7 @@ export function verifyRegistryExamples(options: Options): string[] {
       "fresh Dialect init failed to restore exact selection",
     );
     checks.push(
-      "docs-dialect-authoring-4 and authoring-add-published published, selected, built, and restored payments",
+      "docs-dialect-authoring-4 and authoring-add-published published, selected, and restored payments",
     );
 
     const policyAuthoring = join(workspace, "policy-authoring");
@@ -418,9 +414,8 @@ export function verifyRegistryExamples(options: Options): string[] {
       "policy-consumer",
     );
     assert(
-      policyAdd.stdout.includes("rootform.lock updated") &&
-        policyAdd.stdout.includes("Policies compliant"),
-      "published Policy Pack did not pass check",
+      policyAdd.stdout.includes("rootform.lock updated"),
+      "published Policy Pack was not selected",
     );
     const policyDigest = pinnedDigest(lockEntry(policyProject, "policy_packs", "baseline"));
     assert(
@@ -435,7 +430,7 @@ export function verifyRegistryExamples(options: Options): string[] {
       "fresh Policy Pack init failed to restore exact selection",
     );
     checks.push(
-      "docs-language-write-policy-pack-4 and policy-authoring-add-published published, checked, and restored baseline",
+      "docs-language-write-policy-pack-4 and policy-authoring-add-published published, selected, and restored baseline",
     );
     return checks;
   } finally {

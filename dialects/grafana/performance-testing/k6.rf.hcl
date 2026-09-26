@@ -14,8 +14,15 @@ rule "k6-load-test" {
   as = concept.performance-test
 
   contribution {
-    to  = concept.performance-testing-project
-    via = source.project_id
+    to       = concept.performance-testing-project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -28,8 +35,15 @@ rule "k6-load-test-lookup" {
   as = concept.performance-test
 
   contribution {
-    to  = concept.performance-testing-project
-    via = source.project_id
+    to       = concept.performance-testing-project
+    via      = source.project_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -39,6 +53,15 @@ rule "k6-project" {
   }
 
   as = concept.performance-testing-project
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "k6-project-lookup" {
@@ -48,4 +71,13 @@ rule "k6-project-lookup" {
   }
 
   as = concept.performance-testing-project
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

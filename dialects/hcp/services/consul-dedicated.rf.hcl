@@ -13,21 +13,57 @@ rule "consul-cluster" {
 
   as = concept.consul-dedicated-cluster
 
-  context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_id
+  identity {
+    attributes = ["id", "cluster_id", "self_link"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "cluster_id", "self_link"]
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.hvn_id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+
+  context {
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "replicates-from" {
-    to  = concept.consul-dedicated-cluster
-    via = source.primary_link
+    to       = concept.consul-dedicated-cluster
+    via      = source.primary_link
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.self_link
+      strategy = "exact"
+    }
   }
 }
 
@@ -39,21 +75,57 @@ rule "consul-cluster-lookup" {
 
   as = concept.consul-dedicated-cluster
 
-  context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_id
+  identity {
+    attributes = ["id", "cluster_id", "self_link"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "cluster_id", "self_link"]
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.hvn_id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+
+  context {
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "replicates-from" {
-    to  = concept.consul-dedicated-cluster
-    via = source.primary_link
+    to       = concept.consul-dedicated-cluster
+    via      = source.primary_link
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.self_link
+      strategy = "exact"
+    }
   }
 }
 
@@ -65,7 +137,14 @@ rule "consul-snapshot" {
   as = concept.consul-configuration
 
   contribution {
-    to  = concept.consul-dedicated-cluster
-    via = source.cluster_id
+    to       = concept.consul-dedicated-cluster
+    via      = source.cluster_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.cluster_id
+      strategy = "exact"
+    }
   }
 }

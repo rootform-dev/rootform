@@ -166,10 +166,6 @@
       "label": "Datadog Software Catalog lookup"
     },
     {
-      "id": "datadog.rule.synthetics-private-location",
-      "label": "Datadog Synthetics private location"
-    },
-    {
       "id": "datadog.rule.synthetics-suite",
       "label": "Datadog Synthetics test suite"
     },
@@ -202,10 +198,6 @@
     {
       "id": "datadog.concept.service-integration-configuration",
       "label": "Datadog service integration configuration"
-    },
-    {
-      "id": "datadog.concept.telemetry-pipeline",
-      "label": "Datadog Observability Pipeline"
     },
     {
       "id": "datadog.concept.telemetry-destination",

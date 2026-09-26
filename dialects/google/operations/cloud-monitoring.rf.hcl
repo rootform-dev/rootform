@@ -18,9 +18,19 @@ rule "cloud-monitoring-alerting-policy" {
   as = concept.cloud-monitoring-alerting-policy
 
   context {
-    as  = context.ownership
-    to  = concept.google-cloud-project
-    via = source.project
+    as       = context.ownership
+    to       = concept.google-cloud-project
+    via      = source.project
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.project_id
+      strategy = "exact"
+    }
+
+    # Shared google-cloud-project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -31,10 +41,29 @@ rule "cloud-monitoring-service" {
 
   as = concept.cloud-monitoring-service
 
+  identity {
+    attributes = ["name", "service_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "service_id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.google-cloud-project
-    via = source.project
+    as       = context.ownership
+    to       = concept.google-cloud-project
+    via      = source.project
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.project_id
+      strategy = "exact"
+    }
+
+    # Shared google-cloud-project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -46,13 +75,30 @@ rule "cloud-monitoring-slo" {
   as = concept.cloud-monitoring-slo
 
   contribution {
-    to  = concept.cloud-monitoring-service
-    via = source.service
+    to       = concept.cloud-monitoring-service
+    via      = source.service
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.service_id, target.name]
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = context.ownership
-    to  = concept.google-cloud-project
-    via = source.project
+    as       = context.ownership
+    to       = concept.google-cloud-project
+    via      = source.project
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.project_id
+      strategy = "exact"
+    }
+
+    # Shared google-cloud-project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

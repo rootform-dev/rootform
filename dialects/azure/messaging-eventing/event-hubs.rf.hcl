@@ -10,10 +10,29 @@ rule "event-hub" {
 
   as = concept.event-stream
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.messaging-namespace
-    via = source.namespace_id
+    as       = context.ownership
+    to       = concept.messaging-namespace
+    via      = source.namespace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # A full ARM resource ID names one namespace, which a separate configuration can provision.
+    external = "allow"
   }
 }
 
@@ -24,10 +43,29 @@ rule "event-hubs-cluster" {
 
   as = concept.event-stream
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -39,14 +77,28 @@ rule "event-hubs-consumer-group" {
   as = concept.messaging-detail
 
   context {
-    as  = context.ownership
-    to  = concept.event-stream
-    via = source.eventhub_name
+    as       = context.ownership
+    to       = concept.event-stream
+    via      = source.eventhub_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.event-stream
-    via = source.eventhub_name
+    to       = concept.event-stream
+    via      = source.eventhub_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -57,10 +109,29 @@ rule "event-hubs-namespace" {
 
   as = concept.messaging-namespace
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -72,7 +143,14 @@ rule "event-hubs-schema-group" {
   as = concept.messaging-detail
 
   contribution {
-    to  = concept.messaging-namespace
-    via = source.namespace_id
+    to       = concept.messaging-namespace
+    via      = source.namespace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

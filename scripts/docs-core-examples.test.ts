@@ -2,10 +2,10 @@ import { expect, test } from "bun:test";
 import { assertHelpUsage, configuration, markedCommand } from "./docs-core-examples.ts";
 
 test("executable documentation markers bind one exact adjacent shell block", () => {
-  const page = "<!-- docs-check:build -->\n```sh\nrootform build . --locked\n```\n";
-  expect(markedCommand(page, "build")).toBe("rootform build . --locked");
-  expect(() => markedCommand(page + page, "build")).toThrow("Expected one");
-  expect(() => markedCommand(page.replace("```sh", "```text"), "build")).toThrow("Expected shell");
+  const page = "<!-- docs-check:run -->\n```sh\nrootform run plan.json --locked --no-serve\n```\n";
+  expect(markedCommand(page, "run")).toBe("rootform run plan.json --locked --no-serve");
+  expect(() => markedCommand(page + page, "run")).toThrow("Expected one");
+  expect(() => markedCommand(page.replace("```sh", "```text"), "run")).toThrow("Expected shell");
 });
 
 test("configuration blocks require a unique filename", () => {

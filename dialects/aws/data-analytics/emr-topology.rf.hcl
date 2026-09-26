@@ -6,8 +6,15 @@ rule "emr-instance-fleet" {
   as = concept.emr-cluster-component
 
   contribution {
-    to  = concept.emr-cluster
-    via = source.cluster_id
+    to       = concept.emr-cluster
+    via      = source.cluster_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -19,7 +26,14 @@ rule "emr-instance-group" {
   as = concept.emr-cluster-component
 
   contribution {
-    to  = concept.emr-cluster
-    via = source.cluster_id
+    to       = concept.emr-cluster
+    via      = source.cluster_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

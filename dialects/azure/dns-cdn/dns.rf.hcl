@@ -19,14 +19,34 @@ rule "dns-a-record" {
   as = concept.dns-record
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_name
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_name
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -38,14 +58,34 @@ rule "dns-aaaa-record" {
   as = concept.dns-record
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_name
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_name
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -57,14 +97,34 @@ rule "dns-cname-record" {
   as = concept.dns-record
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_name
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_name
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -76,14 +136,34 @@ rule "dns-mx-record" {
   as = concept.dns-record
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_name
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_name
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -95,14 +175,34 @@ rule "dns-ns-record" {
   as = concept.dns-record
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_name
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_name
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -114,14 +214,34 @@ rule "dns-ptr-record" {
   as = concept.dns-record
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_name
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_name
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -133,14 +253,34 @@ rule "dns-srv-record" {
   as = concept.dns-record
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_name
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_name
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -152,14 +292,34 @@ rule "dns-txt-record" {
   as = concept.dns-record
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_name
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_name
+    to       = concept.dns-zone
+    via      = source.zone_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -170,10 +330,29 @@ rule "dns-zone" {
 
   as = concept.dns-zone
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -185,14 +364,34 @@ rule "private-dns-a-record" {
   as = concept.dns-record
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.private_dns_zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.private_dns_zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.private_dns_zone_id
+    to       = concept.dns-zone
+    via      = source.private_dns_zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -204,14 +403,34 @@ rule "private-dns-cname-record" {
   as = concept.dns-record
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.private_dns_zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.private_dns_zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.private_dns_zone_id
+    to       = concept.dns-zone
+    via      = source.private_dns_zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -247,8 +466,18 @@ rule "private-dns-resolver" {
   as = concept.private-dns-resolver
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

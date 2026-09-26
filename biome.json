@@ -29,7 +29,7 @@
         "schemas/*.json",
         "reference/cli.json",
         "docs/assets/renderer/*.json",
-        "examples/playground/*/*/example.json"
+        "examples/playground/*/*/plan.json"
       ],
       "formatter": {
         "enabled": false

@@ -12,6 +12,15 @@ rule "r2-bucket" {
   }
 
   as = rf.concept.object-storage-container
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "r2-bucket-cors" {
@@ -22,8 +31,18 @@ rule "r2-bucket-cors" {
   as = concept.r2-configuration
 
   contribution {
-    to  = rf.concept.object-storage-container
-    via = source.bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 rule "r2-bucket-lifecycle" {
@@ -34,8 +53,18 @@ rule "r2-bucket-lifecycle" {
   as = concept.r2-configuration
 
   contribution {
-    to  = rf.concept.object-storage-container
-    via = source.bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -47,8 +76,18 @@ rule "r2-bucket-lock" {
   as = concept.r2-configuration
 
   contribution {
-    to  = rf.concept.object-storage-container
-    via = source.bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -60,8 +99,18 @@ rule "r2-bucket-sippy" {
   as = concept.r2-configuration
 
   contribution {
-    to  = rf.concept.object-storage-container
-    via = source.bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -73,13 +122,30 @@ rule "r2-bucket-event-notification" {
   as = concept.r2-configuration
 
   contribution {
-    to  = rf.concept.object-storage-container
-    via = source.bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.message-queue
-    via = source.queue_id
+    to       = concept.message-queue
+    via      = source.queue_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -91,14 +157,34 @@ rule "r2-custom-domain" {
   as = concept.r2-configuration
 
   contribution {
-    to  = rf.concept.object-storage-container
-    via = source.bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -110,8 +196,18 @@ rule "r2-managed-domain" {
   as = concept.r2-configuration
 
   contribution {
-    to  = rf.concept.object-storage-container
-    via = source.bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -123,7 +219,17 @@ rule "r2-data-catalog" {
   as = concept.r2-data-catalog
 
   relation "catalogs" {
-    to  = rf.concept.object-storage-container
-    via = source.bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

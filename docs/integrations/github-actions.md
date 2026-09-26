@@ -1,103 +1,27 @@
 ---
 title: "GitHub Actions"
-description: "Install an exact Rootform release, publish architecture evidence from source or a completed plan, and choose a policy gate."
+description: "Review a completed plan in a pull request with a verified Rootform release and protected artifacts."
 ---
 
-Use the `setup` entrypoint when your workflow controls Rootform commands. It
-installs and verifies the selected binary, but does not prepare project
-content or run analysis. This complete workflow builds an embedded-only
-project at `./infra` and keeps its Architecture IR:
-
-```yaml title=".github/workflows/architecture.yml"
-name: Architecture
-on: [pull_request]
-permissions:
-  contents: read
-jobs:
-  architecture:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: rootform-dev/action/setup@71eef759bff5e73b27489b1f7de818a4a76dc2e9
-        with:
-          version: 0.1.0
-      - name: Build architecture
-        run: rootform build ./infra --format json --output architecture.json
-      - name: Keep architecture
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: rootform-architecture
-          path: architecture.json
-          if-no-files-found: warn
-```
-
-No lock or `init` is needed for this embedded-only build. For a project
-with committed `infra/rootform.lock`, replace the build step with:
-
-```yaml title="Locked project steps"
-      - name: Prepare selected content
-        run: rootform init ./infra --locked --no-input
-      - name: Build architecture
-        run: rootform build ./infra --locked --format json --output architecture.json
-```
-
-Run `rootform add` during project configuration and commit the lock; never
-run it in CI. A selected Policy gate then uses `rootform check ./infra
---locked --format json --output policy.json` after the build. Install and
-checkout may access the network even though analysis itself does not acquire
-content. A build failure
-still fails the job. Prepare referenced Terraform or OpenTofu modules before
-the build if the project needs them.
-
-To gate a known local pack at `./policies`, insert this step after the build,
-then extend the artifact step's `path` list as shown. These are fragments for
-the workflow above, not a second complete workflow:
-
-```yaml title="Policy step to insert"
-      - name: Check selected Policies
-        run: rootform check ./infra --policy-pack ./policies --format json --output policy.json
-```
-
-```yaml title="Artifact path list to replace"
-          path: |
-            architecture.json
-            policy.json
-```
-
-The artifact step's `if: ${{ !cancelled() }}` runs after a Policy violation, so
-`policy.json` remains downloadable while the check's failure remains the job
-result. If a pack is selected by `infra/rootform.lock`, use the locked project
-steps above and check with `--locked`. Do not combine `--locked` with an
-explicit `--policy-pack` override. For the portable script, including separate
-diagnostics and an exact `check.status`, use [Run in
-CI](ci/README.md#request-a-policy-gate) and the [complete GitHub
-recipe](ci/github-actions.yml).
-
-`check --format sarif --output policy.sarif` creates SARIF. Uploading that file
-as a workflow artifact stores it for download. Sending it to GitHub code
-scanning is a separate, permissioned operation, subject to repository
-availability and GitHub's [SARIF upload requirements](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/integrate-with-existing-tools/upload-sarif-file).
-Do not grant `security-events: write` unless the workflow actually uploads to
-code scanning.
+The [setup action](https://github.com/rootform-dev/action/tree/main/setup) installs and verifies a published Rootform release, then puts its CLI on `PATH`. It does not run analysis or prepare selected content. Use the CLI after Terraform has produced a saved plan and JSON export. The [portable CI script](ci/rootform-ci.sh) gives this workflow the same files and exit status as other runners.
 
 ## Review a completed plan
 
-When the pull request workflow already runs `terraform plan` or `tofu plan`,
-review that plan. The plan carries the prior state and the planned values, so
-one export gives Rootform both sides of the comparison and the architecture to
-check. This complete workflow plans, exports, compares, and checks in one job:
+Copy [the plan workflow](ci/github-actions-plan.yml) and [the portable script](ci/rootform-ci.sh) into your repository. This complete example assumes the Terraform root is `infra` and the script is `ci/rootform-ci.sh`:
 
 ```yaml title=".github/workflows/plan-review.yml"
-name: Plan review
+name: Rootform plan review
+
 on: [pull_request]
+
 permissions:
   contents: read
+
 jobs:
   plan-review:
     runs-on: ubuntu-24.04
+    env:
+      ROOTFORM_OUTPUT_DIR: .rootform-ci-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -109,125 +33,85 @@ jobs:
       - uses: rootform-dev/action/setup@71eef759bff5e73b27489b1f7de818a4a76dc2e9
         with:
           version: 0.1.0
-      - name: Plan and export
+      # Terraform or OpenTofu produces the plan. Give this step the backend and
+      # provider credentials it needs; Rootform never receives them.
+      - name: Export plan
         working-directory: infra
         run: |
           terraform init -input=false
-          terraform plan -input=false -out="$RUNNER_TEMP/tfplan"
-          terraform show -json "$RUNNER_TEMP/tfplan" > "$RUNNER_TEMP/tfplan.json"
-      - name: Compare and check the planned architecture
-        working-directory: infra
-        run: |
-          mkdir "$RUNNER_TEMP/rootform"
-          rootform diff --plan "$RUNNER_TEMP/tfplan.json" \
-            --format markdown --output "$RUNNER_TEMP/rootform/plan-diff.md"
-          cat "$RUNNER_TEMP/rootform/plan-diff.md" >> "$GITHUB_STEP_SUMMARY"
-          rootform diff --plan "$RUNNER_TEMP/tfplan.json" \
-            --format json --output "$RUNNER_TEMP/rootform/plan-diff.json"
-          rootform diff --plan "$RUNNER_TEMP/tfplan.json" \
-            --format html --output "$RUNNER_TEMP/rootform/plan-diff.html"
-          rootform check --plan "$RUNNER_TEMP/tfplan.json" --policy-pack ../policies \
-            --format json --output "$RUNNER_TEMP/rootform/plan-policy.json"
+          terraform plan -input=false -out="$RUNNER_TEMP/plan.tfplan"
+          terraform show -json "$RUNNER_TEMP/plan.tfplan" > "$RUNNER_TEMP/plan.json"
+      # Rootform reads the completed export only. It runs no Terraform command.
+      - name: Analyze plan
+        env:
+          ROOTFORM_PROJECT: ./infra
+          ROOTFORM_INPUT: ${{ runner.temp }}/plan.json
+          ROOTFORM_PLAN_FILE: ${{ runner.temp }}/plan.tfplan
+          # Evaluate policies from a Policy Pack recorded in infra/rootform.lock:
+          # ROOTFORM_POLICY: baseline/*
+        run: sh ./ci/rootform-ci.sh
+      # Upload Rootform results only, never the saved plan or its JSON export.
       - name: Keep Rootform results
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: rootform-plan-review
-          path: ${{ runner.temp }}/rootform/
+          name: rootform-plan-results
+          path: |
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/analysis.json
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/report.md
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/results.sarif
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/summary.txt
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/run.stderr
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/run.status
           if-no-files-found: warn
 ```
 
-The plan step owns Terraform: give it the backend and provider credentials it
-needs, and use the OpenTofu action and `tofu` commands for an OpenTofu
-project. Rootform reads the completed export only. It never runs `terraform`
-or `tofu`, refreshes state, or contacts a backend. The saved plan and its
-export stay in `RUNNER_TEMP`, outside the workspace, and they can contain
-sensitive values: the artifact step above names Rootform results only, and no
-artifact list should ever name them.
+OpenTofu users replace `terraform` with `tofu` and use their verified setup method. The plan step writes into `$RUNNER_TEMP`, outside the checkout. Rootform never invokes Terraform or OpenTofu, refreshes state, contacts providers, or uses backend credentials. Keep those credentials in the plan step. Saved plans and JSON exports can contain cleartext secrets, so do not add them to artifacts, step summaries, or comments. [Plan inputs](../inputs/plans.md) explains why the pair matters.
 
-Each Rootform command runs in `infra` because `--plan` reads the project
-selection from the current working directory. `../policies` is the
-repository's local pack, relative to `infra`. When `infra/rootform.lock`
-selects the pack instead, run `rootform init . --locked --no-input` there
-first and check with `--locked` in place of `--policy-pack`. The Markdown
-Diff lands in the Job Summary, the JSON Diff serves automation,
-`plan-diff.html` opens from disk with Before, Diff, and After stages, and
-`plan-policy.json` records the gate. The check's exit status is the job
-result: `1` (confirmed violation), `2` (invalid command use), and `3` (not
-evaluated) all fail the job while the artifact step still runs, and only `0`
-with the expected evaluation count is compliant. Remove the check command to
-keep the workflow informational, or append one more `rootform diff --plan`
-with `--exit-code` as the last command to block on any determined or
-undetermined difference after the evidence is written. [Review a pull
-request](../workflows/index.md#review-a-completed-plan) reads these artifacts,
-and [Terraform and OpenTofu plans](../inputs/plans.md) is the canonical plan
-procedure. For the portable script, the same job runs
-`ROOTFORM_PLAN` through the [complete plan recipe](ci/github-actions-plan.yml)
-described in [Run in CI](ci/README.md#review-a-completed-plan).
+## Interpret the analysis result
 
-## Use the integrated Action for a project Policy gate
+The script calls `rootform run` with `--plan-file` and `--require-enrichment` when `ROOTFORM_PLAN_FILE` is set. Observe `summary.txt` for `Enrichment    saved plan verified against this plan JSON`. `analysis.json` is the Rootform document with the planned architecture, any earlier stages and drift, and closures. `report.md` is the human review. Policy outcomes appear in `summary.txt` and `report.md`, and in `results.sarif` with the diagnostics. If verification fails, the step exits `3`; re-export JSON from the exact saved plan before trusting the review. On a `pull_request` event, `actions/checkout` checks out a merge of the branch into its target by default, so the plan describes that merge result rather than the pull request head. [Review a completed plan](../workflows/index.md#review-a-completed-plan) shows how reviewers read these artifacts, and [Choose the revisions](../workflows/index.md#choose-the-revisions) explains how to compare the branch with its merge base instead.
 
-The main Action installs Rootform, prepares project selection, builds JSON and
-HTML, runs a Policy check, and publishes its own result files and Job Summary.
-It always checks. Use it only when the project's reviewed `rootform.lock`
-selects a Policy Pack with matching targets. It has no `policy-pack` input
-for a one-off local pack and cannot be used as a build-only shortcut.
+The upload step runs after a policy failure and names only Rootform outputs. A violation or no decision still fails the job; upload does not turn it green. Read `run.status`, `run.stderr`, and the `Evaluated` line of `summary.txt` before treating status `0` as a governance result. The outputs describe topology and names even though sensitive values are omitted, so retain them as internal artifacts. Never upload the whole checkout or `$RUNNER_TEMP`.
 
-```yaml title="Integrated Action step"
-      - uses: rootform-dev/action@71eef759bff5e73b27489b1f7de818a4a76dc2e9
-        with:
-          version: 0.1.0
-          path: ./infra
-          locked: true
+## Show the review in the workflow run
+
+Reviewers can read the report on the workflow run page and open the Explorer without installing Rootform. Insert this step after **Analyze plan**, then add `review.html` to the upload list:
+
+```yaml title="Review step to insert after Analyze plan"
+      - name: Prepare the review
+        if: ${{ !cancelled() }}
+        run: |
+          if [ -f "$ROOTFORM_OUTPUT_DIR/analysis.json" ]; then
+            cat "$ROOTFORM_OUTPUT_DIR/report.md" >> "$GITHUB_STEP_SUMMARY"
+            rootform run "$ROOTFORM_OUTPUT_DIR/analysis.json" --no-serve \
+              -o "$ROOTFORM_OUTPUT_DIR/review.html"
+          fi
 ```
 
-This step belongs after checkout in a workflow with `contents: read`. The
-Action's `locked` input requires an existing valid lock during preparation.
-`offline: true` additionally forbids Rootform acquisition, so selected content
-must already be local. The `cache` input defaults to `true`, and
-`upload-artifact` defaults to `true`. The Action's fixed artifact contains
-Architecture IR, HTML, policy JSON, and SARIF, not source, plans, or state.
-It exposes `architecture`, `html`, `policy-json`, `sarif`, `exit-code`, and
-artifact outputs. A confirmed violation exits `1` and fails by default.
-`fail-on-violations: false` affects only status `1`; statuses `2` and `3`
-still fail. Verify the evaluation count before accepting `0`.
+```yaml title="Line to add to the upload path list"
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/review.html
+```
 
-For source Diff reporting, `report-diff: true` requires `baseline-path` to
-name a second checkout. The Action compares that checkout with `path`, using
-each revision's own project selection. `fail-on-changes` defaults to `false`,
-so a completed Diff does not block every PR. Choose and record exact Before
-and After commits as in [Review a pull request](../workflows/index.md#choose-the-revisions).
-The default `pull_request` checkout may be a synthetic merge commit, not PR
-head. `github.event.pull_request.head.sha` is PR head, while
-`github.event.pull_request.base.sha` is target-branch head at event time.
-Neither is automatically the merge base. For the Diff meaning and an
-informational gate, see [Compare architectures](../guides/compare-architectures.md#use-exit-status-deliberately).
+The job summary then shows the sections of `report.md`: input, stages, counts, drift, uncertainty, and the policy outcome. `review.html` is a self-contained Explorer export built from the saved document without analyzing the plan again, and it makes no network requests. `if: ${{ !cancelled() }}` runs the step after a policy violation, and the file test skips it when the input was refused and no document exists. Anyone with read access to the repository can read job summaries and download artifacts; in a public repository, that is any signed-in GitHub user. Publish only what that audience may see.
 
-The integrated Action also accepts a completed plan. Set `mode: plan` and
-let `path` name the JSON export as a workspace-relative file, such as
-`infra/tfplan.json`; an export in `RUNNER_TEMP` cannot be passed to it. The
-Action then prepares the project and checks from the repository root, so the
-`rootform.lock` that selects the Policy Pack must be at the repository root.
-With `report-diff: true` it runs `rootform diff --plan` on that export and
-adds Diff JSON and Markdown to its artifact; no `baseline-path` is needed
-because the plan carries both sides. Produce the export in a workflow step
-before the Action, keep its path out of Git and of your own artifact steps,
-and never pass it to a workflow you do not trust with plan values.
+## Prepare selection and choose a policy gate
 
-## Keep PR permissions narrow
+A committed `infra/rootform.lock` fixes external Dialects and Policy Packs. Add a preparation step before analysis when it selects content:
 
-The Action does not comment by default. On a same-repository `pull_request`,
-request commenting explicitly with `pull-request-token` and
-`pull-requests: write` only when the workflow and analyzed input are trusted
-for that permission. Keep `contents: read` and checkout credentials disabled.
-Do not pass a write token or privileged secret to a script from an untrusted
-PR, or switch to `pull_request_target` to obtain more permissions. Fork PRs
-normally have a read-only token and cannot be promised a comment. The Job
-Summary and artifacts are the read-only review path. GitHub documents
-[fork token limits](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#changing-the-permissions-in-a-forked-repository).
+```yaml title="Step to insert before Analyze plan"
+      - name: Prepare selected content
+        run: rootform init ./infra --locked --no-input
+```
 
-Artifacts should list only Rootform results. Never upload the workspace, raw
-plans, state, or credentials. The integrated Action's published input and
-output names are defined by its pinned
-[action metadata](https://github.com/rootform-dev/action/blob/71eef759bff5e73b27489b1f7de818a4a76dc2e9/action.yml),
-not by a CLI flag assumed to be an Action input.
+The portable script passes `--locked` when that file exists. It does not run `init` or change the lock. For a locked Policy Pack, set `ROOTFORM_POLICY` in the Analyze step to a reviewed selector such as `baseline/*`. For a project without a lock, `ROOTFORM_POLICY_PACK=./policies` supplies a one-run local override. The script refuses a pack override with a lock. No selected policies means no compliance claim even when architecture analysis succeeds. [Run in CI](ci/README.md#request-a-policy-gate) gives the full status and file contract.
+
+## Upload SARIF only when needed
+
+A downloadable SARIF artifact is separate from GitHub code scanning. To send findings to code scanning, add GitHub's [SARIF upload action](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/integrate-with-existing-tools/upload-sarif-file) on a trusted event, point `sarif_file` at `results.sarif`, and grant `security-events: write` only to that upload job. Repository eligibility and upload permissions are GitHub settings. Keep ordinary pull request analysis at `contents: read`; do not grant write access just to produce Rootform artifacts.
+
+## Handle forks without exposing credentials
+
+A fork pull request receives a read-only token and normally cannot access repository secrets. A plan needing private backend or provider credentials may therefore be unavailable. Run that plan step only in a trusted context or review a protected plan produced elsewhere; do not move untrusted pull request code into a privileged `pull_request_target` job. The Rootform setup action may need a token only for a private release, while the public release path does not require an application token. Keep PR permissions narrow and avoid comments that expose topology. See GitHub's [fork event rules](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflows-in-forked-repositories) and [pull_request_target guidance](https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target).
+
+For GitLab, Azure Pipelines, or a local runner, use the same [portable recipe](ci/README.md#use-the-runner-recipes). For review outside CI, [reopen the saved Rootform document](../guides/reproduce-build.md#reopen-a-saved-rootform-document).

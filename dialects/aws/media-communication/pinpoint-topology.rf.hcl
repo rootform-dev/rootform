@@ -6,8 +6,15 @@ rule "pinpoint-adm-channel" {
   as = concept.pinpoint-component
 
   contribution {
-    to  = concept.pinpoint-app
-    via = source.application_id
+    to       = concept.pinpoint-app
+    via      = source.application_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -19,8 +26,15 @@ rule "pinpoint-apns-channel" {
   as = concept.pinpoint-component
 
   contribution {
-    to  = concept.pinpoint-app
-    via = source.application_id
+    to       = concept.pinpoint-app
+    via      = source.application_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -32,8 +46,15 @@ rule "pinpoint-apns-sandbox-channel" {
   as = concept.pinpoint-component
 
   contribution {
-    to  = concept.pinpoint-app
-    via = source.application_id
+    to       = concept.pinpoint-app
+    via      = source.application_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -45,8 +66,15 @@ rule "pinpoint-apns-voip-channel" {
   as = concept.pinpoint-component
 
   contribution {
-    to  = concept.pinpoint-app
-    via = source.application_id
+    to       = concept.pinpoint-app
+    via      = source.application_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -58,8 +86,15 @@ rule "pinpoint-apns-voip-sandbox-channel" {
   as = concept.pinpoint-component
 
   contribution {
-    to  = concept.pinpoint-app
-    via = source.application_id
+    to       = concept.pinpoint-app
+    via      = source.application_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -71,8 +106,15 @@ rule "pinpoint-baidu-channel" {
   as = concept.pinpoint-component
 
   contribution {
-    to  = concept.pinpoint-app
-    via = source.application_id
+    to       = concept.pinpoint-app
+    via      = source.application_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -84,8 +126,15 @@ rule "pinpoint-email-channel" {
   as = concept.pinpoint-component
 
   contribution {
-    to  = concept.pinpoint-app
-    via = source.application_id
+    to       = concept.pinpoint-app
+    via      = source.application_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -97,8 +146,15 @@ rule "pinpoint-event-stream" {
   as = concept.pinpoint-component
 
   contribution {
-    to  = concept.pinpoint-app
-    via = source.application_id
+    to       = concept.pinpoint-app
+    via      = source.application_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -110,8 +166,15 @@ rule "pinpoint-gcm-channel" {
   as = concept.pinpoint-component
 
   contribution {
-    to  = concept.pinpoint-app
-    via = source.application_id
+    to       = concept.pinpoint-app
+    via      = source.application_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -123,7 +186,14 @@ rule "pinpoint-sms-channel" {
   as = concept.pinpoint-component
 
   contribution {
-    to  = concept.pinpoint-app
-    via = source.application_id
+    to       = concept.pinpoint-app
+    via      = source.application_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

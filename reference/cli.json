@@ -5,15 +5,12 @@
       "path": "rootform",
       "usage": "rootform [command]",
       "summary": "Understand Terraform and OpenTofu as architecture",
-      "description": "Rootform turns Terraform and OpenTofu into a semantic, deterministic,\nand explainable architecture.\n\nStart with rootform run ./infra to explore a directory locally.",
-      "examples": "rootform run ./infra\n  rootform build ./infra -o architecture.json\n  rootform check ./infra\n  rootform diff ./before ./after",
+      "description": "Rootform turns Terraform and OpenTofu plan or state exports into\nsemantic, deterministic, explainable architecture.\n\nStart with rootform run plan.json.",
+      "examples": "rootform run plan.json\n  rootform run state.json --no-serve -o architecture.json\n  rootform run before.json --diff after.json --no-serve",
       "subcommands": [
         "rootform add",
-        "rootform build",
-        "rootform check",
         "rootform compile",
         "rootform completion",
-        "rootform diff",
         "rootform explain",
         "rootform fmt",
         "rootform init",
@@ -184,132 +181,6 @@
       ]
     },
     {
-      "path": "rootform build",
-      "usage": "rootform build [directory] [flags]",
-      "summary": "Build an architecture",
-      "description": "Build a semantic architecture from Terraform or OpenTofu configuration\nor from a plan in JSON format.\n\nWith no directory, build reads the current directory. --plan reads a plan\ninstead; use '-' to read it from standard input. Directory input never\ndownloads, acquires, or prompts: selected external content must already\nbe available locally, or be prepared explicitly with rootform init or\nrootform vendor. A coherent local lock is silent.\n\nThe Rootform architecture file is written to standard output, or to the\nfile selected by --output. With --format html the architecture is written\nas one page that opens on its own, with no server and no other file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the architecture was built\n  2  the command was used incorrectly\n  3  no complete architecture could be built",
-      "examples": "rootform build\n  rootform build ./infra\n  rootform build ./infra -o architecture.json\n  rootform build ./infra --format html -o architecture.html\n  rootform build --plan tfplan.json",
-      "flags": [
-        {
-          "name": "dialect",
-          "type": "stringArray",
-          "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
-        },
-        {
-          "name": "format",
-          "type": "string",
-          "default": "json",
-          "usage": "write `format` (json/html)"
-        },
-        {
-          "name": "help",
-          "shorthand": "h",
-          "type": "bool",
-          "default": "false",
-          "usage": "show how to use rootform build",
-          "no_option_default": "true"
-        },
-        {
-          "name": "locked",
-          "type": "bool",
-          "default": "false",
-          "usage": "require an existing valid rootform.lock",
-          "no_option_default": "true"
-        },
-        {
-          "name": "output",
-          "shorthand": "o",
-          "type": "string",
-          "default": "",
-          "usage": "write the architecture to this `file`"
-        },
-        {
-          "name": "plan",
-          "type": "file",
-          "default": "",
-          "usage": "read JSON plan; use '-' for standard input"
-        }
-      ],
-      "inherited_flags": [
-        {
-          "name": "color",
-          "type": "mode",
-          "default": "auto",
-          "usage": "color human output: auto, always, never"
-        }
-      ]
-    },
-    {
-      "path": "rootform check",
-      "usage": "rootform check [input] [flags]",
-      "summary": "Check architecture policies",
-      "description": "Build or load an architecture and evaluate the applicable policies.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or '-' for an architecture file on standard input. With no input,\ncheck reads the current directory. --plan reads a plan in JSON format\ninstead. Directory input never downloads, acquires, or prompts: selected\nexternal content must already be available locally, or be prepared\nexplicitly with rootform init or rootform vendor. A coherent local lock\nis silent. --policy-pack and --dialect replace the selected unit with\nthe same name, or add one, for this invocation only.\n\nThe selected text, JSON, SARIF, or Markdown result goes to standard\noutput, or to --output. Diagnostics go to standard error.\n\nExit status:\n  0  all selected policies were evaluated and compliant\n  1  at least one policy was violated, including in mixed runs\n  2  the command was used incorrectly\n  3  indeterminate or not evaluated, with no confirmed violation\n\nViolations take precedence: exit 1. Zero policies or zero evaluations\nare never compliant. A selected policy without targets prevents compliance.\n--policy-pack accepts a source directory or compiled JSON file; compiled\nfiles retain their semantic pins during evaluation.",
-      "examples": "rootform check\n  rootform check ./infra\n  rootform check . --locked\n  rootform check --plan tfplan.json\n  rootform check . --policy-pack ./policies\n  rootform check arch.json --policy-pack pack.json\n  rootform build ./infra | rootform check -\n  rootform check ./infra --format sarif -o rootform.sarif",
-      "flags": [
-        {
-          "name": "dialect",
-          "type": "stringArray",
-          "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
-        },
-        {
-          "name": "format",
-          "type": "string",
-          "default": "text",
-          "usage": "text/json/sarif/markdown `format`"
-        },
-        {
-          "name": "help",
-          "shorthand": "h",
-          "type": "bool",
-          "default": "false",
-          "usage": "show how to use rootform check",
-          "no_option_default": "true"
-        },
-        {
-          "name": "locked",
-          "type": "bool",
-          "default": "false",
-          "usage": "require an existing valid rootform.lock",
-          "no_option_default": "true"
-        },
-        {
-          "name": "output",
-          "shorthand": "o",
-          "type": "string",
-          "default": "",
-          "usage": "write the result to this `file`"
-        },
-        {
-          "name": "plan",
-          "type": "file",
-          "default": "",
-          "usage": "read JSON plan; use '-' for standard input"
-        },
-        {
-          "name": "policy",
-          "type": "stringArray",
-          "default": "[]",
-          "usage": "select pack/name or unique policy; repeatable"
-        },
-        {
-          "name": "policy-pack",
-          "type": "stringArray",
-          "default": "[]",
-          "usage": "select directory or compiled JSON `path`; repeatable"
-        }
-      ],
-      "inherited_flags": [
-        {
-          "name": "color",
-          "type": "mode",
-          "default": "auto",
-          "usage": "color human output: auto, always, never"
-        }
-      ]
-    },
-    {
       "path": "rootform compile",
       "usage": "rootform compile \u003cobject\u003e [flags]",
       "summary": "Compile a Policy Pack for offline checks",
@@ -340,8 +211,8 @@
       "path": "rootform compile policy-pack",
       "usage": "rootform compile policy-pack \u003cdirectory\u003e [flags]",
       "summary": "Compile and pin a Policy Pack",
-      "description": "Compile one Policy Pack source directory against the semantic snapshot\nin --semantics. Write the compiled JSON file to --output, preserving its\nsemantic pins for later offline checks without producer Dialects.\nSummary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  the compiled Policy Pack was written\n  1  the Policy Pack could not be compiled or written\n  2  the command was used incorrectly",
-      "examples": "rootform compile policy-pack ./policies --semantics arch.json -o pack.json\n  rootform compile policy-pack . --semantics baseline.json -o pack.json\n  rootform compile policy-pack ./rules --semantics arch.json -o rules.json",
+      "description": "Compile one Policy Pack source directory using the Rootform document\nin --semantics. Write the compiled JSON file to --output. The compiled\nPack keeps its semantic pins for later offline evaluation without the\nDialect sources that produced the document.\nSummary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  the compiled Policy Pack was written\n  1  the Policy Pack could not be compiled or written\n  2  the command was used incorrectly",
+      "examples": "rootform compile policy-pack ./policies --semantics analysis.json -o pack.json\n  rootform compile policy-pack . --semantics analysis.json -o pack.json\n  rootform compile policy-pack ./rules --semantics analysis.json -o rules.json",
       "flags": [
         {
           "name": "help",
@@ -362,7 +233,7 @@
           "name": "semantics",
           "type": "string",
           "default": "",
-          "usage": "pin semantics from an architecture `file` (required)"
+          "usage": "read semantics from a Rootform document `file` (required)"
         }
       ],
       "inherited_flags": [
@@ -400,88 +271,11 @@
       ]
     },
     {
-      "path": "rootform diff",
-      "usage": "rootform diff \u003cbefore\u003e \u003cafter\u003e [flags]",
-      "summary": "Compare two architectures",
-      "description": "Compare two architectures and report the architectural changes between\nthem.\n\nEach input can be an infrastructure directory, a Rootform architecture\nfile, or '-' for one architecture file on standard input. --plan reads\nboth sides from a plan in JSON format instead. Only one input can be '-'.\n\nThe selected text, JSON, Markdown, or HTML result goes to standard\noutput, or to --output. HTML is one self-contained page that opens the\ncomparison in the interactive interface. --serve serves that interface\nlocally instead of printing a result and puts the local address alone on\nstandard output. Diagnostics go to standard error.\n\nExit status:\n  0  the comparison succeeded, or the local interface stopped cleanly\n  1  changes or undetermined facts with --exit-code, or the local\n     interface could not start\n  2  the command was used incorrectly\n  3  the comparison could not be completed",
-      "examples": "rootform diff ./before ./after\n  rootform diff before.json after.json --exit-code\n  rootform diff --plan tfplan.json\n  terraform show -json tfplan | rootform diff --plan -\n  rootform diff ./before ./after --format markdown -o rootform-diff.md\n  rootform diff --plan tfplan.json --format html -o rootform-diff.html\n  rootform diff --plan tfplan.json --serve",
-      "flags": [
-        {
-          "name": "dialect",
-          "type": "stringArray",
-          "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
-        },
-        {
-          "name": "exit-code",
-          "type": "bool",
-          "default": "false",
-          "usage": "exit 1 for changes or undetermined facts",
-          "no_option_default": "true"
-        },
-        {
-          "name": "format",
-          "type": "string",
-          "default": "text",
-          "usage": "text/json/markdown/html `format`"
-        },
-        {
-          "name": "help",
-          "shorthand": "h",
-          "type": "bool",
-          "default": "false",
-          "usage": "show how to use rootform diff",
-          "no_option_default": "true"
-        },
-        {
-          "name": "no-browser",
-          "type": "bool",
-          "default": "false",
-          "usage": "--serve without opening the browser",
-          "no_option_default": "true"
-        },
-        {
-          "name": "output",
-          "shorthand": "o",
-          "type": "string",
-          "default": "",
-          "usage": "write the diff to this `file`"
-        },
-        {
-          "name": "plan",
-          "type": "file",
-          "default": "",
-          "usage": "read JSON plan; use '-' for standard input"
-        },
-        {
-          "name": "port",
-          "type": "int",
-          "default": "21717",
-          "usage": "--serve on this `port`; 0 picks a free one"
-        },
-        {
-          "name": "serve",
-          "type": "bool",
-          "default": "false",
-          "usage": "serve the comparison in the local interface",
-          "no_option_default": "true"
-        }
-      ],
-      "inherited_flags": [
-        {
-          "name": "color",
-          "type": "mode",
-          "default": "auto",
-          "usage": "color human output: auto, always, never"
-        }
-      ]
-    },
-    {
       "path": "rootform explain",
       "usage": "rootform explain \u003cobject\u003e \u003cname\u003e [flags]",
       "summary": "Explain an architecture result",
-      "description": "Explain how an architecture element was derived, how a source\ndeclaration was interpreted, or why a policy produced a result.",
-      "examples": "rootform explain architecture google_sql_database_instance.main\n  rootform explain semantics google.rule.cloud-sql-instance\n  rootform explain policy baseline.policy.cluster-network-context",
+      "description": "Explain how an instance was interpreted and which evidence supports its\nfacts, what a rule emits, or why a policy decided what it decided.",
+      "examples": "rootform explain architecture google_compute_network.vpc --input plan.json\n  rootform explain semantics google.rule.cloud-sql-instance\n  rootform explain policy cluster-network-context --input analysis.json",
       "subcommands": [
         "rootform explain architecture",
         "rootform explain policy",
@@ -509,15 +303,15 @@
     {
       "path": "rootform explain architecture",
       "usage": "rootform explain architecture \u003caddress\u003e [flags]",
-      "summary": "Explain an architecture element",
-      "description": "Show how an architecture element is implemented and which semantic\nfacts and source locations support it.\n\nBy default, explain reads the current directory. --input accepts an\ninfrastructure directory, a Rootform architecture file, or '-' for an\narchitecture file on standard input.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the element was explained\n  1  the declaration or architecture element was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
-      "examples": "rootform explain architecture google_compute_network.vpc\n  rootform explain architecture kubernetes_deployment_v1.app --format json\n  rootform explain architecture google_compute_network.vpc --input prod.json",
+      "summary": "Explain an instance",
+      "description": "Show how one instance was interpreted: its rule and concept, the facts\nit takes part in with their evidence, each closure outcome, its\ndependencies and its diagnostics. A declaration address explains every\ninstance of that declaration.\n\n--input accepts a plan JSON, a state JSON, a saved Rootform document, or\n'-' for standard input. A plan or state is compiled with the project's\nDialects; a Rootform document is read as it is. --stage selects the\nstage; the default is the document's default stage.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named instance or definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "examples": "rootform explain architecture google_compute_network.vpc --input plan.json\n  rootform explain architecture 'aws_instance.web[\"a\"]' --input state.json\n  rootform explain architecture aws_vpc.main --input plan.json --stage refreshed\n  rootform explain architecture aws_vpc.main --input analysis.json --format json",
       "flags": [
         {
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
         },
         {
           "name": "format",
@@ -537,7 +331,13 @@
           "name": "input",
           "type": "string",
           "default": "",
-          "usage": "read architecture at `path`; use '-' for standard input"
+          "usage": "read `path`: a plan, state or Rootform document, or '-'"
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "default": "",
+          "usage": "explain the `stage`: planned, refreshed or recorded"
         }
       ],
       "inherited_flags": [
@@ -553,14 +353,14 @@
       "path": "rootform explain policy",
       "usage": "rootform explain policy \u003cidentifier\u003e [flags]",
       "summary": "Explain a policy result",
-      "description": "Show why a policy passed, failed, or could not be evaluated for an\narchitecture element.\n\nBy default, explain reads the current directory. --input accepts an\ninfrastructure directory, a Rootform architecture file, or '-' for an\narchitecture file on standard input.\nThe project must select the Policy Pack that owns the policy, or\n--policy-pack must name its source directory for this run only.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
-      "examples": "rootform explain policy baseline.policy.cluster-network-context\n  rootform explain policy cluster-network-context --policy-pack ./policies\n  rootform explain policy cluster-network-context --input prod.json\n  rootform explain policy baseline.policy.cluster-network-context --format json",
+      "description": "Show why a policy passed, was violated, or stayed indeterminate for\neach target instance.\n\n--input accepts a plan JSON, a state JSON, a saved Rootform document, or\n'-' for standard input. A plan or state is compiled with the project's\nDialects; a Rootform document is read as it is. --stage selects the\nstage; the default is the document's default stage.\n\nThe project must select the Policy Pack that owns the policy, or\n--policy-pack must name its source directory for this run only.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named instance or definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "examples": "rootform explain policy cluster-network-context --input plan.json\n  rootform explain policy baseline.policy.cluster-network-context --input -\n  rootform explain policy my-check --input plan.json --policy-pack ./policies\n  rootform explain policy cluster-network-context --input - --format json",
       "flags": [
         {
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
         },
         {
           "name": "format",
@@ -580,13 +380,19 @@
           "name": "input",
           "type": "string",
           "default": "",
-          "usage": "read architecture at `path`; use '-' for standard input"
+          "usage": "read `path`: a plan, state or Rootform document, or '-'"
         },
         {
           "name": "policy-pack",
           "type": "stringArray",
           "default": "[]",
           "usage": "select local Policy Pack `dir`; repeatable"
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "default": "",
+          "usage": "explain the `stage`: planned, refreshed or recorded"
         }
       ],
       "inherited_flags": [
@@ -601,15 +407,15 @@
     {
       "path": "rootform explain semantics",
       "usage": "rootform explain semantics \u003cidentifier\u003e [flags]",
-      "summary": "Explain a semantic interpretation",
-      "description": "Show how a source declaration was interpreted, including the matching\nrule and the architecture it produced.\n\nThe current directory supplies the architecture.\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
-      "examples": "rootform explain semantics google.rule.cloud-sql-instance\n  rootform explain semantics cloud-sql-instance\n  rootform explain semantics google.rule.cloud-sql-instance --format json",
+      "summary": "Explain a rule",
+      "description": "Show what a rule matches and emits. With --input, also show the\ninstances it interpreted and the outcome of its closures.\n\n--input accepts a plan JSON, a state JSON, a saved Rootform document, or\n'-' for standard input. A plan or state is compiled with the project's\nDialects; a Rootform document is read as it is. --stage selects the\nstage; the default is the document's default stage.\n\nUse \u003cowner\u003e.rule.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only. Without --input,\nthe project's selected Dialects supply the rule.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named instance or definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "examples": "rootform explain semantics google.rule.cloud-sql-instance\n  rootform explain semantics cloud-sql-instance --input plan.json\n  rootform explain semantics google.rule.cloud-sql-instance --format json",
       "flags": [
         {
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
         },
         {
           "name": "format",
@@ -624,6 +430,18 @@
           "default": "false",
           "usage": "show how to use rootform explain semantics",
           "no_option_default": "true"
+        },
+        {
+          "name": "input",
+          "type": "string",
+          "default": "",
+          "usage": "read `path`: a plan, state or Rootform document, or '-'"
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "default": "",
+          "usage": "explain the `stage`: planned, refreshed or recorded"
         }
       ],
       "inherited_flags": [
@@ -880,7 +698,7 @@
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
         },
         {
           "name": "format",
@@ -1392,16 +1210,58 @@
     },
     {
       "path": "rootform run",
-      "usage": "rootform run [input] [flags]",
-      "summary": "Explore an architecture locally",
-      "description": "Build or load an architecture and serve its interactive interface\nlocally.\n\nThe input can be an infrastructure directory or a Rootform architecture\nfile. With no input, run reads the current directory. --plan reads a plan\nin JSON format instead; use '-' to read it from standard input. Directory\ninput never downloads, acquires, or prompts: selected external content\nmust already be available locally, or be prepared explicitly with\nrootform init or rootform vendor.\n\nThe local address goes to standard output. Diagnostics go to standard\nerror.\n\nExit status:\n  0  the local interface stopped cleanly\n  1  the local interface could not start\n  2  the command was used incorrectly",
-      "examples": "rootform run\n  rootform run ./infra\n  rootform run architecture.json --no-browser\n  rootform run --plan tfplan.json",
+      "usage": "rootform run \u003cinput\u003e [--diff \u003cinput\u003e] [flags]",
+      "summary": "Analyze a plan or state, or open a saved Rootform document",
+      "description": "Analyze a Terraform or OpenTofu plan JSON or state JSON with the project's\nDialects, or open a saved Rootform document without analyzing it again. The\ninput kind comes from its content, and '-' reads standard input. Export a\nplan with \"terraform show -json plan.tfplan\" and a state with\n\"terraform show -json\"; a configuration directory is not an input.\n\nA plan made with a prior state also reports drift: what changed outside\nTerraform or OpenTofu between the recorded and the refreshed state. --diff\ncompares two inputs, such as a state and a later plan, or two saved\ndocuments.\n\nBy default run serves the result on a loopback address and opens a browser\nuntil interrupted. --no-serve writes the requested files and exits.\n\nThe summary goes to standard output, or the --format output when no file is\nwritten. Progress, warnings, the server address and failures go to standard\nerror. Each -o file takes its format from its extension: .json (the Rootform\ndocument), .md, .txt, .sarif or .html. Every file is rendered before any is\nwritten.\n\nExit status:\n  0  analyzed, and every selected policy passed\n  1  a selected policy was violated\n  2  the command was used incorrectly\n  3  the input was refused, or a policy was indeterminate or decided nothing\n  4  a file could not be written or the server could not start",
+      "examples": "rootform run plan.json\n  terraform show -json plan.tfplan | rootform run -\n  rootform run state.json --no-serve -o analysis.json\n  rootform run plan.json --no-serve -o report.md -o results.sarif\n  rootform run before.json --diff after.json --no-serve",
       "flags": [
+        {
+          "name": "after-side",
+          "type": "string",
+          "default": "",
+          "usage": "read `side` of a second comparison: before, after"
+        },
+        {
+          "name": "after-stage",
+          "type": "string",
+          "default": "",
+          "usage": "compare `stage` of the second input"
+        },
+        {
+          "name": "before-side",
+          "type": "string",
+          "default": "",
+          "usage": "read `side` of a first comparison: before, after"
+        },
+        {
+          "name": "before-stage",
+          "type": "string",
+          "default": "",
+          "usage": "compare `stage` of the first input"
+        },
         {
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
+        },
+        {
+          "name": "diff",
+          "type": "string",
+          "default": "",
+          "usage": "compare with a second `input`"
+        },
+        {
+          "name": "diff-plan-file",
+          "type": "string",
+          "default": "",
+          "usage": "verify the second plan against saved plan `file`"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "",
+          "usage": "`format` of standard output or of one -o file"
         },
         {
           "name": "help",
@@ -1415,34 +1275,90 @@
           "name": "locked",
           "type": "bool",
           "default": "false",
-          "usage": "require an existing valid rootform.lock",
+          "usage": "refuse to run unless rootform.lock is valid",
           "no_option_default": "true"
         },
         {
           "name": "no-browser",
           "type": "bool",
           "default": "false",
-          "usage": "do not open the browser automatically",
+          "usage": "serve without opening a browser",
           "no_option_default": "true"
         },
         {
-          "name": "no-watch",
+          "name": "no-serve",
           "type": "bool",
           "default": "false",
-          "usage": "build once instead of rebuilding when a file changes",
+          "usage": "write the requested files and exit",
           "no_option_default": "true"
         },
         {
-          "name": "plan",
-          "type": "file",
+          "name": "output",
+          "shorthand": "o",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "write `file`, formatted by extension; repeatable"
+        },
+        {
+          "name": "plan-complete",
+          "type": "string",
           "default": "",
-          "usage": "read JSON plan; use '-' for standard input"
+          "usage": "declare the plan complete; `value` must be attested"
+        },
+        {
+          "name": "plan-file",
+          "type": "string",
+          "default": "",
+          "usage": "verify the first plan against saved plan `file`"
+        },
+        {
+          "name": "policy",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "evaluate only `policy`; repeatable"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "select local Policy Pack `dir`; repeatable"
         },
         {
           "name": "port",
           "type": "int",
           "default": "21717",
-          "usage": "serve on local `port`; 0 picks a free one"
+          "usage": "serve on `port`; 0 picks one"
+        },
+        {
+          "name": "producer",
+          "type": "string",
+          "default": "",
+          "usage": "declare the producing `tool`: terraform, opentofu"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "default": "",
+          "usage": "use the Dialects and policies of project `dir`"
+        },
+        {
+          "name": "provider-map",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "map provider `pair` observed=binding; repeatable"
+        },
+        {
+          "name": "require-enrichment",
+          "type": "bool",
+          "default": "false",
+          "usage": "refuse a saved plan file that does not verify",
+          "no_option_default": "true"
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "default": "",
+          "usage": "report `stage`: planned, refreshed or recorded"
         }
       ],
       "inherited_flags": [
@@ -1469,7 +1385,7 @@
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
         },
         {
           "name": "format",
@@ -1575,15 +1491,15 @@
     {
       "path": "rootform test",
       "usage": "rootform test [directory] [flags]",
-      "summary": "Test dialect fixtures",
-      "description": "Build dialect fixtures and compare their architectures with the\nexpected results.\n\nWith no directory, test reads the current directory. Text or JSON results\ngo to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every selected fixture passed\n  1  at least one fixture differed or encountered an error\n  2  the command was used incorrectly\n  3  the run could not start or be reported, or no fixtures matched",
-      "examples": "rootform test\n  rootform test ./fixtures\n  rootform test ./fixtures --run cloud-sql\n  rootform test ./fixtures --format json",
+      "summary": "Test Dialect fixtures",
+      "description": "Analyze Dialect fixtures and compare the Rootform documents they\nproduce with the recorded ones. A fixture is a directory holding one\nplan.json or state.json export and an analysis.golden document; the\nproject at the test directory selects the Dialects. A plan.tfplan saved\nplan beside plan.json must verify against it, and its configuration\nsnapshot then contributes the facts that follow references.\n\nA golden records the analysis with only the Dialect definitions it\nreaches. The comparison ignores which Rootform version and which Dialect\nversions recorded it. With --update, test writes the produced golden for\nevery case that differs, and for a directory holding an export but no\ngolden yet.\n\nWith no directory, test reads the current directory. Text or JSON results\ngo to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every selected fixture passed or, with --update, was recorded\n  1  at least one fixture differed or encountered an error\n  2  the command was used incorrectly\n  3  the run could not start or be reported, or no fixtures matched",
+      "examples": "rootform test\n  rootform test ./fixtures\n  rootform test ./fixtures --run cloud-sql\n  rootform test ./fixtures --format json\n  rootform test ./fixtures --update",
       "flags": [
         {
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
         },
         {
           "name": "format",
@@ -1604,6 +1520,13 @@
           "type": "string",
           "default": "",
           "usage": "run only the cases whose `name` contains this text"
+        },
+        {
+          "name": "update",
+          "type": "bool",
+          "default": "false",
+          "usage": "write the golden of every differing or new case",
+          "no_option_default": "true"
         }
       ],
       "inherited_flags": [
@@ -1829,8 +1752,8 @@
       "path": "rootform validate",
       "usage": "rootform validate \u003cobject\u003e [flags]",
       "summary": "Validate a Rootform object",
-      "description": "Validate an architecture or Rootform definition and report any problems\nfound.\n\nValidation checks definitions; it does not evaluate policies. Use\n\"rootform check\" for that.",
-      "examples": "rootform validate architecture ./infra\n  rootform validate dialects ./dialects\n  rootform validate rule google.rule.cloud-sql-instance",
+      "description": "Validate a saved Rootform document or a Rootform definition and\nreport any problems found.\n\nValidation checks definitions; it does not evaluate policies. Use\nrootform run plan.json --policy \u003cname\u003e for that.",
+      "examples": "rootform validate architecture analysis.json\n  rootform validate dialects ./dialects\n  rootform validate rule google.rule.cloud-sql-instance",
       "subcommands": [
         "rootform validate architecture",
         "rootform validate concept",
@@ -1861,17 +1784,11 @@
     },
     {
       "path": "rootform validate architecture",
-      "usage": "rootform validate architecture [input] [flags]",
-      "summary": "Validate an architecture",
-      "description": "Build or load an architecture and check that it is structurally valid\nand internally consistent.\n\nThe input can be an infrastructure directory, a Rootform architecture\nfile, or '-' for an architecture file on standard input. With no input,\nvalidation reads the current directory.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the architecture is valid\n  1  the architecture is not valid\n  2  the command was used incorrectly\n  3  the architecture could not be validated",
-      "examples": "rootform validate architecture\n  rootform validate architecture architecture.json\n  cat architecture.json | rootform validate architecture -\n  rootform validate architecture ./infra --dialect ./dialects/payments",
+      "usage": "rootform validate architecture \u003cdocument\u003e [flags]",
+      "summary": "Validate a saved Rootform document",
+      "description": "Check that a saved Rootform document is a valid format-1 snapshot,\nplan or comparison document. Validation reads the document alone: it\nloads no Dialect and never recompiles. Use '-' for standard input.\n\nA plan or state export is analyzed by rootform run, not validated here.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the document is valid\n  1  the document is not valid\n  2  the command was used incorrectly\n  3  the input could not be validated",
+      "examples": "rootform validate architecture analysis.json\n  cat analysis.json | rootform validate architecture -\n  rootform validate architecture comparison.json --format json",
       "flags": [
-        {
-          "name": "dialect",
-          "type": "stringArray",
-          "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
-        },
         {
           "name": "format",
           "type": "string",
@@ -1907,7 +1824,7 @@
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
         },
         {
           "name": "format",
@@ -1944,7 +1861,7 @@
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
         },
         {
           "name": "format",
@@ -2012,7 +1929,7 @@
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
         },
         {
           "name": "format",
@@ -2055,7 +1972,7 @@
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
         },
         {
           "name": "format",
@@ -2092,7 +2009,7 @@
           "name": "dialect",
           "type": "stringArray",
           "default": "[]",
-          "usage": "use a dialect source `dir` for this run; repeatable"
+          "usage": "use dialect source `dir`; repeatable"
         },
         {
           "name": "format",

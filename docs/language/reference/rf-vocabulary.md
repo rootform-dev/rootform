@@ -58,9 +58,11 @@ rule "subnet" {
   as = rf.concept.subnet
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.network_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.network_id
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 ```
@@ -85,5 +87,5 @@ policy "subnet-has-network-context" {
 ```
 
 Policy references are always owner-qualified, so `rf.` prefix is required.
-Linking verifies exact vocabulary version and semantic digest against
-Architecture IR.
+Linking verifies exact vocabulary version and semantic digest against the
+Rootform document.

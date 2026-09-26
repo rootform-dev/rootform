@@ -9,9 +9,25 @@ rule "connection-directory" {
 
   as = concept.directory-sync
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   relation "synchronizes-connection" {
-    to  = concept.identity-connection
-    via = source.connection_id
+    to       = concept.identity-connection
+    via      = source.connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -23,8 +39,24 @@ rule "connection-directory-lookup" {
 
   as = concept.directory-sync
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   relation "synchronizes-connection" {
-    to  = concept.identity-connection
-    via = source.connection_id
+    to       = concept.identity-connection
+    via      = source.connection_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

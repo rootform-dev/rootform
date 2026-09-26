@@ -1,13 +1,15 @@
 ---
 title: "rootform explain semantics"
-description: "Trace how a source declaration was interpreted."
+description: "Show a Dialect Rule, its emissions, and where it applied."
 ---
 
-`explain semantics` uses the current project to show a matching Dialect Rule
-and the architecture it produced. Pass a qualified definition identifier such
-as `google.rule.cloud-sql-instance`, or an unambiguous bare name. This is a
-semantic definition name, not a Terraform resource address; use
-[`explain architecture`](architecture.md) for an address.
+Without `--input`, `explain semantics` shows a Dialect Rule and its
+emissions. With a plan, state, or saved Rootform document named by `--input`,
+it also shows where that Rule applied in the selected stage. Pass a qualified
+definition identifier such as `google.rule.cloud-sql-instance`, or an
+unambiguous bare name. This is a semantic definition name, not a Terraform
+resource address; use [`explain architecture`](architecture.md) for an
+address.
 
 <!-- BEGIN GENERATED CLI: rootform explain semantics -->
 
@@ -21,9 +23,11 @@ rootform explain semantics <identifier> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain semantics |
+| ` --input ` | ` string ` | ` "" ` | read `path`: a plan, state or Rootform document, or `-` |
+| ` --stage ` | ` string ` | ` "" ` | explain the `stage`: planned, refreshed or recorded |
 
 ## Inherited flags
 
@@ -33,16 +37,32 @@ rootform explain semantics <identifier> [flags]
 
 <!-- END GENERATED CLI -->
 
-From the [first architecture](../../../getting-started/first-architecture.md)
-project, where `aws_subnet.application` is present:
+From a checkout of the repository, save the reviewed commerce plan, then
+inspect the Azure subnet Rule. Without `--input`, the first explanation shows
+the Rule definition; the second also counts where it applied in this plan.
 
 <!-- docs-check:cli-explain-semantics -->
 ```sh
-rootform explain semantics aws.rule.subnet
-rootform explain semantics aws.rule.subnet --format json
+rootform run examples/playground/commerce-platform/head/plan.json \
+  --plan-file examples/playground/commerce-platform/head/plan.tfplan \
+  --no-serve -o analysis.json
+rootform explain semantics azure.rule.subnet
+rootform explain semantics azure.rule.subnet --input analysis.json --color always
 ```
 
-Text or JSON goes to standard output, diagnostics to standard error. Status
+<!-- docs-output:cli-explain-semantics -->
+```ansi title="Rule application, excerpt"
+[1mazure.rule.subnet[0m
+[2mMatches[0m     resource azurerm_subnet
+[2mConcept[0m     rf.concept.subnet
+[2mApplied to[0m  7 instances at the planned stage
+
+[1m[38;5;208mEmissions[0m
+```
+
+The Rule applies to seven subnet instances in this input. The emission list
+names the facts it may create; inspect a specific instance to see its closure
+outcome. Text or JSON goes to standard output, diagnostics to standard error. Status
 `0` means explained, `1` means definition not found, `2` means incorrect
 command use, and `3` means no explanation could be decided. See
 [Dialects and RF Vocabulary](../../../concepts/dialects.md) for the meaning of

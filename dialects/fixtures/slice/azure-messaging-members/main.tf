@@ -4,7 +4,7 @@ terraform {
   }
 }
 
-variable "unknown_id" { type = string }
+resource "terraform_data" "unknown_id" {}
 
 resource "azurerm_resource_group" "platform" {
   name     = "platform"
@@ -65,14 +65,14 @@ resource "azurerm_eventgrid_namespace_topic" "telemetry" {
 # literal and unknown parent references produce no ownership context or contribution
 resource "azurerm_eventhub" "literal" {
   name              = "literal"
-  namespace_id      = "/subscriptions/example/namespaces/rootform-platform"
+  namespace_id      = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.EventHub/namespaces/fx-literal-namespace-id"
   partition_count   = 2
   message_retention = 1
 }
 
 resource "azurerm_eventgrid_domain_topic" "unknown" {
   name                = "unknown"
-  domain_name         = var.unknown_id
+  domain_name         = terraform_data.unknown_id.id
   resource_group_name = azurerm_resource_group.platform.name
 }
 

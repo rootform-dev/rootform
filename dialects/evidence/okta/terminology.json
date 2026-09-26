@@ -377,10 +377,6 @@
       "label": "Okta external Identity Provider"
     },
     {
-      "id": "okta.concept.federation-configuration",
-      "label": "Okta federation configuration"
-    },
-    {
       "id": "okta.concept.identity-domain",
       "label": "Okta custom domain"
     },

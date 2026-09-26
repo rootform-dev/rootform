@@ -80,9 +80,19 @@ rule "entra-domain-services" {
   as = concept.entra-domain-service
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -110,9 +120,19 @@ rule "entra-external-id-directory" {
   as = concept.entra-directory
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -146,4 +166,13 @@ rule "entra-service-principal" {
   }
 
   as = rf.concept.service-identity
+
+  identity {
+    attributes = ["client_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["client_id"]
+  }
 }

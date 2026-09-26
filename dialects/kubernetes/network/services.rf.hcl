@@ -18,9 +18,11 @@ rule "kubernetes-service" {
   as = concept.service
 
   context {
-    as  = rf.context.runtime
-    to  = rf.concept.kubernetes-cluster
-    via = provider.host
+    as       = rf.context.runtime
+    to       = rf.concept.kubernetes-cluster
+    via      = provider.host
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
   }
 
   context {
@@ -28,6 +30,11 @@ rule "kubernetes-service" {
     to  = concept.namespace
     via = source.metadata[0].namespace
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.metadata[0].name
       strategy = "exact"
@@ -43,9 +50,11 @@ rule "kubernetes-ingress" {
   as = concept.ingress
 
   context {
-    as  = rf.context.runtime
-    to  = rf.concept.kubernetes-cluster
-    via = provider.host
+    as       = rf.context.runtime
+    to       = rf.concept.kubernetes-cluster
+    via      = provider.host
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
   }
 
   context {
@@ -53,6 +62,11 @@ rule "kubernetes-ingress" {
     to  = concept.namespace
     via = source.metadata[0].namespace
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.metadata[0].name
       strategy = "exact"
@@ -68,14 +82,26 @@ rule "kubernetes-network-policy" {
   as = concept.network-policy
 
   context {
-    as  = rf.context.runtime
-    to  = rf.concept.kubernetes-cluster
-    via = provider.host
+    as       = rf.context.runtime
+    to       = rf.concept.kubernetes-cluster
+    via      = provider.host
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.metadata[0].namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.metadata[0].namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.metadata[0].name
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

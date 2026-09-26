@@ -10,8 +10,15 @@ rule "auth-server-claim" {
   as = concept.authorization-server-configuration
 
   contribution {
-    to  = concept.authorization-server
-    via = source.auth_server_id
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -23,8 +30,15 @@ rule "auth-server-claim-default" {
   as = concept.authorization-server-configuration
 
   contribution {
-    to  = concept.authorization-server
-    via = source.auth_server_id
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -37,8 +51,15 @@ rule "auth-server-claim-lookup" {
   as = concept.authorization-server-configuration
 
   contribution {
-    to  = concept.authorization-server
-    via = source.auth_server_id
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -50,8 +71,15 @@ rule "auth-server-policy" {
   as = concept.authorization-server-configuration
 
   contribution {
-    to  = concept.authorization-server
-    via = source.auth_server_id
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -64,8 +92,15 @@ rule "auth-server-policy-lookup" {
   as = concept.authorization-server-configuration
 
   contribution {
-    to  = concept.authorization-server
-    via = source.auth_server_id
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -77,8 +112,15 @@ rule "auth-server-policy-rule" {
   as = concept.authorization-server-configuration
 
   contribution {
-    to  = concept.authorization-server
-    via = source.auth_server_id
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -90,8 +132,15 @@ rule "auth-server-scope" {
   as = concept.authorization-server-configuration
 
   contribution {
-    to  = concept.authorization-server
-    via = source.auth_server_id
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -103,7 +152,14 @@ rule "trusted-server" {
   as = concept.authorization-server-configuration
 
   contribution {
-    to  = concept.authorization-server
-    via = source.auth_server_id
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

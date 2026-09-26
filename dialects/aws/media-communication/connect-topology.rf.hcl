@@ -6,8 +6,15 @@ rule "connect-contact-flow" {
   as = concept.connect-component
 
   contribution {
-    to  = concept.connect-instance
-    via = source.instance_id
+    to       = concept.connect-instance
+    via      = source.instance_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -19,8 +26,15 @@ rule "connect-queue" {
   as = concept.connect-component
 
   contribution {
-    to  = concept.connect-instance
-    via = source.instance_id
+    to       = concept.connect-instance
+    via      = source.instance_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -32,8 +46,15 @@ rule "connect-routing-profile" {
   as = concept.connect-component
 
   contribution {
-    to  = concept.connect-instance
-    via = source.instance_id
+    to       = concept.connect-instance
+    via      = source.instance_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -45,8 +66,15 @@ rule "connect-security-profile" {
   as = concept.connect-component
 
   contribution {
-    to  = concept.connect-instance
-    via = source.instance_id
+    to       = concept.connect-instance
+    via      = source.instance_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -58,7 +86,14 @@ rule "connect-user-hierarchy-group" {
   as = concept.connect-component
 
   contribution {
-    to  = concept.connect-instance
-    via = source.instance_id
+    to       = concept.connect-instance
+    via      = source.instance_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

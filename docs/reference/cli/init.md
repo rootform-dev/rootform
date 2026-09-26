@@ -48,6 +48,9 @@ prompts and requires deterministic action.
 
 Replace `./infra` with an existing project directory. The `--locked` example
 requires that project to contain a valid `rootform.lock` beforehand.
+Run the first command to prepare its selection, the second to prove it can be
+prepared from local bytes alone, and the third when a machine-readable result
+is needed.
 
 <!-- docs-check:cli-init -->
 ```sh
@@ -57,7 +60,9 @@ rootform init ./infra --format json
 ```
 
 Machine JSON goes to standard output when selected; diagnostics and `--verbose`
-detail go to standard error. Status `0` means preparation completed, `1` means
+detail go to standard error. Text prints `Project prepared` and the counts of
+external Dialects and Policy Packs. JSON reports the same preparation result;
+neither form changes the lock. Status `0` means preparation completed, `1` means
 it failed, `2` means incorrect command use, and `3` means deterministic
 preparation was unavailable. See [Select Dialects and Policy Packs](../../cli.md)
 and [External content storage](../storage.md).

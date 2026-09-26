@@ -14,6 +14,15 @@ rule "ai-gateway" {
   }
 
   as = concept.ai-gateway
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "ai-gateway-dynamic-routing" {
@@ -24,7 +33,14 @@ rule "ai-gateway-dynamic-routing" {
   as = concept.ai-gateway-routing
 
   contribution {
-    to  = concept.ai-gateway
-    via = source.gateway_id
+    to       = concept.ai-gateway
+    via      = source.gateway_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

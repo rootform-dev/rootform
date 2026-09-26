@@ -18,9 +18,11 @@ rule "kubernetes-deployment" {
   as = concept.deployment
 
   context {
-    as  = rf.context.runtime
-    to  = rf.concept.kubernetes-cluster
-    via = provider.host
+    as       = rf.context.runtime
+    to       = rf.concept.kubernetes-cluster
+    via      = provider.host
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
   }
 
   context {
@@ -28,6 +30,11 @@ rule "kubernetes-deployment" {
     to  = concept.namespace
     via = source.metadata[0].namespace
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.metadata[0].name
       strategy = "exact"
@@ -35,8 +42,11 @@ rule "kubernetes-deployment" {
   }
 
   relation "runs-as" {
-    to  = concept.service-account
-    via = source.spec[0].template[0].spec[0].service_account_name
+    to       = concept.service-account
+    via      = source.spec[0].template[0].spec[0].service_account_name
+    on_null  = "absent"
+    on_empty = "absent"
+
   }
 }
 
@@ -48,9 +58,11 @@ rule "kubernetes-stateful-set" {
   as = concept.stateful-set
 
   context {
-    as  = rf.context.runtime
-    to  = rf.concept.kubernetes-cluster
-    via = provider.host
+    as       = rf.context.runtime
+    to       = rf.concept.kubernetes-cluster
+    via      = provider.host
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
   }
 
   context {
@@ -58,6 +70,11 @@ rule "kubernetes-stateful-set" {
     to  = concept.namespace
     via = source.metadata[0].namespace
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.metadata[0].name
       strategy = "exact"
@@ -65,8 +82,11 @@ rule "kubernetes-stateful-set" {
   }
 
   relation "runs-as" {
-    to  = concept.service-account
-    via = source.spec[0].template[0].spec[0].service_account_name
+    to       = concept.service-account
+    via      = source.spec[0].template[0].spec[0].service_account_name
+    on_null  = "absent"
+    on_empty = "absent"
+
   }
 }
 
@@ -78,9 +98,11 @@ rule "kubernetes-daemon-set" {
   as = concept.daemon-set
 
   context {
-    as  = rf.context.runtime
-    to  = rf.concept.kubernetes-cluster
-    via = provider.host
+    as       = rf.context.runtime
+    to       = rf.concept.kubernetes-cluster
+    via      = provider.host
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
   }
 
   context {
@@ -88,6 +110,11 @@ rule "kubernetes-daemon-set" {
     to  = concept.namespace
     via = source.metadata[0].namespace
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.metadata[0].name
       strategy = "exact"

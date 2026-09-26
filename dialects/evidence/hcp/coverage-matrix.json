@@ -1908,7 +1908,6 @@
       "reason": "architecture-role: durable HCP ownership, network, product, identity, registry, application, or integration boundary",
       "relations": [
         "uses-cloud-identity",
-        "uses-cloud-identity",
         "uses-integration"
       ],
       "rootform_concept": "hcp.concept.managed-secret",
@@ -1935,7 +1934,6 @@
       "relations": [
         "uses-cloud-identity",
         "uses-cloud-identity",
-        "uses-cloud-identity",
         "uses-cloud-identity"
       ],
       "rootform_concept": "hcp.rule.vault-secrets-integration",
@@ -1959,9 +1957,7 @@
       "product": "vault-secrets",
       "proof_url": "https://registry.terraform.io/providers/hashicorp/hcp/0.114.0/docs/resources/vault_secrets_integration_aws",
       "reason": "deprecated-architecture-role: provider-specific Vault Secrets integration remains recognizable while the generic integration is preferred",
-      "relations": [
-        "uses-cloud-identity"
-      ],
+      "relations": [],
       "rootform_concept": "hcp.rule.vault-secrets-integration",
       "rules": [
         "hcp.rule.vault-secrets-integration-aws"

@@ -11,9 +11,19 @@ rule "azure-files-share" {
   as = concept.managed-file-storage
 
   context {
-    as  = context.ownership
-    to  = concept.storage-account
-    via = source.storage_account_id
+    as       = context.ownership
+    to       = concept.storage-account
+    via      = source.storage_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared storage-account instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -24,10 +34,29 @@ rule "blob-container" {
 
   as = rf.concept.object-storage-container
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.storage-account
-    via = source.storage_account_id
+    as       = context.ownership
+    to       = concept.storage-account
+    via      = source.storage_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared storage-account instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -39,8 +68,18 @@ rule "storage-blob" {
   as = concept.storage-object-detail
 
   contribution {
-    to  = rf.concept.object-storage-container
-    via = source.storage_container_id
+    to       = rf.concept.object-storage-container
+    via      = source.storage_container_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -52,8 +91,18 @@ rule "storage-encryption-scope" {
   as = concept.storage-object-detail
 
   contribution {
-    to  = concept.storage-account
-    via = source.storage_account_id
+    to       = concept.storage-account
+    via      = source.storage_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared storage-account instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -65,8 +114,18 @@ rule "storage-management-policy" {
   as = concept.storage-object-detail
 
   contribution {
-    to  = concept.storage-account
-    via = source.storage_account_id
+    to       = concept.storage-account
+    via      = source.storage_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared storage-account instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -94,9 +153,19 @@ rule "storage-sync-service" {
   as = concept.storage-sync-service
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -108,7 +177,14 @@ rule "storage-table-entity" {
   as = concept.storage-object-detail
 
   contribution {
-    to  = concept.table-storage-table
-    via = source.storage_table_id
+    to       = concept.table-storage-table
+    via      = source.storage_table_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

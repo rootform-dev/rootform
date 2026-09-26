@@ -23,15 +23,16 @@ resource "databricks_schema" "curated" {
 }
 
 resource "databricks_instance_pool" "shared" {
-  instance_pool_name = "Shared compute"
-  min_idle_instances = 0
-  max_capacity       = 20
-  node_type_id       = "i3.xlarge"
+  idle_instance_autotermination_minutes = 1
+  instance_pool_name                    = "Shared compute"
+  min_idle_instances                    = 0
+  max_capacity                          = 20
+  node_type_id                          = "i3.xlarge"
 }
 
 resource "databricks_cluster" "engineering" {
   cluster_name     = "Engineering"
-  spark_version   = "17.3.x-scala2.12"
+  spark_version    = "17.3.x-scala2.12"
   instance_pool_id = databricks_instance_pool.shared.id
   num_workers      = 2
 }

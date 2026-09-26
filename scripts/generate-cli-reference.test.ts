@@ -27,15 +27,15 @@ function document() {
         usage: "rootform [command]",
         summary: "Read architecture",
         description: "Root",
-        subcommands: ["rootform build"],
+        subcommands: ["rootform run"],
       },
       {
-        path: "rootform build",
-        usage: "rootform build [directory] [flags]",
-        summary: "Build architecture",
-        description: "Write a document.\n\nExit status:\n  0  built\n  3  unavailable",
+        path: "rootform run",
+        usage: "rootform run <input> [flags]",
+        summary: "Analyze a plan or state",
+        description: "Write a document.\n\nExit status:\n  0  analyzed\n  3  refused",
         aliases: ["compile"],
-        examples: "  rootform build .",
+        examples: "  rootform run plan.json --no-serve",
         flags: [
           {
             name: "output",
@@ -46,7 +46,7 @@ function document() {
             required: true,
           },
           {
-            name: "plan",
+            name: "plan-file",
             type: "file",
             default: "",
             usage: "read JSON plan; use '-' for standard input",
@@ -85,35 +85,35 @@ test("rejects unrecognized metadata and incomplete trees at the opaque boundary"
 
 test("renders exact usage, inherited defaults, aliases and required state", () => {
   const commands = parseReference(document());
-  const build = present(commands[1]);
-  const page = renderCommand(build, commands);
-  expect(page).toContain("rootform build [directory] [flags]");
+  const command = present(commands[1]);
+  const page = renderCommand(command, commands);
+  expect(page).toContain("rootform run <input> [flags]");
   expect(page).toContain("## Inherited flags");
   expect(page).toContain("` false `");
   expect(page).toContain("Required.");
   expect(page).toContain("read JSON plan; use `-` for standard input");
   expect(page).toContain("Aliases: ` compile `.");
   expect(page).toContain(
-    "| Status | Meaning |\n| --- | --- |\n| `0` | built |\n| `3` | unavailable |",
+    "| Status | Meaning |\n| --- | --- |\n| `0` | analyzed |\n| `3` | refused |",
   );
-  expect(page).toContain("```sh\nrootform build .\n```");
+  expect(page).toContain("```sh\nrootform run plan.json --no-serve\n```");
   expect(page).not.toContain("Boolean flags set");
   expect(page).not.toContain("Command syntax and help are generated");
-  expect(renderCommand(present(commands[0]), commands)).toContain("](build.md)");
-  expect(commandNavigation(commands)).toEqual([{ label: "build", page: "reference/cli/build" }]);
+  expect(renderCommand(present(commands[0]), commands)).toContain("](run.md)");
+  expect(commandNavigation(commands)).toEqual([{ label: "run", page: "reference/cli/run" }]);
 });
 
 test("only replaces generated syntax and inventory, preserving authored prose", () => {
   const commands = parseReference(document());
-  const build = present(commands[1]);
-  const begin = beginGenerated(build.path);
+  const command = present(commands[1]);
+  const begin = beginGenerated(command.path);
   const page = `Authored introduction.\n${begin}\nOld flags.\n${endGenerated}\nReal example.\n`;
-  const expected = `Authored introduction.\n${begin}\n\n${syntax(build)}\n\n${endGenerated}\nReal example.\n`;
-  expect(replaceGenerated(page, build, commands)).toBe(expected);
-  expect(replaceGenerated(expected, build, commands)).toBe(expected);
-  expect(() => replaceGenerated(page + begin, build, commands)).toThrow("exactly one");
-  expect(() => replaceGenerated(page.replace(begin, ""), build, commands)).toThrow("exactly one");
-  expect(() => replaceGenerated(endGenerated + begin, build, commands)).toThrow("reversed");
+  const expected = `Authored introduction.\n${begin}\n\n${syntax(command)}\n\n${endGenerated}\nReal example.\n`;
+  expect(replaceGenerated(page, command, commands)).toBe(expected);
+  expect(replaceGenerated(expected, command, commands)).toBe(expected);
+  expect(() => replaceGenerated(page + begin, command, commands)).toThrow("exactly one");
+  expect(() => replaceGenerated(page.replace(begin, ""), command, commands)).toThrow("exactly one");
+  expect(() => replaceGenerated(endGenerated + begin, command, commands)).toThrow("reversed");
   const root = present(commands[0]);
   const rootPage = replaceGenerated(
     `${beginGenerated(root.path)}\n${endGenerated}`,
@@ -121,7 +121,7 @@ test("only replaces generated syntax and inventory, preserving authored prose", 
     commands,
   );
   expect(rootPage).toContain("## Command inventory");
-  expect(rootPage).toContain("](build.md)");
+  expect(rootPage).toContain("](run.md)");
 });
 
 test("index inventory links every exported command, including nested ones", () => {

@@ -10,8 +10,15 @@ rule "app-access-policy-assignment" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.identity-application
-    via = source.app_id
+    to       = concept.identity-application
+    via      = source.app_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -23,8 +30,15 @@ rule "app-features" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.identity-application
-    via = source.app_id
+    to       = concept.identity-application
+    via      = source.app_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -37,8 +51,15 @@ rule "app-features-lookup" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.identity-application
-    via = source.app_id
+    to       = concept.identity-application
+    via      = source.app_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -50,8 +71,15 @@ rule "app-federated-claim" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.identity-application
-    via = source.app_id
+    to       = concept.identity-application
+    via      = source.app_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -64,8 +92,15 @@ rule "app-federated-claim-lookup" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.identity-application
-    via = source.app_id
+    to       = concept.identity-application
+    via      = source.app_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -77,8 +112,15 @@ rule "app-oauth-api-scope" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.identity-application
-    via = source.app_id
+    to       = concept.identity-application
+    via      = source.app_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -90,8 +132,15 @@ rule "app-oauth-post-logout-redirect-uri" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.identity-application
-    via = source.app_id
+    to       = concept.identity-application
+    via      = source.app_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -103,8 +152,15 @@ rule "app-oauth-redirect-uri" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.identity-application
-    via = source.app_id
+    to       = concept.identity-application
+    via      = source.app_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -116,8 +172,15 @@ rule "app-saml-app-settings" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.identity-application
-    via = source.app_id
+    to       = concept.identity-application
+    via      = source.app_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 

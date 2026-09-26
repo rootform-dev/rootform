@@ -17,14 +17,27 @@ rule "storage-integration" {
 
   as = concept.storage-integration
 
-  relation "authorizes-object-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_allowed_locations[0]
+  identity {
+    attributes = ["name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
   }
 
   relation "authorizes-object-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_allowed_locations[1]
+    to       = rf.concept.object-storage-container
+    via      = source.storage_allowed_locations[0]
+    on_null  = "absent"
+    on_empty = "absent"
+  }
+
+  relation "authorizes-object-storage" {
+    to       = rf.concept.object-storage-container
+    via      = source.storage_allowed_locations[1]
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
 }
@@ -36,14 +49,27 @@ rule "aws-storage-integration" {
 
   as = concept.storage-integration
 
-  relation "authorizes-object-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_allowed_locations[0]
+  identity {
+    attributes = ["name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
   }
 
   relation "authorizes-object-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_allowed_locations[1]
+    to       = rf.concept.object-storage-container
+    via      = source.storage_allowed_locations[0]
+    on_null  = "absent"
+    on_empty = "absent"
+  }
+
+  relation "authorizes-object-storage" {
+    to       = rf.concept.object-storage-container
+    via      = source.storage_allowed_locations[1]
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
 }
@@ -55,14 +81,27 @@ rule "azure-storage-integration" {
 
   as = concept.storage-integration
 
-  relation "authorizes-object-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_allowed_locations[0]
+  identity {
+    attributes = ["name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
   }
 
   relation "authorizes-object-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_allowed_locations[1]
+    to       = rf.concept.object-storage-container
+    via      = source.storage_allowed_locations[0]
+    on_null  = "absent"
+    on_empty = "absent"
+  }
+
+  relation "authorizes-object-storage" {
+    to       = rf.concept.object-storage-container
+    via      = source.storage_allowed_locations[1]
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -73,14 +112,27 @@ rule "gcs-storage-integration" {
 
   as = concept.storage-integration
 
-  relation "authorizes-object-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_allowed_locations[0]
+  identity {
+    attributes = ["name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
   }
 
   relation "authorizes-object-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_allowed_locations[1]
+    to       = rf.concept.object-storage-container
+    via      = source.storage_allowed_locations[0]
+    on_null  = "absent"
+    on_empty = "absent"
+  }
+
+  relation "authorizes-object-storage" {
+    to       = rf.concept.object-storage-container
+    via      = source.storage_allowed_locations[1]
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -91,20 +143,29 @@ rule "external-volume" {
 
   as = concept.external-volume
 
-  relation "uses-object-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_location[0].storage_base_url
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
   }
 
   relation "uses-object-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_location[1].storage_base_url
+    to       = rf.concept.object-storage-container
+    via      = source.storage_location[0].storage_base_url
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
-  relation "uses-encryption-key" {
-    to  = concept.encryption-key
-    via = source.storage_location[0].encryption_kms_key_id
+  relation "uses-object-storage" {
+    to       = rf.concept.object-storage-container
+    via      = source.storage_location[1].storage_base_url
+    on_null  = "absent"
+    on_empty = "absent"
   }
+
 }
 
 rule "aws-glue-catalog-integration" {

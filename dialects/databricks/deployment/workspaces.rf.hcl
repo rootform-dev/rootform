@@ -10,10 +10,6 @@ concept "workspace-deployment-credential" {
   description = "A cloud identity registration used to deploy Databricks workspace resources."
 }
 
-concept "workspace-key-configuration" {
-  description = "A customer-managed key registration protecting Databricks workspace data or services."
-}
-
 concept "log-delivery" {
   description = "A Databricks account or workspace log-delivery configuration."
 }
@@ -30,29 +26,73 @@ rule "workspace" {
 
   as = concept.workspace
 
+  identity {
+    attributes = ["id", "workspace_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "workspace_id"]
+  }
+
   relation "uses-network" {
-    to  = concept.workspace-network-configuration
-    via = source.network_id
+    to       = concept.workspace-network-configuration
+    via      = source.network_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.network_id
+      strategy = "exact"
+    }
   }
 
   relation "uses-root-storage" {
-    to  = concept.workspace-root-storage
-    via = source.storage_configuration_id
+    to       = concept.workspace-root-storage
+    via      = source.storage_configuration_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.storage_configuration_id
+      strategy = "exact"
+    }
   }
 
   relation "uses-deployment-credential" {
-    to  = concept.workspace-deployment-credential
-    via = source.credentials_id
+    to       = concept.workspace-deployment-credential
+    via      = source.credentials_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.credentials_id
+      strategy = "exact"
+    }
   }
 
   relation "uses-private-access" {
-    to  = concept.private-access-settings
-    via = source.private_access_settings_id
+    to       = concept.private-access-settings
+    via      = source.private_access_settings_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.private_access_settings_id
+      strategy = "exact"
+    }
   }
 
   relation "uses-serverless-network" {
-    to  = concept.network-connectivity-configuration
-    via = source.network_connectivity_config_id
+    to       = concept.network-connectivity-configuration
+    via      = source.network_connectivity_config_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.network_connectivity_config_id
+      strategy = "exact"
+    }
   }
 }
 
@@ -63,6 +103,15 @@ rule "workspace-deployment-credential" {
 
   as = concept.workspace-deployment-credential
 
+  identity {
+    attributes = ["id", "credentials_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "credentials_id"]
+  }
+
 }
 
 rule "workspace-root-storage" {
@@ -72,29 +121,22 @@ rule "workspace-root-storage" {
 
   as = concept.workspace-root-storage
 
+  identity {
+    attributes = ["id", "storage_configuration_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "storage_configuration_id"]
+  }
+
   relation "stores-in" {
-    to  = rf.concept.object-storage-container
-    via = source.bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
-}
-
-rule "workspace-customer-managed-key" {
-  match {
-    type = "databricks_mws_customer_managed_keys"
-  }
-
-  as = concept.workspace-key-configuration
-
-  relation "uses-key" {
-    to  = concept.encryption-key
-    via = source.aws_key_info[0].key_arn
-  }
-
-  relation "uses-key" {
-    to  = concept.encryption-key
-    via = source.gcp_key_info[0].kms_key_id
-  }
 }
 
 rule "log-delivery" {
@@ -105,13 +147,27 @@ rule "log-delivery" {
   as = concept.log-delivery
 
   relation "delivers-to" {
-    to  = concept.workspace-root-storage
-    via = source.storage_configuration_id
+    to       = concept.workspace-root-storage
+    via      = source.storage_configuration_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.storage_configuration_id
+      strategy = "exact"
+    }
   }
 
   relation "uses-deployment-credential" {
-    to  = concept.workspace-deployment-credential
-    via = source.credentials_id
+    to       = concept.workspace-deployment-credential
+    via      = source.credentials_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.credentials_id
+      strategy = "exact"
+    }
   }
 }
 

@@ -15,6 +15,15 @@ rule "pages-project" {
   }
 
   as = concept.pages-project
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "pages-domain" {
@@ -25,7 +34,14 @@ rule "pages-domain" {
   as = concept.pages-domain
 
   contribution {
-    to  = concept.pages-project
-    via = source.project_name
+    to       = concept.pages-project
+    via      = source.project_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }

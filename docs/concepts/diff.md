@@ -1,99 +1,42 @@
 ---
-title: "Architecture Diff"
-description: "Understand how Rootform compares architectural meaning while preserving uncertainty and semantic boundaries."
+title: "Architecture comparisons"
+description: "Interpret cross-input and within-plan changes without confusing them with drift."
 ---
 
-Architecture Diff compares two validated [Architecture IR](architecture-ir.md)
-documents. It reports changes in representations and architectural facts, not
-source text edits, Terraform actions, provenance-only changes, or screen layout.
+A comparison reads validated [Rootform documents](architecture-ir.md). It reports changes in interpreted instances and facts, with uncertainty intact. It does not compare HCL text, Terraform actions alone, raw values, or Explorer layout.
 
-## Continuity starts with source identity
+## Choose the stage pair
 
-A representation's stable identity derives from normalized source identity. The
-same source declaration can therefore keep its identity while a Rule, Concept,
-facts, or composition change. Diff can report changed interpretation without
-pretending a resource was removed and added.
+One plan can provide three comparisons when its stages exist:
 
-Continuity requires comparable source scope and normalization. Rootform does
-not pair `resource` and `data` declarations because names match. It does not
-infer physical cloud identity from provider type, label, or remote identifier.
+| Comparison | Stage pair | Question |
+| --- | --- | --- |
+| `drift` | `recorded` to `refreshed` | What architectural consequence did changes reported outside Terraform or OpenTofu have? |
+| `planned` | `refreshed` to `planned` | What does the proposed plan change after refresh? |
+| `net` | `recorded` to `planned` | What is the combined change from recorded to proposed state? |
+
+`recorded` is reconstructed by reversing reported drift and may be partial. The drift report lists plan records, including changed attribute *paths* and an architectural consequence such as `architectural`, `none_under_dialects`, `undetermined`, `uncovered`, or `address_only`. “No drift reported in this plan” says the plan JSON has no drift record; it does not prove every resource was refreshed or that live infrastructure is unchanged.
+
+`rootform run before.json --diff after.json` selects one stage from each separate input and writes a `cross` comparison. Plans default to `planned`; state snapshots select `recorded`; saved Rootform documents use their saved default. Use `--before-stage` and `--after-stage` to choose other available stages. If an operand is already a comparison document, `--before-side` or `--after-side` selects its embedded side. A cross-input comparison is never drift: no single refresh links its two inputs.
+
+## Continuity starts with instance identity
+
+An instance Representation keeps its address across stages. A stable address can have changed Rule, Concept, implementation, or provider identity without being treated as removed and added. Indexed instances remain separate. Rootform does not infer that two differently addressed resources are the same physical cloud object because their labels, types, or remote IDs resemble each other.
+
+A move reported in the plan can connect a previous address to its planned address. A reported replacement is `replaced` with its reason; deletion followed by creation can appear as `recreated` in the net view. A cross-input move needs the before side to contain the previous address. External endpoints have document-local ordinals, so cross-input matching uses a recorded identity and Concept, never matching ordinal alone.
 
 ## One edit can create several architectural changes
 
-Adding a subnet can add a resource representation and a network Context toward
-an existing VPC. Diff reports both because they answer different questions.
-The Representation says the subnet exists. The Context says how it is placed in
-the network architecture.
+Adding a subnet may add one Representation and one network Context toward a VPC. They answer different questions: the instance exists, and it is placed in that network frame. Fact entries use `added` and `removed`; Representation entries can also report `changed`, `moved`, `replaced`, or `recreated` where the plan evidence supports them. A Context move is a removed old Context and an added new one, not a fact entry named `moved`.
 
-Collections use `added`, `removed`, and `changed` classifications. Exact
-machine-level changed fields are `concept`, `kind`, `name`,
-`implementation_kind`, `members`, `dimension`, `predicate`, `from`, and `to`.
-
-There is no `moved` classification. A Context move is the removed old Context
-plus the added new Context. A retargeted Relation follows the same pattern.
-
-## Source action and architecture change are different
-
-A Terraform replacement can produce no Architecture Diff when both sides retain
-the same normalized source identity and the same meaning. Formatting and array
-order also produce no change.
-
-The opposite can happen without adding or removing a resource. Dialect Rule
-evolution can change Concept, Context, Relation, Contribution, or Composition
-for a stable representation. Diff reports the resulting architectural meaning,
-not the Rule source edit itself.
-
-Provenance explains a change but does not become an architecture change when the
-facts remain the same.
+A Terraform replacement can leave architectural meaning unchanged. Conversely, a changed Dialect Rule can change meaning even when infrastructure source stays the same. To isolate infrastructure edits, compare with the same Rootform binary and semantic selection. Comparability problems are explicit; Rootform does not silently turn incompatible semantics into an empty result.
 
 ## Undetermined preserves uncertainty
 
-Diff reports `undetermined` when one side cannot establish whether a
-representation or fact is absent. Causes include unresolved evidence,
-incomplete emission closure, incompatible semantic units for the affected fact,
-or source identity that cannot be paired safely.
+An added fact is determined only when the before side can prove its absence; a removed fact needs the same proof after. An indeterminate closure, missing interpretation, withheld external identity, or uncomparable semantic selection can leave a conclusion `undetermined`. The report counts unresolved closures separately on the before and after sides, so readers can see where proof is missing. A comparable report may contain determined changes and undetermined closure entries together. `undetermined` means neither no change nor a failed comparison.
 
-A valid report can contain determined changes and undetermined entries together.
-Invalid input instead produces a comparison problem. It never becomes an empty
-no-change report.
+An invalid document or a comparison with incompatible semantic selection reports a problem instead of claiming no change. Check `comparable`, `problems`, changed Representations and facts, and `undetermined` before making a review decision. Status `0` means analysis completed; it does not mean the comparison is empty. [Outputs and exit status](../reference/outputs.md) is the status reference.
 
-A semantic difference does not automatically invalidate the entire comparison.
-Each Architecture IR records RF Language, RF Vocabulary, Dialects, Rules,
-emissions, and active selection. Diff preserves comparable source continuity
-and marks only conclusions it cannot establish safely as undetermined.
+## Read the comparison in context
 
-To isolate infrastructure edits, build both revisions with the same Rootform
-binary and comparable Dialect selection. To review an intentional semantic
-update, keep each revision's own selection and read affected undetermined
-conclusions as part of the change.
-
-## Read command status with report contents
-
-```sh
-rootform diff before.json after.json
-rootform diff before.json after.json --format markdown --output architecture-diff.md
-rootform diff before.json after.json --format html --output architecture-diff.html
-rootform diff before.json after.json --serve
-rootform diff before.json after.json --exit-code
-```
-
-| Status | Meaning |
-| --- | --- |
-| `0` | Comparison completed, or the served interface stopped cleanly. Without `--exit-code`, report may still contain changes or undetermined entries |
-| `1` | With `--exit-code`, at least one determined or undetermined difference exists. With `--serve`, the interface could not start |
-| `2` | Command usage is invalid |
-| `3` | Comparison could not complete |
-
-Report content remains the primary evidence. An empty report means no determined
-changes and no undetermined entries, not merely a successful process.
-
-The text, JSON, and Markdown reports list every entry. The HTML page and
-`--serve` open the same comparison in the interactive interface, where the
-Before, Diff, and After stages place each change in its architecture. They add
-no entry and drop none.
-
-Use [Compare architectures](../guides/compare-architectures.md) to produce and
-read a first report, [plan Diff](../inputs/plans.md#compare-both-sides-of-one-plan)
-when one plan supplies both sides, and [Review a pull request](../workflows/index.md)
-for isolated Git revisions and saved review artifacts. Exact classifications
-and validity rules live in [Architecture Diff contract](../../contracts/architecture-diff.md).
+Text and Markdown summarize changes. The Rootform document retains both input documents, selected stages, complete change entries, and uncertainty. HTML opens the same Before, Diff, and After views as the local Explorer; it is self-contained and makes no network requests. See [Compare architectures](../guides/compare-architectures.md) for a runnable workflow, [Plan inputs](../inputs/plans.md#compare-both-sides-of-one-plan) for plan evidence, and the [comparison contract](../../contracts/architecture-diff.md) for exact fields.

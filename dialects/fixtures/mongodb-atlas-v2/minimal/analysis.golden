@@ -1,0 +1,2305 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:ea7b34e8cfa8008796b740fa10d0a1dd9669de798a5e71d228ed755a1d57dfc5",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:ea7b34e8cfa8008796b740fa10d0a1dd9669de798a5e71d228ed755a1d57dfc5",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
+          "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
+          "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:fa274f3e10c1e032a6db979b3d8ea80f8900970357147a1e391b37b2d9ab4d4e",
+          "semantic_digest": "sha256:ef50339cf343ce2b02f75da1f1cefdc4ea3169b89ddcc6c1b68d3cf3ca286d12"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
+          "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
+          "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
+          "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
+          "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+          "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
+          "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
+          "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
+        "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
+        "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:fa274f3e10c1e032a6db979b3d8ea80f8900970357147a1e391b37b2d9ab4d4e",
+        "semantic_digest": "sha256:ef50339cf343ce2b02f75da1f1cefdc4ea3169b89ddcc6c1b68d3cf3ca286d12",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
+        "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
+        "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
+        "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
+        "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+        "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
+        "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
+        "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "mongodb-atlas.concept.backup-export-destination",
+        "owner": "mongodb-atlas",
+        "name": "backup-export-destination",
+        "description": "A MongoDB Atlas cloud backup export destination backed by customer object storage."
+      },
+      {
+        "id": "mongodb-atlas.concept.backup-plan",
+        "owner": "mongodb-atlas",
+        "name": "backup-plan",
+        "description": "A managed policy scheduling and retaining backups."
+      },
+      {
+        "id": "mongodb-atlas.concept.cloud-provider-authorization",
+        "owner": "mongodb-atlas",
+        "name": "cloud-provider-authorization",
+        "description": "An authorized customer cloud identity that MongoDB Atlas can assume or use."
+      },
+      {
+        "id": "mongodb-atlas.concept.online-archive",
+        "owner": "mongodb-atlas",
+        "name": "online-archive",
+        "description": "An Atlas Online Archive tiering infrequently accessed data from a database deployment."
+      },
+      {
+        "id": "mongodb-atlas.concept.organization",
+        "owner": "mongodb-atlas",
+        "name": "organization",
+        "description": "A MongoDB Atlas organization owning projects, access, and billing boundaries."
+      },
+      {
+        "id": "mongodb-atlas.concept.project",
+        "owner": "mongodb-atlas",
+        "name": "project",
+        "description": "A MongoDB Atlas project isolating database deployments, networking, access, and service configuration."
+      },
+      {
+        "id": "mongodb-atlas.concept.search-deployment",
+        "owner": "mongodb-atlas",
+        "name": "search-deployment",
+        "description": "A dedicated MongoDB Search deployment providing isolated search compute for an Atlas database deployment."
+      },
+      {
+        "id": "mongodb-atlas.concept.stream-processing-workspace",
+        "owner": "mongodb-atlas",
+        "name": "stream-processing-workspace",
+        "description": "An Atlas Stream Processing workspace owning processors and registered source or sink connections."
+      },
+      {
+        "id": "mongodb-atlas.concept.stream-processor",
+        "owner": "mongodb-atlas",
+        "name": "stream-processor",
+        "description": "An Atlas Stream Processing processor continuously executing a declared aggregation pipeline."
+      },
+      {
+        "id": "rf.concept.managed-database",
+        "owner": "rf",
+        "name": "managed-database",
+        "description": "A managed database service or instance, excluding logical tables and databases."
+      },
+      {
+        "id": "rf.concept.object-storage-container",
+        "owner": "rf",
+        "name": "object-storage-container",
+        "description": "An object storage container, excluding multi-service storage accounts."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "mongodb-atlas.context.ownership",
+        "owner": "mongodb-atlas",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      },
+      {
+        "id": "rf.context.runtime",
+        "owner": "rf",
+        "name": "runtime",
+        "description": "A declared execution environment or target without proof of effective execution."
+      }
+    ],
+    "relations": [
+      {
+        "id": "mongodb-atlas.relation.archives-from",
+        "owner": "mongodb-atlas",
+        "name": "archives-from"
+      },
+      {
+        "id": "mongodb-atlas.relation.exports-to",
+        "owner": "mongodb-atlas",
+        "name": "exports-to"
+      },
+      {
+        "id": "mongodb-atlas.relation.protects",
+        "owner": "mongodb-atlas",
+        "name": "protects"
+      },
+      {
+        "id": "mongodb-atlas.relation.serves",
+        "owner": "mongodb-atlas",
+        "name": "serves"
+      },
+      {
+        "id": "mongodb-atlas.relation.stores-in",
+        "owner": "mongodb-atlas",
+        "name": "stores-in"
+      },
+      {
+        "id": "mongodb-atlas.relation.uses-cloud-authorization",
+        "owner": "mongodb-atlas",
+        "name": "uses-cloud-authorization"
+      }
+    ],
+    "rules": [
+      {
+        "id": "mongodb-atlas.rule.advanced-cluster",
+        "owner": "mongodb-atlas",
+        "match_kind": "resource",
+        "match_type": "mongodbatlas_advanced_cluster",
+        "concept": "rf.concept.managed-database",
+        "identity": {
+          "attributes": [
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "cluster_id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:662076a7bf612ad4035d5520cabadc5b73c3e04b0ab200f64d321397d31627a9"
+        ]
+      },
+      {
+        "id": "mongodb-atlas.rule.cloud-backup-export-destination",
+        "owner": "mongodb-atlas",
+        "match_kind": "resource",
+        "match_type": "mongodbatlas_cloud_backup_snapshot_export_bucket",
+        "concept": "mongodb-atlas.concept.backup-export-destination",
+        "identity": {
+          "attributes": [
+            "export_bucket_id",
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "export_bucket_id",
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:2ced587c90ac03e867cfc08608fd76ddf4471effb865493bfe648783f26f0d60",
+          "emission:466ad2cd701be76caa6bc55fae2ec783a3c2902d92f76a01ed5ab0a6b557fdf3",
+          "emission:7af17ef7aea5478cedcaf09c17f8ddd7385772ace87745611f48e7072f46d0ec",
+          "emission:bcb178394dfa2c24ebae991897b443f3df716f48670858610bd937be69d64f73"
+        ]
+      },
+      {
+        "id": "mongodb-atlas.rule.cloud-backup-schedule",
+        "owner": "mongodb-atlas",
+        "match_kind": "resource",
+        "match_type": "mongodbatlas_cloud_backup_schedule",
+        "concept": "mongodb-atlas.concept.backup-plan",
+        "emissions": [
+          "emission:0242ae9fe55de0acaea73a29e00f52b0dda78b4bc4661743320c8e2eed2d1476",
+          "emission:21f9d1a631c45b42c1951ed1845bc5a06072cc8475d77075d530f2b22f51924d",
+          "emission:451fe16523976f342f4ddf647b10bd964aa9f358ed973809ac285cecd53c0075"
+        ]
+      },
+      {
+        "id": "mongodb-atlas.rule.online-archive",
+        "owner": "mongodb-atlas",
+        "match_kind": "resource",
+        "match_type": "mongodbatlas_online_archive",
+        "concept": "mongodb-atlas.concept.online-archive",
+        "emissions": [
+          "emission:503f0b59a77097867bf53d2ff7ba259d250ee631de05970bd6af8e44c6f6fcd4",
+          "emission:5947479404cc9e903c58c685abaa986f18707da674cc1e461c3e4eb32c8a413d"
+        ]
+      },
+      {
+        "id": "mongodb-atlas.rule.organization",
+        "owner": "mongodb-atlas",
+        "match_kind": "resource",
+        "match_type": "mongodbatlas_organization",
+        "concept": "mongodb-atlas.concept.organization",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "mongodb-atlas.rule.project",
+        "owner": "mongodb-atlas",
+        "match_kind": "resource",
+        "match_type": "mongodbatlas_project",
+        "concept": "mongodb-atlas.concept.project",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:cb99c4922b18a0d279b183d214c4b075fed1f9a50ca9e6efcc9851674ad37ef1"
+        ]
+      },
+      {
+        "id": "mongodb-atlas.rule.search-deployment",
+        "owner": "mongodb-atlas",
+        "match_kind": "resource",
+        "match_type": "mongodbatlas_search_deployment",
+        "concept": "mongodb-atlas.concept.search-deployment",
+        "emissions": [
+          "emission:b6bf25eda4c65ab1b07774aa1f604aeac531577cc498c95af0a60e2ef364391d",
+          "emission:ed9feab125f92ba67b46c40c3402427ee1a3989d491ce94604a0f11c1aad6764"
+        ]
+      },
+      {
+        "id": "mongodb-atlas.rule.stream-instance",
+        "owner": "mongodb-atlas",
+        "match_kind": "resource",
+        "match_type": "mongodbatlas_stream_instance",
+        "concept": "mongodb-atlas.concept.stream-processing-workspace",
+        "identity": {
+          "attributes": [
+            "instance_name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "instance_name"
+          ]
+        },
+        "emissions": [
+          "emission:4053445b24f12ddea20af53ef8adbb661dde1d756f8e7bc37f641ba7519530f3"
+        ]
+      },
+      {
+        "id": "mongodb-atlas.rule.stream-processor",
+        "owner": "mongodb-atlas",
+        "match_kind": "resource",
+        "match_type": "mongodbatlas_stream_processor",
+        "concept": "mongodb-atlas.concept.stream-processor",
+        "emissions": [
+          "emission:9f351a0aa6d3040c38270b00b770ec56362c5484e856d4203307f5034ba4ce6c",
+          "emission:c4af021e0e7d5e62b7b688fd5f90e85e75fab18f131710c6c31b07e9742fa6af",
+          "emission:ce2d2790d96ad7db700fff3484449c4c04fcd2241aa554f6ce98aaf8c9088756"
+        ]
+      },
+      {
+        "id": "mongodb-atlas.rule.stream-workspace",
+        "owner": "mongodb-atlas",
+        "match_kind": "resource",
+        "match_type": "mongodbatlas_stream_workspace",
+        "concept": "mongodb-atlas.concept.stream-processing-workspace",
+        "identity": {
+          "attributes": [
+            "workspace_name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "workspace_name"
+          ]
+        },
+        "emissions": [
+          "emission:62dd448610a2978b2f0e6e195b5a1bdaeb2e95a257e15fcc550c7f5d050b81fb"
+        ]
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:0242ae9fe55de0acaea73a29e00f52b0dda78b4bc4661743320c8e2eed2d1476",
+        "rule": "mongodb-atlas.rule.cloud-backup-schedule",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.project"
+        },
+        "dimension": "mongodb-atlas.context.ownership",
+        "via": "source.project_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:21f9d1a631c45b42c1951ed1845bc5a06072cc8475d77075d530f2b22f51924d",
+        "rule": "mongodb-atlas.rule.cloud-backup-schedule",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.managed-database"
+        },
+        "predicate": "mongodb-atlas.relation.protects",
+        "via": "source.cluster_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:2ced587c90ac03e867cfc08608fd76ddf4471effb865493bfe648783f26f0d60",
+        "rule": "mongodb-atlas.rule.cloud-backup-export-destination",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.object-storage-container"
+        },
+        "predicate": "mongodb-atlas.relation.stores-in",
+        "via": "source.bucket_name",
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:4053445b24f12ddea20af53ef8adbb661dde1d756f8e7bc37f641ba7519530f3",
+        "rule": "mongodb-atlas.rule.stream-instance",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.project"
+        },
+        "dimension": "mongodb-atlas.context.ownership",
+        "via": "source.project_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:451fe16523976f342f4ddf647b10bd964aa9f358ed973809ac285cecd53c0075",
+        "rule": "mongodb-atlas.rule.cloud-backup-schedule",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.backup-export-destination"
+        },
+        "predicate": "mongodb-atlas.relation.exports-to",
+        "via": "source.export[0].export_bucket_id",
+        "match": {
+          "by": [
+            "export_bucket_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:466ad2cd701be76caa6bc55fae2ec783a3c2902d92f76a01ed5ab0a6b557fdf3",
+        "rule": "mongodb-atlas.rule.cloud-backup-export-destination",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.project"
+        },
+        "dimension": "mongodb-atlas.context.ownership",
+        "via": "source.project_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:503f0b59a77097867bf53d2ff7ba259d250ee631de05970bd6af8e44c6f6fcd4",
+        "rule": "mongodb-atlas.rule.online-archive",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.managed-database"
+        },
+        "predicate": "mongodb-atlas.relation.archives-from",
+        "via": "source.cluster_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:5947479404cc9e903c58c685abaa986f18707da674cc1e461c3e4eb32c8a413d",
+        "rule": "mongodb-atlas.rule.online-archive",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.project"
+        },
+        "dimension": "mongodb-atlas.context.ownership",
+        "via": "source.project_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:62dd448610a2978b2f0e6e195b5a1bdaeb2e95a257e15fcc550c7f5d050b81fb",
+        "rule": "mongodb-atlas.rule.stream-workspace",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.project"
+        },
+        "dimension": "mongodb-atlas.context.ownership",
+        "via": "source.project_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:662076a7bf612ad4035d5520cabadc5b73c3e04b0ab200f64d321397d31627a9",
+        "rule": "mongodb-atlas.rule.advanced-cluster",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.project"
+        },
+        "dimension": "mongodb-atlas.context.ownership",
+        "via": "source.project_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:7af17ef7aea5478cedcaf09c17f8ddd7385772ace87745611f48e7072f46d0ec",
+        "rule": "mongodb-atlas.rule.cloud-backup-export-destination",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.cloud-provider-authorization"
+        },
+        "predicate": "mongodb-atlas.relation.uses-cloud-authorization",
+        "via": "source.role_id",
+        "match": {
+          "by": [
+            "role_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:9f351a0aa6d3040c38270b00b770ec56362c5484e856d4203307f5034ba4ce6c",
+        "rule": "mongodb-atlas.rule.stream-processor",
+        "kind": "context",
+        "to": {
+          "kind": "rule",
+          "id": "mongodb-atlas.rule.stream-instance"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "source.instance_name",
+        "match": {
+          "by": [
+            "instance_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:b6bf25eda4c65ab1b07774aa1f604aeac531577cc498c95af0a60e2ef364391d",
+        "rule": "mongodb-atlas.rule.search-deployment",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.project"
+        },
+        "dimension": "mongodb-atlas.context.ownership",
+        "via": "source.project_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:bcb178394dfa2c24ebae991897b443f3df716f48670858610bd937be69d64f73",
+        "rule": "mongodb-atlas.rule.cloud-backup-export-destination",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.cloud-provider-authorization"
+        },
+        "predicate": "mongodb-atlas.relation.uses-cloud-authorization",
+        "via": "source.iam_role_id",
+        "match": {
+          "by": [
+            "role_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:c4af021e0e7d5e62b7b688fd5f90e85e75fab18f131710c6c31b07e9742fa6af",
+        "rule": "mongodb-atlas.rule.stream-processor",
+        "kind": "context",
+        "to": {
+          "kind": "rule",
+          "id": "mongodb-atlas.rule.stream-workspace"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "source.workspace_name",
+        "match": {
+          "by": [
+            "workspace_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:cb99c4922b18a0d279b183d214c4b075fed1f9a50ca9e6efcc9851674ad37ef1",
+        "rule": "mongodb-atlas.rule.project",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.organization"
+        },
+        "dimension": "mongodb-atlas.context.ownership",
+        "via": "source.org_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:ce2d2790d96ad7db700fff3484449c4c04fcd2241aa554f6ce98aaf8c9088756",
+        "rule": "mongodb-atlas.rule.stream-processor",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "mongodb-atlas.concept.project"
+        },
+        "dimension": "mongodb-atlas.context.ownership",
+        "via": "source.project_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:ed9feab125f92ba67b46c40c3402427ee1a3989d491ce94604a0f11c1aad6764",
+        "rule": "mongodb-atlas.rule.search-deployment",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.managed-database"
+        },
+        "predicate": "mongodb-atlas.relation.serves",
+        "via": "source.cluster_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:mongodbatlas_advanced_cluster.primary",
+          "kind": "resource",
+          "type": "mongodbatlas_advanced_cluster",
+          "name": "primary",
+          "address": "mongodbatlas_advanced_cluster.primary",
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:mongodbatlas_cloud_backup_schedule.primary",
+          "kind": "resource",
+          "type": "mongodbatlas_cloud_backup_schedule",
+          "name": "primary",
+          "address": "mongodbatlas_cloud_backup_schedule.primary",
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "kind": "resource",
+          "type": "mongodbatlas_cloud_backup_snapshot_export_bucket",
+          "name": "archive",
+          "address": "mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:mongodbatlas_online_archive.orders",
+          "kind": "resource",
+          "type": "mongodbatlas_online_archive",
+          "name": "orders",
+          "address": "mongodbatlas_online_archive.orders",
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:mongodbatlas_organization.platform",
+          "kind": "resource",
+          "type": "mongodbatlas_organization",
+          "name": "platform",
+          "address": "mongodbatlas_organization.platform",
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:mongodbatlas_project.application",
+          "kind": "resource",
+          "type": "mongodbatlas_project",
+          "name": "application",
+          "address": "mongodbatlas_project.application",
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:mongodbatlas_search_deployment.primary",
+          "kind": "resource",
+          "type": "mongodbatlas_search_deployment",
+          "name": "primary",
+          "address": "mongodbatlas_search_deployment.primary",
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:mongodbatlas_stream_processor.orders",
+          "kind": "resource",
+          "type": "mongodbatlas_stream_processor",
+          "name": "orders",
+          "address": "mongodbatlas_stream_processor.orders",
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:mongodbatlas_stream_workspace.events",
+          "kind": "resource",
+          "type": "mongodbatlas_stream_workspace",
+          "name": "events",
+          "address": "mongodbatlas_stream_workspace.events",
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "representation:1:mongodbatlas_advanced_cluster.primary",
+          "kind": "managed",
+          "declaration": "declaration:1:mongodbatlas_advanced_cluster.primary",
+          "address": "mongodbatlas_advanced_cluster.primary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "mongodb-atlas.rule.advanced-cluster"
+            ],
+            "diagnostics": []
+          },
+          "rule": "mongodb-atlas.rule.advanced-cluster",
+          "concept": "rf.concept.managed-database",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:mongodbatlas_cloud_backup_schedule.primary",
+          "kind": "managed",
+          "declaration": "declaration:1:mongodbatlas_cloud_backup_schedule.primary",
+          "address": "mongodbatlas_cloud_backup_schedule.primary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "mongodb-atlas.rule.cloud-backup-schedule"
+            ],
+            "diagnostics": []
+          },
+          "rule": "mongodb-atlas.rule.cloud-backup-schedule",
+          "concept": "mongodb-atlas.concept.backup-plan",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "kind": "managed",
+          "declaration": "declaration:1:mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "address": "mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "mongodb-atlas.rule.cloud-backup-export-destination"
+            ],
+            "diagnostics": []
+          },
+          "rule": "mongodb-atlas.rule.cloud-backup-export-destination",
+          "concept": "mongodb-atlas.concept.backup-export-destination",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:mongodbatlas_online_archive.orders",
+          "kind": "managed",
+          "declaration": "declaration:1:mongodbatlas_online_archive.orders",
+          "address": "mongodbatlas_online_archive.orders",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "mongodb-atlas.rule.online-archive"
+            ],
+            "diagnostics": []
+          },
+          "rule": "mongodb-atlas.rule.online-archive",
+          "concept": "mongodb-atlas.concept.online-archive",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:mongodbatlas_organization.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:mongodbatlas_organization.platform",
+          "address": "mongodbatlas_organization.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "mongodb-atlas.rule.organization"
+            ],
+            "diagnostics": []
+          },
+          "rule": "mongodb-atlas.rule.organization",
+          "concept": "mongodb-atlas.concept.organization",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:mongodbatlas_project.application",
+          "kind": "managed",
+          "declaration": "declaration:1:mongodbatlas_project.application",
+          "address": "mongodbatlas_project.application",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "mongodb-atlas.rule.project"
+            ],
+            "diagnostics": []
+          },
+          "rule": "mongodb-atlas.rule.project",
+          "concept": "mongodb-atlas.concept.project",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:mongodbatlas_search_deployment.primary",
+          "kind": "managed",
+          "declaration": "declaration:1:mongodbatlas_search_deployment.primary",
+          "address": "mongodbatlas_search_deployment.primary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "mongodb-atlas.rule.search-deployment"
+            ],
+            "diagnostics": []
+          },
+          "rule": "mongodb-atlas.rule.search-deployment",
+          "concept": "mongodb-atlas.concept.search-deployment",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:mongodbatlas_stream_processor.orders",
+          "kind": "managed",
+          "declaration": "declaration:1:mongodbatlas_stream_processor.orders",
+          "address": "mongodbatlas_stream_processor.orders",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "mongodb-atlas.rule.stream-processor"
+            ],
+            "diagnostics": []
+          },
+          "rule": "mongodb-atlas.rule.stream-processor",
+          "concept": "mongodb-atlas.concept.stream-processor",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:mongodbatlas_stream_workspace.events",
+          "kind": "managed",
+          "declaration": "declaration:1:mongodbatlas_stream_workspace.events",
+          "address": "mongodbatlas_stream_workspace.events",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/mongodb/mongodbatlas",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "mongodb-atlas.rule.stream-workspace"
+            ],
+            "diagnostics": []
+          },
+          "rule": "mongodb-atlas.rule.stream-workspace",
+          "concept": "mongodb-atlas.concept.stream-processing-workspace",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_advanced_cluster.primary:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_advanced_cluster.primary",
+          "to": "representation:1:mongodbatlas_project.application",
+          "dimension": "mongodb-atlas.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:662076a7bf612ad4035d5520cabadc5b73c3e04b0ab200f64d321397d31627a9",
+              "rule": "mongodb-atlas.rule.advanced-cluster",
+              "closure": "closure:representation%3A1%3Amongodbatlas_advanced_cluster.primary:emission%3A662076a7bf612ad4035d5520cabadc5b73c3e04b0ab200f64d321397d31627a9",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_cloud_backup_schedule.primary",
+          "to": "representation:1:mongodbatlas_project.application",
+          "dimension": "mongodb-atlas.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:0242ae9fe55de0acaea73a29e00f52b0dda78b4bc4661743320c8e2eed2d1476",
+              "rule": "mongodb-atlas.rule.cloud-backup-schedule",
+              "closure": "closure:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:emission%3A0242ae9fe55de0acaea73a29e00f52b0dda78b4bc4661743320c8e2eed2d1476",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_cloud_backup_snapshot_export_bucket.archive:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "to": "representation:1:mongodbatlas_project.application",
+          "dimension": "mongodb-atlas.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:466ad2cd701be76caa6bc55fae2ec783a3c2902d92f76a01ed5ab0a6b557fdf3",
+              "rule": "mongodb-atlas.rule.cloud-backup-export-destination",
+              "closure": "closure:representation%3A1%3Amongodbatlas_cloud_backup_snapshot_export_bucket.archive:emission%3A466ad2cd701be76caa6bc55fae2ec783a3c2902d92f76a01ed5ab0a6b557fdf3",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_online_archive.orders:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_online_archive.orders",
+          "to": "representation:1:mongodbatlas_project.application",
+          "dimension": "mongodb-atlas.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:5947479404cc9e903c58c685abaa986f18707da674cc1e461c3e4eb32c8a413d",
+              "rule": "mongodb-atlas.rule.online-archive",
+              "closure": "closure:representation%3A1%3Amongodbatlas_online_archive.orders:emission%3A5947479404cc9e903c58c685abaa986f18707da674cc1e461c3e4eb32c8a413d",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_project.application:representation%3A1%3Amongodbatlas_organization.platform",
+          "from": "representation:1:mongodbatlas_project.application",
+          "to": "representation:1:mongodbatlas_organization.platform",
+          "dimension": "mongodb-atlas.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:cb99c4922b18a0d279b183d214c4b075fed1f9a50ca9e6efcc9851674ad37ef1",
+              "rule": "mongodb-atlas.rule.project",
+              "closure": "closure:representation%3A1%3Amongodbatlas_project.application:emission%3Acb99c4922b18a0d279b183d214c4b075fed1f9a50ca9e6efcc9851674ad37ef1",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_search_deployment.primary:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_search_deployment.primary",
+          "to": "representation:1:mongodbatlas_project.application",
+          "dimension": "mongodb-atlas.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:b6bf25eda4c65ab1b07774aa1f604aeac531577cc498c95af0a60e2ef364391d",
+              "rule": "mongodb-atlas.rule.search-deployment",
+              "closure": "closure:representation%3A1%3Amongodbatlas_search_deployment.primary:emission%3Ab6bf25eda4c65ab1b07774aa1f604aeac531577cc498c95af0a60e2ef364391d",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_stream_processor.orders:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_stream_processor.orders",
+          "to": "representation:1:mongodbatlas_project.application",
+          "dimension": "mongodb-atlas.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:ce2d2790d96ad7db700fff3484449c4c04fcd2241aa554f6ce98aaf8c9088756",
+              "rule": "mongodb-atlas.rule.stream-processor",
+              "closure": "closure:representation%3A1%3Amongodbatlas_stream_processor.orders:emission%3Ace2d2790d96ad7db700fff3484449c4c04fcd2241aa554f6ce98aaf8c9088756",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_stream_workspace.events:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_stream_workspace.events",
+          "to": "representation:1:mongodbatlas_project.application",
+          "dimension": "mongodb-atlas.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:62dd448610a2978b2f0e6e195b5a1bdaeb2e95a257e15fcc550c7f5d050b81fb",
+              "rule": "mongodb-atlas.rule.stream-workspace",
+              "closure": "closure:representation%3A1%3Amongodbatlas_stream_workspace.events:emission%3A62dd448610a2978b2f0e6e195b5a1bdaeb2e95a257e15fcc550c7f5d050b81fb",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Amongodbatlas_stream_processor.orders:representation%3A1%3Amongodbatlas_stream_workspace.events",
+          "from": "representation:1:mongodbatlas_stream_processor.orders",
+          "to": "representation:1:mongodbatlas_stream_workspace.events",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:c4af021e0e7d5e62b7b688fd5f90e85e75fab18f131710c6c31b07e9742fa6af",
+              "rule": "mongodb-atlas.rule.stream-processor",
+              "closure": "closure:representation%3A1%3Amongodbatlas_stream_processor.orders:emission%3Ac4af021e0e7d5e62b7b688fd5f90e85e75fab18f131710c6c31b07e9742fa6af",
+              "evidence": "both"
+            }
+          ]
+        }
+      ],
+      "contributions": [],
+      "relations": [
+        {
+          "id": "relation:mongodb-atlas.relation.archives-from:representation%3A1%3Amongodbatlas_online_archive.orders:representation%3A1%3Amongodbatlas_advanced_cluster.primary",
+          "from": "representation:1:mongodbatlas_online_archive.orders",
+          "to": "representation:1:mongodbatlas_advanced_cluster.primary",
+          "predicate": "mongodb-atlas.relation.archives-from",
+          "provenance": [
+            {
+              "emission": "emission:503f0b59a77097867bf53d2ff7ba259d250ee631de05970bd6af8e44c6f6fcd4",
+              "rule": "mongodb-atlas.rule.online-archive",
+              "closure": "closure:representation%3A1%3Amongodbatlas_online_archive.orders:emission%3A503f0b59a77097867bf53d2ff7ba259d250ee631de05970bd6af8e44c6f6fcd4",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "relation:mongodb-atlas.relation.exports-to:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:representation%3A1%3Amongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "from": "representation:1:mongodbatlas_cloud_backup_schedule.primary",
+          "to": "representation:1:mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "predicate": "mongodb-atlas.relation.exports-to",
+          "provenance": [
+            {
+              "emission": "emission:451fe16523976f342f4ddf647b10bd964aa9f358ed973809ac285cecd53c0075",
+              "rule": "mongodb-atlas.rule.cloud-backup-schedule",
+              "closure": "closure:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:emission%3A451fe16523976f342f4ddf647b10bd964aa9f358ed973809ac285cecd53c0075",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "relation:mongodb-atlas.relation.protects:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:representation%3A1%3Amongodbatlas_advanced_cluster.primary",
+          "from": "representation:1:mongodbatlas_cloud_backup_schedule.primary",
+          "to": "representation:1:mongodbatlas_advanced_cluster.primary",
+          "predicate": "mongodb-atlas.relation.protects",
+          "provenance": [
+            {
+              "emission": "emission:21f9d1a631c45b42c1951ed1845bc5a06072cc8475d77075d530f2b22f51924d",
+              "rule": "mongodb-atlas.rule.cloud-backup-schedule",
+              "closure": "closure:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:emission%3A21f9d1a631c45b42c1951ed1845bc5a06072cc8475d77075d530f2b22f51924d",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "relation:mongodb-atlas.relation.serves:representation%3A1%3Amongodbatlas_search_deployment.primary:representation%3A1%3Amongodbatlas_advanced_cluster.primary",
+          "from": "representation:1:mongodbatlas_search_deployment.primary",
+          "to": "representation:1:mongodbatlas_advanced_cluster.primary",
+          "predicate": "mongodb-atlas.relation.serves",
+          "provenance": [
+            {
+              "emission": "emission:ed9feab125f92ba67b46c40c3402427ee1a3989d491ce94604a0f11c1aad6764",
+              "rule": "mongodb-atlas.rule.search-deployment",
+              "closure": "closure:representation%3A1%3Amongodbatlas_search_deployment.primary:emission%3Aed9feab125f92ba67b46c40c3402427ee1a3989d491ce94604a0f11c1aad6764",
+              "evidence": "both"
+            }
+          ]
+        }
+      ],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_advanced_cluster.primary:emission%3A662076a7bf612ad4035d5520cabadc5b73c3e04b0ab200f64d321397d31627a9",
+          "representation": "representation:1:mongodbatlas_advanced_cluster.primary",
+          "emission": "emission:662076a7bf612ad4035d5520cabadc5b73c3e04b0ab200f64d321397d31627a9",
+          "outcome": "resolved",
+          "facts": [
+            "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_advanced_cluster.primary:representation%3A1%3Amongodbatlas_project.application"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:emission%3A0242ae9fe55de0acaea73a29e00f52b0dda78b4bc4661743320c8e2eed2d1476",
+          "representation": "representation:1:mongodbatlas_cloud_backup_schedule.primary",
+          "emission": "emission:0242ae9fe55de0acaea73a29e00f52b0dda78b4bc4661743320c8e2eed2d1476",
+          "outcome": "resolved",
+          "facts": [
+            "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:representation%3A1%3Amongodbatlas_project.application"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:emission%3A21f9d1a631c45b42c1951ed1845bc5a06072cc8475d77075d530f2b22f51924d",
+          "representation": "representation:1:mongodbatlas_cloud_backup_schedule.primary",
+          "emission": "emission:21f9d1a631c45b42c1951ed1845bc5a06072cc8475d77075d530f2b22f51924d",
+          "outcome": "resolved",
+          "facts": [
+            "relation:mongodb-atlas.relation.protects:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:representation%3A1%3Amongodbatlas_advanced_cluster.primary"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:emission%3A451fe16523976f342f4ddf647b10bd964aa9f358ed973809ac285cecd53c0075",
+          "representation": "representation:1:mongodbatlas_cloud_backup_schedule.primary",
+          "emission": "emission:451fe16523976f342f4ddf647b10bd964aa9f358ed973809ac285cecd53c0075",
+          "outcome": "resolved",
+          "facts": [
+            "relation:mongodb-atlas.relation.exports-to:representation%3A1%3Amongodbatlas_cloud_backup_schedule.primary:representation%3A1%3Amongodbatlas_cloud_backup_snapshot_export_bucket.archive"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_cloud_backup_snapshot_export_bucket.archive:emission%3A2ced587c90ac03e867cfc08608fd76ddf4471effb865493bfe648783f26f0d60",
+          "representation": "representation:1:mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "emission": "emission:2ced587c90ac03e867cfc08608fd76ddf4471effb865493bfe648783f26f0d60",
+          "outcome": "indeterminate",
+          "reason": "identity_incomplete",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_cloud_backup_snapshot_export_bucket.archive:emission%3A466ad2cd701be76caa6bc55fae2ec783a3c2902d92f76a01ed5ab0a6b557fdf3",
+          "representation": "representation:1:mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "emission": "emission:466ad2cd701be76caa6bc55fae2ec783a3c2902d92f76a01ed5ab0a6b557fdf3",
+          "outcome": "resolved",
+          "facts": [
+            "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_cloud_backup_snapshot_export_bucket.archive:representation%3A1%3Amongodbatlas_project.application"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_cloud_backup_snapshot_export_bucket.archive:emission%3A7af17ef7aea5478cedcaf09c17f8ddd7385772ace87745611f48e7072f46d0ec",
+          "representation": "representation:1:mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "emission": "emission:7af17ef7aea5478cedcaf09c17f8ddd7385772ace87745611f48e7072f46d0ec",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_cloud_backup_snapshot_export_bucket.archive:emission%3Abcb178394dfa2c24ebae991897b443f3df716f48670858610bd937be69d64f73",
+          "representation": "representation:1:mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "emission": "emission:bcb178394dfa2c24ebae991897b443f3df716f48670858610bd937be69d64f73",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_online_archive.orders:emission%3A503f0b59a77097867bf53d2ff7ba259d250ee631de05970bd6af8e44c6f6fcd4",
+          "representation": "representation:1:mongodbatlas_online_archive.orders",
+          "emission": "emission:503f0b59a77097867bf53d2ff7ba259d250ee631de05970bd6af8e44c6f6fcd4",
+          "outcome": "resolved",
+          "facts": [
+            "relation:mongodb-atlas.relation.archives-from:representation%3A1%3Amongodbatlas_online_archive.orders:representation%3A1%3Amongodbatlas_advanced_cluster.primary"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_online_archive.orders:emission%3A5947479404cc9e903c58c685abaa986f18707da674cc1e461c3e4eb32c8a413d",
+          "representation": "representation:1:mongodbatlas_online_archive.orders",
+          "emission": "emission:5947479404cc9e903c58c685abaa986f18707da674cc1e461c3e4eb32c8a413d",
+          "outcome": "resolved",
+          "facts": [
+            "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_online_archive.orders:representation%3A1%3Amongodbatlas_project.application"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_project.application:emission%3Acb99c4922b18a0d279b183d214c4b075fed1f9a50ca9e6efcc9851674ad37ef1",
+          "representation": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:cb99c4922b18a0d279b183d214c4b075fed1f9a50ca9e6efcc9851674ad37ef1",
+          "outcome": "resolved",
+          "facts": [
+            "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_project.application:representation%3A1%3Amongodbatlas_organization.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_search_deployment.primary:emission%3Ab6bf25eda4c65ab1b07774aa1f604aeac531577cc498c95af0a60e2ef364391d",
+          "representation": "representation:1:mongodbatlas_search_deployment.primary",
+          "emission": "emission:b6bf25eda4c65ab1b07774aa1f604aeac531577cc498c95af0a60e2ef364391d",
+          "outcome": "resolved",
+          "facts": [
+            "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_search_deployment.primary:representation%3A1%3Amongodbatlas_project.application"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_search_deployment.primary:emission%3Aed9feab125f92ba67b46c40c3402427ee1a3989d491ce94604a0f11c1aad6764",
+          "representation": "representation:1:mongodbatlas_search_deployment.primary",
+          "emission": "emission:ed9feab125f92ba67b46c40c3402427ee1a3989d491ce94604a0f11c1aad6764",
+          "outcome": "resolved",
+          "facts": [
+            "relation:mongodb-atlas.relation.serves:representation%3A1%3Amongodbatlas_search_deployment.primary:representation%3A1%3Amongodbatlas_advanced_cluster.primary"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_stream_processor.orders:emission%3A9f351a0aa6d3040c38270b00b770ec56362c5484e856d4203307f5034ba4ce6c",
+          "representation": "representation:1:mongodbatlas_stream_processor.orders",
+          "emission": "emission:9f351a0aa6d3040c38270b00b770ec56362c5484e856d4203307f5034ba4ce6c",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_stream_processor.orders:emission%3Ac4af021e0e7d5e62b7b688fd5f90e85e75fab18f131710c6c31b07e9742fa6af",
+          "representation": "representation:1:mongodbatlas_stream_processor.orders",
+          "emission": "emission:c4af021e0e7d5e62b7b688fd5f90e85e75fab18f131710c6c31b07e9742fa6af",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Amongodbatlas_stream_processor.orders:representation%3A1%3Amongodbatlas_stream_workspace.events"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_stream_processor.orders:emission%3Ace2d2790d96ad7db700fff3484449c4c04fcd2241aa554f6ce98aaf8c9088756",
+          "representation": "representation:1:mongodbatlas_stream_processor.orders",
+          "emission": "emission:ce2d2790d96ad7db700fff3484449c4c04fcd2241aa554f6ce98aaf8c9088756",
+          "outcome": "resolved",
+          "facts": [
+            "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_stream_processor.orders:representation%3A1%3Amongodbatlas_project.application"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Amongodbatlas_stream_workspace.events:emission%3A62dd448610a2978b2f0e6e195b5a1bdaeb2e95a257e15fcc550c7f5d050b81fb",
+          "representation": "representation:1:mongodbatlas_stream_workspace.events",
+          "emission": "emission:62dd448610a2978b2f0e6e195b5a1bdaeb2e95a257e15fcc550c7f5d050b81fb",
+          "outcome": "resolved",
+          "facts": [
+            "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_stream_workspace.events:representation%3A1%3Amongodbatlas_project.application"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_advanced_cluster.primary:declaration%3A1%3Amongodbatlas_project.application",
+          "from": "declaration:1:mongodbatlas_advanced_cluster.primary",
+          "to": "declaration:1:mongodbatlas_project.application",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_cloud_backup_schedule.primary:declaration%3A1%3Amongodbatlas_advanced_cluster.primary",
+          "from": "declaration:1:mongodbatlas_cloud_backup_schedule.primary",
+          "to": "declaration:1:mongodbatlas_advanced_cluster.primary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_cloud_backup_schedule.primary:declaration%3A1%3Amongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "from": "declaration:1:mongodbatlas_cloud_backup_schedule.primary",
+          "to": "declaration:1:mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_cloud_backup_schedule.primary:declaration%3A1%3Amongodbatlas_project.application",
+          "from": "declaration:1:mongodbatlas_cloud_backup_schedule.primary",
+          "to": "declaration:1:mongodbatlas_project.application",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_cloud_backup_snapshot_export_bucket.archive:declaration%3A1%3Amongodbatlas_project.application",
+          "from": "declaration:1:mongodbatlas_cloud_backup_snapshot_export_bucket.archive",
+          "to": "declaration:1:mongodbatlas_project.application",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_online_archive.orders:declaration%3A1%3Amongodbatlas_advanced_cluster.primary",
+          "from": "declaration:1:mongodbatlas_online_archive.orders",
+          "to": "declaration:1:mongodbatlas_advanced_cluster.primary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_online_archive.orders:declaration%3A1%3Amongodbatlas_project.application",
+          "from": "declaration:1:mongodbatlas_online_archive.orders",
+          "to": "declaration:1:mongodbatlas_project.application",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_project.application:declaration%3A1%3Amongodbatlas_organization.platform",
+          "from": "declaration:1:mongodbatlas_project.application",
+          "to": "declaration:1:mongodbatlas_organization.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_search_deployment.primary:declaration%3A1%3Amongodbatlas_advanced_cluster.primary",
+          "from": "declaration:1:mongodbatlas_search_deployment.primary",
+          "to": "declaration:1:mongodbatlas_advanced_cluster.primary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_search_deployment.primary:declaration%3A1%3Amongodbatlas_project.application",
+          "from": "declaration:1:mongodbatlas_search_deployment.primary",
+          "to": "declaration:1:mongodbatlas_project.application",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_stream_processor.orders:declaration%3A1%3Amongodbatlas_project.application",
+          "from": "declaration:1:mongodbatlas_stream_processor.orders",
+          "to": "declaration:1:mongodbatlas_project.application",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_stream_processor.orders:declaration%3A1%3Amongodbatlas_stream_workspace.events",
+          "from": "declaration:1:mongodbatlas_stream_processor.orders",
+          "to": "declaration:1:mongodbatlas_stream_workspace.events",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Amongodbatlas_stream_workspace.events:declaration%3A1%3Amongodbatlas_project.application",
+          "from": "declaration:1:mongodbatlas_stream_workspace.events",
+          "to": "declaration:1:mongodbatlas_project.application",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 9,
+        "resources": 9,
+        "data_sources": 0,
+        "instances": 9,
+        "managed_instances": 9,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 9,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 13,
+        "closures": 17,
+        "resolved": 13,
+        "absent": 3,
+        "indeterminate": 1,
+        "dependencies": 13,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

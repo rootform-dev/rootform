@@ -22,8 +22,15 @@ rule "asserts-log-config" {
   as = concept.knowledge-graph-configuration
 
   contribution {
-    to  = concept.data-source
-    via = source.data_source_uid
+    to       = concept.data-source
+    via      = source.data_source_uid
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.uid
+      strategy = "exact"
+    }
   }
 }
 
@@ -43,8 +50,15 @@ rule "asserts-profile-config" {
   as = concept.knowledge-graph-configuration
 
   contribution {
-    to  = concept.data-source
-    via = source.data_source_uid
+    to       = concept.data-source
+    via      = source.data_source_uid
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.uid
+      strategy = "exact"
+    }
   }
 }
 
@@ -88,7 +102,14 @@ rule "asserts-trace-config" {
   as = concept.knowledge-graph-configuration
 
   contribution {
-    to  = concept.data-source
-    via = source.data_source_uid
+    to       = concept.data-source
+    via      = source.data_source_uid
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.uid
+      strategy = "exact"
+    }
   }
 }

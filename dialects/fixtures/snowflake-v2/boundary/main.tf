@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
+      version = "= 6.62.0"
     }
     snowflake = {
       source  = "snowflakedb/snowflake"
@@ -10,6 +11,9 @@ terraform {
   }
 }
 
+# Reads of this provider need its API, so the plan defers them until apply.
+resource "terraform_data" "defer_reads" {
+}
 variable "choose_first" {
   type    = bool
   default = true
@@ -49,6 +53,8 @@ resource "snowflake_warehouse" "second" {
 }
 
 resource "snowflake_storage_integration_aws" "literal" {
+  storage_provider          = "s3"
+  enabled                   = false
   name                      = "LITERAL"
   storage_aws_role_arn      = "arn:aws:iam::123456789012:role/literal"
   storage_allowed_locations = ["s3://literal"]
@@ -56,6 +62,8 @@ resource "snowflake_storage_integration_aws" "literal" {
 }
 
 resource "snowflake_storage_integration_aws" "ambiguous" {
+  storage_provider          = "s3"
+  enabled                   = false
   name                      = "AMBIGUOUS"
   storage_aws_role_arn      = "arn:aws:iam::123456789012:role/literal"
   storage_allowed_locations = [var.choose_first ? aws_s3_bucket.first.id : aws_s3_bucket.second.id]
@@ -77,14 +85,15 @@ resource "snowflake_notification_integration" "ambiguous" {
 }
 
 resource "snowflake_stage_external_s3" "literal" {
-  database = snowflake_database.analytics.name
-  schema   = snowflake_schema.pipelines.fully_qualified_name
-  name     = "LITERAL"
-  url      = "s3://literal"
+  database   = snowflake_database.analytics.name
+  schema     = snowflake_schema.pipelines.fully_qualified_name
+  name       = "LITERAL"
+  url        = "s3://literal"
   depends_on = [aws_s3_bucket.first]
 }
 
 resource "snowflake_task" "ambiguous" {
+  started       = false
   database      = snowflake_database.analytics.name
   schema        = snowflake_schema.pipelines.fully_qualified_name
   name          = "AMBIGUOUS"
@@ -104,4 +113,6 @@ resource "snowflake_execute" "operation" {
   revert  = "select 1"
 }
 
-data "snowflake_system_get_privatelink_config" "lookup" {}
+data "snowflake_system_get_privatelink_config" "lookup" {
+  depends_on = [terraform_data.defer_reads]
+}

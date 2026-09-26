@@ -12,6 +12,15 @@ rule "apps-provisioning-connection-v0alpha1" {
   }
 
   as = concept.git-sync-connection
+
+  identity {
+    attributes = ["metadata.uid"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "metadata.uid"]
+  }
 }
 
 rule "apps-provisioning-repository-v0alpha1" {
@@ -22,7 +31,14 @@ rule "apps-provisioning-repository-v0alpha1" {
   as = concept.git-sync-repository
 
   relation "authenticates-through" {
-    to  = concept.git-sync-connection
-    via = source.spec[0].connection[0].name
+    to       = concept.git-sync-connection
+    via      = source.spec.connection.name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.metadata.uid
+      strategy = "exact"
+    }
   }
 }

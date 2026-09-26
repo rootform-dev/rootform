@@ -7,8 +7,8 @@ terraform {
   }
 }
 
-variable "unknown_network" { type = string }
-variable "unknown_project" { type = string }
+resource "terraform_data" "unknown_network" {}
+resource "terraform_data" "unknown_project" {}
 
 resource "google_project" "platform" {
   name       = "platform"
@@ -58,8 +58,8 @@ resource "google_redis_instance" "unknown" {
   name               = "unknown"
   tier               = "BASIC"
   memory_size_gb     = 1
-  authorized_network = var.unknown_network
-  project            = var.unknown_project
+  authorized_network = terraform_data.unknown_network.id
+  project            = terraform_data.unknown_project.id
 }
 
 resource "google_redis_instance" "provider_default" {

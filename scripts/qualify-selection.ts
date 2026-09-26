@@ -386,10 +386,14 @@ class Qualification {
       row.detail = await body();
       row.proven = true;
     } catch (error) {
-      row.detail =
-        error instanceof Error ? error.message.split("\n").slice(0, 6).join(" | ") : String(error);
-      this.failures.push(`${scenario}: ${row.detail}`);
+      const message = error instanceof Error ? error.message : String(error);
+      row.detail = message.split("\n").slice(0, 6).join(" | ");
     }
+    row.detail = row.detail
+      .replaceAll(this.work, "<qualification-work>")
+      .replaceAll(this.options.caFile, "<ca-file>")
+      .replaceAll(this.options.binary, "<rootform-binary>");
+    if (!row.proven) this.failures.push(`${scenario}: ${row.detail}`);
     this.rows.push(row);
     console.log(
       (row.proven ? "PASS " : "FAIL ") + scenario + (row.proven ? "" : ` :: ${row.detail}`),
@@ -700,14 +704,11 @@ function installed(q: Qualification, home: string, family: "dialects" | "policy-
 }
 
 type Report = {
-  release_set?: {
-    units?: Array<{ kind: string; owner: string; version: string; content_digest: string }>;
+  format_version?: string;
+  kind?: string;
+  semantics?: {
+    owners?: Array<{ id: string; kind: string; version: string; content_digest: string }>;
   };
-  semantic_owners?: Array<{ id: string; kind: string; version: string }>;
-  policy_packs?: Array<{ id: string; version: string }>;
-  evaluations?: Array<{ policy: string }>;
-  summary?: { evaluations?: number };
-  status?: string;
   diagnostics?: Array<{ code: string; message: string }>;
 };
 
@@ -722,8 +723,7 @@ type Resolved = {
   status: string;
 };
 
-// resolved runs check, which reads both families, and reports exactly which
-// Dialect and Policy Pack versions the command used.
+// Resolve selection through a format-1 plan and its SARIF policy results.
 function resolved(
   q: Qualification,
   label: string,
@@ -733,9 +733,30 @@ function resolved(
   expect: Expect = 0,
   env: Record<string, string> = {},
 ): Resolved {
+  const output = mkdtempSync(q.path("resolved-"));
+  const documentPath = join(output, "analysis.json");
+  const sarifPath = join(output, "results.sarif");
+  const selectedPacks = existsSync(join(project, "rootform.lock"))
+    ? readLock(project).policy_packs.map((entry) => String(entry.name))
+    : [];
+  const policySelection = extra.includes("--policy")
+    ? []
+    : selectedPacks.flatMap((name) => ["--policy", `${name}/*`]);
   const result = q.quiet(
     label,
-    ["check", ".", "--format", "json", ...extra],
+    [
+      "run",
+      "plan.json",
+      "--project",
+      ".",
+      "--no-serve",
+      "-o",
+      documentPath,
+      "-o",
+      sarifPath,
+      ...extra,
+      ...policySelection,
+    ],
     project,
     home,
     expect === 0 ? "any" : expect,
@@ -753,32 +774,62 @@ function resolved(
   };
   let report: Report;
   try {
-    report = JSON.parse(result.stdout) as Report;
+    report = JSON.parse(readFileSync(documentPath, "utf8")) as Report;
   } catch {
+    if (expect === 0 && result.exitCode !== 0)
+      throw new Error(`${label}: exit ${result.exitCode}, expected success\n${result.stderr}`);
     return out;
   }
-  // Machine formats report a selection failure as a diagnostic on stdout.
+  if (report.format_version !== "1" || report.kind !== "plan")
+    throw new Error(`${label}: run did not produce a format-1 plan`);
   const messages = (report.diagnostics ?? []).map((diagnostic) => diagnostic.message);
   if (messages.length > 0) out.stderr = [result.stderr, ...messages].filter(Boolean).join("\n");
-  // semantic_owners is the effective Dialect set; release_set.units lists the
-  // whole embedded release set, including excluded or replaced owners.
-  for (const owner of report.semantic_owners ?? []) {
+  for (const owner of report.semantics?.owners ?? []) {
     if (owner.kind === "dialect") out.dialects[owner.id] = owner.version;
+    if (owner.kind === "dialect") out.digests[owner.id] = owner.content_digest;
   }
-  for (const unit of report.release_set?.units ?? []) {
-    if (unit.kind !== "dialect") continue;
-    if (report.semantic_owners === undefined) out.dialects[unit.owner] = unit.version;
-    if (out.dialects[unit.owner] === unit.version) out.digests[unit.owner] = unit.content_digest;
-  }
-  for (const pack of report.policy_packs ?? []) out.packs[pack.id] = pack.version;
-  out.policies = [...new Set((report.evaluations ?? []).map((entry) => entry.policy))].sort();
-  out.evaluations = report.summary?.evaluations ?? -1;
-  out.status = report.status ?? "";
-  // check exits 3 when nothing was evaluated; that is success for a project
-  // that selects no Policy Pack.
-  const success =
-    result.exitCode === 0 || (result.exitCode === 3 && out.status === "not_evaluated");
-  if (expect === 0 && !success) {
+  const packOverrides = extra.flatMap((argument, index) =>
+    argument === "--policy-pack" ? [extra[index + 1] ?? ""] : [],
+  );
+  const listed = JSON.parse(
+    q.quiet(
+      `${label} Policy Pack selection`,
+      [
+        "list",
+        "policy-packs",
+        "-o",
+        "json",
+        ...packOverrides.flatMap((path) => ["--policy-pack", path]),
+      ],
+      project,
+      home,
+      0,
+      env,
+    ).stdout,
+  ) as Array<{ name: string; version: string }>;
+  for (const pack of listed) out.packs[pack.name] = pack.version;
+  const sarif = JSON.parse(readFileSync(sarifPath, "utf8")) as {
+    version?: string;
+    runs?: Array<{ results?: Array<{ ruleId?: string; kind?: string }> }>;
+  };
+  if (
+    sarif.version !== "2.1.0" ||
+    sarif.runs?.length !== 1 ||
+    !Array.isArray(sarif.runs[0]?.results)
+  )
+    throw new Error(`${label}: invalid SARIF policy report`);
+  const evaluations = sarif.runs[0].results;
+  out.policies = [...new Set(evaluations.map((entry) => entry.ruleId ?? ""))].sort();
+  out.evaluations = evaluations.length;
+  out.status =
+    evaluations.length === 0
+      ? "not_evaluated"
+      : result.exitCode === 0
+        ? "passed"
+        : result.exitCode === 1
+          ? "violated"
+          : "indeterminate";
+  if (expect === 0 && result.exitCode !== 0) {
     throw new Error(`${label}: exit ${result.exitCode}, expected success\n${result.stderr}`);
   }
   return out;
@@ -849,8 +900,8 @@ async function installScenarios(q: Qualification, f: Fixtures): Promise<void> {
       );
       const before = [treeDigest(bare), treeDigest(selected), lockState(selected)];
       q.quiet(
-        "baseline build",
-        ["build", ".", "--output", q.path("install-before.json")],
+        "baseline run",
+        ["run", "plan.json", "--project", ".", "--no-serve", "-o", q.path("install-before.json")],
         bare,
         home,
         0,
@@ -888,8 +939,8 @@ async function installScenarios(q: Qualification, f: Fixtures): Promise<void> {
         "both Policy Pack versions must be installed",
       );
       q.quiet(
-        "build after install",
-        ["build", ".", "--output", q.path("install-after.json")],
+        "run after install",
+        ["run", "plan.json", "--project", ".", "--no-serve", "-o", q.path("install-after.json")],
         bare,
         home,
         0,
@@ -898,7 +949,7 @@ async function installScenarios(q: Qualification, f: Fixtures): Promise<void> {
         readFileSync(q.path("install-before.json")).equals(
           readFileSync(q.path("install-after.json")),
         ),
-        "install changed project build output",
+        "install changed project run output",
       );
       q.check(
         JSON.stringify(before) ===
@@ -1151,7 +1202,7 @@ async function addScenarios(q: Qualification, f: Fixtures): Promise<void> {
       );
       q.quiet("re-add local pack", ["add", "policy-packs", `./policies/${PACK}`], project, home, 0);
       q.check(lockState(project) === lock, "identical add rewrote the lock");
-      const active = resolved(q, "check local selection", project, home);
+      const active = resolved(q, "run local selection", project, home);
       q.check(
         active.dialects[OWNER] === "0.3.0" &&
           active.packs[PACK] === "0.3.0" &&
@@ -1212,7 +1263,7 @@ async function addScenarios(q: Qualification, f: Fixtures): Promise<void> {
       );
       q.loud("re-add pack by tag", ["add", "policy-packs", f.pTag("0.1.0")], project, home, 0);
       q.check(lockState(project) === lock, "identical OCI add rewrote the lock");
-      const active = resolved(q, "check OCI selection", project, home);
+      const active = resolved(q, "run OCI selection", project, home);
       q.check(
         active.dialects[OWNER] === "0.1.0" && active.packs[PACK] === "0.1.0",
         "OCI selection not active",
@@ -1386,7 +1437,7 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
       const home = q.home("override-none");
       const project = f.project("override-none");
       const tree = treeDigest(project);
-      const used = resolved(q, "check with overrides", project, home, [
+      const used = resolved(q, "run with overrides", project, home, [
         ...dialectOverride,
         ...packOverride,
       ]);
@@ -1400,8 +1451,17 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
         "list ignores --dialect",
       );
       q.quiet(
-        "build with override",
-        ["build", ".", ...dialectOverride, "--output", q.path("override-none.json")],
+        "run with override",
+        [
+          "run",
+          "plan.json",
+          "--project",
+          ".",
+          "--no-serve",
+          ...dialectOverride,
+          "-o",
+          q.path("override-none.json"),
+        ],
         project,
         home,
         0,
@@ -1410,7 +1470,7 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
         treeDigest(project) === tree && !existsSync(join(project, "rootform.lock")),
         "override wrote project state",
       );
-      return `check/list/build use 0.4.0 + pack 0.9.0; stderr notice: ${firstLine(used.stderr)}`;
+      return `run and list use 0.4.0 + pack 0.9.0; stderr notice: ${firstLine(used.stderr)}`;
     },
   );
 
@@ -1430,10 +1490,10 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
         0,
       );
       const lock = lockState(project);
-      const base = resolved(q, "check selection", project, home, [], "fail");
+      const base = resolved(q, "run selection", project, home, [], "fail");
       const used = resolved(
         q,
-        "check with overrides",
+        "run with overrides",
         project,
         home,
         [...dialectOverride, ...packOverride],
@@ -1470,8 +1530,8 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
       q.loud("select OCI pack", ["add", "policy-packs", f.pDigest("0.1.0")], project, home, 0);
       const restore = away(home);
       mkdirSync(home);
-      const missing = resolved(q, "check without installed copies", project, home, [], "fail");
-      const used = resolved(q, "check with both overrides and empty home", project, home, [
+      const missing = resolved(q, "run without installed copies", project, home, [], "fail");
+      const used = resolved(q, "run with both overrides and empty home", project, home, [
         ...dialectOverride,
         ...packOverride,
       ]);
@@ -1482,7 +1542,7 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
       renameSync(home, `${home}.empty`);
       restore();
       return (
-        "empty home: plain check exit " +
+        "empty home: plain run exit " +
         missing.exitCode +
         " (" +
         firstLine(missing.stderr) +
@@ -1501,7 +1561,7 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
       q.quiet("select local pack", ["add", "policy-packs", `./policies/${PACK}`], project, home, 0);
       q.quiet("vendor", ["vendor"], project, home, 0);
       const vendor = treeDigest(join(project, ".rootform"));
-      const used = resolved(q, "check vendored with overrides", project, home, [
+      const used = resolved(q, "run vendored with overrides", project, home, [
         ...dialectOverride,
         ...packOverride,
       ]);
@@ -1520,8 +1580,8 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
   await q.scenario("override replaces an embedded owner", { dialect: true, local: true }, () => {
     const home = q.home("override-embedded");
     const project = f.project("override-embedded");
-    const base = resolved(q, "check embedded", project, home);
-    const used = resolved(q, "check with embedded override", project, home, [
+    const base = resolved(q, "run embedded", project, home);
+    const used = resolved(q, "run with embedded override", project, home, [
       "--dialect",
       "./overrides/aws",
     ]);
@@ -1542,35 +1602,53 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
       const lock = lockState(project);
       const twins = q.quiet(
         "two Dialect overrides, same owner",
-        ["check", ".", ...dialectOverride, "--dialect", `./overrides/dialect-twin/${OWNER}`],
+        [
+          "run",
+          "plan.json",
+          "--project",
+          ".",
+          "--no-serve",
+          ...dialectOverride,
+          "--dialect",
+          `./overrides/dialect-twin/${OWNER}`,
+        ],
         project,
         home,
         "fail",
       );
       const packs = q.quiet(
         "two Policy Pack overrides, same name",
-        ["check", ".", ...packOverride, "--policy-pack", `./overrides/pack-twin/${PACK}`],
+        [
+          "run",
+          "plan.json",
+          "--project",
+          ".",
+          "--no-serve",
+          ...packOverride,
+          "--policy-pack",
+          `./overrides/pack-twin/${PACK}`,
+        ],
         project,
         home,
         "fail",
       );
       const locked = q.quiet(
         "override with --locked",
-        ["check", ".", "--locked", ...dialectOverride],
+        ["run", "plan.json", "--project", ".", "--no-serve", "--locked", ...dialectOverride],
         project,
         home,
         "fail",
       );
       const lockedPack = q.quiet(
         "pack override with --locked",
-        ["check", ".", "--locked", ...packOverride],
+        ["run", "plan.json", "--project", ".", "--no-serve", "--locked", ...packOverride],
         project,
         home,
         "fail",
       );
       const lockedBuild = q.quiet(
-        "build override with --locked",
-        ["build", ".", "--locked", ...dialectOverride],
+        "run override with --locked",
+        ["run", "plan.json", "--project", ".", "--no-serve", "--locked", ...dialectOverride],
         project,
         home,
         "fail",
@@ -1587,7 +1665,7 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
         locked.exitCode +
         ", with --policy-pack exit " +
         lockedPack.exitCode +
-        ", build exit " +
+        ", run exit " +
         lockedBuild.exitCode
       );
     },
@@ -1612,8 +1690,14 @@ async function updateScenarios(q: Qualification, f: Fixtures): Promise<void> {
       const packFile = join(project, "policies", PACK, "policies", "service-present.rf.hcl");
       writeFileSync(packFile, readFileSync(packFile, "utf8").replace("0.3.0.", "0.3.0 edited."));
       const lock = lockState(project);
-      const drift = resolved(q, "check drifted", project, home, [], "fail");
-      const build = q.quiet("build drifted", ["build", "."], project, home, "fail");
+      const drift = resolved(q, "run drifted", project, home, [], "fail");
+      const run = q.quiet(
+        "run drifted",
+        ["run", "plan.json", "--project", ".", "--no-serve"],
+        project,
+        home,
+        "fail",
+      );
       q.check(
         drift.stderr.includes("rootform update") && drift.stderr.includes("--dialect"),
         `drift diagnostic incomplete: ${drift.stderr}`,
@@ -1628,25 +1712,25 @@ async function updateScenarios(q: Qualification, f: Fixtures): Promise<void> {
       );
       q.check(lockState(project) === lock, "dry-run update changed the lock");
       q.quiet("update dialect", ["update", "dialect", OWNER], project, home, 0);
-      const packDrift = resolved(q, "check with pack still drifted", project, home, [], "fail");
+      const packDrift = resolved(q, "run with pack still drifted", project, home, [], "fail");
       q.quiet("update pack", ["update", "policy-pack", PACK], project, home, 0);
       q.check(
         String(lockDialect(project)?.content_digest) !== recorded,
         "update kept the old digest",
       );
-      resolved(q, "check after update", project, home, ["--locked"]);
+      resolved(q, "run after update", project, home, ["--locked"]);
       return (
-        "drift: check exit " +
+        "drift: run exit " +
         drift.exitCode +
-        ", build exit " +
-        build.exitCode +
+        ", run exit " +
+        run.exitCode +
         " (" +
         firstLine(drift.stderr) +
         "); dry-run no write (" +
         firstLine(dry.stdout) +
         "); pack drift alone exit " +
         packDrift.exitCode +
-        "; after update check --locked exit 0"
+        "; after update run --locked exit 0"
       );
     },
   );
@@ -1673,7 +1757,7 @@ async function updateScenarios(q: Qualification, f: Fixtures): Promise<void> {
         home,
         0,
       );
-      let used = resolved(q, "check after update", project, home);
+      let used = resolved(q, "run after update", project, home);
       q.check(
         used.dialects[OWNER] === "0.2.0" && used.packs[PACK] === "0.2.0",
         "update did not switch to 0.2.0",
@@ -1689,7 +1773,7 @@ async function updateScenarios(q: Qualification, f: Fixtures): Promise<void> {
         home,
         0,
       );
-      used = resolved(q, "check after downgrade", project, home);
+      used = resolved(q, "run after downgrade", project, home);
       q.check(used.dialects[OWNER] === "0.1.0", "downgrade by digest failed");
       const lock = lockState(project);
       const bare = q.quiet(
@@ -1866,12 +1950,12 @@ async function removeScenarios(q: Qualification, f: Fixtures): Promise<void> {
         "exclusion not recorded",
       );
       q.check(
-        !("aws" in resolved(q, "check without aws", project, home).dialects),
+        !("aws" in resolved(q, "run without aws", project, home).dialects),
         "excluded owner still active",
       );
       q.quiet("re-add bare aws", ["add", "dialects", "aws"], project, home, 0);
       q.check(readLock(project).excluded_owners.length === 0, "bare add kept the exclusion");
-      const embedded = resolved(q, "check with aws", project, home).dialects.aws;
+      const embedded = resolved(q, "run with aws", project, home).dialects.aws;
       const noReplace = q.quiet(
         "add aws without --replace",
         ["add", "dialects", "./overrides/aws"],
@@ -1885,7 +1969,7 @@ async function removeScenarios(q: Qualification, f: Fixtures): Promise<void> {
         "replacement not recorded",
       );
       q.check(
-        resolved(q, "check replaced aws", project, home).dialects.aws === "9.9.9",
+        resolved(q, "run replaced aws", project, home).dialects.aws === "9.9.9",
         "replacement not active",
       );
       const lock = lockState(project);
@@ -1920,7 +2004,7 @@ async function removeScenarios(q: Qualification, f: Fixtures): Promise<void> {
       );
       q.check(readLock(project).replacements.length === 0, "replacement kept after remove");
       q.check(
-        resolved(q, "check restored aws", project, home).dialects.aws === embedded,
+        resolved(q, "run restored aws", project, home).dialects.aws === embedded,
         "embedded aws not restored",
       );
       return (
@@ -2039,13 +2123,13 @@ async function uninstallScenarios(q: Qualification, f: Fixtures): Promise<void> 
         0,
       );
       q.check(lockState(project) === lock, "uninstall changed the lock");
-      const broken = resolved(q, "check after uninstall", project, home, [], "fail");
+      const broken = resolved(q, "run after uninstall", project, home, [], "fail");
       q.check(
         /init/u.test(broken.stderr),
         `missing content does not point to init: ${broken.stderr}`,
       );
       q.loud("init restores", ["init", ".", "--locked", "--no-input"], project, home, 0);
-      const restored = resolved(q, "check after init", project, home);
+      const restored = resolved(q, "run after init", project, home);
       q.check(
         restored.dialects[OWNER] === "0.1.0" && restored.packs[PACK] === "0.1.0",
         "init did not restore",
@@ -2069,7 +2153,7 @@ async function uninstallScenarios(q: Qualification, f: Fixtures): Promise<void> 
         duplicate.exitCode +
         " (" +
         duplicateStore +
-        "); after uninstall check exit " +
+        "); after uninstall run exit " +
         broken.exitCode +
         " (" +
         firstLine(broken.stderr) +
@@ -2109,7 +2193,7 @@ async function vendorScenarios(q: Qualification, f: Fixtures): Promise<void> {
       q.check(existsSync(vendorUnit(project, "policy-packs", PACK)), "Policy Pack not vendored");
       const restoreHome = away(home);
       const restoreSource = away(join(project, "others"));
-      const used = resolved(q, "check from vendor only", project, home, ["--locked"]);
+      const used = resolved(q, "run from vendor only", project, home, ["--locked"]);
       q.check(
         used.dialects[OWNER] === "0.1.0" &&
           used.dialects["e2e-other"] === "0.1.0" &&
@@ -2167,7 +2251,7 @@ async function vendorScenarios(q: Qualification, f: Fixtures): Promise<void> {
         entry.startsWith(".rootform-vendor"),
       );
       q.check(leftovers.length === 0, `staging residue left: ${leftovers.join(",")}`);
-      return "home and local source moved away: check --locked and init --offline read .rootform only; update revendored 0.2.0; removing last pack removed family; add named vendor policy-packs, which vendored the new pack; no residue";
+      return "home and local source moved away: run --locked and init --offline read .rootform only; update revendored 0.2.0; removing last pack removed family; add named vendor policy-packs, which vendored the new pack; no residue";
     },
   );
 
@@ -2236,7 +2320,7 @@ async function vendorScenarios(q: Qualification, f: Fixtures): Promise<void> {
         const project = prepareVendored(`vendor-${corruption.name.replaceAll(" ", "-")}`, home);
         const lock = lockState(project);
         corruption.apply(project);
-        const failed = resolved(q, "check corrupted vendor", project, home, [], "fail");
+        const failed = resolved(q, "run corrupted vendor", project, home, [], "fail");
         const init = q.quiet(
           "init corrupted vendor",
           ["init", ".", "--locked", "--offline", "--no-input"],
@@ -2244,7 +2328,13 @@ async function vendorScenarios(q: Qualification, f: Fixtures): Promise<void> {
           home,
           "fail",
         );
-        const build = q.quiet("build corrupted vendor", ["build", "."], project, home, "any");
+        const run = q.quiet(
+          "run corrupted vendor",
+          ["run", "plan.json", "--project", ".", "--no-serve"],
+          project,
+          home,
+          "any",
+        );
         const mutate = q.quiet(
           "mutation on corrupted vendor",
           ["add", "policy-packs", `./policies/${FILTER_PACK}`],
@@ -2253,20 +2343,20 @@ async function vendorScenarios(q: Qualification, f: Fixtures): Promise<void> {
           "any",
         );
         q.quiet("vendor --offline repairs", ["vendor", "--offline"], project, home, 0);
-        resolved(q, "check repaired vendor", project, home, ["--locked"]);
+        resolved(q, "run repaired vendor", project, home, ["--locked"]);
         q.check(lockState(project) === lock || mutate.exitCode === 0, "repair changed the lock");
         return (
-          "check exit " +
+          "run exit " +
           failed.exitCode +
           " (" +
           firstLine(failed.stderr) +
           "); init --offline exit " +
           init.exitCode +
-          "; build exit " +
-          build.exitCode +
+          "; run exit " +
+          run.exitCode +
           "; add during corruption exit " +
           mutate.exitCode +
-          "; vendor --offline repaired, check --locked exit 0"
+          "; vendor --offline repaired, run --locked exit 0"
         );
       },
     );
@@ -2287,17 +2377,17 @@ async function vendorScenarios(q: Qualification, f: Fixtures): Promise<void> {
       );
       const store = join(home, "policy-packs");
       const restore = away(store);
-      const packMissing = resolved(q, "check with pack store gone", project, home, [], "fail");
+      const packMissing = resolved(q, "run with pack store gone", project, home, [], "fail");
       restore();
       const restoreDialects = away(join(home, "dialects"));
-      const ok = resolved(q, "check with Dialect store gone", project, home);
+      const ok = resolved(q, "run with Dialect store gone", project, home);
       restoreDialects();
       q.check(
         ok.dialects[OWNER] === "0.1.0" && ok.packs[PACK] === "0.1.0",
         "half-vendored project not resolved",
       );
       return (
-        "Dialects from .rootform (store not needed), pack from store; pack store gone -> check exit " +
+        "Dialects from .rootform (store not needed), pack from store; pack store gone -> run exit " +
         packMissing.exitCode
       );
     },
@@ -2341,7 +2431,7 @@ async function sentinelScenarios(q: Qualification, f: Fixtures): Promise<void> {
           result.stderr.includes("rootform.lock.new"),
           `refusal does not name the sentinel: ${result.stderr}`,
         );
-      const read = resolved(q, "check under sentinel", project, home);
+      const read = resolved(q, "run under sentinel", project, home);
       renameSync(join(project, "rootform.lock.new"), q.path("sentinel.moved"));
       q.quiet("vendor after sentinel removal", ["vendor"], project, home, 0);
       q.check(
@@ -2351,7 +2441,7 @@ async function sentinelScenarios(q: Qualification, f: Fixtures): Promise<void> {
       return (
         "add/update/remove/vendor/vendor dialects exit " +
         codes.map((result) => result.exitCode).join("/") +
-        ", project byte-identical incl. backup residue; check still exit " +
+        ", project byte-identical incl. backup residue; run still exit " +
         read.exitCode +
         "; after removal vendor clears residue"
       );
@@ -2369,8 +2459,23 @@ async function networkScenarios(q: Qualification, f: Fixtures): Promise<void> {
       q.loud("select OCI dialect", ["add", "dialects", f.dTag("0.1.0")], project, home, 0);
       q.loud("select OCI pack", ["add", "policy-packs", f.pDigest("0.1.0")], project, home, 0);
       const commands: Array<[string, string[]]> = [
-        ["build", ["build", ".", "--locked", "--output", q.path("network.json")]],
-        ["check", ["check", ".", "--locked"]],
+        [
+          "run",
+          [
+            "run",
+            "plan.json",
+            "--project",
+            ".",
+            "--no-serve",
+            "--locked",
+            "-o",
+            q.path("network.json"),
+          ],
+        ],
+        [
+          "run policies",
+          ["run", "plan.json", "--project", ".", "--no-serve", "--locked", "--policy", `${PACK}/*`],
+        ],
         ["list dialects", ["list", "dialects", OWNER]],
         ["list policy-packs", ["list", "policy-packs"]],
         ["list --installed", ["list", "dialects", "--installed"]],
@@ -2389,7 +2494,7 @@ async function networkScenarios(q: Qualification, f: Fixtures): Promise<void> {
         codes.push(`${label}=${q.quiet(label, arguments_, project, home, "any").exitCode}`);
       const served = await q.serve(
         "run",
-        ["run", ".", "--no-browser", "--port", "0", "--no-watch"],
+        ["run", "plan.json", "--project", ".", "--no-browser", "--port", "0"],
         project,
         home,
       );
@@ -2402,8 +2507,8 @@ async function networkScenarios(q: Qualification, f: Fixtures): Promise<void> {
       const restore = away(home);
       mkdirSync(home);
       const missing = q.quiet(
-        "build with empty home",
-        ["build", ".", "--locked"],
+        "run with empty home",
+        ["run", "plan.json", "--project", ".", "--no-serve", "--locked"],
         project,
         home,
         "fail",
@@ -2414,7 +2519,7 @@ async function networkScenarios(q: Qualification, f: Fixtures): Promise<void> {
       return (
         "0 requests each: " +
         codes.join(", ") +
-        "; empty home build exit " +
+        "; empty home run exit " +
         missing.exitCode +
         " without fetching (" +
         firstLine(missing.stderr) +
@@ -2438,7 +2543,7 @@ async function networkScenarios(q: Qualification, f: Fixtures): Promise<void> {
       );
       const lock = lockState(project);
       await q.moveTag(q.movable, `dialect-${OWNER}-0.1.0`, q.digests.get("m:0.2.0") as string);
-      const used = resolved(q, "check after tag move", project, home, ["--locked"]);
+      const used = resolved(q, "run after tag move", project, home, ["--locked"]);
       q.quiet("init after tag move", ["init", ".", "--locked", "--no-input"], project, home, 0);
       q.check(
         used.dialects[OWNER] === "0.1.0" && lockState(project) === lock,
@@ -2454,7 +2559,7 @@ async function networkScenarios(q: Qualification, f: Fixtures): Promise<void> {
         0,
       );
       q.check(
-        resolved(q, "check refetched", project, home).dialects[OWNER] === "0.1.0",
+        resolved(q, "run refetched", project, home).dialects[OWNER] === "0.1.0",
         "init followed the moved tag",
       );
       renameSync(home, `${home}.refetched`);
@@ -2466,9 +2571,9 @@ async function networkScenarios(q: Qualification, f: Fixtures): Promise<void> {
         home,
         0,
       );
-      const after = resolved(q, "check after explicit update", project, home);
+      const after = resolved(q, "run after explicit update", project, home);
       return (
-        "check/init keep 0.1.0 digest after tag move (0 requests); empty-home init refetched pinned digest (" +
+        "run/init keep 0.1.0 digest after tag move (0 requests); empty-home init refetched pinned digest (" +
         fetched.requests +
         " requests); explicit update now selects " +
         after.dialects[OWNER] +
@@ -2496,14 +2601,11 @@ async function policyScenarios(q: Qualification, f: Fixtures): Promise<void> {
         home,
         0,
       );
-      const all = resolved(q, "check all", project, home, [], "fail");
-      const pass = resolved(q, "check pass only", project, home, [
-        "--policy",
-        `${FILTER_PACK}/pass`,
-      ]);
+      const all = resolved(q, "run all", project, home, [], "fail");
+      const pass = resolved(q, "run pass only", project, home, ["--policy", `${FILTER_PACK}/pass`]);
       const fail = resolved(
         q,
-        "check fail only",
+        "run fail only",
         project,
         home,
         ["--policy", `${FILTER_PACK}/fail`],
@@ -2511,28 +2613,28 @@ async function policyScenarios(q: Qualification, f: Fixtures): Promise<void> {
       );
       const pack = resolved(
         q,
-        "check filter pack",
+        "run filter pack",
         project,
         home,
         ["--policy", `${FILTER_PACK}/*`],
         "fail",
       );
-      const guard = resolved(q, "check guard pack", project, home, ["--policy", `${PACK}/*`]);
+      const guard = resolved(q, "run guard pack", project, home, ["--policy", `${PACK}/*`]);
       const unknown = q.quiet(
-        "check unknown policy",
-        ["check", ".", "--policy", `${FILTER_PACK}/missing`],
+        "run unknown policy",
+        ["run", "plan.json", "--project", ".", "--no-serve", "--policy", `${FILTER_PACK}/missing`],
         project,
         home,
         "fail",
       );
       const unknownPack = q.quiet(
-        "check unknown pack",
-        ["check", ".", "--policy", "absent/*"],
+        "run unknown pack",
+        ["run", "plan.json", "--project", ".", "--no-serve", "--policy", "absent/*"],
         project,
         home,
         "fail",
       );
-      const prefix = (name: string) => `${name}.policy.`;
+      const prefix = (name: string) => `${name}/`;
       q.check(
         JSON.stringify(pass.policies) === JSON.stringify([`${prefix(FILTER_PACK)}pass`]) &&
           pass.evaluations === 1,
@@ -2590,13 +2692,13 @@ async function precedenceScenarios(q: Qualification, f: Fixtures): Promise<void>
       q.loud("install OCI pack", ["install", "policy-packs", f.pDigest("0.1.0")], project, home, 0);
       q.quiet("select local dialect", ["add", "dialects", `./dialects/${OWNER}`], project, home, 0);
       q.quiet("select local pack", ["add", "policy-packs", `./policies/${PACK}`], project, home, 0);
-      const used = resolved(q, "check local over store", project, home);
+      const used = resolved(q, "run local over store", project, home);
       q.check(
         used.dialects[OWNER] === "0.3.0" && used.packs[PACK] === "0.3.0",
         "store shadowed the local selection",
       );
       const restore = away(join(project, "dialects"));
-      const gone = resolved(q, "check with local source gone", project, home, [], "fail");
+      const gone = resolved(q, "run with local source gone", project, home, [], "fail");
       restore();
       return (
         "local 0.3.0 used while 0.1.0/0.2.0 installed; local source gone -> exit " +
@@ -2622,7 +2724,7 @@ async function precedenceScenarios(q: Qualification, f: Fixtures): Promise<void>
         0,
       );
       q.loud("select 0.1.0", ["add", "dialects", f.dDigest("0.1.0")], project, home, 0);
-      const used = resolved(q, "check exact installed version", project, home);
+      const used = resolved(q, "run exact installed version", project, home);
       q.check(used.dialects[OWNER] === "0.1.0", "wrong installed version used");
       const file = join(home, "dialects", OWNER, "0.1.0");
       const entries = existsSync(file) ? readdirSync(file) : [];
@@ -2632,7 +2734,7 @@ async function precedenceScenarios(q: Qualification, f: Fixtures): Promise<void>
         const path = join(file, target);
         const original = readFileSync(path);
         writeFileSync(path, Buffer.concat([original, Buffer.from("\n")]));
-        const tampered = resolved(q, "check tampered store", project, home, [], "any");
+        const tampered = resolved(q, "run tampered store", project, home, [], "any");
         tamper = `tampered store exit ${tampered.exitCode} (${firstLine(tampered.stderr)})`;
         writeFileSync(path, original);
       }
@@ -2651,10 +2753,10 @@ async function precedenceScenarios(q: Qualification, f: Fixtures): Promise<void>
       const file = join(vendorUnit(project, "dialects", OWNER), "dialect.rf.hcl");
       const original = readFileSync(file);
       writeFileSync(file, Buffer.concat([original, Buffer.from("\n")]));
-      const failed = resolved(q, "check drifted vendor with good store", project, home, [], "fail");
+      const failed = resolved(q, "run drifted vendor with good store", project, home, [], "fail");
       writeFileSync(file, original);
       const restore = away(home);
-      const ok = resolved(q, "check vendor without home", project, home);
+      const ok = resolved(q, "run vendor without home", project, home);
       restore();
       return (
         "drifted vendor + intact store -> exit " +

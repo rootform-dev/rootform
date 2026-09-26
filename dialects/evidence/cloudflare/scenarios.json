@@ -32,14 +32,8 @@
       "maximum_facts": {
         "relations": 1
       },
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "Cloudflare R2 bucket",
-        "Cloudflare Workers script",
-        "Cloudflare zone"
-      ],
       "limitations": [
-        "Minimal fixture proves one exact Worker binding; broad product coverage remains in exhaustive matrix."
+        "The saved plan establishes one Worker binding. Other Cloudflare resources need their own plan evidence before architecture facts can be asserted."
       ]
     },
     {
@@ -67,7 +61,6 @@
         "cloudflare.rule.load-balancer",
         "cloudflare.rule.load-balancer-pool",
         "cloudflare.rule.magic-transit-cf1-site",
-        "cloudflare.rule.magic-wan-ipsec-tunnel",
         "cloudflare.rule.notification-policy",
         "cloudflare.rule.notification-webhook",
         "cloudflare.rule.pages-project",
@@ -87,7 +80,6 @@
         "kubernetes.rule.kubernetes-service"
       ],
       "required_outcomes": {
-        "azure_virtual_network.ignored": "no-rule",
         "cloudflare_account_dns_settings_internal_view.private": "representation-present",
         "cloudflare_calls_turn_app.relay": "representation-present",
         "cloudflare_custom_ssl.edge": "representation-present",
@@ -95,7 +87,7 @@
         "cloudflare_dns_zone_transfers_peer.primary": "representation-present",
         "cloudflare_load_balancer.edge": "representation-present",
         "cloudflare_load_balancer_pool.aws": "representation-present",
-        "cloudflare_magic_wan_ipsec_tunnel.google": "representation-present",
+        "cloudflare_magic_wan_ipsec_tunnel.google": "no-rule",
         "cloudflare_r2_bucket_event_notification.assets": "representation-present",
         "cloudflare_zero_trust_dex_test.private_application": "representation-present",
         "cloudflare_zero_trust_dlp_custom_profile.customer_data": "representation-present",
@@ -105,27 +97,6 @@
         "kubernetes_service_v1.application": "representation-present"
       },
       "required_facts": [
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:cloudflare_load_balancer_pool.aws",
-          "to": "representation:1:root:resource:aws_lb.application",
-          "type": "routes-to",
-          "rule": "cloudflare.rule.load-balancer-pool"
-        },
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:cloudflare_load_balancer_pool.azure",
-          "to": "representation:1:root:resource:azurerm_lb.application",
-          "type": "routes-to",
-          "rule": "cloudflare.rule.load-balancer-pool"
-        },
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:cloudflare_load_balancer_pool.google",
-          "to": "representation:1:root:resource:google_compute_forwarding_rule.application",
-          "type": "routes-to",
-          "rule": "cloudflare.rule.load-balancer-pool"
-        },
         {
           "collection": "relations",
           "from": "representation:1:root:resource:cloudflare_workers_script.api",
@@ -160,20 +131,6 @@
           "to": "representation:1:root:resource:aws_vpc.application",
           "dimension": "rf.context.network",
           "rule": "cloudflare.rule.cloudflare-tunnel-route"
-        },
-        {
-          "collection": "contexts",
-          "from": "representation:1:root:resource:cloudflare_zero_trust_tunnel_cloudflared_route.azure",
-          "to": "representation:1:root:resource:azurerm_virtual_network.application",
-          "dimension": "rf.context.network",
-          "rule": "cloudflare.rule.cloudflare-tunnel-route"
-        },
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:cloudflare_magic_wan_ipsec_tunnel.google",
-          "to": "representation:1:root:resource:google_compute_ha_vpn_gateway.application",
-          "type": "connects-to",
-          "rule": "cloudflare.rule.magic-wan-ipsec-tunnel"
         },
         {
           "collection": "contributions",
@@ -220,61 +177,28 @@
         "contributions": 23
       },
       "maximum_facts": {
-        "contexts": 9,
+        "contexts": 11,
         "contributions": 23,
         "relations": 21
       },
-      "expected_diagnostic_codes": [
-        "TRAVERSAL_UNRESOLVED"
-      ],
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "Cloudflare Access application",
-        "Cloudflare Calls TURN application",
-        "Cloudflare DEX test",
-        "Cloudflare Load Balancer",
-        "Cloudflare R2 bucket",
-        "Cloudflare Tunnel",
-        "Cloudflare Worker",
-        "Cloudflare internal DNS view"
-      ],
       "forbidden_output": [
         "ROOTFORM_CLOUDFLARE_CERTIFICATE_SENTINEL",
         "ROOTFORM_CLOUDFLARE_PRIVATE_KEY_SENTINEL",
         "ROOTFORM_CLOUDFLARE_WEBHOOK_SECRET_SENTINEL"
       ],
       "limitations": [
-        "Cloudflare-to-Kubernetes dependency remains source evidence only: Kubernetes Service roles cannot be conditionally promoted without breaking omitted provider defaults, so no relation is invented."
+        "A Terraform dependency on Kubernetes does not establish a Cloudflare-to-Kubernetes relation.",
+        "Load balancer origins, proxied DNS contents, Access domains, and Spectrum origins contain hostnames or addresses that do not identify the represented load balancer or instance. The AWS tunnel route can name a VPC through a verified CIDR traversal when its endpoint declares cidr_block; the Azure one(address_space) expression remains transformed and unresolved."
       ]
     },
     {
       "id": "fail-closed-boundaries",
       "fixture": "fixtures/cloudflare-v5/boundary",
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_CLOUDFLARE_SECRET_SENTINEL"
       ],
       "limitations": [
-        "Ambiguous, dynamic, literal-only, dependency-only, credential, and read-only evidence asserts no unresolved fact; delivered partial IR preserves resource bases and diagnostics."
+        "The saved plan keeps ambiguous, dynamic, literal, dependency-only, and credential inputs from establishing unsupported facts. The architecture document retains represented resources and indeterminate outcomes."
       ]
     }
   ]

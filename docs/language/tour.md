@@ -3,10 +3,10 @@ title: "Language tour"
 description: "Follow a .rf.hcl source set from declaration matching to base representations, facts, composition, and policy linking."
 ---
 
-The Rootform language turns normalized Terraform and OpenTofu evidence into
-Architecture IR. Rootform ships RF Vocabulary and its embedded Dialects with
-every release, and every authoring source stays inspectable and independently
-testable.
+The Rootform language interprets instances in a plan JSON or state JSON. This
+tour follows one Dialect Rule from a resource to a fact, then asks a policy
+question about it. Rootform ships RF Vocabulary and embedded Dialects with
+every release; authored source stays inspectable and testable.
 
 <!-- rootform:steps -->
 
@@ -25,14 +25,12 @@ dialect "aws" {
 A Dialect owns its local definitions and Rules and imports no other Dialect. Any
 reference to `rf.*` derives a dependency on the embedded RF Vocabulary.
 
-## Start from the complete resource base
+## Start from the complete instance base
 
-Every normalized `resource` becomes a base representation even when no Rule
-recognizes its type. The base holds the known source identity, address, type,
-provider, name, and location, so a missing Rule or Concept is not an error.
-
-A data source differs: its declaration stays in the source inventory, and a
-representation requires a successfully applied Rule.
+Every managed and data instance in the plan or state has a Representation,
+even when no Rule recognizes its type. The base retains its address, type,
+provider and known identity. A missing Rule is visible as uninterpreted,
+instead of making the instance disappear.
 
 ## Use common and local vocabulary
 
@@ -56,7 +54,7 @@ concept "load-balancer" {
 }
 ```
 
-## Match and enrich a declaration
+## Match and enrich an instance
 
 ```rf title="aws/network/vpc.rf.hcl"
 rule "vpc" {
@@ -77,20 +75,22 @@ rule "subnet" {
   as = rf.concept.subnet
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 ```
 
-`as` adds optional nominal classification. The subnet context exists only when
-the `vpc_id` traversal proves a target representation with the requested Concept.
-A source dependency alone never becomes an architecture fact.
+`as` classifies an instance. The subnet Context resolves when its evaluated
+`vpc_id` or verified saved-plan traversal identifies a virtual-network
+instance. A source dependency alone never becomes an architecture fact.
 
 A Rule must add classification, emission, or composition; a match-only Rule is
 invalid. One accepted Rule is applied, and an ambiguous or undecidable predicate
-keeps the resource base and records diagnostics.
+keeps the instance base and records diagnostics.
 
 ## Choose a fact shape
 
@@ -99,10 +99,11 @@ keeps the resource base and records diagnostics.
 - an unlabeled `relation { as = ... }` reuses an existing local predicate;
 - `contribution` links a contributor without absorbing it.
 
-Each emission requires a `to` Concept or Rule and a `via` evidence path. Explicit
-target matching supports only `exact` and `dot-ancestor`.
+Each emission requires a `to` Concept or Rule, a `via` evidence path, and
+`on_null` and `on_empty` choices. Explicit target matching supports `exact`,
+`dot-ancestor`, and `last-segment`. See [emissions](reference/emissions.md).
 
-## Compose source declarations transactionally
+## Compose implementation members
 
 ```rf title="google/load-balancing/application-load-balancer.rf.hcl"
 rule "application-load-balancer" {
@@ -135,10 +136,12 @@ rule "application-load-balancer" {
 }
 ```
 
-Members are ordered, required, and exclusive. Any member failure rejects the
-whole Rule application, including `as` and emissions, and the root resource keeps
-its base. Member declarations remain, and every resource member keeps its own
-base without inheriting the root Rule or Concept.
+Members are ordered: each `via` reads the root instance or an earlier member.
+Rootform resolves them separately for every root instance and stage. An
+unresolved member stays listed on its root with a reason, and a later member
+that reads it is unresolved too; the root keeps its classification and
+emissions. Members remain separate instances and never inherit the root Rule
+or Concept. See [composition](reference/composition.md).
 
 ## Ask a policy question
 
@@ -160,22 +163,22 @@ policy "subnet-network-context" {
 ```
 
 A policy source declares no dependencies. The linker derives exact RF Vocabulary
-and Dialect pins from qualified references and the Architecture IR. The policy ID
+and Dialect identities from qualified references and the Rootform document. The policy ID
 is `tutorial.policy.subnet-network-context`.
 
 ## Keep uncertainty explicit
 
-Unknown traversal, ambiguous target, incompatible provider, and failed
-composition produce stable diagnostics. Proven absence produces omission.
-Neither case deletes a resource base or invents fallback meaning.
+Unknown traversal and ambiguous target leave a closure indeterminate with a
+reason; proven absence records an absent closure. Neither case removes the
+instance or invents an edge. A policy depending on that uncertain fact cannot
+claim a pass. See [evaluation](reference/evaluation.md).
 
-```text title="Diagnostic shape"
-CONCEPT_UNKNOWN  rules/network.rf.hcl:18:10
-```
-
-Compiled definitions build Architecture IR. Use `rootform validate dialects` for
-language source, `rootform test` for reviewed Architecture IR fixtures, and
-`rootform check` for policies. `rootform diff` compares two built documents.
+Validate authored Dialects and Policy Packs first. Test a Dialect against a
+fixture containing `main.tf`, `plan.json`, the matching `plan.tfplan`, and an
+`analysis.golden` Rootform document. Run the plan to inspect the instance,
+facts and policy outcome. Comparing two inputs with `--diff` produces a
+comparison document. The [authoring guide](../dialect-authoring.md) makes those
+steps executable; [plan inputs](../inputs/plans.md) explains the export.
 
 <!-- rootform:endsteps -->
 

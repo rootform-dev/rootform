@@ -1,225 +1,140 @@
 ---
 title: "Test and validate"
-description: "Use formatting, compilation, fixtures, and policy evaluation to prove .rf.hcl source before packaging it."
+description: "Format and compile Dialect source, replay plan fixtures, and evaluate a Policy Pack."
 ---
 
-Language authoring needs several checks because syntax validity alone cannot
-prove semantic meaning. Use the smallest command that answers the current
-question, then run the complete sequence before release.
+Use a small plan fixture to prove what a Dialect actually says about instances. Source validation checks language contracts; `rootform test` compares produced Rootform documents with reviewed `analysis.golden` files. A passing compile alone cannot prove that a provider attribute has the architectural meaning you intended.
+
+The example below follows a local `network-review` Dialect that interprets one `random_pet` instance. Start in a project containing this source and a plan fixture. The full source and plan setup appear in [Write a local Dialect](../guides/local-dialect.md). The layout at the point of testing is:
+
+```tree title="Project and fixture"
+.
+├── dialects/
+│   └── network-review/
+│       └── dialect.rf.hcl
+├── fixtures/
+│   └── network/
+│       ├── plan.json
+│       ├── plan.tfplan
+│       └── analysis.golden
+├── main.tf
+├── plan.json
+└── plan.tfplan
+```
+
+The plan JSON comes from `terraform show -json plan.tfplan`; OpenTofu users run `tofu show -json plan.tfplan`. Keep the saved plan and plan JSON together: they may contain clear-text secrets, so do not commit them from a real environment. The synthetic fixture shown here is safe for review. `rootform test --update` writes or replaces a golden, so review its change before accepting it.
 
 | Command | Question answered |
 | --- | --- |
-| `rootform fmt --check` | Would formatting leave source unchanged? |
-| `rootform validate dialects` | Do Dialect files compile with valid references and graph shape? |
-| `rootform validate rule` | Is one selected rule valid in its Dialect? |
-| `rootform test` | Do Dialect fixtures produce the reviewed Architecture IR bytes? |
-| `rootform check` | What do selected policies decide over a real architecture? |
-| `rootform package` | Can reviewed source become a deterministic distribution artifact? |
-
-`validate` does not evaluate policies. `test` is for Dialect architecture
-fixtures. `check` is for policy evaluation.
+| `rootform fmt --check` | Is source in canonical format? |
+| `rootform validate dialects` | Does the complete Dialect source compile? |
+| `rootform validate rule` | Is one selected Rule valid? |
+| `rootform test` | Do plan fixtures still produce reviewed documents? |
+| `rootform run` | What does a real plan and optional Policy Pack decide? |
 
 <!-- rootform:steps -->
 
 ## Format native and JSON source
 
-Check formatting without modifying files:
+Check without rewriting it:
 
+<!-- docs-check:language-test-format -->
 ```sh
-rootform fmt --check .
+rootform fmt --check ./dialects/network-review
 ```
 
-Apply canonical formatting during authoring:
-
-```sh
-rootform fmt .
-```
-
-Rootform formats `.rf.hcl` with its native formatter and indents `.rf.json`
-lexically. Formatting does not validate references or prove equivalence with a
-different source file. Keep both forms only when both are intended source;
-Rootform discovers both and neither overrides the other.
+Exit `0` and no output mean canonical formatting. Exit `1` lists files that would change. Run `rootform fmt ./dialects/network-review` during authoring, review the edit, then repeat the check. Formatting neither validates references nor establishes architecture meaning.
 
 ## Compile a Dialect source set
 
-From a Dialect repository or isolated source root, compile every discovered
-definition:
+Validate all definitions under the source root:
 
+<!-- docs-check:language-test-validate -->
 ```sh
-rootform validate dialects .
+rootform validate dialects ./dialects/network-review --color always
 ```
 
-Successful validation proves accepted syntax, exact identities and versions,
-reference scope, Rule and fact shapes, and a complete
-canonical artifact. It does not prove that a provider field has the meaning you
-assigned to it.
+<!-- docs-output:language-test-validate -->
+```ansi title="Valid Dialect output"
+[1m[32mDialect set valid[0m
 
-Use JSON when CI needs stable structured diagnostics:
-
-```sh
-rootform validate dialects . --format json
+[1m[38;5;208mDialects[0m
+  network-review@0.1.0
 ```
 
-Diagnostics go to standard error. Exit status `0` means valid, `1` means at
-least one definition is invalid, `2` means incorrect command use, and `3` means
-validation could not decide a result.
-
-Validation above reads the source set directly. Inspect one object from the
-project's active Dialects (embedded and selected Dialects):
-
-```sh
-rootform validate rule aws.rule.subnet
-rootform show aws.rule.subnet
-rootform validate concept rf.concept.subnet
-```
-
-Qualification removes ambiguity. A bare object name is accepted only when it
-resolves to one selected object.
-
-To inspect an object from a source directory the project does not select yet,
-add the same `--dialect` override that `build` accepts. It applies to that
-command only and never changes `rootform.lock`:
-
-```sh
-rootform validate rule payments.rule.gateway --dialect ./dialects/payments
-rootform explain semantics --dialect ./dialects/payments
-```
+Exit `0` proves accepted syntax, identities, references, Rule shapes, and a valid compiled artifact. An invalid definition exits `1`; incorrect command use exits `2`; a result that cannot be decided exits `3`. CI can use `--format json` for stable diagnostic codes. To inspect just one selected Rule, `rootform validate rule network-review.rule.service-name --dialect ./dialects/network-review` applies that source override for the command only. [Rules and matching](reference/rules.md) defines what validation checks.
 
 ## Compare a Dialect fixture
 
-Create small source cases around observable architectural consequences. A case
-qualifies when one directory contains Terraform/OpenTofu `.tf` source and an
-`architecture.golden` file:
+A fixture directory contains one `plan.json` or `state.json` and an `analysis.golden`. Keep the matching `plan.tfplan` beside plan JSON when reference identity matters. First review the produced architecture, then record the golden once with `rootform test ./fixtures --dialect ./dialects/network-review --update`. The `--update` flag writes every missing or differing golden; it is an authoring action, not a passing assertion.
 
-```tree title="Fixture suite"
-fixtures/
-└── example/
-    ├── minimal/
-    │   ├── main.tf
-    │   └── architecture.golden
-    └── boundary/
-        ├── main.tf
-        └── architecture.golden
-```
+Now replay the reviewed case:
 
-Before the first comparison, review the Architecture IR produced by the
-project's active Dialects, then save it as `architecture.golden`.
-`rootform test` compares against that file; it never updates it.
-
-Run the suite with embedded Dialects plus any project selection:
-
+<!-- docs-check:language-test-replay -->
 ```sh
-rootform test ./fixtures
+rootform test ./fixtures --dialect ./dialects/network-review --color always
 ```
 
-Narrow by case-name substring while iterating:
+<!-- docs-output:language-test-replay -->
+```ansi title="Fixture replay output"
+[1m[32mTests passed[0m
+1 case
+```
 
+Exit `0` means every selected fixture matched its golden. `--run network` narrows by case-name substring while iterating. Exit `1` means a difference or fixture error; inspect the source address, interpretation, facts, closures, diagnostics, and sensitive-value bounds before updating the golden. Exit `3` means the run could not start or no fixture matched. A golden is a Rootform document, not a Terraform plan or state export.
+
+## Inspect the plan result
+
+Run the same plan pair with the Dialect override to understand the fixture's result:
+
+<!-- docs-check:language-test-run -->
 ```sh
-rootform test ./fixtures --run example/minimal
+rootform run ./plan.json --plan-file ./plan.tfplan \
+  --dialect ./dialects/network-review --no-serve --color always
 ```
 
-While the Dialect under test is still a source directory, add it for this run:
+<!-- docs-output:language-test-run -->
+```ansi title="Plan summary excerpt"
+[1mPlan analyzed[0m
+[2mInput[0m         plan JSON from Terraform or OpenTofu 1.16.4
+[2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
 
-```sh
-rootform test ./fixtures --dialect ./dialects/payments
+[1m[38;5;208mArchitecture · planned[0m
+  [2mInstances[0m    1 (1 managed, 0 data)
+  [2mInterpreted[0m  1 of 1 instances
+  [2mFacts[0m        0: 0 relations, 0 contexts, 0 contributions
+  [2mClosures[0m     0: 0 resolved, 0 absent, 0 indeterminate
 ```
 
-Rootform builds every selected case and compares exact output bytes with the
-reviewed golden. A difference reports architectural changes by source address
-and limits the number of detail lines; it does not dump the architecture.
-
-Review a changed golden as product behavior. Check at least:
-
-- base representation IDs, applied Rules, and optional Concepts;
-- context, contribution, and relation facts;
-- composition membership;
-- source declaration interpretations;
-- provenance and diagnostics;
-- absence of raw sensitive values;
-- byte-identical repeat output.
-
-Positive fixtures prove intended meaning. Boundary fixtures prove where a rule
-must not match or where evidence must remain unresolved.
+The one instance has an applied Rule. This Rule classifies it and emits nothing, so zero facts and closures are expected. The export identifies the Terraform/OpenTofu family and version, but not which tool produced it. `--producer terraform` records which tool made the export when that distinction matters. The verified saved plan can supply traversal evidence for Rules that emit facts. If these counts change, inspect the document and golden before accepting a new result. The `--no-serve` flag exits after the summary; without it, `run` serves the Explorer on loopback.
 
 ## Evaluate policies over known facts
 
-Prepare an architecture project first, then compile and evaluate a local pack:
+The fixture proves interpretation, not compliance. Follow [Evaluate locally](write-policy-pack.md#evaluate-locally) to select a Policy Pack against known facts and inspect a passing and failing decision. A passing exit requires at least one selected evaluation. A confirmed violation exits `1`; indeterminate evidence or zero targets exits `3`. Do not edit a generated Rootform document to make a policy pass.
 
-```sh
-rootform check ./example --policy-pack ./policies
-```
-
-Use structured output to assert selection and coverage, not only process exit:
-
-```sh
-rootform check ./example \
-  --policy-pack ./policies \
-  --format json \
-  --output policy-result.json
-```
-
-A useful policy test matrix includes:
-
-| Case | Expected evidence |
+| Case | Expected result to assert |
 | --- | --- |
-| Passing target | Known true assertion and expected inspected fact IDs. |
-| Violating target | Known false assertion, expected message, target, and exit status `1`. |
-| Missing target | `not_evaluated`, `compliant = false`, coverage target count zero, exit `3`. |
-| Incomplete or incompatible architecture | Indeterminate result and exit status `3`. |
-| Unknown required vocabulary | Compile/link diagnostic, never a guessed decision. |
-
-Do not edit generated Architecture IR to create a passing case. Change source,
-Dialect, or policy input, then rebuild the evidence.
-
-To prove saved-input autonomy, persist linked governance and run it without
-source Dialects:
-
-```sh
-rootform compile policy-pack ./policies --semantics architecture.json \
-  --output policies.compiled.json
-rootform check architecture.json --policy-pack policies.compiled.json
-```
+| Passing target | At least one selected evaluation with a known-true assertion and exit `0` |
+| Violating target | Known-false assertion, Policy message, target identity, and exit `1` |
+| Zero targets | `no_decision`, zero evaluations, `POLICY_NO_DECISION`, and exit `3` |
+| Incomplete evidence | `indeterminate` with the closure or coverage reason, and exit `3` |
+| Missing required vocabulary | Link diagnostic, with no guessed policy decision |
 
 ## Inspect diagnostic ranges
 
-Keep the stable code and source range in failure assertions. Messages help
-people, but codes are the better automation boundary:
+Keep the diagnostic code and sanitized source range in assertions. For a match-only Rule, `rootform validate dialects` exits `1` and reports:
 
-```yaml title="Example assertion"
-code: CONCEPT_UNKNOWN
-path: network/rules.rf.hcl
-line: 18
-column: 10
+```ansi title="Invalid Rule excerpt"
+[1m[31mDialect set invalid (1 error)[0m
+
+[1m[38;5;208mdialect.rf.hcl[0m
+  9:1  RULE_NO_ARCHITECTURE  rule must add a classification, emission, or non-empty composition
 ```
 
-Paths are sanitized and relative to the source root. Native parser failures are
-reported as `HCL_PARSE`; Rootform shape and semantic failures use more specific
-codes. See [Diagnostics](reference/diagnostics.md) for remediation groups.
+The range identifies the Rule declaration; the code is stable for automation. `HCL_PARSE` instead reports invalid source syntax, while `EMISSION_PATH_UNDEFINED` means an emitted instance lacked the declared path. See [Diagnostics and limits](reference/diagnostics.md) for severity and recovery.
 
 ## Verify the package boundary
 
-After source and behavior pass, package locally. Replace example URLs with
-repository-owned values; use exact revision from checkout:
-
-```sh
-rootform package dialects . --to ./artifacts/dialects \
-  --source-url https://example.com/team/dialects \
-  --revision "$(git rev-parse HEAD)" \
-  --licenses MPL-2.0
-```
-
-For a Policy Pack:
-
-```sh
-rootform package policy-packs ./policies --to ./artifacts/policies \
-  --source-url https://example.com/team/policies \
-  --revision "$(git rev-parse HEAD)" \
-  --licenses Apache-2.0
-```
-
-Package commands are offline. Preview a Dialect layout with
-`rootform publish dialects ./artifacts/dialects --to registry.example --dry-run`.
-Policy Pack release automation should repull the published tag and digest
-before reporting success.
+After source, fixture, and policy behavior pass, follow [Dialect packaging](../dialect-authoring.md) or [Policy Pack authoring](write-policy-pack.md) for distribution checks. Packaging does not replace a reviewed golden or a real policy decision.
 
 <!-- rootform:endsteps -->

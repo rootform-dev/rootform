@@ -18,6 +18,11 @@ rule "group" {
     to  = concept.namespace
     via = source.namespace
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.namespace_id
       strategy = "dot-ancestor"
@@ -32,11 +37,25 @@ rule "role" {
 
   as = concept.access-role
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
     as  = context.ownership
     to  = concept.namespace
     via = source.namespace
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.namespace_id
       strategy = "dot-ancestor"
@@ -51,6 +70,15 @@ rule "existing-role" {
   }
 
   as = concept.access-role
+
+  identity {
+    attributes = ["role_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "role_id"]
+  }
 }
 
 rule "binding" {
@@ -64,9 +92,14 @@ rule "binding" {
     to  = concept.access-role
     via = source.role_id
 
+    on_null  = "absent"
+    on_empty = "absent"
     match {
-      by       = target.role_id
+      by       = target.id
       strategy = "exact"
     }
+
+    # Kestra generates role IDs and one provider configuration addresses one tenant, so a separate configuration can provision the role.
+    external = "allow"
   }
 }

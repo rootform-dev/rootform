@@ -2,6 +2,7 @@
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
+import { type PlanFixtureInventory, planFixtureInventoryProblems } from "./plan-fixtures.ts";
 
 type Inventory = {
   format_version: string;
@@ -26,8 +27,10 @@ const evidenceNames = new Set([
   "provider-baseline.json",
   "provider-boundaries-spike.md",
   "provider-compatibility.json",
+  "provider-registry-equivalence.json",
   "provider-source-inventory.json",
   "provider-surfaces-spike.md",
+  "plan-fixture-inventory.json",
   "rf-vocabulary-bindings.json",
   "rule-audit.json",
   "scenarios.json",
@@ -102,6 +105,167 @@ export function validateLock(value: unknown): void {
 }
 
 type RfBlock = { kind: "concept" | "rule"; name: string; text: string };
+
+type ContractBlock = {
+  kind: string;
+  name: string;
+  line: number;
+  parent?: ContractBlock;
+  fields: Map<string, { value: string; line: number; justification: boolean }>;
+  children: ContractBlock[];
+};
+
+// Official source uses one block opener or closer per line. Keep this check
+// small and independent of the compiler so repository review catches omitted
+// outcome declarations and undocumented external disclosure early.
+export function validateDialectContract(text: string, path: string): ContractBlock[] {
+  const lines = text.split("\n");
+  const roots: ContractBlock[] = [];
+  const stack: ContractBlock[] = [];
+  let comment = "";
+  for (const [index, line] of lines.entries()) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith("#")) {
+      comment = trimmed.slice(1).trim();
+      continue;
+    }
+    if (trimmed === "") continue;
+    const opener = /^(\w+)(?:\s+"([^"]+)")?\s*\{$/u.exec(trimmed);
+    if (opener) {
+      const parent = stack.at(-1);
+      const block: ContractBlock = {
+        kind: opener[1] ?? "",
+        name: opener[2] ?? "",
+        line: index + 1,
+        parent,
+        fields: new Map(),
+        children: [],
+      };
+      if (parent) parent.children.push(block);
+      else roots.push(block);
+      stack.push(block);
+      comment = "";
+      continue;
+    }
+    if (trimmed === "}") {
+      if (!stack.pop()) throw new Error(`unexpected block close: ${path}:${index + 1}`);
+      comment = "";
+      continue;
+    }
+    const assignment = /^([a-z_]+)\s*=\s*(.*?)\s*$/u.exec(trimmed);
+    if (assignment && stack.length > 0) {
+      stack.at(-1)?.fields.set(assignment[1] ?? "", {
+        value: assignment[2] ?? "",
+        line: index + 1,
+        justification: comment.length >= 20,
+      });
+    }
+    comment = "";
+  }
+  if (stack.length > 0) throw new Error(`unclosed block: ${path}:${stack.at(-1)?.line}`);
+
+  const all: ContractBlock[] = [];
+  const visit = (block: ContractBlock): void => {
+    all.push(block);
+    for (const child of block.children) visit(child);
+  };
+  for (const block of roots) visit(block);
+  for (const block of all) {
+    if (!["contribution", "relation", "context"].includes(block.kind) || !block.fields.has("via"))
+      continue;
+    for (const key of ["on_null", "on_empty"]) {
+      const value = block.fields.get(key)?.value;
+      if (value !== '"absent"' && value !== '"indeterminate"') {
+        throw new Error(`${path}:${block.line}: emission ${key} must be explicit`);
+      }
+    }
+    const external = block.fields.get("external");
+    const disclose = block.fields.get("disclose");
+    if (external && external.value !== '"allow"' && external.value !== '"deny"') {
+      throw new Error(`${path}:${external.line}: invalid external policy`);
+    }
+    if (external?.value === '"allow"' && !external.justification) {
+      throw new Error(`${path}:${external.line}: external allow needs a justification comment`);
+    }
+    if (disclose) {
+      if (external?.value !== '"allow"') {
+        throw new Error(`${path}:${disclose.line}: disclose requires external allow`);
+      }
+      if (!['"none"', '"record"', '"report"'].includes(disclose.value)) {
+        throw new Error(`${path}:${disclose.line}: invalid disclosure tier`);
+      }
+      if (disclose.value !== '"none"' && !disclose.justification) {
+        throw new Error(`${path}:${disclose.line}: disclosure needs a justification comment`);
+      }
+    }
+  }
+  return all;
+}
+
+// Every emission target rule declares identity and endpoint attributes: a
+// candidate whose type lacks the match attribute is compared on its identity
+// attributes, and a traversal pairs only with a declared endpoint attribute.
+function validateTargetContracts(inventory: Inventory): void {
+  // A concept of the shared rf vocabulary is interpreted by rules of several
+  // Dialects, so one Dialect cannot declare its identity alone. The official
+  // set must still declare every attribute an emission matches such a
+  // concept by.
+  const sharedIdentity = new Map<string, Set<string>>();
+  const sharedMatches: { path: string; line: number; concept: string; by: string }[] = [];
+  for (const { name } of inventory.dialects) {
+    const located = filesBelow(join(root, name))
+      .filter((path) => path.endsWith(".rf.hcl"))
+      .flatMap((path) =>
+        validateDialectContract(readFileSync(join(root, path), "utf8"), path).map((block) => ({
+          block,
+          path,
+        })),
+      );
+    const blocks = located.map(({ block }) => block);
+    const rules = blocks.filter((block) => block.kind === "rule");
+    for (const rule of rules) {
+      const concept = rule.fields.get("as")?.value;
+      const identity = rule.children.find((child) => child.kind === "identity");
+      const attributes = identity?.fields.get("attributes")?.value;
+      if (!concept?.startsWith("rf.concept.") || attributes === undefined) continue;
+      const declared = sharedIdentity.get(concept) ?? new Set<string>();
+      for (const attribute of JSON.parse(attributes) as string[]) declared.add(attribute);
+      sharedIdentity.set(concept, declared);
+    }
+    for (const { block, path } of located) {
+      const concept = block.fields.get("to")?.value;
+      const by = block.children.find((child) => child.kind === "match")?.fields.get("by")?.value;
+      if (!["contribution", "relation", "context"].includes(block.kind)) continue;
+      if (!concept?.startsWith("rf.concept.") || !by?.startsWith("target.")) continue;
+      sharedMatches.push({ path, line: block.line, concept, by: by.slice("target.".length) });
+    }
+    for (const emission of blocks.filter(
+      (block) =>
+        ["contribution", "relation", "context"].includes(block.kind) && block.fields.has("via"),
+    )) {
+      const target = emission.fields.get("to")?.value;
+      const candidates = rules.filter((rule) =>
+        target?.startsWith("rule.")
+          ? rule.name === target.slice(5)
+          : rule.fields.get("as")?.value === target,
+      );
+      for (const candidate of candidates) {
+        const identity = candidate.children.find((child) => child.kind === "identity");
+        const endpoint = candidate.children.find((child) => child.kind === "endpoint");
+        if (!identity || !endpoint) {
+          throw new Error(`${name}: target rule ${candidate.name} needs identity and endpoint`);
+        }
+      }
+    }
+  }
+  for (const { path, line, concept, by } of sharedMatches) {
+    if (!sharedIdentity.get(concept)?.has(by)) {
+      throw new Error(
+        `${path}:${line}: ${concept} is matched by ${by}, which no official rule declares as identity`,
+      );
+    }
+  }
+}
 
 // MirrorPairCandidate is a resource rule that only reclassifies its own type
 // into a local concept: static match, no where, no emission, and a concept used
@@ -199,6 +363,123 @@ export function declaredRuleIds(inventory: Inventory): Set<string> {
     }
   }
   return ids;
+}
+
+export function emittingRuleIds(inventory: Inventory): Record<string, string[]> {
+  const result: Record<string, string[]> = {};
+  for (const { name } of inventory.dialects) {
+    const emitting = new Set<string>();
+    for (const path of filesBelow(join(root, name)).filter((candidate) =>
+      candidate.endsWith(".rf.hcl"),
+    )) {
+      const body = readFileSync(join(root, path), "utf8");
+      for (const block of parseRfBlocks(body)) {
+        if (block.kind === "rule" && /^\s*via\s*=/mu.test(block.text)) {
+          emitting.add(`${name}.rule.${block.name}`);
+        }
+      }
+    }
+    result[name] = [...emitting].sort();
+  }
+  return result;
+}
+
+function validatePlanFixtureInventory(inventory: Inventory): void {
+  const path = join(root, "evidence", "plan-fixture-inventory.json");
+  const value = JSON.parse(readFileSync(path, "utf8")) as PlanFixtureInventory;
+  const problems = planFixtureInventoryProblems(
+    value,
+    join(root, "fixtures"),
+    emittingRuleIds(inventory),
+  );
+  if (problems.length > 0) throw new Error(problems.join("\n"));
+}
+
+export type ProviderBinding = {
+  dialect: string;
+  source: string;
+  version: string;
+};
+
+export type RegistryEquivalence = ProviderBinding & {
+  archives: string;
+  checks: {
+    version: string;
+    platform: string;
+    terraform_sha256: string;
+    opentofu_sha256: string;
+  }[];
+};
+
+const sha256Pattern = /^[0-9a-f]{64}$/u;
+
+// A shorthand provider binding covers registry.terraform.io and
+// registry.opentofu.org, so each one needs evidence that both
+// registries serve the same provider: identical release archives, or for
+// hashicorp sources an OpenTofu rebuild of the same release tag.
+export function registryEquivalenceProblems(
+  bindings: ProviderBinding[],
+  evidence: RegistryEquivalence[],
+): string[] {
+  const problems: string[] = [];
+  const key = ({ dialect, source, version }: ProviderBinding): string =>
+    [dialect, source, version].join("|");
+  const recorded = new Map(evidence.map((entry) => [key(entry), entry]));
+  const shorthand = bindings.filter(({ source }) => source.split("/").length === 2);
+  for (const binding of shorthand) {
+    const entry = recorded.get(key(binding));
+    const label = `${binding.dialect}: ${binding.source}`;
+    if (!entry || entry.checks.length === 0) {
+      problems.push(`${label} has no registry equivalence evidence`);
+      continue;
+    }
+    if (
+      !entry.checks.every(
+        (check) =>
+          sha256Pattern.test(check.terraform_sha256) && sha256Pattern.test(check.opentofu_sha256),
+      )
+    ) {
+      problems.push(`${label} evidence lacks an archive digest from each registry`);
+      continue;
+    }
+    const identical = entry.checks.every(
+      (check) => check.terraform_sha256 === check.opentofu_sha256,
+    );
+    if (entry.archives !== (identical ? "identical" : "rebuilt")) {
+      problems.push(`${label} evidence does not match its archive digests`);
+    }
+    if (!identical && !binding.source.startsWith("hashicorp/")) {
+      problems.push(`${label} archives differ between registries; bind one host explicitly`);
+    }
+  }
+  const bound = new Set(shorthand.map(key));
+  for (const entry of evidence) {
+    if (!bound.has(key(entry)))
+      problems.push(`${entry.dialect}: stale registry evidence for ${entry.source}`);
+  }
+  return problems;
+}
+
+function validateRegistryEquivalence(inventory: Inventory): void {
+  const bindings: ProviderBinding[] = [];
+  for (const { name } of inventory.dialects) {
+    const body = readFileSync(join(root, name, "dialect.rf.hcl"), "utf8");
+    for (const match of body.matchAll(/provider\s+"([^"]+)"\s*\{\s*version\s*=\s*"([^"]+)"/gu)) {
+      bindings.push({
+        dialect: name,
+        source: match[1] ?? "",
+        version: match[2] ?? "",
+      });
+    }
+  }
+  const value = JSON.parse(
+    readFileSync(join(root, "evidence", "provider-registry-equivalence.json"), "utf8"),
+  ) as { format_version?: string; bindings?: RegistryEquivalence[] };
+  if (value.format_version !== "1" || !Array.isArray(value.bindings)) {
+    throw new Error("provider registry equivalence evidence is malformed");
+  }
+  const problems = registryEquivalenceProblems(bindings, value.bindings);
+  if (problems.length > 0) throw new Error(problems.join("\n"));
 }
 
 export type UndeclaredRuleReference = { file: string; path: string; ref: string };
@@ -378,7 +659,7 @@ export function validateRepository(): void {
     }
     if (
       path !== "scripts/validate-repository.ts" &&
-      /\.(?:json|md|rf|tf|ts|yml|yaml)$/u.test(path)
+      /\.(?:golden|json|md|rf|tf|tfvars|ts|txt|yml|yaml)$/u.test(path)
     ) {
       const body = readFileSync(join(root, path), "utf8");
       if (forbiddenText.test(body))
@@ -412,6 +693,9 @@ export function validateRepository(): void {
     throw new Error(`${mirrors.length} redundant resource-mirror pair(s) remain: ${sample}`);
   }
   validatePresentationManifests();
+  validateTargetContracts(inventory);
+  validatePlanFixtureInventory(inventory);
+  validateRegistryEquivalence(inventory);
 
   const danglingRules = undeclaredRuleReferences(inventory);
   if (danglingRules.length > 0) {

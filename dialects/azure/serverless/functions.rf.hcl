@@ -6,22 +6,58 @@ rule "flex-consumption-function-app" {
 
   as = concept.serverless-function
 
-  context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
   }
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.subnet
-    via = source.virtual_network_subnet_id
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = rf.context.runtime
-    to  = concept.app-service-plan
-    via = source.service_plan_id
+    as       = rf.context.network
+    to       = rf.concept.subnet
+    via      = source.virtual_network_subnet_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared subnet instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+
+  context {
+    as       = rf.context.runtime
+    to       = concept.app-service-plan
+    via      = source.service_plan_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -31,6 +67,15 @@ rule "function-app-function" {
   }
 
   as = concept.serverless-function
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "linux-function-app" {
@@ -40,27 +85,70 @@ rule "linux-function-app" {
 
   as = concept.serverless-function
 
-  context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
   }
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.subnet
-    via = source.virtual_network_subnet_id
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = rf.context.runtime
-    to  = concept.app-service-plan
-    via = source.service_plan_id
+    as       = rf.context.network
+    to       = rf.concept.subnet
+    via      = source.virtual_network_subnet_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared subnet instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+
+  context {
+    as       = rf.context.runtime
+    to       = concept.app-service-plan
+    via      = source.service_plan_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "observed-by" {
-    to  = concept.application-insights
-    via = source.site_config[0].application_insights_connection_string
+    to       = concept.application-insights
+    via      = source.site_config[0].application_insights_connection_string
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.connection_string
+      strategy = "exact"
+    }
   }
 }
 
@@ -71,9 +159,69 @@ rule "windows-function-app" {
 
   as = concept.serverless-function
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+
+  context {
+    as       = rf.context.network
+    to       = rf.concept.subnet
+    via      = source.virtual_network_subnet_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared subnet instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+
+  context {
+    as       = rf.context.runtime
+    to       = concept.app-service-plan
+    via      = source.service_plan_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+
+  relation "observed-by" {
+    to       = concept.application-insights
+    via      = source.site_config[0].application_insights_connection_string
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.connection_string
+      strategy = "exact"
+    }
   }
 }

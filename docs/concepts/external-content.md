@@ -102,7 +102,7 @@ only that project copy and rejects missing, extra, or changed content. It
 does not fall back to an installed copy. Selection changes keep an existing
 vendor family in step with the lock.
 
-Vendoring is optional. Use it when builds need no prepared Rootform home or
+Vendoring is optional. Use it when analyses need no prepared Rootform home or
 when dependency content belongs in the project review. `vendor` can acquire
 missing selected OCI content unless `--offline` is set.
 
@@ -150,12 +150,14 @@ part of a selected Pack, filter one run with `--policy`:
 
 <!-- docs-check:external-content-5 -->
 ```sh
-rootform check . --policy 'tutorial/*'
+rootform run plan.json --plan-file plan.tfplan --policy 'baseline/*' --no-serve
 ```
 
-This assumes the project selects a `tutorial` Policy Pack. The filter does
-not change `rootform.lock`; it still selects the whole Pack. The check exits
-according to the filtered Policies' outcomes.
+This assumes the project selects a `baseline` Policy Pack and that the saved
+plan matches the JSON. The filter does not change `rootform.lock`; it still
+selects the whole Pack. The result counts only policies matching `baseline/*`.
+Status `0` means every selected target passed, `1` reports a violation, and
+`3` means the evidence is indeterminate or no decision was made.
 
 ## Next
 

@@ -33,15 +33,17 @@ rootform show policy-pack <name> [flags]
 
 <!-- END GENERATED CLI -->
 
-After creating `./policies` in [Run checks](../../../guides/check-architecture.md):
+From a checkout of the repository, inspect the public baseline Pack. This
+shows identity and contained Policies; it does not evaluate them.
 
 <!-- docs-check:cli-show-policy-pack -->
 ```sh
-rootform show policy-pack tutorial --policy-pack ./policies
-rootform show policy-pack tutorial --policy-pack ./policies -o json
+rootform show policy-pack baseline --policy-pack ./policy-packs/baseline
+rootform show policy-pack baseline --policy-pack ./policy-packs/baseline -o json
 ```
 
-Text or JSON goes to standard output, diagnostics to standard error. Status
+The result names version `0.1.0` and two Policies. Text or JSON goes to
+standard output, diagnostics to standard error. Status
 `0` means shown, `1` means name not found, `2` means incorrect use, and `3`
 means no single pack could be selected. Use
 [`list policy-packs`](../list/policy-packs.md) for the available names and

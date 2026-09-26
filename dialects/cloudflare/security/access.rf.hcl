@@ -29,28 +29,51 @@ rule "access-application" {
   as = concept.access-application
 
   relation "protects" {
-    to  = concept.load-balancer
-    via = source.domain
+    to       = concept.serverless-function
+    via      = source.destinations[0].worker_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "protects" {
-    to  = concept.serverless-function
-    via = source.destinations[0].worker_id
+    to       = concept.serverless-function
+    via      = source.destinations[1].worker_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "protects" {
-    to  = concept.serverless-function
-    via = source.destinations[1].worker_id
+    to       = concept.serverless-function
+    via      = source.destinations[2].worker_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "protects" {
-    to  = concept.serverless-function
-    via = source.destinations[2].worker_id
-  }
+    to       = concept.serverless-function
+    via      = source.destinations[3].worker_id
+    on_null  = "absent"
+    on_empty = "absent"
 
-  relation "protects" {
-    to  = concept.serverless-function
-    via = source.destinations[3].worker_id
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 

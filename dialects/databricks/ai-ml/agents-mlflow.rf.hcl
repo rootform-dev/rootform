@@ -20,6 +20,15 @@ rule "knowledge-assistant" {
   }
 
   as = concept.knowledge-assistant
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "knowledge-assistant-source" {
@@ -30,8 +39,15 @@ rule "knowledge-assistant-source" {
   as = concept.ml-platform-detail
 
   contribution {
-    to  = concept.knowledge-assistant
-    via = source.parent
+    to       = concept.knowledge-assistant
+    via      = source.parent
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -41,6 +57,15 @@ rule "supervisor-agent" {
   }
 
   as = concept.supervisor-agent
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "supervisor-agent-tool" {
@@ -51,8 +76,15 @@ rule "supervisor-agent-tool" {
   as = concept.ml-platform-detail
 
   contribution {
-    to  = concept.supervisor-agent
-    via = source.parent
+    to       = concept.supervisor-agent
+    via      = source.parent
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -64,9 +96,16 @@ rule "registered-model" {
   as = concept.registered-model
 
   context {
-    as  = context.ownership
-    to  = concept.unity-catalog-schema
-    via = source.schema_name
+    as       = context.ownership
+    to       = concept.unity-catalog-schema
+    via      = source.schema_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 

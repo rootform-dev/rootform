@@ -22,10 +22,26 @@ rule "lakehouse-federation-connection" {
 
   as = concept.lakehouse-federation-connection
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.unity-catalog-metastore
-    via = source.metastore_id
+    as       = context.ownership
+    to       = concept.unity-catalog-metastore
+    via      = source.metastore_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -35,6 +51,15 @@ rule "delta-share" {
   }
 
   as = concept.delta-share
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 
@@ -44,4 +69,13 @@ rule "delta-sharing-provider" {
   }
 
   as = concept.delta-sharing-provider
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }

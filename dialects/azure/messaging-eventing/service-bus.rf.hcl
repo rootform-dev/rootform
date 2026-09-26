@@ -6,10 +6,29 @@ rule "service-bus-namespace" {
 
   as = concept.messaging-namespace
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -20,10 +39,29 @@ rule "service-bus-queue" {
 
   as = concept.message-queue
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.messaging-namespace
-    via = source.namespace_id
+    as       = context.ownership
+    to       = concept.messaging-namespace
+    via      = source.namespace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # A full ARM resource ID names one namespace, which a separate configuration can provision.
+    external = "allow"
   }
 }
 
@@ -35,14 +73,28 @@ rule "service-bus-subscription" {
   as = concept.message-subscription
 
   context {
-    as  = context.ownership
-    to  = concept.service-bus-topic
-    via = source.topic_id
+    as       = context.ownership
+    to       = concept.service-bus-topic
+    via      = source.topic_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "subscribes-to" {
-    to  = concept.service-bus-topic
-    via = source.topic_id
+    to       = concept.service-bus-topic
+    via      = source.topic_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -61,9 +113,28 @@ rule "service-bus-topic" {
 
   as = concept.service-bus-topic
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.messaging-namespace
-    via = source.namespace_id
+    as       = context.ownership
+    to       = concept.messaging-namespace
+    via      = source.namespace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # A full ARM resource ID names one namespace, which a separate configuration can provision.
+    external = "allow"
   }
 }

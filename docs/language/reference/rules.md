@@ -1,11 +1,9 @@
 ---
 title: "Rules and matching"
-description: "Complete reference for Rule declarations, source matching, all match kinds, classification, and selection precedence."
+description: "Rule declarations, instance matching, identity, and selection precedence."
 ---
 
-A Rule interprets one normalized source declaration. Successful application
-adds Rule identity, may add optional Concept classification, and may emit
-architecture facts or claim composition members.
+A Rule interprets one managed or data resource instance in a plan JSON or state JSON. Its `match` decides eligibility; `as` assigns an optional Concept; emissions and composition add further architecture meaning. The Rule name alone creates no Concept or fact.
 
 ## Complete example
 
@@ -13,25 +11,30 @@ architecture facts or claim composition members.
 dialect "example" {
   version = "0.1.0"
 
-  provider "hashicorp/example" {
-    version = ">= 1.0.0, < 2.0.0"
+  provider "hashicorp/aws" {
+    version = ">= 6.0.0, < 7.0.0"
   }
 }
 
-concept "application" {
-  description = "A deployable application."
-}
-
-rule "web-service" {
+rule "bucket" {
   match {
-    kind  = "resource"
-    type  = "example_service"
-    where = source.enabled == true && source.replicas >= 2
+    type = "aws_s3_bucket"
   }
 
-  as = concept.application
+  as = rf.concept.object-storage-container
+
+  identity {
+    attributes = ["bucket"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "bucket", "arn"]
+  }
 }
 ```
+
+The official AWS Dialect uses this shape for buckets. `bucket` is an instance identity attribute; `id`, `bucket`, and `arn` are endpoint paths that a verified saved-plan traversal may name. Neither block publishes its values. See [Fact emissions](emissions.md#matching-target-identities) for target resolution.
 
 ## `rule` block
 
@@ -39,176 +42,119 @@ rule "web-service" {
 | --- | --- |
 | Placement | Top level of a Dialect source root |
 | Cardinality | Zero or more |
-| Labels | Exactly one required Rule name |
-| Attributes | Optional `as` |
-| Nested blocks | Exactly one `match`; zero or more emissions; zero or one `composition` |
+| Label | Exactly one Rule name, unique within the Dialect |
+| Attributes | Optional `as` Concept reference |
+| Nested blocks | Exactly one `match`; optional `identity`, `endpoint`, and `composition`; zero or more emissions |
+
+A Rule must have `as`, at least one emission, or a nonempty composition. A match-only Rule fails validation with `RULE_NO_ARCHITECTURE`. The Rule has no `description` attribute. See [Member resolution](composition.md#member-resolution) for per-instance evidence and [Unresolved members](composition.md#unresolved-members) for what remains when one member cannot be established.
 
 ### Parameters
 
-| Name | Type | Required | Default | Constraints |
+| Name | Type | Required | Default | Constraint |
 | --- | --- | --- | --- | --- |
-| Label | Identifier | Yes | None | Lowercase kebab case, 1-64 bytes; unique within Dialect |
-| `as` | Concept reference | No | No Concept | Local/current-owner or supported `rf.concept.*` reference |
+| Label | Identifier | Yes | None | Lowercase kebab case, 1–64 bytes |
+| `as` | Concept reference | No | No Concept | Local/current owner or supported `rf.concept.*` |
 
 ### Nested blocks
 
 | Block | Cardinality | Purpose |
 | --- | --- | --- |
-| `match` | Exactly 1 | Select source declarations |
-| `context` | 0 or more | Emit directed Context facts |
-| `relation` | 0 or more | Emit directed Relation facts |
-| `contribution` | 0 or more | Emit directed Contribution facts |
-| `composition` | 0 or 1 | Claim ordered implementation members |
-
-A Rule must provide architecture meaning through at least one of:
-
-- `as`;
-- one or more emissions;
-- a nonempty `composition`.
-
-A match-only Rule is invalid with `RULE_NO_ARCHITECTURE`. A Rule has no
-`description` attribute. Its name and source type do not implicitly create a
-Concept.
+| `match` | Exactly one | Choose eligible instances |
+| `identity` | Zero or one | Name value attributes for target matching |
+| `endpoint` | Zero or one | Name attributes a saved-plan traversal can pair with this instance |
+| `context`, `relation`, `contribution` | Zero or more | Emit facts; see [Fact emissions](emissions.md#forms-and-parameters) |
+| `composition` | Zero or one | Claim ordered members |
 
 ## `match` block
 
-```rf title="match block"
+```rf title="Rule match"
 match {
   kind  = "resource"
-  type  = "example_service"
-  where = source.enabled == true && source.replicas >= 2
+  type  = "aws_s3_bucket"
+  where = source.bucket == "logs"
 }
 ```
 
 | Property | Contract |
 | --- | --- |
-| Placement | Exactly once inside `rule`; exactly once inside each composition `member` |
-| Cardinality | Exactly one at either placement |
-| Labels | Forbidden |
-| Attributes | `kind`, `type`, `where` |
-| Nested blocks | None |
+| Placement | Exactly once inside `rule` or a composition `member` |
+| Labels and nested blocks | Forbidden |
+| Attributes | `kind`, `type`, and optional `where` |
 
-### Parameters
-
-| Name | Type | Required | Default | Constraints |
+| Name | Type | Required | Default | Constraint |
 | --- | --- | --- | --- | --- |
-| `kind` | Static string enum | No | `"resource"` | One of 15 values below |
-| `type` | Static string | Yes | None | Nonempty, exact adapter-owned declaration type |
-| `where` | Predicate expression | No | Equivalent to known `true` | Must follow [predicate grammar](expressions.md#predicate-expressions) |
+| `kind` | Static string | No | `"resource"` | `"resource"` or `"data"` for plan/state instances |
+| `type` | Static string | Yes | None | Exact, nonempty resource type; case-sensitive |
+| `where` | Predicate | No | Known `true` | Closed [predicate grammar](expressions.md#predicate-expressions) |
 
-`type` is case-sensitive and exact. RF does not glob, prefix-match, or infer
-it from Rule name.
+`match` has no label or nested block. `where` reads the instance's available `source.*` values. An unknown or sensitive operand can make the predicate indeterminate; it cannot make a candidate false. A bare traversal such as `where = source.enabled` is not a Boolean predicate and produces `PREDICATE_UNRESOLVED` during validation.
 
 ## `match.kind` values
 
-Set is closed. Dialects cannot introduce new kinds.
+The language keeps a closed 15-value set. Plan/state analysis provides only the first two populations:
 
-| Value | Normalized source construct | Automatic base representation |
+| Value | Construct | Plan/state instances |
 | --- | --- | --- |
-| `settings` | Terraform/OpenTofu `terraform` settings block | No |
-| `provider` | Provider configuration | No |
 | `resource` | Managed resource | Yes |
-| `data` | Data source | No |
-| `ephemeral` | Ephemeral resource | No |
-| `action` | Action block | No |
-| `module` | Module call | No |
-| `variable` | Input variable | No |
-| `local` | Individual local value | No |
-| `output` | Output value | No |
-| `moved` | Moved declaration | No |
-| `removed` | Removed declaration | No |
-| `import` | Import declaration | No |
-| `check` | Check block | No |
-| `language` | OpenTofu `language` settings block | No |
+| `data` | Data source | Yes |
+| `settings`, `provider`, `ephemeral`, `action`, `module` | Other infrastructure constructs | No |
+| `variable`, `local`, `output` | Values declared in configuration | No |
+| `moved`, `removed`, `import`, `check`, `language` | Other configuration constructs | No |
 
-Current Terraform and OpenTofu adapters expose a nonempty declaration
-`type` for managed resources, data sources, ephemeral resources, and actions.
-Other kinds remain part of RF's closed kind vocabulary but require source
-adapter evidence with a nonempty type before a Rule can match them.
+The other values remain accepted language syntax, but plan and state inputs contain no instances of those kinds, so a Rule that matches one never applies. `type` never glob-matches or follows the Rule name.
 
-Only `resource` receives a base representation without a Rule. Every other
-kind receives a representation only after one Rule applies successfully.
-Therefore resource coverage and Rule coverage are different measurements.
+## Identity and endpoint declarations
+
+| Block | Attribute | Required | Default | Meaning |
+| --- | --- | --- | --- | --- |
+| `identity` | `attributes` | Yes | None | Nonempty, distinct attribute paths eligible for an emission's `match.by` |
+| `identity` | `scope` | No | `"provider"` | `"provider"` requires compatible provider address and alias; `"global"` permits cross-provider candidates |
+| `endpoint` | `attributes` | Yes | None | Nonempty, distinct paths a verified traversal may use to identify the instance |
+
+These attributes are declared on a target Rule, not inferred from a Concept. A target with an unavailable provider alias remains a possible candidate, so Rootform cannot force a unique value match around it. `scope = "global"` changes candidate eligibility, not the meaning of an identity value. With `--plan-file`, a direct reference to a declared endpoint can establish the exact instance even if its evaluated value is unknown or shared. [Traversals and scope](traversals.md#value-and-identity-evidence) gives the supported expression forms.
 
 ## Classification with `as`
 
-```rf title="optional Concept classification"
-as = concept.application
-as = rf.concept.virtual-network
-```
-
-`as` attaches exactly one Concept to representation. It is optional when Rule
-emits facts or has composition. RF has no Concept inference, inheritance, union,
-or list classification.
-
-Local reference resolves only in current Dialect. Qualified reference may name
-current owner or an available [RF Vocabulary](rf-vocabulary.md) Concept.
+`as` assigns one Concept to an interpreted instance. A Rule can instead emit facts or compose members without a Concept. There is no Concept inheritance or automatic classification from resource type. The built-in [RF Vocabulary](rf-vocabulary.md) supplies shared Concepts; a Dialect can declare local ones.
 
 ## Eligibility pipeline
 
-For each source declaration and Rule, Rootform evaluates:
+For each instance, Rootform checks, in order:
 
-1. `kind` equality;
-2. exact `type` equality;
-3. declared provider source compatibility;
-4. exact provider version compatibility when exact evidence exists;
-5. optional `where` predicate.
+1. mode (`resource` or `data`);
+2. exact resource type;
+3. provider source address;
+4. optional `where` predicate.
 
-Kind, type, or unrelated provider-source mismatch rejects candidate silently.
-Missing provider identity can be indeterminate when Dialect has a compatible
-provider envelope. Known exact version outside envelope marks candidate
-incompatible. Unknown predicate input never becomes `false`; candidate is
-indeterminate.
+The Dialect manifest declares a provider version envelope, but plan/state Rule selection does not compare an observed exact provider version to it. A Dialect provider shorthand such as `hashicorp/aws` binds its corresponding Terraform and OpenTofu public-registry addresses; a fully qualified host binds only that host. An unbound provider is reported with `PROVIDER_UNBOUND`. Do not use a version constraint to distinguish two Rules for the same instance.
 
 ## Selection precedence
 
-After all candidate Rules are classified for one declaration, outcome uses this
-precedence:
-
 | Priority | Condition | Result |
 | --- | --- | --- |
-| 1 | More than one accepted Rule | `AMBIGUOUS_RULE_MATCH`; no Rule applies |
-| 2 | Any predicate-indeterminate candidate | `PREDICATE_UNRESOLVED`; no Rule applies |
-| 3 | Any provider-unresolved candidate | `PROVIDER_IDENTITY_UNRESOLVED`; no Rule applies |
-| 4 | Exactly one accepted Rule | Rule applies |
-| 5 | One or more version-incompatible candidates | `PROVIDER_VERSION_INCOMPATIBLE`; no Rule applies |
-| 6 | No candidate remains | No Rule applies, without match diagnostic |
+| 1 | More than one Rule accepted | `RULE_MATCH_AMBIGUOUS`; no Rule applies |
+| 2 | An eligible Rule has an indeterminate predicate | Interpretation indeterminate; no Rule selected around it |
+| 3 | Exactly one Rule accepted | Apply it |
+| 4 | No Rule accepted | Keep the instance without an applied Rule or Concept |
 
-This precedence means one accepted Rule is not selected around a predicate or
-provider uncertainty. Version-incompatible candidates do not block a sole
-accepted Rule because accepted selection has higher precedence. There is no
-priority by file order, package origin, or Rule name.
-
-See [Evaluation](evaluation.md#rule-selection) for representation and policy
-effects.
+If a resource type could match but no selected Dialect binds its provider address, interpretation fails with `PROVIDER_UNBOUND` before Rule selection. There is no priority by file order, Dialect origin, or Rule name. A managed or data instance with no matching Rule still has a Representation in the Rootform document. It has no invented classification or emissions. Policy selection can also include an instance whose possible Rule is indeterminate or failed, producing an indeterminate policy evaluation; see [Evaluation](evaluation.md#policy-target-selection). [Rule selection](evaluation.md#rule-selection) places this step in the analysis pipeline.
 
 ## Rejected forms
-
-This complete source has a match-only Rule:
 
 ```rf title="invalid/match-only.rf.hcl"
 dialect "example" {
   version = "0.1.0"
 
-  provider "hashicorp/example" {
-    version = ">= 1.0.0"
+  provider "hashicorp/aws" {
+    version = ">= 6.0.0"
   }
 }
 
 rule "no-architecture" {
   match {
-    type = "example_service"
+    type = "aws_s3_bucket"
   }
 }
 ```
 
-It produces `RULE_NO_ARCHITECTURE`.
-
-A bare traversal is not a Boolean predicate:
-
-```rf title="invalid predicate"
-where = source.enabled
-```
-
-Use an explicit comparison such as `source.enabled == true`. Bare traversal
-produces `PREDICATE_UNRESOLVED`.
+`rootform validate dialects` reports `RULE_NO_ARCHITECTURE`. Add an `as`, an emission, or a nonempty composition only when it expresses intended meaning. [Test and validate](../test-validate.md) shows how to check a Rule against a plan fixture.

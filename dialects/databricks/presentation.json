@@ -140,7 +140,6 @@
     "workspace-base-environment": "generic/entity",
     "workspace-binding": "generic/entity",
     "workspace-configuration": "generic/entity",
-    "workspace-customer-managed-key": "generic/entity",
     "workspace-deployment-credential": "generic/identity",
     "workspace-entity-tag-assignment": "generic/entity",
     "workspace-group-member": "generic/identity",
@@ -293,7 +292,6 @@
     "workspace-base-environment": "Databricks workspace base environment",
     "workspace-binding": "Databricks workspace binding",
     "workspace-configuration": "Databricks workspace configuration",
-    "workspace-customer-managed-key": "Databricks workspace customer-managed key",
     "workspace-deployment-credential": "Databricks workspace deployment credential",
     "workspace-entity-tag-assignment": "Databricks workspace entity tag assignment",
     "workspace-group-member": "Databricks workspace group member",
@@ -358,7 +356,6 @@
     "workspace": "generic/scope",
     "workspace-configuration": "generic/entity",
     "workspace-deployment-credential": "generic/identity",
-    "workspace-key-configuration": "generic/entity",
     "workspace-network-configuration": "generic/network",
     "workspace-root-storage": "generic/storage"
   },
@@ -414,30 +411,31 @@
     "workspace": "Databricks workspace",
     "workspace-configuration": "Databricks workspace configuration",
     "workspace-deployment-credential": "Databricks workspace deployment credential",
-    "workspace-key-configuration": "Databricks workspace key configuration",
     "workspace-network-configuration": "Databricks workspace network configuration",
     "workspace-root-storage": "Databricks workspace root storage"
   },
   "resources": {
-    "resource/databricks_notification_destination": "generic/entity",
     "resource/databricks_app": "generic/entity",
     "resource/databricks_app_space": "generic/scope",
-    "resource/databricks_sql_endpoint": "generic/entity",
-    "resource/databricks_recipient": "generic/entity",
-    "resource/databricks_online_store": "generic/database",
-    "resource/databricks_disaster_recovery_failover_group": "generic/entity",
     "resource/databricks_custom_app_integration": "generic/identity",
-    "resource/databricks_data_quality_refresh": "generic/entity"
+    "resource/databricks_data_quality_refresh": "generic/entity",
+    "resource/databricks_disaster_recovery_failover_group": "generic/entity",
+    "resource/databricks_mws_customer_managed_keys": "generic/entity",
+    "resource/databricks_notification_destination": "generic/entity",
+    "resource/databricks_online_store": "generic/database",
+    "resource/databricks_recipient": "generic/entity",
+    "resource/databricks_sql_endpoint": "generic/entity"
   },
   "resource_labels": {
-    "resource/databricks_notification_destination": "Databricks notification destination",
     "resource/databricks_app": "Databricks App",
     "resource/databricks_app_space": "Databricks App space",
-    "resource/databricks_sql_endpoint": "Databricks SQL warehouse",
-    "resource/databricks_recipient": "Delta Sharing recipient",
-    "resource/databricks_online_store": "Databricks online store",
-    "resource/databricks_disaster_recovery_failover_group": "Databricks disaster recovery failover group",
     "resource/databricks_custom_app_integration": "Databricks custom app integration",
-    "resource/databricks_data_quality_refresh": "Databricks data quality refresh"
+    "resource/databricks_data_quality_refresh": "Databricks data quality refresh",
+    "resource/databricks_disaster_recovery_failover_group": "Databricks disaster recovery failover group",
+    "resource/databricks_mws_customer_managed_keys": "Databricks workspace customer-managed key",
+    "resource/databricks_notification_destination": "Databricks notification destination",
+    "resource/databricks_online_store": "Databricks online store",
+    "resource/databricks_recipient": "Delta Sharing recipient",
+    "resource/databricks_sql_endpoint": "Databricks SQL warehouse"
   }
 }

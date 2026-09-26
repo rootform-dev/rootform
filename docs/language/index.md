@@ -1,12 +1,12 @@
 ---
 title: "Rootform language"
-description: "Learn how .rf.hcl sources give Terraform and OpenTofu declarations architectural meaning, then evaluate policies over the resulting Architecture IR."
+description: "Learn how Dialects interpret plan and state instances and how Policy Packs evaluate the resulting architecture."
 ---
 
 The Rootform language is the public authoring language for **Dialects** and
-**Policy Packs**. A Dialect explains what Terraform or OpenTofu declarations
-mean. A Policy Pack asks bounded questions about the architecture facts those
-Dialects produced.
+**Policy Packs**. A Dialect explains what resource instances in a Terraform or
+OpenTofu plan JSON or state JSON mean. A Policy Pack asks bounded questions
+about the architecture facts those Dialects produced.
 
 Rootform reads two source forms: human-authored `.rf.hcl` and HCL JSON `.rf.json`.
 HCL provides their surface syntax. Rootform defines the accepted blocks,
@@ -19,7 +19,7 @@ language and general HCL expressions are not part of this contract.
 | --- | --- |
 | Understand the language through one real architecture | [Language tour](tour.md) |
 | Author a provider Dialect | [Write a Dialect](../dialect-authoring.md) |
-| Express and evaluate one governance rule | [Check an architecture](../guides/check-architecture.md) |
+| Express and evaluate one governance rule | [Run checks](../guides/check-architecture.md) |
 | Version and distribute several policies | [Write a Policy Pack](write-policy-pack.md) |
 | Format, compile, test, and inspect definitions | [Test and validate](test-validate.md) |
 | Check exact accepted forms | [Language reference](reference/index.md) |
@@ -30,31 +30,35 @@ A Dialect participates while Rootform builds an architecture:
 
 1. .rf.hcl source
 2. compiled Dialect
-3. matched Terraform/OpenTofu declarations
-4. Architecture IR facts and provenance
+3. `rootform run` on plan JSON or state JSON, optionally paired with a saved plan
+4. matched resource instances, with facts and closure results in a Rootform document
 
 A Policy Pack participates after those facts exist:
 
 1. .rf.hcl source
 2. compiled Policy Pack
 3. linked semantic pins
-4. evaluation over Architecture IR facts
-5. passed, violated, or indeterminate result
+4. evaluation of facts in a Rootform document, per instance and stage
+5. passed, violated, indeterminate, or no decision result
 
-Architecture IR is the shared result. [Architecture Diff](../concepts/diff.md)
-compares two documents over that contract, and
-[Check an architecture](../guides/check-architecture.md) evaluates policies
+The Rootform document is the saved result. Its public data contract is
+[Architecture IR](../concepts/architecture-ir.md). [Architecture comparisons](../concepts/diff.md)
+compares two inputs over that contract, and
+[Run checks](../guides/check-architecture.md) evaluates policies
 against one. No policy rewrites the document, reads a live cloud account, or
-repairs missing Dialect coverage.
+repairs missing Dialect coverage. Policy outcomes appear in the run summary, the
+Markdown report, SARIF, and `rootform explain policy`, never in the document
+itself.
 
-## Dialects give declarations meaning
+## Dialects give instances meaning
 
-Every normalized `resource` has a base representation, identified by source
-facts alone: identity, address, kind, type, provider, name, and location. A Rule
-adds interpretation to that base. It can classify the representation with a
-Concept, establish contexts or relations, record a contribution, or compose
-several representations into one. A missing Rule leaves the base unclassified,
-which is not an error.
+Every managed or data resource instance present in the input has a
+Representation in each applicable stage of the Rootform document, identified
+by its instance address. A Rule adds interpretation to an eligible instance.
+It can classify it with a Concept, establish Contexts or Relations, record a
+Contribution, or group implementation members. An instance with no matching
+Rule remains uninterpreted; this is distinct from a Rule whose match cannot be
+decided.
 
 A Dialect declares provider envelopes, local definitions, and Rules:
 
@@ -62,8 +66,8 @@ A Dialect declares provider envelopes, local definitions, and Rules:
 - a **Context** names one placement dimension;
 - a **Relation** names a directed predicate;
 - facts connect representations through contexts, contributions, or relations;
-- composition records exclusive source memberships while every member keeps its
-  own base.
+- composition records members per root instance, including unresolved members;
+  each member remains a separate Representation.
 
 This Rule from the embedded AWS Dialect recognizes a subnet and records its VPC
 reference as network context:
@@ -71,34 +75,54 @@ reference as network context:
 ```rf title="aws/network/vpc.rf.hcl"
 rule "subnet" {
   match {
-    kind = "resource"
     type = "aws_subnet"
   }
 
   as = rf.concept.subnet
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    external = "allow"
   }
 }
 ```
 
-The rule establishes meaning and evidence: the declaration is classified
-`rf.concept.subnet`, and its `vpc_id` reference may establish
-`rf.context.network` toward `rf.concept.virtual-network`.
+The Rule classifies a subnet instance as `rf.concept.subnet`. Its `vpc_id` may
+establish network Context toward a virtual-network instance. A verified saved
+plan can also establish the referenced endpoint when the value itself is
+unknown. When no represented VPC matches a known ID, this Rule permits an
+external virtual-network endpoint. The closure says whether the endpoint
+resolved, is absent, or remains indeterminate, with a reason.
 
 A supported provider can still contain resource types that no Rule interprets.
-Every normalized `resource` contributes a base while only Rules add
-interpretation, so representation coverage and interpretation coverage are
-separate counts. Read [Dialects and RF Vocabulary](../concepts/dialects.md) for
+Every observed instance gets a Representation while only Rules add
+interpretation, so instance and interpretation counts answer different
+questions. Read [Dialects and RF Vocabulary](../concepts/dialects.md) for
 the product model, then [write a Dialect](../dialect-authoring.md) to extend
 coverage.
 
 ## Policies ask about known facts
 
-A Policy target selects the representations it evaluates along three dimensions:
+A Policy target selects interpreted instances it evaluates along three dimensions:
 Concept, applied Rules, and Dialect owners. Values inside a list are ORed,
 dimensions are ANDed, and at least `concept` or `rules` is required. An assertion
 uses one of three closed fact queries: `contexts`, `relations`, and
@@ -122,14 +146,15 @@ policy "subnet-network-context" {
 The manifest assigns pack identity to this policy through the shared source root.
 The policy needs neither nesting nor a pack reference.
 
-An empty query means zero only when the vocabulary, active emission support, and
-all applicable closure are known. Unavailable or incompatible evidence makes an
-affected query indeterminate, including under negation. A selected policy whose
-target matches no representation contributes zero evaluations and is counted as
-`not_evaluated`, so the run reports `compliant = false` and exit 3.
+An empty query means zero only when the relevant emission is supported and its
+closure and instance population are complete. An unresolved closure makes an
+affected query indeterminate, including under negation. A selected Policy with
+no targets has status `not_evaluated`; the run reports no decision and exits 3
+if nothing was evaluated. An indeterminate evaluation also exits 3. A confirmed
+violation exits 1; all evaluated Policies passing exits 0.
 
 Read [Policies and Policy Packs](../concepts/policies.md) for governance meaning.
-Use [Check an architecture](../guides/check-architecture.md) for a complete
+Use [Run checks](../guides/check-architecture.md) for a complete
 evaluated example.
 
 ## Language boundaries
@@ -142,12 +167,12 @@ The Rootform language is deliberately closed. It does not include:
 - Policy Pack inheritance or composition;
 - access from policies to raw Terraform values, state, plans, or provider APIs.
 
-Words such as `module`, `variable`, and `import` can appear as `match.kind`
-values. There they identify Terraform/OpenTofu declaration categories. They do
-not add equivalent authoring constructs to `.rf.hcl`.
+`match.kind` selects `resource` (managed instance) or `data` (data instance).
+These words identify input instance kinds; they do not add equivalent
+authoring constructs to `.rf.hcl`.
 
 Use `rootform lsp` for editor diagnostics and `rootform fmt` for canonical
 formatting. Validation compiles definitions; `rootform test` compares Dialect
-fixture architectures; `rootform check` evaluates policies. These operations
+fixture architectures; `rootform run` evaluates selected policies. These operations
 answer different questions, so use them together in a serious authoring
 workflow.

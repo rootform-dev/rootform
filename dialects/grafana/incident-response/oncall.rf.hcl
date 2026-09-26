@@ -12,6 +12,15 @@ rule "oncall-integration" {
   }
 
   as = concept.oncall-integration
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "oncall-integration-lookup" {
@@ -21,6 +30,15 @@ rule "oncall-integration-lookup" {
   }
 
   as = concept.oncall-integration
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "oncall-route" {
@@ -31,7 +49,14 @@ rule "oncall-route" {
   as = concept.oncall-routing
 
   contribution {
-    to  = concept.oncall-integration
-    via = source.integration_id
+    to       = concept.oncall-integration
+    via      = source.integration_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

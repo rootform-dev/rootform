@@ -4,7 +4,7 @@ terraform {
   }
 }
 
-variable "unknown_id" { type = string }
+resource "terraform_data" "unknown_id" {}
 
 resource "azurerm_resource_group" "platform" {
   name     = "platform"
@@ -12,6 +12,13 @@ resource "azurerm_resource_group" "platform" {
 }
 
 resource "azurerm_cosmosdb_account" "platform" {
+  geo_location {
+    location          = "westeurope"
+    failover_priority = 1
+  }
+  consistency_policy {
+    consistency_level = "BoundedStaleness"
+  }
   name                = "rootform-platform"
   resource_group_name = azurerm_resource_group.platform.name
   location            = azurerm_resource_group.platform.location
@@ -98,12 +105,12 @@ resource "azurerm_cosmosdb_sql_container" "unknown" {
   name                = "unknown"
   resource_group_name = azurerm_resource_group.platform.name
   account_name        = azurerm_cosmosdb_account.platform.name
-  database_name       = var.unknown_id
+  database_name       = terraform_data.unknown_id.id
   partition_key_paths = ["/id"]
 }
 
 resource "azurerm_cosmosdb_sql_dedicated_gateway" "unknown" {
-  cosmosdb_account_id = var.unknown_id
+  cosmosdb_account_id = terraform_data.unknown_id.id
   instance_count      = 1
   instance_size       = "Cosmos.D4s"
 }

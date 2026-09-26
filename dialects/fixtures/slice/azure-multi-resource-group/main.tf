@@ -44,6 +44,41 @@ resource "azurerm_subnet" "gateway" {
 }
 
 resource "azurerm_application_gateway" "edge" {
+  http_listener {
+    frontend_ip_configuration_name = "fx-edge-frontend-ip-configuration-name"
+    protocol                       = "Http"
+    frontend_port_name             = "fx-edge-frontend-port-name"
+    name                           = "fx-edge-name"
+  }
+  backend {
+    protocol = "Tcp"
+    port     = 1
+    name     = "fx-edge-name"
+  }
+  request_routing_rule {
+    name               = "fx-edge-name"
+    rule_type          = "Basic"
+    http_listener_name = "fx-edge-http-listener-name"
+  }
+  sku {
+    tier     = "Basic"
+    name     = "Basic"
+    capacity = 1
+  }
+  gateway_ip_configuration {
+    subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.Network/virtualNetworks/fx-vnet/subnets/fx-edge-subnet-id"
+    name      = "fx-edge-name"
+  }
+  frontend_port {
+    port = 1
+    name = "fx-edge-name"
+  }
+  frontend_ip_configuration {
+    name = "fx-edge-name"
+  }
+  backend_address_pool {
+    name = "fx-edge-name"
+  }
   name                = "edge"
   location            = azurerm_resource_group.platform.location
   resource_group_name = azurerm_resource_group.platform.name
@@ -63,6 +98,9 @@ resource "azurerm_user_assigned_identity" "platform" {
 }
 
 resource "azurerm_kubernetes_cluster" "workloads" {
+  node_provisioning_profile {
+    default_node_pools = "Auto"
+  }
   name                = "workloads"
   location            = azurerm_resource_group.apps.location
   resource_group_name = azurerm_resource_group.apps.name
@@ -143,10 +181,12 @@ resource "azurerm_postgresql_flexible_server" "records" {
 }
 
 resource "azurerm_mssql_server" "legacy" {
-  name                = "legacy"
-  location            = azurerm_resource_group.data.location
-  resource_group_name = azurerm_resource_group.data.name
-  version             = "12.0"
+  administrator_login_password = "fx-legacy-administrator-login-password"
+  administrator_login          = "fx-legacy-administrator-login"
+  name                         = "legacy"
+  location                     = azurerm_resource_group.data.location
+  resource_group_name          = azurerm_resource_group.data.name
+  version                      = "12.0"
 }
 
 resource "azurerm_mssql_database" "legacy" {

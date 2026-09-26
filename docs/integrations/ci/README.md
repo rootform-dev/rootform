@@ -1,220 +1,174 @@
 ---
-title: "Run Rootform in CI"
-description: "Build architecture evidence from source or a completed plan, request a policy gate, and prepare exact external selections in a runner."
+title: "Run in CI"
+description: "Analyze a completed plan in a runner, retain review evidence, and choose an explicit policy gate."
 ---
 
-Decide what the job must produce before choosing a gate. A build can preserve
-architecture evidence without claiming Policy compliance. A check is a separate,
-explicit decision.
+Decide what the job must produce before choosing a gate. An analysis keeps architecture evidence for review without claiming compliance. A policy gate is a separate, explicit decision.
 
-Copy [the portable script](rootform-ci.sh) into your repository as
-`ci/rootform-ci.sh`. The [GitHub](github-actions.yml),
-[GitLab](gitlab-ci.yml), [Azure](azure-pipelines.yml), and
-[generic runner](generic-ci.sh) recipes show how to invoke that copy. Install
-an exact Rootform version first. Run the script from the repository root, with
-the Terraform or OpenTofu root module at `./infra` in the examples below.
+Install an exact Rootform release, then copy the [portable script](rootform-ci.sh) into your repository as `ci/rootform-ci.sh`. The script accepts a completed plan or state JSON and writes one set of results to a fresh directory. It does not run Terraform or OpenTofu, install packages, or choose project content. The [GitHub](github-actions-plan.yml), [GitLab](gitlab-ci.yml), [Azure Pipelines](azure-pipelines.yml), and [generic](generic-ci.sh) examples call that same script.
 
-## Build and keep architecture evidence
+Use a single job when Terraform or OpenTofu and Rootform can share a protected workspace. A separate analysis job must receive the exact saved plan and JSON through a protected transfer; both can contain cleartext secrets. Keep those files out of Git, public artifacts, job summaries, and pull request comments. Rootform outputs omit sensitive values but describe topology and names, so retain them as internal review evidence.
 
-For a project using embedded Dialects, no `rootform.lock` or `init` is needed:
-
-<!-- docs-check:docs-integrations-ci-readme-1 -->
-```sh
-ROOTFORM_PROJECT=./infra sh ./ci/rootform-ci.sh
-```
-
-The script writes `.rootform-ci/architecture.json` and
-`.rootform-ci/build.stderr` relative to the repository root. A successful
-build exits `0`. Invalid source, missing referenced modules, or unavailable
-selected content stops the job with the build's own status and diagnostic.
-Prepare Terraform or OpenTofu modules separately when the source needs them.
-Rootform does not run `terraform init` for you.
-
-If `infra/rootform.lock` exists, the same command first runs
-`rootform init ./infra --locked --no-input` to prepare its exact external
-selection, then builds with `--locked`. It writes `init.json` and
-`init.stderr` as well. A lock selecting only Dialects changes architecture
-meaning, not the decision to check Policies. The script neither creates nor
-rewrites the lock. See [Project configuration](../../cli.md) for the active
-set and [reproduce a build](../../guides/reproduce-build.md) for
-preparing content on another runner.
+<!-- rootform:steps -->
 
 ## Review a completed plan
 
-When the job already runs `terraform plan` or `tofu plan`, review that plan
-instead of rebuilding from source. Export the saved plan as JSON in a directory
-outside the checkout, then name the export with `ROOTFORM_PLAN`:
+From the Terraform root `./infra`, export the saved plan in a private runner directory that the job never uploads. OpenTofu users replace `terraform` with `tofu` in these commands:
 
 ```sh
-plan_dir=$(mktemp -d)
-terraform -chdir=./infra plan -input=false -out="$plan_dir/tfplan"
-terraform -chdir=./infra show -json "$plan_dir/tfplan" > "$plan_dir/tfplan.json"
+(
+  cd infra
+  terraform init -input=false
+  terraform plan -input=false -out="$RUNNER_TEMP/plan.tfplan"
+  terraform show -json "$RUNNER_TEMP/plan.tfplan" > "$RUNNER_TEMP/plan.json"
+)
 ```
 
-<!-- docs-check:docs-integrations-ci-readme-5 -->
+`$RUNNER_TEMP` is GitHub's per-job temporary directory; [Use the runner recipes](#use-the-runner-recipes) shows where the other recipes keep these files. Rootform never uses provider or backend credentials. Keep them in this plan step and give the analysis step access only to the two completed files. [Terraform and OpenTofu plans](../../inputs/plans.md) explains why the saved plan must match its export. To compare base and head revisions of a pull request instead, follow [Review a pull request](../../workflows/index.md#choose-the-review-input).
+
+## Prepare a locked selection before analysis
+
+A project without `rootform.lock` uses the embedded Dialects and needs no preparation: continue with the next step. When `infra/rootform.lock` names external content, prepare it before the script:
+
+<!-- docs-check:ci-init-locked -->
 ```sh
-ROOTFORM_PROJECT=./infra ROOTFORM_PLAN="$plan_dir/tfplan.json" sh ./ci/rootform-ci.sh
+rootform init ./infra --locked --no-input
 ```
 
-Use `tofu` for OpenTofu. The script runs `rootform build --plan` and
-`rootform diff --plan` inside `./infra`, so the project selection there
-applies. It writes the planned architecture to `architecture.json` and the
-Architecture Diff between the prior state and the planned values to
-`diff.json`, `diff.md`, and `diff.stderr`. A lock still runs `init --locked`
-first. Rootform reads the completed export only: the script never runs
-Terraform or OpenTofu, and the plan step keeps its own credentials. Keep
-`tfplan` and `tfplan.json` out of Git and out of every artifact list; they can
-carry sensitive values. [Terraform and OpenTofu plans](../../inputs/plans.md)
-is the canonical plan procedure and
-[Review a pull request](../../workflows/index.md#choose-the-review-input)
-explains when to review the plan instead of the source revisions.
+<!-- docs-output:ci-init-locked -->
+```text title="Output with one locked Policy Pack"
+Project prepared
 
-## Request a Policy gate
+External dialects      0
+External Policy Packs  1
+```
 
-Set `ROOTFORM_CHECK=1` when governance is part of the job. A project lock may
-select Policy Packs, or you can choose one local pack for this invocation:
+`init` verifies the local, installed, or vendored content that the lock selects and reports how many external Dialects and Policy Packs are ready. It may acquire only the exact OCI digests in the lock, and `--no-input` keeps it from prompting. Add `--offline`, or set `ROOTFORM_OFFLINE=1`, when that content is already present and acquisition must be disabled. Offline mode governs Rootform acquisition only, not checkout, binary installation, caches, or artifact upload. A private registry needs credentials from the runner's `DOCKER_CONFIG` for this step only, never in the lock or on the command line; see [private registry credentials](../oci-image.md#use-private-registry-credentials).
 
-<!-- docs-check:docs-integrations-ci-readme-2 -->
+Run `rootform add` during project configuration and commit the reviewed lock. Never run `add` in CI: a job verifies the committed selection instead of choosing one. The script adds `--locked` to `run` whenever `infra/rootform.lock` exists and never creates or updates the lock, so missing selected content stops analysis. [Select Dialects and Policy Packs](../../cli.md) explains the difference between selection and preparation.
+
+## Run the portable recipe
+
+Run from the repository root. `ROOTFORM_PROJECT` names the Terraform root whose Rootform selection applies. Name a fresh output directory for each job attempt:
+
+<!-- docs-check:ci-run -->
 ```sh
-ROOTFORM_PROJECT=./infra ROOTFORM_CHECK=1 sh ./ci/rootform-ci.sh
+ROOTFORM_PROJECT=./infra \
+ROOTFORM_INPUT="$RUNNER_TEMP/plan.json" \
+ROOTFORM_PLAN_FILE="$RUNNER_TEMP/plan.tfplan" \
+ROOTFORM_OUTPUT_DIR=.rootform-ci-123 \
+sh ./ci/rootform-ci.sh
 ```
 
-<!-- docs-check:docs-integrations-ci-readme-3 -->
+The script prints nothing itself. Open `summary.txt` and confirm that Rootform verified the pair and reports the planned stage:
+
+<!-- docs-output:ci-run -->
+```text title="Excerpt from summary.txt"
+Plan analyzed
+Enrichment    saved plan verified against this plan JSON (1 module)
+Stages        planned (default)
+```
+
+The script passes `--plan-file --require-enrichment --no-serve` to `rootform run`. It writes the summary to `summary.txt`, diagnostics to `run.stderr`, and the exact exit code to `run.status`. A refused pair exits `3` rather than turning a missing traversal into an apparently complete review. With state JSON, omit `ROOTFORM_PLAN_FILE`: the result has one `recorded` stage.
+
+| File in `ROOTFORM_OUTPUT_DIR` | Use |
+| --- | --- |
+| `analysis.json` | Rootform document with stages, facts, closures, drift, and selection details. It stores no policy results. |
+| `report.md` | Human review of the same run, including the policy outcome when policies were selected. |
+| `results.sarif` | Diagnostics and explicitly evaluated policy results. |
+| `summary.txt` | The terminal summary, including the policy outcome when policies were selected. |
+| `run.stderr` | Progress and failure diagnostics. |
+| `run.status` | Exit status of the Rootform command, recorded even when the job fails. |
+
+The script refuses an existing or symbolic-link output path before running. Do not reuse a prior result directory: a fresh path keeps stale files out of a failed run. A write failure may leave files already written; use `run.status` and `run.stderr` to distinguish partial results from a complete report. [Script settings](#script-settings) lists every variable, and [Outputs and exit status](../../reference/outputs.md) defines each format.
+
+## Request a policy gate
+
+Without a selected Policy Pack, analysis can exit `0` but makes no compliance claim. For a project without `rootform.lock`, pass a reviewed local pack for one run:
+
+<!-- docs-check:ci-pack-override -->
 ```sh
-ROOTFORM_PROJECT=./infra ROOTFORM_CHECK=1 \
-  ROOTFORM_POLICY_PACK=./policies sh ./ci/rootform-ci.sh
+ROOTFORM_POLICY_PACK=./policies \
+ROOTFORM_PROJECT=./infra \
+ROOTFORM_INPUT="$RUNNER_TEMP/plan.json" \
+ROOTFORM_PLAN_FILE="$RUNNER_TEMP/plan.tfplan" \
+ROOTFORM_OUTPUT_DIR=.rootform-ci-policy-123 \
+sh ./ci/rootform-ci.sh
 ```
 
-With `ROOTFORM_PLAN`, the same variables check the planned architecture:
+The policy section of `summary.txt` states the result and how many targets each evaluation covered. With two policies that both found their targets, it reads:
 
-<!-- docs-check:docs-integrations-ci-readme-6 -->
+<!-- docs-output:ci-pack-override -->
+```text title="Excerpt from summary.txt"
+Policies · planned
+  Result     passed
+  Evaluated  2 policies over 2 targets: 2 passed, 0 violated, 0 indeterminate
+```
+
+The script refuses `ROOTFORM_POLICY_PACK` when the project has a lock. For a locked project, add the pack during project configuration, commit the lock, then use `ROOTFORM_POLICY` to select named policies or patterns. The script accepts space-separated selectors and repeats `--policy` for each; quote the environment value so the shell does not expand `*`:
+
+<!-- docs-check:ci-locked-policy -->
 ```sh
-ROOTFORM_PROJECT=./infra ROOTFORM_PLAN="$plan_dir/tfplan.json" ROOTFORM_CHECK=1 \
-  ROOTFORM_POLICY_PACK=./policies sh ./ci/rootform-ci.sh
+ROOTFORM_POLICY='baseline/*' \
+ROOTFORM_PROJECT=./infra \
+ROOTFORM_INPUT="$RUNNER_TEMP/plan.json" \
+ROOTFORM_PLAN_FILE="$RUNNER_TEMP/plan.tfplan" \
+ROOTFORM_OUTPUT_DIR=.rootform-ci-policy-123 \
+sh ./ci/rootform-ci.sh
 ```
 
-The local pack command also works without a lock. `./policies` is relative to
-the repository root, not to `./infra`, in both modes. An explicit pack
-overlays a selected pack of the same name for this check; other selected packs
-remain active. Overrides cannot be combined with `--locked`, so this script
-omits `--locked` on an override check while the lock still controls
-preparation and build. A lock still controls the build and preparation of
-selected Dialects. Follow [Run
-checks](../../guides/check-architecture.md) to create a pack with Policies and
-matching targets. A check requested with no selected Policy or no evaluated
-target returns `3`, not approval.
+`run.status` is `0` when analysis completed and every selected policy passed, `1` when a selected policy was violated, `2` when the command was used incorrectly, `3` when input was refused or a policy was indeterminate or decided nothing, and `4` when a file could not be written or the server could not start. If `ROOTFORM_BIN` cannot be found, the shell records `127` instead and `run.stderr` holds the shell error. Status `0` with no selected policies makes no compliance claim. Read the `Evaluated` line in `summary.txt` or `report.md`: a selected policy with zero targets is not approval. [Run checks](../../guides/check-architecture.md) explains the policy path.
 
-After a successful build, the script writes `check.json`, `check.stderr`, and
-`check.status` under `.rootform-ci/`. The final file contains the exact check
-exit code, which is also the script exit code. `0` means all selected Policies
-were evaluated and compliant, `1` means a confirmed violation, `2` means
-invalid command use, and `3` means indeterminate or not evaluated. Read
-coverage and diagnostics in JSON before calling a result compliant. Preserve
-these files even when the job fails. Preparation or build failure is not a
-Policy result and does not produce `check.status`. See
-[Outputs and exit status](../../reference/outputs.md) for the full distinction.
+## Retain results without changing the gate
 
-## Prepare external selections deliberately
+Upload only the six named Rootform result files, even when `run.status` is `1` or `3`. Keep the script's nonzero exit as the job result. Do not upload the raw plan, JSON export, state JSON, `.terraform/`, or the whole runner directory.
 
-Run `rootform add` during project configuration and commit the reviewed
-`rootform.lock`. Never run `add` in CI: a job should verify the committed
-selection, not choose one. With a lock, the script runs `init --locked
---no-input` before `build --locked` and, for a project-selected Policy gate,
-`check --locked`. That operation verifies local entries and may fetch only the
-exact OCI content pinned by the lock. Set `ROOTFORM_OFFLINE=1` when required
-content is present at its recorded local path, installed, or vendored and
-acquisition must be disabled:
+Reviewers who want the Explorer without installing Rootform can open a self-contained HTML export. After the script, write it from the saved document and add `review.html` to the files you upload:
 
-<!-- docs-check:docs-integrations-ci-readme-4 -->
+<!-- docs-check:ci-review-html -->
 ```sh
-ROOTFORM_PROJECT=./infra ROOTFORM_OFFLINE=1 sh ./ci/rootform-ci.sh
+rootform run .rootform-ci-123/analysis.json --no-serve \
+  -o .rootform-ci-123/review.html
 ```
 
-The lock alone does not request a Policy gate. Add `ROOTFORM_CHECK=1` only if
-that is the job's purpose. A local `ROOTFORM_POLICY_PACK` needs no lock or
-acquisition. Private OCI sources use the runner's `DOCKER_CONFIG`, never
-credentials in a lock or command line. `offline` governs Rootform acquisition,
-not checkout, binary installation, hosted cache, or artifact upload.
+<!-- docs-output:ci-review-html -->
+```text title="Standard error"
+Loading    .rootform-ci-123/analysis.json (Rootform document; no recompilation)
+Wrote      .rootform-ci-123/review.html
+```
 
-Relative paths resolve from the script's invocation directory, while absolute
-paths retain their meaning:
-`ROOTFORM_PROJECT` defaults to `.`, `ROOTFORM_OUTPUT_DIR` defaults to
-`.rootform-ci`, and `ROOTFORM_POLICY_PACK` and `ROOTFORM_PLAN` are optional.
-`ROOTFORM_BIN` defaults to `rootform` on `PATH`. `ROOTFORM_CHECK` defaults to
-`0` and accepts only `0` or `1`. Supplying a pack without requesting a check
-is an error, and `ROOTFORM_PLAN` must name an existing file, not `-`, with
-`ROOTFORM_PROJECT` naming a directory. The script never changes its own
-directory, so paths containing spaces are safe when quoted; with
-`ROOTFORM_PLAN`, it resolves the plan and pack paths first and runs each
-Rootform command in a subshell inside the project directory. Before each
-invocation, the script clears only its named result files in the chosen
-output directory, including when the requested check configuration is
-invalid. Files from an earlier run cannot become this run's reports. Other
-files stay untouched. The script rejects a symbolic-link destination, traversal
-through writable symbolic links, or a directory containing the working
-directory or project. The CI recipes also use a job-specific result directory
-and collect named files only.
+`no recompilation` confirms that Rootform reopened the document instead of analyzing the plan again, so this step needs neither the plan nor the project. The HTML file opens from disk and makes no network requests. It shows the architecture, stages, and drift; policy results stay in `summary.txt`, `report.md`, and `results.sarif`. Skip the step when `analysis.json` is absent because the input was refused.
 
-An Architecture Diff is usually review evidence, not a default PR blocker.
-The script writes a plan Diff without `--exit-code`, so `diff.json` and
-`diff.md` inform the review while `check.status` carries the gate.
-[Review a pull request](../../workflows/index.md#choose-the-revisions) shows
-how to choose Before and After commits for a source comparison and
-[choose a gate](../../workflows/index.md#compare-and-save-review-artifacts)
-without treating every architectural change as a violation. When reviewers
-want the interactive view, save `rootform diff --format html`, with two
-architectures or with `--plan`, as one more artifact; it opens from disk
-without Rootform installed.
+If you send `results.sarif` to a code-scanning service, configure that as a separate permissioned step; a downloadable artifact alone does not publish code-scanning findings.
 
 ## Use the runner recipes
 
-Each source recipe is build-only as written. To gate Policies, set
-`ROOTFORM_CHECK=1` in the script's environment and supply a reviewed project
-selection or `ROOTFORM_POLICY_PACK`. To review a plan instead, add the plan
-step before the script and set `ROOTFORM_PLAN`. Keep the same artifact list:
-files not produced by a build-only or source-only run can be absent.
+Each recipe exports the plan, runs the script, and keeps the named results when the gate fails. Adapt the Terraform root, the policy variables, and the installation steps to your project.
 
-The [GitHub recipe](github-actions.yml) uses `setup` and uploads named results
-from its run-specific directory after failure without changing the job's
-failed status. GitHub's [step conditions](https://docs.github.com/en/actions/reference/workflows-and-actions/expressions#always)
-explain why the upload step can run after `check` fails.
+The [GitHub recipe](github-actions-plan.yml) installs Terraform with a pinned action and Rootform with the `setup` action, then keeps plan files in `$RUNNER_TEMP`. Its upload step uses `if: ${{ !cancelled() }}`, so the results stay downloadable after a policy failure while the job remains failed; GitHub's [status check functions](https://docs.github.com/en/actions/reference/workflows-and-actions/expressions#always) explain why. [GitHub Actions](../github-actions.md) covers the job summary, fork trust, and optional SARIF upload.
 
-The [GitHub plan recipe](github-actions-plan.yml) installs Terraform with a
-pinned action, plans and exports into the runner's temporary directory, then
-runs the script with `ROOTFORM_PLAN` and a local pack gate. The plan and its
-export stay in that job: the artifact step names Rootform results only.
-Credentials belong to the plan step. Replace the Terraform action and commands
-with their OpenTofu equivalents when the project uses `tofu`.
+The [GitLab recipe](gitlab-ci.yml) needs a shell runner with Terraform and a verified Rootform `0.1.0` binary on `PATH`. It writes the saved plan, its JSON export, and the result directory `.rootform-ci-$CI_JOB_ID` inside `CI_PROJECT_DIR`, so it first checks that the runner user can write there. Only the six Rootform files are listed as artifacts, and `artifacts: when: always` keeps them after a policy failure without changing the job status. See GitLab's [artifact rules](https://docs.gitlab.com/ci/yaml/#artifactswhen).
 
-The [GitLab recipe](gitlab-ci.yml) requires a shell runner with a verified
-Rootform `0.1.0` binary on `PATH`. GitLab checks out the project into
-`CI_PROJECT_DIR`; that directory must be writable by the runner user for
-its job-specific result directory. `artifacts: when: always` retains listed
-files after a Policy failure without changing the script's exit status. An image running as
-Rootform's non-root UID `65532` cannot be assumed to write into GitLab's
-checkout mount. Use a runner with compatible ownership rather than granting
-world-write access. See GitLab's [artifact rules](https://docs.gitlab.com/ci/yaml/#artifactswhen)
-and [Docker executor user behavior](https://docs.gitlab.com/runner/executors/docker/#specify-which-user-runs-the-job).
+The [Azure Pipelines recipe](azure-pipelines.yml) runs one Bash step on a Microsoft-hosted Ubuntu agent. Add steps before it that install Terraform and a checksum-verified Rootform release, as in [manual installation](../../installation.md#manual-installation). The step writes plan files to `$(Agent.TempDirectory)` and results to a build-specific directory, which `condition: succeededOrFailed()` publishes even when the gate fails. That directory holds only Rootform results because the script requires a fresh path.
 
-The [Azure recipe](azure-pipelines.yml) uses an Ubuntu agent with Docker and
-invokes the exact Rootform image for one step. It mounts the checked-out
-project at `/workspace`, runs with the agent's UID and GID so reports are
-writable on the mount, and uses `/tmp/rootform-home` for Rootform content
-during that invocation. After the command, the pipeline packages only named
-results into a fresh archive, then publishes that archive even if a check
-failed. Other files in the result directory are excluded. The image is Alpine
-with a non-root user and lacks Bash, `glibc`, Node runtime, and privileges
-required for an Azure [container job](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/container-phases?view=azure-devops#requirements-for-container-jobs).
-It is a CLI image, not an agent image. Ensure Docker is available on the agent
-and the project mount is readable before using this recipe. The pipeline sets
-`ROOTFORM_CHECK` to `0` and forwards it to the container. Change it to `1`
-for a gate. `ROOTFORM_POLICY_PACK` and `ROOTFORM_OFFLINE` are forwarded when
-set by the pipeline. Private OCI acquisition also needs a narrowly mounted
-credential configuration, which this minimal recipe does not supply.
+The [generic script](generic-ci.sh) assumes a checked-out project and an installed, checksum-verified Rootform. Export `ROOTFORM_INPUT` (and `ROOTFORM_PLAN_FILE` for a plan), then call it from the repository root. It defaults `ROOTFORM_PROJECT` to `./infra` and passes every other setting through. Archive the named files even when it exits `1` or `3`, and keep that exit code as the job status.
 
-The [generic recipe](generic-ci.sh) assumes the runner has installed and
-checksum-verified Rootform `0.1.0` and checked out the project. Run it from
-the repository root. It inherits the script's `ROOTFORM_CHECK`, project, pack,
-and output settings. Archive the named files in `ROOTFORM_OUTPUT_DIR` (default
-`.rootform-ci`) even when the script exits `1` or `3`, while retaining that
-exit code as the job status.
+<!-- rootform:endsteps -->
+
+## Script settings
+
+The script reads its settings from the environment:
+
+| Variable | Default | Use |
+| --- | --- | --- |
+| `ROOTFORM_INPUT` | Required | Plan JSON or state JSON to analyze. |
+| `ROOTFORM_PLAN_FILE` | Unset | Saved plan behind that plan JSON. Adds `--plan-file` and `--require-enrichment`; omit it for state JSON. |
+| `ROOTFORM_PROJECT` | `./infra` | Directory whose Rootform selection applies. Adds `--locked` when it contains `rootform.lock`. |
+| `ROOTFORM_OUTPUT_DIR` | `.rootform-ci` | Result directory. It must not exist yet. |
+| `ROOTFORM_POLICY_PACK` | Unset | Local Policy Pack for this run only. Refused when the project has `rootform.lock`. |
+| `ROOTFORM_POLICY` | Unset | Space-separated policy names or patterns, each passed as `--policy`. |
+| `ROOTFORM_BIN` | `rootform` | Rootform command to call. |
+
+Relative paths resolve from the directory where you run the script. The script never changes directory, so quoted paths containing spaces are safe. Before it creates the result directory, the script checks the input, project, saved plan, and output path, and refuses a local Pack in a project with `rootform.lock`. Each refusal exits `2` with a message that names the setting, such as `ROOTFORM_OUTPUT_DIR must be a fresh directory`. Later problems, such as a policy selection Rootform refuses or a missing `ROOTFORM_BIN`, are recorded in `run.status` and `run.stderr`.
+
+For a network-disabled analysis job, [reproduce the selection offline](../../guides/reproduce-build.md) first. [Troubleshooting](../../troubleshooting/index.md#locked-project-selection-fails) covers missing locks and content.

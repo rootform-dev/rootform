@@ -1,6 +1,5 @@
 {
   "format_version": "1",
-  "verified_date": "2026-08-30",
   "scenarios": [
     {
       "id": "minimal-data-platform",
@@ -60,16 +59,8 @@
         "contributions": 0,
         "relations": 0
       },
-      "expected_diagnostic_codes": [],
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "Snowflake database",
-        "Snowflake dynamic table",
-        "Snowflake virtual warehouse",
-        "Snowflake task"
-      ],
       "limitations": [
-        "Warehouse and database connect through an explicit dynamic-table or task workload; no direct warehouse/database ownership is invented."
+        "For this saved plan, warehouse and database connect through an explicit dynamic-table or task workload; no direct warehouse/database ownership is invented."
       ]
     },
     {
@@ -149,27 +140,6 @@
           "rule": "snowflake.rule.external-gcs-stage"
         },
         {
-          "collection": "relations",
-          "from": "representation:1:root:resource:snowflake_notification_integration.aws",
-          "to": "representation:1:root:resource:aws_sns_topic.snowpipe",
-          "type": "connects-message-topic",
-          "rule": "snowflake.rule.notification-integration"
-        },
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:snowflake_notification_integration.azure",
-          "to": "representation:1:root:resource:azurerm_storage_queue.notifications",
-          "type": "connects-message-queue",
-          "rule": "snowflake.rule.notification-integration"
-        },
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:snowflake_notification_integration.google",
-          "to": "representation:1:root:resource:google_pubsub_subscription.snowpipe",
-          "type": "connects-message-subscription",
-          "rule": "snowflake.rule.notification-integration"
-        },
-        {
           "collection": "contexts",
           "from": "representation:1:root:resource:snowflake_dynamic_table.orders",
           "to": "representation:1:root:resource:snowflake_warehouse.transform",
@@ -212,19 +182,10 @@
         "contributions": 1
       },
       "maximum_facts": {
-        "contexts": 25,
+        "contexts": 31,
         "contributions": 1,
         "relations": 37
       },
-      "expected_diagnostic_codes": [],
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "Snowflake storage integration for Amazon S3",
-        "Snowflake external stage for Azure Storage",
-        "Snowflake notification integration",
-        "Snowpark Container Services service",
-        "Cortex Search service"
-      ],
       "forbidden_output": [
         "ROOTFORM_SNOWFLAKE_ADMIN_PASSWORD_SENTINEL",
         "ROOTFORM_SNOWFLAKE_AGENT_SPEC_SENTINEL",
@@ -234,27 +195,18 @@
         "ROOTFORM_SNOWFLAKE_AWS_TRUST_SENTINEL"
       ],
       "limitations": [
-        "Only exact Terraform traversals establish cross-cloud storage, messaging, identity, key, API, runtime, and ownership facts."
+        "The plan supports cross-cloud facts only when identity values or verified traversals resolve. Notification integration messaging targets lack an interpreted shared concept, so these links are not asserted."
       ]
     },
     {
       "id": "ambiguous-and-sensitive-boundary",
       "fixture": "fixtures/snowflake-v2/boundary",
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_SNOWFLAKE_BOUNDARY_SECRET_SENTINEL",
         "ROOTFORM_SNOWFLAKE_EXECUTE_SENTINEL"
       ],
       "limitations": [
-        "Conditional traversals fail closed; literals and depends_on create no storage, messaging, or runtime relation."
+        "Conditional traversals remain unresolved; literals and depends_on create no storage, messaging, or runtime relation."
       ]
     }
   ]

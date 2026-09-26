@@ -12,6 +12,15 @@ rule "action-connection" {
   }
 
   as = concept.service-integration
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "action-connection-lookup" {
@@ -21,6 +30,15 @@ rule "action-connection-lookup" {
   }
 
   as = concept.service-integration
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "integration-cloudflare-account" {
@@ -29,6 +47,15 @@ rule "integration-cloudflare-account" {
   }
 
   as = concept.service-integration
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "integration-confluent-account" {
@@ -37,6 +64,15 @@ rule "integration-confluent-account" {
   }
 
   as = concept.service-integration
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "integration-confluent-resource" {
@@ -47,8 +83,15 @@ rule "integration-confluent-resource" {
   as = concept.service-integration-configuration
 
   contribution {
-    to  = concept.service-integration
-    via = source.account_id
+    to       = concept.service-integration
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -58,6 +101,15 @@ rule "integration-fastly-account" {
   }
 
   as = concept.service-integration
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "integration-fastly-service" {
@@ -68,7 +120,14 @@ rule "integration-fastly-service" {
   as = concept.service-integration-configuration
 
   contribution {
-    to  = concept.service-integration
-    via = source.account_id
+    to       = concept.service-integration
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

@@ -4,6 +4,15 @@ rule "globalaccelerator-accelerator" {
   }
 
   as = concept.global-accelerator
+
+  identity {
+    attributes = ["arn"]
+    scope      = "global"
+  }
+
+  endpoint {
+    attributes = ["arn", "id"]
+  }
 }
 
 rule "globalaccelerator-listener" {
@@ -14,8 +23,15 @@ rule "globalaccelerator-listener" {
   as = concept.global-accelerator-component
 
   contribution {
-    to  = concept.global-accelerator
-    via = source.accelerator_arn
+    to       = concept.global-accelerator
+    via      = source.accelerator_arn
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.arn
+      strategy = "exact"
+    }
   }
 }
 
@@ -33,6 +49,15 @@ rule "globalaccelerator-custom-routing-accelerator" {
   }
 
   as = concept.global-accelerator
+
+  identity {
+    attributes = ["arn"]
+    scope      = "global"
+  }
+
+  endpoint {
+    attributes = ["arn", "id"]
+  }
 }
 
 rule "globalaccelerator-custom-routing-listener" {
@@ -43,8 +68,15 @@ rule "globalaccelerator-custom-routing-listener" {
   as = concept.global-accelerator-component
 
   contribution {
-    to  = concept.global-accelerator
-    via = source.accelerator_arn
+    to       = concept.global-accelerator
+    via      = source.accelerator_arn
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.arn
+      strategy = "exact"
+    }
   }
 }
 

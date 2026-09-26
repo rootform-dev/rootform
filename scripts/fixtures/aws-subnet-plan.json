@@ -1,0 +1,68 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.16.4",
+  "planned_values": {
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_subnet.application",
+          "mode": "managed",
+          "type": "aws_subnet",
+          "name": "main",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "values": {
+            "id": "subnet-synthetic",
+            "vpc_id": "vpc-synthetic",
+            "cidr_block": "10.0.1.0/24"
+          }
+        }
+      ]
+    }
+  },
+  "resource_changes": [
+    {
+      "address": "aws_subnet.application",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["no-op"],
+        "before": {
+          "id": "subnet-synthetic",
+          "vpc_id": "vpc-synthetic",
+          "cidr_block": "10.0.1.0/24"
+        },
+        "after": {
+          "id": "subnet-synthetic",
+          "vpc_id": "vpc-synthetic",
+          "cidr_block": "10.0.1.0/24"
+        }
+      }
+    }
+  ],
+  "configuration": {
+    "provider_config": {
+      "aws": {
+        "name": "aws",
+        "full_name": "registry.terraform.io/hashicorp/aws"
+      }
+    },
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_subnet.application",
+          "mode": "managed",
+          "type": "aws_subnet",
+          "name": "main",
+          "provider_config_key": "aws",
+          "expressions": {},
+          "schema_version": 0
+        }
+      ]
+    }
+  },
+  "applyable": false,
+  "complete": true,
+  "errored": false
+}

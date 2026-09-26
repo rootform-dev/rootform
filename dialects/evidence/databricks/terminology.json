@@ -705,7 +705,7 @@
       "source": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/restrict_workspace_admins_setting.md"
     },
     {
-      "id": "databricks.rule.rf.hcla-access-request-destinations",
+      "id": "databricks.rule.rfa-access-request-destinations",
       "terraform_type": "databricks_rfa_access_request_destinations",
       "label": "Databricks RFA access request destinations",
       "product": "Databricks identity and access management",
@@ -978,13 +978,6 @@
       "source": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/workspace_conf.md"
     },
     {
-      "id": "databricks.rule.workspace-customer-managed-key",
-      "terraform_type": "databricks_mws_customer_managed_keys",
-      "label": "Databricks workspace customer-managed key",
-      "product": "Databricks account and workspace deployment",
-      "source": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/mws_customer_managed_keys.md"
-    },
-    {
       "id": "databricks.rule.workspace-deployment-credential",
       "terraform_type": "databricks_mws_credentials",
       "label": "Databricks workspace deployment credential",
@@ -1179,11 +1172,6 @@
       "source": "https://docs.databricks.com/aws/en/lakehouse-architecture/reference"
     },
     {
-      "id": "databricks.concept.monitoring-configuration",
-      "label": "Databricks monitoring configuration",
-      "source": "https://docs.databricks.com/aws/en/lakehouse-architecture/reference"
-    },
-    {
       "id": "databricks.concept.network-binding",
       "label": "Databricks network binding",
       "source": "https://docs.databricks.com/aws/en/lakehouse-architecture/reference"
@@ -1196,11 +1184,6 @@
     {
       "id": "databricks.concept.network-security-configuration",
       "label": "Databricks network security configuration",
-      "source": "https://docs.databricks.com/aws/en/lakehouse-architecture/reference"
-    },
-    {
-      "id": "databricks.concept.oauth-application-integration",
-      "label": "Databricks OAuth application integration",
       "source": "https://docs.databricks.com/aws/en/lakehouse-architecture/reference"
     },
     {
@@ -1326,11 +1309,6 @@
     {
       "id": "databricks.rule.workspace-deployment-credential",
       "label": "Databricks workspace deployment credential",
-      "source": "https://docs.databricks.com/aws/en/lakehouse-architecture/reference"
-    },
-    {
-      "id": "databricks.concept.workspace-key-configuration",
-      "label": "Databricks workspace key configuration",
       "source": "https://docs.databricks.com/aws/en/lakehouse-architecture/reference"
     },
     {

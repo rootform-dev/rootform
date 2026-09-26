@@ -4,6 +4,15 @@ rule "lb" {
   }
 
   as = concept.load-balancer
+
+  identity {
+    attributes = ["arn"]
+    scope      = "global"
+  }
+
+  endpoint {
+    attributes = ["arn", "id"]
+  }
 }
 
 rule "lb-listener" {
@@ -14,8 +23,15 @@ rule "lb-listener" {
   as = concept.load-balancer-component
 
   contribution {
-    to  = concept.load-balancer
-    via = source.load_balancer_arn
+    to       = concept.load-balancer
+    via      = source.load_balancer_arn
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.arn
+      strategy = "exact"
+    }
   }
 }
 

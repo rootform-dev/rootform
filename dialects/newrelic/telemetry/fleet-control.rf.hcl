@@ -20,6 +20,15 @@ rule "fleet" {
   }
 
   as = concept.fleet
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "fleet-configuration" {
@@ -47,8 +56,15 @@ rule "fleet-deployment" {
   as = concept.fleet-deployment
 
   contribution {
-    to  = concept.fleet
-    via = source.fleet_id
+    to       = concept.fleet
+    via      = source.fleet_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -60,8 +76,15 @@ rule "fleet-members" {
   as = concept.fleet-membership
 
   contribution {
-    to  = concept.fleet
-    via = source.fleet_id
+    to       = concept.fleet
+    via      = source.fleet_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -74,7 +97,14 @@ rule "fleet-members-lookup" {
   as = concept.fleet-membership
 
   contribution {
-    to  = concept.fleet
-    via = source.fleet_id
+    to       = concept.fleet
+    via      = source.fleet_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

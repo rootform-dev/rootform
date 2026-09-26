@@ -12,6 +12,15 @@ rule "cloud-armor-security-policy" {
   }
 
   as = concept.cloud-armor-security-policy
+
+  identity {
+    attributes = ["id", "self_link", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "self_link", "name"]
+  }
 }
 
 rule "cloud-armor-security-rule" {
@@ -22,7 +31,14 @@ rule "cloud-armor-security-rule" {
   as = concept.cloud-armor-security-rule
 
   contribution {
-    to  = concept.cloud-armor-security-policy
-    via = source.security_policy
+    to       = concept.cloud-armor-security-policy
+    via      = source.security_policy
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.id, target.self_link]
+      strategy = "exact"
+    }
   }
 }

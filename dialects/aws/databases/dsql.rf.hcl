@@ -5,4 +5,13 @@ rule "dsql-cluster" {
   }
 
   as = rf.concept.managed-database
+
+  identity {
+    attributes = ["arn", "identifier"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["arn", "identifier"]
+  }
 }

@@ -1,0 +1,3119 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+          "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
+          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+          "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+          "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+          "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+          "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+        "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
+        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+        "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+        "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+        "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+        "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "google.concept.access-binding",
+        "owner": "google",
+        "name": "access-binding",
+        "description": "An access-control declaration attached to a data resource."
+      },
+      {
+        "id": "google.concept.bigquery-dataset",
+        "owner": "google",
+        "name": "bigquery-dataset",
+        "description": "A BigQuery dataset that organizes tables and their access boundary."
+      },
+      {
+        "id": "google.concept.bigquery-table",
+        "owner": "google",
+        "name": "bigquery-table",
+        "description": "A table managed inside a BigQuery dataset."
+      },
+      {
+        "id": "google.concept.google-cloud-project",
+        "owner": "google",
+        "name": "google-cloud-project",
+        "description": "A Google Cloud project serving as a resource and billing boundary."
+      },
+      {
+        "id": "google.concept.service-credential",
+        "owner": "google",
+        "name": "service-credential",
+        "description": "A credential issued for a service identity."
+      },
+      {
+        "id": "google.concept.service-identity-binding",
+        "owner": "google",
+        "name": "service-identity-binding",
+        "description": "An access-control binding that contributes to a service identity."
+      },
+      {
+        "id": "kestra.concept.access-binding",
+        "owner": "kestra",
+        "name": "access-binding",
+        "description": "A Kestra role binding for an external principal."
+      },
+      {
+        "id": "kestra.concept.access-role",
+        "owner": "kestra",
+        "name": "access-role",
+        "description": "A Kestra role defining an access permission set."
+      },
+      {
+        "id": "kestra.concept.flow",
+        "owner": "kestra",
+        "name": "flow",
+        "description": "A declaratively managed Kestra orchestration flow."
+      },
+      {
+        "id": "kestra.concept.identity-group",
+        "owner": "kestra",
+        "name": "identity-group",
+        "description": "A managed group principal used to assign access collectively."
+      },
+      {
+        "id": "kestra.concept.namespace",
+        "owner": "kestra",
+        "name": "namespace",
+        "description": "A Kestra namespace that organizes orchestration resources."
+      },
+      {
+        "id": "kestra.concept.namespace-secret",
+        "owner": "kestra",
+        "name": "namespace-secret",
+        "description": "A secret declaration attached to a Kestra namespace."
+      },
+      {
+        "id": "kestra.concept.user-account",
+        "owner": "kestra",
+        "name": "user-account",
+        "description": "A Kestra user account."
+      },
+      {
+        "id": "kestra.concept.user-credential",
+        "owner": "kestra",
+        "name": "user-credential",
+        "description": "A basic-auth credential attached to a Kestra user."
+      },
+      {
+        "id": "rf.concept.object-storage-container",
+        "owner": "rf",
+        "name": "object-storage-container",
+        "description": "An object storage container, excluding multi-service storage accounts."
+      },
+      {
+        "id": "rf.concept.service-identity",
+        "owner": "rf",
+        "name": "service-identity",
+        "description": "A principal explicitly intended for a non-human service or workload, excluding generic roles, permissions, bindings, and credentials."
+      },
+      {
+        "id": "vault.concept.namespace",
+        "owner": "vault",
+        "name": "namespace",
+        "description": "An isolated Vault tenancy boundary for secrets, auth methods, identities, and policies."
+      },
+      {
+        "id": "vault.concept.secret-definition",
+        "owner": "vault",
+        "name": "secret-definition",
+        "description": "A managed Vault secret definition whose values remain outside architecture output."
+      },
+      {
+        "id": "vault.concept.secret-read",
+        "owner": "vault",
+        "name": "secret-read",
+        "description": "A read-only lookup of Vault secret material whose values remain outside architecture output."
+      },
+      {
+        "id": "vault.concept.secrets-engine",
+        "owner": "vault",
+        "name": "secrets-engine",
+        "description": "A mounted Vault secrets engine storing, generating, or transforming sensitive data."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "google.context.ownership",
+        "owner": "google",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      },
+      {
+        "id": "kestra.context.ownership",
+        "owner": "kestra",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      },
+      {
+        "id": "vault.context.ownership",
+        "owner": "vault",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      }
+    ],
+    "relations": [],
+    "rules": [
+      {
+        "id": "google.rule.bigquery-dataset",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_bigquery_dataset",
+        "concept": "google.concept.bigquery-dataset",
+        "identity": {
+          "attributes": [
+            "dataset_id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "dataset_id",
+            "id",
+            "self_link"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "google.rule.bigquery-dataset-access",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_bigquery_dataset_access",
+        "concept": "google.concept.access-binding",
+        "emissions": [
+          "emission:36add9a4e49507e796f7f9cd612778d1a23c43fc0a5b49e582b9626e3c08fc26"
+        ]
+      },
+      {
+        "id": "google.rule.bigquery-table",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_bigquery_table",
+        "concept": "google.concept.bigquery-table",
+        "identity": {
+          "attributes": [
+            "table_id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "self_link",
+            "table_id"
+          ]
+        },
+        "emissions": [
+          "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e"
+        ]
+      },
+      {
+        "id": "google.rule.bigquery-table-iam-member",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_bigquery_table_iam_member",
+        "concept": "google.concept.access-binding",
+        "emissions": [
+          "emission:04735d190742ae7b65dc502d0bc5db9783d3b10e31dac9128bcc7a8d595b79e3"
+        ]
+      },
+      {
+        "id": "google.rule.cloud-storage-bucket",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_storage_bucket",
+        "concept": "rf.concept.object-storage-container",
+        "identity": {
+          "attributes": [
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name",
+            "self_link"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "google.rule.cloud-storage-bucket-iam-member",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_storage_bucket_iam_member",
+        "concept": "google.concept.access-binding",
+        "emissions": [
+          "emission:6cf90912c42e1cca4e126899ed9c9a1c0cdc042323e0a19c4ae9b005e44bd427"
+        ]
+      },
+      {
+        "id": "google.rule.iam-service-account",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_service_account",
+        "concept": "rf.concept.service-identity",
+        "identity": {
+          "attributes": [
+            "email",
+            "id"
+          ],
+          "scope": "global"
+        },
+        "endpoint": {
+          "attributes": [
+            "email",
+            "id",
+            "member",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        ]
+      },
+      {
+        "id": "google.rule.project-iam-member",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_project_iam_member",
+        "concept": "google.concept.service-identity-binding",
+        "emissions": [
+          "emission:cb2c5722404609df20c44e72261c8e52a23fce676af7a9d85bf6bd2cf2994994"
+        ]
+      },
+      {
+        "id": "google.rule.service-account-key",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_service_account_key",
+        "concept": "google.concept.service-credential",
+        "emissions": [
+          "emission:31f2417228c82d1864020717895601f7971d4943b55fc5bc4f791b3f4b5055ec"
+        ]
+      },
+      {
+        "id": "kestra.rule.binding",
+        "owner": "kestra",
+        "match_kind": "resource",
+        "match_type": "kestra_binding",
+        "concept": "kestra.concept.access-binding",
+        "emissions": [
+          "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd"
+        ]
+      },
+      {
+        "id": "kestra.rule.flow",
+        "owner": "kestra",
+        "match_kind": "resource",
+        "match_type": "kestra_flow",
+        "concept": "kestra.concept.flow",
+        "emissions": [
+          "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081"
+        ]
+      },
+      {
+        "id": "kestra.rule.group",
+        "owner": "kestra",
+        "match_kind": "resource",
+        "match_type": "kestra_group",
+        "concept": "kestra.concept.identity-group",
+        "emissions": [
+          "emission:b158c9af9dd414442104d5f5c7800612d2c7d10ba4856e0da175da2c94cd2871"
+        ]
+      },
+      {
+        "id": "kestra.rule.namespace",
+        "owner": "kestra",
+        "match_kind": "resource",
+        "match_type": "kestra_namespace",
+        "concept": "kestra.concept.namespace",
+        "identity": {
+          "attributes": [
+            "namespace_id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "namespace_id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "kestra.rule.namespace-secret",
+        "owner": "kestra",
+        "match_kind": "resource",
+        "match_type": "kestra_namespace_secret",
+        "concept": "kestra.concept.namespace-secret",
+        "emissions": [
+          "emission:9791284bcf1512964669198fa3abc5476c750987c2c766b541af38f7d62e66a2"
+        ]
+      },
+      {
+        "id": "kestra.rule.role",
+        "owner": "kestra",
+        "match_kind": "resource",
+        "match_type": "kestra_role",
+        "concept": "kestra.concept.access-role",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:ada716b7b9acd3b01edc78ae77b2b80b290ba9e9537bd29dc50bf0ce18495ae1"
+        ]
+      },
+      {
+        "id": "kestra.rule.user",
+        "owner": "kestra",
+        "match_kind": "resource",
+        "match_type": "kestra_user",
+        "concept": "kestra.concept.user-account",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "kestra.rule.user-password",
+        "owner": "kestra",
+        "match_kind": "resource",
+        "match_type": "kestra_user_password",
+        "concept": "kestra.concept.user-credential",
+        "emissions": [
+          "emission:26cc83c424aa47a439a25569e362e28d4c8ccf442aa2f795c37b3f5a74c42151"
+        ]
+      },
+      {
+        "id": "vault.rule.generic-secret",
+        "owner": "vault",
+        "match_kind": "resource",
+        "match_type": "vault_generic_secret",
+        "concept": "vault.concept.secret-definition",
+        "emissions": []
+      },
+      {
+        "id": "vault.rule.generic-secret-read",
+        "owner": "vault",
+        "match_kind": "data",
+        "match_type": "vault_generic_secret",
+        "concept": "vault.concept.secret-read",
+        "emissions": []
+      },
+      {
+        "id": "vault.rule.mount",
+        "owner": "vault",
+        "match_kind": "resource",
+        "match_type": "vault_mount",
+        "concept": "vault.concept.secrets-engine",
+        "identity": {
+          "attributes": [
+            "path"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "path"
+          ]
+        },
+        "emissions": [
+          "emission:3824b1be9f205800c7f6d772ea1663819ba3531861d57cb71af303dcd753c511"
+        ]
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:04735d190742ae7b65dc502d0bc5db9783d3b10e31dac9128bcc7a8d595b79e3",
+        "rule": "google.rule.bigquery-table-iam-member",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.bigquery-table"
+        },
+        "via": "source.table_id",
+        "match": {
+          "by": [
+            "table_id"
+          ],
+          "strategy": "last-segment"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:26cc83c424aa47a439a25569e362e28d4c8ccf442aa2f795c37b3f5a74c42151",
+        "rule": "kestra.rule.user-password",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "kestra.concept.user-account"
+        },
+        "via": "source.user_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+        "rule": "kestra.rule.flow",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "kestra.concept.namespace"
+        },
+        "dimension": "kestra.context.ownership",
+        "via": "source.namespace",
+        "match": {
+          "by": [
+            "namespace_id"
+          ],
+          "strategy": "dot-ancestor"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:31f2417228c82d1864020717895601f7971d4943b55fc5bc4f791b3f4b5055ec",
+        "rule": "google.rule.service-account-key",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.service-identity"
+        },
+        "via": "source.service_account_id",
+        "match": {
+          "by": [
+            "id",
+            "email"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:36add9a4e49507e796f7f9cd612778d1a23c43fc0a5b49e582b9626e3c08fc26",
+        "rule": "google.rule.bigquery-dataset-access",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.bigquery-dataset"
+        },
+        "via": "source.dataset_id",
+        "match": {
+          "by": [
+            "dataset_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:3824b1be9f205800c7f6d772ea1663819ba3531861d57cb71af303dcd753c511",
+        "rule": "vault.rule.mount",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "vault.concept.namespace"
+        },
+        "dimension": "vault.context.ownership",
+        "via": "source.namespace",
+        "match": {
+          "by": [
+            "path"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226",
+        "rule": "google.rule.iam-service-account",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.google-cloud-project"
+        },
+        "dimension": "google.context.ownership",
+        "via": "source.project",
+        "match": {
+          "by": [
+            "project_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:6cf90912c42e1cca4e126899ed9c9a1c0cdc042323e0a19c4ae9b005e44bd427",
+        "rule": "google.rule.cloud-storage-bucket-iam-member",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.object-storage-container"
+        },
+        "via": "source.bucket",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "last-segment"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:9791284bcf1512964669198fa3abc5476c750987c2c766b541af38f7d62e66a2",
+        "rule": "kestra.rule.namespace-secret",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "kestra.concept.namespace"
+        },
+        "via": "source.namespace",
+        "match": {
+          "by": [
+            "namespace_id"
+          ],
+          "strategy": "dot-ancestor"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:ada716b7b9acd3b01edc78ae77b2b80b290ba9e9537bd29dc50bf0ce18495ae1",
+        "rule": "kestra.rule.role",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "kestra.concept.namespace"
+        },
+        "dimension": "kestra.context.ownership",
+        "via": "source.namespace",
+        "match": {
+          "by": [
+            "namespace_id"
+          ],
+          "strategy": "dot-ancestor"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:b158c9af9dd414442104d5f5c7800612d2c7d10ba4856e0da175da2c94cd2871",
+        "rule": "kestra.rule.group",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "kestra.concept.namespace"
+        },
+        "dimension": "kestra.context.ownership",
+        "via": "source.namespace",
+        "match": {
+          "by": [
+            "namespace_id"
+          ],
+          "strategy": "dot-ancestor"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:cb2c5722404609df20c44e72261c8e52a23fce676af7a9d85bf6bd2cf2994994",
+        "rule": "google.rule.project-iam-member",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.service-identity"
+        },
+        "via": "source.member",
+        "match": {
+          "by": [
+            "email"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none",
+        "prefix": "serviceAccount:"
+      },
+      {
+        "id": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+        "rule": "google.rule.bigquery-table",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "google.concept.bigquery-dataset"
+        },
+        "dimension": "google.context.ownership",
+        "via": "source.dataset_id",
+        "match": {
+          "by": [
+            "dataset_id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+        "rule": "kestra.rule.binding",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "kestra.concept.access-role"
+        },
+        "via": "source.role_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:data.vault_generic_secret.runtime",
+          "kind": "data",
+          "type": "vault_generic_secret",
+          "name": "runtime",
+          "address": "data.vault_generic_secret.runtime",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/vault",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_bigquery_dataset.analytics",
+          "kind": "resource",
+          "type": "google_bigquery_dataset",
+          "name": "analytics",
+          "address": "google_bigquery_dataset.analytics",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_bigquery_dataset_access.reader",
+          "kind": "resource",
+          "type": "google_bigquery_dataset_access",
+          "name": "reader",
+          "address": "google_bigquery_dataset_access.reader",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_bigquery_table.events",
+          "kind": "resource",
+          "type": "google_bigquery_table",
+          "name": "events",
+          "address": "google_bigquery_table.events",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_bigquery_table_iam_member.viewer",
+          "kind": "resource",
+          "type": "google_bigquery_table_iam_member",
+          "name": "viewer",
+          "address": "google_bigquery_table_iam_member.viewer",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_project_iam_member.automation_viewer",
+          "kind": "resource",
+          "type": "google_project_iam_member",
+          "name": "automation_viewer",
+          "address": "google_project_iam_member.automation_viewer",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_project_service.bigquery",
+          "kind": "resource",
+          "type": "google_project_service",
+          "name": "bigquery",
+          "address": "google_project_service.bigquery",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_service_account.automation",
+          "kind": "resource",
+          "type": "google_service_account",
+          "name": "automation",
+          "address": "google_service_account.automation",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_service_account_key.automation",
+          "kind": "resource",
+          "type": "google_service_account_key",
+          "name": "automation",
+          "address": "google_service_account_key.automation",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_storage_bucket.archive",
+          "kind": "resource",
+          "type": "google_storage_bucket",
+          "name": "archive",
+          "address": "google_storage_bucket.archive",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_storage_bucket_iam_member.archive_reader",
+          "kind": "resource",
+          "type": "google_storage_bucket_iam_member",
+          "name": "archive_reader",
+          "address": "google_storage_bucket_iam_member.archive_reader",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kestra_binding.operators",
+          "kind": "resource",
+          "type": "kestra_binding",
+          "name": "operators",
+          "address": "kestra_binding.operators",
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kestra_flow.ingest",
+          "kind": "resource",
+          "type": "kestra_flow",
+          "name": "ingest",
+          "address": "kestra_flow.ingest",
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kestra_group.operators",
+          "kind": "resource",
+          "type": "kestra_group",
+          "name": "operators",
+          "address": "kestra_group.operators",
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kestra_namespace.platform",
+          "kind": "resource",
+          "type": "kestra_namespace",
+          "name": "platform",
+          "address": "kestra_namespace.platform",
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kestra_namespace_secret.runtime",
+          "kind": "resource",
+          "type": "kestra_namespace_secret",
+          "name": "runtime",
+          "address": "kestra_namespace_secret.runtime",
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kestra_role.operator",
+          "kind": "resource",
+          "type": "kestra_role",
+          "name": "operator",
+          "address": "kestra_role.operator",
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kestra_tenant.unsupported",
+          "kind": "resource",
+          "type": "kestra_tenant",
+          "name": "unsupported",
+          "address": "kestra_tenant.unsupported",
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kestra_user.automation",
+          "kind": "resource",
+          "type": "kestra_user",
+          "name": "automation",
+          "address": "kestra_user.automation",
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kestra_user_password.automation",
+          "kind": "resource",
+          "type": "kestra_user_password",
+          "name": "automation",
+          "address": "kestra_user_password.automation",
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:random_id.unsupported",
+          "kind": "resource",
+          "type": "random_id",
+          "name": "unsupported",
+          "address": "random_id.unsupported",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/random",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:random_password.automation",
+          "kind": "resource",
+          "type": "random_password",
+          "name": "automation",
+          "address": "random_password.automation",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/random",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.defer_reads",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "defer_reads",
+          "address": "terraform_data.defer_reads",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:vault_generic_secret.managed",
+          "kind": "resource",
+          "type": "vault_generic_secret",
+          "name": "managed",
+          "address": "vault_generic_secret.managed",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/vault",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:vault_mount.configured",
+          "kind": "resource",
+          "type": "vault_mount",
+          "name": "configured",
+          "address": "vault_mount.configured",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/vault",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "external:1:google.concept.google-cloud-project:0",
+          "kind": "external",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "external",
+          "actions": [],
+          "concept": "google.concept.google-cloud-project",
+          "implementation": {
+            "kind": "direct"
+          },
+          "disclosure": "none",
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.vault_generic_secret.runtime",
+          "kind": "data",
+          "declaration": "declaration:1:data.vault_generic_secret.runtime",
+          "address": "data.vault_generic_secret.runtime",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_dependency_pending",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/vault",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "vault.rule.generic-secret-read"
+            ],
+            "diagnostics": []
+          },
+          "rule": "vault.rule.generic-secret-read",
+          "concept": "vault.concept.secret-read",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_bigquery_dataset.analytics",
+          "kind": "managed",
+          "declaration": "declaration:1:google_bigquery_dataset.analytics",
+          "address": "google_bigquery_dataset.analytics",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.bigquery-dataset"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.bigquery-dataset",
+          "concept": "google.concept.bigquery-dataset",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_bigquery_dataset_access.reader",
+          "kind": "managed",
+          "declaration": "declaration:1:google_bigquery_dataset_access.reader",
+          "address": "google_bigquery_dataset_access.reader",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.bigquery-dataset-access"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.bigquery-dataset-access",
+          "concept": "google.concept.access-binding",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_bigquery_table.events",
+          "kind": "managed",
+          "declaration": "declaration:1:google_bigquery_table.events",
+          "address": "google_bigquery_table.events",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.bigquery-table"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.bigquery-table",
+          "concept": "google.concept.bigquery-table",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_bigquery_table_iam_member.viewer",
+          "kind": "managed",
+          "declaration": "declaration:1:google_bigquery_table_iam_member.viewer",
+          "address": "google_bigquery_table_iam_member.viewer",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.bigquery-table-iam-member"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.bigquery-table-iam-member",
+          "concept": "google.concept.access-binding",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_project_iam_member.automation_viewer",
+          "kind": "managed",
+          "declaration": "declaration:1:google_project_iam_member.automation_viewer",
+          "address": "google_project_iam_member.automation_viewer",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.project-iam-member"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.project-iam-member",
+          "concept": "google.concept.service-identity-binding",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_project_service.bigquery",
+          "kind": "managed",
+          "declaration": "declaration:1:google_project_service.bigquery",
+          "address": "google_project_service.bigquery",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_service_account.automation",
+          "kind": "managed",
+          "declaration": "declaration:1:google_service_account.automation",
+          "address": "google_service_account.automation",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.iam-service-account"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.iam-service-account",
+          "concept": "rf.concept.service-identity",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_service_account_key.automation",
+          "kind": "managed",
+          "declaration": "declaration:1:google_service_account_key.automation",
+          "address": "google_service_account_key.automation",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.service-account-key"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.service-account-key",
+          "concept": "google.concept.service-credential",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_storage_bucket.archive",
+          "kind": "managed",
+          "declaration": "declaration:1:google_storage_bucket.archive",
+          "address": "google_storage_bucket.archive",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.cloud-storage-bucket"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.cloud-storage-bucket",
+          "concept": "rf.concept.object-storage-container",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_storage_bucket_iam_member.archive_reader",
+          "kind": "managed",
+          "declaration": "declaration:1:google_storage_bucket_iam_member.archive_reader",
+          "address": "google_storage_bucket_iam_member.archive_reader",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.cloud-storage-bucket-iam-member"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.cloud-storage-bucket-iam-member",
+          "concept": "google.concept.access-binding",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kestra_binding.operators",
+          "kind": "managed",
+          "declaration": "declaration:1:kestra_binding.operators",
+          "address": "kestra_binding.operators",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kestra.rule.binding"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kestra.rule.binding",
+          "concept": "kestra.concept.access-binding",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kestra_flow.ingest",
+          "kind": "managed",
+          "declaration": "declaration:1:kestra_flow.ingest",
+          "address": "kestra_flow.ingest",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kestra.rule.flow"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kestra.rule.flow",
+          "concept": "kestra.concept.flow",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kestra_group.operators",
+          "kind": "managed",
+          "declaration": "declaration:1:kestra_group.operators",
+          "address": "kestra_group.operators",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kestra.rule.group"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kestra.rule.group",
+          "concept": "kestra.concept.identity-group",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kestra_namespace.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:kestra_namespace.platform",
+          "address": "kestra_namespace.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kestra.rule.namespace"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kestra.rule.namespace",
+          "concept": "kestra.concept.namespace",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kestra_namespace_secret.runtime",
+          "kind": "managed",
+          "declaration": "declaration:1:kestra_namespace_secret.runtime",
+          "address": "kestra_namespace_secret.runtime",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kestra.rule.namespace-secret"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kestra.rule.namespace-secret",
+          "concept": "kestra.concept.namespace-secret",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kestra_role.operator",
+          "kind": "managed",
+          "declaration": "declaration:1:kestra_role.operator",
+          "address": "kestra_role.operator",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kestra.rule.role"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kestra.rule.role",
+          "concept": "kestra.concept.access-role",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kestra_tenant.unsupported",
+          "kind": "managed",
+          "declaration": "declaration:1:kestra_tenant.unsupported",
+          "address": "kestra_tenant.unsupported",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kestra_user.automation",
+          "kind": "managed",
+          "declaration": "declaration:1:kestra_user.automation",
+          "address": "kestra_user.automation",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kestra.rule.user"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kestra.rule.user",
+          "concept": "kestra.concept.user-account",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kestra_user_password.automation",
+          "kind": "managed",
+          "declaration": "declaration:1:kestra_user_password.automation",
+          "address": "kestra_user_password.automation",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/kestra-io/kestra",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kestra.rule.user-password"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kestra.rule.user-password",
+          "concept": "kestra.concept.user-credential",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:random_id.unsupported",
+          "kind": "managed",
+          "declaration": "declaration:1:random_id.unsupported",
+          "address": "random_id.unsupported",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/random",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:random_password.automation",
+          "kind": "managed",
+          "declaration": "declaration:1:random_password.automation",
+          "address": "random_password.automation",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/random",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.defer_reads",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.defer_reads",
+          "address": "terraform_data.defer_reads",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:vault_generic_secret.managed",
+          "kind": "managed",
+          "declaration": "declaration:1:vault_generic_secret.managed",
+          "address": "vault_generic_secret.managed",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/vault",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "vault.rule.generic-secret"
+            ],
+            "diagnostics": []
+          },
+          "rule": "vault.rule.generic-secret",
+          "concept": "vault.concept.secret-definition",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:vault_mount.configured",
+          "kind": "managed",
+          "declaration": "declaration:1:vault_mount.configured",
+          "address": "vault_mount.configured",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/vault",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "vault.rule.mount"
+            ],
+            "diagnostics": []
+          },
+          "rule": "vault.rule.mount",
+          "concept": "vault.concept.secrets-engine",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:google.context.ownership:representation%3A1%3Agoogle_bigquery_table.events:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "from": "representation:1:google_bigquery_table.events",
+          "to": "representation:1:google_bigquery_dataset.analytics",
+          "dimension": "google.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+              "rule": "google.rule.bigquery-table",
+              "closure": "closure:representation%3A1%3Agoogle_bigquery_table.events:emission%3Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.automation:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_service_account.automation",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "dimension": "google.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226",
+              "rule": "google.rule.iam-service-account",
+              "closure": "closure:representation%3A1%3Agoogle_service_account.automation:emission%3A5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:kestra.context.ownership:representation%3A1%3Akestra_flow.ingest:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_flow.ingest",
+          "to": "representation:1:kestra_namespace.platform",
+          "dimension": "kestra.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+              "rule": "kestra.rule.flow",
+              "closure": "closure:representation%3A1%3Akestra_flow.ingest:emission%3A2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:kestra.context.ownership:representation%3A1%3Akestra_group.operators:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_group.operators",
+          "to": "representation:1:kestra_namespace.platform",
+          "dimension": "kestra.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:b158c9af9dd414442104d5f5c7800612d2c7d10ba4856e0da175da2c94cd2871",
+              "rule": "kestra.rule.group",
+              "closure": "closure:representation%3A1%3Akestra_group.operators:emission%3Ab158c9af9dd414442104d5f5c7800612d2c7d10ba4856e0da175da2c94cd2871",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:kestra.context.ownership:representation%3A1%3Akestra_role.operator:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_role.operator",
+          "to": "representation:1:kestra_namespace.platform",
+          "dimension": "kestra.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:ada716b7b9acd3b01edc78ae77b2b80b290ba9e9537bd29dc50bf0ce18495ae1",
+              "rule": "kestra.rule.role",
+              "closure": "closure:representation%3A1%3Akestra_role.operator:emission%3Aada716b7b9acd3b01edc78ae77b2b80b290ba9e9537bd29dc50bf0ce18495ae1",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "contributions": [
+        {
+          "id": "contribution:representation%3A1%3Agoogle_bigquery_dataset_access.reader:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "from": "representation:1:google_bigquery_dataset_access.reader",
+          "to": "representation:1:google_bigquery_dataset.analytics",
+          "provenance": [
+            {
+              "emission": "emission:36add9a4e49507e796f7f9cd612778d1a23c43fc0a5b49e582b9626e3c08fc26",
+              "rule": "google.rule.bigquery-dataset-access",
+              "closure": "closure:representation%3A1%3Agoogle_bigquery_dataset_access.reader:emission%3A36add9a4e49507e796f7f9cd612778d1a23c43fc0a5b49e582b9626e3c08fc26",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Agoogle_bigquery_table_iam_member.viewer:representation%3A1%3Agoogle_bigquery_table.events",
+          "from": "representation:1:google_bigquery_table_iam_member.viewer",
+          "to": "representation:1:google_bigquery_table.events",
+          "provenance": [
+            {
+              "emission": "emission:04735d190742ae7b65dc502d0bc5db9783d3b10e31dac9128bcc7a8d595b79e3",
+              "rule": "google.rule.bigquery-table-iam-member",
+              "closure": "closure:representation%3A1%3Agoogle_bigquery_table_iam_member.viewer:emission%3A04735d190742ae7b65dc502d0bc5db9783d3b10e31dac9128bcc7a8d595b79e3",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Agoogle_project_iam_member.automation_viewer:representation%3A1%3Agoogle_service_account.automation",
+          "from": "representation:1:google_project_iam_member.automation_viewer",
+          "to": "representation:1:google_service_account.automation",
+          "provenance": [
+            {
+              "emission": "emission:cb2c5722404609df20c44e72261c8e52a23fce676af7a9d85bf6bd2cf2994994",
+              "rule": "google.rule.project-iam-member",
+              "closure": "closure:representation%3A1%3Agoogle_project_iam_member.automation_viewer:emission%3Acb2c5722404609df20c44e72261c8e52a23fce676af7a9d85bf6bd2cf2994994",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Agoogle_service_account_key.automation:representation%3A1%3Agoogle_service_account.automation",
+          "from": "representation:1:google_service_account_key.automation",
+          "to": "representation:1:google_service_account.automation",
+          "provenance": [
+            {
+              "emission": "emission:31f2417228c82d1864020717895601f7971d4943b55fc5bc4f791b3f4b5055ec",
+              "rule": "google.rule.service-account-key",
+              "closure": "closure:representation%3A1%3Agoogle_service_account_key.automation:emission%3A31f2417228c82d1864020717895601f7971d4943b55fc5bc4f791b3f4b5055ec",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Agoogle_storage_bucket_iam_member.archive_reader:representation%3A1%3Agoogle_storage_bucket.archive",
+          "from": "representation:1:google_storage_bucket_iam_member.archive_reader",
+          "to": "representation:1:google_storage_bucket.archive",
+          "provenance": [
+            {
+              "emission": "emission:6cf90912c42e1cca4e126899ed9c9a1c0cdc042323e0a19c4ae9b005e44bd427",
+              "rule": "google.rule.cloud-storage-bucket-iam-member",
+              "closure": "closure:representation%3A1%3Agoogle_storage_bucket_iam_member.archive_reader:emission%3A6cf90912c42e1cca4e126899ed9c9a1c0cdc042323e0a19c4ae9b005e44bd427",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Akestra_binding.operators:representation%3A1%3Akestra_role.operator",
+          "from": "representation:1:kestra_binding.operators",
+          "to": "representation:1:kestra_role.operator",
+          "provenance": [
+            {
+              "emission": "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+              "rule": "kestra.rule.binding",
+              "closure": "closure:representation%3A1%3Akestra_binding.operators:emission%3Af07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Akestra_namespace_secret.runtime:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_namespace_secret.runtime",
+          "to": "representation:1:kestra_namespace.platform",
+          "provenance": [
+            {
+              "emission": "emission:9791284bcf1512964669198fa3abc5476c750987c2c766b541af38f7d62e66a2",
+              "rule": "kestra.rule.namespace-secret",
+              "closure": "closure:representation%3A1%3Akestra_namespace_secret.runtime:emission%3A9791284bcf1512964669198fa3abc5476c750987c2c766b541af38f7d62e66a2",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Akestra_user_password.automation:representation%3A1%3Akestra_user.automation",
+          "from": "representation:1:kestra_user_password.automation",
+          "to": "representation:1:kestra_user.automation",
+          "provenance": [
+            {
+              "emission": "emission:26cc83c424aa47a439a25569e362e28d4c8ccf442aa2f795c37b3f5a74c42151",
+              "rule": "kestra.rule.user-password",
+              "closure": "closure:representation%3A1%3Akestra_user_password.automation:emission%3A26cc83c424aa47a439a25569e362e28d4c8ccf442aa2f795c37b3f5a74c42151",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "relations": [],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Agoogle_bigquery_dataset_access.reader:emission%3A36add9a4e49507e796f7f9cd612778d1a23c43fc0a5b49e582b9626e3c08fc26",
+          "representation": "representation:1:google_bigquery_dataset_access.reader",
+          "emission": "emission:36add9a4e49507e796f7f9cd612778d1a23c43fc0a5b49e582b9626e3c08fc26",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Agoogle_bigquery_dataset_access.reader:representation%3A1%3Agoogle_bigquery_dataset.analytics"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_bigquery_table.events:emission%3Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "representation": "representation:1:google_bigquery_table.events",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "outcome": "resolved",
+          "facts": [
+            "context:google.context.ownership:representation%3A1%3Agoogle_bigquery_table.events:representation%3A1%3Agoogle_bigquery_dataset.analytics"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_bigquery_table_iam_member.viewer:emission%3A04735d190742ae7b65dc502d0bc5db9783d3b10e31dac9128bcc7a8d595b79e3",
+          "representation": "representation:1:google_bigquery_table_iam_member.viewer",
+          "emission": "emission:04735d190742ae7b65dc502d0bc5db9783d3b10e31dac9128bcc7a8d595b79e3",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Agoogle_bigquery_table_iam_member.viewer:representation%3A1%3Agoogle_bigquery_table.events"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_project_iam_member.automation_viewer:emission%3Acb2c5722404609df20c44e72261c8e52a23fce676af7a9d85bf6bd2cf2994994",
+          "representation": "representation:1:google_project_iam_member.automation_viewer",
+          "emission": "emission:cb2c5722404609df20c44e72261c8e52a23fce676af7a9d85bf6bd2cf2994994",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Agoogle_project_iam_member.automation_viewer:representation%3A1%3Agoogle_service_account.automation"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_service_account.automation:emission%3A5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226",
+          "representation": "representation:1:google_service_account.automation",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226",
+          "outcome": "resolved",
+          "facts": [
+            "context:google.context.ownership:representation%3A1%3Agoogle_service_account.automation:external%3A1%3Agoogle.concept.google-cloud-project%3A0"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_service_account_key.automation:emission%3A31f2417228c82d1864020717895601f7971d4943b55fc5bc4f791b3f4b5055ec",
+          "representation": "representation:1:google_service_account_key.automation",
+          "emission": "emission:31f2417228c82d1864020717895601f7971d4943b55fc5bc4f791b3f4b5055ec",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Agoogle_service_account_key.automation:representation%3A1%3Agoogle_service_account.automation"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Agoogle_storage_bucket_iam_member.archive_reader:emission%3A6cf90912c42e1cca4e126899ed9c9a1c0cdc042323e0a19c4ae9b005e44bd427",
+          "representation": "representation:1:google_storage_bucket_iam_member.archive_reader",
+          "emission": "emission:6cf90912c42e1cca4e126899ed9c9a1c0cdc042323e0a19c4ae9b005e44bd427",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Agoogle_storage_bucket_iam_member.archive_reader:representation%3A1%3Agoogle_storage_bucket.archive"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akestra_binding.operators:emission%3Af07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+          "representation": "representation:1:kestra_binding.operators",
+          "emission": "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Akestra_binding.operators:representation%3A1%3Akestra_role.operator"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akestra_flow.ingest:emission%3A2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+          "representation": "representation:1:kestra_flow.ingest",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+          "outcome": "resolved",
+          "facts": [
+            "context:kestra.context.ownership:representation%3A1%3Akestra_flow.ingest:representation%3A1%3Akestra_namespace.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akestra_group.operators:emission%3Ab158c9af9dd414442104d5f5c7800612d2c7d10ba4856e0da175da2c94cd2871",
+          "representation": "representation:1:kestra_group.operators",
+          "emission": "emission:b158c9af9dd414442104d5f5c7800612d2c7d10ba4856e0da175da2c94cd2871",
+          "outcome": "resolved",
+          "facts": [
+            "context:kestra.context.ownership:representation%3A1%3Akestra_group.operators:representation%3A1%3Akestra_namespace.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akestra_namespace_secret.runtime:emission%3A9791284bcf1512964669198fa3abc5476c750987c2c766b541af38f7d62e66a2",
+          "representation": "representation:1:kestra_namespace_secret.runtime",
+          "emission": "emission:9791284bcf1512964669198fa3abc5476c750987c2c766b541af38f7d62e66a2",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Akestra_namespace_secret.runtime:representation%3A1%3Akestra_namespace.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akestra_role.operator:emission%3Aada716b7b9acd3b01edc78ae77b2b80b290ba9e9537bd29dc50bf0ce18495ae1",
+          "representation": "representation:1:kestra_role.operator",
+          "emission": "emission:ada716b7b9acd3b01edc78ae77b2b80b290ba9e9537bd29dc50bf0ce18495ae1",
+          "outcome": "resolved",
+          "facts": [
+            "context:kestra.context.ownership:representation%3A1%3Akestra_role.operator:representation%3A1%3Akestra_namespace.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akestra_user_password.automation:emission%3A26cc83c424aa47a439a25569e362e28d4c8ccf442aa2f795c37b3f5a74c42151",
+          "representation": "representation:1:kestra_user_password.automation",
+          "emission": "emission:26cc83c424aa47a439a25569e362e28d4c8ccf442aa2f795c37b3f5a74c42151",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Akestra_user_password.automation:representation%3A1%3Akestra_user.automation"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Avault_mount.configured:emission%3A3824b1be9f205800c7f6d772ea1663819ba3531861d57cb71af303dcd753c511",
+          "representation": "representation:1:vault_mount.configured",
+          "emission": "emission:3824b1be9f205800c7f6d772ea1663819ba3531861d57cb71af303dcd753c511",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Adata.vault_generic_secret.runtime:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.vault_generic_secret.runtime",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_bigquery_dataset_access.reader:declaration%3A1%3Agoogle_bigquery_dataset.analytics",
+          "from": "declaration:1:google_bigquery_dataset_access.reader",
+          "to": "declaration:1:google_bigquery_dataset.analytics",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_bigquery_table.events:declaration%3A1%3Agoogle_bigquery_dataset.analytics",
+          "from": "declaration:1:google_bigquery_table.events",
+          "to": "declaration:1:google_bigquery_dataset.analytics",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_bigquery_table_iam_member.viewer:declaration%3A1%3Agoogle_bigquery_dataset.analytics",
+          "from": "declaration:1:google_bigquery_table_iam_member.viewer",
+          "to": "declaration:1:google_bigquery_dataset.analytics",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_bigquery_table_iam_member.viewer:declaration%3A1%3Agoogle_bigquery_table.events",
+          "from": "declaration:1:google_bigquery_table_iam_member.viewer",
+          "to": "declaration:1:google_bigquery_table.events",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_project_iam_member.automation_viewer:declaration%3A1%3Agoogle_service_account.automation",
+          "from": "declaration:1:google_project_iam_member.automation_viewer",
+          "to": "declaration:1:google_service_account.automation",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_service_account_key.automation:declaration%3A1%3Agoogle_service_account.automation",
+          "from": "declaration:1:google_service_account_key.automation",
+          "to": "declaration:1:google_service_account.automation",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Agoogle_storage_bucket_iam_member.archive_reader:declaration%3A1%3Agoogle_storage_bucket.archive",
+          "from": "declaration:1:google_storage_bucket_iam_member.archive_reader",
+          "to": "declaration:1:google_storage_bucket.archive",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Akestra_binding.operators:declaration%3A1%3Akestra_group.operators",
+          "from": "declaration:1:kestra_binding.operators",
+          "to": "declaration:1:kestra_group.operators",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Akestra_binding.operators:declaration%3A1%3Akestra_role.operator",
+          "from": "declaration:1:kestra_binding.operators",
+          "to": "declaration:1:kestra_role.operator",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Akestra_group.operators:declaration%3A1%3Akestra_namespace.platform",
+          "from": "declaration:1:kestra_group.operators",
+          "to": "declaration:1:kestra_namespace.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Akestra_namespace_secret.runtime:declaration%3A1%3Adata.vault_generic_secret.runtime",
+          "from": "declaration:1:kestra_namespace_secret.runtime",
+          "to": "declaration:1:data.vault_generic_secret.runtime",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Akestra_namespace_secret.runtime:declaration%3A1%3Akestra_namespace.platform",
+          "from": "declaration:1:kestra_namespace_secret.runtime",
+          "to": "declaration:1:kestra_namespace.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Akestra_role.operator:declaration%3A1%3Akestra_namespace.platform",
+          "from": "declaration:1:kestra_role.operator",
+          "to": "declaration:1:kestra_namespace.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Akestra_user.automation:declaration%3A1%3Akestra_group.operators",
+          "from": "declaration:1:kestra_user.automation",
+          "to": "declaration:1:kestra_group.operators",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Akestra_user_password.automation:declaration%3A1%3Akestra_user.automation",
+          "from": "declaration:1:kestra_user_password.automation",
+          "to": "declaration:1:kestra_user.automation",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Akestra_user_password.automation:declaration%3A1%3Arandom_password.automation",
+          "from": "declaration:1:kestra_user_password.automation",
+          "to": "declaration:1:random_password.automation",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Avault_generic_secret.managed:declaration%3A1%3Arandom_password.automation",
+          "from": "declaration:1:vault_generic_secret.managed",
+          "to": "declaration:1:random_password.automation",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 25,
+        "resources": 24,
+        "data_sources": 1,
+        "instances": 25,
+        "managed_instances": 24,
+        "data_instances": 1,
+        "external_endpoints": 1,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 20,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 5,
+        "facts": 13,
+        "closures": 14,
+        "resolved": 13,
+        "absent": 1,
+        "indeterminate": 0,
+        "dependencies": 18,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

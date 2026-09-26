@@ -38,7 +38,6 @@
     "service-level-objective-lookup": "generic/entity",
     "software-catalog": "generic/entity",
     "software-catalog-lookup": "generic/entity",
-    "synthetics-private-location": "generic/compute",
     "synthetics-suite": "generic/entity",
     "synthetics-test": "generic/entity",
     "synthetics-test-lookup": "generic/entity",
@@ -83,7 +82,6 @@
     "service-level-objective-lookup": "Datadog service level objective lookup",
     "software-catalog": "Datadog Software Catalog entity",
     "software-catalog-lookup": "Datadog Software Catalog lookup",
-    "synthetics-private-location": "Datadog Synthetics private location",
     "synthetics-suite": "Datadog Synthetics test suite",
     "synthetics-test": "Datadog synthetics test",
     "synthetics-test-lookup": "Datadog Synthetic test lookup",
@@ -95,6 +93,7 @@
     "automation-application": "generic/entity",
     "automation-workflow": "generic/entity",
     "catalog-definition": "generic/entity",
+    "observability-tenant": "generic/scope",
     "organization-connection": "generic/network",
     "security-configuration": "generic/identity",
     "service-integration": "generic/entity",
@@ -115,9 +114,11 @@
     "telemetry-destination": "Datadog telemetry destination"
   },
   "resources": {
-    "resource/datadog_observability_pipeline": "generic/network"
+    "resource/datadog_observability_pipeline": "generic/network",
+    "resource/datadog_synthetics_private_location": "generic/compute"
   },
   "resource_labels": {
-    "resource/datadog_observability_pipeline": "Datadog Observability Pipeline"
+    "resource/datadog_observability_pipeline": "Datadog Observability Pipeline",
+    "resource/datadog_synthetics_private_location": "Datadog Synthetics private location"
   }
 }

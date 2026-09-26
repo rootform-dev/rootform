@@ -8,6 +8,15 @@ rule "connection" {
   }
 
   as = concept.identity-connection
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "connection-lookup" {
@@ -17,4 +26,13 @@ rule "connection-lookup" {
   }
 
   as = concept.identity-connection
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

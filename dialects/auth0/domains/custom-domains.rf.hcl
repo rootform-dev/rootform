@@ -12,6 +12,15 @@ rule "custom-domain" {
   }
 
   as = concept.identity-domain
+
+  identity {
+    attributes = ["id", "domain"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "domain"]
+  }
 }
 
 rule "custom-domain-default" {
@@ -22,8 +31,18 @@ rule "custom-domain-default" {
   as = concept.domain-configuration
 
   contribution {
-    to  = concept.identity-domain
-    via = source.domain
+    to       = concept.identity-domain
+    via      = source.domain
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.domain
+      strategy = "exact"
+    }
+
+    # Shared identity-domain instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -34,6 +53,15 @@ rule "custom-domain-lookup" {
   }
 
   as = concept.identity-domain
+
+  identity {
+    attributes = ["id", "domain"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "domain"]
+  }
 }
 
 rule "custom-domain-verification" {
@@ -44,7 +72,17 @@ rule "custom-domain-verification" {
   as = concept.domain-configuration
 
   contribution {
-    to  = concept.identity-domain
-    via = source.custom_domain_id
+    to       = concept.identity-domain
+    via      = source.custom_domain_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared identity-domain instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
