@@ -4,8 +4,8 @@ description: "Canonical symbol IDs, local and qualified references, resolution s
 ---
 
 RF symbols name architecture semantics. They are distinct from
-[traversals](traversals.md), which navigate normalized infrastructure
-declarations.
+[traversals](traversals.md), which read instance or verified saved-plan
+evidence at a specified language position.
 
 ## Canonical symbol IDs
 
@@ -68,9 +68,11 @@ rule "subnet" {
   as = rf.concept.subnet
 
   context {
-    as  = rf.context.network
-    to  = concept.virtual-network
-    via = source.network_id
+    as       = rf.context.network
+    to       = concept.virtual-network
+    via      = source.network_id
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 ```
@@ -92,7 +94,7 @@ assert = exists(contexts(rf.context.network, rf.concept.virtual-network))
 ```
 
 Portable Policy Pack source carries references, not version pins. Compilation
-against Architecture IR resolves each reference and derives exact semantic pins.
+against a Rootform document resolves each reference and derives exact semantic pins.
 Unknown owners or symbols fail linking.
 
 ## Collection and duplicates

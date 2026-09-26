@@ -5,8 +5,8 @@ description: "Complete reference for Rootform language 0.1.0 source units, decla
 
 Rootform language is a closed, statically validated language for two jobs:
 
-- Dialects interpret normalized infrastructure declarations as architecture.
-- Policy Packs evaluate that architecture without reading infrastructure source.
+- Dialects interpret managed and data resource instances from plan JSON or state JSON.
+- Policy Packs evaluate the resulting architecture without reading raw infrastructure values.
 
 HCL supplies lexical syntax for `.rf.hcl` and `.rf.json`. Rootform defines the
 accepted blocks, attributes, expressions, references, types, defaults, and
@@ -30,9 +30,9 @@ This reference documents Rootform language version `0.1.0`.
 | Page | Contract covered |
 | --- | --- |
 | [Dialect declarations](dialects.md) | `dialect`, `provider`, `concept`, `context`, and `relation` |
-| [Rules and matching](rules.md) | `rule`, `match`, all 15 source kinds, predicates, and selection |
+| [Rules and matching](rules.md) | `rule`, `match`, managed and data instance kinds, predicates, and selection |
 | [Fact emissions](emissions.md) | `context`, `relation`, `contribution`, explicit attribute matching, and omissions |
-| [Composition](composition.md) | Ordered members, matching, exclusivity, and transactional application |
+| [Composition](composition.md) | Ordered members, per-instance resolution, and unresolved-member reasons |
 
 ### Expression language
 
@@ -62,12 +62,12 @@ Cardinality applies across one source root unless a placement says otherwise.
 | `concept` | Dialect | Top level | 0 or more | Required | [Semantic definitions](dialects.md#semantic-definition-blocks) |
 | `context` definition | Dialect | Top level | 0 or more | Required | [Semantic definitions](dialects.md#semantic-definition-blocks) |
 | `relation` definition | Dialect | Top level | 0 or more | Required | [Semantic definitions](dialects.md#semantic-definition-blocks) |
-| `rule` | Dialect | Top level | 0 or more | Required | [Rules](rules.md) |
-| Rule `match` | Dialect | Inside `rule` | Exactly 1 | Forbidden | [Matching](rules.md) |
-| `context` emission | Dialect | Inside `rule` | 0 or more | Optional, exclusive with `as` | [Context emission](emissions.md#forms-and-parameters) |
-| `relation` emission | Dialect | Inside `rule` | 0 or more | Optional, exclusive with `as` | [Relation emission](emissions.md#forms-and-parameters) |
-| `contribution` emission | Dialect | Inside `rule` | 0 or more | Forbidden | [Contribution emission](emissions.md#forms-and-parameters) |
-| Fact `match` | Dialect | Inside an emission | 0 or 1 | Forbidden | [Explicit attribute match](emissions.md#matching-target-identities) |
+| `rule` | Dialect | Top level | 0 or more | Required | [Rules](rules.md#rule-block) |
+| Rule `match` | Dialect | Inside `rule` | Exactly 1 | Forbidden | [Matching](rules.md#match-block) |
+| `context` emission | Dialect | Inside `rule` | 0 or more | Optional, exclusive with `as` | [Context emission](emissions.md#context-emission) |
+| `relation` emission | Dialect | Inside `rule` | 0 or more | Optional, exclusive with `as` | [Relation emission](emissions.md#relation-emission) |
+| `contribution` emission | Dialect | Inside `rule` | 0 or more | Forbidden | [Contribution emission](emissions.md#contribution-emission) |
+| Fact `match` | Dialect | Inside an emission | 0 or 1 | Forbidden | [Explicit attribute match](emissions.md#explicit-attribute-match) |
 | `composition` | Dialect | Inside `rule` | 0 or 1 | Forbidden | [Composition](composition.md#composition-block) |
 | `member` | Dialect | Inside `composition` | 1 or more | Required | [Member](composition.md#member-block) |
 | Member `match` | Dialect | Inside `member` | Exactly 1 | Forbidden | [Member matching](composition.md#member-matching) |

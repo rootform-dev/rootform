@@ -1,23 +1,75 @@
 ---
-title: "Choose an input"
-description: "Select a Terraform or OpenTofu plan, state export, or saved Rootform document."
+title: Choose an input
+description: Choose plan, state, or saved architecture evidence for the question at hand.
 ---
 
-`rootform run` reads one input by content. It accepts plan JSON, state JSON, a saved format-1 Rootform document, or `-` for standard input. A configuration directory is not an analysis input. Rootform reads the export and applies the project's Dialects; it does not run Terraform or OpenTofu.
+Choose the plan, state, or saved document that contains the evidence your question needs.
+`rootform run` detects input by content, not filename. Rootform reads local
+files and never runs Terraform or OpenTofu, contacts providers, or refreshes
+infrastructure.
 
-| Input | Produce or obtain it | Architecture evidence |
+| Question | Input | What it establishes |
 | --- | --- | --- |
-| Plan JSON | `terraform plan -out=plan.tfplan` then `terraform show -json plan.tfplan > plan.json` | Proposed `planned` stage; available prior stages and comparisons. |
-| State JSON | `terraform show -json > state.json` | One `recorded` snapshot stage. |
-| Rootform JSON document | `rootform run plan.json --no-serve -o analysis.json` | Reopens validated architecture without analyzing the producer export again. |
+| What would this operation create or change? | Plan JSON, preferably paired with its saved plan | Planned instances; available earlier stages, drift records, and comparisons |
+| What does this plan show without its saved plan? | Plan JSON alone | Evaluated values and dependencies, with unknown identity traversals left unresolved |
+| What is recorded in state? | State JSON | One `recorded` snapshot, without plan changes, refresh evidence, or configuration traversals |
+| Can I reopen a prior analysis? | Saved Rootform document | The validated document, including its original stage evidence, without reanalyzing plan or state JSON |
+| Can I compare two points in time? | Two accepted inputs with `--diff` | An architectural comparison; it is not a drift report |
+| Can I stream an export? | `-` on standard input | The same content-based detection; at most one comparison operand may read the stream |
 
-Use `tofu` in place of `terraform` for OpenTofu. Keep plan and state files protected: they can contain sensitive values even when Rootform's output omits them. See [Plans](plans.md) for stage and drift interpretation.
+## Choose a plan for change evidence
 
+Export a completed saved plan with `terraform show -json plan.tfplan > plan.json`.
+OpenTofu users run the same command with `tofu`. A verified
+`--plan-file plan.tfplan` can establish direct identity traversals that the
+JSON export does not preserve. A plan may contain `planned`, `refreshed`, and
+`recorded` stages, depending on what the plan contains. Rootform reports
+recorded-to-refreshed drift separately from the planned change. See
+[Terraform and OpenTofu plans](plans.md) for production, verification, and
+completeness.
+
+## Choose state for a recorded snapshot
+
+When the working directory already has state, export it with
+`terraform show -json > state.json`. State JSON contains instances and
+sensitivity masks, but no configuration expressions or before and after plan
+values. It cannot prove that no drift occurred. A raw `terraform.tfstate` file
+is a different shape and is not accepted.
+
+A working directory without state, such as a new example, exports only a
+format version. Rootform refuses that file with status `3`, says that it
+records no state, and suggests the plan commands instead.
+
+## Reuse or compare documents
+
+A Rootform document is reusable input. The same `run` command can
+open it without the plan, save a report, or compare it with a later input.
+A cross-input comparison orders the first input as Before and the `--diff`
+input as After. A fact that cannot be settled on both sides stays
+[undetermined](../concepts/diff.md#undetermined-preserves-uncertainty); it
+never counts as no change. If an operand is itself a comparison document, use
+`--before-side` or `--after-side` to identify the side to compare.
+
+<!-- docs-check:journey-inputs-reuse -->
 ```sh
-rootform run plan.json
-rootform run state.json --no-serve -o snapshot.json
-rootform run analysis.json --no-serve -o report.md
-rootform run before.json --diff after.json --no-serve -o comparison.json
+rootform run architecture.json --no-serve -o report.md
 ```
 
-Without `--no-serve`, the command opens a loopback browser view. The `--diff` result is a cross-input comparison, not a drift report. Select specific stages with `--before-stage` and `--after-stage` when the defaults are not the evidence you intend to compare.
+The file is a readable report of the saved architecture. It does not rerun
+Terraform or OpenTofu or add evidence missing from that document.
+
+A configuration directory is not an analysis input: it is a project location.
+`--project` selects its Dialects and policies; it does not supply infrastructure
+evidence. A binary saved plan alone is also not an input: export its JSON first,
+then optionally pair the two files. Rootform refuses malformed JSON, plan event
+streams from `plan -json`, and unrecognized documents rather than inferring a
+partial architecture.
+
+> [!WARNING]
+> Saved plans, plan JSON, and state JSON may contain secrets in clear text.
+> Keep them out of Git and public artifacts. Rootform outputs omit sensitive
+> values but still reveal names and topology; review access before sharing.
+
+To produce the export and verify its saved plan, continue with
+[Terraform and OpenTofu plans](plans.md). For a pull request with two planned
+revisions, go on to [Review a pull request](../workflows/index.md).

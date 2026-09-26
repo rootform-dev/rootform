@@ -6,6 +6,7 @@ project=${ROOTFORM_PROJECT:-./infra}
 input=${ROOTFORM_INPUT:-}
 plan_file=${ROOTFORM_PLAN_FILE:-}
 pack=${ROOTFORM_POLICY_PACK:-}
+policy=${ROOTFORM_POLICY:-}
 output=${ROOTFORM_OUTPUT_DIR:-.rootform-ci}
 
 if [ -z "$input" ] || [ ! -f "$input" ]; then
@@ -22,6 +23,10 @@ if [ -e "$output" ] || [ -L "$output" ]; then
 fi
 if [ -n "$plan_file" ] && [ ! -f "$plan_file" ]; then
   printf '%s\n' 'ROOTFORM_PLAN_FILE must name an existing saved plan' >&2
+  exit 2
+fi
+if [ -n "$pack" ] && [ -f "$project/rootform.lock" ]; then
+  printf '%s\n' 'ROOTFORM_POLICY_PACK cannot be combined with a project rootform.lock; select the Policy Pack in the lock' >&2
   exit 2
 fi
 
@@ -42,6 +47,11 @@ esac
 set -- run "$input" --project "$project" --no-serve -o "$output/analysis.json" -o "$output/report.md" -o "$output/results.sarif"
 if [ -n "$plan_file" ]; then set -- "$@" --plan-file "$plan_file" --require-enrichment; fi
 if [ -n "$pack" ]; then set -- "$@" --policy-pack "$pack"; fi
+if [ -n "$policy" ]; then
+  set -f
+  for selector in $policy; do set -- "$@" --policy "$selector"; done
+  set +f
+fi
 if [ -f "$project/rootform.lock" ]; then set -- "$@" --locked; fi
 
 set +e

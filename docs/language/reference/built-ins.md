@@ -65,14 +65,16 @@ policy "bucket-has-versioning-contribution" {
 
 ## Executable architecture
 
-This minimal Terraform configuration produces one target and one matching fact
-for each Policy above. Rootform's documentation gate builds it and evaluates all
-three Policies against resulting Architecture IR.
+This Terraform configuration can produce one target and one matching fact for
+each Policy above. Export its plan JSON and pair it with the saved plan when
+running Rootform so reference-based endpoints can be established. OpenTofu
+users run the same commands with `tofu`; see [Plan inputs](../../inputs/plans.md).
+Saved plans and plan JSON can contain secrets in clear text. Keep them out of
+Git and public artifacts. Rootform reads them locally; it never runs Terraform
+or OpenTofu and never contacts providers.
 
 ```hcl title="built-ins/main.tf"
 terraform {
-  required_version = ">= 1.14.0"
-
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -110,6 +112,14 @@ resource "aws_s3_bucket_versioning" "assets" {
   }
 }
 ```
+
+Save the configuration as `built-ins/main.tf`, produce its plan JSON and saved
+plan, then run it with the displayed Policy Pack. The planned stage has six
+instances, three resolved facts (one of each kind), and three Policy targets.
+All three Policies pass with exit 0. If a closure is indeterminate, `exists`
+cannot claim absence and `length` cannot claim a complete count; inspect that
+closure before treating a failed check as an architectural violation. The
+[plan-input guide](../../inputs/plans.md) gives the export commands.
 
 ## `exists`
 
@@ -250,7 +260,7 @@ All semantic arguments are owner-qualified in Policy source:
 | `aws.rule.subnet` | `rule.subnet` |
 | `rf.concept.virtual-network` | `concept.virtual-network` |
 
-Linker verifies each referenced symbol against Architecture IR before producing
+Linker verifies each referenced symbol against the Rootform document before producing
 compiled Policy Pack.
 
 ## Support, completeness, and evidence
@@ -259,7 +269,7 @@ Each query internally carries:
 
 | Signal | Meaning |
 | --- | --- |
-| Facts | Confirmed matching Architecture IR fact IDs |
+| Facts | Confirmed matching fact IDs in the selected stage |
 | Supported | Loaded Rule emission contracts can answer query shape |
 | Complete | Relevant architecture and emission evidence has no unresolved gap |
 | Evidence | Emission, omission, resolution, and diagnostic IDs inspected |

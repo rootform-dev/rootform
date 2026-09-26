@@ -9,4 +9,4 @@ rootform run examples/playground/shared-data-platform/head/plan.json --plan-file
 rootform run examples/playground/shared-data-platform/base/plan.json --diff examples/playground/shared-data-platform/head/plan.json --plan-file examples/playground/shared-data-platform/base/plan.tfplan --diff-plan-file examples/playground/shared-data-platform/head/plan.tfplan --project examples/playground/shared-data-platform/head --no-serve -o shared-data-platform-comparison.json
 ```
 
-The analysis is a format-1 `plan` document. The second command creates a `comparison` document whose `cross` comparison is not drift. Facts cite a Rule, emission, closure, and value or traversal evidence. Unknown values remain unresolved; a missing drift record does not establish that drift was absent.
+The analysis is a Rootform `plan` document. The second command creates a `comparison` document whose `cross` comparison is not drift. Facts cite a Rule, emission, closure, and value or traversal evidence. Unknown values remain unresolved; a missing drift record does not establish that drift was absent.

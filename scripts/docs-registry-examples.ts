@@ -8,9 +8,10 @@ import {
   mkdtempSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
-import { basename, dirname, isAbsolute, join, resolve } from "node:path";
+import { basename, isAbsolute, join, resolve } from "node:path";
 import { markedCommand } from "./docs-core-examples.ts";
 
 export const registryMarkers = [
@@ -103,6 +104,11 @@ export function verifyRegistryExamples(options: Options): string[] {
   const docker = join(workspace, "docker");
   mkdirSync(docker);
   writeFileSync(join(docker, "config.json"), "{}\n");
+  /* Pages call "rootform" by name. A directory holding only a link to the
+     binary under test keeps an older rootform elsewhere on PATH out of reach. */
+  const tools = join(workspace, "bin");
+  mkdirSync(tools);
+  symlinkSync(options.binary, join(tools, "rootform"));
   const page = (path: string) => readFileSync(join(root, "docs", path), "utf8");
   const home = (name: string) => {
     const path = join(workspace, "homes", name);
@@ -115,7 +121,7 @@ export function verifyRegistryExamples(options: Options): string[] {
     ROOTFORM_INPUT: "0",
     DOCKER_CONFIG: docker,
     SSL_CERT_FILE: options.caFile,
-    PATH: `${dirname(options.binary)}:${process.env.PATH ?? ""}`,
+    PATH: `${tools}:${process.env.PATH ?? ""}`,
     NO_COLOR: "1",
   });
   function run(command: string[], cwd: string, homeName: string, expected = 0): Result {
@@ -205,7 +211,10 @@ export function verifyRegistryExamples(options: Options): string[] {
     );
     return digest;
   }
-  const main = readFileSync(join(root, "examples/aws-vpc/main.tf"), "utf8");
+  const main = readFileSync(
+    join(root, "examples/playground/commerce-platform/base/main.tf"),
+    "utf8",
+  );
   const checks: string[] = [];
   try {
     const paymentRepository = `${registryBase}/acme/rootform/payments`;

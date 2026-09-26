@@ -70,10 +70,11 @@ If not, remove it or move it to the internal source that needs it. Technical
 truth alone is not a reason to publish a detail.
 
 State prerequisites instead of teaching industry conventions. Explain product
-concepts with enough depth to support a correct decision: Representations,
-Rules, Concepts, RF Vocabulary, Dialects, `.rf.hcl`, Architecture IR, policies and
-Policy Packs, Diff, locks, vendor, offline operation, and provenance. Explain
-what Rootform can establish and what it refuses to invent.
+concepts with enough depth to support a correct decision: instances and
+Representations, Rules, Concepts, RF Vocabulary, Dialects, `.rf.hcl`, stages
+and closures, Rootform documents, policies and Policy Packs, comparisons and
+drift, locks, vendor, offline operation, and provenance. Explain what Rootform
+can establish and what it refuses to invent.
 
 Use progressive disclosure. Put the common decision first, then alternatives,
 then advanced or manual procedures. A simple task should remain short. A concept
@@ -89,8 +90,8 @@ depth to context:
 - an authoring guide explains how to create or change it;
 - a reference page defines the exact syntax and behavior.
 
-Apply this rule to Dialects, policies, Architecture IR, Diff, plans, locks, and
-provenance. Do not paste a full definition into every workflow. Link to a stable
+Apply this rule to Dialects, policies, Rootform documents, comparisons, plans,
+locks, and provenance. Do not paste a full definition into every workflow. Link to a stable
 heading when another page owns the explanation.
 
 Before adding a paragraph, search neighboring pages. If the same fact already has
@@ -115,22 +116,28 @@ Use one term for each external-content state. The full explanation belongs in
 “Exact identity” names what the lock records. Reserve “pin” for digests
 inside identities and “cache” for derived content under `$ROOTFORM_HOME/cache`.
 
-Name the input, behavior, result, and boundary. A diagram describes declared
-architecture, not live connectivity. An unresolved result is not a pass. A
+Name the input, behavior, result, and boundary. A diagram describes the
+architecture a plan or state records, not live connectivity. An indeterminate
+result is not a pass. A
 `rootform.lock` fixes selection, while `--offline` controls acquisition during
 explicit `init` or `vendor`. Normal analysis does not acquire packages.
 
-Use **architecture** in ordinary prose and **Rootform architecture file** for a
-saved document. Use **Architecture IR** for the public data contract. Keep
-**Representation**, **Rule**, **Concept**, **RF Vocabulary**, **Dialect**,
-**Policy Pack**, and **Diff** consistent. Use lowercase `resource` for the
-normalized source kind. Use **Policy** for a named authored assertion and
+Use **architecture** in ordinary prose and **Rootform document** for a saved
+`.json` analysis or comparison, as the CLI does. Use **Architecture IR** only
+for the public data contract of that document. Name inputs as the reader
+produces them: **plan JSON** for `terraform show -json plan.tfplan`, **saved
+plan** for the file `terraform plan -out` writes, and **state JSON** for
+`terraform show -json`. Use **instance** for a managed or data resource
+instance and **Representation** for its entry in a Rootform document. Keep
+**Rule**, **Concept**, **RF Vocabulary**, **Dialect**, **Policy Pack**,
+**stage**, **closure**, **comparison**, and **drift** consistent; `--diff`
+names the flag, not the result. Use **Policy** for a named authored assertion and
 **Policy Pack** for its owner and selection. Use lowercase `policy` only for
 generic prose. Reserve backticks for commands, paths, flags, identifiers, and
 literal values.
 
 The [RF Vocabulary](../concepts/dialects.md) supplies common architectural
-terms. A [Dialect](../concepts/dialects.md) interprets provider declarations
+terms. A [Dialect](../concepts/dialects.md) interprets provider resources
 using those terms. Do not describe the RF Vocabulary as a provider Dialect.
 
 Use **Rootform language** in headings and navigation and **the Rootform language**
@@ -149,18 +156,20 @@ root and top-level `policy` declarations in `.rf.hcl` or `.rf.json` files beneat
 that same root. The source root establishes ownership; policies need no explicit
 pack reference. Nested `policy` blocks are invalid.
 
-Distinguish a Terraform or OpenTofu plan input from an Architecture Diff.
+Distinguish the changes a plan proposes from a comparison between two inputs,
+and both from drift, which a plan reports for changes made outside Terraform
+or OpenTofu.
 Describe relations by their declared meaning. Do not turn network context into
-a reachability claim or a source dependency into an architecture relation.
-Source evidence supports a Rule's architectural claim but is not itself the
+a reachability claim or a Terraform dependency into an architecture relation.
+Plan evidence supports a Rule's architectural claim but is not itself the
 Context or Relation produced by that Rule.
 
 Keep a Representation in Architecture IR distinct from its presentation. A
 secondary resource can be present in the document without a permanent card in
 every Explorer scene. Link to [Explorer navigation](../guides/explore-architecture.md#reveal-a-secondary-resource)
-instead of calling it missing. In Diff, `undetermined` is neither no change
+instead of calling it missing. In a comparison, `undetermined` is neither no change
 nor proof that the comparison failed. Link to
-[Architecture comparisons](../concepts/diff.md).
+[Architecture comparisons](../concepts/diff.md#undetermined-preserves-uncertainty).
 
 ## Write directly, with natural rhythm
 
@@ -183,7 +192,7 @@ dots in technical prose.
 
 | Before | After |
 | --- | --- |
-| In this guide, we will explore how to get started with Rootform. | Build a VPC and subnet from a small Terraform configuration. |
+| In this guide, we will explore how to get started with Rootform. | Plan a VPC and subnet from a small Terraform configuration. |
 | Simply leverage the offline flag for seamless local execution. | Use `init --offline` or `vendor … --offline` to prevent acquisition. Selected third-party content must already be available locally. |
 | Rootform ensures your infrastructure is secure. | `rootform run plan.json --policy-pack ./policies` evaluates selected policies. |
 | Current access: the executable emits text, JSON, Markdown, and HTML. | `rootform run before.json --diff after.json` emits a comparison document. |
@@ -243,7 +252,7 @@ Use these examples to choose scope and wording:
 | `macOS` as a heading directly below an active `macOS` tab. | Let the selected tab identify the platform; begin with **Recommended**. |
 | A Dialects concept page teaching source-priority and registry resolution algorithms. | Explain how Dialects change architecture meaning; link acquisition details to offline operation. |
 | A check walkthrough ending with an unrelated pack that evaluates zero targets. | Follow one policy through pass, violation, indeterminate evidence, then the same gate in CI. |
-| Describing `moved` as a machine Diff entry state. | Explain that the Diff view strictly derives a move from removed and added context facts. |
+| Reporting a renamed instance as removed and added. | Explain that the plan records the previous address, so Rootform reports the instance as `moved`. |
 | “The first run needs registry access.” | “A missing selected OCI Dialect or Policy Pack may need registry access during `init`. Local selections use their recorded paths.” |
 
 ## Make examples executable

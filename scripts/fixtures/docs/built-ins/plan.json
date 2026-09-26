@@ -1,0 +1,527 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.16.4",
+  "planned_values": {
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_s3_bucket.assets",
+          "mode": "managed",
+          "type": "aws_s3_bucket",
+          "name": "assets",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "bucket": "rootform-docs-assets",
+            "force_destroy": false,
+            "region": "us-east-1",
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_values": {
+            "cors_rule": [],
+            "grant": [],
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "replication_configuration": [],
+            "server_side_encryption_configuration": [],
+            "tags_all": {},
+            "versioning": [],
+            "website": []
+          },
+          "identity_schema_version": 0,
+          "identity": { "account_id": null, "bucket": null, "region": null }
+        },
+        {
+          "address": "aws_s3_bucket_versioning.assets",
+          "mode": "managed",
+          "type": "aws_s3_bucket_versioning",
+          "name": "assets",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "expected_bucket_owner": null,
+            "mfa": null,
+            "region": "us-east-1",
+            "versioning_configuration": [{ "status": "Enabled" }]
+          },
+          "sensitive_values": { "versioning_configuration": [{}] },
+          "identity_schema_version": 1,
+          "identity": { "account_id": null, "bucket": null, "region": null }
+        },
+        {
+          "address": "aws_sns_topic.events",
+          "mode": "managed",
+          "type": "aws_sns_topic",
+          "name": "events",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "application_failure_feedback_role_arn": null,
+            "application_success_feedback_role_arn": null,
+            "application_success_feedback_sample_rate": null,
+            "archive_policy": null,
+            "content_based_deduplication": false,
+            "delivery_policy": null,
+            "display_name": null,
+            "fifo_topic": false,
+            "firehose_failure_feedback_role_arn": null,
+            "firehose_success_feedback_role_arn": null,
+            "firehose_success_feedback_sample_rate": null,
+            "http_failure_feedback_role_arn": null,
+            "http_success_feedback_role_arn": null,
+            "http_success_feedback_sample_rate": null,
+            "kms_master_key_id": null,
+            "lambda_failure_feedback_role_arn": null,
+            "lambda_success_feedback_role_arn": null,
+            "lambda_success_feedback_sample_rate": null,
+            "region": "us-east-1",
+            "sqs_failure_feedback_role_arn": null,
+            "sqs_success_feedback_role_arn": null,
+            "sqs_success_feedback_sample_rate": null,
+            "tags": null
+          },
+          "sensitive_values": { "tags_all": {} },
+          "identity_schema_version": 0,
+          "identity": { "arn": null }
+        },
+        {
+          "address": "aws_sns_topic_subscription.events",
+          "mode": "managed",
+          "type": "aws_sns_topic_subscription",
+          "name": "events",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "confirmation_timeout_in_minutes": 1,
+            "delivery_policy": null,
+            "endpoint": "https://example.com/events",
+            "endpoint_auto_confirms": false,
+            "filter_policy": null,
+            "protocol": "https",
+            "raw_message_delivery": false,
+            "redrive_policy": null,
+            "region": "us-east-1",
+            "replay_policy": null,
+            "subscription_role_arn": null
+          },
+          "sensitive_values": {},
+          "identity_schema_version": 0,
+          "identity": { "arn": null }
+        },
+        {
+          "address": "aws_subnet.application",
+          "mode": "managed",
+          "type": "aws_subnet",
+          "name": "application",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 1,
+          "values": {
+            "assign_ipv6_address_on_creation": false,
+            "cidr_block": "10.20.1.0/24",
+            "customer_owned_ipv4_pool": null,
+            "enable_dns64": false,
+            "enable_lni_at_device_index": null,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "ipv4_ipam_pool_id": null,
+            "ipv4_netmask_length": null,
+            "ipv6_ipam_pool_id": null,
+            "ipv6_native": false,
+            "ipv6_netmask_length": null,
+            "map_customer_owned_ip_on_launch": null,
+            "map_public_ip_on_launch": false,
+            "outpost_arn": null,
+            "region": "us-east-1",
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_values": { "tags_all": {} },
+          "identity_schema_version": 0,
+          "identity": { "account_id": null, "id": null, "region": null }
+        },
+        {
+          "address": "aws_vpc.main",
+          "mode": "managed",
+          "type": "aws_vpc",
+          "name": "main",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 1,
+          "values": {
+            "assign_generated_ipv6_cidr_block": null,
+            "cidr_block": "10.20.0.0/16",
+            "enable_dns_support": true,
+            "instance_tenancy": "default",
+            "ipv4_ipam_pool_id": null,
+            "ipv4_netmask_length": null,
+            "ipv6_ipam_pool_id": null,
+            "ipv6_netmask_length": null,
+            "region": "us-east-1",
+            "tags": null
+          },
+          "sensitive_values": { "tags_all": {} },
+          "identity_schema_version": 0,
+          "identity": { "account_id": null, "id": null, "region": null }
+        }
+      ]
+    }
+  },
+  "resource_changes": [
+    {
+      "address": "aws_s3_bucket.assets",
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "assets",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "bucket": "rootform-docs-assets",
+          "force_destroy": false,
+          "region": "us-east-1",
+          "tags": null,
+          "timeouts": null
+        },
+        "after_unknown": {
+          "acceleration_status": true,
+          "acl": true,
+          "arn": true,
+          "bucket_domain_name": true,
+          "bucket_namespace": true,
+          "bucket_prefix": true,
+          "bucket_region": true,
+          "bucket_regional_domain_name": true,
+          "cors_rule": true,
+          "grant": true,
+          "hosted_zone_id": true,
+          "id": true,
+          "lifecycle_rule": true,
+          "logging": true,
+          "object_lock_configuration": true,
+          "object_lock_enabled": true,
+          "policy": true,
+          "replication_configuration": true,
+          "request_payer": true,
+          "server_side_encryption_configuration": true,
+          "tags_all": true,
+          "versioning": true,
+          "website": true,
+          "website_domain": true,
+          "website_endpoint": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": {
+          "cors_rule": [],
+          "grant": [],
+          "lifecycle_rule": [],
+          "logging": [],
+          "object_lock_configuration": [],
+          "replication_configuration": [],
+          "server_side_encryption_configuration": [],
+          "tags_all": {},
+          "versioning": [],
+          "website": []
+        },
+        "after_identity": { "account_id": null, "bucket": null, "region": null }
+      }
+    },
+    {
+      "address": "aws_s3_bucket_versioning.assets",
+      "mode": "managed",
+      "type": "aws_s3_bucket_versioning",
+      "name": "assets",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "expected_bucket_owner": null,
+          "mfa": null,
+          "region": "us-east-1",
+          "versioning_configuration": [{ "status": "Enabled" }]
+        },
+        "after_unknown": {
+          "bucket": true,
+          "id": true,
+          "versioning_configuration": [{ "mfa_delete": true }]
+        },
+        "before_sensitive": false,
+        "after_sensitive": { "versioning_configuration": [{}] },
+        "after_identity": { "account_id": null, "bucket": null, "region": null }
+      }
+    },
+    {
+      "address": "aws_sns_topic.events",
+      "mode": "managed",
+      "type": "aws_sns_topic",
+      "name": "events",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "application_failure_feedback_role_arn": null,
+          "application_success_feedback_role_arn": null,
+          "application_success_feedback_sample_rate": null,
+          "archive_policy": null,
+          "content_based_deduplication": false,
+          "delivery_policy": null,
+          "display_name": null,
+          "fifo_topic": false,
+          "firehose_failure_feedback_role_arn": null,
+          "firehose_success_feedback_role_arn": null,
+          "firehose_success_feedback_sample_rate": null,
+          "http_failure_feedback_role_arn": null,
+          "http_success_feedback_role_arn": null,
+          "http_success_feedback_sample_rate": null,
+          "kms_master_key_id": null,
+          "lambda_failure_feedback_role_arn": null,
+          "lambda_success_feedback_role_arn": null,
+          "lambda_success_feedback_sample_rate": null,
+          "region": "us-east-1",
+          "sqs_failure_feedback_role_arn": null,
+          "sqs_success_feedback_role_arn": null,
+          "sqs_success_feedback_sample_rate": null,
+          "tags": null
+        },
+        "after_unknown": {
+          "arn": true,
+          "beginning_archive_time": true,
+          "fifo_throughput_scope": true,
+          "id": true,
+          "name": true,
+          "name_prefix": true,
+          "owner": true,
+          "policy": true,
+          "signature_version": true,
+          "tags_all": true,
+          "tracing_config": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": { "tags_all": {} },
+        "after_identity": { "arn": null }
+      }
+    },
+    {
+      "address": "aws_sns_topic_subscription.events",
+      "mode": "managed",
+      "type": "aws_sns_topic_subscription",
+      "name": "events",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "confirmation_timeout_in_minutes": 1,
+          "delivery_policy": null,
+          "endpoint": "https://example.com/events",
+          "endpoint_auto_confirms": false,
+          "filter_policy": null,
+          "protocol": "https",
+          "raw_message_delivery": false,
+          "redrive_policy": null,
+          "region": "us-east-1",
+          "replay_policy": null,
+          "subscription_role_arn": null
+        },
+        "after_unknown": {
+          "arn": true,
+          "confirmation_was_authenticated": true,
+          "filter_policy_scope": true,
+          "id": true,
+          "owner_id": true,
+          "pending_confirmation": true,
+          "topic_arn": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": {},
+        "after_identity": { "arn": null }
+      }
+    },
+    {
+      "address": "aws_subnet.application",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "application",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "assign_ipv6_address_on_creation": false,
+          "cidr_block": "10.20.1.0/24",
+          "customer_owned_ipv4_pool": null,
+          "enable_dns64": false,
+          "enable_lni_at_device_index": null,
+          "enable_resource_name_dns_a_record_on_launch": false,
+          "enable_resource_name_dns_aaaa_record_on_launch": false,
+          "ipv4_ipam_pool_id": null,
+          "ipv4_netmask_length": null,
+          "ipv6_ipam_pool_id": null,
+          "ipv6_native": false,
+          "ipv6_netmask_length": null,
+          "map_customer_owned_ip_on_launch": null,
+          "map_public_ip_on_launch": false,
+          "outpost_arn": null,
+          "region": "us-east-1",
+          "tags": null,
+          "timeouts": null
+        },
+        "after_unknown": {
+          "arn": true,
+          "availability_zone": true,
+          "availability_zone_id": true,
+          "id": true,
+          "ipv6_cidr_block": true,
+          "ipv6_cidr_block_association_id": true,
+          "owner_id": true,
+          "private_dns_hostname_type_on_launch": true,
+          "tags_all": true,
+          "vpc_id": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": { "tags_all": {} },
+        "after_identity": { "account_id": null, "id": null, "region": null }
+      }
+    },
+    {
+      "address": "aws_vpc.main",
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "assign_generated_ipv6_cidr_block": null,
+          "cidr_block": "10.20.0.0/16",
+          "enable_dns_support": true,
+          "instance_tenancy": "default",
+          "ipv4_ipam_pool_id": null,
+          "ipv4_netmask_length": null,
+          "ipv6_ipam_pool_id": null,
+          "ipv6_netmask_length": null,
+          "region": "us-east-1",
+          "tags": null
+        },
+        "after_unknown": {
+          "arn": true,
+          "default_network_acl_id": true,
+          "default_route_table_id": true,
+          "default_security_group_id": true,
+          "dhcp_options_id": true,
+          "enable_dns_hostnames": true,
+          "enable_network_address_usage_metrics": true,
+          "id": true,
+          "ipv6_association_id": true,
+          "ipv6_cidr_block": true,
+          "ipv6_cidr_block_network_border_group": true,
+          "main_route_table_id": true,
+          "owner_id": true,
+          "tags_all": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": { "tags_all": {} },
+        "after_identity": { "account_id": null, "id": null, "region": null }
+      }
+    }
+  ],
+  "configuration": {
+    "provider_config": {
+      "aws": {
+        "name": "aws",
+        "full_name": "registry.terraform.io/hashicorp/aws",
+        "version_constraint": "6.62.0",
+        "expressions": {
+          "access_key": { "constant_value": "fixture" },
+          "max_retries": { "constant_value": 1 },
+          "region": { "constant_value": "us-east-1" },
+          "secret_key": { "constant_value": "fixture" },
+          "skip_credentials_validation": { "constant_value": true },
+          "skip_metadata_api_check": { "constant_value": true },
+          "skip_region_validation": { "constant_value": true },
+          "skip_requesting_account_id": { "constant_value": true }
+        }
+      }
+    },
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_s3_bucket.assets",
+          "mode": "managed",
+          "type": "aws_s3_bucket",
+          "name": "assets",
+          "provider_config_key": "aws",
+          "expressions": { "bucket": { "constant_value": "rootform-docs-assets" } },
+          "schema_version": 0
+        },
+        {
+          "address": "aws_s3_bucket_versioning.assets",
+          "mode": "managed",
+          "type": "aws_s3_bucket_versioning",
+          "name": "assets",
+          "provider_config_key": "aws",
+          "expressions": {
+            "bucket": { "references": ["aws_s3_bucket.assets.id", "aws_s3_bucket.assets"] },
+            "versioning_configuration": [{ "status": { "constant_value": "Enabled" } }]
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "aws_sns_topic.events",
+          "mode": "managed",
+          "type": "aws_sns_topic",
+          "name": "events",
+          "provider_config_key": "aws",
+          "schema_version": 0
+        },
+        {
+          "address": "aws_sns_topic_subscription.events",
+          "mode": "managed",
+          "type": "aws_sns_topic_subscription",
+          "name": "events",
+          "provider_config_key": "aws",
+          "expressions": {
+            "endpoint": { "constant_value": "https://example.com/events" },
+            "protocol": { "constant_value": "https" },
+            "topic_arn": { "references": ["aws_sns_topic.events.arn", "aws_sns_topic.events"] }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "aws_subnet.application",
+          "mode": "managed",
+          "type": "aws_subnet",
+          "name": "application",
+          "provider_config_key": "aws",
+          "expressions": {
+            "cidr_block": { "constant_value": "10.20.1.0/24" },
+            "vpc_id": { "references": ["aws_vpc.main.id", "aws_vpc.main"] }
+          },
+          "schema_version": 1
+        },
+        {
+          "address": "aws_vpc.main",
+          "mode": "managed",
+          "type": "aws_vpc",
+          "name": "main",
+          "provider_config_key": "aws",
+          "expressions": { "cidr_block": { "constant_value": "10.20.0.0/16" } },
+          "schema_version": 1
+        }
+      ]
+    }
+  },
+  "relevant_attributes": [
+    { "resource": "aws_s3_bucket.assets", "attribute": ["id"] },
+    { "resource": "aws_sns_topic.events", "attribute": ["arn"] },
+    { "resource": "aws_vpc.main", "attribute": ["id"] }
+  ],
+  "timestamp": "2026-09-26T11:38:09Z",
+  "applyable": true,
+  "complete": true,
+  "errored": false
+}

@@ -58,6 +58,6 @@ back to another identity. Set `SSL_CERT_FILE` to a bounded PEM bundle when a
 private certificate authority is required. Invalid trust data fails before
 Rootform uses an artifact.
 
-Use [Container image](oci-image.md) when
+Use [Container image](oci-image.md#use-private-registry-credentials) when
 credentials must enter a container. `--offline` on `init` or `vendor` forbids
 registry acquisition, regardless of credential availability.

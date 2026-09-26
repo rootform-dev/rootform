@@ -1,5 +1,12 @@
 import { expect, test } from "bun:test";
-import { mkdirSync, mkdtempSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  realpathSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -90,4 +97,38 @@ test("CI recipe preserves a policy failure and rejects reused output", () => {
   });
   expect(second.exitCode).toBe(2);
   expect(second.stderr.toString()).toContain("fresh directory");
+});
+test("CI recipe refuses an ad hoc pack for a locked project before writing outputs", () => {
+  const f = fixture();
+  writeFileSync(join(f.project, "rootform.lock"), "{}\n");
+  const result = Bun.spawnSync(["/bin/sh", script], {
+    cwd: f.root,
+    env: f.env,
+    stdout: "pipe",
+    stderr: "pipe",
+  });
+  expect(result.exitCode).toBe(2);
+  expect(result.stderr.toString()).toContain("rootform.lock");
+  expect(existsSync(f.output)).toBe(false);
+  expect(existsSync(f.args)).toBe(false);
+});
+test("CI recipe passes locked policy selectors without shell expansion", () => {
+  const f = fixture();
+  writeFileSync(join(f.project, "rootform.lock"), "{}\n");
+  mkdirSync(join(f.root, "tutorial"));
+  writeFileSync(join(f.root, "tutorial", "matched"), "");
+  const { ROOTFORM_POLICY_PACK: _pack, ...env } = f.env;
+  const result = Bun.spawnSync(["/bin/sh", script], {
+    cwd: f.root,
+    env: { ...env, ROOTFORM_POLICY: "tutorial/* baseline/managed-database-network-context" },
+    stdout: "pipe",
+    stderr: "pipe",
+  });
+  expect(result.exitCode).toBe(0);
+  const args = readFileSync(f.args, "utf8");
+  expect(args).toContain(
+    "--policy tutorial/* --policy baseline/managed-database-network-context --locked",
+  );
+  expect(args).not.toContain("--policy-pack");
+  expect(args).not.toContain("tutorial/matched");
 });

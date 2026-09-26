@@ -4,9 +4,10 @@ description: "Group portable policies, link them to exact architecture semantics
 ---
 
 A Policy Pack is an independent source unit. It owns a name, version, and
-Policies. It never adds architecture facts and never declares semantic
-dependency versions. Exact RF Vocabulary and Dialect pins are derived during
-linking from qualified references.
+Policies. This guide uses the public baseline Pack and a plan containing a
+Kubernetes cluster and managed database. A Policy observes architectural
+facts; it never creates them. Exact RF Vocabulary and Dialect identities are
+derived when the Pack is linked.
 
 ## Start with one source root
 
@@ -69,9 +70,9 @@ These fences match public baseline source exactly.
 owner-first form, for example `baseline.policy.cluster-network-context`.
 Names use lowercase kebab case. Version is exact `MAJOR.MINOR.PATCH`.
 
-No `requires` block exists. Policies use qualified references only. Linker
-resolves each referenced owner and symbol against the given Architecture IR,
-then records exact versions and digests in compiled artifact.
+No `requires` block exists. Policies use qualified references only. Linking
+resolves each referenced owner and symbol against the Rootform document, then
+records exact versions and digests in the compiled Pack.
 
 ## Define target
 
@@ -92,30 +93,68 @@ matching Concept or applied Rule is not selected.
 
 ## Evaluate locally
 
-Point `run` at a plan with local Policy Pack source while authoring:
+From a checkout of the Rootform repository, run the reviewed commerce plan
+against the baseline source. The saved plan verifies the plan JSON and
+supplies the traversals needed to decide these network contexts.
+[Plan inputs](../inputs/plans.md) shows how to export both files from your own
+project with `terraform` or `tofu`. Saved plans and plan JSON can contain
+secrets in clear text; keep yours out of Git and public artifacts. Rootform
+reads them locally and keeps sensitive values out of its outputs.
 
 <!-- docs-check:docs-language-write-policy-pack-1 -->
 ```sh
-rootform run ./example/plan.json --project ./example --policy-pack ./baseline --no-serve
-rootform list policies --policy-pack ./baseline
-rootform show policy baseline.policy.cluster-network-context --policy-pack ./baseline
+rootform run examples/playground/commerce-platform/head/plan.json \
+  --plan-file examples/playground/commerce-platform/head/plan.tfplan \
+  --policy-pack ./policy-packs/baseline --no-serve --color always \
+  -o analysis.json
+rootform list policies --policy-pack ./policy-packs/baseline
+rootform show policy baseline.policy.cluster-network-context \
+  --policy-pack ./policy-packs/baseline
 ```
 
-The override lasts one command and leaves `rootform.lock` unchanged. When the
-project should retain the pack, run `rootform add policy-packs ./baseline` from
-the project root and commit the source with the lock. Save exact
-linked form against Architecture IR when replay must not need producer
-Dialects:
+<!-- docs-output:docs-language-write-policy-pack-1 -->
+```ansi title="Passing result, excerpt"
+[2mPolicies[0m      passed
+
+[1m[38;5;208mPolicies · planned[0m
+  [2mResult[0m     passed
+  [2mEvaluated[0m  2 policies over 2 targets: 2 passed, 0 violated, 0 indeterminate
+```
+
+Status `0` means both selected targets passed. A violation exits `1`;
+indeterminate evidence or no selected decision exits `3`. The latter two are
+not passes. `list` names both qualified Policies, while `show` prints the
+target and assertion without evaluating it. If a context is indeterminate,
+inspect the instance closure and confirm that the saved plan matches the JSON.
+The local override lasts one command and leaves `rootform.lock` unchanged.
+
+| `Policies · planned` result | Status | What to do |
+| --- | --- | --- |
+| `Result     passed` | `0` | All evaluated targets passed. Confirm the target count is greater than zero. |
+| `Result     violated` | `1` | Read the named target and Policy message, then explain that Policy. |
+| `Result     indeterminate` | `3` | Inspect its closure reason; missing or unknown evidence cannot prove a pass. |
+| `Result     no decision` | `3` | No selected Policy had a target. Check the Pack target and selected plan stage. |
+
+These are distinct Policy outcomes. The [check walkthrough](../guides/check-architecture.md)
+shows violations, indeterminate closures, and no-target results on small plans.
+
+Save the linked Pack against the Rootform document when replay must use that
+exact semantic selection. `analysis.json` came from the preceding run:
 
 <!-- docs-check:docs-language-write-policy-pack-2 -->
 ```sh
-rootform compile policy-pack ./baseline --semantics architecture.json \
+rootform compile policy-pack ./policy-packs/baseline --semantics analysis.json \
   --output baseline.compiled.json
-rootform run architecture.json --policy-pack baseline.compiled.json --no-serve
+rootform run analysis.json --policy-pack baseline.compiled.json --no-serve --color always
 ```
 
-Compiled artifact records authored content digest, linked digest, RF Language
-version, and exact semantic pins. Any mismatch fails closed.
+The compile command prints the Pack, semantic-pin count and destination. The
+second run loads the Rootform document without recompiling the plan and again
+reports two passes, status `0`. The compiled artifact records the authored
+content digest, linked digest, language version, and exact semantic identities.
+A mismatch fails closed. When the project should retain the source Pack, use
+`rootform add policy-packs ./policy-packs/baseline` from that project root and
+commit the Pack source with `rootform.lock`.
 
 ## Package and publish a Policy Pack
 
@@ -123,15 +162,17 @@ Packaging is local and offline:
 
 <!-- docs-check:docs-language-write-policy-pack-3 -->
 ```sh
-rootform package policy-packs ./baseline \
+rootform package policy-packs ./policy-packs/baseline \
   --to ./artifacts/policies \
   --source-url https://example.com/team/policies \
-  --revision "$(git rev-parse HEAD)" \
   --documentation-url https://example.com/team/policies/docs \
   --licenses Apache-2.0
 ```
 
-Publication is separate and generic:
+The result names the Pack and local destination. Record the reviewed source
+revision with `--revision` when your publication process requires that
+provenance. Packaging itself sends nothing to a registry. Publication is
+separate and generic:
 
 <!-- docs-check:docs-language-write-policy-pack-4 -->
 ```sh

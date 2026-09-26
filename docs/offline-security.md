@@ -45,7 +45,7 @@ another location. This prevents a damaged project copy from silently changing
 the result on a machine with different installed content. Restore the family
 with `rootform vendor` and verify it with `rootform init --locked --offline`.
 
-[Reproduce a build offline](guides/reproduce-build.md) walks through transfer
+[Reproduce an analysis offline](guides/reproduce-build.md) walks through transfer
 and independent replay.
 
 ## OCI mirror

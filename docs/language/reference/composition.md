@@ -1,11 +1,11 @@
 ---
 title: "Composition"
-description: "Complete reference for ordered composition members, matching, exclusivity, diagnostics, and transactional application."
+description: "Complete reference for ordered composition members, per-instance resolution, and unresolved-member reasons."
 ---
 
-Composition says one interpreted root declaration is implemented by other
-source declarations. It is structural architecture meaning, independent of
-optional Concept classification.
+Composition says one interpreted root instance has implementation members in
+the same stage. It is structural architecture meaning, independent of optional
+Concept classification. Members remain separate instances.
 
 ## Complete example
 
@@ -49,8 +49,11 @@ rule "application-load-balancer" {
 }
 ```
 
-Root is `example_forwarding_rule`. First member resolves from root's
-`proxy_id`. Second resolves from already accepted `proxy` member.
+The root is each matching `example_forwarding_rule` instance. Its `proxy_id`
+names the first member; `backend_id` on a resolved proxy names the second.
+The `via` value can match a candidate's declared identity. A verified saved
+plan can establish a direct reference to that candidate's endpoint even when
+the value is unknown. An unresolved proxy leaves the backend unresolved too.
 
 ## `composition` block
 
@@ -92,9 +95,9 @@ Member `match` uses same parameters as Rule `match`:
 
 | Name | Type | Required | Default | Constraints |
 | --- | --- | --- | --- | --- |
-| `kind` | Static string enum | No | `"resource"` | One of [15 match kinds](rules.md) |
+| `kind` | Static string enum | No | `"resource"` | `"resource"` or `"data"`; see [match kinds](rules.md#matchkind-values) |
 | `type` | Static string | Yes | None | Nonempty exact adapter-owned type |
-| `where` | Predicate expression | No | Equivalent to known `true` | `source.*` reads candidate member declaration |
+| `where` | Predicate expression | No | Equivalent to known `true` | `source.*` reads candidate member instance |
 
 ```rf title="filtered member"
 member "backend" {
@@ -107,57 +110,47 @@ member "backend" {
 }
 ```
 
-Within member `match.where`, `source` means declaration currently being
-tested as that member, not composition root.
+Within member `match.where`, `source` means the instance currently considered
+as that member, not the composition root.
 
-## Resolution and exclusivity
+## Member resolution
 
-For every member in authored order, Rootform:
+For every root instance, Rootform processes members in authored order:
 
-1. resolves `via` from root or accepted earlier member;
-2. requires one unambiguous target declaration;
-3. applies member's `kind`, `type`, provider, version, and `where` match;
-4. rejects target already selected by its own Rule;
-5. rejects target with uncertain interpretation;
-6. records member for later members.
+1. Read `via` from the root or an established earlier member.
+2. Find an eligible instance of the member's kind and type, applying `where`.
+3. Establish identity through a known value matching a candidate Rule's
+   declared identity, or through a verified saved-plan traversal to an endpoint.
+4. Record the established member with its value or traversal evidence; otherwise
+   record an unresolved member with its reason.
 
-One declaration can satisfy at most one composition member slot globally. This
-includes two slots in one composition and slots under different roots.
-Competing claims fail every conflicting composition; Rootform does not choose
-by order.
+The saved-plan traversal can establish an uninterpreted member. An unresolved
+member does not stop an independent later member from resolving.
 
-Composition links source declarations into root implementation. It does not
-apply root Rule or Concept to members. It does not erase members' resource
-bases. Membership and resolution provenance remain explicit in Architecture IR.
+Composition does not apply the root Rule or Concept to members, invent
+Relations between them, or remove their Representations. See
+[Fact emissions](emissions.md) when a visible relationship is needed.
 
-## Transactional behavior
+## Unresolved members
 
-Composition is all-or-nothing. If any member fails:
-
-- no composition is applied;
-- root Rule application is rolled back;
-- root `as` classification is not applied;
-- root emissions do not run;
-- partial member resolutions are removed;
-- managed-resource base representations remain.
-
-A failure in early member also prevents dependent later members from becoming
-independent successes.
+Composition is evaluated independently for each root instance and stage.
+Unresolved members stay listed on that root, alongside any established
+members. A later member whose `via` uses an unresolved earlier member is itself
+unresolved with reason `unavailable`; an independent later member can still
+resolve. The root's Rule classification and emissions remain available.
 
 ## Diagnostics
 
-Composition diagnostics have error severity.
+Member resolution is visible through unresolved-member reasons in the Rootform
+document. Authored source errors still produce compiler diagnostics.
 
 | Code | Meaning |
 | --- | --- |
-| `COMPOSITION_MEMBER_UNRESOLVED` | Required member cannot be found |
-| `COMPOSITION_MEMBER_MISMATCH` | Resolved declaration fails member `match` |
-| `COMPOSITION_MEMBER_CONFLICT` | Member has own selected Rule or more than one composition slot claims same declaration |
-| `COMPOSITION_MEMBER_UNCERTAIN` | Member interpretation is already indeterminate |
-| `PREDICATE_UNRESOLVED` | Member `where` cannot be decided |
-| `PROVIDER_IDENTITY_UNRESOLVED` | Member provider identity cannot be decided |
-| `PROVIDER_VERSION_INCOMPATIBLE` | Member exact provider version violates envelope |
-| Traversal diagnostic | Member `via` cannot resolve safely |
+| `COMPOSITION_INVALID` | Invalid authored member structure or order |
+| `unavailable` | An earlier member needed by `via` is unresolved, or required evidence is unavailable |
+| `identity_incomplete` | No candidate identity or verified traversal establishes the member |
+| `reference_ambiguous` | Verified traversal and evaluated identity evidence disagree |
+| `ambiguous_unknown` | An eligible candidate cannot be ruled out with the available evidence |
 
 ## Rejected forms
 

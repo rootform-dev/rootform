@@ -4,9 +4,10 @@ description: "Understand Rootform's network boundary, sensitive outputs, and tru
 ---
 
 Rootform analyzes local inputs without telemetry, cloud account access,
-provider execution, or implicit package acquisition. Network access belongs
-to explicit preparation or publication, plus the loopback server used by
-`run`.
+provider execution, or implicit package acquisition. It reads the plan JSON,
+saved plan, or state JSON that Terraform or OpenTofu already produced; it never
+runs either tool. Network access belongs to explicit preparation or
+publication, plus the loopback server used by `run`.
 
 ## Know which operation crosses a network boundary
 
@@ -18,8 +19,8 @@ to explicit preparation or publication, plus the loopback server used by
 | `rootform vendor dialects` and `rootform vendor policy-packs` | Copy selected local sources directly. May acquire and install missing exact OCI content before vendoring when acquisition is allowed. |
 | `rootform publish dialects` and `rootform publish policy-packs` | Deliberately write package artifacts to a registry and repull their exact identity. |
 | `rootform package` | Creates local OCI layouts without registry access. |
-| `run`, `explain`, `list`, `show`, `validate`, and `test` | Use available embedded, local, installed, or vendored content. They never acquire packages implicitly. |
-| `rootform run` | Serves the local architecture over loopback. It does not make an outbound Rootform connection or acquire packages. |
+| `rootform run`, `explain`, `list`, `show`, `validate`, and `test` | Use available embedded, local, installed, or vendored content. They never acquire packages implicitly. |
+| `rootform run` without `--no-serve` | Serves the Explorer on `127.0.0.1` only. It makes no outbound connection. |
 
 `--locked` requires and preserves an existing `rootform.lock`; it does not
 disable network acquisition by `init`. `--offline` prevents acquisition by
@@ -39,21 +40,32 @@ evidence gap.
 ## Protect plans and derived outputs
 
 > [!WARNING]
-> Saved Terraform or OpenTofu plans and their JSON exports can contain sensitive
-> values even when terminal output hides them. Keep them out of Git and public
+> Saved plans, plan JSON, and state JSON can contain sensitive values in clear
+> text, even when terminal output hides them. Keep them out of Git and public
 > artifacts. Rootform does not sanitize, modify, or delete those inputs.
 
-Architecture IR does not copy raw HCL, raw source values, secrets, plan files,
-state, absolute paths, or UI state. It still records resource addresses and
-names, relative source locations, project structure, relationships,
-diagnostics, and provenance. A Diff or Policy report can expose portions of
-the same architecture evidence. No raw values does not mean anonymized.
+A Rootform document never copies attribute values, sensitive values, raw HCL,
+saved plans, plan JSON, state, local paths, or Explorer state. It still records
+resource and instance addresses, including `count` and `for_each` keys,
+resource types, module paths, provider identities, planned actions,
+relationships, closure results, diagnostics, and the Terraform or OpenTofu
+version that the input reports. An external endpoint's identity is recorded
+only when its Dialect allows that disclosure. Comparisons, Markdown and SARIF
+reports, and HTML exports expose the same kind of information. Omitting raw
+values does not anonymize the result.
 
-Review saved architecture JSON or HTML, reports, and standard-error diagnostics
-before sharing them. Apply the same audience and retention rules as other
-infrastructure metadata. The [plan guide](../inputs/plans.md)
-explains the input risk, and [Architecture IR](../concepts/architecture-ir.md)
-describes the retained evidence.
+An HTML export embeds the Explorer and a display copy of the Rootform document
+in one file. Opening it makes no network request. Anyone who receives the file
+can read the names and topology in that copy; keep the `.json` document when
+you need the complete reusable result.
+
+Review saved Rootform documents, HTML exports, reports, and standard-error
+diagnostics before sharing them. Apply the same audience and retention rules as
+other infrastructure metadata. The
+[plan guide](../inputs/plans.md#protect-the-plan-files) explains the input
+risk, and
+[Architecture documents](../concepts/architecture-ir.md#saved-evidence-still-needs-handling-rules)
+describes what a saved document retains.
 
 ## Separate integrity from trust
 
@@ -71,10 +83,10 @@ shows why a claim was made; it does not verify deployed health or reachability.
 
 ## Share a useful reproduction
 
-Reduce a failure to synthetic configuration. Record the Rootform version,
-command, exit status, and sanitized diagnostic while preserving the relevant
-reference or module shape. Never include credentials, raw plans, state, or
-customer names in a public report.
+Reduce a failure to synthetic configuration and a plan made from it. Record the
+Rootform version, command, exit status, and sanitized diagnostic while
+preserving the relevant reference or module shape. Never include credentials,
+real plans, state, or customer names in a public report.
 
 Use [Troubleshooting](../troubleshooting/index.md) for operational symptoms,
 [Limitations](../limitations.md) for product boundaries, and the

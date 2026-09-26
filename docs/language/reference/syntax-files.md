@@ -74,6 +74,8 @@ relation-definition
 rule-block         = "rule", label, "{",
                        match-block,
                        [ as-attribute ],
+                       [ identity-block ],
+                       [ endpoint-block ],
                        { context-emission | relation-emission |
                          contribution-emission },
                        [ composition-block ],
@@ -85,10 +87,23 @@ match-block        = "match", "{",
                        [ where-attribute ],
                      "}" ;
 
+identity-block     = "identity", "{",
+                       attributes-attribute,
+                       [ scope-attribute ],
+                     "}" ;
+endpoint-block     = "endpoint", "{",
+                       attributes-attribute,
+                     "}" ;
+
 context-emission   = ( "context", label | "context" ), "{",
                        [ as-attribute ],
                        to-attribute,
                        via-attribute,
+                       on-null-attribute,
+                       on-empty-attribute,
+                       [ external-attribute ],
+                       [ disclose-attribute ],
+                       [ prefix-attribute ],
                        [ fact-match-block ],
                      "}" ;
 
@@ -96,6 +111,11 @@ relation-emission  = ( "relation", label | "relation" ), "{",
                        [ as-attribute ],
                        to-attribute,
                        via-attribute,
+                       on-null-attribute,
+                       on-empty-attribute,
+                       [ external-attribute ],
+                       [ disclose-attribute ],
+                       [ prefix-attribute ],
                        [ fact-match-block ],
                      "}" ;
 
@@ -103,6 +123,11 @@ contribution-emission
                    = "contribution", "{",
                        to-attribute,
                        via-attribute,
+                       on-null-attribute,
+                       on-empty-attribute,
+                       [ external-attribute ],
+                       [ disclose-attribute ],
+                       [ prefix-attribute ],
                        [ fact-match-block ],
                      "}" ;
 
@@ -296,7 +321,7 @@ Provider `version` is a constraint string, not this exact-version field. See
 | Expression source | At most 4,096 bytes |
 
 Additional compiled and evaluation bounds appear under
-[Diagnostics and limits](diagnostics.md).
+[Diagnostics and limits](diagnostics.md#limits).
 
 ## Rejected example
 

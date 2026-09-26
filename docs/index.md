@@ -4,22 +4,23 @@ description: Explore, explain, compare, and check architecture derived from Terr
 tableOfContents: false
 ---
 
-Rootform turns Terraform and OpenTofu plan or state JSON into architecture
-you can inspect. Rootform does not run the producer or contact a cloud account.
+Rootform turns Terraform and OpenTofu plans and state into architecture you
+can inspect. It reads the JSON that `terraform show -json` exports and never
+runs Terraform or OpenTofu, executes providers, or contacts a cloud account.
 
 Use Rootform to:
 
 - Explore resources in their architectural contexts
-- Explain how source evidence produced a placement or connection
-- Compare architectural meaning between two revisions
+- Explain how plan evidence produced a placement or connection
+- Compare architectural meaning between two plans, states, or saved analyses
 - Evaluate the result against [policies](concepts/policies.md)
 
 Rootform analyzes only the input you provide. It does not deploy infrastructure,
-read live cloud resources, or verify connectivity. A plan with prior state can
-report drift: changes made outside Terraform or OpenTofu between recorded and
-refreshed state. Missing drift records do not prove drift is absent. When evidence
-is unresolved or ambiguous, Rootform reports a diagnostic instead of treating
-unknown evidence as a proven absence or a successful check.
+read live cloud resources, or verify connectivity. A plan made with a prior
+state also reports drift, the changes made outside Terraform or OpenTofu that
+its refresh found; Rootform shows that drift and never assumes more. When
+evidence is unknown or ambiguous, Rootform reports it as indeterminate instead
+of treating it as a proven absence or a successful check.
 
 ## Get started
 
@@ -27,25 +28,26 @@ unknown evidence as a proven absence or a successful check.
 - [Install Rootform](installation.md)
   Choose the recommended method for your platform and verify the executable.
 - [Your first architecture](getting-started/first-architecture.md)
-  Export a plan, inspect its architecture, and save the result.
+  Plan a VPC and subnet, see why the subnet sits in the VPC, and save the result. No cloud account required.
 
 ## How Rootform reads a project
 
-A [Dialect](concepts/dialects.md) gives provider declarations architectural
+A [Dialect](concepts/dialects.md) gives provider resources architectural
 meaning. Rootform includes the RF Vocabulary and embedded Dialects in the
 executable, so projects covered by them need no additional Rootform
 configuration.
 
-[Core concepts](concepts.md) explains how declarations, Rules, facts, and
-diagnostics fit together. Use [Architecture IR](concepts/architecture-ir.md)
-for the saved document contract and [Architecture comparisons](concepts/diff.md) for
-comparison semantics.
+[Core concepts](concepts.md) explains how instances, Rules, facts, and
+closures fit together. [Architecture documents](concepts/architecture-ir.md)
+describes what a saved Rootform document keeps, and
+[Architecture comparisons](concepts/diff.md) explains stages, drift, and
+comparisons.
 
 ## Continue by task
 
 <!-- rootform:directory -->
 - [Explore an architecture](guides/explore-architecture.md)
-  Navigate an existing project, inspect evidence, and follow connections.
+  Navigate an analysis, inspect evidence, and follow connections.
 - [Choose an input](inputs/index.md)
   Decide between plan JSON, state JSON, and a saved Rootform document.
 - [Compare architectures](guides/compare-architectures.md)

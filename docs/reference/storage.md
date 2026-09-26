@@ -84,7 +84,7 @@ its output names the command to run, such as `rootform vendor policy-packs`.
 To stop vendoring, delete `.rootform/` and run `rootform init` to verify the
 remaining selected sources. See [Locks and vendored content](../offline-security.md)
 for acquisition and offline controls, and
-[Troubleshooting](../troubleshooting/index.md)
+[Troubleshooting](../troubleshooting/index.md#vendored-content-is-incomplete-or-altered)
 for repair after an integrity failure.
 
 ## What each command guarantees

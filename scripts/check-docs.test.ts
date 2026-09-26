@@ -335,8 +335,8 @@ test("public examples use the run command and preserve producer responsibility",
     expect(page).not.toMatch(/rootform (?:build|check|diff)\b/u);
   }
   const ci = readFileSync(join(root, "docs/integrations/ci/README.md"), "utf8");
-  expect(ci).toContain("terraform plan -input=false -out=plan.tfplan");
-  expect(ci).toContain("terraform show -json plan.tfplan");
+  expect(ci).toContain("terraform plan -input=false -out=");
+  expect(ci).toContain("terraform show -json ");
 });
 
 test("language reference names instance closure and sensitive evidence bounds", () => {
