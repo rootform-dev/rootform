@@ -10,8 +10,10 @@ rule "aks-cluster" {
     scope      = "provider"
   }
 
+  # A Kubernetes provider block names its cluster through the kubeconfig
+  # host. Only the verified reference pairs; the sensitive value is never read.
   endpoint {
-    attributes = ["id"]
+    attributes = ["id", "kube_config[0].host", "kube_admin_config[0].host"]
   }
 
   context {

@@ -3017,7 +3017,6 @@
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
       "relations": [
         "authorizes-access",
-        "authorizes-cloud-identity",
         "authorizes-cloud-identity"
       ],
       "rootform_concept": "mongodb-atlas.concept.cloud-provider-authorization",
@@ -3242,10 +3241,7 @@
       "relations": [
         "uses-cloud-authorization",
         "uses-cloud-authorization",
-        "uses-cloud-authorization",
-        "uses-key",
-        "uses-key",
-        "uses-key"
+        "uses-cloud-authorization"
       ],
       "rootform_concept": "mongodb-atlas.concept.customer-key-management",
       "rules": [
@@ -3515,8 +3511,7 @@
         "exports-to-storage",
         "exports-to-storage",
         "uses-cloud-authorization",
-        "uses-cloud-authorization",
-        "uses-key"
+        "uses-cloud-authorization"
       ],
       "rootform_concept": "mongodb-atlas.rule.log-integration",
       "rules": [
@@ -4159,7 +4154,6 @@
       "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
       "relations": [
         "connects-to-database",
-        "uses-cloud-identity",
         "uses-cloud-identity",
         "uses-cloud-identity",
         "uses-private-endpoint"

@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -909,7 +909,9 @@
         },
         "endpoint": {
           "attributes": [
-            "id"
+            "id",
+            "kube_admin_config[0].host",
+            "kube_config[0].host"
           ]
         },
         "emissions": [

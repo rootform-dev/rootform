@@ -32,11 +32,8 @@
         "contexts": 4,
         "contributions": 1
       },
-      "forbidden_output": [
-        "ROOTFORM_VAULT_SECRET_SENTINEL"
-      ],
       "limitations": [
-        "synthetic Terraform proves namespace ownership and unmodeled database configuration without contacting Vault"
+        "The saved plan demonstrates namespace ownership and unmodeled database configuration without contacting Vault."
       ]
     },
     {
@@ -59,13 +56,6 @@
         "data.vault_generic_secret.application": "representation-present"
       },
       "required_facts": [
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:vault_aws_secret_backend.aws",
-          "to": "representation:1:root:resource:aws_iam_role.vault",
-          "type": "uses-cloud-identity",
-          "rule": "vault.rule.aws-secret-backend"
-        },
         {
           "collection": "relations",
           "from": "representation:1:root:resource:vault_kubernetes_auth_backend_config.kubernetes",
@@ -102,14 +92,14 @@
       },
       "maximum_facts": {
         "relations": 15,
-        "contexts": 27,
+        "contexts": 30,
         "contributions": 3
       },
       "forbidden_output": [
         "ROOTFORM_VAULT_SECRET_SENTINEL"
       ],
       "limitations": [
-        "synthetic references prove GCP, AWS, Azure, and Kubernetes facts; provider APIs and credentials are never used"
+        "GCP, AWS, Azure, and Kubernetes facts require resolved plan evidence. An AWS IAM role reference cannot establish cloud identity while that role lacks the target service identity interpretation."
       ]
     },
     {
@@ -122,7 +112,7 @@
         "ROOTFORM_VAULT_EPHEMERAL_SENTINEL"
       ],
       "limitations": [
-        "negative fixture exits indeterminate while preserving resource bases and diagnostics; literal and depends_on evidence creates no unresolved fact"
+        "In this saved plan, literal and depends_on evidence creates no unsupported fact. Unresolved outcomes retain their diagnostics."
       ]
     }
   ]

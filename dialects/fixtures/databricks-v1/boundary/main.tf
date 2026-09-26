@@ -102,7 +102,7 @@ resource "databricks_secret_scope" "boundary" {
 resource "databricks_secret" "boundary" {
   scope        = databricks_secret_scope.boundary.name
   key          = "token"
-  string_value = "ROOTFORM_DATABRICKS_BOUNDARY_SECRET"
+  string_value = "ROOTFORM_DATABRICKS_BOUNDARY_SECRET ROOTFORM_DATABRICKS_TEST_SECRET"
 }
 
 resource "databricks_notebook" "operational" {

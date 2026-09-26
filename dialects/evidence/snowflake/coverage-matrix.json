@@ -1448,10 +1448,7 @@
       "product": "api-external-access",
       "proof_url": "https://github.com/snowflakedb/terraform-provider-snowflake/blob/v2.20.0/docs/resources/api_integration.md",
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
-      "relations": [
-        "assumes-cloud-identity",
-        "connects-api-gateway"
-      ],
+      "relations": [],
       "rootform_concept": "snowflake.rule.api-integration",
       "rules": [
         "snowflake.rule.api-integration"
@@ -1471,10 +1468,7 @@
       "product": "api-external-access",
       "proof_url": "https://github.com/snowflakedb/terraform-provider-snowflake/blob/v2.20.0/docs/resources/api_integration_amazon_api_gateway.md",
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
-      "relations": [
-        "assumes-cloud-identity",
-        "connects-api-gateway"
-      ],
+      "relations": [],
       "rootform_concept": "snowflake.rule.api-integration",
       "rules": [
         "snowflake.rule.amazon-api-gateway-integration"
@@ -1494,9 +1488,7 @@
       "product": "api-external-access",
       "proof_url": "https://github.com/snowflakedb/terraform-provider-snowflake/blob/v2.20.0/docs/resources/api_integration_azure_api_management.md",
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
-      "relations": [
-        "connects-api-gateway"
-      ],
+      "relations": [],
       "rootform_concept": "snowflake.rule.api-integration",
       "rules": [
         "snowflake.rule.azure-api-management-integration"
@@ -1636,9 +1628,7 @@
       "product": "api-external-access",
       "proof_url": "https://github.com/snowflakedb/terraform-provider-snowflake/blob/v2.20.0/docs/resources/api_integration_google_cloud_api_gateway.md",
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
-      "relations": [
-        "connects-api-gateway"
-      ],
+      "relations": [],
       "rootform_concept": "snowflake.rule.api-integration",
       "rules": [
         "snowflake.rule.google-cloud-api-gateway-integration"
@@ -1677,9 +1667,7 @@
       "product": "iceberg-catalogs",
       "proof_url": "https://github.com/snowflakedb/terraform-provider-snowflake/blob/v2.20.0/docs/resources/catalog_integration_aws_glue.md",
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
-      "relations": [
-        "assumes-cloud-identity"
-      ],
+      "relations": [],
       "rootform_concept": "snowflake.concept.catalog-integration",
       "rules": [
         "snowflake.rule.aws-glue-catalog-integration"
@@ -1699,9 +1687,7 @@
       "product": "iceberg-catalogs",
       "proof_url": "https://github.com/snowflakedb/terraform-provider-snowflake/blob/v2.20.0/docs/resources/catalog_integration_iceberg_rest.md",
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
-      "relations": [
-        "assumes-cloud-identity"
-      ],
+      "relations": [],
       "rootform_concept": "snowflake.concept.catalog-integration",
       "rules": [
         "snowflake.rule.iceberg-rest-catalog-integration"
@@ -2061,8 +2047,6 @@
       "proof_url": "https://github.com/snowflakedb/terraform-provider-snowflake/blob/v2.20.0/docs/resources/external_volume.md",
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
       "relations": [
-        "uses-cloud-identity",
-        "uses-encryption-key",
         "uses-object-storage",
         "uses-object-storage"
       ],
@@ -2886,15 +2870,7 @@
       "product": "ingestion-orchestration",
       "proof_url": "https://github.com/snowflakedb/terraform-provider-snowflake/blob/v2.20.0/docs/resources/notification_integration.md",
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
-      "relations": [
-        "assumes-cloud-identity",
-        "assumes-cloud-identity",
-        "connects-message-queue",
-        "connects-message-queue",
-        "connects-message-subscription",
-        "connects-message-topic",
-        "connects-message-topic"
-      ],
+      "relations": [],
       "rootform_concept": "snowflake.rule.notification-integration",
       "rules": [
         "snowflake.rule.notification-integration"
@@ -2997,7 +2973,6 @@
       "proof_url": "https://github.com/snowflakedb/terraform-provider-snowflake/blob/v2.20.0/docs/resources/pipe.md",
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
       "relations": [
-        "receives-storage-events",
         "reports-to-notification-integration",
         "uses-notification-integration"
       ],
@@ -3592,7 +3567,6 @@
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
       "relations": [
         "accesses-object-storage",
-        "uses-encryption-key",
         "uses-notification-integration",
         "uses-storage-integration"
       ],
@@ -3619,9 +3593,6 @@
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
       "relations": [
         "accesses-object-storage",
-        "receives-storage-events",
-        "uses-cloud-identity",
-        "uses-encryption-key",
         "uses-storage-integration"
       ],
       "rootform_concept": "snowflake.rule.stage",
@@ -3690,7 +3661,6 @@
       "proof_url": "https://github.com/snowflakedb/terraform-provider-snowflake/blob/v2.20.0/docs/resources/storage_integration.md",
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
       "relations": [
-        "assumes-cloud-identity",
         "authorizes-object-storage",
         "authorizes-object-storage"
       ],
@@ -3714,7 +3684,6 @@
       "proof_url": "https://github.com/snowflakedb/terraform-provider-snowflake/blob/v2.20.0/docs/resources/storage_integration_aws.md",
       "reason": "architecture-role: durable Snowflake service, scope, compute, integration, or identity boundary",
       "relations": [
-        "assumes-cloud-identity",
         "authorizes-object-storage",
         "authorizes-object-storage"
       ],

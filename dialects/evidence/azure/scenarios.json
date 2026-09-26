@@ -36,7 +36,7 @@
       },
       "minimum": {},
       "limitations": [
-        "One representative direct identity per family; family internals remain covered by matrix and compiler tests."
+        "The saved plan shows one representative from each configured Azure family. The CDN endpoint, classic Front Door, and CDN profile Rules lack verified plan evidence and remain unproven."
       ]
     },
     {
@@ -73,8 +73,8 @@
         "relations": 1
       },
       "limitations": [
-        "VNet peering is emitted only from an explicit remote virtual network reference.",
-        "Producer, consumer, backend, secret-use, VPN, and ExpressRoute relations remain absent because provider references alone do not prove those architecture facts."
+        "For this saved plan, vNet peering is emitted only from an explicit remote virtual network reference.",
+        "For this saved plan, producer, consumer, backend, secret-use, VPN, and ExpressRoute relations remain absent because provider references alone do not prove those architecture facts."
       ]
     },
     {
@@ -86,7 +86,7 @@
         "azure.rule.sre-agent"
       ],
       "required_outcomes": {
-        "azapi_resource.dynamic": "no-rule",
+        "azapi_resource.dynamic": "representation-present",
         "azapi_resource.wrong_version": "no-rule"
       },
       "maximum_facts": {
@@ -94,7 +94,7 @@
         "relations": 0
       },
       "limitations": [
-        "Only exact literal ARM type and API-version values match; generic body evidence emits no facts."
+        "AzAPI Rules use evaluated ARM type and API version values from the plan. A variable with a known exact value can select a Rule; an unmatched type remains uninterpreted."
       ]
     },
     {
@@ -109,7 +109,7 @@
         "azurerm_container_app.typed": "representation-present"
       },
       "limitations": [
-        "Unapproved generic AzAPI overlap and patch resources never duplicate the typed AzureRM owner."
+        "For this saved plan, unapproved generic AzAPI overlap and patch resources never duplicate the typed AzureRM owner."
       ]
     },
     {
@@ -127,7 +127,7 @@
         "00000000-0000-0000-0000-000000000000"
       ],
       "limitations": [
-        "AzAPI body and literal parent resource ID remain outside Architecture IR and HTML."
+        "AzAPI body and literal parent resource ID remain outside the architecture document or browser payload."
       ]
     }
   ]

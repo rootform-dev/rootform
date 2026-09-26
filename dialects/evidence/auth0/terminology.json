@@ -381,10 +381,6 @@
       "label": "Auth0 Event Stream"
     },
     {
-      "id": "auth0.concept.identity-log-stream",
-      "label": "Auth0 Log Stream"
-    },
-    {
       "id": "auth0.concept.authentication-boundary",
       "label": "Auth0 Network ACL"
     },

@@ -21,7 +21,7 @@
         "relations": 0
       },
       "limitations": [
-        "synthetic Terraform proves durable Datadog roots without contacting Datadog"
+        "The saved plan demonstrates durable Datadog roots without contacting Datadog."
       ]
     },
     {
@@ -108,19 +108,13 @@
           "from": "representation:1:root:resource:datadog_rum_retention_filter.web",
           "to": "representation:1:root:resource:datadog_rum_application.web",
           "rule": "datadog.rule.rum-retention-filter"
-        },
-        {
-          "collection": "contributions",
-          "from": "representation:1:root:resource:datadog_synthetics_test.api",
-          "to": "representation:1:root:resource:datadog_synthetics_private_location.internal",
-          "rule": "datadog.rule.synthetics-test"
         }
       ],
       "minimum": {
         "representations": 51,
         "relations": 1,
         "contexts": 0,
-        "contributions": 7
+        "contributions": 6
       },
       "maximum_facts": {
         "contexts": 0,
@@ -140,7 +134,7 @@
         "ROOTFORM_DATADOG_MONITOR_QUERY_SENTINEL"
       ],
       "limitations": [
-        "cloud and service integrations prove Datadog collection boundaries, not application traffic; nested OpenTelemetry blocks stay unclaimed"
+        "Cloud and service integrations describe Datadog collection boundaries, not application traffic. Synthetics private locations are represented as resources; test location IDs do not establish a contribution to them."
       ]
     },
     {
@@ -156,7 +150,7 @@
         "ROOTFORM_DATADOG_BOUNDARY_MONITOR_QUERY_SENTINEL"
       ],
       "limitations": [
-        "negative fixture exits indeterminate while preserving resource bases and diagnostics; literals, depends_on, ambiguity, dangling references, and target mismatches create no unresolved fact"
+        "In this saved plan, literals, depends_on, ambiguity, dangling references, and target mismatches create no unsupported fact. Unresolved outcomes retain their diagnostics."
       ]
     }
   ]

@@ -21,7 +21,7 @@
         "relations": 0
       },
       "limitations": [
-        "synthetic Terraform proves Grafana roots without contacting Grafana"
+        "The saved plan demonstrates Grafana roots without contacting Grafana."
       ]
     },
     {
@@ -111,13 +111,6 @@
         },
         {
           "collection": "relations",
-          "from": "representation:1:root:resource:grafana_cloud_provider_aws_account.production",
-          "to": "representation:1:root:resource:aws_iam_role.grafana",
-          "type": "authorized-by",
-          "rule": "grafana.rule.cloud-provider-aws-account"
-        },
-        {
-          "collection": "relations",
           "from": "representation:1:root:resource:grafana_cloud_provider_azure_credential.production",
           "to": "representation:1:root:resource:azuread_service_principal.grafana",
           "type": "authorized-by",
@@ -145,9 +138,9 @@
       ],
       "minimum": {
         "representations": 67,
-        "relations": 5,
+        "relations": 3,
         "contexts": 14,
-        "contributions": 13
+        "contributions": 11
       },
       "maximum_facts": {
         "contexts": 14,
@@ -178,7 +171,7 @@
         "ROOTFORM_GRAFANA_DASHBOARD_JSON_SENTINEL"
       ],
       "limitations": [
-        "only exact Terraform references create ownership, contribution, or cross-dialect relations; dashboards and alerts remain configuration"
+        "Ownership and contribution facts require resolved plan evidence. Cloud credential references do not establish authorization to an uninterpreted AWS role or an Azure identity with incomplete matching evidence. Dashboards and alerts remain configuration."
       ]
     },
     {
@@ -190,7 +183,7 @@
         "ROOTFORM_GRAFANA_BOUNDARY_SECRET_VALUE_SENTINEL"
       ],
       "limitations": [
-        "negative fixture proves literals, ambiguity, dangling references, target mismatches, and depends_on create no unresolved facts while partial IR preserves bases"
+        "In this saved plan, literals, ambiguity, dangling references, target mismatches, and dependencies establish no unsupported facts. The architecture document retains represented resources."
       ]
     }
   ]

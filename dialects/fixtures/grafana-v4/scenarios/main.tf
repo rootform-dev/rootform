@@ -83,7 +83,14 @@ resource "grafana_data_source" "metrics" {
   url                                    = "http://prometheus.internal:9090"
   org_id                                 = grafana_organization.platform.org_id
   private_data_source_connect_network_id = grafana_cloud_private_data_source_connect_network.private.id
-  secure_json_data_encoded               = jsonencode({ basicAuthPassword = "ROOTFORM_GRAFANA_DATA_SOURCE_SECRET_SENTINEL" })
+  secure_json_data_encoded               = jsonencode({
+    basicAuthPassword = "ROOTFORM_GRAFANA_DATA_SOURCE_SECRET_SENTINEL"
+    azureLookup       = "ROOTFORM_GRAFANA_AZURE_LOOKUP_SECRET_SENTINEL"
+    metricsLookup     = "ROOTFORM_GRAFANA_METRICS_LOOKUP_TOKEN_SENTINEL"
+    probeToken        = "ROOTFORM_GRAFANA_PROBE_TOKEN_SENTINEL"
+    smToken           = "ROOTFORM_GRAFANA_SM_TOKEN_SENTINEL"
+    k6Token           = "ROOTFORM_GRAFANA_K6_ACCESS_TOKEN_SENTINEL"
+  })
 }
 
 data "grafana_data_source" "metrics" {

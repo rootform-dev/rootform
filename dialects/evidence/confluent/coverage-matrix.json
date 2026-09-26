@@ -1302,11 +1302,7 @@
       "product": "security-integrations",
       "proof_url": "https://github.com/confluentinc/terraform-provider-confluent/blob/v2.83.0/docs/resources/confluent_byok_key.md",
       "reason": "architecture-role: durable service, scope, identity, or connectivity construct",
-      "relations": [
-        "registers-key",
-        "registers-key",
-        "registers-key"
-      ],
+      "relations": [],
       "rootform_concept": "confluent.rule.byok-key",
       "rules": [
         "confluent.rule.byok-key"
@@ -2214,9 +2210,7 @@
       "product": "security-integrations",
       "proof_url": "https://github.com/confluentinc/terraform-provider-confluent/blob/v2.83.0/docs/resources/confluent_provider_integration.md",
       "reason": "architecture-role: durable service, scope, identity, or connectivity construct",
-      "relations": [
-        "uses-cloud-identity"
-      ],
+      "relations": [],
       "rootform_concept": "confluent.rule.provider-integration",
       "rules": [
         "confluent.rule.provider-integration"

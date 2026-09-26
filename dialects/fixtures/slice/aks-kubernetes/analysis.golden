@@ -649,6 +649,12 @@
         "description": "An Azure Resource Group lifecycle and access boundary."
       },
       {
+        "id": "kubernetes.concept.namespace",
+        "owner": "kubernetes",
+        "name": "namespace",
+        "description": "A namespace partitioning one cluster's workloads, services, and storage."
+      },
+      {
         "id": "rf.concept.kubernetes-cluster",
         "owner": "rf",
         "name": "kubernetes-cluster",
@@ -673,6 +679,12 @@
         "owner": "rf",
         "name": "network",
         "description": "A declared network attachment without a connectivity guarantee."
+      },
+      {
+        "id": "rf.context.runtime",
+        "owner": "rf",
+        "name": "runtime",
+        "description": "A declared execution environment or target without proof of effective execution."
       }
     ],
     "relations": [
@@ -709,27 +721,6 @@
         ]
       },
       {
-        "id": "azure.rule.log-analytics-workspace",
-        "owner": "azure",
-        "match_kind": "resource",
-        "match_type": "azurerm_log_analytics_workspace",
-        "concept": "azure.concept.log-analytics-workspace",
-        "identity": {
-          "attributes": [
-            "id"
-          ],
-          "scope": "provider"
-        },
-        "endpoint": {
-          "attributes": [
-            "id"
-          ]
-        },
-        "emissions": [
-          "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477"
-        ]
-      },
-      {
         "id": "azure.rule.resource-group",
         "owner": "azure",
         "match_kind": "resource",
@@ -748,6 +739,29 @@
           ]
         },
         "emissions": []
+      },
+      {
+        "id": "kubernetes.rule.kubernetes-namespace",
+        "owner": "kubernetes",
+        "match_kind": "resource",
+        "match_type": "kubernetes_namespace_v1",
+        "concept": "kubernetes.concept.namespace",
+        "identity": {
+          "attributes": [
+            "id",
+            "metadata[0].name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "metadata[0].name"
+          ]
+        },
+        "emissions": [
+          "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590"
+        ]
       }
     ],
     "emissions": [
@@ -770,6 +784,21 @@
         "on_null": "absent",
         "on_empty": "absent",
         "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+        "rule": "kubernetes.rule.kubernetes-namespace",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.kubernetes-cluster"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "provider.host",
+        "on_null": "indeterminate",
+        "on_empty": "indeterminate",
+        "external": "deny",
         "disclose": "none"
       },
       {
@@ -813,27 +842,6 @@
         "on_empty": "absent",
         "external": "allow",
         "disclose": "none"
-      },
-      {
-        "id": "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
-        "rule": "azure.rule.log-analytics-workspace",
-        "kind": "context",
-        "to": {
-          "kind": "concept",
-          "id": "azure.concept.resource-group"
-        },
-        "dimension": "azure.context.ownership",
-        "via": "source.resource_group_name",
-        "match": {
-          "by": [
-            "name"
-          ],
-          "strategy": "exact"
-        },
-        "on_null": "absent",
-        "on_empty": "absent",
-        "external": "allow",
-        "disclose": "none"
       }
     ]
   },
@@ -843,62 +851,11 @@
       "label": "Planned",
       "declarations": [
         {
-          "id": "declaration:1:azurerm_kubernetes_cluster.literal_workspace",
+          "id": "declaration:1:azurerm_kubernetes_cluster.runtime",
           "kind": "resource",
           "type": "azurerm_kubernetes_cluster",
-          "name": "literal_workspace",
-          "address": "azurerm_kubernetes_cluster.literal_workspace",
-          "provider": {
-            "address": "registry.terraform.io/hashicorp/azurerm",
-            "alias": "",
-            "alias_availability": "available"
-          },
-          "population": {
-            "status": "observed",
-            "instances": 1
-          },
-          "diagnostics": []
-        },
-        {
-          "id": "declaration:1:azurerm_kubernetes_cluster.unknown_workspace",
-          "kind": "resource",
-          "type": "azurerm_kubernetes_cluster",
-          "name": "unknown_workspace",
-          "address": "azurerm_kubernetes_cluster.unknown_workspace",
-          "provider": {
-            "address": "registry.terraform.io/hashicorp/azurerm",
-            "alias": "",
-            "alias_availability": "available"
-          },
-          "population": {
-            "status": "observed",
-            "instances": 1
-          },
-          "diagnostics": []
-        },
-        {
-          "id": "declaration:1:azurerm_kubernetes_cluster.workloads",
-          "kind": "resource",
-          "type": "azurerm_kubernetes_cluster",
-          "name": "workloads",
-          "address": "azurerm_kubernetes_cluster.workloads",
-          "provider": {
-            "address": "registry.terraform.io/hashicorp/azurerm",
-            "alias": "",
-            "alias_availability": "available"
-          },
-          "population": {
-            "status": "observed",
-            "instances": 1
-          },
-          "diagnostics": []
-        },
-        {
-          "id": "declaration:1:azurerm_log_analytics_workspace.platform",
-          "kind": "resource",
-          "type": "azurerm_log_analytics_workspace",
-          "name": "platform",
-          "address": "azurerm_log_analytics_workspace.platform",
+          "name": "runtime",
+          "address": "azurerm_kubernetes_cluster.runtime",
           "provider": {
             "address": "registry.terraform.io/hashicorp/azurerm",
             "alias": "",
@@ -928,14 +885,48 @@
           "diagnostics": []
         },
         {
-          "id": "declaration:1:terraform_data.unknown_workspace_id",
+          "id": "declaration:1:kubernetes_namespace_v1.apps",
           "kind": "resource",
-          "type": "terraform_data",
-          "name": "unknown_workspace_id",
-          "address": "terraform_data.unknown_workspace_id",
+          "type": "kubernetes_namespace_v1",
+          "name": "apps",
+          "address": "kubernetes_namespace_v1.apps",
           "provider": {
-            "address": "terraform.io/builtin/terraform",
+            "address": "registry.terraform.io/hashicorp/kubernetes",
             "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kubernetes_namespace_v1.operations",
+          "kind": "resource",
+          "type": "kubernetes_namespace_v1",
+          "name": "operations",
+          "address": "kubernetes_namespace_v1.operations",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "admin",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kubernetes_namespace_v1.templated",
+          "kind": "resource",
+          "type": "kubernetes_namespace_v1",
+          "name": "templated",
+          "address": "kubernetes_namespace_v1.templated",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "templated",
             "alias_availability": "available"
           },
           "population": {
@@ -947,10 +938,10 @@
       ],
       "representations": [
         {
-          "id": "representation:1:azurerm_kubernetes_cluster.literal_workspace",
+          "id": "representation:1:azurerm_kubernetes_cluster.runtime",
           "kind": "managed",
-          "declaration": "declaration:1:azurerm_kubernetes_cluster.literal_workspace",
-          "address": "azurerm_kubernetes_cluster.literal_workspace",
+          "declaration": "declaration:1:azurerm_kubernetes_cluster.runtime",
+          "address": "azurerm_kubernetes_cluster.runtime",
           "index_key": {
             "kind": "none"
           },
@@ -972,99 +963,6 @@
           },
           "rule": "azure.rule.aks-cluster",
           "concept": "rf.concept.kubernetes-cluster",
-          "implementation": {
-            "kind": "direct"
-          },
-          "diagnostics": []
-        },
-        {
-          "id": "representation:1:azurerm_kubernetes_cluster.unknown_workspace",
-          "kind": "managed",
-          "declaration": "declaration:1:azurerm_kubernetes_cluster.unknown_workspace",
-          "address": "azurerm_kubernetes_cluster.unknown_workspace",
-          "index_key": {
-            "kind": "none"
-          },
-          "status": "planned",
-          "actions": [
-            "create"
-          ],
-          "provider": {
-            "address": "registry.terraform.io/hashicorp/azurerm",
-            "alias": "",
-            "alias_availability": "available"
-          },
-          "interpretation": {
-            "status": "applied",
-            "candidates": [
-              "azure.rule.aks-cluster"
-            ],
-            "diagnostics": []
-          },
-          "rule": "azure.rule.aks-cluster",
-          "concept": "rf.concept.kubernetes-cluster",
-          "implementation": {
-            "kind": "direct"
-          },
-          "diagnostics": []
-        },
-        {
-          "id": "representation:1:azurerm_kubernetes_cluster.workloads",
-          "kind": "managed",
-          "declaration": "declaration:1:azurerm_kubernetes_cluster.workloads",
-          "address": "azurerm_kubernetes_cluster.workloads",
-          "index_key": {
-            "kind": "none"
-          },
-          "status": "planned",
-          "actions": [
-            "create"
-          ],
-          "provider": {
-            "address": "registry.terraform.io/hashicorp/azurerm",
-            "alias": "",
-            "alias_availability": "available"
-          },
-          "interpretation": {
-            "status": "applied",
-            "candidates": [
-              "azure.rule.aks-cluster"
-            ],
-            "diagnostics": []
-          },
-          "rule": "azure.rule.aks-cluster",
-          "concept": "rf.concept.kubernetes-cluster",
-          "implementation": {
-            "kind": "direct"
-          },
-          "diagnostics": []
-        },
-        {
-          "id": "representation:1:azurerm_log_analytics_workspace.platform",
-          "kind": "managed",
-          "declaration": "declaration:1:azurerm_log_analytics_workspace.platform",
-          "address": "azurerm_log_analytics_workspace.platform",
-          "index_key": {
-            "kind": "none"
-          },
-          "status": "planned",
-          "actions": [
-            "create"
-          ],
-          "provider": {
-            "address": "registry.terraform.io/hashicorp/azurerm",
-            "alias": "",
-            "alias_availability": "available"
-          },
-          "interpretation": {
-            "status": "applied",
-            "candidates": [
-              "azure.rule.log-analytics-workspace"
-            ],
-            "diagnostics": []
-          },
-          "rule": "azure.rule.log-analytics-workspace",
-          "concept": "azure.concept.log-analytics-workspace",
           "implementation": {
             "kind": "direct"
           },
@@ -1102,10 +1000,10 @@
           "diagnostics": []
         },
         {
-          "id": "representation:1:terraform_data.unknown_workspace_id",
+          "id": "representation:1:kubernetes_namespace_v1.apps",
           "kind": "managed",
-          "declaration": "declaration:1:terraform_data.unknown_workspace_id",
-          "address": "terraform_data.unknown_workspace_id",
+          "declaration": "declaration:1:kubernetes_namespace_v1.apps",
+          "address": "kubernetes_namespace_v1.apps",
           "index_key": {
             "kind": "none"
           },
@@ -1114,15 +1012,81 @@
             "create"
           ],
           "provider": {
-            "address": "terraform.io/builtin/terraform",
+            "address": "registry.terraform.io/hashicorp/kubernetes",
             "alias": "",
             "alias_availability": "available"
           },
           "interpretation": {
-            "status": "none",
-            "candidates": [],
+            "status": "applied",
+            "candidates": [
+              "kubernetes.rule.kubernetes-namespace"
+            ],
             "diagnostics": []
           },
+          "rule": "kubernetes.rule.kubernetes-namespace",
+          "concept": "kubernetes.concept.namespace",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kubernetes_namespace_v1.operations",
+          "kind": "managed",
+          "declaration": "declaration:1:kubernetes_namespace_v1.operations",
+          "address": "kubernetes_namespace_v1.operations",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "admin",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kubernetes.rule.kubernetes-namespace"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kubernetes.rule.kubernetes-namespace",
+          "concept": "kubernetes.concept.namespace",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kubernetes_namespace_v1.templated",
+          "kind": "managed",
+          "declaration": "declaration:1:kubernetes_namespace_v1.templated",
+          "address": "kubernetes_namespace_v1.templated",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "templated",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "kubernetes.rule.kubernetes-namespace"
+            ],
+            "diagnostics": []
+          },
+          "rule": "kubernetes.rule.kubernetes-namespace",
+          "concept": "kubernetes.concept.namespace",
           "implementation": {
             "kind": "direct"
           },
@@ -1131,87 +1095,58 @@
       ],
       "contexts": [
         {
-          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_kubernetes_cluster.literal_workspace:representation%3A1%3Aazurerm_resource_group.platform",
-          "from": "representation:1:azurerm_kubernetes_cluster.literal_workspace",
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_kubernetes_cluster.runtime:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_kubernetes_cluster.runtime",
           "to": "representation:1:azurerm_resource_group.platform",
           "dimension": "azure.context.ownership",
           "provenance": [
             {
               "emission": "emission:2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
               "rule": "azure.rule.aks-cluster",
-              "closure": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.literal_workspace:emission%3A2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
+              "closure": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.runtime:emission%3A2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
               "evidence": "both"
             }
           ]
         },
         {
-          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_kubernetes_cluster.unknown_workspace:representation%3A1%3Aazurerm_resource_group.platform",
-          "from": "representation:1:azurerm_kubernetes_cluster.unknown_workspace",
-          "to": "representation:1:azurerm_resource_group.platform",
-          "dimension": "azure.context.ownership",
+          "id": "context:rf.context.runtime:representation%3A1%3Akubernetes_namespace_v1.apps:representation%3A1%3Aazurerm_kubernetes_cluster.runtime",
+          "from": "representation:1:kubernetes_namespace_v1.apps",
+          "to": "representation:1:azurerm_kubernetes_cluster.runtime",
+          "dimension": "rf.context.runtime",
           "provenance": [
             {
-              "emission": "emission:2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
-              "rule": "azure.rule.aks-cluster",
-              "closure": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.unknown_workspace:emission%3A2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
-              "evidence": "both"
+              "emission": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+              "rule": "kubernetes.rule.kubernetes-namespace",
+              "closure": "closure:representation%3A1%3Akubernetes_namespace_v1.apps:emission%3A65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+              "evidence": "traversal"
             }
           ]
         },
         {
-          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:representation%3A1%3Aazurerm_resource_group.platform",
-          "from": "representation:1:azurerm_kubernetes_cluster.workloads",
-          "to": "representation:1:azurerm_resource_group.platform",
-          "dimension": "azure.context.ownership",
+          "id": "context:rf.context.runtime:representation%3A1%3Akubernetes_namespace_v1.operations:representation%3A1%3Aazurerm_kubernetes_cluster.runtime",
+          "from": "representation:1:kubernetes_namespace_v1.operations",
+          "to": "representation:1:azurerm_kubernetes_cluster.runtime",
+          "dimension": "rf.context.runtime",
           "provenance": [
             {
-              "emission": "emission:2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
-              "rule": "azure.rule.aks-cluster",
-              "closure": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:emission%3A2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
-              "evidence": "both"
-            }
-          ]
-        },
-        {
-          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_log_analytics_workspace.platform:representation%3A1%3Aazurerm_resource_group.platform",
-          "from": "representation:1:azurerm_log_analytics_workspace.platform",
-          "to": "representation:1:azurerm_resource_group.platform",
-          "dimension": "azure.context.ownership",
-          "provenance": [
-            {
-              "emission": "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
-              "rule": "azure.rule.log-analytics-workspace",
-              "closure": "closure:representation%3A1%3Aazurerm_log_analytics_workspace.platform:emission%3Afa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
-              "evidence": "both"
-            }
-          ]
-        }
-      ],
-      "contributions": [],
-      "relations": [
-        {
-          "id": "relation:azure.relation.observed-by:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:representation%3A1%3Aazurerm_log_analytics_workspace.platform",
-          "from": "representation:1:azurerm_kubernetes_cluster.workloads",
-          "to": "representation:1:azurerm_log_analytics_workspace.platform",
-          "predicate": "azure.relation.observed-by",
-          "provenance": [
-            {
-              "emission": "emission:bd405dd6538131d37f0c927e430dbec5e123b9147d5625904a9960a1deb52a41",
-              "rule": "azure.rule.aks-cluster",
-              "closure": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:emission%3Abd405dd6538131d37f0c927e430dbec5e123b9147d5625904a9960a1deb52a41",
+              "emission": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+              "rule": "kubernetes.rule.kubernetes-namespace",
+              "closure": "closure:representation%3A1%3Akubernetes_namespace_v1.operations:emission%3A65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
               "evidence": "traversal"
             }
           ]
         }
       ],
+      "contributions": [],
+      "relations": [],
       "closures": [
         {
-          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.literal_workspace:emission%3A2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
-          "representation": "representation:1:azurerm_kubernetes_cluster.literal_workspace",
+          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.runtime:emission%3A2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
+          "representation": "representation:1:azurerm_kubernetes_cluster.runtime",
           "emission": "emission:2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
           "outcome": "resolved",
           "facts": [
-            "context:azure.context.ownership:representation%3A1%3Aazurerm_kubernetes_cluster.literal_workspace:representation%3A1%3Aazurerm_resource_group.platform"
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_kubernetes_cluster.runtime:representation%3A1%3Aazurerm_resource_group.platform"
           ],
           "candidates": {
             "known_equal": 1,
@@ -1220,119 +1155,66 @@
           }
         },
         {
-          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.literal_workspace:emission%3Abd405dd6538131d37f0c927e430dbec5e123b9147d5625904a9960a1deb52a41",
-          "representation": "representation:1:azurerm_kubernetes_cluster.literal_workspace",
+          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.runtime:emission%3Abd405dd6538131d37f0c927e430dbec5e123b9147d5625904a9960a1deb52a41",
+          "representation": "representation:1:azurerm_kubernetes_cluster.runtime",
           "emission": "emission:bd405dd6538131d37f0c927e430dbec5e123b9147d5625904a9960a1deb52a41",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.runtime:emission%3Ac50dca66fef4aabd23fcde710466ac698808dd09460778ad11a2138f5b16dee5",
+          "representation": "representation:1:azurerm_kubernetes_cluster.runtime",
+          "emission": "emission:c50dca66fef4aabd23fcde710466ac698808dd09460778ad11a2138f5b16dee5",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_namespace_v1.apps:emission%3A65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+          "representation": "representation:1:kubernetes_namespace_v1.apps",
+          "emission": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Akubernetes_namespace_v1.apps:representation%3A1%3Aazurerm_kubernetes_cluster.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_namespace_v1.operations:emission%3A65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+          "representation": "representation:1:kubernetes_namespace_v1.operations",
+          "emission": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Akubernetes_namespace_v1.operations:representation%3A1%3Aazurerm_kubernetes_cluster.runtime"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Akubernetes_namespace_v1.templated:emission%3A65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
+          "representation": "representation:1:kubernetes_namespace_v1.templated",
+          "emission": "emission:65e108ef88e85b7320636652ea235425c7f25d1bfe0c4b32618792e3909eb590",
           "outcome": "indeterminate",
-          "reason": "ambiguous_unknown",
+          "reason": "unavailable",
           "facts": [],
           "candidates": {
             "known_equal": 0,
-            "unknown": 1,
-            "excluded": 0
-          }
-        },
-        {
-          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.literal_workspace:emission%3Ac50dca66fef4aabd23fcde710466ac698808dd09460778ad11a2138f5b16dee5",
-          "representation": "representation:1:azurerm_kubernetes_cluster.literal_workspace",
-          "emission": "emission:c50dca66fef4aabd23fcde710466ac698808dd09460778ad11a2138f5b16dee5",
-          "outcome": "absent",
-          "facts": [],
-          "candidates": {
-            "known_equal": 0,
-            "unknown": 0,
-            "excluded": 0
-          }
-        },
-        {
-          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.unknown_workspace:emission%3A2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
-          "representation": "representation:1:azurerm_kubernetes_cluster.unknown_workspace",
-          "emission": "emission:2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
-          "outcome": "resolved",
-          "facts": [
-            "context:azure.context.ownership:representation%3A1%3Aazurerm_kubernetes_cluster.unknown_workspace:representation%3A1%3Aazurerm_resource_group.platform"
-          ],
-          "candidates": {
-            "known_equal": 1,
-            "unknown": 0,
-            "excluded": 0
-          }
-        },
-        {
-          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.unknown_workspace:emission%3Abd405dd6538131d37f0c927e430dbec5e123b9147d5625904a9960a1deb52a41",
-          "representation": "representation:1:azurerm_kubernetes_cluster.unknown_workspace",
-          "emission": "emission:bd405dd6538131d37f0c927e430dbec5e123b9147d5625904a9960a1deb52a41",
-          "outcome": "indeterminate",
-          "reason": "unknown_until_apply",
-          "facts": [],
-          "candidates": {
-            "known_equal": 0,
-            "unknown": 0,
-            "excluded": 0
-          }
-        },
-        {
-          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.unknown_workspace:emission%3Ac50dca66fef4aabd23fcde710466ac698808dd09460778ad11a2138f5b16dee5",
-          "representation": "representation:1:azurerm_kubernetes_cluster.unknown_workspace",
-          "emission": "emission:c50dca66fef4aabd23fcde710466ac698808dd09460778ad11a2138f5b16dee5",
-          "outcome": "absent",
-          "facts": [],
-          "candidates": {
-            "known_equal": 0,
-            "unknown": 0,
-            "excluded": 0
-          }
-        },
-        {
-          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:emission%3A2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
-          "representation": "representation:1:azurerm_kubernetes_cluster.workloads",
-          "emission": "emission:2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9",
-          "outcome": "resolved",
-          "facts": [
-            "context:azure.context.ownership:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:representation%3A1%3Aazurerm_resource_group.platform"
-          ],
-          "candidates": {
-            "known_equal": 1,
-            "unknown": 0,
-            "excluded": 0
-          }
-        },
-        {
-          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:emission%3Abd405dd6538131d37f0c927e430dbec5e123b9147d5625904a9960a1deb52a41",
-          "representation": "representation:1:azurerm_kubernetes_cluster.workloads",
-          "emission": "emission:bd405dd6538131d37f0c927e430dbec5e123b9147d5625904a9960a1deb52a41",
-          "outcome": "resolved",
-          "facts": [
-            "relation:azure.relation.observed-by:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:representation%3A1%3Aazurerm_log_analytics_workspace.platform"
-          ],
-          "candidates": {
-            "known_equal": 0,
-            "unknown": 0,
-            "excluded": 0
-          }
-        },
-        {
-          "id": "closure:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:emission%3Ac50dca66fef4aabd23fcde710466ac698808dd09460778ad11a2138f5b16dee5",
-          "representation": "representation:1:azurerm_kubernetes_cluster.workloads",
-          "emission": "emission:c50dca66fef4aabd23fcde710466ac698808dd09460778ad11a2138f5b16dee5",
-          "outcome": "absent",
-          "facts": [],
-          "candidates": {
-            "known_equal": 0,
-            "unknown": 0,
-            "excluded": 0
-          }
-        },
-        {
-          "id": "closure:representation%3A1%3Aazurerm_log_analytics_workspace.platform:emission%3Afa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
-          "representation": "representation:1:azurerm_log_analytics_workspace.platform",
-          "emission": "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
-          "outcome": "resolved",
-          "facts": [
-            "context:azure.context.ownership:representation%3A1%3Aazurerm_log_analytics_workspace.platform:representation%3A1%3Aazurerm_resource_group.platform"
-          ],
-          "candidates": {
-            "known_equal": 1,
             "unknown": 0,
             "excluded": 0
           }
@@ -1340,48 +1222,8 @@
       ],
       "dependencies": [
         {
-          "id": "dependency:declaration%3A1%3Aazurerm_kubernetes_cluster.literal_workspace:declaration%3A1%3Aazurerm_resource_group.platform",
-          "from": "declaration:1:azurerm_kubernetes_cluster.literal_workspace",
-          "to": "declaration:1:azurerm_resource_group.platform",
-          "roles": [
-            "reference"
-          ]
-        },
-        {
-          "id": "dependency:declaration%3A1%3Aazurerm_kubernetes_cluster.unknown_workspace:declaration%3A1%3Aazurerm_resource_group.platform",
-          "from": "declaration:1:azurerm_kubernetes_cluster.unknown_workspace",
-          "to": "declaration:1:azurerm_resource_group.platform",
-          "roles": [
-            "reference"
-          ]
-        },
-        {
-          "id": "dependency:declaration%3A1%3Aazurerm_kubernetes_cluster.unknown_workspace:declaration%3A1%3Aterraform_data.unknown_workspace_id",
-          "from": "declaration:1:azurerm_kubernetes_cluster.unknown_workspace",
-          "to": "declaration:1:terraform_data.unknown_workspace_id",
-          "roles": [
-            "reference"
-          ]
-        },
-        {
-          "id": "dependency:declaration%3A1%3Aazurerm_kubernetes_cluster.workloads:declaration%3A1%3Aazurerm_log_analytics_workspace.platform",
-          "from": "declaration:1:azurerm_kubernetes_cluster.workloads",
-          "to": "declaration:1:azurerm_log_analytics_workspace.platform",
-          "roles": [
-            "reference"
-          ]
-        },
-        {
-          "id": "dependency:declaration%3A1%3Aazurerm_kubernetes_cluster.workloads:declaration%3A1%3Aazurerm_resource_group.platform",
-          "from": "declaration:1:azurerm_kubernetes_cluster.workloads",
-          "to": "declaration:1:azurerm_resource_group.platform",
-          "roles": [
-            "reference"
-          ]
-        },
-        {
-          "id": "dependency:declaration%3A1%3Aazurerm_log_analytics_workspace.platform:declaration%3A1%3Aazurerm_resource_group.platform",
-          "from": "declaration:1:azurerm_log_analytics_workspace.platform",
+          "id": "dependency:declaration%3A1%3Aazurerm_kubernetes_cluster.runtime:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_kubernetes_cluster.runtime",
           "to": "declaration:1:azurerm_resource_group.platform",
           "roles": [
             "reference"
@@ -1390,11 +1232,11 @@
       ],
       "deposed": [],
       "accounting": {
-        "declarations": 6,
-        "resources": 6,
+        "declarations": 5,
+        "resources": 5,
         "data_sources": 0,
-        "instances": 6,
-        "managed_instances": 6,
+        "instances": 5,
+        "managed_instances": 5,
         "data_instances": 0,
         "external_endpoints": 0,
         "carried": 0,
@@ -1402,13 +1244,13 @@
         "applied_interpretations": 5,
         "indeterminate_interpretations": 0,
         "failed_interpretations": 0,
-        "uninterpreted_instances": 1,
-        "facts": 5,
-        "closures": 10,
-        "resolved": 5,
-        "absent": 3,
-        "indeterminate": 2,
-        "dependencies": 6,
+        "uninterpreted_instances": 0,
+        "facts": 3,
+        "closures": 6,
+        "resolved": 3,
+        "absent": 2,
+        "indeterminate": 1,
+        "dependencies": 1,
         "deposed": 0
       }
     }

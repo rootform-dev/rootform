@@ -409,11 +409,6 @@
       "source": "https://developer.hashicorp.com/consul/docs"
     },
     {
-      "id": "consul.concept.catalog-registration",
-      "label": "Consul catalog registration (deprecated)",
-      "source": "https://developer.hashicorp.com/consul/docs"
-    },
-    {
       "id": "consul.concept.cluster-peering",
       "label": "Consul cluster peering",
       "source": "https://developer.hashicorp.com/consul/docs"
@@ -446,11 +441,6 @@
     {
       "id": "consul.concept.jwt-provider",
       "label": "Consul JWT provider",
-      "source": "https://developer.hashicorp.com/consul/docs"
-    },
-    {
-      "id": "consul.concept.mesh-certificate-authority",
-      "label": "Consul service mesh certificate authority",
       "source": "https://developer.hashicorp.com/consul/docs"
     },
     {

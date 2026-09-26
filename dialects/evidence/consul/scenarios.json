@@ -46,7 +46,7 @@
         "relations": 0
       },
       "limitations": [
-        "synthetic Terraform proves partition, namespace, catalog node, service, and mesh root without contacting Consul"
+        "The saved plan demonstrates partition, namespace, catalog node, service, and mesh root without contacting Consul."
       ]
     },
     {
@@ -129,7 +129,7 @@
         "ROOTFORM_CONSUL_CONFIG_JSON_SENTINEL"
       ],
       "limitations": [
-        "synthetic references prove service catalog, tenancy, mesh, gateways, traffic management, peering, exports, and identity without provider APIs; nested repeated-block targets stay unclaimed"
+        "Planned values and verified traversals support service catalog, tenancy, mesh, gateways, traffic management, peering, exports, and identity without provider APIs; nested repeated-block targets stay unclaimed."
       ]
     },
     {
@@ -143,7 +143,7 @@
         "ROOTFORM_CONSUL_BOUNDARY_LICENSE_SENTINEL"
       ],
       "limitations": [
-        "negative fixture exits indeterminate while preserving resource bases and diagnostics; literals, depends_on, ambiguity, dangling references, and target mismatches create no unresolved fact"
+        "In this saved plan, literals, depends_on, ambiguity, dangling references, and target mismatches create no unsupported fact. Unresolved outcomes retain their diagnostics."
       ]
     }
   ]

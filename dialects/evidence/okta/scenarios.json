@@ -23,7 +23,7 @@
         "relations": 0
       },
       "limitations": [
-        "synthetic Terraform proves roots without contacting Okta"
+        "The saved plan demonstrates roots without contacting Okta."
       ]
     },
     {
@@ -146,7 +146,7 @@
         "representations": 86,
         "relations": 1,
         "contexts": 0,
-        "contributions": 22
+        "contributions": 21
       },
       "maximum_facts": {
         "contexts": 0,
@@ -163,7 +163,7 @@
         "ROOTFORM_OKTA_USER_PROFILE_SENTINEL"
       ],
       "limitations": [
-        "only exact Terraform references create composition or relations; routing helpers never invent authentication flows"
+        "Only evaluated identity values or verified identity traversals create composition or relations; routing helpers never invent authentication flows."
       ]
     },
     {
@@ -173,7 +173,7 @@
         "ROOTFORM_OKTA_BOUNDARY_SECRET_SENTINEL"
       ],
       "limitations": [
-        "negative fixture proves literals, ambiguity, dangling references, target mismatches, and depends_on create no unresolved facts while partial IR preserves bases"
+        "In this saved plan, literals, ambiguity, dangling references, target mismatches, and dependencies establish no unsupported facts. The architecture document retains represented resources."
       ]
     }
   ]

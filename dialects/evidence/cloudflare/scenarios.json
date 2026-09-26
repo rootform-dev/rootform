@@ -33,7 +33,7 @@
         "relations": 1
       },
       "limitations": [
-        "Minimal fixture proves one exact Worker binding; broad product coverage remains in exhaustive matrix."
+        "The saved plan establishes one Worker binding. Other Cloudflare resources need their own plan evidence before architecture facts can be asserted."
       ]
     },
     {
@@ -80,7 +80,6 @@
         "kubernetes.rule.kubernetes-service"
       ],
       "required_outcomes": {
-        "azure_virtual_network.ignored": "no-rule",
         "cloudflare_account_dns_settings_internal_view.private": "representation-present",
         "cloudflare_calls_turn_app.relay": "representation-present",
         "cloudflare_custom_ssl.edge": "representation-present",
@@ -134,13 +133,6 @@
           "rule": "cloudflare.rule.cloudflare-tunnel-route"
         },
         {
-          "collection": "contexts",
-          "from": "representation:1:root:resource:cloudflare_zero_trust_tunnel_cloudflared_route.azure",
-          "to": "representation:1:root:resource:azurerm_virtual_network.application",
-          "dimension": "rf.context.network",
-          "rule": "cloudflare.rule.cloudflare-tunnel-route"
-        },
-        {
           "collection": "contributions",
           "from": "representation:1:root:resource:cloudflare_r2_bucket_event_notification.assets",
           "to": "representation:1:root:resource:cloudflare_queue.events",
@@ -185,7 +177,7 @@
         "contributions": 23
       },
       "maximum_facts": {
-        "contexts": 9,
+        "contexts": 11,
         "contributions": 23,
         "relations": 21
       },
@@ -195,8 +187,8 @@
         "ROOTFORM_CLOUDFLARE_WEBHOOK_SECRET_SENTINEL"
       ],
       "limitations": [
-        "Cloudflare-to-Kubernetes dependency remains source evidence only: Kubernetes Service roles cannot be conditionally promoted without breaking omitted provider defaults, so no relation is invented.",
-        "Load balancer pool origins, proxied DNS record contents, fallback origins, Access application domains and Spectrum direct origins name hostnames or addresses; no relation joins them to the load balancer or instance that serves them."
+        "A Terraform dependency on Kubernetes does not establish a Cloudflare-to-Kubernetes relation.",
+        "Load balancer origins, proxied DNS contents, Access domains, and Spectrum origins contain hostnames or addresses that do not identify the represented load balancer or instance. The AWS tunnel route can name a VPC through a verified CIDR traversal when its endpoint declares cidr_block; the Azure one(address_space) expression remains transformed and unresolved."
       ]
     },
     {
@@ -206,7 +198,7 @@
         "ROOTFORM_CLOUDFLARE_SECRET_SENTINEL"
       ],
       "limitations": [
-        "Ambiguous, dynamic, literal-only, dependency-only, credential, and read-only evidence asserts no unresolved fact; delivered partial IR preserves resource bases and diagnostics."
+        "The saved plan keeps ambiguous, dynamic, literal, dependency-only, and credential inputs from establishing unsupported facts. The architecture document retains represented resources and indeterminate outcomes."
       ]
     }
   ]

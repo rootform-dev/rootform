@@ -4,7 +4,7 @@
   "total_constructs": 708,
   "managed_resources": 259,
   "data_sources": 449,
-  "rules": 166,
+  "rules": 165,
   "constructs": {
     "rule-present": 69,
     "partial-rule": 128,

@@ -176,7 +176,7 @@
     },
     {
       "fixture": "confluent-v2/scenarios",
-      "source_sha256": "794cf02d0d319ddfbb47c1169485fb2421a1ea96befccc46105ee959f38cc2e3",
+      "source_sha256": "f94682f9fb01cd4771e987449c9f86266ed1f96e9e2e9537702b178c0309c234",
       "providers": {
         "hashicorp/aws": "6.62.0",
         "hashicorp/azurerm": "5.3.0",
@@ -227,7 +227,7 @@
     },
     {
       "fixture": "databricks-v1/boundary",
-      "source_sha256": "f30e165c1b898929f9d19e21bee9c5d83b19e95a22d93ab5ce4b61d43c83f355",
+      "source_sha256": "bb140c669d00541126c7328f7130b3fab6e2122d7f19e47128497bd034b38a4f",
       "providers": {
         "hashicorp/aws": "6.62.0",
         "databricks/databricks": "1.129.0"
@@ -376,7 +376,7 @@
     },
     {
       "fixture": "grafana-v4/scenarios",
-      "source_sha256": "1a3072c16c880372e607cf1856775f7406f2bf1482ccea1b42ed0f140c611d42",
+      "source_sha256": "116953a88d7e8466ca27edba424bf7a1fdf5550bb935b25bedcfa5ee6cb27339",
       "providers": {
         "hashicorp/aws": "6.62.0",
         "hashicorp/azuread": "3.9.0",
@@ -511,6 +511,16 @@
       "source_sha256": "07393d456d18f89ec199e54315533115ab2f0d01bd54b5e286eb3149d91af587",
       "providers": {
         "okta/okta": "7.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/aks-kubernetes",
+      "source_sha256": "5eb4f92b9818f3868357fe738d4703c19067e3c24d243dbceaef01d3b96d4850",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0",
+        "hashicorp/kubernetes": "2.38.0"
       },
       "status": "planned",
       "terraform_version": "1.16.4"

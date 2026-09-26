@@ -51,7 +51,7 @@
         "ROOTFORM_CONFLUENT_MINIMAL_SECRET"
       ],
       "limitations": [
-        "Minimal fixture proves fixed ownership, runtime, and network evidence; connector map direction remains deliberately unmodeled."
+        "The saved plan establishes fixed ownership, runtime, and network evidence; connector map direction remains deliberately unmodeled."
       ]
     },
     {
@@ -106,45 +106,10 @@
       "required_facts": [
         {
           "collection": "relations",
-          "from": "representation:1:root:resource:confluent_access_point.aws",
-          "to": "representation:1:root:resource:aws_vpc_endpoint.confluent",
-          "type": "connects-to",
-          "rule": "confluent.rule.access-point"
-        },
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:confluent_access_point.azure",
-          "to": "representation:1:root:resource:azurerm_private_endpoint.confluent",
-          "type": "connects-to",
-          "rule": "confluent.rule.access-point"
-        },
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:confluent_access_point.google",
-          "to": "representation:1:root:resource:google_compute_forwarding_rule.confluent",
-          "type": "connects-to",
-          "rule": "confluent.rule.access-point"
-        },
-        {
-          "collection": "relations",
           "from": "representation:1:root:resource:confluent_peering.aws",
           "to": "representation:1:root:resource:aws_vpc.platform",
           "type": "peers-with",
           "rule": "confluent.rule.network-peering"
-        },
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:confluent_byok_key.google",
-          "to": "representation:1:root:resource:google_kms_crypto_key.streaming",
-          "type": "registers-key",
-          "rule": "confluent.rule.byok-key"
-        },
-        {
-          "collection": "relations",
-          "from": "representation:1:root:resource:confluent_provider_integration.aws",
-          "to": "representation:1:root:resource:aws_iam_role.confluent",
-          "type": "uses-cloud-identity",
-          "rule": "confluent.rule.provider-integration"
         },
         {
           "collection": "relations",
@@ -163,7 +128,7 @@
         {
           "collection": "relations",
           "from": "representation:1:root:resource:confluent_schema_exporter.replication",
-          "to": "representation:1:root:data:data.confluent_schema_registry_cluster.destination",
+          "to": "representation:1:root:data:confluent_schema_registry_cluster.destination",
           "type": "exports-to",
           "rule": "confluent.rule.schema-exporter"
         },
@@ -195,7 +160,7 @@
         "contributions": 13
       },
       "maximum_facts": {
-        "contexts": 47,
+        "contexts": 53,
         "contributions": 13,
         "relations": 35
       },
@@ -210,7 +175,7 @@
         "ROOTFORM_CONFLUENT_SCHEMA_SENTINEL"
       ],
       "limitations": [
-        "Cross-cloud facts require exact references to represented networks, endpoints, keys, identities, and storage; opaque connector maps and transit-gateway literals create no topology."
+        "The plan supports only relations resolved by evaluated identity values or verified traversals. Access point endpoints with unknown planned IDs remain indeterminate. Key and cloud identity targets outside interpreted concepts do not produce cross-cloud relations. Opaque connector maps and transit gateway literals establish no topology."
       ]
     },
     {
@@ -223,7 +188,7 @@
         "ROOTFORM_CONFLUENT_BOUNDARY_SQL"
       ],
       "limitations": [
-        "Ambiguous and literal cloud identifiers fail closed; credentials, invitations, importer helpers, read-only lookups, opaque maps, and depends_on remain explicit unmodeled or source evidence only."
+        "Ambiguous and literal cloud identifiers remain unresolved; credentials, invitations, importer helpers, read-only lookups, opaque maps, and depends_on remain explicit unmodeled or dependency evidence only."
       ]
     }
   ]

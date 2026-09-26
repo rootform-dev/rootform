@@ -50,10 +50,7 @@
     {
       "construct_kind": "managed_resource",
       "file": "dialects/snowflake/api-integration/integrations.rf.hcl",
-      "paths": [
-        "api_allowed_prefixes[0]",
-        "api_aws_role_arn"
-      ],
+      "paths": [],
       "resource_type": "snowflake_api_integration_amazon_api_gateway",
       "rule_id": "snowflake.rule.amazon-api-gateway-integration",
       "schema_verified": true,
@@ -63,10 +60,7 @@
     {
       "construct_kind": "managed_resource",
       "file": "dialects/snowflake/api-integration/integrations.rf.hcl",
-      "paths": [
-        "api_allowed_prefixes[0]",
-        "api_aws_role_arn"
-      ],
+      "paths": [],
       "resource_type": "snowflake_api_integration",
       "rule_id": "snowflake.rule.api-integration",
       "schema_verified": true,
@@ -86,9 +80,7 @@
     {
       "construct_kind": "managed_resource",
       "file": "dialects/snowflake/storage/integrations.rf.hcl",
-      "paths": [
-        "glue_aws_role_arn"
-      ],
+      "paths": [],
       "resource_type": "snowflake_catalog_integration_aws_glue",
       "rule_id": "snowflake.rule.aws-glue-catalog-integration",
       "schema_verified": true,
@@ -100,8 +92,7 @@
       "file": "dialects/snowflake/storage/integrations.rf.hcl",
       "paths": [
         "storage_allowed_locations[0]",
-        "storage_allowed_locations[1]",
-        "storage_aws_role_arn"
+        "storage_allowed_locations[1]"
       ],
       "resource_type": "snowflake_storage_integration_aws",
       "rule_id": "snowflake.rule.aws-storage-integration",
@@ -112,9 +103,7 @@
     {
       "construct_kind": "managed_resource",
       "file": "dialects/snowflake/api-integration/integrations.rf.hcl",
-      "paths": [
-        "api_allowed_prefixes[0]"
-      ],
+      "paths": [],
       "resource_type": "snowflake_api_integration_azure_api_management",
       "rule_id": "snowflake.rule.azure-api-management-integration",
       "schema_verified": true,
@@ -303,7 +292,6 @@
       "file": "dialects/snowflake/storage/stages.rf.hcl",
       "paths": [
         "directory[0].notification_integration",
-        "encryption[0].gcs_sse_kms[0].kms_key_id",
         "schema",
         "storage_integration",
         "url"
@@ -361,9 +349,6 @@
       "construct_kind": "managed_resource",
       "file": "dialects/snowflake/storage/stages.rf.hcl",
       "paths": [
-        "credentials[0].aws_role",
-        "directory[0].aws_sns_topic",
-        "encryption[0].aws_sse_kms[0].kms_key_id",
         "schema",
         "storage_integration",
         "url"
@@ -390,8 +375,6 @@
       "construct_kind": "managed_resource",
       "file": "dialects/snowflake/storage/integrations.rf.hcl",
       "paths": [
-        "storage_location[0].encryption_kms_key_id",
-        "storage_location[0].storage_aws_role_arn",
         "storage_location[0].storage_base_url",
         "storage_location[1].storage_base_url"
       ],
@@ -454,9 +437,7 @@
     {
       "construct_kind": "managed_resource",
       "file": "dialects/snowflake/api-integration/integrations.rf.hcl",
-      "paths": [
-        "api_allowed_prefixes[0]"
-      ],
+      "paths": [],
       "resource_type": "snowflake_api_integration_google_cloud_api_gateway",
       "rule_id": "snowflake.rule.google-cloud-api-gateway-integration",
       "schema_verified": true,
@@ -478,9 +459,7 @@
     {
       "construct_kind": "managed_resource",
       "file": "dialects/snowflake/storage/integrations.rf.hcl",
-      "paths": [
-        "sigv4_rest_authentication[0].sigv4_iam_role"
-      ],
+      "paths": [],
       "resource_type": "snowflake_catalog_integration_iceberg_rest",
       "rule_id": "snowflake.rule.iceberg-rest-catalog-integration",
       "schema_verified": true,
@@ -695,15 +674,7 @@
     {
       "construct_kind": "managed_resource",
       "file": "dialects/snowflake/data-pipelines/pipes-tasks.rf.hcl",
-      "paths": [
-        "aws_sns_role_arn",
-        "aws_sns_topic_arn",
-        "aws_sqs_arn",
-        "aws_sqs_role_arn",
-        "azure_storage_queue_primary_uri",
-        "gcp_pubsub_subscription_name",
-        "gcp_pubsub_topic_name"
-      ],
+      "paths": [],
       "resource_type": "snowflake_notification_integration",
       "rule_id": "snowflake.rule.notification-integration",
       "schema_verified": true,
@@ -754,7 +725,6 @@
       "construct_kind": "managed_resource",
       "file": "dialects/snowflake/data-pipelines/pipes-tasks.rf.hcl",
       "paths": [
-        "aws_sns_topic_arn",
         "error_integration",
         "integration",
         "schema"
@@ -945,8 +915,7 @@
       "file": "dialects/snowflake/storage/integrations.rf.hcl",
       "paths": [
         "storage_allowed_locations[0]",
-        "storage_allowed_locations[1]",
-        "storage_aws_role_arn"
+        "storage_allowed_locations[1]"
       ],
       "resource_type": "snowflake_storage_integration",
       "rule_id": "snowflake.rule.storage-integration",

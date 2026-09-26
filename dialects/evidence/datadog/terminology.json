@@ -200,10 +200,6 @@
       "label": "Datadog service integration configuration"
     },
     {
-      "id": "datadog.concept.telemetry-pipeline",
-      "label": "Datadog Observability Pipeline"
-    },
-    {
       "id": "datadog.concept.telemetry-destination",
       "label": "Datadog telemetry destination"
     },

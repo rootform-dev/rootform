@@ -119,7 +119,6 @@
       "construct_kind": "managed_resource",
       "file": "dialects/mongodb-atlas/identity-iam/identities.rf.hcl",
       "paths": [
-        "aws[0].iam_assumed_role_arn",
         "azure[0].service_principal_id",
         "project_id",
         "role_id"
@@ -245,11 +244,8 @@
       "construct_kind": "managed_resource",
       "file": "dialects/mongodb-atlas/security/encryption.rf.hcl",
       "paths": [
-        "aws_kms_config[0].customer_master_key_id",
         "aws_kms_config[0].role_id",
-        "azure_key_vault_config[0].key_identifier",
         "azure_key_vault_config[0].role_id",
-        "google_cloud_kms_config[0].key_version_resource_id",
         "google_cloud_kms_config[0].role_id",
         "project_id"
       ],
@@ -388,7 +384,6 @@
       "paths": [
         "bucket_name",
         "iam_role_id",
-        "kms_key",
         "project_id",
         "role_id",
         "storage_container_name"
@@ -666,12 +661,11 @@
       "construct_kind": "managed_resource",
       "file": "dialects/mongodb-atlas/stream-processing/streams.rf.hcl",
       "paths": [
-        "aws[0].role_arn",
-        "azure[0].service_principal_id",
+        "azure.service_principal_id",
         "cluster_name",
-        "gcp[0].service_account_id",
+        "gcp.service_account_id",
         "instance_name",
-        "networking[0].access[0].connection_id",
+        "networking.access.connection_id",
         "project_id",
         "workspace_name"
       ],

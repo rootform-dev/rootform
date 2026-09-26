@@ -45,7 +45,7 @@
         "contributions": 0
       },
       "limitations": [
-        "synthetic Terraform proves project, HVN, Vault Dedicated, and Private Link architecture without contacting HCP"
+        "The saved plan demonstrates project, HVN, Vault Dedicated, and Private Link architecture without contacting HCP."
       ]
     },
     {
@@ -138,7 +138,7 @@
       },
       "maximum_facts": {
         "relations": 24,
-        "contexts": 45,
+        "contexts": 46,
         "contributions": 12
       },
       "forbidden_output": [
@@ -154,7 +154,7 @@
         "ROOTFORM_HCP_WEBHOOK_HMAC_SENTINEL"
       ],
       "limitations": [
-        "synthetic references prove AWS, Azure, Google Cloud, Confluent, networking, security, registry, platform, and operations facts; provider APIs and credentials are never used"
+        "Planned values and verified traversals support AWS, Azure, Google Cloud, Confluent, networking, security, registry, platform, and operations facts; provider APIs and credentials are never used."
       ]
     },
     {
@@ -170,7 +170,7 @@
         "ROOTFORM_HCP_TFC_PRIVATE_SENTINEL"
       ],
       "limitations": [
-        "negative fixture exits indeterminate while preserving resource bases and diagnostics; literal, depends_on, ambiguous, dangling, and target-mismatched evidence creates no unresolved fact"
+        "In this saved plan, literal, depends_on, ambiguous, dangling, and target-mismatched evidence creates no unsupported fact. Unresolved outcomes retain their diagnostics."
       ]
     }
   ]

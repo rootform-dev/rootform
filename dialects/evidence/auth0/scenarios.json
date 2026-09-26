@@ -26,7 +26,7 @@
         "relations": 0
       },
       "limitations": [
-        "synthetic Terraform proves roots without contacting Auth0"
+        "The saved plan demonstrates roots without contacting Auth0."
       ]
     },
     {
@@ -175,7 +175,7 @@
         "relations": 5
       },
       "limitations": [
-        "association helpers preserve composition but cannot invent direct application-to-connection authentication flows"
+        "Association helpers preserve composition but cannot invent direct application-to-connection authentication flows."
       ]
     },
     {
@@ -188,7 +188,7 @@
         "ROOTFORM_AUTH0_USER_SENTINEL"
       ],
       "limitations": [
-        "literals, JSON, URLs, code, secrets, and depends_on must not create architecture facts"
+        "Literals, JSON, URLs, code, secrets, and depends_on must not create architecture facts."
       ]
     }
   ]

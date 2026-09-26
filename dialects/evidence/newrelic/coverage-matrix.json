@@ -588,9 +588,7 @@
       "product": "federated-logs",
       "proof_url": "https://registry.terraform.io/providers/newrelic/newrelic/3.96.4/docs/resources/aws_connection",
       "reason": "architecture-role: durable provider-backed service, boundary, integration, pipeline, destination, or runtime",
-      "relations": [
-        "authorized-by"
-      ],
+      "relations": [],
       "rootform_concepts": [
         "newrelic.rule.aws-connection"
       ],
@@ -686,9 +684,7 @@
       "product": "cloud-integrations",
       "proof_url": "https://registry.terraform.io/providers/newrelic/newrelic/3.96.4/docs/resources/cloud_aws_eu_sovereign_link_account",
       "reason": "architecture-role: durable provider-backed service, boundary, integration, pipeline, destination, or runtime",
-      "relations": [
-        "authorized-by"
-      ],
+      "relations": [],
       "rootform_concepts": [
         "newrelic.concept.cloud-observability-integration"
       ],
@@ -738,9 +734,7 @@
       "product": "cloud-integrations",
       "proof_url": "https://registry.terraform.io/providers/newrelic/newrelic/3.96.4/docs/resources/cloud_aws_govcloud_link_account",
       "reason": "architecture-role: durable provider-backed service, boundary, integration, pipeline, destination, or runtime",
-      "relations": [
-        "authorized-by"
-      ],
+      "relations": [],
       "rootform_concepts": [
         "newrelic.concept.cloud-observability-integration"
       ],
@@ -790,9 +784,7 @@
       "product": "cloud-integrations",
       "proof_url": "https://registry.terraform.io/providers/newrelic/newrelic/3.96.4/docs/resources/cloud_aws_link_account",
       "reason": "architecture-role: durable provider-backed service, boundary, integration, pipeline, destination, or runtime",
-      "relations": [
-        "authorized-by"
-      ],
+      "relations": [],
       "rootform_concepts": [
         "newrelic.concept.cloud-observability-integration"
       ],

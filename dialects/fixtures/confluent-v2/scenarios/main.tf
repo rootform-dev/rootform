@@ -615,6 +615,7 @@ resource "confluent_connector" "warehouse" {
 
   config_sensitive = {
     "aws.secret.access.key" = "ROOTFORM_CONFLUENT_CONNECTOR_SECRET"
+    "rootform.dek.test" = "ROOTFORM_CONFLUENT_DEK_SENTINEL"
   }
 
   depends_on = [google_storage_bucket.tableflow]

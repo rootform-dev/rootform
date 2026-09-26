@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:ea7b34e8cfa8008796b740fa10d0a1dd9669de798a5e71d228ed755a1d57dfc5",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:ea7b34e8cfa8008796b740fa10d0a1dd9669de798a5e71d228ed755a1d57dfc5",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -52,29 +52,29 @@
           "owner": "aws",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
-          "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a"
+          "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+          "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c"
         },
         {
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
-          "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:fa274f3e10c1e032a6db979b3d8ea80f8900970357147a1e391b37b2d9ab4d4e",
-          "semantic_digest": "sha256:ef50339cf343ce2b02f75da1f1cefdc4ea3169b89ddcc6c1b68d3cf3ca286d12"
+          "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+          "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb"
         },
         {
           "owner": "confluent",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
-          "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624"
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
         },
         {
           "owner": "consul",
@@ -87,28 +87,28 @@
           "owner": "databricks",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
-          "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4"
+          "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+          "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb"
         },
         {
           "owner": "datadog",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
-          "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495"
+          "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+          "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129"
         },
         {
           "owner": "google",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
-          "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3"
+          "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
         },
         {
           "owner": "grafana",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+          "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
           "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
         },
         {
@@ -122,8 +122,8 @@
           "owner": "kestra",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
-          "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+          "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+          "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f"
         },
         {
           "owner": "kubernetes",
@@ -136,14 +136,14 @@
           "owner": "mongodb-atlas",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
-          "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e"
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
         },
         {
           "owner": "newrelic",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+          "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
           "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
         },
         {
@@ -171,14 +171,14 @@
           "owner": "snowflake",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
-          "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0"
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
         },
         {
           "owner": "vault",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+          "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
           "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
         }
       ]
@@ -235,8 +235,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
-        "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a",
+        "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+        "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c",
         "providers": [
           {
             "source": "hashicorp/aws",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
-        "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -293,8 +293,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:fa274f3e10c1e032a6db979b3d8ea80f8900970357147a1e391b37b2d9ab4d4e",
-        "semantic_digest": "sha256:ef50339cf343ce2b02f75da1f1cefdc4ea3169b89ddcc6c1b68d3cf3ca286d12",
+        "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+        "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb",
         "providers": [
           {
             "source": "cloudflare/cloudflare",
@@ -314,8 +314,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
-        "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
         "providers": [
           {
             "source": "confluentinc/confluent",
@@ -356,8 +356,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
-        "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4",
+        "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+        "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb",
         "providers": [
           {
             "source": "databricks/databricks",
@@ -377,8 +377,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
-        "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495",
+        "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+        "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129",
         "providers": [
           {
             "source": "datadog/datadog",
@@ -396,8 +396,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
-        "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3",
+        "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
         "providers": [
           {
             "source": "hashicorp/google",
@@ -425,7 +425,7 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+        "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
         "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
         "providers": [
           {
@@ -467,8 +467,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
-        "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+        "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+        "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f",
         "providers": [
           {
             "source": "kestra-io/kestra",
@@ -507,8 +507,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
-        "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
         "providers": [
           {
             "source": "mongodb/mongodbatlas",
@@ -528,7 +528,7 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+        "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
         "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
         "providers": [
           {
@@ -597,8 +597,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
-        "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
         "providers": [
           {
             "source": "snowflakedb/snowflake",
@@ -618,7 +618,7 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+        "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
         "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
         "providers": [
           {
@@ -768,7 +768,9 @@
         },
         "endpoint": {
           "attributes": [
-            "id"
+            "id",
+            "kube_admin_config[0].host",
+            "kube_config[0].host"
           ]
         },
         "emissions": [

@@ -22,7 +22,7 @@
         "relations": 0
       },
       "limitations": [
-        "synthetic Terraform proves roots without contacting New Relic"
+        "The saved plan demonstrates roots without contacting New Relic."
       ]
     },
     {
@@ -86,13 +86,6 @@
       "required_facts": [
         {
           "collection": "relations",
-          "from": "representation:1:root:resource:newrelic_cloud_aws_link_account.production",
-          "to": "representation:1:root:resource:aws_iam_role.newrelic",
-          "type": "authorized-by",
-          "rule": "newrelic.rule.cloud-aws-link-account"
-        },
-        {
-          "collection": "relations",
           "from": "representation:1:root:resource:newrelic_cloud_gcp_link_account.production",
           "to": "representation:1:root:resource:google_service_account.newrelic",
           "type": "authorized-by",
@@ -119,7 +112,7 @@
         "contributions": 15
       },
       "maximum_facts": {
-        "contexts": 34,
+        "contexts": 35,
         "contributions": 15,
         "relations": 7
       },
@@ -134,7 +127,7 @@
         "ROOTFORM_NEWRELIC_DASHBOARD_SENTINEL"
       ],
       "limitations": [
-        "only exact Terraform references create ownership, composition, or cross-dialect relations"
+        "Ownership and contribution facts require resolved plan evidence. The AWS role reference does not establish an authorization relation unless the role has an interpreted target concept."
       ]
     },
     {
@@ -144,7 +137,7 @@
         "ROOTFORM_NEWRELIC_BOUNDARY_SECRET_SENTINEL"
       ],
       "limitations": [
-        "negative fixture proves literals, ambiguity, dangling references, target mismatches, and depends_on create no unresolved facts while partial IR preserves bases"
+        "In this saved plan, literals, ambiguity, dangling references, target mismatches, and dependencies establish no unsupported facts. The architecture document retains represented resources."
       ]
     }
   ]

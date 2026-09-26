@@ -51,11 +51,8 @@
         "contributions": 0,
         "relations": 4
       },
-      "forbidden_output": [
-        "ROOTFORM_DATABRICKS_TEST_SECRET"
-      ],
       "limitations": [
-        "Offline fixture proves architecture compilation from configuration only; it does not call Databricks APIs or execute Terraform."
+        "The saved plan contains bounded architecture evidence. Rootform does not call Databricks APIs or run Terraform."
       ]
     },
     {
@@ -107,13 +104,6 @@
           "rule": "databricks.rule.external-location"
         },
         {
-          "collection": "relations",
-          "from": "representation:1:root:resource:databricks_endpoint.azure",
-          "to": "representation:1:root:resource:azurerm_private_endpoint.databricks",
-          "type": "registers-endpoint",
-          "rule": "databricks.rule.service-direct-endpoint"
-        },
-        {
           "collection": "contexts",
           "from": "representation:1:root:resource:databricks_postgres_branch.production",
           "to": "representation:1:root:resource:databricks_postgres_project.application",
@@ -129,12 +119,12 @@
       ],
       "minimum": {
         "representations": 62,
-        "relations": 25,
+        "relations": 24,
         "contexts": 27,
         "contributions": 4
       },
       "maximum_facts": {
-        "contexts": 26,
+        "contexts": 30,
         "contributions": 4,
         "relations": 35
       },
@@ -142,7 +132,7 @@
         "ROOTFORM_DATABRICKS_GCP_PRIVATE_KEY"
       ],
       "limitations": [
-        "Fixture proves AWS, Azure, and Google Cloud references only when explicit Terraform traversals resolve; provider aliases and authentication imply no cloud ownership."
+        "AWS, Azure, and Google Cloud relations require resolved identity evidence in the plan. The service direct endpoint has no interpretable cross-cloud private endpoint target, and provider aliases or credentials establish no cloud ownership."
       ]
     },
     {
@@ -150,11 +140,12 @@
       "fixture": "fixtures/databricks-v1/boundary",
       "forbidden_output": [
         "ROOTFORM_DATABRICKS_BOUNDARY_SECRET",
+        "ROOTFORM_DATABRICKS_TEST_SECRET",
         "ROOTFORM_DATABRICKS_BOUNDARY_NOTEBOOK",
         "ROOTFORM_DATABRICKS_BOUNDARY_TOKEN"
       ],
       "limitations": [
-        "Intentional conditional traversals prove fail-closed behavior; literal identifiers remain unresolved and dependency-only evidence emits no architecture relation."
+        "For this saved plan, intentional conditional traversals prove fail-closed behavior; literal identifiers remain unresolved and dependency-only evidence emits no architecture relation."
       ]
     }
   ]
