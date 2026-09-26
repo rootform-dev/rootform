@@ -2,7 +2,7 @@
   "format_version": "1",
   "binary": {
     "version": "rootform 0.1.0",
-    "sha256": "8d52e5bc715d87400a656cb851b8f47083eb7dac3210173376ea03f196fbdf91"
+    "sha256": "4ae16e805701b2acafa03c37f7e9ccd3fd778a540251073d3b380a919eecf6bd"
   },
   "examples": {
     "commerce-platform": {
@@ -23,8 +23,8 @@
         }
       },
       "documents": {
-        "commerce-platform-analysis.json": "b3d0f715b4c95d3ccd75ab1c06bb9d9f65e5fe242f18049c49799b5b8808b6b9",
-        "commerce-platform-comparison.json": "9cfde7841f64aa1dc9dfb02a45d77d51b3fc5ea9ba91547cb87ef1b1ed726149",
+        "commerce-platform-analysis.json": "05c3191eaa6417d2cccfa0557203fd1596d3535b671875afeffc3da5b8b6967d",
+        "commerce-platform-comparison.json": "2f7df9a47838e72058b9f172194951618efdb76ef386654b3357686baee7553b",
         "commerce-platform-presentation.json": "2738f25dddf2c11efe10b45feceff6ff3d85af9e92fe1697498da00fb3b48175"
       }
     },
@@ -46,8 +46,8 @@
         }
       },
       "documents": {
-        "event-driven-platform-analysis.json": "c9791772ea139d5b38e7def03d14d291074a37728fe4719dffd2fbf94b8e560a",
-        "event-driven-platform-comparison.json": "7b70d3ed011878f6377386ce3e91ca733f9f0fe6e1312e7ebd90da47da42ef5c",
+        "event-driven-platform-analysis.json": "9257109f5b87233eb3aee6b4bc8687bb0cebbca07b6fcb0aad4c1bd4c7c1b47a",
+        "event-driven-platform-comparison.json": "9a1ba46ac2c48c722cf5723d5707c3f6e34f4bb68f881d8b32d53214e6e33605",
         "event-driven-platform-presentation.json": "2738f25dddf2c11efe10b45feceff6ff3d85af9e92fe1697498da00fb3b48175"
       }
     },
@@ -69,8 +69,8 @@
         }
       },
       "documents": {
-        "shared-data-platform-analysis.json": "86731249f2f9b756f4c78ccc8e9fc562762345979d478b443b3e1f192871955d",
-        "shared-data-platform-comparison.json": "cf87ba9eae5d55c0e734fa7f2db165b8e8625ac529327a83d4a5bf974f3fef03",
+        "shared-data-platform-analysis.json": "489e5716775d74778eba1141f72004bc7aff38535193fffab980a7e8418b7dd2",
+        "shared-data-platform-comparison.json": "549fe6e453e880c81387f66cdb5a148e8959ad508a66f297b4495ff964b395ba",
         "shared-data-platform-presentation.json": "2738f25dddf2c11efe10b45feceff6ff3d85af9e92fe1697498da00fb3b48175"
       }
     }

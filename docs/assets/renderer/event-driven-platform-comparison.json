@@ -45,9 +45,9 @@
       "semantics": {
         "language_version": "1",
         "release_set": {
-          "id": "release-set:af77bf8a6775e40acd2a8bdd75f2a3b65857db75c3d09c3b510d9d997ad812b2",
+          "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
           "version": "0.1.0",
-          "manifest_digest": "sha256:af77bf8a6775e40acd2a8bdd75f2a3b65857db75c3d09c3b510d9d997ad812b2",
+          "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
           "units": [
             {
               "owner": "auth0",
@@ -60,15 +60,15 @@
               "owner": "aws",
               "kind": "dialect",
               "version": "0.1.0",
-              "content_digest": "sha256:fd1bb9b564148d7a98156ff504f1486edc44c54d9c0a2a8f9c187960e40922c3",
-              "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265"
+              "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+              "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c"
             },
             {
               "owner": "azure",
               "kind": "dialect",
               "version": "0.1.0",
-              "content_digest": "sha256:bbb26bebc0ab1705b4214994cbda214a1538af18ef14203973f073cc0408d61e",
-              "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b"
+              "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+              "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
             },
             {
               "owner": "cloudflare",
@@ -130,8 +130,8 @@
               "owner": "kestra",
               "kind": "dialect",
               "version": "0.1.0",
-              "content_digest": "sha256:7343b7949074f599dfea41070bdda9c5f6615621e61d8ac4edebb945bf6e3a27",
-              "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+              "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+              "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f"
             },
             {
               "owner": "kubernetes",
@@ -243,8 +243,8 @@
             "kind": "dialect",
             "origin": "supplied",
             "version": "0.1.0",
-            "content_digest": "sha256:fd1bb9b564148d7a98156ff504f1486edc44c54d9c0a2a8f9c187960e40922c3",
-            "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265",
+            "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+            "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c",
             "providers": [
               {
                 "source": "hashicorp/aws",
@@ -264,8 +264,8 @@
             "kind": "dialect",
             "origin": "supplied",
             "version": "0.1.0",
-            "content_digest": "sha256:bbb26bebc0ab1705b4214994cbda214a1538af18ef14203973f073cc0408d61e",
-            "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b",
+            "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+            "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
             "providers": [
               {
                 "source": "azure/azapi",
@@ -475,8 +475,8 @@
             "kind": "dialect",
             "origin": "supplied",
             "version": "0.1.0",
-            "content_digest": "sha256:7343b7949074f599dfea41070bdda9c5f6615621e61d8ac4edebb945bf6e3a27",
-            "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+            "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+            "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f",
             "providers": [
               {
                 "source": "kestra-io/kestra",
@@ -8156,6 +8156,7 @@
             },
             "endpoint": {
               "attributes": [
+                "cidr_block",
                 "id"
               ]
             },
@@ -8279,7 +8280,9 @@
             },
             "endpoint": {
               "attributes": [
-                "id"
+                "id",
+                "kube_admin_config[0].host",
+                "kube_config[0].host"
               ]
             },
             "emissions": [
@@ -8818,7 +8821,8 @@
             },
             "endpoint": {
               "attributes": [
-                "id"
+                "id",
+                "name"
               ]
             },
             "emissions": [
@@ -8956,8 +8960,8 @@
             "match_type": "azurerm_container_app",
             "concept": "azure.concept.container-app",
             "emissions": [
-              "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
-              "emission:5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a"
+              "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+              "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9"
             ]
           },
           {
@@ -9886,6 +9890,17 @@
             "match_kind": "resource",
             "match_type": "azuread_service_principal",
             "concept": "rf.concept.service-identity",
+            "identity": {
+              "attributes": [
+                "client_id"
+              ],
+              "scope": "provider"
+            },
+            "endpoint": {
+              "attributes": [
+                "client_id"
+              ]
+            },
             "emissions": []
           },
           {
@@ -10084,7 +10099,7 @@
               ]
             },
             "emissions": [
-              "emission:0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871"
+              "emission:1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6"
             ]
           },
           {
@@ -11936,7 +11951,7 @@
               ]
             },
             "emissions": [
-              "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac"
+              "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe"
             ]
           },
           {
@@ -11976,7 +11991,7 @@
               ]
             },
             "emissions": [
-              "emission:d2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f"
+              "emission:4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6"
             ]
           },
           {
@@ -22930,7 +22945,7 @@
             "match_type": "kestra_binding",
             "concept": "kestra.concept.access-binding",
             "emissions": [
-              "emission:b81669618a97c2bd189a85c2e16214922d4b33d749683080efad7d3d51bc6aa3"
+              "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd"
             ]
           },
           {
@@ -29614,6 +29629,27 @@
             "disclose": "none"
           },
           {
+            "id": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+            "rule": "azure.rule.container-app",
+            "kind": "context",
+            "to": {
+              "kind": "concept",
+              "id": "azure.concept.container-app-environment"
+            },
+            "dimension": "rf.context.runtime",
+            "via": "source.container_app_environment_id",
+            "match": {
+              "by": [
+                "id"
+              ],
+              "strategy": "exact"
+            },
+            "on_null": "absent",
+            "on_empty": "absent",
+            "external": "allow",
+            "disclose": "none"
+          },
+          {
             "id": "emission:035c9f939bf49a8826622d920a0d5402f3d58c0be1ef858b2c49cfb6903ea3a9",
             "rule": "vault.rule.consul-secret-backend",
             "kind": "context",
@@ -30542,27 +30578,6 @@
             "match": {
               "by": [
                 "team_id"
-              ],
-              "strategy": "exact"
-            },
-            "on_null": "absent",
-            "on_empty": "absent",
-            "external": "deny",
-            "disclose": "none"
-          },
-          {
-            "id": "emission:0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871",
-            "rule": "azure.rule.event-hub",
-            "kind": "context",
-            "to": {
-              "kind": "concept",
-              "id": "azure.concept.messaging-namespace"
-            },
-            "dimension": "azure.context.ownership",
-            "via": "source.namespace_id",
-            "match": {
-              "by": [
-                "id"
               ],
               "strategy": "exact"
             },
@@ -32850,6 +32865,27 @@
             "match": {
               "by": [
                 "name"
+              ],
+              "strategy": "exact"
+            },
+            "on_null": "absent",
+            "on_empty": "absent",
+            "external": "allow",
+            "disclose": "none"
+          },
+          {
+            "id": "emission:1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6",
+            "rule": "azure.rule.event-hub",
+            "kind": "context",
+            "to": {
+              "kind": "concept",
+              "id": "azure.concept.messaging-namespace"
+            },
+            "dimension": "azure.context.ownership",
+            "via": "source.namespace_id",
+            "match": {
+              "by": [
+                "id"
               ],
               "strategy": "exact"
             },
@@ -38389,6 +38425,27 @@
             "disclose": "none"
           },
           {
+            "id": "emission:4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6",
+            "rule": "azure.rule.service-bus-topic",
+            "kind": "context",
+            "to": {
+              "kind": "concept",
+              "id": "azure.concept.messaging-namespace"
+            },
+            "dimension": "azure.context.ownership",
+            "via": "source.namespace_id",
+            "match": {
+              "by": [
+                "id"
+              ],
+              "strategy": "exact"
+            },
+            "on_null": "absent",
+            "on_empty": "absent",
+            "external": "allow",
+            "disclose": "none"
+          },
+          {
             "id": "emission:4ec84afc387d5d699b59308f0358681c82aef4db4a8fad3451eb5ff819366253",
             "rule": "aws.rule.api-gateway-integration",
             "kind": "contribution",
@@ -38442,6 +38499,27 @@
             "match": {
               "by": [
                 "path"
+              ],
+              "strategy": "exact"
+            },
+            "on_null": "absent",
+            "on_empty": "absent",
+            "external": "allow",
+            "disclose": "none"
+          },
+          {
+            "id": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
+            "rule": "azure.rule.service-bus-queue",
+            "kind": "context",
+            "to": {
+              "kind": "concept",
+              "id": "azure.concept.messaging-namespace"
+            },
+            "dimension": "azure.context.ownership",
+            "via": "source.namespace_id",
+            "match": {
+              "by": [
+                "id"
               ],
               "strategy": "exact"
             },
@@ -38901,27 +38979,6 @@
             "on_null": "absent",
             "on_empty": "absent",
             "external": "allow",
-            "disclose": "none"
-          },
-          {
-            "id": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
-            "rule": "azure.rule.service-bus-queue",
-            "kind": "context",
-            "to": {
-              "kind": "concept",
-              "id": "azure.concept.messaging-namespace"
-            },
-            "dimension": "azure.context.ownership",
-            "via": "source.namespace_id",
-            "match": {
-              "by": [
-                "id"
-              ],
-              "strategy": "exact"
-            },
-            "on_null": "absent",
-            "on_empty": "absent",
-            "external": "deny",
             "disclose": "none"
           },
           {
@@ -40000,27 +40057,6 @@
             "on_null": "absent",
             "on_empty": "absent",
             "external": "allow",
-            "disclose": "none"
-          },
-          {
-            "id": "emission:5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
-            "rule": "azure.rule.container-app",
-            "kind": "context",
-            "to": {
-              "kind": "concept",
-              "id": "azure.concept.container-app-environment"
-            },
-            "dimension": "rf.context.runtime",
-            "via": "source.container_app_environment_id",
-            "match": {
-              "by": [
-                "id"
-              ],
-              "strategy": "exact"
-            },
-            "on_null": "absent",
-            "on_empty": "absent",
-            "external": "deny",
             "disclose": "none"
           },
           {
@@ -49303,26 +49339,6 @@
             "disclose": "none"
           },
           {
-            "id": "emission:b81669618a97c2bd189a85c2e16214922d4b33d749683080efad7d3d51bc6aa3",
-            "rule": "kestra.rule.binding",
-            "kind": "contribution",
-            "to": {
-              "kind": "concept",
-              "id": "kestra.concept.access-role"
-            },
-            "via": "source.role_id",
-            "match": {
-              "by": [
-                "id"
-              ],
-              "strategy": "exact"
-            },
-            "on_null": "absent",
-            "on_empty": "absent",
-            "external": "deny",
-            "disclose": "none"
-          },
-          {
             "id": "emission:b83bb4646d344e062292a635bc5bd602614f787100712b2f21685dd97a48c305",
             "rule": "mongodb-atlas.rule.stream-connection",
             "kind": "relation",
@@ -52511,27 +52527,6 @@
             "match": {
               "by": [
                 "name"
-              ],
-              "strategy": "exact"
-            },
-            "on_null": "absent",
-            "on_empty": "absent",
-            "external": "deny",
-            "disclose": "none"
-          },
-          {
-            "id": "emission:d2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f",
-            "rule": "azure.rule.service-bus-topic",
-            "kind": "context",
-            "to": {
-              "kind": "concept",
-              "id": "azure.concept.messaging-namespace"
-            },
-            "dimension": "azure.context.ownership",
-            "via": "source.namespace_id",
-            "match": {
-              "by": [
-                "id"
               ],
               "strategy": "exact"
             },
@@ -56193,6 +56188,26 @@
               "id": "mongodb-atlas.concept.project"
             },
             "via": "source.project_id",
+            "match": {
+              "by": [
+                "id"
+              ],
+              "strategy": "exact"
+            },
+            "on_null": "absent",
+            "on_empty": "absent",
+            "external": "allow",
+            "disclose": "none"
+          },
+          {
+            "id": "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+            "rule": "kestra.rule.binding",
+            "kind": "contribution",
+            "to": {
+              "kind": "concept",
+              "id": "kestra.concept.access-role"
+            },
+            "via": "source.role_id",
             "match": {
               "by": [
                 "id"
@@ -61773,9 +61788,9 @@
               "dimension": "azure.context.ownership",
               "provenance": [
                 {
-                  "emission": "emission:0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871",
+                  "emission": "emission:1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6",
                   "rule": "azure.rule.event-hub",
-                  "closure": "closure:representation%3A1%3Aazurerm_eventhub.claims_telemetry:emission%3A0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871",
+                  "closure": "closure:representation%3A1%3Aazurerm_eventhub.claims_telemetry:emission%3A1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6",
                   "evidence": "traversal"
                 }
               ]
@@ -62193,9 +62208,9 @@
               "dimension": "azure.context.ownership",
               "provenance": [
                 {
-                  "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "rule": "azure.rule.service-bus-queue",
-                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_intake_poll:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_intake_poll:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "evidence": "traversal"
                 }
               ]
@@ -62207,9 +62222,9 @@
               "dimension": "azure.context.ownership",
               "provenance": [
                 {
-                  "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "rule": "azure.rule.service-bus-queue",
-                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "evidence": "traversal"
                 }
               ]
@@ -62221,9 +62236,9 @@
               "dimension": "azure.context.ownership",
               "provenance": [
                 {
-                  "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "rule": "azure.rule.service-bus-queue",
-                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.notifications:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.notifications:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "evidence": "traversal"
                 }
               ]
@@ -62263,9 +62278,9 @@
               "dimension": "azure.context.ownership",
               "provenance": [
                 {
-                  "emission": "emission:d2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f",
+                  "emission": "emission:4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6",
                   "rule": "azure.rule.service-bus-topic",
-                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_topic.claims_events:emission%3Ad2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f",
+                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_topic.claims_events:emission%3A4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6",
                   "evidence": "traversal"
                 }
               ]
@@ -62641,9 +62656,9 @@
               "dimension": "rf.context.runtime",
               "provenance": [
                 {
-                  "emission": "emission:5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
+                  "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
                   "rule": "azure.rule.container-app",
-                  "closure": "closure:representation%3A1%3Aazurerm_container_app.claims_api:emission%3A5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
+                  "closure": "closure:representation%3A1%3Aazurerm_container_app.claims_api:emission%3A035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
                   "evidence": "traversal"
                 }
               ]
@@ -63168,6 +63183,20 @@
               }
             },
             {
+              "id": "closure:representation%3A1%3Aazurerm_container_app.claims_api:emission%3A035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+              "representation": "representation:1:azurerm_container_app.claims_api",
+              "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+              "outcome": "resolved",
+              "facts": [
+                "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app.claims_api:representation%3A1%3Aazurerm_container_app_environment.prod"
+              ],
+              "candidates": {
+                "known_equal": 0,
+                "unknown": 0,
+                "excluded": 0
+              }
+            },
+            {
               "id": "closure:representation%3A1%3Aazurerm_container_app.claims_api:emission%3A5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
               "representation": "representation:1:azurerm_container_app.claims_api",
               "emission": "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
@@ -63179,20 +63208,6 @@
                 "known_equal": 1,
                 "unknown": 0,
                 "excluded": 2
-              }
-            },
-            {
-              "id": "closure:representation%3A1%3Aazurerm_container_app.claims_api:emission%3A5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
-              "representation": "representation:1:azurerm_container_app.claims_api",
-              "emission": "emission:5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
-              "outcome": "resolved",
-              "facts": [
-                "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app.claims_api:representation%3A1%3Aazurerm_container_app_environment.prod"
-              ],
-              "candidates": {
-                "known_equal": 0,
-                "unknown": 0,
-                "excluded": 0
               }
             },
             {
@@ -63574,9 +63589,9 @@
               }
             },
             {
-              "id": "closure:representation%3A1%3Aazurerm_eventhub.claims_telemetry:emission%3A0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871",
+              "id": "closure:representation%3A1%3Aazurerm_eventhub.claims_telemetry:emission%3A1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6",
               "representation": "representation:1:azurerm_eventhub.claims_telemetry",
-              "emission": "emission:0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871",
+              "emission": "emission:1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6",
               "outcome": "resolved",
               "facts": [
                 "context:azure.context.ownership:representation%3A1%3Aazurerm_eventhub.claims_telemetry:representation%3A1%3Aazurerm_eventhub_namespace.prod"
@@ -64414,9 +64429,9 @@
               }
             },
             {
-              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_intake_poll:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_intake_poll:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "representation": "representation:1:azurerm_servicebus_queue.claims_intake_poll",
-              "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "outcome": "resolved",
               "facts": [
                 "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_queue.claims_intake_poll:representation%3A1%3Aazurerm_servicebus_namespace.prod"
@@ -64428,9 +64443,9 @@
               }
             },
             {
-              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "representation": "representation:1:azurerm_servicebus_queue.claims_review",
-              "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "outcome": "resolved",
               "facts": [
                 "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_queue.claims_review:representation%3A1%3Aazurerm_servicebus_namespace.prod"
@@ -64442,9 +64457,9 @@
               }
             },
             {
-              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.notifications:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.notifications:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "representation": "representation:1:azurerm_servicebus_queue.notifications",
-              "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "outcome": "resolved",
               "facts": [
                 "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_queue.notifications:representation%3A1%3Aazurerm_servicebus_namespace.prod"
@@ -64512,9 +64527,9 @@
               }
             },
             {
-              "id": "closure:representation%3A1%3Aazurerm_servicebus_topic.claims_events:emission%3Ad2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f",
+              "id": "closure:representation%3A1%3Aazurerm_servicebus_topic.claims_events:emission%3A4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6",
               "representation": "representation:1:azurerm_servicebus_topic.claims_events",
-              "emission": "emission:d2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f",
+              "emission": "emission:4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6",
               "outcome": "resolved",
               "facts": [
                 "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_topic.claims_events:representation%3A1%3Aazurerm_servicebus_namespace.prod"
@@ -66076,9 +66091,9 @@
       "semantics": {
         "language_version": "1",
         "release_set": {
-          "id": "release-set:af77bf8a6775e40acd2a8bdd75f2a3b65857db75c3d09c3b510d9d997ad812b2",
+          "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
           "version": "0.1.0",
-          "manifest_digest": "sha256:af77bf8a6775e40acd2a8bdd75f2a3b65857db75c3d09c3b510d9d997ad812b2",
+          "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
           "units": [
             {
               "owner": "auth0",
@@ -66091,15 +66106,15 @@
               "owner": "aws",
               "kind": "dialect",
               "version": "0.1.0",
-              "content_digest": "sha256:fd1bb9b564148d7a98156ff504f1486edc44c54d9c0a2a8f9c187960e40922c3",
-              "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265"
+              "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+              "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c"
             },
             {
               "owner": "azure",
               "kind": "dialect",
               "version": "0.1.0",
-              "content_digest": "sha256:bbb26bebc0ab1705b4214994cbda214a1538af18ef14203973f073cc0408d61e",
-              "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b"
+              "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+              "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
             },
             {
               "owner": "cloudflare",
@@ -66161,8 +66176,8 @@
               "owner": "kestra",
               "kind": "dialect",
               "version": "0.1.0",
-              "content_digest": "sha256:7343b7949074f599dfea41070bdda9c5f6615621e61d8ac4edebb945bf6e3a27",
-              "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+              "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+              "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f"
             },
             {
               "owner": "kubernetes",
@@ -66274,8 +66289,8 @@
             "kind": "dialect",
             "origin": "supplied",
             "version": "0.1.0",
-            "content_digest": "sha256:fd1bb9b564148d7a98156ff504f1486edc44c54d9c0a2a8f9c187960e40922c3",
-            "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265",
+            "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+            "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c",
             "providers": [
               {
                 "source": "hashicorp/aws",
@@ -66295,8 +66310,8 @@
             "kind": "dialect",
             "origin": "supplied",
             "version": "0.1.0",
-            "content_digest": "sha256:bbb26bebc0ab1705b4214994cbda214a1538af18ef14203973f073cc0408d61e",
-            "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b",
+            "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+            "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
             "providers": [
               {
                 "source": "azure/azapi",
@@ -66506,8 +66521,8 @@
             "kind": "dialect",
             "origin": "supplied",
             "version": "0.1.0",
-            "content_digest": "sha256:7343b7949074f599dfea41070bdda9c5f6615621e61d8ac4edebb945bf6e3a27",
-            "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+            "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+            "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f",
             "providers": [
               {
                 "source": "kestra-io/kestra",
@@ -74187,6 +74202,7 @@
             },
             "endpoint": {
               "attributes": [
+                "cidr_block",
                 "id"
               ]
             },
@@ -74310,7 +74326,9 @@
             },
             "endpoint": {
               "attributes": [
-                "id"
+                "id",
+                "kube_admin_config[0].host",
+                "kube_config[0].host"
               ]
             },
             "emissions": [
@@ -74849,7 +74867,8 @@
             },
             "endpoint": {
               "attributes": [
-                "id"
+                "id",
+                "name"
               ]
             },
             "emissions": [
@@ -74987,8 +75006,8 @@
             "match_type": "azurerm_container_app",
             "concept": "azure.concept.container-app",
             "emissions": [
-              "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
-              "emission:5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a"
+              "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+              "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9"
             ]
           },
           {
@@ -75917,6 +75936,17 @@
             "match_kind": "resource",
             "match_type": "azuread_service_principal",
             "concept": "rf.concept.service-identity",
+            "identity": {
+              "attributes": [
+                "client_id"
+              ],
+              "scope": "provider"
+            },
+            "endpoint": {
+              "attributes": [
+                "client_id"
+              ]
+            },
             "emissions": []
           },
           {
@@ -76115,7 +76145,7 @@
               ]
             },
             "emissions": [
-              "emission:0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871"
+              "emission:1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6"
             ]
           },
           {
@@ -77967,7 +77997,7 @@
               ]
             },
             "emissions": [
-              "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac"
+              "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe"
             ]
           },
           {
@@ -78007,7 +78037,7 @@
               ]
             },
             "emissions": [
-              "emission:d2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f"
+              "emission:4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6"
             ]
           },
           {
@@ -88961,7 +88991,7 @@
             "match_type": "kestra_binding",
             "concept": "kestra.concept.access-binding",
             "emissions": [
-              "emission:b81669618a97c2bd189a85c2e16214922d4b33d749683080efad7d3d51bc6aa3"
+              "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd"
             ]
           },
           {
@@ -95645,6 +95675,27 @@
             "disclose": "none"
           },
           {
+            "id": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+            "rule": "azure.rule.container-app",
+            "kind": "context",
+            "to": {
+              "kind": "concept",
+              "id": "azure.concept.container-app-environment"
+            },
+            "dimension": "rf.context.runtime",
+            "via": "source.container_app_environment_id",
+            "match": {
+              "by": [
+                "id"
+              ],
+              "strategy": "exact"
+            },
+            "on_null": "absent",
+            "on_empty": "absent",
+            "external": "allow",
+            "disclose": "none"
+          },
+          {
             "id": "emission:035c9f939bf49a8826622d920a0d5402f3d58c0be1ef858b2c49cfb6903ea3a9",
             "rule": "vault.rule.consul-secret-backend",
             "kind": "context",
@@ -96573,27 +96624,6 @@
             "match": {
               "by": [
                 "team_id"
-              ],
-              "strategy": "exact"
-            },
-            "on_null": "absent",
-            "on_empty": "absent",
-            "external": "deny",
-            "disclose": "none"
-          },
-          {
-            "id": "emission:0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871",
-            "rule": "azure.rule.event-hub",
-            "kind": "context",
-            "to": {
-              "kind": "concept",
-              "id": "azure.concept.messaging-namespace"
-            },
-            "dimension": "azure.context.ownership",
-            "via": "source.namespace_id",
-            "match": {
-              "by": [
-                "id"
               ],
               "strategy": "exact"
             },
@@ -98881,6 +98911,27 @@
             "match": {
               "by": [
                 "name"
+              ],
+              "strategy": "exact"
+            },
+            "on_null": "absent",
+            "on_empty": "absent",
+            "external": "allow",
+            "disclose": "none"
+          },
+          {
+            "id": "emission:1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6",
+            "rule": "azure.rule.event-hub",
+            "kind": "context",
+            "to": {
+              "kind": "concept",
+              "id": "azure.concept.messaging-namespace"
+            },
+            "dimension": "azure.context.ownership",
+            "via": "source.namespace_id",
+            "match": {
+              "by": [
+                "id"
               ],
               "strategy": "exact"
             },
@@ -104420,6 +104471,27 @@
             "disclose": "none"
           },
           {
+            "id": "emission:4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6",
+            "rule": "azure.rule.service-bus-topic",
+            "kind": "context",
+            "to": {
+              "kind": "concept",
+              "id": "azure.concept.messaging-namespace"
+            },
+            "dimension": "azure.context.ownership",
+            "via": "source.namespace_id",
+            "match": {
+              "by": [
+                "id"
+              ],
+              "strategy": "exact"
+            },
+            "on_null": "absent",
+            "on_empty": "absent",
+            "external": "allow",
+            "disclose": "none"
+          },
+          {
             "id": "emission:4ec84afc387d5d699b59308f0358681c82aef4db4a8fad3451eb5ff819366253",
             "rule": "aws.rule.api-gateway-integration",
             "kind": "contribution",
@@ -104473,6 +104545,27 @@
             "match": {
               "by": [
                 "path"
+              ],
+              "strategy": "exact"
+            },
+            "on_null": "absent",
+            "on_empty": "absent",
+            "external": "allow",
+            "disclose": "none"
+          },
+          {
+            "id": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
+            "rule": "azure.rule.service-bus-queue",
+            "kind": "context",
+            "to": {
+              "kind": "concept",
+              "id": "azure.concept.messaging-namespace"
+            },
+            "dimension": "azure.context.ownership",
+            "via": "source.namespace_id",
+            "match": {
+              "by": [
+                "id"
               ],
               "strategy": "exact"
             },
@@ -104932,27 +105025,6 @@
             "on_null": "absent",
             "on_empty": "absent",
             "external": "allow",
-            "disclose": "none"
-          },
-          {
-            "id": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
-            "rule": "azure.rule.service-bus-queue",
-            "kind": "context",
-            "to": {
-              "kind": "concept",
-              "id": "azure.concept.messaging-namespace"
-            },
-            "dimension": "azure.context.ownership",
-            "via": "source.namespace_id",
-            "match": {
-              "by": [
-                "id"
-              ],
-              "strategy": "exact"
-            },
-            "on_null": "absent",
-            "on_empty": "absent",
-            "external": "deny",
             "disclose": "none"
           },
           {
@@ -106031,27 +106103,6 @@
             "on_null": "absent",
             "on_empty": "absent",
             "external": "allow",
-            "disclose": "none"
-          },
-          {
-            "id": "emission:5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
-            "rule": "azure.rule.container-app",
-            "kind": "context",
-            "to": {
-              "kind": "concept",
-              "id": "azure.concept.container-app-environment"
-            },
-            "dimension": "rf.context.runtime",
-            "via": "source.container_app_environment_id",
-            "match": {
-              "by": [
-                "id"
-              ],
-              "strategy": "exact"
-            },
-            "on_null": "absent",
-            "on_empty": "absent",
-            "external": "deny",
             "disclose": "none"
           },
           {
@@ -115334,26 +115385,6 @@
             "disclose": "none"
           },
           {
-            "id": "emission:b81669618a97c2bd189a85c2e16214922d4b33d749683080efad7d3d51bc6aa3",
-            "rule": "kestra.rule.binding",
-            "kind": "contribution",
-            "to": {
-              "kind": "concept",
-              "id": "kestra.concept.access-role"
-            },
-            "via": "source.role_id",
-            "match": {
-              "by": [
-                "id"
-              ],
-              "strategy": "exact"
-            },
-            "on_null": "absent",
-            "on_empty": "absent",
-            "external": "deny",
-            "disclose": "none"
-          },
-          {
             "id": "emission:b83bb4646d344e062292a635bc5bd602614f787100712b2f21685dd97a48c305",
             "rule": "mongodb-atlas.rule.stream-connection",
             "kind": "relation",
@@ -118542,27 +118573,6 @@
             "match": {
               "by": [
                 "name"
-              ],
-              "strategy": "exact"
-            },
-            "on_null": "absent",
-            "on_empty": "absent",
-            "external": "deny",
-            "disclose": "none"
-          },
-          {
-            "id": "emission:d2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f",
-            "rule": "azure.rule.service-bus-topic",
-            "kind": "context",
-            "to": {
-              "kind": "concept",
-              "id": "azure.concept.messaging-namespace"
-            },
-            "dimension": "azure.context.ownership",
-            "via": "source.namespace_id",
-            "match": {
-              "by": [
-                "id"
               ],
               "strategy": "exact"
             },
@@ -122224,6 +122234,26 @@
               "id": "mongodb-atlas.concept.project"
             },
             "via": "source.project_id",
+            "match": {
+              "by": [
+                "id"
+              ],
+              "strategy": "exact"
+            },
+            "on_null": "absent",
+            "on_empty": "absent",
+            "external": "allow",
+            "disclose": "none"
+          },
+          {
+            "id": "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+            "rule": "kestra.rule.binding",
+            "kind": "contribution",
+            "to": {
+              "kind": "concept",
+              "id": "kestra.concept.access-role"
+            },
+            "via": "source.role_id",
             "match": {
               "by": [
                 "id"
@@ -128376,9 +128406,9 @@
               "dimension": "azure.context.ownership",
               "provenance": [
                 {
-                  "emission": "emission:0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871",
+                  "emission": "emission:1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6",
                   "rule": "azure.rule.event-hub",
-                  "closure": "closure:representation%3A1%3Aazurerm_eventhub.claims_telemetry:emission%3A0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871",
+                  "closure": "closure:representation%3A1%3Aazurerm_eventhub.claims_telemetry:emission%3A1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6",
                   "evidence": "traversal"
                 }
               ]
@@ -128810,9 +128840,9 @@
               "dimension": "azure.context.ownership",
               "provenance": [
                 {
-                  "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "rule": "azure.rule.service-bus-queue",
-                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "evidence": "traversal"
                 }
               ]
@@ -128824,9 +128854,9 @@
               "dimension": "azure.context.ownership",
               "provenance": [
                 {
-                  "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "rule": "azure.rule.service-bus-queue",
-                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review_priority:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review_priority:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "evidence": "traversal"
                 }
               ]
@@ -128838,9 +128868,9 @@
               "dimension": "azure.context.ownership",
               "provenance": [
                 {
-                  "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "rule": "azure.rule.service-bus-queue",
-                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.notifications:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_queue.notifications:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
                   "evidence": "traversal"
                 }
               ]
@@ -128880,9 +128910,9 @@
               "dimension": "azure.context.ownership",
               "provenance": [
                 {
-                  "emission": "emission:d2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f",
+                  "emission": "emission:4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6",
                   "rule": "azure.rule.service-bus-topic",
-                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_topic.claims_events:emission%3Ad2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f",
+                  "closure": "closure:representation%3A1%3Aazurerm_servicebus_topic.claims_events:emission%3A4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6",
                   "evidence": "traversal"
                 }
               ]
@@ -129216,9 +129246,9 @@
               "dimension": "rf.context.runtime",
               "provenance": [
                 {
-                  "emission": "emission:5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
+                  "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
                   "rule": "azure.rule.container-app",
-                  "closure": "closure:representation%3A1%3Aazurerm_container_app.claims_api:emission%3A5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
+                  "closure": "closure:representation%3A1%3Aazurerm_container_app.claims_api:emission%3A035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
                   "evidence": "traversal"
                 }
               ]
@@ -129230,9 +129260,9 @@
               "dimension": "rf.context.runtime",
               "provenance": [
                 {
-                  "emission": "emission:5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
+                  "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
                   "rule": "azure.rule.container-app",
-                  "closure": "closure:representation%3A1%3Aazurerm_container_app.claims_events:emission%3A5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
+                  "closure": "closure:representation%3A1%3Aazurerm_container_app.claims_events:emission%3A035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
                   "evidence": "traversal"
                 }
               ]
@@ -129967,6 +129997,20 @@
               }
             },
             {
+              "id": "closure:representation%3A1%3Aazurerm_container_app.claims_api:emission%3A035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+              "representation": "representation:1:azurerm_container_app.claims_api",
+              "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+              "outcome": "resolved",
+              "facts": [
+                "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app.claims_api:representation%3A1%3Aazurerm_container_app_environment.prod"
+              ],
+              "candidates": {
+                "known_equal": 0,
+                "unknown": 0,
+                "excluded": 0
+              }
+            },
+            {
               "id": "closure:representation%3A1%3Aazurerm_container_app.claims_api:emission%3A5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
               "representation": "representation:1:azurerm_container_app.claims_api",
               "emission": "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
@@ -129981,12 +130025,12 @@
               }
             },
             {
-              "id": "closure:representation%3A1%3Aazurerm_container_app.claims_api:emission%3A5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
-              "representation": "representation:1:azurerm_container_app.claims_api",
-              "emission": "emission:5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
+              "id": "closure:representation%3A1%3Aazurerm_container_app.claims_events:emission%3A035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+              "representation": "representation:1:azurerm_container_app.claims_events",
+              "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
               "outcome": "resolved",
               "facts": [
-                "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app.claims_api:representation%3A1%3Aazurerm_container_app_environment.prod"
+                "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app.claims_events:representation%3A1%3Aazurerm_container_app_environment.prod"
               ],
               "candidates": {
                 "known_equal": 0,
@@ -130006,20 +130050,6 @@
                 "known_equal": 1,
                 "unknown": 0,
                 "excluded": 2
-              }
-            },
-            {
-              "id": "closure:representation%3A1%3Aazurerm_container_app.claims_events:emission%3A5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
-              "representation": "representation:1:azurerm_container_app.claims_events",
-              "emission": "emission:5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a",
-              "outcome": "resolved",
-              "facts": [
-                "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app.claims_events:representation%3A1%3Aazurerm_container_app_environment.prod"
-              ],
-              "candidates": {
-                "known_equal": 0,
-                "unknown": 0,
-                "excluded": 0
               }
             },
             {
@@ -131155,9 +131185,9 @@
               }
             },
             {
-              "id": "closure:representation%3A1%3Aazurerm_eventhub.claims_telemetry:emission%3A0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871",
+              "id": "closure:representation%3A1%3Aazurerm_eventhub.claims_telemetry:emission%3A1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6",
               "representation": "representation:1:azurerm_eventhub.claims_telemetry",
-              "emission": "emission:0d5def33c415f904094cb4f7b51aa98373e8ec96e5a52792337432ee230db871",
+              "emission": "emission:1f0a60bb205894f51899c406a24bf07f7dc62c175cd3516d18f23756e42ef7e6",
               "outcome": "resolved",
               "facts": [
                 "context:azure.context.ownership:representation%3A1%3Aazurerm_eventhub.claims_telemetry:representation%3A1%3Aazurerm_eventhub_namespace.prod"
@@ -131967,9 +131997,9 @@
               }
             },
             {
-              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "representation": "representation:1:azurerm_servicebus_queue.claims_review",
-              "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "outcome": "resolved",
               "facts": [
                 "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_queue.claims_review:representation%3A1%3Aazurerm_servicebus_namespace.prod"
@@ -131981,9 +132011,9 @@
               }
             },
             {
-              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review_priority:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.claims_review_priority:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "representation": "representation:1:azurerm_servicebus_queue.claims_review_priority",
-              "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "outcome": "resolved",
               "facts": [
                 "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_queue.claims_review_priority:representation%3A1%3Aazurerm_servicebus_namespace.prod"
@@ -131995,9 +132025,9 @@
               }
             },
             {
-              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.notifications:emission%3A543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "id": "closure:representation%3A1%3Aazurerm_servicebus_queue.notifications:emission%3A4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "representation": "representation:1:azurerm_servicebus_queue.notifications",
-              "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac",
+              "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe",
               "outcome": "resolved",
               "facts": [
                 "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_queue.notifications:representation%3A1%3Aazurerm_servicebus_namespace.prod"
@@ -132065,9 +132095,9 @@
               }
             },
             {
-              "id": "closure:representation%3A1%3Aazurerm_servicebus_topic.claims_events:emission%3Ad2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f",
+              "id": "closure:representation%3A1%3Aazurerm_servicebus_topic.claims_events:emission%3A4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6",
               "representation": "representation:1:azurerm_servicebus_topic.claims_events",
-              "emission": "emission:d2ad121fd394315820e381ad623945db7e4104a6cfccef3a07718e1fc1b00f3f",
+              "emission": "emission:4e844b6240c3f4eb8478141a315e712ab6b8dbb30b2994025b509db01af370b6",
               "outcome": "resolved",
               "facts": [
                 "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_topic.claims_events:representation%3A1%3Aazurerm_servicebus_namespace.prod"
@@ -133954,7 +133984,7 @@
         "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_queue.claims_review_priority:representation%3A1%3Aazurerm_servicebus_namespace.prod",
         "from": "representation:1:azurerm_servicebus_queue.claims_review_priority",
         "to": "representation:1:azurerm_servicebus_namespace.prod",
-        "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac"
+        "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe"
       },
       {
         "id": "change:cross:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aazurerm_container_app.claims_events%3Arepresentation%253A1%253Aazurerm_container_app_environment.prod",
@@ -133963,7 +133993,7 @@
         "fact": "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app.claims_events:representation%3A1%3Aazurerm_container_app_environment.prod",
         "from": "representation:1:azurerm_container_app.claims_events",
         "to": "representation:1:azurerm_container_app_environment.prod",
-        "emission": "emission:5e045d089132947c744a4446450529fbcc0959ff84c7940a5f1bbf7f349a980a"
+        "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62"
       },
       {
         "id": "change:cross:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aazurerm_container_app_job.document_ocr%3Arepresentation%253A1%253Aazurerm_container_app_environment.prod",
@@ -134161,7 +134191,7 @@
         "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_queue.claims_intake_poll:representation%3A1%3Aazurerm_servicebus_namespace.prod",
         "from": "representation:1:azurerm_servicebus_queue.claims_intake_poll",
         "to": "representation:1:azurerm_servicebus_namespace.prod",
-        "emission": "emission:543303f23e6b42a65e42128c21b5e6c98c5b3ace2454c8b872abd4fb50e935ac"
+        "emission": "emission:4fe2e684ad7db6c6fd84e4e9a36f221606663577f91fcfc0da51b954ee0e38fe"
       },
       {
         "id": "change:cross:removed:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_account.archive%3Arepresentation%253A1%253Aazurerm_resource_group.data",
