@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:ea7b34e8cfa8008796b740fa10d0a1dd9669de798a5e71d228ed755a1d57dfc5",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:ea7b34e8cfa8008796b740fa10d0a1dd9669de798a5e71d228ed755a1d57dfc5",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -52,29 +52,29 @@
           "owner": "aws",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
-          "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a"
+          "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+          "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c"
         },
         {
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
-          "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:fa274f3e10c1e032a6db979b3d8ea80f8900970357147a1e391b37b2d9ab4d4e",
-          "semantic_digest": "sha256:ef50339cf343ce2b02f75da1f1cefdc4ea3169b89ddcc6c1b68d3cf3ca286d12"
+          "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+          "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb"
         },
         {
           "owner": "confluent",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
-          "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624"
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
         },
         {
           "owner": "consul",
@@ -87,28 +87,28 @@
           "owner": "databricks",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
-          "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4"
+          "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+          "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb"
         },
         {
           "owner": "datadog",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
-          "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495"
+          "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+          "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129"
         },
         {
           "owner": "google",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
-          "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3"
+          "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
         },
         {
           "owner": "grafana",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+          "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
           "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
         },
         {
@@ -122,8 +122,8 @@
           "owner": "kestra",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
-          "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+          "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+          "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f"
         },
         {
           "owner": "kubernetes",
@@ -136,14 +136,14 @@
           "owner": "mongodb-atlas",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
-          "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e"
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
         },
         {
           "owner": "newrelic",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+          "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
           "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
         },
         {
@@ -171,14 +171,14 @@
           "owner": "snowflake",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
-          "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0"
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
         },
         {
           "owner": "vault",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+          "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
           "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
         }
       ]
@@ -235,8 +235,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
-        "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a",
+        "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+        "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c",
         "providers": [
           {
             "source": "hashicorp/aws",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
-        "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -293,8 +293,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:fa274f3e10c1e032a6db979b3d8ea80f8900970357147a1e391b37b2d9ab4d4e",
-        "semantic_digest": "sha256:ef50339cf343ce2b02f75da1f1cefdc4ea3169b89ddcc6c1b68d3cf3ca286d12",
+        "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+        "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb",
         "providers": [
           {
             "source": "cloudflare/cloudflare",
@@ -314,8 +314,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
-        "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
         "providers": [
           {
             "source": "confluentinc/confluent",
@@ -356,8 +356,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
-        "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4",
+        "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+        "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb",
         "providers": [
           {
             "source": "databricks/databricks",
@@ -377,8 +377,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
-        "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495",
+        "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+        "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129",
         "providers": [
           {
             "source": "datadog/datadog",
@@ -396,8 +396,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
-        "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3",
+        "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
         "providers": [
           {
             "source": "hashicorp/google",
@@ -425,7 +425,7 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+        "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
         "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
         "providers": [
           {
@@ -467,8 +467,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
-        "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+        "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+        "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f",
         "providers": [
           {
             "source": "kestra-io/kestra",
@@ -507,8 +507,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
-        "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
         "providers": [
           {
             "source": "mongodb/mongodbatlas",
@@ -528,7 +528,7 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+        "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
         "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
         "providers": [
           {
@@ -597,8 +597,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
-        "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
         "providers": [
           {
             "source": "snowflakedb/snowflake",
@@ -618,7 +618,7 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+        "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
         "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
         "providers": [
           {
@@ -7529,10 +7529,1444 @@
         "dependencies": 62,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_api_service_integration.api_service_integration",
+          "change": "added",
+          "representation": "representation:1:data.okta_api_service_integration.api_service_integration"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_app.app",
+          "change": "added",
+          "representation": "representation:1:data.okta_app.app"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_app_connection.app_connection",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_connection.app_connection"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_app_features.app_features",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_features.app_features"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_app_federated_claim.app_federated_claim",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_federated_claim.app_federated_claim"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_app_oauth.app_oauth",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_oauth.app_oauth"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_app_saml.app_saml",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_saml.app_saml"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_app_sign_on_policy_rule.app_sign_on_policy_rule",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_sign_on_policy_rule.app_sign_on_policy_rule"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_app_signon_policy.app_signon_policy",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_signon_policy.app_signon_policy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_auth_server.auth_server",
+          "change": "added",
+          "representation": "representation:1:data.okta_auth_server.auth_server"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_auth_server_claim.auth_server_claim",
+          "change": "added",
+          "representation": "representation:1:data.okta_auth_server_claim.auth_server_claim"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_auth_server_policy.auth_server_policy",
+          "change": "added",
+          "representation": "representation:1:data.okta_auth_server_policy.auth_server_policy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_authenticator.authenticator",
+          "change": "added",
+          "representation": "representation:1:data.okta_authenticator.authenticator"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_authenticator_method_webauthn.authenticator_method_webauthn",
+          "change": "added",
+          "representation": "representation:1:data.okta_authenticator_method_webauthn.authenticator_method_webauthn"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_authenticator_webauthn_custom_aaguids.authenticator_webauthn_custom_aaguids",
+          "change": "added",
+          "representation": "representation:1:data.okta_authenticator_webauthn_custom_aaguids.authenticator_webauthn_custom_aaguids"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_behavior.behavior",
+          "change": "added",
+          "representation": "representation:1:data.okta_behavior.behavior"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_captcha.captcha",
+          "change": "added",
+          "representation": "representation:1:data.okta_captcha.captcha"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_domain.domain",
+          "change": "added",
+          "representation": "representation:1:data.okta_domain.domain"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_hook_key.hook_key",
+          "change": "added",
+          "representation": "representation:1:data.okta_hook_key.hook_key"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_idp_oidc.idp_oidc",
+          "change": "added",
+          "representation": "representation:1:data.okta_idp_oidc.idp_oidc"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_idp_saml.idp_saml",
+          "change": "added",
+          "representation": "representation:1:data.okta_idp_saml.idp_saml"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_idp_social.idp_social",
+          "change": "added",
+          "representation": "representation:1:data.okta_idp_social.idp_social"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_log_stream.log_stream",
+          "change": "added",
+          "representation": "representation:1:data.okta_log_stream.log_stream"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_network_zone.network_zone",
+          "change": "added",
+          "representation": "representation:1:data.okta_network_zone.network_zone"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_oauth_authorization_server.oauth_authorization_server",
+          "change": "added",
+          "representation": "representation:1:data.okta_oauth_authorization_server.oauth_authorization_server"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_org_captcha.org_captcha",
+          "change": "added",
+          "representation": "representation:1:data.okta_org_captcha.org_captcha"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_org_metadata.org_metadata",
+          "change": "added",
+          "representation": "representation:1:data.okta_org_metadata.org_metadata"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_realm.realm",
+          "change": "added",
+          "representation": "representation:1:data.okta_realm.realm"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_realm_assignment.realm_assignment",
+          "change": "added",
+          "representation": "representation:1:data.okta_realm_assignment.realm_assignment"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_security_events_provider.security_events_provider",
+          "change": "added",
+          "representation": "representation:1:data.okta_security_events_provider.security_events_provider"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_threat_insight_settings.threat_insight_settings",
+          "change": "added",
+          "representation": "representation:1:data.okta_threat_insight_settings.threat_insight_settings"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.okta_trusted_origin.trusted_origin",
+          "change": "added",
+          "representation": "representation:1:data.okta_trusted_origin.trusted_origin"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_api_service_integration.api_service_integration",
+          "change": "added",
+          "representation": "representation:1:okta_api_service_integration.api_service_integration"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_access_policy_assignment.app_access_policy_assignment",
+          "change": "added",
+          "representation": "representation:1:okta_app_access_policy_assignment.app_access_policy_assignment"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_auto_login.app_auto_login",
+          "change": "added",
+          "representation": "representation:1:okta_app_auto_login.app_auto_login"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_basic_auth.app_basic_auth",
+          "change": "added",
+          "representation": "representation:1:okta_app_basic_auth.app_basic_auth"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_bookmark.app_bookmark",
+          "change": "added",
+          "representation": "representation:1:okta_app_bookmark.app_bookmark"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_connection.app_connection",
+          "change": "added",
+          "representation": "representation:1:okta_app_connection.app_connection"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_features.app_features",
+          "change": "added",
+          "representation": "representation:1:okta_app_features.app_features"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_federated_claim.app_federated_claim",
+          "change": "added",
+          "representation": "representation:1:okta_app_federated_claim.app_federated_claim"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_oauth.oauth",
+          "change": "added",
+          "representation": "representation:1:okta_app_oauth.oauth"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_oauth_api_scope.app_oauth_api_scope",
+          "change": "added",
+          "representation": "representation:1:okta_app_oauth_api_scope.app_oauth_api_scope"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_oauth_post_logout_redirect_uri.app_oauth_post_logout_redirect_uri",
+          "change": "added",
+          "representation": "representation:1:okta_app_oauth_post_logout_redirect_uri.app_oauth_post_logout_redirect_uri"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_oauth_redirect_uri.app_oauth_redirect_uri",
+          "change": "added",
+          "representation": "representation:1:okta_app_oauth_redirect_uri.app_oauth_redirect_uri"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_saml.portal",
+          "change": "added",
+          "representation": "representation:1:okta_app_saml.portal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_saml_app_settings.app_saml_app_settings",
+          "change": "added",
+          "representation": "representation:1:okta_app_saml_app_settings.app_saml_app_settings"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_secure_password_store.app_secure_password_store",
+          "change": "added",
+          "representation": "representation:1:okta_app_secure_password_store.app_secure_password_store"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_shared_credentials.app_shared_credentials",
+          "change": "added",
+          "representation": "representation:1:okta_app_shared_credentials.app_shared_credentials"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_signon_policy.app_signon_policy",
+          "change": "added",
+          "representation": "representation:1:okta_app_signon_policy.app_signon_policy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_signon_policy_rule.app_signon_policy_rule",
+          "change": "added",
+          "representation": "representation:1:okta_app_signon_policy_rule.app_signon_policy_rule"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_swa.app_swa",
+          "change": "added",
+          "representation": "representation:1:okta_app_swa.app_swa"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_app_three_field.app_three_field",
+          "change": "added",
+          "representation": "representation:1:okta_app_three_field.app_three_field"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_auth_server.api",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_auth_server_claim.auth_server_claim",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_claim.auth_server_claim"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_auth_server_claim_default.auth_server_claim_default",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_claim_default.auth_server_claim_default"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_auth_server_default.auth_server_default",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_default.auth_server_default"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_auth_server_policy.auth_server_policy",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_policy.auth_server_policy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_auth_server_policy_rule.auth_server_policy_rule",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_policy_rule.auth_server_policy_rule"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_auth_server_scope.read",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_scope.read"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_authenticator.primary",
+          "change": "added",
+          "representation": "representation:1:okta_authenticator.primary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_authenticator_method_webauthn.authenticator_method_webauthn",
+          "change": "added",
+          "representation": "representation:1:okta_authenticator_method_webauthn.authenticator_method_webauthn"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_authenticator_webauthn_custom_aaguid.authenticator_webauthn_custom_aaguid",
+          "change": "added",
+          "representation": "representation:1:okta_authenticator_webauthn_custom_aaguid.authenticator_webauthn_custom_aaguid"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_behavior.behavior",
+          "change": "added",
+          "representation": "representation:1:okta_behavior.behavior"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_captcha.captcha",
+          "change": "added",
+          "representation": "representation:1:okta_captcha.captcha"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_domain.login",
+          "change": "added",
+          "representation": "representation:1:okta_domain.login"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_domain_certificate.domain_certificate",
+          "change": "added",
+          "representation": "representation:1:okta_domain_certificate.domain_certificate"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_domain_verification.login",
+          "change": "added",
+          "representation": "representation:1:okta_domain_verification.login"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_event_hook.events",
+          "change": "added",
+          "representation": "representation:1:okta_event_hook.events"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_event_hook_verification.event_hook_verification",
+          "change": "added",
+          "representation": "representation:1:okta_event_hook_verification.event_hook_verification"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_hook_key.hook_key",
+          "change": "added",
+          "representation": "representation:1:okta_hook_key.hook_key"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_idp_oidc.idp_oidc",
+          "change": "added",
+          "representation": "representation:1:okta_idp_oidc.idp_oidc"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_idp_saml.idp_saml",
+          "change": "added",
+          "representation": "representation:1:okta_idp_saml.idp_saml"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_idp_social.idp_social",
+          "change": "added",
+          "representation": "representation:1:okta_idp_social.idp_social"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_inline_hook.token",
+          "change": "added",
+          "representation": "representation:1:okta_inline_hook.token"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_log_stream.log_stream",
+          "change": "added",
+          "representation": "representation:1:okta_log_stream.log_stream"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_network_zone.network_zone",
+          "change": "added",
+          "representation": "representation:1:okta_network_zone.network_zone"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_org_captcha.org_captcha",
+          "change": "added",
+          "representation": "representation:1:okta_org_captcha.org_captcha"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_org_configuration.primary",
+          "change": "added",
+          "representation": "representation:1:okta_org_configuration.primary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_policy_rule_idp_discovery.routing",
+          "change": "added",
+          "representation": "representation:1:okta_policy_rule_idp_discovery.routing"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_realm.customers",
+          "change": "added",
+          "representation": "representation:1:okta_realm.customers"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_realm_assignment.realm_assignment",
+          "change": "added",
+          "representation": "representation:1:okta_realm_assignment.realm_assignment"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_security_events_provider.security_events_provider",
+          "change": "added",
+          "representation": "representation:1:okta_security_events_provider.security_events_provider"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_threat_insight_settings.threat_insight_settings",
+          "change": "added",
+          "representation": "representation:1:okta_threat_insight_settings.threat_insight_settings"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_trusted_origin.trusted_origin",
+          "change": "added",
+          "representation": "representation:1:okta_trusted_origin.trusted_origin"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_trusted_server.trusted_server",
+          "change": "added",
+          "representation": "representation:1:okta_trusted_server.trusted_server"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aokta_user.must_not_create_topology",
+          "change": "added",
+          "representation": "representation:1:okta_user.must_not_create_topology"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Adata.okta_app_features.app_features%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adata.okta_app_features.app_features:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:data.okta_app_features.app_features",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:eedb45466d10678d269559364aa7f859a1dce97b00a09bf73f69d270b58e5abb"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Adata.okta_app_federated_claim.app_federated_claim%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adata.okta_app_federated_claim.app_federated_claim:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:data.okta_app_federated_claim.app_federated_claim",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:fde3f26ddf2b278ddbd69e3ae8987c9036d929ae46872dcc638bf0dfa5fef49a"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Adata.okta_auth_server_claim.auth_server_claim%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adata.okta_auth_server_claim.auth_server_claim:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:data.okta_auth_server_claim.auth_server_claim",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:0f66719455b824a7d3fd50fb6213df5e1167649336bbf25adf949d9cdeb84a9e"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Adata.okta_auth_server_policy.auth_server_policy%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adata.okta_auth_server_policy.auth_server_policy:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:data.okta_auth_server_policy.auth_server_policy",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:17c88a6809d9ca5541f5b8b6b4826a816f2ce0a1d700a3356ded582b3821a970"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_app_access_policy_assignment.app_access_policy_assignment%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_access_policy_assignment.app_access_policy_assignment:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_access_policy_assignment.app_access_policy_assignment",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:be7cb2d479a48389e3d709b218c1cef8f42a358e05496ebe223da069139191f8"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_app_features.app_features%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_features.app_features:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_features.app_features",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:898a901bc1552a0a267eb93af1ac8b170deb3c2dc948d56464f9fea7df5b4cec"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_app_federated_claim.app_federated_claim%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_federated_claim.app_federated_claim:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_federated_claim.app_federated_claim",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:eb447163984c5a7c099fa52edba0bbf1177df42c74a08d5956e77c5959f35b7b"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_app_oauth_api_scope.app_oauth_api_scope%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_oauth_api_scope.app_oauth_api_scope:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_oauth_api_scope.app_oauth_api_scope",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:e42b303950aa85bbfdea1c8016558e83570f2d4005bdeba996db5b24e021ef67"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_app_oauth_post_logout_redirect_uri.app_oauth_post_logout_redirect_uri%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_oauth_post_logout_redirect_uri.app_oauth_post_logout_redirect_uri:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_oauth_post_logout_redirect_uri.app_oauth_post_logout_redirect_uri",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:fd542600f8b2d70222e43343ea6cfe4db90cdfa242dc843251190764f0a851e6"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_app_oauth_redirect_uri.app_oauth_redirect_uri%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_oauth_redirect_uri.app_oauth_redirect_uri:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_oauth_redirect_uri.app_oauth_redirect_uri",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:d9f131a3bd3722685f88725c4f56c150be842a6ff902a8afef84e6219cb69e5d"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_app_saml_app_settings.app_saml_app_settings%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_saml_app_settings.app_saml_app_settings:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_saml_app_settings.app_saml_app_settings",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:64f51c05ca3358b80fecf38d6673aa7c7af35e4cd905549d0e019a041671ecbe"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_auth_server_claim.auth_server_claim%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_auth_server_claim.auth_server_claim:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_auth_server_claim.auth_server_claim",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:a536c4f92fb4595e4e73a88ac32a1bf0f93ef09545edf90f538ee99ebfa80c46"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_auth_server_claim_default.auth_server_claim_default%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_auth_server_claim_default.auth_server_claim_default:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_auth_server_claim_default.auth_server_claim_default",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:e48217102b96b7c3bb5fadee9227ef99fc587049264c599c630ec1a3ee1e0fdf"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_auth_server_policy.auth_server_policy%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_auth_server_policy.auth_server_policy:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_auth_server_policy.auth_server_policy",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:17def68a77443e429805a6ad55078e7911380387347487a07c763d37e1ae5a8b"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_auth_server_policy_rule.auth_server_policy_rule%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_auth_server_policy_rule.auth_server_policy_rule:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_auth_server_policy_rule.auth_server_policy_rule",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:59d0eeeb5f69bd8738836e3a02872d5168dc5695ebd1b47881ea61b5324c60e3"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_auth_server_scope.read%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_auth_server_scope.read:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_auth_server_scope.read",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:7642746fe6893af08de088eaa662f9e807ff71c0b0cae885c150d205716141e0"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_domain_certificate.domain_certificate%3Arepresentation%253A1%253Aokta_domain.login",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_domain_certificate.domain_certificate:representation%3A1%3Aokta_domain.login",
+          "from": "representation:1:okta_domain_certificate.domain_certificate",
+          "to": "representation:1:okta_domain.login",
+          "emission": "emission:ff5e7a21e5a691ca197356d9ce092d4b7e2cd7fe5244633b0f78dd6cfb9b765b"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_domain_verification.login%3Arepresentation%253A1%253Aokta_domain.login",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_domain_verification.login:representation%3A1%3Aokta_domain.login",
+          "from": "representation:1:okta_domain_verification.login",
+          "to": "representation:1:okta_domain.login",
+          "emission": "emission:37ab02d5afe90ebe4ed9b258347b0efe352ed934a653cf0bf73bf30fcf770f05"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_event_hook_verification.event_hook_verification%3Arepresentation%253A1%253Aokta_event_hook.events",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_event_hook_verification.event_hook_verification:representation%3A1%3Aokta_event_hook.events",
+          "from": "representation:1:okta_event_hook_verification.event_hook_verification",
+          "to": "representation:1:okta_event_hook.events",
+          "emission": "emission:570938e56c9278c9b5a166645dbd9aa2173cd969785ed61d276379a4cb3c7706"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_realm_assignment.realm_assignment%3Arepresentation%253A1%253Aokta_realm.customers",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_realm_assignment.realm_assignment:representation%3A1%3Aokta_realm.customers",
+          "from": "representation:1:okta_realm_assignment.realm_assignment",
+          "to": "representation:1:okta_realm.customers",
+          "emission": "emission:cd6ed52ef51e9829bd02c26bbde176bd2af765f8d342587ce636d5c41a340481"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aokta_trusted_server.trusted_server%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_trusted_server.trusted_server:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_trusted_server.trusted_server",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:cf56a85118fe68f343272d4156fa2b624557291ed0e6c1bdbcffacdd6c8bd462"
+        },
+        {
+          "id": "change:changes:added:relation%3Aokta.relation.uses-inline-hook%3Arepresentation%253A1%253Aokta_app_saml.portal%3Arepresentation%253A1%253Aokta_inline_hook.token",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:okta.relation.uses-inline-hook:representation%3A1%3Aokta_app_saml.portal:representation%3A1%3Aokta_inline_hook.token",
+          "from": "representation:1:okta_app_saml.portal",
+          "to": "representation:1:okta_inline_hook.token",
+          "emission": "emission:8b2a56312359973ff54f821d9dc6fd415810f06057ebfdf301a5571595732b46"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adata.okta_realm_assignment.realm_assignment%3Aemission%253Ab8b7423828712e2be8e67bfeaa0615cac7c40e5fd5c5d68553b4135b9ffd287f:after",
+          "closure": "closure:representation%3A1%3Adata.okta_realm_assignment.realm_assignment:emission%3Ab8b7423828712e2be8e67bfeaa0615cac7c40e5fd5c5d68553b4135b9ffd287f",
+          "representation": "representation:1:data.okta_realm_assignment.realm_assignment",
+          "emission": "emission:b8b7423828712e2be8e67bfeaa0615cac7c40e5fd5c5d68553b4135b9ffd287f",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 87,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 22,
+        "facts_removed": 0,
+        "indeterminate": 1,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_api_service_integration.api_service_integration",
+          "change": "added",
+          "representation": "representation:1:data.okta_api_service_integration.api_service_integration"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_app.app",
+          "change": "added",
+          "representation": "representation:1:data.okta_app.app"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_app_connection.app_connection",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_connection.app_connection"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_app_features.app_features",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_features.app_features"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_app_federated_claim.app_federated_claim",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_federated_claim.app_federated_claim"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_app_oauth.app_oauth",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_oauth.app_oauth"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_app_saml.app_saml",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_saml.app_saml"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_app_sign_on_policy_rule.app_sign_on_policy_rule",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_sign_on_policy_rule.app_sign_on_policy_rule"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_app_signon_policy.app_signon_policy",
+          "change": "added",
+          "representation": "representation:1:data.okta_app_signon_policy.app_signon_policy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_auth_server.auth_server",
+          "change": "added",
+          "representation": "representation:1:data.okta_auth_server.auth_server"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_auth_server_claim.auth_server_claim",
+          "change": "added",
+          "representation": "representation:1:data.okta_auth_server_claim.auth_server_claim"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_auth_server_policy.auth_server_policy",
+          "change": "added",
+          "representation": "representation:1:data.okta_auth_server_policy.auth_server_policy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_authenticator.authenticator",
+          "change": "added",
+          "representation": "representation:1:data.okta_authenticator.authenticator"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_authenticator_method_webauthn.authenticator_method_webauthn",
+          "change": "added",
+          "representation": "representation:1:data.okta_authenticator_method_webauthn.authenticator_method_webauthn"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_authenticator_webauthn_custom_aaguids.authenticator_webauthn_custom_aaguids",
+          "change": "added",
+          "representation": "representation:1:data.okta_authenticator_webauthn_custom_aaguids.authenticator_webauthn_custom_aaguids"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_behavior.behavior",
+          "change": "added",
+          "representation": "representation:1:data.okta_behavior.behavior"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_captcha.captcha",
+          "change": "added",
+          "representation": "representation:1:data.okta_captcha.captcha"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_domain.domain",
+          "change": "added",
+          "representation": "representation:1:data.okta_domain.domain"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_hook_key.hook_key",
+          "change": "added",
+          "representation": "representation:1:data.okta_hook_key.hook_key"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_idp_oidc.idp_oidc",
+          "change": "added",
+          "representation": "representation:1:data.okta_idp_oidc.idp_oidc"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_idp_saml.idp_saml",
+          "change": "added",
+          "representation": "representation:1:data.okta_idp_saml.idp_saml"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_idp_social.idp_social",
+          "change": "added",
+          "representation": "representation:1:data.okta_idp_social.idp_social"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_log_stream.log_stream",
+          "change": "added",
+          "representation": "representation:1:data.okta_log_stream.log_stream"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_network_zone.network_zone",
+          "change": "added",
+          "representation": "representation:1:data.okta_network_zone.network_zone"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_oauth_authorization_server.oauth_authorization_server",
+          "change": "added",
+          "representation": "representation:1:data.okta_oauth_authorization_server.oauth_authorization_server"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_org_captcha.org_captcha",
+          "change": "added",
+          "representation": "representation:1:data.okta_org_captcha.org_captcha"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_org_metadata.org_metadata",
+          "change": "added",
+          "representation": "representation:1:data.okta_org_metadata.org_metadata"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_realm.realm",
+          "change": "added",
+          "representation": "representation:1:data.okta_realm.realm"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_realm_assignment.realm_assignment",
+          "change": "added",
+          "representation": "representation:1:data.okta_realm_assignment.realm_assignment"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_security_events_provider.security_events_provider",
+          "change": "added",
+          "representation": "representation:1:data.okta_security_events_provider.security_events_provider"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_threat_insight_settings.threat_insight_settings",
+          "change": "added",
+          "representation": "representation:1:data.okta_threat_insight_settings.threat_insight_settings"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.okta_trusted_origin.trusted_origin",
+          "change": "added",
+          "representation": "representation:1:data.okta_trusted_origin.trusted_origin"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_api_service_integration.api_service_integration",
+          "change": "added",
+          "representation": "representation:1:okta_api_service_integration.api_service_integration"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_access_policy_assignment.app_access_policy_assignment",
+          "change": "added",
+          "representation": "representation:1:okta_app_access_policy_assignment.app_access_policy_assignment"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_auto_login.app_auto_login",
+          "change": "added",
+          "representation": "representation:1:okta_app_auto_login.app_auto_login"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_basic_auth.app_basic_auth",
+          "change": "added",
+          "representation": "representation:1:okta_app_basic_auth.app_basic_auth"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_bookmark.app_bookmark",
+          "change": "added",
+          "representation": "representation:1:okta_app_bookmark.app_bookmark"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_connection.app_connection",
+          "change": "added",
+          "representation": "representation:1:okta_app_connection.app_connection"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_features.app_features",
+          "change": "added",
+          "representation": "representation:1:okta_app_features.app_features"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_federated_claim.app_federated_claim",
+          "change": "added",
+          "representation": "representation:1:okta_app_federated_claim.app_federated_claim"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_oauth.oauth",
+          "change": "added",
+          "representation": "representation:1:okta_app_oauth.oauth"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_oauth_api_scope.app_oauth_api_scope",
+          "change": "added",
+          "representation": "representation:1:okta_app_oauth_api_scope.app_oauth_api_scope"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_oauth_post_logout_redirect_uri.app_oauth_post_logout_redirect_uri",
+          "change": "added",
+          "representation": "representation:1:okta_app_oauth_post_logout_redirect_uri.app_oauth_post_logout_redirect_uri"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_oauth_redirect_uri.app_oauth_redirect_uri",
+          "change": "added",
+          "representation": "representation:1:okta_app_oauth_redirect_uri.app_oauth_redirect_uri"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_saml.portal",
+          "change": "added",
+          "representation": "representation:1:okta_app_saml.portal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_saml_app_settings.app_saml_app_settings",
+          "change": "added",
+          "representation": "representation:1:okta_app_saml_app_settings.app_saml_app_settings"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_secure_password_store.app_secure_password_store",
+          "change": "added",
+          "representation": "representation:1:okta_app_secure_password_store.app_secure_password_store"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_shared_credentials.app_shared_credentials",
+          "change": "added",
+          "representation": "representation:1:okta_app_shared_credentials.app_shared_credentials"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_signon_policy.app_signon_policy",
+          "change": "added",
+          "representation": "representation:1:okta_app_signon_policy.app_signon_policy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_signon_policy_rule.app_signon_policy_rule",
+          "change": "added",
+          "representation": "representation:1:okta_app_signon_policy_rule.app_signon_policy_rule"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_swa.app_swa",
+          "change": "added",
+          "representation": "representation:1:okta_app_swa.app_swa"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_app_three_field.app_three_field",
+          "change": "added",
+          "representation": "representation:1:okta_app_three_field.app_three_field"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_auth_server.api",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_auth_server_claim.auth_server_claim",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_claim.auth_server_claim"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_auth_server_claim_default.auth_server_claim_default",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_claim_default.auth_server_claim_default"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_auth_server_default.auth_server_default",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_default.auth_server_default"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_auth_server_policy.auth_server_policy",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_policy.auth_server_policy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_auth_server_policy_rule.auth_server_policy_rule",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_policy_rule.auth_server_policy_rule"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_auth_server_scope.read",
+          "change": "added",
+          "representation": "representation:1:okta_auth_server_scope.read"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_authenticator.primary",
+          "change": "added",
+          "representation": "representation:1:okta_authenticator.primary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_authenticator_method_webauthn.authenticator_method_webauthn",
+          "change": "added",
+          "representation": "representation:1:okta_authenticator_method_webauthn.authenticator_method_webauthn"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_authenticator_webauthn_custom_aaguid.authenticator_webauthn_custom_aaguid",
+          "change": "added",
+          "representation": "representation:1:okta_authenticator_webauthn_custom_aaguid.authenticator_webauthn_custom_aaguid"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_behavior.behavior",
+          "change": "added",
+          "representation": "representation:1:okta_behavior.behavior"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_captcha.captcha",
+          "change": "added",
+          "representation": "representation:1:okta_captcha.captcha"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_domain.login",
+          "change": "added",
+          "representation": "representation:1:okta_domain.login"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_domain_certificate.domain_certificate",
+          "change": "added",
+          "representation": "representation:1:okta_domain_certificate.domain_certificate"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_domain_verification.login",
+          "change": "added",
+          "representation": "representation:1:okta_domain_verification.login"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_event_hook.events",
+          "change": "added",
+          "representation": "representation:1:okta_event_hook.events"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_event_hook_verification.event_hook_verification",
+          "change": "added",
+          "representation": "representation:1:okta_event_hook_verification.event_hook_verification"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_hook_key.hook_key",
+          "change": "added",
+          "representation": "representation:1:okta_hook_key.hook_key"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_idp_oidc.idp_oidc",
+          "change": "added",
+          "representation": "representation:1:okta_idp_oidc.idp_oidc"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_idp_saml.idp_saml",
+          "change": "added",
+          "representation": "representation:1:okta_idp_saml.idp_saml"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_idp_social.idp_social",
+          "change": "added",
+          "representation": "representation:1:okta_idp_social.idp_social"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_inline_hook.token",
+          "change": "added",
+          "representation": "representation:1:okta_inline_hook.token"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_log_stream.log_stream",
+          "change": "added",
+          "representation": "representation:1:okta_log_stream.log_stream"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_network_zone.network_zone",
+          "change": "added",
+          "representation": "representation:1:okta_network_zone.network_zone"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_org_captcha.org_captcha",
+          "change": "added",
+          "representation": "representation:1:okta_org_captcha.org_captcha"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_org_configuration.primary",
+          "change": "added",
+          "representation": "representation:1:okta_org_configuration.primary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_policy_rule_idp_discovery.routing",
+          "change": "added",
+          "representation": "representation:1:okta_policy_rule_idp_discovery.routing"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_realm.customers",
+          "change": "added",
+          "representation": "representation:1:okta_realm.customers"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_realm_assignment.realm_assignment",
+          "change": "added",
+          "representation": "representation:1:okta_realm_assignment.realm_assignment"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_security_events_provider.security_events_provider",
+          "change": "added",
+          "representation": "representation:1:okta_security_events_provider.security_events_provider"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_threat_insight_settings.threat_insight_settings",
+          "change": "added",
+          "representation": "representation:1:okta_threat_insight_settings.threat_insight_settings"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_trusted_origin.trusted_origin",
+          "change": "added",
+          "representation": "representation:1:okta_trusted_origin.trusted_origin"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_trusted_server.trusted_server",
+          "change": "added",
+          "representation": "representation:1:okta_trusted_server.trusted_server"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aokta_user.must_not_create_topology",
+          "change": "added",
+          "representation": "representation:1:okta_user.must_not_create_topology"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Adata.okta_app_features.app_features%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adata.okta_app_features.app_features:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:data.okta_app_features.app_features",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:eedb45466d10678d269559364aa7f859a1dce97b00a09bf73f69d270b58e5abb"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Adata.okta_app_federated_claim.app_federated_claim%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adata.okta_app_federated_claim.app_federated_claim:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:data.okta_app_federated_claim.app_federated_claim",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:fde3f26ddf2b278ddbd69e3ae8987c9036d929ae46872dcc638bf0dfa5fef49a"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Adata.okta_auth_server_claim.auth_server_claim%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adata.okta_auth_server_claim.auth_server_claim:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:data.okta_auth_server_claim.auth_server_claim",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:0f66719455b824a7d3fd50fb6213df5e1167649336bbf25adf949d9cdeb84a9e"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Adata.okta_auth_server_policy.auth_server_policy%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adata.okta_auth_server_policy.auth_server_policy:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:data.okta_auth_server_policy.auth_server_policy",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:17c88a6809d9ca5541f5b8b6b4826a816f2ce0a1d700a3356ded582b3821a970"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_app_access_policy_assignment.app_access_policy_assignment%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_access_policy_assignment.app_access_policy_assignment:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_access_policy_assignment.app_access_policy_assignment",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:be7cb2d479a48389e3d709b218c1cef8f42a358e05496ebe223da069139191f8"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_app_features.app_features%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_features.app_features:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_features.app_features",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:898a901bc1552a0a267eb93af1ac8b170deb3c2dc948d56464f9fea7df5b4cec"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_app_federated_claim.app_federated_claim%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_federated_claim.app_federated_claim:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_federated_claim.app_federated_claim",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:eb447163984c5a7c099fa52edba0bbf1177df42c74a08d5956e77c5959f35b7b"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_app_oauth_api_scope.app_oauth_api_scope%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_oauth_api_scope.app_oauth_api_scope:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_oauth_api_scope.app_oauth_api_scope",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:e42b303950aa85bbfdea1c8016558e83570f2d4005bdeba996db5b24e021ef67"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_app_oauth_post_logout_redirect_uri.app_oauth_post_logout_redirect_uri%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_oauth_post_logout_redirect_uri.app_oauth_post_logout_redirect_uri:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_oauth_post_logout_redirect_uri.app_oauth_post_logout_redirect_uri",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:fd542600f8b2d70222e43343ea6cfe4db90cdfa242dc843251190764f0a851e6"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_app_oauth_redirect_uri.app_oauth_redirect_uri%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_oauth_redirect_uri.app_oauth_redirect_uri:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_oauth_redirect_uri.app_oauth_redirect_uri",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:d9f131a3bd3722685f88725c4f56c150be842a6ff902a8afef84e6219cb69e5d"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_app_saml_app_settings.app_saml_app_settings%3Arepresentation%253A1%253Aokta_app_oauth.oauth",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_app_saml_app_settings.app_saml_app_settings:representation%3A1%3Aokta_app_oauth.oauth",
+          "from": "representation:1:okta_app_saml_app_settings.app_saml_app_settings",
+          "to": "representation:1:okta_app_oauth.oauth",
+          "emission": "emission:64f51c05ca3358b80fecf38d6673aa7c7af35e4cd905549d0e019a041671ecbe"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_auth_server_claim.auth_server_claim%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_auth_server_claim.auth_server_claim:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_auth_server_claim.auth_server_claim",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:a536c4f92fb4595e4e73a88ac32a1bf0f93ef09545edf90f538ee99ebfa80c46"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_auth_server_claim_default.auth_server_claim_default%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_auth_server_claim_default.auth_server_claim_default:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_auth_server_claim_default.auth_server_claim_default",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:e48217102b96b7c3bb5fadee9227ef99fc587049264c599c630ec1a3ee1e0fdf"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_auth_server_policy.auth_server_policy%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_auth_server_policy.auth_server_policy:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_auth_server_policy.auth_server_policy",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:17def68a77443e429805a6ad55078e7911380387347487a07c763d37e1ae5a8b"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_auth_server_policy_rule.auth_server_policy_rule%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_auth_server_policy_rule.auth_server_policy_rule:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_auth_server_policy_rule.auth_server_policy_rule",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:59d0eeeb5f69bd8738836e3a02872d5168dc5695ebd1b47881ea61b5324c60e3"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_auth_server_scope.read%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_auth_server_scope.read:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_auth_server_scope.read",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:7642746fe6893af08de088eaa662f9e807ff71c0b0cae885c150d205716141e0"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_domain_certificate.domain_certificate%3Arepresentation%253A1%253Aokta_domain.login",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_domain_certificate.domain_certificate:representation%3A1%3Aokta_domain.login",
+          "from": "representation:1:okta_domain_certificate.domain_certificate",
+          "to": "representation:1:okta_domain.login",
+          "emission": "emission:ff5e7a21e5a691ca197356d9ce092d4b7e2cd7fe5244633b0f78dd6cfb9b765b"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_domain_verification.login%3Arepresentation%253A1%253Aokta_domain.login",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_domain_verification.login:representation%3A1%3Aokta_domain.login",
+          "from": "representation:1:okta_domain_verification.login",
+          "to": "representation:1:okta_domain.login",
+          "emission": "emission:37ab02d5afe90ebe4ed9b258347b0efe352ed934a653cf0bf73bf30fcf770f05"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_event_hook_verification.event_hook_verification%3Arepresentation%253A1%253Aokta_event_hook.events",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_event_hook_verification.event_hook_verification:representation%3A1%3Aokta_event_hook.events",
+          "from": "representation:1:okta_event_hook_verification.event_hook_verification",
+          "to": "representation:1:okta_event_hook.events",
+          "emission": "emission:570938e56c9278c9b5a166645dbd9aa2173cd969785ed61d276379a4cb3c7706"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_realm_assignment.realm_assignment%3Arepresentation%253A1%253Aokta_realm.customers",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_realm_assignment.realm_assignment:representation%3A1%3Aokta_realm.customers",
+          "from": "representation:1:okta_realm_assignment.realm_assignment",
+          "to": "representation:1:okta_realm.customers",
+          "emission": "emission:cd6ed52ef51e9829bd02c26bbde176bd2af765f8d342587ce636d5c41a340481"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aokta_trusted_server.trusted_server%3Arepresentation%253A1%253Aokta_auth_server.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aokta_trusted_server.trusted_server:representation%3A1%3Aokta_auth_server.api",
+          "from": "representation:1:okta_trusted_server.trusted_server",
+          "to": "representation:1:okta_auth_server.api",
+          "emission": "emission:cf56a85118fe68f343272d4156fa2b624557291ed0e6c1bdbcffacdd6c8bd462"
+        },
+        {
+          "id": "change:net:added:relation%3Aokta.relation.uses-inline-hook%3Arepresentation%253A1%253Aokta_app_saml.portal%3Arepresentation%253A1%253Aokta_inline_hook.token",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:okta.relation.uses-inline-hook:representation%3A1%3Aokta_app_saml.portal:representation%3A1%3Aokta_inline_hook.token",
+          "from": "representation:1:okta_app_saml.portal",
+          "to": "representation:1:okta_inline_hook.token",
+          "emission": "emission:8b2a56312359973ff54f821d9dc6fd415810f06057ebfdf301a5571595732b46"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adata.okta_realm_assignment.realm_assignment%3Aemission%253Ab8b7423828712e2be8e67bfeaa0615cac7c40e5fd5c5d68553b4135b9ffd287f:after",
+          "closure": "closure:representation%3A1%3Adata.okta_realm_assignment.realm_assignment:emission%3Ab8b7423828712e2be8e67bfeaa0615cac7c40e5fd5c5d68553b4135b9ffd287f",
+          "representation": "representation:1:data.okta_realm_assignment.realm_assignment",
+          "emission": "emission:b8b7423828712e2be8e67bfeaa0615cac7c40e5fd5c5d68553b4135b9ffd287f",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 87,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 22,
+        "facts_removed": 0,
+        "indeterminate": 1,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

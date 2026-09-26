@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -3112,10 +3112,724 @@
         "dependencies": 26,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.first"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.second"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc_endpoint.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc_endpoint.first"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc_endpoint.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc_endpoint.second"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_access_point.ambiguous",
+          "change": "added",
+          "representation": "representation:1:confluent_access_point.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_access_point.literal",
+          "change": "added",
+          "representation": "representation:1:confluent_access_point.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_api_key.credential",
+          "change": "added",
+          "representation": "representation:1:confluent_api_key.credential"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_certificate_authority.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_certificate_authority.boundary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_connector.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_connector.boundary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_environment.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_environment.boundary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_flink_statement.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_statement.boundary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_gateway.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_gateway.boundary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_invitation.administration",
+          "change": "added",
+          "representation": "representation:1:confluent_invitation.administration"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_kafka_cluster.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_cluster.boundary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_kafka_topic.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_topic.boundary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_network.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_network.boundary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_peering.ambiguous",
+          "change": "added",
+          "representation": "representation:1:confluent_peering.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_peering.literal",
+          "change": "added",
+          "representation": "representation:1:confluent_peering.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_tf_importer.imperative",
+          "change": "added",
+          "representation": "representation:1:confluent_tf_importer.imperative"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.confluent_kafka_cluster.lookup",
+          "change": "added",
+          "representation": "representation:1:data.confluent_kafka_cluster.lookup"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_connector.boundary%3Arepresentation%253A1%253Aconfluent_environment.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_connector.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_connector.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "emission": "emission:ca9b1b38aca5614e9f3efa35988a0822d1df341f0802366ead780591957abfc9"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_gateway.boundary%3Arepresentation%253A1%253Aconfluent_environment.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_gateway.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_gateway.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "emission": "emission:406de3519fdcc6a252592e1bad6b920657a6eb44ff4be53afd3a900ad0d317f8"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_kafka_cluster.boundary%3Arepresentation%253A1%253Aconfluent_environment.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_kafka_cluster.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_kafka_cluster.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "emission": "emission:794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_network.boundary%3Arepresentation%253A1%253Aconfluent_environment.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_network.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_network.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "emission": "emission:e4094c1b09562c29437520e04b06d5d8aad9a02ea4b79843af1be820cc9c1fcc"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aaws_vpc_endpoint.first%3Arepresentation%253A1%253Aaws_vpc.first",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.first:representation%3A1%3Aaws_vpc.first",
+          "from": "representation:1:aws_vpc_endpoint.first",
+          "to": "representation:1:aws_vpc.first",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aaws_vpc_endpoint.second%3Arepresentation%253A1%253Aaws_vpc.second",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.second:representation%3A1%3Aaws_vpc.second",
+          "from": "representation:1:aws_vpc_endpoint.second",
+          "to": "representation:1:aws_vpc.second",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_peering.ambiguous%3Arepresentation%253A1%253Aconfluent_network.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_peering.ambiguous:representation%3A1%3Aconfluent_network.boundary",
+          "from": "representation:1:confluent_peering.ambiguous",
+          "to": "representation:1:confluent_network.boundary",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_peering.literal%3Arepresentation%253A1%253Aconfluent_network.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_peering.literal:representation%3A1%3Aconfluent_network.boundary",
+          "from": "representation:1:confluent_peering.literal",
+          "to": "representation:1:confluent_network.boundary",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_connector.boundary%3Arepresentation%253A1%253Aconfluent_kafka_cluster.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_connector.boundary:representation%3A1%3Aconfluent_kafka_cluster.boundary",
+          "from": "representation:1:confluent_connector.boundary",
+          "to": "representation:1:confluent_kafka_cluster.boundary",
+          "emission": "emission:86133a20f8bd415e50fbf48965a032d73b57c64c6107c5d2cc8348809001ed07"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_kafka_topic.boundary%3Arepresentation%253A1%253Aconfluent_kafka_cluster.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_kafka_topic.boundary:representation%3A1%3Aconfluent_kafka_cluster.boundary",
+          "from": "representation:1:confluent_kafka_topic.boundary",
+          "to": "representation:1:confluent_kafka_cluster.boundary",
+          "emission": "emission:344a6d7e15af1d432f1d700880ae4920aa5293cd7758edd24245e7c98bd9e941"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_access_point.ambiguous%3Arepresentation%253A1%253Aconfluent_gateway.boundary",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.ambiguous:representation%3A1%3Aconfluent_gateway.boundary",
+          "from": "representation:1:confluent_access_point.ambiguous",
+          "to": "representation:1:confluent_gateway.boundary",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_access_point.literal%3Arepresentation%253A1%253Aconfluent_gateway.boundary",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.literal:representation%3A1%3Aconfluent_gateway.boundary",
+          "from": "representation:1:confluent_access_point.literal",
+          "to": "representation:1:confluent_gateway.boundary",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_access_point.ambiguous%3Aemission%253A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31:after",
+          "closure": "closure:representation%3A1%3Aconfluent_access_point.ambiguous:emission%3A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "representation": "representation:1:confluent_access_point.ambiguous",
+          "emission": "emission:81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_access_point.literal%3Aemission%253A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31:after",
+          "closure": "closure:representation%3A1%3Aconfluent_access_point.literal:emission%3A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "representation": "representation:1:confluent_access_point.literal",
+          "emission": "emission:81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_flink_statement.boundary%3Aemission%253Adf15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26:after",
+          "closure": "closure:representation%3A1%3Aconfluent_flink_statement.boundary:emission%3Adf15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26",
+          "representation": "representation:1:confluent_flink_statement.boundary",
+          "emission": "emission:df15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_kafka_cluster.boundary%3Aemission%253A07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6:after",
+          "closure": "closure:representation%3A1%3Aconfluent_kafka_cluster.boundary:emission%3A07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+          "representation": "representation:1:confluent_kafka_cluster.boundary",
+          "emission": "emission:07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_kafka_cluster.boundary%3Aemission%253A60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0:after",
+          "closure": "closure:representation%3A1%3Aconfluent_kafka_cluster.boundary:emission%3A60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+          "representation": "representation:1:confluent_kafka_cluster.boundary",
+          "emission": "emission:60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_peering.ambiguous%3Aemission%253A82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94:after",
+          "closure": "closure:representation%3A1%3Aconfluent_peering.ambiguous:emission%3A82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "representation": "representation:1:confluent_peering.ambiguous",
+          "emission": "emission:82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_peering.literal%3Aemission%253A82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94:after",
+          "closure": "closure:representation%3A1%3Aconfluent_peering.literal:emission%3A82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "representation": "representation:1:confluent_peering.literal",
+          "emission": "emission:82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 21,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 12,
+        "facts_removed": 0,
+        "indeterminate": 7,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.first"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.second"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc_endpoint.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc_endpoint.first"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc_endpoint.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc_endpoint.second"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_access_point.ambiguous",
+          "change": "added",
+          "representation": "representation:1:confluent_access_point.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_access_point.literal",
+          "change": "added",
+          "representation": "representation:1:confluent_access_point.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_api_key.credential",
+          "change": "added",
+          "representation": "representation:1:confluent_api_key.credential"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_certificate_authority.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_certificate_authority.boundary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_connector.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_connector.boundary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_environment.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_environment.boundary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_flink_statement.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_statement.boundary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_gateway.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_gateway.boundary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_invitation.administration",
+          "change": "added",
+          "representation": "representation:1:confluent_invitation.administration"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_kafka_cluster.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_cluster.boundary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_kafka_topic.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_topic.boundary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_network.boundary",
+          "change": "added",
+          "representation": "representation:1:confluent_network.boundary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_peering.ambiguous",
+          "change": "added",
+          "representation": "representation:1:confluent_peering.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_peering.literal",
+          "change": "added",
+          "representation": "representation:1:confluent_peering.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_tf_importer.imperative",
+          "change": "added",
+          "representation": "representation:1:confluent_tf_importer.imperative"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.confluent_kafka_cluster.lookup",
+          "change": "added",
+          "representation": "representation:1:data.confluent_kafka_cluster.lookup"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_connector.boundary%3Arepresentation%253A1%253Aconfluent_environment.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_connector.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_connector.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "emission": "emission:ca9b1b38aca5614e9f3efa35988a0822d1df341f0802366ead780591957abfc9"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_gateway.boundary%3Arepresentation%253A1%253Aconfluent_environment.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_gateway.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_gateway.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "emission": "emission:406de3519fdcc6a252592e1bad6b920657a6eb44ff4be53afd3a900ad0d317f8"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_kafka_cluster.boundary%3Arepresentation%253A1%253Aconfluent_environment.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_kafka_cluster.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_kafka_cluster.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "emission": "emission:794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_network.boundary%3Arepresentation%253A1%253Aconfluent_environment.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_network.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_network.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "emission": "emission:e4094c1b09562c29437520e04b06d5d8aad9a02ea4b79843af1be820cc9c1fcc"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aaws_vpc_endpoint.first%3Arepresentation%253A1%253Aaws_vpc.first",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.first:representation%3A1%3Aaws_vpc.first",
+          "from": "representation:1:aws_vpc_endpoint.first",
+          "to": "representation:1:aws_vpc.first",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aaws_vpc_endpoint.second%3Arepresentation%253A1%253Aaws_vpc.second",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.second:representation%3A1%3Aaws_vpc.second",
+          "from": "representation:1:aws_vpc_endpoint.second",
+          "to": "representation:1:aws_vpc.second",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_peering.ambiguous%3Arepresentation%253A1%253Aconfluent_network.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_peering.ambiguous:representation%3A1%3Aconfluent_network.boundary",
+          "from": "representation:1:confluent_peering.ambiguous",
+          "to": "representation:1:confluent_network.boundary",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_peering.literal%3Arepresentation%253A1%253Aconfluent_network.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_peering.literal:representation%3A1%3Aconfluent_network.boundary",
+          "from": "representation:1:confluent_peering.literal",
+          "to": "representation:1:confluent_network.boundary",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_connector.boundary%3Arepresentation%253A1%253Aconfluent_kafka_cluster.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_connector.boundary:representation%3A1%3Aconfluent_kafka_cluster.boundary",
+          "from": "representation:1:confluent_connector.boundary",
+          "to": "representation:1:confluent_kafka_cluster.boundary",
+          "emission": "emission:86133a20f8bd415e50fbf48965a032d73b57c64c6107c5d2cc8348809001ed07"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_kafka_topic.boundary%3Arepresentation%253A1%253Aconfluent_kafka_cluster.boundary",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_kafka_topic.boundary:representation%3A1%3Aconfluent_kafka_cluster.boundary",
+          "from": "representation:1:confluent_kafka_topic.boundary",
+          "to": "representation:1:confluent_kafka_cluster.boundary",
+          "emission": "emission:344a6d7e15af1d432f1d700880ae4920aa5293cd7758edd24245e7c98bd9e941"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_access_point.ambiguous%3Arepresentation%253A1%253Aconfluent_gateway.boundary",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.ambiguous:representation%3A1%3Aconfluent_gateway.boundary",
+          "from": "representation:1:confluent_access_point.ambiguous",
+          "to": "representation:1:confluent_gateway.boundary",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_access_point.literal%3Arepresentation%253A1%253Aconfluent_gateway.boundary",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.literal:representation%3A1%3Aconfluent_gateway.boundary",
+          "from": "representation:1:confluent_access_point.literal",
+          "to": "representation:1:confluent_gateway.boundary",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_access_point.ambiguous%3Aemission%253A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31:after",
+          "closure": "closure:representation%3A1%3Aconfluent_access_point.ambiguous:emission%3A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "representation": "representation:1:confluent_access_point.ambiguous",
+          "emission": "emission:81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_access_point.literal%3Aemission%253A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31:after",
+          "closure": "closure:representation%3A1%3Aconfluent_access_point.literal:emission%3A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "representation": "representation:1:confluent_access_point.literal",
+          "emission": "emission:81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_flink_statement.boundary%3Aemission%253Adf15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26:after",
+          "closure": "closure:representation%3A1%3Aconfluent_flink_statement.boundary:emission%3Adf15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26",
+          "representation": "representation:1:confluent_flink_statement.boundary",
+          "emission": "emission:df15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_kafka_cluster.boundary%3Aemission%253A07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6:after",
+          "closure": "closure:representation%3A1%3Aconfluent_kafka_cluster.boundary:emission%3A07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+          "representation": "representation:1:confluent_kafka_cluster.boundary",
+          "emission": "emission:07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_kafka_cluster.boundary%3Aemission%253A60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0:after",
+          "closure": "closure:representation%3A1%3Aconfluent_kafka_cluster.boundary:emission%3A60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+          "representation": "representation:1:confluent_kafka_cluster.boundary",
+          "emission": "emission:60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_peering.ambiguous%3Aemission%253A82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94:after",
+          "closure": "closure:representation%3A1%3Aconfluent_peering.ambiguous:emission%3A82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "representation": "representation:1:confluent_peering.ambiguous",
+          "emission": "emission:82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_peering.literal%3Aemission%253A82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94:after",
+          "closure": "closure:representation%3A1%3Aconfluent_peering.literal:emission%3A82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "representation": "representation:1:confluent_peering.literal",
+          "emission": "emission:82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 21,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 12,
+        "facts_removed": 0,
+        "indeterminate": 7,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

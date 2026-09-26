@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -2747,10 +2747,782 @@
         "dependencies": 16,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_iam_role.mismatch",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.mismatch"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.first"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.second"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_aws_network_peering.ambiguous",
+          "change": "added",
+          "representation": "representation:1:hcp_aws_network_peering.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_aws_network_peering.literal",
+          "change": "added",
+          "representation": "representation:1:hcp_aws_network_peering.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_aws_network_peering.mismatch",
+          "change": "added",
+          "representation": "representation:1:hcp_aws_network_peering.mismatch"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_boundary_cluster.private",
+          "change": "added",
+          "representation": "representation:1:hcp_boundary_cluster.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_consul_cluster_root_token.private",
+          "change": "added",
+          "representation": "representation:1:hcp_consul_cluster_root_token.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_hvn.ambiguous",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_hvn.literal",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_hvn.mismatch",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn.mismatch"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_iam_workload_identity_provider.ambiguous",
+          "change": "added",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_iam_workload_identity_provider.literal",
+          "change": "added",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_iam_workload_identity_provider.mismatch",
+          "change": "added",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.mismatch"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_log_streaming_destination.private",
+          "change": "added",
+          "representation": "representation:1:hcp_log_streaming_destination.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_notifications_webhook.private",
+          "change": "added",
+          "representation": "representation:1:hcp_notifications_webhook.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_project.first",
+          "change": "added",
+          "representation": "representation:1:hcp_project.first"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_project.second",
+          "change": "added",
+          "representation": "representation:1:hcp_project.second"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_service_principal.first",
+          "change": "added",
+          "representation": "representation:1:hcp_service_principal.first"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_service_principal.second",
+          "change": "added",
+          "representation": "representation:1:hcp_service_principal.second"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_service_principal_key.private",
+          "change": "added",
+          "representation": "representation:1:hcp_service_principal_key.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_cluster_admin_token.private",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_cluster_admin_token.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_radar_source_github_cloud.private",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_source_github_cloud.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_secret.private",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_secret.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_waypoint_tfc_config.private",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_tfc_config.private"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_aws_network_peering.ambiguous%3Arepresentation%253A1%253Ahcp_hvn.literal",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_aws_network_peering.ambiguous:representation%3A1%3Ahcp_hvn.literal",
+          "from": "representation:1:hcp_aws_network_peering.ambiguous",
+          "to": "representation:1:hcp_hvn.literal",
+          "emission": "emission:de7467a00ee0bf18ae448876efcb3cbc7ba9b5043cf72623286fd1f8fc171676"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_aws_network_peering.literal%3Arepresentation%253A1%253Ahcp_hvn.literal",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_aws_network_peering.literal:representation%3A1%3Ahcp_hvn.literal",
+          "from": "representation:1:hcp_aws_network_peering.literal",
+          "to": "representation:1:hcp_hvn.literal",
+          "emission": "emission:de7467a00ee0bf18ae448876efcb3cbc7ba9b5043cf72623286fd1f8fc171676"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_aws_network_peering.mismatch%3Arepresentation%253A1%253Ahcp_hvn.literal",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_aws_network_peering.mismatch:representation%3A1%3Ahcp_hvn.literal",
+          "from": "representation:1:hcp_aws_network_peering.mismatch",
+          "to": "representation:1:hcp_hvn.literal",
+          "emission": "emission:de7467a00ee0bf18ae448876efcb3cbc7ba9b5043cf72623286fd1f8fc171676"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.ambiguous%3Aemission%253A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.ambiguous:emission%3A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "representation": "representation:1:hcp_aws_network_peering.ambiguous",
+          "emission": "emission:3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.ambiguous%3Aemission%253A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.ambiguous:emission%3A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "representation": "representation:1:hcp_aws_network_peering.ambiguous",
+          "emission": "emission:408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.literal%3Aemission%253A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.literal:emission%3A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "representation": "representation:1:hcp_aws_network_peering.literal",
+          "emission": "emission:3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.literal%3Aemission%253A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.literal:emission%3A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "representation": "representation:1:hcp_aws_network_peering.literal",
+          "emission": "emission:408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.mismatch%3Aemission%253A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.mismatch:emission%3A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "representation": "representation:1:hcp_aws_network_peering.mismatch",
+          "emission": "emission:3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.mismatch%3Aemission%253A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.mismatch:emission%3A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "representation": "representation:1:hcp_aws_network_peering.mismatch",
+          "emission": "emission:408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_boundary_cluster.private%3Aemission%253Ae514dd9b57702ca6e96c6ac4850e230255410bf2c99a2b0e9b1b323ca618b15f:after",
+          "closure": "closure:representation%3A1%3Ahcp_boundary_cluster.private:emission%3Ae514dd9b57702ca6e96c6ac4850e230255410bf2c99a2b0e9b1b323ca618b15f",
+          "representation": "representation:1:hcp_boundary_cluster.private",
+          "emission": "emission:e514dd9b57702ca6e96c6ac4850e230255410bf2c99a2b0e9b1b323ca618b15f",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_hvn.ambiguous%3Aemission%253Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f:after",
+          "closure": "closure:representation%3A1%3Ahcp_hvn.ambiguous:emission%3Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "representation": "representation:1:hcp_hvn.ambiguous",
+          "emission": "emission:e77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_hvn.literal%3Aemission%253Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f:after",
+          "closure": "closure:representation%3A1%3Ahcp_hvn.literal:emission%3Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "representation": "representation:1:hcp_hvn.literal",
+          "emission": "emission:e77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_hvn.mismatch%3Aemission%253Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f:after",
+          "closure": "closure:representation%3A1%3Ahcp_hvn.mismatch:emission%3Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "representation": "representation:1:hcp_hvn.mismatch",
+          "emission": "emission:e77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_iam_workload_identity_provider.ambiguous%3Aemission%253A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53:after",
+          "closure": "closure:representation%3A1%3Ahcp_iam_workload_identity_provider.ambiguous:emission%3A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.ambiguous",
+          "emission": "emission:99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_iam_workload_identity_provider.literal%3Aemission%253A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53:after",
+          "closure": "closure:representation%3A1%3Ahcp_iam_workload_identity_provider.literal:emission%3A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.literal",
+          "emission": "emission:99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_iam_workload_identity_provider.mismatch%3Aemission%253A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53:after",
+          "closure": "closure:representation%3A1%3Ahcp_iam_workload_identity_provider.mismatch:emission%3A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.mismatch",
+          "emission": "emission:99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_notifications_webhook.private%3Aemission%253A26676a80428d19a7b1759965acbacf1130de1ac34cb1bc723d3c91e176b92e9e:after",
+          "closure": "closure:representation%3A1%3Ahcp_notifications_webhook.private:emission%3A26676a80428d19a7b1759965acbacf1130de1ac34cb1bc723d3c91e176b92e9e",
+          "representation": "representation:1:hcp_notifications_webhook.private",
+          "emission": "emission:26676a80428d19a7b1759965acbacf1130de1ac34cb1bc723d3c91e176b92e9e",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_vault_radar_source_github_cloud.private%3Aemission%253Aa86688332d04a91e0f9b517a12cb067d10d201e228ed003e74a0770fd5884b61:after",
+          "closure": "closure:representation%3A1%3Ahcp_vault_radar_source_github_cloud.private:emission%3Aa86688332d04a91e0f9b517a12cb067d10d201e228ed003e74a0770fd5884b61",
+          "representation": "representation:1:hcp_vault_radar_source_github_cloud.private",
+          "emission": "emission:a86688332d04a91e0f9b517a12cb067d10d201e228ed003e74a0770fd5884b61",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_vault_secrets_secret.private%3Aemission%253A1cb81fb2e2ba607e58baca00aa041ac045fb7cb4dc32bbd3831b7b2b7bc9b3a2:after",
+          "closure": "closure:representation%3A1%3Ahcp_vault_secrets_secret.private:emission%3A1cb81fb2e2ba607e58baca00aa041ac045fb7cb4dc32bbd3831b7b2b7bc9b3a2",
+          "representation": "representation:1:hcp_vault_secrets_secret.private",
+          "emission": "emission:1cb81fb2e2ba607e58baca00aa041ac045fb7cb4dc32bbd3831b7b2b7bc9b3a2",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 25,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 3,
+        "facts_removed": 0,
+        "indeterminate": 16,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_iam_role.mismatch",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.mismatch"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.first"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.second"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_aws_network_peering.ambiguous",
+          "change": "added",
+          "representation": "representation:1:hcp_aws_network_peering.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_aws_network_peering.literal",
+          "change": "added",
+          "representation": "representation:1:hcp_aws_network_peering.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_aws_network_peering.mismatch",
+          "change": "added",
+          "representation": "representation:1:hcp_aws_network_peering.mismatch"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_boundary_cluster.private",
+          "change": "added",
+          "representation": "representation:1:hcp_boundary_cluster.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_consul_cluster_root_token.private",
+          "change": "added",
+          "representation": "representation:1:hcp_consul_cluster_root_token.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_hvn.ambiguous",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_hvn.literal",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_hvn.mismatch",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn.mismatch"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_iam_workload_identity_provider.ambiguous",
+          "change": "added",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_iam_workload_identity_provider.literal",
+          "change": "added",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_iam_workload_identity_provider.mismatch",
+          "change": "added",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.mismatch"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_log_streaming_destination.private",
+          "change": "added",
+          "representation": "representation:1:hcp_log_streaming_destination.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_notifications_webhook.private",
+          "change": "added",
+          "representation": "representation:1:hcp_notifications_webhook.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_project.first",
+          "change": "added",
+          "representation": "representation:1:hcp_project.first"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_project.second",
+          "change": "added",
+          "representation": "representation:1:hcp_project.second"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_service_principal.first",
+          "change": "added",
+          "representation": "representation:1:hcp_service_principal.first"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_service_principal.second",
+          "change": "added",
+          "representation": "representation:1:hcp_service_principal.second"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_service_principal_key.private",
+          "change": "added",
+          "representation": "representation:1:hcp_service_principal_key.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_cluster_admin_token.private",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_cluster_admin_token.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_radar_source_github_cloud.private",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_source_github_cloud.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_secret.private",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_secret.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_waypoint_tfc_config.private",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_tfc_config.private"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_aws_network_peering.ambiguous%3Arepresentation%253A1%253Ahcp_hvn.literal",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_aws_network_peering.ambiguous:representation%3A1%3Ahcp_hvn.literal",
+          "from": "representation:1:hcp_aws_network_peering.ambiguous",
+          "to": "representation:1:hcp_hvn.literal",
+          "emission": "emission:de7467a00ee0bf18ae448876efcb3cbc7ba9b5043cf72623286fd1f8fc171676"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_aws_network_peering.literal%3Arepresentation%253A1%253Ahcp_hvn.literal",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_aws_network_peering.literal:representation%3A1%3Ahcp_hvn.literal",
+          "from": "representation:1:hcp_aws_network_peering.literal",
+          "to": "representation:1:hcp_hvn.literal",
+          "emission": "emission:de7467a00ee0bf18ae448876efcb3cbc7ba9b5043cf72623286fd1f8fc171676"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_aws_network_peering.mismatch%3Arepresentation%253A1%253Ahcp_hvn.literal",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_aws_network_peering.mismatch:representation%3A1%3Ahcp_hvn.literal",
+          "from": "representation:1:hcp_aws_network_peering.mismatch",
+          "to": "representation:1:hcp_hvn.literal",
+          "emission": "emission:de7467a00ee0bf18ae448876efcb3cbc7ba9b5043cf72623286fd1f8fc171676"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.ambiguous%3Aemission%253A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.ambiguous:emission%3A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "representation": "representation:1:hcp_aws_network_peering.ambiguous",
+          "emission": "emission:3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.ambiguous%3Aemission%253A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.ambiguous:emission%3A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "representation": "representation:1:hcp_aws_network_peering.ambiguous",
+          "emission": "emission:408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.literal%3Aemission%253A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.literal:emission%3A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "representation": "representation:1:hcp_aws_network_peering.literal",
+          "emission": "emission:3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.literal%3Aemission%253A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.literal:emission%3A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "representation": "representation:1:hcp_aws_network_peering.literal",
+          "emission": "emission:408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.mismatch%3Aemission%253A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.mismatch:emission%3A3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "representation": "representation:1:hcp_aws_network_peering.mismatch",
+          "emission": "emission:3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_aws_network_peering.mismatch%3Aemission%253A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6:after",
+          "closure": "closure:representation%3A1%3Ahcp_aws_network_peering.mismatch:emission%3A408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "representation": "representation:1:hcp_aws_network_peering.mismatch",
+          "emission": "emission:408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_boundary_cluster.private%3Aemission%253Ae514dd9b57702ca6e96c6ac4850e230255410bf2c99a2b0e9b1b323ca618b15f:after",
+          "closure": "closure:representation%3A1%3Ahcp_boundary_cluster.private:emission%3Ae514dd9b57702ca6e96c6ac4850e230255410bf2c99a2b0e9b1b323ca618b15f",
+          "representation": "representation:1:hcp_boundary_cluster.private",
+          "emission": "emission:e514dd9b57702ca6e96c6ac4850e230255410bf2c99a2b0e9b1b323ca618b15f",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_hvn.ambiguous%3Aemission%253Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f:after",
+          "closure": "closure:representation%3A1%3Ahcp_hvn.ambiguous:emission%3Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "representation": "representation:1:hcp_hvn.ambiguous",
+          "emission": "emission:e77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_hvn.literal%3Aemission%253Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f:after",
+          "closure": "closure:representation%3A1%3Ahcp_hvn.literal:emission%3Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "representation": "representation:1:hcp_hvn.literal",
+          "emission": "emission:e77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_hvn.mismatch%3Aemission%253Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f:after",
+          "closure": "closure:representation%3A1%3Ahcp_hvn.mismatch:emission%3Ae77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "representation": "representation:1:hcp_hvn.mismatch",
+          "emission": "emission:e77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_iam_workload_identity_provider.ambiguous%3Aemission%253A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53:after",
+          "closure": "closure:representation%3A1%3Ahcp_iam_workload_identity_provider.ambiguous:emission%3A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.ambiguous",
+          "emission": "emission:99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_iam_workload_identity_provider.literal%3Aemission%253A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53:after",
+          "closure": "closure:representation%3A1%3Ahcp_iam_workload_identity_provider.literal:emission%3A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.literal",
+          "emission": "emission:99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_iam_workload_identity_provider.mismatch%3Aemission%253A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53:after",
+          "closure": "closure:representation%3A1%3Ahcp_iam_workload_identity_provider.mismatch:emission%3A99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.mismatch",
+          "emission": "emission:99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_notifications_webhook.private%3Aemission%253A26676a80428d19a7b1759965acbacf1130de1ac34cb1bc723d3c91e176b92e9e:after",
+          "closure": "closure:representation%3A1%3Ahcp_notifications_webhook.private:emission%3A26676a80428d19a7b1759965acbacf1130de1ac34cb1bc723d3c91e176b92e9e",
+          "representation": "representation:1:hcp_notifications_webhook.private",
+          "emission": "emission:26676a80428d19a7b1759965acbacf1130de1ac34cb1bc723d3c91e176b92e9e",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_vault_radar_source_github_cloud.private%3Aemission%253Aa86688332d04a91e0f9b517a12cb067d10d201e228ed003e74a0770fd5884b61:after",
+          "closure": "closure:representation%3A1%3Ahcp_vault_radar_source_github_cloud.private:emission%3Aa86688332d04a91e0f9b517a12cb067d10d201e228ed003e74a0770fd5884b61",
+          "representation": "representation:1:hcp_vault_radar_source_github_cloud.private",
+          "emission": "emission:a86688332d04a91e0f9b517a12cb067d10d201e228ed003e74a0770fd5884b61",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_vault_secrets_secret.private%3Aemission%253A1cb81fb2e2ba607e58baca00aa041ac045fb7cb4dc32bbd3831b7b2b7bc9b3a2:after",
+          "closure": "closure:representation%3A1%3Ahcp_vault_secrets_secret.private:emission%3A1cb81fb2e2ba607e58baca00aa041ac045fb7cb4dc32bbd3831b7b2b7bc9b3a2",
+          "representation": "representation:1:hcp_vault_secrets_secret.private",
+          "emission": "emission:1cb81fb2e2ba607e58baca00aa041ac045fb7cb4dc32bbd3831b7b2b7bc9b3a2",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 25,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 3,
+        "facts_removed": 0,
+        "indeterminate": 16,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

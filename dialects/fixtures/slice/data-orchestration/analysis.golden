@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -3107,10 +3107,650 @@
         "dependencies": 18,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "change": "added",
+          "representation": "external:1:google.concept.google-cloud-project:0"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.vault_generic_secret.runtime",
+          "change": "added",
+          "representation": "representation:1:data.vault_generic_secret.runtime"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset.analytics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_dataset_access.reader",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset_access.reader"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_table.events",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.events"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_table_iam_member.viewer",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table_iam_member.viewer"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_project_iam_member.automation_viewer",
+          "change": "added",
+          "representation": "representation:1:google_project_iam_member.automation_viewer"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_project_service.bigquery",
+          "change": "added",
+          "representation": "representation:1:google_project_service.bigquery"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_service_account.automation",
+          "change": "added",
+          "representation": "representation:1:google_service_account.automation"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_service_account_key.automation",
+          "change": "added",
+          "representation": "representation:1:google_service_account_key.automation"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_storage_bucket.archive",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket.archive"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_storage_bucket_iam_member.archive_reader",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket_iam_member.archive_reader"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_binding.operators",
+          "change": "added",
+          "representation": "representation:1:kestra_binding.operators"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_flow.ingest",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.ingest"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_group.operators",
+          "change": "added",
+          "representation": "representation:1:kestra_group.operators"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_namespace.platform",
+          "change": "added",
+          "representation": "representation:1:kestra_namespace.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_namespace_secret.runtime",
+          "change": "added",
+          "representation": "representation:1:kestra_namespace_secret.runtime"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_role.operator",
+          "change": "added",
+          "representation": "representation:1:kestra_role.operator"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_tenant.unsupported",
+          "change": "added",
+          "representation": "representation:1:kestra_tenant.unsupported"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_user.automation",
+          "change": "added",
+          "representation": "representation:1:kestra_user.automation"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_user_password.automation",
+          "change": "added",
+          "representation": "representation:1:kestra_user_password.automation"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Arandom_id.unsupported",
+          "change": "added",
+          "representation": "representation:1:random_id.unsupported"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Arandom_password.automation",
+          "change": "added",
+          "representation": "representation:1:random_password.automation"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_generic_secret.managed",
+          "change": "added",
+          "representation": "representation:1:vault_generic_secret.managed"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_mount.configured",
+          "change": "added",
+          "representation": "representation:1:vault_mount.configured"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_bigquery_table.events%3Arepresentation%253A1%253Agoogle_bigquery_dataset.analytics",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_bigquery_table.events:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "from": "representation:1:google_bigquery_table.events",
+          "to": "representation:1:google_bigquery_dataset.analytics",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_service_account.automation%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.automation:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_service_account.automation",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        },
+        {
+          "id": "change:changes:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_flow.ingest%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_flow.ingest:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_flow.ingest",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081"
+        },
+        {
+          "id": "change:changes:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_group.operators%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_group.operators:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_group.operators",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:b158c9af9dd414442104d5f5c7800612d2c7d10ba4856e0da175da2c94cd2871"
+        },
+        {
+          "id": "change:changes:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_role.operator%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_role.operator:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_role.operator",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:ada716b7b9acd3b01edc78ae77b2b80b290ba9e9537bd29dc50bf0ce18495ae1"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agoogle_bigquery_dataset_access.reader%3Arepresentation%253A1%253Agoogle_bigquery_dataset.analytics",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agoogle_bigquery_dataset_access.reader:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "from": "representation:1:google_bigquery_dataset_access.reader",
+          "to": "representation:1:google_bigquery_dataset.analytics",
+          "emission": "emission:36add9a4e49507e796f7f9cd612778d1a23c43fc0a5b49e582b9626e3c08fc26"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agoogle_bigquery_table_iam_member.viewer%3Arepresentation%253A1%253Agoogle_bigquery_table.events",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agoogle_bigquery_table_iam_member.viewer:representation%3A1%3Agoogle_bigquery_table.events",
+          "from": "representation:1:google_bigquery_table_iam_member.viewer",
+          "to": "representation:1:google_bigquery_table.events",
+          "emission": "emission:04735d190742ae7b65dc502d0bc5db9783d3b10e31dac9128bcc7a8d595b79e3"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agoogle_project_iam_member.automation_viewer%3Arepresentation%253A1%253Agoogle_service_account.automation",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agoogle_project_iam_member.automation_viewer:representation%3A1%3Agoogle_service_account.automation",
+          "from": "representation:1:google_project_iam_member.automation_viewer",
+          "to": "representation:1:google_service_account.automation",
+          "emission": "emission:cb2c5722404609df20c44e72261c8e52a23fce676af7a9d85bf6bd2cf2994994"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agoogle_service_account_key.automation%3Arepresentation%253A1%253Agoogle_service_account.automation",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agoogle_service_account_key.automation:representation%3A1%3Agoogle_service_account.automation",
+          "from": "representation:1:google_service_account_key.automation",
+          "to": "representation:1:google_service_account.automation",
+          "emission": "emission:31f2417228c82d1864020717895601f7971d4943b55fc5bc4f791b3f4b5055ec"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agoogle_storage_bucket_iam_member.archive_reader%3Arepresentation%253A1%253Agoogle_storage_bucket.archive",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agoogle_storage_bucket_iam_member.archive_reader:representation%3A1%3Agoogle_storage_bucket.archive",
+          "from": "representation:1:google_storage_bucket_iam_member.archive_reader",
+          "to": "representation:1:google_storage_bucket.archive",
+          "emission": "emission:6cf90912c42e1cca4e126899ed9c9a1c0cdc042323e0a19c4ae9b005e44bd427"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Akestra_binding.operators%3Arepresentation%253A1%253Akestra_role.operator",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Akestra_binding.operators:representation%3A1%3Akestra_role.operator",
+          "from": "representation:1:kestra_binding.operators",
+          "to": "representation:1:kestra_role.operator",
+          "emission": "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Akestra_namespace_secret.runtime%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Akestra_namespace_secret.runtime:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_namespace_secret.runtime",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:9791284bcf1512964669198fa3abc5476c750987c2c766b541af38f7d62e66a2"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Akestra_user_password.automation%3Arepresentation%253A1%253Akestra_user.automation",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Akestra_user_password.automation:representation%3A1%3Akestra_user.automation",
+          "from": "representation:1:kestra_user_password.automation",
+          "to": "representation:1:kestra_user.automation",
+          "emission": "emission:26cc83c424aa47a439a25569e362e28d4c8ccf442aa2f795c37b3f5a74c42151"
+        }
+      ],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 26,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 13,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "change": "added",
+          "representation": "external:1:google.concept.google-cloud-project:0"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.vault_generic_secret.runtime",
+          "change": "added",
+          "representation": "representation:1:data.vault_generic_secret.runtime"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset.analytics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_dataset_access.reader",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset_access.reader"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_table.events",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.events"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_table_iam_member.viewer",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table_iam_member.viewer"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_project_iam_member.automation_viewer",
+          "change": "added",
+          "representation": "representation:1:google_project_iam_member.automation_viewer"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_project_service.bigquery",
+          "change": "added",
+          "representation": "representation:1:google_project_service.bigquery"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_service_account.automation",
+          "change": "added",
+          "representation": "representation:1:google_service_account.automation"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_service_account_key.automation",
+          "change": "added",
+          "representation": "representation:1:google_service_account_key.automation"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_storage_bucket.archive",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket.archive"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_storage_bucket_iam_member.archive_reader",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket_iam_member.archive_reader"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_binding.operators",
+          "change": "added",
+          "representation": "representation:1:kestra_binding.operators"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_flow.ingest",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.ingest"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_group.operators",
+          "change": "added",
+          "representation": "representation:1:kestra_group.operators"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_namespace.platform",
+          "change": "added",
+          "representation": "representation:1:kestra_namespace.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_namespace_secret.runtime",
+          "change": "added",
+          "representation": "representation:1:kestra_namespace_secret.runtime"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_role.operator",
+          "change": "added",
+          "representation": "representation:1:kestra_role.operator"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_tenant.unsupported",
+          "change": "added",
+          "representation": "representation:1:kestra_tenant.unsupported"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_user.automation",
+          "change": "added",
+          "representation": "representation:1:kestra_user.automation"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_user_password.automation",
+          "change": "added",
+          "representation": "representation:1:kestra_user_password.automation"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Arandom_id.unsupported",
+          "change": "added",
+          "representation": "representation:1:random_id.unsupported"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Arandom_password.automation",
+          "change": "added",
+          "representation": "representation:1:random_password.automation"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_generic_secret.managed",
+          "change": "added",
+          "representation": "representation:1:vault_generic_secret.managed"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_mount.configured",
+          "change": "added",
+          "representation": "representation:1:vault_mount.configured"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_bigquery_table.events%3Arepresentation%253A1%253Agoogle_bigquery_dataset.analytics",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_bigquery_table.events:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "from": "representation:1:google_bigquery_table.events",
+          "to": "representation:1:google_bigquery_dataset.analytics",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_service_account.automation%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.automation:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_service_account.automation",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        },
+        {
+          "id": "change:net:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_flow.ingest%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_flow.ingest:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_flow.ingest",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081"
+        },
+        {
+          "id": "change:net:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_group.operators%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_group.operators:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_group.operators",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:b158c9af9dd414442104d5f5c7800612d2c7d10ba4856e0da175da2c94cd2871"
+        },
+        {
+          "id": "change:net:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_role.operator%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_role.operator:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_role.operator",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:ada716b7b9acd3b01edc78ae77b2b80b290ba9e9537bd29dc50bf0ce18495ae1"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agoogle_bigquery_dataset_access.reader%3Arepresentation%253A1%253Agoogle_bigquery_dataset.analytics",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agoogle_bigquery_dataset_access.reader:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "from": "representation:1:google_bigquery_dataset_access.reader",
+          "to": "representation:1:google_bigquery_dataset.analytics",
+          "emission": "emission:36add9a4e49507e796f7f9cd612778d1a23c43fc0a5b49e582b9626e3c08fc26"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agoogle_bigquery_table_iam_member.viewer%3Arepresentation%253A1%253Agoogle_bigquery_table.events",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agoogle_bigquery_table_iam_member.viewer:representation%3A1%3Agoogle_bigquery_table.events",
+          "from": "representation:1:google_bigquery_table_iam_member.viewer",
+          "to": "representation:1:google_bigquery_table.events",
+          "emission": "emission:04735d190742ae7b65dc502d0bc5db9783d3b10e31dac9128bcc7a8d595b79e3"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agoogle_project_iam_member.automation_viewer%3Arepresentation%253A1%253Agoogle_service_account.automation",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agoogle_project_iam_member.automation_viewer:representation%3A1%3Agoogle_service_account.automation",
+          "from": "representation:1:google_project_iam_member.automation_viewer",
+          "to": "representation:1:google_service_account.automation",
+          "emission": "emission:cb2c5722404609df20c44e72261c8e52a23fce676af7a9d85bf6bd2cf2994994"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agoogle_service_account_key.automation%3Arepresentation%253A1%253Agoogle_service_account.automation",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agoogle_service_account_key.automation:representation%3A1%3Agoogle_service_account.automation",
+          "from": "representation:1:google_service_account_key.automation",
+          "to": "representation:1:google_service_account.automation",
+          "emission": "emission:31f2417228c82d1864020717895601f7971d4943b55fc5bc4f791b3f4b5055ec"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agoogle_storage_bucket_iam_member.archive_reader%3Arepresentation%253A1%253Agoogle_storage_bucket.archive",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agoogle_storage_bucket_iam_member.archive_reader:representation%3A1%3Agoogle_storage_bucket.archive",
+          "from": "representation:1:google_storage_bucket_iam_member.archive_reader",
+          "to": "representation:1:google_storage_bucket.archive",
+          "emission": "emission:6cf90912c42e1cca4e126899ed9c9a1c0cdc042323e0a19c4ae9b005e44bd427"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Akestra_binding.operators%3Arepresentation%253A1%253Akestra_role.operator",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Akestra_binding.operators:representation%3A1%3Akestra_role.operator",
+          "from": "representation:1:kestra_binding.operators",
+          "to": "representation:1:kestra_role.operator",
+          "emission": "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Akestra_namespace_secret.runtime%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Akestra_namespace_secret.runtime:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_namespace_secret.runtime",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:9791284bcf1512964669198fa3abc5476c750987c2c766b541af38f7d62e66a2"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Akestra_user_password.automation%3Arepresentation%253A1%253Akestra_user.automation",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Akestra_user_password.automation:representation%3A1%3Akestra_user.automation",
+          "from": "representation:1:kestra_user_password.automation",
+          "to": "representation:1:kestra_user.automation",
+          "emission": "emission:26cc83c424aa47a439a25569e362e28d4c8ccf442aa2f795c37b3f5a74c42151"
+        }
+      ],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 26,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 13,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

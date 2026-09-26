@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -10073,10 +10073,2280 @@
         "dependencies": 111,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "change": "added",
+          "representation": "external:1:google.concept.google-cloud-project:0"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_iam_role.vault",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc.applications",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_resource_group.applications",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_user_assigned_identity.vault",
+          "change": "added",
+          "representation": "representation:1:azurerm_user_assigned_identity.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_virtual_network.applications",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_service_account.vault",
+          "change": "added",
+          "representation": "representation:1:confluent_service_account.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.hcp_organization.current",
+          "change": "added",
+          "representation": "representation:1:data.hcp_organization.current"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.hcp_packer_artifact.aws",
+          "change": "added",
+          "representation": "representation:1:data.hcp_packer_artifact.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.hcp_packer_version.base",
+          "change": "added",
+          "representation": "representation:1:data.hcp_packer_version.base"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_service_account.vault",
+          "change": "added",
+          "representation": "representation:1:google_service_account.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_aws_network_peering.applications",
+          "change": "added",
+          "representation": "representation:1:hcp_aws_network_peering.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_aws_transit_gateway_attachment.shared",
+          "change": "added",
+          "representation": "representation:1:hcp_aws_transit_gateway_attachment.shared"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_azure_peering_connection.applications",
+          "change": "added",
+          "representation": "representation:1:hcp_azure_peering_connection.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_boundary_cluster.access",
+          "change": "added",
+          "representation": "representation:1:hcp_boundary_cluster.access"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_consul_cluster.legacy",
+          "change": "added",
+          "representation": "representation:1:hcp_consul_cluster.legacy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_consul_snapshot.legacy",
+          "change": "added",
+          "representation": "representation:1:hcp_consul_snapshot.legacy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_dns_forwarding.applications",
+          "change": "added",
+          "representation": "representation:1:hcp_dns_forwarding.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_dns_forwarding_rule.internal",
+          "change": "added",
+          "representation": "representation:1:hcp_dns_forwarding_rule.internal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_group.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_group.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_group_iam_binding.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_group_iam_binding.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_group_members.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_group_members.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_hvn.aws",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_hvn.azure",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn.azure"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_hvn_peering_connection.clouds",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn_peering_connection.clouds"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_hvn_route.applications",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn_route.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_iam_workload_identity_provider.aws",
+          "change": "added",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_log_streaming_destination.cloudwatch",
+          "change": "added",
+          "representation": "representation:1:hcp_log_streaming_destination.cloudwatch"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_notifications_webhook.lifecycle",
+          "change": "added",
+          "representation": "representation:1:hcp_notifications_webhook.lifecycle"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_packer_bucket.base",
+          "change": "added",
+          "representation": "representation:1:hcp_packer_bucket.base"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_packer_channel.production",
+          "change": "added",
+          "representation": "representation:1:hcp_packer_channel.production"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_packer_channel_assignment.production",
+          "change": "added",
+          "representation": "representation:1:hcp_packer_channel_assignment.production"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_private_link.vault",
+          "change": "added",
+          "representation": "representation:1:hcp_private_link.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_project.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_project.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_project_iam_binding.automation",
+          "change": "added",
+          "representation": "representation:1:hcp_project_iam_binding.automation"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_resource_control_policy.products",
+          "change": "added",
+          "representation": "representation:1:hcp_resource_control_policy.products"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_service_principal.automation",
+          "change": "added",
+          "representation": "representation:1:hcp_service_principal.automation"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_cluster.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_cluster.security"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_plugin.transform",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_plugin.transform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_radar_integration_jira_connection.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_integration_jira_connection.security"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_radar_integration_jira_subscription.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_integration_jira_subscription.security"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_radar_integration_slack_connection.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_integration_slack_connection.security"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_radar_integration_slack_subscription.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_integration_slack_subscription.security"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_radar_resource_iam_binding.viewer",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_resource_iam_binding.viewer"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_radar_secret_manager_vault_dedicated.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_secret_manager_vault_dedicated.security"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_radar_source_github_cloud.source",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_source_github_cloud.source"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_radar_source_github_enterprise.source",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_source_github_enterprise.source"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_app.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_app_iam_binding.reader",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_app_iam_binding.reader"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_dynamic_secret.aws",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_dynamic_secret.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_integration.aws",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_integration.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_integration.azure",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_integration.azure"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_integration.google",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_integration.google"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_integration_confluent.confluent",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_integration_confluent.confluent"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_rotating_secret.confluent",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_rotating_secret.confluent"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_rotating_secret.google",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_rotating_secret.google"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_secret.api",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_secret.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_vault_secrets_sync.gitlab",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_sync.gitlab"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_waypoint_action.restart",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_action.restart"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_waypoint_add_on.database",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_add_on.database"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_waypoint_add_on_definition.database",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_add_on_definition.database"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_waypoint_agent_group.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_agent_group.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_waypoint_application.api",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_application.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_waypoint_template.service",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_template.service"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Ahcp_waypoint_tfc_config.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_tfc_config.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_user_assigned_identity.vault%3Arepresentation%253A1%253Aazurerm_resource_group.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_user_assigned_identity.vault:representation%3A1%3Aazurerm_resource_group.applications",
+          "from": "representation:1:azurerm_user_assigned_identity.vault",
+          "to": "representation:1:azurerm_resource_group.applications",
+          "emission": "emission:923d1d94d8ed79c8912234b7a26d97cbffdd8380d1cfac1d04eb1a04b8fc63e3"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network.applications%3Arepresentation%253A1%253Aazurerm_resource_group.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.applications:representation%3A1%3Aazurerm_resource_group.applications",
+          "from": "representation:1:azurerm_virtual_network.applications",
+          "to": "representation:1:azurerm_resource_group.applications",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_service_account.vault%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.vault:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_service_account.vault",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Adata.hcp_packer_artifact.aws%3Arepresentation%253A1%253Ahcp_packer_bucket.base",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Adata.hcp_packer_artifact.aws:representation%3A1%3Ahcp_packer_bucket.base",
+          "from": "representation:1:data.hcp_packer_artifact.aws",
+          "to": "representation:1:hcp_packer_bucket.base",
+          "emission": "emission:afae6db87822aa7fd622ca7ad7ac0dcbe82312642c334978a8cc390703822a60"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Adata.hcp_packer_version.base%3Arepresentation%253A1%253Ahcp_packer_bucket.base",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Adata.hcp_packer_version.base:representation%3A1%3Ahcp_packer_bucket.base",
+          "from": "representation:1:data.hcp_packer_version.base",
+          "to": "representation:1:hcp_packer_bucket.base",
+          "emission": "emission:10e04eadf430c27bc52f79588bfbca2ef78951b6ca3882ba53c0d6281de88061"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_aws_network_peering.applications%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_aws_network_peering.applications:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_aws_network_peering.applications",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_aws_transit_gateway_attachment.shared%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_aws_transit_gateway_attachment.shared:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_aws_transit_gateway_attachment.shared",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b892ea1eabd0668fd8aae9984842baf452cabb84aa868a4b3b0b7542c575537f"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_boundary_cluster.access%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_boundary_cluster.access:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_boundary_cluster.access",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:e514dd9b57702ca6e96c6ac4850e230255410bf2c99a2b0e9b1b323ca618b15f"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_consul_cluster.legacy%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_consul_cluster.legacy:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_consul_cluster.legacy",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:93bf9f969a8076f63773dcfe5b92270149644e798ccb20570200126ef835446d"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_dns_forwarding.applications%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_dns_forwarding.applications:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_dns_forwarding.applications",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:d6cbbc9a5164a936c1dffc50c9d466ebb731ee888536fe4fd750a4acf59cda58"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_hvn.aws%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_hvn.aws:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_hvn.aws",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:e77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_hvn.azure%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_hvn.azure:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_hvn.azure",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:e77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_notifications_webhook.lifecycle%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_notifications_webhook.lifecycle:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_notifications_webhook.lifecycle",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:26676a80428d19a7b1759965acbacf1130de1ac34cb1bc723d3c91e176b92e9e"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_packer_bucket.base%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_packer_bucket.base:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_packer_bucket.base",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:e4e84c9348e75cc73954ba3540b4248ecede3647fb3bda6adfe8b360925af2af"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_packer_channel.production%3Arepresentation%253A1%253Ahcp_packer_bucket.base",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_packer_channel.production:representation%3A1%3Ahcp_packer_bucket.base",
+          "from": "representation:1:hcp_packer_channel.production",
+          "to": "representation:1:hcp_packer_bucket.base",
+          "emission": "emission:b293bdce7d1e790cacf987227e61b203c6bef58bcd4ffc8dd965611eec5d0a80"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_private_link.vault%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_private_link.vault:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_private_link.vault",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:f28e48f40b98dfeb58faf5593fe870ab42a9fbaab89cc2e0c73e4827b408d2b2"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_cluster.security%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_cluster.security:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_cluster.security",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:a7536ed51b471c266429802b31fcd560278696e406a2727b28ac0b5b89476e9e"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_plugin.transform%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_plugin.transform:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_plugin.transform",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:cf62e93294ef2654a1eadb3979e1af6197b222f1793540767de14657a4306e7b"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_radar_integration_jira_connection.security%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_radar_integration_jira_connection.security:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_radar_integration_jira_connection.security",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:8b4d0772c26fab921fac1173f1238151c182fece7fe5096398ef08b78b84f92e"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_radar_integration_slack_connection.security%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_radar_integration_slack_connection.security:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_radar_integration_slack_connection.security",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:14d7e990bacc9f466a0c163119d9f47ef99180b1c6d3b61328375bec04f8f371"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_radar_secret_manager_vault_dedicated.security%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_radar_secret_manager_vault_dedicated.security:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_radar_secret_manager_vault_dedicated.security",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:2d575d11689cabc0d8161bf5042339732b4290984faac416d70749ad03e639cd"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_radar_source_github_cloud.source%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_radar_source_github_cloud.source:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_radar_source_github_cloud.source",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:a86688332d04a91e0f9b517a12cb067d10d201e228ed003e74a0770fd5884b61"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_radar_source_github_enterprise.source%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_radar_source_github_enterprise.source:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_radar_source_github_enterprise.source",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:a007db18debf0f7a378b4b008a5286965c6684c819722c3c58fdf6b829efd598"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_app.api:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_app.api",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:0e2c6c6188c54c9f0a682dd6ed64f4a73068b2e1dd513840edbbc949de79848c"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_dynamic_secret.aws%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_dynamic_secret.aws:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "from": "representation:1:hcp_vault_secrets_dynamic_secret.aws",
+          "to": "representation:1:hcp_vault_secrets_app.api",
+          "emission": "emission:6175cc2d274ae1109debc4083249949b0c66d74b9cbd6375295e28dc80f23477"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.aws%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_integration.aws:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_integration.aws",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b6c0f4e361f65983f3827101597016308ba933553dfb890c3afbf94e67d4abf8"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.azure%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_integration.azure:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_integration.azure",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b6c0f4e361f65983f3827101597016308ba933553dfb890c3afbf94e67d4abf8"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.google%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_integration.google:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_integration.google",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b6c0f4e361f65983f3827101597016308ba933553dfb890c3afbf94e67d4abf8"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_integration_confluent.confluent%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_integration_confluent.confluent:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_integration_confluent.confluent",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:60ff0f24526498e0096489b6928822e1332cca2fece783f60baed7d8f76ae13f"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.confluent%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_rotating_secret.confluent:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.confluent",
+          "to": "representation:1:hcp_vault_secrets_app.api",
+          "emission": "emission:65bd6c97034952da8148439c177c8deeb3cf3307174df8dc71c4c44c77be31ad"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.google%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_rotating_secret.google:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.google",
+          "to": "representation:1:hcp_vault_secrets_app.api",
+          "emission": "emission:65bd6c97034952da8148439c177c8deeb3cf3307174df8dc71c4c44c77be31ad"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_secret.api%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_secret.api:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "from": "representation:1:hcp_vault_secrets_secret.api",
+          "to": "representation:1:hcp_vault_secrets_app.api",
+          "emission": "emission:1cb81fb2e2ba607e58baca00aa041ac045fb7cb4dc32bbd3831b7b2b7bc9b3a2"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_sync.gitlab%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_sync.gitlab:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_sync.gitlab",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:f4f5a5170ea83abfd139b60fc948ee797c55f873da457265f959e338422416e6"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_waypoint_add_on.database%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_waypoint_add_on.database:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_waypoint_add_on.database",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:29af4da8a38314593ac5e901ad65c5a5c2a6727204e615545dc86b8db9d9c2df"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_waypoint_add_on_definition.database%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_waypoint_add_on_definition.database:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_waypoint_add_on_definition.database",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b9475049a55e2cc4e587cec88ab7b617338c65a4bd8a687889789863034c82d5"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_waypoint_agent_group.platform%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_waypoint_agent_group.platform:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_waypoint_agent_group.platform",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:2007171e722e605892318791f8f98bb9b7235763a89773ba3d489bfe2c93593a"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_waypoint_application.api%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_waypoint_application.api:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_waypoint_application.api",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:6d505ea16dd023597ce8f15e3cbdd40fb754c95e6ca053a5ddc68de6cceba758"
+        },
+        {
+          "id": "change:changes:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_waypoint_template.service%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_waypoint_template.service:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_waypoint_template.service",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b4a0669a7e0af11e7ed4ad45606b1e85b2377d07c85b7965a5ca1f3e91c1e537"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_aws_network_peering.applications%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_aws_network_peering.applications:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_aws_network_peering.applications",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:de7467a00ee0bf18ae448876efcb3cbc7ba9b5043cf72623286fd1f8fc171676"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_aws_transit_gateway_attachment.shared%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_aws_transit_gateway_attachment.shared:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_aws_transit_gateway_attachment.shared",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:f0003a6194fbbb64238036df841898ffa43367769c86216f43eb386cdb2e8c0f"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_azure_peering_connection.applications%3Arepresentation%253A1%253Ahcp_hvn.azure",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_azure_peering_connection.applications:representation%3A1%3Ahcp_hvn.azure",
+          "from": "representation:1:hcp_azure_peering_connection.applications",
+          "to": "representation:1:hcp_hvn.azure",
+          "emission": "emission:2796013bbba5e2d433b30280eb8b1eb451ba6dbc4182be2fa1393b1810f80ee0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_consul_cluster.legacy%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_consul_cluster.legacy:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_consul_cluster.legacy",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:c12bd12b2c2fb062c00ada55533f3e5bb4f0670002699c530ca11b7dca960430"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_dns_forwarding.applications%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_dns_forwarding.applications:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_dns_forwarding.applications",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:1315550b684186837cf6cf6edfdec76a5c01a57216ed029ae60612de5154f74c"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_hvn_peering_connection.clouds%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_hvn_peering_connection.clouds:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_hvn_peering_connection.clouds",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:d4a7b54666f03714efe16b9ba7172b24d39a9a65d5a72e247774cab9635f61d0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_private_link.vault%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_private_link.vault:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_private_link.vault",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:d79beca0a0b4fe018bcd574391bda75080e8b34ede1839d2b7cfa43260529b44"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_vault_cluster.security%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_vault_cluster.security:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_vault_cluster.security",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:8d46b540e9bdd429fd69ee6e0694f66f0f3974f9d79b265f93e898953cb4353e"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_consul_snapshot.legacy%3Arepresentation%253A1%253Ahcp_consul_cluster.legacy",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_consul_snapshot.legacy:representation%3A1%3Ahcp_consul_cluster.legacy",
+          "from": "representation:1:hcp_consul_snapshot.legacy",
+          "to": "representation:1:hcp_consul_cluster.legacy",
+          "emission": "emission:a37ed085aaccf27d9182f02b005a06c67aa28da0433b44fa6f15bbd4d369c752"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_dns_forwarding_rule.internal%3Arepresentation%253A1%253Ahcp_dns_forwarding.applications",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_dns_forwarding_rule.internal:representation%3A1%3Ahcp_dns_forwarding.applications",
+          "from": "representation:1:hcp_dns_forwarding_rule.internal",
+          "to": "representation:1:hcp_dns_forwarding.applications",
+          "emission": "emission:5937a18ff90757dc13b2623e1d7c48b7acecd55006decaff4a4f733129451b72"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_group_iam_binding.platform%3Arepresentation%253A1%253Ahcp_group.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_group_iam_binding.platform:representation%3A1%3Ahcp_group.platform",
+          "from": "representation:1:hcp_group_iam_binding.platform",
+          "to": "representation:1:hcp_group.platform",
+          "emission": "emission:6ecc5e2029a8800ed9568f4db98ad2fb3b553780820325c3e91720614a21c62a"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_group_members.platform%3Arepresentation%253A1%253Ahcp_group.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_group_members.platform:representation%3A1%3Ahcp_group.platform",
+          "from": "representation:1:hcp_group_members.platform",
+          "to": "representation:1:hcp_group.platform",
+          "emission": "emission:3d98c2b1fd944ceb7f4975153a597858860ab69629a10cad3fdc9717ec7794f6"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_hvn_route.applications%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_hvn_route.applications:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_hvn_route.applications",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:43c34713abaaef34291992bffffd569220d6c31681d6019d9e6f664a37495d08"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_packer_channel_assignment.production%3Arepresentation%253A1%253Adata.hcp_packer_version.base",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_packer_channel_assignment.production:representation%3A1%3Adata.hcp_packer_version.base",
+          "from": "representation:1:hcp_packer_channel_assignment.production",
+          "to": "representation:1:data.hcp_packer_version.base",
+          "emission": "emission:2c94e6fbf21ec4615eb256a6e0f5963981970d241def540f35493f91cb3c8ccc"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_packer_channel_assignment.production%3Arepresentation%253A1%253Ahcp_packer_channel.production",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_packer_channel_assignment.production:representation%3A1%3Ahcp_packer_channel.production",
+          "from": "representation:1:hcp_packer_channel_assignment.production",
+          "to": "representation:1:hcp_packer_channel.production",
+          "emission": "emission:1f65b7d5665af3593014f6170ae353c0ca4c6ea7955f8668d123ea4b3b0c2272"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_project_iam_binding.automation%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_project_iam_binding.automation:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_project_iam_binding.automation",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:3acd4188fa031e24c9984b67c78c0e664d8ae58b3333375dac7460a8862f45c4"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_resource_control_policy.products%3Arepresentation%253A1%253Adata.hcp_organization.current",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_resource_control_policy.products:representation%3A1%3Adata.hcp_organization.current",
+          "from": "representation:1:hcp_resource_control_policy.products",
+          "to": "representation:1:data.hcp_organization.current",
+          "emission": "emission:d62737e5a1de1ff443a2a7ecf6c4a3b8302b1e8181332c82213b3becbc26cc1e"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_vault_radar_integration_jira_subscription.security%3Arepresentation%253A1%253Ahcp_vault_radar_integration_jira_connection.security",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_vault_radar_integration_jira_subscription.security:representation%3A1%3Ahcp_vault_radar_integration_jira_connection.security",
+          "from": "representation:1:hcp_vault_radar_integration_jira_subscription.security",
+          "to": "representation:1:hcp_vault_radar_integration_jira_connection.security",
+          "emission": "emission:d19956379463c5f51952f3c66a47e3f6ac216f11579e60e49ee1188828816d4f"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_vault_radar_integration_slack_subscription.security%3Arepresentation%253A1%253Ahcp_vault_radar_integration_slack_connection.security",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_vault_radar_integration_slack_subscription.security:representation%3A1%3Ahcp_vault_radar_integration_slack_connection.security",
+          "from": "representation:1:hcp_vault_radar_integration_slack_subscription.security",
+          "to": "representation:1:hcp_vault_radar_integration_slack_connection.security",
+          "emission": "emission:9314b73f397ed36fb3adccfdeb6d65baa7b17fbeef47f574154d6140c82fb8bb"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Ahcp_vault_secrets_app_iam_binding.reader%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_vault_secrets_app_iam_binding.reader:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "from": "representation:1:hcp_vault_secrets_app_iam_binding.reader",
+          "to": "representation:1:hcp_vault_secrets_app.api",
+          "emission": "emission:47e095d4d96dfb8a7deeaaf389c3c04fa4a5894c54e4768dc5e0b24c7a4ad46c"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.belongs-to-version%3Arepresentation%253A1%253Adata.hcp_packer_artifact.aws%3Arepresentation%253A1%253Adata.hcp_packer_version.base",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.belongs-to-version:representation%3A1%3Adata.hcp_packer_artifact.aws:representation%3A1%3Adata.hcp_packer_version.base",
+          "from": "representation:1:data.hcp_packer_artifact.aws",
+          "to": "representation:1:data.hcp_packer_version.base",
+          "emission": "emission:ac80136cf108af3d9fff0cfdea5b3bd4c3f1a1eb76e6e815e3a15b0a84671297"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.connects-vault-cluster%3Arepresentation%253A1%253Ahcp_vault_radar_secret_manager_vault_dedicated.security%3Arepresentation%253A1%253Ahcp_vault_cluster.security",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.connects-vault-cluster:representation%3A1%3Ahcp_vault_radar_secret_manager_vault_dedicated.security:representation%3A1%3Ahcp_vault_cluster.security",
+          "from": "representation:1:hcp_vault_radar_secret_manager_vault_dedicated.security",
+          "to": "representation:1:hcp_vault_cluster.security",
+          "emission": "emission:59187d97f0027b6734da50b1a9cc1b7dafa77e85fd27d096cd52fb0c53d3e59f"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.exposes-vault-cluster%3Arepresentation%253A1%253Ahcp_private_link.vault%3Arepresentation%253A1%253Ahcp_vault_cluster.security",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.exposes-vault-cluster:representation%3A1%3Ahcp_private_link.vault:representation%3A1%3Ahcp_vault_cluster.security",
+          "from": "representation:1:hcp_private_link.vault",
+          "to": "representation:1:hcp_vault_cluster.security",
+          "emission": "emission:5dd51bceaa2a6abbccad23709d354b6170a339066163740d393ef9df03ade0f3"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.extends-application%3Arepresentation%253A1%253Ahcp_waypoint_add_on.database%3Arepresentation%253A1%253Ahcp_waypoint_application.api",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.extends-application:representation%3A1%3Ahcp_waypoint_add_on.database:representation%3A1%3Ahcp_waypoint_application.api",
+          "from": "representation:1:hcp_waypoint_add_on.database",
+          "to": "representation:1:hcp_waypoint_application.api",
+          "emission": "emission:e8094b4259793b7f6bf5a3b9f019930e94a8782966a699f2ffab77ee1758958f"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.extends-cluster%3Arepresentation%253A1%253Ahcp_vault_plugin.transform%3Arepresentation%253A1%253Ahcp_vault_cluster.security",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.extends-cluster:representation%3A1%3Ahcp_vault_plugin.transform:representation%3A1%3Ahcp_vault_cluster.security",
+          "from": "representation:1:hcp_vault_plugin.transform",
+          "to": "representation:1:hcp_vault_cluster.security",
+          "emission": "emission:d47837a829b9297d1b74837ffef5a8f0fa47c99a4873848bd49faf9950d71f66"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.federates-to%3Arepresentation%253A1%253Ahcp_iam_workload_identity_provider.aws%3Arepresentation%253A1%253Ahcp_service_principal.automation",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.federates-to:representation%3A1%3Ahcp_iam_workload_identity_provider.aws:representation%3A1%3Ahcp_service_principal.automation",
+          "from": "representation:1:hcp_iam_workload_identity_provider.aws",
+          "to": "representation:1:hcp_service_principal.automation",
+          "emission": "emission:99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.instantiates-definition%3Arepresentation%253A1%253Ahcp_waypoint_add_on.database%3Arepresentation%253A1%253Ahcp_waypoint_add_on_definition.database",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.instantiates-definition:representation%3A1%3Ahcp_waypoint_add_on.database:representation%3A1%3Ahcp_waypoint_add_on_definition.database",
+          "from": "representation:1:hcp_waypoint_add_on.database",
+          "to": "representation:1:hcp_waypoint_add_on_definition.database",
+          "emission": "emission:11071965753b9c081ba0185c866a9ecc4ba1a333649fe2f58cab3878384a8a09"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.peers-with%3Arepresentation%253A1%253Ahcp_aws_network_peering.applications%3Arepresentation%253A1%253Aaws_vpc.applications",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.peers-with:representation%3A1%3Ahcp_aws_network_peering.applications:representation%3A1%3Aaws_vpc.applications",
+          "from": "representation:1:hcp_aws_network_peering.applications",
+          "to": "representation:1:aws_vpc.applications",
+          "emission": "emission:408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.peers-with%3Arepresentation%253A1%253Ahcp_azure_peering_connection.applications%3Arepresentation%253A1%253Aazurerm_virtual_network.applications",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.peers-with:representation%3A1%3Ahcp_azure_peering_connection.applications:representation%3A1%3Aazurerm_virtual_network.applications",
+          "from": "representation:1:hcp_azure_peering_connection.applications",
+          "to": "representation:1:azurerm_virtual_network.applications",
+          "emission": "emission:65fb29cd949e6d1f80f3cd7a56f7aa9c4f38840f5ae03a0da1454fd74bbf93d5"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.peers-with%3Arepresentation%253A1%253Ahcp_hvn_peering_connection.clouds%3Arepresentation%253A1%253Ahcp_hvn.azure",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.peers-with:representation%3A1%3Ahcp_hvn_peering_connection.clouds:representation%3A1%3Ahcp_hvn.azure",
+          "from": "representation:1:hcp_hvn_peering_connection.clouds",
+          "to": "representation:1:hcp_hvn.azure",
+          "emission": "emission:3abf758807fd65c1228992cafb4b303888cac960e082bbe5e1273ba4372dc52c"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.selected-by-channel%3Arepresentation%253A1%253Adata.hcp_packer_version.base%3Arepresentation%253A1%253Ahcp_packer_channel.production",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.selected-by-channel:representation%3A1%3Adata.hcp_packer_version.base:representation%3A1%3Ahcp_packer_channel.production",
+          "from": "representation:1:data.hcp_packer_version.base",
+          "to": "representation:1:hcp_packer_channel.production",
+          "emission": "emission:342a6206604a9256de5c5f6838ea4d3019c3b55ee4046ab46c9fe7e6c7bf2dec"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.syncs-to%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api%3Arepresentation%253A1%253Ahcp_vault_secrets_sync.gitlab",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.syncs-to:representation%3A1%3Ahcp_vault_secrets_app.api:representation%3A1%3Ahcp_vault_secrets_sync.gitlab",
+          "from": "representation:1:hcp_vault_secrets_app.api",
+          "to": "representation:1:hcp_vault_secrets_sync.gitlab",
+          "emission": "emission:f047c4c9dabe6776dd9ce7de0d337826f2a5c86462de9af17af7f8c07d088a0b"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.uses-cloud-identity%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.azure%3Arepresentation%253A1%253Aazurerm_user_assigned_identity.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-cloud-identity:representation%3A1%3Ahcp_vault_secrets_integration.azure:representation%3A1%3Aazurerm_user_assigned_identity.vault",
+          "from": "representation:1:hcp_vault_secrets_integration.azure",
+          "to": "representation:1:azurerm_user_assigned_identity.vault",
+          "emission": "emission:4c5e327683349028dfb22bbe5dbd5e8ef37f84f965538b06446119b6c20f877d"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.uses-cloud-identity%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.google%3Arepresentation%253A1%253Agoogle_service_account.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-cloud-identity:representation%3A1%3Ahcp_vault_secrets_integration.google:representation%3A1%3Agoogle_service_account.vault",
+          "from": "representation:1:hcp_vault_secrets_integration.google",
+          "to": "representation:1:google_service_account.vault",
+          "emission": "emission:e8800910a28731ac07d48efde2c977bb8d4e8896d50bdb1bda4d0e7c592c71be"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.uses-cloud-identity%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.confluent%3Arepresentation%253A1%253Aconfluent_service_account.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-cloud-identity:representation%3A1%3Ahcp_vault_secrets_rotating_secret.confluent:representation%3A1%3Aconfluent_service_account.vault",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.confluent",
+          "to": "representation:1:confluent_service_account.vault",
+          "emission": "emission:afae3f3bc9437399a129777d8484b8b8343f52eb8a5def13d0b7ff3252e83b59"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.uses-cloud-identity%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.google%3Arepresentation%253A1%253Agoogle_service_account.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-cloud-identity:representation%3A1%3Ahcp_vault_secrets_rotating_secret.google:representation%3A1%3Agoogle_service_account.vault",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.google",
+          "to": "representation:1:google_service_account.vault",
+          "emission": "emission:1bdafc23c58d4b37706ea257832a76741392f0db9d8a657049428ee362f39e99"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.uses-integration%3Arepresentation%253A1%253Ahcp_vault_secrets_dynamic_secret.aws%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-integration:representation%3A1%3Ahcp_vault_secrets_dynamic_secret.aws:representation%3A1%3Ahcp_vault_secrets_integration.aws",
+          "from": "representation:1:hcp_vault_secrets_dynamic_secret.aws",
+          "to": "representation:1:hcp_vault_secrets_integration.aws",
+          "emission": "emission:95bc361b5c82a169b25ce7731c30e63fc7a5c05a87dd3616b952ba1cde5c95bb"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.uses-integration%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.confluent%3Arepresentation%253A1%253Ahcp_vault_secrets_integration_confluent.confluent",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-integration:representation%3A1%3Ahcp_vault_secrets_rotating_secret.confluent:representation%3A1%3Ahcp_vault_secrets_integration_confluent.confluent",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.confluent",
+          "to": "representation:1:hcp_vault_secrets_integration_confluent.confluent",
+          "emission": "emission:d26cdf1311d16615ffe2bf44713bcb6857f89395d7d9b9c63bc145b748d1a3fc"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.uses-integration%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.google%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.google",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-integration:representation%3A1%3Ahcp_vault_secrets_rotating_secret.google:representation%3A1%3Ahcp_vault_secrets_integration.google",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.google",
+          "to": "representation:1:hcp_vault_secrets_integration.google",
+          "emission": "emission:d26cdf1311d16615ffe2bf44713bcb6857f89395d7d9b9c63bc145b748d1a3fc"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.uses-integration%3Arepresentation%253A1%253Ahcp_vault_secrets_sync.gitlab%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-integration:representation%3A1%3Ahcp_vault_secrets_sync.gitlab:representation%3A1%3Ahcp_vault_secrets_integration.aws",
+          "from": "representation:1:hcp_vault_secrets_sync.gitlab",
+          "to": "representation:1:hcp_vault_secrets_integration.aws",
+          "emission": "emission:857817cb30e50449a933dbbe502161cba12cea02540ba39ce895034a55c6cf00"
+        },
+        {
+          "id": "change:changes:added:relation%3Ahcp.relation.uses-template%3Arepresentation%253A1%253Ahcp_waypoint_application.api%3Arepresentation%253A1%253Ahcp_waypoint_template.service",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-template:representation%3A1%3Ahcp_waypoint_application.api:representation%3A1%3Ahcp_waypoint_template.service",
+          "from": "representation:1:hcp_waypoint_application.api",
+          "to": "representation:1:hcp_waypoint_template.service",
+          "emission": "emission:fcdca62eafa047e5b64f2b4e31b5a1d08ad3470b5289217fd713952231941070"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_azure_peering_connection.applications%3Aemission%253Ac417ec2c0b87188d6547574169e628cc6a921f9fe3bd63f5bdb987e4c546dbf5:after",
+          "closure": "closure:representation%3A1%3Ahcp_azure_peering_connection.applications:emission%3Ac417ec2c0b87188d6547574169e628cc6a921f9fe3bd63f5bdb987e4c546dbf5",
+          "representation": "representation:1:hcp_azure_peering_connection.applications",
+          "emission": "emission:c417ec2c0b87188d6547574169e628cc6a921f9fe3bd63f5bdb987e4c546dbf5",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Ahcp_hvn_peering_connection.clouds%3Aemission%253Ae5fb4800364884952b5b9f336614d5b19aedce7252fd1a17635931110c3bfcc7:after",
+          "closure": "closure:representation%3A1%3Ahcp_hvn_peering_connection.clouds:emission%3Ae5fb4800364884952b5b9f336614d5b19aedce7252fd1a17635931110c3bfcc7",
+          "representation": "representation:1:hcp_hvn_peering_connection.clouds",
+          "emission": "emission:e5fb4800364884952b5b9f336614d5b19aedce7252fd1a17635931110c3bfcc7",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 66,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 79,
+        "facts_removed": 0,
+        "indeterminate": 2,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "change": "added",
+          "representation": "external:1:google.concept.google-cloud-project:0"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_iam_role.vault",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc.applications",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_resource_group.applications",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_user_assigned_identity.vault",
+          "change": "added",
+          "representation": "representation:1:azurerm_user_assigned_identity.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_virtual_network.applications",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_service_account.vault",
+          "change": "added",
+          "representation": "representation:1:confluent_service_account.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.hcp_organization.current",
+          "change": "added",
+          "representation": "representation:1:data.hcp_organization.current"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.hcp_packer_artifact.aws",
+          "change": "added",
+          "representation": "representation:1:data.hcp_packer_artifact.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.hcp_packer_version.base",
+          "change": "added",
+          "representation": "representation:1:data.hcp_packer_version.base"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_service_account.vault",
+          "change": "added",
+          "representation": "representation:1:google_service_account.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_aws_network_peering.applications",
+          "change": "added",
+          "representation": "representation:1:hcp_aws_network_peering.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_aws_transit_gateway_attachment.shared",
+          "change": "added",
+          "representation": "representation:1:hcp_aws_transit_gateway_attachment.shared"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_azure_peering_connection.applications",
+          "change": "added",
+          "representation": "representation:1:hcp_azure_peering_connection.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_boundary_cluster.access",
+          "change": "added",
+          "representation": "representation:1:hcp_boundary_cluster.access"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_consul_cluster.legacy",
+          "change": "added",
+          "representation": "representation:1:hcp_consul_cluster.legacy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_consul_snapshot.legacy",
+          "change": "added",
+          "representation": "representation:1:hcp_consul_snapshot.legacy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_dns_forwarding.applications",
+          "change": "added",
+          "representation": "representation:1:hcp_dns_forwarding.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_dns_forwarding_rule.internal",
+          "change": "added",
+          "representation": "representation:1:hcp_dns_forwarding_rule.internal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_group.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_group.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_group_iam_binding.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_group_iam_binding.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_group_members.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_group_members.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_hvn.aws",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_hvn.azure",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn.azure"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_hvn_peering_connection.clouds",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn_peering_connection.clouds"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_hvn_route.applications",
+          "change": "added",
+          "representation": "representation:1:hcp_hvn_route.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_iam_workload_identity_provider.aws",
+          "change": "added",
+          "representation": "representation:1:hcp_iam_workload_identity_provider.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_log_streaming_destination.cloudwatch",
+          "change": "added",
+          "representation": "representation:1:hcp_log_streaming_destination.cloudwatch"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_notifications_webhook.lifecycle",
+          "change": "added",
+          "representation": "representation:1:hcp_notifications_webhook.lifecycle"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_packer_bucket.base",
+          "change": "added",
+          "representation": "representation:1:hcp_packer_bucket.base"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_packer_channel.production",
+          "change": "added",
+          "representation": "representation:1:hcp_packer_channel.production"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_packer_channel_assignment.production",
+          "change": "added",
+          "representation": "representation:1:hcp_packer_channel_assignment.production"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_private_link.vault",
+          "change": "added",
+          "representation": "representation:1:hcp_private_link.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_project.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_project.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_project_iam_binding.automation",
+          "change": "added",
+          "representation": "representation:1:hcp_project_iam_binding.automation"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_resource_control_policy.products",
+          "change": "added",
+          "representation": "representation:1:hcp_resource_control_policy.products"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_service_principal.automation",
+          "change": "added",
+          "representation": "representation:1:hcp_service_principal.automation"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_cluster.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_cluster.security"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_plugin.transform",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_plugin.transform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_radar_integration_jira_connection.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_integration_jira_connection.security"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_radar_integration_jira_subscription.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_integration_jira_subscription.security"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_radar_integration_slack_connection.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_integration_slack_connection.security"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_radar_integration_slack_subscription.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_integration_slack_subscription.security"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_radar_resource_iam_binding.viewer",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_resource_iam_binding.viewer"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_radar_secret_manager_vault_dedicated.security",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_secret_manager_vault_dedicated.security"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_radar_source_github_cloud.source",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_source_github_cloud.source"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_radar_source_github_enterprise.source",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_radar_source_github_enterprise.source"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_app.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_app_iam_binding.reader",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_app_iam_binding.reader"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_dynamic_secret.aws",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_dynamic_secret.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_integration.aws",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_integration.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_integration.azure",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_integration.azure"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_integration.google",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_integration.google"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_integration_confluent.confluent",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_integration_confluent.confluent"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_rotating_secret.confluent",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_rotating_secret.confluent"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_rotating_secret.google",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_rotating_secret.google"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_secret.api",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_secret.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_vault_secrets_sync.gitlab",
+          "change": "added",
+          "representation": "representation:1:hcp_vault_secrets_sync.gitlab"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_waypoint_action.restart",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_action.restart"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_waypoint_add_on.database",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_add_on.database"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_waypoint_add_on_definition.database",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_add_on_definition.database"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_waypoint_agent_group.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_agent_group.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_waypoint_application.api",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_application.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_waypoint_template.service",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_template.service"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Ahcp_waypoint_tfc_config.platform",
+          "change": "added",
+          "representation": "representation:1:hcp_waypoint_tfc_config.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_user_assigned_identity.vault%3Arepresentation%253A1%253Aazurerm_resource_group.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_user_assigned_identity.vault:representation%3A1%3Aazurerm_resource_group.applications",
+          "from": "representation:1:azurerm_user_assigned_identity.vault",
+          "to": "representation:1:azurerm_resource_group.applications",
+          "emission": "emission:923d1d94d8ed79c8912234b7a26d97cbffdd8380d1cfac1d04eb1a04b8fc63e3"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network.applications%3Arepresentation%253A1%253Aazurerm_resource_group.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.applications:representation%3A1%3Aazurerm_resource_group.applications",
+          "from": "representation:1:azurerm_virtual_network.applications",
+          "to": "representation:1:azurerm_resource_group.applications",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_service_account.vault%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.vault:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_service_account.vault",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Adata.hcp_packer_artifact.aws%3Arepresentation%253A1%253Ahcp_packer_bucket.base",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Adata.hcp_packer_artifact.aws:representation%3A1%3Ahcp_packer_bucket.base",
+          "from": "representation:1:data.hcp_packer_artifact.aws",
+          "to": "representation:1:hcp_packer_bucket.base",
+          "emission": "emission:afae6db87822aa7fd622ca7ad7ac0dcbe82312642c334978a8cc390703822a60"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Adata.hcp_packer_version.base%3Arepresentation%253A1%253Ahcp_packer_bucket.base",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Adata.hcp_packer_version.base:representation%3A1%3Ahcp_packer_bucket.base",
+          "from": "representation:1:data.hcp_packer_version.base",
+          "to": "representation:1:hcp_packer_bucket.base",
+          "emission": "emission:10e04eadf430c27bc52f79588bfbca2ef78951b6ca3882ba53c0d6281de88061"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_aws_network_peering.applications%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_aws_network_peering.applications:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_aws_network_peering.applications",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:3de2bde887b99ca00e098753ab9550785a9d2e235607e4ba79556e8ac1a98a68"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_aws_transit_gateway_attachment.shared%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_aws_transit_gateway_attachment.shared:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_aws_transit_gateway_attachment.shared",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b892ea1eabd0668fd8aae9984842baf452cabb84aa868a4b3b0b7542c575537f"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_boundary_cluster.access%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_boundary_cluster.access:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_boundary_cluster.access",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:e514dd9b57702ca6e96c6ac4850e230255410bf2c99a2b0e9b1b323ca618b15f"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_consul_cluster.legacy%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_consul_cluster.legacy:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_consul_cluster.legacy",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:93bf9f969a8076f63773dcfe5b92270149644e798ccb20570200126ef835446d"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_dns_forwarding.applications%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_dns_forwarding.applications:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_dns_forwarding.applications",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:d6cbbc9a5164a936c1dffc50c9d466ebb731ee888536fe4fd750a4acf59cda58"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_hvn.aws%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_hvn.aws:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_hvn.aws",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:e77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_hvn.azure%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_hvn.azure:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_hvn.azure",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:e77243677ac4fd65019882e2b89ec84b0661647e0b22b175c327a416af4a4e9f"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_notifications_webhook.lifecycle%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_notifications_webhook.lifecycle:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_notifications_webhook.lifecycle",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:26676a80428d19a7b1759965acbacf1130de1ac34cb1bc723d3c91e176b92e9e"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_packer_bucket.base%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_packer_bucket.base:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_packer_bucket.base",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:e4e84c9348e75cc73954ba3540b4248ecede3647fb3bda6adfe8b360925af2af"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_packer_channel.production%3Arepresentation%253A1%253Ahcp_packer_bucket.base",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_packer_channel.production:representation%3A1%3Ahcp_packer_bucket.base",
+          "from": "representation:1:hcp_packer_channel.production",
+          "to": "representation:1:hcp_packer_bucket.base",
+          "emission": "emission:b293bdce7d1e790cacf987227e61b203c6bef58bcd4ffc8dd965611eec5d0a80"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_private_link.vault%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_private_link.vault:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_private_link.vault",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:f28e48f40b98dfeb58faf5593fe870ab42a9fbaab89cc2e0c73e4827b408d2b2"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_cluster.security%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_cluster.security:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_cluster.security",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:a7536ed51b471c266429802b31fcd560278696e406a2727b28ac0b5b89476e9e"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_plugin.transform%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_plugin.transform:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_plugin.transform",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:cf62e93294ef2654a1eadb3979e1af6197b222f1793540767de14657a4306e7b"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_radar_integration_jira_connection.security%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_radar_integration_jira_connection.security:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_radar_integration_jira_connection.security",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:8b4d0772c26fab921fac1173f1238151c182fece7fe5096398ef08b78b84f92e"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_radar_integration_slack_connection.security%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_radar_integration_slack_connection.security:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_radar_integration_slack_connection.security",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:14d7e990bacc9f466a0c163119d9f47ef99180b1c6d3b61328375bec04f8f371"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_radar_secret_manager_vault_dedicated.security%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_radar_secret_manager_vault_dedicated.security:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_radar_secret_manager_vault_dedicated.security",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:2d575d11689cabc0d8161bf5042339732b4290984faac416d70749ad03e639cd"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_radar_source_github_cloud.source%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_radar_source_github_cloud.source:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_radar_source_github_cloud.source",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:a86688332d04a91e0f9b517a12cb067d10d201e228ed003e74a0770fd5884b61"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_radar_source_github_enterprise.source%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_radar_source_github_enterprise.source:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_radar_source_github_enterprise.source",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:a007db18debf0f7a378b4b008a5286965c6684c819722c3c58fdf6b829efd598"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_app.api:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_app.api",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:0e2c6c6188c54c9f0a682dd6ed64f4a73068b2e1dd513840edbbc949de79848c"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_dynamic_secret.aws%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_dynamic_secret.aws:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "from": "representation:1:hcp_vault_secrets_dynamic_secret.aws",
+          "to": "representation:1:hcp_vault_secrets_app.api",
+          "emission": "emission:6175cc2d274ae1109debc4083249949b0c66d74b9cbd6375295e28dc80f23477"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.aws%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_integration.aws:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_integration.aws",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b6c0f4e361f65983f3827101597016308ba933553dfb890c3afbf94e67d4abf8"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.azure%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_integration.azure:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_integration.azure",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b6c0f4e361f65983f3827101597016308ba933553dfb890c3afbf94e67d4abf8"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.google%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_integration.google:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_integration.google",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b6c0f4e361f65983f3827101597016308ba933553dfb890c3afbf94e67d4abf8"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_integration_confluent.confluent%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_integration_confluent.confluent:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_integration_confluent.confluent",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:60ff0f24526498e0096489b6928822e1332cca2fece783f60baed7d8f76ae13f"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.confluent%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_rotating_secret.confluent:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.confluent",
+          "to": "representation:1:hcp_vault_secrets_app.api",
+          "emission": "emission:65bd6c97034952da8148439c177c8deeb3cf3307174df8dc71c4c44c77be31ad"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.google%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_rotating_secret.google:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.google",
+          "to": "representation:1:hcp_vault_secrets_app.api",
+          "emission": "emission:65bd6c97034952da8148439c177c8deeb3cf3307174df8dc71c4c44c77be31ad"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_secret.api%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_secret.api:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "from": "representation:1:hcp_vault_secrets_secret.api",
+          "to": "representation:1:hcp_vault_secrets_app.api",
+          "emission": "emission:1cb81fb2e2ba607e58baca00aa041ac045fb7cb4dc32bbd3831b7b2b7bc9b3a2"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_vault_secrets_sync.gitlab%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_vault_secrets_sync.gitlab:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_vault_secrets_sync.gitlab",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:f4f5a5170ea83abfd139b60fc948ee797c55f873da457265f959e338422416e6"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_waypoint_add_on.database%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_waypoint_add_on.database:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_waypoint_add_on.database",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:29af4da8a38314593ac5e901ad65c5a5c2a6727204e615545dc86b8db9d9c2df"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_waypoint_add_on_definition.database%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_waypoint_add_on_definition.database:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_waypoint_add_on_definition.database",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b9475049a55e2cc4e587cec88ab7b617338c65a4bd8a687889789863034c82d5"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_waypoint_agent_group.platform%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_waypoint_agent_group.platform:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_waypoint_agent_group.platform",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:2007171e722e605892318791f8f98bb9b7235763a89773ba3d489bfe2c93593a"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_waypoint_application.api%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_waypoint_application.api:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_waypoint_application.api",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:6d505ea16dd023597ce8f15e3cbdd40fb754c95e6ca053a5ddc68de6cceba758"
+        },
+        {
+          "id": "change:net:added:context%3Ahcp.context.ownership%3Arepresentation%253A1%253Ahcp_waypoint_template.service%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:hcp.context.ownership:representation%3A1%3Ahcp_waypoint_template.service:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_waypoint_template.service",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:b4a0669a7e0af11e7ed4ad45606b1e85b2377d07c85b7965a5ca1f3e91c1e537"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_aws_network_peering.applications%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_aws_network_peering.applications:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_aws_network_peering.applications",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:de7467a00ee0bf18ae448876efcb3cbc7ba9b5043cf72623286fd1f8fc171676"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_aws_transit_gateway_attachment.shared%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_aws_transit_gateway_attachment.shared:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_aws_transit_gateway_attachment.shared",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:f0003a6194fbbb64238036df841898ffa43367769c86216f43eb386cdb2e8c0f"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_azure_peering_connection.applications%3Arepresentation%253A1%253Ahcp_hvn.azure",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_azure_peering_connection.applications:representation%3A1%3Ahcp_hvn.azure",
+          "from": "representation:1:hcp_azure_peering_connection.applications",
+          "to": "representation:1:hcp_hvn.azure",
+          "emission": "emission:2796013bbba5e2d433b30280eb8b1eb451ba6dbc4182be2fa1393b1810f80ee0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_consul_cluster.legacy%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_consul_cluster.legacy:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_consul_cluster.legacy",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:c12bd12b2c2fb062c00ada55533f3e5bb4f0670002699c530ca11b7dca960430"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_dns_forwarding.applications%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_dns_forwarding.applications:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_dns_forwarding.applications",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:1315550b684186837cf6cf6edfdec76a5c01a57216ed029ae60612de5154f74c"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_hvn_peering_connection.clouds%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_hvn_peering_connection.clouds:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_hvn_peering_connection.clouds",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:d4a7b54666f03714efe16b9ba7172b24d39a9a65d5a72e247774cab9635f61d0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_private_link.vault%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_private_link.vault:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_private_link.vault",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:d79beca0a0b4fe018bcd574391bda75080e8b34ede1839d2b7cfa43260529b44"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Ahcp_vault_cluster.security%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Ahcp_vault_cluster.security:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_vault_cluster.security",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:8d46b540e9bdd429fd69ee6e0694f66f0f3974f9d79b265f93e898953cb4353e"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_consul_snapshot.legacy%3Arepresentation%253A1%253Ahcp_consul_cluster.legacy",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_consul_snapshot.legacy:representation%3A1%3Ahcp_consul_cluster.legacy",
+          "from": "representation:1:hcp_consul_snapshot.legacy",
+          "to": "representation:1:hcp_consul_cluster.legacy",
+          "emission": "emission:a37ed085aaccf27d9182f02b005a06c67aa28da0433b44fa6f15bbd4d369c752"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_dns_forwarding_rule.internal%3Arepresentation%253A1%253Ahcp_dns_forwarding.applications",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_dns_forwarding_rule.internal:representation%3A1%3Ahcp_dns_forwarding.applications",
+          "from": "representation:1:hcp_dns_forwarding_rule.internal",
+          "to": "representation:1:hcp_dns_forwarding.applications",
+          "emission": "emission:5937a18ff90757dc13b2623e1d7c48b7acecd55006decaff4a4f733129451b72"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_group_iam_binding.platform%3Arepresentation%253A1%253Ahcp_group.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_group_iam_binding.platform:representation%3A1%3Ahcp_group.platform",
+          "from": "representation:1:hcp_group_iam_binding.platform",
+          "to": "representation:1:hcp_group.platform",
+          "emission": "emission:6ecc5e2029a8800ed9568f4db98ad2fb3b553780820325c3e91720614a21c62a"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_group_members.platform%3Arepresentation%253A1%253Ahcp_group.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_group_members.platform:representation%3A1%3Ahcp_group.platform",
+          "from": "representation:1:hcp_group_members.platform",
+          "to": "representation:1:hcp_group.platform",
+          "emission": "emission:3d98c2b1fd944ceb7f4975153a597858860ab69629a10cad3fdc9717ec7794f6"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_hvn_route.applications%3Arepresentation%253A1%253Ahcp_hvn.aws",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_hvn_route.applications:representation%3A1%3Ahcp_hvn.aws",
+          "from": "representation:1:hcp_hvn_route.applications",
+          "to": "representation:1:hcp_hvn.aws",
+          "emission": "emission:43c34713abaaef34291992bffffd569220d6c31681d6019d9e6f664a37495d08"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_packer_channel_assignment.production%3Arepresentation%253A1%253Adata.hcp_packer_version.base",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_packer_channel_assignment.production:representation%3A1%3Adata.hcp_packer_version.base",
+          "from": "representation:1:hcp_packer_channel_assignment.production",
+          "to": "representation:1:data.hcp_packer_version.base",
+          "emission": "emission:2c94e6fbf21ec4615eb256a6e0f5963981970d241def540f35493f91cb3c8ccc"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_packer_channel_assignment.production%3Arepresentation%253A1%253Ahcp_packer_channel.production",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_packer_channel_assignment.production:representation%3A1%3Ahcp_packer_channel.production",
+          "from": "representation:1:hcp_packer_channel_assignment.production",
+          "to": "representation:1:hcp_packer_channel.production",
+          "emission": "emission:1f65b7d5665af3593014f6170ae353c0ca4c6ea7955f8668d123ea4b3b0c2272"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_project_iam_binding.automation%3Arepresentation%253A1%253Ahcp_project.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_project_iam_binding.automation:representation%3A1%3Ahcp_project.platform",
+          "from": "representation:1:hcp_project_iam_binding.automation",
+          "to": "representation:1:hcp_project.platform",
+          "emission": "emission:3acd4188fa031e24c9984b67c78c0e664d8ae58b3333375dac7460a8862f45c4"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_resource_control_policy.products%3Arepresentation%253A1%253Adata.hcp_organization.current",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_resource_control_policy.products:representation%3A1%3Adata.hcp_organization.current",
+          "from": "representation:1:hcp_resource_control_policy.products",
+          "to": "representation:1:data.hcp_organization.current",
+          "emission": "emission:d62737e5a1de1ff443a2a7ecf6c4a3b8302b1e8181332c82213b3becbc26cc1e"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_vault_radar_integration_jira_subscription.security%3Arepresentation%253A1%253Ahcp_vault_radar_integration_jira_connection.security",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_vault_radar_integration_jira_subscription.security:representation%3A1%3Ahcp_vault_radar_integration_jira_connection.security",
+          "from": "representation:1:hcp_vault_radar_integration_jira_subscription.security",
+          "to": "representation:1:hcp_vault_radar_integration_jira_connection.security",
+          "emission": "emission:d19956379463c5f51952f3c66a47e3f6ac216f11579e60e49ee1188828816d4f"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_vault_radar_integration_slack_subscription.security%3Arepresentation%253A1%253Ahcp_vault_radar_integration_slack_connection.security",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_vault_radar_integration_slack_subscription.security:representation%3A1%3Ahcp_vault_radar_integration_slack_connection.security",
+          "from": "representation:1:hcp_vault_radar_integration_slack_subscription.security",
+          "to": "representation:1:hcp_vault_radar_integration_slack_connection.security",
+          "emission": "emission:9314b73f397ed36fb3adccfdeb6d65baa7b17fbeef47f574154d6140c82fb8bb"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Ahcp_vault_secrets_app_iam_binding.reader%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Ahcp_vault_secrets_app_iam_binding.reader:representation%3A1%3Ahcp_vault_secrets_app.api",
+          "from": "representation:1:hcp_vault_secrets_app_iam_binding.reader",
+          "to": "representation:1:hcp_vault_secrets_app.api",
+          "emission": "emission:47e095d4d96dfb8a7deeaaf389c3c04fa4a5894c54e4768dc5e0b24c7a4ad46c"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.belongs-to-version%3Arepresentation%253A1%253Adata.hcp_packer_artifact.aws%3Arepresentation%253A1%253Adata.hcp_packer_version.base",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.belongs-to-version:representation%3A1%3Adata.hcp_packer_artifact.aws:representation%3A1%3Adata.hcp_packer_version.base",
+          "from": "representation:1:data.hcp_packer_artifact.aws",
+          "to": "representation:1:data.hcp_packer_version.base",
+          "emission": "emission:ac80136cf108af3d9fff0cfdea5b3bd4c3f1a1eb76e6e815e3a15b0a84671297"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.connects-vault-cluster%3Arepresentation%253A1%253Ahcp_vault_radar_secret_manager_vault_dedicated.security%3Arepresentation%253A1%253Ahcp_vault_cluster.security",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.connects-vault-cluster:representation%3A1%3Ahcp_vault_radar_secret_manager_vault_dedicated.security:representation%3A1%3Ahcp_vault_cluster.security",
+          "from": "representation:1:hcp_vault_radar_secret_manager_vault_dedicated.security",
+          "to": "representation:1:hcp_vault_cluster.security",
+          "emission": "emission:59187d97f0027b6734da50b1a9cc1b7dafa77e85fd27d096cd52fb0c53d3e59f"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.exposes-vault-cluster%3Arepresentation%253A1%253Ahcp_private_link.vault%3Arepresentation%253A1%253Ahcp_vault_cluster.security",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.exposes-vault-cluster:representation%3A1%3Ahcp_private_link.vault:representation%3A1%3Ahcp_vault_cluster.security",
+          "from": "representation:1:hcp_private_link.vault",
+          "to": "representation:1:hcp_vault_cluster.security",
+          "emission": "emission:5dd51bceaa2a6abbccad23709d354b6170a339066163740d393ef9df03ade0f3"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.extends-application%3Arepresentation%253A1%253Ahcp_waypoint_add_on.database%3Arepresentation%253A1%253Ahcp_waypoint_application.api",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.extends-application:representation%3A1%3Ahcp_waypoint_add_on.database:representation%3A1%3Ahcp_waypoint_application.api",
+          "from": "representation:1:hcp_waypoint_add_on.database",
+          "to": "representation:1:hcp_waypoint_application.api",
+          "emission": "emission:e8094b4259793b7f6bf5a3b9f019930e94a8782966a699f2ffab77ee1758958f"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.extends-cluster%3Arepresentation%253A1%253Ahcp_vault_plugin.transform%3Arepresentation%253A1%253Ahcp_vault_cluster.security",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.extends-cluster:representation%3A1%3Ahcp_vault_plugin.transform:representation%3A1%3Ahcp_vault_cluster.security",
+          "from": "representation:1:hcp_vault_plugin.transform",
+          "to": "representation:1:hcp_vault_cluster.security",
+          "emission": "emission:d47837a829b9297d1b74837ffef5a8f0fa47c99a4873848bd49faf9950d71f66"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.federates-to%3Arepresentation%253A1%253Ahcp_iam_workload_identity_provider.aws%3Arepresentation%253A1%253Ahcp_service_principal.automation",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.federates-to:representation%3A1%3Ahcp_iam_workload_identity_provider.aws:representation%3A1%3Ahcp_service_principal.automation",
+          "from": "representation:1:hcp_iam_workload_identity_provider.aws",
+          "to": "representation:1:hcp_service_principal.automation",
+          "emission": "emission:99f3d14c1b10c1cbd1e62e6b705acfb6447665fee5bd8b08273100a4be839d53"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.instantiates-definition%3Arepresentation%253A1%253Ahcp_waypoint_add_on.database%3Arepresentation%253A1%253Ahcp_waypoint_add_on_definition.database",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.instantiates-definition:representation%3A1%3Ahcp_waypoint_add_on.database:representation%3A1%3Ahcp_waypoint_add_on_definition.database",
+          "from": "representation:1:hcp_waypoint_add_on.database",
+          "to": "representation:1:hcp_waypoint_add_on_definition.database",
+          "emission": "emission:11071965753b9c081ba0185c866a9ecc4ba1a333649fe2f58cab3878384a8a09"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.peers-with%3Arepresentation%253A1%253Ahcp_aws_network_peering.applications%3Arepresentation%253A1%253Aaws_vpc.applications",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.peers-with:representation%3A1%3Ahcp_aws_network_peering.applications:representation%3A1%3Aaws_vpc.applications",
+          "from": "representation:1:hcp_aws_network_peering.applications",
+          "to": "representation:1:aws_vpc.applications",
+          "emission": "emission:408f8350758b0525ac5ae987244189d827673902b9511944b6cda12e6a6ed7b6"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.peers-with%3Arepresentation%253A1%253Ahcp_azure_peering_connection.applications%3Arepresentation%253A1%253Aazurerm_virtual_network.applications",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.peers-with:representation%3A1%3Ahcp_azure_peering_connection.applications:representation%3A1%3Aazurerm_virtual_network.applications",
+          "from": "representation:1:hcp_azure_peering_connection.applications",
+          "to": "representation:1:azurerm_virtual_network.applications",
+          "emission": "emission:65fb29cd949e6d1f80f3cd7a56f7aa9c4f38840f5ae03a0da1454fd74bbf93d5"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.peers-with%3Arepresentation%253A1%253Ahcp_hvn_peering_connection.clouds%3Arepresentation%253A1%253Ahcp_hvn.azure",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.peers-with:representation%3A1%3Ahcp_hvn_peering_connection.clouds:representation%3A1%3Ahcp_hvn.azure",
+          "from": "representation:1:hcp_hvn_peering_connection.clouds",
+          "to": "representation:1:hcp_hvn.azure",
+          "emission": "emission:3abf758807fd65c1228992cafb4b303888cac960e082bbe5e1273ba4372dc52c"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.selected-by-channel%3Arepresentation%253A1%253Adata.hcp_packer_version.base%3Arepresentation%253A1%253Ahcp_packer_channel.production",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.selected-by-channel:representation%3A1%3Adata.hcp_packer_version.base:representation%3A1%3Ahcp_packer_channel.production",
+          "from": "representation:1:data.hcp_packer_version.base",
+          "to": "representation:1:hcp_packer_channel.production",
+          "emission": "emission:342a6206604a9256de5c5f6838ea4d3019c3b55ee4046ab46c9fe7e6c7bf2dec"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.syncs-to%3Arepresentation%253A1%253Ahcp_vault_secrets_app.api%3Arepresentation%253A1%253Ahcp_vault_secrets_sync.gitlab",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.syncs-to:representation%3A1%3Ahcp_vault_secrets_app.api:representation%3A1%3Ahcp_vault_secrets_sync.gitlab",
+          "from": "representation:1:hcp_vault_secrets_app.api",
+          "to": "representation:1:hcp_vault_secrets_sync.gitlab",
+          "emission": "emission:f047c4c9dabe6776dd9ce7de0d337826f2a5c86462de9af17af7f8c07d088a0b"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.uses-cloud-identity%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.azure%3Arepresentation%253A1%253Aazurerm_user_assigned_identity.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-cloud-identity:representation%3A1%3Ahcp_vault_secrets_integration.azure:representation%3A1%3Aazurerm_user_assigned_identity.vault",
+          "from": "representation:1:hcp_vault_secrets_integration.azure",
+          "to": "representation:1:azurerm_user_assigned_identity.vault",
+          "emission": "emission:4c5e327683349028dfb22bbe5dbd5e8ef37f84f965538b06446119b6c20f877d"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.uses-cloud-identity%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.google%3Arepresentation%253A1%253Agoogle_service_account.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-cloud-identity:representation%3A1%3Ahcp_vault_secrets_integration.google:representation%3A1%3Agoogle_service_account.vault",
+          "from": "representation:1:hcp_vault_secrets_integration.google",
+          "to": "representation:1:google_service_account.vault",
+          "emission": "emission:e8800910a28731ac07d48efde2c977bb8d4e8896d50bdb1bda4d0e7c592c71be"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.uses-cloud-identity%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.confluent%3Arepresentation%253A1%253Aconfluent_service_account.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-cloud-identity:representation%3A1%3Ahcp_vault_secrets_rotating_secret.confluent:representation%3A1%3Aconfluent_service_account.vault",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.confluent",
+          "to": "representation:1:confluent_service_account.vault",
+          "emission": "emission:afae3f3bc9437399a129777d8484b8b8343f52eb8a5def13d0b7ff3252e83b59"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.uses-cloud-identity%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.google%3Arepresentation%253A1%253Agoogle_service_account.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-cloud-identity:representation%3A1%3Ahcp_vault_secrets_rotating_secret.google:representation%3A1%3Agoogle_service_account.vault",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.google",
+          "to": "representation:1:google_service_account.vault",
+          "emission": "emission:1bdafc23c58d4b37706ea257832a76741392f0db9d8a657049428ee362f39e99"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.uses-integration%3Arepresentation%253A1%253Ahcp_vault_secrets_dynamic_secret.aws%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-integration:representation%3A1%3Ahcp_vault_secrets_dynamic_secret.aws:representation%3A1%3Ahcp_vault_secrets_integration.aws",
+          "from": "representation:1:hcp_vault_secrets_dynamic_secret.aws",
+          "to": "representation:1:hcp_vault_secrets_integration.aws",
+          "emission": "emission:95bc361b5c82a169b25ce7731c30e63fc7a5c05a87dd3616b952ba1cde5c95bb"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.uses-integration%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.confluent%3Arepresentation%253A1%253Ahcp_vault_secrets_integration_confluent.confluent",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-integration:representation%3A1%3Ahcp_vault_secrets_rotating_secret.confluent:representation%3A1%3Ahcp_vault_secrets_integration_confluent.confluent",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.confluent",
+          "to": "representation:1:hcp_vault_secrets_integration_confluent.confluent",
+          "emission": "emission:d26cdf1311d16615ffe2bf44713bcb6857f89395d7d9b9c63bc145b748d1a3fc"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.uses-integration%3Arepresentation%253A1%253Ahcp_vault_secrets_rotating_secret.google%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.google",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-integration:representation%3A1%3Ahcp_vault_secrets_rotating_secret.google:representation%3A1%3Ahcp_vault_secrets_integration.google",
+          "from": "representation:1:hcp_vault_secrets_rotating_secret.google",
+          "to": "representation:1:hcp_vault_secrets_integration.google",
+          "emission": "emission:d26cdf1311d16615ffe2bf44713bcb6857f89395d7d9b9c63bc145b748d1a3fc"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.uses-integration%3Arepresentation%253A1%253Ahcp_vault_secrets_sync.gitlab%3Arepresentation%253A1%253Ahcp_vault_secrets_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-integration:representation%3A1%3Ahcp_vault_secrets_sync.gitlab:representation%3A1%3Ahcp_vault_secrets_integration.aws",
+          "from": "representation:1:hcp_vault_secrets_sync.gitlab",
+          "to": "representation:1:hcp_vault_secrets_integration.aws",
+          "emission": "emission:857817cb30e50449a933dbbe502161cba12cea02540ba39ce895034a55c6cf00"
+        },
+        {
+          "id": "change:net:added:relation%3Ahcp.relation.uses-template%3Arepresentation%253A1%253Ahcp_waypoint_application.api%3Arepresentation%253A1%253Ahcp_waypoint_template.service",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:hcp.relation.uses-template:representation%3A1%3Ahcp_waypoint_application.api:representation%3A1%3Ahcp_waypoint_template.service",
+          "from": "representation:1:hcp_waypoint_application.api",
+          "to": "representation:1:hcp_waypoint_template.service",
+          "emission": "emission:fcdca62eafa047e5b64f2b4e31b5a1d08ad3470b5289217fd713952231941070"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_azure_peering_connection.applications%3Aemission%253Ac417ec2c0b87188d6547574169e628cc6a921f9fe3bd63f5bdb987e4c546dbf5:after",
+          "closure": "closure:representation%3A1%3Ahcp_azure_peering_connection.applications:emission%3Ac417ec2c0b87188d6547574169e628cc6a921f9fe3bd63f5bdb987e4c546dbf5",
+          "representation": "representation:1:hcp_azure_peering_connection.applications",
+          "emission": "emission:c417ec2c0b87188d6547574169e628cc6a921f9fe3bd63f5bdb987e4c546dbf5",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Ahcp_hvn_peering_connection.clouds%3Aemission%253Ae5fb4800364884952b5b9f336614d5b19aedce7252fd1a17635931110c3bfcc7:after",
+          "closure": "closure:representation%3A1%3Ahcp_hvn_peering_connection.clouds:emission%3Ae5fb4800364884952b5b9f336614d5b19aedce7252fd1a17635931110c3bfcc7",
+          "representation": "representation:1:hcp_hvn_peering_connection.clouds",
+          "emission": "emission:e5fb4800364884952b5b9f336614d5b19aedce7252fd1a17635931110c3bfcc7",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 66,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 79,
+        "facts_removed": 0,
+        "indeterminate": 2,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

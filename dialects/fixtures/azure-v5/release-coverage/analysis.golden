@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -3866,10 +3866,1024 @@
         "dependencies": 1,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.container-app-environment%3A0",
+          "change": "added",
+          "representation": "external:1:azure.concept.container-app-environment:0"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A0",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:0"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A1",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:1"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A10",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:10"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A11",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:11"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A12",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:12"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A13",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:13"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A14",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:14"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A15",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:15"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A16",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:16"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A17",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:17"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A2",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:2"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A3",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:3"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A4",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:4"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A5",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:5"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A6",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:6"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A7",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:7"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A8",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:8"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.resource-group%3A9",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:9"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.storage-account%3A0",
+          "change": "added",
+          "representation": "external:1:azure.concept.storage-account:0"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazapi_resource.enclave",
+          "change": "added",
+          "representation": "representation:1:azapi_resource.enclave"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazapi_resource.horizondb",
+          "change": "added",
+          "representation": "representation:1:azapi_resource.horizondb"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazapi_resource.sre",
+          "change": "added",
+          "representation": "representation:1:azapi_resource.sre"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazuread_group.identity",
+          "change": "added",
+          "representation": "representation:1:azuread_group.identity"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_ai_foundry.ai",
+          "change": "added",
+          "representation": "representation:1:azurerm_ai_foundry.ai"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_api_management.api",
+          "change": "added",
+          "representation": "representation:1:azurerm_api_management.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_arc_machine.hybrid",
+          "change": "added",
+          "representation": "representation:1:azurerm_arc_machine.hybrid"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cdn_frontdoor_profile.load_balancing",
+          "change": "added",
+          "representation": "representation:1:azurerm_cdn_frontdoor_profile.load_balancing"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_communication_service.communication",
+          "change": "added",
+          "representation": "representation:1:azurerm_communication_service.communication"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_container_app.containers",
+          "change": "added",
+          "representation": "representation:1:azurerm_container_app.containers"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_account.database",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_account.database"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_data_factory.analytics",
+          "change": "added",
+          "representation": "representation:1:azurerm_data_factory.analytics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_database_migration_service.migration",
+          "change": "added",
+          "representation": "representation:1:azurerm_database_migration_service.migration"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_dev_center.developer",
+          "change": "added",
+          "representation": "representation:1:azurerm_dev_center.developer"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_dns_zone.dns",
+          "change": "added",
+          "representation": "representation:1:azurerm_dns_zone.dns"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_iothub.iot",
+          "change": "added",
+          "representation": "representation:1:azurerm_iothub.iot"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_key_vault.security",
+          "change": "added",
+          "representation": "representation:1:azurerm_key_vault.security"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_linux_function_app.serverless",
+          "change": "added",
+          "representation": "representation:1:azurerm_linux_function_app.serverless"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_linux_virtual_machine.compute",
+          "change": "added",
+          "representation": "representation:1:azurerm_linux_virtual_machine.compute"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_management_group.governance",
+          "change": "added",
+          "representation": "representation:1:azurerm_management_group.governance"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_monitor_workspace.operations",
+          "change": "added",
+          "representation": "representation:1:azurerm_monitor_workspace.operations"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_nat_gateway.network",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway.network"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_service_plan.serverless",
+          "change": "added",
+          "representation": "representation:1:azurerm_service_plan.serverless"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_servicebus_namespace.messaging",
+          "change": "added",
+          "representation": "representation:1:azurerm_servicebus_namespace.messaging"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_container.storage",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.storage"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_ai_foundry.ai%3Aexternal%253A1%253Aazure.concept.resource-group%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_ai_foundry.ai:external%3A1%3Aazure.concept.resource-group%3A0",
+          "from": "representation:1:azurerm_ai_foundry.ai",
+          "to": "external:1:azure.concept.resource-group:0",
+          "emission": "emission:44cfd46a78286f3fd7ea7f8bb773825bce7b62ffa168ad636e8a07aa94e66a5a"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_api_management.api%3Aexternal%253A1%253Aazure.concept.resource-group%253A2",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_api_management.api:external%3A1%3Aazure.concept.resource-group%3A2",
+          "from": "representation:1:azurerm_api_management.api",
+          "to": "external:1:azure.concept.resource-group:2",
+          "emission": "emission:03d3edf5ecfd59ce80467521ca33dae6a1481d777ba962851a4390464ba524b1"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_arc_machine.hybrid%3Aexternal%253A1%253Aazure.concept.resource-group%253A9",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_arc_machine.hybrid:external%3A1%3Aazure.concept.resource-group%3A9",
+          "from": "representation:1:azurerm_arc_machine.hybrid",
+          "to": "external:1:azure.concept.resource-group:9",
+          "emission": "emission:72de1d0604942d910a6d45fc648091031fc3549b7ffdd8704750f3624416a7eb"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cdn_frontdoor_profile.load_balancing%3Aexternal%253A1%253Aazure.concept.resource-group%253A11",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cdn_frontdoor_profile.load_balancing:external%3A1%3Aazure.concept.resource-group%3A11",
+          "from": "representation:1:azurerm_cdn_frontdoor_profile.load_balancing",
+          "to": "external:1:azure.concept.resource-group:11",
+          "emission": "emission:93d1515a07ffde7bc732150342768312a5d690eef7d5e15245030e031eb6c5ad"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_communication_service.communication%3Aexternal%253A1%253Aazure.concept.resource-group%253A3",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_communication_service.communication:external%3A1%3Aazure.concept.resource-group%3A3",
+          "from": "representation:1:azurerm_communication_service.communication",
+          "to": "external:1:azure.concept.resource-group:3",
+          "emission": "emission:56511553da0f60c7fa3b2320014f7e44012a805b0d588d3c0ee23a724263de08"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_container_app.containers%3Aexternal%253A1%253Aazure.concept.resource-group%253A5",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_container_app.containers:external%3A1%3Aazure.concept.resource-group%3A5",
+          "from": "representation:1:azurerm_container_app.containers",
+          "to": "external:1:azure.concept.resource-group:5",
+          "emission": "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.database%3Aexternal%253A1%253Aazure.concept.resource-group%253A6",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_account.database:external%3A1%3Aazure.concept.resource-group%3A6",
+          "from": "representation:1:azurerm_cosmosdb_account.database",
+          "to": "external:1:azure.concept.resource-group:6",
+          "emission": "emission:34b1ec3f0421d6e042a7aa615449e2b28b4c81f214ac178f1b971aa2fc4f3276"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_data_factory.analytics%3Aexternal%253A1%253Aazure.concept.resource-group%253A1",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_data_factory.analytics:external%3A1%3Aazure.concept.resource-group%3A1",
+          "from": "representation:1:azurerm_data_factory.analytics",
+          "to": "external:1:azure.concept.resource-group:1",
+          "emission": "emission:87719ae889fbaac1c8125f8909ad6f1609f2e5012216e4c5c1412376dcaa3692"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_database_migration_service.migration%3Aexternal%253A1%253Aazure.concept.resource-group%253A13",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_database_migration_service.migration:external%3A1%3Aazure.concept.resource-group%3A13",
+          "from": "representation:1:azurerm_database_migration_service.migration",
+          "to": "external:1:azure.concept.resource-group:13",
+          "emission": "emission:472c72e178dab0bcfa0be4388169460ea80b1ea6e964a8697b2b9a1d905ac32d"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_dev_center.developer%3Aexternal%253A1%253Aazure.concept.resource-group%253A7",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_dev_center.developer:external%3A1%3Aazure.concept.resource-group%3A7",
+          "from": "representation:1:azurerm_dev_center.developer",
+          "to": "external:1:azure.concept.resource-group:7",
+          "emission": "emission:2d7c417ba79a5845f9826e8edb2306d79744c461b7fe1a66ea0be17ea6cc0489"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_dns_zone.dns%3Aexternal%253A1%253Aazure.concept.resource-group%253A8",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_dns_zone.dns:external%3A1%3Aazure.concept.resource-group%3A8",
+          "from": "representation:1:azurerm_dns_zone.dns",
+          "to": "external:1:azure.concept.resource-group:8",
+          "emission": "emission:abcdc008f3074e1d470a647b3443d13ef74bedc14d52eac3c1e02b265677da3c"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_iothub.iot%3Aexternal%253A1%253Aazure.concept.resource-group%253A10",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_iothub.iot:external%3A1%3Aazure.concept.resource-group%3A10",
+          "from": "representation:1:azurerm_iothub.iot",
+          "to": "external:1:azure.concept.resource-group:10",
+          "emission": "emission:7e1140c9dbc862c4aebc3958d904c0a7938ec87f6242448a04578b1eeb7635ff"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_key_vault.security%3Aexternal%253A1%253Aazure.concept.resource-group%253A16",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_key_vault.security:external%3A1%3Aazure.concept.resource-group%3A16",
+          "from": "representation:1:azurerm_key_vault.security",
+          "to": "external:1:azure.concept.resource-group:16",
+          "emission": "emission:1ef8dd6515f0e89029bb6a23336aae28cd2c3c8ee8cbde099e27ab25425a685c"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_linux_function_app.serverless%3Aexternal%253A1%253Aazure.concept.resource-group%253A17",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_linux_function_app.serverless:external%3A1%3Aazure.concept.resource-group%3A17",
+          "from": "representation:1:azurerm_linux_function_app.serverless",
+          "to": "external:1:azure.concept.resource-group:17",
+          "emission": "emission:b306f9f376662102a27f59fe5cdb0064ed21172a531589d62dfeaf475cdca95f"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_linux_virtual_machine.compute%3Aexternal%253A1%253Aazure.concept.resource-group%253A4",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_linux_virtual_machine.compute:external%3A1%3Aazure.concept.resource-group%3A4",
+          "from": "representation:1:azurerm_linux_virtual_machine.compute",
+          "to": "external:1:azure.concept.resource-group:4",
+          "emission": "emission:b8dc9955790e646412ba70ce5511283ef110066eb68f58dfb3a1f2b12775be55"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_monitor_workspace.operations%3Aexternal%253A1%253Aazure.concept.resource-group%253A15",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_monitor_workspace.operations:external%3A1%3Aazure.concept.resource-group%3A15",
+          "from": "representation:1:azurerm_monitor_workspace.operations",
+          "to": "external:1:azure.concept.resource-group:15",
+          "emission": "emission:cea80d1efb29620c28f20d2c828a67e8804a7ebec6a13635c6bc3da3a190c5b3"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_nat_gateway.network%3Aexternal%253A1%253Aazure.concept.resource-group%253A14",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_nat_gateway.network:external%3A1%3Aazure.concept.resource-group%3A14",
+          "from": "representation:1:azurerm_nat_gateway.network",
+          "to": "external:1:azure.concept.resource-group:14",
+          "emission": "emission:02e31a48d55db6c22b45a968bef5a15eb0fbf73f61d0694579c256c5ae331b48"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_service_plan.serverless%3Aexternal%253A1%253Aazure.concept.resource-group%253A17",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_service_plan.serverless:external%3A1%3Aazure.concept.resource-group%3A17",
+          "from": "representation:1:azurerm_service_plan.serverless",
+          "to": "external:1:azure.concept.resource-group:17",
+          "emission": "emission:0b33c143c58ef96eb12fa886780a93a4a40505789836c3428d2c93df63362be8"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_servicebus_namespace.messaging%3Aexternal%253A1%253Aazure.concept.resource-group%253A12",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_namespace.messaging:external%3A1%3Aazure.concept.resource-group%3A12",
+          "from": "representation:1:azurerm_servicebus_namespace.messaging",
+          "to": "external:1:azure.concept.resource-group:12",
+          "emission": "emission:db5dedb7ca056763ddb9f03bd25338a75f14384897751f082252edbec7909172"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_container.storage%3Aexternal%253A1%253Aazure.concept.storage-account%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_container.storage:external%3A1%3Aazure.concept.storage-account%3A0",
+          "from": "representation:1:azurerm_storage_container.storage",
+          "to": "external:1:azure.concept.storage-account:0",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aazurerm_container_app.containers%3Aexternal%253A1%253Aazure.concept.container-app-environment%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app.containers:external%3A1%3Aazure.concept.container-app-environment%3A0",
+          "from": "representation:1:azurerm_container_app.containers",
+          "to": "external:1:azure.concept.container-app-environment:0",
+          "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aazurerm_linux_function_app.serverless%3Arepresentation%253A1%253Aazurerm_service_plan.serverless",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aazurerm_linux_function_app.serverless:representation%3A1%3Aazurerm_service_plan.serverless",
+          "from": "representation:1:azurerm_linux_function_app.serverless",
+          "to": "representation:1:azurerm_service_plan.serverless",
+          "emission": "emission:6e7bd239987f77027c8d30cf80c99ce98b40fc7c9201d2f681e6cb1a6393dba0"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_linux_function_app.serverless%3Aemission%253A73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53:after",
+          "closure": "closure:representation%3A1%3Aazurerm_linux_function_app.serverless:emission%3A73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53",
+          "representation": "representation:1:azurerm_linux_function_app.serverless",
+          "emission": "emission:73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53",
+          "side": "after",
+          "reasons": [
+            "sensitive"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 45,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 22,
+        "facts_removed": 0,
+        "indeterminate": 1,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.container-app-environment%3A0",
+          "change": "added",
+          "representation": "external:1:azure.concept.container-app-environment:0"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A0",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:0"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A1",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:1"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A10",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:10"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A11",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:11"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A12",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:12"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A13",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:13"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A14",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:14"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A15",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:15"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A16",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:16"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A17",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:17"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A2",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:2"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A3",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:3"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A4",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:4"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A5",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:5"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A6",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:6"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A7",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:7"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A8",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:8"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.resource-group%3A9",
+          "change": "added",
+          "representation": "external:1:azure.concept.resource-group:9"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.storage-account%3A0",
+          "change": "added",
+          "representation": "external:1:azure.concept.storage-account:0"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazapi_resource.enclave",
+          "change": "added",
+          "representation": "representation:1:azapi_resource.enclave"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazapi_resource.horizondb",
+          "change": "added",
+          "representation": "representation:1:azapi_resource.horizondb"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazapi_resource.sre",
+          "change": "added",
+          "representation": "representation:1:azapi_resource.sre"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazuread_group.identity",
+          "change": "added",
+          "representation": "representation:1:azuread_group.identity"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_ai_foundry.ai",
+          "change": "added",
+          "representation": "representation:1:azurerm_ai_foundry.ai"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_api_management.api",
+          "change": "added",
+          "representation": "representation:1:azurerm_api_management.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_arc_machine.hybrid",
+          "change": "added",
+          "representation": "representation:1:azurerm_arc_machine.hybrid"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cdn_frontdoor_profile.load_balancing",
+          "change": "added",
+          "representation": "representation:1:azurerm_cdn_frontdoor_profile.load_balancing"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_communication_service.communication",
+          "change": "added",
+          "representation": "representation:1:azurerm_communication_service.communication"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_container_app.containers",
+          "change": "added",
+          "representation": "representation:1:azurerm_container_app.containers"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_account.database",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_account.database"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_data_factory.analytics",
+          "change": "added",
+          "representation": "representation:1:azurerm_data_factory.analytics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_database_migration_service.migration",
+          "change": "added",
+          "representation": "representation:1:azurerm_database_migration_service.migration"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_dev_center.developer",
+          "change": "added",
+          "representation": "representation:1:azurerm_dev_center.developer"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_dns_zone.dns",
+          "change": "added",
+          "representation": "representation:1:azurerm_dns_zone.dns"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_iothub.iot",
+          "change": "added",
+          "representation": "representation:1:azurerm_iothub.iot"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_key_vault.security",
+          "change": "added",
+          "representation": "representation:1:azurerm_key_vault.security"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_linux_function_app.serverless",
+          "change": "added",
+          "representation": "representation:1:azurerm_linux_function_app.serverless"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_linux_virtual_machine.compute",
+          "change": "added",
+          "representation": "representation:1:azurerm_linux_virtual_machine.compute"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_management_group.governance",
+          "change": "added",
+          "representation": "representation:1:azurerm_management_group.governance"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_monitor_workspace.operations",
+          "change": "added",
+          "representation": "representation:1:azurerm_monitor_workspace.operations"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_nat_gateway.network",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway.network"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_service_plan.serverless",
+          "change": "added",
+          "representation": "representation:1:azurerm_service_plan.serverless"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_servicebus_namespace.messaging",
+          "change": "added",
+          "representation": "representation:1:azurerm_servicebus_namespace.messaging"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_container.storage",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.storage"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_ai_foundry.ai%3Aexternal%253A1%253Aazure.concept.resource-group%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_ai_foundry.ai:external%3A1%3Aazure.concept.resource-group%3A0",
+          "from": "representation:1:azurerm_ai_foundry.ai",
+          "to": "external:1:azure.concept.resource-group:0",
+          "emission": "emission:44cfd46a78286f3fd7ea7f8bb773825bce7b62ffa168ad636e8a07aa94e66a5a"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_api_management.api%3Aexternal%253A1%253Aazure.concept.resource-group%253A2",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_api_management.api:external%3A1%3Aazure.concept.resource-group%3A2",
+          "from": "representation:1:azurerm_api_management.api",
+          "to": "external:1:azure.concept.resource-group:2",
+          "emission": "emission:03d3edf5ecfd59ce80467521ca33dae6a1481d777ba962851a4390464ba524b1"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_arc_machine.hybrid%3Aexternal%253A1%253Aazure.concept.resource-group%253A9",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_arc_machine.hybrid:external%3A1%3Aazure.concept.resource-group%3A9",
+          "from": "representation:1:azurerm_arc_machine.hybrid",
+          "to": "external:1:azure.concept.resource-group:9",
+          "emission": "emission:72de1d0604942d910a6d45fc648091031fc3549b7ffdd8704750f3624416a7eb"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cdn_frontdoor_profile.load_balancing%3Aexternal%253A1%253Aazure.concept.resource-group%253A11",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cdn_frontdoor_profile.load_balancing:external%3A1%3Aazure.concept.resource-group%3A11",
+          "from": "representation:1:azurerm_cdn_frontdoor_profile.load_balancing",
+          "to": "external:1:azure.concept.resource-group:11",
+          "emission": "emission:93d1515a07ffde7bc732150342768312a5d690eef7d5e15245030e031eb6c5ad"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_communication_service.communication%3Aexternal%253A1%253Aazure.concept.resource-group%253A3",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_communication_service.communication:external%3A1%3Aazure.concept.resource-group%3A3",
+          "from": "representation:1:azurerm_communication_service.communication",
+          "to": "external:1:azure.concept.resource-group:3",
+          "emission": "emission:56511553da0f60c7fa3b2320014f7e44012a805b0d588d3c0ee23a724263de08"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_container_app.containers%3Aexternal%253A1%253Aazure.concept.resource-group%253A5",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_container_app.containers:external%3A1%3Aazure.concept.resource-group%3A5",
+          "from": "representation:1:azurerm_container_app.containers",
+          "to": "external:1:azure.concept.resource-group:5",
+          "emission": "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.database%3Aexternal%253A1%253Aazure.concept.resource-group%253A6",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_account.database:external%3A1%3Aazure.concept.resource-group%3A6",
+          "from": "representation:1:azurerm_cosmosdb_account.database",
+          "to": "external:1:azure.concept.resource-group:6",
+          "emission": "emission:34b1ec3f0421d6e042a7aa615449e2b28b4c81f214ac178f1b971aa2fc4f3276"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_data_factory.analytics%3Aexternal%253A1%253Aazure.concept.resource-group%253A1",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_data_factory.analytics:external%3A1%3Aazure.concept.resource-group%3A1",
+          "from": "representation:1:azurerm_data_factory.analytics",
+          "to": "external:1:azure.concept.resource-group:1",
+          "emission": "emission:87719ae889fbaac1c8125f8909ad6f1609f2e5012216e4c5c1412376dcaa3692"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_database_migration_service.migration%3Aexternal%253A1%253Aazure.concept.resource-group%253A13",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_database_migration_service.migration:external%3A1%3Aazure.concept.resource-group%3A13",
+          "from": "representation:1:azurerm_database_migration_service.migration",
+          "to": "external:1:azure.concept.resource-group:13",
+          "emission": "emission:472c72e178dab0bcfa0be4388169460ea80b1ea6e964a8697b2b9a1d905ac32d"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_dev_center.developer%3Aexternal%253A1%253Aazure.concept.resource-group%253A7",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_dev_center.developer:external%3A1%3Aazure.concept.resource-group%3A7",
+          "from": "representation:1:azurerm_dev_center.developer",
+          "to": "external:1:azure.concept.resource-group:7",
+          "emission": "emission:2d7c417ba79a5845f9826e8edb2306d79744c461b7fe1a66ea0be17ea6cc0489"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_dns_zone.dns%3Aexternal%253A1%253Aazure.concept.resource-group%253A8",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_dns_zone.dns:external%3A1%3Aazure.concept.resource-group%3A8",
+          "from": "representation:1:azurerm_dns_zone.dns",
+          "to": "external:1:azure.concept.resource-group:8",
+          "emission": "emission:abcdc008f3074e1d470a647b3443d13ef74bedc14d52eac3c1e02b265677da3c"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_iothub.iot%3Aexternal%253A1%253Aazure.concept.resource-group%253A10",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_iothub.iot:external%3A1%3Aazure.concept.resource-group%3A10",
+          "from": "representation:1:azurerm_iothub.iot",
+          "to": "external:1:azure.concept.resource-group:10",
+          "emission": "emission:7e1140c9dbc862c4aebc3958d904c0a7938ec87f6242448a04578b1eeb7635ff"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_key_vault.security%3Aexternal%253A1%253Aazure.concept.resource-group%253A16",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_key_vault.security:external%3A1%3Aazure.concept.resource-group%3A16",
+          "from": "representation:1:azurerm_key_vault.security",
+          "to": "external:1:azure.concept.resource-group:16",
+          "emission": "emission:1ef8dd6515f0e89029bb6a23336aae28cd2c3c8ee8cbde099e27ab25425a685c"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_linux_function_app.serverless%3Aexternal%253A1%253Aazure.concept.resource-group%253A17",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_linux_function_app.serverless:external%3A1%3Aazure.concept.resource-group%3A17",
+          "from": "representation:1:azurerm_linux_function_app.serverless",
+          "to": "external:1:azure.concept.resource-group:17",
+          "emission": "emission:b306f9f376662102a27f59fe5cdb0064ed21172a531589d62dfeaf475cdca95f"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_linux_virtual_machine.compute%3Aexternal%253A1%253Aazure.concept.resource-group%253A4",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_linux_virtual_machine.compute:external%3A1%3Aazure.concept.resource-group%3A4",
+          "from": "representation:1:azurerm_linux_virtual_machine.compute",
+          "to": "external:1:azure.concept.resource-group:4",
+          "emission": "emission:b8dc9955790e646412ba70ce5511283ef110066eb68f58dfb3a1f2b12775be55"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_monitor_workspace.operations%3Aexternal%253A1%253Aazure.concept.resource-group%253A15",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_monitor_workspace.operations:external%3A1%3Aazure.concept.resource-group%3A15",
+          "from": "representation:1:azurerm_monitor_workspace.operations",
+          "to": "external:1:azure.concept.resource-group:15",
+          "emission": "emission:cea80d1efb29620c28f20d2c828a67e8804a7ebec6a13635c6bc3da3a190c5b3"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_nat_gateway.network%3Aexternal%253A1%253Aazure.concept.resource-group%253A14",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_nat_gateway.network:external%3A1%3Aazure.concept.resource-group%3A14",
+          "from": "representation:1:azurerm_nat_gateway.network",
+          "to": "external:1:azure.concept.resource-group:14",
+          "emission": "emission:02e31a48d55db6c22b45a968bef5a15eb0fbf73f61d0694579c256c5ae331b48"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_service_plan.serverless%3Aexternal%253A1%253Aazure.concept.resource-group%253A17",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_service_plan.serverless:external%3A1%3Aazure.concept.resource-group%3A17",
+          "from": "representation:1:azurerm_service_plan.serverless",
+          "to": "external:1:azure.concept.resource-group:17",
+          "emission": "emission:0b33c143c58ef96eb12fa886780a93a4a40505789836c3428d2c93df63362be8"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_servicebus_namespace.messaging%3Aexternal%253A1%253Aazure.concept.resource-group%253A12",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_servicebus_namespace.messaging:external%3A1%3Aazure.concept.resource-group%3A12",
+          "from": "representation:1:azurerm_servicebus_namespace.messaging",
+          "to": "external:1:azure.concept.resource-group:12",
+          "emission": "emission:db5dedb7ca056763ddb9f03bd25338a75f14384897751f082252edbec7909172"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_container.storage%3Aexternal%253A1%253Aazure.concept.storage-account%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_container.storage:external%3A1%3Aazure.concept.storage-account%3A0",
+          "from": "representation:1:azurerm_storage_container.storage",
+          "to": "external:1:azure.concept.storage-account:0",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aazurerm_container_app.containers%3Aexternal%253A1%253Aazure.concept.container-app-environment%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app.containers:external%3A1%3Aazure.concept.container-app-environment%3A0",
+          "from": "representation:1:azurerm_container_app.containers",
+          "to": "external:1:azure.concept.container-app-environment:0",
+          "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aazurerm_linux_function_app.serverless%3Arepresentation%253A1%253Aazurerm_service_plan.serverless",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aazurerm_linux_function_app.serverless:representation%3A1%3Aazurerm_service_plan.serverless",
+          "from": "representation:1:azurerm_linux_function_app.serverless",
+          "to": "representation:1:azurerm_service_plan.serverless",
+          "emission": "emission:6e7bd239987f77027c8d30cf80c99ce98b40fc7c9201d2f681e6cb1a6393dba0"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_linux_function_app.serverless%3Aemission%253A73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53:after",
+          "closure": "closure:representation%3A1%3Aazurerm_linux_function_app.serverless:emission%3A73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53",
+          "representation": "representation:1:azurerm_linux_function_app.serverless",
+          "emission": "emission:73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53",
+          "side": "after",
+          "reasons": [
+            "sensitive"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 45,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 22,
+        "facts_removed": 0,
+        "indeterminate": 1,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -6506,10 +6506,1492 @@
         "dependencies": 52,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "change": "added",
+          "representation": "external:1:google.concept.google-cloud-project:0"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Arf.concept.virtual-network%3A0",
+          "change": "added",
+          "representation": "external:1:rf.concept.virtual-network:0"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_iam_role.vault",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_kms_key.vault",
+          "change": "added",
+          "representation": "representation:1:aws_kms_key.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_s3_bucket.snapshots",
+          "change": "added",
+          "representation": "representation:1:aws_s3_bucket.snapshots"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_resource_group.vault",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_account.vault",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_account.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_container.snapshots",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.snapshots"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_user_assigned_identity.vault",
+          "change": "added",
+          "representation": "representation:1:azurerm_user_assigned_identity.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.vault_generic_secret.application",
+          "change": "added",
+          "representation": "representation:1:data.vault_generic_secret.application"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_container_cluster.security",
+          "change": "added",
+          "representation": "representation:1:google_container_cluster.security"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_kms_crypto_key.vault",
+          "change": "added",
+          "representation": "representation:1:google_kms_crypto_key.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_kms_key_ring.vault",
+          "change": "added",
+          "representation": "representation:1:google_kms_key_ring.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_service_account.vault",
+          "change": "added",
+          "representation": "representation:1:google_service_account.vault"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_storage_bucket.snapshots",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket.snapshots"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_agent_registration.workload",
+          "change": "added",
+          "representation": "representation:1:vault_agent_registration.workload"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_audit.security",
+          "change": "added",
+          "representation": "representation:1:vault_audit.security"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_auth_backend.kubernetes",
+          "change": "added",
+          "representation": "representation:1:vault_auth_backend.kubernetes"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_aws_secret_backend.aws",
+          "change": "added",
+          "representation": "representation:1:vault_aws_secret_backend.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_database_secret_backend_connection.postgres",
+          "change": "added",
+          "representation": "representation:1:vault_database_secret_backend_connection.postgres"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_gcp_secret_backend.google",
+          "change": "added",
+          "representation": "representation:1:vault_gcp_secret_backend.google"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_generic_secret.application",
+          "change": "added",
+          "representation": "representation:1:vault_generic_secret.application"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_identity_entity.application",
+          "change": "added",
+          "representation": "representation:1:vault_identity_entity.application"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_identity_group.platform",
+          "change": "added",
+          "representation": "representation:1:vault_identity_group.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_identity_oidc.provider",
+          "change": "added",
+          "representation": "representation:1:vault_identity_oidc.provider"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_identity_oidc_client.application",
+          "change": "added",
+          "representation": "representation:1:vault_identity_oidc_client.application"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_identity_oidc_key.signing",
+          "change": "added",
+          "representation": "representation:1:vault_identity_oidc_key.signing"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_identity_oidc_provider.provider",
+          "change": "added",
+          "representation": "representation:1:vault_identity_oidc_provider.provider"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_keymgmt_aws_kms.aws",
+          "change": "added",
+          "representation": "representation:1:vault_keymgmt_aws_kms.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_kubernetes_auth_backend_config.kubernetes",
+          "change": "added",
+          "representation": "representation:1:vault_kubernetes_auth_backend_config.kubernetes"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_kubernetes_auth_backend_role.applications",
+          "change": "added",
+          "representation": "representation:1:vault_kubernetes_auth_backend_role.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_kubernetes_secret_backend.kubernetes",
+          "change": "added",
+          "representation": "representation:1:vault_kubernetes_secret_backend.kubernetes"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_mount.database",
+          "change": "added",
+          "representation": "representation:1:vault_mount.database"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_namespace.platform",
+          "change": "added",
+          "representation": "representation:1:vault_namespace.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_namespace.security",
+          "change": "added",
+          "representation": "representation:1:vault_namespace.security"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_pki_secret_backend_issuer.root",
+          "change": "added",
+          "representation": "representation:1:vault_pki_secret_backend_issuer.root"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_pki_secret_backend_key.issuing",
+          "change": "added",
+          "representation": "representation:1:vault_pki_secret_backend_key.issuing"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_pki_secret_backend_root_cert.root",
+          "change": "added",
+          "representation": "representation:1:vault_pki_secret_backend_root_cert.root"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_plugin_runtime.external",
+          "change": "added",
+          "representation": "representation:1:vault_plugin_runtime.external"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_raft_snapshot_agent_config.continuity",
+          "change": "added",
+          "representation": "representation:1:vault_raft_snapshot_agent_config.continuity"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_secrets_sync_association.aws",
+          "change": "added",
+          "representation": "representation:1:vault_secrets_sync_association.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_secrets_sync_aws_destination.aws",
+          "change": "added",
+          "representation": "representation:1:vault_secrets_sync_aws_destination.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_secrets_sync_azure_destination.azure",
+          "change": "added",
+          "representation": "representation:1:vault_secrets_sync_azure_destination.azure"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_secrets_sync_gcp_destination.google",
+          "change": "added",
+          "representation": "representation:1:vault_secrets_sync_gcp_destination.google"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Avault_transit_secret_backend_key.application",
+          "change": "added",
+          "representation": "representation:1:vault_transit_secret_backend_key.application"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_account.vault%3Arepresentation%253A1%253Aazurerm_resource_group.vault",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_account.vault:representation%3A1%3Aazurerm_resource_group.vault",
+          "from": "representation:1:azurerm_storage_account.vault",
+          "to": "representation:1:azurerm_resource_group.vault",
+          "emission": "emission:91a6a614eb16cf82c8071716a62770984ddce7f2e98eb249d1da6a99a30f44a0"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_container.snapshots%3Arepresentation%253A1%253Aazurerm_storage_account.vault",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_container.snapshots:representation%3A1%3Aazurerm_storage_account.vault",
+          "from": "representation:1:azurerm_storage_container.snapshots",
+          "to": "representation:1:azurerm_storage_account.vault",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_user_assigned_identity.vault%3Arepresentation%253A1%253Aazurerm_resource_group.vault",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_user_assigned_identity.vault:representation%3A1%3Aazurerm_resource_group.vault",
+          "from": "representation:1:azurerm_user_assigned_identity.vault",
+          "to": "representation:1:azurerm_resource_group.vault",
+          "emission": "emission:923d1d94d8ed79c8912234b7a26d97cbffdd8380d1cfac1d04eb1a04b8fc63e3"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_kms_crypto_key.vault%3Arepresentation%253A1%253Agoogle_kms_key_ring.vault",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_kms_crypto_key.vault:representation%3A1%3Agoogle_kms_key_ring.vault",
+          "from": "representation:1:google_kms_crypto_key.vault",
+          "to": "representation:1:google_kms_key_ring.vault",
+          "emission": "emission:1af47dcebdfe63a53b357f7319dfe974e5714985e67669c24ec4ede166bac07a"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_service_account.vault%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.vault:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_service_account.vault",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Agoogle_container_cluster.security%3Aexternal%253A1%253Arf.concept.virtual-network%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Agoogle_container_cluster.security:external%3A1%3Arf.concept.virtual-network%3A0",
+          "from": "representation:1:google_container_cluster.security",
+          "to": "external:1:rf.concept.virtual-network:0",
+          "emission": "emission:552a171f440dd93ac4c8fc31518ee40325c4cf77b51644c6c8f71b8b27a90df2"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_agent_registration.workload%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_agent_registration.workload:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_agent_registration.workload",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:95781e30c47e703c68c281eb5fe024fef719e4643fc20270557c31088822a458"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_audit.security%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_audit.security:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_audit.security",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:0394ab7f9b86e641d84f9c726503930368d63cc5a60cf6dd39e8fe268838ad80"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_auth_backend.kubernetes%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_auth_backend.kubernetes:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_auth_backend.kubernetes",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:e4cb3f0ea8c92b6ddbdad7ec36e04e51a8436d6f56d460a7b534384dae9ae9b8"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_aws_secret_backend.aws%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_aws_secret_backend.aws:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_aws_secret_backend.aws",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:7a39627c23bfb725d3f54297e7a66e9714038b6af98ca142c395955f94579aaf"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_gcp_secret_backend.google%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_gcp_secret_backend.google:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_gcp_secret_backend.google",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:2320cdbc641b97389063300568b719f440938bb2f8ba3de50c3147da0e9c549f"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_identity_entity.application%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_identity_entity.application:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_identity_entity.application",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:4d0e6b5b6321b60de7942e3e0b9e7c7666e563c03e2e10b59eaf2dfb71cf3647"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_identity_group.platform%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_identity_group.platform:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_identity_group.platform",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:dc9283e8404435d8a69f81e280d8586372289db0013ddf54c91b6299587988f0"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_identity_oidc_client.application%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_identity_oidc_client.application:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_identity_oidc_client.application",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:7a5a107ce38e7b0fc733eef237df42daa34cba8326a13e85751d5c17ad8b36c7"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_identity_oidc_key.signing%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_identity_oidc_key.signing:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_identity_oidc_key.signing",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:0255e71b62c9d7c093bc08590b3e6f56f421dbe8af63aa365d6fb952adb2a33d"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_identity_oidc_provider.provider%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_identity_oidc_provider.provider:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_identity_oidc_provider.provider",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:e172988861e526803dde33551cc9901f6a24d73d899d6a742dd2572a6da0867c"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_keymgmt_aws_kms.aws%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_keymgmt_aws_kms.aws:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_keymgmt_aws_kms.aws",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:277cb6df11a69dead023645279c90bf50778ffa7123c26e1b79330571cac8bb7"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_kubernetes_auth_backend_config.kubernetes%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_kubernetes_auth_backend_config.kubernetes:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_kubernetes_auth_backend_config.kubernetes",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:7ee11da79f16cb8096adb12468be5ce791dc1464982d78f44dd18de556139055"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_kubernetes_secret_backend.kubernetes%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_kubernetes_secret_backend.kubernetes:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_kubernetes_secret_backend.kubernetes",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:783e097b838012af1ba2187127567e1347c124652166f6edde5522d32b1c50c8"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_mount.database%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_mount.database:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_mount.database",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:3824b1be9f205800c7f6d772ea1663819ba3531861d57cb71af303dcd753c511"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_namespace.security%3Arepresentation%253A1%253Avault_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_namespace.security:representation%3A1%3Avault_namespace.platform",
+          "from": "representation:1:vault_namespace.security",
+          "to": "representation:1:vault_namespace.platform",
+          "emission": "emission:0c28aac49f09d700b17a597318da44e8d5218b45b48dfc03832c4b5b330f4829"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_pki_secret_backend_issuer.root%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_pki_secret_backend_issuer.root:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_pki_secret_backend_issuer.root",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:1049e3845fb795be2afece467692b926f1775e4ecd685e7f99e3b576e1f00ec9"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_pki_secret_backend_key.issuing%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_pki_secret_backend_key.issuing:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_pki_secret_backend_key.issuing",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:c666e8dd30a14b77b65aab694849012ba2cb943c8f6c6ed27a2ba92fc872a3a9"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_pki_secret_backend_root_cert.root%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_pki_secret_backend_root_cert.root:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_pki_secret_backend_root_cert.root",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:476ec2111cdb8659482ab8ff716a0bed950e1a3852e7dbe8bccc0947649c3f6a"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_plugin_runtime.external%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_plugin_runtime.external:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_plugin_runtime.external",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:bf2759f80b7a80c53e4a79c2c833c9a61ad8af576b9cbe88f0a56b352683bdf5"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_raft_snapshot_agent_config.continuity%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_raft_snapshot_agent_config.continuity:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_raft_snapshot_agent_config.continuity",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:1d24b7a3d81e6f9e6c7ac362db65caf520c9b13e7cba5246da75fbb830cbaa68"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_secrets_sync_aws_destination.aws%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_secrets_sync_aws_destination.aws:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_secrets_sync_aws_destination.aws",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:193160478a7cfac3b55d5c3d069186412a52df617f93358a70b3e2d39b857463"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_secrets_sync_azure_destination.azure%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_secrets_sync_azure_destination.azure:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_secrets_sync_azure_destination.azure",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:c642f7f5bad793a2abb0abbea7435c1d10e0100f296d981193bb31a46546fddf"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_secrets_sync_gcp_destination.google%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_secrets_sync_gcp_destination.google:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_secrets_sync_gcp_destination.google",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:b447e28b0dac8606be237565087317b73bbb5a15b84b361185fbb81df7c12c57"
+        },
+        {
+          "id": "change:changes:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_transit_secret_backend_key.application%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_transit_secret_backend_key.application:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_transit_secret_backend_key.application",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:bb49c699ccb1272674400502ed8c1fc61e33bcb18005d45a3b41d3597a3f5ea5"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Avault_database_secret_backend_connection.postgres%3Arepresentation%253A1%253Avault_mount.database",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Avault_database_secret_backend_connection.postgres:representation%3A1%3Avault_mount.database",
+          "from": "representation:1:vault_database_secret_backend_connection.postgres",
+          "to": "representation:1:vault_mount.database",
+          "emission": "emission:310fb826ba9ad9a9f2a45e35151ce63d7a700740d723a932417a5650bc5f5886"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Avault_kubernetes_auth_backend_role.applications%3Arepresentation%253A1%253Avault_auth_backend.kubernetes",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Avault_kubernetes_auth_backend_role.applications:representation%3A1%3Avault_auth_backend.kubernetes",
+          "from": "representation:1:vault_kubernetes_auth_backend_role.applications",
+          "to": "representation:1:vault_auth_backend.kubernetes",
+          "emission": "emission:cf815d9f3cf6416171568c06a0b09157fef986ead7279fa39c4422218317dfb3"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Avault_secrets_sync_association.aws%3Arepresentation%253A1%253Avault_secrets_sync_aws_destination.aws",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Avault_secrets_sync_association.aws:representation%3A1%3Avault_secrets_sync_aws_destination.aws",
+          "from": "representation:1:vault_secrets_sync_association.aws",
+          "to": "representation:1:vault_secrets_sync_aws_destination.aws",
+          "emission": "emission:3c8475eccee2685ce0c9c7fb5fb3430c3c679ca0ddb7d9b60b19550fc5c61464"
+        },
+        {
+          "id": "change:changes:added:relation%3Avault.relation.authenticates-kubernetes-cluster%3Arepresentation%253A1%253Avault_kubernetes_auth_backend_config.kubernetes%3Arepresentation%253A1%253Agoogle_container_cluster.security",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.authenticates-kubernetes-cluster:representation%3A1%3Avault_kubernetes_auth_backend_config.kubernetes:representation%3A1%3Agoogle_container_cluster.security",
+          "from": "representation:1:vault_kubernetes_auth_backend_config.kubernetes",
+          "to": "representation:1:google_container_cluster.security",
+          "emission": "emission:f0e3ce48b3cdfa038a787bd6600eef7149a2ecb42e622a625b0b1eeb627b0468"
+        },
+        {
+          "id": "change:changes:added:relation%3Avault.relation.configures-auth-method%3Arepresentation%253A1%253Avault_kubernetes_auth_backend_config.kubernetes%3Arepresentation%253A1%253Avault_auth_backend.kubernetes",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.configures-auth-method:representation%3A1%3Avault_kubernetes_auth_backend_config.kubernetes:representation%3A1%3Avault_auth_backend.kubernetes",
+          "from": "representation:1:vault_kubernetes_auth_backend_config.kubernetes",
+          "to": "representation:1:vault_auth_backend.kubernetes",
+          "emission": "emission:38e568cf62441ce219ec7c834e2c085838e9200d46f0994912df94ddfa948b11"
+        },
+        {
+          "id": "change:changes:added:relation%3Avault.relation.issues-kubernetes-credentials-for%3Arepresentation%253A1%253Avault_kubernetes_secret_backend.kubernetes%3Arepresentation%253A1%253Agoogle_container_cluster.security",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.issues-kubernetes-credentials-for:representation%3A1%3Avault_kubernetes_secret_backend.kubernetes:representation%3A1%3Agoogle_container_cluster.security",
+          "from": "representation:1:vault_kubernetes_secret_backend.kubernetes",
+          "to": "representation:1:google_container_cluster.security",
+          "emission": "emission:5d9cf16e11342badbee3d1257f7ee856dd33487a1b434ba59558fed2a21b638f"
+        },
+        {
+          "id": "change:changes:added:relation%3Avault.relation.stores-snapshots-in%3Arepresentation%253A1%253Avault_raft_snapshot_agent_config.continuity%3Arepresentation%253A1%253Aaws_s3_bucket.snapshots",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.stores-snapshots-in:representation%3A1%3Avault_raft_snapshot_agent_config.continuity:representation%3A1%3Aaws_s3_bucket.snapshots",
+          "from": "representation:1:vault_raft_snapshot_agent_config.continuity",
+          "to": "representation:1:aws_s3_bucket.snapshots",
+          "emission": "emission:9dc1da47ac8d724994a01a5d48f1a54cde9d5bcbbf06ad0b2cd405abd26eed01"
+        },
+        {
+          "id": "change:changes:added:relation%3Avault.relation.stores-snapshots-in%3Arepresentation%253A1%253Avault_raft_snapshot_agent_config.continuity%3Arepresentation%253A1%253Aazurerm_storage_container.snapshots",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.stores-snapshots-in:representation%3A1%3Avault_raft_snapshot_agent_config.continuity:representation%3A1%3Aazurerm_storage_container.snapshots",
+          "from": "representation:1:vault_raft_snapshot_agent_config.continuity",
+          "to": "representation:1:azurerm_storage_container.snapshots",
+          "emission": "emission:4cd5cb7ab679cefca3bf906e260753c3fd023265032d3a8c8d1718805327ad4c"
+        },
+        {
+          "id": "change:changes:added:relation%3Avault.relation.stores-snapshots-in%3Arepresentation%253A1%253Avault_raft_snapshot_agent_config.continuity%3Arepresentation%253A1%253Agoogle_storage_bucket.snapshots",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.stores-snapshots-in:representation%3A1%3Avault_raft_snapshot_agent_config.continuity:representation%3A1%3Agoogle_storage_bucket.snapshots",
+          "from": "representation:1:vault_raft_snapshot_agent_config.continuity",
+          "to": "representation:1:google_storage_bucket.snapshots",
+          "emission": "emission:9eb2c1c24115ed438cd425d0b3cafe98067d219707846e7819ffc2370a8c92f4"
+        },
+        {
+          "id": "change:changes:added:relation%3Avault.relation.uses-cloud-identity%3Arepresentation%253A1%253Avault_gcp_secret_backend.google%3Arepresentation%253A1%253Agoogle_service_account.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.uses-cloud-identity:representation%3A1%3Avault_gcp_secret_backend.google:representation%3A1%3Agoogle_service_account.vault",
+          "from": "representation:1:vault_gcp_secret_backend.google",
+          "to": "representation:1:google_service_account.vault",
+          "emission": "emission:69b38079bb2159c3ba06419fe9717a5fdbd258f3cb2fa64fa224ae4981394e9f"
+        },
+        {
+          "id": "change:changes:added:relation%3Avault.relation.uses-cloud-identity%3Arepresentation%253A1%253Avault_secrets_sync_azure_destination.azure%3Arepresentation%253A1%253Aazurerm_user_assigned_identity.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.uses-cloud-identity:representation%3A1%3Avault_secrets_sync_azure_destination.azure:representation%3A1%3Aazurerm_user_assigned_identity.vault",
+          "from": "representation:1:vault_secrets_sync_azure_destination.azure",
+          "to": "representation:1:azurerm_user_assigned_identity.vault",
+          "emission": "emission:380144d1c473ee025b945f400caf88c01ecaa08be59a213b925b6569f6f6b0b5"
+        },
+        {
+          "id": "change:changes:added:relation%3Avault.relation.uses-cloud-identity%3Arepresentation%253A1%253Avault_secrets_sync_gcp_destination.google%3Arepresentation%253A1%253Agoogle_service_account.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.uses-cloud-identity:representation%3A1%3Avault_secrets_sync_gcp_destination.google:representation%3A1%3Agoogle_service_account.vault",
+          "from": "representation:1:vault_secrets_sync_gcp_destination.google",
+          "to": "representation:1:google_service_account.vault",
+          "emission": "emission:aee28e4061a558ed4d3107724278fe7dc2b3923a0e0a401d64321b02bfd0ae93"
+        },
+        {
+          "id": "change:changes:added:relation%3Avault.relation.uses-signing-key%3Arepresentation%253A1%253Avault_identity_oidc_client.application%3Arepresentation%253A1%253Avault_identity_oidc_key.signing",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.uses-signing-key:representation%3A1%3Avault_identity_oidc_client.application:representation%3A1%3Avault_identity_oidc_key.signing",
+          "from": "representation:1:vault_identity_oidc_client.application",
+          "to": "representation:1:vault_identity_oidc_key.signing",
+          "emission": "emission:bf14b122a1b15651f8bfcf4e44d5da775b439ecbecddf4db751af16a68d539aa"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Agoogle_container_cluster.security%3Aemission%253A9e86255b784b910b6003d5f0acc71b6741584ce8955e9720a169a21fcb712d8e:after",
+          "closure": "closure:representation%3A1%3Agoogle_container_cluster.security:emission%3A9e86255b784b910b6003d5f0acc71b6741584ce8955e9720a169a21fcb712d8e",
+          "representation": "representation:1:google_container_cluster.security",
+          "emission": "emission:9e86255b784b910b6003d5f0acc71b6741584ce8955e9720a169a21fcb712d8e",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Agoogle_container_cluster.security%3Aemission%253Ae53a69ab20cfc913c3aa2b7f437eb72b3d4c09c353b09e09d3d797ab0f4cc641:after",
+          "closure": "closure:representation%3A1%3Agoogle_container_cluster.security:emission%3Ae53a69ab20cfc913c3aa2b7f437eb72b3d4c09c353b09e09d3d797ab0f4cc641",
+          "representation": "representation:1:google_container_cluster.security",
+          "emission": "emission:e53a69ab20cfc913c3aa2b7f437eb72b3d4c09c353b09e09d3d797ab0f4cc641",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Avault_raft_snapshot_agent_config.continuity%3Aemission%253Ad632f7e588c8ce49124d71e283c29a47b061ced9bbedd29b84ef93ed9149a93f:after",
+          "closure": "closure:representation%3A1%3Avault_raft_snapshot_agent_config.continuity:emission%3Ad632f7e588c8ce49124d71e283c29a47b061ced9bbedd29b84ef93ed9149a93f",
+          "representation": "representation:1:vault_raft_snapshot_agent_config.continuity",
+          "emission": "emission:d632f7e588c8ce49124d71e283c29a47b061ced9bbedd29b84ef93ed9149a93f",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Avault_secrets_sync_aws_destination.aws%3Aemission%253A89aa354bdf8a3b196aba384d9b6818c1b8fe501cf056b880502144ef73d7c00d:after",
+          "closure": "closure:representation%3A1%3Avault_secrets_sync_aws_destination.aws:emission%3A89aa354bdf8a3b196aba384d9b6818c1b8fe501cf056b880502144ef73d7c00d",
+          "representation": "representation:1:vault_secrets_sync_aws_destination.aws",
+          "emission": "emission:89aa354bdf8a3b196aba384d9b6818c1b8fe501cf056b880502144ef73d7c00d",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Avault_secrets_sync_gcp_destination.google%3Aemission%253A4496e246519b9c4b23bf592276e250f692c8c165f0f83bca30b4093def5ccd94:after",
+          "closure": "closure:representation%3A1%3Avault_secrets_sync_gcp_destination.google:emission%3A4496e246519b9c4b23bf592276e250f692c8c165f0f83bca30b4093def5ccd94",
+          "representation": "representation:1:vault_secrets_sync_gcp_destination.google",
+          "emission": "emission:4496e246519b9c4b23bf592276e250f692c8c165f0f83bca30b4093def5ccd94",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 46,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 43,
+        "facts_removed": 0,
+        "indeterminate": 5,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "change": "added",
+          "representation": "external:1:google.concept.google-cloud-project:0"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Arf.concept.virtual-network%3A0",
+          "change": "added",
+          "representation": "external:1:rf.concept.virtual-network:0"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_iam_role.vault",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_kms_key.vault",
+          "change": "added",
+          "representation": "representation:1:aws_kms_key.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_s3_bucket.snapshots",
+          "change": "added",
+          "representation": "representation:1:aws_s3_bucket.snapshots"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_resource_group.vault",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_account.vault",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_account.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_container.snapshots",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.snapshots"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_user_assigned_identity.vault",
+          "change": "added",
+          "representation": "representation:1:azurerm_user_assigned_identity.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.vault_generic_secret.application",
+          "change": "added",
+          "representation": "representation:1:data.vault_generic_secret.application"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_container_cluster.security",
+          "change": "added",
+          "representation": "representation:1:google_container_cluster.security"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_kms_crypto_key.vault",
+          "change": "added",
+          "representation": "representation:1:google_kms_crypto_key.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_kms_key_ring.vault",
+          "change": "added",
+          "representation": "representation:1:google_kms_key_ring.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_service_account.vault",
+          "change": "added",
+          "representation": "representation:1:google_service_account.vault"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_storage_bucket.snapshots",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket.snapshots"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_agent_registration.workload",
+          "change": "added",
+          "representation": "representation:1:vault_agent_registration.workload"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_audit.security",
+          "change": "added",
+          "representation": "representation:1:vault_audit.security"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_auth_backend.kubernetes",
+          "change": "added",
+          "representation": "representation:1:vault_auth_backend.kubernetes"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_aws_secret_backend.aws",
+          "change": "added",
+          "representation": "representation:1:vault_aws_secret_backend.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_database_secret_backend_connection.postgres",
+          "change": "added",
+          "representation": "representation:1:vault_database_secret_backend_connection.postgres"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_gcp_secret_backend.google",
+          "change": "added",
+          "representation": "representation:1:vault_gcp_secret_backend.google"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_generic_secret.application",
+          "change": "added",
+          "representation": "representation:1:vault_generic_secret.application"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_identity_entity.application",
+          "change": "added",
+          "representation": "representation:1:vault_identity_entity.application"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_identity_group.platform",
+          "change": "added",
+          "representation": "representation:1:vault_identity_group.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_identity_oidc.provider",
+          "change": "added",
+          "representation": "representation:1:vault_identity_oidc.provider"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_identity_oidc_client.application",
+          "change": "added",
+          "representation": "representation:1:vault_identity_oidc_client.application"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_identity_oidc_key.signing",
+          "change": "added",
+          "representation": "representation:1:vault_identity_oidc_key.signing"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_identity_oidc_provider.provider",
+          "change": "added",
+          "representation": "representation:1:vault_identity_oidc_provider.provider"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_keymgmt_aws_kms.aws",
+          "change": "added",
+          "representation": "representation:1:vault_keymgmt_aws_kms.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_kubernetes_auth_backend_config.kubernetes",
+          "change": "added",
+          "representation": "representation:1:vault_kubernetes_auth_backend_config.kubernetes"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_kubernetes_auth_backend_role.applications",
+          "change": "added",
+          "representation": "representation:1:vault_kubernetes_auth_backend_role.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_kubernetes_secret_backend.kubernetes",
+          "change": "added",
+          "representation": "representation:1:vault_kubernetes_secret_backend.kubernetes"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_mount.database",
+          "change": "added",
+          "representation": "representation:1:vault_mount.database"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_namespace.platform",
+          "change": "added",
+          "representation": "representation:1:vault_namespace.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_namespace.security",
+          "change": "added",
+          "representation": "representation:1:vault_namespace.security"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_pki_secret_backend_issuer.root",
+          "change": "added",
+          "representation": "representation:1:vault_pki_secret_backend_issuer.root"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_pki_secret_backend_key.issuing",
+          "change": "added",
+          "representation": "representation:1:vault_pki_secret_backend_key.issuing"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_pki_secret_backend_root_cert.root",
+          "change": "added",
+          "representation": "representation:1:vault_pki_secret_backend_root_cert.root"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_plugin_runtime.external",
+          "change": "added",
+          "representation": "representation:1:vault_plugin_runtime.external"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_raft_snapshot_agent_config.continuity",
+          "change": "added",
+          "representation": "representation:1:vault_raft_snapshot_agent_config.continuity"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_secrets_sync_association.aws",
+          "change": "added",
+          "representation": "representation:1:vault_secrets_sync_association.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_secrets_sync_aws_destination.aws",
+          "change": "added",
+          "representation": "representation:1:vault_secrets_sync_aws_destination.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_secrets_sync_azure_destination.azure",
+          "change": "added",
+          "representation": "representation:1:vault_secrets_sync_azure_destination.azure"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_secrets_sync_gcp_destination.google",
+          "change": "added",
+          "representation": "representation:1:vault_secrets_sync_gcp_destination.google"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Avault_transit_secret_backend_key.application",
+          "change": "added",
+          "representation": "representation:1:vault_transit_secret_backend_key.application"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_account.vault%3Arepresentation%253A1%253Aazurerm_resource_group.vault",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_account.vault:representation%3A1%3Aazurerm_resource_group.vault",
+          "from": "representation:1:azurerm_storage_account.vault",
+          "to": "representation:1:azurerm_resource_group.vault",
+          "emission": "emission:91a6a614eb16cf82c8071716a62770984ddce7f2e98eb249d1da6a99a30f44a0"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_container.snapshots%3Arepresentation%253A1%253Aazurerm_storage_account.vault",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_container.snapshots:representation%3A1%3Aazurerm_storage_account.vault",
+          "from": "representation:1:azurerm_storage_container.snapshots",
+          "to": "representation:1:azurerm_storage_account.vault",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_user_assigned_identity.vault%3Arepresentation%253A1%253Aazurerm_resource_group.vault",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_user_assigned_identity.vault:representation%3A1%3Aazurerm_resource_group.vault",
+          "from": "representation:1:azurerm_user_assigned_identity.vault",
+          "to": "representation:1:azurerm_resource_group.vault",
+          "emission": "emission:923d1d94d8ed79c8912234b7a26d97cbffdd8380d1cfac1d04eb1a04b8fc63e3"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_kms_crypto_key.vault%3Arepresentation%253A1%253Agoogle_kms_key_ring.vault",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_kms_crypto_key.vault:representation%3A1%3Agoogle_kms_key_ring.vault",
+          "from": "representation:1:google_kms_crypto_key.vault",
+          "to": "representation:1:google_kms_key_ring.vault",
+          "emission": "emission:1af47dcebdfe63a53b357f7319dfe974e5714985e67669c24ec4ede166bac07a"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_service_account.vault%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.vault:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_service_account.vault",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Agoogle_container_cluster.security%3Aexternal%253A1%253Arf.concept.virtual-network%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Agoogle_container_cluster.security:external%3A1%3Arf.concept.virtual-network%3A0",
+          "from": "representation:1:google_container_cluster.security",
+          "to": "external:1:rf.concept.virtual-network:0",
+          "emission": "emission:552a171f440dd93ac4c8fc31518ee40325c4cf77b51644c6c8f71b8b27a90df2"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_agent_registration.workload%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_agent_registration.workload:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_agent_registration.workload",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:95781e30c47e703c68c281eb5fe024fef719e4643fc20270557c31088822a458"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_audit.security%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_audit.security:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_audit.security",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:0394ab7f9b86e641d84f9c726503930368d63cc5a60cf6dd39e8fe268838ad80"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_auth_backend.kubernetes%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_auth_backend.kubernetes:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_auth_backend.kubernetes",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:e4cb3f0ea8c92b6ddbdad7ec36e04e51a8436d6f56d460a7b534384dae9ae9b8"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_aws_secret_backend.aws%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_aws_secret_backend.aws:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_aws_secret_backend.aws",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:7a39627c23bfb725d3f54297e7a66e9714038b6af98ca142c395955f94579aaf"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_gcp_secret_backend.google%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_gcp_secret_backend.google:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_gcp_secret_backend.google",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:2320cdbc641b97389063300568b719f440938bb2f8ba3de50c3147da0e9c549f"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_identity_entity.application%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_identity_entity.application:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_identity_entity.application",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:4d0e6b5b6321b60de7942e3e0b9e7c7666e563c03e2e10b59eaf2dfb71cf3647"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_identity_group.platform%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_identity_group.platform:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_identity_group.platform",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:dc9283e8404435d8a69f81e280d8586372289db0013ddf54c91b6299587988f0"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_identity_oidc_client.application%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_identity_oidc_client.application:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_identity_oidc_client.application",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:7a5a107ce38e7b0fc733eef237df42daa34cba8326a13e85751d5c17ad8b36c7"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_identity_oidc_key.signing%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_identity_oidc_key.signing:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_identity_oidc_key.signing",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:0255e71b62c9d7c093bc08590b3e6f56f421dbe8af63aa365d6fb952adb2a33d"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_identity_oidc_provider.provider%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_identity_oidc_provider.provider:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_identity_oidc_provider.provider",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:e172988861e526803dde33551cc9901f6a24d73d899d6a742dd2572a6da0867c"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_keymgmt_aws_kms.aws%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_keymgmt_aws_kms.aws:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_keymgmt_aws_kms.aws",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:277cb6df11a69dead023645279c90bf50778ffa7123c26e1b79330571cac8bb7"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_kubernetes_auth_backend_config.kubernetes%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_kubernetes_auth_backend_config.kubernetes:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_kubernetes_auth_backend_config.kubernetes",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:7ee11da79f16cb8096adb12468be5ce791dc1464982d78f44dd18de556139055"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_kubernetes_secret_backend.kubernetes%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_kubernetes_secret_backend.kubernetes:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_kubernetes_secret_backend.kubernetes",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:783e097b838012af1ba2187127567e1347c124652166f6edde5522d32b1c50c8"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_mount.database%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_mount.database:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_mount.database",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:3824b1be9f205800c7f6d772ea1663819ba3531861d57cb71af303dcd753c511"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_namespace.security%3Arepresentation%253A1%253Avault_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_namespace.security:representation%3A1%3Avault_namespace.platform",
+          "from": "representation:1:vault_namespace.security",
+          "to": "representation:1:vault_namespace.platform",
+          "emission": "emission:0c28aac49f09d700b17a597318da44e8d5218b45b48dfc03832c4b5b330f4829"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_pki_secret_backend_issuer.root%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_pki_secret_backend_issuer.root:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_pki_secret_backend_issuer.root",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:1049e3845fb795be2afece467692b926f1775e4ecd685e7f99e3b576e1f00ec9"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_pki_secret_backend_key.issuing%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_pki_secret_backend_key.issuing:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_pki_secret_backend_key.issuing",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:c666e8dd30a14b77b65aab694849012ba2cb943c8f6c6ed27a2ba92fc872a3a9"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_pki_secret_backend_root_cert.root%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_pki_secret_backend_root_cert.root:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_pki_secret_backend_root_cert.root",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:476ec2111cdb8659482ab8ff716a0bed950e1a3852e7dbe8bccc0947649c3f6a"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_plugin_runtime.external%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_plugin_runtime.external:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_plugin_runtime.external",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:bf2759f80b7a80c53e4a79c2c833c9a61ad8af576b9cbe88f0a56b352683bdf5"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_raft_snapshot_agent_config.continuity%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_raft_snapshot_agent_config.continuity:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_raft_snapshot_agent_config.continuity",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:1d24b7a3d81e6f9e6c7ac362db65caf520c9b13e7cba5246da75fbb830cbaa68"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_secrets_sync_aws_destination.aws%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_secrets_sync_aws_destination.aws:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_secrets_sync_aws_destination.aws",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:193160478a7cfac3b55d5c3d069186412a52df617f93358a70b3e2d39b857463"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_secrets_sync_azure_destination.azure%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_secrets_sync_azure_destination.azure:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_secrets_sync_azure_destination.azure",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:c642f7f5bad793a2abb0abbea7435c1d10e0100f296d981193bb31a46546fddf"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_secrets_sync_gcp_destination.google%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_secrets_sync_gcp_destination.google:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_secrets_sync_gcp_destination.google",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:b447e28b0dac8606be237565087317b73bbb5a15b84b361185fbb81df7c12c57"
+        },
+        {
+          "id": "change:net:added:context%3Avault.context.ownership%3Arepresentation%253A1%253Avault_transit_secret_backend_key.application%3Arepresentation%253A1%253Avault_namespace.security",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:vault.context.ownership:representation%3A1%3Avault_transit_secret_backend_key.application:representation%3A1%3Avault_namespace.security",
+          "from": "representation:1:vault_transit_secret_backend_key.application",
+          "to": "representation:1:vault_namespace.security",
+          "emission": "emission:bb49c699ccb1272674400502ed8c1fc61e33bcb18005d45a3b41d3597a3f5ea5"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Avault_database_secret_backend_connection.postgres%3Arepresentation%253A1%253Avault_mount.database",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Avault_database_secret_backend_connection.postgres:representation%3A1%3Avault_mount.database",
+          "from": "representation:1:vault_database_secret_backend_connection.postgres",
+          "to": "representation:1:vault_mount.database",
+          "emission": "emission:310fb826ba9ad9a9f2a45e35151ce63d7a700740d723a932417a5650bc5f5886"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Avault_kubernetes_auth_backend_role.applications%3Arepresentation%253A1%253Avault_auth_backend.kubernetes",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Avault_kubernetes_auth_backend_role.applications:representation%3A1%3Avault_auth_backend.kubernetes",
+          "from": "representation:1:vault_kubernetes_auth_backend_role.applications",
+          "to": "representation:1:vault_auth_backend.kubernetes",
+          "emission": "emission:cf815d9f3cf6416171568c06a0b09157fef986ead7279fa39c4422218317dfb3"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Avault_secrets_sync_association.aws%3Arepresentation%253A1%253Avault_secrets_sync_aws_destination.aws",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Avault_secrets_sync_association.aws:representation%3A1%3Avault_secrets_sync_aws_destination.aws",
+          "from": "representation:1:vault_secrets_sync_association.aws",
+          "to": "representation:1:vault_secrets_sync_aws_destination.aws",
+          "emission": "emission:3c8475eccee2685ce0c9c7fb5fb3430c3c679ca0ddb7d9b60b19550fc5c61464"
+        },
+        {
+          "id": "change:net:added:relation%3Avault.relation.authenticates-kubernetes-cluster%3Arepresentation%253A1%253Avault_kubernetes_auth_backend_config.kubernetes%3Arepresentation%253A1%253Agoogle_container_cluster.security",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.authenticates-kubernetes-cluster:representation%3A1%3Avault_kubernetes_auth_backend_config.kubernetes:representation%3A1%3Agoogle_container_cluster.security",
+          "from": "representation:1:vault_kubernetes_auth_backend_config.kubernetes",
+          "to": "representation:1:google_container_cluster.security",
+          "emission": "emission:f0e3ce48b3cdfa038a787bd6600eef7149a2ecb42e622a625b0b1eeb627b0468"
+        },
+        {
+          "id": "change:net:added:relation%3Avault.relation.configures-auth-method%3Arepresentation%253A1%253Avault_kubernetes_auth_backend_config.kubernetes%3Arepresentation%253A1%253Avault_auth_backend.kubernetes",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.configures-auth-method:representation%3A1%3Avault_kubernetes_auth_backend_config.kubernetes:representation%3A1%3Avault_auth_backend.kubernetes",
+          "from": "representation:1:vault_kubernetes_auth_backend_config.kubernetes",
+          "to": "representation:1:vault_auth_backend.kubernetes",
+          "emission": "emission:38e568cf62441ce219ec7c834e2c085838e9200d46f0994912df94ddfa948b11"
+        },
+        {
+          "id": "change:net:added:relation%3Avault.relation.issues-kubernetes-credentials-for%3Arepresentation%253A1%253Avault_kubernetes_secret_backend.kubernetes%3Arepresentation%253A1%253Agoogle_container_cluster.security",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.issues-kubernetes-credentials-for:representation%3A1%3Avault_kubernetes_secret_backend.kubernetes:representation%3A1%3Agoogle_container_cluster.security",
+          "from": "representation:1:vault_kubernetes_secret_backend.kubernetes",
+          "to": "representation:1:google_container_cluster.security",
+          "emission": "emission:5d9cf16e11342badbee3d1257f7ee856dd33487a1b434ba59558fed2a21b638f"
+        },
+        {
+          "id": "change:net:added:relation%3Avault.relation.stores-snapshots-in%3Arepresentation%253A1%253Avault_raft_snapshot_agent_config.continuity%3Arepresentation%253A1%253Aaws_s3_bucket.snapshots",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.stores-snapshots-in:representation%3A1%3Avault_raft_snapshot_agent_config.continuity:representation%3A1%3Aaws_s3_bucket.snapshots",
+          "from": "representation:1:vault_raft_snapshot_agent_config.continuity",
+          "to": "representation:1:aws_s3_bucket.snapshots",
+          "emission": "emission:9dc1da47ac8d724994a01a5d48f1a54cde9d5bcbbf06ad0b2cd405abd26eed01"
+        },
+        {
+          "id": "change:net:added:relation%3Avault.relation.stores-snapshots-in%3Arepresentation%253A1%253Avault_raft_snapshot_agent_config.continuity%3Arepresentation%253A1%253Aazurerm_storage_container.snapshots",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.stores-snapshots-in:representation%3A1%3Avault_raft_snapshot_agent_config.continuity:representation%3A1%3Aazurerm_storage_container.snapshots",
+          "from": "representation:1:vault_raft_snapshot_agent_config.continuity",
+          "to": "representation:1:azurerm_storage_container.snapshots",
+          "emission": "emission:4cd5cb7ab679cefca3bf906e260753c3fd023265032d3a8c8d1718805327ad4c"
+        },
+        {
+          "id": "change:net:added:relation%3Avault.relation.stores-snapshots-in%3Arepresentation%253A1%253Avault_raft_snapshot_agent_config.continuity%3Arepresentation%253A1%253Agoogle_storage_bucket.snapshots",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.stores-snapshots-in:representation%3A1%3Avault_raft_snapshot_agent_config.continuity:representation%3A1%3Agoogle_storage_bucket.snapshots",
+          "from": "representation:1:vault_raft_snapshot_agent_config.continuity",
+          "to": "representation:1:google_storage_bucket.snapshots",
+          "emission": "emission:9eb2c1c24115ed438cd425d0b3cafe98067d219707846e7819ffc2370a8c92f4"
+        },
+        {
+          "id": "change:net:added:relation%3Avault.relation.uses-cloud-identity%3Arepresentation%253A1%253Avault_gcp_secret_backend.google%3Arepresentation%253A1%253Agoogle_service_account.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.uses-cloud-identity:representation%3A1%3Avault_gcp_secret_backend.google:representation%3A1%3Agoogle_service_account.vault",
+          "from": "representation:1:vault_gcp_secret_backend.google",
+          "to": "representation:1:google_service_account.vault",
+          "emission": "emission:69b38079bb2159c3ba06419fe9717a5fdbd258f3cb2fa64fa224ae4981394e9f"
+        },
+        {
+          "id": "change:net:added:relation%3Avault.relation.uses-cloud-identity%3Arepresentation%253A1%253Avault_secrets_sync_azure_destination.azure%3Arepresentation%253A1%253Aazurerm_user_assigned_identity.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.uses-cloud-identity:representation%3A1%3Avault_secrets_sync_azure_destination.azure:representation%3A1%3Aazurerm_user_assigned_identity.vault",
+          "from": "representation:1:vault_secrets_sync_azure_destination.azure",
+          "to": "representation:1:azurerm_user_assigned_identity.vault",
+          "emission": "emission:380144d1c473ee025b945f400caf88c01ecaa08be59a213b925b6569f6f6b0b5"
+        },
+        {
+          "id": "change:net:added:relation%3Avault.relation.uses-cloud-identity%3Arepresentation%253A1%253Avault_secrets_sync_gcp_destination.google%3Arepresentation%253A1%253Agoogle_service_account.vault",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.uses-cloud-identity:representation%3A1%3Avault_secrets_sync_gcp_destination.google:representation%3A1%3Agoogle_service_account.vault",
+          "from": "representation:1:vault_secrets_sync_gcp_destination.google",
+          "to": "representation:1:google_service_account.vault",
+          "emission": "emission:aee28e4061a558ed4d3107724278fe7dc2b3923a0e0a401d64321b02bfd0ae93"
+        },
+        {
+          "id": "change:net:added:relation%3Avault.relation.uses-signing-key%3Arepresentation%253A1%253Avault_identity_oidc_client.application%3Arepresentation%253A1%253Avault_identity_oidc_key.signing",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:vault.relation.uses-signing-key:representation%3A1%3Avault_identity_oidc_client.application:representation%3A1%3Avault_identity_oidc_key.signing",
+          "from": "representation:1:vault_identity_oidc_client.application",
+          "to": "representation:1:vault_identity_oidc_key.signing",
+          "emission": "emission:bf14b122a1b15651f8bfcf4e44d5da775b439ecbecddf4db751af16a68d539aa"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Agoogle_container_cluster.security%3Aemission%253A9e86255b784b910b6003d5f0acc71b6741584ce8955e9720a169a21fcb712d8e:after",
+          "closure": "closure:representation%3A1%3Agoogle_container_cluster.security:emission%3A9e86255b784b910b6003d5f0acc71b6741584ce8955e9720a169a21fcb712d8e",
+          "representation": "representation:1:google_container_cluster.security",
+          "emission": "emission:9e86255b784b910b6003d5f0acc71b6741584ce8955e9720a169a21fcb712d8e",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Agoogle_container_cluster.security%3Aemission%253Ae53a69ab20cfc913c3aa2b7f437eb72b3d4c09c353b09e09d3d797ab0f4cc641:after",
+          "closure": "closure:representation%3A1%3Agoogle_container_cluster.security:emission%3Ae53a69ab20cfc913c3aa2b7f437eb72b3d4c09c353b09e09d3d797ab0f4cc641",
+          "representation": "representation:1:google_container_cluster.security",
+          "emission": "emission:e53a69ab20cfc913c3aa2b7f437eb72b3d4c09c353b09e09d3d797ab0f4cc641",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Avault_raft_snapshot_agent_config.continuity%3Aemission%253Ad632f7e588c8ce49124d71e283c29a47b061ced9bbedd29b84ef93ed9149a93f:after",
+          "closure": "closure:representation%3A1%3Avault_raft_snapshot_agent_config.continuity:emission%3Ad632f7e588c8ce49124d71e283c29a47b061ced9bbedd29b84ef93ed9149a93f",
+          "representation": "representation:1:vault_raft_snapshot_agent_config.continuity",
+          "emission": "emission:d632f7e588c8ce49124d71e283c29a47b061ced9bbedd29b84ef93ed9149a93f",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Avault_secrets_sync_aws_destination.aws%3Aemission%253A89aa354bdf8a3b196aba384d9b6818c1b8fe501cf056b880502144ef73d7c00d:after",
+          "closure": "closure:representation%3A1%3Avault_secrets_sync_aws_destination.aws:emission%3A89aa354bdf8a3b196aba384d9b6818c1b8fe501cf056b880502144ef73d7c00d",
+          "representation": "representation:1:vault_secrets_sync_aws_destination.aws",
+          "emission": "emission:89aa354bdf8a3b196aba384d9b6818c1b8fe501cf056b880502144ef73d7c00d",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Avault_secrets_sync_gcp_destination.google%3Aemission%253A4496e246519b9c4b23bf592276e250f692c8c165f0f83bca30b4093def5ccd94:after",
+          "closure": "closure:representation%3A1%3Avault_secrets_sync_gcp_destination.google:emission%3A4496e246519b9c4b23bf592276e250f692c8c165f0f83bca30b4093def5ccd94",
+          "representation": "representation:1:vault_secrets_sync_gcp_destination.google",
+          "emission": "emission:4496e246519b9c4b23bf592276e250f692c8c165f0f83bca30b4093def5ccd94",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 46,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 43,
+        "facts_removed": 0,
+        "indeterminate": 5,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

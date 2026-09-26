@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -5569,10 +5569,1106 @@
         "dependencies": 50,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc.opaque",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.opaque"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_acl_auth_method.workloads",
+          "change": "added",
+          "representation": "representation:1:consul_acl_auth_method.workloads"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_acl_binding_rule.workloads",
+          "change": "added",
+          "representation": "representation:1:consul_acl_binding_rule.workloads"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_acl_policy.private",
+          "change": "added",
+          "representation": "representation:1:consul_acl_policy.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_acl_role.private",
+          "change": "added",
+          "representation": "representation:1:consul_acl_role.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_acl_token.private",
+          "change": "added",
+          "representation": "representation:1:consul_acl_token.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_admin_partition.platform",
+          "change": "added",
+          "representation": "representation:1:consul_admin_partition.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_agent_service.legacy",
+          "change": "added",
+          "representation": "representation:1:consul_agent_service.legacy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_autopilot_config.platform",
+          "change": "added",
+          "representation": "representation:1:consul_autopilot_config.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_catalog_entry.legacy",
+          "change": "added",
+          "representation": "representation:1:consul_catalog_entry.legacy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_certificate_authority.mesh",
+          "change": "added",
+          "representation": "representation:1:consul_certificate_authority.mesh"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry.api_gateway",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.api_gateway"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry.http_route",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.http_route"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry.ingress_legacy",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.ingress_legacy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry.inline_certificate",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.inline_certificate"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry.jwt",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.jwt"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry.mesh",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.mesh"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry.opaque",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.opaque"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry.proxy_defaults",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.proxy_defaults"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry.sameness",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.sameness"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry.terminating",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.terminating"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry_service_defaults.api",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_service_defaults.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry_service_intentions.api",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_service_intentions.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry_service_resolver.payments",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_service_resolver.payments"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry_service_router.api",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_service_router.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry_service_splitter.payments",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_service_splitter.payments"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_config_entry_v2_exported_services.applications",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_v2_exported_services.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_intention.legacy",
+          "change": "added",
+          "representation": "representation:1:consul_intention.legacy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_keys.private",
+          "change": "added",
+          "representation": "representation:1:consul_keys.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_license.private",
+          "change": "added",
+          "representation": "representation:1:consul_license.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_namespace.applications",
+          "change": "added",
+          "representation": "representation:1:consul_namespace.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_namespace_policy_attachment.applications",
+          "change": "added",
+          "representation": "representation:1:consul_namespace_policy_attachment.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_namespace_role_attachment.applications",
+          "change": "added",
+          "representation": "representation:1:consul_namespace_role_attachment.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_network_area.wan",
+          "change": "added",
+          "representation": "representation:1:consul_network_area.wan"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_node.api",
+          "change": "added",
+          "representation": "representation:1:consul_node.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_node.payments",
+          "change": "added",
+          "representation": "representation:1:consul_node.payments"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_peering.edge",
+          "change": "added",
+          "representation": "representation:1:consul_peering.edge"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_peering_token.private",
+          "change": "added",
+          "representation": "representation:1:consul_peering_token.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_prepared_query.api",
+          "change": "added",
+          "representation": "representation:1:consul_prepared_query.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_service.api",
+          "change": "added",
+          "representation": "representation:1:consul_service.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_service.payments",
+          "change": "added",
+          "representation": "representation:1:consul_service.payments"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconsul_service.payments_v2",
+          "change": "added",
+          "representation": "representation:1:consul_service.payments_v2"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.consul_acl_auth_method.workloads",
+          "change": "added",
+          "representation": "representation:1:data.consul_acl_auth_method.workloads"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.consul_catalog_service.payments",
+          "change": "added",
+          "representation": "representation:1:data.consul_catalog_service.payments"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.consul_config_entry.api_gateway",
+          "change": "added",
+          "representation": "representation:1:data.consul_config_entry.api_gateway"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.consul_config_entry.mesh",
+          "change": "added",
+          "representation": "representation:1:data.consul_config_entry.mesh"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.consul_peering.edge",
+          "change": "added",
+          "representation": "representation:1:data.consul_peering.edge"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.consul_service.api",
+          "change": "added",
+          "representation": "representation:1:data.consul_service.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.consul_service_health.api",
+          "change": "added",
+          "representation": "representation:1:data.consul_service_health.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Aconsul_acl_auth_method.workloads%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Aconsul_acl_auth_method.workloads:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_acl_auth_method.workloads",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:ea734f3116ec80322591c3e4f45fc47525aa183b3ab11983ffd8fdc6527dc978"
+        },
+        {
+          "id": "change:changes:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Aconsul_namespace.applications%3Arepresentation%253A1%253Aconsul_admin_partition.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Aconsul_namespace.applications:representation%3A1%3Aconsul_admin_partition.platform",
+          "from": "representation:1:consul_namespace.applications",
+          "to": "representation:1:consul_admin_partition.platform",
+          "emission": "emission:058a124a0f43f3e277437a9c6b4f3d79e9f1fc436934c104e6acda7354dad578"
+        },
+        {
+          "id": "change:changes:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Aconsul_service.api%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Aconsul_service.api:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_service.api",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:5c3dd2166ab5b88384f33368b86bb83fdf8fefdf652590e2974e181d8243d2a2"
+        },
+        {
+          "id": "change:changes:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Aconsul_service.payments%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Aconsul_service.payments:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_service.payments",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:5c3dd2166ab5b88384f33368b86bb83fdf8fefdf652590e2974e181d8243d2a2"
+        },
+        {
+          "id": "change:changes:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Aconsul_service.payments_v2%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Aconsul_service.payments_v2:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_service.payments_v2",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:5c3dd2166ab5b88384f33368b86bb83fdf8fefdf652590e2974e181d8243d2a2"
+        },
+        {
+          "id": "change:changes:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Adata.consul_acl_auth_method.workloads%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Adata.consul_acl_auth_method.workloads:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:data.consul_acl_auth_method.workloads",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:fe6ae42022e9d539cddc0b8f8d7df43200ba73bdcb4caa6914f0b170a9a28b95"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconsul_service.api%3Arepresentation%253A1%253Aconsul_node.api",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconsul_service.api:representation%3A1%3Aconsul_node.api",
+          "from": "representation:1:consul_service.api",
+          "to": "representation:1:consul_node.api",
+          "emission": "emission:e721e3d2905287b2291bace9c9a094df239e012dd350cfeb86a582c196d5b51b"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconsul_service.payments%3Arepresentation%253A1%253Aconsul_node.payments",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconsul_service.payments:representation%3A1%3Aconsul_node.payments",
+          "from": "representation:1:consul_service.payments",
+          "to": "representation:1:consul_node.payments",
+          "emission": "emission:e721e3d2905287b2291bace9c9a094df239e012dd350cfeb86a582c196d5b51b"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconsul_service.payments_v2%3Arepresentation%253A1%253Aconsul_node.payments",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconsul_service.payments_v2:representation%3A1%3Aconsul_node.payments",
+          "from": "representation:1:consul_service.payments_v2",
+          "to": "representation:1:consul_node.payments",
+          "emission": "emission:e721e3d2905287b2291bace9c9a094df239e012dd350cfeb86a582c196d5b51b"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_acl_binding_rule.workloads%3Arepresentation%253A1%253Aconsul_acl_auth_method.workloads",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_acl_binding_rule.workloads:representation%3A1%3Aconsul_acl_auth_method.workloads",
+          "from": "representation:1:consul_acl_binding_rule.workloads",
+          "to": "representation:1:consul_acl_auth_method.workloads",
+          "emission": "emission:1d4653de173ff2d91dd72f131fd42351587f64254da723c8fb765fa965f1a005"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_service_defaults.api%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_service_defaults.api:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_config_entry_service_defaults.api",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:93258d375101b4f9ba701960f9d95cdf11e77a22bdd0074075761111b7e9c692"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_service_intentions.api%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_service_intentions.api:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_config_entry_service_intentions.api",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:9ab9d3cfa2ee45fbba39c0cf313c8f0968e05db0c7dbb4e7db0914010bfd12e1"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_service_resolver.payments%3Arepresentation%253A1%253Aconsul_service.payments",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_service_resolver.payments:representation%3A1%3Aconsul_service.payments",
+          "from": "representation:1:consul_config_entry_service_resolver.payments",
+          "to": "representation:1:consul_service.payments",
+          "emission": "emission:b8e13fccb659012af32c1234b3b9006e67a50b76d16c3a90ed0d62ba79cd6380"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_service_router.api%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_service_router.api:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_config_entry_service_router.api",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:0e0af406259ffa1645ea93f47952c8c0018fbb39cf9a1aabac746d19631e5055"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_service_splitter.payments%3Arepresentation%253A1%253Aconsul_service.payments",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_service_splitter.payments:representation%3A1%3Aconsul_service.payments",
+          "from": "representation:1:consul_config_entry_service_splitter.payments",
+          "to": "representation:1:consul_service.payments",
+          "emission": "emission:39178e9f732ae39a494812fbbcab709f639798cff9bba0638ab23e9eff7045d3"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_v2_exported_services.applications%3Arepresentation%253A1%253Aconsul_config_entry.sameness",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_v2_exported_services.applications:representation%3A1%3Aconsul_config_entry.sameness",
+          "from": "representation:1:consul_config_entry_v2_exported_services.applications",
+          "to": "representation:1:consul_config_entry.sameness",
+          "emission": "emission:fac968c36bb5c608a86b5bc5ba71df7e28b757c5bbb6160848fecc60eb7564cb"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_v2_exported_services.applications%3Arepresentation%253A1%253Aconsul_peering.edge",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_v2_exported_services.applications:representation%3A1%3Aconsul_peering.edge",
+          "from": "representation:1:consul_config_entry_v2_exported_services.applications",
+          "to": "representation:1:consul_peering.edge",
+          "emission": "emission:c10217a4b63ad58a8107ce7761265fb2f35411f6c6f2560a028bc6384acd6713"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_v2_exported_services.applications%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_v2_exported_services.applications:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_config_entry_v2_exported_services.applications",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:ece92f04efa194e252dccef73cd8b713fd58029563f4f63e159de9f1dc0ed64b"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_v2_exported_services.applications%3Arepresentation%253A1%253Aconsul_service.payments",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_v2_exported_services.applications:representation%3A1%3Aconsul_service.payments",
+          "from": "representation:1:consul_config_entry_v2_exported_services.applications",
+          "to": "representation:1:consul_service.payments",
+          "emission": "emission:ece92f04efa194e252dccef73cd8b713fd58029563f4f63e159de9f1dc0ed64b"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_intention.legacy%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_intention.legacy:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_intention.legacy",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:37cd264f7f69edeee074cb32d480d8f9d3593cf45261e36bf2263f4994822d02"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_intention.legacy%3Arepresentation%253A1%253Aconsul_service.payments",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_intention.legacy:representation%3A1%3Aconsul_service.payments",
+          "from": "representation:1:consul_intention.legacy",
+          "to": "representation:1:consul_service.payments",
+          "emission": "emission:ed571e7e44b6da17d06a5237d7f8d065b876f0cacc77ece4b1151fef271e6f11"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_namespace_policy_attachment.applications%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_namespace_policy_attachment.applications:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_namespace_policy_attachment.applications",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:d775c1e23e9c8d531969389242288c0c7ba9c160b57bdb66f6b97b3d1d4a290f"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_namespace_role_attachment.applications%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_namespace_role_attachment.applications:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_namespace_role_attachment.applications",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:e410928e514e555a9b46e6fb31e45ffb998800c4cb1cacc7d98c254d39b53a67"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconsul_prepared_query.api%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_prepared_query.api:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_prepared_query.api",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:8403149b76e1d889edbf4436ad3c2d671ecc3abdd81acdc0a9af65b821aad3b8"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Adata.consul_service_health.api%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adata.consul_service_health.api:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:data.consul_service_health.api",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:f66c6d2d2c31df365f610d5867405ce6fd8df86337e1847c05757ef023d90fcb"
+        }
+      ],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 50,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 25,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc.opaque",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.opaque"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_acl_auth_method.workloads",
+          "change": "added",
+          "representation": "representation:1:consul_acl_auth_method.workloads"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_acl_binding_rule.workloads",
+          "change": "added",
+          "representation": "representation:1:consul_acl_binding_rule.workloads"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_acl_policy.private",
+          "change": "added",
+          "representation": "representation:1:consul_acl_policy.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_acl_role.private",
+          "change": "added",
+          "representation": "representation:1:consul_acl_role.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_acl_token.private",
+          "change": "added",
+          "representation": "representation:1:consul_acl_token.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_admin_partition.platform",
+          "change": "added",
+          "representation": "representation:1:consul_admin_partition.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_agent_service.legacy",
+          "change": "added",
+          "representation": "representation:1:consul_agent_service.legacy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_autopilot_config.platform",
+          "change": "added",
+          "representation": "representation:1:consul_autopilot_config.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_catalog_entry.legacy",
+          "change": "added",
+          "representation": "representation:1:consul_catalog_entry.legacy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_certificate_authority.mesh",
+          "change": "added",
+          "representation": "representation:1:consul_certificate_authority.mesh"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry.api_gateway",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.api_gateway"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry.http_route",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.http_route"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry.ingress_legacy",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.ingress_legacy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry.inline_certificate",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.inline_certificate"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry.jwt",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.jwt"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry.mesh",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.mesh"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry.opaque",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.opaque"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry.proxy_defaults",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.proxy_defaults"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry.sameness",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.sameness"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry.terminating",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry.terminating"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry_service_defaults.api",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_service_defaults.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry_service_intentions.api",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_service_intentions.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry_service_resolver.payments",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_service_resolver.payments"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry_service_router.api",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_service_router.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry_service_splitter.payments",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_service_splitter.payments"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_config_entry_v2_exported_services.applications",
+          "change": "added",
+          "representation": "representation:1:consul_config_entry_v2_exported_services.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_intention.legacy",
+          "change": "added",
+          "representation": "representation:1:consul_intention.legacy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_keys.private",
+          "change": "added",
+          "representation": "representation:1:consul_keys.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_license.private",
+          "change": "added",
+          "representation": "representation:1:consul_license.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_namespace.applications",
+          "change": "added",
+          "representation": "representation:1:consul_namespace.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_namespace_policy_attachment.applications",
+          "change": "added",
+          "representation": "representation:1:consul_namespace_policy_attachment.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_namespace_role_attachment.applications",
+          "change": "added",
+          "representation": "representation:1:consul_namespace_role_attachment.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_network_area.wan",
+          "change": "added",
+          "representation": "representation:1:consul_network_area.wan"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_node.api",
+          "change": "added",
+          "representation": "representation:1:consul_node.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_node.payments",
+          "change": "added",
+          "representation": "representation:1:consul_node.payments"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_peering.edge",
+          "change": "added",
+          "representation": "representation:1:consul_peering.edge"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_peering_token.private",
+          "change": "added",
+          "representation": "representation:1:consul_peering_token.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_prepared_query.api",
+          "change": "added",
+          "representation": "representation:1:consul_prepared_query.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_service.api",
+          "change": "added",
+          "representation": "representation:1:consul_service.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_service.payments",
+          "change": "added",
+          "representation": "representation:1:consul_service.payments"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconsul_service.payments_v2",
+          "change": "added",
+          "representation": "representation:1:consul_service.payments_v2"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.consul_acl_auth_method.workloads",
+          "change": "added",
+          "representation": "representation:1:data.consul_acl_auth_method.workloads"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.consul_catalog_service.payments",
+          "change": "added",
+          "representation": "representation:1:data.consul_catalog_service.payments"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.consul_config_entry.api_gateway",
+          "change": "added",
+          "representation": "representation:1:data.consul_config_entry.api_gateway"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.consul_config_entry.mesh",
+          "change": "added",
+          "representation": "representation:1:data.consul_config_entry.mesh"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.consul_peering.edge",
+          "change": "added",
+          "representation": "representation:1:data.consul_peering.edge"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.consul_service.api",
+          "change": "added",
+          "representation": "representation:1:data.consul_service.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.consul_service_health.api",
+          "change": "added",
+          "representation": "representation:1:data.consul_service_health.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Aconsul_acl_auth_method.workloads%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Aconsul_acl_auth_method.workloads:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_acl_auth_method.workloads",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:ea734f3116ec80322591c3e4f45fc47525aa183b3ab11983ffd8fdc6527dc978"
+        },
+        {
+          "id": "change:net:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Aconsul_namespace.applications%3Arepresentation%253A1%253Aconsul_admin_partition.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Aconsul_namespace.applications:representation%3A1%3Aconsul_admin_partition.platform",
+          "from": "representation:1:consul_namespace.applications",
+          "to": "representation:1:consul_admin_partition.platform",
+          "emission": "emission:058a124a0f43f3e277437a9c6b4f3d79e9f1fc436934c104e6acda7354dad578"
+        },
+        {
+          "id": "change:net:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Aconsul_service.api%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Aconsul_service.api:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_service.api",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:5c3dd2166ab5b88384f33368b86bb83fdf8fefdf652590e2974e181d8243d2a2"
+        },
+        {
+          "id": "change:net:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Aconsul_service.payments%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Aconsul_service.payments:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_service.payments",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:5c3dd2166ab5b88384f33368b86bb83fdf8fefdf652590e2974e181d8243d2a2"
+        },
+        {
+          "id": "change:net:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Aconsul_service.payments_v2%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Aconsul_service.payments_v2:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_service.payments_v2",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:5c3dd2166ab5b88384f33368b86bb83fdf8fefdf652590e2974e181d8243d2a2"
+        },
+        {
+          "id": "change:net:added:context%3Aconsul.context.ownership%3Arepresentation%253A1%253Adata.consul_acl_auth_method.workloads%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:consul.context.ownership:representation%3A1%3Adata.consul_acl_auth_method.workloads:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:data.consul_acl_auth_method.workloads",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:fe6ae42022e9d539cddc0b8f8d7df43200ba73bdcb4caa6914f0b170a9a28b95"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconsul_service.api%3Arepresentation%253A1%253Aconsul_node.api",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconsul_service.api:representation%3A1%3Aconsul_node.api",
+          "from": "representation:1:consul_service.api",
+          "to": "representation:1:consul_node.api",
+          "emission": "emission:e721e3d2905287b2291bace9c9a094df239e012dd350cfeb86a582c196d5b51b"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconsul_service.payments%3Arepresentation%253A1%253Aconsul_node.payments",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconsul_service.payments:representation%3A1%3Aconsul_node.payments",
+          "from": "representation:1:consul_service.payments",
+          "to": "representation:1:consul_node.payments",
+          "emission": "emission:e721e3d2905287b2291bace9c9a094df239e012dd350cfeb86a582c196d5b51b"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconsul_service.payments_v2%3Arepresentation%253A1%253Aconsul_node.payments",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconsul_service.payments_v2:representation%3A1%3Aconsul_node.payments",
+          "from": "representation:1:consul_service.payments_v2",
+          "to": "representation:1:consul_node.payments",
+          "emission": "emission:e721e3d2905287b2291bace9c9a094df239e012dd350cfeb86a582c196d5b51b"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_acl_binding_rule.workloads%3Arepresentation%253A1%253Aconsul_acl_auth_method.workloads",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_acl_binding_rule.workloads:representation%3A1%3Aconsul_acl_auth_method.workloads",
+          "from": "representation:1:consul_acl_binding_rule.workloads",
+          "to": "representation:1:consul_acl_auth_method.workloads",
+          "emission": "emission:1d4653de173ff2d91dd72f131fd42351587f64254da723c8fb765fa965f1a005"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_service_defaults.api%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_service_defaults.api:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_config_entry_service_defaults.api",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:93258d375101b4f9ba701960f9d95cdf11e77a22bdd0074075761111b7e9c692"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_service_intentions.api%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_service_intentions.api:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_config_entry_service_intentions.api",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:9ab9d3cfa2ee45fbba39c0cf313c8f0968e05db0c7dbb4e7db0914010bfd12e1"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_service_resolver.payments%3Arepresentation%253A1%253Aconsul_service.payments",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_service_resolver.payments:representation%3A1%3Aconsul_service.payments",
+          "from": "representation:1:consul_config_entry_service_resolver.payments",
+          "to": "representation:1:consul_service.payments",
+          "emission": "emission:b8e13fccb659012af32c1234b3b9006e67a50b76d16c3a90ed0d62ba79cd6380"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_service_router.api%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_service_router.api:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_config_entry_service_router.api",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:0e0af406259ffa1645ea93f47952c8c0018fbb39cf9a1aabac746d19631e5055"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_service_splitter.payments%3Arepresentation%253A1%253Aconsul_service.payments",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_service_splitter.payments:representation%3A1%3Aconsul_service.payments",
+          "from": "representation:1:consul_config_entry_service_splitter.payments",
+          "to": "representation:1:consul_service.payments",
+          "emission": "emission:39178e9f732ae39a494812fbbcab709f639798cff9bba0638ab23e9eff7045d3"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_v2_exported_services.applications%3Arepresentation%253A1%253Aconsul_config_entry.sameness",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_v2_exported_services.applications:representation%3A1%3Aconsul_config_entry.sameness",
+          "from": "representation:1:consul_config_entry_v2_exported_services.applications",
+          "to": "representation:1:consul_config_entry.sameness",
+          "emission": "emission:fac968c36bb5c608a86b5bc5ba71df7e28b757c5bbb6160848fecc60eb7564cb"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_v2_exported_services.applications%3Arepresentation%253A1%253Aconsul_peering.edge",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_v2_exported_services.applications:representation%3A1%3Aconsul_peering.edge",
+          "from": "representation:1:consul_config_entry_v2_exported_services.applications",
+          "to": "representation:1:consul_peering.edge",
+          "emission": "emission:c10217a4b63ad58a8107ce7761265fb2f35411f6c6f2560a028bc6384acd6713"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_v2_exported_services.applications%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_v2_exported_services.applications:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_config_entry_v2_exported_services.applications",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:ece92f04efa194e252dccef73cd8b713fd58029563f4f63e159de9f1dc0ed64b"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_config_entry_v2_exported_services.applications%3Arepresentation%253A1%253Aconsul_service.payments",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_config_entry_v2_exported_services.applications:representation%3A1%3Aconsul_service.payments",
+          "from": "representation:1:consul_config_entry_v2_exported_services.applications",
+          "to": "representation:1:consul_service.payments",
+          "emission": "emission:ece92f04efa194e252dccef73cd8b713fd58029563f4f63e159de9f1dc0ed64b"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_intention.legacy%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_intention.legacy:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_intention.legacy",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:37cd264f7f69edeee074cb32d480d8f9d3593cf45261e36bf2263f4994822d02"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_intention.legacy%3Arepresentation%253A1%253Aconsul_service.payments",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_intention.legacy:representation%3A1%3Aconsul_service.payments",
+          "from": "representation:1:consul_intention.legacy",
+          "to": "representation:1:consul_service.payments",
+          "emission": "emission:ed571e7e44b6da17d06a5237d7f8d065b876f0cacc77ece4b1151fef271e6f11"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_namespace_policy_attachment.applications%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_namespace_policy_attachment.applications:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_namespace_policy_attachment.applications",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:d775c1e23e9c8d531969389242288c0c7ba9c160b57bdb66f6b97b3d1d4a290f"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_namespace_role_attachment.applications%3Arepresentation%253A1%253Aconsul_namespace.applications",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_namespace_role_attachment.applications:representation%3A1%3Aconsul_namespace.applications",
+          "from": "representation:1:consul_namespace_role_attachment.applications",
+          "to": "representation:1:consul_namespace.applications",
+          "emission": "emission:e410928e514e555a9b46e6fb31e45ffb998800c4cb1cacc7d98c254d39b53a67"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconsul_prepared_query.api%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconsul_prepared_query.api:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:consul_prepared_query.api",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:8403149b76e1d889edbf4436ad3c2d671ecc3abdd81acdc0a9af65b821aad3b8"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Adata.consul_service_health.api%3Arepresentation%253A1%253Aconsul_service.api",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adata.consul_service_health.api:representation%3A1%3Aconsul_service.api",
+          "from": "representation:1:data.consul_service_health.api",
+          "to": "representation:1:consul_service.api",
+          "emission": "emission:f66c6d2d2c31df365f610d5867405ce6fd8df86337e1847c05757ef023d90fcb"
+        }
+      ],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 50,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 25,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"
