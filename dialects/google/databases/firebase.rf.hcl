@@ -5,4 +5,13 @@ rule "firebase-realtime-database" {
   }
 
   as = rf.concept.managed-database
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }

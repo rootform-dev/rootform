@@ -14,39 +14,64 @@ rule "encryption-at-rest" {
   as = concept.customer-key-management
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
-  }
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
 
-  relation "uses-key" {
-    to  = concept.encryption-key
-    via = source.aws_kms_config[0].customer_master_key_id
-  }
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
 
-  relation "uses-key" {
-    to  = concept.encryption-key
-    via = source.azure_key_vault_config[0].key_identifier
-  }
-
-  relation "uses-key" {
-    to  = concept.encryption-key
-    via = source.google_cloud_kms_config[0].key_version_resource_id
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-authorization" {
-    to  = concept.cloud-provider-authorization
-    via = source.aws_kms_config[0].role_id
+    to       = concept.cloud-provider-authorization
+    via      = source.aws_kms_config[0].role_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.role_id
+      strategy = "exact"
+    }
+
+    # Shared cloud-provider-authorization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-authorization" {
-    to  = concept.cloud-provider-authorization
-    via = source.azure_key_vault_config[0].role_id
+    to       = concept.cloud-provider-authorization
+    via      = source.azure_key_vault_config[0].role_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.role_id
+      strategy = "exact"
+    }
+
+    # Shared cloud-provider-authorization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-authorization" {
-    to  = concept.cloud-provider-authorization
-    via = source.google_cloud_kms_config[0].role_id
+    to       = concept.cloud-provider-authorization
+    via      = source.google_cloud_kms_config[0].role_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.role_id
+      strategy = "exact"
+    }
+
+    # Shared cloud-provider-authorization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -57,10 +82,29 @@ rule "encryption-private-endpoint" {
 
   as = concept.private-endpoint
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -72,7 +116,17 @@ rule "auditing" {
   as = concept.security-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

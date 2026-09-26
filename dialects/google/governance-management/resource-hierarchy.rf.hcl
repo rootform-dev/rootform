@@ -9,4 +9,13 @@ rule "google-cloud-project" {
   }
 
   as = concept.google-cloud-project
+
+  identity {
+    attributes = ["project_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "project_id"]
+  }
 }

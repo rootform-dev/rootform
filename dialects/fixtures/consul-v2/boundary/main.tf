@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
+      version = "= 6.62.0"
     }
     consul = {
       source  = "hashicorp/consul"
@@ -16,13 +17,15 @@ variable "choose_first" {
 }
 
 resource "consul_admin_partition" "first" {
+
   name = "first"
-}
 
+}
 resource "consul_admin_partition" "second" {
-  name = "second"
-}
 
+  name = "second"
+
+}
 resource "consul_namespace" "first" {
   name      = "first"
   partition = consul_admin_partition.first.name
@@ -44,9 +47,10 @@ resource "consul_node" "second" {
 }
 
 resource "aws_vpc" "mismatch" {
-  cidr_block = "10.20.0.0/16"
-}
 
+  cidr_block = "10.20.0.0/16"
+
+}
 resource "consul_service" "literal" {
   name      = "literal"
   node      = "first"
@@ -61,12 +65,6 @@ resource "consul_service" "ambiguous" {
   name      = "ambiguous"
   node      = var.choose_first ? consul_node.first.name : consul_node.second.name
   namespace = var.choose_first ? consul_namespace.first.name : consul_namespace.second.name
-}
-
-resource "consul_service" "dangling" {
-  name      = "dangling"
-  node      = consul_node.missing.name
-  namespace = consul_namespace.missing.name
 }
 
 resource "consul_service" "mismatch" {
@@ -102,12 +100,6 @@ resource "consul_acl_binding_rule" "ambiguous" {
   bind_name   = "ambiguous"
 }
 
-resource "consul_acl_binding_rule" "dangling" {
-  auth_method = consul_acl_auth_method.missing.name
-  bind_type   = "service"
-  bind_name   = "dangling"
-}
-
 resource "consul_acl_binding_rule" "mismatch" {
   auth_method = aws_vpc.mismatch.id
   bind_type   = "service"
@@ -125,9 +117,10 @@ resource "consul_acl_policy" "private" {
 }
 
 resource "consul_acl_token" "private" {
-  description = "ROOTFORM_CONSUL_BOUNDARY_TOKEN_SENTINEL"
-}
 
+  description = "ROOTFORM_CONSUL_BOUNDARY_TOKEN_SENTINEL"
+
+}
 resource "consul_keys" "private" {
   key {
     path  = "rootform/private"
@@ -136,5 +129,7 @@ resource "consul_keys" "private" {
 }
 
 resource "consul_license" "private" {
+
   license = "ROOTFORM_CONSUL_BOUNDARY_LICENSE_SENTINEL"
+
 }

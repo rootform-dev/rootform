@@ -9,10 +9,21 @@ rule "kubernetes-service-account" {
 
   as = concept.service-account
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "metadata[0].name"]
+  }
+
   context {
-    as  = rf.context.runtime
-    to  = rf.concept.kubernetes-cluster
-    via = provider.host
+    as       = rf.context.runtime
+    to       = rf.concept.kubernetes-cluster
+    via      = provider.host
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
   }
 
   context {
@@ -20,6 +31,11 @@ rule "kubernetes-service-account" {
     to  = concept.namespace
     via = source.metadata[0].namespace
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.metadata[0].name
       strategy = "exact"

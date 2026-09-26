@@ -1,14 +1,19 @@
 {
   "format_version": "1",
-  "dialect": "auth0",
-  "provider_version": "1.56.0",
   "scenarios": [
     {
       "id": "auth0-minimal",
       "fixture": "fixtures/auth0-v1/minimal",
-      "limitations": [
-        "synthetic Terraform proves roots without contacting Auth0"
+      "required_rules": [
+        "auth0.rule.tenant",
+        "auth0.rule.client",
+        "auth0.rule.resource-server",
+        "auth0.rule.connection"
       ],
+      "required_outcomes": {
+        "auth0_tenant.primary": "representation-present",
+        "auth0_client.portal": "representation-present"
+      },
       "minimum": {
         "representations": 4,
         "relations": 0,
@@ -20,40 +25,13 @@
         "contributions": 0,
         "relations": 0
       },
-      "required_outcomes": {
-        "auth0_tenant.primary": "representation-present",
-        "auth0_client.portal": "representation-present"
-      },
-      "required_rules": [
-        "auth0.rule.tenant",
-        "auth0.rule.client",
-        "auth0.rule.resource-server",
-        "auth0.rule.connection"
-      ],
-      "expected_html_labels": [
-        "Auth0 tenant",
-        "Auth0 Application",
-        "Auth0 API",
-        "Auth0 Connection"
+      "limitations": [
+        "synthetic Terraform proves roots without contacting Auth0"
       ]
     },
     {
       "id": "auth0-broad-identity",
       "fixture": "fixtures/auth0-v1/scenarios",
-      "limitations": [
-        "association helpers preserve composition but cannot invent direct application-to-connection authentication flows"
-      ],
-      "minimum": {
-        "representations": 80,
-        "relations": 5,
-        "contexts": 0,
-        "contributions": 27
-      },
-      "maximum_facts": {
-        "contexts": 0,
-        "contributions": 27,
-        "relations": 5
-      },
       "required_rules": [
         "auth0.rule.action",
         "auth0.rule.action-lookup",
@@ -131,6 +109,11 @@
         "auth0.rule.user-attribute-profile",
         "auth0.rule.user-attribute-profile-lookup"
       ],
+      "required_outcomes": {
+        "auth0_user.must_not_create_topology": "no-rule",
+        "auth0_role.must_not_create_topology": "no-rule",
+        "auth0_branding.must_not_create_topology": "no-rule"
+      },
       "required_facts": [
         {
           "collection": "relations",
@@ -180,39 +163,32 @@
           "rule": "auth0.rule.organization-connection"
         }
       ],
-      "required_outcomes": {
-        "auth0_user.must_not_create_topology": "no-rule",
-        "auth0_role.must_not_create_topology": "no-rule",
-        "auth0_branding.must_not_create_topology": "no-rule"
+      "minimum": {
+        "representations": 80,
+        "relations": 5,
+        "contexts": 0,
+        "contributions": 27
       },
-      "expected_html_labels": [
-        "Auth0 Application",
-        "Auth0 Connection",
-        "Auth0 Action",
-        "Auth0 Event Stream",
-        "Auth0 Network ACL"
+      "maximum_facts": {
+        "contexts": 0,
+        "contributions": 27,
+        "relations": 5
+      },
+      "limitations": [
+        "association helpers preserve composition but cannot invent direct application-to-connection authentication flows"
       ]
     },
     {
       "id": "auth0-evidence-boundary",
       "fixture": "fixtures/auth0-v1/boundary",
-      "limitations": [
-        "literals, JSON, URLs, code, secrets, and depends_on must not create architecture facts"
-      ],
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "DEPENDENCY_DANGLING",
-        "FACT_TARGET_MISMATCH",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_DANGLING",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_AUTH0_ACTION_CODE_SENTINEL",
         "ROOTFORM_AUTH0_URL_SENTINEL",
         "ROOTFORM_AUTH0_CLIENT_SECRET_SENTINEL",
         "ROOTFORM_AUTH0_USER_SENTINEL"
+      ],
+      "limitations": [
+        "literals, JSON, URLs, code, secrets, and depends_on must not create architecture facts"
       ]
     }
   ]

@@ -8,4 +8,13 @@ rule "managed-kafka-topic" {
   }
 
   as = concept.message-topic
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

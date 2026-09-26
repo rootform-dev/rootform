@@ -7,13 +7,30 @@ rule "subnet-nat-gateway-association" {
   as = concept.network-policy-detail
 
   contribution {
-    to  = rf.concept.subnet
-    via = source.subnet_id
+    to       = rf.concept.subnet
+    via      = source.subnet_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared subnet instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.managed-nat
-    via = source.nat_gateway_id
+    to       = concept.managed-nat
+    via      = source.nat_gateway_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 

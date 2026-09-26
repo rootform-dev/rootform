@@ -19,15 +19,35 @@ rule "container-app" {
   as = concept.container-app
 
   context {
-    as  = rf.context.runtime
-    to  = concept.container-app-environment
-    via = source.container_app_environment_id
+    as       = rf.context.runtime
+    to       = concept.container-app-environment
+    via      = source.container_app_environment_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # A full ARM resource ID names one environment, which a separate configuration can provision.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -38,21 +58,60 @@ rule "container-app-environment" {
 
   as = concept.container-app-environment
 
-  context {
-    as  = rf.context.network
-    to  = rf.concept.subnet
-    via = source.infrastructure_subnet_id
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
   }
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = rf.context.network
+    to       = rf.concept.subnet
+    via      = source.infrastructure_subnet_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared subnet instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+
+  context {
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "observed-by" {
-    to  = concept.log-analytics-workspace
-    via = source.log_analytics_workspace_id
+    to       = concept.log-analytics-workspace
+    via      = source.log_analytics_workspace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared log-analytics-workspace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -64,14 +123,31 @@ rule "container-app-job" {
   as = concept.container-app-job
 
   context {
-    as  = rf.context.runtime
-    to  = concept.container-app-environment
-    via = source.container_app_environment_id
+    as       = rf.context.runtime
+    to       = concept.container-app-environment
+    via      = source.container_app_environment_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

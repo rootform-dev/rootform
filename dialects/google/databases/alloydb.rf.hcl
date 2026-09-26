@@ -8,6 +8,15 @@ rule "alloydb-cluster" {
   }
 
   as = rf.concept.managed-database
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "alloydb-instance" {
@@ -18,7 +27,17 @@ rule "alloydb-instance" {
   as = concept.alloydb-instance
 
   contribution {
-    to  = rf.concept.managed-database
-    via = source.cluster
+    to       = rf.concept.managed-database
+    via      = source.cluster
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared managed-database instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

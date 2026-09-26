@@ -978,13 +978,6 @@
       "source": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/workspace_conf.md"
     },
     {
-      "id": "databricks.rule.workspace-customer-managed-key",
-      "terraform_type": "databricks_mws_customer_managed_keys",
-      "label": "Databricks workspace customer-managed key",
-      "product": "Databricks account and workspace deployment",
-      "source": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/mws_customer_managed_keys.md"
-    },
-    {
       "id": "databricks.rule.workspace-deployment-credential",
       "terraform_type": "databricks_mws_credentials",
       "label": "Databricks workspace deployment credential",

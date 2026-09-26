@@ -50,8 +50,8 @@ the storage and vendor guarantees.
 - `replacements`: required array of replaced Dialect owners.
 
 An empty lock is valid. A project with no non-embedded selection, exclusion, or
-replacement does not need a lock for a normal `check`; the lock file may be
-absent. `check --locked` requires an existing valid lock, including an empty
+replacement does not need a lock for a normal `run`; the lock file may be
+absent. `run --locked` requires an existing valid lock, including an empty
 one. Absence is never transformed into an empty selection.
 
 `rf` is reserved and may never appear as an excluded or replaced owner.
@@ -82,7 +82,7 @@ dependencies are derived at linking and recorded in the linked artifact, never
 as independent project selections.
 
 Pack selection is never automatic: only pack sources recorded in this section
-or named explicitly are evaluated. `build` and `run` ignore Policy Packs, so
+or named explicitly are evaluated. `run` evaluates Policy Packs when selected, so
 governance selection never changes Architecture IR.
 
 ## Validation and identity
@@ -107,8 +107,7 @@ overwritten.
 
 ## Preparation and mutation
 
-Directory `build`, `check`, `run`, and explicit `init` use the same
-preparation service. `check` never accesses the network, creates or rewrites
+`run` and explicit `init` use the same preparation service. `run` never acquires packages, creates or rewrites
 the lock, and never mutates a selection to resolve an incompatibility. Its only
 implicit preparation writes are local deterministic linking and the derived
 `linked artifact` cache; explicitly requested outputs remain separate.

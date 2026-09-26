@@ -1,0 +1,3020 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:ea7b34e8cfa8008796b740fa10d0a1dd9669de798a5e71d228ed755a1d57dfc5",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:ea7b34e8cfa8008796b740fa10d0a1dd9669de798a5e71d228ed755a1d57dfc5",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
+          "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
+          "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:fa274f3e10c1e032a6db979b3d8ea80f8900970357147a1e391b37b2d9ab4d4e",
+          "semantic_digest": "sha256:ef50339cf343ce2b02f75da1f1cefdc4ea3169b89ddcc6c1b68d3cf3ca286d12"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
+          "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
+          "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
+          "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
+          "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+          "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
+          "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
+          "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
+        "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
+        "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:fa274f3e10c1e032a6db979b3d8ea80f8900970357147a1e391b37b2d9ab4d4e",
+        "semantic_digest": "sha256:ef50339cf343ce2b02f75da1f1cefdc4ea3169b89ddcc6c1b68d3cf3ca286d12",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
+        "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
+        "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
+        "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
+        "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+        "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
+        "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
+        "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "azure.concept.app-service",
+        "owner": "azure",
+        "name": "app-service",
+        "description": "An Azure App Service web application runtime."
+      },
+      {
+        "id": "azure.concept.app-service-plan",
+        "owner": "azure",
+        "name": "app-service-plan",
+        "description": "An Azure App Service plan providing shared runtime capacity."
+      },
+      {
+        "id": "azure.concept.application-insights",
+        "owner": "azure",
+        "name": "application-insights",
+        "description": "An Azure Monitor Application Insights application resource."
+      },
+      {
+        "id": "azure.concept.log-analytics-workspace",
+        "owner": "azure",
+        "name": "log-analytics-workspace",
+        "description": "An Azure Log Analytics workspace collecting operational data."
+      },
+      {
+        "id": "azure.concept.resource-group",
+        "owner": "azure",
+        "name": "resource-group",
+        "description": "An Azure Resource Group lifecycle and access boundary."
+      },
+      {
+        "id": "azure.concept.serverless-function",
+        "owner": "azure",
+        "name": "serverless-function",
+        "description": "A managed event-driven function runtime."
+      },
+      {
+        "id": "rf.concept.subnet",
+        "owner": "rf",
+        "name": "subnet",
+        "description": "A declared native subnet, not a CIDR literal."
+      },
+      {
+        "id": "rf.concept.virtual-network",
+        "owner": "rf",
+        "name": "virtual-network",
+        "description": "An explicitly declared virtual network."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "azure.context.ownership",
+        "owner": "azure",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      },
+      {
+        "id": "rf.context.network",
+        "owner": "rf",
+        "name": "network",
+        "description": "A declared network attachment without a connectivity guarantee."
+      },
+      {
+        "id": "rf.context.runtime",
+        "owner": "rf",
+        "name": "runtime",
+        "description": "A declared execution environment or target without proof of effective execution."
+      }
+    ],
+    "relations": [
+      {
+        "id": "azure.relation.observed-by",
+        "owner": "azure",
+        "name": "observed-by"
+      }
+    ],
+    "rules": [
+      {
+        "id": "azure.rule.app-service-plan",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_service_plan",
+        "concept": "azure.concept.app-service-plan",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:0b33c143c58ef96eb12fa886780a93a4a40505789836c3428d2c93df63362be8"
+        ]
+      },
+      {
+        "id": "azure.rule.application-insights",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_application_insights",
+        "concept": "azure.concept.application-insights",
+        "identity": {
+          "attributes": [
+            "connection_string",
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "connection_string",
+            "id",
+            "instrumentation_key"
+          ]
+        },
+        "emissions": [
+          "emission:65d7db32e885538c7da174a0f81c768d513d27135975cd54f8e057e8e22f47ea",
+          "emission:d2de758048cc743984f8f35235562dc85ba41590f4bd51c394e7a3708e3c3cd2"
+        ]
+      },
+      {
+        "id": "azure.rule.linux-function-app",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_linux_function_app",
+        "concept": "azure.concept.serverless-function",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:6e7bd239987f77027c8d30cf80c99ce98b40fc7c9201d2f681e6cb1a6393dba0",
+          "emission:73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53",
+          "emission:9839ed4f125c0e499fd300450e800bed25babf6624d4ffa41c4b2a69ba99c169",
+          "emission:b306f9f376662102a27f59fe5cdb0064ed21172a531589d62dfeaf475cdca95f"
+        ]
+      },
+      {
+        "id": "azure.rule.linux-web-app",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_linux_web_app",
+        "concept": "azure.concept.app-service",
+        "emissions": [
+          "emission:686135c8f8fb97df301e53c2093ac6b8ef654a55f46d131025ed4895587e89df",
+          "emission:a3b5b010cb79905242d6aa0b4d19dd76e9be56b142db03761113cfbd2c53fd91",
+          "emission:f7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383"
+        ]
+      },
+      {
+        "id": "azure.rule.log-analytics-workspace",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_log_analytics_workspace",
+        "concept": "azure.concept.log-analytics-workspace",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477"
+        ]
+      },
+      {
+        "id": "azure.rule.resource-group",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_resource_group",
+        "concept": "azure.concept.resource-group",
+        "identity": {
+          "attributes": [
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "azure.rule.subnet",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_subnet",
+        "concept": "rf.concept.subnet",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+          "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087"
+        ]
+      },
+      {
+        "id": "azure.rule.virtual-network",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_virtual_network",
+        "concept": "rf.concept.virtual-network",
+        "identity": {
+          "attributes": [
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        ]
+      },
+      {
+        "id": "azure.rule.windows-function-app",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_windows_function_app",
+        "concept": "azure.concept.serverless-function",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:1622b7a63d4c93f2f014021aae8aeed585248331088326e38486135fbd056a79",
+          "emission:1d686ccb7d9773a62af265dfcf560e9afac5bd54b3987b6cc232e742c8ebb3d7",
+          "emission:ed0f9e805ba8852cb8a4b4ffa6f306ac84e5a2160fc21842673965cc45798235",
+          "emission:ed2e6a33d7be1a6ea223fa7aaee338ca462681cfe063e483733febfbcea40714"
+        ]
+      },
+      {
+        "id": "azure.rule.windows-web-app",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_windows_web_app",
+        "concept": "azure.concept.app-service",
+        "emissions": [
+          "emission:8c438f713dc24a11731d9cb1ec14abb1a4f028f70a684ade28cf6c77537644a1",
+          "emission:f1662bf8a207e8832ad358d8f4c83bc0fba23fd35753533a20cfb60dd4309140",
+          "emission:fd1e9b54f83650cd339abca95ef630cdeb046769006b6660df7ed70532a24a83"
+        ]
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+        "rule": "azure.rule.subnet",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:0b33c143c58ef96eb12fa886780a93a4a40505789836c3428d2c93df63362be8",
+        "rule": "azure.rule.app-service-plan",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:1622b7a63d4c93f2f014021aae8aeed585248331088326e38486135fbd056a79",
+        "rule": "azure.rule.windows-function-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.subnet"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.virtual_network_subnet_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:1d686ccb7d9773a62af265dfcf560e9afac5bd54b3987b6cc232e742c8ebb3d7",
+        "rule": "azure.rule.windows-function-app",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.application-insights"
+        },
+        "predicate": "azure.relation.observed-by",
+        "via": "source.site_config[0].application_insights_connection_string",
+        "match": {
+          "by": [
+            "connection_string"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:65d7db32e885538c7da174a0f81c768d513d27135975cd54f8e057e8e22f47ea",
+        "rule": "azure.rule.application-insights",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:686135c8f8fb97df301e53c2093ac6b8ef654a55f46d131025ed4895587e89df",
+        "rule": "azure.rule.linux-web-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.subnet"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.virtual_network_subnet_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:6e7bd239987f77027c8d30cf80c99ce98b40fc7c9201d2f681e6cb1a6393dba0",
+        "rule": "azure.rule.linux-function-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.app-service-plan"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "source.service_plan_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53",
+        "rule": "azure.rule.linux-function-app",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.application-insights"
+        },
+        "predicate": "azure.relation.observed-by",
+        "via": "source.site_config[0].application_insights_connection_string",
+        "match": {
+          "by": [
+            "connection_string"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+        "rule": "azure.rule.virtual-network",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:8c438f713dc24a11731d9cb1ec14abb1a4f028f70a684ade28cf6c77537644a1",
+        "rule": "azure.rule.windows-web-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.subnet"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.virtual_network_subnet_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:9839ed4f125c0e499fd300450e800bed25babf6624d4ffa41c4b2a69ba99c169",
+        "rule": "azure.rule.linux-function-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.subnet"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.virtual_network_subnet_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:a3b5b010cb79905242d6aa0b4d19dd76e9be56b142db03761113cfbd2c53fd91",
+        "rule": "azure.rule.linux-web-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.app-service-plan"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "source.service_plan_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:b306f9f376662102a27f59fe5cdb0064ed21172a531589d62dfeaf475cdca95f",
+        "rule": "azure.rule.linux-function-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+        "rule": "azure.rule.subnet",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.virtual_network_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:d2de758048cc743984f8f35235562dc85ba41590f4bd51c394e7a3708e3c3cd2",
+        "rule": "azure.rule.application-insights",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.log-analytics-workspace"
+        },
+        "predicate": "azure.relation.observed-by",
+        "via": "source.workspace_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:ed0f9e805ba8852cb8a4b4ffa6f306ac84e5a2160fc21842673965cc45798235",
+        "rule": "azure.rule.windows-function-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:ed2e6a33d7be1a6ea223fa7aaee338ca462681cfe063e483733febfbcea40714",
+        "rule": "azure.rule.windows-function-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.app-service-plan"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "source.service_plan_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:f1662bf8a207e8832ad358d8f4c83bc0fba23fd35753533a20cfb60dd4309140",
+        "rule": "azure.rule.windows-web-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.app-service-plan"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "source.service_plan_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:f7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383",
+        "rule": "azure.rule.linux-web-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
+        "rule": "azure.rule.log-analytics-workspace",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:fd1e9b54f83650cd339abca95ef630cdeb046769006b6660df7ed70532a24a83",
+        "rule": "azure.rule.windows-web-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:azurerm_application_insights.classic",
+          "kind": "resource",
+          "type": "azurerm_application_insights",
+          "name": "classic",
+          "address": "azurerm_application_insights.classic",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_application_insights.platform",
+          "kind": "resource",
+          "type": "azurerm_application_insights",
+          "name": "platform",
+          "address": "azurerm_application_insights.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_linux_function_app.linux",
+          "kind": "resource",
+          "type": "azurerm_linux_function_app",
+          "name": "linux",
+          "address": "azurerm_linux_function_app.linux",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_linux_web_app.linux",
+          "kind": "resource",
+          "type": "azurerm_linux_web_app",
+          "name": "linux",
+          "address": "azurerm_linux_web_app.linux",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_linux_web_app.literal",
+          "kind": "resource",
+          "type": "azurerm_linux_web_app",
+          "name": "literal",
+          "address": "azurerm_linux_web_app.literal",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_linux_web_app.unknown",
+          "kind": "resource",
+          "type": "azurerm_linux_web_app",
+          "name": "unknown",
+          "address": "azurerm_linux_web_app.unknown",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_log_analytics_workspace.platform",
+          "kind": "resource",
+          "type": "azurerm_log_analytics_workspace",
+          "name": "platform",
+          "address": "azurerm_log_analytics_workspace.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_resource_group.platform",
+          "kind": "resource",
+          "type": "azurerm_resource_group",
+          "name": "platform",
+          "address": "azurerm_resource_group.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_service_plan.apps",
+          "kind": "resource",
+          "type": "azurerm_service_plan",
+          "name": "apps",
+          "address": "azurerm_service_plan.apps",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_subnet.apps",
+          "kind": "resource",
+          "type": "azurerm_subnet",
+          "name": "apps",
+          "address": "azurerm_subnet.apps",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_virtual_network.platform",
+          "kind": "resource",
+          "type": "azurerm_virtual_network",
+          "name": "platform",
+          "address": "azurerm_virtual_network.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_windows_function_app.windows",
+          "kind": "resource",
+          "type": "azurerm_windows_function_app",
+          "name": "windows",
+          "address": "azurerm_windows_function_app.windows",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_windows_web_app.windows",
+          "kind": "resource",
+          "type": "azurerm_windows_web_app",
+          "name": "windows",
+          "address": "azurerm_windows_web_app.windows",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.unknown_value",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "unknown_value",
+          "address": "terraform_data.unknown_value",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "representation:1:azurerm_application_insights.classic",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_application_insights.classic",
+          "address": "azurerm_application_insights.classic",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.application-insights"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.application-insights",
+          "concept": "azure.concept.application-insights",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_application_insights.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_application_insights.platform",
+          "address": "azurerm_application_insights.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.application-insights"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.application-insights",
+          "concept": "azure.concept.application-insights",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_linux_function_app.linux",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_linux_function_app.linux",
+          "address": "azurerm_linux_function_app.linux",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.linux-function-app"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.linux-function-app",
+          "concept": "azure.concept.serverless-function",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_linux_web_app.linux",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_linux_web_app.linux",
+          "address": "azurerm_linux_web_app.linux",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.linux-web-app"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.linux-web-app",
+          "concept": "azure.concept.app-service",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_linux_web_app.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_linux_web_app.literal",
+          "address": "azurerm_linux_web_app.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.linux-web-app"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.linux-web-app",
+          "concept": "azure.concept.app-service",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_linux_web_app.unknown",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_linux_web_app.unknown",
+          "address": "azurerm_linux_web_app.unknown",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.linux-web-app"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.linux-web-app",
+          "concept": "azure.concept.app-service",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_log_analytics_workspace.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_log_analytics_workspace.platform",
+          "address": "azurerm_log_analytics_workspace.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.log-analytics-workspace"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.log-analytics-workspace",
+          "concept": "azure.concept.log-analytics-workspace",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_resource_group.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_resource_group.platform",
+          "address": "azurerm_resource_group.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.resource-group"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.resource-group",
+          "concept": "azure.concept.resource-group",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_service_plan.apps",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_service_plan.apps",
+          "address": "azurerm_service_plan.apps",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.app-service-plan"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.app-service-plan",
+          "concept": "azure.concept.app-service-plan",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_subnet.apps",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_subnet.apps",
+          "address": "azurerm_subnet.apps",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.subnet"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.subnet",
+          "concept": "rf.concept.subnet",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_virtual_network.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_virtual_network.platform",
+          "address": "azurerm_virtual_network.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.virtual-network"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.virtual-network",
+          "concept": "rf.concept.virtual-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_windows_function_app.windows",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_windows_function_app.windows",
+          "address": "azurerm_windows_function_app.windows",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.windows-function-app"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.windows-function-app",
+          "concept": "azure.concept.serverless-function",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_windows_web_app.windows",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_windows_web_app.windows",
+          "address": "azurerm_windows_web_app.windows",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.windows-web-app"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.windows-web-app",
+          "concept": "azure.concept.app-service",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.unknown_value",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.unknown_value",
+          "address": "terraform_data.unknown_value",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_application_insights.classic:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_application_insights.classic",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:65d7db32e885538c7da174a0f81c768d513d27135975cd54f8e057e8e22f47ea",
+              "rule": "azure.rule.application-insights",
+              "closure": "closure:representation%3A1%3Aazurerm_application_insights.classic:emission%3A65d7db32e885538c7da174a0f81c768d513d27135975cd54f8e057e8e22f47ea",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_application_insights.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_application_insights.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:65d7db32e885538c7da174a0f81c768d513d27135975cd54f8e057e8e22f47ea",
+              "rule": "azure.rule.application-insights",
+              "closure": "closure:representation%3A1%3Aazurerm_application_insights.platform:emission%3A65d7db32e885538c7da174a0f81c768d513d27135975cd54f8e057e8e22f47ea",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_linux_function_app.linux:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_linux_function_app.linux",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:b306f9f376662102a27f59fe5cdb0064ed21172a531589d62dfeaf475cdca95f",
+              "rule": "azure.rule.linux-function-app",
+              "closure": "closure:representation%3A1%3Aazurerm_linux_function_app.linux:emission%3Ab306f9f376662102a27f59fe5cdb0064ed21172a531589d62dfeaf475cdca95f",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_linux_web_app.linux:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_linux_web_app.linux",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:f7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383",
+              "rule": "azure.rule.linux-web-app",
+              "closure": "closure:representation%3A1%3Aazurerm_linux_web_app.linux:emission%3Af7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_linux_web_app.literal:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_linux_web_app.literal",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:f7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383",
+              "rule": "azure.rule.linux-web-app",
+              "closure": "closure:representation%3A1%3Aazurerm_linux_web_app.literal:emission%3Af7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_log_analytics_workspace.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_log_analytics_workspace.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
+              "rule": "azure.rule.log-analytics-workspace",
+              "closure": "closure:representation%3A1%3Aazurerm_log_analytics_workspace.platform:emission%3Afa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_service_plan.apps:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_service_plan.apps",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:0b33c143c58ef96eb12fa886780a93a4a40505789836c3428d2c93df63362be8",
+              "rule": "azure.rule.app-service-plan",
+              "closure": "closure:representation%3A1%3Aazurerm_service_plan.apps:emission%3A0b33c143c58ef96eb12fa886780a93a4a40505789836c3428d2c93df63362be8",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.apps:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_subnet.apps",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+              "rule": "azure.rule.subnet",
+              "closure": "closure:representation%3A1%3Aazurerm_subnet.apps:emission%3A009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_virtual_network.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+              "rule": "azure.rule.virtual-network",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network.platform:emission%3A88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_windows_function_app.windows:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_windows_function_app.windows",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:ed0f9e805ba8852cb8a4b4ffa6f306ac84e5a2160fc21842673965cc45798235",
+              "rule": "azure.rule.windows-function-app",
+              "closure": "closure:representation%3A1%3Aazurerm_windows_function_app.windows:emission%3Aed0f9e805ba8852cb8a4b4ffa6f306ac84e5a2160fc21842673965cc45798235",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_windows_web_app.windows:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_windows_web_app.windows",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:fd1e9b54f83650cd339abca95ef630cdeb046769006b6660df7ed70532a24a83",
+              "rule": "azure.rule.windows-web-app",
+              "closure": "closure:representation%3A1%3Aazurerm_windows_web_app.windows:emission%3Afd1e9b54f83650cd339abca95ef630cdeb046769006b6660df7ed70532a24a83",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aazurerm_linux_function_app.linux:representation%3A1%3Aazurerm_subnet.apps",
+          "from": "representation:1:azurerm_linux_function_app.linux",
+          "to": "representation:1:azurerm_subnet.apps",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:9839ed4f125c0e499fd300450e800bed25babf6624d4ffa41c4b2a69ba99c169",
+              "rule": "azure.rule.linux-function-app",
+              "closure": "closure:representation%3A1%3Aazurerm_linux_function_app.linux:emission%3A9839ed4f125c0e499fd300450e800bed25babf6624d4ffa41c4b2a69ba99c169",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aazurerm_linux_web_app.linux:representation%3A1%3Aazurerm_subnet.apps",
+          "from": "representation:1:azurerm_linux_web_app.linux",
+          "to": "representation:1:azurerm_subnet.apps",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:686135c8f8fb97df301e53c2093ac6b8ef654a55f46d131025ed4895587e89df",
+              "rule": "azure.rule.linux-web-app",
+              "closure": "closure:representation%3A1%3Aazurerm_linux_web_app.linux:emission%3A686135c8f8fb97df301e53c2093ac6b8ef654a55f46d131025ed4895587e89df",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aazurerm_subnet.apps:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_subnet.apps",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+              "rule": "azure.rule.subnet",
+              "closure": "closure:representation%3A1%3Aazurerm_subnet.apps:emission%3Ab6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aazurerm_windows_function_app.windows:representation%3A1%3Aazurerm_subnet.apps",
+          "from": "representation:1:azurerm_windows_function_app.windows",
+          "to": "representation:1:azurerm_subnet.apps",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:1622b7a63d4c93f2f014021aae8aeed585248331088326e38486135fbd056a79",
+              "rule": "azure.rule.windows-function-app",
+              "closure": "closure:representation%3A1%3Aazurerm_windows_function_app.windows:emission%3A1622b7a63d4c93f2f014021aae8aeed585248331088326e38486135fbd056a79",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aazurerm_windows_web_app.windows:representation%3A1%3Aazurerm_subnet.apps",
+          "from": "representation:1:azurerm_windows_web_app.windows",
+          "to": "representation:1:azurerm_subnet.apps",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:8c438f713dc24a11731d9cb1ec14abb1a4f028f70a684ade28cf6c77537644a1",
+              "rule": "azure.rule.windows-web-app",
+              "closure": "closure:representation%3A1%3Aazurerm_windows_web_app.windows:emission%3A8c438f713dc24a11731d9cb1ec14abb1a4f028f70a684ade28cf6c77537644a1",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Aazurerm_linux_function_app.linux:representation%3A1%3Aazurerm_service_plan.apps",
+          "from": "representation:1:azurerm_linux_function_app.linux",
+          "to": "representation:1:azurerm_service_plan.apps",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:6e7bd239987f77027c8d30cf80c99ce98b40fc7c9201d2f681e6cb1a6393dba0",
+              "rule": "azure.rule.linux-function-app",
+              "closure": "closure:representation%3A1%3Aazurerm_linux_function_app.linux:emission%3A6e7bd239987f77027c8d30cf80c99ce98b40fc7c9201d2f681e6cb1a6393dba0",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Aazurerm_linux_web_app.linux:representation%3A1%3Aazurerm_service_plan.apps",
+          "from": "representation:1:azurerm_linux_web_app.linux",
+          "to": "representation:1:azurerm_service_plan.apps",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:a3b5b010cb79905242d6aa0b4d19dd76e9be56b142db03761113cfbd2c53fd91",
+              "rule": "azure.rule.linux-web-app",
+              "closure": "closure:representation%3A1%3Aazurerm_linux_web_app.linux:emission%3Aa3b5b010cb79905242d6aa0b4d19dd76e9be56b142db03761113cfbd2c53fd91",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Aazurerm_windows_function_app.windows:representation%3A1%3Aazurerm_service_plan.apps",
+          "from": "representation:1:azurerm_windows_function_app.windows",
+          "to": "representation:1:azurerm_service_plan.apps",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:ed2e6a33d7be1a6ea223fa7aaee338ca462681cfe063e483733febfbcea40714",
+              "rule": "azure.rule.windows-function-app",
+              "closure": "closure:representation%3A1%3Aazurerm_windows_function_app.windows:emission%3Aed2e6a33d7be1a6ea223fa7aaee338ca462681cfe063e483733febfbcea40714",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Aazurerm_windows_web_app.windows:representation%3A1%3Aazurerm_service_plan.apps",
+          "from": "representation:1:azurerm_windows_web_app.windows",
+          "to": "representation:1:azurerm_service_plan.apps",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:f1662bf8a207e8832ad358d8f4c83bc0fba23fd35753533a20cfb60dd4309140",
+              "rule": "azure.rule.windows-web-app",
+              "closure": "closure:representation%3A1%3Aazurerm_windows_web_app.windows:emission%3Af1662bf8a207e8832ad358d8f4c83bc0fba23fd35753533a20cfb60dd4309140",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "contributions": [],
+      "relations": [
+        {
+          "id": "relation:azure.relation.observed-by:representation%3A1%3Aazurerm_application_insights.platform:representation%3A1%3Aazurerm_log_analytics_workspace.platform",
+          "from": "representation:1:azurerm_application_insights.platform",
+          "to": "representation:1:azurerm_log_analytics_workspace.platform",
+          "predicate": "azure.relation.observed-by",
+          "provenance": [
+            {
+              "emission": "emission:d2de758048cc743984f8f35235562dc85ba41590f4bd51c394e7a3708e3c3cd2",
+              "rule": "azure.rule.application-insights",
+              "closure": "closure:representation%3A1%3Aazurerm_application_insights.platform:emission%3Ad2de758048cc743984f8f35235562dc85ba41590f4bd51c394e7a3708e3c3cd2",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "relation:azure.relation.observed-by:representation%3A1%3Aazurerm_linux_function_app.linux:representation%3A1%3Aazurerm_application_insights.platform",
+          "from": "representation:1:azurerm_linux_function_app.linux",
+          "to": "representation:1:azurerm_application_insights.platform",
+          "predicate": "azure.relation.observed-by",
+          "provenance": [
+            {
+              "emission": "emission:73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53",
+              "rule": "azure.rule.linux-function-app",
+              "closure": "closure:representation%3A1%3Aazurerm_linux_function_app.linux:emission%3A73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "relation:azure.relation.observed-by:representation%3A1%3Aazurerm_windows_function_app.windows:representation%3A1%3Aazurerm_application_insights.platform",
+          "from": "representation:1:azurerm_windows_function_app.windows",
+          "to": "representation:1:azurerm_application_insights.platform",
+          "predicate": "azure.relation.observed-by",
+          "provenance": [
+            {
+              "emission": "emission:1d686ccb7d9773a62af265dfcf560e9afac5bd54b3987b6cc232e742c8ebb3d7",
+              "rule": "azure.rule.windows-function-app",
+              "closure": "closure:representation%3A1%3Aazurerm_windows_function_app.windows:emission%3A1d686ccb7d9773a62af265dfcf560e9afac5bd54b3987b6cc232e742c8ebb3d7",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Aazurerm_application_insights.classic:emission%3A65d7db32e885538c7da174a0f81c768d513d27135975cd54f8e057e8e22f47ea",
+          "representation": "representation:1:azurerm_application_insights.classic",
+          "emission": "emission:65d7db32e885538c7da174a0f81c768d513d27135975cd54f8e057e8e22f47ea",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_application_insights.classic:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_application_insights.classic:emission%3Ad2de758048cc743984f8f35235562dc85ba41590f4bd51c394e7a3708e3c3cd2",
+          "representation": "representation:1:azurerm_application_insights.classic",
+          "emission": "emission:d2de758048cc743984f8f35235562dc85ba41590f4bd51c394e7a3708e3c3cd2",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_application_insights.platform:emission%3A65d7db32e885538c7da174a0f81c768d513d27135975cd54f8e057e8e22f47ea",
+          "representation": "representation:1:azurerm_application_insights.platform",
+          "emission": "emission:65d7db32e885538c7da174a0f81c768d513d27135975cd54f8e057e8e22f47ea",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_application_insights.platform:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_application_insights.platform:emission%3Ad2de758048cc743984f8f35235562dc85ba41590f4bd51c394e7a3708e3c3cd2",
+          "representation": "representation:1:azurerm_application_insights.platform",
+          "emission": "emission:d2de758048cc743984f8f35235562dc85ba41590f4bd51c394e7a3708e3c3cd2",
+          "outcome": "resolved",
+          "facts": [
+            "relation:azure.relation.observed-by:representation%3A1%3Aazurerm_application_insights.platform:representation%3A1%3Aazurerm_log_analytics_workspace.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_function_app.linux:emission%3A6e7bd239987f77027c8d30cf80c99ce98b40fc7c9201d2f681e6cb1a6393dba0",
+          "representation": "representation:1:azurerm_linux_function_app.linux",
+          "emission": "emission:6e7bd239987f77027c8d30cf80c99ce98b40fc7c9201d2f681e6cb1a6393dba0",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Aazurerm_linux_function_app.linux:representation%3A1%3Aazurerm_service_plan.apps"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_function_app.linux:emission%3A73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53",
+          "representation": "representation:1:azurerm_linux_function_app.linux",
+          "emission": "emission:73720fcb5ed9b6b0a2a003f53d9d22d68ae679ae43edaf49289c7f7df2095a53",
+          "outcome": "resolved",
+          "facts": [
+            "relation:azure.relation.observed-by:representation%3A1%3Aazurerm_linux_function_app.linux:representation%3A1%3Aazurerm_application_insights.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_function_app.linux:emission%3A9839ed4f125c0e499fd300450e800bed25babf6624d4ffa41c4b2a69ba99c169",
+          "representation": "representation:1:azurerm_linux_function_app.linux",
+          "emission": "emission:9839ed4f125c0e499fd300450e800bed25babf6624d4ffa41c4b2a69ba99c169",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aazurerm_linux_function_app.linux:representation%3A1%3Aazurerm_subnet.apps"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_function_app.linux:emission%3Ab306f9f376662102a27f59fe5cdb0064ed21172a531589d62dfeaf475cdca95f",
+          "representation": "representation:1:azurerm_linux_function_app.linux",
+          "emission": "emission:b306f9f376662102a27f59fe5cdb0064ed21172a531589d62dfeaf475cdca95f",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_linux_function_app.linux:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_web_app.linux:emission%3A686135c8f8fb97df301e53c2093ac6b8ef654a55f46d131025ed4895587e89df",
+          "representation": "representation:1:azurerm_linux_web_app.linux",
+          "emission": "emission:686135c8f8fb97df301e53c2093ac6b8ef654a55f46d131025ed4895587e89df",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aazurerm_linux_web_app.linux:representation%3A1%3Aazurerm_subnet.apps"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_web_app.linux:emission%3Aa3b5b010cb79905242d6aa0b4d19dd76e9be56b142db03761113cfbd2c53fd91",
+          "representation": "representation:1:azurerm_linux_web_app.linux",
+          "emission": "emission:a3b5b010cb79905242d6aa0b4d19dd76e9be56b142db03761113cfbd2c53fd91",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Aazurerm_linux_web_app.linux:representation%3A1%3Aazurerm_service_plan.apps"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_web_app.linux:emission%3Af7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383",
+          "representation": "representation:1:azurerm_linux_web_app.linux",
+          "emission": "emission:f7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_linux_web_app.linux:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_web_app.literal:emission%3A686135c8f8fb97df301e53c2093ac6b8ef654a55f46d131025ed4895587e89df",
+          "representation": "representation:1:azurerm_linux_web_app.literal",
+          "emission": "emission:686135c8f8fb97df301e53c2093ac6b8ef654a55f46d131025ed4895587e89df",
+          "outcome": "indeterminate",
+          "reason": "ambiguous_unknown",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 1,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_web_app.literal:emission%3Aa3b5b010cb79905242d6aa0b4d19dd76e9be56b142db03761113cfbd2c53fd91",
+          "representation": "representation:1:azurerm_linux_web_app.literal",
+          "emission": "emission:a3b5b010cb79905242d6aa0b4d19dd76e9be56b142db03761113cfbd2c53fd91",
+          "outcome": "indeterminate",
+          "reason": "ambiguous_unknown",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 1,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_web_app.literal:emission%3Af7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383",
+          "representation": "representation:1:azurerm_linux_web_app.literal",
+          "emission": "emission:f7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_linux_web_app.literal:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_web_app.unknown:emission%3A686135c8f8fb97df301e53c2093ac6b8ef654a55f46d131025ed4895587e89df",
+          "representation": "representation:1:azurerm_linux_web_app.unknown",
+          "emission": "emission:686135c8f8fb97df301e53c2093ac6b8ef654a55f46d131025ed4895587e89df",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_web_app.unknown:emission%3Aa3b5b010cb79905242d6aa0b4d19dd76e9be56b142db03761113cfbd2c53fd91",
+          "representation": "representation:1:azurerm_linux_web_app.unknown",
+          "emission": "emission:a3b5b010cb79905242d6aa0b4d19dd76e9be56b142db03761113cfbd2c53fd91",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_linux_web_app.unknown:emission%3Af7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383",
+          "representation": "representation:1:azurerm_linux_web_app.unknown",
+          "emission": "emission:f7d7f276e59105043b1818dfc4060c85e93cebbfdcd8873f291b22b0cdc6b383",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_log_analytics_workspace.platform:emission%3Afa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
+          "representation": "representation:1:azurerm_log_analytics_workspace.platform",
+          "emission": "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_log_analytics_workspace.platform:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_service_plan.apps:emission%3A0b33c143c58ef96eb12fa886780a93a4a40505789836c3428d2c93df63362be8",
+          "representation": "representation:1:azurerm_service_plan.apps",
+          "emission": "emission:0b33c143c58ef96eb12fa886780a93a4a40505789836c3428d2c93df63362be8",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_service_plan.apps:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_subnet.apps:emission%3A009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+          "representation": "representation:1:azurerm_subnet.apps",
+          "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.apps:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_subnet.apps:emission%3Ab6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+          "representation": "representation:1:azurerm_subnet.apps",
+          "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aazurerm_subnet.apps:representation%3A1%3Aazurerm_virtual_network.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network.platform:emission%3A88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+          "representation": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_windows_function_app.windows:emission%3A1622b7a63d4c93f2f014021aae8aeed585248331088326e38486135fbd056a79",
+          "representation": "representation:1:azurerm_windows_function_app.windows",
+          "emission": "emission:1622b7a63d4c93f2f014021aae8aeed585248331088326e38486135fbd056a79",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aazurerm_windows_function_app.windows:representation%3A1%3Aazurerm_subnet.apps"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_windows_function_app.windows:emission%3A1d686ccb7d9773a62af265dfcf560e9afac5bd54b3987b6cc232e742c8ebb3d7",
+          "representation": "representation:1:azurerm_windows_function_app.windows",
+          "emission": "emission:1d686ccb7d9773a62af265dfcf560e9afac5bd54b3987b6cc232e742c8ebb3d7",
+          "outcome": "resolved",
+          "facts": [
+            "relation:azure.relation.observed-by:representation%3A1%3Aazurerm_windows_function_app.windows:representation%3A1%3Aazurerm_application_insights.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_windows_function_app.windows:emission%3Aed0f9e805ba8852cb8a4b4ffa6f306ac84e5a2160fc21842673965cc45798235",
+          "representation": "representation:1:azurerm_windows_function_app.windows",
+          "emission": "emission:ed0f9e805ba8852cb8a4b4ffa6f306ac84e5a2160fc21842673965cc45798235",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_windows_function_app.windows:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_windows_function_app.windows:emission%3Aed2e6a33d7be1a6ea223fa7aaee338ca462681cfe063e483733febfbcea40714",
+          "representation": "representation:1:azurerm_windows_function_app.windows",
+          "emission": "emission:ed2e6a33d7be1a6ea223fa7aaee338ca462681cfe063e483733febfbcea40714",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Aazurerm_windows_function_app.windows:representation%3A1%3Aazurerm_service_plan.apps"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_windows_web_app.windows:emission%3A8c438f713dc24a11731d9cb1ec14abb1a4f028f70a684ade28cf6c77537644a1",
+          "representation": "representation:1:azurerm_windows_web_app.windows",
+          "emission": "emission:8c438f713dc24a11731d9cb1ec14abb1a4f028f70a684ade28cf6c77537644a1",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aazurerm_windows_web_app.windows:representation%3A1%3Aazurerm_subnet.apps"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_windows_web_app.windows:emission%3Af1662bf8a207e8832ad358d8f4c83bc0fba23fd35753533a20cfb60dd4309140",
+          "representation": "representation:1:azurerm_windows_web_app.windows",
+          "emission": "emission:f1662bf8a207e8832ad358d8f4c83bc0fba23fd35753533a20cfb60dd4309140",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Aazurerm_windows_web_app.windows:representation%3A1%3Aazurerm_service_plan.apps"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_windows_web_app.windows:emission%3Afd1e9b54f83650cd339abca95ef630cdeb046769006b6660df7ed70532a24a83",
+          "representation": "representation:1:azurerm_windows_web_app.windows",
+          "emission": "emission:fd1e9b54f83650cd339abca95ef630cdeb046769006b6660df7ed70532a24a83",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_windows_web_app.windows:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_application_insights.classic:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_application_insights.classic",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_application_insights.platform:declaration%3A1%3Aazurerm_log_analytics_workspace.platform",
+          "from": "declaration:1:azurerm_application_insights.platform",
+          "to": "declaration:1:azurerm_log_analytics_workspace.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_application_insights.platform:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_application_insights.platform",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_linux_function_app.linux:declaration%3A1%3Aazurerm_application_insights.platform",
+          "from": "declaration:1:azurerm_linux_function_app.linux",
+          "to": "declaration:1:azurerm_application_insights.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_linux_function_app.linux:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_linux_function_app.linux",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_linux_function_app.linux:declaration%3A1%3Aazurerm_service_plan.apps",
+          "from": "declaration:1:azurerm_linux_function_app.linux",
+          "to": "declaration:1:azurerm_service_plan.apps",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_linux_function_app.linux:declaration%3A1%3Aazurerm_subnet.apps",
+          "from": "declaration:1:azurerm_linux_function_app.linux",
+          "to": "declaration:1:azurerm_subnet.apps",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_linux_web_app.linux:declaration%3A1%3Aazurerm_application_insights.platform",
+          "from": "declaration:1:azurerm_linux_web_app.linux",
+          "to": "declaration:1:azurerm_application_insights.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_linux_web_app.linux:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_linux_web_app.linux",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_linux_web_app.linux:declaration%3A1%3Aazurerm_service_plan.apps",
+          "from": "declaration:1:azurerm_linux_web_app.linux",
+          "to": "declaration:1:azurerm_service_plan.apps",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_linux_web_app.linux:declaration%3A1%3Aazurerm_subnet.apps",
+          "from": "declaration:1:azurerm_linux_web_app.linux",
+          "to": "declaration:1:azurerm_subnet.apps",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_linux_web_app.literal:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_linux_web_app.literal",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_linux_web_app.unknown:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_linux_web_app.unknown",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_linux_web_app.unknown:declaration%3A1%3Aterraform_data.unknown_value",
+          "from": "declaration:1:azurerm_linux_web_app.unknown",
+          "to": "declaration:1:terraform_data.unknown_value",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_log_analytics_workspace.platform:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_log_analytics_workspace.platform",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_service_plan.apps:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_service_plan.apps",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_subnet.apps:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_subnet.apps",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_subnet.apps:declaration%3A1%3Aazurerm_virtual_network.platform",
+          "from": "declaration:1:azurerm_subnet.apps",
+          "to": "declaration:1:azurerm_virtual_network.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network.platform:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_virtual_network.platform",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_windows_function_app.windows:declaration%3A1%3Aazurerm_application_insights.platform",
+          "from": "declaration:1:azurerm_windows_function_app.windows",
+          "to": "declaration:1:azurerm_application_insights.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_windows_function_app.windows:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_windows_function_app.windows",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_windows_function_app.windows:declaration%3A1%3Aazurerm_service_plan.apps",
+          "from": "declaration:1:azurerm_windows_function_app.windows",
+          "to": "declaration:1:azurerm_service_plan.apps",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_windows_function_app.windows:declaration%3A1%3Aazurerm_subnet.apps",
+          "from": "declaration:1:azurerm_windows_function_app.windows",
+          "to": "declaration:1:azurerm_subnet.apps",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_windows_web_app.windows:declaration%3A1%3Aazurerm_application_insights.platform",
+          "from": "declaration:1:azurerm_windows_web_app.windows",
+          "to": "declaration:1:azurerm_application_insights.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_windows_web_app.windows:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_windows_web_app.windows",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_windows_web_app.windows:declaration%3A1%3Aazurerm_service_plan.apps",
+          "from": "declaration:1:azurerm_windows_web_app.windows",
+          "to": "declaration:1:azurerm_service_plan.apps",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_windows_web_app.windows:declaration%3A1%3Aazurerm_subnet.apps",
+          "from": "declaration:1:azurerm_windows_web_app.windows",
+          "to": "declaration:1:azurerm_subnet.apps",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 14,
+        "resources": 14,
+        "data_sources": 0,
+        "instances": 14,
+        "managed_instances": 14,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 13,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 1,
+        "facts": 23,
+        "closures": 29,
+        "resolved": 23,
+        "absent": 0,
+        "indeterminate": 6,
+        "dependencies": 27,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

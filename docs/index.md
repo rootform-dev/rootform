@@ -4,8 +4,8 @@ description: Explore, explain, compare, and check architecture derived from Terr
 tableOfContents: false
 ---
 
-Rootform turns Terraform and OpenTofu configuration or plans into architecture
-you can inspect without running providers or accessing a cloud account.
+Rootform turns Terraform and OpenTofu plan or state JSON into architecture
+you can inspect. Rootform does not run the producer or contact a cloud account.
 
 Use Rootform to:
 
@@ -15,7 +15,9 @@ Use Rootform to:
 - Evaluate the result against [policies](concepts/policies.md)
 
 Rootform analyzes only the input you provide. It does not deploy infrastructure,
-read live cloud resources, verify connectivity, or detect drift. When evidence
+read live cloud resources, or verify connectivity. A plan with prior state can
+report drift: changes made outside Terraform or OpenTofu between recorded and
+refreshed state. Missing drift records do not prove drift is absent. When evidence
 is unresolved or ambiguous, Rootform reports a diagnostic instead of treating
 unknown evidence as a proven absence or a successful check.
 
@@ -25,7 +27,7 @@ unknown evidence as a proven absence or a successful check.
 - [Install Rootform](installation.md)
   Choose the recommended method for your platform and verify the executable.
 - [Your first architecture](getting-started/first-architecture.md)
-  Explore a VPC and subnet, save the result, and explain its placement. No cloud credentials required.
+  Export a plan, inspect its architecture, and save the result.
 
 ## How Rootform reads a project
 
@@ -36,7 +38,7 @@ configuration.
 
 [Core concepts](concepts.md) explains how declarations, Rules, facts, and
 diagnostics fit together. Use [Architecture IR](concepts/architecture-ir.md)
-for the saved document contract and [Architecture Diff](concepts/diff.md) for
+for the saved document contract and [Architecture comparisons](concepts/diff.md) for
 comparison semantics.
 
 ## Continue by task
@@ -45,7 +47,7 @@ comparison semantics.
 - [Explore an architecture](guides/explore-architecture.md)
   Navigate an existing project, inspect evidence, and follow connections.
 - [Choose an input](inputs/index.md)
-  Decide between configuration, a saved Rootform architecture file, and a plan.
+  Decide between plan JSON, state JSON, and a saved Rootform document.
 - [Compare architectures](guides/compare-architectures.md)
   Review architectural changes between two revisions.
 - [Run checks](guides/check-architecture.md)

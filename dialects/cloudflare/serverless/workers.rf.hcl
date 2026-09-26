@@ -26,44 +26,121 @@ rule "workers-script" {
 
   as = concept.serverless-function
 
-  relation "uses" {
-    to  = rf.concept.object-storage-container
-    via = source.bindings[0].bucket_name
+  identity {
+    attributes = ["id", "script_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "script_name"]
   }
 
   relation "uses" {
-    to  = rf.concept.managed-database
-    via = source.bindings[1].database_id
+    to       = rf.concept.object-storage-container
+    via      = source.bindings[0].bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+
+  relation "uses" {
+    to       = rf.concept.managed-database
+    via      = source.bindings[1].database_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared managed-database instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "publishes-to" {
-    to  = concept.message-queue
-    via = source.bindings[2].queue_name
+    to       = concept.message-queue
+    via      = source.bindings[2].queue_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.queue_name
+      strategy = "exact"
+    }
   }
 
   relation "uses" {
-    to  = concept.workers-kv-namespace
-    via = source.bindings[3].namespace_id
+    to       = concept.workers-kv-namespace
+    via      = source.bindings[3].namespace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses" {
-    to  = rf.concept.object-storage-container
-    via = source.bindings[4].bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bindings[4].bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses" {
-    to  = rf.concept.managed-database
-    via = source.bindings[5].database_id
+    to       = rf.concept.managed-database
+    via      = source.bindings[5].database_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared managed-database instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "publishes-to" {
-    to  = concept.message-queue
-    via = source.bindings[6].queue_name
+    to       = concept.message-queue
+    via      = source.bindings[6].queue_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.queue_name
+      strategy = "exact"
+    }
   }
 
   relation "uses" {
-    to  = concept.workers-kv-namespace
-    via = source.bindings[7].namespace_id
+    to       = concept.workers-kv-namespace
+    via      = source.bindings[7].namespace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -73,6 +150,15 @@ rule "worker" {
   }
 
   as = concept.serverless-function
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "worker-version" {
@@ -83,28 +169,69 @@ rule "worker-version" {
   as = concept.worker-version
 
   contribution {
-    to  = concept.serverless-function
-    via = source.worker_id
+    to       = concept.serverless-function
+    via      = source.worker_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = rf.concept.object-storage-container
-    via = source.bindings[0].bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bindings[0].bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = rf.concept.managed-database
-    via = source.bindings[1].database_id
+    to       = rf.concept.managed-database
+    via      = source.bindings[1].database_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared managed-database instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.message-queue
-    via = source.bindings[2].queue_name
+    to       = concept.message-queue
+    via      = source.bindings[2].queue_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.queue_name
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.workers-kv-namespace
-    via = source.bindings[3].namespace_id
+    to       = concept.workers-kv-namespace
+    via      = source.bindings[3].namespace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -116,8 +243,15 @@ rule "workers-deployment" {
   as = concept.worker-deployment
 
   contribution {
-    to  = concept.serverless-function
-    via = source.script_name
+    to       = concept.serverless-function
+    via      = source.script_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -129,14 +263,31 @@ rule "workers-route" {
   as = concept.worker-route
 
   contribution {
-    to  = concept.serverless-function
-    via = source.script
+    to       = concept.serverless-function
+    via      = source.script
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -148,14 +299,31 @@ rule "workers-custom-domain" {
   as = concept.edge-route
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "routes-to" {
-    to  = concept.serverless-function
-    via = source.service
+    to       = concept.serverless-function
+    via      = source.service
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -167,8 +335,15 @@ rule "workers-script-subdomain" {
   as = concept.worker-route
 
   contribution {
-    to  = concept.serverless-function
-    via = source.script_name
+    to       = concept.serverless-function
+    via      = source.script_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -180,8 +355,15 @@ rule "workers-cron-trigger" {
   as = concept.worker-route
 
   contribution {
-    to  = concept.serverless-function
-    via = source.script_name
+    to       = concept.serverless-function
+    via      = source.script_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -192,6 +374,15 @@ rule "workers-kv-namespace" {
   }
 
   as = concept.workers-kv-namespace
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "workers-kv" {
@@ -202,7 +393,14 @@ rule "workers-kv" {
   as = concept.workers-kv-entry
 
   contribution {
-    to  = concept.workers-kv-namespace
-    via = source.namespace_id
+    to       = concept.workers-kv-namespace
+    via      = source.namespace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

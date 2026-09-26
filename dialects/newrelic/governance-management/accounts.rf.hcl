@@ -5,6 +5,15 @@ rule "account-lookup" {
   }
 
   as = concept.observability-tenant
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "account-management" {
@@ -13,4 +22,13 @@ rule "account-management" {
   }
 
   as = concept.observability-tenant
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

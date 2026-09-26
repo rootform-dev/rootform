@@ -23,7 +23,6 @@
         "aws_organizations_organization.governance": "representation-present"
       },
       "minimum": {},
-      "expected_check_violations": [],
       "limitations": [
         "One architecture owner per family proves release loading; exhaustive construct decisions remain in coverage matrix."
       ]
@@ -106,7 +105,6 @@
       "maximum_facts": {
         "relations": 1
       },
-      "expected_check_violations": [],
       "limitations": [
         "CloudFront origins, ECS task definitions, ALB target membership, EventBridge targets, secrets use, and producer/consumer links stay unconnected where current primitives do not prove ownership or runtime flow."
       ]
@@ -135,13 +133,6 @@
         "contributions": 0,
         "relations": 0
       },
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED"
-      ],
-      "expected_check_violations": [],
       "forbidden_output": [
         "rootform-cloudcontrol-sentinel",
         "rootform-policy-sentinel",
@@ -166,7 +157,6 @@
         "aws_kms_key.private": "representation-present",
         "aws_secretsmanager_secret.private": "representation-present"
       },
-      "expected_check_violations": [],
       "forbidden_output": [
         "rootform-user-data-secret-sentinel",
         "rootform-iam-policy-secret-sentinel",

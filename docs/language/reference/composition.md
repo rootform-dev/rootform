@@ -92,7 +92,7 @@ Member `match` uses same parameters as Rule `match`:
 
 | Name | Type | Required | Default | Constraints |
 | --- | --- | --- | --- | --- |
-| `kind` | Static string enum | No | `"resource"` | One of [15 match kinds](rules.md#matchkind-values) |
+| `kind` | Static string enum | No | `"resource"` | One of [15 match kinds](rules.md) |
 | `type` | Static string | Yes | None | Nonempty exact adapter-owned type |
 | `where` | Predicate expression | No | Equivalent to known `true` | `source.*` reads candidate member declaration |
 

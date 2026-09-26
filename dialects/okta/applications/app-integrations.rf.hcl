@@ -4,6 +4,15 @@ rule "api-service-integration" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "api-service-integration-lookup" {
@@ -13,6 +22,15 @@ rule "api-service-integration-lookup" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "app-auto-login" {
@@ -21,6 +39,15 @@ rule "app-auto-login" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "app-basic-auth" {
@@ -29,6 +56,15 @@ rule "app-basic-auth" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "app-bookmark" {
@@ -37,6 +73,15 @@ rule "app-bookmark" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "app-lookup" {
@@ -46,6 +91,15 @@ rule "app-lookup" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "app-oauth" {
@@ -54,6 +108,15 @@ rule "app-oauth" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "app-oauth-lookup" {
@@ -63,6 +126,15 @@ rule "app-oauth-lookup" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "app-saml" {
@@ -72,9 +144,25 @@ rule "app-saml" {
 
   as = concept.identity-application
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   relation "uses-inline-hook" {
-    to  = concept.identity-event-extension
-    via = source.inline_hook_id
+    to       = concept.identity-event-extension
+    via      = source.inline_hook_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -85,6 +173,15 @@ rule "app-saml-lookup" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "app-secure-password-store" {
@@ -93,6 +190,15 @@ rule "app-secure-password-store" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "app-shared-credentials" {
@@ -101,6 +207,15 @@ rule "app-shared-credentials" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "app-swa" {
@@ -109,6 +224,15 @@ rule "app-swa" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "app-three-field" {
@@ -117,4 +241,13 @@ rule "app-three-field" {
   }
 
   as = concept.identity-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

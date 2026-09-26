@@ -9,9 +9,28 @@ rule "cloud-private-data-source-connect-network" {
 
   as = concept.private-data-source-connect-network
 
+  identity {
+    attributes = ["id", "pdc_network_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "pdc_network_id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.stack_identifier
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.stack_identifier
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.slug, target.id]
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

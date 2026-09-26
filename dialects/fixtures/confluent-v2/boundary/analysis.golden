@@ -1,0 +1,3124 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+          "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
+          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+          "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+          "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+          "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+          "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+        "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
+        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+        "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+        "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+        "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+        "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "aws.concept.private-endpoint",
+        "owner": "aws",
+        "name": "private-endpoint",
+        "description": "A private endpoint exposing a service inside a virtual network."
+      },
+      {
+        "id": "confluent.concept.byok-key",
+        "owner": "confluent",
+        "name": "byok-key",
+        "description": "A customer-managed cloud encryption key registered for Confluent Cloud BYOK."
+      },
+      {
+        "id": "confluent.concept.certificate-authority",
+        "owner": "confluent",
+        "name": "certificate-authority",
+        "description": "A certificate authority trusted by Confluent Cloud for mutual TLS authentication."
+      },
+      {
+        "id": "confluent.concept.connector",
+        "owner": "confluent",
+        "name": "connector",
+        "description": "A managed Confluent Cloud connector moving data between Kafka and an external system."
+      },
+      {
+        "id": "confluent.concept.environment",
+        "owner": "confluent",
+        "name": "environment",
+        "description": "An isolated Confluent Cloud namespace for organizational and lifecycle ownership."
+      },
+      {
+        "id": "confluent.concept.flink-compute-pool",
+        "owner": "confluent",
+        "name": "flink-compute-pool",
+        "description": "A regional Confluent Cloud for Apache Flink compute pool."
+      },
+      {
+        "id": "confluent.concept.flink-configuration",
+        "owner": "confluent",
+        "name": "flink-configuration",
+        "description": "Compute-pool configuration or a Flink SQL statement contributing processing behavior."
+      },
+      {
+        "id": "confluent.concept.kafka-cluster",
+        "owner": "confluent",
+        "name": "kafka-cluster",
+        "description": "A managed Apache Kafka cluster in Confluent Cloud."
+      },
+      {
+        "id": "confluent.concept.message-topic",
+        "owner": "confluent",
+        "name": "message-topic",
+        "description": "A messaging topic receiving messages from publishers."
+      },
+      {
+        "id": "confluent.concept.network-gateway",
+        "owner": "confluent",
+        "name": "network-gateway",
+        "description": "A Confluent Cloud gateway for private ingress or egress connectivity."
+      },
+      {
+        "id": "confluent.concept.network-peering",
+        "owner": "confluent",
+        "name": "network-peering",
+        "description": "A direct private connectivity agreement between virtual networks."
+      },
+      {
+        "id": "confluent.concept.private-endpoint",
+        "owner": "confluent",
+        "name": "private-endpoint",
+        "description": "A private endpoint exposing a service inside a virtual network."
+      },
+      {
+        "id": "rf.concept.virtual-network",
+        "owner": "rf",
+        "name": "virtual-network",
+        "description": "An explicitly declared virtual network."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "confluent.context.ownership",
+        "owner": "confluent",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      },
+      {
+        "id": "rf.context.network",
+        "owner": "rf",
+        "name": "network",
+        "description": "A declared network attachment without a connectivity guarantee."
+      },
+      {
+        "id": "rf.context.runtime",
+        "owner": "rf",
+        "name": "runtime",
+        "description": "A declared execution environment or target without proof of effective execution."
+      }
+    ],
+    "relations": [
+      {
+        "id": "confluent.relation.connects-to",
+        "owner": "confluent",
+        "name": "connects-to"
+      },
+      {
+        "id": "confluent.relation.peers-with",
+        "owner": "confluent",
+        "name": "peers-with"
+      },
+      {
+        "id": "confluent.relation.uses-gateway",
+        "owner": "confluent",
+        "name": "uses-gateway"
+      },
+      {
+        "id": "confluent.relation.uses-key",
+        "owner": "confluent",
+        "name": "uses-key"
+      }
+    ],
+    "rules": [
+      {
+        "id": "aws.rule.vpc",
+        "owner": "aws",
+        "match_kind": "resource",
+        "match_type": "aws_vpc",
+        "concept": "rf.concept.virtual-network",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "cidr_block",
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "aws.rule.vpc-endpoint",
+        "owner": "aws",
+        "match_kind": "resource",
+        "match_type": "aws_vpc_endpoint",
+        "concept": "aws.concept.private-endpoint",
+        "emissions": [
+          "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0"
+        ]
+      },
+      {
+        "id": "confluent.rule.access-point",
+        "owner": "confluent",
+        "match_kind": "resource",
+        "match_type": "confluent_access_point",
+        "concept": "confluent.concept.private-endpoint",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "emission:82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580",
+          "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86",
+          "emission:e0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14"
+        ]
+      },
+      {
+        "id": "confluent.rule.certificate-authority",
+        "owner": "confluent",
+        "match_kind": "resource",
+        "match_type": "confluent_certificate_authority",
+        "concept": "confluent.concept.certificate-authority",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "confluent.rule.connector",
+        "owner": "confluent",
+        "match_kind": "resource",
+        "match_type": "confluent_connector",
+        "concept": "confluent.concept.connector",
+        "emissions": [
+          "emission:86133a20f8bd415e50fbf48965a032d73b57c64c6107c5d2cc8348809001ed07",
+          "emission:ca9b1b38aca5614e9f3efa35988a0822d1df341f0802366ead780591957abfc9"
+        ]
+      },
+      {
+        "id": "confluent.rule.environment",
+        "owner": "confluent",
+        "match_kind": "resource",
+        "match_type": "confluent_environment",
+        "concept": "confluent.concept.environment",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "confluent.rule.flink-statement",
+        "owner": "confluent",
+        "match_kind": "resource",
+        "match_type": "confluent_flink_statement",
+        "concept": "confluent.concept.flink-configuration",
+        "emissions": [
+          "emission:df15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26"
+        ]
+      },
+      {
+        "id": "confluent.rule.gateway",
+        "owner": "confluent",
+        "match_kind": "resource",
+        "match_type": "confluent_gateway",
+        "concept": "confluent.concept.network-gateway",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:406de3519fdcc6a252592e1bad6b920657a6eb44ff4be53afd3a900ad0d317f8"
+        ]
+      },
+      {
+        "id": "confluent.rule.kafka-cluster",
+        "owner": "confluent",
+        "match_kind": "resource",
+        "match_type": "confluent_kafka_cluster",
+        "concept": "confluent.concept.kafka-cluster",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+          "emission:60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+          "emission:794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36"
+        ]
+      },
+      {
+        "id": "confluent.rule.kafka-topic",
+        "owner": "confluent",
+        "match_kind": "resource",
+        "match_type": "confluent_kafka_topic",
+        "concept": "confluent.concept.message-topic",
+        "identity": {
+          "attributes": [
+            "topic_name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "topic_name"
+          ]
+        },
+        "emissions": [
+          "emission:344a6d7e15af1d432f1d700880ae4920aa5293cd7758edd24245e7c98bd9e941"
+        ]
+      },
+      {
+        "id": "confluent.rule.network",
+        "owner": "confluent",
+        "match_kind": "resource",
+        "match_type": "confluent_network",
+        "concept": "rf.concept.virtual-network",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:e4094c1b09562c29437520e04b06d5d8aad9a02ea4b79843af1be820cc9c1fcc"
+        ]
+      },
+      {
+        "id": "confluent.rule.network-peering",
+        "owner": "confluent",
+        "match_kind": "resource",
+        "match_type": "confluent_peering",
+        "concept": "confluent.concept.network-peering",
+        "emissions": [
+          "emission:2c8a06d18b8b3a3cb6524a8200c17132bd58b24e72160725b33cd017facbcf2e",
+          "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0",
+          "emission:82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "emission:bccefe63b8a8e225ecdc91a919f2269f41a0e7b7396975d984ac09f4a6d6024a"
+        ]
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+        "rule": "confluent.rule.kafka-cluster",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.network[0].id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0",
+        "rule": "aws.rule.vpc-endpoint",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.vpc_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:2c8a06d18b8b3a3cb6524a8200c17132bd58b24e72160725b33cd017facbcf2e",
+        "rule": "confluent.rule.network-peering",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "predicate": "confluent.relation.peers-with",
+        "via": "source.gcp[0].vpc_network",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:344a6d7e15af1d432f1d700880ae4920aa5293cd7758edd24245e7c98bd9e941",
+        "rule": "confluent.rule.kafka-topic",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.kafka-cluster"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "source.kafka_cluster[0].id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:406de3519fdcc6a252592e1bad6b920657a6eb44ff4be53afd3a900ad0d317f8",
+        "rule": "confluent.rule.gateway",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.environment"
+        },
+        "dimension": "confluent.context.ownership",
+        "via": "source.environment[0].id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0",
+        "rule": "confluent.rule.network-peering",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.network[0].id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+        "rule": "confluent.rule.kafka-cluster",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.byok-key"
+        },
+        "predicate": "confluent.relation.uses-key",
+        "via": "source.byok_key[0].id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36",
+        "rule": "confluent.rule.kafka-cluster",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.environment"
+        },
+        "dimension": "confluent.context.ownership",
+        "via": "source.environment[0].id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+        "rule": "confluent.rule.access-point",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.private-endpoint"
+        },
+        "predicate": "confluent.relation.connects-to",
+        "via": "source.aws_ingress_private_link_endpoint[0].vpc_endpoint_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580",
+        "rule": "confluent.rule.access-point",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.private-endpoint"
+        },
+        "predicate": "confluent.relation.connects-to",
+        "via": "source.gcp_ingress_private_service_connect_endpoint[0].private_service_connect_connection_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+        "rule": "confluent.rule.network-peering",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "predicate": "confluent.relation.peers-with",
+        "via": "source.aws[0].vpc",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:86133a20f8bd415e50fbf48965a032d73b57c64c6107c5d2cc8348809001ed07",
+        "rule": "confluent.rule.connector",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.kafka-cluster"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "source.kafka_cluster[0].id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:bccefe63b8a8e225ecdc91a919f2269f41a0e7b7396975d984ac09f4a6d6024a",
+        "rule": "confluent.rule.network-peering",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "predicate": "confluent.relation.peers-with",
+        "via": "source.azure[0].vnet",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:ca9b1b38aca5614e9f3efa35988a0822d1df341f0802366ead780591957abfc9",
+        "rule": "confluent.rule.connector",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.environment"
+        },
+        "dimension": "confluent.context.ownership",
+        "via": "source.environment[0].id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86",
+        "rule": "confluent.rule.access-point",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.network-gateway"
+        },
+        "predicate": "confluent.relation.uses-gateway",
+        "via": "source.gateway[0].id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:df15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26",
+        "rule": "confluent.rule.flink-statement",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.flink-compute-pool"
+        },
+        "via": "source.compute_pool[0].id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:e0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14",
+        "rule": "confluent.rule.access-point",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.private-endpoint"
+        },
+        "predicate": "confluent.relation.connects-to",
+        "via": "source.azure_ingress_private_link_endpoint[0].private_endpoint_resource_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:e4094c1b09562c29437520e04b06d5d8aad9a02ea4b79843af1be820cc9c1fcc",
+        "rule": "confluent.rule.network",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "confluent.concept.environment"
+        },
+        "dimension": "confluent.context.ownership",
+        "via": "source.environment[0].id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:aws_vpc.first",
+          "kind": "resource",
+          "type": "aws_vpc",
+          "name": "first",
+          "address": "aws_vpc.first",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:aws_vpc.second",
+          "kind": "resource",
+          "type": "aws_vpc",
+          "name": "second",
+          "address": "aws_vpc.second",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:aws_vpc_endpoint.first",
+          "kind": "resource",
+          "type": "aws_vpc_endpoint",
+          "name": "first",
+          "address": "aws_vpc_endpoint.first",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:aws_vpc_endpoint.second",
+          "kind": "resource",
+          "type": "aws_vpc_endpoint",
+          "name": "second",
+          "address": "aws_vpc_endpoint.second",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_access_point.ambiguous",
+          "kind": "resource",
+          "type": "confluent_access_point",
+          "name": "ambiguous",
+          "address": "confluent_access_point.ambiguous",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_access_point.literal",
+          "kind": "resource",
+          "type": "confluent_access_point",
+          "name": "literal",
+          "address": "confluent_access_point.literal",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_api_key.credential",
+          "kind": "resource",
+          "type": "confluent_api_key",
+          "name": "credential",
+          "address": "confluent_api_key.credential",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_certificate_authority.boundary",
+          "kind": "resource",
+          "type": "confluent_certificate_authority",
+          "name": "boundary",
+          "address": "confluent_certificate_authority.boundary",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_connector.boundary",
+          "kind": "resource",
+          "type": "confluent_connector",
+          "name": "boundary",
+          "address": "confluent_connector.boundary",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_environment.boundary",
+          "kind": "resource",
+          "type": "confluent_environment",
+          "name": "boundary",
+          "address": "confluent_environment.boundary",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_flink_statement.boundary",
+          "kind": "resource",
+          "type": "confluent_flink_statement",
+          "name": "boundary",
+          "address": "confluent_flink_statement.boundary",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_gateway.boundary",
+          "kind": "resource",
+          "type": "confluent_gateway",
+          "name": "boundary",
+          "address": "confluent_gateway.boundary",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_invitation.administration",
+          "kind": "resource",
+          "type": "confluent_invitation",
+          "name": "administration",
+          "address": "confluent_invitation.administration",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_kafka_cluster.boundary",
+          "kind": "resource",
+          "type": "confluent_kafka_cluster",
+          "name": "boundary",
+          "address": "confluent_kafka_cluster.boundary",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_kafka_topic.boundary",
+          "kind": "resource",
+          "type": "confluent_kafka_topic",
+          "name": "boundary",
+          "address": "confluent_kafka_topic.boundary",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_network.boundary",
+          "kind": "resource",
+          "type": "confluent_network",
+          "name": "boundary",
+          "address": "confluent_network.boundary",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_peering.ambiguous",
+          "kind": "resource",
+          "type": "confluent_peering",
+          "name": "ambiguous",
+          "address": "confluent_peering.ambiguous",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_peering.literal",
+          "kind": "resource",
+          "type": "confluent_peering",
+          "name": "literal",
+          "address": "confluent_peering.literal",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_tf_importer.imperative",
+          "kind": "resource",
+          "type": "confluent_tf_importer",
+          "name": "imperative",
+          "address": "confluent_tf_importer.imperative",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.confluent_kafka_cluster.lookup",
+          "kind": "data",
+          "type": "confluent_kafka_cluster",
+          "name": "lookup",
+          "address": "data.confluent_kafka_cluster.lookup",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.defer_reads",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "defer_reads",
+          "address": "terraform_data.defer_reads",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "representation:1:aws_vpc.first",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_vpc.first",
+          "address": "aws_vpc.first",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "aws.rule.vpc"
+            ],
+            "diagnostics": []
+          },
+          "rule": "aws.rule.vpc",
+          "concept": "rf.concept.virtual-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:aws_vpc.second",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_vpc.second",
+          "address": "aws_vpc.second",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "aws.rule.vpc"
+            ],
+            "diagnostics": []
+          },
+          "rule": "aws.rule.vpc",
+          "concept": "rf.concept.virtual-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:aws_vpc_endpoint.first",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_vpc_endpoint.first",
+          "address": "aws_vpc_endpoint.first",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "aws.rule.vpc-endpoint"
+            ],
+            "diagnostics": []
+          },
+          "rule": "aws.rule.vpc-endpoint",
+          "concept": "aws.concept.private-endpoint",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:aws_vpc_endpoint.second",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_vpc_endpoint.second",
+          "address": "aws_vpc_endpoint.second",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "aws.rule.vpc-endpoint"
+            ],
+            "diagnostics": []
+          },
+          "rule": "aws.rule.vpc-endpoint",
+          "concept": "aws.concept.private-endpoint",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_access_point.ambiguous",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_access_point.ambiguous",
+          "address": "confluent_access_point.ambiguous",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.access-point"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.access-point",
+          "concept": "confluent.concept.private-endpoint",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_access_point.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_access_point.literal",
+          "address": "confluent_access_point.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.access-point"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.access-point",
+          "concept": "confluent.concept.private-endpoint",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_api_key.credential",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_api_key.credential",
+          "address": "confluent_api_key.credential",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_certificate_authority.boundary",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_certificate_authority.boundary",
+          "address": "confluent_certificate_authority.boundary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.certificate-authority"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.certificate-authority",
+          "concept": "confluent.concept.certificate-authority",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_connector.boundary",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_connector.boundary",
+          "address": "confluent_connector.boundary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.connector"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.connector",
+          "concept": "confluent.concept.connector",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_environment.boundary",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_environment.boundary",
+          "address": "confluent_environment.boundary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.environment"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.environment",
+          "concept": "confluent.concept.environment",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_flink_statement.boundary",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_flink_statement.boundary",
+          "address": "confluent_flink_statement.boundary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.flink-statement"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.flink-statement",
+          "concept": "confluent.concept.flink-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_gateway.boundary",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_gateway.boundary",
+          "address": "confluent_gateway.boundary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.gateway"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.gateway",
+          "concept": "confluent.concept.network-gateway",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_invitation.administration",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_invitation.administration",
+          "address": "confluent_invitation.administration",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_kafka_cluster.boundary",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_kafka_cluster.boundary",
+          "address": "confluent_kafka_cluster.boundary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.kafka-cluster"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.kafka-cluster",
+          "concept": "confluent.concept.kafka-cluster",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_kafka_topic.boundary",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_kafka_topic.boundary",
+          "address": "confluent_kafka_topic.boundary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.kafka-topic"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.kafka-topic",
+          "concept": "confluent.concept.message-topic",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_network.boundary",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_network.boundary",
+          "address": "confluent_network.boundary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.network"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.network",
+          "concept": "rf.concept.virtual-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_peering.ambiguous",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_peering.ambiguous",
+          "address": "confluent_peering.ambiguous",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.network-peering"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.network-peering",
+          "concept": "confluent.concept.network-peering",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_peering.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_peering.literal",
+          "address": "confluent_peering.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.network-peering"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.network-peering",
+          "concept": "confluent.concept.network-peering",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_tf_importer.imperative",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_tf_importer.imperative",
+          "address": "confluent_tf_importer.imperative",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.confluent_kafka_cluster.lookup",
+          "kind": "data",
+          "declaration": "declaration:1:data.confluent_kafka_cluster.lookup",
+          "address": "data.confluent_kafka_cluster.lookup",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_config_unknown",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.defer_reads",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.defer_reads",
+          "address": "terraform_data.defer_reads",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:confluent.context.ownership:representation%3A1%3Aconfluent_connector.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_connector.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "dimension": "confluent.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:ca9b1b38aca5614e9f3efa35988a0822d1df341f0802366ead780591957abfc9",
+              "rule": "confluent.rule.connector",
+              "closure": "closure:representation%3A1%3Aconfluent_connector.boundary:emission%3Aca9b1b38aca5614e9f3efa35988a0822d1df341f0802366ead780591957abfc9",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:confluent.context.ownership:representation%3A1%3Aconfluent_gateway.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_gateway.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "dimension": "confluent.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:406de3519fdcc6a252592e1bad6b920657a6eb44ff4be53afd3a900ad0d317f8",
+              "rule": "confluent.rule.gateway",
+              "closure": "closure:representation%3A1%3Aconfluent_gateway.boundary:emission%3A406de3519fdcc6a252592e1bad6b920657a6eb44ff4be53afd3a900ad0d317f8",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:confluent.context.ownership:representation%3A1%3Aconfluent_kafka_cluster.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_kafka_cluster.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "dimension": "confluent.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36",
+              "rule": "confluent.rule.kafka-cluster",
+              "closure": "closure:representation%3A1%3Aconfluent_kafka_cluster.boundary:emission%3A794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:confluent.context.ownership:representation%3A1%3Aconfluent_network.boundary:representation%3A1%3Aconfluent_environment.boundary",
+          "from": "representation:1:confluent_network.boundary",
+          "to": "representation:1:confluent_environment.boundary",
+          "dimension": "confluent.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:e4094c1b09562c29437520e04b06d5d8aad9a02ea4b79843af1be820cc9c1fcc",
+              "rule": "confluent.rule.network",
+              "closure": "closure:representation%3A1%3Aconfluent_network.boundary:emission%3Ae4094c1b09562c29437520e04b06d5d8aad9a02ea4b79843af1be820cc9c1fcc",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.first:representation%3A1%3Aaws_vpc.first",
+          "from": "representation:1:aws_vpc_endpoint.first",
+          "to": "representation:1:aws_vpc.first",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0",
+              "rule": "aws.rule.vpc-endpoint",
+              "closure": "closure:representation%3A1%3Aaws_vpc_endpoint.first:emission%3A0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.second:representation%3A1%3Aaws_vpc.second",
+          "from": "representation:1:aws_vpc_endpoint.second",
+          "to": "representation:1:aws_vpc.second",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0",
+              "rule": "aws.rule.vpc-endpoint",
+              "closure": "closure:representation%3A1%3Aaws_vpc_endpoint.second:emission%3A0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aconfluent_peering.ambiguous:representation%3A1%3Aconfluent_network.boundary",
+          "from": "representation:1:confluent_peering.ambiguous",
+          "to": "representation:1:confluent_network.boundary",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0",
+              "rule": "confluent.rule.network-peering",
+              "closure": "closure:representation%3A1%3Aconfluent_peering.ambiguous:emission%3A54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aconfluent_peering.literal:representation%3A1%3Aconfluent_network.boundary",
+          "from": "representation:1:confluent_peering.literal",
+          "to": "representation:1:confluent_network.boundary",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0",
+              "rule": "confluent.rule.network-peering",
+              "closure": "closure:representation%3A1%3Aconfluent_peering.literal:emission%3A54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Aconfluent_connector.boundary:representation%3A1%3Aconfluent_kafka_cluster.boundary",
+          "from": "representation:1:confluent_connector.boundary",
+          "to": "representation:1:confluent_kafka_cluster.boundary",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:86133a20f8bd415e50fbf48965a032d73b57c64c6107c5d2cc8348809001ed07",
+              "rule": "confluent.rule.connector",
+              "closure": "closure:representation%3A1%3Aconfluent_connector.boundary:emission%3A86133a20f8bd415e50fbf48965a032d73b57c64c6107c5d2cc8348809001ed07",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Aconfluent_kafka_topic.boundary:representation%3A1%3Aconfluent_kafka_cluster.boundary",
+          "from": "representation:1:confluent_kafka_topic.boundary",
+          "to": "representation:1:confluent_kafka_cluster.boundary",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:344a6d7e15af1d432f1d700880ae4920aa5293cd7758edd24245e7c98bd9e941",
+              "rule": "confluent.rule.kafka-topic",
+              "closure": "closure:representation%3A1%3Aconfluent_kafka_topic.boundary:emission%3A344a6d7e15af1d432f1d700880ae4920aa5293cd7758edd24245e7c98bd9e941",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "contributions": [],
+      "relations": [
+        {
+          "id": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.ambiguous:representation%3A1%3Aconfluent_gateway.boundary",
+          "from": "representation:1:confluent_access_point.ambiguous",
+          "to": "representation:1:confluent_gateway.boundary",
+          "predicate": "confluent.relation.uses-gateway",
+          "provenance": [
+            {
+              "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86",
+              "rule": "confluent.rule.access-point",
+              "closure": "closure:representation%3A1%3Aconfluent_access_point.ambiguous:emission%3Ad05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.literal:representation%3A1%3Aconfluent_gateway.boundary",
+          "from": "representation:1:confluent_access_point.literal",
+          "to": "representation:1:confluent_gateway.boundary",
+          "predicate": "confluent.relation.uses-gateway",
+          "provenance": [
+            {
+              "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86",
+              "rule": "confluent.rule.access-point",
+              "closure": "closure:representation%3A1%3Aconfluent_access_point.literal:emission%3Ad05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Aaws_vpc_endpoint.first:emission%3A0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0",
+          "representation": "representation:1:aws_vpc_endpoint.first",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.first:representation%3A1%3Aaws_vpc.first"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aaws_vpc_endpoint.second:emission%3A0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0",
+          "representation": "representation:1:aws_vpc_endpoint.second",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.second:representation%3A1%3Aaws_vpc.second"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_access_point.ambiguous:emission%3A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "representation": "representation:1:confluent_access_point.ambiguous",
+          "emission": "emission:81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_access_point.ambiguous:emission%3A82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580",
+          "representation": "representation:1:confluent_access_point.ambiguous",
+          "emission": "emission:82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_access_point.ambiguous:emission%3Ad05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86",
+          "representation": "representation:1:confluent_access_point.ambiguous",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86",
+          "outcome": "resolved",
+          "facts": [
+            "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.ambiguous:representation%3A1%3Aconfluent_gateway.boundary"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_access_point.ambiguous:emission%3Ae0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14",
+          "representation": "representation:1:confluent_access_point.ambiguous",
+          "emission": "emission:e0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_access_point.literal:emission%3A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "representation": "representation:1:confluent_access_point.literal",
+          "emission": "emission:81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "outcome": "indeterminate",
+          "reason": "ambiguous_unknown",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 2,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_access_point.literal:emission%3A82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580",
+          "representation": "representation:1:confluent_access_point.literal",
+          "emission": "emission:82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_access_point.literal:emission%3Ad05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86",
+          "representation": "representation:1:confluent_access_point.literal",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86",
+          "outcome": "resolved",
+          "facts": [
+            "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.literal:representation%3A1%3Aconfluent_gateway.boundary"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_access_point.literal:emission%3Ae0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14",
+          "representation": "representation:1:confluent_access_point.literal",
+          "emission": "emission:e0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_connector.boundary:emission%3A86133a20f8bd415e50fbf48965a032d73b57c64c6107c5d2cc8348809001ed07",
+          "representation": "representation:1:confluent_connector.boundary",
+          "emission": "emission:86133a20f8bd415e50fbf48965a032d73b57c64c6107c5d2cc8348809001ed07",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Aconfluent_connector.boundary:representation%3A1%3Aconfluent_kafka_cluster.boundary"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_connector.boundary:emission%3Aca9b1b38aca5614e9f3efa35988a0822d1df341f0802366ead780591957abfc9",
+          "representation": "representation:1:confluent_connector.boundary",
+          "emission": "emission:ca9b1b38aca5614e9f3efa35988a0822d1df341f0802366ead780591957abfc9",
+          "outcome": "resolved",
+          "facts": [
+            "context:confluent.context.ownership:representation%3A1%3Aconfluent_connector.boundary:representation%3A1%3Aconfluent_environment.boundary"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_flink_statement.boundary:emission%3Adf15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26",
+          "representation": "representation:1:confluent_flink_statement.boundary",
+          "emission": "emission:df15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26",
+          "outcome": "indeterminate",
+          "reason": "external_denied",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_gateway.boundary:emission%3A406de3519fdcc6a252592e1bad6b920657a6eb44ff4be53afd3a900ad0d317f8",
+          "representation": "representation:1:confluent_gateway.boundary",
+          "emission": "emission:406de3519fdcc6a252592e1bad6b920657a6eb44ff4be53afd3a900ad0d317f8",
+          "outcome": "resolved",
+          "facts": [
+            "context:confluent.context.ownership:representation%3A1%3Aconfluent_gateway.boundary:representation%3A1%3Aconfluent_environment.boundary"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_kafka_cluster.boundary:emission%3A07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+          "representation": "representation:1:confluent_kafka_cluster.boundary",
+          "emission": "emission:07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_kafka_cluster.boundary:emission%3A60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+          "representation": "representation:1:confluent_kafka_cluster.boundary",
+          "emission": "emission:60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_kafka_cluster.boundary:emission%3A794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36",
+          "representation": "representation:1:confluent_kafka_cluster.boundary",
+          "emission": "emission:794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36",
+          "outcome": "resolved",
+          "facts": [
+            "context:confluent.context.ownership:representation%3A1%3Aconfluent_kafka_cluster.boundary:representation%3A1%3Aconfluent_environment.boundary"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_kafka_topic.boundary:emission%3A344a6d7e15af1d432f1d700880ae4920aa5293cd7758edd24245e7c98bd9e941",
+          "representation": "representation:1:confluent_kafka_topic.boundary",
+          "emission": "emission:344a6d7e15af1d432f1d700880ae4920aa5293cd7758edd24245e7c98bd9e941",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Aconfluent_kafka_topic.boundary:representation%3A1%3Aconfluent_kafka_cluster.boundary"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_network.boundary:emission%3Ae4094c1b09562c29437520e04b06d5d8aad9a02ea4b79843af1be820cc9c1fcc",
+          "representation": "representation:1:confluent_network.boundary",
+          "emission": "emission:e4094c1b09562c29437520e04b06d5d8aad9a02ea4b79843af1be820cc9c1fcc",
+          "outcome": "resolved",
+          "facts": [
+            "context:confluent.context.ownership:representation%3A1%3Aconfluent_network.boundary:representation%3A1%3Aconfluent_environment.boundary"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_peering.ambiguous:emission%3A2c8a06d18b8b3a3cb6524a8200c17132bd58b24e72160725b33cd017facbcf2e",
+          "representation": "representation:1:confluent_peering.ambiguous",
+          "emission": "emission:2c8a06d18b8b3a3cb6524a8200c17132bd58b24e72160725b33cd017facbcf2e",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_peering.ambiguous:emission%3A54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0",
+          "representation": "representation:1:confluent_peering.ambiguous",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aconfluent_peering.ambiguous:representation%3A1%3Aconfluent_network.boundary"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_peering.ambiguous:emission%3A82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "representation": "representation:1:confluent_peering.ambiguous",
+          "emission": "emission:82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_peering.ambiguous:emission%3Abccefe63b8a8e225ecdc91a919f2269f41a0e7b7396975d984ac09f4a6d6024a",
+          "representation": "representation:1:confluent_peering.ambiguous",
+          "emission": "emission:bccefe63b8a8e225ecdc91a919f2269f41a0e7b7396975d984ac09f4a6d6024a",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_peering.literal:emission%3A2c8a06d18b8b3a3cb6524a8200c17132bd58b24e72160725b33cd017facbcf2e",
+          "representation": "representation:1:confluent_peering.literal",
+          "emission": "emission:2c8a06d18b8b3a3cb6524a8200c17132bd58b24e72160725b33cd017facbcf2e",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_peering.literal:emission%3A54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0",
+          "representation": "representation:1:confluent_peering.literal",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aconfluent_peering.literal:representation%3A1%3Aconfluent_network.boundary"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_peering.literal:emission%3A82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "representation": "representation:1:confluent_peering.literal",
+          "emission": "emission:82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94",
+          "outcome": "indeterminate",
+          "reason": "ambiguous_unknown",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 1,
+            "excluded": 2
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aconfluent_peering.literal:emission%3Abccefe63b8a8e225ecdc91a919f2269f41a0e7b7396975d984ac09f4a6d6024a",
+          "representation": "representation:1:confluent_peering.literal",
+          "emission": "emission:bccefe63b8a8e225ecdc91a919f2269f41a0e7b7396975d984ac09f4a6d6024a",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Aaws_vpc_endpoint.first:declaration%3A1%3Aaws_vpc.first",
+          "from": "declaration:1:aws_vpc_endpoint.first",
+          "to": "declaration:1:aws_vpc.first",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aaws_vpc_endpoint.second:declaration%3A1%3Aaws_vpc.second",
+          "from": "declaration:1:aws_vpc_endpoint.second",
+          "to": "declaration:1:aws_vpc.second",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_access_point.ambiguous:declaration%3A1%3Aaws_vpc_endpoint.first",
+          "from": "declaration:1:confluent_access_point.ambiguous",
+          "to": "declaration:1:aws_vpc_endpoint.first",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_access_point.ambiguous:declaration%3A1%3Aaws_vpc_endpoint.second",
+          "from": "declaration:1:confluent_access_point.ambiguous",
+          "to": "declaration:1:aws_vpc_endpoint.second",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_access_point.ambiguous:declaration%3A1%3Aconfluent_environment.boundary",
+          "from": "declaration:1:confluent_access_point.ambiguous",
+          "to": "declaration:1:confluent_environment.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_access_point.ambiguous:declaration%3A1%3Aconfluent_gateway.boundary",
+          "from": "declaration:1:confluent_access_point.ambiguous",
+          "to": "declaration:1:confluent_gateway.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_access_point.literal:declaration%3A1%3Aconfluent_environment.boundary",
+          "from": "declaration:1:confluent_access_point.literal",
+          "to": "declaration:1:confluent_environment.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_access_point.literal:declaration%3A1%3Aconfluent_gateway.boundary",
+          "from": "declaration:1:confluent_access_point.literal",
+          "to": "declaration:1:confluent_gateway.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_connector.boundary:declaration%3A1%3Aaws_vpc.first",
+          "from": "declaration:1:confluent_connector.boundary",
+          "to": "declaration:1:aws_vpc.first",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_connector.boundary:declaration%3A1%3Aaws_vpc.second",
+          "from": "declaration:1:confluent_connector.boundary",
+          "to": "declaration:1:aws_vpc.second",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_connector.boundary:declaration%3A1%3Aconfluent_environment.boundary",
+          "from": "declaration:1:confluent_connector.boundary",
+          "to": "declaration:1:confluent_environment.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_connector.boundary:declaration%3A1%3Aconfluent_kafka_cluster.boundary",
+          "from": "declaration:1:confluent_connector.boundary",
+          "to": "declaration:1:confluent_kafka_cluster.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_connector.boundary:declaration%3A1%3Aconfluent_kafka_topic.boundary",
+          "from": "declaration:1:confluent_connector.boundary",
+          "to": "declaration:1:confluent_kafka_topic.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_flink_statement.boundary:declaration%3A1%3Aconfluent_environment.boundary",
+          "from": "declaration:1:confluent_flink_statement.boundary",
+          "to": "declaration:1:confluent_environment.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_gateway.boundary:declaration%3A1%3Aconfluent_environment.boundary",
+          "from": "declaration:1:confluent_gateway.boundary",
+          "to": "declaration:1:confluent_environment.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_kafka_cluster.boundary:declaration%3A1%3Aconfluent_environment.boundary",
+          "from": "declaration:1:confluent_kafka_cluster.boundary",
+          "to": "declaration:1:confluent_environment.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_kafka_topic.boundary:declaration%3A1%3Aconfluent_kafka_cluster.boundary",
+          "from": "declaration:1:confluent_kafka_topic.boundary",
+          "to": "declaration:1:confluent_kafka_cluster.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_network.boundary:declaration%3A1%3Aconfluent_environment.boundary",
+          "from": "declaration:1:confluent_network.boundary",
+          "to": "declaration:1:confluent_environment.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_peering.ambiguous:declaration%3A1%3Aaws_vpc.first",
+          "from": "declaration:1:confluent_peering.ambiguous",
+          "to": "declaration:1:aws_vpc.first",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_peering.ambiguous:declaration%3A1%3Aaws_vpc.second",
+          "from": "declaration:1:confluent_peering.ambiguous",
+          "to": "declaration:1:aws_vpc.second",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_peering.ambiguous:declaration%3A1%3Aconfluent_environment.boundary",
+          "from": "declaration:1:confluent_peering.ambiguous",
+          "to": "declaration:1:confluent_environment.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_peering.ambiguous:declaration%3A1%3Aconfluent_network.boundary",
+          "from": "declaration:1:confluent_peering.ambiguous",
+          "to": "declaration:1:confluent_network.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_peering.literal:declaration%3A1%3Aconfluent_environment.boundary",
+          "from": "declaration:1:confluent_peering.literal",
+          "to": "declaration:1:confluent_environment.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aconfluent_peering.literal:declaration%3A1%3Aconfluent_network.boundary",
+          "from": "declaration:1:confluent_peering.literal",
+          "to": "declaration:1:confluent_network.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.confluent_kafka_cluster.lookup:declaration%3A1%3Aconfluent_environment.boundary",
+          "from": "declaration:1:data.confluent_kafka_cluster.lookup",
+          "to": "declaration:1:confluent_environment.boundary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.confluent_kafka_cluster.lookup:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.confluent_kafka_cluster.lookup",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 21,
+        "resources": 20,
+        "data_sources": 1,
+        "instances": 21,
+        "managed_instances": 20,
+        "data_instances": 1,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 16,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 5,
+        "facts": 12,
+        "closures": 27,
+        "resolved": 12,
+        "absent": 8,
+        "indeterminate": 7,
+        "dependencies": 26,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

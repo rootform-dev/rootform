@@ -148,7 +148,7 @@ Cached content is a reproducible acquisition input, not a trust anchor. Corrupt,
 incomplete, unexpected, or same-version changed content fails closed.
 
 When project `.rootform/policy-packs/` exists, it is exclusive execution source
-for project `check` and policy listing; those commands never fall back to
+for project `run` and policy listing; those commands never fall back to
 store, cache, or registry. `rootform vendor policy-packs` is explicit
 materialization and repair boundary. It copies verified local source bytes
 directly or uses installed OCI content. For a missing OCI selection, it may

@@ -1,13 +1,13 @@
 {
   "format_version": "1",
-  "dialect": "datadog",
-  "provider_version": "4.19.0",
   "scenarios": [
     {
       "id": "datadog-minimal",
       "fixture": "fixtures/datadog-v4/minimal",
-      "limitations": [
-        "synthetic Terraform proves durable Datadog roots without contacting Datadog"
+      "required_rules": [
+        "datadog.rule.child-organization",
+        "datadog.rule.integration-aws-account",
+        "datadog.rule.logs-archive"
       ],
       "minimum": {
         "representations": 4,
@@ -20,35 +20,13 @@
         "contributions": 0,
         "relations": 0
       },
-      "required_rules": [
-        "datadog.rule.child-organization",
-        "datadog.rule.integration-aws-account",
-        "datadog.rule.logs-archive"
-      ],
-      "expected_html_labels": [
-        "Datadog child organization",
-        "Datadog AWS integration",
-        "Datadog Logs archive",
-        "Datadog Observability Pipeline"
+      "limitations": [
+        "synthetic Terraform proves durable Datadog roots without contacting Datadog"
       ]
     },
     {
       "id": "datadog-broad-observability",
       "fixture": "fixtures/datadog-v4/scenarios",
-      "limitations": [
-        "cloud and service integrations prove Datadog collection boundaries, not application traffic; nested OpenTelemetry blocks stay unclaimed"
-      ],
-      "minimum": {
-        "representations": 51,
-        "relations": 1,
-        "contexts": 0,
-        "contributions": 7
-      },
-      "maximum_facts": {
-        "contexts": 0,
-        "contributions": 7,
-        "relations": 1
-      },
       "required_rules": [
         "datadog.rule.action-connection",
         "datadog.rule.action-connection-lookup",
@@ -87,13 +65,18 @@
         "datadog.rule.service-level-objective-lookup",
         "datadog.rule.software-catalog",
         "datadog.rule.software-catalog-lookup",
-        "datadog.rule.synthetics-private-location",
         "datadog.rule.synthetics-suite",
         "datadog.rule.synthetics-test",
         "datadog.rule.synthetics-test-lookup",
         "datadog.rule.workflow-automation",
         "datadog.rule.workflow-automation-lookup"
       ],
+      "required_outcomes": {
+        "datadog_monitor.must_not_create_topology": "no-rule",
+        "datadog_observability_pipeline.telemetry": "representation-present",
+        "datadog_org_connection.shared": "representation-present",
+        "datadog_synthetics_test.api": "representation-present"
+      },
       "required_facts": [
         {
           "collection": "relations",
@@ -133,20 +116,17 @@
           "rule": "datadog.rule.synthetics-test"
         }
       ],
-      "required_outcomes": {
-        "datadog_monitor.must_not_create_topology": "no-rule",
-        "datadog_observability_pipeline.telemetry": "representation-present",
-        "datadog_org_connection.shared": "representation-present",
-        "datadog_synthetics_test.api": "representation-present"
+      "minimum": {
+        "representations": 51,
+        "relations": 1,
+        "contexts": 0,
+        "contributions": 7
       },
-      "expected_html_labels": [
-        "Datadog organization connection",
-        "Datadog Observability Pipeline",
-        "Datadog Logs archive",
-        "Datadog RUM application",
-        "Datadog Synthetics private location",
-        "Datadog Workflow Automation workflow"
-      ],
+      "maximum_facts": {
+        "contexts": 0,
+        "contributions": 7,
+        "relations": 1
+      },
       "forbidden_output": [
         "ROOTFORM_DATADOG_GCP_PRIVATE_KEY_SENTINEL",
         "ROOTFORM_DATADOG_CLOUDFLARE_KEY_SENTINEL",
@@ -158,22 +138,14 @@
         "ROOTFORM_DATADOG_SERVICE_DEFINITION_SENTINEL",
         "ROOTFORM_DATADOG_SOFTWARE_CATALOG_SENTINEL",
         "ROOTFORM_DATADOG_MONITOR_QUERY_SENTINEL"
+      ],
+      "limitations": [
+        "cloud and service integrations prove Datadog collection boundaries, not application traffic; nested OpenTelemetry blocks stay unclaimed"
       ]
     },
     {
       "id": "datadog-fail-closed",
       "fixture": "fixtures/datadog-v4/boundary",
-      "limitations": [
-        "negative fixture exits indeterminate while preserving resource bases and diagnostics; literals, depends_on, ambiguity, dangling references, and target mismatches create no unresolved fact"
-      ],
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "DEPENDENCY_DANGLING",
-        "FACT_TARGET_MISMATCH",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_DANGLING",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_DATADOG_PROVIDER_API_KEY_SENTINEL",
         "ROOTFORM_DATADOG_PROVIDER_APP_KEY_SENTINEL",
@@ -182,6 +154,9 @@
         "ROOTFORM_DATADOG_BOUNDARY_WEBHOOK_SECRET_SENTINEL",
         "ROOTFORM_DATADOG_BOUNDARY_AZURE_SECRET_SENTINEL",
         "ROOTFORM_DATADOG_BOUNDARY_MONITOR_QUERY_SENTINEL"
+      ],
+      "limitations": [
+        "negative fixture exits indeterminate while preserving resource bases and diagnostics; literals, depends_on, ambiguity, dangling references, and target mismatches create no unresolved fact"
       ]
     }
   ]

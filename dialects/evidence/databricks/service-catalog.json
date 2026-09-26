@@ -14,9 +14,9 @@
       "coverage_reason": "workspace, cloud identity, root storage, keys, log delivery, and disaster recovery are represented; cost policy and human administration stay off topology",
       "constructs": 13,
       "counts": {
-        "rule-present": 6,
+        "rule-present": 5,
         "partial-rule": 1,
-        "no-rule": 6
+        "no-rule": 7
       }
     },
     {

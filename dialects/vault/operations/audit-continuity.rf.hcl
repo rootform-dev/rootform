@@ -18,9 +18,19 @@ rule "agent-registration" {
   as = concept.vault-agent
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -32,9 +42,19 @@ rule "audit" {
   as = concept.audit-device
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -62,28 +82,54 @@ rule "raft-snapshot-agent-config" {
   as = concept.backup-plan
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "stores-snapshots-in" {
-    to  = rf.concept.object-storage-container
-    via = source.aws_s3_bucket
+    to       = rf.concept.object-storage-container
+    via      = source.aws_s3_bucket
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "stores-snapshots-in" {
-    to  = rf.concept.object-storage-container
-    via = source.azure_container_name
+    to       = rf.concept.object-storage-container
+    via      = source.azure_container_name
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "stores-snapshots-in" {
-    to  = rf.concept.object-storage-container
-    via = source.google_gcs_bucket
+    to       = rf.concept.object-storage-container
+    via      = source.google_gcs_bucket
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "uses-encryption-key" {
-    to  = concept.encryption-key
-    via = source.aws_s3_kms_key
+    to       = concept.encryption-key
+    via      = source.aws_s3_kms_key
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared encryption-key instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

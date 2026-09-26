@@ -24,17 +24,14 @@ terraform {
 }
 
 resource "aws_vpc" "application" {
+
   cidr_block = "10.10.0.0/16"
-}
 
+}
 resource "aws_lb" "application" {
-  name = "application"
+  name    = "application"
+  subnets = ["subnet-00000000000000001", "subnet-00000000000000002"]
 }
-
-resource "azure_virtual_network" "ignored" {
-  name = "wrong-provider-spelling"
-}
-
 resource "azurerm_virtual_network" "application" {
   name                = "application"
   address_space       = ["10.20.0.0/16"]
@@ -177,6 +174,8 @@ resource "cloudflare_workers_kv_namespace" "sessions" {
 resource "cloudflare_workers_script" "api" {
   account_id  = "account"
   script_name = "api"
+  main_module = "worker.js"
+  content     = "export default {}"
   bindings = [
     {
       name        = "ASSETS"
@@ -245,6 +244,7 @@ resource "cloudflare_workers_deployment" "jobs" {
 
 resource "cloudflare_queue_consumer" "jobs" {
   account_id  = "account"
+  type        = "worker"
   queue_id    = cloudflare_queue.events.id
   script_name = cloudflare_worker.jobs.name
 }
@@ -253,6 +253,7 @@ resource "cloudflare_r2_bucket_event_notification" "assets" {
   account_id  = "account"
   bucket_name = cloudflare_r2_bucket.assets.name
   queue_id    = cloudflare_queue.events.id
+  rules       = [{ actions = ["PutObject"] }]
 }
 
 resource "cloudflare_workers_custom_domain" "api" {
@@ -292,8 +293,10 @@ resource "cloudflare_pages_domain" "docs" {
 }
 
 resource "cloudflare_workflow" "orders" {
-  account_id = "account"
-  name       = "orders"
+  account_id    = "account"
+  workflow_name = "orders"
+  class_name    = "OrdersWorkflow"
+  script_name   = cloudflare_workers_script.api.script_name
 }
 
 resource "cloudflare_pipeline_stream" "events" {
@@ -336,7 +339,7 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_route" "aws" {
 resource "cloudflare_zero_trust_tunnel_cloudflared_route" "azure" {
   account_id = "account"
   tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.private.id
-  network    = azurerm_virtual_network.application.address_space[0]
+  network    = one(azurerm_virtual_network.application.address_space)
 }
 
 resource "cloudflare_connectivity_directory_service" "database" {
@@ -375,8 +378,13 @@ resource "cloudflare_turnstile_widget" "login" {
 }
 
 resource "cloudflare_ai_gateway" "models" {
-  account_id = "account"
-  id         = "models"
+  account_id                 = "account"
+  id                         = "models"
+  cache_invalidate_on_update = false
+  cache_ttl                  = 0
+  collect_logs               = false
+  rate_limiting_interval     = 0
+  rate_limiting_limit        = 0
 }
 
 resource "cloudflare_ai_search_instance" "docs" {
@@ -392,9 +400,10 @@ resource "cloudflare_logpush_job" "security" {
 }
 
 resource "cloudflare_stream_live_input" "events" {
-  account_id = "account"
-}
 
+  account_id = "account"
+
+}
 resource "cloudflare_calls_sfu_app" "meetings" {
   account_id = "account"
   name       = "meetings"
@@ -403,6 +412,7 @@ resource "cloudflare_calls_sfu_app" "meetings" {
 resource "cloudflare_spectrum_application" "tcp" {
   zone_id       = cloudflare_zone.edge.id
   protocol      = "tcp/443"
+  dns           = { name = "tcp.example.com", type = "CNAME" }
   origin_direct = [aws_lb.application.dns_name]
 }
 
@@ -410,7 +420,7 @@ resource "cloudflare_waiting_room" "launch" {
   zone_id              = cloudflare_zone.edge.id
   host                 = "app.example.com"
   name                 = "launch"
-  new_users_per_minute = 100
+  new_users_per_minute = 200
   total_active_users   = 1000
 }
 
@@ -437,9 +447,10 @@ resource "cloudflare_dns_zone_transfers_incoming" "secondary" {
 }
 
 resource "cloudflare_calls_turn_app" "relay" {
-  account_id = cloudflare_account.platform.id
-}
 
+  account_id = cloudflare_account.platform.id
+
+}
 resource "cloudflare_magic_transit_cf1_site" "branch" {
   account_id = cloudflare_account.platform.id
   body       = [{ name = "branch" }]

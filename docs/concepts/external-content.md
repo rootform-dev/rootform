@@ -150,7 +150,7 @@ part of a selected Pack, filter one run with `--policy`:
 
 <!-- docs-check:external-content-5 -->
 ```sh
-rootform check . --policy 'tutorial/*'
+rootform run plan.json --policy 'tutorial/*' --no-serve
 ```
 
 This assumes the project selects a `tutorial` Policy Pack. The filter does

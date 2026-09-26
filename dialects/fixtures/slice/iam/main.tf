@@ -8,19 +8,20 @@ terraform {
 }
 
 resource "google_service_account" "workload" {
-  account_id = "workload"
-}
 
+  account_id = "workload"
+
+}
 resource "google_project_iam_member" "viewer" {
   project = "example"
   role    = "roles/viewer"
-  member  = google_service_account.workload.email
+  member  = google_service_account.workload.member
 }
 
 resource "google_project_iam_binding" "editors" {
   project = "example"
   role    = "roles/editor"
-  members = [google_service_account.workload.email]
+  members = [google_service_account.workload.member]
 }
 
 resource "google_project_iam_policy" "authoritative" {

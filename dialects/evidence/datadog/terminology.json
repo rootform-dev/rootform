@@ -166,10 +166,6 @@
       "label": "Datadog Software Catalog lookup"
     },
     {
-      "id": "datadog.rule.synthetics-private-location",
-      "label": "Datadog Synthetics private location"
-    },
-    {
       "id": "datadog.rule.synthetics-suite",
       "label": "Datadog Synthetics test suite"
     },

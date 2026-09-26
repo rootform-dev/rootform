@@ -109,6 +109,7 @@
     "fleet-configuration": "generic/entity",
     "fleet-deployment": "generic/entity",
     "fleet-membership": "generic/entity",
+    "observability-tenant": "generic/scope",
     "observability-workload": "generic/scope",
     "telemetry-processing-configuration": "generic/entity"
   },

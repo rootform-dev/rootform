@@ -1,30 +1,39 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
+      version = "= 6.62.0"
     }
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
+      version = "= 5.3.0"
     }
     cloudflare = {
-      source = "cloudflare/cloudflare"
+      source  = "cloudflare/cloudflare"
+      version = "= 5.24.0"
     }
     confluent = {
-      source = "confluentinc/confluent"
+      source  = "confluentinc/confluent"
+      version = "= 2.83.0"
     }
     datadog = {
       source  = "datadog/datadog"
       version = "4.19.0"
     }
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
+      version = "= 8.0.0"
     }
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
+      version = "= 2.38.0"
     }
   }
 }
 
+# Reads of this provider need its API, so the plan defers them until apply.
+resource "terraform_data" "defer_reads" {
+}
 resource "aws_organizations_account" "production" {
   name  = "production"
   email = "production@rootform.invalid"
@@ -48,23 +57,47 @@ resource "kubernetes_namespace" "observability" {
 }
 
 resource "cloudflare_account" "edge" {
+
   name = "edge"
-}
 
+}
 resource "confluent_environment" "streaming" {
+
   display_name = "streaming"
-}
 
+}
 resource "datadog_child_organization" "platform" {
-  name = "platform"
-}
 
+  name = "platform"
+
+}
 resource "datadog_org_connection" "shared" {
-  sink_org_id     = datadog_child_organization.platform.public_id
+  sink_org_id      = datadog_child_organization.platform.public_id
   connection_types = ["metrics", "logs"]
 }
 
 resource "datadog_integration_aws_account" "production" {
+  resources_config {
+  }
+  traces_config {
+    xray_services {
+    }
+  }
+  metrics_config {
+    namespace_filters {
+    }
+  }
+  logs_config {
+    lambda_forwarder {
+    }
+  }
+  auth_config {
+    aws_auth_config_role {
+      role_name = "DatadogIntegrationRole"
+    }
+  }
+  aws_regions {
+  }
   aws_account_id = aws_organizations_account.production.id
   aws_partition  = "aws"
 }
@@ -90,9 +123,9 @@ resource "datadog_integration_gcp_sts" "production" {
 }
 
 resource "datadog_integration_cloudflare_account" "edge" {
-  name      = "edge"
-  api_key   = "ROOTFORM_DATADOG_CLOUDFLARE_KEY_SENTINEL"
-  resources = ["web", "dns", "lb", "worker"]
+  name       = "edge"
+  api_key    = "ROOTFORM_DATADOG_CLOUDFLARE_KEY_SENTINEL"
+  resources  = ["web", "dns", "lb", "worker"]
   depends_on = [cloudflare_account.edge]
 }
 
@@ -119,11 +152,18 @@ resource "datadog_integration_fastly_service" "edge" {
 }
 
 resource "datadog_action_connection" "automation" {
+  aws {
+    assume_role {
+      account_id = "123456789012"
+      role       = "DatadogActionRole"
+    }
+  }
   name = "automation"
 }
 
 data "datadog_action_connection" "automation" {
-  id = datadog_action_connection.automation.id
+  depends_on = [terraform_data.defer_reads]
+  id         = datadog_action_connection.automation.id
 }
 
 resource "datadog_observability_pipeline" "telemetry" {
@@ -148,23 +188,38 @@ resource "datadog_logs_archive" "primary" {
 }
 
 resource "datadog_logs_custom_destination" "security" {
+  http_destination {
+    endpoint = "https://fx-security-endpoint.example.com"
+    custom_header_auth {
+      header_name  = "X-Fixture"
+      header_value = "fx-security-header-value"
+    }
+  }
   name  = "security"
   query = "source:security"
 }
 
 resource "datadog_logs_archive_order" "primary" {
-  archive_ids = [datadog_logs_archive.primary.id]
-}
 
+  archive_ids = [datadog_logs_archive.primary.id]
+
+}
 resource "datadog_logs_custom_pipeline" "application" {
+  filter {
+    query = "fx-application-query"
+  }
   name = "application"
 }
 
 resource "datadog_logs_integration_pipeline" "aws" {
-  is_enabled = true
-}
 
+  is_enabled = true
+
+}
 resource "datadog_logs_index" "production" {
+  filter {
+    query = "fx-production-query"
+  }
   name           = "production"
   retention_days = 15
 }
@@ -175,7 +230,8 @@ resource "datadog_rum_application" "web" {
 }
 
 data "datadog_rum_application" "web" {
-  id = datadog_rum_application.web.id
+  depends_on = [terraform_data.defer_reads]
+  id         = datadog_rum_application.web.id
 }
 
 resource "datadog_rum_retention_filter" "web" {
@@ -196,35 +252,41 @@ resource "datadog_synthetics_test" "api" {
   type      = "api"
   subtype   = "http"
   status    = "live"
-  locations = [datadog_synthetics_private_location.internal.id]
+  # The provider rejects a locations set that is unknown during plan, so a
+  # plan-only fixture cannot use the private location created above.
+  locations = ["aws:us-east-1"]
 }
 
 data "datadog_synthetics_test" "api" {
-  test_id = datadog_synthetics_test.api.id
+  depends_on = [terraform_data.defer_reads]
+  test_id    = datadog_synthetics_test.api.id
 }
 
 resource "datadog_synthetics_suite" "application" {
-  name = "application"
-}
 
+  name = "application"
+
+}
 resource "datadog_datastore" "operations" {
   name                = "operations"
   primary_column_name = "id"
 }
 
 data "datadog_datastore" "operations" {
+  depends_on   = [terraform_data.defer_reads]
   datastore_id = datadog_datastore.operations.id
 }
 
 resource "datadog_datastore_item" "status" {
   datastore_id = datadog_datastore.operations.id
-  item_key      = "status"
-  value         = "ROOTFORM_DATADOG_DATASTORE_VALUE_SENTINEL"
+  item_key     = "status"
+  value        = { payload = "ROOTFORM_DATADOG_DATASTORE_VALUE_SENTINEL" }
 }
 
 data "datadog_datastore_item" "status" {
+  depends_on   = [terraform_data.defer_reads]
   datastore_id = datadog_datastore.operations.id
-  item_key      = datadog_datastore_item.status.item_key
+  item_key     = datadog_datastore_item.status.item_key
 }
 
 resource "datadog_app_builder_app" "operations" {
@@ -233,7 +295,8 @@ resource "datadog_app_builder_app" "operations" {
 }
 
 data "datadog_app_builder_app" "operations" {
-  id = datadog_app_builder_app.operations.id
+  depends_on = [terraform_data.defer_reads]
+  id         = datadog_app_builder_app.operations.id
 }
 
 resource "datadog_workflow_automation" "remediation" {
@@ -241,51 +304,82 @@ resource "datadog_workflow_automation" "remediation" {
   description = "remediation workflow"
   published   = true
   tags        = ["team:platform"]
-  spec_json   = "ROOTFORM_DATADOG_WORKFLOW_SPEC_SENTINEL"
+  spec_json   = jsonencode({ description = "ROOTFORM_DATADOG_WORKFLOW_SPEC_SENTINEL" })
 }
 
 data "datadog_workflow_automation" "remediation" {
-  id = datadog_workflow_automation.remediation.id
+  depends_on = [terraform_data.defer_reads]
+  id         = datadog_workflow_automation.remediation.id
 }
 
 resource "datadog_service_definition_yaml" "api" {
-  service_definition = "ROOTFORM_DATADOG_SERVICE_DEFINITION_SENTINEL"
+  service_definition = yamlencode({
+    "schema-version" = "v2.2"
+    "dd-service"     = "api"
+    description      = "ROOTFORM_DATADOG_SERVICE_DEFINITION_SENTINEL"
+  })
 }
-
 resource "datadog_software_catalog" "api" {
-  entity = "ROOTFORM_DATADOG_SOFTWARE_CATALOG_SENTINEL"
+  entity = yamlencode({
+    apiVersion = "v3"
+    kind       = "service"
+    metadata = {
+      name        = "api"
+      description = "ROOTFORM_DATADOG_SOFTWARE_CATALOG_SENTINEL"
+    }
+  })
 }
-
 data "datadog_software_catalog" "api" {
+  depends_on  = [terraform_data.defer_reads]
   filter_name = "api"
 }
 
 resource "datadog_service_level_objective" "api" {
+  thresholds {
+    target    = 99.9
+    timeframe = "7d"
+  }
+  query {
+    numerator   = "sum:api.requests.ok{*}.as_count()"
+    denominator = "sum:api.requests.total{*}.as_count()"
+  }
   name      = "api availability"
   type      = "metric"
   timeframe = "7d"
 }
 
 data "datadog_service_level_objective" "api" {
-  id = datadog_service_level_objective.api.id
+  depends_on = [terraform_data.defer_reads]
+  id         = datadog_service_level_objective.api.id
 }
 
 resource "datadog_compliance_custom_framework" "platform" {
+  requirements {
+    name = "access"
+    controls {
+      name     = "restricted-access"
+      rules_id = ["def-000-be9"]
+    }
+  }
   name    = "platform"
   handle  = "platform"
   version = "1.0"
 }
 
 resource "datadog_csm_threats_policy" "production" {
-  name = "production"
-}
 
+  name = "production"
+
+}
 resource "datadog_security_monitoring_rule" "authentication" {
   name    = "authentication"
   message = "investigate authentication failures"
 }
 
 resource "datadog_sensitive_data_scanner_group" "logs" {
+  filter {
+    query = "fx-logs-query"
+  }
   name         = "logs"
   is_enabled   = true
   product_list = ["logs"]
@@ -294,6 +388,7 @@ resource "datadog_sensitive_data_scanner_group" "logs" {
 resource "datadog_monitor" "must_not_create_topology" {
   name    = "api latency"
   type    = "metric alert"
-  query   = "ROOTFORM_DATADOG_MONITOR_QUERY_SENTINEL"
-  message = "ROOTFORM_DATADOG_MONITOR_MESSAGE_SENTINEL"
+  query    = "ROOTFORM_DATADOG_MONITOR_QUERY_SENTINEL"
+  message  = "ROOTFORM_DATADOG_MONITOR_MESSAGE_SENTINEL"
+  validate = false
 }

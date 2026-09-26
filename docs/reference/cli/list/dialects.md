@@ -20,7 +20,7 @@ rootform list dialects [name]... [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
 | ` -o, --format ` | ` string ` | ` "" ` | output `format`: text, wide, or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list dialects |
 | ` --installed ` | ` bool ` | ` false ` | list versions installed in the Rootform home |

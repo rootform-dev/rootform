@@ -18,9 +18,16 @@ rule "cortex-agent" {
   as = concept.cortex-agent
 
   context {
-    as  = context.ownership
-    to  = concept.schema
-    via = source.schema
+    as       = context.ownership
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -32,15 +39,29 @@ rule "cortex-search-service" {
   as = concept.cortex-search-service
 
   context {
-    as  = context.ownership
-    to  = concept.schema
-    via = source.schema
+    as       = context.ownership
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = rf.context.runtime
-    to  = concept.virtual-warehouse
-    via = source.warehouse
+    as       = rf.context.runtime
+    to       = concept.virtual-warehouse
+    via      = source.warehouse
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -52,8 +73,15 @@ rule "mcp-server" {
   as = concept.mcp-server
 
   context {
-    as  = context.ownership
-    to  = concept.schema
-    via = source.schema
+    as       = context.ownership
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }

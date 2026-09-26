@@ -2,76 +2,77 @@
   "format_version": "1",
   "binary": {
     "version": "rootform 0.1.0",
-    "sha256": "3655886dcfae50b983ceb7e3db279faa2da18a0da4239f8817313e374d3cbf99"
+    "sha256": "8d52e5bc715d87400a656cb851b8f47083eb7dac3210173376ea03f196fbdf91"
   },
-  "fixtures": {
-    "commerce-platform-base": {
-      "files": {
-        "example.json": "c4dcfef3a4fff98f3a48103817d6e4bcb13f98792d4ecf26223583349ea802da",
-        "main.tf": "85a36ba8c21566f25a3f10d73de727e95a5359c75b5456f305d6057d9af32994",
-        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
-      },
-      "architecture_sha256": "4c734984df20b809d026539fb17ba5a4db7c5b4b2e1ec97b7acc8892e49da755"
-    },
-    "commerce-platform-head": {
-      "files": {
-        "example.json": "0db3ce376306457efe72dc78381ca42824b1097eacac3d574b98c7ae2514e536",
-        "main.tf": "f5becb72df95ae80320084ddd1f1db3d23da43784042c1ab89bbffa051d970e8",
-        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
-      },
-      "architecture_sha256": "2a91e03f793493f330b4a5361164660bcba18f736ea3cef56bf16d321a5d9b75"
-    },
-    "event-driven-platform-base": {
-      "files": {
-        "example.json": "a8a479308de7c868a8579965b37f1aa7ccb955da7d0f3eaa47c26a46ac58b22d",
-        "main.tf": "84f418865a528d0b175a4911bcd3be8067bc833e85040ad183433f387d50fd75",
-        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
-      },
-      "architecture_sha256": "eb776dae7eb18e167ba85a0146e62eaa812fd33ede37995a81c32c4370258f3d"
-    },
-    "event-driven-platform-head": {
-      "files": {
-        "example.json": "85f5e8439ad810381c7aa1c15586a6d129f2220f23e4c7c2ac7da25a4899f093",
-        "main.tf": "a158c56093964f40f6177fa26d49af59ec8e160c62d99f7bc70d61df8db32f5f",
-        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
-      },
-      "architecture_sha256": "43c9663a6ac4bc5f1f9179f2e949ccb3ff8cebb06cadf1ed4be0c15c83ebdaf6"
-    },
-    "shared-data-platform-base": {
-      "files": {
-        "example.json": "d8f8d5e2cf0d41f25cd065ebf5ee4f2a5cd6b14f286cadb15b0e66c5a2c86a8b",
-        "main.tf": "1265e2c5b6e215e624efc985ebe5b1200b0d0cc950b1b282a5d7252c0f069c18",
-        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
-      },
-      "architecture_sha256": "d13e1deadce030e2717c8b9992bfaba0d10f05ec664343546f01c2c5303233d6"
-    },
-    "shared-data-platform-head": {
-      "files": {
-        "example.json": "17b64450bf5418e467d7b7fd29af995e2634c12bc20b59bdc92e4a69b59be8fd",
-        "main.tf": "d874304a18320bf19027b85bf37b5d3e37286431120b3961f626fa5628214ffa",
-        "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
-      },
-      "architecture_sha256": "62452c856551118be32fa08212b59da349771b88a6f64fdba30e1383d44aa1f8"
-    }
-  },
-  "comparisons": {
+  "examples": {
     "commerce-platform": {
-      "base": "commerce-platform-base",
-      "head": "commerce-platform-head",
-      "diff": "commerce-platform-diff",
-      "sha256": "ddda0ac2a6fee9dd87d02cf14543e08342eabffce859c9898bb795d772fc2ffe"
+      "inputs": {
+        "base": {
+          "main.tf": "85a36ba8c21566f25a3f10d73de727e95a5359c75b5456f305d6057d9af32994",
+          "plan.json": "fdcf4ca8a2cb381323ba7491dc84262f08030eee8e0f445d997c80e6edf2baea",
+          "plan.tfplan": "0aa08e102360d2a8d581b020a533e0514dc18b414511e8400dbd98247bb4c00c",
+          ".terraform.lock.hcl": "d17e1ea43917b403ad28cb4738cd7284cde0dfbb7f8a0ccb328756644302b079",
+          "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
+        },
+        "head": {
+          "main.tf": "f5becb72df95ae80320084ddd1f1db3d23da43784042c1ab89bbffa051d970e8",
+          "plan.json": "62f48bffb3f51a879ede73b5cd58f0dd764c7f6c4743cfb906e4a0395ee46420",
+          "plan.tfplan": "8cda570a97b15ca565af17acfbe3a4de0601953769352e320c7dedb03beadd00",
+          ".terraform.lock.hcl": "d17e1ea43917b403ad28cb4738cd7284cde0dfbb7f8a0ccb328756644302b079",
+          "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
+        }
+      },
+      "documents": {
+        "commerce-platform-analysis.json": "b3d0f715b4c95d3ccd75ab1c06bb9d9f65e5fe242f18049c49799b5b8808b6b9",
+        "commerce-platform-comparison.json": "9cfde7841f64aa1dc9dfb02a45d77d51b3fc5ea9ba91547cb87ef1b1ed726149",
+        "commerce-platform-presentation.json": "2738f25dddf2c11efe10b45feceff6ff3d85af9e92fe1697498da00fb3b48175"
+      }
     },
     "event-driven-platform": {
-      "base": "event-driven-platform-base",
-      "head": "event-driven-platform-head",
-      "diff": "event-driven-platform-diff",
-      "sha256": "116c0347c50ea9bbbf637945a7f70903e4442ea15ff0aecf34f6dab013700dad"
+      "inputs": {
+        "base": {
+          "main.tf": "84f418865a528d0b175a4911bcd3be8067bc833e85040ad183433f387d50fd75",
+          "plan.json": "7a8fb60f38fe75a9214b709b08c0e0c077b7074c138598176c880d0094e768f3",
+          "plan.tfplan": "cd8216cc24bf8e105db5bcb7785b368d108a2a9e359eb12167190d4ae6c5be06",
+          ".terraform.lock.hcl": "9d23f14c518fdc0a4428e698464d0828b50ecec725544d71ed7a95a1a094dbec",
+          "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
+        },
+        "head": {
+          "main.tf": "a158c56093964f40f6177fa26d49af59ec8e160c62d99f7bc70d61df8db32f5f",
+          "plan.json": "957319b3e1b3e2be6f72c07ad861c6eff4343f9085b6992590eec6877eaa1503",
+          "plan.tfplan": "3fe62f7ac1c99a394067f634aa22ade28fca5155072813d9a38b64f23dbd79aa",
+          ".terraform.lock.hcl": "9d23f14c518fdc0a4428e698464d0828b50ecec725544d71ed7a95a1a094dbec",
+          "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
+        }
+      },
+      "documents": {
+        "event-driven-platform-analysis.json": "c9791772ea139d5b38e7def03d14d291074a37728fe4719dffd2fbf94b8e560a",
+        "event-driven-platform-comparison.json": "7b70d3ed011878f6377386ce3e91ca733f9f0fe6e1312e7ebd90da47da42ef5c",
+        "event-driven-platform-presentation.json": "2738f25dddf2c11efe10b45feceff6ff3d85af9e92fe1697498da00fb3b48175"
+      }
     },
     "shared-data-platform": {
-      "base": "shared-data-platform-base",
-      "head": "shared-data-platform-head",
-      "diff": "shared-data-platform-diff",
-      "sha256": "5b2d92623c542fbfbc5002bab784f92423453c07ef7cf67c6419a3c9898bbffd"
+      "inputs": {
+        "base": {
+          "main.tf": "1265e2c5b6e215e624efc985ebe5b1200b0d0cc950b1b282a5d7252c0f069c18",
+          "plan.json": "4f94fbd72b6acc6113e68fc8d1f404d7cef52444ac25e69fb8737c4de8b16aee",
+          "plan.tfplan": "6a91cbf4026b46519d4503e20f1d156b5815ad92865e2762b9eb70e0ee626f51",
+          ".terraform.lock.hcl": "382d490b435135d424a558b5b4086045a2a22f66b1573a5c433539b723a1ec64",
+          "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
+        },
+        "head": {
+          "main.tf": "d874304a18320bf19027b85bf37b5d3e37286431120b3961f626fa5628214ffa",
+          "plan.json": "5c74e8002c42fe66b52b995dc927a250cb8e0affd5307b125b2efe35060179a5",
+          "plan.tfplan": "b5615925afafaf027e5f57b2962681f1639a1ab5d0644b9c726fc040bac6c0ab",
+          ".terraform.lock.hcl": "382d490b435135d424a558b5b4086045a2a22f66b1573a5c433539b723a1ec64",
+          "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
+        }
+      },
+      "documents": {
+        "shared-data-platform-analysis.json": "86731249f2f9b756f4c78ccc8e9fc562762345979d478b443b3e1f192871955d",
+        "shared-data-platform-comparison.json": "cf87ba9eae5d55c0e734fa7f2db165b8e8625ac529327a83d4a5bf974f3fef03",
+        "shared-data-platform-presentation.json": "2738f25dddf2c11efe10b45feceff6ff3d85af9e92fe1697498da00fb3b48175"
+      }
     }
   }
 }

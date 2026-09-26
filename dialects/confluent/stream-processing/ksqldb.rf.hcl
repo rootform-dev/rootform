@@ -10,19 +10,43 @@ rule "ksqldb-cluster" {
   as = concept.ksqldb-cluster
 
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = rf.context.runtime
-    to  = concept.kafka-cluster
-    via = source.kafka_cluster[0].id
+    as       = rf.context.runtime
+    to       = concept.kafka-cluster
+    via      = source.kafka_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-principal" {
-    to  = rf.concept.service-identity
-    via = source.credential_identity[0].id
+    to       = rf.concept.service-identity
+    via      = source.credential_identity[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

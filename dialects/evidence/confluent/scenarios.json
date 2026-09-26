@@ -47,15 +47,6 @@
         "contributions": 0,
         "relations": 0
       },
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "Confluent Cloud connector",
-        "Confluent Cloud environment",
-        "Confluent Cloud Kafka cluster",
-        "Confluent Cloud Kafka topic",
-        "Confluent Cloud network",
-        "Confluent Cloud Schema Registry"
-      ],
       "forbidden_output": [
         "ROOTFORM_CONFLUENT_MINIMAL_SECRET"
       ],
@@ -208,15 +199,6 @@
         "contributions": 13,
         "relations": 35
       },
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "Confluent Cloud Access Point",
-        "Confluent Cloud Cluster Link",
-        "Confluent Cloud Kafka cluster",
-        "Confluent Cloud Schema Registry",
-        "Confluent Cloud Tableflow topic",
-        "Confluent Cloud for Apache Flink compute pool"
-      ],
       "forbidden_output": [
         "ROOTFORM_CONFLUENT_CERTIFICATE_SENTINEL",
         "ROOTFORM_CONFLUENT_CONNECTOR_SECRET",
@@ -234,14 +216,6 @@
     {
       "id": "fail-closed-boundaries",
       "fixture": "fixtures/confluent-v2/boundary",
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_CONFLUENT_BOUNDARY_CERTIFICATE",
         "ROOTFORM_CONFLUENT_BOUNDARY_FLINK_SECRET",

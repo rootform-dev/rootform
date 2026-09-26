@@ -1,0 +1,2292 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:eb4a3525cb9df9a8402f28de0a7156051c894272ff2bf10752cd4967c2ac0e05",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:eb4a3525cb9df9a8402f28de0a7156051c894272ff2bf10752cd4967c2ac0e05",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
+          "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
+          "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:31f84c3129d4091975cf692b494c9577d8efd201a9deb0749ce58bb3c3da33bf",
+          "semantic_digest": "sha256:4829094c834e4760cdf4eda8f51bfebd92408790a8a27935c94ee941d5fee1fb"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
+          "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
+          "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
+          "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
+          "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+          "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
+          "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
+          "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:09d8794a132e9d547422f3a590eb8433ad1e04a81e499517e1fcf98dcb14ad3c",
+        "semantic_digest": "sha256:adf7b43b957332d85bab2c4cd8c62721423c766f0770dde17b05874498b4793a",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:423523ea13e19775df966891c2afeec9db7ac825b5084d19c4a4a6b140eb07fa",
+        "semantic_digest": "sha256:78902ce2c2e1d734139ebf4dc7d3168b104a2c6bcd937f146bb59db2c90d45d2",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:31f84c3129d4091975cf692b494c9577d8efd201a9deb0749ce58bb3c3da33bf",
+        "semantic_digest": "sha256:4829094c834e4760cdf4eda8f51bfebd92408790a8a27935c94ee941d5fee1fb",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:1b2c321d69a0694042ec555a8fe1b1787edf50ca910f5dc7b0af3bc7a361f2bc",
+        "semantic_digest": "sha256:d8b2dad85c31a77eb73112cdb0fd9f7111ede8d06b9fe9c9f2eb7dad177ca624",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:d79a906190f203897d7943062d3e730493a07f6a1d8ae8136360123fad296b81",
+        "semantic_digest": "sha256:330b2ba7ed04842dcb7929a354c1134df1bd253732599aa14223deb7120308c4",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a2a5aa63d09b9c3daee0171c5c8401712183be544aa6f9c00dd1bef41da3443",
+        "semantic_digest": "sha256:7a973151b218f7f1979abbddf0806ee5385095836fd064a665064967bbd0d495",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:f69216ac613f4aa290b5f124bd3fcfe0cdee052c14e76fab020d6dbdbef446b2",
+        "semantic_digest": "sha256:93c905a8eb24a1af329c00cca49f3631821608d9150114891e0001bfa649cde3",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+        "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:31fc2762a2696aafd58ed9671e011c4c2e6a01372a0e1f0166b2a7d9dcf3c29b",
+        "semantic_digest": "sha256:3fb90dfaa25b43f4b0d68f97b3881b70a15846ab18d7ad7937033e309cea6d6e",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:5918187623d59af1d419f7b7d0b0ae800f22c28a8e782b2d7761cbdaa704170b",
+        "semantic_digest": "sha256:d42fdb2e4600348eec61e87ddf00c1d9240509c4d39bffff35c5d2c183c242e0",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "aws.concept.load-balancer",
+        "owner": "aws",
+        "name": "load-balancer",
+        "description": "A load-balancing service composed from routing infrastructure."
+      },
+      {
+        "id": "cloudflare.concept.cloudflare-tunnel",
+        "owner": "cloudflare",
+        "name": "cloudflare-tunnel",
+        "description": "A Cloudflare Tunnel logical link from private resources to the Cloudflare network."
+      },
+      {
+        "id": "cloudflare.concept.dns-record-detail",
+        "owner": "cloudflare",
+        "name": "dns-record-detail",
+        "description": "A DNS record contributing to a Cloudflare zone without independent architecture identity."
+      },
+      {
+        "id": "cloudflare.concept.dns-zone",
+        "owner": "cloudflare",
+        "name": "dns-zone",
+        "description": "A managed DNS namespace containing resource records."
+      },
+      {
+        "id": "cloudflare.concept.edge-route",
+        "owner": "cloudflare",
+        "name": "edge-route",
+        "description": "A Cloudflare proxied hostname routing edge traffic to an application endpoint."
+      },
+      {
+        "id": "cloudflare.concept.managed-secret",
+        "owner": "cloudflare",
+        "name": "managed-secret",
+        "description": "A managed secret identity whose sensitive value stays outside architecture output."
+      },
+      {
+        "id": "cloudflare.concept.message-queue",
+        "owner": "cloudflare",
+        "name": "message-queue",
+        "description": "A managed queue buffering work or messages for asynchronous consumers."
+      },
+      {
+        "id": "cloudflare.concept.origin-pool",
+        "owner": "cloudflare",
+        "name": "origin-pool",
+        "description": "A Cloudflare Load Balancing pool grouping origin endpoints."
+      },
+      {
+        "id": "cloudflare.concept.secrets-store",
+        "owner": "cloudflare",
+        "name": "secrets-store",
+        "description": "A Cloudflare Secrets Store boundary."
+      },
+      {
+        "id": "cloudflare.concept.serverless-function",
+        "owner": "cloudflare",
+        "name": "serverless-function",
+        "description": "A managed event-driven function runtime."
+      },
+      {
+        "id": "cloudflare.concept.tunnel-configuration",
+        "owner": "cloudflare",
+        "name": "tunnel-configuration",
+        "description": "Ingress, private route, hostname route, or connector configuration supporting a Cloudflare Tunnel."
+      },
+      {
+        "id": "cloudflare.concept.workers-kv-namespace",
+        "owner": "cloudflare",
+        "name": "workers-kv-namespace",
+        "description": "A Cloudflare Workers KV namespace."
+      },
+      {
+        "id": "rf.concept.managed-database",
+        "owner": "rf",
+        "name": "managed-database",
+        "description": "A managed database service or instance, excluding logical tables and databases."
+      },
+      {
+        "id": "rf.concept.object-storage-container",
+        "owner": "rf",
+        "name": "object-storage-container",
+        "description": "An object storage container, excluding multi-service storage accounts."
+      },
+      {
+        "id": "rf.concept.virtual-network",
+        "owner": "rf",
+        "name": "virtual-network",
+        "description": "An explicitly declared virtual network."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "cloudflare.context.ownership",
+        "owner": "cloudflare",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      },
+      {
+        "id": "rf.context.network",
+        "owner": "rf",
+        "name": "network",
+        "description": "A declared network attachment without a connectivity guarantee."
+      }
+    ],
+    "relations": [
+      {
+        "id": "cloudflare.relation.publishes-to",
+        "owner": "cloudflare",
+        "name": "publishes-to"
+      },
+      {
+        "id": "cloudflare.relation.uses",
+        "owner": "cloudflare",
+        "name": "uses"
+      }
+    ],
+    "rules": [
+      {
+        "id": "aws.rule.lb",
+        "owner": "aws",
+        "match_kind": "resource",
+        "match_type": "aws_lb",
+        "concept": "aws.concept.load-balancer",
+        "identity": {
+          "attributes": [
+            "arn"
+          ],
+          "scope": "global"
+        },
+        "endpoint": {
+          "attributes": [
+            "arn",
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "cloudflare.rule.cloudflare-tunnel",
+        "owner": "cloudflare",
+        "match_kind": "resource",
+        "match_type": "cloudflare_zero_trust_tunnel_cloudflared",
+        "concept": "cloudflare.concept.cloudflare-tunnel",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "cloudflare.rule.cloudflare-tunnel-route",
+        "owner": "cloudflare",
+        "match_kind": "resource",
+        "match_type": "cloudflare_zero_trust_tunnel_cloudflared_route",
+        "concept": "cloudflare.concept.tunnel-configuration",
+        "emissions": [
+          "emission:433c1c34f8d723f7786d1dcfbc5a75e95bba012c35fba0283b8233ddc4e28b54",
+          "emission:c01225a8560b2626312aff1b999ef45fc439d8763ba142b2c58da7e706acb2b8"
+        ]
+      },
+      {
+        "id": "cloudflare.rule.dns-record",
+        "owner": "cloudflare",
+        "match_kind": "resource",
+        "match_type": "cloudflare_dns_record",
+        "concept": "cloudflare.concept.dns-record-detail",
+        "emissions": [
+          "emission:4e641d135469c6fead5ad9383546653a5ce7b468ba871618651631e8dcee75b3"
+        ]
+      },
+      {
+        "id": "cloudflare.rule.load-balancer-pool",
+        "owner": "cloudflare",
+        "match_kind": "resource",
+        "match_type": "cloudflare_load_balancer_pool",
+        "concept": "cloudflare.concept.origin-pool",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "cloudflare.rule.proxied-dns-record",
+        "owner": "cloudflare",
+        "match_kind": "resource",
+        "match_type": "cloudflare_dns_record",
+        "concept": "cloudflare.concept.edge-route",
+        "emissions": [
+          "emission:cc740150607030d0b686489275bd0a515325075aff14d40c80806a14840d9e10"
+        ]
+      },
+      {
+        "id": "cloudflare.rule.queue",
+        "owner": "cloudflare",
+        "match_kind": "resource",
+        "match_type": "cloudflare_queue",
+        "concept": "cloudflare.concept.message-queue",
+        "identity": {
+          "attributes": [
+            "id",
+            "queue_name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "queue_name"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "cloudflare.rule.r2-bucket",
+        "owner": "cloudflare",
+        "match_kind": "resource",
+        "match_type": "cloudflare_r2_bucket",
+        "concept": "rf.concept.object-storage-container",
+        "identity": {
+          "attributes": [
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "cloudflare.rule.secrets-store-secret",
+        "owner": "cloudflare",
+        "match_kind": "resource",
+        "match_type": "cloudflare_secrets_store_secret",
+        "concept": "cloudflare.concept.managed-secret",
+        "emissions": [
+          "emission:ede6186ef3837c43f2a089d10458fbfe29b4f60cf171ca7a5128aa651c14ae69"
+        ]
+      },
+      {
+        "id": "cloudflare.rule.workers-script",
+        "owner": "cloudflare",
+        "match_kind": "resource",
+        "match_type": "cloudflare_workers_script",
+        "concept": "cloudflare.concept.serverless-function",
+        "identity": {
+          "attributes": [
+            "id",
+            "script_name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "script_name"
+          ]
+        },
+        "emissions": [
+          "emission:287d6beb226e441ad74d988b18b7f49aaa1cabd489a6067666b8e7f55ddcdf3c",
+          "emission:327864e253e351cfaf6ceecbd1ff5bb462d0ccb881bdbbb3157f4664d9613106",
+          "emission:38a9b5da44bedf9b7ab0af0e22f3006b3006be23874b9246e01e990e11da785a",
+          "emission:78b95b1c27310cfb668a43c722af171c979fabb363c7b88a732563839d52cbe5",
+          "emission:9a4ecd7832b3662f2d62250de34930d49f289686cb14b5cc7c515b26a42ce340",
+          "emission:9e7e3aeaeea3ee5a986ebc35e505097e030c0d40c69bc16ad22cffab09b90473",
+          "emission:d40079598c39d45d1e754214efb9b70a9d339c7a1c0c8805e8d7fbdbaac1b6de",
+          "emission:e3fe7494cfb53da696f540eb1d6d24672115357ed19f5a0ce65d98562e568e23"
+        ]
+      },
+      {
+        "id": "cloudflare.rule.zone",
+        "owner": "cloudflare",
+        "match_kind": "resource",
+        "match_type": "cloudflare_zone",
+        "concept": "cloudflare.concept.dns-zone",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:287d6beb226e441ad74d988b18b7f49aaa1cabd489a6067666b8e7f55ddcdf3c",
+        "rule": "cloudflare.rule.workers-script",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "cloudflare.concept.message-queue"
+        },
+        "predicate": "cloudflare.relation.publishes-to",
+        "via": "source.bindings[6].queue_name",
+        "match": {
+          "by": [
+            "queue_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:327864e253e351cfaf6ceecbd1ff5bb462d0ccb881bdbbb3157f4664d9613106",
+        "rule": "cloudflare.rule.workers-script",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.object-storage-container"
+        },
+        "predicate": "cloudflare.relation.uses",
+        "via": "source.bindings[4].bucket_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:38a9b5da44bedf9b7ab0af0e22f3006b3006be23874b9246e01e990e11da785a",
+        "rule": "cloudflare.rule.workers-script",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.object-storage-container"
+        },
+        "predicate": "cloudflare.relation.uses",
+        "via": "source.bindings[0].bucket_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:433c1c34f8d723f7786d1dcfbc5a75e95bba012c35fba0283b8233ddc4e28b54",
+        "rule": "cloudflare.rule.cloudflare-tunnel-route",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.network",
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:4e641d135469c6fead5ad9383546653a5ce7b468ba871618651631e8dcee75b3",
+        "rule": "cloudflare.rule.dns-record",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "cloudflare.concept.dns-zone"
+        },
+        "via": "source.zone_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:78b95b1c27310cfb668a43c722af171c979fabb363c7b88a732563839d52cbe5",
+        "rule": "cloudflare.rule.workers-script",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.managed-database"
+        },
+        "predicate": "cloudflare.relation.uses",
+        "via": "source.bindings[5].database_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:9a4ecd7832b3662f2d62250de34930d49f289686cb14b5cc7c515b26a42ce340",
+        "rule": "cloudflare.rule.workers-script",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.managed-database"
+        },
+        "predicate": "cloudflare.relation.uses",
+        "via": "source.bindings[1].database_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:9e7e3aeaeea3ee5a986ebc35e505097e030c0d40c69bc16ad22cffab09b90473",
+        "rule": "cloudflare.rule.workers-script",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "cloudflare.concept.message-queue"
+        },
+        "predicate": "cloudflare.relation.publishes-to",
+        "via": "source.bindings[2].queue_name",
+        "match": {
+          "by": [
+            "queue_name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:c01225a8560b2626312aff1b999ef45fc439d8763ba142b2c58da7e706acb2b8",
+        "rule": "cloudflare.rule.cloudflare-tunnel-route",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "cloudflare.concept.cloudflare-tunnel"
+        },
+        "via": "source.tunnel_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:cc740150607030d0b686489275bd0a515325075aff14d40c80806a14840d9e10",
+        "rule": "cloudflare.rule.proxied-dns-record",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "cloudflare.concept.dns-zone"
+        },
+        "dimension": "cloudflare.context.ownership",
+        "via": "source.zone_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:d40079598c39d45d1e754214efb9b70a9d339c7a1c0c8805e8d7fbdbaac1b6de",
+        "rule": "cloudflare.rule.workers-script",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "cloudflare.concept.workers-kv-namespace"
+        },
+        "predicate": "cloudflare.relation.uses",
+        "via": "source.bindings[3].namespace_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:e3fe7494cfb53da696f540eb1d6d24672115357ed19f5a0ce65d98562e568e23",
+        "rule": "cloudflare.rule.workers-script",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "cloudflare.concept.workers-kv-namespace"
+        },
+        "predicate": "cloudflare.relation.uses",
+        "via": "source.bindings[7].namespace_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:ede6186ef3837c43f2a089d10458fbfe29b4f60cf171ca7a5128aa651c14ae69",
+        "rule": "cloudflare.rule.secrets-store-secret",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "cloudflare.concept.secrets-store"
+        },
+        "dimension": "cloudflare.context.ownership",
+        "via": "source.store_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:aws_lb.first",
+          "kind": "resource",
+          "type": "aws_lb",
+          "name": "first",
+          "address": "aws_lb.first",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:aws_lb.second",
+          "kind": "resource",
+          "type": "aws_lb",
+          "name": "second",
+          "address": "aws_lb.second",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_ai_search_token.credential",
+          "kind": "resource",
+          "type": "cloudflare_ai_search_token",
+          "name": "credential",
+          "address": "cloudflare_ai_search_token.credential",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_dns_record.ambiguous",
+          "kind": "resource",
+          "type": "cloudflare_dns_record",
+          "name": "ambiguous",
+          "address": "cloudflare_dns_record.ambiguous",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_dns_record.literal",
+          "kind": "resource",
+          "type": "cloudflare_dns_record",
+          "name": "literal",
+          "address": "cloudflare_dns_record.literal",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_load_balancer_pool.dynamic",
+          "kind": "resource",
+          "type": "cloudflare_load_balancer_pool",
+          "name": "dynamic",
+          "address": "cloudflare_load_balancer_pool.dynamic",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_load_balancer_pool.literal",
+          "kind": "resource",
+          "type": "cloudflare_load_balancer_pool",
+          "name": "literal",
+          "address": "cloudflare_load_balancer_pool.literal",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_queue.dependency_only",
+          "kind": "resource",
+          "type": "cloudflare_queue",
+          "name": "dependency_only",
+          "address": "cloudflare_queue.dependency_only",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_r2_bucket.assets",
+          "kind": "resource",
+          "type": "cloudflare_r2_bucket",
+          "name": "assets",
+          "address": "cloudflare_r2_bucket.assets",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_secrets_store_secret.sensitive",
+          "kind": "resource",
+          "type": "cloudflare_secrets_store_secret",
+          "name": "sensitive",
+          "address": "cloudflare_secrets_store_secret.sensitive",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_workers_script.dynamic",
+          "kind": "resource",
+          "type": "cloudflare_workers_script",
+          "name": "dynamic",
+          "address": "cloudflare_workers_script.dynamic",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_zero_trust_tunnel_cloudflared.private",
+          "kind": "resource",
+          "type": "cloudflare_zero_trust_tunnel_cloudflared",
+          "name": "private",
+          "address": "cloudflare_zero_trust_tunnel_cloudflared.private",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_zero_trust_tunnel_cloudflared_route.literal",
+          "kind": "resource",
+          "type": "cloudflare_zero_trust_tunnel_cloudflared_route",
+          "name": "literal",
+          "address": "cloudflare_zero_trust_tunnel_cloudflared_route.literal",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_zone.edge",
+          "kind": "resource",
+          "type": "cloudflare_zone",
+          "name": "edge",
+          "address": "cloudflare_zone.edge",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.cloudflare_zone.lookup",
+          "kind": "data",
+          "type": "cloudflare_zone",
+          "name": "lookup",
+          "address": "data.cloudflare_zone.lookup",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.defer_reads",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "defer_reads",
+          "address": "terraform_data.defer_reads",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "representation:1:aws_lb.first",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_lb.first",
+          "address": "aws_lb.first",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "aws.rule.lb"
+            ],
+            "diagnostics": []
+          },
+          "rule": "aws.rule.lb",
+          "concept": "aws.concept.load-balancer",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:aws_lb.second",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_lb.second",
+          "address": "aws_lb.second",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "aws.rule.lb"
+            ],
+            "diagnostics": []
+          },
+          "rule": "aws.rule.lb",
+          "concept": "aws.concept.load-balancer",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_ai_search_token.credential",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_ai_search_token.credential",
+          "address": "cloudflare_ai_search_token.credential",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_dns_record.ambiguous",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_dns_record.ambiguous",
+          "address": "cloudflare_dns_record.ambiguous",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.dns-record",
+              "cloudflare.rule.proxied-dns-record"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.proxied-dns-record",
+          "concept": "cloudflare.concept.edge-route",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_dns_record.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_dns_record.literal",
+          "address": "cloudflare_dns_record.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.dns-record",
+              "cloudflare.rule.proxied-dns-record"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.proxied-dns-record",
+          "concept": "cloudflare.concept.edge-route",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_load_balancer_pool.dynamic",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_load_balancer_pool.dynamic",
+          "address": "cloudflare_load_balancer_pool.dynamic",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.load-balancer-pool"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.load-balancer-pool",
+          "concept": "cloudflare.concept.origin-pool",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_load_balancer_pool.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_load_balancer_pool.literal",
+          "address": "cloudflare_load_balancer_pool.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.load-balancer-pool"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.load-balancer-pool",
+          "concept": "cloudflare.concept.origin-pool",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_queue.dependency_only",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_queue.dependency_only",
+          "address": "cloudflare_queue.dependency_only",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.queue"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.queue",
+          "concept": "cloudflare.concept.message-queue",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_r2_bucket.assets",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_r2_bucket.assets",
+          "address": "cloudflare_r2_bucket.assets",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.r2-bucket"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.r2-bucket",
+          "concept": "rf.concept.object-storage-container",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_secrets_store_secret.sensitive",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_secrets_store_secret.sensitive",
+          "address": "cloudflare_secrets_store_secret.sensitive",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.secrets-store-secret"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.secrets-store-secret",
+          "concept": "cloudflare.concept.managed-secret",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_workers_script.dynamic",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_workers_script.dynamic",
+          "address": "cloudflare_workers_script.dynamic",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.workers-script"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.workers-script",
+          "concept": "cloudflare.concept.serverless-function",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_zero_trust_tunnel_cloudflared.private",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_zero_trust_tunnel_cloudflared.private",
+          "address": "cloudflare_zero_trust_tunnel_cloudflared.private",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.cloudflare-tunnel"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.cloudflare-tunnel",
+          "concept": "cloudflare.concept.cloudflare-tunnel",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_zero_trust_tunnel_cloudflared_route.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_zero_trust_tunnel_cloudflared_route.literal",
+          "address": "cloudflare_zero_trust_tunnel_cloudflared_route.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.cloudflare-tunnel-route"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.cloudflare-tunnel-route",
+          "concept": "cloudflare.concept.tunnel-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_zone.edge",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_zone.edge",
+          "address": "cloudflare_zone.edge",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.zone"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.zone",
+          "concept": "cloudflare.concept.dns-zone",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.cloudflare_zone.lookup",
+          "kind": "data",
+          "declaration": "declaration:1:data.cloudflare_zone.lookup",
+          "address": "data.cloudflare_zone.lookup",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_config_unknown",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.defer_reads",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.defer_reads",
+          "address": "terraform_data.defer_reads",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:cloudflare.context.ownership:representation%3A1%3Acloudflare_dns_record.ambiguous:representation%3A1%3Acloudflare_zone.edge",
+          "from": "representation:1:cloudflare_dns_record.ambiguous",
+          "to": "representation:1:cloudflare_zone.edge",
+          "dimension": "cloudflare.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:cc740150607030d0b686489275bd0a515325075aff14d40c80806a14840d9e10",
+              "rule": "cloudflare.rule.proxied-dns-record",
+              "closure": "closure:representation%3A1%3Acloudflare_dns_record.ambiguous:emission%3Acc740150607030d0b686489275bd0a515325075aff14d40c80806a14840d9e10",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:cloudflare.context.ownership:representation%3A1%3Acloudflare_dns_record.literal:representation%3A1%3Acloudflare_zone.edge",
+          "from": "representation:1:cloudflare_dns_record.literal",
+          "to": "representation:1:cloudflare_zone.edge",
+          "dimension": "cloudflare.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:cc740150607030d0b686489275bd0a515325075aff14d40c80806a14840d9e10",
+              "rule": "cloudflare.rule.proxied-dns-record",
+              "closure": "closure:representation%3A1%3Acloudflare_dns_record.literal:emission%3Acc740150607030d0b686489275bd0a515325075aff14d40c80806a14840d9e10",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "contributions": [
+        {
+          "id": "contribution:representation%3A1%3Acloudflare_zero_trust_tunnel_cloudflared_route.literal:representation%3A1%3Acloudflare_zero_trust_tunnel_cloudflared.private",
+          "from": "representation:1:cloudflare_zero_trust_tunnel_cloudflared_route.literal",
+          "to": "representation:1:cloudflare_zero_trust_tunnel_cloudflared.private",
+          "provenance": [
+            {
+              "emission": "emission:c01225a8560b2626312aff1b999ef45fc439d8763ba142b2c58da7e706acb2b8",
+              "rule": "cloudflare.rule.cloudflare-tunnel-route",
+              "closure": "closure:representation%3A1%3Acloudflare_zero_trust_tunnel_cloudflared_route.literal:emission%3Ac01225a8560b2626312aff1b999ef45fc439d8763ba142b2c58da7e706acb2b8",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "relations": [],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Acloudflare_dns_record.ambiguous:emission%3Acc740150607030d0b686489275bd0a515325075aff14d40c80806a14840d9e10",
+          "representation": "representation:1:cloudflare_dns_record.ambiguous",
+          "emission": "emission:cc740150607030d0b686489275bd0a515325075aff14d40c80806a14840d9e10",
+          "outcome": "resolved",
+          "facts": [
+            "context:cloudflare.context.ownership:representation%3A1%3Acloudflare_dns_record.ambiguous:representation%3A1%3Acloudflare_zone.edge"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_dns_record.literal:emission%3Acc740150607030d0b686489275bd0a515325075aff14d40c80806a14840d9e10",
+          "representation": "representation:1:cloudflare_dns_record.literal",
+          "emission": "emission:cc740150607030d0b686489275bd0a515325075aff14d40c80806a14840d9e10",
+          "outcome": "resolved",
+          "facts": [
+            "context:cloudflare.context.ownership:representation%3A1%3Acloudflare_dns_record.literal:representation%3A1%3Acloudflare_zone.edge"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_secrets_store_secret.sensitive:emission%3Aede6186ef3837c43f2a089d10458fbfe29b4f60cf171ca7a5128aa651c14ae69",
+          "representation": "representation:1:cloudflare_secrets_store_secret.sensitive",
+          "emission": "emission:ede6186ef3837c43f2a089d10458fbfe29b4f60cf171ca7a5128aa651c14ae69",
+          "outcome": "indeterminate",
+          "reason": "external_denied",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_workers_script.dynamic:emission%3A287d6beb226e441ad74d988b18b7f49aaa1cabd489a6067666b8e7f55ddcdf3c",
+          "representation": "representation:1:cloudflare_workers_script.dynamic",
+          "emission": "emission:287d6beb226e441ad74d988b18b7f49aaa1cabd489a6067666b8e7f55ddcdf3c",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_workers_script.dynamic:emission%3A327864e253e351cfaf6ceecbd1ff5bb462d0ccb881bdbbb3157f4664d9613106",
+          "representation": "representation:1:cloudflare_workers_script.dynamic",
+          "emission": "emission:327864e253e351cfaf6ceecbd1ff5bb462d0ccb881bdbbb3157f4664d9613106",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_workers_script.dynamic:emission%3A38a9b5da44bedf9b7ab0af0e22f3006b3006be23874b9246e01e990e11da785a",
+          "representation": "representation:1:cloudflare_workers_script.dynamic",
+          "emission": "emission:38a9b5da44bedf9b7ab0af0e22f3006b3006be23874b9246e01e990e11da785a",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_workers_script.dynamic:emission%3A78b95b1c27310cfb668a43c722af171c979fabb363c7b88a732563839d52cbe5",
+          "representation": "representation:1:cloudflare_workers_script.dynamic",
+          "emission": "emission:78b95b1c27310cfb668a43c722af171c979fabb363c7b88a732563839d52cbe5",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_workers_script.dynamic:emission%3A9a4ecd7832b3662f2d62250de34930d49f289686cb14b5cc7c515b26a42ce340",
+          "representation": "representation:1:cloudflare_workers_script.dynamic",
+          "emission": "emission:9a4ecd7832b3662f2d62250de34930d49f289686cb14b5cc7c515b26a42ce340",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_workers_script.dynamic:emission%3A9e7e3aeaeea3ee5a986ebc35e505097e030c0d40c69bc16ad22cffab09b90473",
+          "representation": "representation:1:cloudflare_workers_script.dynamic",
+          "emission": "emission:9e7e3aeaeea3ee5a986ebc35e505097e030c0d40c69bc16ad22cffab09b90473",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_workers_script.dynamic:emission%3Ad40079598c39d45d1e754214efb9b70a9d339c7a1c0c8805e8d7fbdbaac1b6de",
+          "representation": "representation:1:cloudflare_workers_script.dynamic",
+          "emission": "emission:d40079598c39d45d1e754214efb9b70a9d339c7a1c0c8805e8d7fbdbaac1b6de",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_workers_script.dynamic:emission%3Ae3fe7494cfb53da696f540eb1d6d24672115357ed19f5a0ce65d98562e568e23",
+          "representation": "representation:1:cloudflare_workers_script.dynamic",
+          "emission": "emission:e3fe7494cfb53da696f540eb1d6d24672115357ed19f5a0ce65d98562e568e23",
+          "outcome": "absent",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_zero_trust_tunnel_cloudflared_route.literal:emission%3A433c1c34f8d723f7786d1dcfbc5a75e95bba012c35fba0283b8233ddc4e28b54",
+          "representation": "representation:1:cloudflare_zero_trust_tunnel_cloudflared_route.literal",
+          "emission": "emission:433c1c34f8d723f7786d1dcfbc5a75e95bba012c35fba0283b8233ddc4e28b54",
+          "outcome": "indeterminate",
+          "reason": "identity_incomplete",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Acloudflare_zero_trust_tunnel_cloudflared_route.literal:emission%3Ac01225a8560b2626312aff1b999ef45fc439d8763ba142b2c58da7e706acb2b8",
+          "representation": "representation:1:cloudflare_zero_trust_tunnel_cloudflared_route.literal",
+          "emission": "emission:c01225a8560b2626312aff1b999ef45fc439d8763ba142b2c58da7e706acb2b8",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Acloudflare_zero_trust_tunnel_cloudflared_route.literal:representation%3A1%3Acloudflare_zero_trust_tunnel_cloudflared.private"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Acloudflare_dns_record.ambiguous:declaration%3A1%3Aaws_lb.first",
+          "from": "declaration:1:cloudflare_dns_record.ambiguous",
+          "to": "declaration:1:aws_lb.first",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Acloudflare_dns_record.ambiguous:declaration%3A1%3Aaws_lb.second",
+          "from": "declaration:1:cloudflare_dns_record.ambiguous",
+          "to": "declaration:1:aws_lb.second",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Acloudflare_dns_record.ambiguous:declaration%3A1%3Acloudflare_zone.edge",
+          "from": "declaration:1:cloudflare_dns_record.ambiguous",
+          "to": "declaration:1:cloudflare_zone.edge",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Acloudflare_dns_record.literal:declaration%3A1%3Acloudflare_zone.edge",
+          "from": "declaration:1:cloudflare_dns_record.literal",
+          "to": "declaration:1:cloudflare_zone.edge",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Acloudflare_queue.dependency_only:declaration%3A1%3Acloudflare_r2_bucket.assets",
+          "from": "declaration:1:cloudflare_queue.dependency_only",
+          "to": "declaration:1:cloudflare_r2_bucket.assets",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Acloudflare_zero_trust_tunnel_cloudflared_route.literal:declaration%3A1%3Acloudflare_zero_trust_tunnel_cloudflared.private",
+          "from": "declaration:1:cloudflare_zero_trust_tunnel_cloudflared_route.literal",
+          "to": "declaration:1:cloudflare_zero_trust_tunnel_cloudflared.private",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.cloudflare_zone.lookup:declaration%3A1%3Acloudflare_zone.edge",
+          "from": "declaration:1:data.cloudflare_zone.lookup",
+          "to": "declaration:1:cloudflare_zone.edge",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.cloudflare_zone.lookup:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.cloudflare_zone.lookup",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 16,
+        "resources": 15,
+        "data_sources": 1,
+        "instances": 16,
+        "managed_instances": 15,
+        "data_instances": 1,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 13,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 3,
+        "facts": 3,
+        "closures": 13,
+        "resolved": 3,
+        "absent": 8,
+        "indeterminate": 2,
+        "dependencies": 8,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

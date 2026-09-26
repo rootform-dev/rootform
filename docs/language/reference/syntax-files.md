@@ -296,7 +296,7 @@ Provider `version` is a constraint string, not this exact-version field. See
 | Expression source | At most 4,096 bytes |
 
 Additional compiled and evaluation bounds appear under
-[Diagnostics and limits](diagnostics.md#limits).
+[Diagnostics and limits](diagnostics.md).
 
 ## Rejected example
 

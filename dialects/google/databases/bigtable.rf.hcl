@@ -8,6 +8,15 @@ rule "bigtable-instance" {
   }
 
   as = rf.concept.managed-database
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "bigtable-table" {
@@ -18,7 +27,17 @@ rule "bigtable-table" {
   as = concept.bigtable-table
 
   contribution {
-    to  = rf.concept.managed-database
-    via = source.instance_name
+    to       = rf.concept.managed-database
+    via      = source.instance_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared managed-database instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

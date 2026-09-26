@@ -22,6 +22,15 @@ rule "account" {
   }
 
   as = concept.account
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 
@@ -32,6 +41,15 @@ rule "flagship-app" {
   }
 
   as = concept.feature-flag-application
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "flagship-flag" {
@@ -42,8 +60,15 @@ rule "flagship-flag" {
   as = concept.feature-flag
 
   contribution {
-    to  = concept.feature-flag-application
-    via = source.app_id
+    to       = concept.feature-flag-application
+    via      = source.app_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -55,7 +80,17 @@ rule "account-dns-settings" {
   as = concept.account-configuration
 
   contribution {
-    to  = concept.account
-    via = source.account_id
+    to       = concept.account
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared account instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

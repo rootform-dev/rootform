@@ -12,6 +12,15 @@ rule "group" {
   }
 
   as = concept.identity-group
+
+  identity {
+    attributes = ["resource_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["resource_id", "resource_name"]
+  }
 }
 
 rule "group-iam-binding" {
@@ -22,8 +31,15 @@ rule "group-iam-binding" {
   as = concept.access-control-configuration
 
   contribution {
-    to  = concept.identity-group
-    via = source.name
+    to       = concept.identity-group
+    via      = source.name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_name
+      strategy = "exact"
+    }
   }
 }
 
@@ -35,8 +51,15 @@ rule "group-iam-policy" {
   as = concept.access-control-configuration
 
   contribution {
-    to  = concept.identity-group
-    via = source.name
+    to       = concept.identity-group
+    via      = source.name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_name
+      strategy = "exact"
+    }
   }
 }
 
@@ -47,6 +70,15 @@ rule "group-lookup" {
   }
 
   as = concept.identity-group
+
+  identity {
+    attributes = ["resource_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["resource_id", "resource_name"]
+  }
 }
 
 rule "group-members" {
@@ -57,8 +89,15 @@ rule "group-members" {
   as = concept.access-control-configuration
 
   contribution {
-    to  = concept.identity-group
-    via = source.group
+    to       = concept.identity-group
+    via      = source.group
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_name
+      strategy = "exact"
+    }
   }
 }
 
@@ -70,8 +109,18 @@ rule "iam-workload-identity-provider" {
   as = concept.workload-identity-provider
 
   relation "federates-to" {
-    to  = rf.concept.service-identity
-    via = source.service_principal
+    to       = rf.concept.service-identity
+    via      = source.service_principal
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_name
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -99,8 +148,18 @@ rule "project-iam-binding" {
   as = concept.access-control-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -112,8 +171,18 @@ rule "project-iam-policy" {
   as = concept.access-control-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -125,8 +194,18 @@ rule "resource-control-policy" {
   as = concept.access-control-configuration
 
   contribution {
-    to  = concept.organization
-    via = source.organization_id
+    to       = concept.organization
+    via      = source.organization_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared organization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -136,6 +215,15 @@ rule "service-principal" {
   }
 
   as = rf.concept.service-identity
+
+  identity {
+    attributes = ["resource_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["resource_id", "resource_name"]
+  }
 }
 
 rule "service-principal-lookup" {
@@ -145,4 +233,13 @@ rule "service-principal-lookup" {
   }
 
   as = rf.concept.service-identity
+
+  identity {
+    attributes = ["resource_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["resource_id", "resource_name"]
+  }
 }

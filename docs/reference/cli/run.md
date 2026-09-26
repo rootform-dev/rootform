@@ -1,32 +1,45 @@
 ---
 title: "rootform run"
-description: "Serve an architecture in a local explorer."
+description: "Analyze a plan or state, reopen a saved document, or compare two inputs."
 ---
 
-`run` builds from a Terraform/OpenTofu directory or loads a saved Rootform
-architecture document. With no input it reads the current directory. Use
-`--plan` for a JSON plan instead; `--plan -` reads that plan from standard
-input. Directory input uses locally available content and does not acquire it.
+`run` accepts plan JSON, state JSON, a saved Rootform document, or `-` for standard input. It uses the project Dialects and selected policies. `--project` chooses project content; a configuration directory is not an analysis input. Rootform never runs Terraform or OpenTofu.
 
 <!-- BEGIN GENERATED CLI: rootform run -->
 
 ## Usage
 
 ```text
-rootform run [input] [flags]
+rootform run <input> [--diff <input>] [flags]
 ```
 
 ## Flags
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
+| ` --after-side ` | ` string ` | ` "" ` | read `side` of a second comparison: before, after |
+| ` --after-stage ` | ` string ` | ` "" ` | compare `stage` of the second input |
+| ` --before-side ` | ` string ` | ` "" ` | read `side` of a first comparison: before, after |
+| ` --before-stage ` | ` string ` | ` "" ` | compare `stage` of the first input |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
+| ` --diff ` | ` string ` | ` "" ` | compare with a second `input` |
+| ` --diff-plan-file ` | ` string ` | ` "" ` | verify the second plan against saved plan `file` |
+| ` --format ` | ` string ` | ` "" ` | `format` of standard output or of one -o file |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform run |
-| ` --locked ` | ` bool ` | ` false ` | require an existing valid rootform.lock |
-| ` --no-browser ` | ` bool ` | ` false ` | do not open the browser automatically |
-| ` --no-watch ` | ` bool ` | ` false ` | build once instead of rebuilding when a file changes |
-| ` --plan ` | ` file ` | ` "" ` | read JSON plan; use `-` for standard input |
-| ` --port ` | ` int ` | ` 21717 ` | serve on local `port`; 0 picks a free one |
+| ` --locked ` | ` bool ` | ` false ` | refuse to run unless rootform.lock is valid |
+| ` --no-browser ` | ` bool ` | ` false ` | serve without opening a browser |
+| ` --no-serve ` | ` bool ` | ` false ` | write the requested files and exit |
+| ` -o, --output ` | ` stringArray ` | ` [] ` | write `file`, formatted by extension; repeatable |
+| ` --plan-complete ` | ` string ` | ` "" ` | declare the plan complete; `value` must be attested |
+| ` --plan-file ` | ` string ` | ` "" ` | verify the first plan against saved plan `file` |
+| ` --policy ` | ` stringArray ` | ` [] ` | evaluate only `policy`; repeatable |
+| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `dir`; repeatable |
+| ` --port ` | ` int ` | ` 21717 ` | serve on `port`; 0 picks one |
+| ` --producer ` | ` string ` | ` "" ` | declare the producing `tool`: terraform, opentofu |
+| ` --project ` | ` string ` | ` "" ` | use the Dialects and policies of project `dir` |
+| ` --provider-map ` | ` stringArray ` | ` [] ` | map provider `pair` observed=binding; repeatable |
+| ` --require-enrichment ` | ` bool ` | ` false ` | refuse a saved plan file that does not verify |
+| ` --stage ` | ` string ` | ` "" ` | report `stage`: planned, refreshed or recorded |
 
 ## Inherited flags
 
@@ -36,28 +49,15 @@ rootform run [input] [flags]
 
 <!-- END GENERATED CLI -->
 
-## Local server
+## Examples
 
-`run` serves the explorer in the foreground and opens a browser by default.
-It prints the local address to standard output and diagnostics to standard
-error. Stop it with `Ctrl+C`. For directory input, source changes trigger
-rebuilds unless `--no-watch` is set; a saved document or plan is not watched
-as Terraform source. `--no-browser` leaves the browser closed. The default
-port is `21717`; `--port 0` asks the operating system for a free port. Use
-`--locked` when directory input must have a valid existing lock.
-`--dialect <dir>` overlays one Dialect owner for this run; repeat it for
-different owners. `--locked` rejects overrides.
-
-Use a prepared project for `./infra`, an architecture saved by `build` for
-`architecture.json`, or a completed JSON plan from [Plan inputs](../../inputs/plans.md).
-
-<!-- docs-check:docs-reference-cli-run-1 -->
 ```sh
-rootform run ./infra
-rootform run architecture.json --no-browser --port 0
-rootform run --plan tfplan.json --no-watch
+rootform run plan.json
+rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -o analysis.json
+rootform run state.json --no-serve -o snapshot.json
+rootform run before.json --diff after.json --no-serve -o comparison.json
 ```
 
-Status `0` means the local interface stopped cleanly, `1` means it could not
-start, and `2` means incorrect command use. For navigation and evidence in the
-explorer, see [Explore an architecture](../../guides/explore-architecture.md).
+By default, `run` serves a loopback browser view until interrupted. `--no-browser` serves without opening a browser; `--no-serve` writes outputs and exits. A `-o` file's extension selects JSON, Markdown, text, SARIF, or standalone HTML. A plan can expose planned, refreshed, and recorded stages; a state has only recorded. `--diff` creates a cross-input comparison, never a drift report.
+
+Exit status is `0` for successful analysis and passing selected policies, `1` for a policy violation, `2` for usage error, `3` for refused input or indeterminate/no policy decision, and `4` for export or server failure. See [Outputs and exit status](../outputs.md).

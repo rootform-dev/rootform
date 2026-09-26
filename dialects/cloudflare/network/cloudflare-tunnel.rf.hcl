@@ -21,6 +21,15 @@ rule "cloudflare-tunnel" {
   }
 
   as = concept.cloudflare-tunnel
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "cloudflare-tunnel-config" {
@@ -31,8 +40,15 @@ rule "cloudflare-tunnel-config" {
   as = concept.tunnel-configuration
 
   contribution {
-    to  = concept.cloudflare-tunnel
-    via = source.tunnel_id
+    to       = concept.cloudflare-tunnel
+    via      = source.tunnel_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 rule "cloudflare-tunnel-route" {
@@ -43,14 +59,23 @@ rule "cloudflare-tunnel-route" {
   as = concept.tunnel-configuration
 
   contribution {
-    to  = concept.cloudflare-tunnel
-    via = source.tunnel_id
+    to       = concept.cloudflare-tunnel
+    via      = source.tunnel_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.network
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.network
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -63,8 +88,15 @@ rule "cloudflare-tunnel-hostname-route" {
   as = concept.tunnel-configuration
 
   contribution {
-    to  = concept.cloudflare-tunnel
-    via = source.tunnel_id
+    to       = concept.cloudflare-tunnel
+    via      = source.tunnel_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -75,14 +107,37 @@ rule "connectivity-directory-service" {
 
   as = concept.connectivity-service
 
-  relation "uses-tunnel" {
-    to  = concept.cloudflare-tunnel
-    via = source.host.network.tunnel_id
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
   }
 
   relation "uses-tunnel" {
-    to  = concept.cloudflare-tunnel
-    via = source.host.resolver_network.tunnel_id
+    to       = concept.cloudflare-tunnel
+    via      = source.host.network.tunnel_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+
+  relation "uses-tunnel" {
+    to       = concept.cloudflare-tunnel
+    via      = source.host.resolver_network.tunnel_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -92,6 +147,15 @@ rule "warp-connector" {
   }
 
   as = concept.warp-connector
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "warp-connector-config" {
@@ -102,7 +166,14 @@ rule "warp-connector-config" {
   as = concept.tunnel-configuration
 
   contribution {
-    to  = concept.warp-connector
-    via = source.tunnel_id
+    to       = concept.warp-connector
+    via      = source.tunnel_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

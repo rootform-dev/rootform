@@ -10,13 +10,27 @@ rule "connection-client" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.identity-connection
-    via = source.connection_id
+    to       = concept.identity-connection
+    via      = source.connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.identity-application
-    via = source.client_id
+    to       = concept.identity-application
+    via      = source.client_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -28,8 +42,15 @@ rule "connection-clients" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.identity-connection
-    via = source.connection_id
+    to       = concept.identity-connection
+    via      = source.connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -41,8 +62,15 @@ rule "connection-directory-synchronized-groups" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.directory-sync
-    via = source.connection_id
+    to       = concept.directory-sync
+    via      = source.connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -55,8 +83,15 @@ rule "connection-directory-synchronized-groups-lookup" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.directory-sync
-    via = source.connection_id
+    to       = concept.directory-sync
+    via      = source.connection_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -68,8 +103,15 @@ rule "connection-keys" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.identity-connection
-    via = source.connection_id
+    to       = concept.identity-connection
+    via      = source.connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -82,8 +124,15 @@ rule "connection-keys-lookup" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.identity-connection
-    via = source.connection_id
+    to       = concept.identity-connection
+    via      = source.connection_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -95,8 +144,15 @@ rule "connection-scim-configuration" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.identity-connection
-    via = source.connection_id
+    to       = concept.identity-connection
+    via      = source.connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -109,7 +165,14 @@ rule "connection-scim-configuration-lookup" {
   as = concept.connection-configuration
 
   contribution {
-    to  = concept.identity-connection
-    via = source.connection_id
+    to       = concept.identity-connection
+    via      = source.connection_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

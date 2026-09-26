@@ -118,7 +118,7 @@ Extract the `.tar.gz` or `.zip`, then place `rootform` or `rootform.exe` in
 a directory on `PATH`. Run `rootform version` to confirm the executable.
 
 To run a container, pin the image by index digest instead of using an archive.
-See [Container usage](integrations/oci-image.md#run-against-a-project). For a
+See [Container usage](integrations/oci-image.md). For a
 disconnected project, prepare exact third-party Dialects and Policy Packs as
 described in [Locks and vendored content](offline-security.md).
 

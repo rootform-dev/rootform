@@ -33,9 +33,9 @@ rootform explain <object> <name> [flags]
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform explain architecture `](explain/architecture.md) | Explain an architecture element |
+| [` rootform explain architecture `](explain/architecture.md) | Explain an instance |
 | [` rootform explain policy `](explain/policy.md) | Explain a policy result |
-| [` rootform explain semantics `](explain/semantics.md) | Explain a semantic interpretation |
+| [` rootform explain semantics `](explain/semantics.md) | Explain a rule |
 
 <!-- END GENERATED CLI -->
 

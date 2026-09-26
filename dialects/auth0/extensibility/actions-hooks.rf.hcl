@@ -8,6 +8,15 @@ rule "action" {
   }
 
   as = concept.identity-extension
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "action-lookup" {
@@ -17,6 +26,15 @@ rule "action-lookup" {
   }
 
   as = concept.identity-extension
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "hook" {
@@ -25,6 +43,15 @@ rule "hook" {
   }
 
   as = concept.identity-extension
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "rule" {
@@ -33,4 +60,13 @@ rule "rule" {
   }
 
   as = concept.identity-extension
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

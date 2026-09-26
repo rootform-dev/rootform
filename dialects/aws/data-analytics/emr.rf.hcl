@@ -13,4 +13,13 @@ rule "emr-cluster" {
   }
 
   as = concept.emr-cluster
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

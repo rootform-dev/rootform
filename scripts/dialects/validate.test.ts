@@ -3,12 +3,125 @@ import {
   collectUndeclaredRuleReferences,
   hasPrivateImplementationReference,
   mirrorPairCandidates,
+  registryEquivalenceProblems,
+  validateDialectContract,
   validateLock,
   validateRepository,
 } from "./validate.ts";
 
+test("emissions require explicit null and empty outcomes", () => {
+  const source = `rule "consumer" {
+  relation {
+    to = concept.target
+    via = source.target_id
+  }
+}`;
+  expect(() => validateDialectContract(source, "sample.rf.hcl")).toThrow("on_null");
+  expect(() =>
+    validateDialectContract(
+      source.replace("via = source.target_id", 'via = source.target_id\n    on_null = "absent"'),
+      "sample.rf.hcl",
+    ),
+  ).toThrow("on_empty");
+  expect(() =>
+    validateDialectContract(
+      source.replace(
+        "via = source.target_id",
+        'via = source.target_id\n    on_null = "absent"\n    on_empty = "indeterminate"',
+      ),
+      "sample.rf.hcl",
+    ),
+  ).not.toThrow();
+});
+
+test("external and disclosure policy require nearby justification", () => {
+  const base = `rule "consumer" {
+  contribution {
+    to = concept.target
+    via = source.target_id
+    on_null = "absent"
+    on_empty = "absent"
+    external = "allow"
+  }
+}`;
+  expect(() => validateDialectContract(base, "sample.rf.hcl")).toThrow("justification");
+  const justified = base.replace(
+    '    external = "allow"',
+    '    # This value may identify a separately managed target.\n    external = "allow"',
+  );
+  expect(() => validateDialectContract(justified, "sample.rf.hcl")).not.toThrow();
+  const disclosed = justified.replace(
+    '    external = "allow"',
+    '    external = "allow"\n    disclose = "record"',
+  );
+  expect(() => validateDialectContract(disclosed, "sample.rf.hcl")).toThrow("disclosure needs");
+  expect(() =>
+    validateDialectContract(
+      disclosed.replace(
+        '    disclose = "record"',
+        '    # This structural ID is useful to compare documents.\n    disclose = "record"',
+      ),
+      "sample.rf.hcl",
+    ),
+  ).not.toThrow();
+});
+
 test("current repository matches its explicit inventory", () => {
   expect(validateRepository).not.toThrow();
+});
+
+test("shorthand provider bindings need registry equivalence evidence", () => {
+  const same = "a".repeat(64);
+  const other = "b".repeat(64);
+  const check = (terraform: string, opentofu: string) => ({
+    version: "1.0.0",
+    platform: "linux_amd64",
+    terraform_sha256: terraform,
+    opentofu_sha256: opentofu,
+  });
+  const vendor = { dialect: "vendor", source: "vendor/thing", version: "= 1.0.0" };
+  const hashicorp = { dialect: "cloud", source: "hashicorp/cloud", version: "= 1.0.0" };
+  const pinned = {
+    dialect: "vendor",
+    source: "registry.terraform.io/vendor/other",
+    version: "= 1.0.0",
+  };
+  expect(
+    registryEquivalenceProblems(
+      [vendor, hashicorp, pinned],
+      [
+        { ...vendor, archives: "identical", checks: [check(same, same)] },
+        { ...hashicorp, archives: "rebuilt", checks: [check(same, other)] },
+      ],
+    ),
+  ).toEqual([]);
+  expect(registryEquivalenceProblems([vendor], [])).toEqual([
+    "vendor: vendor/thing has no registry equivalence evidence",
+  ]);
+  expect(
+    registryEquivalenceProblems(
+      [vendor],
+      [{ ...vendor, archives: "rebuilt", checks: [check(same, other)] }],
+    ),
+  ).toEqual(["vendor: vendor/thing archives differ between registries; bind one host explicitly"]);
+  expect(
+    registryEquivalenceProblems(
+      [vendor],
+      [{ ...vendor, archives: "rebuilt", checks: [check(same, same)] }],
+    ),
+  ).toEqual(["vendor: vendor/thing evidence does not match its archive digests"]);
+  expect(
+    registryEquivalenceProblems(
+      [vendor],
+      [{ ...vendor, archives: "identical", checks: [check(same, "")] }],
+    ),
+  ).toEqual(["vendor: vendor/thing evidence lacks an archive digest from each registry"]);
+  expect(
+    registryEquivalenceProblems(
+      [],
+      [{ ...vendor, archives: "identical", checks: [check(same, same)] }],
+    ),
+  ).toEqual(["vendor: stale registry evidence for vendor/thing"]);
 });
 
 test("no redundant resource-mirror pair remains in any dialect", () => {

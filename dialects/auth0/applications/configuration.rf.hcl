@@ -10,8 +10,15 @@ rule "client-credentials" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.identity-application
-    via = source.client_id
+    to       = concept.identity-application
+    via      = source.client_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -23,8 +30,15 @@ rule "client-grant" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.identity-application
-    via = source.client_id
+    to       = concept.identity-application
+    via      = source.client_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -36,8 +50,15 @@ rule "resource-server-scope" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.api-resource-server
-    via = source.resource_server_identifier
+    to       = concept.api-resource-server
+    via      = source.resource_server_identifier
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.identifier
+      strategy = "exact"
+    }
   }
 }
 
@@ -49,7 +70,14 @@ rule "resource-server-scopes" {
   as = concept.application-configuration
 
   contribution {
-    to  = concept.api-resource-server
-    via = source.resource_server_identifier
+    to       = concept.api-resource-server
+    via      = source.resource_server_identifier
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.identifier
+      strategy = "exact"
+    }
   }
 }

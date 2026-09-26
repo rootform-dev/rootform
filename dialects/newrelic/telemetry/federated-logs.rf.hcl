@@ -17,10 +17,29 @@ rule "aws-connection" {
 
   as = concept.aws-connection
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
 }
@@ -33,14 +52,31 @@ rule "federated-logs-partition" {
   as = concept.federated-logs-partition
 
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.federated-logs-setup
-    via = source.setup_id
+    to       = concept.federated-logs-setup
+    via      = source.setup_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -51,19 +87,52 @@ rule "federated-logs-setup" {
 
   as = concept.federated-logs-setup
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.observability-tenant
-    via = source.account_id
+    as       = context.ownership
+    to       = concept.observability-tenant
+    via      = source.account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "ingests-through" {
-    to  = concept.aws-connection
-    via = source.storage[0].data_ingest_connection_id
+    to       = concept.aws-connection
+    via      = source.storage[0].data_ingest_connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "queries-through" {
-    to  = concept.aws-connection
-    via = source.storage[0].query_connection_id
+    to       = concept.aws-connection
+    via      = source.storage[0].query_connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

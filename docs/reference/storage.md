@@ -84,7 +84,7 @@ its output names the command to run, such as `rootform vendor policy-packs`.
 To stop vendoring, delete `.rootform/` and run `rootform init` to verify the
 remaining selected sources. See [Locks and vendored content](../offline-security.md)
 for acquisition and offline controls, and
-[Troubleshooting](../troubleshooting/index.md#vendored-content-is-incomplete-or-altered)
+[Troubleshooting](../troubleshooting/index.md)
 for repair after an integrity failure.
 
 ## What each command guarantees
@@ -97,7 +97,7 @@ for repair after an integrity failure.
 | `remove` | Yes | No | `rootform.lock` and existing vendor family |
 | `init` | No | Missing selected OCI content | `$ROOTFORM_HOME` when it fetches |
 | `vendor` | No | Missing selected OCI content | `.rootform/` and `$ROOTFORM_HOME` when it fetches |
-| `build`, `check`, `run`, `diff`, `list`, `show`, `explain` | No | No | Requested output and derived cache, when applicable |
+| `run`, `list`, `show`, `explain` | No | No | Requested output and derived cache, when applicable |
 
 `--offline` disables acquisition for commands that accept it. `--locked`
 requires an existing valid lock and does not disable exact acquisition by

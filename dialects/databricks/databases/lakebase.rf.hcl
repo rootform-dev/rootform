@@ -28,6 +28,15 @@ rule "lakebase-project" {
   }
 
   as = concept.lakebase-project
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "uid"]
+  }
 }
 
 rule "lakebase-branch" {
@@ -37,15 +46,38 @@ rule "lakebase-branch" {
 
   as = concept.lakebase-branch
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "uid"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.lakebase-project
-    via = source.parent
+    as       = context.ownership
+    to       = concept.lakebase-project
+    via      = source.parent
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   relation "branched-from" {
-    to  = concept.lakebase-branch
-    via = source.spec.source_branch
+    to       = concept.lakebase-branch
+    via      = source.spec.source_branch
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -57,9 +89,16 @@ rule "lakebase-endpoint" {
   as = concept.lakebase-endpoint
 
   context {
-    as  = rf.context.runtime
-    to  = concept.lakebase-branch
-    via = source.parent
+    as       = rf.context.runtime
+    to       = concept.lakebase-branch
+    via      = source.parent
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -71,9 +110,16 @@ rule "lakebase-database" {
   as = concept.lakebase-database
 
   context {
-    as  = context.ownership
-    to  = concept.lakebase-branch
-    via = source.parent
+    as       = context.ownership
+    to       = concept.lakebase-branch
+    via      = source.parent
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -85,9 +131,16 @@ rule "lakebase-data-api" {
   as = concept.lakebase-data-api
 
   context {
-    as  = rf.context.runtime
-    to  = concept.lakebase-project
-    via = source.parent
+    as       = rf.context.runtime
+    to       = concept.lakebase-project
+    via      = source.parent
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -98,9 +151,28 @@ rule "lakebase-provisioned-instance" {
 
   as = rf.concept.managed-database
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "uid"]
+  }
+
   relation "branched-from" {
-    to  = rf.concept.managed-database
-    via = source.parent_instance_ref[0].name
+    to       = rf.concept.managed-database
+    via      = source.parent_instance_ref.name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared managed-database instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 

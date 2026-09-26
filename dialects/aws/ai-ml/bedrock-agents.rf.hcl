@@ -15,4 +15,13 @@ rule "bedrockagent-agent" {
   }
 
   as = concept.bedrockagent-agent
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

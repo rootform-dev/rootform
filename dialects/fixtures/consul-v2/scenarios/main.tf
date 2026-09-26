@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
+      version = "= 6.62.0"
     }
     consul = {
       source  = "hashicorp/consul"
@@ -10,10 +11,12 @@ terraform {
   }
 }
 
+# Reads of this provider need its API, so the plan defers them until apply.
+resource "terraform_data" "defer_reads" {
+}
 resource "consul_admin_partition" "platform" {
   name = "platform"
 }
-
 resource "consul_namespace" "applications" {
   name      = "applications"
   partition = consul_admin_partition.platform.name
@@ -143,6 +146,8 @@ resource "consul_config_entry" "terminating" {
 }
 
 resource "consul_config_entry_service_defaults" "api" {
+  expose {
+  }
   name     = consul_service.api.name
   protocol = "http"
 }
@@ -210,6 +215,8 @@ resource "consul_config_entry_service_splitter" "payments" {
 }
 
 resource "consul_config_entry_v2_exported_services" "applications" {
+  partition                = "fx-applications-partition"
+  kind                     = "fx-applications-kind"
   name                     = "applications"
   services                 = [consul_service.api.name, consul_service.payments.name]
   peer_consumers           = [consul_peering.edge.peer_name]
@@ -228,7 +235,8 @@ resource "consul_prepared_query" "api" {
 }
 
 data "consul_service_health" "api" {
-  name = consul_service.api.name
+  depends_on = [terraform_data.defer_reads]
+  name       = consul_service.api.name
 }
 
 resource "consul_network_area" "wan" {
@@ -238,9 +246,10 @@ resource "consul_network_area" "wan" {
 }
 
 resource "consul_autopilot_config" "platform" {
-  cleanup_dead_servers = true
-}
 
+  cleanup_dead_servers = true
+
+}
 resource "consul_agent_service" "legacy" {
   name = "legacy-agent-service"
   port = 9090
@@ -249,34 +258,42 @@ resource "consul_agent_service" "legacy" {
 resource "consul_catalog_entry" "legacy" {
   address = "10.20.0.20"
   node    = "legacy-node"
-  service = [{ name = "legacy-catalog-service" }]
+  service {
+    name = "legacy-catalog-service"
+  }
 }
 
 data "consul_acl_auth_method" "workloads" {
-  name      = consul_acl_auth_method.workloads.name
-  namespace = consul_namespace.applications.name
+  depends_on = [terraform_data.defer_reads]
+  name       = consul_acl_auth_method.workloads.name
+  namespace  = consul_namespace.applications.name
 }
 
 data "consul_service" "api" {
-  name = consul_service.api.name
+  depends_on = [terraform_data.defer_reads]
+  name       = consul_service.api.name
 }
 
 data "consul_catalog_service" "payments" {
-  name = consul_service.payments.name
+  depends_on = [terraform_data.defer_reads]
+  name       = consul_service.payments.name
 }
 
 data "consul_peering" "edge" {
-  peer_name = consul_peering.edge.peer_name
+  depends_on = [terraform_data.defer_reads]
+  peer_name  = consul_peering.edge.peer_name
 }
 
 data "consul_config_entry" "mesh" {
-  kind = "mesh"
-  name = consul_config_entry.mesh.name
+  depends_on = [terraform_data.defer_reads]
+  kind       = "mesh"
+  name       = consul_config_entry.mesh.name
 }
 
 data "consul_config_entry" "api_gateway" {
-  kind = "api-gateway"
-  name = consul_config_entry.api_gateway.name
+  depends_on = [terraform_data.defer_reads]
+  kind       = "api-gateway"
+  name       = consul_config_entry.api_gateway.name
 }
 
 resource "consul_acl_policy" "private" {
@@ -285,9 +302,10 @@ resource "consul_acl_policy" "private" {
 }
 
 resource "consul_acl_role" "private" {
-  name = "private"
-}
 
+  name = "private"
+
+}
 resource "consul_acl_token" "private" {
   description = "ROOTFORM_CONSUL_TOKEN_SENTINEL"
   policies    = [consul_acl_policy.private.name]
@@ -301,17 +319,20 @@ resource "consul_keys" "private" {
 }
 
 resource "consul_license" "private" {
+
   license = "ROOTFORM_CONSUL_LICENSE_SENTINEL"
-}
 
+}
 resource "consul_peering_token" "private" {
+
   peer_name = "private"
-}
 
+}
 resource "aws_vpc" "opaque" {
-  cidr_block = "10.40.0.0/16"
-}
 
+  cidr_block = "10.40.0.0/16"
+
+}
 resource "consul_config_entry" "opaque" {
   kind = "control-plane-request-limit"
   name = "opaque"

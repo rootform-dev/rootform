@@ -21,10 +21,11 @@ rootform explain architecture <address> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain architecture |
-| ` --input ` | ` string ` | ` "" ` | read architecture at `path`; use `-` for standard input |
+| ` --input ` | ` string ` | ` "" ` | read `path`: a plan, state or Rootform document, or `-` |
+| ` --stage ` | ` string ` | ` "" ` | explain the `stage`: planned, refreshed or recorded |
 
 ## Inherited flags
 

@@ -15,8 +15,8 @@ and return here for exact command contracts.
 
 ## Find a command
 
-- Build or explore: `build` exports an architecture; `run` serves the local explorer.
-- Review: `check` evaluates Policies; `diff` compares two architectures.
+- Analyze or explore: `run` reads an export, writes reports, or serves the local explorer.
+- Review: `run --policy-pack` evaluates Policies; `run --diff` compares two inputs.
 - Inspect: `list` shows active content, `show` displays a definition, and `explain` traces an interpretation or result.
 - Prepare: `init` verifies selected content and can fetch missing OCI units; `vendor` copies selected content into the project.
 - Validate and author: `validate` checks an object; `fmt`, `test`, `compile`, `package`, `publish`, and `lsp` have their own contracts below.
@@ -44,16 +44,13 @@ rootform [command]
 | [` rootform add `](add.md) | Add content to rootform.lock |
 | [` rootform add dialects `](add/dialects.md) | Add dialects to rootform.lock |
 | [` rootform add policy-packs `](add/policy-packs.md) | Add Policy Packs to rootform.lock |
-| [` rootform build `](build.md) | Build an architecture |
-| [` rootform check `](check.md) | Check architecture policies |
 | [` rootform compile `](compile.md) | Compile a Policy Pack for offline checks |
 | [` rootform compile policy-pack `](compile/policy-pack.md) | Compile and pin a Policy Pack |
 | [` rootform completion `](completion.md) | Generate shell completion |
-| [` rootform diff `](diff.md) | Compare two architectures |
 | [` rootform explain `](explain.md) | Explain an architecture result |
-| [` rootform explain architecture `](explain/architecture.md) | Explain an architecture element |
+| [` rootform explain architecture `](explain/architecture.md) | Explain an instance |
 | [` rootform explain policy `](explain/policy.md) | Explain a policy result |
-| [` rootform explain semantics `](explain/semantics.md) | Explain a semantic interpretation |
+| [` rootform explain semantics `](explain/semantics.md) | Explain a rule |
 | [` rootform fmt `](fmt.md) | Format Rootform files |
 | [` rootform init `](init.md) | Prepare a Rootform project |
 | [` rootform install `](install.md) | Install registry content in the Rootform home |
@@ -73,11 +70,11 @@ rootform [command]
 | [` rootform remove `](remove.md) | Remove content from rootform.lock |
 | [` rootform remove dialects `](remove/dialects.md) | Remove dialects from rootform.lock |
 | [` rootform remove policy-packs `](remove/policy-packs.md) | Remove Policy Packs from rootform.lock |
-| [` rootform run `](run.md) | Explore an architecture locally |
+| [` rootform run `](run.md) | Analyze a plan or state, or open a saved Rootform document |
 | [` rootform show `](show.md) | Show a Rootform definition |
 | [` rootform show policy `](show/policy.md) | Show a policy definition |
 | [` rootform show policy-pack `](show/policy-pack.md) | Show a Policy Pack |
-| [` rootform test `](test.md) | Test dialect fixtures |
+| [` rootform test `](test.md) | Test Dialect fixtures |
 | [` rootform uninstall `](uninstall.md) | Delete installed versions from the Rootform home |
 | [` rootform uninstall dialects `](uninstall/dialects.md) | Delete installed dialect versions |
 | [` rootform uninstall policy-packs `](uninstall/policy-packs.md) | Delete installed Policy Pack versions |
@@ -85,7 +82,7 @@ rootform [command]
 | [` rootform update dialect `](update/dialect.md) | Change one selected dialect |
 | [` rootform update policy-pack `](update/policy-pack.md) | Change one selected Policy Pack |
 | [` rootform validate `](validate.md) | Validate a Rootform object |
-| [` rootform validate architecture `](validate/architecture.md) | Validate an architecture |
+| [` rootform validate architecture `](validate/architecture.md) | Validate a saved Rootform document |
 | [` rootform validate concept `](validate/concept.md) | Validate a concept definition |
 | [` rootform validate context `](validate/context.md) | Validate a context dimension |
 | [` rootform validate dialects `](validate/dialects.md) | Validate dialect definitions |

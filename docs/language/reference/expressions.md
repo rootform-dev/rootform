@@ -332,4 +332,4 @@ Depending on position, these produce `INVALID_EXPRESSION`,
 | Compiled expression nodes | 1,024 per expression |
 
 Exceeded source shape fails compilation. Compiled Policy Pack has additional
-aggregate limits under [Diagnostics and limits](diagnostics.md#limits).
+aggregate limits under [Diagnostics and limits](diagnostics.md).

@@ -16,6 +16,15 @@ rule "network-connectivity-configuration" {
   }
 
   as = concept.network-connectivity-configuration
+
+  identity {
+    attributes = ["id", "network_connectivity_config_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "network_connectivity_config_id"]
+  }
 }
 
 rule "network-connectivity-binding" {
@@ -26,13 +35,27 @@ rule "network-connectivity-binding" {
   as = concept.network-binding
 
   contribution {
-    to  = concept.network-connectivity-configuration
-    via = source.network_connectivity_config_id
+    to       = concept.network-connectivity-configuration
+    via      = source.network_connectivity_config_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.network_connectivity_config_id
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.workspace
-    via = source.workspace_id
+    to       = concept.workspace
+    via      = source.workspace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.workspace_id
+      strategy = "exact"
+    }
   }
 }
 
@@ -44,18 +67,23 @@ rule "private-endpoint-rule" {
   as = concept.private-endpoint-rule
 
   context {
-    as  = rf.context.network
-    to  = concept.network-connectivity-configuration
-    via = source.network_connectivity_config_id
+    as       = rf.context.network
+    to       = concept.network-connectivity-configuration
+    via      = source.network_connectivity_config_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.network_connectivity_config_id
+      strategy = "exact"
+    }
   }
 
   relation "connects-to-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.resource_id
+    to       = rf.concept.object-storage-container
+    via      = source.resource_id
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
-  relation "connects-to-endpoint" {
-    to  = concept.private-endpoint
-    via = source.vpc_endpoint_id
-  }
 }

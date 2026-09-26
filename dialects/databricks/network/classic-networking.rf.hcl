@@ -21,14 +21,27 @@ rule "workspace-network-configuration" {
 
   as = concept.workspace-network-configuration
 
-  relation "uses-cloud-network" {
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+  identity {
+    attributes = ["id", "network_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "network_id"]
   }
 
   relation "uses-cloud-network" {
-    to  = rf.concept.virtual-network
-    via = source.gcp_network_info[0].vpc_id
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
+  }
+
+  relation "uses-cloud-network" {
+    to       = rf.concept.virtual-network
+    via      = source.gcp_network_info[0].vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -39,15 +52,6 @@ rule "vpc-endpoint-registration" {
 
   as = concept.private-endpoint-registration
 
-  relation "registers-endpoint" {
-    to  = concept.private-endpoint
-    via = source.aws_vpc_endpoint_id
-  }
-
-  relation "registers-endpoint" {
-    to  = concept.private-endpoint
-    via = source.gcp_vpc_endpoint_info[0].psc_endpoint_name
-  }
 }
 
 rule "service-direct-endpoint" {
@@ -57,20 +61,6 @@ rule "service-direct-endpoint" {
 
   as = concept.private-endpoint-registration
 
-  relation "registers-endpoint" {
-    to  = concept.private-endpoint
-    via = source.aws_vpc_endpoint_info.aws_vpc_endpoint_id
-  }
-
-  relation "registers-endpoint" {
-    to  = concept.private-endpoint
-    via = source.azure_private_endpoint_info.private_endpoint_resource_id
-  }
-
-  relation "registers-endpoint" {
-    to  = concept.private-endpoint
-    via = source.gcp_psc_endpoint_info.psc_endpoint
-  }
 }
 
 rule "private-access-settings" {
@@ -79,6 +69,15 @@ rule "private-access-settings" {
   }
 
   as = concept.private-access-settings
+
+  identity {
+    attributes = ["id", "private_access_settings_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "private_access_settings_id"]
+  }
 }
 
 rule "account-network-policy" {

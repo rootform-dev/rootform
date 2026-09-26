@@ -7,15 +7,19 @@ terraform {
   }
 }
 
+# Reads of this provider need its API, so the plan defers them until apply.
+resource "terraform_data" "defer_reads" {}
+
 resource "confluent_environment" "production" {
   display_name = "Production"
 }
 
 resource "confluent_network" "private" {
-  display_name = "Private"
-  cloud        = "AWS"
-  region       = "us-east-1"
-  cidr         = "10.10.0.0/16"
+  connection_types = ["fixture"]
+  display_name     = "Private"
+  cloud            = "AWS"
+  region           = "us-east-1"
+  cidr             = "10.10.0.0/16"
 
   environment {
     id = confluent_environment.production.id
@@ -70,6 +74,7 @@ resource "confluent_connector" "warehouse" {
 }
 
 data "confluent_schema_registry_cluster" "production" {
+  depends_on = [terraform_data.defer_reads]
   environment {
     id = confluent_environment.production.id
   }

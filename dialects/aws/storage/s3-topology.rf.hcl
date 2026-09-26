@@ -4,6 +4,15 @@ rule "s3-bucket" {
   }
 
   as = rf.concept.object-storage-container
+
+  identity {
+    attributes = ["bucket"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "bucket", "arn"]
+  }
 }
 
 rule "s3-bucket-versioning" {
@@ -14,8 +23,18 @@ rule "s3-bucket-versioning" {
   as = concept.storage-configuration
 
   contribution {
-    to  = rf.concept.object-storage-container
-    via = source.bucket
+    to       = rf.concept.object-storage-container
+    via      = source.bucket
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.bucket
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -27,7 +46,17 @@ rule "s3-bucket-server-side-encryption-configuration" {
   as = concept.storage-configuration
 
   contribution {
-    to  = rf.concept.object-storage-container
-    via = source.bucket
+    to       = rf.concept.object-storage-container
+    via      = source.bucket
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.bucket
+      strategy = "exact"
+    }
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

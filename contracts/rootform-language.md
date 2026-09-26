@@ -49,16 +49,20 @@ It must contribute at least one classification, emission, or composition; a
 match-only Rule is invalid, and declaring only a label, icon, or source type is
 not an architectural contribution.
 
-Eligibility follows source kind, exact `match.type`, declared provider with
+Eligibility follows instance kind, exact `match.type`, declared provider with
 applicable compatibility, and an optional `where`; a Rule eliminated earlier
 never evaluates `where`. `resource` is the default kind; `data` stays
-explicit. At most one proper Rule is applied per source declaration.
+explicit. At most one Rule applies to an instance in a stage. Every managed
+and data instance remains represented even without a matching Rule.
 
 Context and relation blocks have two exclusive forms: a labelled block that
 introduces or uses a local symbol, and a label-free block with `as` referencing
 an existing symbol. Label and `as` together are invalid. A contribution has no
 named predicate and no `as`. Each emission requires a typed `to` target, a
-`via` proof path, and an optional explicit attribute reconciliation.
+`via` proof path, explicit `on_null` and `on_empty` outcomes, and an optional
+`match` with ordered target identity attributes. A Rule may declare identity
+scope `provider` or `global` and endpoint attributes for verified traversal
+evidence. External endpoints and disclosure require explicit emission policy.
 
 Expressions stay bounded: recognized static paths, scalars, typed comparisons,
 and boolean operators. No script, arbitrary call, or selector DSL.
@@ -73,10 +77,11 @@ a failed candidacy is not an applied Rule. A successfully applied Rule enriches
 an existing representation base; a later Rule enriches the same representation.
 An interpretation failure never deletes its base.
 
-Conclusively empty active emission records an omission; unknown, ambiguous,
-partially dangling, or incomparable evidence records an emission-scoped
-diagnostic. Confirmed facts and incompleteness diagnostics may coexist. Unknown
-evidence never proves absence.
+Each active emission has a closure with outcome `resolved`, `absent`, or
+`indeterminate`. Null and empty values follow the emission's declarations;
+unknown, sensitive, ambiguous, transformed, or unavailable evidence remains
+indeterminate with a reason. Confirmed facts and an indeterminate remainder may
+coexist in one closure. Unknown evidence never proves absence.
 
 ## Concepts
 
@@ -84,8 +89,7 @@ A Concept is an optional nominal architectural classification. Its absence
 implies neither absence of representation nor absence of facts. When a Concept
 is established it corresponds exactly to the `as` of the applied Rule; it is
 never derived from the Rule's name and no member inherits a root's Concept.
-`kind = entity | scope | detail` no longer exists; the source `kind` of
-matching keeps only its eligibility role.
+The source kind in `match` controls eligibility, not presentation category.
 
 ## Policies
 

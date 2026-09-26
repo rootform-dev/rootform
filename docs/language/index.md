@@ -41,7 +41,7 @@ A Policy Pack participates after those facts exist:
 4. evaluation over Architecture IR facts
 5. passed, violated, or indeterminate result
 
-Architecture IR is the shared result. [Architecture Diff](../concepts/diff.md)
+Architecture IR is the shared result. [Architecture comparisons](../concepts/diff.md)
 compares two documents over that contract, and
 [Check an architecture](../guides/check-architecture.md) evaluates policies
 against one. No policy rewrites the document, reads a live cloud account, or
@@ -148,6 +148,6 @@ not add equivalent authoring constructs to `.rf.hcl`.
 
 Use `rootform lsp` for editor diagnostics and `rootform fmt` for canonical
 formatting. Validation compiles definitions; `rootform test` compares Dialect
-fixture architectures; `rootform check` evaluates policies. These operations
+fixture architectures; `rootform run` evaluates selected policies. These operations
 answer different questions, so use them together in a serious authoring
 workflow.

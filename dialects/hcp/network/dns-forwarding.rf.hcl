@@ -9,16 +9,45 @@ rule "dns-forwarding" {
 
   as = concept.dns-forwarding
 
-  context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_id
+  identity {
+    attributes = ["id", "dns_forwarding_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "dns_forwarding_id"]
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.hvn_id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+
+  context {
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -30,16 +59,45 @@ rule "dns-forwarding-lookup" {
 
   as = concept.dns-forwarding
 
-  context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_id
+  identity {
+    attributes = ["id", "dns_forwarding_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "dns_forwarding_id"]
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.hvn_id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+
+  context {
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -51,8 +109,15 @@ rule "dns-forwarding-rule" {
   as = concept.network-configuration
 
   contribution {
-    to  = concept.dns-forwarding
-    via = source.dns_forwarding_id
+    to       = concept.dns-forwarding
+    via      = source.dns_forwarding_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.dns_forwarding_id
+      strategy = "exact"
+    }
   }
 }
 
@@ -65,7 +130,14 @@ rule "dns-forwarding-rule-lookup" {
   as = concept.network-configuration
 
   contribution {
-    to  = concept.dns-forwarding
-    via = source.dns_forwarding_id
+    to       = concept.dns-forwarding
+    via      = source.dns_forwarding_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.dns_forwarding_id
+      strategy = "exact"
+    }
   }
 }

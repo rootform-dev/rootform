@@ -4,7 +4,7 @@ terraform {
   }
 }
 
-variable "unknown_id" { type = string }
+resource "terraform_data" "unknown_id" {}
 
 resource "azurerm_resource_group" "platform" {
   name     = "platform"
@@ -71,16 +71,16 @@ resource "azurerm_storage_table_entity" "session" {
 # literal and unknown account references produce no ownership context or contribution
 resource "azurerm_storage_container" "literal" {
   name               = "literal"
-  storage_account_id = "/subscriptions/example/storageAccounts/rootformplatform"
+  storage_account_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.Storage/storageAccounts/fx-literal-storage-account-id"
 }
 
 resource "azurerm_storage_queue" "unknown" {
   name               = "unknown"
-  storage_account_id = var.unknown_id
+  storage_account_id = terraform_data.unknown_id.id
 }
 
 resource "azurerm_storage_blob" "unknown" {
   name                 = "unknown.bin"
-  storage_container_id = var.unknown_id
+  storage_container_id = terraform_data.unknown_id.id
   type                 = "Block"
 }

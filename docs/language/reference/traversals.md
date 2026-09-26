@@ -1,197 +1,26 @@
 ---
 title: "Traversals and scope"
-description: "Complete traversal grammar, roots, path steps, position rules, and resolution behavior."
+description: "Attribute paths used by Rules and emissions over plan or state instances."
 ---
 
-Traversals navigate normalized infrastructure declarations. They do not name
-semantic symbols; [Concept, Context, Relation, and Rule references](symbols.md)
-use separate typed syntax.
+A Rootform traversal reads one path from an instance or candidate. It is distinct from a Concept, Rule, Context, or Relation reference. `source` names the current Rule instance; `target` names a candidate during emission matching; `provider` names the bound provider configuration where available; and `member.<name>` names an earlier composition member.
 
-## Grammar
-
-```ebnf
-traversal        = simple-root, step, { step }
-                 | member-root, step, { step } ;
-
-simple-root      = "source" | "provider" | "target" ;
-member-root      = "member", ".", member-name ;
-
-step             = ".", attribute-name
-                 | "[", non-negative-integer, "]" ;
-
-attribute-name   = letter-or-underscore,
-                   { letter | digit | underscore } ;
-```
-
-Every traversal needs at least one path step after root. For `member`, member
-name is part of root, so `member.proxy` alone remains incomplete.
-
-Examples:
-
-```rf title="valid traversals"
-source.vpc_id
+```rf title="Traversal examples"
+source.network_id
 source.metadata[0].name
+target.name
 provider.host
-target.metadata[0].name
 member.proxy.backend_id
 ```
 
-## Path steps
+A path uses attribute steps and static nonnegative integer indexes. Dynamic indexes, splats, and string indexes are not accepted as authored traversal paths. A missing path on an emitted instance produces `EMISSION_PATH_UNDEFINED`, not proof that a relation is absent.
 
-### Attribute step
+## Value and identity evidence
 
-Adapter-owned attribute names are 1 to 64 bytes and match:
+An emission's `via` reads a value from `source` or `provider`. With a `match` block, `via` is compared to the target Rule's declared identity attributes named by `match.by`. Unknown, sensitive, or unavailable values preserve uncertainty. The target path must be a declared identity attribute; `target` is available only inside that match.
 
-```regexp
-[A-Za-z_][A-Za-z0-9_]*
-```
+A verified saved-plan snapshot can pair an eligible bare reference or single-interpolation pass-through with a target instance. The target Rule declares endpoint attributes such as `id` or `name` that a traversal may name. This evidence is available for the `planned` stage, including when evaluated values are unknown, duplicated across candidates, or involve different providers. A tuple `[a.id, b.id]` at the emitted attribute or inside one static block pairs its elements separately. Functions, operators, conditionals, dynamic blocks, computed indexes, and transformed references do not establish endpoint identity. They may still remain dependency evidence.
 
-They use source-adapter naming, usually snake case, not RF kebab-case
-identifier grammar.
+For `provider.<path>`, Rootform follows the named provider block's attribute reference in its module. It can pair a direct managed-resource endpoint or a pass-through through a variable, local, or module output on the planned stage of a verified saved plan. The provider block is not expanded. A literal or transformed provider expression, state input, historical stage, OpenTofu provider `for_each`, or JSON configuration syntax leaves the closure `indeterminate(unavailable)`. Literal provider configuration values are never read.
 
-### Index step
-
-Index key must be exact non-negative signed 64-bit integer value. Canonical
-spelling is decimal whole number:
-
-```rf
-source.backends[0].id
-```
-
-String indexes, negative indexes, dynamic indexes, slices, and splats are
-invalid:
-
-```rf title="invalid traversal steps"
-source.tags["Name"]
-source.items[-1]
-source.items[source.index]
-source.items[*].id
-```
-
-## Roots
-
-| Root | Meaning |
-| --- | --- |
-| `source` | Declaration in current language position |
-| `provider` | Concrete provider configuration bound to matched Rule declaration |
-| `target` | Candidate target declaration during explicit fact matching |
-| `member.<name>` | Earlier accepted member in current composition |
-
-Meaning of `source` depends on placement:
-
-| Placement | `source` declaration |
-| --- | --- |
-| Rule `match.where` | Candidate for Rule |
-| Member `match.where` | Candidate for that member |
-| Emission `via` | Rule's interpreted root declaration |
-| Composition member `via` | Composition root declaration |
-
-`provider` follows actual normalized binding, including aliases and module
-inheritance. It does not expose canonical provider source identity as free
-metadata.
-
-## Root availability
-
-| Position | `source` | `provider` | `target` | `member.<name>` |
-| --- | --- | --- | --- | --- |
-| Rule `match.where` | Yes | No | No | No |
-| Member `match.where` | Yes | No | No | No |
-| Emission `via`, without nested fact `match` | Yes | Yes | No | No |
-| Emission `via`, with nested fact `match` | Yes | No | No | No |
-| Fact `match.by` | No | No | Yes | No |
-| Composition member `via` | Yes | No | No | Earlier members only |
-
-Using known root in wrong position produces `INVALID_REFERENCE`,
-`FACT_INVALID`, or `COMPOSITION_INVALID` according to enclosing construct.
-
-## Traversal use by position
-
-### Predicate scalar inspection
-
-```rf
-where = source.enabled == true
-```
-
-Predicate traversal must resolve to known string, Boolean, or signed integer
-scalar. Missing, collection-valued, dynamic, or type-incompatible result is
-unknown.
-
-### Fact reference resolution
-
-```rf
-via = source.vpc_id
-```
-
-Emission `via` resolves infrastructure references represented by source
-expression. It can produce zero, one, or several declarations. Result must also
-satisfy emission `to` semantic type.
-
-### Provider configuration resolution
-
-```rf
-via = provider.host
-```
-
-This reads `host` from concrete provider configuration used by matched source
-declaration. A proven missing configuration or attribute yields ordinary
-`source_absent` omission. A binding or value that source analysis attempted but
-could not decide produces incomplete emission evidence. `provider.*` is valid
-only for direct emission resolution, without nested fact `match`.
-
-### Explicit target comparison
-
-```rf
-match {
-  by       = target.metadata[0].name
-  strategy = "exact"
-}
-```
-
-For each candidate satisfying emission `to`, `target` reads candidate's
-attribute. See [Explicit attribute match](emissions.md#explicit-attribute-match).
-
-### Composition chaining
-
-```rf
-member "url-map" {
-  via = member.proxy.url_map
-
-  match {
-    type = "example_url_map"
-  }
-}
-```
-
-`proxy` must precede `url-map` in same composition. Members from another
-Rule or later position are not in scope.
-
-## Resolution states
-
-Traversal evaluation distinguishes:
-
-| State | Meaning |
-| --- | --- |
-| Resolved | Required value or declaration is known |
-| Absent | Path is known not to exist |
-| Dangling | Reference names declaration absent from normalized source |
-| Ambiguous | More than one incompatible declaration remains |
-| Unresolved | Evidence is unknown or unsupported |
-
-Context decides whether absence becomes normal omission or diagnostic.
-Uncertainty never becomes empty evidence. See
-[Fact emissions](emissions.md#omission-and-uncertainty) and
-[Evaluation](evaluation.md).
-
-## Rejected roots and forms
-
-```rf title="invalid traversals"
-source
-provider
-target.name
-member.future.id
-aws_vpc.main.id
-```
-
-First two lack path step. `target` is invalid outside fact `match.by`.
-`member.future` is invalid unless `future` is earlier composition member.
-Terraform address `aws_vpc.main.id` has no RF traversal root.
+If value and traversal agree, a fact records `both`; if only one proves the endpoint, it records `value` or `traversal`. A known disagreement produces `EVIDENCE_CONFLICT` and no guessed target. See [Fact emissions](emissions.md) and [Rules](rules.md).

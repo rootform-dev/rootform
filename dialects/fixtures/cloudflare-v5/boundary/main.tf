@@ -11,27 +11,40 @@ terraform {
   }
 }
 
+# Reads of this provider need its API, so the plan defers them until apply.
+resource "terraform_data" "defer_reads" {
+}
 variable "choose_first" {
-  type = bool
+  type    = bool
+  default = true
 }
 
 variable "bindings" {
-  type = any
+  type    = any
+  default = []
 }
 
 variable "origins" {
-  type = any
+  type    = any
+  default = [{ name = "dynamic", address = "origin.example.org" }]
 }
 
 variable "private_network" {
-  type = string
+  type    = string
+  default = "10.0.0.0/16"
 }
 
 resource "aws_lb" "first" {
+  subnet_mapping {
+    subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.Network/virtualNetworks/fx-vnet/subnets/fx-first-subnet-id"
+  }
   name = "first"
 }
 
 resource "aws_lb" "second" {
+  subnet_mapping {
+    subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.Network/virtualNetworks/fx-vnet/subnets/fx-second-subnet-id"
+  }
   name = "second"
 }
 
@@ -73,6 +86,7 @@ resource "cloudflare_dns_record" "literal" {
 resource "cloudflare_workers_script" "dynamic" {
   account_id  = "account"
   script_name = "dynamic"
+  content     = "export default {}"
   bindings    = var.bindings
 }
 
@@ -101,12 +115,14 @@ resource "cloudflare_queue" "dependency_only" {
 }
 
 resource "cloudflare_ai_search_token" "credential" {
+  cf_api_key = "fx-credential-cf-api-key"
+  cf_api_id  = "fx-credential-cf-api-id"
   account_id = "account"
-  instance_id = "search"
   name       = "credential"
 }
 
 resource "cloudflare_secrets_store_secret" "sensitive" {
+  scopes     = ["fx-sensitive-scopes"]
   account_id = "account"
   store_id   = "store"
   name       = "sensitive"
@@ -114,5 +130,6 @@ resource "cloudflare_secrets_store_secret" "sensitive" {
 }
 
 data "cloudflare_zone" "lookup" {
-  zone_id = cloudflare_zone.edge.id
+  depends_on = [terraform_data.defer_reads]
+  zone_id    = cloudflare_zone.edge.id
 }

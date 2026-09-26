@@ -89,11 +89,11 @@ matching Concept or applied Rule is not selected.
 
 ## Evaluate locally
 
-Point `check` at local source while authoring:
+Point `run` at a plan with local Policy Pack source while authoring:
 
 <!-- docs-check:docs-language-write-policy-pack-1 -->
 ```sh
-rootform check ./example --policy-pack ./baseline
+rootform run ./example/plan.json --project ./example --policy-pack ./baseline --no-serve
 rootform list policies --policy-pack ./baseline
 rootform show policy baseline.policy.cluster-network-context --policy-pack ./baseline
 ```
@@ -108,7 +108,7 @@ Dialects:
 ```sh
 rootform compile policy-pack ./baseline --semantics architecture.json \
   --output baseline.compiled.json
-rootform check architecture.json --policy-pack baseline.compiled.json
+rootform run architecture.json --policy-pack baseline.compiled.json --no-serve
 ```
 
 Compiled artifact records authored content digest, linked digest, RF Language
@@ -150,8 +150,9 @@ cd ./infra
 rootform add policy-packs \
   registry.example.com/team/policy-packs:policy-pack-baseline-0.1.0
 rootform init . --locked --no-input
-rootform check . --locked
 ```
+
+After exporting a plan for this project, evaluate the selected Pack with `rootform run plan.json --locked --no-serve`.
 
 The registry reference is illustrative; replace it with the published one you
 reviewed. `add` records digests without hand editing the lock. Set

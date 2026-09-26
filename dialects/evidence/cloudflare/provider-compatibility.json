@@ -932,17 +932,6 @@
       "source_url": "https://github.com/cloudflare/terraform-provider-cloudflare/blob/v5.24.0/docs/resources/magic_transit_site_wan.md"
     },
     {
-      "rule_id": "cloudflare.rule.magic-wan-ipsec-tunnel",
-      "resource_type": "cloudflare_magic_wan_ipsec_tunnel",
-      "paths": [
-        "customer_endpoint"
-      ],
-      "file": "dialects/cloudflare/network/cloudflare-wan.rf.hcl",
-      "schema_verified": true,
-      "meaning_verified": true,
-      "source_url": "https://github.com/cloudflare/terraform-provider-cloudflare/blob/v5.24.0/docs/resources/magic_wan_ipsec_tunnel.md"
-    },
-    {
       "rule_id": "cloudflare.rule.magic-wan-static-route",
       "resource_type": "cloudflare_magic_wan_static_route",
       "paths": [],

@@ -7,7 +7,7 @@ terraform {
   }
 }
 
-variable "unknown_id" { type = string }
+resource "terraform_data" "unknown_id" {}
 
 resource "azurerm_resource_group" "network" {
   name     = "network"
@@ -53,14 +53,14 @@ resource "azurerm_virtual_network_peering" "literal" {
   name                      = "literal"
   resource_group_name       = azurerm_resource_group.network.name
   virtual_network_name      = "platform"
-  remote_virtual_network_id = "/subscriptions/example/virtualNetworks/remote"
+  remote_virtual_network_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/fx-rg/providers/Microsoft.Network/virtualNetworks/fx-literal-remote-virtual-network-id"
 }
 
 resource "azurerm_virtual_network_peering" "unknown" {
   name                      = "unknown"
   resource_group_name       = azurerm_resource_group.network.name
-  virtual_network_name      = var.unknown_id
-  remote_virtual_network_id = var.unknown_id
+  virtual_network_name      = terraform_data.unknown_id.id
+  remote_virtual_network_id = terraform_data.unknown_id.id
 }
 
 resource "azurerm_nat_gateway" "egress" {
@@ -75,8 +75,8 @@ resource "azurerm_subnet_nat_gateway_association" "workloads" {
 }
 
 resource "azurerm_subnet_nat_gateway_association" "unknown" {
-  subnet_id      = var.unknown_id
-  nat_gateway_id = var.unknown_id
+  subnet_id      = terraform_data.unknown_id.id
+  nat_gateway_id = terraform_data.unknown_id.id
 }
 
 resource "azurerm_private_dns_zone" "internal" {
@@ -116,11 +116,11 @@ resource "azurerm_nat_gateway_public_ip_prefix_association" "egress" {
 }
 
 resource "azurerm_nat_gateway_public_ip_association" "unknown" {
-  nat_gateway_id       = var.unknown_id
-  public_ip_address_id = var.unknown_id
+  nat_gateway_id       = terraform_data.unknown_id.id
+  public_ip_address_id = terraform_data.unknown_id.id
 }
 
 resource "azurerm_nat_gateway_public_ip_prefix_association" "unknown" {
   nat_gateway_id      = azurerm_nat_gateway.egress.id
-  public_ip_prefix_id = var.unknown_id
+  public_ip_prefix_id = terraform_data.unknown_id.id
 }

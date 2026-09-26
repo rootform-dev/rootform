@@ -33,6 +33,15 @@ rule "service-principal" {
   }
 
   as = rf.concept.service-identity
+
+  identity {
+    attributes = ["application_id", "id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["application_id", "id", "acl_principal_id"]
+  }
 }
 
 rule "account-service-principal" {
@@ -41,6 +50,15 @@ rule "account-service-principal" {
   }
 
   as = rf.concept.service-identity
+
+  identity {
+    attributes = ["application_id", "service_principal_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["application_id", "service_principal_id"]
+  }
 }
 
 rule "workspace-service-principal" {
@@ -49,6 +67,15 @@ rule "workspace-service-principal" {
   }
 
   as = rf.concept.service-identity
+
+  identity {
+    attributes = ["application_id", "service_principal_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["application_id", "service_principal_id"]
+  }
 }
 
 

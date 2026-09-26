@@ -10,10 +10,29 @@ rule "cosmos-account" {
 
   as = concept.cosmos-account
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -25,9 +44,19 @@ rule "cosmos-cassandra-cluster" {
   as = rf.concept.managed-database
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -38,10 +67,26 @@ rule "cosmos-cassandra-keyspace" {
 
   as = concept.logical-database
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.cosmos-account
-    via = source.account_name
+    as       = context.ownership
+    to       = concept.cosmos-account
+    via      = source.account_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -53,8 +98,15 @@ rule "cosmos-cassandra-table" {
   as = concept.database-component
 
   contribution {
-    to  = concept.logical-database
-    via = source.cassandra_keyspace_id
+    to       = concept.logical-database
+    via      = source.cassandra_keyspace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -66,8 +118,15 @@ rule "cosmos-dedicated-gateway" {
   as = concept.database-component
 
   contribution {
-    to  = concept.cosmos-account
-    via = source.cosmosdb_account_id
+    to       = concept.cosmos-account
+    via      = source.cosmosdb_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -78,10 +137,26 @@ rule "cosmos-gremlin-database" {
 
   as = concept.logical-database
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.cosmos-account
-    via = source.account_name
+    as       = context.ownership
+    to       = concept.cosmos-account
+    via      = source.account_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -93,8 +168,15 @@ rule "cosmos-gremlin-graph" {
   as = concept.database-component
 
   contribution {
-    to  = concept.logical-database
-    via = source.database_name
+    to       = concept.logical-database
+    via      = source.database_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -106,8 +188,15 @@ rule "cosmos-mongo-collection" {
   as = concept.database-component
 
   contribution {
-    to  = concept.logical-database
-    via = source.database_name
+    to       = concept.logical-database
+    via      = source.database_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -118,10 +207,26 @@ rule "cosmos-mongo-database" {
 
   as = concept.logical-database
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.cosmos-account
-    via = source.account_name
+    as       = context.ownership
+    to       = concept.cosmos-account
+    via      = source.account_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -133,9 +238,19 @@ rule "cosmos-postgresql-cluster" {
   as = rf.concept.managed-database
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -147,14 +262,28 @@ rule "cosmos-sql-container" {
   as = concept.database-component
 
   context {
-    as  = context.ownership
-    to  = concept.logical-database
-    via = source.database_name
+    as       = context.ownership
+    to       = concept.logical-database
+    via      = source.database_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.logical-database
-    via = source.database_name
+    to       = concept.logical-database
+    via      = source.database_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -165,9 +294,25 @@ rule "cosmos-sql-database" {
 
   as = concept.logical-database
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.cosmos-account
-    via = source.account_name
+    as       = context.ownership
+    to       = concept.cosmos-account
+    via      = source.account_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }

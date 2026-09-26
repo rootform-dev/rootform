@@ -37,7 +37,8 @@ resource "azapi_resource" "dynamic" {
 }
 
 resource "azapi_resource" "wrong_version" {
-  type      = "Microsoft.App/agents@2026-02-01"
-  name      = "wrong-version"
-  parent_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/synthetic"
+  type                      = "Microsoft.App/agents@2026-02-01"
+  name                      = "wrong-version"
+  parent_id                 = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/synthetic"
+  schema_validation_enabled = false
 }

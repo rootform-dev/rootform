@@ -14,8 +14,15 @@ rule "secrets-sync-association" {
   as = concept.secret-sync-configuration
 
   contribution {
-    to  = concept.secret-sync-destination
-    via = source.name
+    to       = concept.secret-sync-destination
+    via      = source.name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -26,15 +33,44 @@ rule "secrets-sync-aws-destination" {
 
   as = concept.secret-sync-destination
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-encryption-key" {
-    to  = concept.encryption-key
-    via = source.kms_key_id
+    to       = concept.encryption-key
+    via      = source.kms_key_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared encryption-key instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -45,15 +81,36 @@ rule "secrets-sync-azure-destination" {
 
   as = concept.secret-sync-destination
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.client_id
+    to       = rf.concept.service-identity
+    via      = source.client_id
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -72,25 +129,66 @@ rule "secrets-sync-gcp-destination" {
 
   as = concept.secret-sync-destination
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.service_account_email
+    to       = rf.concept.service-identity
+    via      = source.service_account_email
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "uses-encryption-key" {
-    to  = concept.encryption-key
-    via = source.kms_key_id
+    to       = concept.encryption-key
+    via      = source.kms_key_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared encryption-key instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-encryption-key" {
-    to  = concept.encryption-key
-    via = source.global_kms_key
+    to       = concept.encryption-key
+    via      = source.global_kms_key
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared encryption-key instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -101,10 +199,29 @@ rule "secrets-sync-gh-destination" {
 
   as = concept.secret-sync-destination
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -115,10 +232,29 @@ rule "secrets-sync-github-apps" {
 
   as = concept.secret-sync-destination
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -129,9 +265,28 @@ rule "secrets-sync-vercel-destination" {
 
   as = concept.secret-sync-destination
 
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

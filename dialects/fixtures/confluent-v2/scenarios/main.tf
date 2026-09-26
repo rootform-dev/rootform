@@ -1,47 +1,55 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
+      version = "= 6.62.0"
     }
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
+      version = "= 5.3.0"
     }
     confluent = {
       source  = "confluentinc/confluent"
       version = "2.83.0"
     }
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
+      version = "= 8.0.0"
     }
   }
 }
 
+# Reads of this provider need its API, so the plan defers them until apply.
+resource "terraform_data" "defer_reads" {
+}
 resource "aws_vpc" "platform" {
   cidr_block = "10.20.0.0/16"
 }
-
 resource "aws_vpc_endpoint" "confluent" {
   vpc_id       = aws_vpc.platform.id
   service_name = "com.amazonaws.vpce.us-east-1.vpce-svc-example"
 }
 
 resource "aws_kms_key" "streaming" {
-  description = "Confluent streaming key"
-}
 
+  description = "Confluent streaming key"
+
+}
 resource "aws_iam_role" "confluent" {
   name               = "confluent-provider-integration"
   assume_role_policy = "{}"
 }
 
 resource "aws_s3_bucket" "tableflow" {
+
   bucket = "rootform-confluent-tableflow"
-}
 
+}
 resource "aws_ec2_transit_gateway" "platform" {
-  description = "Platform transit gateway"
-}
 
+  description = "Platform transit gateway"
+
+}
 resource "azurerm_resource_group" "platform" {
   name     = "platform"
   location = "eastus"
@@ -62,6 +70,11 @@ resource "azurerm_subnet" "private" {
 }
 
 resource "azurerm_private_endpoint" "confluent" {
+  private_service_connection {
+    private_connection_resource_alias = "confluent.00000000-0000-0000-0000-000000000000.westeurope.azure.privatelinkservice"
+    name                              = "confluent"
+    is_manual_connection              = false
+  }
   name                = "confluent"
   location            = azurerm_resource_group.platform.location
   resource_group_name = azurerm_resource_group.platform.name
@@ -76,9 +89,18 @@ resource "azurerm_key_vault_key" "streaming" {
   key_opts     = ["encrypt", "decrypt"]
 }
 
+resource "azurerm_storage_account" "tableflow" {
+  name                     = "rootformtableflow"
+  resource_group_name      = azurerm_resource_group.platform.name
+  location                 = azurerm_resource_group.platform.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  is_hns_enabled           = true
+}
+
 resource "azurerm_storage_container" "tableflow" {
+  storage_account_id    = azurerm_storage_account.tableflow.id
   name                  = "tableflow"
-  storage_account_name  = "rootformtableflow"
   container_access_type = "private"
 }
 
@@ -101,7 +123,6 @@ resource "google_compute_forwarding_rule" "confluent" {
   network               = google_compute_network.platform.id
   subnetwork            = google_compute_subnetwork.private.id
   target                = "projects/example/regions/us-central1/serviceAttachments/confluent"
-  psc_connection_id     = "123456789"
 }
 
 resource "google_kms_key_ring" "streaming" {
@@ -141,10 +162,11 @@ resource "confluent_environment" "destination" {
 }
 
 resource "confluent_network" "private" {
-  display_name = "Private"
-  cloud        = "AWS"
-  region       = "us-east-1"
-  cidr         = "10.50.0.0/16"
+  connection_types = ["PEERING", "TRANSITGATEWAY", "PRIVATELINK"]
+  display_name     = "Private"
+  cloud            = "AWS"
+  region           = "us-east-1"
+  cidr             = "10.50.0.0/16"
 
   environment {
     id = confluent_environment.source.id
@@ -223,6 +245,7 @@ resource "confluent_peering" "aws" {
   }
 
   aws {
+    routes          = ["10.0.0.0/16"]
     account         = "111111111111"
     customer_region = "us-east-1"
     vpc             = aws_vpc.platform.id
@@ -346,11 +369,15 @@ resource "confluent_transit_gateway_attachment" "platform" {
   }
 
   aws {
-    transit_gateway_id = aws_ec2_transit_gateway.platform.id
+    routes                 = ["10.0.0.0/16"]
+    ram_resource_share_arn = "arn:aws:ram:us-east-1:123456789012:resource-share/00000000-0000-0000-0000-000000000000"
+    transit_gateway_id     = aws_ec2_transit_gateway.platform.id
   }
 }
 
 resource "confluent_dns_forwarder" "private" {
+  forward_via_gcp_dns_zones {
+  }
   display_name = "Private DNS"
 
   environment {
@@ -365,9 +392,20 @@ resource "confluent_dns_forwarder" "private" {
 }
 
 resource "confluent_dns_record" "private" {
-  domain = "service.internal.example.com"
-  type   = "A"
-  values = ["10.50.0.10"]
+  display_name = "Private service"
+  domain       = "service.internal.example.com"
+
+  environment {
+    id = confluent_environment.source.id
+  }
+
+  gateway {
+    id = confluent_gateway.private.id
+  }
+
+  private_link_access_point {
+    id = confluent_access_point.aws.id
+  }
 }
 
 resource "confluent_byok_key" "aws" {
@@ -471,7 +509,7 @@ resource "confluent_kafka_topic" "orders" {
 }
 
 resource "confluent_rtce_topic" "context" {
-  display_name = "Context"
+  description  = "Context topic"
   cloud        = "AWS"
   region       = "us-east-1"
   topic_name   = "context"
@@ -528,6 +566,11 @@ resource "confluent_kafka_acl" "connector" {
 }
 
 resource "confluent_kafka_client_quota" "connector" {
+  throughput {
+    egress_byte_rate  = "1048576"
+    ingress_byte_rate = "1048576"
+  }
+  principals   = [confluent_service_account.processor.id]
   display_name = "Connector quota"
 
   environment {
@@ -578,9 +621,10 @@ resource "confluent_connector" "warehouse" {
 }
 
 resource "confluent_connect_artifact" "connector" {
-  display_name  = "Connector artifact"
-  cloud         = "AWS"
-  artifact_file = "connector.zip"
+  content_format = "JAR"
+  display_name   = "Connector artifact"
+  cloud          = "AWS"
+  artifact_file  = "connector.zip"
 
   environment {
     id = confluent_environment.source.id
@@ -596,6 +640,11 @@ resource "confluent_custom_connector_plugin" "connector" {
 }
 
 resource "confluent_custom_connector_plugin_version" "connector" {
+  connector_class {
+    connector_class_name = "com.example.CustomConnector"
+    connector_type       = "SINK"
+  }
+  version   = "v2.0.0"
   plugin_id = confluent_custom_connector_plugin.connector.id
   cloud     = "AWS"
   filename  = "connector-v2.zip"
@@ -606,9 +655,11 @@ resource "confluent_custom_connector_plugin_version" "connector" {
 }
 
 resource "confluent_plugin" "legacy" {
+  environment {
+    id = confluent_environment.source.id
+  }
   display_name = "Legacy connector plugin"
   cloud        = "AWS"
-  filename     = "legacy.zip"
 }
 
 resource "confluent_flink_compute_pool" "analytics" {
@@ -629,7 +680,7 @@ resource "confluent_flink_compute_pool_config" "defaults" {
 
 resource "confluent_flink_connection" "warehouse" {
   display_name = "Warehouse"
-  type         = "snowflake"
+  type         = "OPENAI"
   endpoint     = "warehouse.example.com"
   password     = "ROOTFORM_CONFLUENT_FLINK_PASSWORD"
 
@@ -715,12 +766,14 @@ resource "confluent_ksql_cluster" "analytics" {
 }
 
 data "confluent_schema_registry_cluster" "source" {
+  depends_on = [terraform_data.defer_reads]
   environment {
     id = confluent_environment.source.id
   }
 }
 
 data "confluent_schema_registry_cluster" "destination" {
+  depends_on = [terraform_data.defer_reads]
   environment {
     id = confluent_environment.destination.id
   }
@@ -765,7 +818,6 @@ resource "confluent_schema_registry_kek" "source" {
 resource "confluent_schema_registry_dek" "source" {
   kek_name     = confluent_schema_registry_kek.source.name
   subject_name = "orders-value"
-  key_material = "ROOTFORM_CONFLUENT_DEK_SENTINEL"
 
   schema_registry_cluster {
     id = data.confluent_schema_registry_cluster.source.id
@@ -798,7 +850,8 @@ resource "confluent_schema_exporter" "replication" {
   }
 
   destination_schema_registry_cluster {
-    id = data.confluent_schema_registry_cluster.destination.id
+    rest_endpoint = data.confluent_schema_registry_cluster.destination.rest_endpoint
+    id            = data.confluent_schema_registry_cluster.destination.id
   }
 }
 
@@ -830,8 +883,8 @@ resource "confluent_tableflow_topic" "aws" {
   }
 
   byob_aws {
-    bucket_name            = aws_s3_bucket.tableflow.bucket
-    bucket_region          = "us-east-1"
+    bucket_name             = aws_s3_bucket.tableflow.bucket
+    bucket_region           = "us-east-1"
     provider_integration_id = confluent_provider_integration.aws.id
   }
 }
@@ -848,22 +901,25 @@ resource "confluent_tableflow_topic" "azure" {
   }
 
   azure_data_lake_storage_gen_2 {
-    container_name         = azurerm_storage_container.tableflow.name
-    storage_account_name   = "rootformtableflow"
-    storage_region         = "eastus"
+    container_name          = azurerm_storage_container.tableflow.name
+    storage_account_name    = azurerm_storage_account.tableflow.name
+    storage_region          = "eastus"
     provider_integration_id = confluent_provider_integration.aws.id
   }
 }
 
 resource "confluent_identity_provider" "workforce" {
+  description  = "Workforce identity provider"
   display_name = "Workforce"
   issuer       = "https://identity.example.com"
   jwks_uri     = "https://identity.example.com/.well-known/jwks.json"
 }
 
 resource "confluent_identity_pool" "workforce" {
-  display_name = "Workforce"
-  filter       = "claims.sub != null"
+  description    = "Workforce identities"
+  identity_claim = "claims.sub"
+  display_name   = "Workforce"
+  filter         = "claims.sub != null"
 
   identity_provider {
     id = confluent_identity_provider.workforce.id
@@ -882,25 +938,29 @@ resource "confluent_role_binding" "platform" {
 }
 
 resource "confluent_ip_group" "office" {
-  display_name = "Office"
+  group_name   = "office"
   cidr_blocks  = ["203.0.113.0/24"]
 }
 
 resource "confluent_ip_filter" "office" {
-  display_name = "Office"
+  filter_name    = "office"
   resource_group = "multiple"
-  ip_groups = [confluent_ip_group.office.id]
+  ip_groups      = [confluent_ip_group.office.id]
 }
 
 resource "confluent_certificate_authority" "clients" {
-  display_name              = "Clients"
-  certificate_chain         = "ROOTFORM_CONFLUENT_CERTIFICATE_SENTINEL"
+  description                       = "Client certificate authority"
+  certificate_chain_filename        = "clients.pem"
+  display_name                      = "Clients"
+  certificate_chain                 = "ROOTFORM_CONFLUENT_CERTIFICATE_SENTINEL"
   require_crl_on_client_certificate = false
 }
 
 resource "confluent_certificate_pool" "clients" {
-  display_name = "Clients"
-  filter       = "subject.cn == 'client'"
+  external_identifier = "UserId"
+  description         = "Client certificates"
+  display_name        = "Clients"
+  filter              = "subject.cn == 'client'"
 
   certificate_authority {
     id = confluent_certificate_authority.clients.id
@@ -908,24 +968,27 @@ resource "confluent_certificate_pool" "clients" {
 }
 
 resource "confluent_business_metadata" "owner" {
-  display_name = "Owner"
+  name         = "owner"
 }
 
 resource "confluent_business_metadata_binding" "orders" {
   business_metadata_name = confluent_business_metadata.owner.name
   entity_name            = confluent_kafka_topic.orders.topic_name
+  entity_type            = "kafka_topic"
 }
 
 resource "confluent_catalog_entity_attributes" "orders" {
+  entity_type = "kafka_topic"
   entity_name = confluent_kafka_topic.orders.topic_name
   attributes  = { owner = "platform" }
 }
 
 resource "confluent_tag" "critical" {
-  display_name = "Critical"
+  name         = "critical"
 }
 
 resource "confluent_tag_binding" "orders" {
   tag_name    = confluent_tag.critical.name
   entity_name = confluent_kafka_topic.orders.topic_name
+  entity_type = "kafka_topic"
 }

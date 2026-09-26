@@ -10,10 +10,29 @@ rule "key-vault" {
 
   as = concept.key-vault
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -25,8 +44,18 @@ rule "key-vault-access-policy" {
   as = concept.security-detail
 
   contribution {
-    to  = concept.key-vault
-    via = source.key_vault_id
+    to       = concept.key-vault
+    via      = source.key_vault_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared key-vault instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -38,8 +67,18 @@ rule "key-vault-certificate" {
   as = concept.security-detail
 
   contribution {
-    to  = concept.key-vault
-    via = source.key_vault_id
+    to       = concept.key-vault
+    via      = source.key_vault_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared key-vault instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -51,9 +90,19 @@ rule "key-vault-key" {
   as = concept.encryption-key
 
   context {
-    as  = context.ownership
-    to  = concept.key-vault
-    via = source.key_vault_id
+    as       = context.ownership
+    to       = concept.key-vault
+    via      = source.key_vault_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared key-vault instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -65,9 +114,19 @@ rule "key-vault-secret" {
   as = concept.managed-secret
 
   context {
-    as  = context.ownership
-    to  = concept.key-vault
-    via = source.key_vault_id
+    as       = context.ownership
+    to       = concept.key-vault
+    via      = source.key_vault_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared key-vault instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -78,10 +137,29 @@ rule "managed-hsm" {
 
   as = concept.managed-hsm
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -93,8 +171,15 @@ rule "managed-hsm-key" {
   as = concept.encryption-key
 
   context {
-    as  = context.ownership
-    to  = concept.managed-hsm
-    via = source.managed_hsm_id
+    as       = context.ownership
+    to       = concept.managed-hsm
+    via      = source.managed_hsm_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

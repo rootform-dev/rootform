@@ -1,0 +1,1268 @@
+{
+  "format_version": "1",
+  "generator": "scripts/dialects/generate-plan-fixtures.ts",
+  "fixtures": [
+    {
+      "fixture": "auth0-v1/boundary",
+      "source_sha256": "f135cf47487b1b6849772c8cc00958cbfc387ca12ce5af9eaccd6f38841e39f4",
+      "providers": {
+        "auth0/auth0": "1.56.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "auth0-v1/minimal",
+      "source_sha256": "22344683d6297abb180e74addcc736bfe9d8cce14b63339dfa6e89fdd69cdfa9",
+      "providers": {
+        "auth0/auth0": "1.56.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "auth0-v1/scenarios",
+      "source_sha256": "225675c85a72181d81852a46e6516ee4cfb513c9baa111c0f72ab5c8e47c6ebd",
+      "providers": {
+        "auth0/auth0": "1.56.0",
+        "hashicorp/aws": "6.62.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "aws-v6/boundary",
+      "source_sha256": "41de7e4c0855521b04af452f3cde8a58731a4aee9a30ac9c14d594a6d4d31e52",
+      "providers": {
+        "hashicorp/aws": "6.62.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "aws-v6/privacy",
+      "source_sha256": "69292ca366ee1e3c088297555045eaf2c7faebb8a59d01ca74f73b65b28895d2",
+      "providers": {
+        "hashicorp/aws": "6.62.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "aws-v6/release-coverage",
+      "source_sha256": "70807d84662c1174c45212a08cdc9b92b25395517e04658e16ce61e520473ddb",
+      "providers": {
+        "hashicorp/aws": "6.62.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "aws-v6/scenarios",
+      "source_sha256": "28749cb0a281303e9c2ad8245c73097cb4f4acebc1ab2a0358800cc6886a4eae",
+      "providers": {
+        "hashicorp/aws": "6.62.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "azure/boundary",
+      "source_sha256": "b3c9c2790123db4f798e3411c5e133417b3f66054ec5a613ddf7cf964db59159",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "azure-v5/azapi",
+      "source_sha256": "b012a22d163b1f19355c1c134935f3c4cc6f45dc8f9e78ca3b4a738c2c448b0c",
+      "providers": {
+        "azure/azapi": "2.12.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "azure-v5/privacy",
+      "source_sha256": "c40940bb0c7088aa92c98a6b5d33412f1d6980f4635c50c06a6838e1835b7e04",
+      "providers": {
+        "azure/azapi": "2.12.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "azure-v5/provider-overlap",
+      "source_sha256": "9a2bbd1f26d52e043dbd8d4c10cd5d074f50ecfea8233e52cd7cd5f208eea762",
+      "providers": {
+        "azure/azapi": "2.12.0",
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "azure-v5/release-coverage",
+      "source_sha256": "32755a80c3346a47c525d814edd6094d8dea8e7b4179a0b5de02d1dc744d4e31",
+      "providers": {
+        "azure/azapi": "2.12.0",
+        "hashicorp/azuread": "3.9.0",
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "azure-v5/scenarios",
+      "source_sha256": "e2e182d1eefc33d88c567e164d763844b4425fc57519856f91f304eb3c0c854a",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "cloudflare-v5/boundary",
+      "source_sha256": "e8e1610d4c6c0663cca268a56ec76437e01fa0843e223df14688ff86adb935a7",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "cloudflare/cloudflare": "5.24.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "cloudflare-v5/minimal",
+      "source_sha256": "b7483f64fb7fab5439591fca2b96932d145e3cff7f5fb37044e171407efcd0d0",
+      "providers": {
+        "cloudflare/cloudflare": "5.24.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "cloudflare-v5/scenarios",
+      "source_sha256": "1bf252dc418a63bebfc316c988307d3834052f6af57f0ed29bdabae6dd739d2b",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/azurerm": "5.3.0",
+        "cloudflare/cloudflare": "5.24.0",
+        "hashicorp/google": "8.0.0",
+        "hashicorp/kubernetes": "2.38.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "confluent-v2/boundary",
+      "source_sha256": "6d80e300009c62d60e3e9df4a2d7563439233426891756b4e38f3d4523435388",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "confluentinc/confluent": "2.83.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "confluent-v2/minimal",
+      "source_sha256": "5fd12a9a9e92d9e9f2766f1e754e9fbc1b299d87afaf36b1b94154aac2c184fa",
+      "providers": {
+        "confluentinc/confluent": "2.83.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "confluent-v2/scenarios",
+      "source_sha256": "794cf02d0d319ddfbb47c1169485fb2421a1ea96befccc46105ee959f38cc2e3",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/azurerm": "5.3.0",
+        "confluentinc/confluent": "2.83.0",
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "consul-v2/boundary",
+      "source_sha256": "bde465f8d362b3c3ed75b5b8dcdc918f9b0f6d2df61eeb2c9ba531360135ea5c",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/consul": "2.23.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "consul-v2/minimal",
+      "source_sha256": "d45b02652372c0ad12965691a9d546ffe45a8789f288a7283aa694facbf69ce7",
+      "providers": {
+        "hashicorp/consul": "2.23.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "consul-v2/scenarios",
+      "source_sha256": "06d4df2f266cd35ba7130d45631142018c56e8a4f00efe5cfea8813a1942b514",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/consul": "2.23.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "data-orchestration/boundary",
+      "source_sha256": "d95ab30667c144ba7134df7eefdaf2ecfa5f352ae6917356c463d05ccef49bfa",
+      "providers": {
+        "hashicorp/google": "8.0.0",
+        "kestra-io/kestra": "0.24.3"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "databricks-v1/boundary",
+      "source_sha256": "f30e165c1b898929f9d19e21bee9c5d83b19e95a22d93ab5ce4b61d43c83f355",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "databricks/databricks": "1.129.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "databricks-v1/minimal",
+      "source_sha256": "f756977fe6c2cd8fa42a6b02b7b69e50219598fa92c0f172d3b0cc57e8d180e8",
+      "providers": {
+        "databricks/databricks": "1.129.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "databricks-v1/scenarios",
+      "source_sha256": "fc440b75467f3ef89e599f099b0f96a5641ae613c38b457baf6af799fc197594",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/azurerm": "5.3.0",
+        "databricks/databricks": "1.129.0",
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "datadog-v4/boundary",
+      "source_sha256": "f11bc466bf734e40c9fa23dd42b4c8d51ea8b233e6f8a6260ff6cfd319670dbf",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "datadog/datadog": "4.19.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "datadog-v4/minimal",
+      "source_sha256": "8ed50a8739f0261bcc394e9a7ab7e5fe1c082780688ff958482869dae368bc45",
+      "providers": {
+        "datadog/datadog": "4.19.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "datadog-v4/scenarios",
+      "source_sha256": "291cd55c84f0bbf2ddc064e998567f779129b4483736f7ae542d43eb5716f3d7",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/azurerm": "5.3.0",
+        "cloudflare/cloudflare": "5.24.0",
+        "confluentinc/confluent": "2.83.0",
+        "datadog/datadog": "4.19.0",
+        "hashicorp/google": "8.0.0",
+        "hashicorp/kubernetes": "2.38.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "google/security/decoy-credentials",
+      "source_sha256": "532cadbf1cf339855186543d4ec935731cd3bbe176b21e13770e2dc023817c4d",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "google/security/sensitive-literals",
+      "source_sha256": "5f73fb22c29bf97e9f9bef68b1631be6e273fc2feb58e885d3139fd098bb2ec4",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "google/security/tfvars",
+      "source_sha256": "8e73124bba1add46c7942beb73790c4c06edde9d203476898de896bcc4387a55",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "google-v8/gke-kubernetes-unlinked",
+      "source_sha256": "9e83ea2a93140ee07ef2ece8ed73e752e0250ef4aefbb86060a76c8fad12bedf",
+      "providers": {
+        "hashicorp/google": "8.0.0",
+        "hashicorp/kubernetes": "2.38.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "google-v8/private-service-connect",
+      "source_sha256": "d1b672461195f0be6a21cac22b914d7cc8da1b86ef6140402ffbb005a6cab739",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "google-v8/release-coverage",
+      "source_sha256": "46c5d004debe5cabcb15702660414fee3a72c6aca3316e66018487c3d82b978f",
+      "providers": {
+        "hashicorp/google": "8.0.0",
+        "hashicorp/google-beta": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "google-v8/shared-vpc",
+      "source_sha256": "45895aa4db24352dbdfc0168c55091cae233804e1948bf8e243299b94fcfd10d",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "grafana-v4/boundary",
+      "source_sha256": "660939d4e693050475470fcabbbcdffb51587afd5d42dc22d2a18cf16be65963",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "grafana/grafana": "4.45.2"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "grafana-v4/minimal",
+      "source_sha256": "ff23a3cb946fb8212e6a697478a53a7133241611dd9715d31213fe1c8ae08cbc",
+      "providers": {
+        "grafana/grafana": "4.45.2"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "grafana-v4/scenarios",
+      "source_sha256": "1a3072c16c880372e607cf1856775f7406f2bf1482ccea1b42ed0f140c611d42",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/azuread": "3.9.0",
+        "grafana/grafana": "4.45.2"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "hcp-v0/boundary",
+      "source_sha256": "6373ee9dfaea19ea03c0367fa9481d605642a0eb432937ef309594beb1249b52",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/hcp": "0.114.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "hcp-v0/minimal",
+      "source_sha256": "d8ff2c8aa82ce0b8529e6c2d641e36694cdf45085f932c6963bdd0f24fd87192",
+      "providers": {
+        "hashicorp/hcp": "0.114.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "hcp-v0/scenarios",
+      "source_sha256": "e9469113b897248204b3deeb755a9064ee88054807568bfa7e1f2aeb0d415660",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/azurerm": "5.3.0",
+        "confluentinc/confluent": "2.83.0",
+        "hashicorp/google": "8.0.0",
+        "hashicorp/hcp": "0.114.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "kubernetes/boundary",
+      "source_sha256": "775924436373b2f49966ab31b825468896030fc1a88e141df24b2ca04b32ccf9",
+      "providers": {
+        "hashicorp/google": "8.0.0",
+        "hashicorp/kubernetes": "2.38.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "mongodb-atlas-v2/boundary",
+      "source_sha256": "54d67c4590c53859c63cee8df7d3567657e891172531ae759a42b675232011e3",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "mongodb/mongodbatlas": "2.16.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "mongodb-atlas-v2/minimal",
+      "source_sha256": "693995f23e43e1d1d314738653ecbc422d6db95563f242294574238b8b0579aa",
+      "providers": {
+        "mongodb/mongodbatlas": "2.16.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "mongodb-atlas-v2/scenarios",
+      "source_sha256": "d4c9cdcf3e0de88edd90d4cd69809c82cfafeff0794395a692664338c0a3671a",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/azurerm": "5.3.0",
+        "hashicorp/google": "8.0.0",
+        "mongodb/mongodbatlas": "2.16.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "newrelic-v3/boundary",
+      "source_sha256": "7cb6c7c55c7a03a130dda9412243fc9197b6274bbd0c9a03d5448fa10e6537f8",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "newrelic/newrelic": "3.96.4"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "newrelic-v3/minimal",
+      "source_sha256": "dca2f6c0b354d9ebde82bc08c4002e4365348ab2f60ba421960dd92b081b1ed6",
+      "providers": {
+        "newrelic/newrelic": "3.96.4"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "newrelic-v3/scenarios",
+      "source_sha256": "38e14241e1c57c3b179c5cdbaa3423cb914c211594db9b6885141eb6f7eb6802",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/google": "8.0.0",
+        "newrelic/newrelic": "3.96.4"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "okta-v7/boundary",
+      "source_sha256": "3adacfae18d958bdb4fc3aafbb25fcc4e30b18e6c54323f2ea1674c7ced6ab38",
+      "providers": {
+        "okta/okta": "7.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "okta-v7/minimal",
+      "source_sha256": "8b50a73639f2e16f647598f1417f3956d008528ee85511a8bfff19358a635573",
+      "providers": {
+        "okta/okta": "7.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "okta-v7/scenarios",
+      "source_sha256": "07393d456d18f89ec199e54315533115ab2f0d01bd54b5e286eb3149d91af587",
+      "providers": {
+        "okta/okta": "7.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-aks",
+      "source_sha256": "f70abf0a96677131650d0806f8cb63326c967bfbd32ed6e8b41e01ee4473876f",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-aks-network",
+      "source_sha256": "39d9749c848be0be943087d5ba8a32bb33897b745ca5ac0ebedff596422dfe6f",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-complete",
+      "source_sha256": "a1ee58909236a7a20b7cbb3a261fc1579b4382f86ce0d969517efd402b1b00ae",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-compute-ownership",
+      "source_sha256": "bc4ec3a19f89f57bea71145ca3d68564bbd1c823816950c8c19481e01ad1568f",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-container-apps",
+      "source_sha256": "7dd005eb4c6d2e3120cf20f7cf9c8a83f80194654b86b444af586dcbf7574704",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-cosmos-members",
+      "source_sha256": "52c2327ab2f36e6bfd0b6cc2822c8943244a2add31d022f2c4b4532ef76f5e8f",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-database",
+      "source_sha256": "d42d3f5f2caf28c0cfc12c91e95e1bc22c365653b1781612d368577fbf77e2b9",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-dns-members",
+      "source_sha256": "5e80070f111fe92bbc12d1fdff7cab66553da490d7a51ac1346faa9911444d6f",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-event-grid",
+      "source_sha256": "3fcc495e204f563e165691d9dc96ca2861aa663ca240f2e5021df297c7152b21",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-identity",
+      "source_sha256": "039cb5012c2a93e3d0476346e2676b9c0d82d23fce2b9e143624f7b4e868bcaf",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-load-balancing",
+      "source_sha256": "993f85dc6b02fb0c6600b68f37a223f6bf45c94f066a50b3856ee2611d9cfd3a",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-messaging-members",
+      "source_sha256": "ac678d43f54cc938a0a66c9be98ace4099f93cb95ff6ff0e16e11ebe0ca52d4e",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-monitor-members",
+      "source_sha256": "3e6baddfc4897c0672ae25bfc99a2b4b4debe7787dec23f4fe8116fa1ca357dd",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-multi-resource-group",
+      "source_sha256": "69f64000f4cbe5c5f839cdfa52aff9b6be7e985d160c021f30b5877b6c5f9ea3",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-network",
+      "source_sha256": "0f940ff057f8dd3840b14d44f89f256effab1b3933100983aa84769717030652",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-observability",
+      "source_sha256": "95a3e717b5e658c06bc3a97fd1ae9083e2007ba7eec2e253b211401235ba1d9d",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-ownership-sweep",
+      "source_sha256": "d4ae237faaebd3eb46768fb2242dcce99ba9c0e18b3069a2239b6b2df47c61b6",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-security-members",
+      "source_sha256": "1c9cd650511c173221266625f5dc7ac1d10fff20c8547bec90339000b79be55f",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-service-bus",
+      "source_sha256": "d826943f650e28684d115258f65aa2f5d6684760691e2895c5a44127ce7184ca",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/azure-storage-members",
+      "source_sha256": "26f8933a117ac701541c299efc4daa5c143c20b8d01cde2ae1c6ba536baa7033",
+      "providers": {
+        "hashicorp/azurerm": "5.3.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/cloud-sql",
+      "source_sha256": "78da65a71331f63e5de580eff21d42858a125f8fa26734e75f421f731e26f614",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/data-orchestration",
+      "source_sha256": "d86a5729706e5cc3926e7afcd1281692c0a4bd66b258fe28a7078ed5f6b43ce8",
+      "providers": {
+        "hashicorp/google": "8.0.0",
+        "kestra-io/kestra": "0.24.3",
+        "hashicorp/random": "3.9.1",
+        "hashicorp/vault": "5.11.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/eks",
+      "source_sha256": "cea251a0a79e03b667b248e50a82b06572d81d8a77d207a9fb78dea3805a6098",
+      "providers": {
+        "hashicorp/aws": "6.62.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/gke",
+      "source_sha256": "eb452bfe6c92428b7652cff3cc39c7261212f06db3b9ace7f9c59440c7ab53aa",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/google-artifact-registry",
+      "source_sha256": "174b72581edc6442d03d8f16c5a1c62ccb79cc1b3f0a8ef9f4c1955edb9a63fa",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/google-cloud-dns",
+      "source_sha256": "8a05c18c8bcdd8a86d3a10c508ed8c729faa121c5657b1db4abf0ffaa27f0408",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/google-cloud-kms",
+      "source_sha256": "a9537cbe1b193362847401c114506fb1c3e3fb78c34449612fefa75b322b118b",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/google-cloud-monitoring",
+      "source_sha256": "30784a821b8294489578abbe097cd03bfc41a6727516f3a2feaa7a20520e0419",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/google-cloud-run",
+      "source_sha256": "43496d3e9c0ab5dc686e75096f2d5ead42180a9749fa0c227f6c7c75897f2cf5",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/google-compute",
+      "source_sha256": "772c8fda69b81a7956534b29b5bfcdc9eac40fc174e0f9f45e9d153831644f53",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/google-memorystore",
+      "source_sha256": "fcd5f90bd39b3fc669c1744878f301468314dc4e89c24789e32a014335a130ec",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/google-pubsub",
+      "source_sha256": "bb1c812b9c26e4b5142406c24b2ec22192ab12de765f9d3237757b4a9370a234",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/google-secret-manager",
+      "source_sha256": "5084ac5f46d36c2821b37dbef6f8f10cf513f07f0021d8ab23d681938559855a",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/iam",
+      "source_sha256": "5bf4c47d3a754edc398d5546839497f043f4c8cd00455becf5a316d0c361661d",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/kubernetes",
+      "source_sha256": "4e8158399fb1f284bc86089865ede054bcc86cfdb564c5421f261135576dad08",
+      "providers": {
+        "hashicorp/google": "8.0.0",
+        "hashicorp/kubernetes": "2.38.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/load-balancer",
+      "source_sha256": "0b5da1a885e50a3a9d52ee6719dca682938be8ef59a856479d7e1893acd7447c",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "slice/network",
+      "source_sha256": "b7e7837efe420f3b7ed85fb74ce8fb70e2d38daea21cd46edb3f434b88ae526c",
+      "providers": {
+        "hashicorp/google": "8.0.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "snowflake-v2/boundary",
+      "source_sha256": "3003ba3c9ae13ff5f0395c45c88ad94a4956c3a8fec7bc8fad9778f0ebfb67ca",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "snowflakedb/snowflake": "2.20.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "snowflake-v2/minimal",
+      "source_sha256": "a28ac747f04790918e818bcb03744edd4a6e20543225d886adf567eca2c46bad",
+      "providers": {
+        "snowflakedb/snowflake": "2.20.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "snowflake-v2/scenarios",
+      "source_sha256": "bba9785eb63bf451b1efb8f845f436d581361f71835d6a84cc021118f1b9db59",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/azurerm": "5.3.0",
+        "hashicorp/google": "8.0.0",
+        "hashicorp/google-beta": "8.0.0",
+        "snowflakedb/snowflake": "2.20.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "vault-v5/boundary",
+      "source_sha256": "1ba23b60aabcbaaaf5ef5832f54559d3c95ded10c8065302cf6389c41d5c6dd7",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/vault": "5.11.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "vault-v5/minimal",
+      "source_sha256": "1cfa695caf02adb5a616fe86e5a1744b81c9f9e56f848d340a5ff26652d1311d",
+      "providers": {
+        "hashicorp/vault": "5.11.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    },
+    {
+      "fixture": "vault-v5/scenarios",
+      "source_sha256": "95a386e69125d9ff041f071590ad5aa1e5ca9a50f8b0c78970e172d255b46087",
+      "providers": {
+        "hashicorp/aws": "6.62.0",
+        "hashicorp/azurerm": "5.3.0",
+        "hashicorp/google": "8.0.0",
+        "hashicorp/vault": "5.11.0"
+      },
+      "status": "planned",
+      "terraform_version": "1.16.4"
+    }
+  ],
+  "rules_without_fact_evidence": {
+    "auth0": [
+      "auth0.rule.client-cimd",
+      "auth0.rule.client-lookup",
+      "auth0.rule.connection-directory-lookup",
+      "auth0.rule.event-stream-lookup",
+      "auth0.rule.token-exchange-profile-lookup"
+    ],
+    "aws": [
+      "aws.rule.cognito-user-pool-domain",
+      "aws.rule.connect-contact-flow",
+      "aws.rule.connect-routing-profile",
+      "aws.rule.connect-security-profile",
+      "aws.rule.connect-user-hierarchy-group",
+      "aws.rule.docdb-cluster-instance",
+      "aws.rule.emr-instance-fleet",
+      "aws.rule.globalaccelerator-custom-routing-listener",
+      "aws.rule.neptune-cluster-instance",
+      "aws.rule.pinpoint-adm-channel",
+      "aws.rule.pinpoint-apns-channel",
+      "aws.rule.pinpoint-apns-sandbox-channel",
+      "aws.rule.pinpoint-apns-voip-channel",
+      "aws.rule.pinpoint-apns-voip-sandbox-channel",
+      "aws.rule.pinpoint-baidu-channel",
+      "aws.rule.pinpoint-email-channel",
+      "aws.rule.pinpoint-event-stream",
+      "aws.rule.pinpoint-gcm-channel"
+    ],
+    "azure": [
+      "azure.rule.app-service-environment",
+      "azure.rule.cdn-endpoint",
+      "azure.rule.cdn-profile",
+      "azure.rule.classic-front-door",
+      "azure.rule.flex-consumption-function-app",
+      "azure.rule.log-analytics-cluster",
+      "azure.rule.orchestrated-virtual-machine-scale-set"
+    ],
+    "cloudflare": [
+      "cloudflare.rule.account-dns-settings",
+      "cloudflare.rule.ai-gateway-dynamic-routing",
+      "cloudflare.rule.api-shield",
+      "cloudflare.rule.api-shield-discovery-operation",
+      "cloudflare.rule.api-shield-operation",
+      "cloudflare.rule.api-shield-operation-schema-validation",
+      "cloudflare.rule.api-shield-schema",
+      "cloudflare.rule.api-shield-schema-validation",
+      "cloudflare.rule.argo-smart-routing",
+      "cloudflare.rule.argo-tiered-caching",
+      "cloudflare.rule.authenticated-origin-pulls",
+      "cloudflare.rule.authenticated-origin-pulls-certificate",
+      "cloudflare.rule.authenticated-origin-pulls-hostname-certificate",
+      "cloudflare.rule.authenticated-origin-pulls-settings",
+      "cloudflare.rule.bot-management",
+      "cloudflare.rule.certificate-authority-hostname-associations",
+      "cloudflare.rule.certificate-transparency-alerting",
+      "cloudflare.rule.client-certificate",
+      "cloudflare.rule.cloud-connector-rules",
+      "cloudflare.rule.cloudflare-tunnel-hostname-route",
+      "cloudflare.rule.content-scanning",
+      "cloudflare.rule.content-scanning-expression",
+      "cloudflare.rule.custom-csr",
+      "cloudflare.rule.custom-hostname",
+      "cloudflare.rule.custom-hostname-fallback-origin",
+      "cloudflare.rule.custom-origin-trust-store",
+      "cloudflare.rule.dns-record",
+      "cloudflare.rule.dns-transfer-outgoing",
+      "cloudflare.rule.email-routing-catch-all",
+      "cloudflare.rule.email-routing-rule",
+      "cloudflare.rule.email-routing-settings",
+      "cloudflare.rule.firewall-rule",
+      "cloudflare.rule.flagship-flag",
+      "cloudflare.rule.hostname-tls-setting",
+      "cloudflare.rule.hyperdrive-config",
+      "cloudflare.rule.keyless-certificate",
+      "cloudflare.rule.magic-transit-site-acl",
+      "cloudflare.rule.magic-transit-site-lan",
+      "cloudflare.rule.magic-transit-site-wan",
+      "cloudflare.rule.managed-transforms",
+      "cloudflare.rule.origin-cloud-region",
+      "cloudflare.rule.origin-tls-compliance-modes",
+      "cloudflare.rule.page-rule",
+      "cloudflare.rule.page-shield-policy",
+      "cloudflare.rule.r2-bucket-cors",
+      "cloudflare.rule.r2-bucket-lifecycle",
+      "cloudflare.rule.r2-bucket-lock",
+      "cloudflare.rule.r2-bucket-sippy",
+      "cloudflare.rule.r2-custom-domain",
+      "cloudflare.rule.r2-data-catalog",
+      "cloudflare.rule.r2-managed-domain",
+      "cloudflare.rule.rate-limit",
+      "cloudflare.rule.regional-hostname",
+      "cloudflare.rule.regional-tiered-cache",
+      "cloudflare.rule.schema-validation-operation-settings",
+      "cloudflare.rule.schema-validation-schemas",
+      "cloudflare.rule.schema-validation-settings",
+      "cloudflare.rule.secrets-store-secret",
+      "cloudflare.rule.snippet",
+      "cloudflare.rule.snippet-rules",
+      "cloudflare.rule.snippets",
+      "cloudflare.rule.tiered-cache",
+      "cloudflare.rule.token-validation-config",
+      "cloudflare.rule.total-tls",
+      "cloudflare.rule.universal-ssl-setting",
+      "cloudflare.rule.url-normalization-settings",
+      "cloudflare.rule.user-agent-blocking-rule",
+      "cloudflare.rule.waiting-room-rules",
+      "cloudflare.rule.waiting-room-settings",
+      "cloudflare.rule.warp-connector-config",
+      "cloudflare.rule.web3-hostname",
+      "cloudflare.rule.workers-cron-trigger",
+      "cloudflare.rule.workers-kv",
+      "cloudflare.rule.workers-route",
+      "cloudflare.rule.workers-script-subdomain",
+      "cloudflare.rule.zone-auto-origin-tls-kex",
+      "cloudflare.rule.zone-cache-reserve",
+      "cloudflare.rule.zone-cache-variants",
+      "cloudflare.rule.zone-dns-settings",
+      "cloudflare.rule.zone-dnssec",
+      "cloudflare.rule.zone-hold",
+      "cloudflare.rule.zone-lockdown",
+      "cloudflare.rule.zone-setting"
+    ],
+    "confluent": [],
+    "consul": [
+      "consul.rule.config-entry-v2-exported-services-lookup"
+    ],
+    "databricks": [
+      "databricks.rule.ai-search-index",
+      "databricks.rule.cluster-library",
+      "databricks.rule.knowledge-assistant-source",
+      "databricks.rule.lakebase-provisioned-instance",
+      "databricks.rule.lakehouse-federation-connection",
+      "databricks.rule.log-delivery",
+      "databricks.rule.metastore-data-access",
+      "databricks.rule.online-table",
+      "databricks.rule.registered-model",
+      "databricks.rule.secret-acl",
+      "databricks.rule.service-credential",
+      "databricks.rule.supervisor-agent-tool",
+      "databricks.rule.unity-catalog-volume"
+    ],
+    "datadog": [],
+    "google": [
+      "google.rule.alloydb-instance",
+      "google.rule.application-load-balancer",
+      "google.rule.backup-dr-backup-plan",
+      "google.rule.bigtable-table",
+      "google.rule.classic-vpn-gateway",
+      "google.rule.cloud-armor-security-rule",
+      "google.rule.cloud-identity-group-membership",
+      "google.rule.cloud-ids-endpoint",
+      "google.rule.cloud-monitoring-service",
+      "google.rule.cloud-monitoring-slo",
+      "google.rule.cloud-nat",
+      "google.rule.cloud-router",
+      "google.rule.cloud-run-service-v1",
+      "google.rule.cloud-run-worker-pool",
+      "google.rule.dataplex-zone",
+      "google.rule.healthcare-consent-store",
+      "google.rule.healthcare-dicom-store",
+      "google.rule.healthcare-fhir-store",
+      "google.rule.healthcare-hl7v2-store",
+      "google.rule.hierarchical-firewall-policy-rule",
+      "google.rule.memorystore-instance",
+      "google.rule.netapp-volume",
+      "google.rule.network-connectivity-center-spoke",
+      "google.rule.network-firewall-policy-rule",
+      "google.rule.parallelstore-instance",
+      "google.rule.private-certificate-authority",
+      "google.rule.private-services-access-range",
+      "google.rule.secret-manager-regional-secret",
+      "google.rule.secret-manager-regional-secret-version",
+      "google.rule.service-networking-connection",
+      "google.rule.spanner-database",
+      "google.rule.vpc-network-peering"
+    ],
+    "grafana": [
+      "grafana.rule.k6-load-test-lookup"
+    ],
+    "hcp": [
+      "hcp.rule.aws-network-peering-lookup",
+      "hcp.rule.aws-transit-gateway-attachment-lookup",
+      "hcp.rule.azure-peering-connection-lookup",
+      "hcp.rule.boundary-cluster-lookup",
+      "hcp.rule.consul-cluster-lookup",
+      "hcp.rule.dns-forwarding-lookup",
+      "hcp.rule.dns-forwarding-rule-lookup",
+      "hcp.rule.group-iam-policy",
+      "hcp.rule.hvn-lookup",
+      "hcp.rule.hvn-peering-connection-lookup",
+      "hcp.rule.hvn-route-lookup",
+      "hcp.rule.packer-bucket-iam-binding",
+      "hcp.rule.packer-bucket-iam-policy",
+      "hcp.rule.private-link-lookup",
+      "hcp.rule.project-iam-policy",
+      "hcp.rule.vault-cluster-lookup",
+      "hcp.rule.vault-plugin-lookup",
+      "hcp.rule.vault-secrets-app-iam-policy",
+      "hcp.rule.vault-secrets-app-lookup",
+      "hcp.rule.vault-secrets-dynamic-secret-lookup",
+      "hcp.rule.vault-secrets-integration-aws",
+      "hcp.rule.vault-secrets-integration-azure",
+      "hcp.rule.vault-secrets-integration-gcp",
+      "hcp.rule.vault-secrets-integration-mongodbatlas",
+      "hcp.rule.vault-secrets-integration-twilio",
+      "hcp.rule.vault-secrets-rotating-secret-lookup",
+      "hcp.rule.vault-secrets-secret-lookup",
+      "hcp.rule.waypoint-add-on-definition-lookup",
+      "hcp.rule.waypoint-add-on-lookup",
+      "hcp.rule.waypoint-agent-group-lookup",
+      "hcp.rule.waypoint-application-lookup",
+      "hcp.rule.waypoint-template-lookup"
+    ],
+    "kestra": [],
+    "kubernetes": [],
+    "mongodb-atlas": [
+      "mongodb-atlas.rule.api-key-project-assignment",
+      "mongodb-atlas.rule.cloud-user-organization-assignment",
+      "mongodb-atlas.rule.cloud-user-project-assignment",
+      "mongodb-atlas.rule.cloud-user-team-assignment",
+      "mongodb-atlas.rule.custom-database-role",
+      "mongodb-atlas.rule.database-user",
+      "mongodb-atlas.rule.federated-organization-configuration",
+      "mongodb-atlas.rule.federated-organization-role-mapping",
+      "mongodb-atlas.rule.ldap-configuration",
+      "mongodb-atlas.rule.organization-service-account-access-list",
+      "mongodb-atlas.rule.project-service-account-access-list",
+      "mongodb-atlas.rule.resource-policy",
+      "mongodb-atlas.rule.x509-database-user"
+    ],
+    "newrelic": [],
+    "okta": [
+      "okta.rule.realm-assignment-lookup"
+    ],
+    "secrets": [],
+    "snowflake": [
+      "snowflake.rule.alert",
+      "snowflake.rule.custom-client-oauth-integration",
+      "snowflake.rule.database",
+      "snowflake.rule.database-role",
+      "snowflake.rule.external-access-integration",
+      "snowflake.rule.external-s3-compatible-stage",
+      "snowflake.rule.external-table",
+      "snowflake.rule.external-volume",
+      "snowflake.rule.failover-group",
+      "snowflake.rule.git-repository",
+      "snowflake.rule.hybrid-table",
+      "snowflake.rule.iceberg-table",
+      "snowflake.rule.iceberg-table-from-aws-glue",
+      "snowflake.rule.iceberg-table-from-delta-files",
+      "snowflake.rule.iceberg-table-from-files",
+      "snowflake.rule.iceberg-table-from-rest",
+      "snowflake.rule.interactive-warehouse",
+      "snowflake.rule.job-service",
+      "snowflake.rule.legacy-service-user",
+      "snowflake.rule.notebook",
+      "snowflake.rule.postgres-instance",
+      "snowflake.rule.primary-connection",
+      "snowflake.rule.scim-integration",
+      "snowflake.rule.secondary-connection",
+      "snowflake.rule.secondary-database",
+      "snowflake.rule.semantic-view",
+      "snowflake.rule.share",
+      "snowflake.rule.shared-database",
+      "snowflake.rule.stage",
+      "snowflake.rule.storage-integration",
+      "snowflake.rule.stream-on-directory-table",
+      "snowflake.rule.stream-on-external-table",
+      "snowflake.rule.stream-on-table",
+      "snowflake.rule.stream-on-view"
+    ],
+    "vault": [
+      "vault.rule.ad-secret-backend",
+      "vault.rule.alicloud-auth-backend-role",
+      "vault.rule.alicloud-secret-backend",
+      "vault.rule.approle-auth-backend-role",
+      "vault.rule.aws-auth-backend-cert",
+      "vault.rule.aws-auth-backend-client",
+      "vault.rule.aws-auth-backend-role",
+      "vault.rule.aws-auth-backend-sts-role",
+      "vault.rule.azure-auth-backend-config",
+      "vault.rule.azure-auth-backend-role",
+      "vault.rule.azure-secret-backend",
+      "vault.rule.cert-auth-backend-role",
+      "vault.rule.cf-auth-backend-config",
+      "vault.rule.cf-auth-backend-role",
+      "vault.rule.consul-secret-backend",
+      "vault.rule.database-secret-backend-role",
+      "vault.rule.database-secret-backend-static-role",
+      "vault.rule.database-secrets-mount",
+      "vault.rule.gcp-auth-backend",
+      "vault.rule.gcp-auth-backend-role",
+      "vault.rule.gcpkms-secret-backend",
+      "vault.rule.gcpkms-secret-backend-key",
+      "vault.rule.github-auth-backend",
+      "vault.rule.github-team",
+      "vault.rule.jwt-auth-backend",
+      "vault.rule.jwt-auth-backend-role",
+      "vault.rule.kerberos-auth-backend-config",
+      "vault.rule.kerberos-auth-backend-group",
+      "vault.rule.keymgmt-azure-kms",
+      "vault.rule.keymgmt-distribute-key",
+      "vault.rule.keymgmt-gcp-kms",
+      "vault.rule.keymgmt-key",
+      "vault.rule.kmip-secret-backend",
+      "vault.rule.kmip-secret-ca-generated",
+      "vault.rule.kmip-secret-ca-imported",
+      "vault.rule.kmip-secret-listener",
+      "vault.rule.kmip-secret-scope",
+      "vault.rule.kv-secret-backend-v2",
+      "vault.rule.ldap-auth-backend",
+      "vault.rule.ldap-auth-backend-group",
+      "vault.rule.ldap-secret-backend",
+      "vault.rule.mongodbatlas-secret-backend",
+      "vault.rule.nomad-secret-backend",
+      "vault.rule.oci-auth-backend",
+      "vault.rule.oci-auth-backend-role",
+      "vault.rule.okta-auth-backend",
+      "vault.rule.okta-auth-backend-group",
+      "vault.rule.os-secret-backend",
+      "vault.rule.pki-external-ca-secret-backend-role",
+      "vault.rule.pki-secret-backend-config-acme",
+      "vault.rule.pki-secret-backend-config-auto-tidy",
+      "vault.rule.pki-secret-backend-config-cluster",
+      "vault.rule.pki-secret-backend-config-cmpv2",
+      "vault.rule.pki-secret-backend-config-est",
+      "vault.rule.pki-secret-backend-config-issuers",
+      "vault.rule.pki-secret-backend-config-scep",
+      "vault.rule.pki-secret-backend-config-urls",
+      "vault.rule.pki-secret-backend-crl-config",
+      "vault.rule.pki-secret-backend-intermediate-set-signed",
+      "vault.rule.pki-secret-backend-role",
+      "vault.rule.rabbitmq-secret-backend",
+      "vault.rule.radius-auth-backend",
+      "vault.rule.saml-auth-backend",
+      "vault.rule.saml-auth-backend-role",
+      "vault.rule.scep-auth-backend-role",
+      "vault.rule.secrets-sync-gh-destination",
+      "vault.rule.secrets-sync-github-apps",
+      "vault.rule.secrets-sync-vercel-destination",
+      "vault.rule.spiffe-auth-backend-config",
+      "vault.rule.spiffe-auth-backend-role",
+      "vault.rule.spiffe-secret-backend-config",
+      "vault.rule.ssh-secret-backend-ca",
+      "vault.rule.terraform-cloud-secret-backend",
+      "vault.rule.transform-transformation",
+      "vault.rule.transit-secret-cache-config"
+    ]
+  }
+}

@@ -10,8 +10,18 @@ rule "argo-smart-routing" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -23,8 +33,18 @@ rule "argo-tiered-caching" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -36,8 +56,18 @@ rule "tiered-cache" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -49,8 +79,18 @@ rule "regional-tiered-cache" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -62,8 +102,18 @@ rule "zone-cache-reserve" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -75,8 +125,18 @@ rule "zone-cache-variants" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -88,8 +148,18 @@ rule "managed-transforms" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -101,8 +171,18 @@ rule "url-normalization-settings" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -114,8 +194,18 @@ rule "page-rule" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -127,8 +217,18 @@ rule "google-tag-gateway" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -140,8 +240,18 @@ rule "origin-cloud-region" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -153,8 +263,18 @@ rule "snippet" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -166,8 +286,18 @@ rule "snippets" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -179,7 +309,17 @@ rule "snippet-rules" {
   as = concept.edge-delivery-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

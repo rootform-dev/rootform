@@ -12,6 +12,15 @@ rule "organization" {
   }
 
   as = concept.customer-organization
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "organization-lookup" {
@@ -21,6 +30,15 @@ rule "organization-lookup" {
   }
 
   as = concept.customer-organization
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "tenant" {

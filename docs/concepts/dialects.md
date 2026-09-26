@@ -1,107 +1,17 @@
 ---
 title: "Dialects and RF Vocabulary"
-description: "Understand how Dialects interpret source evidence and how RF Vocabulary provides shared architectural terms."
+description: "Understand how Dialects interpret plan and state instances using shared architectural terms."
 ---
 
-A Dialect is a named, versioned unit of source interpretation. Its Rules turn
-Terraform or OpenTofu evidence into architectural meaning. A Dialect does not
-decide which source declarations exist and does not create missing resources.
+A Dialect is a named, versioned interpretation unit. Its Rules match Terraform or OpenTofu instances from a plan or state export and can classify them with Concepts or emit architectural facts. Every managed and data instance remains represented even without a matching Rule; no missing interpretation is invented.
 
-## Interpretation enriches a resource base
+A subnet's `vpc_id` may name a VPC. That reference is evidence, while an AWS Dialect Rule supplies the architectural meaning of a network Context. Provider type, dependency metadata, and similar names do not create Contexts or Relations on their own. A fact cites the Rule, emission, closure, and evidence that established it.
 
-Every normalized `resource` has a base Representation before a Dialect Rule
-interprets it. A matching Rule can add a Concept or architectural fact. A
-resource with no matching Rule remains in the architecture without that
-interpretation. `data` declarations gain a Representation only when a Rule
-justifies one. See
-[Core concepts](../concepts.md#every-resource-starts-with-a-representation)
-for the distinction between resource and Rule coverage.
+RF Vocabulary is an embedded language contract owned by `rf`. It supplies shared Concepts and Contexts such as `rf.concept.subnet`, `rf.concept.virtual-network`, and `rf.context.network`. It is not a provider Dialect and has no Rules. The [RF Vocabulary reference](../language/reference/rf-vocabulary.md) defines its exact terms.
 
-## How a Rule establishes a fact
-
-For a subnet whose `vpc_id` refers to a VPC, the AWS Dialect can classify the
-subnet and establish a network Context toward the VPC. The resolved reference is
-evidence. The Rule gives that evidence architectural meaning.
-
-Without a Rule, the reference remains a source fact only. Provider type, provider
-version, naming similarity, and `depends_on` also create no architectural
-connection automatically. [Core concepts](../concepts.md#references-are-evidence-not-meaning)
-explains this boundary across all fact types.
-
-A Rule can establish facts without assigning a Concept. Removing the Rule
-removes its interpretation, but does not delete the underlying resource
-representation or change the representation's stable identity.
-
-## RF Vocabulary provides shared terms
-
-RF Vocabulary is an embedded language contract owned by the reserved `rf`
-namespace. It provides shared Concepts and Contexts such as
-`rf.concept.virtual-network`, `rf.concept.subnet`, and
-`rf.context.network`.
-
-RF Vocabulary is not a Dialect. It has no provider envelope, cannot be excluded
-or replaced, and is never installed or vendored. Dialects can reference its
-shared terms so architecture from different providers can use common meaning.
-Dialect-owned meaning keeps owner-first identity such as `aws.rule.subnet`.
-
-The exact symbols belong in the [RF Vocabulary reference](../language/reference/rf-vocabulary.md).
-
-## Inspect active Dialects
-
-Run these inspections from the project root with the Rootform binary used for
-the build. Embedded Dialects are available without a lock. External
-selections must already be prepared according to project configuration.
-
-<!-- docs-check:concept-dialect-list -->
 ```sh
-rootform list dialects aws -o wide
-```
-
-```text title="AWS Dialect summary"
-NAME  VERSION  ORIGIN    CONCEPTS  CONTEXTS  RELATIONS  RULES
-aws   0.1.0    embedded        64         0          1    108
-```
-
-Origin confirms which selected unit supplies the Dialect. Counts expose the
-semantic surface, not coverage of the current project.
-
-Inspect the Rule behind subnet interpretation.
-
-<!-- docs-check:concept-dialect-show-rule -->
-```sh
+rootform list dialects
 rootform show aws.rule.subnet
 ```
 
-```ansi title="Subnet Rule summary"
-[1maws.rule.subnet[0m
-
-[2mMatches[0m   resource "aws_subnet"
-[2mProduces[0m  rf.concept.subnet
-[2mDefined[0m   network/vpc.rf.hcl:9
-
-[1m[38;5;208mContexts (1)[0m
-  rf.context.network
-    with  rf.concept.virtual-network
-    via   source.vpc_id
-```
-
-The output connects the source type, produced Concept, and network Context
-evidence. These commands inspect the active Dialects and do not change it.
-
-## Embedded and external selection
-
-The Rootform binary carries RF Vocabulary and embedded Dialects. Updating it
-can change interpretation. `rootform.lock` records exact external Dialect
-selection; [Install, add, and vendor](external-content.md) explains how that
-selection becomes active.
-
-Selection consequences are semantic. The same Terraform can produce different
-Concepts, facts, diagnostics, or Rule coverage under different active
-Dialects. Rootform does not reinterpret saved Architecture IR using
-the current binary. The saved document keeps the producer's semantic snapshot.
-
-Use [Select Dialects and Policy Packs](../cli.md) to understand active project
-content and [Add external
-content](../guides/external-content.md) to configure exact external content. For
-authoring, continue separately with [Write a Dialect](../dialect-authoring.md)
-and [Dialect language reference](../language/reference/dialects.md).
+The executable includes official Dialects. `rootform.lock` records explicit external selections, exclusions, and replacements. A saved architecture document keeps the semantic selection used to produce it; reopening that document does not reinterpret it with currently selected Dialects. See [External content](external-content.md) and [Write a Dialect](../dialect-authoring.md).

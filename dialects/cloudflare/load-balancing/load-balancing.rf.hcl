@@ -13,20 +13,53 @@ rule "load-balancer" {
 
   as = concept.load-balancer
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-origin-pool" {
-    to  = concept.origin-pool
-    via = source.default_pools
+    to       = concept.origin-pool
+    via      = source.default_pools
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-origin-pool" {
-    to  = concept.origin-pool
-    via = source.fallback_pool
+    to       = concept.origin-pool
+    via      = source.fallback_pool
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -37,25 +70,15 @@ rule "load-balancer-pool" {
 
   as = concept.origin-pool
 
-  relation "routes-to" {
-    to  = concept.load-balancer
-    via = source.origins[0].address
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
   }
 
-  relation "routes-to" {
-    to  = concept.load-balancer
-    via = source.origins[1].address
+  endpoint {
+    attributes = ["id"]
   }
 
-  relation "routes-to" {
-    to  = concept.load-balancer
-    via = source.origins[2].address
-  }
-
-  relation "routes-to" {
-    to  = concept.load-balancer
-    via = source.origins[3].address
-  }
 }
 
 rule "load-balancer-monitor" {

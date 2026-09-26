@@ -5417,20 +5417,13 @@
       "family": "deployment",
       "product": "account-deployment",
       "proof_url": "https://github.com/databricks/terraform-provider-databricks/blob/v1.129.0/docs/resources/mws_customer_managed_keys.md",
-      "reason": "architecture-role: durable service, scope, identity, governed data, compute, or connectivity construct",
-      "relations": [
-        "uses-key",
-        "uses-key"
-      ],
-      "rootform_concept": "databricks.concept.workspace-key-configuration",
-      "rules": [
-        "databricks.rule.workspace-customer-managed-key"
-      ],
+      "reason": "no-rule",
+      "relations": [],
+      "rootform_concept": null,
+      "rules": [],
       "semantic_research": "deep",
-      "status": "rule-present",
-      "tests": [
-        "databricks-compiler-scenarios"
-      ]
+      "status": "no-rule",
+      "tests": []
     },
     {
       "construct": "databricks_mws_log_delivery",

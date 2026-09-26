@@ -6,6 +6,15 @@ rule "edge-container-cluster" {
   }
 
   as = rf.concept.kubernetes-cluster
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "edge-container-node-pool" {
@@ -22,6 +31,15 @@ rule "bare-metal-gdc-cluster" {
   }
 
   as = rf.concept.kubernetes-cluster
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "bare-metal-gdc-admin-cluster" {
@@ -30,6 +48,15 @@ rule "bare-metal-gdc-admin-cluster" {
   }
 
   as = rf.concept.kubernetes-cluster
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "bare-metal-gdc-node-pool" {
@@ -46,6 +73,15 @@ rule "vmware-gdc-cluster" {
   }
 
   as = rf.concept.kubernetes-cluster
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "vmware-gdc-admin-cluster" {
@@ -54,6 +90,15 @@ rule "vmware-gdc-admin-cluster" {
   }
 
   as = rf.concept.kubernetes-cluster
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "vmware-gdc-node-pool" {

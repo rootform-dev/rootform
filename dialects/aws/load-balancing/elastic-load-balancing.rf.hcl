@@ -9,4 +9,13 @@ rule "alb" {
   }
 
   as = concept.load-balancer
+
+  identity {
+    attributes = ["arn"]
+    scope      = "global"
+  }
+
+  endpoint {
+    attributes = ["arn", "id"]
+  }
 }

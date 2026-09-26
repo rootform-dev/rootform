@@ -6,7 +6,7 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.0.0, < 3.0.0"
+      version = "= 2.38.0"
     }
   }
 }
@@ -38,6 +38,14 @@ resource "kubernetes_namespace_v1" "duplicate_b" {
 }
 
 resource "kubernetes_deployment_v1" "literal" {
+  spec {
+    template {
+      spec {
+      }
+      metadata {
+      }
+    }
+  }
   metadata {
     name      = "literal"
     namespace = "app"
@@ -45,12 +53,16 @@ resource "kubernetes_deployment_v1" "literal" {
 }
 
 resource "kubernetes_service_v1" "absent" {
+  spec {
+  }
   metadata {
     name = "absent"
   }
 }
 
 resource "kubernetes_ingress_v1" "ambiguous" {
+  spec {
+  }
   metadata {
     name      = "ambiguous"
     namespace = "duplicate"

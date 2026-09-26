@@ -1,317 +1,81 @@
 ---
 title: "Fact emissions"
-description: "Complete reference for Context, Relation, and Contribution emissions, explicit target matching, omissions, and diagnostics."
+description: "How a Dialect emits Context, Relation, and Contribution facts from plan or state evidence."
 ---
 
-Rule emissions turn normalized source evidence into directed Architecture IR
-facts. Every emitted fact starts at current Rule representation and points to a
-represented target.
+A Rule emits directed facts from one represented instance to another endpoint. `context` names a placement dimension, `relation` names a predicate, and `contribution` names a target without a dimension or predicate. `to` constrains the target's Rule or Concept. `via` reads the emitting instance's evidence. A source dependency alone is not an architectural relation.
 
-| Emission | Semantic qualifier | Direction |
-| --- | --- | --- |
-| Context | Context dimension | Current representation to target |
-| Relation | Relation predicate | Current representation to target |
-| Contribution | None | Current representation contributes to target |
+## Forms and parameters
 
-A `to` reference describes required architecture meaning. A `via` traversal
-describes how source evidence identifies target. Rootform emits no fact unless
-both agree.
-
-## Complete example
-
-```rf title="emissions/dialect.rf.hcl"
-dialect "example" {
-  version = "0.1.0"
-
-  provider "hashicorp/example" {
-    version = ">= 1.0.0"
-  }
-}
-
-concept "workload" {
-  description = "A runnable workload."
-}
-
-concept "namespace" {
-  description = "A workload namespace."
-}
-
-concept "database" {
-  description = "A database service."
-}
-
-context "ownership" {
-  description = "The namespace that owns a workload."
+```rf title="Emission examples"
+context {
+  as        = rf.context.network
+  to        = rf.concept.virtual-network
+  via       = source.network_id
+  on_null   = "absent"
+  on_empty  = "absent"
+  external  = "deny"
 }
 
 relation "reads-from" {
-  description = "A declared read dependency."
+  to        = concept.database
+  via       = source.database_id
+  on_null   = "absent"
+  on_empty  = "indeterminate"
+  external  = "deny"
 }
 
-rule "workload" {
-  match {
-    type = "example_workload"
-  }
-
-  as = concept.workload
-
-  context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
-
-    match {
-      by       = target.name
-      strategy = "exact"
-    }
-  }
-
-  relation {
-    as  = relation.reads-from
-    to  = concept.database
-    via = source.database_id
-  }
-
-  contribution {
-    to  = concept.database
-    via = source.database_id
-  }
-}
-```
-
-## Common parameters
-
-All three emission kinds share these parameters:
-
-| Name | Type | Required | Default | Constraints |
-| --- | --- | --- | --- | --- |
-| `to` | Concept or Rule reference | Yes | None | Target must be represented by an applied Rule satisfying reference |
-| `via` | Traversal | Yes | None | `source.*` or `provider.*`; nested `match` permits `source.*` only |
-| `match` | Nested block | No | Direct reference resolution | At most one, no label |
-
-`to = concept.database` accepts only a target whose applied Rule classifies it
-as that Concept. A resource base alone is insufficient. `to = rule.database`
-accepts only a target interpreted by that exact Rule.
-
-A traversal may resolve one or several declarations. Rootform emits one
-deduplicated fact per accepted target and records Rule and resolution
-provenance. Two identical emission shapes inside one Rule have same semantic
-identity and are rejected with `DUPLICATE_ID`.
-
-## Context emission
-
-### Referenced form
-
-```rf title="referenced Context"
-context {
-  as  = rf.context.network
-  to  = rf.concept.virtual-network
-  via = source.network_id
-}
-```
-
-### Labeled form
-
-```rf title="labeled Context"
-context "runtime" {
-  to  = concept.cluster
-  via = source.cluster_id
-}
-```
-
-| Property | Contract |
-| --- | --- |
-| Placement | Inside `rule` |
-| Cardinality | Zero or more |
-| Labels | Zero or one |
-| Attributes | `as`, `to`, `via` |
-| Nested blocks | Optional single `match` |
-
-### Context-specific parameter
-
-| Form | Required | Forbidden | Meaning |
-| --- | --- | --- | --- |
-| Unlabeled | `as` Context reference | Label | Use existing local/current-owner or `rf` Context |
-| Labeled | Label | `as` | Introduce or reuse local Context with that name |
-
-Exactly one of label or `as` is required. Both or neither produce
-`FACT_INVALID`.
-
-## Relation emission
-
-### Referenced form
-
-```rf title="referenced Relation"
-relation {
-  as  = relation.reads-from
-  to  = concept.database
-  via = source.database_id
-}
-```
-
-### Labeled form
-
-```rf title="labeled Relation"
-relation "calls" {
-  to  = concept.application
-  via = source.upstream_id
-}
-```
-
-| Property | Contract |
-| --- | --- |
-| Placement | Inside `rule` |
-| Cardinality | Zero or more |
-| Labels | Zero or one |
-| Attributes | `as`, `to`, `via` |
-| Nested blocks | Optional single `match` |
-
-Exactly one of label or `as` is required. Labeled form introduces or reuses a
-local Relation predicate. Unlabeled form requires a Relation reference.
-RF Vocabulary 0.1.0 has no Relations.
-
-## Contribution emission
-
-```rf title="Contribution"
 contribution {
-  to  = rf.concept.object-storage-container
-  via = source.bucket
+  to        = concept.database
+  via       = source.database_id
+  on_null   = "absent"
+  on_empty  = "absent"
+  external  = "deny"
 }
 ```
 
-| Property | Contract |
-| --- | --- |
-| Placement | Inside `rule` |
-| Cardinality | Zero or more |
-| Labels | Forbidden |
-| Attributes | `to`, `via` |
-| Nested blocks | Optional single `match` |
+All three forms require `to`, `via`, `on_null`, and `on_empty`. Context and Relation take either a label or `as`, exactly one. Contribution takes neither. `via` starts at `source` or `provider`. A missing attribute path produces `EMISSION_PATH_UNDEFINED`; a value with an unsupported shape produces `VIA_VALUE_SHAPE`.
 
-Contribution has no `as` because it has no dimension or predicate. Query it
-from target side with
-`contributions(contributor)`; see [Built-ins](built-ins.md#contributions).
+`on_null` and `on_empty` each accept `"absent"` or `"indeterminate"`. They declare what a known null, or an empty string, list, or map means. Unknown values remain `indeterminate(unknown_until_apply)` and masked values remain `indeterminate(sensitive)` regardless of these declarations. A known list fans out element by element. Proven elements can yield facts while another element leaves the closure indeterminate.
 
-## Direct target resolution
+## Matching target identities
 
-Without nested `match`, Rootform resolves references carried by `via`.
+A `match` block compares `via` with identity attributes declared by a target Rule:
 
-```rf
+```rf title="Matching a target"
 context {
-  as  = rf.context.network
-  to  = rf.concept.virtual-network
-  via = source.vpc_id
-}
-```
-
-For each resolved declaration, Rootform checks:
-
-1. target has a representation;
-2. target has an applied Rule;
-3. applied Rule satisfies exact Concept or Rule in `to`.
-
-Collections can resolve several targets and emit several facts. Wrong
-representation meaning does not get coerced to requested target type.
-
-`provider.*` resolves attributes on concrete provider configuration bound to
-matched declaration, including module inheritance and aliases. It names actual
-configuration, not provider source identity.
-
-## Explicit attribute match
-
-Use nested `match` as an attribute-matching fallback when source stores a value
-rather than a direct infrastructure reference:
-
-```rf title="fact match"
-context {
-  as  = context.ownership
-  to  = concept.namespace
-  via = source.metadata[0].namespace
+  as        = context.ownership
+  to        = concept.namespace
+  via       = source.namespace_name
+  on_null   = "absent"
+  on_empty  = "indeterminate"
+  external  = "deny"
 
   match {
-    by       = target.metadata[0].name
+    by       = [target.name, target.display_name]
     strategy = "exact"
   }
 }
 ```
 
-### `match` block contract
+`by` is a nonempty ordered list of target attribute traversals. A single traversal is also accepted. Each path must be one of the target Rule's declared identity attributes. Rootform tries paths in order. `strategy` is `"exact"`, `"dot-ancestor"`, or `"last-segment"`; the last option compares the final `/`-separated segment of the value. An eligible target with unknown, sensitive, or unavailable identity cannot be discarded to force a unique match. If its value cannot be compared, the closure can be `indeterminate(uncomparable_candidate)`; duplicate known identities produce `DUPLICATE_IDENTITY`.
 
-| Property | Contract |
-| --- | --- |
-| Placement | Inside one Context, Relation, or Contribution emission |
-| Cardinality | Zero or one |
-| Labels | Forbidden |
-| Attributes | `by`, `strategy` |
-| Nested blocks | None |
+`prefix` removes a declared prefix from the emitting value before a `match` comparison and requires a `match` block. It does not change the target identity. A known value and a verified identity traversal that point to different targets produce `EVIDENCE_CONFLICT` rather than a fact.
 
-| Name | Type | Required | Default | Constraints |
-| --- | --- | --- | --- | --- |
-| `by` | Traversal | Yes | None | Must start with `target` |
-| `strategy` | Static string enum | Yes | None | `"exact"` or `"dot-ancestor"` |
+## Traversal evidence
 
-Rootform always attempts direct `via` resolution first. If that produces one or
-more represented targets satisfying `to`, Rootform emits those facts and does
-not evaluate nested `match`. The nested block is not a filter over an already
-valid direct target.
+`--plan-file` verifies a saved plan against its JSON export and reads the plan's configuration snapshot. For a bare traversal or a single interpolation passing through variables, locals, or module outputs, the snapshot can pair a reference with its target instance. This evidence is available on the `planned` stage, even when the value is unknown, shared by several candidates, or crosses providers. `evidence` on a fact is `value`, `traversal`, or `both`. A tuple written directly at an emitted attribute, or inside one static block, such as `[a.id, b.id]`, pairs elements separately. A transformed expression or dynamic index does not establish traversal identity; the closure follows its evaluated value, such as `indeterminate(unknown_until_apply)` for a value computed at apply. `indeterminate(reference_ambiguous)` means the evaluated value and verified traversal name different endpoints, with an `EVIDENCE_CONFLICT` warning.
 
-Attribute matching is eligible when direct resolution is unknown, or when an
-ambiguous/direct result consists only of non-architectural intermediary
-declarations that can carry the scalar evidence. A directly resolved
-non-intermediary that is unrepresented or does not satisfy `to` is a diagnostic,
-not permission to search for a different target.
+### Provider configuration references
 
-Fallback matching considers represented declarations satisfying `to`. It
-compares source value at `via` with candidate value at `by`.
+An emission such as `via = provider.host` follows the provider configuration block named for the emitting resource. With a verified saved plan, on the `planned` stage, a direct reference in that provider attribute to a managed resource endpoint can establish a fact with `traversal` evidence. Pass-through through variables, locals, or module outputs in the provider block's module is accepted. The target is paired as a reference written once in that module; provider blocks are not expanded into resource instances.
 
-| Strategy | Match rule |
-| --- | --- |
-| `exact` | Same known symbolic declaration, same known nonempty string value, or source-adapter-proven equivalent private expression |
-| `dot-ancestor` | Exact match, or candidate string is dot-delimited ancestor of source string; most specific candidate wins |
+Without a verified saved plan, on state input, or on a `refreshed` or `recorded` stage, the closure is `indeterminate(unavailable)`. A literal or transformed provider attribute also yields `indeterminate(unavailable)`. An OpenTofu provider block with `for_each` and a provider block written in JSON configuration syntax establish no endpoint. Rootform never reads literal provider configuration values: plan exports carry no provider schema, so a literal cannot be classified as sensitive or safe to expose.
 
-For `dot-ancestor`, candidate `team.prod` can match source
-`team.prod.api`; candidate `team` ranks lower. Unique best candidate is
-required. Equal best candidates produce `ATTRIBUTE_MATCH_AMBIGUOUS`.
-Unknown or incomparable values produce `ATTRIBUTE_MATCH_UNRESOLVED`.
+## External endpoints and disclosure
 
-## Omission and uncertainty
+`external = "deny"` is the default. `external = "allow"` permits an endpoint for a known unmatched value only when no eligible in-scope candidate remains unresolved. Put a nearby comment explaining why the referenced target can exist outside the plan or state inventory. An external endpoint states a declared reference, not verification of a remote object.
 
-Absence is different from uncertainty.
+With `external = "allow"`, `disclose` can be `"none"`, `"record"`, or `"report"`. `none` keeps external identity only in memory; `record` allows it in the Rootform JSON document; `report` also allows it in human-readable output. Sensitive values never enter any tier. If several emissions reach one external endpoint, the most restrictive tier wins. `external_denied` records a known unmatched value under the default policy.
 
-| Evidence result | Architecture result |
-| --- | --- |
-| Source path is proven absent | Omission with reason `source_absent` |
-| Explicit match is complete and finds none | Omission with reason `no_match` |
-| One or more targets are proven | Fact for each target |
-| Resolution is dangling, ambiguous, unknown, unrepresented, or semantically wrong | Emission warning; no invented fact for affected target |
-
-Confirmed facts can coexist with an emission warning when only part of a
-collection resolves. Fact diagnostics have warning severity. They still make
-affected query evidence incomplete, so a Policy cannot treat missing fact as
-proven absence.
-
-## Emission diagnostics
-
-| Code | Meaning |
-| --- | --- |
-| `TRAVERSAL_UNRESOLVED` | Value or reference cannot be decided |
-| `TRAVERSAL_DANGLING` | Reference names declaration not present in normalized source |
-| `TRAVERSAL_AMBIGUOUS` | Reference resolves to several incompatible declarations |
-| `ATTRIBUTE_MATCH_UNRESOLVED` | Candidate comparison cannot be completed |
-| `ATTRIBUTE_MATCH_AMBIGUOUS` | More than one best explicit match remains |
-| `FACT_TARGET_UNREPRESENTED` | Resolved target lacks applicable representation |
-| `FACT_TARGET_MISMATCH` | Resolved target does not satisfy `to` |
-
-## Rejected forms
-
-```rf title="invalid emission"
-context "ownership" {
-  as  = context.ownership
-  to  = concept.namespace
-  via = source.namespace
-}
-```
-
-Label and `as` are mutually exclusive, so this block produces
-`FACT_INVALID`. Missing `to`, missing `via`, a labeled
-`contribution`, or a fact `match` without both `by` and `strategy` is
-also invalid.
+Each source instance and emission has a closure with outcome `resolved`, `absent`, or `indeterminate`. Its reason and candidate counts explain why a fact was or was not established. See [Architecture documents](../../concepts/architecture-ir.md) for serialized closure and provenance fields.

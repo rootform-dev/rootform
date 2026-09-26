@@ -8,7 +8,8 @@ terraform {
 }
 
 resource "google_sql_database_instance" "database" {
-  name = "database"
+  database_version = "fx-database-database-version"
+  name             = "database"
 
   settings {
     tier = "db-custom-2-7680"

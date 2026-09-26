@@ -33,10 +33,26 @@ rule "network" {
 
   as = rf.concept.virtual-network
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -47,10 +63,26 @@ rule "gateway" {
 
   as = concept.network-gateway
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -61,24 +93,61 @@ rule "access-point" {
 
   as = concept.private-endpoint
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   relation "uses-gateway" {
-    to  = concept.network-gateway
-    via = source.gateway[0].id
+    to       = concept.network-gateway
+    via      = source.gateway[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "connects-to" {
-    to  = concept.private-endpoint
-    via = source.aws_ingress_private_link_endpoint[0].vpc_endpoint_id
+    to       = concept.private-endpoint
+    via      = source.aws_ingress_private_link_endpoint[0].vpc_endpoint_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "connects-to" {
-    to  = concept.private-endpoint
-    via = source.azure_ingress_private_link_endpoint[0].private_endpoint_resource_id
+    to       = concept.private-endpoint
+    via      = source.azure_ingress_private_link_endpoint[0].private_endpoint_resource_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "connects-to" {
-    to  = concept.private-endpoint
-    via = source.gcp_ingress_private_service_connect_endpoint[0].private_service_connect_connection_id
+    to       = concept.private-endpoint
+    via      = source.gcp_ingress_private_service_connect_endpoint[0].private_service_connect_connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -90,24 +159,64 @@ rule "network-peering" {
   as = concept.network-peering
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.network[0].id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.network[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "peers-with" {
-    to  = rf.concept.virtual-network
-    via = source.aws[0].vpc
+    to       = rf.concept.virtual-network
+    via      = source.aws[0].vpc
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "peers-with" {
-    to  = rf.concept.virtual-network
-    via = source.azure[0].vnet
+    to       = rf.concept.virtual-network
+    via      = source.azure[0].vnet
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "peers-with" {
-    to  = rf.concept.virtual-network
-    via = source.gcp[0].vpc_network
+    to       = rf.concept.virtual-network
+    via      = source.gcp[0].vpc_network
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -119,8 +228,18 @@ rule "private-link-access" {
   as = concept.network-configuration
 
   contribution {
-    to  = rf.concept.virtual-network
-    via = source.network[0].id
+    to       = rf.concept.virtual-network
+    via      = source.network[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -131,10 +250,26 @@ rule "private-link-attachment" {
 
   as = concept.private-link-attachment
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -145,24 +280,61 @@ rule "private-link-attachment-connection" {
 
   as = concept.private-endpoint
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   relation "connects-to-attachment" {
-    to  = concept.private-link-attachment
-    via = source.private_link_attachment[0].id
+    to       = concept.private-link-attachment
+    via      = source.private_link_attachment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "connects-to" {
-    to  = concept.private-endpoint
-    via = source.aws[0].vpc_endpoint_id
+    to       = concept.private-endpoint
+    via      = source.aws[0].vpc_endpoint_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "connects-to" {
-    to  = concept.private-endpoint
-    via = source.azure[0].private_endpoint_resource_id
+    to       = concept.private-endpoint
+    via      = source.azure[0].private_endpoint_resource_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "connects-to" {
-    to  = concept.private-endpoint
-    via = source.gcp[0].private_service_connect_connection_id
+    to       = concept.private-endpoint
+    via      = source.gcp[0].private_service_connect_connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -173,10 +345,29 @@ rule "network-link-service" {
 
   as = concept.network-link-service
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.network[0].id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.network[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -188,14 +379,31 @@ rule "network-link-endpoint" {
   as = concept.network-link-endpoint
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.network[0].id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.network[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "connects-to" {
-    to  = concept.network-link-service
-    via = source.network_link_service[0].id
+    to       = concept.network-link-service
+    via      = source.network_link_service[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -207,9 +415,19 @@ rule "transit-gateway-attachment" {
   as = concept.transit-gateway-attachment
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.network[0].id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.network[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -221,8 +439,15 @@ rule "dns-forwarder" {
   as = concept.dns-forwarder
 
   relation "uses-gateway" {
-    to  = concept.network-gateway
-    via = source.gateway[0].id
+    to       = concept.network-gateway
+    via      = source.gateway[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 

@@ -4,7 +4,7 @@ terraform {
   }
 }
 
-variable "unknown_id" { type = string }
+resource "terraform_data" "unknown_id" {}
 
 resource "azurerm_resource_group" "platform" {
   name     = "platform"
@@ -123,7 +123,7 @@ resource "azurerm_dns_a_record" "literal" {
 
 resource "azurerm_private_dns_a_record" "unknown" {
   name                = "unknown"
-  private_dns_zone_id = var.unknown_id
+  private_dns_zone_id = terraform_data.unknown_id.id
   ttl                 = 300
   records             = ["10.20.1.11"]
 }

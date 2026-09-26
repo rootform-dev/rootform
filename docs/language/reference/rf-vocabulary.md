@@ -58,9 +58,11 @@ rule "subnet" {
   as = rf.concept.subnet
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.network_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.network_id
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 ```

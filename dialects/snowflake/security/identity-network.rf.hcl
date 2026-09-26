@@ -19,13 +19,27 @@ rule "service-user" {
   as = rf.concept.service-identity
 
   relation "uses-network-policy" {
-    to  = concept.network-policy
-    via = source.network_policy
+    to       = concept.network-policy
+    via      = source.network_policy
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   relation "uses-default-warehouse" {
-    to  = concept.virtual-warehouse
-    via = source.default_warehouse
+    to       = concept.virtual-warehouse
+    via      = source.default_warehouse
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -37,13 +51,27 @@ rule "legacy-service-user" {
   as = rf.concept.service-identity
 
   relation "uses-network-policy" {
-    to  = concept.network-policy
-    via = source.network_policy
+    to       = concept.network-policy
+    via      = source.network_policy
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   relation "uses-default-warehouse" {
-    to  = concept.virtual-warehouse
-    via = source.default_warehouse
+    to       = concept.virtual-warehouse
+    via      = source.default_warehouse
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -56,8 +84,15 @@ rule "database-role" {
   as = concept.security-configuration
 
   contribution {
-    to  = concept.database
-    via = source.database
+    to       = concept.database
+    via      = source.database
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -67,6 +102,15 @@ rule "network-policy" {
   }
 
   as = concept.network-policy
+
+  identity {
+    attributes = ["name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 
 }
 
@@ -78,8 +122,15 @@ rule "network-rule" {
   as = concept.security-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -89,6 +140,15 @@ rule "saml2-integration" {
   }
 
   as = concept.identity-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "scim-integration" {
@@ -98,9 +158,25 @@ rule "scim-integration" {
 
   as = concept.identity-integration
 
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
+
   relation "uses-network-policy" {
-    to  = concept.network-policy
-    via = source.network_policy
+    to       = concept.network-policy
+    via      = source.network_policy
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -110,6 +186,15 @@ rule "external-oauth-integration" {
   }
 
   as = concept.identity-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "custom-client-oauth-integration" {
@@ -119,9 +204,25 @@ rule "custom-client-oauth-integration" {
 
   as = concept.identity-integration
 
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
+
   relation "uses-network-policy" {
-    to  = concept.network-policy
-    via = source.network_policy
+    to       = concept.network-policy
+    via      = source.network_policy
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -131,6 +232,15 @@ rule "partner-application-oauth-integration" {
   }
 
   as = concept.identity-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "authorization-code-api-authentication" {
@@ -139,6 +249,15 @@ rule "authorization-code-api-authentication" {
   }
 
   as = concept.identity-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "client-credentials-api-authentication" {
@@ -147,6 +266,15 @@ rule "client-credentials-api-authentication" {
   }
 
   as = concept.identity-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "jwt-bearer-api-authentication" {
@@ -155,4 +283,13 @@ rule "jwt-bearer-api-authentication" {
   }
 
   as = concept.identity-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }

@@ -1,0 +1,1097 @@
+{
+  "format_version": "1",
+  "checked": "2026-09-26",
+  "method": "SHA-256 of the provider release archive reported by the registry.terraform.io and registry.opentofu.org download APIs, per bound version and platform. A shorthand binding covers both registries: third-party sources require identical archives; hashicorp sources are rebuilt by OpenTofu from the same release tag.",
+  "bindings": [
+    {
+      "dialect": "auth0",
+      "source": "auth0/auth0",
+      "version": "= 1.56.0",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/auth0"],
+      "checks": [
+        {
+          "version": "1.56.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "917d48ee0666a1d49c875901fb37cdfd9f6f826aea598ed260271fb66d589d40",
+          "opentofu_sha256": "917d48ee0666a1d49c875901fb37cdfd9f6f826aea598ed260271fb66d589d40"
+        },
+        {
+          "version": "1.56.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "3bcb1cc8f28b7a058682991e9b49bdb597399e21bb6821b69b4673d1b0ebf090",
+          "opentofu_sha256": "3bcb1cc8f28b7a058682991e9b49bdb597399e21bb6821b69b4673d1b0ebf090"
+        }
+      ]
+    },
+    {
+      "dialect": "aws",
+      "source": "hashicorp/aws",
+      "version": "= 6.62.0",
+      "archives": "rebuilt",
+      "terraform_download": ["releases.hashicorp.com"],
+      "opentofu_download": ["github.com/opentofu"],
+      "checks": [
+        {
+          "version": "6.62.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "405927d470ff16201e40aa0fa2d0ab1de477360a0926d20719cd029179682ecd",
+          "opentofu_sha256": "0b2643473f5bb154d724e64e75632814d74acda5fd81b6488d0ed13f413152b2"
+        },
+        {
+          "version": "6.62.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "8d8596257453357c9f3fccaa7d2f04299e8d35b16f364adb8a2c829143a9c090",
+          "opentofu_sha256": "49aafbe6f665b3c4c97522905fd09229f2758a782c7cfc508280607030134ef8"
+        }
+      ]
+    },
+    {
+      "dialect": "azure",
+      "source": "hashicorp/azurerm",
+      "version": "= 5.3.0",
+      "archives": "rebuilt",
+      "terraform_download": ["releases.hashicorp.com"],
+      "opentofu_download": ["github.com/opentofu"],
+      "checks": [
+        {
+          "version": "5.3.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "6d403bb7598f42cd2233d183dcebface3b60c3ab4b8720af6e76cfbc8e7bf730",
+          "opentofu_sha256": "3f6db316889d1d4e0a8fbdee2691b7e965a11418a097e779be82b551c81fa8c9"
+        },
+        {
+          "version": "5.3.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "b552df50814f490506139f65b4243d2eb3809ccf20f42f63f292ec826317a691",
+          "opentofu_sha256": "1a6275f5f5db4a053bf478c37ec886209d516e36a8450fba77b52f869b32954c"
+        }
+      ]
+    },
+    {
+      "dialect": "azure",
+      "source": "hashicorp/azuread",
+      "version": "= 3.9.0",
+      "archives": "rebuilt",
+      "terraform_download": ["releases.hashicorp.com"],
+      "opentofu_download": ["github.com/opentofu"],
+      "checks": [
+        {
+          "version": "3.9.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "65326a9f3ac0783c16e05c16422d191f0a926b8d021fd5303c1fdf8dc42f16e9",
+          "opentofu_sha256": "0a7dc1ff619857ffe4b8fec3c223aa8c65334044b2282652dff341d7edeb434a"
+        },
+        {
+          "version": "3.9.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "6092c376accfc50b555b7a0cd56b76c09abc3d65ac9dd5069063d6f9f1e76d3b",
+          "opentofu_sha256": "4c647fd1a72043efc6295d3d24d97fff941117d7ded7cef3a8c875c06613e032"
+        }
+      ]
+    },
+    {
+      "dialect": "azure",
+      "source": "azure/azapi",
+      "version": "= 2.12.0",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/azure"],
+      "checks": [
+        {
+          "version": "2.12.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "71402acfa1ad35788a5d1669bdd59040434a45aea990d062dcc41f17163c8e1b",
+          "opentofu_sha256": "71402acfa1ad35788a5d1669bdd59040434a45aea990d062dcc41f17163c8e1b"
+        },
+        {
+          "version": "2.12.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "6ac8b5b262fa3d79f8aa104e903f258ec83b0155f6988cba0f3b028edad323d0",
+          "opentofu_sha256": "6ac8b5b262fa3d79f8aa104e903f258ec83b0155f6988cba0f3b028edad323d0"
+        }
+      ]
+    },
+    {
+      "dialect": "cloudflare",
+      "source": "cloudflare/cloudflare",
+      "version": "= 5.24.0",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/cloudflare"],
+      "checks": [
+        {
+          "version": "5.24.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "2390fc5df95addfd47d3f638964a1f9f6192a8c84ad3b1eab554ef88e0ac4091",
+          "opentofu_sha256": "2390fc5df95addfd47d3f638964a1f9f6192a8c84ad3b1eab554ef88e0ac4091"
+        },
+        {
+          "version": "5.24.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "c523d747a2d8457bc2d2cc00967c419ef38a5ebebd12d5091cf18322b7201f04",
+          "opentofu_sha256": "c523d747a2d8457bc2d2cc00967c419ef38a5ebebd12d5091cf18322b7201f04"
+        }
+      ]
+    },
+    {
+      "dialect": "confluent",
+      "source": "confluentinc/confluent",
+      "version": "= 2.83.0",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/confluentinc"],
+      "checks": [
+        {
+          "version": "2.83.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "a6d0f0f1abeca69e4767658ea7a1f69ea26608d268be2f8b4550118d3d4fb108",
+          "opentofu_sha256": "a6d0f0f1abeca69e4767658ea7a1f69ea26608d268be2f8b4550118d3d4fb108"
+        },
+        {
+          "version": "2.83.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "bae06209ba909845b0a87187531703c8f7ad5d4760fd9bd73e84c53bea075d22",
+          "opentofu_sha256": "bae06209ba909845b0a87187531703c8f7ad5d4760fd9bd73e84c53bea075d22"
+        }
+      ]
+    },
+    {
+      "dialect": "consul",
+      "source": "hashicorp/consul",
+      "version": "= 2.23.0",
+      "archives": "rebuilt",
+      "terraform_download": ["releases.hashicorp.com"],
+      "opentofu_download": ["github.com/opentofu"],
+      "checks": [
+        {
+          "version": "2.23.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "6a644a0239924d416a2a236499f8edfd88c0f15f45feb821a64e976131a4ea25",
+          "opentofu_sha256": "7f318ede39aefe98bbe17a98ee8a1e48b25c81ccb635a02226f60cd3e5159fe6"
+        },
+        {
+          "version": "2.23.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "1782c35aa2b9fb4e0f2cfa2d087b63447f66b05541690072a2f0f3220bdb031f",
+          "opentofu_sha256": "98661cf088dbd3b61b7fbbe85fec5bc9cdd3ccf7efa9b3536f4b3bfdc64fb695"
+        }
+      ]
+    },
+    {
+      "dialect": "databricks",
+      "source": "databricks/databricks",
+      "version": "= 1.129.0",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/databricks"],
+      "checks": [
+        {
+          "version": "1.129.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "1bbed7463e47f774a9a90e68fd8df49411b9b3d45a988a1fbd307c6eb48fe3a8",
+          "opentofu_sha256": "1bbed7463e47f774a9a90e68fd8df49411b9b3d45a988a1fbd307c6eb48fe3a8"
+        },
+        {
+          "version": "1.129.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "1b74ed2bfc0a9ec84aaa3ee63fe43cf2d7033ccc28b20774eb3bf34418fd9203",
+          "opentofu_sha256": "1b74ed2bfc0a9ec84aaa3ee63fe43cf2d7033ccc28b20774eb3bf34418fd9203"
+        }
+      ]
+    },
+    {
+      "dialect": "datadog",
+      "source": "datadog/datadog",
+      "version": "= 4.19.0",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/datadog"],
+      "checks": [
+        {
+          "version": "4.19.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "8238d7647a354d2501048165a34a89ea7091f52fe9a4e82eb0e7874ce3ea682a",
+          "opentofu_sha256": "8238d7647a354d2501048165a34a89ea7091f52fe9a4e82eb0e7874ce3ea682a"
+        },
+        {
+          "version": "4.19.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "28de385e7d0c7ee30cad3d9994b2c9f035cfbdfa780d83f3e775bd09b84277ea",
+          "opentofu_sha256": "28de385e7d0c7ee30cad3d9994b2c9f035cfbdfa780d83f3e775bd09b84277ea"
+        }
+      ]
+    },
+    {
+      "dialect": "google",
+      "source": "hashicorp/google",
+      "version": "= 8.0.0",
+      "archives": "rebuilt",
+      "terraform_download": ["releases.hashicorp.com"],
+      "opentofu_download": ["github.com/opentofu"],
+      "checks": [
+        {
+          "version": "8.0.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "04e344f58eff6123a76cf5c427e546f93a0f978967b39a671e006005e07583b8",
+          "opentofu_sha256": "09702fa9b5c66780a5041ae7c29f3d16210f4a24a3b2192fa6dbce62c7cb7699"
+        },
+        {
+          "version": "8.0.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "9a3d7f832652288afc46801b654417bdad4872de3bade2e2418bbc4ddddb7dc6",
+          "opentofu_sha256": "003cdf80d956654739fffe7ebad1f6f7b4c2ebbcbb354f7d86e55b9976094570"
+        }
+      ]
+    },
+    {
+      "dialect": "google",
+      "source": "hashicorp/google-beta",
+      "version": "= 8.0.0",
+      "archives": "rebuilt",
+      "terraform_download": ["releases.hashicorp.com"],
+      "opentofu_download": ["github.com/opentofu"],
+      "checks": [
+        {
+          "version": "8.0.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "04dba017cf216ba4b1bccfd0563a10b39029ff0da9f7c51ce5d1a5dba26975e0",
+          "opentofu_sha256": "b00841de1151c633479815ebc231542c39512d9e6789dc7af87792e7e353d2c8"
+        },
+        {
+          "version": "8.0.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "086c3558f831dd26b9ba504bcfda8790fbccf9938736a8bdf21f35c479671b68",
+          "opentofu_sha256": "64fe3d0a74c1d1ffc11b17deb60f92814c73b5c8b08396764a32fc7208751cee"
+        }
+      ]
+    },
+    {
+      "dialect": "grafana",
+      "source": "grafana/grafana",
+      "version": "= 4.45.2",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/grafana"],
+      "checks": [
+        {
+          "version": "4.45.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "cedd7188a479d2a90ececd9ebc5c80cbbd048fdc8e9cb3cded66d31c5c680f0e",
+          "opentofu_sha256": "cedd7188a479d2a90ececd9ebc5c80cbbd048fdc8e9cb3cded66d31c5c680f0e"
+        },
+        {
+          "version": "4.45.2",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "8820aef63222aadca0f1fb185cf5f0aead3396ba88341e3578fd1ebe3c5a70f1",
+          "opentofu_sha256": "8820aef63222aadca0f1fb185cf5f0aead3396ba88341e3578fd1ebe3c5a70f1"
+        }
+      ]
+    },
+    {
+      "dialect": "hcp",
+      "source": "hashicorp/hcp",
+      "version": "= 0.114.0",
+      "archives": "rebuilt",
+      "terraform_download": ["releases.hashicorp.com"],
+      "opentofu_download": ["github.com/opentofu"],
+      "checks": [
+        {
+          "version": "0.114.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "92e096f73c94bbe89d2c563a08225f410df1e3f98eb290ef3547cad34374e897",
+          "opentofu_sha256": "f68245b20c6d092d1b41710e4feaf5fd41ecb5b6383324292c6aa76ab450a738"
+        },
+        {
+          "version": "0.114.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "fbcd00c4c2eff9d8b36da611e9fa71e4bdccc69e12ca52d78edc0bbfce65315c",
+          "opentofu_sha256": "d0f823f29e4196561837d56f32b66478dd533efe88c37d152414a57336dd30c8"
+        }
+      ]
+    },
+    {
+      "dialect": "kestra",
+      "source": "kestra-io/kestra",
+      "version": ">= 0.15.0, < 1.0.0",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/kestra-io"],
+      "checks": [
+        {
+          "version": "0.15.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "4503bc2daeb6a62ca98ade666ed14fdecf6755bea11df17ca277da448f2df927",
+          "opentofu_sha256": "4503bc2daeb6a62ca98ade666ed14fdecf6755bea11df17ca277da448f2df927"
+        },
+        {
+          "version": "0.16.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "6ec55ac820793ba00a2a049903fc53ffc4087f6bd3a86ccf56534664c6315879",
+          "opentofu_sha256": "6ec55ac820793ba00a2a049903fc53ffc4087f6bd3a86ccf56534664c6315879"
+        },
+        {
+          "version": "0.17.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "46c298a23d737da85d7ee8462bf0161aef0a531116d1712682bfee3b8b83bfd9",
+          "opentofu_sha256": "46c298a23d737da85d7ee8462bf0161aef0a531116d1712682bfee3b8b83bfd9"
+        },
+        {
+          "version": "0.17.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "19e27302a01b2457b6f71f75c67dc4f03804274ece9c2bafabe067c912d09808",
+          "opentofu_sha256": "19e27302a01b2457b6f71f75c67dc4f03804274ece9c2bafabe067c912d09808"
+        },
+        {
+          "version": "0.18.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "c8a4c481533568d54135a7a1d330239c789d873c19ffdedcbbeebb3109ca3bb6",
+          "opentofu_sha256": "c8a4c481533568d54135a7a1d330239c789d873c19ffdedcbbeebb3109ca3bb6"
+        },
+        {
+          "version": "0.18.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "ff432a1d122908492a2510bdda8c9ba50a9b41fd358320bffdb7f68ca47eb0ad",
+          "opentofu_sha256": "ff432a1d122908492a2510bdda8c9ba50a9b41fd358320bffdb7f68ca47eb0ad"
+        },
+        {
+          "version": "0.18.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "7fc24d28646afb68bebe423ec96dce5a5dfb7403560cc1922665d6540dbba8a0",
+          "opentofu_sha256": "7fc24d28646afb68bebe423ec96dce5a5dfb7403560cc1922665d6540dbba8a0"
+        },
+        {
+          "version": "0.19.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "eed66cf3d7cc27a0b6ea78e6e1d2bfc3fc6cdceae4fec49981a5161e2e3f879c",
+          "opentofu_sha256": "eed66cf3d7cc27a0b6ea78e6e1d2bfc3fc6cdceae4fec49981a5161e2e3f879c"
+        },
+        {
+          "version": "0.19.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "4c9bc1b004bc73bd6de53fdf1b06d17ac86da6350f2c6a95060d267e50e412e2",
+          "opentofu_sha256": "4c9bc1b004bc73bd6de53fdf1b06d17ac86da6350f2c6a95060d267e50e412e2"
+        },
+        {
+          "version": "0.20.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "0cdf0e9f9f23248857688efefe4bee1f7253929daf99b7f8e5f15d4fba520181",
+          "opentofu_sha256": "0cdf0e9f9f23248857688efefe4bee1f7253929daf99b7f8e5f15d4fba520181"
+        },
+        {
+          "version": "0.20.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "2f1b233ce15ed2a11f6de5daaeb914a0a38fa27c61ce2240c038bdbb75be5151",
+          "opentofu_sha256": "2f1b233ce15ed2a11f6de5daaeb914a0a38fa27c61ce2240c038bdbb75be5151"
+        },
+        {
+          "version": "0.20.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "d6e6667a45141f8e56b8a22ee3f55b2f003bbbfdbecd8db3ccdc1de956d0dbb0",
+          "opentofu_sha256": "d6e6667a45141f8e56b8a22ee3f55b2f003bbbfdbecd8db3ccdc1de956d0dbb0"
+        },
+        {
+          "version": "0.20.3",
+          "platform": "linux_amd64",
+          "terraform_sha256": "fab2b58c796382dd1a6929d26b02deda469ff7a5bb8dcb0eacce1a4d21652b39",
+          "opentofu_sha256": "fab2b58c796382dd1a6929d26b02deda469ff7a5bb8dcb0eacce1a4d21652b39"
+        },
+        {
+          "version": "0.21.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "4f2a65d84b03a54ad6b466ce15b8f238d16de05f82b4edf31e83b920ed43a25d",
+          "opentofu_sha256": "4f2a65d84b03a54ad6b466ce15b8f238d16de05f82b4edf31e83b920ed43a25d"
+        },
+        {
+          "version": "0.21.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "aed2f944f6688185b76671ff170b46787319f244ae50513010892911e3201c44",
+          "opentofu_sha256": "aed2f944f6688185b76671ff170b46787319f244ae50513010892911e3201c44"
+        },
+        {
+          "version": "0.22.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "b21fead325b1a817b616939b128bc8afd5f650230efe6bc48940c3adef578678",
+          "opentofu_sha256": "b21fead325b1a817b616939b128bc8afd5f650230efe6bc48940c3adef578678"
+        },
+        {
+          "version": "0.22.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "bd6d79d87313ce8635ebf74c807d7c86852928e7020efb02f199c1761f1228b3",
+          "opentofu_sha256": "bd6d79d87313ce8635ebf74c807d7c86852928e7020efb02f199c1761f1228b3"
+        },
+        {
+          "version": "0.22.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "f47a12363f604f38f15797ec7dd2f56ece13b585a645a4932e5682f01787c9b6",
+          "opentofu_sha256": "f47a12363f604f38f15797ec7dd2f56ece13b585a645a4932e5682f01787c9b6"
+        },
+        {
+          "version": "0.23.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "1d18e8686a64b16a27a451917b3e1733060a9fc0b84e65906538595b5968c814",
+          "opentofu_sha256": "1d18e8686a64b16a27a451917b3e1733060a9fc0b84e65906538595b5968c814"
+        },
+        {
+          "version": "0.24.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "e40963a65da01e10ad436eb4431e6e0c96f5cd094a4ecce62aff6094da30850c",
+          "opentofu_sha256": "e40963a65da01e10ad436eb4431e6e0c96f5cd094a4ecce62aff6094da30850c"
+        },
+        {
+          "version": "0.24.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "96744aedff7a2daaa39efb2b2fe7bc70ab3f829df23dfabe1802729f9957ed82",
+          "opentofu_sha256": "96744aedff7a2daaa39efb2b2fe7bc70ab3f829df23dfabe1802729f9957ed82"
+        },
+        {
+          "version": "0.24.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "46d56ec3e559bff002de139cd88e972d423f61f3f8ed3f2ad8edd074766feb11",
+          "opentofu_sha256": "46d56ec3e559bff002de139cd88e972d423f61f3f8ed3f2ad8edd074766feb11"
+        },
+        {
+          "version": "0.24.3",
+          "platform": "linux_amd64",
+          "terraform_sha256": "47b7e180978808b3194dd7c04cd85ac83c325211d6335d6bdd0a8cb68a0ddf78",
+          "opentofu_sha256": "47b7e180978808b3194dd7c04cd85ac83c325211d6335d6bdd0a8cb68a0ddf78"
+        }
+      ]
+    },
+    {
+      "dialect": "kubernetes",
+      "source": "hashicorp/kubernetes",
+      "version": ">= 2.0.0, < 3.0.0",
+      "archives": "rebuilt",
+      "terraform_download": ["releases.hashicorp.com"],
+      "opentofu_download": ["github.com/opentofu"],
+      "checks": [
+        {
+          "version": "2.0.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "76a4010e10873cc8880a9f64c3df9b46d9970c3d6e35f96691d286b2c031d315",
+          "opentofu_sha256": "8f7a015edb4917babf6bc377d9d635cdf494ea027a94772b31d6af26a8733418"
+        },
+        {
+          "version": "2.0.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "19a5656300f92e265b521a91b70fa822139589f5b53d7be5a990462b4bc93c8e",
+          "opentofu_sha256": "3a984927a27c6d17de1f317a7e1f436f0bb6ff403696f7cf288f4f258943135a"
+        },
+        {
+          "version": "2.0.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "7c39ced4dc44181296721715005e390021770077012c206ab4c209fb704b34d0",
+          "opentofu_sha256": "d6a3d02c60adf161664caf3243c7e32b5d1ddaed6e5812deba475d70763601c4"
+        },
+        {
+          "version": "2.0.3",
+          "platform": "linux_amd64",
+          "terraform_sha256": "a26906cd3aeb28f402972154dbb3ae1ac6d739ce3e4b00906c9d4b1e263d5a56",
+          "opentofu_sha256": "dbf72f42dea498891e7773a135b7ca137ae3d3e261e1d2524d7b28aabe5ca7e0"
+        },
+        {
+          "version": "2.1.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "7a6f0d9da5172b3770af98d59263e142313a8b2c4048271893c6003493ad1c89",
+          "opentofu_sha256": "226f3ba7d467d937bfc77a1ae7553e7ea8d20a211a3250341211c7bcf4c50f53"
+        },
+        {
+          "version": "2.2.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "5df93be3e696d60139a485a2937176739f05ac1884850bc58839c3ed99cff995",
+          "opentofu_sha256": "ee12276a19d1b4ef03f8052ae02bb6f05803cdd35e933f41026aa5d934ea76a6"
+        },
+        {
+          "version": "2.3.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "79ac892e4645a693f5984779faf6c8200bc22454b1f2dd134780de8fd243f7d6",
+          "opentofu_sha256": "618bd343728e2511e341aab3f9dd7a117a249fe2b58a62f0de8565be62609721"
+        },
+        {
+          "version": "2.3.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "05bc0756996f49e8db644b4da63df42a24bfa3fadc5f7bbc3932cb364d0e0310",
+          "opentofu_sha256": "1398f6d0051734a9ddd7f084fe4aa714b7edd50af27bc159bab7a167dd3cfa52"
+        },
+        {
+          "version": "2.3.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "11d2230e531b7480317e988207a73cb67b332f225b0892304983b19b6014ebe0",
+          "opentofu_sha256": "15e312e6d57e120e7a3da81649aaa7c9aacac5c74ed261555dae422e60d056ab"
+        },
+        {
+          "version": "2.4.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "fadfda1395d0c5f7432aef4a299f06ccea115355b29e1eadfea2ec6482fdb768",
+          "opentofu_sha256": "dfde81cd1623ef953d0d3ec8b4f44c3a422918f6c9c9157a2a4bcf153a3b7ba1"
+        },
+        {
+          "version": "2.4.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "24c492d61ce4dbcac4bb4410bd5e657ab28d19ab320d41104148ee626b44f5ed",
+          "opentofu_sha256": "25b61c7fd258758d7ae74aa180ec2956f1f6061b097e3ce6651ca06eae2c52b2"
+        },
+        {
+          "version": "2.5.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "997b3a4fd3e0794de1f6a92d751391c787114235849bfad7f909147b6c4515ea",
+          "opentofu_sha256": "dd28150aff868d125c79af4ab0997b57872e5446a2239896e22af051adf2f1d3"
+        },
+        {
+          "version": "2.5.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "6dfb17f21cc3dfd5096a1cf0d01603527213b127dade411f79c524d2bddc78b9",
+          "opentofu_sha256": "1b2bc079179722cdd6b8b9a7b358eb108fe417ed086951a4f4c883fb9a483cd9"
+        },
+        {
+          "version": "2.6.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "b4de9313c6c63f37a799a1a108138a1215cd55286c5c4b8a9af8977c95e9424a",
+          "opentofu_sha256": "6a0aa9d41fef19c5f251a830af48d2d901a47dd7a38873ebe69bd272bef2f1c2"
+        },
+        {
+          "version": "2.6.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "e96589575dfd31eab48fcc85466dd49895925473c60c802b346cdb4037953350",
+          "opentofu_sha256": "0e98f99390b11342c8ca0feecddda5653178ff2a2c91d43a47c4aae0d4d63bb1"
+        },
+        {
+          "version": "2.7.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "0ee4ed19d951cf94a1b27bf813827bb5c51b48ac53efe827e77aa077e9d66021",
+          "opentofu_sha256": "30aa498f6e132819e07e9c83c019c3ae53ace731a6efb11b6cfc78a3340769ae"
+        },
+        {
+          "version": "2.7.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "c50d661782175d50ea4952fe943b0e4a3e33c27aa69e5ff21b3cbfa513e90d0a",
+          "opentofu_sha256": "2bf6709033c845a324e5f0675662fbcd44c67d20488d5ccc04b689a179d3e381"
+        },
+        {
+          "version": "2.8.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "5e76a2b81c93d9904d50c2a703845f79d2b080c2f87c07ef8f168592033d638f",
+          "opentofu_sha256": "51b9ce7b48d238a77ecbcf1d7f57dcfa4d4ab1f7b2b1588c270d05c3026ca0a3"
+        },
+        {
+          "version": "2.9.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "114113e9cd0489d2db8374f3352cc9b29667a42462f922eb9c891c6daf1c38fa",
+          "opentofu_sha256": "8394159a83196da6ff2ee26fb01fa3c13eb59f95b16c2ad9454409adeccc1c07"
+        },
+        {
+          "version": "2.10.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "e3a2020453a86f80ad2b3f792e91a35fe272b907485a59c02d19269a1bdfe2fd",
+          "opentofu_sha256": "0bba3f6c262460c8fcc99405dfb42490bc69efadb9b03cc1c4451bbbf3c3b26c"
+        },
+        {
+          "version": "2.11.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "1fc757d209e09c3cf7848e4274daa32408c07743698fbed10ee52a4a479b62b6",
+          "opentofu_sha256": "6a03e331d5b0a5bac6a297dc332ca8195c2af30b6fe0c95e6fb69b9229a66558"
+        },
+        {
+          "version": "2.12.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "9548f2ce05a5de59bd71a0770cae3b80095145c96754f3698c608a44fdd5d0de",
+          "opentofu_sha256": "53a0678781df4da5fc8667ec83c2b14a794b16edbef20ff5cba117a34e7b5fd0"
+        },
+        {
+          "version": "2.12.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "b45d8dc5dcbc5e30ae570d0c2e198505f47d09098dfd5f004871be8262e6ec1e",
+          "opentofu_sha256": "9f646eb4efa5c616aa12d7f3d4fdd922488a223846ed56a6c98dca1a149f9ddd"
+        },
+        {
+          "version": "2.13.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "953a964b93e8c50db2da81463fe25e42a04d77abb841d386eda153035a384efe",
+          "opentofu_sha256": "21be1c2f50f4beea6a519b8eba8a7c50d9a0b01232fa82a1e4b36d681fcf1878"
+        },
+        {
+          "version": "2.13.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "366b4bef49932d1d71b12849c1878c254a887962ff915f37982299c1185dd48a",
+          "opentofu_sha256": "a7ff7812eebdcaf75bb8937acc742d8f7d796d2df93d2c2feb27c5813e548da1"
+        },
+        {
+          "version": "2.14.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "4615249ce5311f6fbea9738b25b6e6159e7dcf4693b0a24bc6a5720d1bfd38d0",
+          "opentofu_sha256": "37f13620e4ea304c7c1009fed367cb84ae2d2388624987685333c2adce3bb359"
+        },
+        {
+          "version": "2.15.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "74e163dee3d707ba500830360502b3290b18ed4f753d86c1b39b31ee2b937d2e",
+          "opentofu_sha256": "bf1cd0c2c173f67ff15b581888c9f0497ef7157cb4af69bd8f5d62562b52ef51"
+        },
+        {
+          "version": "2.16.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "fa08fa52d3b4f93d24373a34360855787971532a1f5fe085a4549b04ebf329cc",
+          "opentofu_sha256": "279b279219c5421cd70451080bbb3ec09d0d2872966f1847a91c242cb94d67da"
+        },
+        {
+          "version": "2.16.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "06224975f5910d41e73b35a4d5079861da2c24f9353e3ebb015fbb3b3b996b1c",
+          "opentofu_sha256": "4f1ce9ea9bcf5a819eb92334900250ddfc45ec3e795f833b39e61e2d5067738d"
+        },
+        {
+          "version": "2.17.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "b077edcedb46a313b461ac1e49317872063b3871f2acbe1a50498612cefff387",
+          "opentofu_sha256": "dfe917fbeec5cdc8ae720e803d2592bd1f1043c64939dd421e161d9d3b2e91d5"
+        },
+        {
+          "version": "2.18.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "9200d32e7c9a75365bcd5a48b29ec8c9bbd3329549bc8d04b14e739abcf843e0",
+          "opentofu_sha256": "044329ce96004df0c464efe5d9aeb128c32bcf7973b9dc35189e2a980a6a48bf"
+        },
+        {
+          "version": "2.18.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "7e6e97b79fecd25aaf0f4fb91da945a65c36fe2ba2a4313288a60ede55506aad",
+          "opentofu_sha256": "042b97584de37998c2dc3ff27022f4d713b8dc40ce46f4edb687c981fbeb1914"
+        },
+        {
+          "version": "2.19.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "40ea742f91b67f66e71d7091cfd40cc604528c4947651924bd6d8bd8d9793708",
+          "opentofu_sha256": "f7618c17aefffa69674be251e6f5f54cce9c6306dc25e7540b902f163c11728c"
+        },
+        {
+          "version": "2.20.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "57d5f77dcde7781803b465205aec3507780bfaa77031f5b893ae7cbebd4789b6",
+          "opentofu_sha256": "19b71e8c0b44b2e015ae079acad363244bd03d53df36e5d8f9e88a8108d84342"
+        },
+        {
+          "version": "2.21.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "a61d4c85e15df75a2f26b0b2088e69647bcc6311cd87da3a6ec596ba54a2ec2b",
+          "opentofu_sha256": "af70eedd149186c941d76294e69eb0a0adc8a9c8f3657c276644d7741fbb5d66"
+        },
+        {
+          "version": "2.21.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "156a437d7edd6813e9cb7bdff16ebce28cec08b07ba1b0f5e9cec029a217bc27",
+          "opentofu_sha256": "11b635ff8731abd7b9b965f5116eb698db1c9f4844c410a569e51f33c584db94"
+        },
+        {
+          "version": "2.22.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "50c0e8654efb46e3a3666c638ca2e0c8aec07f985fbc80f9205bed960386dc9b",
+          "opentofu_sha256": "1f7dc0f072196b999f07b82e4a0b1a3a8074c43c3b8d5d642dffdd3d0f1014e1"
+        },
+        {
+          "version": "2.23.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "c57376d169875990ac68664d227fb69cd0037b92d0eba6921d757c3fd1879080",
+          "opentofu_sha256": "8948caac6323b3f379943671c5b9dd77749de68fed6d67fbac79c1f5b9dea7bf"
+        },
+        {
+          "version": "2.24.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "1ef68c3832691de21a61bf1a4e268123f3e08850712eda0b893cac908a0d1bc1",
+          "opentofu_sha256": "9108d1959b468af928293a471cd191683a5893027ac5768ea2ee4cc33aabeff8"
+        },
+        {
+          "version": "2.25.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "d7f4cfd0a16686ec08f645e07276c88c1be9c742820abfbbafdbf685121bff54",
+          "opentofu_sha256": "374a36a6cd99b829121626ac8f92adcf317a78a50dd6ecb8038079c2a17243f7"
+        },
+        {
+          "version": "2.25.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "b6fef36d86b06aec67ffd08280e467b6a268228a4e30202e1981854de8ce7b24",
+          "opentofu_sha256": "6b2f5d3232ec0522d0ff0ba66d2a7c4e560d45157646a96d6595813b552bcfed"
+        },
+        {
+          "version": "2.25.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "49984aa0aa1faa8c4f01e8faa039322f1e6fdaeab0b7e32f5c6e96edfde36a38",
+          "opentofu_sha256": "7b4d1fa9d9612919e29a9424a316af6b4c5de766debd8a823b8ad0f28ac2d9c6"
+        },
+        {
+          "version": "2.26.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "da78995e8d6daf3acfd4c455ebbd12f6bf154cadf455f14ef35c0862e58dd2ec",
+          "opentofu_sha256": "3a79055eb0459604d21951529017928ac53fe978d98eaecae305969133e38728"
+        },
+        {
+          "version": "2.27.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "eb15ed8781ac6a0dec2f7d03cf090e23cfa05e3225806c6231ff2c574662fd63",
+          "opentofu_sha256": "2d4b9fea7e99750647e1cd8df9a67cba45905825867dd19ab01411dad6b8c6fd"
+        },
+        {
+          "version": "2.28.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "5b313b3c12090f8faacfe9cd7f46f88b691aea2427df9398c819363fbe0f179d",
+          "opentofu_sha256": "93ce9d1174b770c87358cc93d056e1b31cb5492fc204d28d4e07bd80dbda169b"
+        },
+        {
+          "version": "2.28.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "d0bdb6f8b8fd97a826ea7eaf4a8b59818e533e0fa0f3f04533b4dd34761896b6",
+          "opentofu_sha256": "7bfa119c22864c20fea02f48a58460ddf04d017a6df06befe52d3e086a8edae6"
+        },
+        {
+          "version": "2.29.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "5397573838bcb8844248c8d6ac93cca7f39a0b707ac3ce7a7b306c50c261c195",
+          "opentofu_sha256": "eb4e72d3abf937c283f702342eb1fc820b3dbfc743b1e24c84c3604c8fca1988"
+        },
+        {
+          "version": "2.30.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "bcb2ad76ad05ec23f8da62231a2360d1f70bbcd28abd06b8458a9e2f17da7873",
+          "opentofu_sha256": "e274904e3a512157bda5f3936dcc87b23663a229a368d6a62e06d439b465e594"
+        },
+        {
+          "version": "2.31.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "b71a061dda1244f6a52500e703a9524b851e7b11bbf238c17bbd282f27d51cb2",
+          "opentofu_sha256": "764173875e77aa482da4dca9fec5f77c455d028848edfc394aa7dac5dfed6afd"
+        },
+        {
+          "version": "2.32.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "92ee11e8c23bbac3536df7b124456407f35c6c2468bc0dbab15c3fc9f414bd0e",
+          "opentofu_sha256": "12ce862493717118a6bf68328448d09023a60344da25633e124423cdd734263e"
+        },
+        {
+          "version": "2.33.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "6b9f731062b945c5020e0930ed9a1b1b50afd2caf751f0e70a282d165c970979",
+          "opentofu_sha256": "00aed83f28880460431f70e5a057c9324d1228b3f76e6554199700632ca62361"
+        },
+        {
+          "version": "2.34.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "776a5000b441d7c8262d17d4a4aa4aa9760ae64de4cb7172961d9e007e0be1e5",
+          "opentofu_sha256": "66017d34ea30aee60db4cca33da5558e62568137342c9f5ce80aca3aa1c45861"
+        },
+        {
+          "version": "2.35.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "f607aa5b080a317c5ed353713cc33a4b3735e98bd4f4c15d33b494ae193db0b2",
+          "opentofu_sha256": "67085625bbed572925b81848f6ce8141db7a7be3a819dc9769ba0004d667f2cd"
+        },
+        {
+          "version": "2.35.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "739a5ddea61a77925ee7006a29c8717377a2e9d0a79a0bbd98738d92eec12c0d",
+          "opentofu_sha256": "1d4d1241cf51d7d4a036c774add1384bb1ba9ca16146334d17c730e1b41ad3e0"
+        },
+        {
+          "version": "2.36.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "07f38fcb7578984a3e2c8cf0397c880f6b3eb2a722a120a08a634a607ea495ca",
+          "opentofu_sha256": "15e42a6f8c6be77e0266edfb3765065c01e8fbcc8d75c794f1442f39cd9e6cfb"
+        },
+        {
+          "version": "2.37.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "e7bce2d7b48e9492882ccef5007448947ef245b033cfe3050b0c1b7ec6852175",
+          "opentofu_sha256": "b96ef4291efb79daff35f6b2f870e23a37cc5aeb71c0098a4bc5bdd76bc8ef65"
+        },
+        {
+          "version": "2.37.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "c55fd85b7e8acaac17e30670ac3574b88b3530820dd004bcd2a5daa8624a46e9",
+          "opentofu_sha256": "67a86d1576eb67a58cc68f47bffd370b2f834fd909980acdab38a9b9b2c1c809"
+        },
+        {
+          "version": "2.38.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "d39861aa21077f1bc899bc53e7233262e530ba8a3a2d737449b100daeb303e4d",
+          "opentofu_sha256": "96eecc9f94938a0bc35b8a63d2c4a5f972395e44206620db06760b730d0471fc"
+        }
+      ]
+    },
+    {
+      "dialect": "mongodb-atlas",
+      "source": "mongodb/mongodbatlas",
+      "version": "= 2.16.0",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/mongodb"],
+      "checks": [
+        {
+          "version": "2.16.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "374ea847c494526884c3850478dda3cc20fa8e683c46770fde4e50045bbd90b6",
+          "opentofu_sha256": "374ea847c494526884c3850478dda3cc20fa8e683c46770fde4e50045bbd90b6"
+        },
+        {
+          "version": "2.16.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "1ea0f195e29f860cfc780e617410fdc20d8b401062ffb0ece8cfa4af4c65a934",
+          "opentofu_sha256": "1ea0f195e29f860cfc780e617410fdc20d8b401062ffb0ece8cfa4af4c65a934"
+        }
+      ]
+    },
+    {
+      "dialect": "newrelic",
+      "source": "newrelic/newrelic",
+      "version": "= 3.96.4",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/newrelic"],
+      "checks": [
+        {
+          "version": "3.96.4",
+          "platform": "linux_amd64",
+          "terraform_sha256": "682058dd96f83f2ce598dd8e97b165b1db2004bf43c1dc40b7ff87595f9f7200",
+          "opentofu_sha256": "682058dd96f83f2ce598dd8e97b165b1db2004bf43c1dc40b7ff87595f9f7200"
+        },
+        {
+          "version": "3.96.4",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "b8a48df3c1ca1a8ec7bbb643e00cb4108c380c813b6c0fa21dfc6e012a2a9a22",
+          "opentofu_sha256": "b8a48df3c1ca1a8ec7bbb643e00cb4108c380c813b6c0fa21dfc6e012a2a9a22"
+        }
+      ]
+    },
+    {
+      "dialect": "okta",
+      "source": "okta/okta",
+      "version": "= 7.0.0",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/okta"],
+      "checks": [
+        {
+          "version": "7.0.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "b64a17ffb24401fb660f6cc52bee7037b3c194e76108c590dbcb3f48aa21e88c",
+          "opentofu_sha256": "b64a17ffb24401fb660f6cc52bee7037b3c194e76108c590dbcb3f48aa21e88c"
+        },
+        {
+          "version": "7.0.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "aa2a35a51c8d04febc920b60074a1f4fe3ff0fafbbf3f502abbe0672e70b9d2d",
+          "opentofu_sha256": "aa2a35a51c8d04febc920b60074a1f4fe3ff0fafbbf3f502abbe0672e70b9d2d"
+        }
+      ]
+    },
+    {
+      "dialect": "secrets",
+      "source": "hashicorp/random",
+      "version": ">= 3.0.0, < 4.0.0",
+      "archives": "rebuilt",
+      "terraform_download": ["releases.hashicorp.com"],
+      "opentofu_download": ["github.com/opentofu"],
+      "checks": [
+        {
+          "version": "3.0.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "c73e0eaeea6c65b1cf5098b101d51a2789b054201ce7986a6d206a9e2dacaefd",
+          "opentofu_sha256": "54f318e3e5e9993c5d884bdbcdad7fd293329ddcb26eb29b278c2581cbd74d73"
+        },
+        {
+          "version": "3.0.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "e385e00e7425dda9d30b74ab4ffa4636f4b8eb23918c0b763f0ffab84ece0c5c",
+          "opentofu_sha256": "a8a68e64674fa528da206b883ee824e419096565d6beadc5a804f136d180d079"
+        },
+        {
+          "version": "3.1.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "d9e13427a7d011dbd654e591b0337e6074eef8c3b9bb11b2e39eaaf257044fd7",
+          "opentofu_sha256": "f8f2708c8f9c38cac4900dd82550599d80dff57363e74eec6545458b6815eba6"
+        },
+        {
+          "version": "3.1.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "d5d065af722ad73874f952c0a0d75a35e7c58bceba153b2411e869ad41ff0aa8",
+          "opentofu_sha256": "d8d3c25198c59b716c8f751339e7b54b1e1c60da700e3badfbbe1e3080e14e50"
+        },
+        {
+          "version": "3.1.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "6bac6501394b87138a5e17c9f3a41e46ff7833ad0ba2a96197bb7787e95b641c",
+          "opentofu_sha256": "bf36583ce8455fb5241a5bd6566961eb1b88497dc20f94448c3cf1d99a84970a"
+        },
+        {
+          "version": "3.1.3",
+          "platform": "linux_amd64",
+          "terraform_sha256": "bcf7806b99b4c248439ae02c8e21f77aff9fadbc019ce619b929eef09d1221bb",
+          "opentofu_sha256": "fff0ead87fe6f5eb35615ed05af5b9a5b7f07fde244124eae024bfb0b90310e0"
+        },
+        {
+          "version": "3.2.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "848b4a294e5ba15192ee4bfd199c07f60a437d7572efcd2d89db036e1ebc0e6e",
+          "opentofu_sha256": "de163595df8ded05155b36e7c055e25202475c796ff2d91b661506a3e5de168f"
+        },
+        {
+          "version": "3.3.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "8c46658d69142562984be3c6aa9ea29b2d389f8c991197b722c550e8a34fe49c",
+          "opentofu_sha256": "f47fec7241900cea28db8e4cb39dd394d329eb5b403320b6f744353810c1abb8"
+        },
+        {
+          "version": "3.3.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "6b4418698a62a39dc9f6ac82f0a48bc115a4ab409435ba918511837f02817f44",
+          "opentofu_sha256": "a2e47afb61770c1fbbd7e790cde845769d7f9a3f93bcb5d0e7346fcb69c053fd"
+        },
+        {
+          "version": "3.3.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "b8f85b6a20bd264fcd0814866f415f0a368d1123cd7879c8ebbf905d370babc8",
+          "opentofu_sha256": "81542311f3d1fac213c9c25d3650de2a0d54cc480ec9c5abc16d88f9802b82b0"
+        },
+        {
+          "version": "3.4.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "6d5d0bc60b0f6762f90ecc246a2d245c16e945ff78c3ce2be5d022302d878211",
+          "opentofu_sha256": "f8d0c700afbe2032efcb649c2396fa8927d2ffcd780b53bd3cca71d939d353ec"
+        },
+        {
+          "version": "3.4.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "0cbde9a961a3d4581edbf3af8137eac11e52b9b8b6117a6bda916150b68f7281",
+          "opentofu_sha256": "6928fd20a6f67ca911e1dd727e53e18da47037f53e94338da33fb9c4d64d30fb"
+        },
+        {
+          "version": "3.4.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "6661b4953b875857c3ac99fb1006daf314acebf2d1748045d208ebc8cbc647cd",
+          "opentofu_sha256": "35662973f144ad82b56425ab96d7cfaa5a437b84df752e144c602c9d92dcfb2e"
+        },
+        {
+          "version": "3.4.3",
+          "platform": "linux_amd64",
+          "terraform_sha256": "59d98081c4475f2ad77d881c4412c5129c56214892f490adf11c7e7a5a47de9b",
+          "opentofu_sha256": "ee058d8839b35e1dbcfea224652e6e921e015d3454e0c06e8afce3516bb50910"
+        },
+        {
+          "version": "3.5.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "6c5d33b170de17c0e045c30b973f265af02c8ad15d694d5337501592244c936c",
+          "opentofu_sha256": "df1234aba0e3eed333bb895f55029e325a359d2f2c17f8c3f56860d13620b8f7"
+        },
+        {
+          "version": "3.5.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "de8febe2a2acd9ac454b844a4106ed295ae9520ef54dc8ed2faf29f12716b602",
+          "opentofu_sha256": "d8956cc5abcd5d1173b6cc25d5d8ed2c5cc456edab2fddb774a17d45e84820cb"
+        },
+        {
+          "version": "3.6.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "aa57384b85622a9f7bfb5d4512ca88e61f22a9cea9f30febaa4c98c68ff0dc21",
+          "opentofu_sha256": "c795d3d319e8ee7be972746b935963b7e772a6a14080261a35c03915c1f9ccb2"
+        },
+        {
+          "version": "3.6.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "982542e921970d727ce10ed64795bf36c4dec77a5db0741d4665230d12250a0d",
+          "opentofu_sha256": "44ef27a972540435efa88f323280f96d6ac77934079225e7fcc3560cc28aae59"
+        },
+        {
+          "version": "3.6.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "4210550a767226976bc7e57d988b9ce48f4411fa8a60cd74a6b246baf7589dad",
+          "opentofu_sha256": "d2a7945eeb691fdd2b1474da76ddc2d1655e2aedbb14b57f06d4f5123d47adf9"
+        },
+        {
+          "version": "3.6.3",
+          "platform": "linux_amd64",
+          "terraform_sha256": "4b4c11ccfba7319e901df2dac836b1ae8f12185e37249e8d870ee10bb87a13fe",
+          "opentofu_sha256": "21a15ac74adb8ba499aab989a4248321b51946e5431219b56fc827e565776714"
+        },
+        {
+          "version": "3.7.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "3218320de4be943e5812ed3de995946056db86eb8d03aa3f074e0c7316599bef",
+          "opentofu_sha256": "28785c36d6dc331d49e8bf6a30d4ba21ae4378f5d98c43c0aeb42f51efb2e42f"
+        },
+        {
+          "version": "3.7.2",
+          "platform": "linux_amd64",
+          "terraform_sha256": "7b8434212eef0f8c83f5a90c6d76feaf850f6502b61b53c329e85b3b281cba34",
+          "opentofu_sha256": "9b0ac4c1d8e36a86b59ced94fa517ae9b015b1d044b3455465cc6f0eab70915d"
+        },
+        {
+          "version": "3.8.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "1c56852d094161997df5fd8a6cbca7c6c979b3f8c3c00fbcc374a59305d117b1",
+          "opentofu_sha256": "cbb2aa867fd828fcb4125239e00862b9a3bc2f280e945c760224276b476f4c49"
+        },
+        {
+          "version": "3.8.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "37d7eb334d9561f335e748280f5535a384a88675af9a9eac439d4cfd663bcb66",
+          "opentofu_sha256": "7699032612c3b16cc69928add8973de47b10ce81b1141f30644a0e8a895b5cd3"
+        },
+        {
+          "version": "3.9.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "c51f15a031edfd6f23ce8ced3446ca7f8d8d647e2499890d7d5d10d5016d7257",
+          "opentofu_sha256": "e2deaa8a9975ef81d9f62baed12c41286918b0a10908e0e031f13f69a3b730a1"
+        },
+        {
+          "version": "3.9.1",
+          "platform": "linux_amd64",
+          "terraform_sha256": "60b4f8a8ef18f52bf8e19215229dae408bee732825964092db7c989fd2de4097",
+          "opentofu_sha256": "624fb6ed552abc34a5aaac41e76a373da65ac08e524b09b672f29c60e6ac896a"
+        }
+      ]
+    },
+    {
+      "dialect": "snowflake",
+      "source": "snowflakedb/snowflake",
+      "version": "= 2.20.0",
+      "archives": "identical",
+      "terraform_download": ["github.com"],
+      "opentofu_download": ["github.com/snowflakedb"],
+      "checks": [
+        {
+          "version": "2.20.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "dd09d31e1367deec9f4318435b3d37fc72c8f61d9f9154fb9157ac9b329cace2",
+          "opentofu_sha256": "dd09d31e1367deec9f4318435b3d37fc72c8f61d9f9154fb9157ac9b329cace2"
+        },
+        {
+          "version": "2.20.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "ab4eed4e0aa49d7e36be28fd73a2099dce03b7edae6e70a6812a39f5bfbf2e47",
+          "opentofu_sha256": "ab4eed4e0aa49d7e36be28fd73a2099dce03b7edae6e70a6812a39f5bfbf2e47"
+        }
+      ]
+    },
+    {
+      "dialect": "vault",
+      "source": "hashicorp/vault",
+      "version": "= 5.11.0",
+      "archives": "rebuilt",
+      "terraform_download": ["releases.hashicorp.com"],
+      "opentofu_download": ["github.com/opentofu"],
+      "checks": [
+        {
+          "version": "5.11.0",
+          "platform": "linux_amd64",
+          "terraform_sha256": "829a65d7faa991f2250f12d5edb25630cd07db8e857a318abb2902cfc3c830f1",
+          "opentofu_sha256": "cf35e72d633197a35b63c8b4ad7c567305dddbd1aaba3f56f627f5c684b69011"
+        },
+        {
+          "version": "5.11.0",
+          "platform": "darwin_arm64",
+          "terraform_sha256": "1b62b55f7dffcefb456519ed844c6e7ec7caa0757f8fe1531d9afd59f48d2b0e",
+          "opentofu_sha256": "9071383ec3933054e3c92ef42e7669173d6b5b1e821031b8fe5cf2ce4c7faf6b"
+        }
+      ]
+    }
+  ]
+}

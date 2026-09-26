@@ -160,7 +160,7 @@ secondary resource can be present in the document without a permanent card in
 every Explorer scene. Link to [Explorer navigation](../guides/explore-architecture.md#reveal-a-secondary-resource)
 instead of calling it missing. In Diff, `undetermined` is neither no change
 nor proof that the comparison failed. Link to
-[Architecture Diff](../concepts/diff.md#undetermined-preserves-uncertainty).
+[Architecture comparisons](../concepts/diff.md).
 
 ## Write directly, with natural rhythm
 
@@ -185,8 +185,8 @@ dots in technical prose.
 | --- | --- |
 | In this guide, we will explore how to get started with Rootform. | Build a VPC and subnet from a small Terraform configuration. |
 | Simply leverage the offline flag for seamless local execution. | Use `init --offline` or `vendor … --offline` to prevent acquisition. Selected third-party content must already be available locally. |
-| Rootform ensures your infrastructure is secure. | `rootform check` evaluates policies selected for this project. |
-| Current access: the executable emits text, JSON, Markdown, and HTML. | `rootform diff` emits text, JSON, Markdown, or HTML. |
+| Rootform ensures your infrastructure is secure. | `rootform run plan.json --policy-pack ./policies` evaluates selected policies. |
+| Current access: the executable emits text, JSON, Markdown, and HTML. | `rootform run before.json --diff after.json` emits a comparison document. |
 | With these steps, you are ready to continue. | Link to next concrete task, or stop. |
 
 ## Use structure only when it reveals meaning

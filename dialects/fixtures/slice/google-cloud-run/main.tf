@@ -7,9 +7,9 @@ terraform {
   }
 }
 
-variable "unknown_project" { type = string }
-variable "unknown_connector" { type = string }
-variable "unknown_service_account" { type = string }
+resource "terraform_data" "unknown_project" {}
+resource "terraform_data" "unknown_connector" {}
+resource "terraform_data" "unknown_service_account" {}
 
 resource "google_project" "platform" {
   name       = "platform"
@@ -105,12 +105,12 @@ resource "google_cloud_run_v2_service" "literal" {
 resource "google_cloud_run_v2_service" "unknown" {
   name     = "unknown"
   location = "europe-west1"
-  project  = var.unknown_project
+  project  = terraform_data.unknown_project.id
 
   template {
-    service_account = var.unknown_service_account
+    service_account = terraform_data.unknown_service_account.id
     containers { image = "example.invalid/unknown" }
-    vpc_access { connector = var.unknown_connector }
+    vpc_access { connector = terraform_data.unknown_connector.id }
   }
 }
 

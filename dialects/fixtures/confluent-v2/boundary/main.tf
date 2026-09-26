@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
+      version = "= 6.62.0"
     }
     confluent = {
       source  = "confluentinc/confluent"
@@ -10,19 +11,24 @@ terraform {
   }
 }
 
+# Reads of this provider need its API, so the plan defers them until apply.
+resource "terraform_data" "defer_reads" {
+}
 variable "choose_first" {
   type    = bool
   default = true
 }
 
 resource "aws_vpc" "first" {
+
   cidr_block = "10.60.0.0/16"
-}
 
+}
 resource "aws_vpc" "second" {
-  cidr_block = "10.70.0.0/16"
-}
 
+  cidr_block = "10.70.0.0/16"
+
+}
 resource "aws_vpc_endpoint" "first" {
   vpc_id       = aws_vpc.first.id
   service_name = "com.amazonaws.vpce.us-east-1.first"
@@ -34,14 +40,16 @@ resource "aws_vpc_endpoint" "second" {
 }
 
 resource "confluent_environment" "boundary" {
-  display_name = "Boundary"
-}
 
-resource "confluent_network" "boundary" {
   display_name = "Boundary"
-  cloud        = "AWS"
-  region       = "us-east-1"
-  cidr         = "10.80.0.0/16"
+
+}
+resource "confluent_network" "boundary" {
+  connection_types = ["fixture"]
+  display_name     = "Boundary"
+  cloud            = "AWS"
+  region           = "us-east-1"
+  cidr             = "10.80.0.0/16"
 
   environment {
     id = confluent_environment.boundary.id
@@ -49,6 +57,9 @@ resource "confluent_network" "boundary" {
 }
 
 resource "confluent_gateway" "boundary" {
+  aws_egress_private_link_gateway {
+    region = "us-central1"
+  }
   display_name = "Boundary"
 
   environment {
@@ -100,6 +111,7 @@ resource "confluent_peering" "literal" {
   }
 
   aws {
+    routes          = ["fixture"]
     account         = "111111111111"
     customer_region = "us-east-1"
     vpc             = "vpc-literal"
@@ -118,6 +130,7 @@ resource "confluent_peering" "ambiguous" {
   }
 
   aws {
+    routes          = ["fixture"]
     account         = "111111111111"
     customer_region = "us-east-1"
     vpc             = var.choose_first ? aws_vpc.first.id : aws_vpc.second.id
@@ -186,24 +199,34 @@ resource "confluent_flink_statement" "boundary" {
 }
 
 resource "confluent_certificate_authority" "boundary" {
-  display_name      = "Boundary"
-  certificate_chain = "ROOTFORM_CONFLUENT_BOUNDARY_CERTIFICATE"
+  description                = "fx-boundary-description"
+  certificate_chain_filename = "fx-boundary-certificate-chain-filename"
+  display_name               = "Boundary"
+  certificate_chain          = "ROOTFORM_CONFLUENT_BOUNDARY_CERTIFICATE"
 }
 
 resource "confluent_api_key" "credential" {
+  owner {
+    kind        = "ServiceAccount"
+    id          = "sa-fixture1"
+    api_version = "iam/v2"
+  }
   display_name = "Credential"
 }
 
 resource "confluent_invitation" "administration" {
+
   email = "admin@example.com"
-}
 
+}
 resource "confluent_tf_importer" "imperative" {
-  path = "imports.tf"
-}
 
+  output_path = "imports.tf"
+
+}
 data "confluent_kafka_cluster" "lookup" {
-  id = "lkc-literal"
+  depends_on = [terraform_data.defer_reads]
+  id         = "lkc-literal"
 
   environment {
     id = confluent_environment.boundary.id

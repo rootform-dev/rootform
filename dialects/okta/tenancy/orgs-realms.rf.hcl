@@ -29,6 +29,15 @@ rule "realm" {
   }
 
   as = concept.identity-realm
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "realm-assignment" {
@@ -39,8 +48,15 @@ rule "realm-assignment" {
   as = concept.authentication-configuration
 
   contribution {
-    to  = concept.identity-realm
-    via = source.realm_id
+    to       = concept.identity-realm
+    via      = source.realm_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -53,8 +69,15 @@ rule "realm-assignment-lookup" {
   as = concept.authentication-configuration
 
   contribution {
-    to  = concept.identity-realm
-    via = source.realm_id
+    to       = concept.identity-realm
+    via      = source.realm_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -65,4 +88,13 @@ rule "realm-lookup" {
   }
 
   as = concept.identity-realm
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

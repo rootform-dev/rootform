@@ -18,34 +18,63 @@ rule "log-integration" {
   as = concept.log-integration
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "exports-to-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "exports-to-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.storage_container_name
-  }
-
-  relation "uses-key" {
-    to  = concept.encryption-key
-    via = source.kms_key
+    to       = rf.concept.object-storage-container
+    via      = source.storage_container_name
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "uses-cloud-authorization" {
-    to  = concept.cloud-provider-authorization
-    via = source.iam_role_id
+    to       = concept.cloud-provider-authorization
+    via      = source.iam_role_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.role_id
+      strategy = "exact"
+    }
+
+    # Shared cloud-provider-authorization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-authorization" {
-    to  = concept.cloud-provider-authorization
-    via = source.role_id
+    to       = concept.cloud-provider-authorization
+    via      = source.role_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.role_id
+      strategy = "exact"
+    }
+
+    # Shared cloud-provider-authorization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -57,19 +86,41 @@ rule "push-based-log-export" {
   as = concept.log-integration
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "exports-to-storage" {
-    to  = rf.concept.object-storage-container
-    via = source.bucket_name
+    to       = rf.concept.object-storage-container
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "uses-cloud-authorization" {
-    to  = concept.cloud-provider-authorization
-    via = source.iam_role_id
+    to       = concept.cloud-provider-authorization
+    via      = source.iam_role_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.role_id
+      strategy = "exact"
+    }
+
+    # Shared cloud-provider-authorization instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -81,9 +132,19 @@ rule "metric-integration" {
   as = concept.metric-integration
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -95,8 +156,18 @@ rule "alert-configuration" {
   as = concept.observability-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -108,7 +179,17 @@ rule "third-party-integration" {
   as = concept.observability-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

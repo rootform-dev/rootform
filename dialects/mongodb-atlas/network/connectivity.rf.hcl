@@ -25,10 +25,29 @@ rule "network-container" {
 
   as = concept.atlas-network-container
 
+  identity {
+    attributes = ["id", "container_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "container_id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -40,29 +59,52 @@ rule "network-peering" {
   as = concept.network-peering
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "connects-atlas-network" {
-    to  = concept.atlas-network-container
-    via = source.container_id
+    to       = concept.atlas-network-container
+    via      = source.container_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.container_id
+      strategy = "exact"
+    }
   }
 
   relation "connects-cloud-network" {
-    to  = rf.concept.virtual-network
-    via = source.vpc_id
+    to       = rf.concept.virtual-network
+    via      = source.vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "connects-cloud-network" {
-    to  = rf.concept.virtual-network
-    via = source.vnet_name
+    to       = rf.concept.virtual-network
+    via      = source.vnet_name
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "connects-cloud-network" {
-    to  = rf.concept.virtual-network
-    via = source.network_name
+    to       = rf.concept.virtual-network
+    via      = source.network_name
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -73,10 +115,29 @@ rule "private-endpoint-service" {
 
   as = concept.private-endpoint-service
 
+  identity {
+    attributes = ["id", "private_link_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "private_link_id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -88,19 +149,43 @@ rule "private-endpoint-registration" {
   as = concept.private-endpoint-registration
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "registers-atlas-service" {
-    to  = concept.private-endpoint-service
-    via = source.private_link_id
+    to       = concept.private-endpoint-service
+    via      = source.private_link_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.private_link_id
+      strategy = "exact"
+    }
   }
 
   relation "registers-cloud-endpoint" {
-    to  = concept.private-endpoint
-    via = source.endpoint_service_id
+    to       = concept.private-endpoint
+    via      = source.endpoint_service_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -112,14 +197,31 @@ rule "data-service-private-endpoint" {
   as = concept.data-service-private-endpoint
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-endpoint" {
-    to  = concept.private-endpoint
-    via = source.endpoint_id
+    to       = concept.private-endpoint
+    via      = source.endpoint_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -131,8 +233,18 @@ rule "private-endpoint-regional-mode" {
   as = concept.network-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -144,8 +256,18 @@ rule "project-ip-access-list" {
   as = concept.network-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -157,7 +279,17 @@ rule "custom-dns-configuration-aws" {
   as = concept.network-configuration
 
   contribution {
-    to  = concept.project
-    via = source.project_id
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

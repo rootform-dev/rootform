@@ -12,6 +12,15 @@ rule "account" {
   }
 
   as = concept.account
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "managed-account" {
@@ -20,6 +29,15 @@ rule "managed-account" {
   }
 
   as = concept.account
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "current-account" {

@@ -27,14 +27,28 @@ rule "packer-artifact-lookup" {
   as = concept.packer-artifact
 
   context {
-    as  = context.ownership
-    to  = concept.packer-bucket
-    via = source.bucket_name
+    as       = context.ownership
+    to       = concept.packer-bucket
+    via      = source.bucket_name
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   relation "belongs-to-version" {
-    to  = concept.packer-version
-    via = source.version_fingerprint
+    to       = concept.packer-version
+    via      = source.version_fingerprint
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.fingerprint
+      strategy = "exact"
+    }
   }
 }
 
@@ -45,10 +59,29 @@ rule "packer-bucket" {
 
   as = concept.packer-bucket
 
+  identity {
+    attributes = ["name", "resource_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "resource_name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -60,8 +93,15 @@ rule "packer-bucket-iam-binding" {
   as = concept.packer-configuration
 
   contribution {
-    to  = concept.packer-bucket
-    via = source.resource_name
+    to       = concept.packer-bucket
+    via      = source.resource_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_name
+      strategy = "exact"
+    }
   }
 }
 
@@ -73,8 +113,15 @@ rule "packer-bucket-iam-policy" {
   as = concept.packer-configuration
 
   contribution {
-    to  = concept.packer-bucket
-    via = source.resource_name
+    to       = concept.packer-bucket
+    via      = source.resource_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_name
+      strategy = "exact"
+    }
   }
 }
 
@@ -85,10 +132,26 @@ rule "packer-channel" {
 
   as = concept.packer-channel
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.packer-bucket
-    via = source.bucket_name
+    as       = context.ownership
+    to       = concept.packer-bucket
+    via      = source.bucket_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -100,13 +163,27 @@ rule "packer-channel-assignment" {
   as = concept.packer-configuration
 
   contribution {
-    to  = concept.packer-channel
-    via = source.channel_name
+    to       = concept.packer-channel
+    via      = source.channel_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.packer-version
-    via = source.version_fingerprint
+    to       = concept.packer-version
+    via      = source.version_fingerprint
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.fingerprint
+      strategy = "exact"
+    }
   }
 }
 
@@ -118,14 +195,37 @@ rule "packer-version-lookup" {
 
   as = concept.packer-version
 
+  identity {
+    attributes = ["id", "fingerprint"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "fingerprint"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.packer-bucket
-    via = source.bucket_name
+    as       = context.ownership
+    to       = concept.packer-bucket
+    via      = source.bucket_name
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   relation "selected-by-channel" {
-    to  = concept.packer-channel
-    via = source.channel_name
+    to       = concept.packer-channel
+    via      = source.channel_name
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }

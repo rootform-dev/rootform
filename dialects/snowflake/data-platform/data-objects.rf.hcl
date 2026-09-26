@@ -14,15 +14,29 @@ rule "dynamic-table" {
   as = concept.dynamic-table
 
   context {
-    as  = context.ownership
-    to  = concept.schema
-    via = source.schema
+    as       = context.ownership
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = rf.context.runtime
-    to  = concept.virtual-warehouse
-    via = source.warehouse
+    as       = rf.context.runtime
+    to       = concept.virtual-warehouse
+    via      = source.warehouse
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -34,8 +48,15 @@ rule "external-table" {
   as = concept.data-object-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
 }
@@ -48,8 +69,15 @@ rule "hybrid-table" {
   as = concept.data-object-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -61,8 +89,15 @@ rule "iceberg-table" {
   as = concept.data-object-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
 }
@@ -75,8 +110,15 @@ rule "iceberg-table-from-aws-glue" {
   as = concept.data-object-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
 }
@@ -89,8 +131,15 @@ rule "iceberg-table-from-delta-files" {
   as = concept.data-object-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
 }
@@ -103,8 +152,15 @@ rule "iceberg-table-from-files" {
   as = concept.data-object-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
 }
@@ -117,8 +173,15 @@ rule "iceberg-table-from-rest" {
   as = concept.data-object-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
 }
@@ -131,7 +194,14 @@ rule "semantic-view" {
   as = concept.data-object-configuration
 
   contribution {
-    to  = concept.schema
-    via = source.schema
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }

@@ -4,4 +4,13 @@ rule "resource-group" {
   }
 
   as = concept.resource-group
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }

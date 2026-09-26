@@ -8,8 +8,13 @@
   },
   "rules": {
     "binding": "generic/identity",
+    "existing-role": "generic/identity",
+    "flow": "generic/entity",
     "group": "generic/identity",
+    "namespace": "generic/scope",
     "namespace-secret": "generic/identity",
+    "role": "generic/identity",
+    "user": "generic/identity",
     "user-password": "generic/identity"
   }
 }

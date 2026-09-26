@@ -21,10 +21,29 @@ rule "ad-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["backend"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "backend"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -51,10 +70,29 @@ rule "alicloud-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["mount"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["mount"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -73,10 +111,29 @@ rule "aws-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
 }
@@ -104,10 +161,29 @@ rule "azure-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -134,10 +210,29 @@ rule "consul-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -157,8 +252,15 @@ rule "database-secret-backend-connection" {
   as = concept.secrets-engine-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -170,8 +272,15 @@ rule "database-secret-backend-role" {
   as = concept.secrets-engine-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -183,8 +292,15 @@ rule "database-secret-backend-static-role" {
   as = concept.secrets-engine-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.backend
+    to       = concept.secrets-engine
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -195,10 +311,29 @@ rule "database-secrets-mount" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -209,15 +344,36 @@ rule "gcp-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.service_account_email
+    to       = rf.concept.service-identity
+    via      = source.service_account_email
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -252,10 +408,29 @@ rule "gcpkms-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -283,10 +458,29 @@ rule "kmip-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -297,15 +491,36 @@ rule "kubernetes-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "issues-kubernetes-credentials-for" {
-    to  = rf.concept.kubernetes-cluster
-    via = source.kubernetes_host
+    to       = rf.concept.kubernetes-cluster
+    via      = source.kubernetes_host
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -333,8 +548,15 @@ rule "kv-secret-backend-v2" {
   as = concept.secrets-engine-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.mount
+    to       = concept.secrets-engine
+    via      = source.mount
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -371,10 +593,29 @@ rule "ldap-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -409,10 +650,29 @@ rule "mongodbatlas-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -431,10 +691,29 @@ rule "mount" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -445,10 +724,29 @@ rule "nomad-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["backend"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "backend"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -468,8 +766,15 @@ rule "os-secret-backend" {
   as = concept.secrets-engine-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.mount
+    to       = concept.secrets-engine
+    via      = source.mount
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -496,10 +801,29 @@ rule "rabbitmq-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -519,8 +843,15 @@ rule "spiffe-secret-backend-config" {
   as = concept.secrets-engine-configuration
 
   contribution {
-    to  = concept.secrets-engine
-    via = source.mount
+    to       = concept.secrets-engine
+    via      = source.mount
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -547,10 +878,29 @@ rule "terraform-cloud-secret-backend" {
 
   as = concept.secrets-engine
 
+  identity {
+    attributes = ["backend"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "backend"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 

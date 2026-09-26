@@ -1,0 +1,4437 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:fe48cbad33bd733397397af16817e33ecfa65d05dac5e2ba93d1088e1bc7527a",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:fe48cbad33bd733397397af16817e33ecfa65d05dac5e2ba93d1088e1bc7527a",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:cc4875cd08488d87263aefc27ee7afae00c34d67ba909f85ca19f0a68f19fc1d",
+          "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:382d380e6f27543ac44621bd22aa5bc44747aa9bd5ae035466ae8abaa408be0e",
+          "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:bba9603afbaf2c26859430f582f78c7db9eedde6afeebd9a6128f9ab8dd1c558",
+          "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+          "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e421468f2cb4c36fbdbeae37b526c1dbb96469c3c8299f4219203a0d97f73406",
+          "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9ce33af4d529ded73f03da160af6ada26f0a53433bd8fc87d3bd3890f653f5b2",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+          "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cc4875cd08488d87263aefc27ee7afae00c34d67ba909f85ca19f0a68f19fc1d",
+        "semantic_digest": "sha256:70d201f9157495fe1c41359a764af8115f91cdb293330ab9192900de79bf9265",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:382d380e6f27543ac44621bd22aa5bc44747aa9bd5ae035466ae8abaa408be0e",
+        "semantic_digest": "sha256:19ddcb849a034c026fc346398b61a68dfc2b9dbf413f26a2875b0bc8fb3adc9b",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:bba9603afbaf2c26859430f582f78c7db9eedde6afeebd9a6128f9ab8dd1c558",
+        "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+        "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e421468f2cb4c36fbdbeae37b526c1dbb96469c3c8299f4219203a0d97f73406",
+        "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9ce33af4d529ded73f03da160af6ada26f0a53433bd8fc87d3bd3890f653f5b2",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e7d2c50160764dd9dd5a3c30bf44bfcbf259beb4a5f78ae8b53b456a619cbdbc",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:3a91134fa616105358c2e18c7a3da911a876c3c2512ba5d35afa975174cc61ce",
+        "semantic_digest": "sha256:6390acb9260b0334c8aa2678c401c8590d17ba8cfd1ec66bb4bcd53f97e684b1",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:952587666fdefe5fff31ecb86be8423fc937fae6d26bf480b14b9ab51f995663",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:600d236751fe6fb4ccd69094fb68b8928e384bd996090a13c97c55f91c465d20",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "azure.concept.resource-group",
+        "owner": "azure",
+        "name": "resource-group",
+        "description": "An Azure Resource Group lifecycle and access boundary."
+      },
+      {
+        "id": "cloudflare.concept.account",
+        "owner": "cloudflare",
+        "name": "account",
+        "description": "A Cloudflare account as a tenancy and ownership boundary."
+      },
+      {
+        "id": "confluent.concept.environment",
+        "owner": "confluent",
+        "name": "environment",
+        "description": "An isolated Confluent Cloud namespace for organizational and lifecycle ownership."
+      },
+      {
+        "id": "datadog.concept.application-datastore",
+        "owner": "datadog",
+        "name": "application-datastore",
+        "description": "A Datadog-managed datastore used by App Builder and Workflow Automation."
+      },
+      {
+        "id": "datadog.concept.automation-application",
+        "owner": "datadog",
+        "name": "automation-application",
+        "description": "An application assembled and published with Datadog App Builder."
+      },
+      {
+        "id": "datadog.concept.automation-workflow",
+        "owner": "datadog",
+        "name": "automation-workflow",
+        "description": "A Datadog workflow coordinating operational actions across integrations."
+      },
+      {
+        "id": "datadog.concept.browser-observability-application",
+        "owner": "datadog",
+        "name": "browser-observability-application",
+        "description": "An application boundary instrumented for browser or frontend observability."
+      },
+      {
+        "id": "datadog.concept.catalog-definition",
+        "owner": "datadog",
+        "name": "catalog-definition",
+        "description": "An opaque service or entity definition supporting Datadog Software Catalog."
+      },
+      {
+        "id": "datadog.concept.cloud-observability-integration",
+        "owner": "datadog",
+        "name": "cloud-observability-integration",
+        "description": "A provider-neutral integration collecting telemetry and resource data from a cloud account, subscription, or project."
+      },
+      {
+        "id": "datadog.concept.observability-tenant",
+        "owner": "datadog",
+        "name": "observability-tenant",
+        "description": "A provider-neutral account, organization, or stack boundary isolating observability data and configuration."
+      },
+      {
+        "id": "datadog.concept.organization-connection",
+        "owner": "datadog",
+        "name": "organization-connection",
+        "description": "A Datadog cross-organization metrics or logs visibility connection."
+      },
+      {
+        "id": "datadog.concept.security-configuration",
+        "owner": "datadog",
+        "name": "security-configuration",
+        "description": "A Datadog Cloud Security policy, framework, detection, or data-scanning configuration."
+      },
+      {
+        "id": "datadog.concept.service-integration",
+        "owner": "datadog",
+        "name": "service-integration",
+        "description": "A Datadog connection that collects telemetry from an external service or account."
+      },
+      {
+        "id": "datadog.concept.service-integration-configuration",
+        "owner": "datadog",
+        "name": "service-integration-configuration",
+        "description": "A resource or service selection supporting a Datadog integration."
+      },
+      {
+        "id": "datadog.concept.service-objective",
+        "owner": "datadog",
+        "name": "service-objective",
+        "description": "A provider-neutral service level indicator or objective supporting architecture operations."
+      },
+      {
+        "id": "datadog.concept.synthetic-check",
+        "owner": "datadog",
+        "name": "synthetic-check",
+        "description": "A synthetic check supporting an observed target without owning target runtime."
+      },
+      {
+        "id": "datadog.concept.telemetry-configuration",
+        "owner": "datadog",
+        "name": "telemetry-configuration",
+        "description": "A processing, indexing, routing, retention, or enrichment detail for telemetry."
+      },
+      {
+        "id": "datadog.concept.telemetry-destination",
+        "owner": "datadog",
+        "name": "telemetry-destination",
+        "description": "A durable archive or forwarding destination for Datadog logs."
+      },
+      {
+        "id": "google.concept.google-cloud-project",
+        "owner": "google",
+        "name": "google-cloud-project",
+        "description": "A Google Cloud project serving as a resource and billing boundary."
+      }
+    ],
+    "contexts": [],
+    "relations": [
+      {
+        "id": "datadog.relation.shares-telemetry-with",
+        "owner": "datadog",
+        "name": "shares-telemetry-with"
+      }
+    ],
+    "rules": [
+      {
+        "id": "azure.rule.resource-group",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_resource_group",
+        "concept": "azure.concept.resource-group",
+        "identity": {
+          "attributes": [
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "cloudflare.rule.account",
+        "owner": "cloudflare",
+        "match_kind": "resource",
+        "match_type": "cloudflare_account",
+        "concept": "cloudflare.concept.account",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "confluent.rule.environment",
+        "owner": "confluent",
+        "match_kind": "resource",
+        "match_type": "confluent_environment",
+        "concept": "confluent.concept.environment",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.action-connection",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_action_connection",
+        "concept": "datadog.concept.service-integration",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.action-connection-lookup",
+        "owner": "datadog",
+        "match_kind": "data",
+        "match_type": "datadog_action_connection",
+        "concept": "datadog.concept.service-integration",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.app-builder-app",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_app_builder_app",
+        "concept": "datadog.concept.automation-application",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.app-builder-app-lookup",
+        "owner": "datadog",
+        "match_kind": "data",
+        "match_type": "datadog_app_builder_app",
+        "concept": "datadog.concept.automation-application",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.child-organization",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_child_organization",
+        "concept": "datadog.concept.observability-tenant",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "public_id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.compliance-custom-framework",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_compliance_custom_framework",
+        "concept": "datadog.concept.security-configuration",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.csm-threats-policy",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_csm_threats_policy",
+        "concept": "datadog.concept.security-configuration",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.datastore",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_datastore",
+        "concept": "datadog.concept.application-datastore",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.datastore-item",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_datastore_item",
+        "concept": "datadog.concept.service-integration-configuration",
+        "emissions": [
+          "emission:13f78d0feb43fbe3dc91036c1b194023ba59e803ccd71e46dd6ae5298f1cda87"
+        ]
+      },
+      {
+        "id": "datadog.rule.datastore-item-lookup",
+        "owner": "datadog",
+        "match_kind": "data",
+        "match_type": "datadog_datastore_item",
+        "concept": "datadog.concept.service-integration-configuration",
+        "emissions": [
+          "emission:fca7baf89a9ed5eba702f30338e9f5ef040914a2b89024fcffe250064ef1df3d"
+        ]
+      },
+      {
+        "id": "datadog.rule.datastore-lookup",
+        "owner": "datadog",
+        "match_kind": "data",
+        "match_type": "datadog_datastore",
+        "concept": "datadog.concept.application-datastore",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.integration-aws-account",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_integration_aws_account",
+        "concept": "datadog.concept.cloud-observability-integration",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.integration-azure",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_integration_azure",
+        "concept": "datadog.concept.cloud-observability-integration",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.integration-cloudflare-account",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_integration_cloudflare_account",
+        "concept": "datadog.concept.service-integration",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.integration-confluent-account",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_integration_confluent_account",
+        "concept": "datadog.concept.service-integration",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.integration-confluent-resource",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_integration_confluent_resource",
+        "concept": "datadog.concept.service-integration-configuration",
+        "emissions": [
+          "emission:bd414430368dbe6301aff125805cf4ac40abc630ffb31eb043ddda6ed573bc8c"
+        ]
+      },
+      {
+        "id": "datadog.rule.integration-fastly-account",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_integration_fastly_account",
+        "concept": "datadog.concept.service-integration",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.integration-fastly-service",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_integration_fastly_service",
+        "concept": "datadog.concept.service-integration-configuration",
+        "emissions": [
+          "emission:d3735842b64e5c7d3786ea0a6160fb8f829d2786f7f563448511683537f0c8be"
+        ]
+      },
+      {
+        "id": "datadog.rule.integration-gcp",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_integration_gcp",
+        "concept": "datadog.concept.cloud-observability-integration",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.integration-gcp-sts",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_integration_gcp_sts",
+        "concept": "datadog.concept.cloud-observability-integration",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.logs-archive",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_logs_archive",
+        "concept": "datadog.concept.telemetry-destination",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.logs-archive-order",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_logs_archive_order",
+        "concept": "datadog.concept.telemetry-configuration",
+        "emissions": [
+          "emission:85cef0a6255b39ab319c930d77baf34da55c55cfb841f3fc7e3a7a7b10f91d49"
+        ]
+      },
+      {
+        "id": "datadog.rule.logs-custom-destination",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_logs_custom_destination",
+        "concept": "datadog.concept.telemetry-destination",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.logs-custom-pipeline",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_logs_custom_pipeline",
+        "concept": "datadog.concept.telemetry-configuration",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.logs-index",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_logs_index",
+        "concept": "datadog.concept.telemetry-configuration",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.logs-integration-pipeline",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_logs_integration_pipeline",
+        "concept": "datadog.concept.telemetry-configuration",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.org-connection",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_org_connection",
+        "concept": "datadog.concept.organization-connection",
+        "emissions": [
+          "emission:1aa85447698cb4edb27a65dd2f23e2a48759af2411782280be7a671f57864170"
+        ]
+      },
+      {
+        "id": "datadog.rule.rum-application",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_rum_application",
+        "concept": "datadog.concept.browser-observability-application",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.rum-application-lookup",
+        "owner": "datadog",
+        "match_kind": "data",
+        "match_type": "datadog_rum_application",
+        "concept": "datadog.concept.browser-observability-application",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.rum-retention-filter",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_rum_retention_filter",
+        "concept": "datadog.concept.telemetry-configuration",
+        "emissions": [
+          "emission:772d61acdabdc736a1413cdb90cd923db22cb57bcdcb3d3e189f9c2da184bc37"
+        ]
+      },
+      {
+        "id": "datadog.rule.security-monitoring-rule",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_security_monitoring_rule",
+        "concept": "datadog.concept.security-configuration",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.sensitive-data-scanner-group",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_sensitive_data_scanner_group",
+        "concept": "datadog.concept.security-configuration",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.service-definition-yaml",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_service_definition_yaml",
+        "concept": "datadog.concept.catalog-definition",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.service-level-objective",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_service_level_objective",
+        "concept": "datadog.concept.service-objective",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.service-level-objective-lookup",
+        "owner": "datadog",
+        "match_kind": "data",
+        "match_type": "datadog_service_level_objective",
+        "concept": "datadog.concept.service-objective",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.software-catalog",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_software_catalog",
+        "concept": "datadog.concept.catalog-definition",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.software-catalog-lookup",
+        "owner": "datadog",
+        "match_kind": "data",
+        "match_type": "datadog_software_catalog",
+        "concept": "datadog.concept.catalog-definition",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.synthetics-suite",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_synthetics_suite",
+        "concept": "datadog.concept.synthetic-check",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.synthetics-test",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_synthetics_test",
+        "concept": "datadog.concept.synthetic-check",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.synthetics-test-lookup",
+        "owner": "datadog",
+        "match_kind": "data",
+        "match_type": "datadog_synthetics_test",
+        "concept": "datadog.concept.synthetic-check",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.workflow-automation",
+        "owner": "datadog",
+        "match_kind": "resource",
+        "match_type": "datadog_workflow_automation",
+        "concept": "datadog.concept.automation-workflow",
+        "emissions": []
+      },
+      {
+        "id": "datadog.rule.workflow-automation-lookup",
+        "owner": "datadog",
+        "match_kind": "data",
+        "match_type": "datadog_workflow_automation",
+        "concept": "datadog.concept.automation-workflow",
+        "emissions": []
+      },
+      {
+        "id": "google.rule.google-cloud-project",
+        "owner": "google",
+        "match_kind": "resource",
+        "match_type": "google_project",
+        "concept": "google.concept.google-cloud-project",
+        "identity": {
+          "attributes": [
+            "project_id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "project_id"
+          ]
+        },
+        "emissions": []
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:13f78d0feb43fbe3dc91036c1b194023ba59e803ccd71e46dd6ae5298f1cda87",
+        "rule": "datadog.rule.datastore-item",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "datadog.concept.application-datastore"
+        },
+        "via": "source.datastore_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:1aa85447698cb4edb27a65dd2f23e2a48759af2411782280be7a671f57864170",
+        "rule": "datadog.rule.org-connection",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "datadog.concept.observability-tenant"
+        },
+        "predicate": "datadog.relation.shares-telemetry-with",
+        "via": "source.sink_org_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:772d61acdabdc736a1413cdb90cd923db22cb57bcdcb3d3e189f9c2da184bc37",
+        "rule": "datadog.rule.rum-retention-filter",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "datadog.concept.browser-observability-application"
+        },
+        "via": "source.application_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:85cef0a6255b39ab319c930d77baf34da55c55cfb841f3fc7e3a7a7b10f91d49",
+        "rule": "datadog.rule.logs-archive-order",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "datadog.concept.telemetry-destination"
+        },
+        "via": "source.archive_ids",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:bd414430368dbe6301aff125805cf4ac40abc630ffb31eb043ddda6ed573bc8c",
+        "rule": "datadog.rule.integration-confluent-resource",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "datadog.concept.service-integration"
+        },
+        "via": "source.account_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:d3735842b64e5c7d3786ea0a6160fb8f829d2786f7f563448511683537f0c8be",
+        "rule": "datadog.rule.integration-fastly-service",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "datadog.concept.service-integration"
+        },
+        "via": "source.account_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:fca7baf89a9ed5eba702f30338e9f5ef040914a2b89024fcffe250064ef1df3d",
+        "rule": "datadog.rule.datastore-item-lookup",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "datadog.concept.application-datastore"
+        },
+        "via": "source.datastore_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "indeterminate",
+        "on_empty": "indeterminate",
+        "external": "deny",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:aws_organizations_account.production",
+          "kind": "resource",
+          "type": "aws_organizations_account",
+          "name": "production",
+          "address": "aws_organizations_account.production",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_resource_group.production",
+          "kind": "resource",
+          "type": "azurerm_resource_group",
+          "name": "production",
+          "address": "azurerm_resource_group.production",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:cloudflare_account.edge",
+          "kind": "resource",
+          "type": "cloudflare_account",
+          "name": "edge",
+          "address": "cloudflare_account.edge",
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:confluent_environment.streaming",
+          "kind": "resource",
+          "type": "confluent_environment",
+          "name": "streaming",
+          "address": "confluent_environment.streaming",
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.datadog_action_connection.automation",
+          "kind": "data",
+          "type": "datadog_action_connection",
+          "name": "automation",
+          "address": "data.datadog_action_connection.automation",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.datadog_app_builder_app.operations",
+          "kind": "data",
+          "type": "datadog_app_builder_app",
+          "name": "operations",
+          "address": "data.datadog_app_builder_app.operations",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.datadog_datastore.operations",
+          "kind": "data",
+          "type": "datadog_datastore",
+          "name": "operations",
+          "address": "data.datadog_datastore.operations",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.datadog_datastore_item.status",
+          "kind": "data",
+          "type": "datadog_datastore_item",
+          "name": "status",
+          "address": "data.datadog_datastore_item.status",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.datadog_rum_application.web",
+          "kind": "data",
+          "type": "datadog_rum_application",
+          "name": "web",
+          "address": "data.datadog_rum_application.web",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.datadog_service_level_objective.api",
+          "kind": "data",
+          "type": "datadog_service_level_objective",
+          "name": "api",
+          "address": "data.datadog_service_level_objective.api",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.datadog_software_catalog.api",
+          "kind": "data",
+          "type": "datadog_software_catalog",
+          "name": "api",
+          "address": "data.datadog_software_catalog.api",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.datadog_synthetics_test.api",
+          "kind": "data",
+          "type": "datadog_synthetics_test",
+          "name": "api",
+          "address": "data.datadog_synthetics_test.api",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:data.datadog_workflow_automation.remediation",
+          "kind": "data",
+          "type": "datadog_workflow_automation",
+          "name": "remediation",
+          "address": "data.datadog_workflow_automation.remediation",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_action_connection.automation",
+          "kind": "resource",
+          "type": "datadog_action_connection",
+          "name": "automation",
+          "address": "datadog_action_connection.automation",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_app_builder_app.operations",
+          "kind": "resource",
+          "type": "datadog_app_builder_app",
+          "name": "operations",
+          "address": "datadog_app_builder_app.operations",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_child_organization.platform",
+          "kind": "resource",
+          "type": "datadog_child_organization",
+          "name": "platform",
+          "address": "datadog_child_organization.platform",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_compliance_custom_framework.platform",
+          "kind": "resource",
+          "type": "datadog_compliance_custom_framework",
+          "name": "platform",
+          "address": "datadog_compliance_custom_framework.platform",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_csm_threats_policy.production",
+          "kind": "resource",
+          "type": "datadog_csm_threats_policy",
+          "name": "production",
+          "address": "datadog_csm_threats_policy.production",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_datastore.operations",
+          "kind": "resource",
+          "type": "datadog_datastore",
+          "name": "operations",
+          "address": "datadog_datastore.operations",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_datastore_item.status",
+          "kind": "resource",
+          "type": "datadog_datastore_item",
+          "name": "status",
+          "address": "datadog_datastore_item.status",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_integration_aws_account.production",
+          "kind": "resource",
+          "type": "datadog_integration_aws_account",
+          "name": "production",
+          "address": "datadog_integration_aws_account.production",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_integration_azure.production",
+          "kind": "resource",
+          "type": "datadog_integration_azure",
+          "name": "production",
+          "address": "datadog_integration_azure.production",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_integration_cloudflare_account.edge",
+          "kind": "resource",
+          "type": "datadog_integration_cloudflare_account",
+          "name": "edge",
+          "address": "datadog_integration_cloudflare_account.edge",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_integration_confluent_account.streaming",
+          "kind": "resource",
+          "type": "datadog_integration_confluent_account",
+          "name": "streaming",
+          "address": "datadog_integration_confluent_account.streaming",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_integration_confluent_resource.kafka",
+          "kind": "resource",
+          "type": "datadog_integration_confluent_resource",
+          "name": "kafka",
+          "address": "datadog_integration_confluent_resource.kafka",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_integration_fastly_account.edge",
+          "kind": "resource",
+          "type": "datadog_integration_fastly_account",
+          "name": "edge",
+          "address": "datadog_integration_fastly_account.edge",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_integration_fastly_service.edge",
+          "kind": "resource",
+          "type": "datadog_integration_fastly_service",
+          "name": "edge",
+          "address": "datadog_integration_fastly_service.edge",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_integration_gcp.legacy",
+          "kind": "resource",
+          "type": "datadog_integration_gcp",
+          "name": "legacy",
+          "address": "datadog_integration_gcp.legacy",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_integration_gcp_sts.production",
+          "kind": "resource",
+          "type": "datadog_integration_gcp_sts",
+          "name": "production",
+          "address": "datadog_integration_gcp_sts.production",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_logs_archive.primary",
+          "kind": "resource",
+          "type": "datadog_logs_archive",
+          "name": "primary",
+          "address": "datadog_logs_archive.primary",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_logs_archive_order.primary",
+          "kind": "resource",
+          "type": "datadog_logs_archive_order",
+          "name": "primary",
+          "address": "datadog_logs_archive_order.primary",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_logs_custom_destination.security",
+          "kind": "resource",
+          "type": "datadog_logs_custom_destination",
+          "name": "security",
+          "address": "datadog_logs_custom_destination.security",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_logs_custom_pipeline.application",
+          "kind": "resource",
+          "type": "datadog_logs_custom_pipeline",
+          "name": "application",
+          "address": "datadog_logs_custom_pipeline.application",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_logs_index.production",
+          "kind": "resource",
+          "type": "datadog_logs_index",
+          "name": "production",
+          "address": "datadog_logs_index.production",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_logs_integration_pipeline.aws",
+          "kind": "resource",
+          "type": "datadog_logs_integration_pipeline",
+          "name": "aws",
+          "address": "datadog_logs_integration_pipeline.aws",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_monitor.must_not_create_topology",
+          "kind": "resource",
+          "type": "datadog_monitor",
+          "name": "must_not_create_topology",
+          "address": "datadog_monitor.must_not_create_topology",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_observability_pipeline.telemetry",
+          "kind": "resource",
+          "type": "datadog_observability_pipeline",
+          "name": "telemetry",
+          "address": "datadog_observability_pipeline.telemetry",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_org_connection.shared",
+          "kind": "resource",
+          "type": "datadog_org_connection",
+          "name": "shared",
+          "address": "datadog_org_connection.shared",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_rum_application.web",
+          "kind": "resource",
+          "type": "datadog_rum_application",
+          "name": "web",
+          "address": "datadog_rum_application.web",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_rum_retention_filter.web",
+          "kind": "resource",
+          "type": "datadog_rum_retention_filter",
+          "name": "web",
+          "address": "datadog_rum_retention_filter.web",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_security_monitoring_rule.authentication",
+          "kind": "resource",
+          "type": "datadog_security_monitoring_rule",
+          "name": "authentication",
+          "address": "datadog_security_monitoring_rule.authentication",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_sensitive_data_scanner_group.logs",
+          "kind": "resource",
+          "type": "datadog_sensitive_data_scanner_group",
+          "name": "logs",
+          "address": "datadog_sensitive_data_scanner_group.logs",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_service_definition_yaml.api",
+          "kind": "resource",
+          "type": "datadog_service_definition_yaml",
+          "name": "api",
+          "address": "datadog_service_definition_yaml.api",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_service_level_objective.api",
+          "kind": "resource",
+          "type": "datadog_service_level_objective",
+          "name": "api",
+          "address": "datadog_service_level_objective.api",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_software_catalog.api",
+          "kind": "resource",
+          "type": "datadog_software_catalog",
+          "name": "api",
+          "address": "datadog_software_catalog.api",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_synthetics_private_location.internal",
+          "kind": "resource",
+          "type": "datadog_synthetics_private_location",
+          "name": "internal",
+          "address": "datadog_synthetics_private_location.internal",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_synthetics_suite.application",
+          "kind": "resource",
+          "type": "datadog_synthetics_suite",
+          "name": "application",
+          "address": "datadog_synthetics_suite.application",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_synthetics_test.api",
+          "kind": "resource",
+          "type": "datadog_synthetics_test",
+          "name": "api",
+          "address": "datadog_synthetics_test.api",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:datadog_workflow_automation.remediation",
+          "kind": "resource",
+          "type": "datadog_workflow_automation",
+          "name": "remediation",
+          "address": "datadog_workflow_automation.remediation",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:google_project.production",
+          "kind": "resource",
+          "type": "google_project",
+          "name": "production",
+          "address": "google_project.production",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:kubernetes_namespace.observability",
+          "kind": "resource",
+          "type": "kubernetes_namespace",
+          "name": "observability",
+          "address": "kubernetes_namespace.observability",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.defer_reads",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "defer_reads",
+          "address": "terraform_data.defer_reads",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "representation:1:aws_organizations_account.production",
+          "kind": "managed",
+          "declaration": "declaration:1:aws_organizations_account.production",
+          "address": "aws_organizations_account.production",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/aws",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_resource_group.production",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_resource_group.production",
+          "address": "azurerm_resource_group.production",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.resource-group"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.resource-group",
+          "concept": "azure.concept.resource-group",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:cloudflare_account.edge",
+          "kind": "managed",
+          "declaration": "declaration:1:cloudflare_account.edge",
+          "address": "cloudflare_account.edge",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/cloudflare/cloudflare",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "cloudflare.rule.account"
+            ],
+            "diagnostics": []
+          },
+          "rule": "cloudflare.rule.account",
+          "concept": "cloudflare.concept.account",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:confluent_environment.streaming",
+          "kind": "managed",
+          "declaration": "declaration:1:confluent_environment.streaming",
+          "address": "confluent_environment.streaming",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/confluentinc/confluent",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "confluent.rule.environment"
+            ],
+            "diagnostics": []
+          },
+          "rule": "confluent.rule.environment",
+          "concept": "confluent.concept.environment",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.datadog_action_connection.automation",
+          "kind": "data",
+          "declaration": "declaration:1:data.datadog_action_connection.automation",
+          "address": "data.datadog_action_connection.automation",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_config_unknown",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.action-connection-lookup"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.action-connection-lookup",
+          "concept": "datadog.concept.service-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.datadog_app_builder_app.operations",
+          "kind": "data",
+          "declaration": "declaration:1:data.datadog_app_builder_app.operations",
+          "address": "data.datadog_app_builder_app.operations",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_config_unknown",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.app-builder-app-lookup"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.app-builder-app-lookup",
+          "concept": "datadog.concept.automation-application",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.datadog_datastore.operations",
+          "kind": "data",
+          "declaration": "declaration:1:data.datadog_datastore.operations",
+          "address": "data.datadog_datastore.operations",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_config_unknown",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.datastore-lookup"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.datastore-lookup",
+          "concept": "datadog.concept.application-datastore",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.datadog_datastore_item.status",
+          "kind": "data",
+          "declaration": "declaration:1:data.datadog_datastore_item.status",
+          "address": "data.datadog_datastore_item.status",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_config_unknown",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.datastore-item-lookup"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.datastore-item-lookup",
+          "concept": "datadog.concept.service-integration-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.datadog_rum_application.web",
+          "kind": "data",
+          "declaration": "declaration:1:data.datadog_rum_application.web",
+          "address": "data.datadog_rum_application.web",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_config_unknown",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.rum-application-lookup"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.rum-application-lookup",
+          "concept": "datadog.concept.browser-observability-application",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.datadog_service_level_objective.api",
+          "kind": "data",
+          "declaration": "declaration:1:data.datadog_service_level_objective.api",
+          "address": "data.datadog_service_level_objective.api",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_config_unknown",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.service-level-objective-lookup"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.service-level-objective-lookup",
+          "concept": "datadog.concept.service-objective",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.datadog_software_catalog.api",
+          "kind": "data",
+          "declaration": "declaration:1:data.datadog_software_catalog.api",
+          "address": "data.datadog_software_catalog.api",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_dependency_pending",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.software-catalog-lookup"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.software-catalog-lookup",
+          "concept": "datadog.concept.catalog-definition",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.datadog_synthetics_test.api",
+          "kind": "data",
+          "declaration": "declaration:1:data.datadog_synthetics_test.api",
+          "address": "data.datadog_synthetics_test.api",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_config_unknown",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.synthetics-test-lookup"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.synthetics-test-lookup",
+          "concept": "datadog.concept.synthetic-check",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:data.datadog_workflow_automation.remediation",
+          "kind": "data",
+          "declaration": "declaration:1:data.datadog_workflow_automation.remediation",
+          "address": "data.datadog_workflow_automation.remediation",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "read"
+          ],
+          "action_reason": "read_because_config_unknown",
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.workflow-automation-lookup"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.workflow-automation-lookup",
+          "concept": "datadog.concept.automation-workflow",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_action_connection.automation",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_action_connection.automation",
+          "address": "datadog_action_connection.automation",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.action-connection"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.action-connection",
+          "concept": "datadog.concept.service-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_app_builder_app.operations",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_app_builder_app.operations",
+          "address": "datadog_app_builder_app.operations",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.app-builder-app"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.app-builder-app",
+          "concept": "datadog.concept.automation-application",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_child_organization.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_child_organization.platform",
+          "address": "datadog_child_organization.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.child-organization"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.child-organization",
+          "concept": "datadog.concept.observability-tenant",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_compliance_custom_framework.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_compliance_custom_framework.platform",
+          "address": "datadog_compliance_custom_framework.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.compliance-custom-framework"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.compliance-custom-framework",
+          "concept": "datadog.concept.security-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_csm_threats_policy.production",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_csm_threats_policy.production",
+          "address": "datadog_csm_threats_policy.production",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.csm-threats-policy"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.csm-threats-policy",
+          "concept": "datadog.concept.security-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_datastore.operations",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_datastore.operations",
+          "address": "datadog_datastore.operations",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.datastore"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.datastore",
+          "concept": "datadog.concept.application-datastore",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_datastore_item.status",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_datastore_item.status",
+          "address": "datadog_datastore_item.status",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.datastore-item"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.datastore-item",
+          "concept": "datadog.concept.service-integration-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_integration_aws_account.production",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_integration_aws_account.production",
+          "address": "datadog_integration_aws_account.production",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.integration-aws-account"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.integration-aws-account",
+          "concept": "datadog.concept.cloud-observability-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_integration_azure.production",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_integration_azure.production",
+          "address": "datadog_integration_azure.production",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.integration-azure"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.integration-azure",
+          "concept": "datadog.concept.cloud-observability-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_integration_cloudflare_account.edge",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_integration_cloudflare_account.edge",
+          "address": "datadog_integration_cloudflare_account.edge",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.integration-cloudflare-account"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.integration-cloudflare-account",
+          "concept": "datadog.concept.service-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_integration_confluent_account.streaming",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_integration_confluent_account.streaming",
+          "address": "datadog_integration_confluent_account.streaming",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.integration-confluent-account"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.integration-confluent-account",
+          "concept": "datadog.concept.service-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_integration_confluent_resource.kafka",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_integration_confluent_resource.kafka",
+          "address": "datadog_integration_confluent_resource.kafka",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.integration-confluent-resource"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.integration-confluent-resource",
+          "concept": "datadog.concept.service-integration-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_integration_fastly_account.edge",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_integration_fastly_account.edge",
+          "address": "datadog_integration_fastly_account.edge",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.integration-fastly-account"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.integration-fastly-account",
+          "concept": "datadog.concept.service-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_integration_fastly_service.edge",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_integration_fastly_service.edge",
+          "address": "datadog_integration_fastly_service.edge",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.integration-fastly-service"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.integration-fastly-service",
+          "concept": "datadog.concept.service-integration-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_integration_gcp.legacy",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_integration_gcp.legacy",
+          "address": "datadog_integration_gcp.legacy",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.integration-gcp"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.integration-gcp",
+          "concept": "datadog.concept.cloud-observability-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_integration_gcp_sts.production",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_integration_gcp_sts.production",
+          "address": "datadog_integration_gcp_sts.production",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.integration-gcp-sts"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.integration-gcp-sts",
+          "concept": "datadog.concept.cloud-observability-integration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_logs_archive.primary",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_logs_archive.primary",
+          "address": "datadog_logs_archive.primary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.logs-archive"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.logs-archive",
+          "concept": "datadog.concept.telemetry-destination",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_logs_archive_order.primary",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_logs_archive_order.primary",
+          "address": "datadog_logs_archive_order.primary",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.logs-archive-order"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.logs-archive-order",
+          "concept": "datadog.concept.telemetry-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_logs_custom_destination.security",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_logs_custom_destination.security",
+          "address": "datadog_logs_custom_destination.security",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.logs-custom-destination"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.logs-custom-destination",
+          "concept": "datadog.concept.telemetry-destination",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_logs_custom_pipeline.application",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_logs_custom_pipeline.application",
+          "address": "datadog_logs_custom_pipeline.application",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.logs-custom-pipeline"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.logs-custom-pipeline",
+          "concept": "datadog.concept.telemetry-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_logs_index.production",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_logs_index.production",
+          "address": "datadog_logs_index.production",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.logs-index"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.logs-index",
+          "concept": "datadog.concept.telemetry-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_logs_integration_pipeline.aws",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_logs_integration_pipeline.aws",
+          "address": "datadog_logs_integration_pipeline.aws",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.logs-integration-pipeline"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.logs-integration-pipeline",
+          "concept": "datadog.concept.telemetry-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_monitor.must_not_create_topology",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_monitor.must_not_create_topology",
+          "address": "datadog_monitor.must_not_create_topology",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_observability_pipeline.telemetry",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_observability_pipeline.telemetry",
+          "address": "datadog_observability_pipeline.telemetry",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_org_connection.shared",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_org_connection.shared",
+          "address": "datadog_org_connection.shared",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.org-connection"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.org-connection",
+          "concept": "datadog.concept.organization-connection",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_rum_application.web",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_rum_application.web",
+          "address": "datadog_rum_application.web",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.rum-application"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.rum-application",
+          "concept": "datadog.concept.browser-observability-application",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_rum_retention_filter.web",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_rum_retention_filter.web",
+          "address": "datadog_rum_retention_filter.web",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.rum-retention-filter"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.rum-retention-filter",
+          "concept": "datadog.concept.telemetry-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_security_monitoring_rule.authentication",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_security_monitoring_rule.authentication",
+          "address": "datadog_security_monitoring_rule.authentication",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.security-monitoring-rule"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.security-monitoring-rule",
+          "concept": "datadog.concept.security-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_sensitive_data_scanner_group.logs",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_sensitive_data_scanner_group.logs",
+          "address": "datadog_sensitive_data_scanner_group.logs",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.sensitive-data-scanner-group"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.sensitive-data-scanner-group",
+          "concept": "datadog.concept.security-configuration",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_service_definition_yaml.api",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_service_definition_yaml.api",
+          "address": "datadog_service_definition_yaml.api",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.service-definition-yaml"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.service-definition-yaml",
+          "concept": "datadog.concept.catalog-definition",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_service_level_objective.api",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_service_level_objective.api",
+          "address": "datadog_service_level_objective.api",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.service-level-objective"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.service-level-objective",
+          "concept": "datadog.concept.service-objective",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_software_catalog.api",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_software_catalog.api",
+          "address": "datadog_software_catalog.api",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.software-catalog"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.software-catalog",
+          "concept": "datadog.concept.catalog-definition",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_synthetics_private_location.internal",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_synthetics_private_location.internal",
+          "address": "datadog_synthetics_private_location.internal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_synthetics_suite.application",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_synthetics_suite.application",
+          "address": "datadog_synthetics_suite.application",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.synthetics-suite"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.synthetics-suite",
+          "concept": "datadog.concept.synthetic-check",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_synthetics_test.api",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_synthetics_test.api",
+          "address": "datadog_synthetics_test.api",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.synthetics-test"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.synthetics-test",
+          "concept": "datadog.concept.synthetic-check",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:datadog_workflow_automation.remediation",
+          "kind": "managed",
+          "declaration": "declaration:1:datadog_workflow_automation.remediation",
+          "address": "datadog_workflow_automation.remediation",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/datadog/datadog",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "datadog.rule.workflow-automation"
+            ],
+            "diagnostics": []
+          },
+          "rule": "datadog.rule.workflow-automation",
+          "concept": "datadog.concept.automation-workflow",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:google_project.production",
+          "kind": "managed",
+          "declaration": "declaration:1:google_project.production",
+          "address": "google_project.production",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/google",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "google.rule.google-cloud-project"
+            ],
+            "diagnostics": []
+          },
+          "rule": "google.rule.google-cloud-project",
+          "concept": "google.concept.google-cloud-project",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:kubernetes_namespace.observability",
+          "kind": "managed",
+          "declaration": "declaration:1:kubernetes_namespace.observability",
+          "address": "kubernetes_namespace.observability",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/kubernetes",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.defer_reads",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.defer_reads",
+          "address": "terraform_data.defer_reads",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [],
+      "contributions": [
+        {
+          "id": "contribution:representation%3A1%3Adata.datadog_datastore_item.status:representation%3A1%3Adatadog_datastore.operations",
+          "from": "representation:1:data.datadog_datastore_item.status",
+          "to": "representation:1:datadog_datastore.operations",
+          "provenance": [
+            {
+              "emission": "emission:fca7baf89a9ed5eba702f30338e9f5ef040914a2b89024fcffe250064ef1df3d",
+              "rule": "datadog.rule.datastore-item-lookup",
+              "closure": "closure:representation%3A1%3Adata.datadog_datastore_item.status:emission%3Afca7baf89a9ed5eba702f30338e9f5ef040914a2b89024fcffe250064ef1df3d",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Adatadog_datastore_item.status:representation%3A1%3Adatadog_datastore.operations",
+          "from": "representation:1:datadog_datastore_item.status",
+          "to": "representation:1:datadog_datastore.operations",
+          "provenance": [
+            {
+              "emission": "emission:13f78d0feb43fbe3dc91036c1b194023ba59e803ccd71e46dd6ae5298f1cda87",
+              "rule": "datadog.rule.datastore-item",
+              "closure": "closure:representation%3A1%3Adatadog_datastore_item.status:emission%3A13f78d0feb43fbe3dc91036c1b194023ba59e803ccd71e46dd6ae5298f1cda87",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Adatadog_integration_confluent_resource.kafka:representation%3A1%3Adatadog_integration_confluent_account.streaming",
+          "from": "representation:1:datadog_integration_confluent_resource.kafka",
+          "to": "representation:1:datadog_integration_confluent_account.streaming",
+          "provenance": [
+            {
+              "emission": "emission:bd414430368dbe6301aff125805cf4ac40abc630ffb31eb043ddda6ed573bc8c",
+              "rule": "datadog.rule.integration-confluent-resource",
+              "closure": "closure:representation%3A1%3Adatadog_integration_confluent_resource.kafka:emission%3Abd414430368dbe6301aff125805cf4ac40abc630ffb31eb043ddda6ed573bc8c",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Adatadog_integration_fastly_service.edge:representation%3A1%3Adatadog_integration_fastly_account.edge",
+          "from": "representation:1:datadog_integration_fastly_service.edge",
+          "to": "representation:1:datadog_integration_fastly_account.edge",
+          "provenance": [
+            {
+              "emission": "emission:d3735842b64e5c7d3786ea0a6160fb8f829d2786f7f563448511683537f0c8be",
+              "rule": "datadog.rule.integration-fastly-service",
+              "closure": "closure:representation%3A1%3Adatadog_integration_fastly_service.edge:emission%3Ad3735842b64e5c7d3786ea0a6160fb8f829d2786f7f563448511683537f0c8be",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Adatadog_logs_archive_order.primary:representation%3A1%3Adatadog_logs_archive.primary",
+          "from": "representation:1:datadog_logs_archive_order.primary",
+          "to": "representation:1:datadog_logs_archive.primary",
+          "provenance": [
+            {
+              "emission": "emission:85cef0a6255b39ab319c930d77baf34da55c55cfb841f3fc7e3a7a7b10f91d49",
+              "rule": "datadog.rule.logs-archive-order",
+              "closure": "closure:representation%3A1%3Adatadog_logs_archive_order.primary:emission%3A85cef0a6255b39ab319c930d77baf34da55c55cfb841f3fc7e3a7a7b10f91d49",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Adatadog_rum_retention_filter.web:representation%3A1%3Adatadog_rum_application.web",
+          "from": "representation:1:datadog_rum_retention_filter.web",
+          "to": "representation:1:datadog_rum_application.web",
+          "provenance": [
+            {
+              "emission": "emission:772d61acdabdc736a1413cdb90cd923db22cb57bcdcb3d3e189f9c2da184bc37",
+              "rule": "datadog.rule.rum-retention-filter",
+              "closure": "closure:representation%3A1%3Adatadog_rum_retention_filter.web:emission%3A772d61acdabdc736a1413cdb90cd923db22cb57bcdcb3d3e189f9c2da184bc37",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "id": "relation:datadog.relation.shares-telemetry-with:representation%3A1%3Adatadog_org_connection.shared:representation%3A1%3Adatadog_child_organization.platform",
+          "from": "representation:1:datadog_org_connection.shared",
+          "to": "representation:1:datadog_child_organization.platform",
+          "predicate": "datadog.relation.shares-telemetry-with",
+          "provenance": [
+            {
+              "emission": "emission:1aa85447698cb4edb27a65dd2f23e2a48759af2411782280be7a671f57864170",
+              "rule": "datadog.rule.org-connection",
+              "closure": "closure:representation%3A1%3Adatadog_org_connection.shared:emission%3A1aa85447698cb4edb27a65dd2f23e2a48759af2411782280be7a671f57864170",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Adata.datadog_datastore_item.status:emission%3Afca7baf89a9ed5eba702f30338e9f5ef040914a2b89024fcffe250064ef1df3d",
+          "representation": "representation:1:data.datadog_datastore_item.status",
+          "emission": "emission:fca7baf89a9ed5eba702f30338e9f5ef040914a2b89024fcffe250064ef1df3d",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Adata.datadog_datastore_item.status:representation%3A1%3Adatadog_datastore.operations"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Adatadog_datastore_item.status:emission%3A13f78d0feb43fbe3dc91036c1b194023ba59e803ccd71e46dd6ae5298f1cda87",
+          "representation": "representation:1:datadog_datastore_item.status",
+          "emission": "emission:13f78d0feb43fbe3dc91036c1b194023ba59e803ccd71e46dd6ae5298f1cda87",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Adatadog_datastore_item.status:representation%3A1%3Adatadog_datastore.operations"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Adatadog_integration_confluent_resource.kafka:emission%3Abd414430368dbe6301aff125805cf4ac40abc630ffb31eb043ddda6ed573bc8c",
+          "representation": "representation:1:datadog_integration_confluent_resource.kafka",
+          "emission": "emission:bd414430368dbe6301aff125805cf4ac40abc630ffb31eb043ddda6ed573bc8c",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Adatadog_integration_confluent_resource.kafka:representation%3A1%3Adatadog_integration_confluent_account.streaming"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Adatadog_integration_fastly_service.edge:emission%3Ad3735842b64e5c7d3786ea0a6160fb8f829d2786f7f563448511683537f0c8be",
+          "representation": "representation:1:datadog_integration_fastly_service.edge",
+          "emission": "emission:d3735842b64e5c7d3786ea0a6160fb8f829d2786f7f563448511683537f0c8be",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Adatadog_integration_fastly_service.edge:representation%3A1%3Adatadog_integration_fastly_account.edge"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Adatadog_logs_archive_order.primary:emission%3A85cef0a6255b39ab319c930d77baf34da55c55cfb841f3fc7e3a7a7b10f91d49",
+          "representation": "representation:1:datadog_logs_archive_order.primary",
+          "emission": "emission:85cef0a6255b39ab319c930d77baf34da55c55cfb841f3fc7e3a7a7b10f91d49",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Adatadog_logs_archive_order.primary:representation%3A1%3Adatadog_logs_archive.primary"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Adatadog_org_connection.shared:emission%3A1aa85447698cb4edb27a65dd2f23e2a48759af2411782280be7a671f57864170",
+          "representation": "representation:1:datadog_org_connection.shared",
+          "emission": "emission:1aa85447698cb4edb27a65dd2f23e2a48759af2411782280be7a671f57864170",
+          "outcome": "resolved",
+          "facts": [
+            "relation:datadog.relation.shares-telemetry-with:representation%3A1%3Adatadog_org_connection.shared:representation%3A1%3Adatadog_child_organization.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Adatadog_rum_retention_filter.web:emission%3A772d61acdabdc736a1413cdb90cd923db22cb57bcdcb3d3e189f9c2da184bc37",
+          "representation": "representation:1:datadog_rum_retention_filter.web",
+          "emission": "emission:772d61acdabdc736a1413cdb90cd923db22cb57bcdcb3d3e189f9c2da184bc37",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Adatadog_rum_retention_filter.web:representation%3A1%3Adatadog_rum_application.web"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_action_connection.automation:declaration%3A1%3Adatadog_action_connection.automation",
+          "from": "declaration:1:data.datadog_action_connection.automation",
+          "to": "declaration:1:datadog_action_connection.automation",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_action_connection.automation:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.datadog_action_connection.automation",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_app_builder_app.operations:declaration%3A1%3Adatadog_app_builder_app.operations",
+          "from": "declaration:1:data.datadog_app_builder_app.operations",
+          "to": "declaration:1:datadog_app_builder_app.operations",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_app_builder_app.operations:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.datadog_app_builder_app.operations",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_datastore.operations:declaration%3A1%3Adatadog_datastore.operations",
+          "from": "declaration:1:data.datadog_datastore.operations",
+          "to": "declaration:1:datadog_datastore.operations",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_datastore.operations:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.datadog_datastore.operations",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_datastore_item.status:declaration%3A1%3Adatadog_datastore.operations",
+          "from": "declaration:1:data.datadog_datastore_item.status",
+          "to": "declaration:1:datadog_datastore.operations",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_datastore_item.status:declaration%3A1%3Adatadog_datastore_item.status",
+          "from": "declaration:1:data.datadog_datastore_item.status",
+          "to": "declaration:1:datadog_datastore_item.status",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_datastore_item.status:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.datadog_datastore_item.status",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_rum_application.web:declaration%3A1%3Adatadog_rum_application.web",
+          "from": "declaration:1:data.datadog_rum_application.web",
+          "to": "declaration:1:datadog_rum_application.web",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_rum_application.web:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.datadog_rum_application.web",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_service_level_objective.api:declaration%3A1%3Adatadog_service_level_objective.api",
+          "from": "declaration:1:data.datadog_service_level_objective.api",
+          "to": "declaration:1:datadog_service_level_objective.api",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_service_level_objective.api:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.datadog_service_level_objective.api",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_software_catalog.api:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.datadog_software_catalog.api",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_synthetics_test.api:declaration%3A1%3Adatadog_synthetics_test.api",
+          "from": "declaration:1:data.datadog_synthetics_test.api",
+          "to": "declaration:1:datadog_synthetics_test.api",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_synthetics_test.api:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.datadog_synthetics_test.api",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_workflow_automation.remediation:declaration%3A1%3Adatadog_workflow_automation.remediation",
+          "from": "declaration:1:data.datadog_workflow_automation.remediation",
+          "to": "declaration:1:datadog_workflow_automation.remediation",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adata.datadog_workflow_automation.remediation:declaration%3A1%3Aterraform_data.defer_reads",
+          "from": "declaration:1:data.datadog_workflow_automation.remediation",
+          "to": "declaration:1:terraform_data.defer_reads",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_datastore_item.status:declaration%3A1%3Adatadog_datastore.operations",
+          "from": "declaration:1:datadog_datastore_item.status",
+          "to": "declaration:1:datadog_datastore.operations",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_integration_aws_account.production:declaration%3A1%3Aaws_organizations_account.production",
+          "from": "declaration:1:datadog_integration_aws_account.production",
+          "to": "declaration:1:aws_organizations_account.production",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_integration_azure.production:declaration%3A1%3Aazurerm_resource_group.production",
+          "from": "declaration:1:datadog_integration_azure.production",
+          "to": "declaration:1:azurerm_resource_group.production",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_integration_cloudflare_account.edge:declaration%3A1%3Acloudflare_account.edge",
+          "from": "declaration:1:datadog_integration_cloudflare_account.edge",
+          "to": "declaration:1:cloudflare_account.edge",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_integration_confluent_account.streaming:declaration%3A1%3Aconfluent_environment.streaming",
+          "from": "declaration:1:datadog_integration_confluent_account.streaming",
+          "to": "declaration:1:confluent_environment.streaming",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_integration_confluent_resource.kafka:declaration%3A1%3Adatadog_integration_confluent_account.streaming",
+          "from": "declaration:1:datadog_integration_confluent_resource.kafka",
+          "to": "declaration:1:datadog_integration_confluent_account.streaming",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_integration_fastly_service.edge:declaration%3A1%3Adatadog_integration_fastly_account.edge",
+          "from": "declaration:1:datadog_integration_fastly_service.edge",
+          "to": "declaration:1:datadog_integration_fastly_account.edge",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_integration_gcp.legacy:declaration%3A1%3Agoogle_project.production",
+          "from": "declaration:1:datadog_integration_gcp.legacy",
+          "to": "declaration:1:google_project.production",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_integration_gcp_sts.production:declaration%3A1%3Agoogle_project.production",
+          "from": "declaration:1:datadog_integration_gcp_sts.production",
+          "to": "declaration:1:google_project.production",
+          "roles": [
+            "depends_on"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_logs_archive_order.primary:declaration%3A1%3Adatadog_logs_archive.primary",
+          "from": "declaration:1:datadog_logs_archive_order.primary",
+          "to": "declaration:1:datadog_logs_archive.primary",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_org_connection.shared:declaration%3A1%3Adatadog_child_organization.platform",
+          "from": "declaration:1:datadog_org_connection.shared",
+          "to": "declaration:1:datadog_child_organization.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_rum_retention_filter.web:declaration%3A1%3Adatadog_rum_application.web",
+          "from": "declaration:1:datadog_rum_retention_filter.web",
+          "to": "declaration:1:datadog_rum_application.web",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Adatadog_synthetics_private_location.internal:declaration%3A1%3Akubernetes_namespace.observability",
+          "from": "declaration:1:datadog_synthetics_private_location.internal",
+          "to": "declaration:1:kubernetes_namespace.observability",
+          "roles": [
+            "depends_on"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 52,
+        "resources": 43,
+        "data_sources": 9,
+        "instances": 52,
+        "managed_instances": 43,
+        "data_instances": 9,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 46,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 6,
+        "facts": 7,
+        "closures": 7,
+        "resolved": 7,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 31,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

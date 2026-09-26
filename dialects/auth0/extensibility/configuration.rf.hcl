@@ -27,8 +27,15 @@ rule "trigger-action" {
   as = concept.extension-configuration
 
   contribution {
-    to  = concept.identity-extension
-    via = source.action_id
+    to       = concept.identity-extension
+    via      = source.action_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 

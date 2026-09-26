@@ -30,8 +30,18 @@ rule "plugin-runtime" {
   as = concept.plugin-runtime
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

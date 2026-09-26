@@ -1,7 +1,6 @@
 resource "google_bigquery_dataset" "analytics" {
   dataset_id = "analytics"
 }
-
 resource "google_bigquery_table" "events" {
   dataset_id = google_bigquery_dataset.analytics.dataset_id
   table_id   = "events"
@@ -48,17 +47,19 @@ resource "google_storage_bucket_iam_member" "archive_reader" {
 }
 
 resource "google_service_account" "automation" {
+
   account_id = "rootform-automation"
-}
 
+}
 resource "google_service_account_key" "automation" {
-  service_account_id = google_service_account.automation.name
-}
 
+  service_account_id = google_service_account.automation.name
+
+}
 resource "google_project_iam_member" "automation_viewer" {
   project = "rootform-synthetic"
   role    = "roles/viewer"
-  member  = google_service_account.automation.email
+  member  = google_service_account.automation.member
 }
 
 resource "google_project_service" "bigquery" {

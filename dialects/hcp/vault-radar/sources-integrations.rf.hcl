@@ -21,10 +21,29 @@ rule "vault-radar-integration-jira-connection" {
 
   as = concept.vault-radar-integration
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -36,8 +55,15 @@ rule "vault-radar-integration-jira-subscription" {
   as = concept.vault-radar-configuration
 
   contribution {
-    to  = concept.vault-radar-integration
-    via = source.connection_id
+    to       = concept.vault-radar-integration
+    via      = source.connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -48,10 +74,29 @@ rule "vault-radar-integration-slack-connection" {
 
   as = concept.vault-radar-integration
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -63,8 +108,15 @@ rule "vault-radar-integration-slack-subscription" {
   as = concept.vault-radar-configuration
 
   contribution {
-    to  = concept.vault-radar-integration
-    via = source.connection_id
+    to       = concept.vault-radar-integration
+    via      = source.connection_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -92,14 +144,31 @@ rule "vault-radar-secret-manager-vault-dedicated" {
   as = concept.vault-radar-secret-manager
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "connects-vault-cluster" {
-    to  = concept.vault-dedicated-cluster
-    via = source.vault_url
+    to       = concept.vault-dedicated-cluster
+    via      = source.vault_url
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.vault_public_endpoint_url
+      strategy = "exact"
+    }
   }
 }
 
@@ -111,9 +180,19 @@ rule "vault-radar-source-github-cloud" {
   as = concept.vault-radar-source
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -125,8 +204,18 @@ rule "vault-radar-source-github-enterprise" {
   as = concept.vault-radar-source
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

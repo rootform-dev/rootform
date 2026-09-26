@@ -17,7 +17,3 @@ concept "service-objective" {
 concept "synthetic-check" {
   description = "A synthetic check supporting an observed target without owning target runtime."
 }
-
-concept "synthetic-execution-location" {
-  description = "A public or private execution location running synthetic checks."
-}

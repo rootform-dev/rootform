@@ -20,9 +20,10 @@ terraform {
 }
 
 resource "aws_vpc" "platform" {
-  cidr_block = "10.10.0.0/16"
-}
 
+  cidr_block = "10.10.0.0/16"
+
+}
 resource "aws_subnet" "private" {
   vpc_id     = aws_vpc.platform.id
   cidr_block = "10.10.1.0/24"
@@ -34,22 +35,25 @@ resource "aws_vpc_endpoint" "databricks" {
 }
 
 resource "aws_s3_bucket" "root" {
+
   bucket = "rootform-databricks-root"
-}
 
+}
 resource "aws_s3_bucket" "data" {
-  bucket = "rootform-databricks-data"
-}
 
+  bucket = "rootform-databricks-data"
+
+}
 resource "aws_iam_role" "databricks" {
   name               = "rootform-databricks"
   assume_role_policy = "{}"
 }
 
 resource "aws_kms_key" "workspace" {
-  description = "Databricks workspace key"
-}
 
+  description = "Databricks workspace key"
+
+}
 resource "azurerm_resource_group" "platform" {
   name     = "rg-databricks"
   location = "West Europe"
@@ -90,6 +94,11 @@ resource "azurerm_user_assigned_identity" "databricks" {
 }
 
 resource "azurerm_private_endpoint" "databricks" {
+  private_service_connection {
+    private_connection_resource_alias = "fx-databricks-alias.00000000-0000-0000-0000-000000000000.westeurope.azure.privatelinkservice"
+    name                              = "fx-databricks-name"
+    is_manual_connection              = false
+  }
   name                = "pe-databricks"
   location            = azurerm_resource_group.platform.location
   resource_group_name = azurerm_resource_group.platform.name
@@ -163,10 +172,15 @@ resource "databricks_mws_networks" "aws" {
   network_name       = "aws-network"
   vpc_id             = aws_vpc.platform.id
   subnet_ids         = [aws_subnet.private.id]
-  security_group_ids = []
+  security_group_ids = ["fx-aws-security-group-ids-1"]
 }
 
 resource "databricks_mws_vpc_endpoint" "aws" {
+  gcp_vpc_endpoint_info {
+    psc_endpoint_name = "fx-aws-psc-endpoint-name"
+    project_id        = "fx-aws-project-id"
+    endpoint_region   = "fx-aws-endpoint-region"
+  }
   account_id          = "account"
   vpc_endpoint_name   = "aws-private-link"
   aws_vpc_endpoint_id = aws_vpc_endpoint.databricks.id
@@ -238,7 +252,6 @@ resource "databricks_endpoint" "azure" {
   azure_private_endpoint_info = {
     private_endpoint_name          = azurerm_private_endpoint.databricks.name
     private_endpoint_resource_guid = "00000000-0000-0000-0000-000000000000"
-    private_endpoint_resource_id   = azurerm_private_endpoint.databricks.id
   }
 }
 
@@ -328,15 +341,16 @@ resource "databricks_external_location" "google" {
 }
 
 resource "databricks_instance_pool" "shared" {
-  instance_pool_name = "Shared"
-  min_idle_instances = 0
-  max_capacity       = 20
-  node_type_id       = "i3.xlarge"
+  idle_instance_autotermination_minutes = 1
+  instance_pool_name                    = "Shared"
+  min_idle_instances                    = 0
+  max_capacity                          = 20
+  node_type_id                          = "i3.xlarge"
 }
 
 resource "databricks_cluster" "engineering" {
   cluster_name     = "Engineering"
-  spark_version   = "17.3.x-scala2.12"
+  spark_version    = "17.3.x-scala2.12"
   instance_pool_id = databricks_instance_pool.shared.id
   num_workers      = 2
 
@@ -364,19 +378,23 @@ resource "databricks_job" "daily" {
 }
 
 resource "databricks_app" "operations" {
+
   name = "operations"
-}
 
+}
 resource "databricks_model_serving" "fraud" {
-  name = "fraud-detection"
-}
 
+  name = "fraud-detection"
+
+}
 resource "databricks_vector_search_endpoint" "search" {
   name          = "search"
   endpoint_type = "STANDARD"
 }
 
 resource "databricks_vector_search_index" "documents" {
+  delta_sync_index_spec {
+  }
   name          = "analytics.curated.documents"
   endpoint_name = databricks_vector_search_endpoint.search.name
   primary_key   = "id"
@@ -384,22 +402,23 @@ resource "databricks_vector_search_index" "documents" {
 }
 
 resource "databricks_ai_search_endpoint" "search" {
-  endpoint_id = "search"
-  parent      = databricks_schema.curated.id
+  endpoint_type = "fx-search-endpoint-type"
+  endpoint_id   = "search"
+  parent        = databricks_schema.curated.id
 }
 
 resource "databricks_ai_search_index" "documents" {
   index_id    = "documents"
   parent      = databricks_schema.curated.id
-  endpoint    = databricks_ai_search_endpoint.search.name
   primary_key = "id"
   index_type  = "DELTA_SYNC"
 }
 
 resource "databricks_postgres_project" "application" {
-  project_id = "application"
-}
 
+  project_id = "application"
+
+}
 resource "databricks_postgres_branch" "production" {
   branch_id = "production"
   parent    = databricks_postgres_project.application.name
@@ -416,9 +435,10 @@ resource "databricks_postgres_database" "application" {
 }
 
 resource "databricks_postgres_data_api" "application" {
-  parent = databricks_postgres_project.application.name
-}
 
+  parent = databricks_postgres_project.application.name
+
+}
 resource "databricks_quality_monitor_v2" "orders" {
   object_type = "table"
   object_id   = "analytics.curated.orders"

@@ -1,0 +1,2106 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+          "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
+          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+          "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+          "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+          "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+          "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+        "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
+        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+        "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+        "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+        "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+        "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "azure.concept.container-app",
+        "owner": "azure",
+        "name": "container-app",
+        "description": "An Azure Container Apps service running container revisions."
+      },
+      {
+        "id": "azure.concept.container-app-environment",
+        "owner": "azure",
+        "name": "container-app-environment",
+        "description": "An Azure Container Apps environment sharing network and operational boundaries."
+      },
+      {
+        "id": "azure.concept.container-app-job",
+        "owner": "azure",
+        "name": "container-app-job",
+        "description": "An Azure Container Apps job running finite container work."
+      },
+      {
+        "id": "azure.concept.log-analytics-workspace",
+        "owner": "azure",
+        "name": "log-analytics-workspace",
+        "description": "An Azure Log Analytics workspace collecting operational data."
+      },
+      {
+        "id": "azure.concept.resource-group",
+        "owner": "azure",
+        "name": "resource-group",
+        "description": "An Azure Resource Group lifecycle and access boundary."
+      },
+      {
+        "id": "rf.concept.subnet",
+        "owner": "rf",
+        "name": "subnet",
+        "description": "A declared native subnet, not a CIDR literal."
+      },
+      {
+        "id": "rf.concept.virtual-network",
+        "owner": "rf",
+        "name": "virtual-network",
+        "description": "An explicitly declared virtual network."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "azure.context.ownership",
+        "owner": "azure",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      },
+      {
+        "id": "rf.context.network",
+        "owner": "rf",
+        "name": "network",
+        "description": "A declared network attachment without a connectivity guarantee."
+      },
+      {
+        "id": "rf.context.runtime",
+        "owner": "rf",
+        "name": "runtime",
+        "description": "A declared execution environment or target without proof of effective execution."
+      }
+    ],
+    "relations": [
+      {
+        "id": "azure.relation.observed-by",
+        "owner": "azure",
+        "name": "observed-by"
+      }
+    ],
+    "rules": [
+      {
+        "id": "azure.rule.container-app",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_container_app",
+        "concept": "azure.concept.container-app",
+        "emissions": [
+          "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+          "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9"
+        ]
+      },
+      {
+        "id": "azure.rule.container-app-environment",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_container_app_environment",
+        "concept": "azure.concept.container-app-environment",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:810aea09bc487f7899f3f7bc170588cdc4f5f84a4d96c4fac475aa2ed6593a1a",
+          "emission:a5fc513bfc4b5d6937a852c9b2827950f7d968b842082207a8c3da5f48f31931",
+          "emission:e3262e17b596bd7cc138422c894ec65b1ef1135ed64b727cca2aed3662b01938"
+        ]
+      },
+      {
+        "id": "azure.rule.container-app-job",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_container_app_job",
+        "concept": "azure.concept.container-app-job",
+        "emissions": [
+          "emission:6a83854e40d6a8f759637ba8e8270130dce11993c5f398133dfb03e6a07cc3fa",
+          "emission:d01836ac883ad616d673c1e838ee3ae68483d207e4207082a1402a578fdc6fa9"
+        ]
+      },
+      {
+        "id": "azure.rule.log-analytics-workspace",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_log_analytics_workspace",
+        "concept": "azure.concept.log-analytics-workspace",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477"
+        ]
+      },
+      {
+        "id": "azure.rule.resource-group",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_resource_group",
+        "concept": "azure.concept.resource-group",
+        "identity": {
+          "attributes": [
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "azure.rule.subnet",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_subnet",
+        "concept": "rf.concept.subnet",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+          "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087"
+        ]
+      },
+      {
+        "id": "azure.rule.virtual-network",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_virtual_network",
+        "concept": "rf.concept.virtual-network",
+        "identity": {
+          "attributes": [
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        ]
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+        "rule": "azure.rule.subnet",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+        "rule": "azure.rule.container-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.container-app-environment"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "source.container_app_environment_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
+        "rule": "azure.rule.container-app",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:6a83854e40d6a8f759637ba8e8270130dce11993c5f398133dfb03e6a07cc3fa",
+        "rule": "azure.rule.container-app-job",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:810aea09bc487f7899f3f7bc170588cdc4f5f84a4d96c4fac475aa2ed6593a1a",
+        "rule": "azure.rule.container-app-environment",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+        "rule": "azure.rule.virtual-network",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:a5fc513bfc4b5d6937a852c9b2827950f7d968b842082207a8c3da5f48f31931",
+        "rule": "azure.rule.container-app-environment",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.log-analytics-workspace"
+        },
+        "predicate": "azure.relation.observed-by",
+        "via": "source.log_analytics_workspace_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+        "rule": "azure.rule.subnet",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.virtual_network_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:d01836ac883ad616d673c1e838ee3ae68483d207e4207082a1402a578fdc6fa9",
+        "rule": "azure.rule.container-app-job",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.container-app-environment"
+        },
+        "dimension": "rf.context.runtime",
+        "via": "source.container_app_environment_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:e3262e17b596bd7cc138422c894ec65b1ef1135ed64b727cca2aed3662b01938",
+        "rule": "azure.rule.container-app-environment",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.subnet"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.infrastructure_subnet_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
+        "rule": "azure.rule.log-analytics-workspace",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:azurerm_container_app.api",
+          "kind": "resource",
+          "type": "azurerm_container_app",
+          "name": "api",
+          "address": "azurerm_container_app.api",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_container_app.unknown",
+          "kind": "resource",
+          "type": "azurerm_container_app",
+          "name": "unknown",
+          "address": "azurerm_container_app.unknown",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_container_app_environment.literal",
+          "kind": "resource",
+          "type": "azurerm_container_app_environment",
+          "name": "literal",
+          "address": "azurerm_container_app_environment.literal",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_container_app_environment.platform",
+          "kind": "resource",
+          "type": "azurerm_container_app_environment",
+          "name": "platform",
+          "address": "azurerm_container_app_environment.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_container_app_job.worker",
+          "kind": "resource",
+          "type": "azurerm_container_app_job",
+          "name": "worker",
+          "address": "azurerm_container_app_job.worker",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_log_analytics_workspace.platform",
+          "kind": "resource",
+          "type": "azurerm_log_analytics_workspace",
+          "name": "platform",
+          "address": "azurerm_log_analytics_workspace.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_resource_group.platform",
+          "kind": "resource",
+          "type": "azurerm_resource_group",
+          "name": "platform",
+          "address": "azurerm_resource_group.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_subnet.apps",
+          "kind": "resource",
+          "type": "azurerm_subnet",
+          "name": "apps",
+          "address": "azurerm_subnet.apps",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_virtual_network.platform",
+          "kind": "resource",
+          "type": "azurerm_virtual_network",
+          "name": "platform",
+          "address": "azurerm_virtual_network.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.unknown_id",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "unknown_id",
+          "address": "terraform_data.unknown_id",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "external:1:azure.concept.resource-group:0",
+          "kind": "external",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "external",
+          "actions": [],
+          "concept": "azure.concept.resource-group",
+          "implementation": {
+            "kind": "direct"
+          },
+          "disclosure": "none",
+          "diagnostics": []
+        },
+        {
+          "id": "external:1:azure.concept.resource-group:1",
+          "kind": "external",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "external",
+          "actions": [],
+          "concept": "azure.concept.resource-group",
+          "implementation": {
+            "kind": "direct"
+          },
+          "disclosure": "none",
+          "diagnostics": []
+        },
+        {
+          "id": "external:1:rf.concept.virtual-network:0",
+          "kind": "external",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "external",
+          "actions": [],
+          "concept": "rf.concept.virtual-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "disclosure": "none",
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_container_app.api",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_container_app.api",
+          "address": "azurerm_container_app.api",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.container-app"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.container-app",
+          "concept": "azure.concept.container-app",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_container_app.unknown",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_container_app.unknown",
+          "address": "azurerm_container_app.unknown",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.container-app"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.container-app",
+          "concept": "azure.concept.container-app",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_container_app_environment.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_container_app_environment.literal",
+          "address": "azurerm_container_app_environment.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.container-app-environment"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.container-app-environment",
+          "concept": "azure.concept.container-app-environment",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_container_app_environment.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_container_app_environment.platform",
+          "address": "azurerm_container_app_environment.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.container-app-environment"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.container-app-environment",
+          "concept": "azure.concept.container-app-environment",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_container_app_job.worker",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_container_app_job.worker",
+          "address": "azurerm_container_app_job.worker",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.container-app-job"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.container-app-job",
+          "concept": "azure.concept.container-app-job",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_log_analytics_workspace.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_log_analytics_workspace.platform",
+          "address": "azurerm_log_analytics_workspace.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.log-analytics-workspace"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.log-analytics-workspace",
+          "concept": "azure.concept.log-analytics-workspace",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_resource_group.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_resource_group.platform",
+          "address": "azurerm_resource_group.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.resource-group"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.resource-group",
+          "concept": "azure.concept.resource-group",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_subnet.apps",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_subnet.apps",
+          "address": "azurerm_subnet.apps",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.subnet"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.subnet",
+          "concept": "rf.concept.subnet",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_virtual_network.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_virtual_network.platform",
+          "address": "azurerm_virtual_network.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.virtual-network"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.virtual-network",
+          "concept": "rf.concept.virtual-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.unknown_id",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.unknown_id",
+          "address": "terraform_data.unknown_id",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_container_app.api:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_container_app.api",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
+              "rule": "azure.rule.container-app",
+              "closure": "closure:representation%3A1%3Aazurerm_container_app.api:emission%3A5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_container_app_environment.literal:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_container_app_environment.literal",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:810aea09bc487f7899f3f7bc170588cdc4f5f84a4d96c4fac475aa2ed6593a1a",
+              "rule": "azure.rule.container-app-environment",
+              "closure": "closure:representation%3A1%3Aazurerm_container_app_environment.literal:emission%3A810aea09bc487f7899f3f7bc170588cdc4f5f84a4d96c4fac475aa2ed6593a1a",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_container_app_environment.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_container_app_environment.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:810aea09bc487f7899f3f7bc170588cdc4f5f84a4d96c4fac475aa2ed6593a1a",
+              "rule": "azure.rule.container-app-environment",
+              "closure": "closure:representation%3A1%3Aazurerm_container_app_environment.platform:emission%3A810aea09bc487f7899f3f7bc170588cdc4f5f84a4d96c4fac475aa2ed6593a1a",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_container_app_job.worker:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_container_app_job.worker",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:6a83854e40d6a8f759637ba8e8270130dce11993c5f398133dfb03e6a07cc3fa",
+              "rule": "azure.rule.container-app-job",
+              "closure": "closure:representation%3A1%3Aazurerm_container_app_job.worker:emission%3A6a83854e40d6a8f759637ba8e8270130dce11993c5f398133dfb03e6a07cc3fa",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_log_analytics_workspace.platform:external%3A1%3Aazure.concept.resource-group%3A1",
+          "from": "representation:1:azurerm_log_analytics_workspace.platform",
+          "to": "external:1:azure.concept.resource-group:1",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
+              "rule": "azure.rule.log-analytics-workspace",
+              "closure": "closure:representation%3A1%3Aazurerm_log_analytics_workspace.platform:emission%3Afa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.apps:external%3A1%3Aazure.concept.resource-group%3A0",
+          "from": "representation:1:azurerm_subnet.apps",
+          "to": "external:1:azure.concept.resource-group:0",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+              "rule": "azure.rule.subnet",
+              "closure": "closure:representation%3A1%3Aazurerm_subnet.apps:emission%3A009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:external%3A1%3Aazure.concept.resource-group%3A1",
+          "from": "representation:1:azurerm_virtual_network.platform",
+          "to": "external:1:azure.concept.resource-group:1",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+              "rule": "azure.rule.virtual-network",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network.platform:emission%3A88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aazurerm_container_app_environment.platform:representation%3A1%3Aazurerm_subnet.apps",
+          "from": "representation:1:azurerm_container_app_environment.platform",
+          "to": "representation:1:azurerm_subnet.apps",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:e3262e17b596bd7cc138422c894ec65b1ef1135ed64b727cca2aed3662b01938",
+              "rule": "azure.rule.container-app-environment",
+              "closure": "closure:representation%3A1%3Aazurerm_container_app_environment.platform:emission%3Ae3262e17b596bd7cc138422c894ec65b1ef1135ed64b727cca2aed3662b01938",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aazurerm_subnet.apps:external%3A1%3Arf.concept.virtual-network%3A0",
+          "from": "representation:1:azurerm_subnet.apps",
+          "to": "external:1:rf.concept.virtual-network:0",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+              "rule": "azure.rule.subnet",
+              "closure": "closure:representation%3A1%3Aazurerm_subnet.apps:emission%3Ab6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app.api:representation%3A1%3Aazurerm_container_app_environment.platform",
+          "from": "representation:1:azurerm_container_app.api",
+          "to": "representation:1:azurerm_container_app_environment.platform",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+              "rule": "azure.rule.container-app",
+              "closure": "closure:representation%3A1%3Aazurerm_container_app.api:emission%3A035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app_job.worker:representation%3A1%3Aazurerm_container_app_environment.platform",
+          "from": "representation:1:azurerm_container_app_job.worker",
+          "to": "representation:1:azurerm_container_app_environment.platform",
+          "dimension": "rf.context.runtime",
+          "provenance": [
+            {
+              "emission": "emission:d01836ac883ad616d673c1e838ee3ae68483d207e4207082a1402a578fdc6fa9",
+              "rule": "azure.rule.container-app-job",
+              "closure": "closure:representation%3A1%3Aazurerm_container_app_job.worker:emission%3Ad01836ac883ad616d673c1e838ee3ae68483d207e4207082a1402a578fdc6fa9",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "contributions": [],
+      "relations": [
+        {
+          "id": "relation:azure.relation.observed-by:representation%3A1%3Aazurerm_container_app_environment.platform:representation%3A1%3Aazurerm_log_analytics_workspace.platform",
+          "from": "representation:1:azurerm_container_app_environment.platform",
+          "to": "representation:1:azurerm_log_analytics_workspace.platform",
+          "predicate": "azure.relation.observed-by",
+          "provenance": [
+            {
+              "emission": "emission:a5fc513bfc4b5d6937a852c9b2827950f7d968b842082207a8c3da5f48f31931",
+              "rule": "azure.rule.container-app-environment",
+              "closure": "closure:representation%3A1%3Aazurerm_container_app_environment.platform:emission%3Aa5fc513bfc4b5d6937a852c9b2827950f7d968b842082207a8c3da5f48f31931",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app.api:emission%3A035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+          "representation": "representation:1:azurerm_container_app.api",
+          "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app.api:representation%3A1%3Aazurerm_container_app_environment.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app.api:emission%3A5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
+          "representation": "representation:1:azurerm_container_app.api",
+          "emission": "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_container_app.api:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app.unknown:emission%3A035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+          "representation": "representation:1:azurerm_container_app.unknown",
+          "emission": "emission:035b8a907220e091a8c8cd0e6e76c0d18dcac413f29e3c68716ba9063d446a62",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app.unknown:emission%3A5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
+          "representation": "representation:1:azurerm_container_app.unknown",
+          "emission": "emission:5792da9f26fc5b0abdcb4d1c1f1bb738dbe0deb67e2a06054d6ca86eeede0fe9",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app_environment.literal:emission%3A810aea09bc487f7899f3f7bc170588cdc4f5f84a4d96c4fac475aa2ed6593a1a",
+          "representation": "representation:1:azurerm_container_app_environment.literal",
+          "emission": "emission:810aea09bc487f7899f3f7bc170588cdc4f5f84a4d96c4fac475aa2ed6593a1a",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_container_app_environment.literal:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app_environment.literal:emission%3Aa5fc513bfc4b5d6937a852c9b2827950f7d968b842082207a8c3da5f48f31931",
+          "representation": "representation:1:azurerm_container_app_environment.literal",
+          "emission": "emission:a5fc513bfc4b5d6937a852c9b2827950f7d968b842082207a8c3da5f48f31931",
+          "outcome": "indeterminate",
+          "reason": "ambiguous_unknown",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 1,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app_environment.literal:emission%3Ae3262e17b596bd7cc138422c894ec65b1ef1135ed64b727cca2aed3662b01938",
+          "representation": "representation:1:azurerm_container_app_environment.literal",
+          "emission": "emission:e3262e17b596bd7cc138422c894ec65b1ef1135ed64b727cca2aed3662b01938",
+          "outcome": "indeterminate",
+          "reason": "ambiguous_unknown",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 1,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app_environment.platform:emission%3A810aea09bc487f7899f3f7bc170588cdc4f5f84a4d96c4fac475aa2ed6593a1a",
+          "representation": "representation:1:azurerm_container_app_environment.platform",
+          "emission": "emission:810aea09bc487f7899f3f7bc170588cdc4f5f84a4d96c4fac475aa2ed6593a1a",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_container_app_environment.platform:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app_environment.platform:emission%3Aa5fc513bfc4b5d6937a852c9b2827950f7d968b842082207a8c3da5f48f31931",
+          "representation": "representation:1:azurerm_container_app_environment.platform",
+          "emission": "emission:a5fc513bfc4b5d6937a852c9b2827950f7d968b842082207a8c3da5f48f31931",
+          "outcome": "resolved",
+          "facts": [
+            "relation:azure.relation.observed-by:representation%3A1%3Aazurerm_container_app_environment.platform:representation%3A1%3Aazurerm_log_analytics_workspace.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app_environment.platform:emission%3Ae3262e17b596bd7cc138422c894ec65b1ef1135ed64b727cca2aed3662b01938",
+          "representation": "representation:1:azurerm_container_app_environment.platform",
+          "emission": "emission:e3262e17b596bd7cc138422c894ec65b1ef1135ed64b727cca2aed3662b01938",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aazurerm_container_app_environment.platform:representation%3A1%3Aazurerm_subnet.apps"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app_job.worker:emission%3A6a83854e40d6a8f759637ba8e8270130dce11993c5f398133dfb03e6a07cc3fa",
+          "representation": "representation:1:azurerm_container_app_job.worker",
+          "emission": "emission:6a83854e40d6a8f759637ba8e8270130dce11993c5f398133dfb03e6a07cc3fa",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_container_app_job.worker:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_container_app_job.worker:emission%3Ad01836ac883ad616d673c1e838ee3ae68483d207e4207082a1402a578fdc6fa9",
+          "representation": "representation:1:azurerm_container_app_job.worker",
+          "emission": "emission:d01836ac883ad616d673c1e838ee3ae68483d207e4207082a1402a578fdc6fa9",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.runtime:representation%3A1%3Aazurerm_container_app_job.worker:representation%3A1%3Aazurerm_container_app_environment.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_log_analytics_workspace.platform:emission%3Afa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
+          "representation": "representation:1:azurerm_log_analytics_workspace.platform",
+          "emission": "emission:fa8e0cb14807398413a5c38544bb45c6d3150562b5a199edb81c882f8bc7f477",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_log_analytics_workspace.platform:external%3A1%3Aazure.concept.resource-group%3A1"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 1
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_subnet.apps:emission%3A009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+          "representation": "representation:1:azurerm_subnet.apps",
+          "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.apps:external%3A1%3Aazure.concept.resource-group%3A0"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 1
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_subnet.apps:emission%3Ab6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+          "representation": "representation:1:azurerm_subnet.apps",
+          "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aazurerm_subnet.apps:external%3A1%3Arf.concept.virtual-network%3A0"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 1
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network.platform:emission%3A88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+          "representation": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:external%3A1%3Aazure.concept.resource-group%3A1"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 1
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_container_app.api:declaration%3A1%3Aazurerm_container_app_environment.platform",
+          "from": "declaration:1:azurerm_container_app.api",
+          "to": "declaration:1:azurerm_container_app_environment.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_container_app.api:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_container_app.api",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_container_app.unknown:declaration%3A1%3Aterraform_data.unknown_id",
+          "from": "declaration:1:azurerm_container_app.unknown",
+          "to": "declaration:1:terraform_data.unknown_id",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_container_app_environment.literal:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_container_app_environment.literal",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_container_app_environment.platform:declaration%3A1%3Aazurerm_log_analytics_workspace.platform",
+          "from": "declaration:1:azurerm_container_app_environment.platform",
+          "to": "declaration:1:azurerm_log_analytics_workspace.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_container_app_environment.platform:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_container_app_environment.platform",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_container_app_environment.platform:declaration%3A1%3Aazurerm_subnet.apps",
+          "from": "declaration:1:azurerm_container_app_environment.platform",
+          "to": "declaration:1:azurerm_subnet.apps",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_container_app_job.worker:declaration%3A1%3Aazurerm_container_app_environment.platform",
+          "from": "declaration:1:azurerm_container_app_job.worker",
+          "to": "declaration:1:azurerm_container_app_environment.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_container_app_job.worker:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_container_app_job.worker",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 10,
+        "resources": 10,
+        "data_sources": 0,
+        "instances": 10,
+        "managed_instances": 10,
+        "data_instances": 0,
+        "external_endpoints": 3,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 9,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 1,
+        "facts": 12,
+        "closures": 16,
+        "resolved": 12,
+        "absent": 0,
+        "indeterminate": 4,
+        "dependencies": 9,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {},
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

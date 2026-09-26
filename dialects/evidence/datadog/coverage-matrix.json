@@ -4173,19 +4173,16 @@
       "family": "digital-experience",
       "product": "digital-experience",
       "proof_url": "https://registry.terraform.io/providers/datadog/datadog/4.19.0/docs/resources/synthetics_private_location",
-      "reason": "architecture-role: durable provider-backed service, boundary, integration, pipeline, destination, or runtime",
+      "reason": "no-rule: administrative or fine-grained product configuration owns no independent architecture",
       "relations": [],
       "rootform_concepts": [
         "datadog.concept.synthetic-execution-location"
       ],
-      "rules": [
-        "datadog.rule.synthetics-private-location"
-      ],
+      "rules": [],
       "semantic_research": "deep",
-      "status": "rule-present",
-      "tests": [
-        "datadog-compiler-scenarios"
-      ]
+      "status": "no-rule",
+      "tests": [],
+      "rootform_concept": null
     },
     {
       "construct": "datadog_synthetics_suite",

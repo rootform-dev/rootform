@@ -13,21 +13,54 @@ rule "kafka-cluster" {
 
   as = concept.kafka-cluster
 
-  context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
   }
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.network[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+
+  context {
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.network[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-key" {
-    to  = concept.byok-key
-    via = source.byok_key[0].id
+    to       = concept.byok-key
+    via      = source.byok_key[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -38,10 +71,26 @@ rule "kafka-topic" {
 
   as = concept.message-topic
 
+  identity {
+    attributes = ["topic_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "topic_name"]
+  }
+
   context {
-    as  = rf.context.runtime
-    to  = concept.kafka-cluster
-    via = source.kafka_cluster[0].id
+    as       = rf.context.runtime
+    to       = concept.kafka-cluster
+    via      = source.kafka_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -52,16 +101,39 @@ rule "rtce-topic" {
 
   as = concept.message-topic
 
-  context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+  identity {
+    attributes = ["topic_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "topic_name"]
   }
 
   context {
-    as  = rf.context.runtime
-    to  = concept.kafka-cluster
-    via = source.kafka_cluster[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+
+  context {
+    as       = rf.context.runtime
+    to       = concept.kafka-cluster
+    via      = source.kafka_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -73,8 +145,15 @@ rule "kafka-acl" {
   as = concept.kafka-configuration
 
   contribution {
-    to  = concept.kafka-cluster
-    via = source.kafka_cluster[0].id
+    to       = concept.kafka-cluster
+    via      = source.kafka_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -86,8 +165,15 @@ rule "kafka-client-quota" {
   as = concept.kafka-configuration
 
   contribution {
-    to  = concept.kafka-cluster
-    via = source.kafka_cluster[0].id
+    to       = concept.kafka-cluster
+    via      = source.kafka_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -99,7 +185,14 @@ rule "kafka-cluster-config" {
   as = concept.kafka-configuration
 
   contribution {
-    to  = concept.kafka-cluster
-    via = source.kafka_cluster[0].id
+    to       = concept.kafka-cluster
+    via      = source.kafka_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

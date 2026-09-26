@@ -15,4 +15,13 @@ rule "dynamodb-table" {
   }
 
   as = concept.dynamodb-table
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }

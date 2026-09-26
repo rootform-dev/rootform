@@ -60,7 +60,7 @@ override uses the source without changing `rootform.lock`:
 
 <!-- docs-check:external-try-local -->
 ```sh
-rootform check . --policy-pack ./policies
+rootform run plan.json --policy-pack ./policies --no-serve
 ```
 
 Without the override, commands fail until you record the new content:
@@ -129,7 +129,7 @@ After cloning the project, make its selected content present and verified:
 <!-- docs-check:external-init-clone -->
 ```sh
 rootform init . --locked --no-input
-rootform build . --locked --output architecture.json
+rootform run plan.json --locked --no-serve -o architecture.json
 ```
 
 `init` may fetch only OCI digests recorded in the lock. Add `--offline` when

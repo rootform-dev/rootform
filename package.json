@@ -28,6 +28,8 @@
     "verify": "bun scripts/verify.ts",
     "check:dialects": "bun scripts/dialects/validate.ts && bun test scripts/dialects/*.test.ts",
     "verify:dialects": "bun scripts/dialects/verify.ts",
+    "generate:plan-fixtures": "bun scripts/dialects/generate-plan-fixtures.ts",
+    "update:goldens": "bun scripts/dialects/update-goldens.ts",
     "check:docs": "bun run check:cli && bun scripts/check-docs.ts",
     "check:cli": "bun scripts/generate-cli-reference.ts --check",
     "generate:cli": "bun scripts/generate-cli-reference.ts",

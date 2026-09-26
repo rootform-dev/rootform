@@ -40,6 +40,24 @@ source metadata needed for lookup and never embeds SVG assets. Invalid manifest
 is ignored with warning during normal run; authoring and release validation
 reject it.
 
+The catalog served by `run` and embedded in an HTML export also includes a
+neutral identity and label for each built-in RF Vocabulary Concept:
+
+| Concept | Presentation identity |
+| --- | --- |
+| `rf.concept.kubernetes-cluster` | `kubernetes/cluster` |
+| `rf.concept.managed-database` | `generic/database` |
+| `rf.concept.object-storage-container` | `generic/storage` |
+| `rf.concept.service-identity` | `generic/identity` |
+| `rf.concept.subnet` | `generic/subnet` |
+| `rf.concept.virtual-network` | `generic/network` |
+
+An external endpoint for an RF Vocabulary Concept has that Concept and no
+Rule, so its presentation can use this catalog entry. No Dialect manifest owns
+an `rf` key. These entries are added when building the run catalog; they are
+absent from Dialect package catalogs and do not change a Dialect package
+digest.
+
 Machine schemas:
 
 - [`../schemas/presentation-manifest.schema.json`](../schemas/presentation-manifest.schema.json)

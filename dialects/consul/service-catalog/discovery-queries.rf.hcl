@@ -6,8 +6,15 @@ rule "prepared-query" {
   as = concept.discovery-chain-configuration
 
   contribution {
-    to  = concept.consul-service
-    via = source.service
+    to       = concept.consul-service
+    via      = source.service
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -20,7 +27,14 @@ rule "service-health-lookup" {
   as = concept.operations-configuration
 
   contribution {
-    to  = concept.consul-service
-    via = source.name
+    to       = concept.consul-service
+    via      = source.name
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }

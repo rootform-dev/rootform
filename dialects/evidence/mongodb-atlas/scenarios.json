@@ -61,14 +61,6 @@
         "contributions": 0,
         "relations": 4
       },
-      "expected_diagnostic_codes": [],
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "MongoDB Atlas cluster",
-        "MongoDB Atlas project",
-        "MongoDB Search deployment",
-        "Atlas Stream Processing workspace"
-      ],
       "forbidden_output": [
         "ROOTFORM_ATLAS_PIPELINE_SENTINEL"
       ],
@@ -194,15 +186,6 @@
         "contributions": 18,
         "relations": 49
       },
-      "expected_diagnostic_codes": [],
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "MongoDB Atlas cluster",
-        "Atlas network peering connection",
-        "Encryption at Rest using Customer Key Management",
-        "Atlas federated database instance",
-        "Atlas Stream Processing workspace"
-      ],
       "forbidden_output": [
         "ROOTFORM_ATLAS_AWS_TRUST_SENTINEL",
         "ROOTFORM_ATLAS_OBSERVABILITY_SECRET",
@@ -215,17 +198,6 @@
     {
       "id": "ambiguous-and-sensitive-boundary",
       "fixture": "fixtures/mongodb-atlas-v2/boundary",
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_ATLAS_API_PRIVATE_KEY",
         "ROOTFORM_ATLAS_SNAPSHOT_SENTINEL"

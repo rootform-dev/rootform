@@ -10,8 +10,15 @@ rule "config-entry-service-resolver" {
   as = concept.discovery-chain-configuration
 
   contribution {
-    to  = concept.consul-service
-    via = source.name
+    to       = concept.consul-service
+    via      = source.name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -42,8 +49,15 @@ rule "config-entry-service-router" {
   as = concept.discovery-chain-configuration
 
   contribution {
-    to  = concept.consul-service
-    via = source.name
+    to       = concept.consul-service
+    via      = source.name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -74,8 +88,15 @@ rule "config-entry-service-splitter" {
   as = concept.discovery-chain-configuration
 
   contribution {
-    to  = concept.consul-service
-    via = source.name
+    to       = concept.consul-service
+    via      = source.name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 

@@ -7,7 +7,7 @@ terraform {
   }
 }
 
-variable "unknown_workspace_id" { type = string }
+resource "terraform_data" "unknown_workspace_id" {}
 
 resource "azurerm_resource_group" "platform" {
   name     = "platform"
@@ -22,6 +22,9 @@ resource "azurerm_log_analytics_workspace" "platform" {
 }
 
 resource "azurerm_kubernetes_cluster" "workloads" {
+  node_provisioning_profile {
+    default_node_pools = "Auto"
+  }
   name                = "workloads"
   location            = azurerm_resource_group.platform.location
   resource_group_name = azurerm_resource_group.platform.name
@@ -43,6 +46,9 @@ resource "azurerm_kubernetes_cluster" "workloads" {
 }
 
 resource "azurerm_kubernetes_cluster" "literal_workspace" {
+  node_provisioning_profile {
+    default_node_pools = "Auto"
+  }
   name                = "literal-workspace"
   location            = azurerm_resource_group.platform.location
   resource_group_name = azurerm_resource_group.platform.name
@@ -57,6 +63,9 @@ resource "azurerm_kubernetes_cluster" "literal_workspace" {
 }
 
 resource "azurerm_kubernetes_cluster" "unknown_workspace" {
+  node_provisioning_profile {
+    default_node_pools = "Auto"
+  }
   name                = "unknown-workspace"
   location            = azurerm_resource_group.platform.location
   resource_group_name = azurerm_resource_group.platform.name
@@ -67,5 +76,5 @@ resource "azurerm_kubernetes_cluster" "unknown_workspace" {
     vm_size    = "Standard_D2s_v5"
   }
   identity { type = "SystemAssigned" }
-  oms_agent { log_analytics_workspace_id = var.unknown_workspace_id }
+  oms_agent { log_analytics_workspace_id = terraform_data.unknown_workspace_id.id }
 }

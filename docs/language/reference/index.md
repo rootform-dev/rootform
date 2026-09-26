@@ -62,12 +62,12 @@ Cardinality applies across one source root unless a placement says otherwise.
 | `concept` | Dialect | Top level | 0 or more | Required | [Semantic definitions](dialects.md#semantic-definition-blocks) |
 | `context` definition | Dialect | Top level | 0 or more | Required | [Semantic definitions](dialects.md#semantic-definition-blocks) |
 | `relation` definition | Dialect | Top level | 0 or more | Required | [Semantic definitions](dialects.md#semantic-definition-blocks) |
-| `rule` | Dialect | Top level | 0 or more | Required | [Rules](rules.md#rule-block) |
-| Rule `match` | Dialect | Inside `rule` | Exactly 1 | Forbidden | [Matching](rules.md#match-block) |
-| `context` emission | Dialect | Inside `rule` | 0 or more | Optional, exclusive with `as` | [Context emission](emissions.md#context-emission) |
-| `relation` emission | Dialect | Inside `rule` | 0 or more | Optional, exclusive with `as` | [Relation emission](emissions.md#relation-emission) |
-| `contribution` emission | Dialect | Inside `rule` | 0 or more | Forbidden | [Contribution emission](emissions.md#contribution-emission) |
-| Fact `match` | Dialect | Inside an emission | 0 or 1 | Forbidden | [Explicit attribute match](emissions.md#explicit-attribute-match) |
+| `rule` | Dialect | Top level | 0 or more | Required | [Rules](rules.md) |
+| Rule `match` | Dialect | Inside `rule` | Exactly 1 | Forbidden | [Matching](rules.md) |
+| `context` emission | Dialect | Inside `rule` | 0 or more | Optional, exclusive with `as` | [Context emission](emissions.md#forms-and-parameters) |
+| `relation` emission | Dialect | Inside `rule` | 0 or more | Optional, exclusive with `as` | [Relation emission](emissions.md#forms-and-parameters) |
+| `contribution` emission | Dialect | Inside `rule` | 0 or more | Forbidden | [Contribution emission](emissions.md#forms-and-parameters) |
+| Fact `match` | Dialect | Inside an emission | 0 or 1 | Forbidden | [Explicit attribute match](emissions.md#matching-target-identities) |
 | `composition` | Dialect | Inside `rule` | 0 or 1 | Forbidden | [Composition](composition.md#composition-block) |
 | `member` | Dialect | Inside `composition` | 1 or more | Required | [Member](composition.md#member-block) |
 | Member `match` | Dialect | Inside `member` | Exactly 1 | Forbidden | [Member matching](composition.md#member-matching) |

@@ -12,6 +12,15 @@ rule "logs-archive" {
   }
 
   as = concept.telemetry-destination
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "logs-archive-order" {
@@ -22,8 +31,15 @@ rule "logs-archive-order" {
   as = concept.telemetry-configuration
 
   contribution {
-    to  = concept.telemetry-destination
-    via = source.archive_ids
+    to       = concept.telemetry-destination
+    via      = source.archive_ids
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -33,6 +49,15 @@ rule "logs-custom-destination" {
   }
 
   as = concept.telemetry-destination
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "logs-custom-pipeline" {

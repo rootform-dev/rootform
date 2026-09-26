@@ -4,6 +4,15 @@ rule "ecr-repository" {
   }
 
   as = concept.container-repository
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "ecr-lifecycle-policy" {
@@ -17,6 +26,8 @@ rule "ecr-lifecycle-policy" {
     to  = concept.container-repository
     via = source.repository
 
+    on_null  = "absent"
+    on_empty = "absent"
     match {
       by       = target.name
       strategy = "exact"

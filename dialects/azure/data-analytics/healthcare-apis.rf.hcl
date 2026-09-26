@@ -23,9 +23,19 @@ rule "health-data-fhir-service" {
   as = concept.health-data-service
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -45,9 +55,19 @@ rule "health-data-services-workspace" {
   as = concept.health-data-workspace
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -59,8 +79,18 @@ rule "healthcare-service" {
   as = concept.health-data-service
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

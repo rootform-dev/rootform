@@ -3,12 +3,12 @@ title: "Write a Dialect"
 description: "Define provider interpretation in RF, prove it with fixtures, and package reviewed source."
 ---
 
-A Dialect adds architectural meaning to normalized source declarations. Build
+A Dialect adds architectural meaning to plan or state instances. Build
 Rules from provider evidence, not names or desired diagram shape.
 
 For each Rule prove:
 
-1. exact source declaration eligibility;
+1. exact instance eligibility;
 2. architectural classification, emission, or composition it contributes;
 3. source path proving each result.
 
@@ -101,23 +101,38 @@ Match-only Rules are invalid. `match.kind` defaults to resource;
 `match.type` is required exact adapter type. `where` may narrow with bounded
 typed expression, but unknown value never becomes match.
 
-Every normalized resource already has base representation. Rule enriches same
-identity. Data source requires successful Rule to gain representation.
+Every observed managed and data instance already has a representation. A Rule
+enriches that same instance; lack of a matching Rule never erases it.
 
 ## Add facts and composition deliberately
 
 Use context for named placement, relation for directed domain predicate, and
 contribution for non-absorbing support. `to` accepts Concept or applied Rule;
-`via` starts at source or provider. Explicit scalar matching supports only
-`exact` and `dot-ancestor`.
+`via` starts at source or provider. A `provider.<path>` emission needs a
+verified saved plan and a direct managed-resource reference in the provider
+block named for the resource. Only its `planned` stage can establish traversal
+evidence. Pass-through through variables, locals, and module outputs in that
+provider block's module is accepted. A literal or transformed expression,
+state input, historical stage, OpenTofu provider `for_each`, or JSON
+configuration syntax leaves the closure `indeterminate(unavailable)`.
+Provider blocks are not expanded, and Rootform never reads literal provider
+configuration values because the plan export has no provider schema to identify
+sensitive attributes. Explicit matching accepts `exact`,
+`dot-ancestor`, and `last-segment`. Declare target identity attributes on its
+Rule and list alternative paths in `match.by` in priority order. State
+`on_null` and `on_empty` for every emission. Use `external = "allow"` only with
+a nearby explanation of why an endpoint can be outside the inventory; choose
+`disclose` deliberately and never rely on it for sensitive values.
 
 Common placement patterns stay small:
 
 ```rf title="Direct parent proved by a resource reference"
 context {
-  as  = context.ownership
-  to  = concept.parent
-  via = source.parent_id
+  as       = context.ownership
+  to       = concept.parent
+  via      = source.parent_id
+  on_null  = "absent"
+  on_empty = "absent"
 }
 ```
 
@@ -160,7 +175,9 @@ Named commands use owner-first IDs. Bare name works only when unambiguous.
 ```tree title="Dialect fixture"
 fixtures/example/minimal/
 ├── main.tf
-└── architecture.golden
+├── plan.json
+├── plan.tfplan
+└── analysis.golden
 ```
 
 <!-- docs-check:docs-dialect-authoring-2 -->
@@ -170,7 +187,7 @@ rootform test ./fixtures --run example/minimal
 ```
 
 The active catalog includes embedded Dialects, project selections, and any
-override. While authoring, pass `--dialect ./dialects/payments` to `build`,
+override. While authoring, pass `--dialect ./dialects/payments` to `run`,
 `test`, `validate rule`, `list`, `show`, or `explain` to try a source directory
 without changing the lock. Every command that reads Dialects accepts the same
 flag. Use `rootform add dialects ./dialects/payments` when the project should
@@ -248,11 +265,12 @@ cd ./infra
 rootform add dialects \
   registry.example.com/team/dialects:dialect-payments-0.1.0
 rootform init . --locked --no-input
-rootform build . --locked
 ```
 
+After exporting a plan for this project, analyze it with `rootform run plan.json --project . --locked --no-serve`.
+
 The reference is illustrative; use the published reference you reviewed.
-Run `add` from the same project root that `init` and `build` use. Set
+Run `add` from the same project root that `init` and `run` use. Set
 `DOCKER_CONFIG` before acquisition if the registry needs credentials. `init`
 acquires only recorded exact pins. See
 [External content storage](reference/storage.md) for locations.

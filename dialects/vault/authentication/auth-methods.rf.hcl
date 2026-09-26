@@ -18,8 +18,15 @@ rule "alicloud-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -31,8 +38,15 @@ rule "approle-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -43,10 +57,29 @@ rule "auth-backend" {
 
   as = concept.auth-method
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -58,8 +91,15 @@ rule "aws-auth-backend-cert" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -71,8 +111,15 @@ rule "aws-auth-backend-client" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -100,8 +147,15 @@ rule "aws-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -129,8 +183,15 @@ rule "aws-auth-backend-sts-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -142,8 +203,15 @@ rule "azure-auth-backend-config" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -155,8 +223,15 @@ rule "azure-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -168,8 +243,15 @@ rule "cert-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -181,8 +263,15 @@ rule "cf-auth-backend-config" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.mount
+    to       = concept.auth-method
+    via      = source.mount
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -194,8 +283,15 @@ rule "cf-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.mount
+    to       = concept.auth-method
+    via      = source.mount
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -206,15 +302,36 @@ rule "gcp-auth-backend" {
 
   as = concept.auth-method
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.service_account_email
+    to       = rf.concept.service-identity
+    via      = source.service_account_email
+    on_null  = "absent"
+    on_empty = "absent"
   }
 }
 
@@ -226,8 +343,15 @@ rule "gcp-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -238,10 +362,29 @@ rule "github-auth-backend" {
 
   as = concept.auth-method
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -253,8 +396,15 @@ rule "github-team" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -265,10 +415,29 @@ rule "jwt-auth-backend" {
 
   as = concept.auth-method
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -280,8 +449,15 @@ rule "jwt-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -293,8 +469,15 @@ rule "kerberos-auth-backend-config" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.mount
+    to       = concept.auth-method
+    via      = source.mount
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -306,8 +489,15 @@ rule "kerberos-auth-backend-group" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.mount
+    to       = concept.auth-method
+    via      = source.mount
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -327,19 +517,38 @@ rule "kubernetes-auth-backend-config" {
   as = concept.kubernetes-auth-integration
 
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "authenticates-kubernetes-cluster" {
-    to  = rf.concept.kubernetes-cluster
-    via = source.kubernetes_host
+    to       = rf.concept.kubernetes-cluster
+    via      = source.kubernetes_host
+    on_null  = "absent"
+    on_empty = "absent"
   }
 
   relation "configures-auth-method" {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -351,8 +560,15 @@ rule "kubernetes-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -363,10 +579,29 @@ rule "ldap-auth-backend" {
 
   as = concept.auth-method
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -378,8 +613,15 @@ rule "ldap-auth-backend-group" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -391,8 +633,15 @@ rule "oci-auth-backend" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.path
+    to       = concept.auth-method
+    via      = source.path
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -404,8 +653,15 @@ rule "oci-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -416,10 +672,29 @@ rule "okta-auth-backend" {
 
   as = concept.auth-method
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -431,8 +706,15 @@ rule "okta-auth-backend-group" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.path
+    to       = concept.auth-method
+    via      = source.path
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -444,8 +726,15 @@ rule "radius-auth-backend" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.mount
+    to       = concept.auth-method
+    via      = source.mount
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -456,10 +745,29 @@ rule "saml-auth-backend" {
 
   as = concept.auth-method
 
+  identity {
+    attributes = ["path"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "path"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.namespace
-    via = source.namespace
+    as       = context.ownership
+    to       = concept.namespace
+    via      = source.namespace
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -471,8 +779,15 @@ rule "saml-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.path
+    to       = concept.auth-method
+    via      = source.path
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -484,8 +799,15 @@ rule "scep-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.backend
+    to       = concept.auth-method
+    via      = source.backend
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -497,8 +819,15 @@ rule "spiffe-auth-backend-config" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.mount
+    to       = concept.auth-method
+    via      = source.mount
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 
@@ -510,8 +839,15 @@ rule "spiffe-auth-backend-role" {
   as = concept.auth-configuration
 
   contribution {
-    to  = concept.auth-method
-    via = source.mount
+    to       = concept.auth-method
+    via      = source.mount
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.path
+      strategy = "exact"
+    }
   }
 }
 

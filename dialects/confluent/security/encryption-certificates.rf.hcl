@@ -25,20 +25,15 @@ rule "byok-key" {
 
   as = concept.byok-key
 
-  relation "registers-key" {
-    to  = concept.encryption-key
-    via = source.aws[0].key_arn
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
   }
 
-  relation "registers-key" {
-    to  = concept.encryption-key
-    via = source.azure[0].key_identifier
+  endpoint {
+    attributes = ["id"]
   }
 
-  relation "registers-key" {
-    to  = concept.encryption-key
-    via = source.gcp[0].key_id
-  }
 }
 
 rule "certificate-authority" {
@@ -47,6 +42,15 @@ rule "certificate-authority" {
   }
 
   as = concept.certificate-authority
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "certificate-pool" {
@@ -57,8 +61,15 @@ rule "certificate-pool" {
   as = concept.certificate-pool
 
   relation "trusts" {
-    to  = concept.certificate-authority
-    via = source.certificate_authority[0].id
+    to       = concept.certificate-authority
+    via      = source.certificate_authority[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -69,10 +80,26 @@ rule "provider-integration" {
 
   as = concept.provider-integration
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
 }
@@ -85,8 +112,15 @@ rule "provider-integration-authorization" {
   as = concept.security-configuration
 
   contribution {
-    to  = concept.provider-integration
-    via = source.provider_integration_id
+    to       = concept.provider-integration
+    via      = source.provider_integration_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -98,8 +132,15 @@ rule "provider-integration-setup" {
   as = concept.security-configuration
 
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

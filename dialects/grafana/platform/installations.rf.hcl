@@ -42,8 +42,18 @@ rule "cloud-plugin-installation" {
   as = concept.platform-installation
 
   contribution {
-    to  = concept.observability-tenant
-    via = source.stack_slug
+    to       = concept.observability-tenant
+    via      = source.stack_slug
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.slug
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -55,8 +65,18 @@ rule "k6-installation" {
   as = concept.platform-installation
 
   contribution {
-    to  = concept.observability-tenant
-    via = source.stack_id
+    to       = concept.observability-tenant
+    via      = source.stack_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -68,7 +88,17 @@ rule "synthetic-monitoring-installation" {
   as = concept.platform-installation
 
   contribution {
-    to  = concept.observability-tenant
-    via = source.stack_id
+    to       = concept.observability-tenant
+    via      = source.stack_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared observability-tenant instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

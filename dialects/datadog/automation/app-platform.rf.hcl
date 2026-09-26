@@ -29,6 +29,15 @@ rule "datastore" {
   }
 
   as = concept.application-datastore
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "datastore-item" {
@@ -39,8 +48,15 @@ rule "datastore-item" {
   as = concept.service-integration-configuration
 
   contribution {
-    to  = concept.application-datastore
-    via = source.datastore_id
+    to       = concept.application-datastore
+    via      = source.datastore_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -53,8 +69,15 @@ rule "datastore-item-lookup" {
   as = concept.service-integration-configuration
 
   contribution {
-    to  = concept.application-datastore
-    via = source.datastore_id
+    to       = concept.application-datastore
+    via      = source.datastore_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -65,4 +88,13 @@ rule "datastore-lookup" {
   }
 
   as = concept.application-datastore
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

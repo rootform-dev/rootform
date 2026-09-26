@@ -13,6 +13,15 @@ rule "healthcare-dataset" {
   }
 
   as = concept.healthcare-dataset
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "self_link"]
+  }
 }
 
 rule "healthcare-fhir-store" {
@@ -23,9 +32,16 @@ rule "healthcare-fhir-store" {
   as = concept.healthcare-store
 
   context {
-    as  = context.ownership
-    to  = concept.healthcare-dataset
-    via = source.dataset
+    as       = context.ownership
+    to       = concept.healthcare-dataset
+    via      = source.dataset
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -37,9 +53,16 @@ rule "healthcare-dicom-store" {
   as = concept.healthcare-store
 
   context {
-    as  = context.ownership
-    to  = concept.healthcare-dataset
-    via = source.dataset
+    as       = context.ownership
+    to       = concept.healthcare-dataset
+    via      = source.dataset
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -51,9 +74,16 @@ rule "healthcare-hl7v2-store" {
   as = concept.healthcare-store
 
   context {
-    as  = context.ownership
-    to  = concept.healthcare-dataset
-    via = source.dataset
+    as       = context.ownership
+    to       = concept.healthcare-dataset
+    via      = source.dataset
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -65,8 +95,15 @@ rule "healthcare-consent-store" {
   as = concept.healthcare-store
 
   context {
-    as  = context.ownership
-    to  = concept.healthcare-dataset
-    via = source.dataset
+    as       = context.ownership
+    to       = concept.healthcare-dataset
+    via      = source.dataset
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

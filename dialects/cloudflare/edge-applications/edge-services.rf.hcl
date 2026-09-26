@@ -26,15 +26,21 @@ rule "spectrum-application" {
   as = concept.spectrum-application
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
-  relation "routes-to" {
-    to  = concept.load-balancer
-    via = source.origin_direct
-  }
 }
 
 rule "waiting-room" {
@@ -44,10 +50,29 @@ rule "waiting-room" {
 
   as = concept.waiting-room
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -59,8 +84,18 @@ rule "email-routing-settings" {
   as = concept.email-routing-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -72,8 +107,18 @@ rule "email-routing-rule" {
   as = concept.email-routing-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -85,8 +130,18 @@ rule "email-routing-catch-all" {
   as = concept.email-routing-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -98,13 +153,30 @@ rule "waiting-room-event" {
   as = concept.waiting-room-configuration
 
   contribution {
-    to  = concept.waiting-room
-    via = source.waiting_room_id
+    to       = concept.waiting-room
+    via      = source.waiting_room_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -116,13 +188,30 @@ rule "waiting-room-rules" {
   as = concept.waiting-room-configuration
 
   contribution {
-    to  = concept.waiting-room
-    via = source.waiting_room_id
+    to       = concept.waiting-room
+    via      = source.waiting_room_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -134,8 +223,18 @@ rule "waiting-room-settings" {
   as = concept.waiting-room-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 

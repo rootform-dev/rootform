@@ -127,7 +127,7 @@ names one relative local directory or one tagless OCI repository with exact
 manifest and layer digests and bounded sizes. `rootform init` verifies those
 pins and may acquire only a missing exact OCI package; it never enumerates a
 registry, resolves a tag or version, detects providers, selects a Dialect, or
-writes the lock. `check` performs no acquisition and no network access.
+writes the lock. `run` performs no acquisition and no network access.
 
 ## Integrity and installation
 

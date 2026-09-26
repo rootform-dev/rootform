@@ -12,7 +12,14 @@ rule "online-table" {
   as = concept.online-serving-configuration
 
   contribution {
-    to  = concept.lakeflow-pipeline
-    via = source.spec.pipeline_id
+    to       = concept.lakeflow-pipeline
+    via      = source.spec[0].pipeline_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

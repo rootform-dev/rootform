@@ -12,6 +12,10 @@ terraform {
       source  = "hashicorp/google"
       version = "8.0.0"
     }
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = "8.0.0"
+    }
     snowflake = {
       source  = "snowflakedb/snowflake"
       version = "2.20.0"
@@ -19,31 +23,31 @@ terraform {
   }
 }
 
+# Reads of this provider need its API, so the plan defers them until apply.
+resource "terraform_data" "defer_reads" {
+}
 resource "aws_s3_bucket" "lake" {
   bucket = "rootform-snowflake-lake"
 }
-
 resource "aws_iam_role" "snowflake" {
   name               = "rootform-snowflake"
-  assume_role_policy = "ROOTFORM_SNOWFLAKE_AWS_TRUST_SENTINEL"
+  assume_role_policy = jsonencode({ Version = "2012-10-17", Statement = [{ Effect = "Allow", Action = "sts:AssumeRole", Principal = { Service = "ec2.amazonaws.com" }, Condition = { StringEquals = { "aws:PrincipalTag/marker" = "ROOTFORM_SNOWFLAKE_AWS_TRUST_SENTINEL" } } }] })
 }
 
 resource "aws_kms_key" "lake" {
-  description = "Snowflake stage key"
-}
 
+  description = "Snowflake stage key"
+
+}
 resource "aws_sns_topic" "snowpipe" {
   name = "rootform-snowpipe"
 }
-
 resource "aws_sqs_queue" "notifications" {
   name = "rootform-snowflake-notifications"
 }
-
 resource "aws_api_gateway_rest_api" "external_function" {
   name = "rootform-snowflake"
 }
-
 resource "azurerm_resource_group" "snowflake" {
   name     = "rg-snowflake"
   location = "West Europe"
@@ -63,8 +67,8 @@ resource "azurerm_storage_container" "lake" {
 }
 
 resource "azurerm_storage_queue" "notifications" {
-  name                 = "snowflake-notifications"
-  storage_account_name = azurerm_storage_account.lake.name
+  storage_account_id = azurerm_storage_account.lake.id
+  name               = "snowflake-notifications"
 }
 
 resource "azurerm_user_assigned_identity" "snowflake" {
@@ -103,42 +107,49 @@ resource "google_kms_crypto_key" "lake" {
 }
 
 resource "google_pubsub_topic" "snowpipe" {
-  name = "snowpipe"
-}
 
+  name = "snowpipe"
+
+}
 resource "google_pubsub_subscription" "snowpipe" {
   name  = "snowpipe"
   topic = google_pubsub_topic.snowpipe.id
 }
 
 resource "google_api_gateway_gateway" "external_function" {
+  provider   = google-beta
   gateway_id = "snowflake"
   api_config = "projects/rootform/locations/global/apis/snowflake/configs/current"
 }
 
 resource "snowflake_account" "platform" {
-  name           = "ROOTFORM_PLATFORM"
-  admin_name     = "ROOTFORM_ADMIN"
-  admin_password = "ROOTFORM_SNOWFLAKE_ADMIN_PASSWORD_SENTINEL"
-  email          = "platform@example.invalid"
-  edition        = "ENTERPRISE"
-  region         = "AWS_US_EAST_1"
+  grace_period_in_days = 3
+  name                 = "ROOTFORM_PLATFORM"
+  admin_name           = "ROOTFORM_ADMIN"
+  admin_password       = "ROOTFORM_SNOWFLAKE_ADMIN_PASSWORD_SENTINEL"
+  email                = "platform@example.invalid"
+  edition              = "ENTERPRISE"
+  region               = "AWS_US_EAST_1"
 }
 
 resource "snowflake_database" "analytics" {
-  name = "ANALYTICS"
-}
 
+  name = "ANALYTICS"
+
+}
 resource "snowflake_schema" "pipelines" {
   database = snowflake_database.analytics.fully_qualified_name
   name     = "PIPELINES"
 }
 
 resource "snowflake_warehouse" "transform" {
-  name = "TRANSFORM"
-}
 
+  name = "TRANSFORM"
+
+}
 resource "snowflake_dynamic_table" "orders" {
+  target_lag {
+  }
   database  = snowflake_database.analytics.name
   schema    = snowflake_schema.pipelines.fully_qualified_name
   name      = "ORDERS"
@@ -147,29 +158,33 @@ resource "snowflake_dynamic_table" "orders" {
 }
 
 resource "snowflake_storage_integration_aws" "lake" {
+  storage_provider          = "s3"
+  enabled                   = false
   name                      = "AWS_LAKE"
   storage_aws_role_arn      = aws_iam_role.snowflake.arn
   storage_allowed_locations = [aws_s3_bucket.lake.id]
 }
 
 resource "snowflake_storage_integration_azure" "lake" {
+  enabled                   = false
   name                      = "AZURE_LAKE"
   azure_tenant_id           = "00000000-0000-0000-0000-000000000000"
   storage_allowed_locations = [azurerm_storage_container.lake.id]
 }
 
 resource "snowflake_storage_integration_gcs" "lake" {
+  enabled                   = false
   name                      = "GCS_LAKE"
   storage_allowed_locations = [google_storage_bucket.lake.id]
 }
 
 resource "snowflake_notification_integration" "aws" {
-  name               = "AWS_NOTIFICATIONS"
-  direction          = "OUTBOUND"
+  name                  = "AWS_NOTIFICATIONS"
+  direction             = "OUTBOUND"
   notification_provider = "AWS_SNS"
-  aws_sns_topic_arn  = aws_sns_topic.snowpipe.arn
-  aws_sqs_arn        = aws_sqs_queue.notifications.arn
-  aws_sns_role_arn   = aws_iam_role.snowflake.arn
+  aws_sns_topic_arn     = aws_sns_topic.snowpipe.arn
+  aws_sqs_arn           = aws_sqs_queue.notifications.arn
+  aws_sns_role_arn      = aws_iam_role.snowflake.arn
 }
 
 resource "snowflake_notification_integration" "azure" {
@@ -181,11 +196,11 @@ resource "snowflake_notification_integration" "azure" {
 }
 
 resource "snowflake_notification_integration" "google" {
-  name                          = "GCP_NOTIFICATIONS"
-  direction                     = "INBOUND"
-  notification_provider         = "GCP_PUBSUB"
-  gcp_pubsub_topic_name         = google_pubsub_topic.snowpipe.id
-  gcp_pubsub_subscription_name  = google_pubsub_subscription.snowpipe.id
+  name                         = "GCP_NOTIFICATIONS"
+  direction                    = "INBOUND"
+  notification_provider        = "GCP_PUBSUB"
+  gcp_pubsub_topic_name        = google_pubsub_topic.snowpipe.id
+  gcp_pubsub_subscription_name = google_pubsub_subscription.snowpipe.id
 }
 
 resource "snowflake_stage_external_s3" "aws" {
@@ -257,6 +272,7 @@ resource "snowflake_pipe" "orders" {
 }
 
 resource "snowflake_task" "load" {
+  started       = false
   database      = snowflake_database.analytics.name
   schema        = snowflake_schema.pipelines.fully_qualified_name
   name          = "LOAD"
@@ -265,6 +281,7 @@ resource "snowflake_task" "load" {
 }
 
 resource "snowflake_task" "publish" {
+  started       = false
   database      = snowflake_database.analytics.name
   schema        = snowflake_schema.pipelines.fully_qualified_name
   name          = "PUBLISH"
@@ -274,19 +291,23 @@ resource "snowflake_task" "publish" {
 }
 
 resource "snowflake_api_integration_amazon_api_gateway" "aws" {
+  enabled              = false
+  api_provider         = "aws_api_gateway"
   name                 = "AWS_API"
   api_allowed_prefixes = [aws_api_gateway_rest_api.external_function.id]
   api_aws_role_arn     = aws_iam_role.snowflake.arn
 }
 
 resource "snowflake_api_integration_azure_api_management" "azure" {
-  name                 = "AZURE_API"
-  api_allowed_prefixes = [azurerm_api_management.external_function.id]
-  azure_tenant_id      = "00000000-0000-0000-0000-000000000000"
+  enabled                 = false
+  name                    = "AZURE_API"
+  api_allowed_prefixes    = [azurerm_api_management.external_function.id]
+  azure_tenant_id         = "00000000-0000-0000-0000-000000000000"
   azure_ad_application_id = "00000000-0000-0000-0000-000000000000"
 }
 
 resource "snowflake_api_integration_google_cloud_api_gateway" "google" {
+  enabled              = false
   name                 = "GCP_API"
   api_allowed_prefixes = [google_api_gateway_gateway.external_function.id]
   google_audience      = "rootform"
@@ -299,6 +320,7 @@ resource "snowflake_external_function" "score" {
   api_integration           = snowflake_api_integration_amazon_api_gateway.aws.fully_qualified_name
   url_of_proxy_and_resource = "https://example.invalid/score"
   return_type               = "VARIANT"
+  return_behavior           = "VOLATILE"
 }
 
 resource "snowflake_network_rule" "egress" {
@@ -311,6 +333,7 @@ resource "snowflake_network_rule" "egress" {
 }
 
 resource "snowflake_external_access_integration" "egress" {
+  enabled               = false
   name                  = "EGRESS"
   allowed_network_rules = [snowflake_network_rule.egress.fully_qualified_name]
 }
@@ -383,15 +406,16 @@ resource "snowflake_streamlit" "dashboard" {
 }
 
 resource "snowflake_service_user" "automation" {
-  name             = "AUTOMATION"
+  name              = "AUTOMATION"
   default_warehouse = snowflake_warehouse.transform.fully_qualified_name
-  rsa_public_key   = "ROOTFORM_SNOWFLAKE_RSA_PUBLIC_KEY_SENTINEL"
+  rsa_public_key    = "ROOTFORM_SNOWFLAKE_RSA_PUBLIC_KEY_SENTINEL"
 }
 
 resource "snowflake_share" "analytics" {
-  name = "ANALYTICS_SHARE"
-}
 
+  name = "ANALYTICS_SHARE"
+
+}
 resource "snowflake_listing" "analytics" {
   name  = "ANALYTICS_LISTING"
   share = snowflake_share.analytics.fully_qualified_name
@@ -409,5 +433,6 @@ resource "snowflake_secret_with_generic_string" "credential" {
 }
 
 data "snowflake_warehouses" "lookup" {
-  like = snowflake_warehouse.transform.name
+  depends_on = [terraform_data.defer_reads]
+  like       = snowflake_warehouse.transform.name
 }

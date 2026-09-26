@@ -220,7 +220,10 @@
     "vpn-connection": "AWS Site-to-Site VPN connection",
     "vpn-gateway": "virtual private gateway"
   },
-  "concepts": {},
+  "concepts": {
+    "encryption-key": "generic/entity",
+    "iam-role": "generic/identity"
+  },
   "concept_labels": {},
   "resources": {
     "resource/aws_bedrockagentcore_agent_runtime_endpoint": "generic/entity",

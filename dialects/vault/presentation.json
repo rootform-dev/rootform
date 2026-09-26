@@ -186,6 +186,7 @@
     "certificate-authority": "generic/identity",
     "data-transformation": "generic/entity",
     "encryption-configuration": "generic/entity",
+    "encryption-key": "generic/entity",
     "external-ca-integration": "generic/identity",
     "governance-configuration": "generic/entity",
     "identity-configuration": "generic/identity",

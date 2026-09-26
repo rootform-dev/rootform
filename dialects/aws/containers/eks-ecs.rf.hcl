@@ -4,6 +4,15 @@ rule "eks-cluster" {
   }
 
   as = rf.concept.kubernetes-cluster
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "endpoint"]
+  }
 }
 
 rule "eks-node-group" {
@@ -17,6 +26,11 @@ rule "eks-node-group" {
     to  = rf.concept.kubernetes-cluster
     via = source.cluster_name
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared kubernetes-cluster instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.name
       strategy = "exact"
@@ -35,6 +49,11 @@ rule "eks-fargate-profile" {
     to  = rf.concept.kubernetes-cluster
     via = source.cluster_name
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared kubernetes-cluster instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.name
       strategy = "exact"
@@ -48,6 +67,15 @@ rule "ecs-cluster" {
   }
 
   as = concept.ecs-cluster
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "ecs-service" {
@@ -58,8 +86,15 @@ rule "ecs-service" {
   as = concept.ecs-service
 
   context {
-    as  = rf.context.runtime
-    to  = concept.ecs-cluster
-    via = source.cluster
+    as       = rf.context.runtime
+    to       = concept.ecs-cluster
+    via      = source.cluster
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }

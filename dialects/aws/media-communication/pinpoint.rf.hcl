@@ -13,4 +13,13 @@ rule "pinpoint-app" {
   }
 
   as = concept.pinpoint-app
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "application_id"]
+  }
 }

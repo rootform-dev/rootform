@@ -8,6 +8,15 @@ rule "auth-server" {
   }
 
   as = concept.authorization-server
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "auth-server-default" {
@@ -16,6 +25,15 @@ rule "auth-server-default" {
   }
 
   as = concept.authorization-server
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "auth-server-lookup" {
@@ -25,6 +43,15 @@ rule "auth-server-lookup" {
   }
 
   as = concept.authorization-server
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "oauth-authorization-server-lookup" {
@@ -34,4 +61,13 @@ rule "oauth-authorization-server-lookup" {
   }
 
   as = concept.authorization-server
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

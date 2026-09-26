@@ -1,6 +1,13 @@
 #!/usr/bin/env bun
 
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  writeFileSync,
+} from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 
 type Flag = {
@@ -58,10 +65,7 @@ export const beginGenerated = (path: string): string => `<!-- BEGIN GENERATED CL
 // These pages retain authored guidance; only their syntax and command inventory are generated.
 const authoredCommands = new Set([
   "rootform",
-  "rootform build",
   "rootform run",
-  "rootform check",
-  "rootform diff",
   "rootform init",
   "rootform explain",
   "rootform explain architecture",
@@ -313,7 +317,9 @@ export function commandNavigation(commands: Command[]): Nav[] {
 
 export function generate(root: string, check: boolean): void {
   const commands = parseReference(
-    JSON.parse(readFileSync(join(root, "reference/cli.json"), "utf8")),
+    JSON.parse(
+      readFileSync(process.env.ROOTFORM_CLI_REFERENCE ?? join(root, "reference/cli.json"), "utf8"),
+    ),
   );
   for (const path of authoredCommands) {
     if (!commands.some((cmd) => cmd.path === path)) {
@@ -370,7 +376,15 @@ export function generate(root: string, check: boolean): void {
       mkdirSync(dirname(path), { recursive: true });
       writeFileSync(path, text);
     }
-    for (const path of stale) rmSync(path);
+    for (const path of stale) {
+      const retired = join(
+        root,
+        "../notes/tmp/analysis-review/rebuild/retired/docs",
+        relative(root, path),
+      );
+      mkdirSync(dirname(retired), { recursive: true });
+      renameSync(path, retired);
+    }
   }
   console.log(`CLI reference ${check ? "verified" : "generated"}: ${commands.length} commands`);
 }

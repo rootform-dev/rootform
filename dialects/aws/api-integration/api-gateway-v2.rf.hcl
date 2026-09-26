@@ -5,4 +5,13 @@ rule "apigatewayv2-api" {
   }
 
   as = concept.api-gateway
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

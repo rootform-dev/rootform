@@ -25,10 +25,26 @@ rule "flink-compute-pool" {
 
   as = concept.flink-compute-pool
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -48,20 +64,44 @@ rule "flink-connection" {
   as = concept.flink-connection
 
   context {
-    as  = rf.context.runtime
-    to  = concept.flink-compute-pool
-    via = source.compute_pool[0].id
+    as       = rf.context.runtime
+    to       = concept.flink-compute-pool
+    via      = source.compute_pool[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-principal" {
-    to  = rf.concept.service-identity
-    via = source.principal[0].id
+    to       = rf.concept.service-identity
+    via      = source.principal[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -73,19 +113,43 @@ rule "flink-materialized-table" {
   as = concept.flink-materialized-table
 
   context {
-    as  = rf.context.runtime
-    to  = concept.flink-compute-pool
-    via = source.compute_pool[0].id
+    as       = rf.context.runtime
+    to       = concept.flink-compute-pool
+    via      = source.compute_pool[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-kafka-cluster" {
-    to  = concept.kafka-cluster
-    via = source.kafka_cluster[0].id
+    to       = concept.kafka-cluster
+    via      = source.kafka_cluster[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 
   relation "uses-principal" {
-    to  = rf.concept.service-identity
-    via = source.principal[0].id
+    to       = rf.concept.service-identity
+    via      = source.principal[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -97,8 +161,15 @@ rule "flink-statement" {
   as = concept.flink-configuration
 
   contribution {
-    to  = concept.flink-compute-pool
-    via = source.compute_pool[0].id
+    to       = concept.flink-compute-pool
+    via      = source.compute_pool[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -110,8 +181,15 @@ rule "flink-artifact" {
   as = concept.flink-artifact
 
   context {
-    as  = context.ownership
-    to  = concept.environment
-    via = source.environment[0].id
+    as       = context.ownership
+    to       = concept.environment
+    via      = source.environment[0].id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

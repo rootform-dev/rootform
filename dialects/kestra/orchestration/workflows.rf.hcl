@@ -12,6 +12,15 @@ rule "namespace" {
   }
 
   as = concept.namespace
+
+  identity {
+    attributes = ["namespace_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "namespace_id"]
+  }
 }
 
 rule "flow" {
@@ -26,6 +35,11 @@ rule "flow" {
     to  = concept.namespace
     via = source.namespace
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.namespace_id
       strategy = "dot-ancestor"

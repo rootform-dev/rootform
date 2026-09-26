@@ -1,7 +1,6 @@
 resource "kestra_namespace" "platform" {
   namespace_id = "platform"
 }
-
 resource "kestra_flow" "ingest" {
   namespace = "platform.analytics"
   flow_id   = "ingest"

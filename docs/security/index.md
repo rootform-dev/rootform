@@ -18,7 +18,7 @@ to explicit preparation or publication, plus the loopback server used by
 | `rootform vendor dialects` and `rootform vendor policy-packs` | Copy selected local sources directly. May acquire and install missing exact OCI content before vendoring when acquisition is allowed. |
 | `rootform publish dialects` and `rootform publish policy-packs` | Deliberately write package artifacts to a registry and repull their exact identity. |
 | `rootform package` | Creates local OCI layouts without registry access. |
-| `build`, `check`, `diff`, `explain`, `list`, `show`, `validate`, and `test` | Use available embedded, local, installed, or vendored content. They never acquire packages implicitly. |
+| `run`, `explain`, `list`, `show`, `validate`, and `test` | Use available embedded, local, installed, or vendored content. They never acquire packages implicitly. |
 | `rootform run` | Serves the local architecture over loopback. It does not make an outbound Rootform connection or acquire packages. |
 
 `--locked` requires and preserves an existing `rootform.lock`; it does not
@@ -51,8 +51,8 @@ the same architecture evidence. No raw values does not mean anonymized.
 
 Review saved architecture JSON or HTML, reports, and standard-error diagnostics
 before sharing them. Apply the same audience and retention rules as other
-infrastructure metadata. The [plan guide](../inputs/plans.md#protect-the-plan-files)
-explains the input risk, and [Architecture IR](../concepts/architecture-ir.md#saved-evidence-still-needs-handling-rules)
+infrastructure metadata. The [plan guide](../inputs/plans.md)
+explains the input risk, and [Architecture IR](../concepts/architecture-ir.md)
 describes the retained evidence.
 
 ## Separate integrity from trust

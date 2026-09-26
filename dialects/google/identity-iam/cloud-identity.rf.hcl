@@ -8,6 +8,15 @@ rule "cloud-identity-group" {
   }
 
   as = concept.identity-group
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "cloud-identity-group-membership" {
@@ -18,7 +27,14 @@ rule "cloud-identity-group-membership" {
   as = concept.cloud-identity-group-membership
 
   contribution {
-    to  = concept.identity-group
-    via = source.group
+    to       = concept.identity-group
+    via      = source.group
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }

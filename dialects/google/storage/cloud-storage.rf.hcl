@@ -4,6 +4,15 @@ rule "cloud-storage-bucket" {
   }
 
   as = rf.concept.object-storage-container
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "self_link"]
+  }
 }
 
 rule "cloud-storage-bucket-iam-member" {
@@ -17,9 +26,14 @@ rule "cloud-storage-bucket-iam-member" {
     to  = rf.concept.object-storage-container
     via = source.bucket
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared object-storage-container instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.name
-      strategy = "exact"
+      strategy = "last-segment"
     }
   }
 }

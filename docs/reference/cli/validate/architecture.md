@@ -13,14 +13,13 @@ validity and internal consistency, not Policy compliance or live cloud state.
 ## Usage
 
 ```text
-rootform validate architecture [input] [flags]
+rootform validate architecture <document> [flags]
 ```
 
 ## Flags
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate architecture |
 
@@ -43,5 +42,5 @@ rootform validate architecture architecture.json --format json
 Text is the default result; JSON is also available. The result goes to
 standard output and diagnostics to standard error. Status `0` means valid,
 `1` means invalid, `2` means incorrect command use, and `3` means validation
-could not be completed. Use [`check`](../check.md) to evaluate Policies and
+could not be completed. Use [`run`](../run.md) to evaluate Policies and
 [Architecture IR](../../../concepts/architecture-ir.md) for document meaning.

@@ -4,6 +4,15 @@ rule "cloud-stack" {
   }
 
   as = concept.observability-tenant
+
+  identity {
+    attributes = ["id", "slug"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "slug", "name"]
+  }
 }
 
 rule "cloud-stack-lookup" {
@@ -13,4 +22,13 @@ rule "cloud-stack-lookup" {
   }
 
   as = concept.observability-tenant
+
+  identity {
+    attributes = ["id", "slug"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "slug", "name"]
+  }
 }

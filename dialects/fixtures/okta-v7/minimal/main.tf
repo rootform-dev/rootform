@@ -22,10 +22,21 @@ resource "okta_auth_server" "api" {
 }
 
 resource "okta_idp_oidc" "workforce" {
-  name = "workforce"
+  client_secret         = "fx-workforce-client-secret"
+  token_url             = "https://example.com"
+  token_binding         = "fx-workforce-token-binding"
+  scopes                = ["fixture"]
+  jwks_url              = "https://example.com"
+  jwks_binding          = "fx-workforce-jwks-binding"
+  issuer_url            = "https://example.com"
+  client_id             = "00000000-0000-0000-0000-000000000001"
+  authorization_url     = "https://example.com"
+  authorization_binding = "fx-workforce-authorization-binding"
+  name                  = "workforce"
 }
 
 resource "okta_event_hook" "audit" {
-  name   = "audit"
-  events = ["user.lifecycle.create"]
+  channel = {}
+  name    = "audit"
+  events  = ["user.lifecycle.create"]
 }

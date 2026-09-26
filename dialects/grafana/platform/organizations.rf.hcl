@@ -4,6 +4,15 @@ rule "organization" {
   }
 
   as = concept.observability-tenant
+
+  identity {
+    attributes = ["id", "org_id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "org_id", "name"]
+  }
 }
 
 rule "organization-lookup" {
@@ -13,4 +22,13 @@ rule "organization-lookup" {
   }
 
   as = concept.observability-tenant
+
+  identity {
+    attributes = ["id", "name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }

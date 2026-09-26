@@ -10,8 +10,15 @@ rule "config-entry-service-intentions" {
   as = concept.mesh-security-configuration
 
   contribution {
-    to  = concept.consul-service
-    via = source.name
+    to       = concept.consul-service
+    via      = source.name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -42,12 +49,26 @@ rule "intention" {
   as = concept.mesh-security-configuration
 
   contribution {
-    to  = concept.consul-service
-    via = source.source_name
+    to       = concept.consul-service
+    via      = source.source_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   contribution {
-    to  = concept.consul-service
-    via = source.destination_name
+    to       = concept.consul-service
+    via      = source.destination_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }

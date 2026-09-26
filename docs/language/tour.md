@@ -175,7 +175,7 @@ CONCEPT_UNKNOWN  rules/network.rf.hcl:18:10
 
 Compiled definitions build Architecture IR. Use `rootform validate dialects` for
 language source, `rootform test` for reviewed Architecture IR fixtures, and
-`rootform check` for policies. `rootform diff` compares two built documents.
+`rootform run` for plan or state analysis and selected policies. `rootform run before.json --diff after.json` compares two inputs.
 
 <!-- rootform:endsteps -->
 

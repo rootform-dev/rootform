@@ -22,15 +22,44 @@ rule "application-insights" {
 
   as = concept.application-insights
 
+  identity {
+    attributes = ["id", "connection_string"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "connection_string", "instrumentation_key"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "observed-by" {
-    to  = concept.log-analytics-workspace
-    via = source.workspace_id
+    to       = concept.log-analytics-workspace
+    via      = source.workspace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared log-analytics-workspace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -49,10 +78,29 @@ rule "log-analytics-cluster" {
 
   as = concept.log-analytics-workspace
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -64,8 +112,18 @@ rule "log-analytics-data-export-rule" {
   as = concept.operations-detail
 
   contribution {
-    to  = concept.log-analytics-workspace
-    via = source.workspace_resource_id
+    to       = concept.log-analytics-workspace
+    via      = source.workspace_resource_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared log-analytics-workspace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -77,8 +135,18 @@ rule "log-analytics-saved-search" {
   as = concept.operations-detail
 
   contribution {
-    to  = concept.log-analytics-workspace
-    via = source.log_analytics_workspace_id
+    to       = concept.log-analytics-workspace
+    via      = source.log_analytics_workspace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared log-analytics-workspace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -90,14 +158,34 @@ rule "log-analytics-solution" {
   as = concept.operations-detail
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.log-analytics-workspace
-    via = source.workspace_resource_id
+    to       = concept.log-analytics-workspace
+    via      = source.workspace_resource_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared log-analytics-workspace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -108,10 +196,29 @@ rule "log-analytics-workspace" {
 
   as = concept.log-analytics-workspace
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -123,8 +230,18 @@ rule "log-analytics-workspace-table" {
   as = concept.operations-detail
 
   contribution {
-    to  = concept.log-analytics-workspace
-    via = source.workspace_id
+    to       = concept.log-analytics-workspace
+    via      = source.workspace_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared log-analytics-workspace instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -176,9 +293,19 @@ rule "monitor-workspace" {
   as = concept.monitor-workspace
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -190,8 +317,18 @@ rule "network-watcher" {
   as = concept.network-watcher
 
   context {
-    as  = context.ownership
-    to  = concept.resource-group
-    via = source.resource_group_name
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }

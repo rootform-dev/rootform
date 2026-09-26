@@ -4,6 +4,15 @@ rule "iam-role" {
   }
 
   as = concept.iam-role
+
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name"]
+  }
 }
 
 rule "iam-role-policy-attachment" {
@@ -17,6 +26,11 @@ rule "iam-role-policy-attachment" {
     to  = concept.iam-role
     via = source.role
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared iam-role instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.name
       strategy = "exact"
@@ -35,6 +49,11 @@ rule "iam-instance-profile" {
     to  = concept.iam-role
     via = source.role
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared iam-role instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.name
       strategy = "exact"

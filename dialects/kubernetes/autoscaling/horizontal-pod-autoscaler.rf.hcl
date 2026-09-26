@@ -14,6 +14,11 @@ rule "kubernetes-horizontal-pod-autoscaler" {
     to  = concept.namespace
     via = source.metadata[0].namespace
 
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
     match {
       by       = target.metadata[0].name
       strategy = "exact"

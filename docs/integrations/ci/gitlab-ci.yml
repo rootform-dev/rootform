@@ -1,25 +1,22 @@
-# Use a shell runner with checksum-verified Rootform 0.1.0 on PATH.
-# The runner user must be able to write under CI_PROJECT_DIR.
-rootform:
-  tags:
-    - rootform-0-1-0
+stages: [review]
+
+rootform-review:
+  stage: review
   variables:
     ROOTFORM_PROJECT: ./infra
     ROOTFORM_OUTPUT_DIR: .rootform-ci-${CI_JOB_ID}
   script:
-    - test "$(pwd)" = "$CI_PROJECT_DIR"
     - test -w "$CI_PROJECT_DIR"
-    - sh ./ci/rootform-ci.sh
+    - terraform -chdir=infra init -input=false
+    - terraform -chdir=infra plan -input=false -out="$CI_PROJECT_DIR/plan.tfplan"
+    - terraform -chdir=infra show -json "$CI_PROJECT_DIR/plan.tfplan" > plan.json
+    - ROOTFORM_INPUT=plan.json ROOTFORM_PLAN_FILE=plan.tfplan sh ./ci/rootform-ci.sh
   artifacts:
     when: always
     paths:
-      - $ROOTFORM_OUTPUT_DIR/architecture.json
-      - $ROOTFORM_OUTPUT_DIR/init.json
-      - $ROOTFORM_OUTPUT_DIR/init.stderr
-      - $ROOTFORM_OUTPUT_DIR/build.stderr
-      - $ROOTFORM_OUTPUT_DIR/diff.json
-      - $ROOTFORM_OUTPUT_DIR/diff.md
-      - $ROOTFORM_OUTPUT_DIR/diff.stderr
-      - $ROOTFORM_OUTPUT_DIR/check.json
-      - $ROOTFORM_OUTPUT_DIR/check.stderr
-      - $ROOTFORM_OUTPUT_DIR/check.status
+      - .rootform-ci-*/analysis.json
+      - .rootform-ci-*/report.md
+      - .rootform-ci-*/results.sarif
+      - .rootform-ci-*/summary.txt
+      - .rootform-ci-*/run.stderr
+      - .rootform-ci-*/run.status

@@ -9,10 +9,29 @@ rule "secret-manager-secret" {
 
   as = concept.managed-secret
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.google-cloud-project
-    via = source.project
+    as       = context.ownership
+    to       = concept.google-cloud-project
+    via      = source.project
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.project_id
+      strategy = "exact"
+    }
+
+    # Shared google-cloud-project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -24,8 +43,15 @@ rule "secret-manager-secret-version" {
   as = concept.secret-manager-secret-version
 
   contribution {
-    to  = concept.managed-secret
-    via = source.secret
+    to       = concept.managed-secret
+    via      = source.secret
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -36,10 +62,29 @@ rule "secret-manager-regional-secret" {
 
   as = concept.managed-secret
 
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.google-cloud-project
-    via = source.project
+    as       = context.ownership
+    to       = concept.google-cloud-project
+    via      = source.project
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.project_id
+      strategy = "exact"
+    }
+
+    # Shared google-cloud-project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -51,7 +96,14 @@ rule "secret-manager-regional-secret-version" {
   as = concept.secret-manager-secret-version
 
   contribution {
-    to  = concept.managed-secret
-    via = source.secret
+    to       = concept.managed-secret
+    via      = source.secret
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }

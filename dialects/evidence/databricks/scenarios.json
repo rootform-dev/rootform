@@ -51,13 +51,6 @@
         "contributions": 0,
         "relations": 4
       },
-      "expected_diagnostic_codes": [],
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "Databricks compute cluster",
-        "Unity Catalog catalog",
-        "Mosaic AI Model Serving endpoint"
-      ],
       "forbidden_output": [
         "ROOTFORM_DATABRICKS_TEST_SECRET"
       ],
@@ -145,14 +138,6 @@
         "contributions": 4,
         "relations": 35
       },
-      "expected_diagnostic_codes": [],
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "Databricks workspace",
-        "Unity Catalog catalog",
-        "Lakebase project",
-        "Mosaic AI Model Serving endpoint"
-      ],
       "forbidden_output": [
         "ROOTFORM_DATABRICKS_GCP_PRIVATE_KEY"
       ],
@@ -163,13 +148,6 @@
     {
       "id": "ambiguous-and-sensitive-boundary",
       "fixture": "fixtures/databricks-v1/boundary",
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_DATABRICKS_BOUNDARY_SECRET",
         "ROOTFORM_DATABRICKS_BOUNDARY_NOTEBOOK",

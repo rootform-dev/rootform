@@ -13,4 +13,13 @@ rule "connect-instance" {
   }
 
   as = concept.connect-instance
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

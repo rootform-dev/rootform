@@ -18,20 +18,50 @@ rule "aws-network-peering" {
   as = concept.network-peering
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.hvn_id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "peers-with" {
-    to  = rf.concept.virtual-network
-    via = source.peer_vpc_id
+    to       = rf.concept.virtual-network
+    via      = source.peer_vpc_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -44,20 +74,50 @@ rule "aws-network-peering-lookup" {
   as = concept.network-peering
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.hvn_id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "peers-with" {
-    to  = rf.concept.virtual-network
-    via = source.peer_vpc_id
+    to       = rf.concept.virtual-network
+    via      = source.peer_vpc_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -69,15 +129,35 @@ rule "aws-transit-gateway-attachment" {
   as = concept.transit-gateway-attachment
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.hvn_id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -90,15 +170,35 @@ rule "aws-transit-gateway-attachment-lookup" {
   as = concept.transit-gateway-attachment
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.hvn_id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -110,20 +210,50 @@ rule "azure-peering-connection" {
   as = concept.network-peering
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_link
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_link
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.self_link
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "peers-with" {
-    to  = rf.concept.virtual-network
-    via = source.peer_vnet_name
+    to       = rf.concept.virtual-network
+    via      = source.peer_vnet_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -136,20 +266,50 @@ rule "azure-peering-connection-lookup" {
   as = concept.network-peering
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_link
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_link
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.self_link
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "peers-with" {
-    to  = rf.concept.virtual-network
-    via = source.peer_vnet_name
+    to       = rf.concept.virtual-network
+    via      = source.peer_vnet_name
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -161,20 +321,50 @@ rule "hvn-peering-connection" {
   as = concept.network-peering
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_1
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_1
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.self_link
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "peers-with" {
-    to  = rf.concept.virtual-network
-    via = source.hvn_2
+    to       = rf.concept.virtual-network
+    via      = source.hvn_2
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.self_link
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -187,20 +377,50 @@ rule "hvn-peering-connection-lookup" {
   as = concept.network-peering
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_1
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_1
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.self_link
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "peers-with" {
-    to  = rf.concept.virtual-network
-    via = source.hvn_2
+    to       = rf.concept.virtual-network
+    via      = source.hvn_2
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.self_link
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -212,8 +432,18 @@ rule "hvn-route" {
   as = concept.network-configuration
 
   contribution {
-    to  = rf.concept.virtual-network
-    via = source.hvn_link
+    to       = rf.concept.virtual-network
+    via      = source.hvn_link
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.self_link
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -226,8 +456,18 @@ rule "hvn-route-lookup" {
   as = concept.network-configuration
 
   contribution {
-    to  = rf.concept.virtual-network
-    via = source.hvn_link
+    to       = rf.concept.virtual-network
+    via      = source.hvn_link
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.self_link
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -239,20 +479,47 @@ rule "private-link" {
   as = concept.private-link-service
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.hvn_id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "exposes-vault-cluster" {
-    to  = concept.vault-dedicated-cluster
-    via = source.vault_cluster_id
+    to       = concept.vault-dedicated-cluster
+    via      = source.vault_cluster_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.cluster_id
+      strategy = "exact"
+    }
   }
 }
 
@@ -265,19 +532,46 @@ rule "private-link-lookup" {
   as = concept.private-link-service
 
   context {
-    as  = rf.context.network
-    to  = rf.concept.virtual-network
-    via = source.hvn_id
+    as       = rf.context.network
+    to       = rf.concept.virtual-network
+    via      = source.hvn_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.hvn_id
+      strategy = "exact"
+    }
+
+    # Shared virtual-network instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "exposes-vault-cluster" {
-    to  = concept.vault-dedicated-cluster
-    via = source.vault_cluster_id
+    to       = concept.vault-dedicated-cluster
+    via      = source.vault_cluster_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.cluster_id
+      strategy = "exact"
+    }
   }
 }

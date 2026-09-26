@@ -21,15 +21,41 @@ rule "vault-secrets-app" {
 
   as = concept.vault-secrets-application
 
+  identity {
+    attributes = ["app_name", "resource_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "app_name", "resource_name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "syncs-to" {
-    to  = concept.vault-secrets-sync
-    via = source.sync_names
+    to       = concept.vault-secrets-sync
+    via      = source.sync_names
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }
 
@@ -41,8 +67,15 @@ rule "vault-secrets-app-iam-binding" {
   as = concept.vault-secrets-configuration
 
   contribution {
-    to  = concept.vault-secrets-application
-    via = source.resource_name
+    to       = concept.vault-secrets-application
+    via      = source.resource_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_name
+      strategy = "exact"
+    }
   }
 }
 
@@ -54,8 +87,15 @@ rule "vault-secrets-app-iam-policy" {
   as = concept.vault-secrets-configuration
 
   contribution {
-    to  = concept.vault-secrets-application
-    via = source.resource_name
+    to       = concept.vault-secrets-application
+    via      = source.resource_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_name
+      strategy = "exact"
+    }
   }
 }
 
@@ -67,10 +107,29 @@ rule "vault-secrets-app-lookup" {
 
   as = concept.vault-secrets-application
 
+  identity {
+    attributes = ["app_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "app_name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -82,19 +141,43 @@ rule "vault-secrets-dynamic-secret" {
   as = concept.managed-secret
 
   context {
-    as  = context.ownership
-    to  = concept.vault-secrets-application
-    via = source.app_name
+    as       = context.ownership
+    to       = concept.vault-secrets-application
+    via      = source.app_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.app_name
+      strategy = "exact"
+    }
   }
 
   relation "uses-integration" {
-    to  = concept.vault-secrets-integration
-    via = source.integration_name
+    to       = concept.vault-secrets-integration
+    via      = source.integration_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.gcp_impersonate_service_account.service_account_email
+    to       = rf.concept.service-identity
+    via      = source.gcp_impersonate_service_account.service_account_email
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.email
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -107,8 +190,15 @@ rule "vault-secrets-dynamic-secret-lookup" {
   as = concept.vault-secrets-configuration
 
   contribution {
-    to  = concept.vault-secrets-application
-    via = source.app_name
+    to       = concept.vault-secrets-application
+    via      = source.app_name
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.app_name
+      strategy = "exact"
+    }
   }
 }
 
@@ -119,25 +209,74 @@ rule "vault-secrets-integration" {
 
   as = concept.vault-secrets-integration
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "resource_id", "resource_name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.azure_federated_workload_identity.client_id
+    to       = rf.concept.service-identity
+    via      = source.azure_federated_workload_identity.client_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.gcp_federated_workload_identity.service_account_email
+    to       = rf.concept.service-identity
+    via      = source.gcp_federated_workload_identity.service_account_email
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.email
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.gcp_service_account_key.client_email
+    to       = rf.concept.service-identity
+    via      = source.gcp_service_account_key.client_email
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.email
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -148,10 +287,29 @@ rule "vault-secrets-integration-aws" {
 
   as = concept.vault-secrets-integration
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "resource_id", "resource_name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
 }
@@ -163,15 +321,44 @@ rule "vault-secrets-integration-azure" {
 
   as = concept.vault-secrets-integration
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "resource_id", "resource_name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.federated_workload_identity.client_id
+    to       = rf.concept.service-identity
+    via      = source.federated_workload_identity.client_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -182,10 +369,29 @@ rule "vault-secrets-integration-confluent" {
 
   as = concept.vault-secrets-integration
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "resource_id", "resource_name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -196,20 +402,59 @@ rule "vault-secrets-integration-gcp" {
 
   as = concept.vault-secrets-integration
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "resource_id", "resource_name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.federated_workload_identity.service_account_email
+    to       = rf.concept.service-identity
+    via      = source.federated_workload_identity.service_account_email
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.email
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.service_account_key.client_email
+    to       = rf.concept.service-identity
+    via      = source.service_account_key.client_email
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.email
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -220,10 +465,29 @@ rule "vault-secrets-integration-mongodbatlas" {
 
   as = concept.vault-secrets-integration
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "resource_id", "resource_name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -234,10 +498,29 @@ rule "vault-secrets-integration-twilio" {
 
   as = concept.vault-secrets-integration
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "resource_id", "resource_name"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -249,29 +532,73 @@ rule "vault-secrets-rotating-secret" {
   as = concept.managed-secret
 
   context {
-    as  = context.ownership
-    to  = concept.vault-secrets-application
-    via = source.app_name
+    as       = context.ownership
+    to       = concept.vault-secrets-application
+    via      = source.app_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.app_name
+      strategy = "exact"
+    }
   }
 
   relation "uses-integration" {
-    to  = concept.vault-secrets-integration
-    via = source.integration_name
+    to       = concept.vault-secrets-integration
+    via      = source.integration_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.azure_application_password.app_client_id
+    to       = rf.concept.service-identity
+    via      = source.azure_application_password.app_client_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.confluent_service_account.service_account_id
+    to       = rf.concept.service-identity
+    via      = source.confluent_service_account.service_account_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-cloud-identity" {
-    to  = rf.concept.service-identity
-    via = source.gcp_service_account_key.service_account_email
+    to       = rf.concept.service-identity
+    via      = source.gcp_service_account_key.service_account_email
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.email
+      strategy = "exact"
+    }
+
+    # Shared service-identity instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -284,8 +611,15 @@ rule "vault-secrets-rotating-secret-lookup" {
   as = concept.vault-secrets-configuration
 
   contribution {
-    to  = concept.vault-secrets-application
-    via = source.app_name
+    to       = concept.vault-secrets-application
+    via      = source.app_name
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.app_name
+      strategy = "exact"
+    }
   }
 }
 
@@ -297,9 +631,16 @@ rule "vault-secrets-secret" {
   as = concept.managed-secret
 
   context {
-    as  = context.ownership
-    to  = concept.vault-secrets-application
-    via = source.app_name
+    as       = context.ownership
+    to       = concept.vault-secrets-application
+    via      = source.app_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.app_name
+      strategy = "exact"
+    }
   }
 }
 
@@ -312,8 +653,15 @@ rule "vault-secrets-secret-lookup" {
   as = concept.vault-secrets-configuration
 
   contribution {
-    to  = concept.vault-secrets-application
-    via = source.app_name
+    to       = concept.vault-secrets-application
+    via      = source.app_name
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.app_name
+      strategy = "exact"
+    }
   }
 }
 
@@ -324,14 +672,40 @@ rule "vault-secrets-sync" {
 
   as = concept.vault-secrets-sync
 
+  identity {
+    attributes = ["name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["name", "resource_id"]
+  }
+
   context {
-    as  = context.ownership
-    to  = concept.project
-    via = source.project_id
+    as       = context.ownership
+    to       = concept.project
+    via      = source.project_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.resource_id
+      strategy = "exact"
+    }
+
+    # Shared project instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   relation "uses-integration" {
-    to  = concept.vault-secrets-integration
-    via = source.integration_name
+    to       = concept.vault-secrets-integration
+    via      = source.integration_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
   }
 }

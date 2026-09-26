@@ -13,4 +13,13 @@ rule "cognito-user-pool" {
   }
 
   as = concept.cognito-user-pool
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }

@@ -41,6 +41,15 @@ rule "zone" {
   }
 
   as = concept.dns-zone
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "proxied-dns-record" {
@@ -52,15 +61,21 @@ rule "proxied-dns-record" {
   as = concept.edge-route
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
-  relation "routes-to" {
-    to  = concept.load-balancer
-    via = source.content
-  }
 }
 
 rule "dns-record" {
@@ -72,8 +87,18 @@ rule "dns-record" {
   as = concept.dns-record-detail
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -85,8 +110,18 @@ rule "zone-dnssec" {
   as = concept.zone-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -98,8 +133,18 @@ rule "zone-setting" {
   as = concept.zone-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -111,8 +156,18 @@ rule "zone-dns-settings" {
   as = concept.zone-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -124,8 +179,18 @@ rule "zone-hold" {
   as = concept.zone-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -138,9 +203,19 @@ rule "custom-hostname" {
   as = concept.custom-hostname
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -152,15 +227,21 @@ rule "custom-hostname-fallback-origin" {
   as = concept.saas-fallback-origin
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
-  relation "routes-to" {
-    to  = concept.load-balancer
-    via = source.origin
-  }
 }
 
 rule "web3-hostname" {
@@ -171,9 +252,19 @@ rule "web3-hostname" {
   as = concept.web3-hostname
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -185,8 +276,18 @@ rule "account-dns-internal-view" {
   as = concept.dns-view
 
   relation "includes-zone" {
-    to  = concept.dns-zone
-    via = source.zones
+    to       = concept.dns-zone
+    via      = source.zones
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -198,9 +299,19 @@ rule "regional-hostname" {
   as = concept.edge-route
 
   context {
-    as  = context.ownership
-    to  = concept.dns-zone
-    via = source.zone_id
+    as       = context.ownership
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 }
 
@@ -210,6 +321,15 @@ rule "dns-transfer-peer" {
   }
 
   as = concept.dns-transfer-peer
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "dns-transfer-incoming" {
@@ -220,13 +340,30 @@ rule "dns-transfer-incoming" {
   as = concept.dns-transfer-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-transfer-peer
-    via = source.peers
+    to       = concept.dns-transfer-peer
+    via      = source.peers
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 
@@ -238,13 +375,30 @@ rule "dns-transfer-outgoing" {
   as = concept.dns-transfer-configuration
 
   contribution {
-    to  = concept.dns-zone
-    via = source.zone_id
+    to       = concept.dns-zone
+    via      = source.zone_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+
+    # Shared dns-zone instances can be provisioned by a separate configuration.
+    external = "allow"
   }
 
   contribution {
-    to  = concept.dns-transfer-peer
-    via = source.peers
+    to       = concept.dns-transfer-peer
+    via      = source.peers
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 

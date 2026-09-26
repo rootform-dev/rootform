@@ -21,9 +21,13 @@ rule "api-integration" {
 
   as = concept.api-integration
 
-  relation "connects-api-gateway" {
-    to  = concept.api-gateway
-    via = source.api_allowed_prefixes[0]
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
   }
 
 }
@@ -35,9 +39,13 @@ rule "amazon-api-gateway-integration" {
 
   as = concept.api-integration
 
-  relation "connects-api-gateway" {
-    to  = concept.api-gateway
-    via = source.api_allowed_prefixes[0]
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
   }
 
 }
@@ -49,10 +57,15 @@ rule "azure-api-management-integration" {
 
   as = concept.api-integration
 
-  relation "connects-api-gateway" {
-    to  = concept.api-gateway
-    via = source.api_allowed_prefixes[0]
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
   }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
+
 }
 
 rule "google-cloud-api-gateway-integration" {
@@ -62,10 +75,15 @@ rule "google-cloud-api-gateway-integration" {
 
   as = concept.api-integration
 
-  relation "connects-api-gateway" {
-    to  = concept.api-gateway
-    via = source.api_allowed_prefixes[0]
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
   }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
+
 }
 
 rule "external-mcp-dynamic-client-integration" {
@@ -74,6 +92,15 @@ rule "external-mcp-dynamic-client-integration" {
   }
 
   as = concept.api-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "external-mcp-oauth2-integration" {
@@ -82,6 +109,15 @@ rule "external-mcp-oauth2-integration" {
   }
 
   as = concept.api-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "github-app-repository-integration" {
@@ -90,6 +126,15 @@ rule "github-app-repository-integration" {
   }
 
   as = concept.api-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "oauth2-repository-integration" {
@@ -98,6 +143,15 @@ rule "oauth2-repository-integration" {
   }
 
   as = concept.api-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "private-link-repository-integration" {
@@ -106,6 +160,15 @@ rule "private-link-repository-integration" {
   }
 
   as = concept.api-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "token-repository-integration" {
@@ -114,6 +177,15 @@ rule "token-repository-integration" {
   }
 
   as = concept.api-integration
+
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
 }
 
 rule "external-access-integration" {
@@ -123,9 +195,25 @@ rule "external-access-integration" {
 
   as = concept.external-access-integration
 
+  identity {
+    attributes = ["id", "name", "fully_qualified_name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "name", "fully_qualified_name"]
+  }
+
   relation "uses-api-authentication-integration" {
-    to  = concept.identity-integration
-    via = source.allowed_api_authentication_integrations[0].integrations[0]
+    to       = concept.identity-integration
+    via      = source.allowed_api_authentication_integrations[0].integrations[0]
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -137,14 +225,28 @@ rule "external-function" {
   as = concept.external-function
 
   context {
-    as  = context.ownership
-    to  = concept.schema
-    via = source.schema
+    as       = context.ownership
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   relation "uses-api-integration" {
-    to  = concept.api-integration
-    via = source.api_integration
+    to       = concept.api-integration
+    via      = source.api_integration
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }
 
@@ -156,13 +258,27 @@ rule "git-repository" {
   as = concept.git-repository
 
   context {
-    as  = context.ownership
-    to  = concept.schema
-    via = source.schema
+    as       = context.ownership
+    to       = concept.schema
+    via      = source.schema
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 
   relation "uses-api-integration" {
-    to  = concept.api-integration
-    via = source.api_integration
+    to       = concept.api-integration
+    via      = source.api_integration
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = [target.name, target.fully_qualified_name]
+      strategy = "exact"
+    }
   }
 }

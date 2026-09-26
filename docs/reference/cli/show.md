@@ -21,7 +21,7 @@ rootform show <name> [flags]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | use a dialect source `dir` for this run; repeatable |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
 | ` -o, --format ` | ` string ` | ` "" ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show |
 

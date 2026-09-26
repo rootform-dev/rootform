@@ -9,9 +9,20 @@ rule "kubernetes-namespace" {
 
   as = concept.namespace
 
+  identity {
+    attributes = ["id", "metadata[0].name"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id", "metadata[0].name"]
+  }
+
   context {
-    as  = rf.context.runtime
-    to  = rf.concept.kubernetes-cluster
-    via = provider.host
+    as       = rf.context.runtime
+    to       = rf.concept.kubernetes-cluster
+    via      = provider.host
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
   }
 }

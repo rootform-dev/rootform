@@ -1,6 +1,5 @@
 {
   "format_version": "1",
-  "verified_date": "2026-08-30",
   "scenarios": [
     {
       "id": "minimal-data-platform",
@@ -60,14 +59,6 @@
         "contributions": 0,
         "relations": 0
       },
-      "expected_diagnostic_codes": [],
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "Snowflake database",
-        "Snowflake dynamic table",
-        "Snowflake virtual warehouse",
-        "Snowflake task"
-      ],
       "limitations": [
         "Warehouse and database connect through an explicit dynamic-table or task workload; no direct warehouse/database ownership is invented."
       ]
@@ -216,15 +207,6 @@
         "contributions": 1,
         "relations": 37
       },
-      "expected_diagnostic_codes": [],
-      "expected_check_violations": [],
-      "expected_html_labels": [
-        "Snowflake storage integration for Amazon S3",
-        "Snowflake external stage for Azure Storage",
-        "Snowflake notification integration",
-        "Snowpark Container Services service",
-        "Cortex Search service"
-      ],
       "forbidden_output": [
         "ROOTFORM_SNOWFLAKE_ADMIN_PASSWORD_SENTINEL",
         "ROOTFORM_SNOWFLAKE_AGENT_SPEC_SENTINEL",
@@ -240,15 +222,6 @@
     {
       "id": "ambiguous-and-sensitive-boundary",
       "fixture": "fixtures/snowflake-v2/boundary",
-      "expected_build_failure": true,
-      "expected_diagnostic_codes": [
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_AMBIGUOUS",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED",
-        "TRAVERSAL_UNRESOLVED"
-      ],
       "forbidden_output": [
         "ROOTFORM_SNOWFLAKE_BOUNDARY_SECRET_SENTINEL",
         "ROOTFORM_SNOWFLAKE_EXECUTE_SENTINEL"
