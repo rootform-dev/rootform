@@ -15,8 +15,8 @@ examples, and release metadata.
 - [`schemas/`](schemas/): machine-readable public schemas;
 - [`docs/`](docs/): installation, concepts, CLI, dialect authoring, security,
   offline operation, and integrations;
-- [`examples/`](examples/): synthetic AWS, Azure, GCP, Kubernetes, and
-  multi-cloud examples;
+- [`examples/`](examples/): synthetic Terraform plan projects with saved plans
+  for architecture analysis and comparison;
 - [`dialects/`](dialects/): maintained official Dialect sources, public
   evidence, and fixtures embedded in Rootform releases;
 - [`policy-packs/`](policy-packs/): package-ready public Policy Pack examples.

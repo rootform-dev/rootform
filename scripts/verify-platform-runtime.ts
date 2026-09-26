@@ -45,7 +45,7 @@ export type JourneyStep = { detail?: string; name: string; ok: boolean };
 
 export type JourneyEvidence = {
   binary: string;
-  check_sha256: string | null;
+  run_sha256: string | null;
   lock_absence_preserved: boolean;
   lock_unchanged: boolean;
   empty_vendor_rejected: boolean;
@@ -323,8 +323,8 @@ export async function runJourney(
     assertTargetMatchesHost(arguments_.target, host.platform, host.arch),
   );
   attempt("binary-is-regular-file", () => requireRegularFile(arguments_.binary, "rootform binary"));
-  let checkSha = "";
-  let onlineCheck = "";
+  let runSha = "";
+  let onlineRun = "";
   let version: string | null = null;
   let sandbox: string | undefined;
 
@@ -335,7 +335,7 @@ export async function runJourney(
     const freshHome = join(sandbox, "fresh home");
     const outputs = join(sandbox, "outputs");
     const root = join(import.meta.dir, "..");
-    const example = join(root, "examples", "aws-vpc");
+    const example = join(root, "examples", "playground", "shared-data-platform", "base");
     const registryConfig = join(sandbox, "registry docker config");
     const invalidDockerConfig = join(sandbox, "invalid docker config");
     const invalidCa = join(sandbox, "invalid-ca.pem");
@@ -351,15 +351,23 @@ export async function runJourney(
     activeRedactions = redactions;
     const run = (command: string[], cwd: string, environment: Record<string, string>) =>
       runBinary(arguments_.binary, command, { cwd, environment, redactions });
-    const check = (command: string[], cwd: string, environment: Record<string, string>) => {
-      const outcome = runBinaryStatus(arguments_.binary, command, { cwd, environment, redactions });
-      if (outcome.exitCode !== 3) {
-        throw new Error(
-          `rootform check exit ${outcome.exitCode}, expected not_evaluated exit 3: ${outcome.stderr.trim()}`,
-        );
-      }
-      return outcome;
-    };
+    const runPlan = (cwd: string, environment: Record<string, string>, output?: string) =>
+      run(
+        [
+          "run",
+          join(project, "plan.json"),
+          "--project",
+          project,
+          "--plan-file",
+          join(project, "plan.tfplan"),
+          "--require-enrichment",
+          "--locked",
+          "--no-serve",
+          ...(output ? ["-o", output] : ["--format", "json"]),
+        ],
+        cwd,
+        environment,
+      );
 
     attempt("sandbox-preparation", () => {
       mkdirSync(outputs);
@@ -371,7 +379,7 @@ export async function runJourney(
       writeFileSync(invalidCa, "not a pem bundle\n");
       cpSync(example, project, { recursive: true });
       if (!lockBody(project).equals(lockBody(example))) {
-        throw new Error("copied example lock differs from versioned aws-vpc lock");
+        throw new Error("copied playground lock differs from versioned lock");
       }
       lockSelections(project);
     });
@@ -435,36 +443,61 @@ export async function runJourney(
       }
     });
 
-    const onlineBuild = join(outputs, "build-online.json");
+    const onlineDocument = join(outputs, "run-online.json");
     attempt(
-      "build-online-locked",
+      "run-online-locked",
       () => {
-        run(
-          ["build", project, "--locked", "--format", "json", "--output", onlineBuild],
-          project,
-          onlineEnvironment,
-        );
-        return digest(readFileSync(onlineBuild));
+        runPlan(project, onlineEnvironment, onlineDocument);
+        const document = JSON.parse(readFileSync(onlineDocument, "utf8")) as {
+          format_version?: string;
+          kind?: string;
+        };
+        if (document.format_version !== "1" || document.kind !== "plan")
+          throw new Error("run did not produce a format-1 plan");
+        return digest(readFileSync(onlineDocument));
       },
       (sha) => `sha256:${sha}`,
     );
 
-    checkSha = attempt(
-      "check-online-locked",
+    runSha = attempt(
+      "run-stdout-online-locked",
       () => {
-        const outcome = check(
-          ["check", project, "--locked", "--format", "json"],
-          project,
-          onlineEnvironment,
-        );
-        onlineCheck = outcome.stdout;
-        return digest(onlineCheck);
+        onlineRun = runPlan(project, onlineEnvironment).stdout;
+        if (onlineRun !== readFileSync(onlineDocument, "utf8"))
+          throw new Error("stdout document differs from file document");
+        return digest(onlineRun);
       },
       (sha) => `sha256:${sha}`,
     );
+
+    attempt("policy-without-target-exits-3", () => {
+      const outcome = runBinaryStatus(
+        arguments_.binary,
+        [
+          "run",
+          join(root, "scripts", "fixtures", "portable-plan.json"),
+          "--project",
+          project,
+          "--policy-pack",
+          join(root, "policy-packs", "baseline"),
+          "--no-serve",
+          "--format",
+          "json",
+        ],
+        { cwd: project, environment: onlineEnvironment, redactions },
+      );
+      if (outcome.exitCode !== 3 || !outcome.stderr.includes("POLICY_NO_DECISION")) {
+        throw new Error(`policy without target exited ${outcome.exitCode}: ${outcome.stderr}`);
+      }
+      const document = JSON.parse(outcome.stdout) as { format_version?: string; kind?: string };
+      if (document.format_version !== "1" || document.kind !== "plan") {
+        throw new Error("undecided policy did not return a format-1 plan");
+      }
+    });
 
     attempt("supplied-dialects-never-install", () => {
-      rmSync(join(home, "dialects"), { force: true, recursive: true });
+      if (existsSync(join(home, "dialects")))
+        throw new Error("supplied Dialects installed before offline init");
       run(
         ["init", project, "--locked", "--offline", "--no-input", "--format", "json"],
         project,
@@ -499,35 +532,39 @@ export async function runJourney(
       }
     });
 
-    const offlineBuild = join(outputs, "build-offline.json");
+    const offlineDocument = join(outputs, "run-offline.json");
     attempt(
-      "offline-build-without-credentials",
+      "offline-run-without-credentials",
       () => {
-        run(["build", project, "--locked", "--format", "json", "--output", offlineBuild], project, {
-          ...offlineEnvironment,
-          ROOTFORM_HOME: freshHome,
-        });
-        if (!readFileSync(onlineBuild).equals(readFileSync(offlineBuild))) {
-          throw new Error("offline build output differs from supplied release-set output");
+        runPlan(
+          project,
+          {
+            ...offlineEnvironment,
+            ROOTFORM_HOME: freshHome,
+          },
+          offlineDocument,
+        );
+        if (!readFileSync(onlineDocument).equals(readFileSync(offlineDocument))) {
+          throw new Error("offline run output differs from supplied release-set output");
         }
         if (!lockBody(project).equals(expectedLock)) {
-          throw new Error("offline --locked build changed the lock");
+          throw new Error("offline --locked run changed the lock");
         }
-        return digest(readFileSync(offlineBuild));
+        return digest(readFileSync(offlineDocument));
       },
       (sha) => `sha256:${sha}`,
     );
 
-    attempt("offline-check-without-credentials", () => {
-      const outcome = check(["check", project, "--locked", "--format", "json"], project, {
+    attempt("offline-run-stdout-without-credentials", () => {
+      const outcome = runPlan(project, {
         ...offlineEnvironment,
         ROOTFORM_HOME: freshHome,
       });
-      if (outcome.stdout !== onlineCheck) {
-        throw new Error("offline check output differs from supplied release-set output");
+      if (outcome.stdout !== onlineRun) {
+        throw new Error("offline run output differs from supplied release-set output");
       }
       if (existsSync(join(freshHome, "dialects"))) {
-        throw new Error("offline check installed supplied Dialects");
+        throw new Error("offline run installed supplied Dialects");
       }
     });
 
@@ -552,7 +589,7 @@ export async function runJourney(
         }
       }
       const shown = JSON.parse(
-        run(["show", "dialect", "aws", "--format", "json"], project, environment).stdout,
+        run(["show", "aws", "--format", "json"], project, environment).stdout,
       ) as { name?: unknown; origin?: unknown; version?: unknown };
       if (shown.name !== "aws" || shown.origin !== "supplied") {
         throw new Error("embedded supplied Dialect inspection drifted");
@@ -610,7 +647,7 @@ export async function runJourney(
 
   return {
     binary: basename(arguments_.binary),
-    check_sha256: checkSha,
+    run_sha256: runSha,
     lock_absence_preserved: true,
     lock_unchanged: true,
     empty_vendor_rejected: true,
@@ -653,7 +690,7 @@ async function main(): Promise<void> {
   } catch (error) {
     evidence = {
       binary: basename(parsed.binary),
-      check_sha256: null,
+      run_sha256: null,
       lock_absence_preserved: false,
       lock_unchanged: false,
       empty_vendor_rejected: false,

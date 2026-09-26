@@ -15,7 +15,7 @@ ARG ROOTFORM_REVISION
 ARG ROOTFORM_VERSION
 
 LABEL org.opencontainers.image.created="${ROOTFORM_CREATED}" \
-      org.opencontainers.image.description="Rootform analyzes Terraform and OpenTofu source into a deterministic architecture model." \
+      org.opencontainers.image.description="Rootform turns Terraform and OpenTofu plan or state exports into a deterministic architecture model." \
       org.opencontainers.image.documentation="https://github.com/rootform-dev/rootform/blob/main/docs/integrations/oci-image.md" \
       org.opencontainers.image.licenses="Elastic-2.0" \
       org.opencontainers.image.revision="${ROOTFORM_REVISION}" \

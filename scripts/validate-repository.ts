@@ -147,7 +147,6 @@ export function validateRepository(): void {
     "docs/integrations/ci/azure-pipelines.yml",
     "docs/integrations/ci/generic-ci.sh",
     "docs/integrations/ci/github-actions-plan.yml",
-    "docs/integrations/ci/github-actions.yml",
     "docs/integrations/ci/gitlab-ci.yml",
     "docs/integrations/ci/rootform-ci.sh",
     "oci/Dockerfile",
@@ -160,7 +159,8 @@ export function validateRepository(): void {
     "scripts/download-release.ts",
     "scripts/extract-release-binary.ts",
     "scripts/generate-installation.ts",
-    "scripts/fixtures/aws-vpc-plan.json",
+    "scripts/fixtures/portable-plan.json",
+    "scripts/fixtures/aws-subnet-plan.json",
     "scripts/qualify-installation.ts",
     "scripts/release/archive.ts",
     "scripts/release/contract.ts",
@@ -240,25 +240,8 @@ export function validateRepository(): void {
     .filter((entry) => entry.isDirectory())
     .map(({ name }) => name)
     .sort((a, b) => a.localeCompare(b, "en"));
-  const standardExamples = [
-    "aws-vpc",
-    "azure-network",
-    "gcp-cloud-sql",
-    "kubernetes-workload",
-    "multi-cloud",
-  ];
-  if (
-    JSON.stringify(examples) !==
-    JSON.stringify([...standardExamples, "playground"].sort((a, b) => a.localeCompare(b, "en")))
-  ) {
+  if (JSON.stringify(examples) !== JSON.stringify(["playground"])) {
     throw new Error(`example inventory mismatch: ${examples.join(", ")}`);
-  }
-  for (const example of standardExamples) {
-    const directory = join(root, "examples", example);
-    validateExampleDialectLock(directory, example);
-    if (!readdirSync(directory).some((name) => name.endsWith(".tf") || name.endsWith(".tf.json"))) {
-      throw new Error(`example contains no Terraform source: ${example}`);
-    }
   }
 
   const playground = join(root, "examples", "playground");

@@ -391,6 +391,10 @@ resource "portable_service" "main" {}
 `,
     { flag: "wx", mode: 0o644 },
   );
+  cpSync(join(import.meta.dir, "fixtures", "portable-plan.json"), join(root, "plan.json"), {
+    errorOnExist: true,
+    force: false,
+  });
 }
 
 function readBlob(layout: string, digest: string, label: string): Buffer {
@@ -571,6 +575,47 @@ function hasFiles(path: string): boolean {
 
 function verifyJSON(body: string, label: string): JsonObject {
   return parseJSON(body, label);
+}
+
+function verifyPlan(body: string, label: string): void {
+  const document = parseJSON(body, label);
+  const semantics = object(document.semantics, `${label} semantics`);
+  const stages = object(document.stages, `${label} stages`);
+  const planned = object(stages.planned, `${label} planned stage`);
+  if (
+    document.format_version !== "1" ||
+    document.kind !== "plan" ||
+    !Array.isArray(semantics.owners) ||
+    !semantics.owners.some((value) => {
+      const owner = object(value, `${label} owner`);
+      return owner.id === DIALECT_OWNER && owner.version === DIALECT_VERSION;
+    }) ||
+    !Array.isArray(planned.representations) ||
+    !planned.representations.some((value) => {
+      const representation = object(value, `${label} representation`);
+      return (
+        representation.address === "portable_service.main" &&
+        object(representation.interpretation, `${label} interpretation`).status === "applied"
+      );
+    })
+  ) {
+    throw new Error(`${label} omitted selected Dialect or portable service`);
+  }
+}
+
+function verifyPolicySARIF(path: string, label: string): void {
+  const report = parseJSON(readFileSync(path, "utf8"), label);
+  const runs = report.runs;
+  if (report.version !== "2.1.0" || !Array.isArray(runs) || runs.length !== 1) {
+    throw new Error(`${label} is not SARIF 2.1.0`);
+  }
+  const results = object(runs[0], `${label} run`).results;
+  if (!Array.isArray(results) || results.length !== 1)
+    throw new Error(`${label} did not evaluate one policy`);
+  const result = object(results[0], `${label} result`);
+  if (result.ruleId !== `${POLICY_PACK_NAME}/portable-service` || result.kind !== "pass") {
+    throw new Error(`${label} did not pass the selected Policy Pack`);
+  }
 }
 
 export function qualifyRegistry(options: Options): void {
@@ -790,20 +835,40 @@ export function qualifyRegistry(options: Options): void {
     if (!dialects.some((entry) => object(entry, "Dialect list entry").owner === DIALECT_OWNER)) {
       throw new Error("selected third-party Dialect is absent from effective catalog");
     }
-    verifyJSON(
+    verifyPlan(
       run(
-        [options.rootformBinary, "build", ".", "--locked", "--format", "json"],
-        commandOptions("locked build", project, home),
+        [
+          options.rootformBinary,
+          "run",
+          "plan.json",
+          "--project",
+          ".",
+          "--locked",
+          "--no-serve",
+          "--format",
+          "json",
+        ],
+        commandOptions("locked run", project, home),
       ).stdout,
-      "locked build result",
+      "locked run result",
     );
-    verifyJSON(
-      run(
-        [options.rootformBinary, "check", ".", "--locked", "--format", "json"],
-        commandOptions("locked Policy evaluation", project, home),
-      ).stdout,
-      "locked Policy result",
+    run(
+      [
+        options.rootformBinary,
+        "run",
+        "plan.json",
+        "--project",
+        ".",
+        "--locked",
+        "--policy",
+        `${POLICY_PACK_NAME}/*`,
+        "--no-serve",
+        "-o",
+        "results.sarif",
+      ],
+      commandOptions("locked Policy evaluation", project, home),
     );
+    verifyPolicySARIF(join(project, "results.sarif"), "locked Policy result");
 
     const vendorProject = join(temporary, "vendor-project");
     const vendorHome = join(temporary, "vendor-home");
@@ -827,29 +892,59 @@ export function qualifyRegistry(options: Options): void {
     rmSync(vendorHome, { recursive: true, force: true });
     mkdirSync(vendorHome, { mode: 0o755 });
     const vendorOffline = { ...offline, ROOTFORM_OFFLINE: "1" };
-    verifyJSON(
+    verifyPlan(
       run(
-        [options.rootformBinary, "build", ".", "--locked", "--format", "json"],
-        commandOptions("vendored offline build", vendorProject, vendorHome, vendorOffline),
+        [
+          options.rootformBinary,
+          "run",
+          "plan.json",
+          "--project",
+          ".",
+          "--locked",
+          "--no-serve",
+          "--format",
+          "json",
+        ],
+        commandOptions("vendored offline run", vendorProject, vendorHome, vendorOffline),
       ).stdout,
-      "vendored build result",
+      "vendored run result",
     );
-    verifyJSON(
-      run(
-        [options.rootformBinary, "check", ".", "--locked", "--format", "json"],
-        commandOptions(
-          "vendored offline Policy evaluation",
-          vendorProject,
-          vendorHome,
-          vendorOffline,
-        ),
-      ).stdout,
-      "vendored Policy result",
+    run(
+      [
+        options.rootformBinary,
+        "run",
+        "plan.json",
+        "--project",
+        ".",
+        "--locked",
+        "--policy",
+        `${POLICY_PACK_NAME}/*`,
+        "--no-serve",
+        "-o",
+        "vendor-results.sarif",
+      ],
+      commandOptions(
+        "vendored offline Policy evaluation",
+        vendorProject,
+        vendorHome,
+        vendorOffline,
+      ),
     );
+    verifyPolicySARIF(join(vendorProject, "vendor-results.sarif"), "vendored Policy result");
 
     rmSync(join(vendorDialect, "dialect.rf.hcl"));
     const partial = expectFailure(
-      [options.rootformBinary, "build", ".", "--locked", "--format", "json"],
+      [
+        options.rootformBinary,
+        "run",
+        "plan.json",
+        "--project",
+        ".",
+        "--locked",
+        "--no-serve",
+        "--format",
+        "json",
+      ],
       commandOptions("partial Dialect vendor", vendorProject, vendorHome, offline),
     );
     if (!partial.stderr.includes("rootform vendor dialects")) {

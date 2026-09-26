@@ -3,6 +3,7 @@
 import { randomBytes } from "node:crypto";
 import {
   chmodSync,
+  cpSync,
   existsSync,
   lstatSync,
   mkdirSync,
@@ -373,21 +374,41 @@ function assertArchitecture(
   ) {
     throw new Error(`${label} omits expected Dialect owner`);
   }
-  const architecture = parseJson(JSON.stringify(document.architecture), `${label} architecture`);
-  const representations = architecture.representations;
+  if (document.format_version !== "1" || document.kind !== "plan") {
+    throw new Error(`${label} is not a format-1 plan`);
+  }
+  const stages = parseJson(JSON.stringify(document.stages), `${label} stages`);
+  const planned = parseJson(JSON.stringify(stages.planned), `${label} planned stage`);
+  const representations = planned.representations;
   if (
     !Array.isArray(representations) ||
     !representations.some((value) => {
       const representation =
         typeof value === "object" && value !== null ? (value as JsonObject) : {};
-      const base =
-        typeof representation.base === "object" && representation.base !== null
-          ? (representation.base as JsonObject)
-          : {};
-      return base.type === expectedType;
+      return (
+        String(representation.address ?? "").startsWith(`${expectedType}.`) &&
+        typeof representation.interpretation === "object" &&
+        representation.interpretation !== null &&
+        (representation.interpretation as JsonObject).status === "applied"
+      );
     })
   ) {
     throw new Error(`${label} omits expected resource base`);
+  }
+}
+
+function assertPolicySARIF(path: string, label: string): void {
+  const report = parseJson(readFileSync(path, "utf8"), label);
+  if (report.version !== "2.1.0" || !Array.isArray(report.runs) || report.runs.length !== 1) {
+    throw new Error(`${label} is not SARIF 2.1.0`);
+  }
+  const run = parseJson(JSON.stringify(report.runs[0]), `${label} run`);
+  if (!Array.isArray(run.results) || run.results.length !== 1) {
+    throw new Error(`${label} did not evaluate one policy`);
+  }
+  const result = parseJson(JSON.stringify(run.results[0]), `${label} result`);
+  if (result.ruleId !== `${POLICY_PACK_NAME}/portable-service` || result.kind !== "pass") {
+    throw new Error(`${label} did not pass the selected Policy Pack`);
   }
 }
 
@@ -701,7 +722,18 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
       const image = tags.get(architecture) as string;
       const architectureBody = rootformRun({
         architecture,
-        arguments: ["build", ".", "--locked", "--format", "json"],
+        arguments: [
+          "run",
+          "plan.json",
+          "--project",
+          ".",
+          "--locked",
+          "--policy",
+          `${POLICY_PACK_NAME}/*`,
+          "--no-serve",
+          "--format",
+          "json",
+        ],
         home,
         image,
         network: "none",
@@ -714,18 +746,28 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
         "portable_service",
         "third-party architecture",
       );
-      parseJson(
-        rootformRun({
-          architecture,
-          arguments: ["check", ".", "--locked", "--format", "json"],
-          home,
-          image,
-          network: "none",
-          project,
-          projectReadOnly: true,
-        }).stdout,
-        "third-party Policy result",
-      );
+      const policyPath = join(home, `results-${architecture}.sarif`);
+      rootformRun({
+        architecture,
+        arguments: [
+          "run",
+          "plan.json",
+          "--project",
+          ".",
+          "--locked",
+          "--policy",
+          `${POLICY_PACK_NAME}/*`,
+          "--no-serve",
+          "-o",
+          `/home/rootform/.rootform/results-${architecture}.sarif`,
+        ],
+        home,
+        image,
+        network: "none",
+        project,
+        projectReadOnly: true,
+      });
+      assertPolicySARIF(policyPath, "third-party Policy result");
     }
 
     rootformRun({
@@ -756,21 +798,34 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
     );
     const vendorHome = join(temporary, "vendor-home");
     writableDirectory(vendorHome);
-    parseJson(
-      rootformRun({
-        architecture: "amd64",
-        arguments: ["check", ".", "--locked", "--format", "json"],
-        home: vendorHome,
-        image: amdImage,
-        network: "none",
-        project,
-        projectReadOnly: true,
-      }).stdout,
-      "vendored offline Policy result",
-    );
+    rootformRun({
+      architecture: "amd64",
+      arguments: [
+        "run",
+        "plan.json",
+        "--project",
+        ".",
+        "--locked",
+        "--policy",
+        `${POLICY_PACK_NAME}/*`,
+        "--no-serve",
+        "-o",
+        "/home/rootform/.rootform/vendor-results.sarif",
+      ],
+      home: vendorHome,
+      image: amdImage,
+      network: "none",
+      project,
+      projectReadOnly: true,
+    });
+    assertPolicySARIF(join(vendorHome, "vendor-results.sarif"), "vendored offline Policy result");
 
     const suppliedProject = join(temporary, "supplied-project");
     writeSuppliedDialectProject(suppliedProject);
+    cpSync(
+      join(import.meta.dir, "fixtures", "aws-subnet-plan.json"),
+      join(suppliedProject, "plan.json"),
+    );
     const registryRequestsBefore = registryCompletedRequestCount(
       `${execute(["docker", "logs", registry]).stdout}\n${execute(["docker", "logs", registry]).stderr}`,
     );
@@ -779,7 +834,16 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
       writableDirectory(suppliedHome);
       const result = rootformRun({
         architecture,
-        arguments: ["build", ".", "--locked", "--format", "json"],
+        arguments: [
+          "run",
+          "plan.json",
+          "--project",
+          ".",
+          "--locked",
+          "--no-serve",
+          "--format",
+          "json",
+        ],
         home: suppliedHome,
         image: tags.get(architecture) as string,
         network: "none",

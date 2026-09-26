@@ -94,7 +94,7 @@ test("image qualification repairs only its exact temporary mount", () => {
 test("runtime container keeps project and home mount permissions separate", () => {
   const arguments_ = rootformDockerArguments({
     architecture: "amd64",
-    arguments: ["build", ".", "--locked", "--format", "json"],
+    arguments: ["run", "plan.json", "--project", ".", "--locked", "--no-serve", "--format", "json"],
     ca: "/qualification/ca.crt",
     home: "/qualification/home",
     image: "rootform:test",
