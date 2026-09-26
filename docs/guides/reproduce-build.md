@@ -3,7 +3,7 @@ title: "Reproduce an analysis offline"
 description: "Replay the same plan or state input and exact Rootform selection in an independent environment."
 ---
 
-A reproducible analysis needs the same plan or state JSON bytes, Rootform release, active Dialects, and relevant options. For a plan, the same verified saved plan matters when traversals establish facts. `rootform.lock` fixes external selection; it does not store the embedded Dialects, which come from the binary. A saved [Rootform document](../concepts/forms.md) offers a second path: reopen its recorded facts without the plan or state export or installed Dialects.
+A reproducible analysis needs the same plan or state JSON bytes, Rootform release, active Dialects, and relevant options. For a plan, the same verified saved plan matters when traversals establish facts. `rootform.lock` fixes external selection; it does not store the embedded Dialects, which come from the binary. A saved [Form](../concepts/forms.md) offers a second path: reopen its recorded facts without the plan or state export or installed Dialects.
 
 This walkthrough uses two copies of one project, `source/` and `replay/`, and a private `evidence/` directory. Both contain the same `plan.json` and `plan.tfplan`. Keep those input files out of Git and public artifacts: saved plans and JSON exports can contain secrets in clear text. Rootform reads them locally and does not run Terraform, contact providers, or publish sensitive values. Its reports still disclose infrastructure topology and names, so keep them internal.
 
@@ -28,7 +28,7 @@ rootform run source/plan.json --project source \
 ```text title="Excerpt from analysis summary"
 Plan analyzed
 Enrichment    saved plan verified against this plan JSON (1 module)
-Forms         planned (default)
+Stages        Planned (default) · Refreshed · Recorded (reconstructed)
 ```
 
 `--require-enrichment` makes an unverified pair fail with status `3` instead of silently relying on plan-only evidence. The saved plan contributes configuration traversal evidence; it is not the analyzed input. On a Linux host without `shasum`, use `sha256sum` for the checksum line. Keep the command flags, standard error, and document with the exact input hashes. [Terraform and OpenTofu plans](../inputs/plans.md#produce-the-accepted-json) gives the export procedure.
@@ -50,9 +50,9 @@ Both commands return `0` for this example. `cmp -s` establishes byte identity; t
 
 A state JSON uses the same procedure without `--plan-file` or `--require-enrichment`. State input has one `recorded` stage. A plan's default is `planned`, and a plan with prior state may also expose `refreshed`, `recorded`, and drift. Compare like stages when assessing architecture; byte identity is a stricter replay check.
 
-## Reopen a saved Rootform document
+## Reopen a saved Form
 
-When the plan or state files cannot travel, use the saved Rootform document. It contains stage facts, closures, and comparisons already established by the original run. Reopening does not reanalyze the plan:
+When the plan or state files cannot travel, use the saved Form. It contains stage facts, closures, and comparisons already established by the original run. Reopening does not reanalyze the plan:
 
 <!-- docs-check:reproduce-saved -->
 ```sh
@@ -63,11 +63,11 @@ ROOTFORM_HOME="$replay_home" rootform run evidence/before.json \
 
 <!-- docs-output:reproduce-saved -->
 ```text title="Excerpt from standard output"
-Rootform plan document loaded
+Form loaded
 Enrichment    saved plan verified against this plan JSON (1 module)
 ```
 
-The Markdown file presents the recorded analysis. Loading needs neither the original plan nor its Dialects. It does not repair an unresolved closure or apply newer Dialect Rules; reanalysis requires the plan or state input and the intended selection. Saved documents omit sensitive values but still reveal topology.
+The Markdown file presents the saved Form. Loading needs neither the original plan nor its Dialects. It does not repair an unresolved closure or apply newer Dialect Rules; reanalysis requires the plan or state input and the intended selection. Saved Forms omit sensitive values but still reveal topology.
 
 ## Prepare selected external content
 
@@ -97,7 +97,7 @@ Status `0` from `cmp` proves the locked analyses wrote identical document bytes.
 
 ## Keep policy evidence when governance matters
 
-A saved Rootform document is not a substitute for a separate governance decision. If selected policies matter, use the same selection and `--policy` filters on source and replay. Save the report and exact exit status beside each document; compare both, because a status alone hides target coverage. Status `0` means every selected evaluation passed, `1` means a violation, and `3` means indeterminate or no decision. Keep SARIF and reports as internal artifacts. [Run checks](check-architecture.md) explains the evaluation counts; [outputs and exit status](../reference/outputs.md) defines the files.
+A saved Form is not a substitute for a separate governance decision. If selected Policies matter, use the same selection and `--policy` filters on source and replay. Save the report and exact exit status beside each Form; compare both, because a status alone hides target coverage. Status `0` means every selected evaluation passed, `1` means a violation, and `3` means indeterminate or no decision. Keep SARIF and reports as internal artifacts. [Run checks](check-architecture.md) explains the evaluation counts; [outputs and exit status](../reference/outputs.md) defines the files.
 
 <!-- rootform:endsteps -->
 

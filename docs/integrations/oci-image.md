@@ -27,7 +27,7 @@ docker run --rm \
 
 The terminal summary reports the input kind, active Dialect count, stage, interpreted instances, facts, and policy outcome. A `0` without selected policies confirms successful analysis, not compliance. A binary saved plan is not a `run` input; export it to JSON first.
 
-To keep the Rootform document while the project mount stays read-only, ask for JSON on standard output and let the host shell write the file:
+To keep the Form while the project mount stays read-only, ask for JSON on standard output and let the host shell write the file:
 
 ```sh
 docker run --rm \
@@ -78,7 +78,7 @@ Mount the same volume on later `run` commands and add `--locked`. `init` may acq
 
 A disconnected run needs the exact `rootform.lock` and the vendored `.rootform/dialects` and `.rootform/policy-packs` directories in the project mount. Prepare and vendor them before disconnecting; the embedded RF Vocabulary and Dialects are already in the image.
 
-Docker must have the chosen image locally before the container starts. `--network none` isolates the running container but does not stop Docker from pulling a missing image; `--pull never` makes a missing local image fail before startup. With the image, project, and plan JSON local, this read-only run writes the Rootform document to standard output:
+Docker must have the chosen image locally before the container starts. `--network none` isolates the running container but does not stop Docker from pulling a missing image; `--pull never` makes a missing local image fail before startup. With the image, project, and plan JSON local, this read-only run writes the Form to standard output:
 
 ```sh
 docker run --rm \

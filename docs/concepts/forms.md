@@ -1,29 +1,29 @@
 ---
-title: "Forms and Rootform documents"
-description: "Read stage-specific Forms, saved Rootform documents, and their evidence limits."
+title: "Forms and stages"
+description: "Read saved Forms, their architectures, and evidence limits."
 ---
 
-A Form is the architecture Rootform establishes from infrastructure evidence at a specific stage. A Form can be Recorded, Refreshed or Planned. It may be partial, and Rootform keeps uncertainty explicit. A Form is derived, never authored or edited.
+A Form is the portable architectural model Rootform compiles from Terraform or OpenTofu evidence. It contains the architecture of every supported stage, their available comparisons, reported drift, evidence, semantic pins, limits, and diagnostics. It is the complete result to save, open, compare, or later publish. A Form is derived, never authored or edited. Save a Form. Open a Form. Compare two Forms.
 
-A Rootform document is the saved JSON (format version `"1"`) of an analysis or an input comparison. An analysis includes everything Rootform derives from one input: its Forms, comparisons, drift report, evidence record, semantics, and diagnostics. Saved documents let you reopen a result without rereading the plan or state JSON. The [contract](../../contracts/rootform-document.md) and [JSON Schema](../../schemas/rootform-document.schema.json) define exact fields.
+JSON is the Form's serialization (format version `"1"`). A saved Form reopens without the original plan or state JSON or installed Dialects. A diagram is one view of the Form. "Analysis" describes the process, as in "Plan analyzed", rather than another saved object. The [contract](../../contracts/form.md) and [JSON Schema](../../schemas/form.schema.json) define exact fields.
 
-## The document captures its input and meaning
+## The Form captures its input and meaning
 
 | `kind` | Input or operation | Contents |
 | --- | --- | --- |
-| `state` | State JSON | One Recorded Form (`recorded`) |
-| `plan` | Plan JSON | Planned Form (`planned`), plus Refreshed and reconstructed Recorded Forms when prior state exists; comparisons and a drift report |
-| `comparison` | `run` with `--diff` | Two embedded analyses and one selected input comparison |
+| `state` | State JSON | One Recorded architecture (`recorded`) |
+| `plan` | Plan JSON | Planned architecture (`planned`), plus supported Refreshed and reconstructed Recorded stages; comparisons and a drift report |
+| `comparison` | `run` with `--diff` | Two embedded state or plan Forms and one selected cross-input comparison |
 
-A saved analysis keeps its `format_version`, `generator`, `evidence`, `semantics`, `forms`, diagnostics, and `default_stage`. `forms` is keyed by stage. `format_version: "1"` names the document contract; the binary version identifies the Rootform version that wrote it. The `semantics` section retains the exact vocabulary, Dialects, Rules, and emissions used for interpretation. Reopening it does not apply today's Dialects to yesterday's evidence.
+A state or plan Form keeps its `format_version`, `generator`, `evidence`, `semantics`, `stages`, diagnostics, and `default_stage`. `stages` is keyed by stage; each entry is an Architecture with `stage`, `label`, optional `reconstruction`, and its content. `format_version: "1"` names the Form contract; the generator version identifies the Rootform version that wrote it. The `semantics` section retains the exact vocabulary, Dialects, Rules, and emissions used for interpretation. Reopening it does not apply today's Dialects to yesterday's evidence.
 
-The `evidence` section distinguishes what the plan or state JSON reports from claims supplied through flags. The input's `terraform_version` value is recorded verbatim; the tool stays `unestablished` unless `--producer` names Terraform or OpenTofu. Completeness records what the plan reports or what `--plan-complete=attested` explicitly claims. The `enrichment.snapshot` status is `verified`, `refused`, or `absent`: it says whether `--plan-file` paired the saved plan with the JSON export. Pairing checks identity and configuration shape, but is not a cryptographic origin proof.
+The `evidence` section distinguishes what the plan or state JSON reports from claims supplied through flags. The input's `terraform_version` value is recorded verbatim; the tool stays `unestablished` unless `--producer` names Terraform or OpenTofu. Completeness records what the plan reports or what `--plan-complete=attested` explicitly claims. The `enrichment.snapshot` status is `verified`, `refused`, or `absent`: it says whether `--plan-file` paired the saved plan with the JSON export. Pairing checks version, timestamp, and configuration shape; it does not prove one planning operation.
 
 ## Stages and facts
 
-A plan's Planned Form describes the proposed outcome. Refreshed describes prior state after Terraform or OpenTofu refresh when available. Recorded reconstructs state before drift reported in that plan and can be partial. A state JSON has only a Recorded Form. Rootform does not infer that a plan refreshed every resource; the JSON does not record its refresh scope.
+A stage is the role Recorded, Refreshed, or Planned of one architecture, never a Form. A plan's Planned architecture describes what the plan proposes; values unknown until apply are indeterminate. Refreshed is the state the plan starts from; the plan does not record whether or how far refresh ran. Recorded reconstructs state from the plan's drift records and can be partial. A state JSON has only Recorded, as recorded in the state export. Rootform does not infer that a plan refreshed every resource. An unavailable stage is not empty.
 
-Each Form records declarations and their population, per-instance Representations and interpretation, architectural facts, closures, dependencies, diagnostics, and accounting. Managed and data instances both get Representations. A Representation has an instance address, provider identity, status, and any applied Rule and Concept. A Rule-free instance stays represented. Dependency ledger entries do not become Relations by themselves. Forms carry no attribute values, only external identities a Dialect discloses.
+Each architecture records declarations and their population, per-instance Representations and interpretation, architectural facts, closures, dependencies, diagnostics, and accounting. Managed and data instances both get Representations. A Representation has an instance address, provider identity, status, and any applied Rule and Concept. A Rule-free instance stays represented. Dependency ledger entries do not become Relations by themselves. Forms carry no attribute values, only external identities a Dialect discloses.
 
 Contexts, Relations, and Contributions join Representations according to a Rule's declared meaning. Composition members appear under the root's implementation. An external endpoint can appear when a Dialect permits one; its identity is recorded only at the Dialect's disclosure tier. The [Dialect model](dialects.md) explains interpretation; [Explorer navigation](../guides/explore-architecture.md#reveal-a-secondary-resource) explains why a represented resource may not have a permanent scene card.
 
@@ -45,7 +45,7 @@ An indeterminate closure is not a proven omission. Its reason and candidate coun
 
 ## Accounting keeps partial knowledge honest
 
-Form accounting counts observed instances, interpreted instances, established facts, and closure outcomes separately. It does not use an absent declaration as proof of zero instances unless the plan establishes a complete population. A represented instance with no matching Rule is counted as uninterpreted; a matched emission with unresolved evidence is counted as indeterminate. These distinctions explain why a usable document can contain gaps without pretending they are empty architecture.
+Architecture accounting counts observed instances, interpreted instances, established facts, and closure outcomes separately. It does not use an absent declaration as proof of zero instances unless the plan establishes a complete population. A represented instance with no matching Rule is counted as uninterpreted; a matched emission with unresolved evidence is counted as indeterminate. An instance present before the plan that the plan neither changes nor deletes remains in Planned with status `carried`. Its population is unverified; the plan did not evaluate it. A Policy cannot pass or fail on missing evidence from that instance. These distinctions explain why a usable Form can contain gaps without pretending they are empty architecture.
 
 ## Facts preserve bounded provenance
 
@@ -55,23 +55,23 @@ Provenance records architectural justification without embedding raw plan or sta
 
 ## Comparisons and drift
 
-One plan can contain Reported drift (`comparisons.drift`, Recorded to Refreshed), Planned changes (`comparisons.changes`, Refreshed to Planned), and Net change (`comparisons.net`, Recorded to Planned) when those Forms exist. Drift that the plan reverts cancels out of Net change. The drift report preserves each reported drift record and classifies its architectural consequence. “No drift reported in this plan” means only that this plan contains no reported drift records; data sources and deposed objects are outside those records.
+One plan can contain Reported drift (`comparisons.drift`, Recorded to Refreshed), Planned changes (`comparisons.changes`, Refreshed to Planned), and Net change (`comparisons.net`, Recorded to Planned) when both stages in each pair exist. Drift that the plan reverts cancels out of Net change. The drift report preserves each reported drift record and classifies its architectural consequence; it is separate from the comparison. “No drift reported in this plan” means only that this plan contains no reported drift records; data sources and deposed objects are outside those records.
 
-An input comparison document embeds its `before` and `after` analyses and names selected stages in `comparison.before` and `comparison.after`. It shows differences, never drift. `comparable` and `problems` say whether semantic selections support comparison; `indeterminate` preserves a closure whose change cannot be established. See [Comparisons](comparisons.md).
+A comparison Form embeds two complete state or plan Forms under `before.form` and `after.form`, with each selected `stage` and `selected_from` (`input`, `before`, or `after`). It never embeds another comparison Form; a comparison operand contributes one selected side. Its `cross` comparison shows Differences, never drift. `comparable` and `problems` say whether semantic selections support comparison; `indeterminate` preserves a closure whose change cannot be established. See [Comparisons](comparisons.md).
 
 ## Stable identity and canonical order remove noise
 
-An instance Representation is identified by its address across stages. Move and replacement information from the plan is kept separately so a comparison can describe continuity. External endpoint ordinals are document-local; input comparison matches recorded identities, never ordinal alone. Canonical ordering and stable identities make repeated analysis with the same input and selection byte-identical.
+An instance Representation is identified by its address across stages. Move and replacement information from the plan is kept separately so a comparison can describe continuity. External endpoint ordinals are Form-local; cross-input comparison matches recorded identities, never ordinal alone. Canonical ordering and stable identities make repeated analysis with the same input and selection byte-identical. The canonical digest identifies serialized Form bytes, including generator version, not architectural equivalence. Two Forms can differ in bytes without a determined architectural change; semantic comparison answers that question separately.
 
-## Valid partial document differs from invalid document
+## Valid partial Form differs from invalid Form
 
-A valid Rootform document can include uninterpreted instances, proven absence, and indeterminate closures. A structurally invalid one has a damaged contract: unsupported fields, broken references or identities, noncanonical order, or inconsistent closures. Rootform refuses it rather than silently ignoring a section. An invalid document supports no compliance or no-change claim.
+A valid Form can include uninterpreted instances, proven absence, and indeterminate closures. A structurally invalid one has a damaged contract: unsupported fields, broken references or identities, noncanonical order, or inconsistent closures. Rootform refuses it rather than silently ignoring a section. An invalid Form supports no compliance or no-change claim.
 
-Do not hand-edit generated JSON. Use `rootform validate document <document>` before passing a saved document to another consumer.
+Do not hand-edit generated JSON. Use `rootform validate form <file>` before passing a saved Form to another consumer.
 
 ## Saved evidence still needs handling rules
 
-Plan JSON, state JSON, and saved plans may contain secrets in clear text. Rootform reads them locally and keeps sensitive values out of documents, text reports, SARIF, and the Explorer. A Rootform document still contains resource addresses, names, Concepts, facts, and limited external identities. Review access and artifact retention before sharing it. A self-contained HTML export makes no network requests; the local Explorer server binds loopback only. See [Security](../security/index.md#protect-plans-and-derived-outputs).
+Plan JSON, state JSON, and saved plans may contain secrets in clear text. Rootform reads them locally and keeps sensitive values out of Forms, text reports, SARIF, and the Explorer. A saved Form still contains resource addresses, names, Concepts, facts, and limited external identities. Review access and artifact retention before sharing it. A self-contained HTML export makes no network requests; the local Explorer server binds loopback only. See [Security](../security/index.md#protect-plans-and-derived-outputs).
 
 <!-- docs-check:concept-document-save -->
 ```sh
@@ -83,4 +83,4 @@ rootform run plan.json --no-serve -o analysis.json
 rootform run analysis.json --no-serve -o report.md
 ```
 
-The first command writes a Rootform document. The second reads its saved interpretation and writes a Markdown report without the original plan. If reopening fails, validate the JSON document before using it elsewhere. For a task walkthrough, [explore an architecture](../guides/explore-architecture.md) or [compare architectures](../guides/compare-architectures.md).
+The first command writes a Form. The second reads its saved interpretation and writes a Markdown report without the original plan. If reopening fails, validate the saved Form before using it elsewhere. For a task walkthrough, [explore an architecture](../guides/explore-architecture.md) or [compare architectures](../guides/compare-architectures.md).

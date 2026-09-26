@@ -3,7 +3,7 @@ title: "Troubleshooting"
 description: "Match a Rootform symptom to its exact diagnostic, evidence, and next action."
 ---
 
-Keep the command, exit status, standard error, and Rootform document together. Status `1` can mean a confirmed policy violation, while `3` means refused input or no determinate decision. Status `4` is an output or server failure. [Outputs and exit status](../reference/outputs.md) gives the full contract.
+Keep the command, exit status, standard error, and saved Form together. Status `1` can mean a confirmed policy violation, while `3` means refused input or no determinate decision. Status `4` is an output or server failure. [Outputs and exit status](../reference/outputs.md) gives the full contract.
 
 ## The command set differs from this documentation
 
@@ -19,7 +19,7 @@ If help still lists an unexpected command or flag, fix `PATH` or use the intende
 
 ## A directory or saved plan is refused as input
 
-`run` needs plan JSON, state JSON, or a saved Rootform document. A configuration directory returns status `2` and the diagnostic `DIRECTORY_INPUT: use a Terraform or OpenTofu plan JSON or state JSON export`, followed by the commands to run. A binary saved plan returns status `3` with the same kind of guidance:
+`run` needs plan JSON, state JSON, or a saved Form. A configuration directory returns status `2` and the diagnostic `DIRECTORY_INPUT: use a Terraform or OpenTofu plan JSON or state JSON export`, followed by the commands to run. A binary saved plan returns status `3` with the same kind of guidance:
 
 <!-- docs-check:troubleshooting-binary-input -->
 ```sh
@@ -159,9 +159,9 @@ A violation exits `1`; an indeterminate outcome exits `3`. `report.md` and SARIF
 
 Check both selected stages and the comparison's `comparable`, `problems`, and `indeterminate` entries. A plan defaults to `planned`; a state JSON has only `recorded`. `run --diff` compares separate inputs and is not drift. Different Dialect selections, withheld external identity, or indeterminate closures may prevent a no-change claim. Use comparable stages and [read the comparison](../guides/compare-architectures.md). [Indeterminate preserves uncertainty](../concepts/comparisons.md#indeterminate-preserves-uncertainty) explains why an unsettled closure never counts as no change.
 
-## A comparison input or saved document is refused
+## A comparison input or saved Form is refused
 
-Each `--diff` operand must be accepted on its own. A refused operand stops the run with status `3`; Rootform never treats it as an empty side. The [refusals above](#malformed-or-unsupported-json-is-refused) apply to both inputs. A saved document written in another format is refused with `DOCUMENT_FORMAT_UNSUPPORTED: document format "9" is not supported; this build reads format 1`; save it again from its original input with the current binary. For any other rejected document, run `rootform validate document <document>`: it names each problem and exits `1`. `validate document` reads only Rootform documents; given a plan JSON, it exits `3` and suggests saving one first. [Valid partial document differs from invalid document](../concepts/forms.md#valid-partial-document-differs-from-invalid-document) separates missing knowledge from an invalid file.
+Each `--diff` operand must be accepted on its own. A refused operand stops the run with status `3`; Rootform never treats it as an empty side. The [refusals above](#malformed-or-unsupported-json-is-refused) apply to both inputs. A saved Form written in another format is refused with `DOCUMENT_FORMAT_UNSUPPORTED: document format "9" is not supported; this build reads format 1`; save it again from its original input with the current binary. For any other rejected Form, run `rootform validate form <file>`: it names each problem and exits `1`. `validate form` reads only Forms; given a plan JSON, it exits `3` and suggests saving one first. [Valid partial Form differs from invalid Form](../concepts/forms.md#valid-partial-form-differs-from-invalid-form) separates missing knowledge from an invalid file.
 
 ## A port is occupied or the browser does not open
 

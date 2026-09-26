@@ -24,7 +24,7 @@ rootform run plan.json --no-serve
 <!-- docs-output:selection-embedded-run -->
 ```text title="Excerpt from standard output"
 Plan analyzed
-Forms         planned (default)
+Stages        Planned (default) · Refreshed · Recorded (reconstructed)
 Semantics     19 Dialects, 1 vocabulary
 ```
 
@@ -97,7 +97,7 @@ Point `--project` at the root containing `rootform.lock`. Add `--locked` when th
 rootform run plan.json --project ./infra --locked --no-serve -o analysis.json
 ```
 
-The Rootform document records the active Dialects, selection, plan or state input, stages, and closures. The standard-output summary names the active count and any policy outcome. `--dialect` and `--policy-pack` are one-run overrides; the CLI refuses an override with `--locked`. Use an override while authoring, then add the reviewed content to the lock for repeatable work.
+The Form records the active Dialects, selection, plan or state input, stages, and closures. The standard-output summary names the active count and any Policy outcome. `--dialect` and `--policy-pack` are one-run overrides; the CLI refuses an override with `--locked`. Use an override while authoring, then add the reviewed content to the lock for repeatable work.
 
 ## Exclude or replace an embedded owner
 

@@ -22,7 +22,7 @@ throughout.
 | --- | --- | --- |
 | Base and head plans | Review the architectural difference between revisions | The plans may also reflect drift between their execution times |
 | One head plan | Review Planned changes against its own Refreshed and Recorded evidence | It does not isolate the source revision change |
-| Saved Rootform documents | Reopen or compare prior analyses without raw plans | Each document retains its original evidence and semantic selection |
+| Saved Forms | Reopen or compare prior results without raw plans | Each Form retains its original evidence and semantic selection |
 
 Plan both revisions against an intentionally comparable backend, workspace,
 variables, and provider selection. Record the base and head commit IDs,
@@ -137,8 +137,8 @@ includes:
 ```ansi title="Comparison excerpt"
 [1mInputs compared[0m
 [1m[38;5;208mDifferences · Before Planned → After Planned[0m
-  [2mInstances[0m     16 added, 7 removed, 0 changed
-  [2mFacts[0m         42 added, 23 removed
+  [2mInstances[0m      16 added, 7 removed, 0 changed
+  [2mFacts[0m          42 added, 23 removed
   [2mIndeterminate[0m  3 closures before (3 unknown until apply) · 3 closures after (3 unknown until apply)
 ```
 
@@ -193,7 +193,7 @@ includes:
 
 ```ansi title="Policy excerpt"
 [2mPolicies[0m      passed
-[1m[38;5;208mPolicies · planned[0m
+[1m[38;5;208mPolicies · Planned stage[0m
   [2mResult[0m     passed
   [2mEvaluated[0m  2 policies over 2 targets: 2 passed, 0 violated, 0 indeterminate
 ```
@@ -245,17 +245,17 @@ rootform run plan.json --plan-file plan.tfplan --no-serve
 For the commerce head plan, the summary includes:
 
 ```ansi title="Completed plan excerpt"
-[2mForms[0m        planned (default)
-[1m[38;5;208mPlanned Form[0m
+[2mStages[0m        Planned (default) · Refreshed · Recorded (reconstructed)
+[1m[38;5;208mPlanned architecture[0m
   [2mInstances[0m    153 (153 managed, 0 data)
-[1m[38;5;208mReported drift[0m
+[1m[38;5;208mDrift report[0m
   No drift reported in this plan.
 ```
 
-This example plan was made without prior state, so **Forms** lists only
-`planned` and there is nothing to report as drift. A plan made against
-existing state also lists `refreshed` and `recorded`, and **Reported drift** then lists
-what refresh found changed outside Terraform or OpenTofu. If no drift is
+This example plan starts from an empty state, so **Stages** includes an empty
+Refreshed architecture and a reconstructed Recorded architecture. Its drift
+report lists no records. A plan made against existing state can list reported
+drift records and their architectural consequences. If no drift is
 reported, the plan may still have skipped or limited refresh; the
 [plan guide](../inputs/plans.md#read-plan-comparisons-correctly) explains that
 boundary. This review shows what one planning operation proposes; it does not

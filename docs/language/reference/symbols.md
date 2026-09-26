@@ -94,7 +94,7 @@ assert = exists(contexts(rf.context.network, rf.concept.virtual-network))
 ```
 
 Portable Policy Pack source carries references, not version pins. Compilation
-against a Rootform document resolves each reference and derives exact semantic pins.
+against a Form resolves each reference and derives exact semantic pins.
 Unknown owners or symbols fail linking.
 
 ## Collection and duplicates

@@ -31,29 +31,29 @@ A Dialect participates while Rootform builds an architecture:
 1. .rf.hcl source
 2. compiled Dialect
 3. `rootform run` on plan JSON or state JSON, optionally paired with a saved plan
-4. matched resource instances, with facts and closure results in a Rootform document
+4. matched resource instances, with facts and closure results in a Form
 
 A Policy Pack participates after those facts exist:
 
 1. .rf.hcl source
 2. compiled Policy Pack
 3. linked semantic pins
-4. evaluation of each Policy against exactly one Form in a Rootform document
+4. evaluation of each Policy against a selected architecture stage within a Form
 5. passed, violated, indeterminate, or no decision result
 
-The Rootform document is the saved result. Its public data contract is defined
-in the [Rootform document reference](../concepts/forms.md). [Architecture comparisons](../concepts/comparisons.md)
+The Form is the saved result. Its public data contract is defined
+in the [Form reference](../concepts/forms.md). [Architecture comparisons](../concepts/comparisons.md)
 compares two inputs over that contract, and
 [Run checks](../guides/check-architecture.md) evaluates policies
-against one. No policy rewrites the document, reads a live cloud account, or
+against one selected stage. No Policy rewrites the Form, reads a live cloud account, or
 repairs missing Dialect coverage. Policy outcomes appear in the run summary, the
-Markdown report, SARIF, and `rootform explain policy`, never in the document
+Markdown report, SARIF, and `rootform explain policy`, never in the Form
 itself.
 
 ## Dialects give instances meaning
 
 Every managed or data resource instance present in the input has a
-Representation in each applicable stage of the Rootform document, identified
+Representation in each applicable stage of the Form, identified
 by its instance address. A Rule adds interpretation to an eligible instance.
 It can classify it with a Concept, establish Contexts or Relations, record a
 Contribution, or group implementation members. An instance with no matching

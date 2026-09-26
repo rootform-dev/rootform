@@ -88,4 +88,4 @@ policy "subnet-has-network-context" {
 
 Policy references are always owner-qualified, so `rf.` prefix is required.
 Linking verifies exact vocabulary version and semantic digest against the
-Rootform document.
+Form.

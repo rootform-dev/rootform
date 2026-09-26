@@ -3,7 +3,7 @@ title: Outputs and exit status
 description: Choose output formats and interpret streams, file writes, SARIF, and one run status.
 ---
 
-`rootform run` produces one analysis result for its terminal summary, files,
+`rootform run` produces one Form for its terminal summary, files,
 and optional local Explorer. A written file alone does not prove success:
 check the exit status and standard error. A comparison can contain changes
 or indeterminate entries while returning `0`.
@@ -22,17 +22,17 @@ changes browser launch, not the server or output.
 
 ## Choose an output file
 
-Repeat `-o` to write several formats from the same analysis:
+Repeat `-o` to write several views of the same Form:
 
 | Extension | Content | Use |
 | --- | --- | --- |
-| `.json` | Rootform document | Reopen with `run`, inspect stages and evidence, or process as data |
+| `.json` | Form | Reopen with `run`, inspect stages and evidence, or process as data |
 | `.md` | Markdown report | Human review in a repository or CI artifact |
 | `.txt` | Plain-text report | Terminal-oriented review |
 | `.sarif`, `.sarif.json` | SARIF 2.1.0 | A SARIF consumer |
 | `.html` | Self-contained interactive Explorer | Browser review without a server |
 
-The JSON document is reusable input. Plan documents can contain stages,
+The JSON Form is reusable input. Plan Forms can contain stages,
 internal comparisons, and a drift report; cross-input results have
 `kind: "comparison"`. Reports and HTML exports are outputs, not analysis
 inputs. `--format` also sets the format of one `-o` target whose extension
@@ -68,7 +68,7 @@ results, see [Run policy checks](../guides/check-architecture.md).
 
 ## Interpret SARIF
 
-SARIF includes document diagnostics and explicitly evaluated Policy
+SARIF includes Form diagnostics and explicitly evaluated Policy
 results. A Policy rule ID is `<pack>/<policy>`; diagnostic codes are
 also stable rule IDs. A pass uses `kind: pass`, a confirmed violation
 uses `kind: fail` and `level: error`, and an indeterminate evaluation
@@ -86,19 +86,19 @@ rules before uploading it.
 
 ## Use the HTML export
 
-`.html` embeds the Explorer and a display copy of the document in one file.
+`.html` embeds the Explorer and a display copy of the Form in one file.
 It opens from disk, makes no network requests, and needs no server or
 neighboring files. The display copy keeps only the Dialect definitions the
 analysis uses and leaves out external identities that a Dialect records for
-the JSON document only; it cannot be reopened as an input. The local server
+the JSON Form only; it cannot be reopened as an input. The local server
 binds `127.0.0.1` and serves the same display copy, never the plan or state
-files. The reusable `.json` document keeps the complete data; review both
+files. The reusable `.json` Form keeps the complete data; review both
 before sharing. See [security guidance](../security/index.md) and the
-[document contract](../../contracts/rootform-document.md).
+[Form contract](../../contracts/form.md).
 
 ## Expect deterministic results
 
 Given the same accepted inputs, selected Dialects, operator claims, and
-Rootform binary, the document and reports are deterministic. The plan
+Rootform binary, the Form and reports are deterministic. The plan
 or state export's completeness and uncertainty remain visible; a partial or
 targeted plan cannot become a proof of absence through output formatting.

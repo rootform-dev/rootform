@@ -137,7 +137,7 @@ The Dialect manifest declares a provider version envelope, but plan/state Rule s
 | 3 | Exactly one Rule accepted | Apply it |
 | 4 | No Rule accepted | Keep the instance without an applied Rule or Concept |
 
-If a resource type could match but no selected Dialect binds its provider address, interpretation fails with `PROVIDER_UNBOUND` before Rule selection. There is no priority by file order, Dialect origin, or Rule name. A managed or data instance with no matching Rule still has a Representation in the Rootform document. It has no invented classification or emissions. Policy selection can also include an instance whose possible Rule is indeterminate or failed, producing an indeterminate policy evaluation; see [Evaluation](evaluation.md#policy-target-selection). [Rule selection](evaluation.md#rule-selection) places this step in the analysis pipeline.
+If a resource type could match but no selected Dialect binds its provider address, interpretation fails with `PROVIDER_UNBOUND` before Rule selection. There is no priority by file order, Dialect origin, or Rule name. A managed or data instance with no matching Rule still has a Representation in the Form. It has no invented classification or emissions. Policy selection can also include an instance whose possible Rule is indeterminate or failed, producing an indeterminate policy evaluation; see [Evaluation](evaluation.md#policy-target-selection). [Rule selection](evaluation.md#rule-selection) places this step in the analysis pipeline.
 
 ## Rejected syntax
 

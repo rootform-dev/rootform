@@ -9,7 +9,7 @@ on position:
 | Position | Purpose | Accepted expression family |
 | --- | --- | --- |
 | Rule or member `match.where` | Test one resource instance's available values | Predicate |
-| Policy `assert` | Test facts of a Rootform document | Policy assertion |
+| Policy `assert` | Test facts of a selected architecture stage within a Form | Policy assertion |
 | `as`, `to`, Policy target references | Name semantic symbol | Typed reference only |
 | `via`, `by` | Read instance or saved-plan evidence | Traversal only |
 | Static string fields | Metadata or closed enum | Constant expression producing string |
@@ -91,8 +91,8 @@ rather than inventing ordering for Booleans.
 
 ## Policy assertions
 
-Policy assertions operate on queries over facts in the selected stage of a
-Rootform document. They cannot traverse raw plan or state values.
+Policy assertions operate on queries over facts in the selected architecture
+stage of a Form. They cannot traverse raw plan or state values.
 
 ```ebnf
 assertion       = boolean-value ;

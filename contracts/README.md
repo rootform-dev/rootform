@@ -4,7 +4,7 @@ These documents define Rootform's public integration surface independently of
 private implementation plans.
 
 - `rootform-language.md`: RF source model, RF Vocabulary, Dialects, Policies;
-- `rootform-document.md`: format-1 state, plan, and input comparison documents, Forms, comparisons, and drift;
+- `form.md`: format-1 state, plan, and comparison Forms, stages, comparisons, and drift;
 - `policy-result.md`: policy evaluation and linking result;
 - `rootform-lock.md`: non-embedded selections and exclusions/replacements;
 - `dialect-distribution.md`: third-party Dialect packages and

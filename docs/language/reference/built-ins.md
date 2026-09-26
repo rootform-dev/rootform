@@ -260,7 +260,7 @@ All semantic arguments are owner-qualified in Policy source:
 | `aws.rule.subnet` | `rule.subnet` |
 | `rf.concept.virtual-network` | `concept.virtual-network` |
 
-Linker verifies each referenced symbol against the Rootform document before producing
+Linker verifies each referenced symbol against the Form before producing
 compiled Policy Pack.
 
 ## Support, completeness, and evidence

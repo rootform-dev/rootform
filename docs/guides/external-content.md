@@ -160,7 +160,7 @@ rootform run plan.json --locked --no-serve -o analysis.json
 ```
 
 `Project prepared` confirms the selection is present and verified.
-`analysis.json` is a saved Rootform document. Status `0` means every
+`analysis.json` is a saved Form. Status `0` means every
 selected Policy passed or no Policies were selected; status `3` means
 indeterminate evidence or no decision. `init` may fetch only OCI digests recorded in the lock. Add `--offline` when
 selected content is available at its local path, installed, or vendored and

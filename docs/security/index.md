@@ -44,7 +44,7 @@ evidence gap.
 > text, even when terminal output hides them. Keep them out of Git and public
 > artifacts. Rootform does not sanitize, modify, or delete those inputs.
 
-A Rootform document never copies attribute values, sensitive values, raw HCL,
+A Form never copies attribute values, sensitive values, raw HCL,
 saved plans, plan JSON, state, local paths, or Explorer state. It still records
 resource and instance addresses, including `count` and `for_each` keys,
 resource types, module paths, provider identities, planned actions,
@@ -54,18 +54,18 @@ only when its Dialect allows that disclosure. Comparisons, Markdown and SARIF
 reports, and HTML exports expose the same kind of information. Omitting raw
 values does not anonymize the result.
 
-An HTML export embeds the Explorer and a display copy of the Rootform document
+An HTML export embeds the Explorer and a display copy of the Form
 in one file. Opening it makes no network request. Anyone who receives the file
-can read the names and topology in that copy; keep the `.json` document when
+can read the names and topology in that copy; keep the `.json` Form when
 you need the complete reusable result.
 
-Review saved Rootform documents, HTML exports, reports, and standard-error
+Review saved Forms, HTML exports, reports, and standard-error
 diagnostics before sharing them. Apply the same audience and retention rules as
 other infrastructure metadata. The
 [plan guide](../inputs/plans.md#protect-the-plan-files) explains the input
 risk, and
-[Forms and Rootform documents](../concepts/forms.md#saved-evidence-still-needs-handling-rules)
-describes what a saved document retains.
+[Forms and stages](../concepts/forms.md#saved-evidence-still-needs-handling-rules)
+describes what a saved Form retains.
 
 ## Separate integrity from trust
 

@@ -60,20 +60,20 @@ ROOTFORM_OUTPUT_DIR=.rootform-ci-123 \
 sh ./ci/rootform-ci.sh
 ```
 
-The script prints nothing itself. Open `summary.txt` and confirm that Rootform verified the pair and reports the planned stage:
+The script prints nothing itself. Open `summary.txt` and confirm that Rootform verified version, timestamp, and configuration shape, then reports the Planned stage:
 
 <!-- docs-output:ci-run -->
 ```text title="Excerpt from summary.txt"
 Plan analyzed
 Enrichment    saved plan verified against this plan JSON (1 module)
-Forms         planned (default)
+Stages        Planned (default) · Refreshed · Recorded (reconstructed)
 ```
 
 The script passes `--plan-file --require-enrichment --no-serve` to `rootform run`. It writes the summary to `summary.txt`, diagnostics to `run.stderr`, and the exact exit code to `run.status`. A refused pair exits `3` rather than turning a missing traversal into an apparently complete review. With state JSON, omit `ROOTFORM_PLAN_FILE`: the result has one `recorded` stage.
 
 | File in `ROOTFORM_OUTPUT_DIR` | Use |
 | --- | --- |
-| `analysis.json` | Rootform document with stages, facts, closures, drift, and selection details. It stores no policy results. |
+| `analysis.json` | Form with stages, facts, closures, drift, and selection details. It stores no Policy results. |
 | `report.md` | Human review of the same run, including the policy outcome when policies were selected. |
 | `results.sarif` | Diagnostics and explicitly evaluated policy results. |
 | `summary.txt` | The terminal summary, including the policy outcome when policies were selected. |
@@ -100,7 +100,7 @@ The policy section of `summary.txt` states the result and how many targets each 
 
 <!-- docs-output:ci-pack-override -->
 ```text title="Excerpt from summary.txt"
-Policies · planned
+Policies · Planned stage
   Result     passed
   Evaluated  2 policies over 2 targets: 2 passed, 0 violated, 0 indeterminate
 ```
@@ -123,7 +123,7 @@ sh ./ci/rootform-ci.sh
 
 Upload only the six named Rootform result files, even when `run.status` is `1` or `3`. Keep the script's nonzero exit as the job result. Do not upload the raw plan, JSON export, state JSON, `.terraform/`, or the whole runner directory.
 
-Reviewers who want the Explorer without installing Rootform can open a self-contained HTML export. After the script, write it from the saved document and add `review.html` to the files you upload:
+Reviewers who want the Explorer without installing Rootform can open a self-contained HTML export. After the script, write it from the saved Form and add `review.html` to the files you upload:
 
 <!-- docs-check:ci-review-html -->
 ```sh
@@ -133,11 +133,11 @@ rootform run .rootform-ci-123/analysis.json --no-serve \
 
 <!-- docs-output:ci-review-html -->
 ```text title="Standard error"
-Loading    .rootform-ci-123/analysis.json (Rootform document; no recompilation)
+Loading    .rootform-ci-123/analysis.json (saved Form; no recompilation)
 Wrote      .rootform-ci-123/review.html
 ```
 
-`no recompilation` confirms that Rootform reopened the document instead of analyzing the plan again, so this step needs neither the plan nor the project. The HTML file opens from disk and makes no network requests. It shows the architecture, stages, and drift; policy results stay in `summary.txt`, `report.md`, and `results.sarif`. Skip the step when `analysis.json` is absent because the input was refused.
+`no recompilation` confirms that Rootform reopened the Form instead of analyzing the plan again, so this step needs neither the plan nor the project. The HTML file opens from disk and makes no network requests. It shows the architecture, stages, and drift; Policy results stay in `summary.txt`, `report.md`, and `results.sarif`. Skip the step when `analysis.json` is absent because the input was refused.
 
 If you send `results.sarif` to a code-scanning service, configure that as a separate permissioned step; a downloadable artifact alone does not publish code-scanning findings.
 

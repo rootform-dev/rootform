@@ -3,7 +3,7 @@ title: "Evaluation"
 description: "Instance interpretation, closure truth, policy targets, outcomes, and exit status."
 ---
 
-Rootform interprets plan JSON or state JSON locally. It masks sensitive values before retaining requested paths, selects at most one Rule per managed or data instance, closes that Rule's emissions, and evaluates selected policies over one stage. It never runs Terraform or OpenTofu or contacts providers. A saved Rootform document can be reopened after validation without reinterpreting the original input.
+Rootform interprets plan JSON or state JSON locally. It masks sensitive values before retaining requested paths, selects at most one Rule per managed or data instance, closes that Rule's emissions, and evaluates selected Policies over one architecture stage within a Form. It never runs Terraform or OpenTofu or contacts providers. A saved Form can be reopened after validation without reinterpreting the original input.
 
 ## Architecture evaluation pipeline
 
@@ -11,22 +11,22 @@ Rootform interprets plan JSON or state JSON locally. It masks sensitive values b
 2. Classify Rule candidates, then select at most one per instance.
 3. Attach optional Concept meaning and resolve ordered composition members per root instance.
 4. Resolve Context, Relation, and Contribution emissions into per-instance closures and facts.
-5. Record stage accounting, diagnostics, and the Rootform document.
+5. Record stage accounting, diagnostics, and the Form.
 6. If policies were selected, link and evaluate them against the selected stage.
 
 This order matters: a policy cannot treat an unclosed emission or failed interpretation as proof that a fact is absent.
 
-## Instance population and Forms
+## Instance population and stages
 
-| Input | Forms | Default policy target |
+| Input | Available stages | Default Policy target |
 | --- | --- | --- |
 | Plan JSON | `planned`; `refreshed` and reconstructed `recorded` when prior evidence permits | `planned` |
-| State JSON | One Recorded Form | `recorded` |
-| Saved Rootform document | Its Forms | Document default stage |
+| State JSON | One Recorded architecture | `recorded` |
+| Saved Form | Its stages | Form default stage; after side for a comparison Form |
 
 ## Base representation
 
-Every observed managed and data instance has a Representation, even without an applied Rule. A plan's reconstructed Recorded Form is never a policy evaluation target. A plan can include Reported drift (Recorded to Refreshed) and Planned changes (Refreshed to Planned). A cross-input [comparison](../../concepts/comparisons.md) has no policy predicate that proves drift.
+Every observed managed and data instance has a Representation, even without an applied Rule. A plan's reconstructed Recorded stage is never a Policy evaluation target. A plan can include Reported drift (Recorded to Refreshed) and Planned changes (Refreshed to Planned). A cross-input [comparison](../../concepts/comparisons.md) has no Policy predicate that proves drift.
 
 ## Rule selection
 
@@ -63,7 +63,7 @@ A Policy Pack links against the document's exact semantic owner identities. A mi
 
 ## Policy target selection
 
-Target dimensions combine with AND; entries within one list combine with OR. Representations with an applied Rule can be selected. A failed or indeterminate interpretation whose candidate Rule could satisfy the target is also selected for an indeterminate evaluation. An unverified instance population can make target coverage incomplete. A Policy with zero targets has zero per-target evaluations and contributes no compliance decision.
+Target dimensions combine with AND; entries within one list combine with OR. Representations with an applied Rule can be selected. A failed or indeterminate interpretation whose candidate Rule could satisfy the target is also selected for an indeterminate evaluation. An unverified instance population can make target coverage incomplete. A `carried` instance stays in Planned because the plan neither changes nor deletes it, but the plan did not evaluate it. Missing evidence from it cannot produce a pass or violation. A Policy with zero targets has zero per-target evaluations and contributes no compliance decision.
 
 ## Query truth
 
@@ -143,8 +143,8 @@ These are the status values of `rootform explain policy --format json`. Text and
 | Input refused | Refusal | `3` |
 | Export or server failed | Operation failure | `4` |
 
-With `--policy-pack` and no `--policy`, Rootform evaluates every Policy in the Pack. A zero-target Pack run ends with `POLICY_NO_DECISION` and exit `3`. A reported drift entry alone does not change exit status. The JSON Rootform document stores architecture evidence, not policy results; text, Markdown, SARIF, and `explain policy` can report policy outcomes. See [Outputs and exit status](../../reference/outputs.md).
+With `--policy-pack` and no `--policy`, Rootform evaluates every Policy in the Pack. A zero-target Pack run ends with `POLICY_NO_DECISION` and exit `3`. A reported drift entry alone does not change exit status. The JSON Form stores architecture evidence, not Policy results; separate result artifacts, text, Markdown, SARIF, and `explain policy` can report Policy outcomes. See [Outputs and exit status](../../reference/outputs.md).
 
 ## Determinism and limits
 
-The same input and semantic selection produce canonical, byte-identical Rootform documents. Facts deduplicate while retaining bounded provenance. Exceeding a semantic or policy bound fails closed rather than returning partial compliance. [Diagnostics and limits](diagnostics.md#limits) lists the bounds. Continue with [Test and validate](../test-validate.md) to prove a Dialect against planned evidence.
+The same input and semantic selection produce canonical, byte-identical Forms. Facts deduplicate while retaining bounded provenance. Exceeding a semantic or policy bound fails closed rather than returning partial compliance. [Diagnostics and limits](diagnostics.md#limits) lists the bounds. Continue with [Test and validate](../test-validate.md) to prove a Dialect against planned evidence.

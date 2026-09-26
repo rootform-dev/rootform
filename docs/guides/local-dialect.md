@@ -85,7 +85,7 @@ Plan analyzed
 Enrichment    saved plan verified against this plan JSON (1 module)
 Semantics     20 Dialects, 1 vocabulary
 
-Planned Form
+Planned architecture
   Instances    1 (1 managed, 0 data)
   Interpreted  1 of 1 instances
 ```

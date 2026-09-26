@@ -3,7 +3,7 @@ title: Explore an architecture
 description: Navigate scenes, inspect evidence, and read stages or comparisons in the Explorer.
 ---
 
-Start with a plan JSON, state JSON, or saved Rootform document.
+Start with a plan JSON, state JSON, or saved Form.
 For a plan, pair the saved plan when direct traversal evidence matters.
 The default `run` command starts a loopback server and opens a browser:
 

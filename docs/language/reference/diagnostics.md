@@ -1,6 +1,6 @@
 ---
 title: "Diagnostics and limits"
-description: "Stable diagnostic codes, severity, document validation, and authoring limits."
+description: "Stable diagnostic codes, severity, Form validation, and authoring limits."
 ---
 
 Use a diagnostic's stable `code` for automation. Its message explains the immediate problem; source validation also gives a sanitized path and range when available. Analysis diagnostics name a stage or instance when applicable. A warning about uncertain evidence is not proof of absence.
@@ -14,7 +14,7 @@ Use a diagnostic's stable `code` for automation. Its message explains the immedi
 | Instance interpretation | Error or warning | Affected Rule or emission may remain undecided |
 | Comparison | Warning or info | Comparability or drift wording is constrained |
 | Policy linking and evaluation | Error | No compliance decision from affected policy |
-| Rootform document validation | Error | Document refused |
+| Form validation | Error | Form refused |
 
 ## RF source diagnostics
 
@@ -123,7 +123,7 @@ An `indeterminate` closure records a reason such as `unknown_until_apply`, `sens
 | --- | --- |
 | `POLICY_OWNER_UNKNOWN`, `POLICY_CONCEPT_UNKNOWN`, `POLICY_CONTEXT_UNKNOWN`, `POLICY_RELATION_UNKNOWN`, `POLICY_RULE_UNKNOWN` | Referenced owner or definition unavailable |
 | `POLICY_TARGET_CONTRADICTORY` | Target filters cannot select a compatible Rule |
-| `POLICY_SEMANTICS_MISMATCH`, `POLICY_ARCHITECTURE_INVALID` | Pack and document cannot be safely evaluated together |
+| `POLICY_SEMANTICS_MISMATCH`, `POLICY_ARCHITECTURE_INVALID` | Pack and Form cannot be safely evaluated together |
 | `POLICY_STAGE_MISSING` | Requested evaluation stage is unavailable |
 | `POLICY_LIMIT_EXCEEDED`, `POLICY_PACK_DUPLICATE` | Evaluation bound or Pack identity invalid |
 | `POLICY_NOT_EVALUATED` | No Policy decision took place |
@@ -131,9 +131,9 @@ An `indeterminate` closure records a reason such as `unknown_until_apply`, `sens
 
 An unknown assertion or incomplete target domain produces an indeterminate evaluation, not a violation or pass. The policy result and its diagnostics identify the affected target; see [Evaluation](evaluation.md#per-target-outcomes).
 
-## Rootform document validation
+## Form validation
 
-`rootform validate document analysis.json` checks a saved Rootform document. The validator reports a dotted field path and one of these code groups:
+`rootform validate form analysis.json` checks a saved Form. The validator reports a dotted field path and one of these code groups:
 
 | Codes | Fault |
 | --- | --- |
@@ -143,7 +143,7 @@ An unknown assertion or incomplete target domain produces an indeterminate evalu
 | `DOCUMENT_ID_INVALID`, `DOCUMENT_ID_DUPLICATE`, `DOCUMENT_REFERENCE_MISSING` | Identity or reference |
 | `DOCUMENT_CLOSURE_INCOMPLETE`, `DOCUMENT_CLOSURE_EXTRA`, `DOCUMENT_ACCOUNTING_MISMATCH`, `DOCUMENT_INCONSISTENT` | Closure or cross-field accounting |
 
-`DOCUMENT_INVALID` or `ANALYSIS_INVALID` marks a refused document at a command boundary. A rejected document cannot support a no-change or compliance conclusion. Regenerate it from the original plan or state JSON rather than editing evidence to satisfy validation.
+`DOCUMENT_INVALID` or `ANALYSIS_INVALID` marks a refused Form at a command boundary. A rejected Form cannot support a no-change or compliance conclusion. Regenerate it from the original plan or state JSON rather than editing evidence to satisfy validation.
 
 ## Limits
 
@@ -196,7 +196,7 @@ A limit failure cannot be treated as a partial pass. See [Test and validate](../
 ## Fixing a diagnostic
 
 1. Use the stable code to identify the phase and construct.
-2. Read its sanitized source range or Rootform document path.
+2. Read its sanitized source range or Form path.
 3. Fix the earliest source error first; later references may depend on it.
 4. Repeat source validation and the affected fixture or policy run.
 

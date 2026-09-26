@@ -11,10 +11,10 @@ Rootform keeps four layers separate.
 
 1. **Plan or state evidence** records instances, evaluated values, and sensitivity masks. A plan can also carry configuration references, prior state, and reported drift. An optional verified saved plan adds exact configuration traversals.
 2. A [Dialect](concepts/dialects.md) applies Rules to matching instances. Its Rules classify instances with Concepts and establish architectural facts through declared emissions.
-3. Each [Form](concepts/forms.md) records Representations, facts, closures, provenance, diagnostics, and the Dialects used to interpret them. A Rootform document saves the analysis.
-4. [Comparisons](concepts/comparisons.md) read that meaning across Forms or inputs. Selected [Policies](concepts/policies.md) evaluate one Form.
+3. Each stage's architecture records Representations, facts, closures, provenance, and diagnostics. A [Form](concepts/forms.md) saves all supported stages, comparisons, reported drift, and the Dialects used to interpret them.
+4. [Comparisons](concepts/comparisons.md) read architectural meaning within a Form or between two input Forms. Selected [Policies](concepts/policies.md) evaluate one selected architecture stage.
 
-Neither comparison nor policy evaluation changes the architecture it reads. A saved document can be reopened without the original plan, state, or active Dialects.
+Neither comparison nor policy evaluation changes the architecture it reads. A saved Form can be reopened without the original plan, state, or active Dialects.
 
 ## Every observed instance starts with a representation
 
@@ -44,13 +44,13 @@ One instance can have Contexts in several dimensions. Contributions keep contrib
 
 Each active emission closes for each applicable instance. A `resolved` closure records a complete, nonempty fact set. `absent` means the relevant fact is proven absent. `indeterminate` means available evidence cannot finish the answer; proven facts from other elements may still be present. Reasons include an unknown value, a sensitive value, ambiguous or duplicate identity, and unavailable evidence.
 
-An absent Context can support a Policy violation or a determined comparison. An indeterminate Context cannot justify a pass, a proven removal, or a no-change conclusion. An uninterpreted instance and an indeterminate emission are different: one lacks a matching Rule, while the other has a Rule whose evidence cannot settle its emission. [Forms and Rootform documents](concepts/forms.md#stages-and-facts) explains recorded closures.
+An absent Context can support a Policy violation or a determined comparison. An indeterminate Context cannot justify a pass, a proven removal, or a no-change conclusion. An uninterpreted instance and an indeterminate emission are different: one lacks a matching Rule, while the other has a Rule whose evidence cannot settle its emission. [Forms and stages](concepts/forms.md#stages-and-facts) explains recorded closures.
 
 ## One input can contain several stages
 
-A plan has a `planned` outcome and can also provide `refreshed` prior state. Rootform reconstructs `recorded` from drift reported in the plan when evidence permits; that reconstruction may be partial. A state JSON supplies one `recorded` stage. Rootform never refreshes these stages itself.
+A plan has a `planned` architecture and can also provide a `refreshed` stage. Refreshed is the state the plan starts from; the plan does not record whether or how far refresh ran. Rootform reconstructs `recorded` from drift records; that reconstruction may be partial. A state JSON supplies one `recorded` stage, as recorded in the state export. Rootform never refreshes these stages itself.
 
-One plan can show Reported drift (Recorded to Refreshed), Planned changes (Refreshed to Planned), and Net change (Recorded to Planned). `rootform run a.json --diff b.json` instead compares selected Forms of separate inputs. That [input comparison](concepts/comparisons.md) shows differences, never drift.
+One plan can show Reported drift (Recorded to Refreshed), Planned changes (Refreshed to Planned), and Net change (Recorded to Planned) when both stages in each pair exist. `rootform run a.json --diff b.json` instead compares selected architectures from separate input Forms. That [cross-input comparison](concepts/comparisons.md) shows Differences, never drift.
 
 ## Rootform does not run Terraform or OpenTofu
 
@@ -58,6 +58,6 @@ Rootform does not start Terraform or OpenTofu, execute providers, contact a back
 
 ## Determinism makes evidence reviewable
 
-For the same supported input, optional saved plan, and exact Dialect selection, Rootform writes the same canonical document bytes. The document records what the input reports about completeness, whether a saved plan was verified, and the Dialect definitions used. A lock records exact project selection; it does not make incomplete plan evidence complete. Dialect evolution can change interpretation even when the infrastructure is unchanged: the Rootform binary fixes embedded Dialects, and [Install, add, and vendor](concepts/external-content.md) explains how selected and installed content differ.
+For the same supported input, optional saved plan, and exact Dialect selection, Rootform writes the same canonical Form bytes. Their digest identifies the serialized Form, including generator version, not architectural equivalence. A semantic comparison can find no determined change between Forms with different bytes. The Form records what the input reports about completeness, whether a saved plan was verified, and the Dialect definitions used. A lock records exact project selection; it does not make incomplete plan evidence complete. Dialect evolution can change interpretation even when the infrastructure is unchanged: the Rootform binary fixes embedded Dialects, and [Install, add, and vendor](concepts/external-content.md) explains how selected and installed content differ.
 
 Plans and state exports can contain cleartext secrets. Keep them out of Git and public artifacts. Rootform discards sensitive values before serializing documents or reports, but those outputs still disclose topology and names. See [Security](security/index.md#protect-plans-and-derived-outputs), then [choose an input](inputs/index.md) or [explore an architecture](guides/explore-architecture.md).

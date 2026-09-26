@@ -133,7 +133,7 @@ cannot identify. See [traversal evidence](language/reference/traversals.md).
 
 Allow an external endpoint only when the referenced object may truly be outside
 the plan's inventory. Choose its identity disclosure level deliberately; it
-never permits a sensitive value into a Rootform document.
+never permits a sensitive value into a Form.
 
 Common placement patterns stay small:
 
@@ -199,7 +199,7 @@ Export `plan.json` from a saved `plan.tfplan` and keep both beside the exact
 `main.tf` used to produce them. OpenTofu users run the same commands with
 `tofu`. Saved plans and plan JSON can contain secrets in clear text; keep
 them out of Git and public artifacts. Rootform reads them locally; it never
-runs Terraform or OpenTofu and never contacts providers. The golden is a Rootform document,
+runs Terraform or OpenTofu and never contacts providers. The golden is a Form,
 not a copy of the plan. [Plan inputs](inputs/plans.md) covers the export.
 
 Inspect one `rootform run plan.json --plan-file plan.tfplan --dialect . --no-serve`
