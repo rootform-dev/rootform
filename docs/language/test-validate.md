@@ -97,7 +97,7 @@ rootform run ./plan.json --plan-file ./plan.tfplan \
 <!-- docs-output:language-test-run -->
 ```ansi title="Plan summary excerpt"
 [1mPlan analyzed[0m
-[2mInput[0m         plan JSON from Terraform or OpenTofu 1.16.4
+[2mInput[0m         ./plan.json · plan JSON from Terraform or OpenTofu 1.16.4
 [2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
 
 [1m[38;5;208mPlanned architecture[0m

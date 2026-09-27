@@ -74,9 +74,9 @@ Analyze one plan, then save its Form:
 rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -o analysis.json
 ```
 
-The summary goes to standard output, and `Wrote analysis.json` to
-standard error. The status is `0`; a saved plan that fails verification
-exits `3` because of `--require-enrichment`.
+The summary, including its Files block, goes to standard output, and
+`Wrote analysis.json` to standard error. The status is `0`; a saved plan
+that fails verification exits `3` because of `--require-enrichment`.
 [Your first architecture](../../getting-started/first-architecture.md) reads
 the same summary step by step.
 

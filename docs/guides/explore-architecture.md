@@ -15,7 +15,7 @@ rootform run plan.json --plan-file plan.tfplan --no-browser --port 0
 Read the address printed on standard error, open it in your browser, and
 press `Ctrl+C` in the terminal when finished. `--no-browser` leaves browser
 launch to you; `--port 0` asks the operating system for an available port.
-A saved document opens the same way with `rootform run analysis.json`.
+A saved Form opens the same way with `rootform run analysis.json`.
 
 ## Move through architecture levels
 
@@ -43,9 +43,10 @@ its interpretation, status, and provider, and lists proven placements under
 facts, closures, dependencies, and diagnostics. **Center selection** brings
 the selected object back into view after navigation.
 
-The **Analysis** panel lists changes, all instances, and evidence beyond the
-current scene. Its instance count includes objects without an applied
-architecture reading, which may have no canvas card.
+**Details** lists changes, all instances, and evidence beyond the current
+scene. Its instance count includes objects without an applied architecture
+interpretation, which may have no canvas card; the toolbar says how many
+instances the canvas does not draw.
 
 ## Read a placement and its evidence
 
@@ -77,15 +78,25 @@ open the home context.
 
 ## Switch stages and comparisons
 
-Open **Reading** to choose a stage or comparison. A plan normally opens at
-**Planned**; available **Refreshed** and **Recorded** stages depend on the
-plan evidence. A state document has **Recorded** only. Under
-**Comparisons**, a plan may offer Reported drift, Planned changes, and Net change. An
-input comparison shows **Before**, **Diff**, and **After** views of its
-selected stages; [Compare architectures](compare-architectures.md#open-the-comparison-in-the-browser)
-opens one. The **Analysis** panel's **Changes** tab lists determined changes
-and indeterminate closures; **Drift report** names drift reported by the plan
-with its scope.
+The comparison card under **Place** names what the canvas shows: its title,
+its stages, one sentence, and its result in counted units. A plan opens on
+**Planned changes** (Refreshed → Planned); the card's menu also offers
+**Reported drift** (Recorded → Refreshed) and **Net change**
+(Recorded → Planned) when the plan holds those stages. A state Form shows its
+Recorded architecture without comparison controls. A comparison Form shows
+**Differences** between its two selected stages;
+[Compare architectures](compare-architectures.md#open-the-comparison-in-the-browser)
+opens one.
+
+The control at the bottom chooses the first stage, the difference, or the
+second stage: **Refreshed**, **Changes**, and **Planned** for Planned changes,
+or **Before**, **Differences**, and **After** for two inputs. A stage side
+draws that architecture alone. **Added**, **Removed**, **Changed**, and
+**Indeterminate** count the comparison entries of the current view; on a
+stage side they only highlight. In the card, **Events** lists moved,
+replaced, and recreated instances, **Drift report** lists each drift entry by
+consequence, **Cancelled** lists drift that Net change restores, and
+**Limits** names what bounds the current view.
 
 Do not read “No drift reported in this plan” as proof that no infrastructure
 changed. Terraform or OpenTofu may have skipped refresh or limited scope. See
@@ -107,7 +118,7 @@ Save a reusable document or standalone browser view from the same input:
 rootform run plan.json --plan-file plan.tfplan --no-serve -o analysis.json -o architecture.html
 ```
 
-The HTML file embeds the Explorer and the analysis, makes no network requests,
+The HTML file embeds the Explorer and the Form, makes no network requests,
 and needs no server. The JSON file can reopen in `run` or feed `explain`.
 Neither contains sensitive values, but both reveal infrastructure names and
 topology to anyone who receives them. Review

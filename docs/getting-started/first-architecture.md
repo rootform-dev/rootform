@@ -89,10 +89,10 @@ press `Ctrl+C` when finished. The summary includes this excerpt:
 ```ansi title="Run output excerpt"
 [1mPlan analyzed[0m
 [2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
-[2mStages[0m        Planned (default) · Refreshed · Recorded (reconstructed)
+[2mStages[0m        Planned (default) · Refreshed · Recorded (reconstructed from Refreshed; no drift entry to reverse)
 [1m[38;5;208mPlanned architecture[0m
   [2mInstances[0m    2 (2 managed, 0 data)
-  [2mFacts[0m        1: 0 relations, 1 contexts, 0 contributions
+  [2mFacts[0m        1: 0 relations, 1 context, 0 contributions
   [2mClosures[0m     1: 1 resolved, 0 absent, 0 indeterminate
 ```
 
@@ -153,7 +153,9 @@ rootform run plan.json --plan-file plan.tfplan --no-serve -o analysis.json
 [1mPlan analyzed[0m
 [2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
 [1m[38;5;208mPlanned architecture[0m
-  [2mFacts[0m        1: 0 relations, 1 contexts, 0 contributions
+  [2mFacts[0m        1: 0 relations, 1 context, 0 contributions
+[1m[38;5;208mFiles[0m
+  [2manalysis.json[0m  Form (JSON); rootform run reopens it without the input
 [2mWrote     [0m analysis.json
 ```
 

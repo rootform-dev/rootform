@@ -24,7 +24,7 @@ rootform run plan.json --no-serve
 <!-- docs-output:selection-embedded-run -->
 ```text title="Excerpt from standard output"
 Plan analyzed
-Stages        Planned (default) · Refreshed · Recorded (reconstructed)
+Stages        Planned (default) · Refreshed · Recorded (reconstructed from Refreshed; no drift entry to reverse)
 Semantics     19 Dialects, 1 vocabulary
 ```
 

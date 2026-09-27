@@ -39,4 +39,4 @@ An invalid Form or a comparison with incompatible semantic selection reports a p
 
 ## Read the comparison in context
 
-Text and Markdown summarize differences. The comparison Form retains both complete input Forms, selected stages, complete difference entries, and uncertainty. HTML opens the same Before, Diff, and After views as the local Explorer; it is self-contained and makes no network requests. See [Compare architectures](../guides/compare-architectures.md) for a runnable workflow, [Plan inputs](../inputs/plans.md#compare-both-sides-of-one-plan) for plan evidence, and the [Form contract](../../contracts/form.md) for exact fields.
+Text and Markdown summarize differences. The comparison Form retains both complete input Forms, selected stages, complete difference entries, and uncertainty. HTML opens the same Before, Differences, and After views as the local Explorer; it is self-contained and makes no network requests. See [Compare architectures](../guides/compare-architectures.md) for a runnable workflow, [Plan inputs](../inputs/plans.md#compare-both-sides-of-one-plan) for plan evidence, and the [Form contract](../../contracts/form.md) for exact fields.

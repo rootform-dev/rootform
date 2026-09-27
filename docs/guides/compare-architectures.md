@@ -25,8 +25,8 @@ The command returns status `0` because the comparison completed, even though it 
 <!-- docs-output:compare-commerce -->
 ```ansi title="Comparison summary, excerpt"
 [1mInputs compared[0m
-[2mBefore[0m  input 1 · plan JSON from Terraform or OpenTofu 1.16.4 · Planned stage
-[2mAfter[0m   input 2 · plan JSON from Terraform or OpenTofu 1.16.4 · Planned stage
+[2mBefore[0m  base/plan.json · plan JSON from Terraform or OpenTofu 1.16.4 · Planned stage
+[2mAfter[0m   head/plan.json · plan JSON from Terraform or OpenTofu 1.16.4 · Planned stage
 
 [1m[38;5;208mBefore · Planned architecture[0m
   [2mInstances[0m    144 (144 managed, 0 data)
@@ -43,7 +43,7 @@ The command returns status `0` because the comparison completed, even though it 
 [1m[38;5;208mDifferences · Before Planned → After Planned[0m
   [2mInstances[0m      16 added, 7 removed, 0 changed
   [2mFacts[0m          42 added, 23 removed
-  [2mIndeterminate[0m  3 closures before (3 unknown until apply) · 3 closures after (3 unknown until apply)
+  [2mIndeterminate[0m  3 closures in Before Planned (3 unknown until apply) · 3 closures in After Planned (3 unknown until apply)
 ```
 
 The instance counts cover observed resource instances, while facts count the Relations, Contexts, and Contributions that Rules established. `Indeterminate` keeps closures whose evidence cannot decide a change; it does not mean the comparison failed, as [Comparisons](../concepts/comparisons.md#indeterminate-preserves-uncertainty) explains. If pairing is refused or the counts differ in your own project, inspect the warning and confirm each JSON was exported from its matching saved plan. [Plan inputs](../inputs/plans.md#verify-the-saved-plan) explains pairing.
@@ -59,7 +59,7 @@ The instance counts cover observed resource instances, while facts count the Rel
 rootform run comparison.json --no-serve -o comparison.html
 ```
 
-Open `comparison.html` locally. The Before, Diff, and After views place each change in its architecture. The HTML makes no network requests. A local `rootform run comparison.json --no-browser --port 0` instead serves the same result on loopback; stop that server with `Ctrl+C` when finished. See [Explore an architecture](explore-architecture.md) for navigation.
+Open `comparison.html` locally. The Before, Differences, and After views place each change in its architecture. The HTML makes no network requests. A local `rootform run comparison.json --no-browser --port 0` instead serves the same result on loopback; stop that server with `Ctrl+C` when finished. See [Explore an architecture](explore-architecture.md) for navigation.
 
 ## Compare other stage pairs
 
