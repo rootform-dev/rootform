@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -6854,10 +6854,1422 @@
         "dependencies": 61,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_iam_role.grafana",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.grafana"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazuread_service_principal.grafana",
+          "change": "added",
+          "representation": "representation:1:azuread_service_principal.grafana"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_cloud_provider_aws_account.production",
+          "change": "added",
+          "representation": "representation:1:data.grafana_cloud_provider_aws_account.production"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "change": "added",
+          "representation": "representation:1:data.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_cloud_provider_azure_credential.production",
+          "change": "added",
+          "representation": "representation:1:data.grafana_cloud_provider_azure_credential.production"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_cloud_stack.platform",
+          "change": "added",
+          "representation": "representation:1:data.grafana_cloud_stack.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_connections_metrics_endpoint_scrape_job.external",
+          "change": "added",
+          "representation": "representation:1:data.grafana_connections_metrics_endpoint_scrape_job.external"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_data_source.metrics",
+          "change": "added",
+          "representation": "representation:1:data.grafana_data_source.metrics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_fleet_management_collector.alloy",
+          "change": "added",
+          "representation": "representation:1:data.grafana_fleet_management_collector.alloy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_frontend_o11y_app.web",
+          "change": "added",
+          "representation": "representation:1:data.grafana_frontend_o11y_app.web"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_k6_load_test.checkout",
+          "change": "added",
+          "representation": "representation:1:data.grafana_k6_load_test.checkout"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_k6_project.performance",
+          "change": "added",
+          "representation": "representation:1:data.grafana_k6_project.performance"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_oncall_integration.alerts",
+          "change": "added",
+          "representation": "representation:1:data.grafana_oncall_integration.alerts"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_organization.platform",
+          "change": "added",
+          "representation": "representation:1:data.grafana_organization.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.grafana_synthetic_monitoring_probe.private",
+          "change": "added",
+          "representation": "representation:1:data.grafana_synthetic_monitoring_probe.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_agento11y_collection.production",
+          "change": "added",
+          "representation": "representation:1:grafana_agento11y_collection.production"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_agento11y_evaluation_rule.quality",
+          "change": "added",
+          "representation": "representation:1:grafana_agento11y_evaluation_rule.quality"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_agento11y_evaluator.quality",
+          "change": "added",
+          "representation": "representation:1:grafana_agento11y_evaluator.quality"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_agento11y_hook_rule.guard",
+          "change": "added",
+          "representation": "representation:1:grafana_agento11y_hook_rule.guard"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_agento11y_rule_action.collect",
+          "change": "added",
+          "representation": "representation:1:grafana_agento11y_rule_action.collect"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_apps_productactivation_appo11yconfig_v1alpha1.application",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_productactivation_appo11yconfig_v1alpha1.application"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_apps_productactivation_dbo11yconfig_v1alpha1.database",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_productactivation_dbo11yconfig_v1alpha1.database"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_apps_productactivation_k8so11yconfig_v1alpha1.kubernetes",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_productactivation_k8so11yconfig_v1alpha1.kubernetes"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_apps_provisioning_connection_v0alpha1.github",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_provisioning_connection_v0alpha1.github"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_apps_provisioning_repository_v0alpha1.dashboards",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_provisioning_repository_v0alpha1.dashboards"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_apps_secret_keeper_activation_v1beta1.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_secret_keeper_activation_v1beta1.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_apps_secret_keeper_v1beta1.aws",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_secret_keeper_v1beta1.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_apps_secret_securevalue_v1beta1.database",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_secret_securevalue_v1beta1.database"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_asserts_custom_model_rules.model",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_custom_model_rules.model"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_asserts_log_config.logs",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_log_config.logs"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_asserts_notification_alerts_config.notifications",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_notification_alerts_config.notifications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_asserts_profile_config.profiles",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_profile_config.profiles"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_asserts_prom_rule_file.rules",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_prom_rule_file.rules"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_asserts_stack.knowledge",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_stack.knowledge"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_asserts_suppressed_assertions_config.suppressed",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_suppressed_assertions_config.suppressed"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_asserts_thresholds.thresholds",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_thresholds.thresholds"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_asserts_trace_config.traces",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_trace_config.traces"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_assistant_mcp_server.operations",
+          "change": "added",
+          "representation": "representation:1:grafana_assistant_mcp_server.operations"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_cloud_integration.kubernetes",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_integration.kubernetes"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_cloud_plugin_installation.synthetics",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_plugin_installation.synthetics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.private",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_private_data_source_connect_network.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_cloud_provider_aws_account.production",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_provider_aws_account.production"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_cloud_provider_aws_resource_metadata_scrape_job.inventory",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_provider_aws_resource_metadata_scrape_job.inventory"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_cloud_provider_azure_credential.production",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_provider_azure_credential.production"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_cloud_stack.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_stack.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_connections_metrics_endpoint_scrape_job.external",
+          "change": "added",
+          "representation": "representation:1:grafana_connections_metrics_endpoint_scrape_job.external"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_dashboard.must_not_create_topology",
+          "change": "added",
+          "representation": "representation:1:grafana_dashboard.must_not_create_topology"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_data_source.metrics",
+          "change": "added",
+          "representation": "representation:1:grafana_data_source.metrics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_fleet_management_collector.alloy",
+          "change": "added",
+          "representation": "representation:1:grafana_fleet_management_collector.alloy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_fleet_management_pipeline.telemetry",
+          "change": "added",
+          "representation": "representation:1:grafana_fleet_management_pipeline.telemetry"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_frontend_o11y_app.web",
+          "change": "added",
+          "representation": "representation:1:grafana_frontend_o11y_app.web"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_k6_installation.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_k6_installation.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_k6_load_test.checkout",
+          "change": "added",
+          "representation": "representation:1:grafana_k6_load_test.checkout"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_k6_project.performance",
+          "change": "added",
+          "representation": "representation:1:grafana_k6_project.performance"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_machine_learning_alert.latency",
+          "change": "added",
+          "representation": "representation:1:grafana_machine_learning_alert.latency"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_machine_learning_job.latency",
+          "change": "added",
+          "representation": "representation:1:grafana_machine_learning_job.latency"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_machine_learning_outlier_detector.latency",
+          "change": "added",
+          "representation": "representation:1:grafana_machine_learning_outlier_detector.latency"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_oncall_integration.alerts",
+          "change": "added",
+          "representation": "representation:1:grafana_oncall_integration.alerts"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_oncall_route.critical",
+          "change": "added",
+          "representation": "representation:1:grafana_oncall_route.critical"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_organization.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_organization.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_scim_config.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_scim_config.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_slo.api",
+          "change": "added",
+          "representation": "representation:1:grafana_slo.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_sso_settings.oidc",
+          "change": "added",
+          "representation": "representation:1:grafana_sso_settings.oidc"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_synthetic_monitoring_check.api",
+          "change": "added",
+          "representation": "representation:1:grafana_synthetic_monitoring_check.api"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_synthetic_monitoring_installation.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_synthetic_monitoring_installation.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agrafana_synthetic_monitoring_probe.private",
+          "change": "added",
+          "representation": "representation:1:grafana_synthetic_monitoring_probe.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_cloud_provider_aws_account.production%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_cloud_provider_aws_account.production:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:data.grafana_cloud_provider_aws_account.production",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:4d4d1f9aadc5d69168d2d892a77a3de523a1b64bf7e1d34dbc6c7a6854efc6ab"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:data.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:e700ab3621d5e58b12a2b0b9dbc4f2c40a8eb0050ffcfd2c8fb370631c2f8e31"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_cloud_provider_azure_credential.production%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_cloud_provider_azure_credential.production:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:data.grafana_cloud_provider_azure_credential.production",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:fb15d43e0422576ad4011a9c104e50f10c91960a4405aa9651f6b0b61f06ad2e"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_connections_metrics_endpoint_scrape_job.external%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_connections_metrics_endpoint_scrape_job.external:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:data.grafana_connections_metrics_endpoint_scrape_job.external",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:8eb5afeb5d305ffc4bf9bc0582df53d2a1e567d18b4776d8b08a612d9af884ab"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_data_source.metrics%3Arepresentation%253A1%253Agrafana_organization.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_data_source.metrics:representation%3A1%3Agrafana_organization.platform",
+          "from": "representation:1:data.grafana_data_source.metrics",
+          "to": "representation:1:grafana_organization.platform",
+          "emission": "emission:1d160473ba2253c76d15e71cb9731f3810f3197b96bfc1ef27ee38d96ff49eb9"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_frontend_o11y_app.web%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_frontend_o11y_app.web:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:data.grafana_frontend_o11y_app.web",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:6f19fc9aae1ab0df088f888414d36802f964446c11a00196da4a2211eeee74a2"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_cloud_private_data_source_connect_network.private%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.private:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_private_data_source_connect_network.private",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_account.production%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_provider_aws_account.production:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_provider_aws_account.production",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:b5da761249a6e1333a6f7b328989caefab5c8778c180769c00e7336c03da9c01"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_cloudwatch_scrape_job.metrics%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_provider_aws_cloudwatch_scrape_job.metrics:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:fc7d5db2476de2c481e123c1ebeabcba67fd54ddf03a98a6d9b25cdcf7afcac8"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_resource_metadata_scrape_job.inventory%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_provider_aws_resource_metadata_scrape_job.inventory:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_provider_aws_resource_metadata_scrape_job.inventory",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:cd79b81a5114b0c67df1b0f078ac8c68607f2d6d4cd732516bafcc3044615dab"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_cloud_provider_azure_credential.production%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_provider_azure_credential.production:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_provider_azure_credential.production",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:e4a29dd1f444fb60ab94e63529c26753cab73bc05017a200e2ee5f1f90231ad6"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_connections_metrics_endpoint_scrape_job.external%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_connections_metrics_endpoint_scrape_job.external:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_connections_metrics_endpoint_scrape_job.external",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:84c189271d250d48a98e8dc73eeb6cae2b6f8c0cce02452c4a11c60257029aa7"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_data_source.metrics%3Arepresentation%253A1%253Agrafana_organization.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_data_source.metrics:representation%3A1%3Agrafana_organization.platform",
+          "from": "representation:1:grafana_data_source.metrics",
+          "to": "representation:1:grafana_organization.platform",
+          "emission": "emission:0bdda01ba6169b1b2b34c56ef7be25725aa38b2e5f1110cc5de414e54f83a718"
+        },
+        {
+          "id": "change:changes:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_frontend_o11y_app.web%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_frontend_o11y_app.web:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_frontend_o11y_app.web",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:1eda5e842c5463dbbb8b51b01c5a64cddde2a8949712f01742548ea0fbacd4ba"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agrafana_asserts_log_config.logs%3Arepresentation%253A1%253Agrafana_data_source.metrics",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_asserts_log_config.logs:representation%3A1%3Agrafana_data_source.metrics",
+          "from": "representation:1:grafana_asserts_log_config.logs",
+          "to": "representation:1:grafana_data_source.metrics",
+          "emission": "emission:6adb3cea324b01588569e5d862d9f208d7baa187ed459c357a385b8f02732ea9"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agrafana_asserts_profile_config.profiles%3Arepresentation%253A1%253Agrafana_data_source.metrics",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_asserts_profile_config.profiles:representation%3A1%3Agrafana_data_source.metrics",
+          "from": "representation:1:grafana_asserts_profile_config.profiles",
+          "to": "representation:1:grafana_data_source.metrics",
+          "emission": "emission:536601662fa5886efae71f255ac00f06e16a49bad2f1268f6eb2213a746d1f4b"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agrafana_asserts_trace_config.traces%3Arepresentation%253A1%253Agrafana_data_source.metrics",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_asserts_trace_config.traces:representation%3A1%3Agrafana_data_source.metrics",
+          "from": "representation:1:grafana_asserts_trace_config.traces",
+          "to": "representation:1:grafana_data_source.metrics",
+          "emission": "emission:44f584417b27a404658589e54c5876cb7ddfa1aa3feb12f09f8ee272fb219100"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agrafana_cloud_plugin_installation.synthetics%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_cloud_plugin_installation.synthetics:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_plugin_installation.synthetics",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:5bb181d5346d179c65f339529d422d6e563bdb6b941a964ff1fed296de59c1fc"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_cloudwatch_scrape_job.metrics%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_account.production",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_cloud_provider_aws_cloudwatch_scrape_job.metrics:representation%3A1%3Agrafana_cloud_provider_aws_account.production",
+          "from": "representation:1:grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "to": "representation:1:grafana_cloud_provider_aws_account.production",
+          "emission": "emission:38fd26fec38075c594be6675b49e95b2a60ceb50723c103d719f227b275951a4"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_resource_metadata_scrape_job.inventory%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_account.production",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_cloud_provider_aws_resource_metadata_scrape_job.inventory:representation%3A1%3Agrafana_cloud_provider_aws_account.production",
+          "from": "representation:1:grafana_cloud_provider_aws_resource_metadata_scrape_job.inventory",
+          "to": "representation:1:grafana_cloud_provider_aws_account.production",
+          "emission": "emission:3d42563447338c78b175f029ff8a77cce6f63bcea5745c5102321145cb290a07"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agrafana_k6_installation.platform%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_k6_installation.platform:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_k6_installation.platform",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:c5a51a01560a385c945b5222654943b813cdf371bdbb453f5e89fbd3556a6c9d"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agrafana_k6_load_test.checkout%3Arepresentation%253A1%253Agrafana_k6_project.performance",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_k6_load_test.checkout:representation%3A1%3Agrafana_k6_project.performance",
+          "from": "representation:1:grafana_k6_load_test.checkout",
+          "to": "representation:1:grafana_k6_project.performance",
+          "emission": "emission:092943593508324b7d61244fd24e39273338179975310caf69d1be82a0693fa6"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agrafana_oncall_route.critical%3Arepresentation%253A1%253Agrafana_oncall_integration.alerts",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_oncall_route.critical:representation%3A1%3Agrafana_oncall_integration.alerts",
+          "from": "representation:1:grafana_oncall_route.critical",
+          "to": "representation:1:grafana_oncall_integration.alerts",
+          "emission": "emission:205815fb4c3a0b79e75cc6122fa04677719a8da57031b519f8f5e5215fe028c3"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agrafana_synthetic_monitoring_check.api%3Arepresentation%253A1%253Agrafana_synthetic_monitoring_probe.private",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_synthetic_monitoring_check.api:representation%3A1%3Agrafana_synthetic_monitoring_probe.private",
+          "from": "representation:1:grafana_synthetic_monitoring_check.api",
+          "to": "representation:1:grafana_synthetic_monitoring_probe.private",
+          "emission": "emission:950fda9f556960862c71af453dea86c5daa3ec3610a171dc0565a606c33ac469"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Agrafana_synthetic_monitoring_installation.platform%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_synthetic_monitoring_installation.platform:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_synthetic_monitoring_installation.platform",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:08c350598e699525b75bd9bccb17e608c28092e1525f24b9c0d30f9ceb31547d"
+        },
+        {
+          "id": "change:changes:added:relation%3Agrafana.relation.authenticates-through%3Arepresentation%253A1%253Agrafana_apps_provisioning_repository_v0alpha1.dashboards%3Arepresentation%253A1%253Agrafana_apps_provisioning_connection_v0alpha1.github",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:grafana.relation.authenticates-through:representation%3A1%3Agrafana_apps_provisioning_repository_v0alpha1.dashboards:representation%3A1%3Agrafana_apps_provisioning_connection_v0alpha1.github",
+          "from": "representation:1:grafana_apps_provisioning_repository_v0alpha1.dashboards",
+          "to": "representation:1:grafana_apps_provisioning_connection_v0alpha1.github",
+          "emission": "emission:59ba9675c46caa4d7e920a4469b56d8956e07e5ba050a851d5e56f62707fa304"
+        },
+        {
+          "id": "change:changes:added:relation%3Agrafana.relation.authorized-by%3Arepresentation%253A1%253Agrafana_cloud_provider_azure_credential.production%3Arepresentation%253A1%253Aazuread_service_principal.grafana",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:grafana.relation.authorized-by:representation%3A1%3Agrafana_cloud_provider_azure_credential.production:representation%3A1%3Aazuread_service_principal.grafana",
+          "from": "representation:1:grafana_cloud_provider_azure_credential.production",
+          "to": "representation:1:azuread_service_principal.grafana",
+          "emission": "emission:5d4836dd6c8ff89d86285594405a4fdb35f6748fb3f0781d457a2edbf7a477fd"
+        },
+        {
+          "id": "change:changes:added:relation%3Agrafana.relation.connects-through%3Arepresentation%253A1%253Agrafana_data_source.metrics%3Arepresentation%253A1%253Agrafana_cloud_private_data_source_connect_network.private",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:grafana.relation.connects-through:representation%3A1%3Agrafana_data_source.metrics:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.private",
+          "from": "representation:1:grafana_data_source.metrics",
+          "to": "representation:1:grafana_cloud_private_data_source_connect_network.private",
+          "emission": "emission:3702de7f3787d483f756332f47d119b56e902ea34eb4c5ee8e7ce1442491ed7b"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adata.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics%3Aemission%253A60949192c5a99e85ea458bf4e2c8cc6331262094538ed691f3ee68b61c454c30:after",
+          "closure": "closure:representation%3A1%3Adata.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics:emission%3A60949192c5a99e85ea458bf4e2c8cc6331262094538ed691f3ee68b61c454c30",
+          "representation": "representation:1:data.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "emission": "emission:60949192c5a99e85ea458bf4e2c8cc6331262094538ed691f3ee68b61c454c30",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adata.grafana_cloud_provider_azure_credential.production%3Aemission%253A565e93409cb18d5b23e9b694c360e663975656c9a1329f836900206d5f6a842a:after",
+          "closure": "closure:representation%3A1%3Adata.grafana_cloud_provider_azure_credential.production:emission%3A565e93409cb18d5b23e9b694c360e663975656c9a1329f836900206d5f6a842a",
+          "representation": "representation:1:data.grafana_cloud_provider_azure_credential.production",
+          "emission": "emission:565e93409cb18d5b23e9b694c360e663975656c9a1329f836900206d5f6a842a",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adata.grafana_data_source.metrics%3Aemission%253Ae71440cc44b62748c34faf499f2841a3d9afa69be376ba1c123d4c3809a8b8e6:after",
+          "closure": "closure:representation%3A1%3Adata.grafana_data_source.metrics:emission%3Ae71440cc44b62748c34faf499f2841a3d9afa69be376ba1c123d4c3809a8b8e6",
+          "representation": "representation:1:data.grafana_data_source.metrics",
+          "emission": "emission:e71440cc44b62748c34faf499f2841a3d9afa69be376ba1c123d4c3809a8b8e6",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adata.grafana_k6_load_test.checkout%3Aemission%253A0017048fa2cf814da4e12854ca9f0d50ef8f22814d7c2a4f340abd83b24b0083:after",
+          "closure": "closure:representation%3A1%3Adata.grafana_k6_load_test.checkout:emission%3A0017048fa2cf814da4e12854ca9f0d50ef8f22814d7c2a4f340abd83b24b0083",
+          "representation": "representation:1:data.grafana_k6_load_test.checkout",
+          "emission": "emission:0017048fa2cf814da4e12854ca9f0d50ef8f22814d7c2a4f340abd83b24b0083",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 68,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 28,
+        "facts_removed": 0,
+        "indeterminate": 4,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_iam_role.grafana",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.grafana"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazuread_service_principal.grafana",
+          "change": "added",
+          "representation": "representation:1:azuread_service_principal.grafana"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_cloud_provider_aws_account.production",
+          "change": "added",
+          "representation": "representation:1:data.grafana_cloud_provider_aws_account.production"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "change": "added",
+          "representation": "representation:1:data.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_cloud_provider_azure_credential.production",
+          "change": "added",
+          "representation": "representation:1:data.grafana_cloud_provider_azure_credential.production"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_cloud_stack.platform",
+          "change": "added",
+          "representation": "representation:1:data.grafana_cloud_stack.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_connections_metrics_endpoint_scrape_job.external",
+          "change": "added",
+          "representation": "representation:1:data.grafana_connections_metrics_endpoint_scrape_job.external"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_data_source.metrics",
+          "change": "added",
+          "representation": "representation:1:data.grafana_data_source.metrics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_fleet_management_collector.alloy",
+          "change": "added",
+          "representation": "representation:1:data.grafana_fleet_management_collector.alloy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_frontend_o11y_app.web",
+          "change": "added",
+          "representation": "representation:1:data.grafana_frontend_o11y_app.web"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_k6_load_test.checkout",
+          "change": "added",
+          "representation": "representation:1:data.grafana_k6_load_test.checkout"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_k6_project.performance",
+          "change": "added",
+          "representation": "representation:1:data.grafana_k6_project.performance"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_oncall_integration.alerts",
+          "change": "added",
+          "representation": "representation:1:data.grafana_oncall_integration.alerts"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_organization.platform",
+          "change": "added",
+          "representation": "representation:1:data.grafana_organization.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.grafana_synthetic_monitoring_probe.private",
+          "change": "added",
+          "representation": "representation:1:data.grafana_synthetic_monitoring_probe.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_agento11y_collection.production",
+          "change": "added",
+          "representation": "representation:1:grafana_agento11y_collection.production"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_agento11y_evaluation_rule.quality",
+          "change": "added",
+          "representation": "representation:1:grafana_agento11y_evaluation_rule.quality"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_agento11y_evaluator.quality",
+          "change": "added",
+          "representation": "representation:1:grafana_agento11y_evaluator.quality"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_agento11y_hook_rule.guard",
+          "change": "added",
+          "representation": "representation:1:grafana_agento11y_hook_rule.guard"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_agento11y_rule_action.collect",
+          "change": "added",
+          "representation": "representation:1:grafana_agento11y_rule_action.collect"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_apps_productactivation_appo11yconfig_v1alpha1.application",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_productactivation_appo11yconfig_v1alpha1.application"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_apps_productactivation_dbo11yconfig_v1alpha1.database",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_productactivation_dbo11yconfig_v1alpha1.database"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_apps_productactivation_k8so11yconfig_v1alpha1.kubernetes",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_productactivation_k8so11yconfig_v1alpha1.kubernetes"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_apps_provisioning_connection_v0alpha1.github",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_provisioning_connection_v0alpha1.github"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_apps_provisioning_repository_v0alpha1.dashboards",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_provisioning_repository_v0alpha1.dashboards"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_apps_secret_keeper_activation_v1beta1.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_secret_keeper_activation_v1beta1.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_apps_secret_keeper_v1beta1.aws",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_secret_keeper_v1beta1.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_apps_secret_securevalue_v1beta1.database",
+          "change": "added",
+          "representation": "representation:1:grafana_apps_secret_securevalue_v1beta1.database"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_asserts_custom_model_rules.model",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_custom_model_rules.model"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_asserts_log_config.logs",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_log_config.logs"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_asserts_notification_alerts_config.notifications",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_notification_alerts_config.notifications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_asserts_profile_config.profiles",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_profile_config.profiles"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_asserts_prom_rule_file.rules",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_prom_rule_file.rules"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_asserts_stack.knowledge",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_stack.knowledge"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_asserts_suppressed_assertions_config.suppressed",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_suppressed_assertions_config.suppressed"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_asserts_thresholds.thresholds",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_thresholds.thresholds"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_asserts_trace_config.traces",
+          "change": "added",
+          "representation": "representation:1:grafana_asserts_trace_config.traces"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_assistant_mcp_server.operations",
+          "change": "added",
+          "representation": "representation:1:grafana_assistant_mcp_server.operations"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_cloud_integration.kubernetes",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_integration.kubernetes"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_cloud_plugin_installation.synthetics",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_plugin_installation.synthetics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.private",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_private_data_source_connect_network.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_cloud_provider_aws_account.production",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_provider_aws_account.production"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_cloud_provider_aws_resource_metadata_scrape_job.inventory",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_provider_aws_resource_metadata_scrape_job.inventory"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_cloud_provider_azure_credential.production",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_provider_azure_credential.production"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_cloud_stack.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_cloud_stack.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_connections_metrics_endpoint_scrape_job.external",
+          "change": "added",
+          "representation": "representation:1:grafana_connections_metrics_endpoint_scrape_job.external"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_dashboard.must_not_create_topology",
+          "change": "added",
+          "representation": "representation:1:grafana_dashboard.must_not_create_topology"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_data_source.metrics",
+          "change": "added",
+          "representation": "representation:1:grafana_data_source.metrics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_fleet_management_collector.alloy",
+          "change": "added",
+          "representation": "representation:1:grafana_fleet_management_collector.alloy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_fleet_management_pipeline.telemetry",
+          "change": "added",
+          "representation": "representation:1:grafana_fleet_management_pipeline.telemetry"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_frontend_o11y_app.web",
+          "change": "added",
+          "representation": "representation:1:grafana_frontend_o11y_app.web"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_k6_installation.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_k6_installation.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_k6_load_test.checkout",
+          "change": "added",
+          "representation": "representation:1:grafana_k6_load_test.checkout"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_k6_project.performance",
+          "change": "added",
+          "representation": "representation:1:grafana_k6_project.performance"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_machine_learning_alert.latency",
+          "change": "added",
+          "representation": "representation:1:grafana_machine_learning_alert.latency"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_machine_learning_job.latency",
+          "change": "added",
+          "representation": "representation:1:grafana_machine_learning_job.latency"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_machine_learning_outlier_detector.latency",
+          "change": "added",
+          "representation": "representation:1:grafana_machine_learning_outlier_detector.latency"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_oncall_integration.alerts",
+          "change": "added",
+          "representation": "representation:1:grafana_oncall_integration.alerts"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_oncall_route.critical",
+          "change": "added",
+          "representation": "representation:1:grafana_oncall_route.critical"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_organization.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_organization.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_scim_config.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_scim_config.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_slo.api",
+          "change": "added",
+          "representation": "representation:1:grafana_slo.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_sso_settings.oidc",
+          "change": "added",
+          "representation": "representation:1:grafana_sso_settings.oidc"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_synthetic_monitoring_check.api",
+          "change": "added",
+          "representation": "representation:1:grafana_synthetic_monitoring_check.api"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_synthetic_monitoring_installation.platform",
+          "change": "added",
+          "representation": "representation:1:grafana_synthetic_monitoring_installation.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agrafana_synthetic_monitoring_probe.private",
+          "change": "added",
+          "representation": "representation:1:grafana_synthetic_monitoring_probe.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_cloud_provider_aws_account.production%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_cloud_provider_aws_account.production:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:data.grafana_cloud_provider_aws_account.production",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:4d4d1f9aadc5d69168d2d892a77a3de523a1b64bf7e1d34dbc6c7a6854efc6ab"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:data.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:e700ab3621d5e58b12a2b0b9dbc4f2c40a8eb0050ffcfd2c8fb370631c2f8e31"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_cloud_provider_azure_credential.production%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_cloud_provider_azure_credential.production:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:data.grafana_cloud_provider_azure_credential.production",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:fb15d43e0422576ad4011a9c104e50f10c91960a4405aa9651f6b0b61f06ad2e"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_connections_metrics_endpoint_scrape_job.external%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_connections_metrics_endpoint_scrape_job.external:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:data.grafana_connections_metrics_endpoint_scrape_job.external",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:8eb5afeb5d305ffc4bf9bc0582df53d2a1e567d18b4776d8b08a612d9af884ab"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_data_source.metrics%3Arepresentation%253A1%253Agrafana_organization.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_data_source.metrics:representation%3A1%3Agrafana_organization.platform",
+          "from": "representation:1:data.grafana_data_source.metrics",
+          "to": "representation:1:grafana_organization.platform",
+          "emission": "emission:1d160473ba2253c76d15e71cb9731f3810f3197b96bfc1ef27ee38d96ff49eb9"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Adata.grafana_frontend_o11y_app.web%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Adata.grafana_frontend_o11y_app.web:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:data.grafana_frontend_o11y_app.web",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:6f19fc9aae1ab0df088f888414d36802f964446c11a00196da4a2211eeee74a2"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_cloud_private_data_source_connect_network.private%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.private:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_private_data_source_connect_network.private",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:3fb4643eda0d53e5a923a167743ac4eabaea70af2279820196313a1a3a31a134"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_account.production%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_provider_aws_account.production:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_provider_aws_account.production",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:b5da761249a6e1333a6f7b328989caefab5c8778c180769c00e7336c03da9c01"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_cloudwatch_scrape_job.metrics%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_provider_aws_cloudwatch_scrape_job.metrics:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:fc7d5db2476de2c481e123c1ebeabcba67fd54ddf03a98a6d9b25cdcf7afcac8"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_resource_metadata_scrape_job.inventory%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_provider_aws_resource_metadata_scrape_job.inventory:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_provider_aws_resource_metadata_scrape_job.inventory",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:cd79b81a5114b0c67df1b0f078ac8c68607f2d6d4cd732516bafcc3044615dab"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_cloud_provider_azure_credential.production%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_cloud_provider_azure_credential.production:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_provider_azure_credential.production",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:e4a29dd1f444fb60ab94e63529c26753cab73bc05017a200e2ee5f1f90231ad6"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_connections_metrics_endpoint_scrape_job.external%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_connections_metrics_endpoint_scrape_job.external:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_connections_metrics_endpoint_scrape_job.external",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:84c189271d250d48a98e8dc73eeb6cae2b6f8c0cce02452c4a11c60257029aa7"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_data_source.metrics%3Arepresentation%253A1%253Agrafana_organization.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_data_source.metrics:representation%3A1%3Agrafana_organization.platform",
+          "from": "representation:1:grafana_data_source.metrics",
+          "to": "representation:1:grafana_organization.platform",
+          "emission": "emission:0bdda01ba6169b1b2b34c56ef7be25725aa38b2e5f1110cc5de414e54f83a718"
+        },
+        {
+          "id": "change:net:added:context%3Agrafana.context.ownership%3Arepresentation%253A1%253Agrafana_frontend_o11y_app.web%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:grafana.context.ownership:representation%3A1%3Agrafana_frontend_o11y_app.web:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_frontend_o11y_app.web",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:1eda5e842c5463dbbb8b51b01c5a64cddde2a8949712f01742548ea0fbacd4ba"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agrafana_asserts_log_config.logs%3Arepresentation%253A1%253Agrafana_data_source.metrics",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_asserts_log_config.logs:representation%3A1%3Agrafana_data_source.metrics",
+          "from": "representation:1:grafana_asserts_log_config.logs",
+          "to": "representation:1:grafana_data_source.metrics",
+          "emission": "emission:6adb3cea324b01588569e5d862d9f208d7baa187ed459c357a385b8f02732ea9"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agrafana_asserts_profile_config.profiles%3Arepresentation%253A1%253Agrafana_data_source.metrics",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_asserts_profile_config.profiles:representation%3A1%3Agrafana_data_source.metrics",
+          "from": "representation:1:grafana_asserts_profile_config.profiles",
+          "to": "representation:1:grafana_data_source.metrics",
+          "emission": "emission:536601662fa5886efae71f255ac00f06e16a49bad2f1268f6eb2213a746d1f4b"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agrafana_asserts_trace_config.traces%3Arepresentation%253A1%253Agrafana_data_source.metrics",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_asserts_trace_config.traces:representation%3A1%3Agrafana_data_source.metrics",
+          "from": "representation:1:grafana_asserts_trace_config.traces",
+          "to": "representation:1:grafana_data_source.metrics",
+          "emission": "emission:44f584417b27a404658589e54c5876cb7ddfa1aa3feb12f09f8ee272fb219100"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agrafana_cloud_plugin_installation.synthetics%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_cloud_plugin_installation.synthetics:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_cloud_plugin_installation.synthetics",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:5bb181d5346d179c65f339529d422d6e563bdb6b941a964ff1fed296de59c1fc"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_cloudwatch_scrape_job.metrics%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_account.production",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_cloud_provider_aws_cloudwatch_scrape_job.metrics:representation%3A1%3Agrafana_cloud_provider_aws_account.production",
+          "from": "representation:1:grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "to": "representation:1:grafana_cloud_provider_aws_account.production",
+          "emission": "emission:38fd26fec38075c594be6675b49e95b2a60ceb50723c103d719f227b275951a4"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_resource_metadata_scrape_job.inventory%3Arepresentation%253A1%253Agrafana_cloud_provider_aws_account.production",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_cloud_provider_aws_resource_metadata_scrape_job.inventory:representation%3A1%3Agrafana_cloud_provider_aws_account.production",
+          "from": "representation:1:grafana_cloud_provider_aws_resource_metadata_scrape_job.inventory",
+          "to": "representation:1:grafana_cloud_provider_aws_account.production",
+          "emission": "emission:3d42563447338c78b175f029ff8a77cce6f63bcea5745c5102321145cb290a07"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agrafana_k6_installation.platform%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_k6_installation.platform:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_k6_installation.platform",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:c5a51a01560a385c945b5222654943b813cdf371bdbb453f5e89fbd3556a6c9d"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agrafana_k6_load_test.checkout%3Arepresentation%253A1%253Agrafana_k6_project.performance",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_k6_load_test.checkout:representation%3A1%3Agrafana_k6_project.performance",
+          "from": "representation:1:grafana_k6_load_test.checkout",
+          "to": "representation:1:grafana_k6_project.performance",
+          "emission": "emission:092943593508324b7d61244fd24e39273338179975310caf69d1be82a0693fa6"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agrafana_oncall_route.critical%3Arepresentation%253A1%253Agrafana_oncall_integration.alerts",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_oncall_route.critical:representation%3A1%3Agrafana_oncall_integration.alerts",
+          "from": "representation:1:grafana_oncall_route.critical",
+          "to": "representation:1:grafana_oncall_integration.alerts",
+          "emission": "emission:205815fb4c3a0b79e75cc6122fa04677719a8da57031b519f8f5e5215fe028c3"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agrafana_synthetic_monitoring_check.api%3Arepresentation%253A1%253Agrafana_synthetic_monitoring_probe.private",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_synthetic_monitoring_check.api:representation%3A1%3Agrafana_synthetic_monitoring_probe.private",
+          "from": "representation:1:grafana_synthetic_monitoring_check.api",
+          "to": "representation:1:grafana_synthetic_monitoring_probe.private",
+          "emission": "emission:950fda9f556960862c71af453dea86c5daa3ec3610a171dc0565a606c33ac469"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Agrafana_synthetic_monitoring_installation.platform%3Arepresentation%253A1%253Agrafana_cloud_stack.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Agrafana_synthetic_monitoring_installation.platform:representation%3A1%3Agrafana_cloud_stack.platform",
+          "from": "representation:1:grafana_synthetic_monitoring_installation.platform",
+          "to": "representation:1:grafana_cloud_stack.platform",
+          "emission": "emission:08c350598e699525b75bd9bccb17e608c28092e1525f24b9c0d30f9ceb31547d"
+        },
+        {
+          "id": "change:net:added:relation%3Agrafana.relation.authenticates-through%3Arepresentation%253A1%253Agrafana_apps_provisioning_repository_v0alpha1.dashboards%3Arepresentation%253A1%253Agrafana_apps_provisioning_connection_v0alpha1.github",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:grafana.relation.authenticates-through:representation%3A1%3Agrafana_apps_provisioning_repository_v0alpha1.dashboards:representation%3A1%3Agrafana_apps_provisioning_connection_v0alpha1.github",
+          "from": "representation:1:grafana_apps_provisioning_repository_v0alpha1.dashboards",
+          "to": "representation:1:grafana_apps_provisioning_connection_v0alpha1.github",
+          "emission": "emission:59ba9675c46caa4d7e920a4469b56d8956e07e5ba050a851d5e56f62707fa304"
+        },
+        {
+          "id": "change:net:added:relation%3Agrafana.relation.authorized-by%3Arepresentation%253A1%253Agrafana_cloud_provider_azure_credential.production%3Arepresentation%253A1%253Aazuread_service_principal.grafana",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:grafana.relation.authorized-by:representation%3A1%3Agrafana_cloud_provider_azure_credential.production:representation%3A1%3Aazuread_service_principal.grafana",
+          "from": "representation:1:grafana_cloud_provider_azure_credential.production",
+          "to": "representation:1:azuread_service_principal.grafana",
+          "emission": "emission:5d4836dd6c8ff89d86285594405a4fdb35f6748fb3f0781d457a2edbf7a477fd"
+        },
+        {
+          "id": "change:net:added:relation%3Agrafana.relation.connects-through%3Arepresentation%253A1%253Agrafana_data_source.metrics%3Arepresentation%253A1%253Agrafana_cloud_private_data_source_connect_network.private",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:grafana.relation.connects-through:representation%3A1%3Agrafana_data_source.metrics:representation%3A1%3Agrafana_cloud_private_data_source_connect_network.private",
+          "from": "representation:1:grafana_data_source.metrics",
+          "to": "representation:1:grafana_cloud_private_data_source_connect_network.private",
+          "emission": "emission:3702de7f3787d483f756332f47d119b56e902ea34eb4c5ee8e7ce1442491ed7b"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adata.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics%3Aemission%253A60949192c5a99e85ea458bf4e2c8cc6331262094538ed691f3ee68b61c454c30:after",
+          "closure": "closure:representation%3A1%3Adata.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics:emission%3A60949192c5a99e85ea458bf4e2c8cc6331262094538ed691f3ee68b61c454c30",
+          "representation": "representation:1:data.grafana_cloud_provider_aws_cloudwatch_scrape_job.metrics",
+          "emission": "emission:60949192c5a99e85ea458bf4e2c8cc6331262094538ed691f3ee68b61c454c30",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adata.grafana_cloud_provider_azure_credential.production%3Aemission%253A565e93409cb18d5b23e9b694c360e663975656c9a1329f836900206d5f6a842a:after",
+          "closure": "closure:representation%3A1%3Adata.grafana_cloud_provider_azure_credential.production:emission%3A565e93409cb18d5b23e9b694c360e663975656c9a1329f836900206d5f6a842a",
+          "representation": "representation:1:data.grafana_cloud_provider_azure_credential.production",
+          "emission": "emission:565e93409cb18d5b23e9b694c360e663975656c9a1329f836900206d5f6a842a",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adata.grafana_data_source.metrics%3Aemission%253Ae71440cc44b62748c34faf499f2841a3d9afa69be376ba1c123d4c3809a8b8e6:after",
+          "closure": "closure:representation%3A1%3Adata.grafana_data_source.metrics:emission%3Ae71440cc44b62748c34faf499f2841a3d9afa69be376ba1c123d4c3809a8b8e6",
+          "representation": "representation:1:data.grafana_data_source.metrics",
+          "emission": "emission:e71440cc44b62748c34faf499f2841a3d9afa69be376ba1c123d4c3809a8b8e6",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adata.grafana_k6_load_test.checkout%3Aemission%253A0017048fa2cf814da4e12854ca9f0d50ef8f22814d7c2a4f340abd83b24b0083:after",
+          "closure": "closure:representation%3A1%3Adata.grafana_k6_load_test.checkout:emission%3A0017048fa2cf814da4e12854ca9f0d50ef8f22814d7c2a4f340abd83b24b0083",
+          "representation": "representation:1:data.grafana_k6_load_test.checkout",
+          "emission": "emission:0017048fa2cf814da4e12854ca9f0d50ef8f22814d7c2a4f340abd83b24b0083",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 68,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 28,
+        "facts_removed": 0,
+        "indeterminate": 4,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

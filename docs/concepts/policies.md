@@ -3,7 +3,7 @@ title: "Policies and Policy Packs"
 description: "Understand selection, evaluation, and evidence limits of Rootform policies."
 ---
 
-A Policy evaluates a named assertion over the architecture that Dialects establish. It cannot contact a provider, infer live state, or invent a missing fact. A Policy Pack owns related Policies and their selection. A [Rootform document](architecture-ir.md) preserves the architecture used for evaluation.
+A Policy evaluates a selected architecture stage within a [Form](forms.md). It cannot contact a provider, infer live state, or invent a missing fact. A Policy Pack owns related Policies and their selection. The policy result is a separate artifact and carries `form_format_version`.
 
 ## Definition, selection, and evaluation
 
@@ -24,7 +24,7 @@ This makes coverage part of the governance claim. A passing evaluation applies o
 
 ## Evaluate a supported stage
 
-A plan evaluates `planned` by default and can evaluate `refreshed` when present. It never evaluates a plan's reconstructed `recorded` stage. A state snapshot evaluates its sole `recorded` stage. `--stage` chooses an available stage for a single input; a cross-input run uses its selected after stage. A Policy does not directly ask whether drift occurred. It evaluates architectural facts on the chosen stage.
+For a plan Form, Policies evaluate Planned by default and can evaluate Refreshed when present. They never evaluate a plan's reconstructed Recorded stage. For a state Form, Policies evaluate Recorded. `--stage` chooses an available stage for a single input; a comparison Form uses its selected after side by default. A Policy does not directly ask whether drift occurred. It evaluates architectural facts on the selected architecture.
 
 ## Evidence produces three outcomes
 
@@ -34,7 +34,7 @@ A plan evaluates `planned` by default and can evaluate `refreshed` when present.
 | Violated | Available facts establish the assertion as false |
 | Indeterminate | Valid architecture cannot establish either Boolean |
 
-A proven `absent` closure can make an assertion false. Unknown, sensitive, conflicting, or unavailable evidence stays indeterminate when it affects the answer. A negative assertion needs complete relevant population before absence can count as a pass. A selected Policy with no matching target is *not evaluated*; that is no decision, not a fourth evaluation outcome. [Run checks](../guides/check-architecture.md) shows the outcomes on small plans: the same Policy passes, is violated, or stays indeterminate because the evidence differs, not because the Policy changes. [Evaluation semantics](../language/reference/evaluation.md) defines the exact truth rules.
+A proven `absent` closure can make an assertion false. Unknown, sensitive, conflicting, unavailable, or carried evidence stays indeterminate when it affects the answer. A carried instance remains in Planned because the plan neither changes nor deletes it, but the plan did not evaluate it; a Policy cannot pass or fail on missing evidence from it. A negative assertion needs complete relevant population before absence can count as a pass. A selected Policy with no matching target is *not evaluated*; that is no decision, not a fourth evaluation outcome. [Run checks](../guides/check-architecture.md) shows the outcomes on small plans: the same Policy passes, is violated, or stays indeterminate because the evidence differs, not because the Policy changes. [Evaluation semantics](../language/reference/evaluation.md) defines the exact truth rules.
 
 ## Read the aggregate decision
 
@@ -56,12 +56,12 @@ Review these boundaries before treating a Pack as a gate:
 - the number and identity of matched targets;
 - the outcome of every evaluation;
 - diagnostics and the facts they cite;
-- the semantic snapshot used for linking.
+- the Form semantics used for linking.
 
 ## Portable source and compiled Pack serve different stages
 
-A Policy Pack source is a portable authored unit. Before evaluation, Rootform links its qualified references against the semantic snapshot of the evaluated Rootform document: the vocabulary, Dialects, and Rules that interpreted it. The linked Pack records owner versions, content digests, and semantic digests. A saved document keeps its Dialect meaning, so reopening it with a newer binary does not rewrite that meaning.
+A Policy Pack source is a portable authored unit. Before evaluation, Rootform links its qualified references against the semantics of the evaluated Form: the vocabulary, Dialects, and Rules that interpreted it. The linked Pack records owner versions, content digests, and semantic digests. A saved Form keeps its Dialect meaning, so reopening it with a newer binary does not rewrite that meaning.
 
-`rootform compile policy-pack` pins a Pack to one document's semantic snapshot, so the Pack can be evaluated later and offline without the Dialect sources that interpreted that document. When a compiled Pack's pins disagree with the evaluated document, for example after a Dialect version changes, evaluation fails closed with `POLICY_SEMANTICS_MISMATCH: compiled Policy Pack semantic pin differs from the document` and exit status `3`. Rootform does not relink silently, reload other Dialects, or fall back to another Pack.
+`rootform compile policy-pack` pins a Pack to one Form's semantics, so the Pack can be evaluated later and offline without the Dialect sources that interpreted it. When a compiled Pack's pins disagree with the evaluated Form, for example after a Dialect version changes, evaluation fails closed with `POLICY_SEMANTICS_MISMATCH: compiled Policy Pack semantic pin differs from the document` and exit status `3`. Rootform does not relink silently, reload other Dialects, or fall back to another Pack.
 
-A project lock selects Policy Pack source. `--policy-pack` supplies a local source directory or compiled Pack for one invocation; `--policy` narrows which selected Policies evaluate without changing the selection. Neither changes the Rootform document. Continue with [Run checks](../guides/check-architecture.md), [Write a Policy Pack](../language/write-policy-pack.md), or [Policy Packs reference](../language/reference/policy-packs.md).
+A project lock selects Policy Pack source. `--policy-pack` supplies a local source directory or compiled Pack for one invocation; `--policy` narrows which selected Policies evaluate without changing the selection. Neither changes the Form. Continue with [Run checks](../guides/check-architecture.md), [Write a Policy Pack](../language/write-policy-pack.md), or [Policy Packs reference](../language/reference/policy-packs.md).

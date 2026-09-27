@@ -1,12 +1,16 @@
 # Policy Result contract
 
-Current format version: `0.1.0`.
+Current format version: `1`.
 
-Policy evaluation consumes validated autonomous Architecture IR and linked
-Policy Pack artifacts (or their source, linked automatically and locally
-during a source check). It never re-reads Terraform, reloads producer Dialects,
+Policy evaluation consumes a validated Form and linked Policy Pack artifacts
+(or their source, linked automatically and locally during source evaluation).
+Each Policy evaluates a selected architecture stage within the Form. Evaluation
+never re-reads Terraform, reloads Dialects,
 accesses the network, recompiles locked source, or upgrades unresolved
-evidence.
+evidence. The default stage is Planned for a plan Form, Recorded for a state Form,
+and the after side's selected stage for a comparison Form. Policy results are
+separate artifacts; they do not enter the Form. Today, select Policies through
+`rootform run --policy` or `rootform run --policy-pack`.
 
 Policies belong to policy packs, never to dialects. A dialect may not carry,
 override, or append policy; a policy pack may not change dialect semantics.
@@ -38,7 +42,9 @@ contributions(contributor)
 ```
 
 Targets are typed Concept or Rule references. Queries return deduplicated fact
-IDs plus `supported` and `complete`. Support exists when at least one active
+IDs plus `supported` and `complete`. A carried instance was not evaluated by the
+plan; missing evidence from it cannot establish a Policy pass or violation.
+Support exists when at least one active
 emission contract is compatible with the evaluated target. Completeness
 requires the relevant contributor population to be determined and all their
 active emissions closed; a source or interpretation uncertainty that could hide
@@ -54,7 +60,7 @@ absence of facts creates neither support, omission, nor proven zero.
 ## Outcomes
 
 Each evaluation has one outcome: `passed`, `violated`, or `indeterminate`.
-A result contains exact architecture format version and semantic pins, linked
+A result contains `form_format_version` and exact semantic pins, linked
 Policy Pack identities and pins, global `status`, `compliant`, explicit
 policy scope and target coverage, summary, ordered evaluations, ordered
 violations, and ordered sanitized diagnostics. Violations identify policy,
@@ -65,7 +71,7 @@ A result identifies each evaluated Policy Pack by name and version and every
 policy by its pack-qualified identity. Exact pack source and acquisition pins
 remain in `rootform.lock`; policy results do not duplicate them. Changing pack
 or policy identity changes result meaning; a result is valid only for the
-architecture versions and pack selection it records.
+Form semantics and pack selection it records.
 
 Global status is `compliant`, `violated`, `indeterminate`, or `not_evaluated`.
 `compliant` is true only when every selected policy is satisfied on its
@@ -85,9 +91,9 @@ does not change evaluation meaning or exit status.
 ## Linking
 
 Explicitly provided linked artifacts are replayed strictly: mismatch of
-format, contract, or pins against the evaluated IR is a terminal refusal with
-no fallback and no relink. In the source path, check derives pins from the IR
-snapshot, links deterministically and locally on cache miss, validates, caches,
+format, contract, or pins against the evaluated Form is a terminal refusal with
+no fallback and no relink. In the source path, evaluation derives pins from the Form's
+semantics, links deterministically and locally on cache miss, validates, caches,
 and evaluates; a compatible evolution of a pinned unit triggers a new local
 link without prompt or network. Linked cache state never changes the verdict,
 semantic evidence, or linked digest. See

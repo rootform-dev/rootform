@@ -680,7 +680,7 @@ function parseProducerManifest(body: string, version: string): ParsedManifest {
   }
   const schema = exactObject(manifest.schema, "producer schema", ["file", "sha256"]);
   if (
-    schema.file !== "architecture-ir.schema.json" ||
+    schema.file !== "form.schema.json" ||
     !/^[0-9a-f]{64}$/u.test(stringField(schema, "sha256", "producer schema"))
   ) {
     throw new Error("producer schema descriptor drifted");
@@ -791,7 +791,7 @@ export function verifyHandoffDirectory(
   const expectedEntries = [
     ...RELEASE_TARGETS.map(({ handoffFile }) => handoffFile),
     "SHA256SUMS",
-    "architecture-ir.schema.json",
+    "form.schema.json",
     "engine-handoff.json",
     "engine-sbom.spdx.json",
   ].sort((left, right) => left.localeCompare(right, "en"));
@@ -816,10 +816,10 @@ export function verifyHandoffDirectory(
 
   const manifestBody = Buffer.from(entries.get("engine-handoff.json")?.body ?? []);
   const manifest = parseProducerManifest(manifestBody.toString("utf8"), version);
-  const schema = Buffer.from(entries.get("architecture-ir.schema.json")?.body ?? []);
+  const schema = Buffer.from(entries.get("form.schema.json")?.body ?? []);
   const expectedSchema = requireRegularFile(
-    join(root, "schemas", "architecture-ir.schema.json"),
-    "committed Architecture IR schema",
+    join(root, "schemas", "form.schema.json"),
+    "committed Form schema",
     16 * 1024 * 1024,
   );
   const publicExport = exactObject(
@@ -842,7 +842,7 @@ export function verifyHandoffDirectory(
     "THIRD_PARTY_NOTICES.txt",
     "dependencies/runtime-components.json",
     "reference/cli.json",
-    "schemas/architecture-ir.schema.json",
+    "schemas/form.schema.json",
     "schemas/compiled-policy-pack.schema.json",
     "schemas/rootform-lock.schema.json",
   ].sort((left, right) => left.localeCompare(right, "en"));
@@ -872,7 +872,7 @@ export function verifyHandoffDirectory(
     }
   }
   const runtimeLicensing = readRuntimeLicensing(root);
-  const schemaExportDigest = exportedByPath.get("schemas/architecture-ir.schema.json");
+  const schemaExportDigest = exportedByPath.get("schemas/form.schema.json");
   const manifestJson = canonicalJson(
     manifestBody.toString("utf8"),
     "producer manifest",

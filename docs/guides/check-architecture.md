@@ -121,12 +121,12 @@ rootform run pass/plan.json --plan-file pass/plan.tfplan \
 ```ansi title="Passing result, excerpt"
 [2mPolicies[0m      passed
 
-[1m[38;5;208mPolicies · planned[0m
+[1m[38;5;208mPolicies · Planned stage[0m
   [2mResult[0m     passed
   [2mEvaluated[0m  1 policy over 2 targets: 2 passed, 0 violated, 0 indeterminate
 ```
 
-Status `0` here means both selected targets passed. The VPC itself is not a target. `pass/analysis.json` is a Rootform document preserving the interpreted architecture; `pass/results.sarif` records explicit evaluations and diagnostics for review tools. The files do not contain sensitive plan values. If either Context stays indeterminate, confirm that `--plan-file` names the saved plan used for the JSON export.
+Status `0` here means both selected targets passed. The VPC itself is not a target. `pass/analysis.json` is a Form preserving the interpreted architecture; `pass/results.sarif` records explicit evaluations and diagnostics for review tools. The files do not contain sensitive plan values. If either Context stays indeterminate, confirm that `--plan-file` names the saved plan used for the JSON export.
 
 ## Inspect the proof
 
@@ -183,10 +183,10 @@ rootform run violation/plan.json --plan-file violation/plan.tfplan \
 
 <!-- docs-output:check-architecture-violation -->
 ```ansi title="Violation, excerpt"
-[1m[38;5;208mArchitecture · planned[0m
+[1m[38;5;208mPlanned architecture[0m
   [2mClosures[0m     1: 0 resolved, 1 absent, 0 indeterminate
 
-[1m[38;5;208mPolicies · planned[0m
+[1m[38;5;208mPolicies · Planned stage[0m
   [2mResult[0m     violated
   [2mEvaluated[0m  1 policy over 1 target: 0 passed, 1 violated, 0 indeterminate
   [31m✗[0m aws_subnet.application  [2mtutorial/network-context: Network resources must have an established network context.[0m
@@ -205,13 +205,13 @@ rootform run pass/plan.json --policy-pack ./policies --no-serve --color always
 
 <!-- docs-output:check-architecture-indeterminate -->
 ```ansi title="Indeterminate result, excerpt"
-[1m[38;5;208mArchitecture · planned[0m
+[1m[38;5;208mPlanned architecture[0m
   [2mClosures[0m     2: 0 resolved, 0 absent, 2 indeterminate
 
-[1m[38;5;208mUncertainty · planned[0m
+[1m[38;5;208mUncertainty · Planned stage[0m
   [2mClosures[0m  2 unknown until apply
 
-[1m[38;5;208mPolicies · planned[0m
+[1m[38;5;208mPolicies · Planned stage[0m
   [2mResult[0m     indeterminate
   [2mEvaluated[0m  1 policy over 2 targets: 0 passed, 0 violated, 2 indeterminate
 ```
@@ -230,7 +230,7 @@ rootform run no-target/plan.json --plan-file no-target/plan.tfplan \
 
 <!-- docs-output:check-architecture-no-target -->
 ```ansi title="No target, excerpt"
-[1m[38;5;208mPolicies · planned[0m
+[1m[38;5;208mPolicies · Planned stage[0m
   [2mResult[0m     no decision
   [2mEvaluated[0m  1 policy over 0 targets: 0 passed, 0 violated, 0 indeterminate
   [2mNo target[0m  1 policy found nothing to evaluate

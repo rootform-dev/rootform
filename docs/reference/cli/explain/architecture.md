@@ -4,9 +4,9 @@ description: "Explain one instance: its interpretation, facts, closures, and evi
 ---
 
 Pass an instance address, such as `google_compute_subnetwork.data`, and the
-required `--input`: a plan JSON, a state JSON, a saved Rootform document, or
+required `--input`: a plan JSON, a state JSON, a saved Form, or
 `-` for standard input. This command explains an instance, not a Dialect Rule
-definition, and never analyzes a configuration directory. A document saved by
+definition, and never analyzes a configuration directory. A Form saved by
 `run --plan-file` keeps the traversal evidence of the saved plan.
 
 <!-- BEGIN GENERATED CLI: rootform explain architecture -->
@@ -24,7 +24,7 @@ rootform explain architecture <address> [flags]
 | ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain architecture |
-| ` --input ` | ` string ` | ` "" ` | read `path`: a plan, state or Rootform document, or `-` |
+| ` --input ` | ` string ` | ` "" ` | read `path`: a plan, state or saved Form, or `-` |
 | ` --stage ` | ` string ` | ` "" ` | explain the `stage`: planned, refreshed or recorded |
 
 ## Inherited flags
@@ -36,7 +36,7 @@ rootform explain architecture <address> [flags]
 <!-- END GENERATED CLI -->
 
 From a checkout of the repository, save the reviewed commerce plan as a
-Rootform document. Then explain one subnet instance in that document. The
+Form. Then explain one subnet instance in that Form. The
 saved plan verifies the JSON and preserves its traversal evidence.
 
 <!-- docs-check:cli-explain-architecture -->

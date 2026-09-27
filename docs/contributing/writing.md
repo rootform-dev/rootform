@@ -72,7 +72,7 @@ truth alone is not a reason to publish a detail.
 State prerequisites instead of teaching industry conventions. Explain product
 concepts with enough depth to support a correct decision: instances and
 Representations, Rules, Concepts, RF Vocabulary, Dialects, `.rf.hcl`, stages
-and closures, Rootform documents, policies and Policy Packs, comparisons and
+and closures, Forms, policies and Policy Packs, comparisons and
 drift, locks, vendor, offline operation, and provenance. Explain what Rootform
 can establish and what it refuses to invent.
 
@@ -90,7 +90,7 @@ depth to context:
 - an authoring guide explains how to create or change it;
 - a reference page defines the exact syntax and behavior.
 
-Apply this rule to Dialects, policies, Rootform documents, comparisons, plans,
+Apply this rule to Dialects, policies, Forms, comparisons, plans,
 locks, and provenance. Do not paste a full definition into every workflow. Link to a stable
 heading when another page owns the explanation.
 
@@ -122,19 +122,26 @@ result is not a pass. A
 `rootform.lock` fixes selection, while `--offline` controls acquisition during
 explicit `init` or `vendor`. Normal analysis does not acquire packages.
 
-Use **architecture** in ordinary prose and **Rootform document** for a saved
-`.json` analysis or comparison, as the CLI does. Use **Architecture IR** only
-for the public data contract of that document. Name inputs as the reader
-produces them: **plan JSON** for `terraform show -json plan.tfplan`, **saved
-plan** for the file `terraform plan -out` writes, and **state JSON** for
-`terraform show -json`. Use **instance** for a managed or data resource
-instance and **Representation** for its entry in a Rootform document. Keep
-**Rule**, **Concept**, **RF Vocabulary**, **Dialect**, **Policy Pack**,
-**stage**, **closure**, **comparison**, and **drift** consistent; `--diff`
-names the flag, not the result. Use **Policy** for a named authored assertion and
-**Policy Pack** for its owner and selection. Use lowercase `policy` only for
-generic prose. Reserve backticks for commands, paths, flags, identifiers, and
-literal values.
+Use this glossary consistently:
+
+| Term | Meaning |
+| --- | --- |
+| **Form** | The complete portable architectural model Rootform compiles from Terraform or OpenTofu evidence. It includes supported stage architectures, their comparisons, reported drift, evidence, semantic pins, limits, and diagnostics. Kinds are state, plan, and comparison. It is derived, never authored. Save a Form. Open a Form. Compare two Forms. |
+| **stage** | The role Recorded, Refreshed, or Planned of one architecture within a Form. JSON values are `recorded`, `refreshed`, `planned`. A stage is never a Form; an unavailable stage is not empty. |
+| **architecture** | The content of one stage: Representations, facts, closures, evidence, and accounting. Say "Planned architecture" or "Refreshed stage". |
+| **comparison** | Differences between selected architectures. A plan can show Planned changes, Reported drift, and Net change when their stages exist. A comparison Form embeds two complete state or plan Forms and reports cross-input Differences, never drift. |
+| **drift report** | Terraform or OpenTofu plan drift entries qualified by Rootform with architectural consequences; distinct from the Reported drift comparison. |
+| **indeterminate** | Evidence cannot settle a closure or comparison entry. Use this spelling in prose, labels, and JSON. |
+| **Policy** | Named authored assertion that evaluates a selected architecture stage within a Form. Its result is a separate artifact. **Policy Pack** owns and selects Policies. |
+
+Use **architecture** for stage content and **Form** for the complete saved result. "Rootform document" may describe a file generically, but is not a canonical object name. Name inputs as readers produce them: **plan JSON** for
+`terraform show -json plan.tfplan`, **saved plan** for the file `terraform
+plan -out` writes, and **state JSON** for `terraform show -json`. Use
+**instance** for a managed or data resource instance and **Representation**
+for its entry in a stage's architecture. Keep **Rule**, **Concept**, **RF Vocabulary**,
+**Dialect**, and **closure** consistent. `--diff` names the flag, not the
+result. Use lowercase `policy` only for generic prose. Reserve backticks for
+commands, paths, flags, identifiers, and literal values.
 
 The [RF Vocabulary](../concepts/dialects.md) supplies common architectural
 terms. A [Dialect](../concepts/dialects.md) interprets provider resources
@@ -148,7 +155,7 @@ Use `.rf.hcl` explicitly when discussing files and syntax, including `.rf.hcl fi
 Use **Dialect** for the named, versioned unit, its source, selection, store, and
 distribution. Use **semantics** only for architectural meaning, evaluation
 behavior, semantic versions and digests, or exact public identifiers such as
-the Architecture IR `semantics` field and `rootform explain semantics`. Never
+the Form `semantics` field and `rootform explain semantics`. Never
 use “semantic package,” “selected semantics,” or similar aliases for Dialects.
 
 In examples, put one top-level `policy_pack` manifest in a file at the pack
@@ -157,19 +164,19 @@ that same root. The source root establishes ownership; policies need no explicit
 pack reference. Nested `policy` blocks are invalid.
 
 Distinguish the changes a plan proposes from a comparison between two inputs,
-and both from drift, which a plan reports for changes made outside Terraform
-or OpenTofu.
+and both from the drift records a plan reports. Never describe a cross-input
+comparison as drift or infer a complete external-change history from the drift report.
 Describe relations by their declared meaning. Do not turn network context into
 a reachability claim or a Terraform dependency into an architecture relation.
 Plan evidence supports a Rule's architectural claim but is not itself the
 Context or Relation produced by that Rule.
 
-Keep a Representation in Architecture IR distinct from its presentation. A
-secondary resource can be present in the document without a permanent card in
+Keep a Representation in a stage's architecture distinct from its presentation. A
+secondary resource can be present in the Form without a permanent card in
 every Explorer scene. Link to [Explorer navigation](../guides/explore-architecture.md#reveal-a-secondary-resource)
-instead of calling it missing. In a comparison, `undetermined` is neither no change
+instead of calling it missing. In a comparison, `indeterminate` is neither no change
 nor proof that the comparison failed. Link to
-[Architecture comparisons](../concepts/diff.md#undetermined-preserves-uncertainty).
+[Comparisons](../concepts/comparisons.md#indeterminate-preserves-uncertainty).
 
 ## Write directly, with natural rhythm
 
@@ -195,7 +202,7 @@ dots in technical prose.
 | In this guide, we will explore how to get started with Rootform. | Plan a VPC and subnet from a small Terraform configuration. |
 | Simply leverage the offline flag for seamless local execution. | Use `init --offline` or `vendor … --offline` to prevent acquisition. Selected third-party content must already be available locally. |
 | Rootform ensures your infrastructure is secure. | `rootform run plan.json --policy-pack ./policies` evaluates selected policies. |
-| Current access: the executable emits text, JSON, Markdown, and HTML. | `rootform run before.json --diff after.json` emits a comparison document. |
+| Current access: the executable emits text, JSON, Markdown, and HTML. | `rootform run before.json --diff after.json` emits a comparison Form. |
 | With these steps, you are ready to continue. | Link to next concrete task, or stop. |
 
 ## Use structure only when it reveals meaning

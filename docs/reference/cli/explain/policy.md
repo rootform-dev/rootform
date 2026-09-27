@@ -3,7 +3,7 @@ title: "rootform explain policy"
 description: "Explain an evaluated policy result."
 ---
 
-`explain policy` evaluates the plan, state, or saved Rootform document named
+`explain policy` evaluates the plan, state, or saved Form named
 by the required `--input` and explains why a policy passed, failed, or could
 not be evaluated for an element. The owning Policy Pack comes from the project
 selection or from a one-run `--policy-pack` override. Use a qualified
@@ -24,7 +24,7 @@ rootform explain policy <identifier> [flags]
 | ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
 | ` --format ` | ` string ` | ` text ` | output `format`: text or json |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain policy |
-| ` --input ` | ` string ` | ` "" ` | read `path`: a plan, state or Rootform document, or `-` |
+| ` --input ` | ` string ` | ` "" ` | read `path`: a plan, state or saved Form, or `-` |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `dir`; repeatable |
 | ` --stage ` | ` string ` | ` "" ` | explain the `stage`: planned, refreshed or recorded |
 
@@ -37,7 +37,7 @@ rootform explain policy <identifier> [flags]
 <!-- END GENERATED CLI -->
 
 From a checkout of the repository, save the reviewed commerce plan, then
-explain the baseline cluster Policy against that document. The local Pack
+explain the baseline cluster Policy against that Form. The local Pack
 override chooses the same source for this command without changing the lock.
 
 <!-- docs-check:cli-explain-policy -->

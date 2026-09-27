@@ -1,9 +1,9 @@
 ---
 title: "rootform validate"
-description: "Validate an architecture or Rootform definition."
+description: "Validate a saved Form or a Rootform definition."
 ---
 
-Choose `architecture` to check a saved Rootform document. Other
+Choose `form` to check a saved Form. Other
 subcommands validate Dialect or Policy definitions and have their own
 contracts. Validation checks structure and definitions; it does not evaluate
 Policies or verify deployed cloud resources.
@@ -32,23 +32,23 @@ rootform validate <object> [flags]
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform validate architecture `](validate/architecture.md) | Validate a saved Rootform document |
 | [` rootform validate concept `](validate/concept.md) | Validate a concept definition |
 | [` rootform validate context `](validate/context.md) | Validate a context dimension |
 | [` rootform validate dialects `](validate/dialects.md) | Validate dialect definitions |
+| [` rootform validate form `](validate/form.md) | Validate a saved Form |
 | [` rootform validate policy `](validate/policy.md) | Validate a policy definition |
 | [` rootform validate relation `](validate/relation.md) | Validate a relation predicate |
 | [` rootform validate rule `](validate/rule.md) | Validate a rule definition |
 
 <!-- END GENERATED CLI -->
 
-Save a Rootform document with `run --no-serve -o architecture.json`, as in
+Save a Form with `run --no-serve -o analysis.json`, as in
 [Your first architecture](../../getting-started/first-architecture.md), then
 check it:
 
 ```sh
-rootform validate architecture architecture.json
+rootform validate form analysis.json
 ```
 
-Validation reads the document alone. To evaluate Policies, select them when
+Validation reads the Form alone. To evaluate Policies, select them when
 you analyze the plan or state with [`run`](run.md).

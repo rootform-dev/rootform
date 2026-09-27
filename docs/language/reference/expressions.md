@@ -1,6 +1,6 @@
 ---
 title: "Expressions"
-description: "Complete RF expression grammar, literal types, operators, precedence, typing rules, JSON encoding, and rejected forms."
+description: "Complete RF expression grammar, literal types, operators, precedence, typing rules, JSON encoding, and rejected syntax."
 ---
 
 RF expressions are a strict subset of HCL expressions. Accepted shape depends
@@ -9,7 +9,7 @@ on position:
 | Position | Purpose | Accepted expression family |
 | --- | --- | --- |
 | Rule or member `match.where` | Test one resource instance's available values | Predicate |
-| Policy `assert` | Test facts of a Rootform document | Policy assertion |
+| Policy `assert` | Test facts of a selected architecture stage within a Form | Policy assertion |
 | `as`, `to`, Policy target references | Name semantic symbol | Typed reference only |
 | `via`, `by` | Read instance or saved-plan evidence | Traversal only |
 | Static string fields | Metadata or closed enum | Constant expression producing string |
@@ -91,8 +91,8 @@ rather than inventing ordering for Booleans.
 
 ## Policy assertions
 
-Policy assertions operate on queries over facts in the selected stage of a
-Rootform document. They cannot traverse raw plan or state values.
+Policy assertions operate on queries over facts in the selected architecture
+stage of a Form. They cannot traverse raw plan or state values.
 
 ```ebnf
 assertion       = boolean-value ;
@@ -281,7 +281,7 @@ HCL JSON stores expression-valued fields in strings using `"${...}"`:
 ```
 
 Native `.rf.hcl` also accepts pure `"${expression}"` wrapper for
-full-expression fields and unwraps it to enclosed value. Direct native form is
+full-expression fields and unwraps it to enclosed value. Direct native syntax is
 canonical:
 
 ```rf

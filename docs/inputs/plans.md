@@ -48,7 +48,7 @@ export.
 
 ## Verify the saved plan
 
-Pass both files from the same planning operation:
+Pass the plan JSON export and its saved plan:
 
 <!-- docs-check:journey-plans-verify -->
 ```sh
@@ -58,15 +58,16 @@ rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -
 ```ansi title="Verified pair excerpt"
 [1mPlan analyzed[0m
 [2mInput[0m         plan JSON from Terraform or OpenTofu 1.16.4
-[2mCompleteness[0m  complete, as reported by Terraform or OpenTofu
+[2mCompleteness[0m  complete, as reported in the plan
 [2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
 [2mWrote     [0m analysis.json
 ```
 
-**Enrichment** confirms that both files come from the same planning
-operation; the count is the number of configuration modules read from the
-saved plan. **Input** names the export and the version it records. The JSON
-does not say which of the two tools wrote it, so Rootform names both unless you
+**Enrichment** confirms agreement on version, timestamp, and configuration
+shape; it does not prove one planning operation. The count is the number of
+configuration modules read from the saved plan. **Input** names the export and
+the version it records. The JSON does not say which of the two tools wrote it,
+so Rootform names both unless you
 declare the tool with `--producer`. **Completeness** repeats what the plan
 itself reports.
 
@@ -86,15 +87,23 @@ new plan with an earlier export.
 
 ## Compare both sides of one plan
 
-A plan's `planned` stage shows proposed instances. Where the plan contains
-prior state, `refreshed` describes what the tool observed before planning.
-`recorded` can be reconstructed from drift records, with a stated scope.
-The same plan may report three comparisons: drift
-(`recorded` to `refreshed`), planned change (`refreshed` to `planned`),
-and net change (`recorded` to `planned`). A state export has only
+A plan's `planned` stage shows proposed instances. `refreshed` describes the
+state the plan starts from; the plan does not record whether or how far refresh
+ran. `recorded` is reconstructed from drift records and can be partial.
+The same plan may report three comparisons: Reported drift
+(`recorded` to `refreshed`), Planned changes (`refreshed` to `planned`),
+and Net change (`recorded` to `planned`). A state export has only
 `recorded`.
-The recorded to refreshed comparison is drift; it reports changes made
-outside Terraform or OpenTofu when the plan contains that evidence.
+
+In accepted plan format 1.x, Terraform and OpenTofu omit `prior_state` exactly
+when the state before the plan has no resource and no root output. Rootform
+records an empty Refreshed stage and reconstructs Recorded from drift records.
+Recorded can contain a resource deleted during refresh even when Refreshed is
+empty. Terraform 1.12.2 and OpenTofu 1.10.7 exports are qualified; other 1.x
+exports are accepted by shape.
+
+The Recorded to Refreshed comparison is Reported drift. The separate drift
+report lists the producer's drift records and their architectural consequences.
 [Switch stages and comparisons](../guides/explore-architecture.md#switch-stages-and-comparisons)
 shows where the Explorer lists these views.
 
@@ -103,14 +112,17 @@ shows where the Explorer lists these views.
 `-refresh=false` prevents Terraform or OpenTofu from checking live objects.
 “No drift reported in this plan” means the export contains no drift records;
 it does not prove that infrastructure is unchanged.
-`-target` can omit instances outside its scope. Terraform may report
-`complete: false` for such plans, while OpenTofu may omit a completeness
+`-target` or `-exclude` can leave instances outside the plan's scope. Terraform
+may report `complete: false` for such plans, while OpenTofu may omit a completeness
 field. Rootform preserves that uncertainty. A missing planned instance is
-not automatically a deletion or proof of zero instances. When a fact cannot
-be settled on both sides, the comparison records it as undetermined rather
-than inventing an addition, removal, or no change. See
-[stages and facts](../concepts/architecture-ir.md#stages-and-facts) and
-[comparisons and drift](../concepts/architecture-ir.md#comparisons-and-drift).
+not automatically a deletion or proof of zero instances. An instance present
+before the plan that it neither changes nor deletes remains in Planned with
+status `carried`; its population is unverified and the report says the plan did
+not evaluate it. When a fact cannot be settled on both sides, the comparison
+records it as indeterminate rather than inventing an addition, removal, or no
+change. See
+[stages and facts](../concepts/forms.md#stages-and-facts) and
+[comparisons and drift](../concepts/forms.md#comparisons-and-drift).
 
 ## Record scope and tool claims
 
@@ -129,7 +141,7 @@ or partial plan.
 A planned value can be known, unknown until apply, sensitive, or unavailable.
 A verified direct traversal can identify an endpoint despite an unknown ID;
 a transformed expression or dependency list alone cannot. Sensitive values
-are discarded before document output, reports, SARIF, and the Explorer.
+are discarded before Form output, reports, SARIF, and the Explorer.
 Dialect-declared external identities may still be disclosed at their declared
 tier. Read [limitations](../limitations.md) before relying on a missing fact
 as a negative conclusion.
@@ -147,7 +159,7 @@ For OpenTofu, replace `terraform` with `tofu`. The saved plan remains
 local. Rootform's outputs still describe infrastructure names, structure,
 and relationships, so apply your internal sharing rules.
 
-To compare two plans, or a state snapshot with a later plan, follow
+To compare two plans, or a state analysis with a later plan, follow
 [Compare architectures](../guides/compare-architectures.md). For plans from two
 Git revisions, [Review a pull request](../workflows/index.md#choose-the-review-input)
 adds isolated checkouts and cleanup.

@@ -283,7 +283,7 @@ Equivalent regular expression:
 
 Identifiers are 1 to 64 UTF-8 bytes and ASCII lowercase kebab case. This
 applies to Dialect, definition, Rule, composition member, Policy Pack, and
-Policy labels. Provider source labels follow their own slash-form grammar.
+Policy labels. Provider source labels follow their own slash-separated grammar.
 Traversal attributes follow their own adapter-name grammar.
 
 `rf` is reserved as the embedded vocabulary owner and cannot be a Dialect
@@ -291,7 +291,7 @@ label.
 
 ## Versions
 
-Dialect and Policy Pack `version` use exact three-component decimal form:
+Dialect and Policy Pack `version` use exact three-component decimal syntax:
 
 ```ebnf
 version = component, ".", component, ".", component ;

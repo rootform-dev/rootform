@@ -73,7 +73,7 @@ Attribute names follow the input schema and match `[A-Za-z_][A-Za-z0-9_]*`, with
 
 ## Value and identity evidence
 
-A plan JSON supplies evaluated values; a paired saved plan supplies a configuration snapshot. With `rootform run plan.json --plan-file plan.tfplan`, Rootform verifies the pairing, then may follow a bare reference or a single interpolation through variables, locals, and module outputs to an exact instance endpoint. A tuple written directly at the emitted attribute or within one static block can pair its elements separately. This is available on the `planned` stage only. A function, operator, conditional, `try`, splat, dynamic block, or computed index can remain dependency evidence but cannot prove endpoint identity.
+A plan JSON supplies evaluated values; a paired saved plan supplies a configuration snapshot. With `rootform run plan.json --plan-file plan.tfplan`, Rootform verifies the pairing, then may follow a bare reference or a single interpolation through variables, locals, and module outputs to an exact instance endpoint. A tuple written directly at the emitted attribute or within one static block can pair its elements separately. This is available on the Planned stage only. A function, operator, conditional, `try`, splat, dynamic block, or computed index can remain dependency evidence but cannot prove endpoint identity.
 
 | Evidence | Fact's `evidence` field |
 | --- | --- |
@@ -87,6 +87,6 @@ A disagreement yields `EVIDENCE_CONFLICT` and `indeterminate(reference_ambiguous
 
 A path can yield a known value, known null/empty, unknown until apply, sensitive, unavailable, or undefined. The emitting Rule's closure converts these to `resolved`, `absent`, or `indeterminate` according to its declarations and target candidates. An unresolved candidate cannot be dropped merely because another candidate matches. [Omission and uncertainty](emissions.md#omission-and-uncertainty) gives the exact closure consequences.
 
-## Rejected roots and forms
+## Rejected roots and syntax
 
 `source` and `provider` have no path step. `target.name` outside `match.by`, `member.future.id` before `future` is accepted, and a Terraform address such as `aws_vpc.main.id` are not valid authored traversals. Run [source validation](../test-validate.md#compile-a-dialect-source-set) before testing plan fixtures.

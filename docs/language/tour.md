@@ -163,7 +163,7 @@ policy "subnet-network-context" {
 ```
 
 A policy source declares no dependencies. The linker derives exact RF Vocabulary
-and Dialect identities from qualified references and the Rootform document. The policy ID
+and Dialect identities from qualified references and the Form. The policy ID
 is `tutorial.policy.subnet-network-context`.
 
 ## Keep uncertainty explicit
@@ -175,9 +175,9 @@ claim a pass. See [evaluation](reference/evaluation.md).
 
 Validate authored Dialects and Policy Packs first. Test a Dialect against a
 fixture containing `main.tf`, `plan.json`, the matching `plan.tfplan`, and an
-`analysis.golden` Rootform document. Run the plan to inspect the instance,
+`analysis.golden` Form. Run the plan to inspect the instance,
 facts and policy outcome. Comparing two inputs with `--diff` produces a
-comparison document. The [authoring guide](../dialect-authoring.md) makes those
+comparison Form. The [authoring guide](../dialect-authoring.md) makes those
 steps executable; [plan inputs](../inputs/plans.md) explains the export.
 
 <!-- rootform:endsteps -->

@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -8495,10 +8495,1822 @@
         "dependencies": 87,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "change": "added",
+          "representation": "external:1:google.concept.google-cloud-project:0"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_api_gateway_rest_api.external_function",
+          "change": "added",
+          "representation": "representation:1:aws_api_gateway_rest_api.external_function"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_iam_role.snowflake",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.snowflake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_kms_key.lake",
+          "change": "added",
+          "representation": "representation:1:aws_kms_key.lake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_s3_bucket.lake",
+          "change": "added",
+          "representation": "representation:1:aws_s3_bucket.lake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_sns_topic.snowpipe",
+          "change": "added",
+          "representation": "representation:1:aws_sns_topic.snowpipe"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_sqs_queue.notifications",
+          "change": "added",
+          "representation": "representation:1:aws_sqs_queue.notifications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_api_management.external_function",
+          "change": "added",
+          "representation": "representation:1:azurerm_api_management.external_function"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_resource_group.snowflake",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.snowflake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_account.lake",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_account.lake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_container.lake",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.lake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_queue.notifications",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_queue.notifications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_user_assigned_identity.snowflake",
+          "change": "added",
+          "representation": "representation:1:azurerm_user_assigned_identity.snowflake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.snowflake_warehouses.lookup",
+          "change": "added",
+          "representation": "representation:1:data.snowflake_warehouses.lookup"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_api_gateway_gateway.external_function",
+          "change": "added",
+          "representation": "representation:1:google_api_gateway_gateway.external_function"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_kms_crypto_key.lake",
+          "change": "added",
+          "representation": "representation:1:google_kms_crypto_key.lake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_kms_key_ring.snowflake",
+          "change": "added",
+          "representation": "representation:1:google_kms_key_ring.snowflake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_pubsub_subscription.snowpipe",
+          "change": "added",
+          "representation": "representation:1:google_pubsub_subscription.snowpipe"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_pubsub_topic.snowpipe",
+          "change": "added",
+          "representation": "representation:1:google_pubsub_topic.snowpipe"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_service_account.snowflake",
+          "change": "added",
+          "representation": "representation:1:google_service_account.snowflake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_storage_bucket.lake",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket.lake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_account.platform",
+          "change": "added",
+          "representation": "representation:1:snowflake_account.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_api_integration_amazon_api_gateway.aws",
+          "change": "added",
+          "representation": "representation:1:snowflake_api_integration_amazon_api_gateway.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_api_integration_azure_api_management.azure",
+          "change": "added",
+          "representation": "representation:1:snowflake_api_integration_azure_api_management.azure"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_api_integration_google_cloud_api_gateway.google",
+          "change": "added",
+          "representation": "representation:1:snowflake_api_integration_google_cloud_api_gateway.google"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_compute_pool.applications",
+          "change": "added",
+          "representation": "representation:1:snowflake_compute_pool.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_cortex_agent.analyst",
+          "change": "added",
+          "representation": "representation:1:snowflake_cortex_agent.analyst"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_cortex_search_service.documents",
+          "change": "added",
+          "representation": "representation:1:snowflake_cortex_search_service.documents"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_database.analytics",
+          "change": "added",
+          "representation": "representation:1:snowflake_database.analytics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_dynamic_table.orders",
+          "change": "added",
+          "representation": "representation:1:snowflake_dynamic_table.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_external_access_integration.egress",
+          "change": "added",
+          "representation": "representation:1:snowflake_external_access_integration.egress"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_external_function.score",
+          "change": "added",
+          "representation": "representation:1:snowflake_external_function.score"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_image_repository.applications",
+          "change": "added",
+          "representation": "representation:1:snowflake_image_repository.applications"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_listing.analytics",
+          "change": "added",
+          "representation": "representation:1:snowflake_listing.analytics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_mcp_server.governed",
+          "change": "added",
+          "representation": "representation:1:snowflake_mcp_server.governed"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_network_rule.egress",
+          "change": "added",
+          "representation": "representation:1:snowflake_network_rule.egress"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_notification_integration.aws",
+          "change": "added",
+          "representation": "representation:1:snowflake_notification_integration.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_notification_integration.azure",
+          "change": "added",
+          "representation": "representation:1:snowflake_notification_integration.azure"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_notification_integration.google",
+          "change": "added",
+          "representation": "representation:1:snowflake_notification_integration.google"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_pipe.orders",
+          "change": "added",
+          "representation": "representation:1:snowflake_pipe.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_schema.pipelines",
+          "change": "added",
+          "representation": "representation:1:snowflake_schema.pipelines"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_secret_with_generic_string.credential",
+          "change": "added",
+          "representation": "representation:1:snowflake_secret_with_generic_string.credential"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_service.application",
+          "change": "added",
+          "representation": "representation:1:snowflake_service.application"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_service_user.automation",
+          "change": "added",
+          "representation": "representation:1:snowflake_service_user.automation"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_share.analytics",
+          "change": "added",
+          "representation": "representation:1:snowflake_share.analytics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_stage_external_azure.azure",
+          "change": "added",
+          "representation": "representation:1:snowflake_stage_external_azure.azure"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_stage_external_gcs.google",
+          "change": "added",
+          "representation": "representation:1:snowflake_stage_external_gcs.google"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_stage_external_s3.aws",
+          "change": "added",
+          "representation": "representation:1:snowflake_stage_external_s3.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_stage_internal.code",
+          "change": "added",
+          "representation": "representation:1:snowflake_stage_internal.code"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_storage_integration_aws.lake",
+          "change": "added",
+          "representation": "representation:1:snowflake_storage_integration_aws.lake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_storage_integration_azure.lake",
+          "change": "added",
+          "representation": "representation:1:snowflake_storage_integration_azure.lake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_storage_integration_gcs.lake",
+          "change": "added",
+          "representation": "representation:1:snowflake_storage_integration_gcs.lake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_streamlit.dashboard",
+          "change": "added",
+          "representation": "representation:1:snowflake_streamlit.dashboard"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_task.load",
+          "change": "added",
+          "representation": "representation:1:snowflake_task.load"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_task.publish",
+          "change": "added",
+          "representation": "representation:1:snowflake_task.publish"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Asnowflake_warehouse.transform",
+          "change": "added",
+          "representation": "representation:1:snowflake_warehouse.transform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_api_management.external_function%3Arepresentation%253A1%253Aazurerm_resource_group.snowflake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_api_management.external_function:representation%3A1%3Aazurerm_resource_group.snowflake",
+          "from": "representation:1:azurerm_api_management.external_function",
+          "to": "representation:1:azurerm_resource_group.snowflake",
+          "emission": "emission:03d3edf5ecfd59ce80467521ca33dae6a1481d777ba962851a4390464ba524b1"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_account.lake%3Arepresentation%253A1%253Aazurerm_resource_group.snowflake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_account.lake:representation%3A1%3Aazurerm_resource_group.snowflake",
+          "from": "representation:1:azurerm_storage_account.lake",
+          "to": "representation:1:azurerm_resource_group.snowflake",
+          "emission": "emission:91a6a614eb16cf82c8071716a62770984ddce7f2e98eb249d1da6a99a30f44a0"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_container.lake%3Arepresentation%253A1%253Aazurerm_storage_account.lake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_container.lake:representation%3A1%3Aazurerm_storage_account.lake",
+          "from": "representation:1:azurerm_storage_container.lake",
+          "to": "representation:1:azurerm_storage_account.lake",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_queue.notifications%3Arepresentation%253A1%253Aazurerm_storage_account.lake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_queue.notifications:representation%3A1%3Aazurerm_storage_account.lake",
+          "from": "representation:1:azurerm_storage_queue.notifications",
+          "to": "representation:1:azurerm_storage_account.lake",
+          "emission": "emission:bbc5653c425cea0801ab573044295a6125513e0e5e8d3690620eb418c09113db"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_user_assigned_identity.snowflake%3Arepresentation%253A1%253Aazurerm_resource_group.snowflake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_user_assigned_identity.snowflake:representation%3A1%3Aazurerm_resource_group.snowflake",
+          "from": "representation:1:azurerm_user_assigned_identity.snowflake",
+          "to": "representation:1:azurerm_resource_group.snowflake",
+          "emission": "emission:923d1d94d8ed79c8912234b7a26d97cbffdd8380d1cfac1d04eb1a04b8fc63e3"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_kms_crypto_key.lake%3Arepresentation%253A1%253Agoogle_kms_key_ring.snowflake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_kms_crypto_key.lake:representation%3A1%3Agoogle_kms_key_ring.snowflake",
+          "from": "representation:1:google_kms_crypto_key.lake",
+          "to": "representation:1:google_kms_key_ring.snowflake",
+          "emission": "emission:1af47dcebdfe63a53b357f7319dfe974e5714985e67669c24ec4ede166bac07a"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_pubsub_subscription.snowpipe%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_pubsub_subscription.snowpipe:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_pubsub_subscription.snowpipe",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:0fdd175c48b0e972d5d884b3b2aff22646e4dcf99337cc579c98b4acc3eccc5f"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_pubsub_topic.snowpipe%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_pubsub_topic.snowpipe:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_pubsub_topic.snowpipe",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:783fdda95b4d6bda0ecf2fb22606e84723955b4c29b92024f4bd6aecfd67eeb4"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_service_account.snowflake%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.snowflake:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_service_account.snowflake",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_cortex_search_service.documents%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_cortex_search_service.documents:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_cortex_search_service.documents",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:4391942704cde726f935a139cdbfcaeaacc567f1a83f5c1b1e137e214f59530b"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_dynamic_table.orders%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_dynamic_table.orders:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_dynamic_table.orders",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:67ba1db6f41d6273ce81635a348e1f90348cc587eed57b41aad905e9b69ed528"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_service.application%3Arepresentation%253A1%253Asnowflake_compute_pool.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_service.application:representation%3A1%3Asnowflake_compute_pool.applications",
+          "from": "representation:1:snowflake_service.application",
+          "to": "representation:1:snowflake_compute_pool.applications",
+          "emission": "emission:62b28990f3a0a26bb5b3148b1d4b8db06eceada4360aab6bdc9891d1a87d633a"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_streamlit.dashboard%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_streamlit.dashboard:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_streamlit.dashboard",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:4ff81eab59551c72dc2ccb0ebc9965373df494778168966992fe597ba487c21d"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_task.load%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_task.load:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_task.load",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:01a41d113c74fe4fec02eb319054c5014ffd05fcd46a80c04827b2270e038919"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_task.publish%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_task.publish:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_task.publish",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:01a41d113c74fe4fec02eb319054c5014ffd05fcd46a80c04827b2270e038919"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_cortex_agent.analyst%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_cortex_agent.analyst:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_cortex_agent.analyst",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:92192918cbcdce0fe83a1c63c8d15bd69c1a112f05f14715d4f0737e509bd79e"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_cortex_search_service.documents%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_cortex_search_service.documents:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_cortex_search_service.documents",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:9dfa86b2a921f961337ca88e97986609940a60d46a7a1e876fe39e4af2f030d7"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_dynamic_table.orders%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_dynamic_table.orders:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_dynamic_table.orders",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:d62d289151748356d7ccfd9e5af3802ef07d971722bd6fc3599327b66b4b5c2b"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_external_function.score%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_external_function.score:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_external_function.score",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:3428d51af60576431610f41d79ba2c7557230c6d0e95d20565725f11e90c6f8b"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_image_repository.applications%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_image_repository.applications:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_image_repository.applications",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:9d09995c4af994e5a50507de62549ebc2040bffa98b56de3835c2c90ac4ffb65"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_mcp_server.governed%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_mcp_server.governed:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_mcp_server.governed",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:3c779a53262b68124ba4c62466c8f08bd1e80f289107c574b57a4b08fafd2573"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_pipe.orders%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_pipe.orders:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_pipe.orders",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:13d9a6d4ff507eb1a6d40bcf6d3ec5dc156763aa194824449a5d79f7a1f6959c"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_schema.pipelines%3Arepresentation%253A1%253Asnowflake_database.analytics",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_schema.pipelines:representation%3A1%3Asnowflake_database.analytics",
+          "from": "representation:1:snowflake_schema.pipelines",
+          "to": "representation:1:snowflake_database.analytics",
+          "emission": "emission:904bfae3815c8f82827df03d595d011aaf8393ca32fc13c753e4bdabf1ff2dd8"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_service.application%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_service.application:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_service.application",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:c310ca11efd122e64360741c1c4e304ad597e07e92db89a6ed40572da98a59d8"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_stage_external_azure.azure%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_stage_external_azure.azure:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_stage_external_azure.azure",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:2772ee860325a57e98e9f224243c40847eb184156235420fa060c62a3c487a39"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_stage_external_gcs.google%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_stage_external_gcs.google:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_stage_external_gcs.google",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:f6253e69509e66168b65ea506ea2aa93cc203e033fe785a7f35a14674a7a0f51"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_stage_external_s3.aws%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_stage_external_s3.aws:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_stage_external_s3.aws",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:518bc439f22238a85932f50240e35d5016322f323e69ae6e1ccedace7d694429"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_stage_internal.code%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_stage_internal.code:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_stage_internal.code",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:62a2f676569c6d11c2770e436bc6d04daafd77b7c67f36906d401ae8cf575dd2"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_streamlit.dashboard%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_streamlit.dashboard:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_streamlit.dashboard",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:508fd52552f0dd6e08970f30d80c65d1aa0a1bca25c5f9fa7fa6a3be36d88299"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_task.load%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_task.load:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_task.load",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:44f3315a5b576ff265970adcc51a20da29760bb3a7f86e38d9234ff47bdbd4f7"
+        },
+        {
+          "id": "change:changes:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_task.publish%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_task.publish:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_task.publish",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:44f3315a5b576ff265970adcc51a20da29760bb3a7f86e38d9234ff47bdbd4f7"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Asnowflake_network_rule.egress%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Asnowflake_network_rule.egress:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_network_rule.egress",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:2257686befe49ef38ab9e21016c599af46b06242d8674c5e0331895e161282bc"
+        },
+        {
+          "id": "change:changes:added:relation%3Agoogle.relation.subscribes-to%3Arepresentation%253A1%253Agoogle_pubsub_subscription.snowpipe%3Arepresentation%253A1%253Agoogle_pubsub_topic.snowpipe",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:google.relation.subscribes-to:representation%3A1%3Agoogle_pubsub_subscription.snowpipe:representation%3A1%3Agoogle_pubsub_topic.snowpipe",
+          "from": "representation:1:google_pubsub_subscription.snowpipe",
+          "to": "representation:1:google_pubsub_topic.snowpipe",
+          "emission": "emission:1963576b0b25e60ff21d5d48deb4460c2a40ecf987074301ad12f96f021a7030"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.accesses-object-storage%3Arepresentation%253A1%253Asnowflake_stage_external_azure.azure%3Arepresentation%253A1%253Aazurerm_storage_container.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.accesses-object-storage:representation%3A1%3Asnowflake_stage_external_azure.azure:representation%3A1%3Aazurerm_storage_container.lake",
+          "from": "representation:1:snowflake_stage_external_azure.azure",
+          "to": "representation:1:azurerm_storage_container.lake",
+          "emission": "emission:89bf6db31f76f0cd57e36d1f7a6a9f27d0c1b984847d4589c1495077b1fdc74d"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.accesses-object-storage%3Arepresentation%253A1%253Asnowflake_stage_external_gcs.google%3Arepresentation%253A1%253Agoogle_storage_bucket.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.accesses-object-storage:representation%3A1%3Asnowflake_stage_external_gcs.google:representation%3A1%3Agoogle_storage_bucket.lake",
+          "from": "representation:1:snowflake_stage_external_gcs.google",
+          "to": "representation:1:google_storage_bucket.lake",
+          "emission": "emission:3b425288ba50eae7b30bc0a22a9191669808748bf25ad886b69435f07ea0eaf0"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.accesses-object-storage%3Arepresentation%253A1%253Asnowflake_stage_external_s3.aws%3Arepresentation%253A1%253Aaws_s3_bucket.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.accesses-object-storage:representation%3A1%3Asnowflake_stage_external_s3.aws:representation%3A1%3Aaws_s3_bucket.lake",
+          "from": "representation:1:snowflake_stage_external_s3.aws",
+          "to": "representation:1:aws_s3_bucket.lake",
+          "emission": "emission:a5b7c835fd60e015b37140056bfb9e0e554934449f80d110ac605606672885b7"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.authorizes-object-storage%3Arepresentation%253A1%253Asnowflake_storage_integration_aws.lake%3Arepresentation%253A1%253Aaws_s3_bucket.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.authorizes-object-storage:representation%3A1%3Asnowflake_storage_integration_aws.lake:representation%3A1%3Aaws_s3_bucket.lake",
+          "from": "representation:1:snowflake_storage_integration_aws.lake",
+          "to": "representation:1:aws_s3_bucket.lake",
+          "emission": "emission:159e35fba244ea9b5b4ce4ce30687b1d35f4d0f963c6189cfc16ca528982e406"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.authorizes-object-storage%3Arepresentation%253A1%253Asnowflake_storage_integration_azure.lake%3Arepresentation%253A1%253Aazurerm_storage_container.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.authorizes-object-storage:representation%3A1%3Asnowflake_storage_integration_azure.lake:representation%3A1%3Aazurerm_storage_container.lake",
+          "from": "representation:1:snowflake_storage_integration_azure.lake",
+          "to": "representation:1:azurerm_storage_container.lake",
+          "emission": "emission:846aba7eed4cfb0703159869a108a2b249b90eb9009e1e63b088453450bc8850"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.authorizes-object-storage%3Arepresentation%253A1%253Asnowflake_storage_integration_gcs.lake%3Arepresentation%253A1%253Agoogle_storage_bucket.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.authorizes-object-storage:representation%3A1%3Asnowflake_storage_integration_gcs.lake:representation%3A1%3Agoogle_storage_bucket.lake",
+          "from": "representation:1:snowflake_storage_integration_gcs.lake",
+          "to": "representation:1:google_storage_bucket.lake",
+          "emission": "emission:cbb3dd5d63d03463992e3cf72c9f2dcae66ee70d2c082860ac9dc7eb8ee2c7f9"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.loads-code-from-stage%3Arepresentation%253A1%253Asnowflake_streamlit.dashboard%3Arepresentation%253A1%253Asnowflake_stage_internal.code",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.loads-code-from-stage:representation%3A1%3Asnowflake_streamlit.dashboard:representation%3A1%3Asnowflake_stage_internal.code",
+          "from": "representation:1:snowflake_streamlit.dashboard",
+          "to": "representation:1:snowflake_stage_internal.code",
+          "emission": "emission:d6554ca439b6c2d00108b660916c9a81d5231405678e4eabcb2cca18ede1a217"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.loads-specification-from-stage%3Arepresentation%253A1%253Asnowflake_service.application%3Arepresentation%253A1%253Asnowflake_stage_internal.code",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.loads-specification-from-stage:representation%3A1%3Asnowflake_service.application:representation%3A1%3Asnowflake_stage_internal.code",
+          "from": "representation:1:snowflake_service.application",
+          "to": "representation:1:snowflake_stage_internal.code",
+          "emission": "emission:718c10692f854ead998ccea031d298601160427b5df0888b4c230eb847e5b2ff"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.publishes-share%3Arepresentation%253A1%253Asnowflake_listing.analytics%3Arepresentation%253A1%253Asnowflake_share.analytics",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.publishes-share:representation%3A1%3Asnowflake_listing.analytics:representation%3A1%3Asnowflake_share.analytics",
+          "from": "representation:1:snowflake_listing.analytics",
+          "to": "representation:1:snowflake_share.analytics",
+          "emission": "emission:5c0a91e6c8565349e28e89e0116a3920eb20f54b8840d340e963c33a502be6e9"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.queries-on-warehouse%3Arepresentation%253A1%253Asnowflake_service.application%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.queries-on-warehouse:representation%3A1%3Asnowflake_service.application:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_service.application",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:1f98fb577c70d36befc88aba456cf97444e6636e38b207f4586d18a3a9969c2a"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.runs-after-task%3Arepresentation%253A1%253Asnowflake_task.publish%3Arepresentation%253A1%253Asnowflake_task.load",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.runs-after-task:representation%3A1%3Asnowflake_task.publish:representation%3A1%3Asnowflake_task.load",
+          "from": "representation:1:snowflake_task.publish",
+          "to": "representation:1:snowflake_task.load",
+          "emission": "emission:c3639461b2589a28752278d2080ddc75a5d9e2420bdd17e4c41e2eea55b67bc8"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.uses-api-integration%3Arepresentation%253A1%253Asnowflake_external_function.score%3Arepresentation%253A1%253Asnowflake_api_integration_amazon_api_gateway.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-api-integration:representation%3A1%3Asnowflake_external_function.score:representation%3A1%3Asnowflake_api_integration_amazon_api_gateway.aws",
+          "from": "representation:1:snowflake_external_function.score",
+          "to": "representation:1:snowflake_api_integration_amazon_api_gateway.aws",
+          "emission": "emission:28389a251fc32be9d06fb73249bbc7d66a4f789961446dc229d56ff07af6be5e"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.uses-default-warehouse%3Arepresentation%253A1%253Asnowflake_service_user.automation%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-default-warehouse:representation%3A1%3Asnowflake_service_user.automation:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_service_user.automation",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:a3bbfe6113be2ab7cadbbc28418fd7f046d75d9dea2befea475a757805ebc227"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.uses-external-access%3Arepresentation%253A1%253Asnowflake_service.application%3Arepresentation%253A1%253Asnowflake_external_access_integration.egress",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-external-access:representation%3A1%3Asnowflake_service.application:representation%3A1%3Asnowflake_external_access_integration.egress",
+          "from": "representation:1:snowflake_service.application",
+          "to": "representation:1:snowflake_external_access_integration.egress",
+          "emission": "emission:b4e6ede5a49b23d59fcda3f2711ad98fd38fd6b70ffc8b9445c724175f5b2f7d"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.uses-notification-integration%3Arepresentation%253A1%253Asnowflake_pipe.orders%3Arepresentation%253A1%253Asnowflake_notification_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-notification-integration:representation%3A1%3Asnowflake_pipe.orders:representation%3A1%3Asnowflake_notification_integration.aws",
+          "from": "representation:1:snowflake_pipe.orders",
+          "to": "representation:1:snowflake_notification_integration.aws",
+          "emission": "emission:98301831dcb4f9f009abea4bd5ed4fb9fee888cf5f60bdae7246bc1bf6b95773"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.uses-notification-integration%3Arepresentation%253A1%253Asnowflake_stage_external_azure.azure%3Arepresentation%253A1%253Asnowflake_notification_integration.azure",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-notification-integration:representation%3A1%3Asnowflake_stage_external_azure.azure:representation%3A1%3Asnowflake_notification_integration.azure",
+          "from": "representation:1:snowflake_stage_external_azure.azure",
+          "to": "representation:1:snowflake_notification_integration.azure",
+          "emission": "emission:c02bd7e28e02a868af0d6400a1f7d1b3d7a8e646729c7e3561a5dfb646943972"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.uses-notification-integration%3Arepresentation%253A1%253Asnowflake_stage_external_gcs.google%3Arepresentation%253A1%253Asnowflake_notification_integration.google",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-notification-integration:representation%3A1%3Asnowflake_stage_external_gcs.google:representation%3A1%3Asnowflake_notification_integration.google",
+          "from": "representation:1:snowflake_stage_external_gcs.google",
+          "to": "representation:1:snowflake_notification_integration.google",
+          "emission": "emission:f8d77eeb6dd75365d6d38d21e3594500353c04f12611cacb7b3a3257b32121f0"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.uses-storage-integration%3Arepresentation%253A1%253Asnowflake_stage_external_azure.azure%3Arepresentation%253A1%253Asnowflake_storage_integration_azure.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-storage-integration:representation%3A1%3Asnowflake_stage_external_azure.azure:representation%3A1%3Asnowflake_storage_integration_azure.lake",
+          "from": "representation:1:snowflake_stage_external_azure.azure",
+          "to": "representation:1:snowflake_storage_integration_azure.lake",
+          "emission": "emission:b976f67cc18dabf281a696dce582caabf9f76d0f3f50296d0eb15c20159afcef"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.uses-storage-integration%3Arepresentation%253A1%253Asnowflake_stage_external_gcs.google%3Arepresentation%253A1%253Asnowflake_storage_integration_gcs.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-storage-integration:representation%3A1%3Asnowflake_stage_external_gcs.google:representation%3A1%3Asnowflake_storage_integration_gcs.lake",
+          "from": "representation:1:snowflake_stage_external_gcs.google",
+          "to": "representation:1:snowflake_storage_integration_gcs.lake",
+          "emission": "emission:e171d2064ef817f6a76aeb6122adfdfcb0ce8085fef8e86f71884eaaf689e6a7"
+        },
+        {
+          "id": "change:changes:added:relation%3Asnowflake.relation.uses-storage-integration%3Arepresentation%253A1%253Asnowflake_stage_external_s3.aws%3Arepresentation%253A1%253Asnowflake_storage_integration_aws.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-storage-integration:representation%3A1%3Asnowflake_stage_external_s3.aws:representation%3A1%3Asnowflake_storage_integration_aws.lake",
+          "from": "representation:1:snowflake_stage_external_s3.aws",
+          "to": "representation:1:snowflake_storage_integration_aws.lake",
+          "emission": "emission:445b150113465a1b8ed57adbfa7c75dfdfedb143df601de0b898a159b683d4d5"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Asnowflake_database.analytics%3Aemission%253Af9898ef23f5428bf16bb50fd431ccb4e55366375813ffba1665f55a78664c846:after",
+          "closure": "closure:representation%3A1%3Asnowflake_database.analytics:emission%3Af9898ef23f5428bf16bb50fd431ccb4e55366375813ffba1665f55a78664c846",
+          "representation": "representation:1:snowflake_database.analytics",
+          "emission": "emission:f9898ef23f5428bf16bb50fd431ccb4e55366375813ffba1665f55a78664c846",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Asnowflake_schema.pipelines%3Aemission%253Ad4501e59d64a88062268ba2dbc8e24bc2dc98faa57ddc530bda3021751c56187:after",
+          "closure": "closure:representation%3A1%3Asnowflake_schema.pipelines:emission%3Ad4501e59d64a88062268ba2dbc8e24bc2dc98faa57ddc530bda3021751c56187",
+          "representation": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:d4501e59d64a88062268ba2dbc8e24bc2dc98faa57ddc530bda3021751c56187",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Asnowflake_service_user.automation%3Aemission%253Aedb3548e21aa3d80e6f729befa4f2e52297ec16069a806cde5a2bde52c16f05b:after",
+          "closure": "closure:representation%3A1%3Asnowflake_service_user.automation:emission%3Aedb3548e21aa3d80e6f729befa4f2e52297ec16069a806cde5a2bde52c16f05b",
+          "representation": "representation:1:snowflake_service_user.automation",
+          "emission": "emission:edb3548e21aa3d80e6f729befa4f2e52297ec16069a806cde5a2bde52c16f05b",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Asnowflake_storage_integration_aws.lake%3Aemission%253A9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7:after",
+          "closure": "closure:representation%3A1%3Asnowflake_storage_integration_aws.lake:emission%3A9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7",
+          "representation": "representation:1:snowflake_storage_integration_aws.lake",
+          "emission": "emission:9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Asnowflake_storage_integration_azure.lake%3Aemission%253A0c88927a3b1efd1a0f980deb3a4099103d8d0acd461b1053c92bed643c147bc4:after",
+          "closure": "closure:representation%3A1%3Asnowflake_storage_integration_azure.lake:emission%3A0c88927a3b1efd1a0f980deb3a4099103d8d0acd461b1053c92bed643c147bc4",
+          "representation": "representation:1:snowflake_storage_integration_azure.lake",
+          "emission": "emission:0c88927a3b1efd1a0f980deb3a4099103d8d0acd461b1053c92bed643c147bc4",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Asnowflake_storage_integration_gcs.lake%3Aemission%253A839c162d2fb7a2019f35915e04b103bd60d58609a5d0284df54b282e2918f8d5:after",
+          "closure": "closure:representation%3A1%3Asnowflake_storage_integration_gcs.lake:emission%3A839c162d2fb7a2019f35915e04b103bd60d58609a5d0284df54b282e2918f8d5",
+          "representation": "representation:1:snowflake_storage_integration_gcs.lake",
+          "emission": "emission:839c162d2fb7a2019f35915e04b103bd60d58609a5d0284df54b282e2918f8d5",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Asnowflake_task.publish%3Aemission%253A30c583b458ddb78eaf61de5342bc4444792ff8831bc7f5cebf53e049335f7228:after",
+          "closure": "closure:representation%3A1%3Asnowflake_task.publish:emission%3A30c583b458ddb78eaf61de5342bc4444792ff8831bc7f5cebf53e049335f7228",
+          "representation": "representation:1:snowflake_task.publish",
+          "emission": "emission:30c583b458ddb78eaf61de5342bc4444792ff8831bc7f5cebf53e049335f7228",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 57,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 53,
+        "facts_removed": 0,
+        "indeterminate": 7,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "change": "added",
+          "representation": "external:1:google.concept.google-cloud-project:0"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_api_gateway_rest_api.external_function",
+          "change": "added",
+          "representation": "representation:1:aws_api_gateway_rest_api.external_function"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_iam_role.snowflake",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.snowflake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_kms_key.lake",
+          "change": "added",
+          "representation": "representation:1:aws_kms_key.lake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_s3_bucket.lake",
+          "change": "added",
+          "representation": "representation:1:aws_s3_bucket.lake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_sns_topic.snowpipe",
+          "change": "added",
+          "representation": "representation:1:aws_sns_topic.snowpipe"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_sqs_queue.notifications",
+          "change": "added",
+          "representation": "representation:1:aws_sqs_queue.notifications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_api_management.external_function",
+          "change": "added",
+          "representation": "representation:1:azurerm_api_management.external_function"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_resource_group.snowflake",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.snowflake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_account.lake",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_account.lake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_container.lake",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.lake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_queue.notifications",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_queue.notifications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_user_assigned_identity.snowflake",
+          "change": "added",
+          "representation": "representation:1:azurerm_user_assigned_identity.snowflake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.snowflake_warehouses.lookup",
+          "change": "added",
+          "representation": "representation:1:data.snowflake_warehouses.lookup"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_api_gateway_gateway.external_function",
+          "change": "added",
+          "representation": "representation:1:google_api_gateway_gateway.external_function"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_kms_crypto_key.lake",
+          "change": "added",
+          "representation": "representation:1:google_kms_crypto_key.lake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_kms_key_ring.snowflake",
+          "change": "added",
+          "representation": "representation:1:google_kms_key_ring.snowflake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_pubsub_subscription.snowpipe",
+          "change": "added",
+          "representation": "representation:1:google_pubsub_subscription.snowpipe"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_pubsub_topic.snowpipe",
+          "change": "added",
+          "representation": "representation:1:google_pubsub_topic.snowpipe"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_service_account.snowflake",
+          "change": "added",
+          "representation": "representation:1:google_service_account.snowflake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_storage_bucket.lake",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket.lake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_account.platform",
+          "change": "added",
+          "representation": "representation:1:snowflake_account.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_api_integration_amazon_api_gateway.aws",
+          "change": "added",
+          "representation": "representation:1:snowflake_api_integration_amazon_api_gateway.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_api_integration_azure_api_management.azure",
+          "change": "added",
+          "representation": "representation:1:snowflake_api_integration_azure_api_management.azure"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_api_integration_google_cloud_api_gateway.google",
+          "change": "added",
+          "representation": "representation:1:snowflake_api_integration_google_cloud_api_gateway.google"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_compute_pool.applications",
+          "change": "added",
+          "representation": "representation:1:snowflake_compute_pool.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_cortex_agent.analyst",
+          "change": "added",
+          "representation": "representation:1:snowflake_cortex_agent.analyst"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_cortex_search_service.documents",
+          "change": "added",
+          "representation": "representation:1:snowflake_cortex_search_service.documents"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_database.analytics",
+          "change": "added",
+          "representation": "representation:1:snowflake_database.analytics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_dynamic_table.orders",
+          "change": "added",
+          "representation": "representation:1:snowflake_dynamic_table.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_external_access_integration.egress",
+          "change": "added",
+          "representation": "representation:1:snowflake_external_access_integration.egress"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_external_function.score",
+          "change": "added",
+          "representation": "representation:1:snowflake_external_function.score"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_image_repository.applications",
+          "change": "added",
+          "representation": "representation:1:snowflake_image_repository.applications"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_listing.analytics",
+          "change": "added",
+          "representation": "representation:1:snowflake_listing.analytics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_mcp_server.governed",
+          "change": "added",
+          "representation": "representation:1:snowflake_mcp_server.governed"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_network_rule.egress",
+          "change": "added",
+          "representation": "representation:1:snowflake_network_rule.egress"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_notification_integration.aws",
+          "change": "added",
+          "representation": "representation:1:snowflake_notification_integration.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_notification_integration.azure",
+          "change": "added",
+          "representation": "representation:1:snowflake_notification_integration.azure"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_notification_integration.google",
+          "change": "added",
+          "representation": "representation:1:snowflake_notification_integration.google"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_pipe.orders",
+          "change": "added",
+          "representation": "representation:1:snowflake_pipe.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_schema.pipelines",
+          "change": "added",
+          "representation": "representation:1:snowflake_schema.pipelines"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_secret_with_generic_string.credential",
+          "change": "added",
+          "representation": "representation:1:snowflake_secret_with_generic_string.credential"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_service.application",
+          "change": "added",
+          "representation": "representation:1:snowflake_service.application"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_service_user.automation",
+          "change": "added",
+          "representation": "representation:1:snowflake_service_user.automation"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_share.analytics",
+          "change": "added",
+          "representation": "representation:1:snowflake_share.analytics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_stage_external_azure.azure",
+          "change": "added",
+          "representation": "representation:1:snowflake_stage_external_azure.azure"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_stage_external_gcs.google",
+          "change": "added",
+          "representation": "representation:1:snowflake_stage_external_gcs.google"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_stage_external_s3.aws",
+          "change": "added",
+          "representation": "representation:1:snowflake_stage_external_s3.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_stage_internal.code",
+          "change": "added",
+          "representation": "representation:1:snowflake_stage_internal.code"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_storage_integration_aws.lake",
+          "change": "added",
+          "representation": "representation:1:snowflake_storage_integration_aws.lake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_storage_integration_azure.lake",
+          "change": "added",
+          "representation": "representation:1:snowflake_storage_integration_azure.lake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_storage_integration_gcs.lake",
+          "change": "added",
+          "representation": "representation:1:snowflake_storage_integration_gcs.lake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_streamlit.dashboard",
+          "change": "added",
+          "representation": "representation:1:snowflake_streamlit.dashboard"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_task.load",
+          "change": "added",
+          "representation": "representation:1:snowflake_task.load"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_task.publish",
+          "change": "added",
+          "representation": "representation:1:snowflake_task.publish"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Asnowflake_warehouse.transform",
+          "change": "added",
+          "representation": "representation:1:snowflake_warehouse.transform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_api_management.external_function%3Arepresentation%253A1%253Aazurerm_resource_group.snowflake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_api_management.external_function:representation%3A1%3Aazurerm_resource_group.snowflake",
+          "from": "representation:1:azurerm_api_management.external_function",
+          "to": "representation:1:azurerm_resource_group.snowflake",
+          "emission": "emission:03d3edf5ecfd59ce80467521ca33dae6a1481d777ba962851a4390464ba524b1"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_account.lake%3Arepresentation%253A1%253Aazurerm_resource_group.snowflake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_account.lake:representation%3A1%3Aazurerm_resource_group.snowflake",
+          "from": "representation:1:azurerm_storage_account.lake",
+          "to": "representation:1:azurerm_resource_group.snowflake",
+          "emission": "emission:91a6a614eb16cf82c8071716a62770984ddce7f2e98eb249d1da6a99a30f44a0"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_container.lake%3Arepresentation%253A1%253Aazurerm_storage_account.lake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_container.lake:representation%3A1%3Aazurerm_storage_account.lake",
+          "from": "representation:1:azurerm_storage_container.lake",
+          "to": "representation:1:azurerm_storage_account.lake",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_queue.notifications%3Arepresentation%253A1%253Aazurerm_storage_account.lake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_queue.notifications:representation%3A1%3Aazurerm_storage_account.lake",
+          "from": "representation:1:azurerm_storage_queue.notifications",
+          "to": "representation:1:azurerm_storage_account.lake",
+          "emission": "emission:bbc5653c425cea0801ab573044295a6125513e0e5e8d3690620eb418c09113db"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_user_assigned_identity.snowflake%3Arepresentation%253A1%253Aazurerm_resource_group.snowflake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_user_assigned_identity.snowflake:representation%3A1%3Aazurerm_resource_group.snowflake",
+          "from": "representation:1:azurerm_user_assigned_identity.snowflake",
+          "to": "representation:1:azurerm_resource_group.snowflake",
+          "emission": "emission:923d1d94d8ed79c8912234b7a26d97cbffdd8380d1cfac1d04eb1a04b8fc63e3"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_kms_crypto_key.lake%3Arepresentation%253A1%253Agoogle_kms_key_ring.snowflake",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_kms_crypto_key.lake:representation%3A1%3Agoogle_kms_key_ring.snowflake",
+          "from": "representation:1:google_kms_crypto_key.lake",
+          "to": "representation:1:google_kms_key_ring.snowflake",
+          "emission": "emission:1af47dcebdfe63a53b357f7319dfe974e5714985e67669c24ec4ede166bac07a"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_pubsub_subscription.snowpipe%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_pubsub_subscription.snowpipe:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_pubsub_subscription.snowpipe",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:0fdd175c48b0e972d5d884b3b2aff22646e4dcf99337cc579c98b4acc3eccc5f"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_pubsub_topic.snowpipe%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_pubsub_topic.snowpipe:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_pubsub_topic.snowpipe",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:783fdda95b4d6bda0ecf2fb22606e84723955b4c29b92024f4bd6aecfd67eeb4"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_service_account.snowflake%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.snowflake:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_service_account.snowflake",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_cortex_search_service.documents%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_cortex_search_service.documents:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_cortex_search_service.documents",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:4391942704cde726f935a139cdbfcaeaacc567f1a83f5c1b1e137e214f59530b"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_dynamic_table.orders%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_dynamic_table.orders:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_dynamic_table.orders",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:67ba1db6f41d6273ce81635a348e1f90348cc587eed57b41aad905e9b69ed528"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_service.application%3Arepresentation%253A1%253Asnowflake_compute_pool.applications",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_service.application:representation%3A1%3Asnowflake_compute_pool.applications",
+          "from": "representation:1:snowflake_service.application",
+          "to": "representation:1:snowflake_compute_pool.applications",
+          "emission": "emission:62b28990f3a0a26bb5b3148b1d4b8db06eceada4360aab6bdc9891d1a87d633a"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_streamlit.dashboard%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_streamlit.dashboard:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_streamlit.dashboard",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:4ff81eab59551c72dc2ccb0ebc9965373df494778168966992fe597ba487c21d"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_task.load%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_task.load:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_task.load",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:01a41d113c74fe4fec02eb319054c5014ffd05fcd46a80c04827b2270e038919"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Asnowflake_task.publish%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Asnowflake_task.publish:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_task.publish",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:01a41d113c74fe4fec02eb319054c5014ffd05fcd46a80c04827b2270e038919"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_cortex_agent.analyst%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_cortex_agent.analyst:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_cortex_agent.analyst",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:92192918cbcdce0fe83a1c63c8d15bd69c1a112f05f14715d4f0737e509bd79e"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_cortex_search_service.documents%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_cortex_search_service.documents:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_cortex_search_service.documents",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:9dfa86b2a921f961337ca88e97986609940a60d46a7a1e876fe39e4af2f030d7"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_dynamic_table.orders%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_dynamic_table.orders:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_dynamic_table.orders",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:d62d289151748356d7ccfd9e5af3802ef07d971722bd6fc3599327b66b4b5c2b"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_external_function.score%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_external_function.score:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_external_function.score",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:3428d51af60576431610f41d79ba2c7557230c6d0e95d20565725f11e90c6f8b"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_image_repository.applications%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_image_repository.applications:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_image_repository.applications",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:9d09995c4af994e5a50507de62549ebc2040bffa98b56de3835c2c90ac4ffb65"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_mcp_server.governed%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_mcp_server.governed:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_mcp_server.governed",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:3c779a53262b68124ba4c62466c8f08bd1e80f289107c574b57a4b08fafd2573"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_pipe.orders%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_pipe.orders:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_pipe.orders",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:13d9a6d4ff507eb1a6d40bcf6d3ec5dc156763aa194824449a5d79f7a1f6959c"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_schema.pipelines%3Arepresentation%253A1%253Asnowflake_database.analytics",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_schema.pipelines:representation%3A1%3Asnowflake_database.analytics",
+          "from": "representation:1:snowflake_schema.pipelines",
+          "to": "representation:1:snowflake_database.analytics",
+          "emission": "emission:904bfae3815c8f82827df03d595d011aaf8393ca32fc13c753e4bdabf1ff2dd8"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_service.application%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_service.application:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_service.application",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:c310ca11efd122e64360741c1c4e304ad597e07e92db89a6ed40572da98a59d8"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_stage_external_azure.azure%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_stage_external_azure.azure:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_stage_external_azure.azure",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:2772ee860325a57e98e9f224243c40847eb184156235420fa060c62a3c487a39"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_stage_external_gcs.google%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_stage_external_gcs.google:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_stage_external_gcs.google",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:f6253e69509e66168b65ea506ea2aa93cc203e033fe785a7f35a14674a7a0f51"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_stage_external_s3.aws%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_stage_external_s3.aws:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_stage_external_s3.aws",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:518bc439f22238a85932f50240e35d5016322f323e69ae6e1ccedace7d694429"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_stage_internal.code%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_stage_internal.code:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_stage_internal.code",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:62a2f676569c6d11c2770e436bc6d04daafd77b7c67f36906d401ae8cf575dd2"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_streamlit.dashboard%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_streamlit.dashboard:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_streamlit.dashboard",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:508fd52552f0dd6e08970f30d80c65d1aa0a1bca25c5f9fa7fa6a3be36d88299"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_task.load%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_task.load:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_task.load",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:44f3315a5b576ff265970adcc51a20da29760bb3a7f86e38d9234ff47bdbd4f7"
+        },
+        {
+          "id": "change:net:added:context%3Asnowflake.context.ownership%3Arepresentation%253A1%253Asnowflake_task.publish%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:snowflake.context.ownership:representation%3A1%3Asnowflake_task.publish:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_task.publish",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:44f3315a5b576ff265970adcc51a20da29760bb3a7f86e38d9234ff47bdbd4f7"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Asnowflake_network_rule.egress%3Arepresentation%253A1%253Asnowflake_schema.pipelines",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Asnowflake_network_rule.egress:representation%3A1%3Asnowflake_schema.pipelines",
+          "from": "representation:1:snowflake_network_rule.egress",
+          "to": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:2257686befe49ef38ab9e21016c599af46b06242d8674c5e0331895e161282bc"
+        },
+        {
+          "id": "change:net:added:relation%3Agoogle.relation.subscribes-to%3Arepresentation%253A1%253Agoogle_pubsub_subscription.snowpipe%3Arepresentation%253A1%253Agoogle_pubsub_topic.snowpipe",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:google.relation.subscribes-to:representation%3A1%3Agoogle_pubsub_subscription.snowpipe:representation%3A1%3Agoogle_pubsub_topic.snowpipe",
+          "from": "representation:1:google_pubsub_subscription.snowpipe",
+          "to": "representation:1:google_pubsub_topic.snowpipe",
+          "emission": "emission:1963576b0b25e60ff21d5d48deb4460c2a40ecf987074301ad12f96f021a7030"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.accesses-object-storage%3Arepresentation%253A1%253Asnowflake_stage_external_azure.azure%3Arepresentation%253A1%253Aazurerm_storage_container.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.accesses-object-storage:representation%3A1%3Asnowflake_stage_external_azure.azure:representation%3A1%3Aazurerm_storage_container.lake",
+          "from": "representation:1:snowflake_stage_external_azure.azure",
+          "to": "representation:1:azurerm_storage_container.lake",
+          "emission": "emission:89bf6db31f76f0cd57e36d1f7a6a9f27d0c1b984847d4589c1495077b1fdc74d"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.accesses-object-storage%3Arepresentation%253A1%253Asnowflake_stage_external_gcs.google%3Arepresentation%253A1%253Agoogle_storage_bucket.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.accesses-object-storage:representation%3A1%3Asnowflake_stage_external_gcs.google:representation%3A1%3Agoogle_storage_bucket.lake",
+          "from": "representation:1:snowflake_stage_external_gcs.google",
+          "to": "representation:1:google_storage_bucket.lake",
+          "emission": "emission:3b425288ba50eae7b30bc0a22a9191669808748bf25ad886b69435f07ea0eaf0"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.accesses-object-storage%3Arepresentation%253A1%253Asnowflake_stage_external_s3.aws%3Arepresentation%253A1%253Aaws_s3_bucket.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.accesses-object-storage:representation%3A1%3Asnowflake_stage_external_s3.aws:representation%3A1%3Aaws_s3_bucket.lake",
+          "from": "representation:1:snowflake_stage_external_s3.aws",
+          "to": "representation:1:aws_s3_bucket.lake",
+          "emission": "emission:a5b7c835fd60e015b37140056bfb9e0e554934449f80d110ac605606672885b7"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.authorizes-object-storage%3Arepresentation%253A1%253Asnowflake_storage_integration_aws.lake%3Arepresentation%253A1%253Aaws_s3_bucket.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.authorizes-object-storage:representation%3A1%3Asnowflake_storage_integration_aws.lake:representation%3A1%3Aaws_s3_bucket.lake",
+          "from": "representation:1:snowflake_storage_integration_aws.lake",
+          "to": "representation:1:aws_s3_bucket.lake",
+          "emission": "emission:159e35fba244ea9b5b4ce4ce30687b1d35f4d0f963c6189cfc16ca528982e406"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.authorizes-object-storage%3Arepresentation%253A1%253Asnowflake_storage_integration_azure.lake%3Arepresentation%253A1%253Aazurerm_storage_container.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.authorizes-object-storage:representation%3A1%3Asnowflake_storage_integration_azure.lake:representation%3A1%3Aazurerm_storage_container.lake",
+          "from": "representation:1:snowflake_storage_integration_azure.lake",
+          "to": "representation:1:azurerm_storage_container.lake",
+          "emission": "emission:846aba7eed4cfb0703159869a108a2b249b90eb9009e1e63b088453450bc8850"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.authorizes-object-storage%3Arepresentation%253A1%253Asnowflake_storage_integration_gcs.lake%3Arepresentation%253A1%253Agoogle_storage_bucket.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.authorizes-object-storage:representation%3A1%3Asnowflake_storage_integration_gcs.lake:representation%3A1%3Agoogle_storage_bucket.lake",
+          "from": "representation:1:snowflake_storage_integration_gcs.lake",
+          "to": "representation:1:google_storage_bucket.lake",
+          "emission": "emission:cbb3dd5d63d03463992e3cf72c9f2dcae66ee70d2c082860ac9dc7eb8ee2c7f9"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.loads-code-from-stage%3Arepresentation%253A1%253Asnowflake_streamlit.dashboard%3Arepresentation%253A1%253Asnowflake_stage_internal.code",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.loads-code-from-stage:representation%3A1%3Asnowflake_streamlit.dashboard:representation%3A1%3Asnowflake_stage_internal.code",
+          "from": "representation:1:snowflake_streamlit.dashboard",
+          "to": "representation:1:snowflake_stage_internal.code",
+          "emission": "emission:d6554ca439b6c2d00108b660916c9a81d5231405678e4eabcb2cca18ede1a217"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.loads-specification-from-stage%3Arepresentation%253A1%253Asnowflake_service.application%3Arepresentation%253A1%253Asnowflake_stage_internal.code",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.loads-specification-from-stage:representation%3A1%3Asnowflake_service.application:representation%3A1%3Asnowflake_stage_internal.code",
+          "from": "representation:1:snowflake_service.application",
+          "to": "representation:1:snowflake_stage_internal.code",
+          "emission": "emission:718c10692f854ead998ccea031d298601160427b5df0888b4c230eb847e5b2ff"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.publishes-share%3Arepresentation%253A1%253Asnowflake_listing.analytics%3Arepresentation%253A1%253Asnowflake_share.analytics",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.publishes-share:representation%3A1%3Asnowflake_listing.analytics:representation%3A1%3Asnowflake_share.analytics",
+          "from": "representation:1:snowflake_listing.analytics",
+          "to": "representation:1:snowflake_share.analytics",
+          "emission": "emission:5c0a91e6c8565349e28e89e0116a3920eb20f54b8840d340e963c33a502be6e9"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.queries-on-warehouse%3Arepresentation%253A1%253Asnowflake_service.application%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.queries-on-warehouse:representation%3A1%3Asnowflake_service.application:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_service.application",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:1f98fb577c70d36befc88aba456cf97444e6636e38b207f4586d18a3a9969c2a"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.runs-after-task%3Arepresentation%253A1%253Asnowflake_task.publish%3Arepresentation%253A1%253Asnowflake_task.load",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.runs-after-task:representation%3A1%3Asnowflake_task.publish:representation%3A1%3Asnowflake_task.load",
+          "from": "representation:1:snowflake_task.publish",
+          "to": "representation:1:snowflake_task.load",
+          "emission": "emission:c3639461b2589a28752278d2080ddc75a5d9e2420bdd17e4c41e2eea55b67bc8"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.uses-api-integration%3Arepresentation%253A1%253Asnowflake_external_function.score%3Arepresentation%253A1%253Asnowflake_api_integration_amazon_api_gateway.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-api-integration:representation%3A1%3Asnowflake_external_function.score:representation%3A1%3Asnowflake_api_integration_amazon_api_gateway.aws",
+          "from": "representation:1:snowflake_external_function.score",
+          "to": "representation:1:snowflake_api_integration_amazon_api_gateway.aws",
+          "emission": "emission:28389a251fc32be9d06fb73249bbc7d66a4f789961446dc229d56ff07af6be5e"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.uses-default-warehouse%3Arepresentation%253A1%253Asnowflake_service_user.automation%3Arepresentation%253A1%253Asnowflake_warehouse.transform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-default-warehouse:representation%3A1%3Asnowflake_service_user.automation:representation%3A1%3Asnowflake_warehouse.transform",
+          "from": "representation:1:snowflake_service_user.automation",
+          "to": "representation:1:snowflake_warehouse.transform",
+          "emission": "emission:a3bbfe6113be2ab7cadbbc28418fd7f046d75d9dea2befea475a757805ebc227"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.uses-external-access%3Arepresentation%253A1%253Asnowflake_service.application%3Arepresentation%253A1%253Asnowflake_external_access_integration.egress",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-external-access:representation%3A1%3Asnowflake_service.application:representation%3A1%3Asnowflake_external_access_integration.egress",
+          "from": "representation:1:snowflake_service.application",
+          "to": "representation:1:snowflake_external_access_integration.egress",
+          "emission": "emission:b4e6ede5a49b23d59fcda3f2711ad98fd38fd6b70ffc8b9445c724175f5b2f7d"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.uses-notification-integration%3Arepresentation%253A1%253Asnowflake_pipe.orders%3Arepresentation%253A1%253Asnowflake_notification_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-notification-integration:representation%3A1%3Asnowflake_pipe.orders:representation%3A1%3Asnowflake_notification_integration.aws",
+          "from": "representation:1:snowflake_pipe.orders",
+          "to": "representation:1:snowflake_notification_integration.aws",
+          "emission": "emission:98301831dcb4f9f009abea4bd5ed4fb9fee888cf5f60bdae7246bc1bf6b95773"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.uses-notification-integration%3Arepresentation%253A1%253Asnowflake_stage_external_azure.azure%3Arepresentation%253A1%253Asnowflake_notification_integration.azure",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-notification-integration:representation%3A1%3Asnowflake_stage_external_azure.azure:representation%3A1%3Asnowflake_notification_integration.azure",
+          "from": "representation:1:snowflake_stage_external_azure.azure",
+          "to": "representation:1:snowflake_notification_integration.azure",
+          "emission": "emission:c02bd7e28e02a868af0d6400a1f7d1b3d7a8e646729c7e3561a5dfb646943972"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.uses-notification-integration%3Arepresentation%253A1%253Asnowflake_stage_external_gcs.google%3Arepresentation%253A1%253Asnowflake_notification_integration.google",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-notification-integration:representation%3A1%3Asnowflake_stage_external_gcs.google:representation%3A1%3Asnowflake_notification_integration.google",
+          "from": "representation:1:snowflake_stage_external_gcs.google",
+          "to": "representation:1:snowflake_notification_integration.google",
+          "emission": "emission:f8d77eeb6dd75365d6d38d21e3594500353c04f12611cacb7b3a3257b32121f0"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.uses-storage-integration%3Arepresentation%253A1%253Asnowflake_stage_external_azure.azure%3Arepresentation%253A1%253Asnowflake_storage_integration_azure.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-storage-integration:representation%3A1%3Asnowflake_stage_external_azure.azure:representation%3A1%3Asnowflake_storage_integration_azure.lake",
+          "from": "representation:1:snowflake_stage_external_azure.azure",
+          "to": "representation:1:snowflake_storage_integration_azure.lake",
+          "emission": "emission:b976f67cc18dabf281a696dce582caabf9f76d0f3f50296d0eb15c20159afcef"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.uses-storage-integration%3Arepresentation%253A1%253Asnowflake_stage_external_gcs.google%3Arepresentation%253A1%253Asnowflake_storage_integration_gcs.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-storage-integration:representation%3A1%3Asnowflake_stage_external_gcs.google:representation%3A1%3Asnowflake_storage_integration_gcs.lake",
+          "from": "representation:1:snowflake_stage_external_gcs.google",
+          "to": "representation:1:snowflake_storage_integration_gcs.lake",
+          "emission": "emission:e171d2064ef817f6a76aeb6122adfdfcb0ce8085fef8e86f71884eaaf689e6a7"
+        },
+        {
+          "id": "change:net:added:relation%3Asnowflake.relation.uses-storage-integration%3Arepresentation%253A1%253Asnowflake_stage_external_s3.aws%3Arepresentation%253A1%253Asnowflake_storage_integration_aws.lake",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:snowflake.relation.uses-storage-integration:representation%3A1%3Asnowflake_stage_external_s3.aws:representation%3A1%3Asnowflake_storage_integration_aws.lake",
+          "from": "representation:1:snowflake_stage_external_s3.aws",
+          "to": "representation:1:snowflake_storage_integration_aws.lake",
+          "emission": "emission:445b150113465a1b8ed57adbfa7c75dfdfedb143df601de0b898a159b683d4d5"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Asnowflake_database.analytics%3Aemission%253Af9898ef23f5428bf16bb50fd431ccb4e55366375813ffba1665f55a78664c846:after",
+          "closure": "closure:representation%3A1%3Asnowflake_database.analytics:emission%3Af9898ef23f5428bf16bb50fd431ccb4e55366375813ffba1665f55a78664c846",
+          "representation": "representation:1:snowflake_database.analytics",
+          "emission": "emission:f9898ef23f5428bf16bb50fd431ccb4e55366375813ffba1665f55a78664c846",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Asnowflake_schema.pipelines%3Aemission%253Ad4501e59d64a88062268ba2dbc8e24bc2dc98faa57ddc530bda3021751c56187:after",
+          "closure": "closure:representation%3A1%3Asnowflake_schema.pipelines:emission%3Ad4501e59d64a88062268ba2dbc8e24bc2dc98faa57ddc530bda3021751c56187",
+          "representation": "representation:1:snowflake_schema.pipelines",
+          "emission": "emission:d4501e59d64a88062268ba2dbc8e24bc2dc98faa57ddc530bda3021751c56187",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Asnowflake_service_user.automation%3Aemission%253Aedb3548e21aa3d80e6f729befa4f2e52297ec16069a806cde5a2bde52c16f05b:after",
+          "closure": "closure:representation%3A1%3Asnowflake_service_user.automation:emission%3Aedb3548e21aa3d80e6f729befa4f2e52297ec16069a806cde5a2bde52c16f05b",
+          "representation": "representation:1:snowflake_service_user.automation",
+          "emission": "emission:edb3548e21aa3d80e6f729befa4f2e52297ec16069a806cde5a2bde52c16f05b",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Asnowflake_storage_integration_aws.lake%3Aemission%253A9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7:after",
+          "closure": "closure:representation%3A1%3Asnowflake_storage_integration_aws.lake:emission%3A9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7",
+          "representation": "representation:1:snowflake_storage_integration_aws.lake",
+          "emission": "emission:9f054806ae7ff81f1cf156d24d9b020eda68ba432d21397ec647268489d9fbe7",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Asnowflake_storage_integration_azure.lake%3Aemission%253A0c88927a3b1efd1a0f980deb3a4099103d8d0acd461b1053c92bed643c147bc4:after",
+          "closure": "closure:representation%3A1%3Asnowflake_storage_integration_azure.lake:emission%3A0c88927a3b1efd1a0f980deb3a4099103d8d0acd461b1053c92bed643c147bc4",
+          "representation": "representation:1:snowflake_storage_integration_azure.lake",
+          "emission": "emission:0c88927a3b1efd1a0f980deb3a4099103d8d0acd461b1053c92bed643c147bc4",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Asnowflake_storage_integration_gcs.lake%3Aemission%253A839c162d2fb7a2019f35915e04b103bd60d58609a5d0284df54b282e2918f8d5:after",
+          "closure": "closure:representation%3A1%3Asnowflake_storage_integration_gcs.lake:emission%3A839c162d2fb7a2019f35915e04b103bd60d58609a5d0284df54b282e2918f8d5",
+          "representation": "representation:1:snowflake_storage_integration_gcs.lake",
+          "emission": "emission:839c162d2fb7a2019f35915e04b103bd60d58609a5d0284df54b282e2918f8d5",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Asnowflake_task.publish%3Aemission%253A30c583b458ddb78eaf61de5342bc4444792ff8831bc7f5cebf53e049335f7228:after",
+          "closure": "closure:representation%3A1%3Asnowflake_task.publish:emission%3A30c583b458ddb78eaf61de5342bc4444792ff8831bc7f5cebf53e049335f7228",
+          "representation": "representation:1:snowflake_task.publish",
+          "emission": "emission:30c583b458ddb78eaf61de5342bc4444792ff8831bc7f5cebf53e049335f7228",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 57,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 53,
+        "facts_removed": 0,
+        "indeterminate": 7,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

@@ -124,10 +124,7 @@ function distributionInputs(root: string): {
     inventorySha256: runtimeLicensing.inventorySha256,
     license: readBinaryLicense(root),
     notices: runtimeLicensing.notices,
-    schema: requireRegularFile(
-      join(root, "schemas", "architecture-ir.schema.json"),
-      "Architecture IR schema",
-    ),
+    schema: requireRegularFile(join(root, "schemas", "form.schema.json"), "Form schema"),
   };
 }
 

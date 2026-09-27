@@ -581,7 +581,7 @@ function verifyPlan(body: string, label: string): void {
   const document = parseJSON(body, label);
   const semantics = object(document.semantics, `${label} semantics`);
   const stages = object(document.stages, `${label} stages`);
-  const planned = object(stages.planned, `${label} planned stage`);
+  const planned = object(stages.planned, `${label} Planned architecture`);
   if (
     document.format_version !== "1" ||
     document.kind !== "plan" ||

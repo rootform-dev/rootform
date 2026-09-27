@@ -31,14 +31,14 @@ rootform test [directory] [flags]
 
 ## Behavior
 
-Analyze Dialect fixtures and compare the Rootform documents they
-produce with the recorded ones. A fixture is a directory holding one
-plan.json or state.json export and an analysis.golden document; the
+Analyze Dialect fixtures and compare the Forms they produce with
+the recorded ones. A fixture is a directory holding one plan.json or
+state.json export and an analysis.golden Form; the
 project at the test directory selects the Dialects. A plan.tfplan saved
 plan beside plan.json must verify against it, and its configuration
 snapshot then contributes the facts that follow references.
 
-A golden records the analysis with only the Dialect definitions it
+A golden records the Form with only the Dialect definitions it
 reaches. The comparison ignores which Rootform version and which Dialect
 versions recorded it. With --update, test writes the produced golden for
 every case that differs, and for a directory holding an export but no

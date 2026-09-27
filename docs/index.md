@@ -12,13 +12,13 @@ Use Rootform to:
 
 - Explore resources in their architectural contexts
 - Explain how plan evidence produced a placement or connection
-- Compare architectural meaning between two plans, states, or saved analyses
+- Compare architectural meaning between two plans, states, or saved Forms
 - Evaluate the result against [policies](concepts/policies.md)
 
 Rootform analyzes only the input you provide. It does not deploy infrastructure,
 read live cloud resources, or verify connectivity. A plan made with a prior
-state also reports drift, the changes made outside Terraform or OpenTofu that
-its refresh found; Rootform shows that drift and never assumes more. When
+state may also report drift records; Rootform shows their architectural
+consequences and never assumes more. When
 evidence is unknown or ambiguous, Rootform reports it as indeterminate instead
 of treating it as a proven absence or a successful check.
 
@@ -38,9 +38,9 @@ executable, so projects covered by them need no additional Rootform
 configuration.
 
 [Core concepts](concepts.md) explains how instances, Rules, facts, and
-closures fit together. [Architecture documents](concepts/architecture-ir.md)
-describes what a saved Rootform document keeps, and
-[Architecture comparisons](concepts/diff.md) explains stages, drift, and
+closures fit together. [Forms and stages](concepts/forms.md)
+describes what a saved Form keeps, and
+[Comparisons](concepts/comparisons.md) explains stages, drift, and
 comparisons.
 
 ## Continue by task
@@ -49,7 +49,7 @@ comparisons.
 - [Explore an architecture](guides/explore-architecture.md)
   Navigate an analysis, inspect evidence, and follow connections.
 - [Choose an input](inputs/index.md)
-  Decide between plan JSON, state JSON, and a saved Rootform document.
+  Decide between plan JSON, state JSON, and a saved Form.
 - [Compare architectures](guides/compare-architectures.md)
   Review architectural changes between two revisions.
 - [Run checks](guides/check-architecture.md)

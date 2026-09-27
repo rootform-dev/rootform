@@ -15,7 +15,7 @@ registry features outside this boundary.
 Registry must preserve and return OCI image manifests with schema version `2`,
 descriptor digests and sizes, `artifactType`, custom config and layer media
 types, and manifest annotations byte-for-byte. OCI manifest schema version `2`
-is defined by OCI and is unrelated to Rootform document `format_version`,
+is defined by OCI and is unrelated to Form `format_version`,
 which remains `"1"`.
 
 Rootform Dialect content uses:

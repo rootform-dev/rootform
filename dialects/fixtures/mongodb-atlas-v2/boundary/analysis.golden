@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -3284,10 +3284,872 @@
         "dependencies": 30,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:external%3A1%3Amongodb-atlas.concept.cloud-provider-authorization%3A0",
+          "change": "added",
+          "representation": "external:1:mongodb-atlas.concept.cloud-provider-authorization:0"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_kms_key.first",
+          "change": "added",
+          "representation": "representation:1:aws_kms_key.first"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_kms_key.second",
+          "change": "added",
+          "representation": "representation:1:aws_kms_key.second"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.first"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.second"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc_endpoint.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc_endpoint.first"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc_endpoint.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc_endpoint.second"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.mongodbatlas_advanced_cluster.lookup",
+          "change": "added",
+          "representation": "representation:1:data.mongodbatlas_advanced_cluster.lookup"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_advanced_cluster.primary",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_advanced_cluster.primary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_api_key.credential",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_api_key.credential"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_cloud_backup_snapshot.operational",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_cloud_backup_snapshot.operational"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_encryption_at_rest.ambiguous",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_encryption_at_rest.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_encryption_at_rest.literal",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_encryption_at_rest.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_network_container.atlas",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_network_container.atlas"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_network_peering.ambiguous",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_network_peering.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_network_peering.literal",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_network_peering.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_organization.platform",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_organization.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_privatelink_endpoint.literal",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_privatelink_endpoint.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.ambiguous",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_privatelink_endpoint_service.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.literal",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_privatelink_endpoint_service.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_project.application",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_project.application"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Amongodbatlas_project_invitation.administration",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_project_invitation.administration"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_advanced_cluster.primary%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_advanced_cluster.primary:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_advanced_cluster.primary",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:662076a7bf612ad4035d5520cabadc5b73c3e04b0ab200f64d321397d31627a9"
+        },
+        {
+          "id": "change:changes:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_encryption_at_rest.ambiguous%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_encryption_at_rest.ambiguous:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_encryption_at_rest.ambiguous",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:37de2bc8e2f367d99f189e0a8b984ae3522623c0173cf654c7ef70b128c5f06d"
+        },
+        {
+          "id": "change:changes:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_encryption_at_rest.literal%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_encryption_at_rest.literal:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_encryption_at_rest.literal",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:37de2bc8e2f367d99f189e0a8b984ae3522623c0173cf654c7ef70b128c5f06d"
+        },
+        {
+          "id": "change:changes:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_network_container.atlas%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_network_container.atlas:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_network_container.atlas",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:ed2cabacb49e25eb5488270039646ae1bee7b1722e4fd0c89035b60c52c8fcc7"
+        },
+        {
+          "id": "change:changes:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_network_peering.ambiguous%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_network_peering.ambiguous:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_network_peering.ambiguous",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:30f1b74ad05d3cf35a82125744c2c758e771364fdef471278332794f0aef3e29"
+        },
+        {
+          "id": "change:changes:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_network_peering.literal%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_network_peering.literal:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_network_peering.literal",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:30f1b74ad05d3cf35a82125744c2c758e771364fdef471278332794f0aef3e29"
+        },
+        {
+          "id": "change:changes:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint.literal%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_privatelink_endpoint.literal:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_privatelink_endpoint.literal",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:df0787431b2d3290899534902297d0087be42fc2d0957f56cbacf53c62a797f6"
+        },
+        {
+          "id": "change:changes:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.ambiguous%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.ambiguous:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_privatelink_endpoint_service.ambiguous",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:79e576179dc1a93ccddfce841219b21219db47087025fca21c3e7fdae250f8fc"
+        },
+        {
+          "id": "change:changes:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.literal%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.literal:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_privatelink_endpoint_service.literal",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:79e576179dc1a93ccddfce841219b21219db47087025fca21c3e7fdae250f8fc"
+        },
+        {
+          "id": "change:changes:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_project.application%3Arepresentation%253A1%253Amongodbatlas_organization.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_project.application:representation%3A1%3Amongodbatlas_organization.platform",
+          "from": "representation:1:mongodbatlas_project.application",
+          "to": "representation:1:mongodbatlas_organization.platform",
+          "emission": "emission:cb99c4922b18a0d279b183d214c4b075fed1f9a50ca9e6efcc9851674ad37ef1"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aaws_vpc_endpoint.first%3Arepresentation%253A1%253Aaws_vpc.first",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.first:representation%3A1%3Aaws_vpc.first",
+          "from": "representation:1:aws_vpc_endpoint.first",
+          "to": "representation:1:aws_vpc.first",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aaws_vpc_endpoint.second%3Arepresentation%253A1%253Aaws_vpc.second",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.second:representation%3A1%3Aaws_vpc.second",
+          "from": "representation:1:aws_vpc_endpoint.second",
+          "to": "representation:1:aws_vpc.second",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0"
+        },
+        {
+          "id": "change:changes:added:relation%3Amongodb-atlas.relation.connects-atlas-network%3Arepresentation%253A1%253Amongodbatlas_network_peering.ambiguous%3Arepresentation%253A1%253Amongodbatlas_network_container.atlas",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.connects-atlas-network:representation%3A1%3Amongodbatlas_network_peering.ambiguous:representation%3A1%3Amongodbatlas_network_container.atlas",
+          "from": "representation:1:mongodbatlas_network_peering.ambiguous",
+          "to": "representation:1:mongodbatlas_network_container.atlas",
+          "emission": "emission:bd4d25c79375b827e7e38c99c2bda1ce54f33912355ea8d53102dbd925b1c773"
+        },
+        {
+          "id": "change:changes:added:relation%3Amongodb-atlas.relation.connects-atlas-network%3Arepresentation%253A1%253Amongodbatlas_network_peering.literal%3Arepresentation%253A1%253Amongodbatlas_network_container.atlas",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.connects-atlas-network:representation%3A1%3Amongodbatlas_network_peering.literal:representation%3A1%3Amongodbatlas_network_container.atlas",
+          "from": "representation:1:mongodbatlas_network_peering.literal",
+          "to": "representation:1:mongodbatlas_network_container.atlas",
+          "emission": "emission:bd4d25c79375b827e7e38c99c2bda1ce54f33912355ea8d53102dbd925b1c773"
+        },
+        {
+          "id": "change:changes:added:relation%3Amongodb-atlas.relation.registers-atlas-service%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.ambiguous%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint.literal",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.registers-atlas-service:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.ambiguous:representation%3A1%3Amongodbatlas_privatelink_endpoint.literal",
+          "from": "representation:1:mongodbatlas_privatelink_endpoint_service.ambiguous",
+          "to": "representation:1:mongodbatlas_privatelink_endpoint.literal",
+          "emission": "emission:1ec1096828a6898dd03e3bb23b4a6fbab7ace28f1a68daad2e234c700ee02c9b"
+        },
+        {
+          "id": "change:changes:added:relation%3Amongodb-atlas.relation.registers-atlas-service%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.literal%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint.literal",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.registers-atlas-service:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.literal:representation%3A1%3Amongodbatlas_privatelink_endpoint.literal",
+          "from": "representation:1:mongodbatlas_privatelink_endpoint_service.literal",
+          "to": "representation:1:mongodbatlas_privatelink_endpoint.literal",
+          "emission": "emission:1ec1096828a6898dd03e3bb23b4a6fbab7ace28f1a68daad2e234c700ee02c9b"
+        },
+        {
+          "id": "change:changes:added:relation%3Amongodb-atlas.relation.uses-cloud-authorization%3Arepresentation%253A1%253Amongodbatlas_encryption_at_rest.ambiguous%3Aexternal%253A1%253Amongodb-atlas.concept.cloud-provider-authorization%253A0",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.uses-cloud-authorization:representation%3A1%3Amongodbatlas_encryption_at_rest.ambiguous:external%3A1%3Amongodb-atlas.concept.cloud-provider-authorization%3A0",
+          "from": "representation:1:mongodbatlas_encryption_at_rest.ambiguous",
+          "to": "external:1:mongodb-atlas.concept.cloud-provider-authorization:0",
+          "emission": "emission:1be49c8649a465340db4e8b416ee178dd5c602bac9e1da433b980560f67b2d98"
+        },
+        {
+          "id": "change:changes:added:relation%3Amongodb-atlas.relation.uses-cloud-authorization%3Arepresentation%253A1%253Amongodbatlas_encryption_at_rest.literal%3Aexternal%253A1%253Amongodb-atlas.concept.cloud-provider-authorization%253A0",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.uses-cloud-authorization:representation%3A1%3Amongodbatlas_encryption_at_rest.literal:external%3A1%3Amongodb-atlas.concept.cloud-provider-authorization%3A0",
+          "from": "representation:1:mongodbatlas_encryption_at_rest.literal",
+          "to": "external:1:mongodb-atlas.concept.cloud-provider-authorization:0",
+          "emission": "emission:1be49c8649a465340db4e8b416ee178dd5c602bac9e1da433b980560f67b2d98"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.ambiguous%3Aemission%253A488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.ambiguous:emission%3A488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e",
+          "representation": "representation:1:mongodbatlas_network_peering.ambiguous",
+          "emission": "emission:488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.ambiguous%3Aemission%253Ac5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.ambiguous:emission%3Ac5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5",
+          "representation": "representation:1:mongodbatlas_network_peering.ambiguous",
+          "emission": "emission:c5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.ambiguous%3Aemission%253Ae18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.ambiguous:emission%3Ae18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff",
+          "representation": "representation:1:mongodbatlas_network_peering.ambiguous",
+          "emission": "emission:e18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.literal%3Aemission%253A488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.literal:emission%3A488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e",
+          "representation": "representation:1:mongodbatlas_network_peering.literal",
+          "emission": "emission:488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.literal%3Aemission%253Ac5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.literal:emission%3Ac5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5",
+          "representation": "representation:1:mongodbatlas_network_peering.literal",
+          "emission": "emission:c5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5",
+          "side": "after",
+          "reasons": [
+            "identity_incomplete"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.literal%3Aemission%253Ae18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.literal:emission%3Ae18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff",
+          "representation": "representation:1:mongodbatlas_network_peering.literal",
+          "emission": "emission:e18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.ambiguous%3Aemission%253A238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.ambiguous:emission%3A238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db",
+          "representation": "representation:1:mongodbatlas_privatelink_endpoint_service.ambiguous",
+          "emission": "emission:238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.literal%3Aemission%253A238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.literal:emission%3A238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db",
+          "representation": "representation:1:mongodbatlas_privatelink_endpoint_service.literal",
+          "emission": "emission:238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 23,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 18,
+        "facts_removed": 0,
+        "indeterminate": 8,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:external%3A1%3Amongodb-atlas.concept.cloud-provider-authorization%3A0",
+          "change": "added",
+          "representation": "external:1:mongodb-atlas.concept.cloud-provider-authorization:0"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_kms_key.first",
+          "change": "added",
+          "representation": "representation:1:aws_kms_key.first"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_kms_key.second",
+          "change": "added",
+          "representation": "representation:1:aws_kms_key.second"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.first"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.second"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc_endpoint.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc_endpoint.first"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc_endpoint.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc_endpoint.second"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.mongodbatlas_advanced_cluster.lookup",
+          "change": "added",
+          "representation": "representation:1:data.mongodbatlas_advanced_cluster.lookup"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_advanced_cluster.primary",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_advanced_cluster.primary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_api_key.credential",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_api_key.credential"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_cloud_backup_snapshot.operational",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_cloud_backup_snapshot.operational"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_encryption_at_rest.ambiguous",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_encryption_at_rest.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_encryption_at_rest.literal",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_encryption_at_rest.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_network_container.atlas",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_network_container.atlas"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_network_peering.ambiguous",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_network_peering.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_network_peering.literal",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_network_peering.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_organization.platform",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_organization.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_privatelink_endpoint.literal",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_privatelink_endpoint.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.ambiguous",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_privatelink_endpoint_service.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.literal",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_privatelink_endpoint_service.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_project.application",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_project.application"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Amongodbatlas_project_invitation.administration",
+          "change": "added",
+          "representation": "representation:1:mongodbatlas_project_invitation.administration"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_advanced_cluster.primary%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_advanced_cluster.primary:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_advanced_cluster.primary",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:662076a7bf612ad4035d5520cabadc5b73c3e04b0ab200f64d321397d31627a9"
+        },
+        {
+          "id": "change:net:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_encryption_at_rest.ambiguous%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_encryption_at_rest.ambiguous:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_encryption_at_rest.ambiguous",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:37de2bc8e2f367d99f189e0a8b984ae3522623c0173cf654c7ef70b128c5f06d"
+        },
+        {
+          "id": "change:net:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_encryption_at_rest.literal%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_encryption_at_rest.literal:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_encryption_at_rest.literal",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:37de2bc8e2f367d99f189e0a8b984ae3522623c0173cf654c7ef70b128c5f06d"
+        },
+        {
+          "id": "change:net:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_network_container.atlas%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_network_container.atlas:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_network_container.atlas",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:ed2cabacb49e25eb5488270039646ae1bee7b1722e4fd0c89035b60c52c8fcc7"
+        },
+        {
+          "id": "change:net:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_network_peering.ambiguous%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_network_peering.ambiguous:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_network_peering.ambiguous",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:30f1b74ad05d3cf35a82125744c2c758e771364fdef471278332794f0aef3e29"
+        },
+        {
+          "id": "change:net:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_network_peering.literal%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_network_peering.literal:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_network_peering.literal",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:30f1b74ad05d3cf35a82125744c2c758e771364fdef471278332794f0aef3e29"
+        },
+        {
+          "id": "change:net:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint.literal%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_privatelink_endpoint.literal:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_privatelink_endpoint.literal",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:df0787431b2d3290899534902297d0087be42fc2d0957f56cbacf53c62a797f6"
+        },
+        {
+          "id": "change:net:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.ambiguous%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.ambiguous:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_privatelink_endpoint_service.ambiguous",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:79e576179dc1a93ccddfce841219b21219db47087025fca21c3e7fdae250f8fc"
+        },
+        {
+          "id": "change:net:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.literal%3Arepresentation%253A1%253Amongodbatlas_project.application",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.literal:representation%3A1%3Amongodbatlas_project.application",
+          "from": "representation:1:mongodbatlas_privatelink_endpoint_service.literal",
+          "to": "representation:1:mongodbatlas_project.application",
+          "emission": "emission:79e576179dc1a93ccddfce841219b21219db47087025fca21c3e7fdae250f8fc"
+        },
+        {
+          "id": "change:net:added:context%3Amongodb-atlas.context.ownership%3Arepresentation%253A1%253Amongodbatlas_project.application%3Arepresentation%253A1%253Amongodbatlas_organization.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:mongodb-atlas.context.ownership:representation%3A1%3Amongodbatlas_project.application:representation%3A1%3Amongodbatlas_organization.platform",
+          "from": "representation:1:mongodbatlas_project.application",
+          "to": "representation:1:mongodbatlas_organization.platform",
+          "emission": "emission:cb99c4922b18a0d279b183d214c4b075fed1f9a50ca9e6efcc9851674ad37ef1"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aaws_vpc_endpoint.first%3Arepresentation%253A1%253Aaws_vpc.first",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.first:representation%3A1%3Aaws_vpc.first",
+          "from": "representation:1:aws_vpc_endpoint.first",
+          "to": "representation:1:aws_vpc.first",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aaws_vpc_endpoint.second%3Arepresentation%253A1%253Aaws_vpc.second",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.second:representation%3A1%3Aaws_vpc.second",
+          "from": "representation:1:aws_vpc_endpoint.second",
+          "to": "representation:1:aws_vpc.second",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0"
+        },
+        {
+          "id": "change:net:added:relation%3Amongodb-atlas.relation.connects-atlas-network%3Arepresentation%253A1%253Amongodbatlas_network_peering.ambiguous%3Arepresentation%253A1%253Amongodbatlas_network_container.atlas",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.connects-atlas-network:representation%3A1%3Amongodbatlas_network_peering.ambiguous:representation%3A1%3Amongodbatlas_network_container.atlas",
+          "from": "representation:1:mongodbatlas_network_peering.ambiguous",
+          "to": "representation:1:mongodbatlas_network_container.atlas",
+          "emission": "emission:bd4d25c79375b827e7e38c99c2bda1ce54f33912355ea8d53102dbd925b1c773"
+        },
+        {
+          "id": "change:net:added:relation%3Amongodb-atlas.relation.connects-atlas-network%3Arepresentation%253A1%253Amongodbatlas_network_peering.literal%3Arepresentation%253A1%253Amongodbatlas_network_container.atlas",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.connects-atlas-network:representation%3A1%3Amongodbatlas_network_peering.literal:representation%3A1%3Amongodbatlas_network_container.atlas",
+          "from": "representation:1:mongodbatlas_network_peering.literal",
+          "to": "representation:1:mongodbatlas_network_container.atlas",
+          "emission": "emission:bd4d25c79375b827e7e38c99c2bda1ce54f33912355ea8d53102dbd925b1c773"
+        },
+        {
+          "id": "change:net:added:relation%3Amongodb-atlas.relation.registers-atlas-service%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.ambiguous%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint.literal",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.registers-atlas-service:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.ambiguous:representation%3A1%3Amongodbatlas_privatelink_endpoint.literal",
+          "from": "representation:1:mongodbatlas_privatelink_endpoint_service.ambiguous",
+          "to": "representation:1:mongodbatlas_privatelink_endpoint.literal",
+          "emission": "emission:1ec1096828a6898dd03e3bb23b4a6fbab7ace28f1a68daad2e234c700ee02c9b"
+        },
+        {
+          "id": "change:net:added:relation%3Amongodb-atlas.relation.registers-atlas-service%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.literal%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint.literal",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.registers-atlas-service:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.literal:representation%3A1%3Amongodbatlas_privatelink_endpoint.literal",
+          "from": "representation:1:mongodbatlas_privatelink_endpoint_service.literal",
+          "to": "representation:1:mongodbatlas_privatelink_endpoint.literal",
+          "emission": "emission:1ec1096828a6898dd03e3bb23b4a6fbab7ace28f1a68daad2e234c700ee02c9b"
+        },
+        {
+          "id": "change:net:added:relation%3Amongodb-atlas.relation.uses-cloud-authorization%3Arepresentation%253A1%253Amongodbatlas_encryption_at_rest.ambiguous%3Aexternal%253A1%253Amongodb-atlas.concept.cloud-provider-authorization%253A0",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.uses-cloud-authorization:representation%3A1%3Amongodbatlas_encryption_at_rest.ambiguous:external%3A1%3Amongodb-atlas.concept.cloud-provider-authorization%3A0",
+          "from": "representation:1:mongodbatlas_encryption_at_rest.ambiguous",
+          "to": "external:1:mongodb-atlas.concept.cloud-provider-authorization:0",
+          "emission": "emission:1be49c8649a465340db4e8b416ee178dd5c602bac9e1da433b980560f67b2d98"
+        },
+        {
+          "id": "change:net:added:relation%3Amongodb-atlas.relation.uses-cloud-authorization%3Arepresentation%253A1%253Amongodbatlas_encryption_at_rest.literal%3Aexternal%253A1%253Amongodb-atlas.concept.cloud-provider-authorization%253A0",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:mongodb-atlas.relation.uses-cloud-authorization:representation%3A1%3Amongodbatlas_encryption_at_rest.literal:external%3A1%3Amongodb-atlas.concept.cloud-provider-authorization%3A0",
+          "from": "representation:1:mongodbatlas_encryption_at_rest.literal",
+          "to": "external:1:mongodb-atlas.concept.cloud-provider-authorization:0",
+          "emission": "emission:1be49c8649a465340db4e8b416ee178dd5c602bac9e1da433b980560f67b2d98"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.ambiguous%3Aemission%253A488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.ambiguous:emission%3A488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e",
+          "representation": "representation:1:mongodbatlas_network_peering.ambiguous",
+          "emission": "emission:488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.ambiguous%3Aemission%253Ac5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.ambiguous:emission%3Ac5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5",
+          "representation": "representation:1:mongodbatlas_network_peering.ambiguous",
+          "emission": "emission:c5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.ambiguous%3Aemission%253Ae18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.ambiguous:emission%3Ae18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff",
+          "representation": "representation:1:mongodbatlas_network_peering.ambiguous",
+          "emission": "emission:e18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.literal%3Aemission%253A488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.literal:emission%3A488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e",
+          "representation": "representation:1:mongodbatlas_network_peering.literal",
+          "emission": "emission:488340169be6fa8790b9ccbed19710224bdf7cb05cc88fdad0f40b4de340e74e",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.literal%3Aemission%253Ac5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.literal:emission%3Ac5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5",
+          "representation": "representation:1:mongodbatlas_network_peering.literal",
+          "emission": "emission:c5eec2dff9a35a10ec3176d98d6e98a1d8e16c6554a66750ba7416f432301de5",
+          "side": "after",
+          "reasons": [
+            "identity_incomplete"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Amongodbatlas_network_peering.literal%3Aemission%253Ae18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_network_peering.literal:emission%3Ae18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff",
+          "representation": "representation:1:mongodbatlas_network_peering.literal",
+          "emission": "emission:e18a986f262237536e6ce963b1076ef94e94b80f8f7fcd48ce2cfcdcae46e1ff",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.ambiguous%3Aemission%253A238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.ambiguous:emission%3A238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db",
+          "representation": "representation:1:mongodbatlas_privatelink_endpoint_service.ambiguous",
+          "emission": "emission:238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Amongodbatlas_privatelink_endpoint_service.literal%3Aemission%253A238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db:after",
+          "closure": "closure:representation%3A1%3Amongodbatlas_privatelink_endpoint_service.literal:emission%3A238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db",
+          "representation": "representation:1:mongodbatlas_privatelink_endpoint_service.literal",
+          "emission": "emission:238085ca7acb50900d01bcb9a1cf7a50d83693b604fb978b2b2b102a50a873db",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 23,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 18,
+        "facts_removed": 0,
+        "indeterminate": 8,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

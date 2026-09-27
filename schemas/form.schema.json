@@ -109,72 +109,6 @@
       ],
       "type": "object"
     },
-    "Analysis": {
-      "additionalProperties": false,
-      "properties": {
-        "comparisons": {
-          "$ref": "#/$defs/Comparisons"
-        },
-        "default_stage": {
-          "enum": [
-            "planned",
-            "refreshed",
-            "recorded"
-          ]
-        },
-        "diagnostics": {
-          "items": {
-            "$ref": "#/$defs/Diagnostic"
-          },
-          "type": "array"
-        },
-        "drift_report": {
-          "$ref": "#/$defs/DriftReport"
-        },
-        "evidence": {
-          "$ref": "#/$defs/Evidence"
-        },
-        "format_version": {
-          "const": "1"
-        },
-        "generator": {
-          "$ref": "#/$defs/Generator"
-        },
-        "kind": {
-          "enum": [
-            "snapshot",
-            "plan"
-          ]
-        },
-        "semantics": {
-          "$ref": "#/$defs/Semantics"
-        },
-        "stages": {
-          "additionalProperties": {
-            "$ref": "#/$defs/Architecture"
-          },
-          "propertyNames": {
-            "enum": [
-              "planned",
-              "refreshed",
-              "recorded"
-            ]
-          },
-          "type": "object"
-        }
-      },
-      "required": [
-        "default_stage",
-        "diagnostics",
-        "evidence",
-        "format_version",
-        "generator",
-        "kind",
-        "semantics",
-        "stages"
-      ],
-      "type": "object"
-    },
     "Architecture": {
       "additionalProperties": false,
       "properties": {
@@ -414,10 +348,16 @@
           },
           "type": "array"
         },
+        "indeterminate": {
+          "items": {
+            "$ref": "#/$defs/IndeterminateClosure"
+          },
+          "type": "array"
+        },
         "name": {
           "enum": [
             "drift",
-            "planned",
+            "changes",
             "net",
             "cross"
           ]
@@ -433,12 +373,6 @@
             "$ref": "#/$defs/RepresentationChange"
           },
           "type": "array"
-        },
-        "undetermined": {
-          "items": {
-            "$ref": "#/$defs/Undetermined"
-          },
-          "type": "array"
         }
       },
       "required": [
@@ -448,10 +382,10 @@
         "comparable",
         "counts",
         "facts",
+        "indeterminate",
         "name",
         "problems",
-        "representations",
-        "undetermined"
+        "representations"
       ],
       "type": "object"
     },
@@ -467,6 +401,10 @@
           "type": "integer"
         },
         "facts_removed": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "indeterminate": {
           "minimum": 0,
           "type": "integer"
         },
@@ -493,27 +431,23 @@
         "representations_removed": {
           "minimum": 0,
           "type": "integer"
-        },
-        "undetermined": {
-          "minimum": 0,
-          "type": "integer"
         }
       },
       "required": [
         "cancelled",
         "facts_added",
         "facts_removed",
+        "indeterminate",
         "moved",
         "recreated",
         "replaced",
         "representations_added",
         "representations_changed",
-        "representations_removed",
-        "undetermined"
+        "representations_removed"
       ],
       "type": "object"
     },
-    "ComparisonDocument": {
+    "ComparisonForm": {
       "additionalProperties": false,
       "properties": {
         "after": {
@@ -572,13 +506,13 @@
     "Comparisons": {
       "additionalProperties": false,
       "properties": {
+        "changes": {
+          "$ref": "#/$defs/Comparison"
+        },
         "drift": {
           "$ref": "#/$defs/Comparison"
         },
         "net": {
-          "$ref": "#/$defs/Comparison"
-        },
-        "planned": {
           "$ref": "#/$defs/Comparison"
         }
       },
@@ -960,7 +894,7 @@
           "enum": [
             "architectural",
             "none_under_dialects",
-            "undetermined",
+            "indeterminate",
             "uncovered",
             "address_only"
           ]
@@ -1332,6 +1266,56 @@
       ],
       "type": "object"
     },
+    "IndeterminateClosure": {
+      "additionalProperties": false,
+      "properties": {
+        "closure": {
+          "type": "string"
+        },
+        "emission": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "reasons": {
+          "items": {
+            "enum": [
+              "unknown_until_apply",
+              "sensitive",
+              "ambiguous_unknown",
+              "uncomparable_candidate",
+              "reference_ambiguous",
+              "identity_incomplete",
+              "unavailable",
+              "external_denied",
+              "duplicate_identity",
+              "external_identity_withheld",
+              "interpretation_failed"
+            ]
+          },
+          "type": "array"
+        },
+        "representation": {
+          "type": "string"
+        },
+        "side": {
+          "enum": [
+            "before",
+            "after"
+          ]
+        }
+      },
+      "required": [
+        "closure",
+        "emission",
+        "id",
+        "reasons",
+        "representation",
+        "side"
+      ],
+      "type": "object"
+    },
     "IndexKey": {
       "additionalProperties": false,
       "properties": {
@@ -1348,6 +1332,72 @@
       },
       "required": [
         "kind"
+      ],
+      "type": "object"
+    },
+    "InputForm": {
+      "additionalProperties": false,
+      "properties": {
+        "comparisons": {
+          "$ref": "#/$defs/Comparisons"
+        },
+        "default_stage": {
+          "enum": [
+            "planned",
+            "refreshed",
+            "recorded"
+          ]
+        },
+        "diagnostics": {
+          "items": {
+            "$ref": "#/$defs/Diagnostic"
+          },
+          "type": "array"
+        },
+        "drift_report": {
+          "$ref": "#/$defs/DriftReport"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "format_version": {
+          "const": "1"
+        },
+        "generator": {
+          "$ref": "#/$defs/Generator"
+        },
+        "kind": {
+          "enum": [
+            "state",
+            "plan"
+          ]
+        },
+        "semantics": {
+          "$ref": "#/$defs/Semantics"
+        },
+        "stages": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Architecture"
+          },
+          "propertyNames": {
+            "enum": [
+              "planned",
+              "refreshed",
+              "recorded"
+            ]
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "default_stage",
+        "diagnostics",
+        "evidence",
+        "format_version",
+        "generator",
+        "kind",
+        "semantics",
+        "stages"
       ],
       "type": "object"
     },
@@ -2034,8 +2084,8 @@
     "Side": {
       "additionalProperties": false,
       "properties": {
-        "document": {
-          "$ref": "#/$defs/Analysis"
+        "form": {
+          "$ref": "#/$defs/InputForm"
         },
         "selected_from": {
           "enum": [
@@ -2053,7 +2103,7 @@
         }
       },
       "required": [
-        "document",
+        "form",
         "selected_from",
         "stage"
       ],
@@ -2105,56 +2155,6 @@
       ],
       "type": "object"
     },
-    "Undetermined": {
-      "additionalProperties": false,
-      "properties": {
-        "closure": {
-          "type": "string"
-        },
-        "emission": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "reasons": {
-          "items": {
-            "enum": [
-              "unknown_until_apply",
-              "sensitive",
-              "ambiguous_unknown",
-              "uncomparable_candidate",
-              "reference_ambiguous",
-              "identity_incomplete",
-              "unavailable",
-              "external_denied",
-              "duplicate_identity",
-              "external_identity_withheld",
-              "interpretation_failed"
-            ]
-          },
-          "type": "array"
-        },
-        "representation": {
-          "type": "string"
-        },
-        "side": {
-          "enum": [
-            "before",
-            "after"
-          ]
-        }
-      },
-      "required": [
-        "closure",
-        "emission",
-        "id",
-        "reasons",
-        "representation",
-        "side"
-      ],
-      "type": "object"
-    },
     "UnresolvedMember": {
       "additionalProperties": false,
       "properties": {
@@ -2182,15 +2182,15 @@
       "type": "object"
     }
   },
-  "$id": "https://rootform.dev/schemas/architecture-ir.schema.json",
+  "$id": "https://rootform.dev/schemas/form.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "oneOf": [
     {
-      "$ref": "#/$defs/Analysis"
+      "$ref": "#/$defs/InputForm"
     },
     {
-      "$ref": "#/$defs/ComparisonDocument"
+      "$ref": "#/$defs/ComparisonForm"
     }
   ],
-  "title": "Rootform Architecture IR, format 1"
+  "title": "Form, format 1"
 }

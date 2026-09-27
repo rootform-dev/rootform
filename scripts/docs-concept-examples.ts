@@ -6,7 +6,7 @@ import { configuration, markedCommand } from "./docs-core-examples.ts";
 type Example = { page: string; marker: string; exit: number; output?: string };
 
 const pages = [
-  "concepts/architecture-ir.md",
+  "concepts/forms.md",
   "concepts/dialects.md",
   "guides/compare-architectures.md",
   "guides/check-architecture.md",

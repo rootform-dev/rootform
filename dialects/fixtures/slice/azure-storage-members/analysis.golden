@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -2242,10 +2242,548 @@
         "dependencies": 12,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_resource_group.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_account.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_account.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_blob.logo",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_blob.logo"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_blob.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_blob.unknown"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_container.literal",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_container.media",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.media"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_data_lake_gen2_filesystem.lake",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_data_lake_gen2_filesystem.lake"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_encryption_scope.customer",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_encryption_scope.customer"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_management_policy.lifecycle",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_management_policy.lifecycle"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_queue.orders",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_queue.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_queue.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_queue.unknown"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_share.exports",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_share.exports"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_table.sessions",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_table.sessions"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_table_entity.session",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_table_entity.session"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.unknown_id",
+          "change": "added",
+          "representation": "representation:1:terraform_data.unknown_id"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_account.platform%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_account.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_storage_account.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:91a6a614eb16cf82c8071716a62770984ddce7f2e98eb249d1da6a99a30f44a0"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_container.media%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_container.media:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_container.media",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_data_lake_gen2_filesystem.lake%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_data_lake_gen2_filesystem.lake:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_data_lake_gen2_filesystem.lake",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:c5183c58b8ab21f4eb5bf5305ddc5d40c4dc47c7600c961ef7b34449bf54cd97"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_queue.orders%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_queue.orders:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_queue.orders",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:bbc5653c425cea0801ab573044295a6125513e0e5e8d3690620eb418c09113db"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_share.exports%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_share.exports:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_share.exports",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:b7cd78856a8805cbde88ef8c3d07c2293be146f86f76dbfeb74309c7cc527526"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_table.sessions%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_table.sessions:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_table.sessions",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:32abff0a3fbac74f777263076b62506ecad23c5ce68c692b1cfa98f44998bfa2"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_storage_blob.logo%3Arepresentation%253A1%253Aazurerm_storage_container.media",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_storage_blob.logo:representation%3A1%3Aazurerm_storage_container.media",
+          "from": "representation:1:azurerm_storage_blob.logo",
+          "to": "representation:1:azurerm_storage_container.media",
+          "emission": "emission:e21085df3ad48ac065aa8042cf81b80680a8ce1ff826d97fc1a1261143b7a718"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_storage_encryption_scope.customer%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_storage_encryption_scope.customer:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_encryption_scope.customer",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:a472e0c4b3fa3f10ff2d704b195c8dfe9bbbac940b657aadc59b3614b3899ee5"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_storage_management_policy.lifecycle%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_storage_management_policy.lifecycle:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_management_policy.lifecycle",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:e26e7826f9667efeaad38ad2318a12ff6573fdc141782caa1b2f65dd57e9d07d"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_storage_table_entity.session%3Arepresentation%253A1%253Aazurerm_storage_table.sessions",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_storage_table_entity.session:representation%3A1%3Aazurerm_storage_table.sessions",
+          "from": "representation:1:azurerm_storage_table_entity.session",
+          "to": "representation:1:azurerm_storage_table.sessions",
+          "emission": "emission:454159c5eec3f0639a5daefecfdbeceaa3f01ada8b50433477c5cf8f22e08be8"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_storage_blob.unknown%3Aemission%253Ae21085df3ad48ac065aa8042cf81b80680a8ce1ff826d97fc1a1261143b7a718:after",
+          "closure": "closure:representation%3A1%3Aazurerm_storage_blob.unknown:emission%3Ae21085df3ad48ac065aa8042cf81b80680a8ce1ff826d97fc1a1261143b7a718",
+          "representation": "representation:1:azurerm_storage_blob.unknown",
+          "emission": "emission:e21085df3ad48ac065aa8042cf81b80680a8ce1ff826d97fc1a1261143b7a718",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_storage_container.literal%3Aemission%253A81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b:after",
+          "closure": "closure:representation%3A1%3Aazurerm_storage_container.literal:emission%3A81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b",
+          "representation": "representation:1:azurerm_storage_container.literal",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_storage_queue.unknown%3Aemission%253Abbc5653c425cea0801ab573044295a6125513e0e5e8d3690620eb418c09113db:after",
+          "closure": "closure:representation%3A1%3Aazurerm_storage_queue.unknown:emission%3Abbc5653c425cea0801ab573044295a6125513e0e5e8d3690620eb418c09113db",
+          "representation": "representation:1:azurerm_storage_queue.unknown",
+          "emission": "emission:bbc5653c425cea0801ab573044295a6125513e0e5e8d3690620eb418c09113db",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 15,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 10,
+        "facts_removed": 0,
+        "indeterminate": 3,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_resource_group.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_account.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_account.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_blob.logo",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_blob.logo"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_blob.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_blob.unknown"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_container.literal",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_container.media",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.media"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_data_lake_gen2_filesystem.lake",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_data_lake_gen2_filesystem.lake"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_encryption_scope.customer",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_encryption_scope.customer"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_management_policy.lifecycle",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_management_policy.lifecycle"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_queue.orders",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_queue.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_queue.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_queue.unknown"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_share.exports",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_share.exports"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_table.sessions",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_table.sessions"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_table_entity.session",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_table_entity.session"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.unknown_id",
+          "change": "added",
+          "representation": "representation:1:terraform_data.unknown_id"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_account.platform%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_account.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_storage_account.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:91a6a614eb16cf82c8071716a62770984ddce7f2e98eb249d1da6a99a30f44a0"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_container.media%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_container.media:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_container.media",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_data_lake_gen2_filesystem.lake%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_data_lake_gen2_filesystem.lake:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_data_lake_gen2_filesystem.lake",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:c5183c58b8ab21f4eb5bf5305ddc5d40c4dc47c7600c961ef7b34449bf54cd97"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_queue.orders%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_queue.orders:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_queue.orders",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:bbc5653c425cea0801ab573044295a6125513e0e5e8d3690620eb418c09113db"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_share.exports%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_share.exports:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_share.exports",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:b7cd78856a8805cbde88ef8c3d07c2293be146f86f76dbfeb74309c7cc527526"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_table.sessions%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_table.sessions:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_table.sessions",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:32abff0a3fbac74f777263076b62506ecad23c5ce68c692b1cfa98f44998bfa2"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_storage_blob.logo%3Arepresentation%253A1%253Aazurerm_storage_container.media",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_storage_blob.logo:representation%3A1%3Aazurerm_storage_container.media",
+          "from": "representation:1:azurerm_storage_blob.logo",
+          "to": "representation:1:azurerm_storage_container.media",
+          "emission": "emission:e21085df3ad48ac065aa8042cf81b80680a8ce1ff826d97fc1a1261143b7a718"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_storage_encryption_scope.customer%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_storage_encryption_scope.customer:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_encryption_scope.customer",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:a472e0c4b3fa3f10ff2d704b195c8dfe9bbbac940b657aadc59b3614b3899ee5"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_storage_management_policy.lifecycle%3Arepresentation%253A1%253Aazurerm_storage_account.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_storage_management_policy.lifecycle:representation%3A1%3Aazurerm_storage_account.platform",
+          "from": "representation:1:azurerm_storage_management_policy.lifecycle",
+          "to": "representation:1:azurerm_storage_account.platform",
+          "emission": "emission:e26e7826f9667efeaad38ad2318a12ff6573fdc141782caa1b2f65dd57e9d07d"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_storage_table_entity.session%3Arepresentation%253A1%253Aazurerm_storage_table.sessions",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_storage_table_entity.session:representation%3A1%3Aazurerm_storage_table.sessions",
+          "from": "representation:1:azurerm_storage_table_entity.session",
+          "to": "representation:1:azurerm_storage_table.sessions",
+          "emission": "emission:454159c5eec3f0639a5daefecfdbeceaa3f01ada8b50433477c5cf8f22e08be8"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_storage_blob.unknown%3Aemission%253Ae21085df3ad48ac065aa8042cf81b80680a8ce1ff826d97fc1a1261143b7a718:after",
+          "closure": "closure:representation%3A1%3Aazurerm_storage_blob.unknown:emission%3Ae21085df3ad48ac065aa8042cf81b80680a8ce1ff826d97fc1a1261143b7a718",
+          "representation": "representation:1:azurerm_storage_blob.unknown",
+          "emission": "emission:e21085df3ad48ac065aa8042cf81b80680a8ce1ff826d97fc1a1261143b7a718",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_storage_container.literal%3Aemission%253A81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b:after",
+          "closure": "closure:representation%3A1%3Aazurerm_storage_container.literal:emission%3A81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b",
+          "representation": "representation:1:azurerm_storage_container.literal",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_storage_queue.unknown%3Aemission%253Abbc5653c425cea0801ab573044295a6125513e0e5e8d3690620eb418c09113db:after",
+          "closure": "closure:representation%3A1%3Aazurerm_storage_queue.unknown:emission%3Abbc5653c425cea0801ab573044295a6125513e0e5e8d3690620eb418c09113db",
+          "representation": "representation:1:azurerm_storage_queue.unknown",
+          "emission": "emission:bbc5653c425cea0801ab573044295a6125513e0e5e8d3690620eb418c09113db",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 15,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 10,
+        "facts_removed": 0,
+        "indeterminate": 3,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

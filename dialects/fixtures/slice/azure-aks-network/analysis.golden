@@ -1510,10 +1510,332 @@
         "dependencies": 7,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_kubernetes_cluster.workloads",
+          "change": "added",
+          "representation": "representation:1:azurerm_kubernetes_cluster.workloads"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_kubernetes_cluster_node_pool.workers",
+          "change": "added",
+          "representation": "representation:1:azurerm_kubernetes_cluster_node_pool.workers"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_resource_group.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_subnet.aks",
+          "change": "added",
+          "representation": "representation:1:azurerm_subnet.aks"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_virtual_network.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network.platform"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_kubernetes_cluster.workloads%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_kubernetes_cluster.workloads",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_subnet.aks%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.aks:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_subnet.aks",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network.platform%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_virtual_network.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_kubernetes_cluster.workloads%3Arepresentation%253A1%253Aazurerm_subnet.aks",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:representation%3A1%3Aazurerm_subnet.aks",
+          "from": "representation:1:azurerm_kubernetes_cluster.workloads",
+          "to": "representation:1:azurerm_subnet.aks",
+          "emission": "emission:c50dca66fef4aabd23fcde710466ac698808dd09460778ad11a2138f5b16dee5"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_kubernetes_cluster_node_pool.workers%3Arepresentation%253A1%253Aazurerm_subnet.aks",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_kubernetes_cluster_node_pool.workers:representation%3A1%3Aazurerm_subnet.aks",
+          "from": "representation:1:azurerm_kubernetes_cluster_node_pool.workers",
+          "to": "representation:1:azurerm_subnet.aks",
+          "emission": "emission:a04541506378ac9c9f9fc252bce55c80edbaa83370d0b425da9705e71e2b0322"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_subnet.aks%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_subnet.aks:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_subnet.aks",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_kubernetes_cluster_node_pool.workers%3Arepresentation%253A1%253Aazurerm_kubernetes_cluster.workloads",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_kubernetes_cluster_node_pool.workers:representation%3A1%3Aazurerm_kubernetes_cluster.workloads",
+          "from": "representation:1:azurerm_kubernetes_cluster_node_pool.workers",
+          "to": "representation:1:azurerm_kubernetes_cluster.workloads",
+          "emission": "emission:b5fbe47f3797fa0bbd72056679360385bd97f44c0f21de725bd0bbf6132a57ef"
+        }
+      ],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 5,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 7,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_kubernetes_cluster.workloads",
+          "change": "added",
+          "representation": "representation:1:azurerm_kubernetes_cluster.workloads"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_kubernetes_cluster_node_pool.workers",
+          "change": "added",
+          "representation": "representation:1:azurerm_kubernetes_cluster_node_pool.workers"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_resource_group.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_subnet.aks",
+          "change": "added",
+          "representation": "representation:1:azurerm_subnet.aks"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_virtual_network.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network.platform"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_kubernetes_cluster.workloads%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_kubernetes_cluster.workloads",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:2d20a141dd405a240124d4e4d599a6af85c06581f3289a1d0aa727a3baebebc9"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_subnet.aks%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.aks:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_subnet.aks",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network.platform%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_virtual_network.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_kubernetes_cluster.workloads%3Arepresentation%253A1%253Aazurerm_subnet.aks",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_kubernetes_cluster.workloads:representation%3A1%3Aazurerm_subnet.aks",
+          "from": "representation:1:azurerm_kubernetes_cluster.workloads",
+          "to": "representation:1:azurerm_subnet.aks",
+          "emission": "emission:c50dca66fef4aabd23fcde710466ac698808dd09460778ad11a2138f5b16dee5"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_kubernetes_cluster_node_pool.workers%3Arepresentation%253A1%253Aazurerm_subnet.aks",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_kubernetes_cluster_node_pool.workers:representation%3A1%3Aazurerm_subnet.aks",
+          "from": "representation:1:azurerm_kubernetes_cluster_node_pool.workers",
+          "to": "representation:1:azurerm_subnet.aks",
+          "emission": "emission:a04541506378ac9c9f9fc252bce55c80edbaa83370d0b425da9705e71e2b0322"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_subnet.aks%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_subnet.aks:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_subnet.aks",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_kubernetes_cluster_node_pool.workers%3Arepresentation%253A1%253Aazurerm_kubernetes_cluster.workloads",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_kubernetes_cluster_node_pool.workers:representation%3A1%3Aazurerm_kubernetes_cluster.workloads",
+          "from": "representation:1:azurerm_kubernetes_cluster_node_pool.workers",
+          "to": "representation:1:azurerm_kubernetes_cluster.workloads",
+          "emission": "emission:b5fbe47f3797fa0bbd72056679360385bd97f44c0f21de725bd0bbf6132a57ef"
+        }
+      ],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 5,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 7,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

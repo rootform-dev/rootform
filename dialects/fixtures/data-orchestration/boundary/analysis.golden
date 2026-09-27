@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -2417,10 +2417,694 @@
         "dependencies": 4,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:external%3A1%3Akestra.concept.namespace%3A0",
+          "change": "added",
+          "representation": "external:1:kestra.concept.namespace:0"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Akestra.concept.namespace%3A1",
+          "change": "added",
+          "representation": "external:1:kestra.concept.namespace:1"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset.analytics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_dataset.duplicate_a",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset.duplicate_a"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_dataset.duplicate_b",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset.duplicate_b"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_dataset.templated",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset.templated"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_table.absent",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.absent"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_table.ambiguous",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_table.dynamic",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.dynamic"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_table.literal",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_table.mismatch",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.mismatch"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_bigquery_table.templated",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.templated"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_storage_bucket.archive",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket.archive"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_binding.literal",
+          "change": "added",
+          "representation": "representation:1:kestra_binding.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_binding.mismatch",
+          "change": "added",
+          "representation": "representation:1:kestra_binding.mismatch"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_flow.absent",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.absent"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_flow.ambiguous",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_flow.dynamic",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.dynamic"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_flow.literal",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_flow.mismatch",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.mismatch"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_flow.nested",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.nested"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_namespace.duplicate_a",
+          "change": "added",
+          "representation": "representation:1:kestra_namespace.duplicate_a"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_namespace.duplicate_b",
+          "change": "added",
+          "representation": "representation:1:kestra_namespace.duplicate_b"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_namespace.platform",
+          "change": "added",
+          "representation": "representation:1:kestra_namespace.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Akestra_role.operator",
+          "change": "added",
+          "representation": "representation:1:kestra_role.operator"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_bigquery_table.literal%3Arepresentation%253A1%253Agoogle_bigquery_dataset.analytics",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_bigquery_table.literal:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "from": "representation:1:google_bigquery_table.literal",
+          "to": "representation:1:google_bigquery_dataset.analytics",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_bigquery_table.templated%3Arepresentation%253A1%253Agoogle_bigquery_dataset.templated",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_bigquery_table.templated:representation%3A1%3Agoogle_bigquery_dataset.templated",
+          "from": "representation:1:google_bigquery_table.templated",
+          "to": "representation:1:google_bigquery_dataset.templated",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e"
+        },
+        {
+          "id": "change:changes:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_flow.absent%3Aexternal%253A1%253Akestra.concept.namespace%253A1",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_flow.absent:external%3A1%3Akestra.concept.namespace%3A1",
+          "from": "representation:1:kestra_flow.absent",
+          "to": "external:1:kestra.concept.namespace:1",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081"
+        },
+        {
+          "id": "change:changes:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_flow.dynamic%3Aexternal%253A1%253Akestra.concept.namespace%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_flow.dynamic:external%3A1%3Akestra.concept.namespace%3A0",
+          "from": "representation:1:kestra_flow.dynamic",
+          "to": "external:1:kestra.concept.namespace:0",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081"
+        },
+        {
+          "id": "change:changes:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_flow.literal%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_flow.literal:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_flow.literal",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081"
+        },
+        {
+          "id": "change:changes:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_flow.nested%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_flow.nested:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_flow.nested",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081"
+        },
+        {
+          "id": "change:changes:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_role.operator%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_role.operator:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_role.operator",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:ada716b7b9acd3b01edc78ae77b2b80b290ba9e9537bd29dc50bf0ce18495ae1"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Agoogle_bigquery_table.absent%3Aemission%253Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e:after",
+          "closure": "closure:representation%3A1%3Agoogle_bigquery_table.absent:emission%3Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "representation": "representation:1:google_bigquery_table.absent",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Agoogle_bigquery_table.ambiguous%3Aemission%253Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e:after",
+          "closure": "closure:representation%3A1%3Agoogle_bigquery_table.ambiguous:emission%3Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "representation": "representation:1:google_bigquery_table.ambiguous",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "side": "after",
+          "reasons": [
+            "duplicate_identity"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Agoogle_bigquery_table.dynamic%3Aemission%253Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e:after",
+          "closure": "closure:representation%3A1%3Agoogle_bigquery_table.dynamic:emission%3Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "representation": "representation:1:google_bigquery_table.dynamic",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Agoogle_bigquery_table.mismatch%3Aemission%253Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e:after",
+          "closure": "closure:representation%3A1%3Agoogle_bigquery_table.mismatch:emission%3Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "representation": "representation:1:google_bigquery_table.mismatch",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Akestra_binding.literal%3Aemission%253Af07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd:after",
+          "closure": "closure:representation%3A1%3Akestra_binding.literal:emission%3Af07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+          "representation": "representation:1:kestra_binding.literal",
+          "emission": "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Akestra_binding.mismatch%3Aemission%253Af07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd:after",
+          "closure": "closure:representation%3A1%3Akestra_binding.mismatch:emission%3Af07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+          "representation": "representation:1:kestra_binding.mismatch",
+          "emission": "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Akestra_flow.ambiguous%3Aemission%253A2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081:after",
+          "closure": "closure:representation%3A1%3Akestra_flow.ambiguous:emission%3A2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+          "representation": "representation:1:kestra_flow.ambiguous",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+          "side": "after",
+          "reasons": [
+            "duplicate_identity"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Akestra_flow.mismatch%3Aemission%253A2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081:after",
+          "closure": "closure:representation%3A1%3Akestra_flow.mismatch:emission%3A2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+          "representation": "representation:1:kestra_flow.mismatch",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 25,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 7,
+        "facts_removed": 0,
+        "indeterminate": 8,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:external%3A1%3Akestra.concept.namespace%3A0",
+          "change": "added",
+          "representation": "external:1:kestra.concept.namespace:0"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Akestra.concept.namespace%3A1",
+          "change": "added",
+          "representation": "external:1:kestra.concept.namespace:1"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset.analytics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_dataset.duplicate_a",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset.duplicate_a"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_dataset.duplicate_b",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset.duplicate_b"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_dataset.templated",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_dataset.templated"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_table.absent",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.absent"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_table.ambiguous",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_table.dynamic",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.dynamic"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_table.literal",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_table.mismatch",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.mismatch"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_bigquery_table.templated",
+          "change": "added",
+          "representation": "representation:1:google_bigquery_table.templated"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_storage_bucket.archive",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket.archive"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_binding.literal",
+          "change": "added",
+          "representation": "representation:1:kestra_binding.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_binding.mismatch",
+          "change": "added",
+          "representation": "representation:1:kestra_binding.mismatch"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_flow.absent",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.absent"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_flow.ambiguous",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_flow.dynamic",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.dynamic"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_flow.literal",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_flow.mismatch",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.mismatch"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_flow.nested",
+          "change": "added",
+          "representation": "representation:1:kestra_flow.nested"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_namespace.duplicate_a",
+          "change": "added",
+          "representation": "representation:1:kestra_namespace.duplicate_a"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_namespace.duplicate_b",
+          "change": "added",
+          "representation": "representation:1:kestra_namespace.duplicate_b"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_namespace.platform",
+          "change": "added",
+          "representation": "representation:1:kestra_namespace.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Akestra_role.operator",
+          "change": "added",
+          "representation": "representation:1:kestra_role.operator"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_bigquery_table.literal%3Arepresentation%253A1%253Agoogle_bigquery_dataset.analytics",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_bigquery_table.literal:representation%3A1%3Agoogle_bigquery_dataset.analytics",
+          "from": "representation:1:google_bigquery_table.literal",
+          "to": "representation:1:google_bigquery_dataset.analytics",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_bigquery_table.templated%3Arepresentation%253A1%253Agoogle_bigquery_dataset.templated",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_bigquery_table.templated:representation%3A1%3Agoogle_bigquery_dataset.templated",
+          "from": "representation:1:google_bigquery_table.templated",
+          "to": "representation:1:google_bigquery_dataset.templated",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e"
+        },
+        {
+          "id": "change:net:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_flow.absent%3Aexternal%253A1%253Akestra.concept.namespace%253A1",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_flow.absent:external%3A1%3Akestra.concept.namespace%3A1",
+          "from": "representation:1:kestra_flow.absent",
+          "to": "external:1:kestra.concept.namespace:1",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081"
+        },
+        {
+          "id": "change:net:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_flow.dynamic%3Aexternal%253A1%253Akestra.concept.namespace%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_flow.dynamic:external%3A1%3Akestra.concept.namespace%3A0",
+          "from": "representation:1:kestra_flow.dynamic",
+          "to": "external:1:kestra.concept.namespace:0",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081"
+        },
+        {
+          "id": "change:net:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_flow.literal%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_flow.literal:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_flow.literal",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081"
+        },
+        {
+          "id": "change:net:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_flow.nested%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_flow.nested:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_flow.nested",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081"
+        },
+        {
+          "id": "change:net:added:context%3Akestra.context.ownership%3Arepresentation%253A1%253Akestra_role.operator%3Arepresentation%253A1%253Akestra_namespace.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:kestra.context.ownership:representation%3A1%3Akestra_role.operator:representation%3A1%3Akestra_namespace.platform",
+          "from": "representation:1:kestra_role.operator",
+          "to": "representation:1:kestra_namespace.platform",
+          "emission": "emission:ada716b7b9acd3b01edc78ae77b2b80b290ba9e9537bd29dc50bf0ce18495ae1"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Agoogle_bigquery_table.absent%3Aemission%253Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e:after",
+          "closure": "closure:representation%3A1%3Agoogle_bigquery_table.absent:emission%3Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "representation": "representation:1:google_bigquery_table.absent",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Agoogle_bigquery_table.ambiguous%3Aemission%253Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e:after",
+          "closure": "closure:representation%3A1%3Agoogle_bigquery_table.ambiguous:emission%3Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "representation": "representation:1:google_bigquery_table.ambiguous",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "side": "after",
+          "reasons": [
+            "duplicate_identity"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Agoogle_bigquery_table.dynamic%3Aemission%253Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e:after",
+          "closure": "closure:representation%3A1%3Agoogle_bigquery_table.dynamic:emission%3Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "representation": "representation:1:google_bigquery_table.dynamic",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Agoogle_bigquery_table.mismatch%3Aemission%253Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e:after",
+          "closure": "closure:representation%3A1%3Agoogle_bigquery_table.mismatch:emission%3Ad4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "representation": "representation:1:google_bigquery_table.mismatch",
+          "emission": "emission:d4d436ce445bfd1363e688af5534271ee86eb3782104686fe24c7b4523ae706e",
+          "side": "after",
+          "reasons": [
+            "external_denied"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Akestra_binding.literal%3Aemission%253Af07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd:after",
+          "closure": "closure:representation%3A1%3Akestra_binding.literal:emission%3Af07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+          "representation": "representation:1:kestra_binding.literal",
+          "emission": "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Akestra_binding.mismatch%3Aemission%253Af07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd:after",
+          "closure": "closure:representation%3A1%3Akestra_binding.mismatch:emission%3Af07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+          "representation": "representation:1:kestra_binding.mismatch",
+          "emission": "emission:f07919dce598e317c737882579980a689bcce3833236f12afad43bd86efbaddd",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Akestra_flow.ambiguous%3Aemission%253A2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081:after",
+          "closure": "closure:representation%3A1%3Akestra_flow.ambiguous:emission%3A2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+          "representation": "representation:1:kestra_flow.ambiguous",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+          "side": "after",
+          "reasons": [
+            "duplicate_identity"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Akestra_flow.mismatch%3Aemission%253A2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081:after",
+          "closure": "closure:representation%3A1%3Akestra_flow.mismatch:emission%3A2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+          "representation": "representation:1:kestra_flow.mismatch",
+          "emission": "emission:2f0683f93c5d36d4b978fff1a36a45b9b30efce90f3a0d6722b0f95e369b2081",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 25,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 7,
+        "facts_removed": 0,
+        "indeterminate": 8,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

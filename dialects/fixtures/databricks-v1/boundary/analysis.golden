@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -2342,10 +2342,562 @@
         "dependencies": 12,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_iam_role.first",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.first"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_iam_role.second",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.second"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_s3_bucket.first",
+          "change": "added",
+          "representation": "representation:1:aws_s3_bucket.first"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_s3_bucket.second",
+          "change": "added",
+          "representation": "representation:1:aws_s3_bucket.second"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.first"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.second"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.databricks_cluster.lookup",
+          "change": "added",
+          "representation": "representation:1:data.databricks_cluster.lookup"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adatabricks_external_location.ambiguous",
+          "change": "added",
+          "representation": "representation:1:databricks_external_location.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adatabricks_external_location.literal",
+          "change": "added",
+          "representation": "representation:1:databricks_external_location.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adatabricks_mws_networks.ambiguous",
+          "change": "added",
+          "representation": "representation:1:databricks_mws_networks.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adatabricks_mws_networks.literal",
+          "change": "added",
+          "representation": "representation:1:databricks_mws_networks.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adatabricks_notebook.operational",
+          "change": "added",
+          "representation": "representation:1:databricks_notebook.operational"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adatabricks_secret.boundary",
+          "change": "added",
+          "representation": "representation:1:databricks_secret.boundary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adatabricks_secret_scope.boundary",
+          "change": "added",
+          "representation": "representation:1:databricks_secret_scope.boundary"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adatabricks_storage_credential.ambiguous",
+          "change": "added",
+          "representation": "representation:1:databricks_storage_credential.ambiguous"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adatabricks_storage_credential.literal",
+          "change": "added",
+          "representation": "representation:1:databricks_storage_credential.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adatabricks_token.credential",
+          "change": "added",
+          "representation": "representation:1:databricks_token.credential"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adatabricks_user.human",
+          "change": "added",
+          "representation": "representation:1:databricks_user.human"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Adatabricks_secret.boundary%3Arepresentation%253A1%253Adatabricks_secret_scope.boundary",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adatabricks_secret.boundary:representation%3A1%3Adatabricks_secret_scope.boundary",
+          "from": "representation:1:databricks_secret.boundary",
+          "to": "representation:1:databricks_secret_scope.boundary",
+          "emission": "emission:57070ad2423761dd6ac5fdff057e006e80f72afb1c19cc5451770c3a9316d751"
+        },
+        {
+          "id": "change:changes:added:relation%3Adatabricks.relation.uses-credential%3Arepresentation%253A1%253Adatabricks_external_location.ambiguous%3Arepresentation%253A1%253Adatabricks_storage_credential.ambiguous",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:databricks.relation.uses-credential:representation%3A1%3Adatabricks_external_location.ambiguous:representation%3A1%3Adatabricks_storage_credential.ambiguous",
+          "from": "representation:1:databricks_external_location.ambiguous",
+          "to": "representation:1:databricks_storage_credential.ambiguous",
+          "emission": "emission:d5a7046f033f6094757c8cc1b100470760d2ecb54be5b7dea022fd013ba77b7a"
+        },
+        {
+          "id": "change:changes:added:relation%3Adatabricks.relation.uses-credential%3Arepresentation%253A1%253Adatabricks_external_location.literal%3Arepresentation%253A1%253Adatabricks_storage_credential.literal",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:databricks.relation.uses-credential:representation%3A1%3Adatabricks_external_location.literal:representation%3A1%3Adatabricks_storage_credential.literal",
+          "from": "representation:1:databricks_external_location.literal",
+          "to": "representation:1:databricks_storage_credential.literal",
+          "emission": "emission:d5a7046f033f6094757c8cc1b100470760d2ecb54be5b7dea022fd013ba77b7a"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adatabricks_external_location.ambiguous%3Aemission%253A213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39:after",
+          "closure": "closure:representation%3A1%3Adatabricks_external_location.ambiguous:emission%3A213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39",
+          "representation": "representation:1:databricks_external_location.ambiguous",
+          "emission": "emission:213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adatabricks_external_location.ambiguous%3Aemission%253A62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788:after",
+          "closure": "closure:representation%3A1%3Adatabricks_external_location.ambiguous:emission%3A62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788",
+          "representation": "representation:1:databricks_external_location.ambiguous",
+          "emission": "emission:62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adatabricks_external_location.literal%3Aemission%253A213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39:after",
+          "closure": "closure:representation%3A1%3Adatabricks_external_location.literal:emission%3A213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39",
+          "representation": "representation:1:databricks_external_location.literal",
+          "emission": "emission:213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adatabricks_external_location.literal%3Aemission%253A62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788:after",
+          "closure": "closure:representation%3A1%3Adatabricks_external_location.literal:emission%3A62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788",
+          "representation": "representation:1:databricks_external_location.literal",
+          "emission": "emission:62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788",
+          "side": "after",
+          "reasons": [
+            "identity_incomplete"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adatabricks_mws_networks.ambiguous%3Aemission%253A4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1:after",
+          "closure": "closure:representation%3A1%3Adatabricks_mws_networks.ambiguous:emission%3A4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1",
+          "representation": "representation:1:databricks_mws_networks.ambiguous",
+          "emission": "emission:4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adatabricks_mws_networks.literal%3Aemission%253A4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1:after",
+          "closure": "closure:representation%3A1%3Adatabricks_mws_networks.literal:emission%3A4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1",
+          "representation": "representation:1:databricks_mws_networks.literal",
+          "emission": "emission:4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1",
+          "side": "after",
+          "reasons": [
+            "identity_incomplete"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adatabricks_storage_credential.ambiguous%3Aemission%253A497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628:after",
+          "closure": "closure:representation%3A1%3Adatabricks_storage_credential.ambiguous:emission%3A497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628",
+          "representation": "representation:1:databricks_storage_credential.ambiguous",
+          "emission": "emission:497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Adatabricks_storage_credential.literal%3Aemission%253A497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628:after",
+          "closure": "closure:representation%3A1%3Adatabricks_storage_credential.literal:emission%3A497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628",
+          "representation": "representation:1:databricks_storage_credential.literal",
+          "emission": "emission:497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 19,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 3,
+        "facts_removed": 0,
+        "indeterminate": 8,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_iam_role.first",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.first"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_iam_role.second",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.second"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_s3_bucket.first",
+          "change": "added",
+          "representation": "representation:1:aws_s3_bucket.first"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_s3_bucket.second",
+          "change": "added",
+          "representation": "representation:1:aws_s3_bucket.second"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc.first",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.first"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc.second",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.second"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.databricks_cluster.lookup",
+          "change": "added",
+          "representation": "representation:1:data.databricks_cluster.lookup"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adatabricks_external_location.ambiguous",
+          "change": "added",
+          "representation": "representation:1:databricks_external_location.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adatabricks_external_location.literal",
+          "change": "added",
+          "representation": "representation:1:databricks_external_location.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adatabricks_mws_networks.ambiguous",
+          "change": "added",
+          "representation": "representation:1:databricks_mws_networks.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adatabricks_mws_networks.literal",
+          "change": "added",
+          "representation": "representation:1:databricks_mws_networks.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adatabricks_notebook.operational",
+          "change": "added",
+          "representation": "representation:1:databricks_notebook.operational"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adatabricks_secret.boundary",
+          "change": "added",
+          "representation": "representation:1:databricks_secret.boundary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adatabricks_secret_scope.boundary",
+          "change": "added",
+          "representation": "representation:1:databricks_secret_scope.boundary"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adatabricks_storage_credential.ambiguous",
+          "change": "added",
+          "representation": "representation:1:databricks_storage_credential.ambiguous"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adatabricks_storage_credential.literal",
+          "change": "added",
+          "representation": "representation:1:databricks_storage_credential.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adatabricks_token.credential",
+          "change": "added",
+          "representation": "representation:1:databricks_token.credential"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adatabricks_user.human",
+          "change": "added",
+          "representation": "representation:1:databricks_user.human"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Adatabricks_secret.boundary%3Arepresentation%253A1%253Adatabricks_secret_scope.boundary",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Adatabricks_secret.boundary:representation%3A1%3Adatabricks_secret_scope.boundary",
+          "from": "representation:1:databricks_secret.boundary",
+          "to": "representation:1:databricks_secret_scope.boundary",
+          "emission": "emission:57070ad2423761dd6ac5fdff057e006e80f72afb1c19cc5451770c3a9316d751"
+        },
+        {
+          "id": "change:net:added:relation%3Adatabricks.relation.uses-credential%3Arepresentation%253A1%253Adatabricks_external_location.ambiguous%3Arepresentation%253A1%253Adatabricks_storage_credential.ambiguous",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:databricks.relation.uses-credential:representation%3A1%3Adatabricks_external_location.ambiguous:representation%3A1%3Adatabricks_storage_credential.ambiguous",
+          "from": "representation:1:databricks_external_location.ambiguous",
+          "to": "representation:1:databricks_storage_credential.ambiguous",
+          "emission": "emission:d5a7046f033f6094757c8cc1b100470760d2ecb54be5b7dea022fd013ba77b7a"
+        },
+        {
+          "id": "change:net:added:relation%3Adatabricks.relation.uses-credential%3Arepresentation%253A1%253Adatabricks_external_location.literal%3Arepresentation%253A1%253Adatabricks_storage_credential.literal",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:databricks.relation.uses-credential:representation%3A1%3Adatabricks_external_location.literal:representation%3A1%3Adatabricks_storage_credential.literal",
+          "from": "representation:1:databricks_external_location.literal",
+          "to": "representation:1:databricks_storage_credential.literal",
+          "emission": "emission:d5a7046f033f6094757c8cc1b100470760d2ecb54be5b7dea022fd013ba77b7a"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adatabricks_external_location.ambiguous%3Aemission%253A213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39:after",
+          "closure": "closure:representation%3A1%3Adatabricks_external_location.ambiguous:emission%3A213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39",
+          "representation": "representation:1:databricks_external_location.ambiguous",
+          "emission": "emission:213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adatabricks_external_location.ambiguous%3Aemission%253A62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788:after",
+          "closure": "closure:representation%3A1%3Adatabricks_external_location.ambiguous:emission%3A62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788",
+          "representation": "representation:1:databricks_external_location.ambiguous",
+          "emission": "emission:62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adatabricks_external_location.literal%3Aemission%253A213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39:after",
+          "closure": "closure:representation%3A1%3Adatabricks_external_location.literal:emission%3A213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39",
+          "representation": "representation:1:databricks_external_location.literal",
+          "emission": "emission:213c7108a4f9beefb0382bfc13a9f6aaff84fa58ec4a1362590a5f56155cee39",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adatabricks_external_location.literal%3Aemission%253A62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788:after",
+          "closure": "closure:representation%3A1%3Adatabricks_external_location.literal:emission%3A62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788",
+          "representation": "representation:1:databricks_external_location.literal",
+          "emission": "emission:62b33c1decdf917e7a7cfd63741e105a6a6a2ed145ddb26c8c8a2d8f9871f788",
+          "side": "after",
+          "reasons": [
+            "identity_incomplete"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adatabricks_mws_networks.ambiguous%3Aemission%253A4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1:after",
+          "closure": "closure:representation%3A1%3Adatabricks_mws_networks.ambiguous:emission%3A4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1",
+          "representation": "representation:1:databricks_mws_networks.ambiguous",
+          "emission": "emission:4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adatabricks_mws_networks.literal%3Aemission%253A4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1:after",
+          "closure": "closure:representation%3A1%3Adatabricks_mws_networks.literal:emission%3A4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1",
+          "representation": "representation:1:databricks_mws_networks.literal",
+          "emission": "emission:4d995f24136e362de41e8cb7a3f57a58852ceeba4787f8cc1984a6a1723307f1",
+          "side": "after",
+          "reasons": [
+            "identity_incomplete"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adatabricks_storage_credential.ambiguous%3Aemission%253A497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628:after",
+          "closure": "closure:representation%3A1%3Adatabricks_storage_credential.ambiguous:emission%3A497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628",
+          "representation": "representation:1:databricks_storage_credential.ambiguous",
+          "emission": "emission:497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Adatabricks_storage_credential.literal%3Aemission%253A497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628:after",
+          "closure": "closure:representation%3A1%3Adatabricks_storage_credential.literal:emission%3A497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628",
+          "representation": "representation:1:databricks_storage_credential.literal",
+          "emission": "emission:497242af631af6c5b62c0e127b4151f4fcabe2f5151c42cdd39370385bb60628",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 19,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 3,
+        "facts_removed": 0,
+        "indeterminate": 8,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"

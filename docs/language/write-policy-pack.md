@@ -67,11 +67,11 @@ These fences match public baseline source exactly.
 ## Name and version pack
 
 `policy_pack "baseline"` establishes source identity. Policy IDs use
-owner-first form, for example `baseline.policy.cluster-network-context`.
+owner-first syntax, for example `baseline.policy.cluster-network-context`.
 Names use lowercase kebab case. Version is exact `MAJOR.MINOR.PATCH`.
 
 No `requires` block exists. Policies use qualified references only. Linking
-resolves each referenced owner and symbol against the Rootform document, then
+resolves each referenced owner and symbol against the Form, then
 records exact versions and digests in the compiled Pack.
 
 ## Define target
@@ -116,7 +116,7 @@ rootform show policy baseline.policy.cluster-network-context \
 ```ansi title="Passing result, excerpt"
 [2mPolicies[0m      passed
 
-[1m[38;5;208mPolicies · planned[0m
+[1m[38;5;208mPolicies · Planned stage[0m
   [2mResult[0m     passed
   [2mEvaluated[0m  2 policies over 2 targets: 2 passed, 0 violated, 0 indeterminate
 ```
@@ -128,7 +128,7 @@ target and assertion without evaluating it. If a context is indeterminate,
 inspect the instance closure and confirm that the saved plan matches the JSON.
 The local override lasts one command and leaves `rootform.lock` unchanged.
 
-| `Policies · planned` result | Status | What to do |
+| `Policies · Planned` result | Status | What to do |
 | --- | --- | --- |
 | `Result     passed` | `0` | All evaluated targets passed. Confirm the target count is greater than zero. |
 | `Result     violated` | `1` | Read the named target and Policy message, then explain that Policy. |
@@ -138,7 +138,7 @@ The local override lasts one command and leaves `rootform.lock` unchanged.
 These are distinct Policy outcomes. The [check walkthrough](../guides/check-architecture.md)
 shows violations, indeterminate closures, and no-target results on small plans.
 
-Save the linked Pack against the Rootform document when replay must use that
+Save the linked Pack against the Form when replay must use that
 exact semantic selection. `analysis.json` came from the preceding run:
 
 <!-- docs-check:docs-language-write-policy-pack-2 -->
@@ -149,7 +149,7 @@ rootform run analysis.json --policy-pack baseline.compiled.json --no-serve --col
 ```
 
 The compile command prints the Pack, semantic-pin count and destination. The
-second run loads the Rootform document without recompiling the plan and again
+second run loads the Form without recompiling the plan and again
 reports two passes, status `0`. The compiled artifact records the authored
 content digest, linked digest, language version, and exact semantic identities.
 A mismatch fails closed. When the project should retain the source Pack, use

@@ -3,7 +3,7 @@ title: "Test and validate"
 description: "Format and compile Dialect source, replay plan fixtures, and evaluate a Policy Pack."
 ---
 
-Use a small plan fixture to prove what a Dialect actually says about instances. Source validation checks language contracts; `rootform test` compares produced Rootform documents with reviewed `analysis.golden` files. A passing compile alone cannot prove that a provider attribute has the architectural meaning you intended.
+Use a small plan fixture to prove what a Dialect actually says about instances. Source validation checks language contracts; `rootform test` compares produced Forms with reviewed `analysis.golden` files. A passing compile alone cannot prove that a provider attribute has the architectural meaning you intended.
 
 The example below follows a local `network-review` Dialect that interprets one `random_pet` instance. Start in a project containing this source and a plan fixture. The full source and plan setup appear in [Write a local Dialect](../guides/local-dialect.md). The layout at the point of testing is:
 
@@ -81,7 +81,7 @@ rootform test ./fixtures --dialect ./dialects/network-review --color always
 1 case
 ```
 
-Exit `0` means every selected fixture matched its golden. `--run network` narrows by case-name substring while iterating. Exit `1` means a difference or fixture error; inspect the source address, interpretation, facts, closures, diagnostics, and sensitive-value bounds before updating the golden. Exit `3` means the run could not start or no fixture matched. A golden is a Rootform document, not a Terraform plan or state export.
+Exit `0` means every selected fixture matched its golden. `--run network` narrows by case-name substring while iterating. Exit `1` means a difference or fixture error; inspect the source address, interpretation, facts, closures, diagnostics, and sensitive-value bounds before updating the golden. Exit `3` means the run could not start or no fixture matched. A golden is a Form, not a Terraform plan or state export.
 
 ## Inspect the plan result
 
@@ -99,7 +99,7 @@ rootform run ./plan.json --plan-file ./plan.tfplan \
 [2mInput[0m         plan JSON from Terraform or OpenTofu 1.16.4
 [2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
 
-[1m[38;5;208mArchitecture · planned[0m
+[1m[38;5;208mPlanned architecture[0m
   [2mInstances[0m    1 (1 managed, 0 data)
   [2mInterpreted[0m  1 of 1 instances
   [2mFacts[0m        0: 0 relations, 0 contexts, 0 contributions
@@ -110,7 +110,7 @@ The one instance has an applied Rule. This Rule classifies it and emits nothing,
 
 ## Evaluate policies over known facts
 
-The fixture proves interpretation, not compliance. Follow [Evaluate locally](write-policy-pack.md#evaluate-locally) to select a Policy Pack against known facts and inspect a passing and failing decision. A passing exit requires at least one selected evaluation. A confirmed violation exits `1`; indeterminate evidence or zero targets exits `3`. Do not edit a generated Rootform document to make a policy pass.
+The fixture proves interpretation, not compliance. Follow [Evaluate locally](write-policy-pack.md#evaluate-locally) to select a Policy Pack against known facts and inspect a passing and failing decision. A passing exit requires at least one selected evaluation. A confirmed violation exits `1`; indeterminate evidence or zero targets exits `3`. Do not edit a generated Form to make a policy pass.
 
 | Case | Expected result to assert |
 | --- | --- |

@@ -7,7 +7,7 @@ A Policy Pack is a named, versioned collection of portable Policies. It defines
 governance, not architecture semantics. It contributes no Concepts, Contexts,
 Relations, or Rules.
 
-Policy source evaluates facts of a Rootform document. It never reads raw
+Policy source evaluates facts of a Form. It never reads raw
 Terraform or OpenTofu values directly.
 
 ## Complete example
@@ -76,7 +76,7 @@ create sub-packs or namespaces.
 
 Message is attached to each confirmed violation. It is not a Policy assertion
 or runtime template and cannot interpolate target data. Native syntax still
-accepts the constant string-expression forms described under
+accepts the constant string-expression variants described under
 [Expressions](expressions.md#static-string-expressions).
 
 ## `target` block
@@ -162,7 +162,7 @@ assert = (
 
 Accepted result types:
 
-| Form | Type |
+| Expression | Type |
 | --- | --- |
 | `true`, `false` | Boolean |
 | `exists(query)` | Boolean |
@@ -180,9 +180,9 @@ Bare queries, traversals, strings, and arbitrary calls are invalid. See
 
 Policy Pack source stores qualified references but no semantic versions or
 digests. Before evaluation, Rootform links source against one validated
-Rootform document's semantic snapshot:
+Form's semantics:
 
-Save a Rootform document from plan JSON first. The saved plan verifies the
+Save a Form from plan JSON first. The saved plan verifies the
 export and supplies reference traversals; the Policy Pack then links against
 the semantics recorded in that document. Run these commands from the Rootform
 repository with the displayed Pack saved at `policy-reference/pack.rf.hcl`:
@@ -201,12 +201,12 @@ rootform compile policy-pack ./policy-reference \
 Policy Pack compiled
 
 Policy Pack    network-baseline@0.1.0
-Document       analysis.json
+Form           analysis.json
 Semantic pins  2
 Destination    network-baseline.json
 ```
 
-The first command writes `analysis.json`, a Rootform document. The second
+The first command writes `analysis.json`, a Form. The second
 prints the Pack identity, semantic-pin count, and output path. Exit 0 means
 linking succeeded; an unknown reference or incompatible semantic identity
 fails instead. Keep the plan inputs and document internal: outputs omit
@@ -221,7 +221,7 @@ Linking:
 4. writes deterministic compiled Policy Pack JSON.
 
 A compiled pack can be evaluated offline without the Dialect sources that
-produced the document. Its pins must exactly match the Rootform document. Mismatch produces
+produced the document. Its pins must exactly match the Form. Mismatch produces
 `POLICY_SEMANTICS_MISMATCH`; Rootform never relinks silently.
 
 Unrelated semantic owners are not pinned.
@@ -235,7 +235,7 @@ A valid Policy may select zero representations in one architecture. It is then
 `not_evaluated`, not passed. A selected Policy without targets prevents an
 overall compliant result.
 
-## Rejected forms
+## Rejected syntax
 
 This Policy has only an owner filter:
 

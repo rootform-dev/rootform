@@ -54,7 +54,7 @@ type Architecture = {
   closures: Closure[];
 };
 
-type Analysis = {
+type SavedForm = {
   default_stage: string;
   stages: Record<string, Architecture | undefined>;
   semantics: { emissions: Emission[] };
@@ -75,21 +75,21 @@ function golden(name: string): string {
   return join(root, "fixtures/slice", name, "analysis.golden");
 }
 
-function analysis(name: string): Analysis {
-  return JSON.parse(readFileSync(golden(name), "utf8")) as Analysis;
+function analysis(name: string): SavedForm {
+  return JSON.parse(readFileSync(golden(name), "utf8")) as SavedForm;
 }
 
-function stage(doc: Analysis): Architecture {
+function stage(doc: SavedForm): Architecture {
   const selected = doc.stages[doc.default_stage];
-  if (!selected) throw new Error(`the analysis has no ${doc.default_stage} stage`);
+  if (!selected) throw new Error(`the Form has no ${doc.default_stage} stage`);
   return selected;
 }
 
-function representation(doc: Analysis, address: string): Representation | undefined {
+function representation(doc: SavedForm, address: string): Representation | undefined {
   return stage(doc).representations.find((entry) => entry.address === address);
 }
 
-function factsFrom(doc: Analysis, address: string): Fact[] {
+function factsFrom(doc: SavedForm, address: string): Fact[] {
   const from = representation(doc, address)?.id;
   const architecture = stage(doc);
   return [
@@ -99,7 +99,7 @@ function factsFrom(doc: Analysis, address: string): Fact[] {
   ].filter((fact) => fact.from === from);
 }
 
-function closure(doc: Analysis, address: string, emission: string): Closure | undefined {
+function closure(doc: SavedForm, address: string, emission: string): Closure | undefined {
   const from = representation(doc, address)?.id;
   return stage(doc).closures.find(
     (entry) => entry.representation === from && entry.emission === emission,
@@ -108,7 +108,7 @@ function closure(doc: Analysis, address: string, emission: string): Closure | un
 
 // A fact is backed by a closure that resolved to it and by an emission of the
 // rule its provenance names.
-function expectBacked(doc: Analysis, fact: Fact | undefined, rule: string): void {
+function expectBacked(doc: SavedForm, fact: Fact | undefined, rule: string): void {
   expect(fact).toBeDefined();
   const provenance = fact?.provenance[0];
   expect(provenance?.rule).toBe(rule);

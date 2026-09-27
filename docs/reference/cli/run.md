@@ -1,20 +1,20 @@
 ---
 title: "rootform run"
-description: "Analyze a plan or state, reopen a saved document, or compare two inputs."
+description: "Analyze a plan or state, reopen a saved Form, or compare two inputs."
 ---
 
-`run` analyzes one plan or state export, opens a saved Rootform document, or
+`run` compiles one plan or state export into a Form, opens a saved Form, or
 compares two accepted inputs. It detects their kind from content. A plan or
-state export is analyzed with the active Dialects; a saved document is
+state export is analyzed with the active Dialects; a saved Form is
 validated and loaded without reinterpretation.
 
 ## Accepted inputs
 
-| Input | Analysis |
+| Input | Form |
 | --- | --- |
 | Plan JSON from `show -json` on a saved plan | Planned stage, available earlier stages, drift and internal comparisons |
-| State JSON from `show -json` | One recorded snapshot |
-| Saved Rootform document | Its saved stages, facts, closures, and evidence |
+| State JSON from `show -json` | One Recorded stage |
+| Saved Form | Its saved stages, facts, closures, and evidence |
 | `-` | One of those JSON forms on standard input |
 
 `--diff <input>` compares the first input with a second one. At most one
@@ -69,14 +69,14 @@ rootform run <input> [--diff <input>] [flags]
 
 ## Examples
 
-Analyze one plan, then save its reusable document:
+Analyze one plan, then save its Form:
 
 <!-- docs-check:journey-run-save -->
 ```sh
-rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -o architecture.json
+rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -o analysis.json
 ```
 
-The summary goes to standard output, and `Wrote architecture.json` to
+The summary goes to standard output, and `Wrote analysis.json` to
 standard error. The status is `0`; a saved plan that fails verification
 exits `3` because of `--require-enrichment`.
 [Your first architecture](../../getting-started/first-architecture.md) reads

@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "version": "0.1.0",
-      "manifest_digest": "sha256:8e7f69c2eb01ff4751088dc311bb4ef20d547ae49d910bcead9e60bc087fd6a8",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
       "units": [
         {
           "owner": "auth0",
@@ -59,8 +59,8 @@
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-          "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5"
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
           "owner": "cloudflare",
@@ -256,8 +256,8 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:d56fb089b939e87fa711e3e191a2ef52f0db696d411c0fcbc1bc5966ca39735e",
-        "semantic_digest": "sha256:69c823f838d4e62d626f357478e11e0ab506ad392aae7ceec8fb1776b9af84e5",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
             "source": "azure/azapi",
@@ -12811,10 +12811,2902 @@
         "dependencies": 140,
         "deposed": 0
       }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
     }
   },
   "default_stage": "planned",
-  "comparisons": {},
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:external%3A1%3Aazure.concept.key-vault%3A0",
+          "change": "added",
+          "representation": "external:1:azure.concept.key-vault:0"
+        },
+        {
+          "id": "change:changes:added:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "change": "added",
+          "representation": "external:1:google.concept.google-cloud-project:0"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_ec2_transit_gateway.platform",
+          "change": "added",
+          "representation": "representation:1:aws_ec2_transit_gateway.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_iam_role.confluent",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.confluent"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_kms_key.streaming",
+          "change": "added",
+          "representation": "representation:1:aws_kms_key.streaming"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_s3_bucket.tableflow",
+          "change": "added",
+          "representation": "representation:1:aws_s3_bucket.tableflow"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc.platform",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aaws_vpc_endpoint.confluent",
+          "change": "added",
+          "representation": "representation:1:aws_vpc_endpoint.confluent"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_key_vault_key.streaming",
+          "change": "added",
+          "representation": "representation:1:azurerm_key_vault_key.streaming"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_private_endpoint.confluent",
+          "change": "added",
+          "representation": "representation:1:azurerm_private_endpoint.confluent"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_resource_group.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_account.tableflow",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_account.tableflow"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_storage_container.tableflow",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.tableflow"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_subnet.private",
+          "change": "added",
+          "representation": "representation:1:azurerm_subnet.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_virtual_network.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_access_point.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_access_point.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_access_point.azure",
+          "change": "added",
+          "representation": "representation:1:confluent_access_point.azure"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_access_point.google",
+          "change": "added",
+          "representation": "representation:1:confluent_access_point.google"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_business_metadata.owner",
+          "change": "added",
+          "representation": "representation:1:confluent_business_metadata.owner"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_business_metadata_binding.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_business_metadata_binding.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_byok_key.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_byok_key.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_byok_key.azure",
+          "change": "added",
+          "representation": "representation:1:confluent_byok_key.azure"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_byok_key.google",
+          "change": "added",
+          "representation": "representation:1:confluent_byok_key.google"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_catalog_entity_attributes.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_catalog_entity_attributes.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_catalog_integration.glue",
+          "change": "added",
+          "representation": "representation:1:confluent_catalog_integration.glue"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_certificate_authority.clients",
+          "change": "added",
+          "representation": "representation:1:confluent_certificate_authority.clients"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_certificate_pool.clients",
+          "change": "added",
+          "representation": "representation:1:confluent_certificate_pool.clients"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_cluster_link.replication",
+          "change": "added",
+          "representation": "representation:1:confluent_cluster_link.replication"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_connect_artifact.connector",
+          "change": "added",
+          "representation": "representation:1:confluent_connect_artifact.connector"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_connector.warehouse",
+          "change": "added",
+          "representation": "representation:1:confluent_connector.warehouse"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_custom_connector_plugin.connector",
+          "change": "added",
+          "representation": "representation:1:confluent_custom_connector_plugin.connector"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_custom_connector_plugin_version.connector",
+          "change": "added",
+          "representation": "representation:1:confluent_custom_connector_plugin_version.connector"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_dns_forwarder.private",
+          "change": "added",
+          "representation": "representation:1:confluent_dns_forwarder.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_dns_record.private",
+          "change": "added",
+          "representation": "representation:1:confluent_dns_record.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_environment.destination",
+          "change": "added",
+          "representation": "representation:1:confluent_environment.destination"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_environment.source",
+          "change": "added",
+          "representation": "representation:1:confluent_environment.source"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_flink_artifact.analytics",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_artifact.analytics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_flink_compute_pool.analytics",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_compute_pool.analytics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_flink_compute_pool_config.defaults",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_compute_pool_config.defaults"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_flink_connection.warehouse",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_connection.warehouse"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_flink_materialized_table.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_materialized_table.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_flink_statement.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_statement.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_gateway.private",
+          "change": "added",
+          "representation": "representation:1:confluent_gateway.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_group_mapping.platform",
+          "change": "added",
+          "representation": "representation:1:confluent_group_mapping.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_identity_pool.workforce",
+          "change": "added",
+          "representation": "representation:1:confluent_identity_pool.workforce"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_identity_provider.workforce",
+          "change": "added",
+          "representation": "representation:1:confluent_identity_provider.workforce"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_ip_filter.office",
+          "change": "added",
+          "representation": "representation:1:confluent_ip_filter.office"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_ip_group.office",
+          "change": "added",
+          "representation": "representation:1:confluent_ip_group.office"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_kafka_acl.connector",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_acl.connector"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_kafka_client_quota.connector",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_client_quota.connector"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_kafka_cluster.destination",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_cluster.destination"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_cluster.source"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_kafka_cluster_config.source",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_cluster_config.source"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_kafka_mirror_topic.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_mirror_topic.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_kafka_topic.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_topic.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_ksql_cluster.analytics",
+          "change": "added",
+          "representation": "representation:1:confluent_ksql_cluster.analytics"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_network.private",
+          "change": "added",
+          "representation": "representation:1:confluent_network.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_network_link_endpoint.consumer",
+          "change": "added",
+          "representation": "representation:1:confluent_network_link_endpoint.consumer"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_network_link_service.shared",
+          "change": "added",
+          "representation": "representation:1:confluent_network_link_service.shared"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_peering.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_peering.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_peering.azure",
+          "change": "added",
+          "representation": "representation:1:confluent_peering.azure"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_peering.google",
+          "change": "added",
+          "representation": "representation:1:confluent_peering.google"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_plugin.legacy",
+          "change": "added",
+          "representation": "representation:1:confluent_plugin.legacy"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_private_link_access.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_private_link_access.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_private_link_attachment.published",
+          "change": "added",
+          "representation": "representation:1:confluent_private_link_attachment.published"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_private_link_attachment_connection.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_private_link_attachment_connection.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_provider_integration.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_provider_integration.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_provider_integration_authorization.google",
+          "change": "added",
+          "representation": "representation:1:confluent_provider_integration_authorization.google"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_provider_integration_setup.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_provider_integration_setup.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_role_binding.platform",
+          "change": "added",
+          "representation": "representation:1:confluent_role_binding.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_rtce_topic.context",
+          "change": "added",
+          "representation": "representation:1:confluent_rtce_topic.context"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_schema.order",
+          "change": "added",
+          "representation": "representation:1:confluent_schema.order"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_schema_exporter.replication",
+          "change": "added",
+          "representation": "representation:1:confluent_schema_exporter.replication"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_schema_registry_cluster_config.source",
+          "change": "added",
+          "representation": "representation:1:confluent_schema_registry_cluster_config.source"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_schema_registry_cluster_mode.source",
+          "change": "added",
+          "representation": "representation:1:confluent_schema_registry_cluster_mode.source"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_schema_registry_dek.source",
+          "change": "added",
+          "representation": "representation:1:confluent_schema_registry_dek.source"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_schema_registry_kek.source",
+          "change": "added",
+          "representation": "representation:1:confluent_schema_registry_kek.source"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_service_account.processor",
+          "change": "added",
+          "representation": "representation:1:confluent_service_account.processor"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_subject_config.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_subject_config.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_subject_mode.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_subject_mode.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_tableflow_topic.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_tableflow_topic.aws"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_tableflow_topic.azure",
+          "change": "added",
+          "representation": "representation:1:confluent_tableflow_topic.azure"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_tag.critical",
+          "change": "added",
+          "representation": "representation:1:confluent_tag.critical"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_tag_binding.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_tag_binding.orders"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aconfluent_transit_gateway_attachment.platform",
+          "change": "added",
+          "representation": "representation:1:confluent_transit_gateway_attachment.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.confluent_schema_registry_cluster.destination",
+          "change": "added",
+          "representation": "representation:1:data.confluent_schema_registry_cluster.destination"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "representation": "representation:1:data.confluent_schema_registry_cluster.source"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_compute_forwarding_rule.confluent",
+          "change": "added",
+          "representation": "representation:1:google_compute_forwarding_rule.confluent"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_compute_network.platform",
+          "change": "added",
+          "representation": "representation:1:google_compute_network.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_compute_subnetwork.private",
+          "change": "added",
+          "representation": "representation:1:google_compute_subnetwork.private"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_kms_crypto_key.streaming",
+          "change": "added",
+          "representation": "representation:1:google_kms_crypto_key.streaming"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_kms_key_ring.streaming",
+          "change": "added",
+          "representation": "representation:1:google_kms_key_ring.streaming"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_service_account.confluent",
+          "change": "added",
+          "representation": "representation:1:google_service_account.confluent"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Agoogle_storage_bucket.tableflow",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket.tableflow"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_key_vault_key.streaming%3Aexternal%253A1%253Aazure.concept.key-vault%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_key_vault_key.streaming:external%3A1%3Aazure.concept.key-vault%3A0",
+          "from": "representation:1:azurerm_key_vault_key.streaming",
+          "to": "external:1:azure.concept.key-vault:0",
+          "emission": "emission:902e9c5a6b86db5d7f60480c5be7748d546ee611cfc0e68560088e718fac08a7"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_private_endpoint.confluent%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_private_endpoint.confluent:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_private_endpoint.confluent",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:9c45d3e4435519c9bd269fe84ca6b62bdb7b0ecff3a2b3839c607fe8750f5cc1"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_account.tableflow%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_account.tableflow:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_storage_account.tableflow",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:91a6a614eb16cf82c8071716a62770984ddce7f2e98eb249d1da6a99a30f44a0"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_container.tableflow%3Arepresentation%253A1%253Aazurerm_storage_account.tableflow",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_container.tableflow:representation%3A1%3Aazurerm_storage_account.tableflow",
+          "from": "representation:1:azurerm_storage_container.tableflow",
+          "to": "representation:1:azurerm_storage_account.tableflow",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_subnet.private%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.private:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_subnet.private",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network.platform%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_virtual_network.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_catalog_integration.glue%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_catalog_integration.glue:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_catalog_integration.glue",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:71897bc6978071940d29a4a3f53df27cc6862771c33eddcafa461775581c8933"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_connect_artifact.connector%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_connect_artifact.connector:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_connect_artifact.connector",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:38314aad0f697c35d5dd62ea245f18e05b460e8797b3c58ae30b1ffc43fbacd1"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_connector.warehouse%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_connector.warehouse:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_connector.warehouse",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:ca9b1b38aca5614e9f3efa35988a0822d1df341f0802366ead780591957abfc9"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_custom_connector_plugin_version.connector%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_custom_connector_plugin_version.connector:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_custom_connector_plugin_version.connector",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:abfff6a2a9dfccc2d5ec89f9fde3cbb32f3ce0cc21ecd867610a0e55ceff9ed8"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_flink_artifact.analytics%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_flink_artifact.analytics:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_flink_artifact.analytics",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:832d75616d01e0aeed15bb1c747b4c12d8c1ebc91cdcccedf3bc417a398ae188"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_flink_compute_pool.analytics%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_flink_compute_pool.analytics:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_flink_compute_pool.analytics",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:4cedfa134183e7f7e3bd746289301e911f464ba165a0d043152ccd95f84fe38a"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_flink_connection.warehouse%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_flink_connection.warehouse:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_flink_connection.warehouse",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:ce876574534e02cd5a0802ed9cd26fd094916846d31aa771fb9e748cb9fb5546"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_gateway.private%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_gateway.private:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_gateway.private",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:406de3519fdcc6a252592e1bad6b920657a6eb44ff4be53afd3a900ad0d317f8"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_kafka_cluster.destination%3Arepresentation%253A1%253Aconfluent_environment.destination",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_kafka_cluster.destination:representation%3A1%3Aconfluent_environment.destination",
+          "from": "representation:1:confluent_kafka_cluster.destination",
+          "to": "representation:1:confluent_environment.destination",
+          "emission": "emission:794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_kafka_cluster.source:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_kafka_cluster.source",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_ksql_cluster.analytics%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_ksql_cluster.analytics:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_ksql_cluster.analytics",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:4ef4535c815f2b3134695c210ba642bf7ddfb14f0e209d6e6179e480faa03013"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_network.private%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_network.private:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_network.private",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:e4094c1b09562c29437520e04b06d5d8aad9a02ea4b79843af1be820cc9c1fcc"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_private_link_attachment.published%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_private_link_attachment.published:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_private_link_attachment.published",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:e75f2dcbb1e6fbe19188217c619df51ce0713a123b27fd87f680d35c2e402142"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_provider_integration.aws%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_provider_integration.aws:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_provider_integration.aws",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:e32f799337b991a59a75ddec5276ad187d86df679c74562f7a891cc65133e80d"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_provider_integration_setup.aws%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_provider_integration_setup.aws:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_provider_integration_setup.aws",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:646c24bc350afb8afd87f1d43672a5bf27e3f4443db127569e124ffbd6e5a217"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_rtce_topic.context%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_rtce_topic.context:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_rtce_topic.context",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:0f861b53091e8d5927ddb811d0d1e4b97c98e2c19af310a0d6051c5533c21226"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_tableflow_topic.aws%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_tableflow_topic.aws:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_tableflow_topic.aws",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:e9bb3fb70714a22ed500c0e7eb9c305ac1351cccae27ddaf41e4e0d6afbc0ce7"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_tableflow_topic.azure%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_tableflow_topic.azure:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_tableflow_topic.azure",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:e9bb3fb70714a22ed500c0e7eb9c305ac1351cccae27ddaf41e4e0d6afbc0ce7"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.destination%3Arepresentation%253A1%253Aconfluent_environment.destination",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Adata.confluent_schema_registry_cluster.destination:representation%3A1%3Aconfluent_environment.destination",
+          "from": "representation:1:data.confluent_schema_registry_cluster.destination",
+          "to": "representation:1:confluent_environment.destination",
+          "emission": "emission:43df8827aa91ebe49f2e522bc9f73ad2630c5977fab63df2960b46c14c926ccb"
+        },
+        {
+          "id": "change:changes:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Adata.confluent_schema_registry_cluster.source:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:data.confluent_schema_registry_cluster.source",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:43df8827aa91ebe49f2e522bc9f73ad2630c5977fab63df2960b46c14c926ccb"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_compute_network.platform%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_compute_network.platform:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_compute_network.platform",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:1ba66f02835f359348e7d06179cd9a61dd876dcc3cfec498a7ece4d531ce81f5"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_compute_subnetwork.private%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_compute_subnetwork.private:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_compute_subnetwork.private",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:69c00538c9216cd5ea94ca2d4a36d1c1653590d068b12ec87c0e1408c12d0943"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_kms_crypto_key.streaming%3Arepresentation%253A1%253Agoogle_kms_key_ring.streaming",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_kms_crypto_key.streaming:representation%3A1%3Agoogle_kms_key_ring.streaming",
+          "from": "representation:1:google_kms_crypto_key.streaming",
+          "to": "representation:1:google_kms_key_ring.streaming",
+          "emission": "emission:1af47dcebdfe63a53b357f7319dfe974e5714985e67669c24ec4ede166bac07a"
+        },
+        {
+          "id": "change:changes:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_service_account.confluent%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.confluent:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_service_account.confluent",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aaws_vpc_endpoint.confluent%3Arepresentation%253A1%253Aaws_vpc.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.confluent:representation%3A1%3Aaws_vpc.platform",
+          "from": "representation:1:aws_vpc_endpoint.confluent",
+          "to": "representation:1:aws_vpc.platform",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_private_endpoint.confluent%3Arepresentation%253A1%253Aazurerm_subnet.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_private_endpoint.confluent:representation%3A1%3Aazurerm_subnet.private",
+          "from": "representation:1:azurerm_private_endpoint.confluent",
+          "to": "representation:1:azurerm_subnet.private",
+          "emission": "emission:c5d99caf21cab24b8b13b0b12a6260c82955e6e47988c4c508856ccbb3a85385"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_subnet.private%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_subnet.private:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_subnet.private",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_kafka_cluster.source:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_kafka_cluster.source",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_network_link_endpoint.consumer%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_network_link_endpoint.consumer:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_network_link_endpoint.consumer",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:bce33d84d84aebaf1a0e8e53d085457a1c201731d0abeb23f7f4dc9b8f972494"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_network_link_service.shared%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_network_link_service.shared:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_network_link_service.shared",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:622be575f68253ee4681bb29b62afb84b803b8ae3b82eb15cb89d766fa2954f4"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_peering.aws%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_peering.aws:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_peering.aws",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_peering.azure%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_peering.azure:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_peering.azure",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_peering.google%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_peering.google:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_peering.google",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_transit_gateway_attachment.platform%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_transit_gateway_attachment.platform:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_transit_gateway_attachment.platform",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:ab277ba83aa73e2df1191acb54af24be2558c913cb0177b9ae1224e67e4f96fc"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Agoogle_compute_forwarding_rule.confluent%3Arepresentation%253A1%253Agoogle_compute_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Agoogle_compute_forwarding_rule.confluent:representation%3A1%3Agoogle_compute_network.platform",
+          "from": "representation:1:google_compute_forwarding_rule.confluent",
+          "to": "representation:1:google_compute_network.platform",
+          "emission": "emission:6bd6f1484a83c8e2831dde046207c532886d7359c4c6c9ebfc6a56c088d0f68b"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Agoogle_compute_forwarding_rule.confluent%3Arepresentation%253A1%253Agoogle_compute_subnetwork.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Agoogle_compute_forwarding_rule.confluent:representation%3A1%3Agoogle_compute_subnetwork.private",
+          "from": "representation:1:google_compute_forwarding_rule.confluent",
+          "to": "representation:1:google_compute_subnetwork.private",
+          "emission": "emission:ebffd3f10825f8d580e50d721d0b2554d5f3da95eada2231c0aab0a7d300a069"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Agoogle_compute_subnetwork.private%3Arepresentation%253A1%253Agoogle_compute_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Agoogle_compute_subnetwork.private:representation%3A1%3Agoogle_compute_network.platform",
+          "from": "representation:1:google_compute_subnetwork.private",
+          "to": "representation:1:google_compute_network.platform",
+          "emission": "emission:b78802715be4b6b3e38613fd67c9b8f71bd9b2e191e968c8cbccdc9c932af2b2"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_catalog_integration.glue%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_catalog_integration.glue:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_catalog_integration.glue",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:94b8879f258f74557aa4fd8a4227a02beba905363d8c61caa01c724a9145aaf0"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_connector.warehouse%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_connector.warehouse:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_connector.warehouse",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:86133a20f8bd415e50fbf48965a032d73b57c64c6107c5d2cc8348809001ed07"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_flink_connection.warehouse%3Arepresentation%253A1%253Aconfluent_flink_compute_pool.analytics",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_flink_connection.warehouse:representation%3A1%3Aconfluent_flink_compute_pool.analytics",
+          "from": "representation:1:confluent_flink_connection.warehouse",
+          "to": "representation:1:confluent_flink_compute_pool.analytics",
+          "emission": "emission:08974ebea26d20b0bf53e83ee650aa36c8b64424ef945259dfcd6a479fa4886f"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_flink_materialized_table.orders%3Arepresentation%253A1%253Aconfluent_flink_compute_pool.analytics",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_flink_materialized_table.orders:representation%3A1%3Aconfluent_flink_compute_pool.analytics",
+          "from": "representation:1:confluent_flink_materialized_table.orders",
+          "to": "representation:1:confluent_flink_compute_pool.analytics",
+          "emission": "emission:cd646bb653e32b6f96580fd445247700424bff593f6ea9c47c175305cd736a72"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_kafka_mirror_topic.orders%3Arepresentation%253A1%253Aconfluent_kafka_cluster.destination",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_kafka_mirror_topic.orders:representation%3A1%3Aconfluent_kafka_cluster.destination",
+          "from": "representation:1:confluent_kafka_mirror_topic.orders",
+          "to": "representation:1:confluent_kafka_cluster.destination",
+          "emission": "emission:3e5def628789775d31f65a5f941fe0d2d49f102d8108dd9e54c10726e30e3fd3"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_kafka_topic.orders%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_kafka_topic.orders:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_kafka_topic.orders",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:344a6d7e15af1d432f1d700880ae4920aa5293cd7758edd24245e7c98bd9e941"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_ksql_cluster.analytics%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_ksql_cluster.analytics:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_ksql_cluster.analytics",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:f132bb619fadc42955857597dec49b0e5dfe56f40ad9346957d4862311277e3e"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_rtce_topic.context%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_rtce_topic.context:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_rtce_topic.context",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:0b826ef166d264e72e1dbaecd9421b4a164a94ddbc966bb656f6357dc186782c"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_tableflow_topic.aws%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_tableflow_topic.aws:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_tableflow_topic.aws",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:3b0cc8aae2a02a10a60b7b50cdbd8b1e3315c24c5a6405ec17f4f1e4998cb95a"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_tableflow_topic.azure%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_tableflow_topic.azure:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_tableflow_topic.azure",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:3b0cc8aae2a02a10a60b7b50cdbd8b1e3315c24c5a6405ec17f4f1e4998cb95a"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_flink_statement.orders%3Arepresentation%253A1%253Aconfluent_flink_compute_pool.analytics",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_flink_statement.orders:representation%3A1%3Aconfluent_flink_compute_pool.analytics",
+          "from": "representation:1:confluent_flink_statement.orders",
+          "to": "representation:1:confluent_flink_compute_pool.analytics",
+          "emission": "emission:df15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_kafka_acl.connector%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_kafka_acl.connector:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_kafka_acl.connector",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:bb795f726b6b6ff1b3abbe7e01976e9bbcdcf2c2c3311238c24789987fc77191"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_kafka_client_quota.connector%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_kafka_client_quota.connector:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_kafka_client_quota.connector",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:fe29efc338ad6ad2f1411abc56465c144e5c10a769f6f5ded2fbfb9db5e3cb01"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_kafka_cluster_config.source%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_kafka_cluster_config.source:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_kafka_cluster_config.source",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:afd9c90d0fe6e66dec56bb558eb1fd71a5baca548de6f5c28a43812cd28ab120"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_private_link_access.aws%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_private_link_access.aws:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_private_link_access.aws",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:376759f926f6bce9f5b6b5d1da730d83cca30d99d0f7814cc2c3af237e6f7342"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_provider_integration_authorization.google%3Arepresentation%253A1%253Aconfluent_provider_integration.aws",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_provider_integration_authorization.google:representation%3A1%3Aconfluent_provider_integration.aws",
+          "from": "representation:1:confluent_provider_integration_authorization.google",
+          "to": "representation:1:confluent_provider_integration.aws",
+          "emission": "emission:821cc560808caa0ef2e1e4a68cd9be4cae444f92d99313f2b756bd819650d4bd"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_schema.order%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_schema.order:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema.order",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:db36abff182d06a539b7b962a4eadfdaead07fa502e4b0a32877081ee835d0a3"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_schema_registry_cluster_config.source%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_schema_registry_cluster_config.source:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema_registry_cluster_config.source",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:1673b8607934aff1712b327bfb1d960e6834858c878031585053be2d7f4e088b"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_schema_registry_cluster_mode.source%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_schema_registry_cluster_mode.source:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema_registry_cluster_mode.source",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:270bb01087e3517b971797e8d61a533a06c140c95778e515243b082b7e686aa7"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_schema_registry_dek.source%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_schema_registry_dek.source:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema_registry_dek.source",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:acf510b3e51da8933840a869ebd2c777c03edb65603f00edef66c4df5c53c64c"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_schema_registry_kek.source%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_schema_registry_kek.source:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema_registry_kek.source",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:26b7f2c01f2b01fdd0720720e3015b64799973b6e9e707ec619edfd5c6d19e87"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_subject_config.orders%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_subject_config.orders:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_subject_config.orders",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:1573f9e9e1fd6b261ecc41e9ff90c26dc4c469b6c4be7a932296385336e073d9"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aconfluent_subject_mode.orders%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_subject_mode.orders:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_subject_mode.orders",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:bfbe975e23d2b4dccd46a42d8fd431b9cd82b3113063f2b7e55fa7c7e58bbb85"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.connects-to%3Arepresentation%253A1%253Aconfluent_network_link_endpoint.consumer%3Arepresentation%253A1%253Aconfluent_network_link_service.shared",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.connects-to:representation%3A1%3Aconfluent_network_link_endpoint.consumer:representation%3A1%3Aconfluent_network_link_service.shared",
+          "from": "representation:1:confluent_network_link_endpoint.consumer",
+          "to": "representation:1:confluent_network_link_service.shared",
+          "emission": "emission:68195eb4608752ca07ce52a75a7fa2d963780d609c07b8b6ffbb9e31ca47ca98"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.connects-to-attachment%3Arepresentation%253A1%253Aconfluent_private_link_attachment_connection.aws%3Arepresentation%253A1%253Aconfluent_private_link_attachment.published",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.connects-to-attachment:representation%3A1%3Aconfluent_private_link_attachment_connection.aws:representation%3A1%3Aconfluent_private_link_attachment.published",
+          "from": "representation:1:confluent_private_link_attachment_connection.aws",
+          "to": "representation:1:confluent_private_link_attachment.published",
+          "emission": "emission:773e13dc258b19a479511d714a4aa73d432ee18d4752d416fe8a4471c79d640e"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.destination-cluster%3Arepresentation%253A1%253Aconfluent_cluster_link.replication%3Arepresentation%253A1%253Aconfluent_kafka_cluster.destination",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.destination-cluster:representation%3A1%3Aconfluent_cluster_link.replication:representation%3A1%3Aconfluent_kafka_cluster.destination",
+          "from": "representation:1:confluent_cluster_link.replication",
+          "to": "representation:1:confluent_kafka_cluster.destination",
+          "emission": "emission:ffc60d6c19afcc6d917a64fbf2f46724122921ff19bb089bf5efe489894c1a2b"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.exports-from%3Arepresentation%253A1%253Aconfluent_schema_exporter.replication%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.exports-from:representation%3A1%3Aconfluent_schema_exporter.replication:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema_exporter.replication",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:f4baf51c5aff731d2b17f1dc547eb3610bb8541783aec1dbbd5e88c7472cd944"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.exports-to%3Arepresentation%253A1%253Aconfluent_schema_exporter.replication%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.destination",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.exports-to:representation%3A1%3Aconfluent_schema_exporter.replication:representation%3A1%3Adata.confluent_schema_registry_cluster.destination",
+          "from": "representation:1:confluent_schema_exporter.replication",
+          "to": "representation:1:data.confluent_schema_registry_cluster.destination",
+          "emission": "emission:1588ebef75980074ec9c5eb4e008b05e2868b19009a418127fe7854eb91dc94d"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.mirrors%3Arepresentation%253A1%253Aconfluent_kafka_mirror_topic.orders%3Arepresentation%253A1%253Aconfluent_kafka_topic.orders",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.mirrors:representation%3A1%3Aconfluent_kafka_mirror_topic.orders:representation%3A1%3Aconfluent_kafka_topic.orders",
+          "from": "representation:1:confluent_kafka_mirror_topic.orders",
+          "to": "representation:1:confluent_kafka_topic.orders",
+          "emission": "emission:b4ec4a883c1eb55aabc00c5cba1f56f74bfd756eccee0f205697b8c4ead08956"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.peers-with%3Arepresentation%253A1%253Aconfluent_peering.aws%3Arepresentation%253A1%253Aaws_vpc.platform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.peers-with:representation%3A1%3Aconfluent_peering.aws:representation%3A1%3Aaws_vpc.platform",
+          "from": "representation:1:confluent_peering.aws",
+          "to": "representation:1:aws_vpc.platform",
+          "emission": "emission:82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.peers-with%3Arepresentation%253A1%253Aconfluent_peering.azure%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.peers-with:representation%3A1%3Aconfluent_peering.azure:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:confluent_peering.azure",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:bccefe63b8a8e225ecdc91a919f2269f41a0e7b7396975d984ac09f4a6d6024a"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.peers-with%3Arepresentation%253A1%253Aconfluent_peering.google%3Arepresentation%253A1%253Agoogle_compute_network.platform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.peers-with:representation%3A1%3Aconfluent_peering.google:representation%3A1%3Agoogle_compute_network.platform",
+          "from": "representation:1:confluent_peering.google",
+          "to": "representation:1:google_compute_network.platform",
+          "emission": "emission:2c8a06d18b8b3a3cb6524a8200c17132bd58b24e72160725b33cd017facbcf2e"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.replicated-through%3Arepresentation%253A1%253Aconfluent_kafka_mirror_topic.orders%3Arepresentation%253A1%253Aconfluent_cluster_link.replication",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.replicated-through:representation%3A1%3Aconfluent_kafka_mirror_topic.orders:representation%3A1%3Aconfluent_cluster_link.replication",
+          "from": "representation:1:confluent_kafka_mirror_topic.orders",
+          "to": "representation:1:confluent_cluster_link.replication",
+          "emission": "emission:7b3816e685f818fed7bc65b48d701ed6c3369929e5d0aa891d45330bbf761844"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.source-cluster%3Arepresentation%253A1%253Aconfluent_cluster_link.replication%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.source-cluster:representation%3A1%3Aconfluent_cluster_link.replication:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_cluster_link.replication",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:f2239241f8475f9f35fae98974ee67c3fd5a16999c0b59b4a7dfde136ee18374"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.stores-in%3Arepresentation%253A1%253Aconfluent_tableflow_topic.aws%3Arepresentation%253A1%253Aaws_s3_bucket.tableflow",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.stores-in:representation%3A1%3Aconfluent_tableflow_topic.aws:representation%3A1%3Aaws_s3_bucket.tableflow",
+          "from": "representation:1:confluent_tableflow_topic.aws",
+          "to": "representation:1:aws_s3_bucket.tableflow",
+          "emission": "emission:14225e5082476a75dc0f4fceb8abc022294bf0beca92d3ea4399049090960c22"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.stores-in%3Arepresentation%253A1%253Aconfluent_tableflow_topic.azure%3Arepresentation%253A1%253Aazurerm_storage_container.tableflow",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.stores-in:representation%3A1%3Aconfluent_tableflow_topic.azure:representation%3A1%3Aazurerm_storage_container.tableflow",
+          "from": "representation:1:confluent_tableflow_topic.azure",
+          "to": "representation:1:azurerm_storage_container.tableflow",
+          "emission": "emission:576077a6e8ecb7b022f25910c04a6925771dd4b5d217f3bbe058e66ed3f0b025"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.trusts%3Arepresentation%253A1%253Aconfluent_certificate_pool.clients%3Arepresentation%253A1%253Aconfluent_certificate_authority.clients",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.trusts:representation%3A1%3Aconfluent_certificate_pool.clients:representation%3A1%3Aconfluent_certificate_authority.clients",
+          "from": "representation:1:confluent_certificate_pool.clients",
+          "to": "representation:1:confluent_certificate_authority.clients",
+          "emission": "emission:987683a98e31d7b1cb2a5171d12bb539bb0fb1fc2ee723796d674444b6f27dbb"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.trusts%3Arepresentation%253A1%253Aconfluent_identity_pool.workforce%3Arepresentation%253A1%253Aconfluent_identity_provider.workforce",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.trusts:representation%3A1%3Aconfluent_identity_pool.workforce:representation%3A1%3Aconfluent_identity_provider.workforce",
+          "from": "representation:1:confluent_identity_pool.workforce",
+          "to": "representation:1:confluent_identity_provider.workforce",
+          "emission": "emission:9483b9dab0b208c4301434fb8123a6afa47dff66fc2b9a34bd35b1901f4d3599"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_access_point.aws%3Arepresentation%253A1%253Aconfluent_gateway.private",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.aws:representation%3A1%3Aconfluent_gateway.private",
+          "from": "representation:1:confluent_access_point.aws",
+          "to": "representation:1:confluent_gateway.private",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_access_point.azure%3Arepresentation%253A1%253Aconfluent_gateway.private",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.azure:representation%3A1%3Aconfluent_gateway.private",
+          "from": "representation:1:confluent_access_point.azure",
+          "to": "representation:1:confluent_gateway.private",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_access_point.google%3Arepresentation%253A1%253Aconfluent_gateway.private",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.google:representation%3A1%3Aconfluent_gateway.private",
+          "from": "representation:1:confluent_access_point.google",
+          "to": "representation:1:confluent_gateway.private",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_dns_forwarder.private%3Arepresentation%253A1%253Aconfluent_gateway.private",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_dns_forwarder.private:representation%3A1%3Aconfluent_gateway.private",
+          "from": "representation:1:confluent_dns_forwarder.private",
+          "to": "representation:1:confluent_gateway.private",
+          "emission": "emission:b5d3872564a68614e95a3e3e44333a3198c17465fed86cd6414d1794296593b3"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-kafka-cluster%3Arepresentation%253A1%253Aconfluent_flink_materialized_table.orders%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-kafka-cluster:representation%3A1%3Aconfluent_flink_materialized_table.orders:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_flink_materialized_table.orders",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:aac17904e99fec3044507275fffc59584f691f20c4c5db8d592a7523de738800"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-key%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source%3Arepresentation%253A1%253Aconfluent_byok_key.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-key:representation%3A1%3Aconfluent_kafka_cluster.source:representation%3A1%3Aconfluent_byok_key.aws",
+          "from": "representation:1:confluent_kafka_cluster.source",
+          "to": "representation:1:confluent_byok_key.aws",
+          "emission": "emission:60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-principal%3Arepresentation%253A1%253Aconfluent_flink_connection.warehouse%3Arepresentation%253A1%253Aconfluent_service_account.processor",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-principal:representation%3A1%3Aconfluent_flink_connection.warehouse:representation%3A1%3Aconfluent_service_account.processor",
+          "from": "representation:1:confluent_flink_connection.warehouse",
+          "to": "representation:1:confluent_service_account.processor",
+          "emission": "emission:6e56b4c44ab573d7cf7f4216502437e7ac11d29071dc93e3d7af7e05ea60c8da"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-principal%3Arepresentation%253A1%253Aconfluent_flink_materialized_table.orders%3Arepresentation%253A1%253Aconfluent_service_account.processor",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-principal:representation%3A1%3Aconfluent_flink_materialized_table.orders:representation%3A1%3Aconfluent_service_account.processor",
+          "from": "representation:1:confluent_flink_materialized_table.orders",
+          "to": "representation:1:confluent_service_account.processor",
+          "emission": "emission:00458d766884567c3de6abd7c5762e8ac0bbe1b29ebeb257bfccd0a6425d35c2"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-principal%3Arepresentation%253A1%253Aconfluent_ksql_cluster.analytics%3Arepresentation%253A1%253Aconfluent_service_account.processor",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-principal:representation%3A1%3Aconfluent_ksql_cluster.analytics:representation%3A1%3Aconfluent_service_account.processor",
+          "from": "representation:1:confluent_ksql_cluster.analytics",
+          "to": "representation:1:confluent_service_account.processor",
+          "emission": "emission:bcf18482d33df8e5c31eb4677788d6de43c9f4eb82c2848e28d9e1e1d4ac53bf"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-provider-integration%3Arepresentation%253A1%253Aconfluent_catalog_integration.glue%3Arepresentation%253A1%253Aconfluent_provider_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-provider-integration:representation%3A1%3Aconfluent_catalog_integration.glue:representation%3A1%3Aconfluent_provider_integration.aws",
+          "from": "representation:1:confluent_catalog_integration.glue",
+          "to": "representation:1:confluent_provider_integration.aws",
+          "emission": "emission:c158960c635e26baa69e18d6ab25d81e4254d9fcc825420f617f496a2268c2ff"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-provider-integration%3Arepresentation%253A1%253Aconfluent_tableflow_topic.aws%3Arepresentation%253A1%253Aconfluent_provider_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-provider-integration:representation%3A1%3Aconfluent_tableflow_topic.aws:representation%3A1%3Aconfluent_provider_integration.aws",
+          "from": "representation:1:confluent_tableflow_topic.aws",
+          "to": "representation:1:confluent_provider_integration.aws",
+          "emission": "emission:ec525163401a044e61ea7ff59e3d3c9ec606ecd9fd99ae4163db5bf98dee0562"
+        },
+        {
+          "id": "change:changes:added:relation%3Aconfluent.relation.uses-provider-integration%3Arepresentation%253A1%253Aconfluent_tableflow_topic.azure%3Arepresentation%253A1%253Aconfluent_provider_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-provider-integration:representation%3A1%3Aconfluent_tableflow_topic.azure:representation%3A1%3Aconfluent_provider_integration.aws",
+          "from": "representation:1:confluent_tableflow_topic.azure",
+          "to": "representation:1:confluent_provider_integration.aws",
+          "emission": "emission:b607b8dd33698098292ab43d22561b3e3d04f2fa35b92f997c35f5d28ef5562e"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_access_point.aws%3Aemission%253A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31:after",
+          "closure": "closure:representation%3A1%3Aconfluent_access_point.aws:emission%3A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "representation": "representation:1:confluent_access_point.aws",
+          "emission": "emission:81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_access_point.azure%3Aemission%253Ae0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14:after",
+          "closure": "closure:representation%3A1%3Aconfluent_access_point.azure:emission%3Ae0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14",
+          "representation": "representation:1:confluent_access_point.azure",
+          "emission": "emission:e0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_access_point.google%3Aemission%253A82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580:after",
+          "closure": "closure:representation%3A1%3Aconfluent_access_point.google:emission%3A82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580",
+          "representation": "representation:1:confluent_access_point.google",
+          "emission": "emission:82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_kafka_cluster.destination%3Aemission%253A07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6:after",
+          "closure": "closure:representation%3A1%3Aconfluent_kafka_cluster.destination:emission%3A07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+          "representation": "representation:1:confluent_kafka_cluster.destination",
+          "emission": "emission:07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_kafka_cluster.destination%3Aemission%253A60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0:after",
+          "closure": "closure:representation%3A1%3Aconfluent_kafka_cluster.destination:emission%3A60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+          "representation": "representation:1:confluent_kafka_cluster.destination",
+          "emission": "emission:60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aconfluent_private_link_attachment_connection.aws%3Aemission%253Aeadb50fd9c52b751205457b0ddc23153afe6f43a5d1c7b31ff82ff1e182872ce:after",
+          "closure": "closure:representation%3A1%3Aconfluent_private_link_attachment_connection.aws:emission%3Aeadb50fd9c52b751205457b0ddc23153afe6f43a5d1c7b31ff82ff1e182872ce",
+          "representation": "representation:1:confluent_private_link_attachment_connection.aws",
+          "emission": "emission:eadb50fd9c52b751205457b0ddc23153afe6f43a5d1c7b31ff82ff1e182872ce",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 95,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 93,
+        "facts_removed": 0,
+        "indeterminate": 6,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:external%3A1%3Aazure.concept.key-vault%3A0",
+          "change": "added",
+          "representation": "external:1:azure.concept.key-vault:0"
+        },
+        {
+          "id": "change:net:added:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "change": "added",
+          "representation": "external:1:google.concept.google-cloud-project:0"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_ec2_transit_gateway.platform",
+          "change": "added",
+          "representation": "representation:1:aws_ec2_transit_gateway.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_iam_role.confluent",
+          "change": "added",
+          "representation": "representation:1:aws_iam_role.confluent"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_kms_key.streaming",
+          "change": "added",
+          "representation": "representation:1:aws_kms_key.streaming"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_s3_bucket.tableflow",
+          "change": "added",
+          "representation": "representation:1:aws_s3_bucket.tableflow"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc.platform",
+          "change": "added",
+          "representation": "representation:1:aws_vpc.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aaws_vpc_endpoint.confluent",
+          "change": "added",
+          "representation": "representation:1:aws_vpc_endpoint.confluent"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_key_vault_key.streaming",
+          "change": "added",
+          "representation": "representation:1:azurerm_key_vault_key.streaming"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_private_endpoint.confluent",
+          "change": "added",
+          "representation": "representation:1:azurerm_private_endpoint.confluent"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_resource_group.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_account.tableflow",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_account.tableflow"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_storage_container.tableflow",
+          "change": "added",
+          "representation": "representation:1:azurerm_storage_container.tableflow"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_subnet.private",
+          "change": "added",
+          "representation": "representation:1:azurerm_subnet.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_virtual_network.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_access_point.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_access_point.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_access_point.azure",
+          "change": "added",
+          "representation": "representation:1:confluent_access_point.azure"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_access_point.google",
+          "change": "added",
+          "representation": "representation:1:confluent_access_point.google"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_business_metadata.owner",
+          "change": "added",
+          "representation": "representation:1:confluent_business_metadata.owner"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_business_metadata_binding.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_business_metadata_binding.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_byok_key.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_byok_key.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_byok_key.azure",
+          "change": "added",
+          "representation": "representation:1:confluent_byok_key.azure"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_byok_key.google",
+          "change": "added",
+          "representation": "representation:1:confluent_byok_key.google"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_catalog_entity_attributes.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_catalog_entity_attributes.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_catalog_integration.glue",
+          "change": "added",
+          "representation": "representation:1:confluent_catalog_integration.glue"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_certificate_authority.clients",
+          "change": "added",
+          "representation": "representation:1:confluent_certificate_authority.clients"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_certificate_pool.clients",
+          "change": "added",
+          "representation": "representation:1:confluent_certificate_pool.clients"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_cluster_link.replication",
+          "change": "added",
+          "representation": "representation:1:confluent_cluster_link.replication"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_connect_artifact.connector",
+          "change": "added",
+          "representation": "representation:1:confluent_connect_artifact.connector"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_connector.warehouse",
+          "change": "added",
+          "representation": "representation:1:confluent_connector.warehouse"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_custom_connector_plugin.connector",
+          "change": "added",
+          "representation": "representation:1:confluent_custom_connector_plugin.connector"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_custom_connector_plugin_version.connector",
+          "change": "added",
+          "representation": "representation:1:confluent_custom_connector_plugin_version.connector"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_dns_forwarder.private",
+          "change": "added",
+          "representation": "representation:1:confluent_dns_forwarder.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_dns_record.private",
+          "change": "added",
+          "representation": "representation:1:confluent_dns_record.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_environment.destination",
+          "change": "added",
+          "representation": "representation:1:confluent_environment.destination"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_environment.source",
+          "change": "added",
+          "representation": "representation:1:confluent_environment.source"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_flink_artifact.analytics",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_artifact.analytics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_flink_compute_pool.analytics",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_compute_pool.analytics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_flink_compute_pool_config.defaults",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_compute_pool_config.defaults"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_flink_connection.warehouse",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_connection.warehouse"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_flink_materialized_table.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_materialized_table.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_flink_statement.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_flink_statement.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_gateway.private",
+          "change": "added",
+          "representation": "representation:1:confluent_gateway.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_group_mapping.platform",
+          "change": "added",
+          "representation": "representation:1:confluent_group_mapping.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_identity_pool.workforce",
+          "change": "added",
+          "representation": "representation:1:confluent_identity_pool.workforce"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_identity_provider.workforce",
+          "change": "added",
+          "representation": "representation:1:confluent_identity_provider.workforce"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_ip_filter.office",
+          "change": "added",
+          "representation": "representation:1:confluent_ip_filter.office"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_ip_group.office",
+          "change": "added",
+          "representation": "representation:1:confluent_ip_group.office"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_kafka_acl.connector",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_acl.connector"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_kafka_client_quota.connector",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_client_quota.connector"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_kafka_cluster.destination",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_cluster.destination"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_cluster.source"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_kafka_cluster_config.source",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_cluster_config.source"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_kafka_mirror_topic.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_mirror_topic.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_kafka_topic.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_kafka_topic.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_ksql_cluster.analytics",
+          "change": "added",
+          "representation": "representation:1:confluent_ksql_cluster.analytics"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_network.private",
+          "change": "added",
+          "representation": "representation:1:confluent_network.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_network_link_endpoint.consumer",
+          "change": "added",
+          "representation": "representation:1:confluent_network_link_endpoint.consumer"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_network_link_service.shared",
+          "change": "added",
+          "representation": "representation:1:confluent_network_link_service.shared"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_peering.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_peering.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_peering.azure",
+          "change": "added",
+          "representation": "representation:1:confluent_peering.azure"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_peering.google",
+          "change": "added",
+          "representation": "representation:1:confluent_peering.google"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_plugin.legacy",
+          "change": "added",
+          "representation": "representation:1:confluent_plugin.legacy"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_private_link_access.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_private_link_access.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_private_link_attachment.published",
+          "change": "added",
+          "representation": "representation:1:confluent_private_link_attachment.published"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_private_link_attachment_connection.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_private_link_attachment_connection.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_provider_integration.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_provider_integration.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_provider_integration_authorization.google",
+          "change": "added",
+          "representation": "representation:1:confluent_provider_integration_authorization.google"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_provider_integration_setup.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_provider_integration_setup.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_role_binding.platform",
+          "change": "added",
+          "representation": "representation:1:confluent_role_binding.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_rtce_topic.context",
+          "change": "added",
+          "representation": "representation:1:confluent_rtce_topic.context"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_schema.order",
+          "change": "added",
+          "representation": "representation:1:confluent_schema.order"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_schema_exporter.replication",
+          "change": "added",
+          "representation": "representation:1:confluent_schema_exporter.replication"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_schema_registry_cluster_config.source",
+          "change": "added",
+          "representation": "representation:1:confluent_schema_registry_cluster_config.source"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_schema_registry_cluster_mode.source",
+          "change": "added",
+          "representation": "representation:1:confluent_schema_registry_cluster_mode.source"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_schema_registry_dek.source",
+          "change": "added",
+          "representation": "representation:1:confluent_schema_registry_dek.source"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_schema_registry_kek.source",
+          "change": "added",
+          "representation": "representation:1:confluent_schema_registry_kek.source"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_service_account.processor",
+          "change": "added",
+          "representation": "representation:1:confluent_service_account.processor"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_subject_config.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_subject_config.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_subject_mode.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_subject_mode.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_tableflow_topic.aws",
+          "change": "added",
+          "representation": "representation:1:confluent_tableflow_topic.aws"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_tableflow_topic.azure",
+          "change": "added",
+          "representation": "representation:1:confluent_tableflow_topic.azure"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_tag.critical",
+          "change": "added",
+          "representation": "representation:1:confluent_tag.critical"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_tag_binding.orders",
+          "change": "added",
+          "representation": "representation:1:confluent_tag_binding.orders"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aconfluent_transit_gateway_attachment.platform",
+          "change": "added",
+          "representation": "representation:1:confluent_transit_gateway_attachment.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.confluent_schema_registry_cluster.destination",
+          "change": "added",
+          "representation": "representation:1:data.confluent_schema_registry_cluster.destination"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "representation": "representation:1:data.confluent_schema_registry_cluster.source"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_compute_forwarding_rule.confluent",
+          "change": "added",
+          "representation": "representation:1:google_compute_forwarding_rule.confluent"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_compute_network.platform",
+          "change": "added",
+          "representation": "representation:1:google_compute_network.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_compute_subnetwork.private",
+          "change": "added",
+          "representation": "representation:1:google_compute_subnetwork.private"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_kms_crypto_key.streaming",
+          "change": "added",
+          "representation": "representation:1:google_kms_crypto_key.streaming"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_kms_key_ring.streaming",
+          "change": "added",
+          "representation": "representation:1:google_kms_key_ring.streaming"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_service_account.confluent",
+          "change": "added",
+          "representation": "representation:1:google_service_account.confluent"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Agoogle_storage_bucket.tableflow",
+          "change": "added",
+          "representation": "representation:1:google_storage_bucket.tableflow"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.defer_reads",
+          "change": "added",
+          "representation": "representation:1:terraform_data.defer_reads"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_key_vault_key.streaming%3Aexternal%253A1%253Aazure.concept.key-vault%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_key_vault_key.streaming:external%3A1%3Aazure.concept.key-vault%3A0",
+          "from": "representation:1:azurerm_key_vault_key.streaming",
+          "to": "external:1:azure.concept.key-vault:0",
+          "emission": "emission:902e9c5a6b86db5d7f60480c5be7748d546ee611cfc0e68560088e718fac08a7"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_private_endpoint.confluent%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_private_endpoint.confluent:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_private_endpoint.confluent",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:9c45d3e4435519c9bd269fe84ca6b62bdb7b0ecff3a2b3839c607fe8750f5cc1"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_account.tableflow%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_account.tableflow:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_storage_account.tableflow",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:91a6a614eb16cf82c8071716a62770984ddce7f2e98eb249d1da6a99a30f44a0"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_storage_container.tableflow%3Arepresentation%253A1%253Aazurerm_storage_account.tableflow",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_storage_container.tableflow:representation%3A1%3Aazurerm_storage_account.tableflow",
+          "from": "representation:1:azurerm_storage_container.tableflow",
+          "to": "representation:1:azurerm_storage_account.tableflow",
+          "emission": "emission:81285bbf5974a22005a79acc002330d56a7df47b39d635fef8d4c391669e341b"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_subnet.private%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.private:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_subnet.private",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network.platform%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_virtual_network.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_catalog_integration.glue%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_catalog_integration.glue:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_catalog_integration.glue",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:71897bc6978071940d29a4a3f53df27cc6862771c33eddcafa461775581c8933"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_connect_artifact.connector%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_connect_artifact.connector:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_connect_artifact.connector",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:38314aad0f697c35d5dd62ea245f18e05b460e8797b3c58ae30b1ffc43fbacd1"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_connector.warehouse%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_connector.warehouse:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_connector.warehouse",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:ca9b1b38aca5614e9f3efa35988a0822d1df341f0802366ead780591957abfc9"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_custom_connector_plugin_version.connector%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_custom_connector_plugin_version.connector:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_custom_connector_plugin_version.connector",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:abfff6a2a9dfccc2d5ec89f9fde3cbb32f3ce0cc21ecd867610a0e55ceff9ed8"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_flink_artifact.analytics%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_flink_artifact.analytics:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_flink_artifact.analytics",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:832d75616d01e0aeed15bb1c747b4c12d8c1ebc91cdcccedf3bc417a398ae188"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_flink_compute_pool.analytics%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_flink_compute_pool.analytics:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_flink_compute_pool.analytics",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:4cedfa134183e7f7e3bd746289301e911f464ba165a0d043152ccd95f84fe38a"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_flink_connection.warehouse%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_flink_connection.warehouse:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_flink_connection.warehouse",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:ce876574534e02cd5a0802ed9cd26fd094916846d31aa771fb9e748cb9fb5546"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_gateway.private%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_gateway.private:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_gateway.private",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:406de3519fdcc6a252592e1bad6b920657a6eb44ff4be53afd3a900ad0d317f8"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_kafka_cluster.destination%3Arepresentation%253A1%253Aconfluent_environment.destination",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_kafka_cluster.destination:representation%3A1%3Aconfluent_environment.destination",
+          "from": "representation:1:confluent_kafka_cluster.destination",
+          "to": "representation:1:confluent_environment.destination",
+          "emission": "emission:794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_kafka_cluster.source:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_kafka_cluster.source",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:794de08a844c3b1597fea41867fe22a898272dcb1f21441389a4e65bf5ed0b36"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_ksql_cluster.analytics%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_ksql_cluster.analytics:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_ksql_cluster.analytics",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:4ef4535c815f2b3134695c210ba642bf7ddfb14f0e209d6e6179e480faa03013"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_network.private%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_network.private:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_network.private",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:e4094c1b09562c29437520e04b06d5d8aad9a02ea4b79843af1be820cc9c1fcc"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_private_link_attachment.published%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_private_link_attachment.published:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_private_link_attachment.published",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:e75f2dcbb1e6fbe19188217c619df51ce0713a123b27fd87f680d35c2e402142"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_provider_integration.aws%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_provider_integration.aws:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_provider_integration.aws",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:e32f799337b991a59a75ddec5276ad187d86df679c74562f7a891cc65133e80d"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_provider_integration_setup.aws%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_provider_integration_setup.aws:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_provider_integration_setup.aws",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:646c24bc350afb8afd87f1d43672a5bf27e3f4443db127569e124ffbd6e5a217"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_rtce_topic.context%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_rtce_topic.context:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_rtce_topic.context",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:0f861b53091e8d5927ddb811d0d1e4b97c98e2c19af310a0d6051c5533c21226"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_tableflow_topic.aws%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_tableflow_topic.aws:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_tableflow_topic.aws",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:e9bb3fb70714a22ed500c0e7eb9c305ac1351cccae27ddaf41e4e0d6afbc0ce7"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Aconfluent_tableflow_topic.azure%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Aconfluent_tableflow_topic.azure:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:confluent_tableflow_topic.azure",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:e9bb3fb70714a22ed500c0e7eb9c305ac1351cccae27ddaf41e4e0d6afbc0ce7"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.destination%3Arepresentation%253A1%253Aconfluent_environment.destination",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Adata.confluent_schema_registry_cluster.destination:representation%3A1%3Aconfluent_environment.destination",
+          "from": "representation:1:data.confluent_schema_registry_cluster.destination",
+          "to": "representation:1:confluent_environment.destination",
+          "emission": "emission:43df8827aa91ebe49f2e522bc9f73ad2630c5977fab63df2960b46c14c926ccb"
+        },
+        {
+          "id": "change:net:added:context%3Aconfluent.context.ownership%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source%3Arepresentation%253A1%253Aconfluent_environment.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:confluent.context.ownership:representation%3A1%3Adata.confluent_schema_registry_cluster.source:representation%3A1%3Aconfluent_environment.source",
+          "from": "representation:1:data.confluent_schema_registry_cluster.source",
+          "to": "representation:1:confluent_environment.source",
+          "emission": "emission:43df8827aa91ebe49f2e522bc9f73ad2630c5977fab63df2960b46c14c926ccb"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_compute_network.platform%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_compute_network.platform:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_compute_network.platform",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:1ba66f02835f359348e7d06179cd9a61dd876dcc3cfec498a7ece4d531ce81f5"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_compute_subnetwork.private%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_compute_subnetwork.private:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_compute_subnetwork.private",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:69c00538c9216cd5ea94ca2d4a36d1c1653590d068b12ec87c0e1408c12d0943"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_kms_crypto_key.streaming%3Arepresentation%253A1%253Agoogle_kms_key_ring.streaming",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_kms_crypto_key.streaming:representation%3A1%3Agoogle_kms_key_ring.streaming",
+          "from": "representation:1:google_kms_crypto_key.streaming",
+          "to": "representation:1:google_kms_key_ring.streaming",
+          "emission": "emission:1af47dcebdfe63a53b357f7319dfe974e5714985e67669c24ec4ede166bac07a"
+        },
+        {
+          "id": "change:net:added:context%3Agoogle.context.ownership%3Arepresentation%253A1%253Agoogle_service_account.confluent%3Aexternal%253A1%253Agoogle.concept.google-cloud-project%253A0",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:google.context.ownership:representation%3A1%3Agoogle_service_account.confluent:external%3A1%3Agoogle.concept.google-cloud-project%3A0",
+          "from": "representation:1:google_service_account.confluent",
+          "to": "external:1:google.concept.google-cloud-project:0",
+          "emission": "emission:5476b19368c02cb7e8fc6933099e52c80a6dbff69b0bc179f3053197b9de6226"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aaws_vpc_endpoint.confluent%3Arepresentation%253A1%253Aaws_vpc.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aaws_vpc_endpoint.confluent:representation%3A1%3Aaws_vpc.platform",
+          "from": "representation:1:aws_vpc_endpoint.confluent",
+          "to": "representation:1:aws_vpc.platform",
+          "emission": "emission:0d770f82c29adeccd66e1ed876b42e22d9b86daa3489ea8f695d110ddf108ae0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_private_endpoint.confluent%3Arepresentation%253A1%253Aazurerm_subnet.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_private_endpoint.confluent:representation%3A1%3Aazurerm_subnet.private",
+          "from": "representation:1:azurerm_private_endpoint.confluent",
+          "to": "representation:1:azurerm_subnet.private",
+          "emission": "emission:c5d99caf21cab24b8b13b0b12a6260c82955e6e47988c4c508856ccbb3a85385"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_subnet.private%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_subnet.private:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_subnet.private",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_kafka_cluster.source:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_kafka_cluster.source",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_network_link_endpoint.consumer%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_network_link_endpoint.consumer:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_network_link_endpoint.consumer",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:bce33d84d84aebaf1a0e8e53d085457a1c201731d0abeb23f7f4dc9b8f972494"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_network_link_service.shared%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_network_link_service.shared:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_network_link_service.shared",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:622be575f68253ee4681bb29b62afb84b803b8ae3b82eb15cb89d766fa2954f4"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_peering.aws%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_peering.aws:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_peering.aws",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_peering.azure%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_peering.azure:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_peering.azure",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_peering.google%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_peering.google:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_peering.google",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:54e3e76de996357e12729f8804bbc130691d3ed9b694e7dbb5b13ea36ce107e0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aconfluent_transit_gateway_attachment.platform%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aconfluent_transit_gateway_attachment.platform:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_transit_gateway_attachment.platform",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:ab277ba83aa73e2df1191acb54af24be2558c913cb0177b9ae1224e67e4f96fc"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Agoogle_compute_forwarding_rule.confluent%3Arepresentation%253A1%253Agoogle_compute_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Agoogle_compute_forwarding_rule.confluent:representation%3A1%3Agoogle_compute_network.platform",
+          "from": "representation:1:google_compute_forwarding_rule.confluent",
+          "to": "representation:1:google_compute_network.platform",
+          "emission": "emission:6bd6f1484a83c8e2831dde046207c532886d7359c4c6c9ebfc6a56c088d0f68b"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Agoogle_compute_forwarding_rule.confluent%3Arepresentation%253A1%253Agoogle_compute_subnetwork.private",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Agoogle_compute_forwarding_rule.confluent:representation%3A1%3Agoogle_compute_subnetwork.private",
+          "from": "representation:1:google_compute_forwarding_rule.confluent",
+          "to": "representation:1:google_compute_subnetwork.private",
+          "emission": "emission:ebffd3f10825f8d580e50d721d0b2554d5f3da95eada2231c0aab0a7d300a069"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Agoogle_compute_subnetwork.private%3Arepresentation%253A1%253Agoogle_compute_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Agoogle_compute_subnetwork.private:representation%3A1%3Agoogle_compute_network.platform",
+          "from": "representation:1:google_compute_subnetwork.private",
+          "to": "representation:1:google_compute_network.platform",
+          "emission": "emission:b78802715be4b6b3e38613fd67c9b8f71bd9b2e191e968c8cbccdc9c932af2b2"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_catalog_integration.glue%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_catalog_integration.glue:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_catalog_integration.glue",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:94b8879f258f74557aa4fd8a4227a02beba905363d8c61caa01c724a9145aaf0"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_connector.warehouse%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_connector.warehouse:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_connector.warehouse",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:86133a20f8bd415e50fbf48965a032d73b57c64c6107c5d2cc8348809001ed07"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_flink_connection.warehouse%3Arepresentation%253A1%253Aconfluent_flink_compute_pool.analytics",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_flink_connection.warehouse:representation%3A1%3Aconfluent_flink_compute_pool.analytics",
+          "from": "representation:1:confluent_flink_connection.warehouse",
+          "to": "representation:1:confluent_flink_compute_pool.analytics",
+          "emission": "emission:08974ebea26d20b0bf53e83ee650aa36c8b64424ef945259dfcd6a479fa4886f"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_flink_materialized_table.orders%3Arepresentation%253A1%253Aconfluent_flink_compute_pool.analytics",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_flink_materialized_table.orders:representation%3A1%3Aconfluent_flink_compute_pool.analytics",
+          "from": "representation:1:confluent_flink_materialized_table.orders",
+          "to": "representation:1:confluent_flink_compute_pool.analytics",
+          "emission": "emission:cd646bb653e32b6f96580fd445247700424bff593f6ea9c47c175305cd736a72"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_kafka_mirror_topic.orders%3Arepresentation%253A1%253Aconfluent_kafka_cluster.destination",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_kafka_mirror_topic.orders:representation%3A1%3Aconfluent_kafka_cluster.destination",
+          "from": "representation:1:confluent_kafka_mirror_topic.orders",
+          "to": "representation:1:confluent_kafka_cluster.destination",
+          "emission": "emission:3e5def628789775d31f65a5f941fe0d2d49f102d8108dd9e54c10726e30e3fd3"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_kafka_topic.orders%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_kafka_topic.orders:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_kafka_topic.orders",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:344a6d7e15af1d432f1d700880ae4920aa5293cd7758edd24245e7c98bd9e941"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_ksql_cluster.analytics%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_ksql_cluster.analytics:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_ksql_cluster.analytics",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:f132bb619fadc42955857597dec49b0e5dfe56f40ad9346957d4862311277e3e"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_rtce_topic.context%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_rtce_topic.context:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_rtce_topic.context",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:0b826ef166d264e72e1dbaecd9421b4a164a94ddbc966bb656f6357dc186782c"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_tableflow_topic.aws%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_tableflow_topic.aws:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_tableflow_topic.aws",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:3b0cc8aae2a02a10a60b7b50cdbd8b1e3315c24c5a6405ec17f4f1e4998cb95a"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.runtime%3Arepresentation%253A1%253Aconfluent_tableflow_topic.azure%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.runtime:representation%3A1%3Aconfluent_tableflow_topic.azure:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_tableflow_topic.azure",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:3b0cc8aae2a02a10a60b7b50cdbd8b1e3315c24c5a6405ec17f4f1e4998cb95a"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_flink_statement.orders%3Arepresentation%253A1%253Aconfluent_flink_compute_pool.analytics",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_flink_statement.orders:representation%3A1%3Aconfluent_flink_compute_pool.analytics",
+          "from": "representation:1:confluent_flink_statement.orders",
+          "to": "representation:1:confluent_flink_compute_pool.analytics",
+          "emission": "emission:df15c658d13f8f582496cce3b23e68a66dc573f491d3cb043df7733884cccf26"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_kafka_acl.connector%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_kafka_acl.connector:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_kafka_acl.connector",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:bb795f726b6b6ff1b3abbe7e01976e9bbcdcf2c2c3311238c24789987fc77191"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_kafka_client_quota.connector%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_kafka_client_quota.connector:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_kafka_client_quota.connector",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:fe29efc338ad6ad2f1411abc56465c144e5c10a769f6f5ded2fbfb9db5e3cb01"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_kafka_cluster_config.source%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_kafka_cluster_config.source:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_kafka_cluster_config.source",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:afd9c90d0fe6e66dec56bb558eb1fd71a5baca548de6f5c28a43812cd28ab120"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_private_link_access.aws%3Arepresentation%253A1%253Aconfluent_network.private",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_private_link_access.aws:representation%3A1%3Aconfluent_network.private",
+          "from": "representation:1:confluent_private_link_access.aws",
+          "to": "representation:1:confluent_network.private",
+          "emission": "emission:376759f926f6bce9f5b6b5d1da730d83cca30d99d0f7814cc2c3af237e6f7342"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_provider_integration_authorization.google%3Arepresentation%253A1%253Aconfluent_provider_integration.aws",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_provider_integration_authorization.google:representation%3A1%3Aconfluent_provider_integration.aws",
+          "from": "representation:1:confluent_provider_integration_authorization.google",
+          "to": "representation:1:confluent_provider_integration.aws",
+          "emission": "emission:821cc560808caa0ef2e1e4a68cd9be4cae444f92d99313f2b756bd819650d4bd"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_schema.order%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_schema.order:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema.order",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:db36abff182d06a539b7b962a4eadfdaead07fa502e4b0a32877081ee835d0a3"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_schema_registry_cluster_config.source%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_schema_registry_cluster_config.source:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema_registry_cluster_config.source",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:1673b8607934aff1712b327bfb1d960e6834858c878031585053be2d7f4e088b"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_schema_registry_cluster_mode.source%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_schema_registry_cluster_mode.source:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema_registry_cluster_mode.source",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:270bb01087e3517b971797e8d61a533a06c140c95778e515243b082b7e686aa7"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_schema_registry_dek.source%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_schema_registry_dek.source:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema_registry_dek.source",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:acf510b3e51da8933840a869ebd2c777c03edb65603f00edef66c4df5c53c64c"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_schema_registry_kek.source%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_schema_registry_kek.source:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema_registry_kek.source",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:26b7f2c01f2b01fdd0720720e3015b64799973b6e9e707ec619edfd5c6d19e87"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_subject_config.orders%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_subject_config.orders:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_subject_config.orders",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:1573f9e9e1fd6b261ecc41e9ff90c26dc4c469b6c4be7a932296385336e073d9"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aconfluent_subject_mode.orders%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aconfluent_subject_mode.orders:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_subject_mode.orders",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:bfbe975e23d2b4dccd46a42d8fd431b9cd82b3113063f2b7e55fa7c7e58bbb85"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.connects-to%3Arepresentation%253A1%253Aconfluent_network_link_endpoint.consumer%3Arepresentation%253A1%253Aconfluent_network_link_service.shared",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.connects-to:representation%3A1%3Aconfluent_network_link_endpoint.consumer:representation%3A1%3Aconfluent_network_link_service.shared",
+          "from": "representation:1:confluent_network_link_endpoint.consumer",
+          "to": "representation:1:confluent_network_link_service.shared",
+          "emission": "emission:68195eb4608752ca07ce52a75a7fa2d963780d609c07b8b6ffbb9e31ca47ca98"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.connects-to-attachment%3Arepresentation%253A1%253Aconfluent_private_link_attachment_connection.aws%3Arepresentation%253A1%253Aconfluent_private_link_attachment.published",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.connects-to-attachment:representation%3A1%3Aconfluent_private_link_attachment_connection.aws:representation%3A1%3Aconfluent_private_link_attachment.published",
+          "from": "representation:1:confluent_private_link_attachment_connection.aws",
+          "to": "representation:1:confluent_private_link_attachment.published",
+          "emission": "emission:773e13dc258b19a479511d714a4aa73d432ee18d4752d416fe8a4471c79d640e"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.destination-cluster%3Arepresentation%253A1%253Aconfluent_cluster_link.replication%3Arepresentation%253A1%253Aconfluent_kafka_cluster.destination",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.destination-cluster:representation%3A1%3Aconfluent_cluster_link.replication:representation%3A1%3Aconfluent_kafka_cluster.destination",
+          "from": "representation:1:confluent_cluster_link.replication",
+          "to": "representation:1:confluent_kafka_cluster.destination",
+          "emission": "emission:ffc60d6c19afcc6d917a64fbf2f46724122921ff19bb089bf5efe489894c1a2b"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.exports-from%3Arepresentation%253A1%253Aconfluent_schema_exporter.replication%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.source",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.exports-from:representation%3A1%3Aconfluent_schema_exporter.replication:representation%3A1%3Adata.confluent_schema_registry_cluster.source",
+          "from": "representation:1:confluent_schema_exporter.replication",
+          "to": "representation:1:data.confluent_schema_registry_cluster.source",
+          "emission": "emission:f4baf51c5aff731d2b17f1dc547eb3610bb8541783aec1dbbd5e88c7472cd944"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.exports-to%3Arepresentation%253A1%253Aconfluent_schema_exporter.replication%3Arepresentation%253A1%253Adata.confluent_schema_registry_cluster.destination",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.exports-to:representation%3A1%3Aconfluent_schema_exporter.replication:representation%3A1%3Adata.confluent_schema_registry_cluster.destination",
+          "from": "representation:1:confluent_schema_exporter.replication",
+          "to": "representation:1:data.confluent_schema_registry_cluster.destination",
+          "emission": "emission:1588ebef75980074ec9c5eb4e008b05e2868b19009a418127fe7854eb91dc94d"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.mirrors%3Arepresentation%253A1%253Aconfluent_kafka_mirror_topic.orders%3Arepresentation%253A1%253Aconfluent_kafka_topic.orders",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.mirrors:representation%3A1%3Aconfluent_kafka_mirror_topic.orders:representation%3A1%3Aconfluent_kafka_topic.orders",
+          "from": "representation:1:confluent_kafka_mirror_topic.orders",
+          "to": "representation:1:confluent_kafka_topic.orders",
+          "emission": "emission:b4ec4a883c1eb55aabc00c5cba1f56f74bfd756eccee0f205697b8c4ead08956"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.peers-with%3Arepresentation%253A1%253Aconfluent_peering.aws%3Arepresentation%253A1%253Aaws_vpc.platform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.peers-with:representation%3A1%3Aconfluent_peering.aws:representation%3A1%3Aaws_vpc.platform",
+          "from": "representation:1:confluent_peering.aws",
+          "to": "representation:1:aws_vpc.platform",
+          "emission": "emission:82e0edf5673c7c4fbcc145256bc20c108a00ce2e0f8780439c040aff156bbd94"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.peers-with%3Arepresentation%253A1%253Aconfluent_peering.azure%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.peers-with:representation%3A1%3Aconfluent_peering.azure:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:confluent_peering.azure",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:bccefe63b8a8e225ecdc91a919f2269f41a0e7b7396975d984ac09f4a6d6024a"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.peers-with%3Arepresentation%253A1%253Aconfluent_peering.google%3Arepresentation%253A1%253Agoogle_compute_network.platform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.peers-with:representation%3A1%3Aconfluent_peering.google:representation%3A1%3Agoogle_compute_network.platform",
+          "from": "representation:1:confluent_peering.google",
+          "to": "representation:1:google_compute_network.platform",
+          "emission": "emission:2c8a06d18b8b3a3cb6524a8200c17132bd58b24e72160725b33cd017facbcf2e"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.replicated-through%3Arepresentation%253A1%253Aconfluent_kafka_mirror_topic.orders%3Arepresentation%253A1%253Aconfluent_cluster_link.replication",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.replicated-through:representation%3A1%3Aconfluent_kafka_mirror_topic.orders:representation%3A1%3Aconfluent_cluster_link.replication",
+          "from": "representation:1:confluent_kafka_mirror_topic.orders",
+          "to": "representation:1:confluent_cluster_link.replication",
+          "emission": "emission:7b3816e685f818fed7bc65b48d701ed6c3369929e5d0aa891d45330bbf761844"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.source-cluster%3Arepresentation%253A1%253Aconfluent_cluster_link.replication%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.source-cluster:representation%3A1%3Aconfluent_cluster_link.replication:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_cluster_link.replication",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:f2239241f8475f9f35fae98974ee67c3fd5a16999c0b59b4a7dfde136ee18374"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.stores-in%3Arepresentation%253A1%253Aconfluent_tableflow_topic.aws%3Arepresentation%253A1%253Aaws_s3_bucket.tableflow",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.stores-in:representation%3A1%3Aconfluent_tableflow_topic.aws:representation%3A1%3Aaws_s3_bucket.tableflow",
+          "from": "representation:1:confluent_tableflow_topic.aws",
+          "to": "representation:1:aws_s3_bucket.tableflow",
+          "emission": "emission:14225e5082476a75dc0f4fceb8abc022294bf0beca92d3ea4399049090960c22"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.stores-in%3Arepresentation%253A1%253Aconfluent_tableflow_topic.azure%3Arepresentation%253A1%253Aazurerm_storage_container.tableflow",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.stores-in:representation%3A1%3Aconfluent_tableflow_topic.azure:representation%3A1%3Aazurerm_storage_container.tableflow",
+          "from": "representation:1:confluent_tableflow_topic.azure",
+          "to": "representation:1:azurerm_storage_container.tableflow",
+          "emission": "emission:576077a6e8ecb7b022f25910c04a6925771dd4b5d217f3bbe058e66ed3f0b025"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.trusts%3Arepresentation%253A1%253Aconfluent_certificate_pool.clients%3Arepresentation%253A1%253Aconfluent_certificate_authority.clients",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.trusts:representation%3A1%3Aconfluent_certificate_pool.clients:representation%3A1%3Aconfluent_certificate_authority.clients",
+          "from": "representation:1:confluent_certificate_pool.clients",
+          "to": "representation:1:confluent_certificate_authority.clients",
+          "emission": "emission:987683a98e31d7b1cb2a5171d12bb539bb0fb1fc2ee723796d674444b6f27dbb"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.trusts%3Arepresentation%253A1%253Aconfluent_identity_pool.workforce%3Arepresentation%253A1%253Aconfluent_identity_provider.workforce",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.trusts:representation%3A1%3Aconfluent_identity_pool.workforce:representation%3A1%3Aconfluent_identity_provider.workforce",
+          "from": "representation:1:confluent_identity_pool.workforce",
+          "to": "representation:1:confluent_identity_provider.workforce",
+          "emission": "emission:9483b9dab0b208c4301434fb8123a6afa47dff66fc2b9a34bd35b1901f4d3599"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_access_point.aws%3Arepresentation%253A1%253Aconfluent_gateway.private",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.aws:representation%3A1%3Aconfluent_gateway.private",
+          "from": "representation:1:confluent_access_point.aws",
+          "to": "representation:1:confluent_gateway.private",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_access_point.azure%3Arepresentation%253A1%253Aconfluent_gateway.private",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.azure:representation%3A1%3Aconfluent_gateway.private",
+          "from": "representation:1:confluent_access_point.azure",
+          "to": "representation:1:confluent_gateway.private",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_access_point.google%3Arepresentation%253A1%253Aconfluent_gateway.private",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_access_point.google:representation%3A1%3Aconfluent_gateway.private",
+          "from": "representation:1:confluent_access_point.google",
+          "to": "representation:1:confluent_gateway.private",
+          "emission": "emission:d05ce8ef275dbffe7a32beeda0d1310efbc934703c1feebf027637e518665c86"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-gateway%3Arepresentation%253A1%253Aconfluent_dns_forwarder.private%3Arepresentation%253A1%253Aconfluent_gateway.private",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-gateway:representation%3A1%3Aconfluent_dns_forwarder.private:representation%3A1%3Aconfluent_gateway.private",
+          "from": "representation:1:confluent_dns_forwarder.private",
+          "to": "representation:1:confluent_gateway.private",
+          "emission": "emission:b5d3872564a68614e95a3e3e44333a3198c17465fed86cd6414d1794296593b3"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-kafka-cluster%3Arepresentation%253A1%253Aconfluent_flink_materialized_table.orders%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-kafka-cluster:representation%3A1%3Aconfluent_flink_materialized_table.orders:representation%3A1%3Aconfluent_kafka_cluster.source",
+          "from": "representation:1:confluent_flink_materialized_table.orders",
+          "to": "representation:1:confluent_kafka_cluster.source",
+          "emission": "emission:aac17904e99fec3044507275fffc59584f691f20c4c5db8d592a7523de738800"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-key%3Arepresentation%253A1%253Aconfluent_kafka_cluster.source%3Arepresentation%253A1%253Aconfluent_byok_key.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-key:representation%3A1%3Aconfluent_kafka_cluster.source:representation%3A1%3Aconfluent_byok_key.aws",
+          "from": "representation:1:confluent_kafka_cluster.source",
+          "to": "representation:1:confluent_byok_key.aws",
+          "emission": "emission:60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-principal%3Arepresentation%253A1%253Aconfluent_flink_connection.warehouse%3Arepresentation%253A1%253Aconfluent_service_account.processor",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-principal:representation%3A1%3Aconfluent_flink_connection.warehouse:representation%3A1%3Aconfluent_service_account.processor",
+          "from": "representation:1:confluent_flink_connection.warehouse",
+          "to": "representation:1:confluent_service_account.processor",
+          "emission": "emission:6e56b4c44ab573d7cf7f4216502437e7ac11d29071dc93e3d7af7e05ea60c8da"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-principal%3Arepresentation%253A1%253Aconfluent_flink_materialized_table.orders%3Arepresentation%253A1%253Aconfluent_service_account.processor",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-principal:representation%3A1%3Aconfluent_flink_materialized_table.orders:representation%3A1%3Aconfluent_service_account.processor",
+          "from": "representation:1:confluent_flink_materialized_table.orders",
+          "to": "representation:1:confluent_service_account.processor",
+          "emission": "emission:00458d766884567c3de6abd7c5762e8ac0bbe1b29ebeb257bfccd0a6425d35c2"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-principal%3Arepresentation%253A1%253Aconfluent_ksql_cluster.analytics%3Arepresentation%253A1%253Aconfluent_service_account.processor",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-principal:representation%3A1%3Aconfluent_ksql_cluster.analytics:representation%3A1%3Aconfluent_service_account.processor",
+          "from": "representation:1:confluent_ksql_cluster.analytics",
+          "to": "representation:1:confluent_service_account.processor",
+          "emission": "emission:bcf18482d33df8e5c31eb4677788d6de43c9f4eb82c2848e28d9e1e1d4ac53bf"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-provider-integration%3Arepresentation%253A1%253Aconfluent_catalog_integration.glue%3Arepresentation%253A1%253Aconfluent_provider_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-provider-integration:representation%3A1%3Aconfluent_catalog_integration.glue:representation%3A1%3Aconfluent_provider_integration.aws",
+          "from": "representation:1:confluent_catalog_integration.glue",
+          "to": "representation:1:confluent_provider_integration.aws",
+          "emission": "emission:c158960c635e26baa69e18d6ab25d81e4254d9fcc825420f617f496a2268c2ff"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-provider-integration%3Arepresentation%253A1%253Aconfluent_tableflow_topic.aws%3Arepresentation%253A1%253Aconfluent_provider_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-provider-integration:representation%3A1%3Aconfluent_tableflow_topic.aws:representation%3A1%3Aconfluent_provider_integration.aws",
+          "from": "representation:1:confluent_tableflow_topic.aws",
+          "to": "representation:1:confluent_provider_integration.aws",
+          "emission": "emission:ec525163401a044e61ea7ff59e3d3c9ec606ecd9fd99ae4163db5bf98dee0562"
+        },
+        {
+          "id": "change:net:added:relation%3Aconfluent.relation.uses-provider-integration%3Arepresentation%253A1%253Aconfluent_tableflow_topic.azure%3Arepresentation%253A1%253Aconfluent_provider_integration.aws",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:confluent.relation.uses-provider-integration:representation%3A1%3Aconfluent_tableflow_topic.azure:representation%3A1%3Aconfluent_provider_integration.aws",
+          "from": "representation:1:confluent_tableflow_topic.azure",
+          "to": "representation:1:confluent_provider_integration.aws",
+          "emission": "emission:b607b8dd33698098292ab43d22561b3e3d04f2fa35b92f997c35f5d28ef5562e"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_access_point.aws%3Aemission%253A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31:after",
+          "closure": "closure:representation%3A1%3Aconfluent_access_point.aws:emission%3A81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "representation": "representation:1:confluent_access_point.aws",
+          "emission": "emission:81744f8055055ab7381938e15dbef85e55fc90d9e88192d0e0b6a3eb91720d31",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_access_point.azure%3Aemission%253Ae0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14:after",
+          "closure": "closure:representation%3A1%3Aconfluent_access_point.azure:emission%3Ae0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14",
+          "representation": "representation:1:confluent_access_point.azure",
+          "emission": "emission:e0fc3246a2780dbd7f8611ce574c1af524f2054bd7a78425cfbcfb07d8c9fb14",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_access_point.google%3Aemission%253A82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580:after",
+          "closure": "closure:representation%3A1%3Aconfluent_access_point.google:emission%3A82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580",
+          "representation": "representation:1:confluent_access_point.google",
+          "emission": "emission:82ae773f122ee711c082c0c019a2ac8a753ee4cb5be507ffb22c05c355fd1580",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_kafka_cluster.destination%3Aemission%253A07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6:after",
+          "closure": "closure:representation%3A1%3Aconfluent_kafka_cluster.destination:emission%3A07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+          "representation": "representation:1:confluent_kafka_cluster.destination",
+          "emission": "emission:07d0c13cd2ec56739b8042350556c09830394a738495dc3705744ed8e21c2af6",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_kafka_cluster.destination%3Aemission%253A60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0:after",
+          "closure": "closure:representation%3A1%3Aconfluent_kafka_cluster.destination:emission%3A60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+          "representation": "representation:1:confluent_kafka_cluster.destination",
+          "emission": "emission:60fd39e5adf5a3aa539866e57e38663470318a093dc3f58fa72c0eec085b28e0",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aconfluent_private_link_attachment_connection.aws%3Aemission%253Aeadb50fd9c52b751205457b0ddc23153afe6f43a5d1c7b31ff82ff1e182872ce:after",
+          "closure": "closure:representation%3A1%3Aconfluent_private_link_attachment_connection.aws:emission%3Aeadb50fd9c52b751205457b0ddc23153afe6f43a5d1c7b31ff82ff1e182872ce",
+          "representation": "representation:1:confluent_private_link_attachment_connection.aws",
+          "emission": "emission:eadb50fd9c52b751205457b0ddc23153afe6f43a5d1c7b31ff82ff1e182872ce",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 95,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 93,
+        "facts_removed": 0,
+        "indeterminate": 6,
+        "cancelled": 0
+      }
+    }
+  },
   "drift_report": {
     "entries": [],
     "summary": "No drift reported in this plan"
