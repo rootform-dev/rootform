@@ -1,18 +1,12 @@
 #!/usr/bin/env bun
 
-import {
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  renameSync,
-  writeFileSync,
-} from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 
 type Flag = {
   name: string;
   type: string;
+  group: string;
   default: string;
   usage: string;
   shorthand?: string;
@@ -30,6 +24,9 @@ export type Command = {
   aliases?: string[];
   examples?: string;
   deprecated?: string;
+  group?: string;
+  command_groups?: string[];
+  flag_groups: string[];
   subcommands?: string[];
   flags?: Flag[];
   inherited_flags?: Flag[];
@@ -43,6 +40,9 @@ const commandKeys = [
   "aliases",
   "examples",
   "deprecated",
+  "group",
+  "command_groups",
+  "flag_groups",
   "subcommands",
   "flags",
   "inherited_flags",
@@ -50,6 +50,7 @@ const commandKeys = [
 const flagKeys = [
   "name",
   "type",
+  "group",
   "default",
   "usage",
   "shorthand",
@@ -69,9 +70,9 @@ const authoredCommands = new Set([
   "rootform check",
   "rootform init",
   "rootform explain",
-  "rootform explain architecture",
+  "rootform explain instance",
   "rootform explain policy",
-  "rootform explain semantics",
+  "rootform explain rule",
   "rootform list",
   "rootform list dialects",
   "rootform list policies",
@@ -106,6 +107,14 @@ function strings(value: unknown, label: string): string[] {
   return value;
 }
 
+function uniqueStrings(value: unknown, label: string): string[] {
+  const items = strings(value, label);
+  if (new Set(items).size !== items.length) {
+    throw new Error(`CLI reference: duplicate ${label}`);
+  }
+  return items;
+}
+
 export function parseReference(value: unknown): Command[] {
   const document = object(value, ["format_version", "commands"]);
   if (document.format_version !== 1 || !Array.isArray(document.commands)) {
@@ -127,17 +136,26 @@ export function parseReference(value: unknown): Command[] {
         throw new Error(`CLI reference: invalid ${key}`);
       }
     }
+    if (cmd.group !== undefined && typeof cmd.group !== "string") {
+      throw new Error("CLI reference: invalid group");
+    }
+    if (cmd.command_groups !== undefined) uniqueStrings(cmd.command_groups, "command_groups");
+    const flagGroups = uniqueStrings(cmd.flag_groups, "flag_groups");
+    if (!flagGroups.length || flagGroups.at(-1) !== "Global options") {
+      throw new Error("CLI reference: flag_groups must end with Global options");
+    }
     for (const key of ["aliases", "subcommands"]) {
       if (cmd[key] !== undefined) strings(cmd[key], key);
     }
     const names = new Set<string>();
+    const populatedGroups = new Set<string>();
     for (const key of ["flags", "inherited_flags"]) {
       const flags = cmd[key];
       if (flags === undefined) continue;
       if (!Array.isArray(flags)) throw new Error(`CLI reference: invalid ${key}`);
       for (const raw of flags) {
         const flag = object(raw, flagKeys);
-        for (const field of ["name", "type", "default", "usage"]) {
+        for (const field of ["name", "type", "group", "default", "usage"]) {
           if (typeof flag[field] !== "string")
             throw new Error(`CLI reference: missing flag ${field}`);
         }
@@ -145,12 +163,25 @@ export function parseReference(value: unknown): Command[] {
           throw new Error("CLI reference: invalid or shadowed flag");
         }
         names.add(String(flag.name));
+        if (!flagGroups.includes(String(flag.group))) {
+          throw new Error(`CLI reference: flag group ${String(flag.group)} is not listed`);
+        }
+        if (
+          (key === "inherited_flags" || flag.name === "help" || flag.name === "version") &&
+          flag.group !== "Global options"
+        ) {
+          throw new Error(`CLI reference: ${String(flag.name)} must use Global options`);
+        }
+        populatedGroups.add(String(flag.group));
         for (const [field, item] of Object.entries(flag)) {
           if (typeof item !== (field === "required" ? "boolean" : "string")) {
             throw new Error(`CLI reference: invalid flag ${field}`);
           }
         }
       }
+    }
+    if (flagGroups.some((group) => !populatedGroups.has(group))) {
+      throw new Error(`CLI reference: empty flag group for ${path}`);
     }
   }
   if (!seen.has("rootform")) throw new Error("CLI reference: root command missing");
@@ -165,6 +196,15 @@ export function parseReference(value: unknown): Command[] {
     }
     const parent = cmd.path.split(" ").slice(0, -1).join(" ");
     if (parent && !seen.has(parent)) throw new Error(`CLI reference: missing parent ${parent}`);
+    for (const child of children) {
+      if (cmd.command_groups) {
+        if (child.group === undefined || !cmd.command_groups.includes(child.group)) {
+          throw new Error(`CLI reference: child group not listed for ${child.path}`);
+        }
+      } else if (child.group !== undefined) {
+        throw new Error(`CLI reference: child group without command_groups for ${child.path}`);
+      }
+    }
   }
   return commands;
 }
@@ -221,32 +261,51 @@ function flagTable(flags: Flag[], title: string): string {
       .join(" ");
     return `| ${code(name)} | ${code(flag.type)} | ${code(flag.default === "" ? '""' : flag.default)} | ${flagMeaning(flag.usage)}${notes ? ` ${cell(notes)}` : ""} |`;
   });
-  return `## ${title}\n\n| Flag | Type | Default | Meaning |\n| --- | --- | --- | --- |\n${rows.join("\n")}\n`;
+  const heading = title === "Options" ? "" : `### ${title}\n\n`;
+  return `${heading}| Flag | Type | Default | Meaning |\n| --- | --- | --- | --- |\n${rows.join("\n")}\n`;
 }
 
 export function syntax(cmd: Command): string {
   const parts = [`## Usage\n\n${fence(cmd.usage, "text")}\n`];
   if (cmd.aliases?.length) parts.push(`Aliases: ${cmd.aliases.map(code).join(", ")}.\n`);
   if (cmd.deprecated) parts.push(`Deprecated: ${prose(cmd.deprecated)}\n`);
+  const flags = [...(cmd.flags ?? []), ...(cmd.inherited_flags ?? [])];
   parts.push(
-    flagTable(cmd.flags ?? [], "Flags"),
-    flagTable(cmd.inherited_flags ?? [], "Inherited flags"),
+    `## Options\n\n${cmd.flag_groups
+      .map((group) =>
+        flagTable(
+          flags.filter((flag) => flag.group === group),
+          group,
+        ),
+      )
+      .join("\n")}`,
   );
   return parts.filter(Boolean).join("\n").trimEnd();
 }
 
 function subcommands(cmd: Command, commands: Command[]): string {
   if (!cmd.subcommands?.length) return "";
-  const paths =
-    cmd.path === "rootform"
-      ? commands.filter((entry) => entry.path !== "rootform").map((entry) => entry.path)
-      : cmd.subcommands;
-  const rows = paths.map((path) => {
+  const descendants = (path: string): string[] => {
+    const entry = commands.find((candidate) => candidate.path === path);
+    return [path, ...(entry?.subcommands ?? []).flatMap(descendants)];
+  };
+  const paths = cmd.path === "rootform" ? cmd.subcommands.flatMap(descendants) : cmd.subcommands;
+  const row = (path: string): string => {
     const child = commands.find((entry) => entry.path === path);
     return `| [${code(path)}](${link(cmd.path, path)}) | ${cell(child?.summary ?? "")} |`;
-  });
+  };
   const title = cmd.path === "rootform" ? "Command inventory" : "Subcommands";
-  return `## ${title}\n\n| Command | Purpose |\n| --- | --- |\n${rows.join("\n")}`;
+  const table = (groupPaths: string[]): string =>
+    `| Command | Purpose |\n| --- | --- |\n${groupPaths.map(row).join("\n")}`;
+  if (!cmd.command_groups) return `## ${title}\n\n${table(paths)}`;
+  const groups = cmd.command_groups.map((group) => {
+    const groupPaths = paths.filter((path) => {
+      const topLevel = cmd.path === "rootform" ? path.split(" ").slice(0, 2).join(" ") : path;
+      return commands.find((entry) => entry.path === topLevel)?.group === group;
+    });
+    return `### ${group}\n\n${table(groupPaths)}`;
+  });
+  return `## ${title}\n\n${groups.join("\n\n")}`;
 }
 
 export function renderCommand(cmd: Command, commands: Command[]): string {
@@ -261,11 +320,19 @@ export function renderCommand(cmd: Command, commands: Command[]): string {
     chunks.push(`## Behavior\n\n${prose(body ?? "")}`);
     if (exits) {
       const [statusLines, ...remainder] = exits.split("\n\n");
-      const rows = (statusLines ?? "").split("\n").map((line) => {
+      const statuses: { status: string; meaning: string }[] = [];
+      for (const line of (statusLines ?? "").split("\n")) {
         const match = /^ {2}(\d+) {2}(.+)$/u.exec(line);
-        if (!match) throw new Error(`Invalid exit status for ${cmd.path}: ${line}`);
-        return `| \`${match[1]}\` | ${cell(match[2] ?? "")} |`;
-      });
+        if (match) {
+          statuses.push({ status: match[1] ?? "", meaning: match[2] ?? "" });
+        } else if (/^ {5}\S/u.test(line) && statuses.length) {
+          const previous = statuses.at(-1);
+          if (previous) previous.meaning += ` ${line.trim()}`;
+        } else {
+          throw new Error(`Invalid exit status for ${cmd.path}: ${line}`);
+        }
+      }
+      const rows = statuses.map(({ status, meaning }) => `| \`${status}\` | ${cell(meaning)} |`);
       chunks.push(
         `## Exit status\n\n| Status | Meaning |\n| --- | --- |\n${rows.join("\n")}${remainder.length ? `\n\n${remainder.join("\n\n")}` : ""}`,
       );
@@ -377,15 +444,7 @@ export function generate(root: string, check: boolean): void {
       mkdirSync(dirname(path), { recursive: true });
       writeFileSync(path, text);
     }
-    for (const path of stale) {
-      const retired = join(
-        root,
-        "../notes/tmp/analysis-review/rebuild/retired/docs",
-        relative(root, path),
-      );
-      mkdirSync(dirname(retired), { recursive: true });
-      renameSync(path, retired);
-    }
+    for (const path of stale) rmSync(path);
   }
   console.log(`CLI reference ${check ? "verified" : "generated"}: ${commands.length} commands`);
 }
