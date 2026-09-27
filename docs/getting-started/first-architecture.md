@@ -203,4 +203,4 @@ explains when state or a saved document answers your question better.
 
 Next, [explore the interface](../guides/explore-architecture.md),
 [compare architectures](../guides/compare-architectures.md), or
-[run policy checks](../guides/check-architecture.md).
+[check the architecture against Policies](../guides/check-architecture.md).

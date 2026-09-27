@@ -1,9 +1,9 @@
 ---
-title: "Run checks"
-description: "Evaluate selected policies against a plan or state architecture."
+title: "Check an architecture"
+description: "Evaluate selected Policies against one stage of a plan or state Form."
 ---
 
-Follow one Policy through a pass, a violation, indeterminate evidence, and no target. You need Rootform, Terraform or OpenTofu, and the AWS provider download for planning. Work from a new `network-review/` directory. The `pass/`, `violation/`, and `no-target/` directories hold separate scenarios; `policies/` holds one local Policy Pack.
+Follow one Policy through a pass, a violation, indeterminate evidence, and no target. `rootform run` analyzes an input and saves its Form; `rootform check` evaluates Policies against one stage of a Form and exits with the verdict. You need Rootform, Terraform or OpenTofu, and the AWS provider download for planning. Work from a new `network-review/` directory. The `pass/`, `violation/`, and `no-target/` directories hold separate scenarios; `policies/` holds one local Policy Pack.
 
 Plans, their JSON exports, and state files can contain secrets in clear text. Keep them out of Git and public artifacts. Rootform reads them locally and does not contact AWS. Its reports omit sensitive values but still describe topology and names.
 
@@ -108,29 +108,32 @@ Each directory now contains matching `plan.tfplan` and `plan.json`. If Terraform
 
 ## Observe a pass
 
-Run from `network-review/`. Pairing the saved plan lets Rootform follow direct `vpc_id` and `subnet_id` traversals even though their values are unknown until apply. `--policy-pack` selects this Pack for this invocation; selecting a Dialect alone would not select it.
+Run from `network-review/`. First analyze the plan and save its Form. Pairing the saved plan lets Rootform follow direct `vpc_id` and `subnet_id` traversals even though their values are unknown until apply. Then check the saved Form: `check` reads it without compiling the plan again. `--policy-pack` selects this Pack for this command only; selecting a Dialect alone would not select it.
 
 <!-- docs-check:check-architecture-pass -->
 ```sh
 rootform run pass/plan.json --plan-file pass/plan.tfplan \
-  --policy-pack ./policies --no-serve \
-  -o pass/analysis.json -o pass/results.sarif --color always
+  --no-serve -o pass/analysis.json
+rootform check pass/analysis.json --policy-pack ./policies \
+  -o pass/results.json -o pass/results.sarif --color always
 ```
 
 <!-- docs-output:check-architecture-pass -->
-```ansi title="Passing result, excerpt"
-[2mPolicies[0m      passed
+```ansi title="Passing check, excerpt"
+[1m[32mPolicies passed[0m
+[2mEvaluated[0m     Planned architecture (default)
+[2mPolicies[0m      1 policy selected: 1 passed
+[2mEvaluations[0m   2 instances: 2 passed
 
-[1m[38;5;208mPolicies · Planned stage[0m
-  [2mResult[0m     passed
-  [2mEvaluated[0m  1 policy over 2 targets: 2 passed, 0 violated, 0 indeterminate
+[1m[38;5;208mPassed[0m
+  [32m✓[0m tutorial/network-context  [2m2 instances[0m
 ```
 
-Status `0` here means both selected targets passed. The VPC itself is not a target. `pass/analysis.json` is a Form preserving the interpreted architecture; `pass/results.sarif` records explicit evaluations and diagnostics for review tools. The files do not contain sensitive plan values. If either Context stays indeterminate, confirm that `--plan-file` names the saved plan used for the JSON export.
+Status `0` means every selected Policy was evaluated and passed, here on both targets. The VPC itself is not a target. `pass/analysis.json` is the Form preserving the interpreted architecture. `pass/results.json` is the Policy result: it identifies that Form by digest and records the evaluated stage, the selected Policies, and every evaluation. `pass/results.sarif` presents the same result to review tools. None of these files contains sensitive plan values. If either target stays indeterminate, confirm that `--plan-file` names the saved plan used for the JSON export.
 
 ## Inspect the proof
 
-Ask why the instance has a network Context. The saved document avoids recompiling the plan:
+Ask why the instance has a network Context. The saved Form avoids recompiling the plan:
 
 <!-- docs-check:check-architecture-explain-architecture -->
 ```sh
@@ -173,47 +176,44 @@ The explanation shows both target evaluations. [Explain a Policy](../reference/c
 
 ## Distinguish a violation
 
-Run the same Policy on the explicit empty VPC ID:
+Check the same Policy against the explicit empty VPC ID. `check` also accepts a plan JSON directly and compiles it first:
 
 <!-- docs-check:check-architecture-violation -->
 ```sh
-rootform run violation/plan.json --plan-file violation/plan.tfplan \
-  --policy-pack ./policies --no-serve --color always
+rootform check violation/plan.json --plan-file violation/plan.tfplan \
+  --policy-pack ./policies --color always
 ```
 
 <!-- docs-output:check-architecture-violation -->
 ```ansi title="Violation, excerpt"
-[1m[38;5;208mPlanned architecture[0m
-  [2mClosures[0m     1: 0 resolved, 1 absent, 0 indeterminate
+[1m[31mPolicies violated[0m
+[2mPolicies[0m      1 policy selected: 1 violated
+[2mEvaluations[0m   1 instance: 1 violated
 
-[1m[38;5;208mPolicies · Planned stage[0m
-  [2mResult[0m     violated
-  [2mEvaluated[0m  1 policy over 1 target: 0 passed, 1 violated, 0 indeterminate
+[1m[38;5;208mViolations[0m
   [31m✗[0m aws_subnet.application  [2mtutorial/network-context: Network resources must have an established network context.[0m
 ```
 
-The closure is `absent`: a known empty value proves that this subnet has no declared target for the Rule's network emission. The Policy therefore violates and returns status `1`. This says nothing about a deployed subnet; the scenario is an unapplied plan.
+A known empty value proves that this subnet has no declared target for the Rule's network emission, so its network closure is absent and the Policy is violated: `check` returns status `1`. Reports requested with `-o` are written whatever the verdict. This says nothing about a deployed subnet; the scenario is an unapplied plan.
 
 ## Keep unresolved evidence indeterminate
 
-Run the passing plan again, this time without its saved plan:
+Check the passing plan again, this time without its saved plan:
 
 <!-- docs-check:check-architecture-indeterminate -->
 ```sh
-rootform run pass/plan.json --policy-pack ./policies --no-serve --color always
+rootform check pass/plan.json --policy-pack ./policies --color always
 ```
 
 <!-- docs-output:check-architecture-indeterminate -->
 ```ansi title="Indeterminate result, excerpt"
-[1m[38;5;208mPlanned architecture[0m
-  [2mClosures[0m     2: 0 resolved, 0 absent, 2 indeterminate
+[1mPolicies indeterminate[0m
+[2mPolicies[0m      1 policy selected: 1 indeterminate
+[2mEvaluations[0m   2 instances: 2 indeterminate
 
-[1m[38;5;208mUncertainty · Planned stage[0m
-  [2mClosures[0m  2 unknown until apply
-
-[1m[38;5;208mPolicies · Planned stage[0m
-  [2mResult[0m     indeterminate
-  [2mEvaluated[0m  1 policy over 2 targets: 0 passed, 0 violated, 2 indeterminate
+[1m[38;5;208mIndeterminate[0m
+  [33m?[0m aws_instance.application  [2mtutorial/network-context: indeterminate (unknown until apply)[0m
+  [33m?[0m aws_subnet.application  [2mtutorial/network-context: indeterminate (unknown until apply)[0m
 ```
 
 The plan values for the new VPC and subnet IDs are unknown until apply. Without verified traversals, Rootform cannot prove either connection or its absence. Status `3` prevents an uncertain result from becoming approval. The saved plan is optional for analysis, but matters to this Policy verdict.
@@ -224,19 +224,21 @@ The same selected Policy finds no subnet or instance in the VPC-only plan:
 
 <!-- docs-check:check-architecture-no-target -->
 ```sh
-rootform run no-target/plan.json --plan-file no-target/plan.tfplan \
-  --policy-pack ./policies --no-serve --color always
+rootform check no-target/plan.json --plan-file no-target/plan.tfplan \
+  --policy-pack ./policies --color always
 ```
 
 <!-- docs-output:check-architecture-no-target -->
 ```ansi title="No target, excerpt"
-[1m[38;5;208mPolicies · Planned stage[0m
-  [2mResult[0m     no decision
-  [2mEvaluated[0m  1 policy over 0 targets: 0 passed, 0 violated, 0 indeterminate
-  [2mNo target[0m  1 policy found nothing to evaluate
+[1mNo policy decision[0m
+[2mPolicies[0m      1 policy selected: 1 without target
+[2mEvaluations[0m   no instance evaluated
+
+[1m[38;5;208mWithout target[0m
+  · tutorial/network-context  [2mfound nothing to evaluate in the Planned architecture[0m
 ```
 
-Status `3` means the selected Policy made no decision. Without any Policy selection, a successful `run` exits `0` and explicitly says none was evaluated; that status is analysis success, not compliance. [Policies and Policy Packs](../concepts/policies.md#read-the-aggregate-decision) explains aggregation.
+Status `3` means the selected Policy made no decision: a Policy without target never counts as passed, and a check that selects no Policy also returns `3`. `rootform run` never evaluates Policies, so its status `0` is analysis success, not compliance. [Policies and Policy Packs](../concepts/policies.md#read-the-aggregate-decision) explains aggregation.
 
 ## Use the same gate in CI
 
@@ -245,11 +247,11 @@ The local Pack is an invocation override. To record it as project selection, run
 <!-- docs-check:check-architecture-lock -->
 ```sh
 rootform add policy-packs ./policies
-rootform run pass/plan.json --plan-file pass/plan.tfplan \
-  --locked --policy 'tutorial/*' --no-serve -o pass/locked.sarif
+rootform check pass/analysis.json --locked --policy 'tutorial/*' \
+  -o pass/locked.sarif
 ```
 
-The first command updates `rootform.lock`; the second evaluates the selected Policy from that lock and returns status `0` for this passing plan. Commit the lock with the project once reviewed. `--locked` refuses `--policy-pack` as a usage error, so CI cannot silently override the recorded selection. [CI integration](../integrations/ci/README.md) shows the gate and artifact handling; [Outputs and exit status](../reference/outputs.md) is the status reference.
+The first command updates `rootform.lock`; the second evaluates the selected Policy from that lock against the saved Form and returns status `0`. Commit the lock with the project once reviewed. `--locked` refuses `--policy-pack` as a usage error, so CI cannot silently override the recorded selection. Let the status of `check` decide the job: [CI integration](../integrations/ci/README.md) shows the gate and artifact handling, [rootform check](../reference/cli/check.md) is the command reference, and [Outputs and exit status](../reference/outputs.md) is the status reference.
 
 <!-- rootform:endsteps -->
 

@@ -83,8 +83,8 @@ This selects `recorded` before and `planned` after. The saved plan adds verified
 
 ## Use exit status deliberately
 
-Status `0` proves the comparison ran, not that its report is empty; `run` has no status that reports changes. Read `comparison.md` for review and keep `comparison.json` for the exact entries. To block a review on an architectural condition, select a Policy: with `--diff`, selected Policies evaluate the after side, and a violation returns `1`. [Outputs and exit status](../reference/outputs.md) defines export formats and failures.
+Status `0` proves the comparison ran, not that its report is empty; `run` has no status that reports changes. Read `comparison.md` for review and keep `comparison.json` for the exact entries. `run` never evaluates Policies. To block a review on an architectural condition, check the saved comparison: `rootform check comparison.json` evaluates the selected Policies on its After side, `--side before` selects the other side, and a violation exits `1`. [Outputs and exit status](../reference/outputs.md) defines export formats and failures.
 
 <!-- rootform:endsteps -->
 
-Continue with [Review a pull request](../workflows/index.md) to plan both revisions in isolated worktrees, compare them, gate the head with the same Policies, and keep the review evidence. [Run checks](check-architecture.md) explains how to select Policies and read their proof.
+Continue with [Review a pull request](../workflows/index.md) to plan both revisions in isolated worktrees, compare them, gate the head with the same Policies, and keep the review evidence. [Check an architecture](check-architecture.md) explains how to select Policies and read their proof.

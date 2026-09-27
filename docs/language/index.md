@@ -19,7 +19,7 @@ language and general HCL expressions are not part of this contract.
 | --- | --- |
 | Understand the language through one real architecture | [Language tour](tour.md) |
 | Author a provider Dialect | [Write a Dialect](../dialect-authoring.md) |
-| Express and evaluate one governance rule | [Run checks](../guides/check-architecture.md) |
+| Express and evaluate one governance rule | [Check an architecture](../guides/check-architecture.md) · [CLI reference](../reference/cli/check.md) |
 | Version and distribute several policies | [Write a Policy Pack](write-policy-pack.md) |
 | Format, compile, test, and inspect definitions | [Test and validate](test-validate.md) |
 | Check exact accepted syntax | [Language reference](reference/index.md) |
@@ -44,9 +44,10 @@ A Policy Pack participates after those facts exist:
 The Form is the saved result. Its public data contract is defined
 in the [Form reference](../concepts/forms.md). [Architecture comparisons](../concepts/comparisons.md)
 compares two inputs over that contract, and
-[Run checks](../guides/check-architecture.md) evaluates policies
-against one selected stage. No Policy rewrites the Form, reads a live cloud account, or
-repairs missing Dialect coverage. Policy outcomes appear in the run summary, the
+[Check an architecture](../guides/check-architecture.md) evaluates policies
+against one selected stage with [`rootform check`](../reference/cli/check.md).
+No Policy rewrites the Form, reads a live cloud account, or repairs missing
+Dialect coverage. Policy outcomes appear in the check summary, the
 Markdown report, SARIF, and `rootform explain policy`, never in the Form
 itself.
 
@@ -149,13 +150,15 @@ The policy needs neither nesting nor a pack reference.
 An empty query means zero only when the relevant emission is supported and its
 closure and instance population are complete. An unresolved closure makes an
 affected query indeterminate, including under negation. A selected Policy with
-no targets has status `not_evaluated`; the run reports no decision and exits 3
-if nothing was evaluated. An indeterminate evaluation also exits 3. A confirmed
-violation exits 1; all evaluated Policies passing exits 0.
+no targets has outcome `no_target`; unless another Policy is violated or
+indeterminate, `rootform check` then reports no decision and exits 3. An
+indeterminate evaluation also exits 3. A confirmed violation exits 1; all
+selected Policies passing exits 0. Usage errors exit 2, and a report write
+failure exits 4.
 
 Read [Policies and Policy Packs](../concepts/policies.md) for governance meaning.
-Use [Run checks](../guides/check-architecture.md) for a complete
-evaluated example.
+Use [Check an architecture](../guides/check-architecture.md) for a complete
+evaluated example, or see the [`check` reference](../reference/cli/check.md).
 
 ## Language boundaries
 
@@ -173,6 +176,6 @@ authoring constructs to `.rf.hcl`.
 
 Use `rootform lsp` for editor diagnostics and `rootform fmt` for canonical
 formatting. Validation compiles definitions; `rootform test` compares Dialect
-fixture architectures; `rootform run` evaluates selected policies. These operations
-answer different questions, so use them together in a serious authoring
+fixture architectures; `rootform check` evaluates selected Policies. These
+operations answer different questions, so use them together in an authoring
 workflow.

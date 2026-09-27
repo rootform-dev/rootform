@@ -127,7 +127,7 @@ An `indeterminate` closure records a reason such as `unknown_until_apply`, `sens
 | `POLICY_STAGE_MISSING` | Requested evaluation stage is unavailable |
 | `POLICY_LIMIT_EXCEEDED`, `POLICY_PACK_DUPLICATE` | Evaluation bound or Pack identity invalid |
 | `POLICY_NOT_EVALUATED` | No Policy decision took place |
-| `POLICY_NO_DECISION` | Selected policies evaluated zero targets; `run` exits `3` |
+| `POLICY_NO_DECISION` | Selected policies evaluated zero targets; `check` exits `3` |
 
 An unknown assertion or incomplete target domain produces an indeterminate evaluation, not a violation or pass. The policy result and its diagnostics identify the affected target; see [Evaluation](evaluation.md#per-target-outcomes).
 
@@ -198,7 +198,7 @@ A limit failure cannot be treated as a partial pass. See [Test and validate](../
 1. Use the stable code to identify the phase and construct.
 2. Read its sanitized source range or Form path.
 3. Fix the earliest source error first; later references may depend on it.
-4. Repeat source validation and the affected fixture or policy run.
+4. Repeat source validation and the affected fixture or `rootform check`.
 
 Keep warnings as incomplete evidence until the instance and closure explain
 them.

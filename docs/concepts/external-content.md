@@ -120,8 +120,10 @@ Rootform determines the active Dialects in this order:
 4. Apply `--dialect` overrides given to this command.
 
 For Policy Packs, `--policy-pack` overlays one pack by name for one command;
-other selected packs remain active. An override never changes the lock. Two
-overrides with the same owner or pack name fail. `--locked` rejects overrides.
+other selected packs remain active. `rootform check` selects every Policy in
+the overlay by default; repeat `--policy` to narrow selection before linking.
+An override never changes the lock. Two overrides with the same owner or pack
+name fail. `--locked` rejects overrides.
 
 A missing or different copy stops the command. Rootform never substitutes
 another source or version, and normal analysis never acquires content. Policy
@@ -146,18 +148,19 @@ brings it back.
 
 Policies are selected and vendored as part of their Policy Pack. An OCI Pack
 can also be installed; a local Pack stays at its recorded path. To evaluate
-part of a selected Pack, filter one run with `--policy`:
+part of a selected Pack, filter one check with `--policy`:
 
 <!-- docs-check:external-content-5 -->
 ```sh
-rootform run plan.json --plan-file plan.tfplan --policy 'baseline/*' --no-serve
+rootform check plan.json --plan-file plan.tfplan --policy 'baseline/*'
 ```
 
 This assumes the project selects a `baseline` Policy Pack and that the saved
 plan matches the JSON. The filter does not change `rootform.lock`; it still
 selects the whole Pack. The result counts only policies matching `baseline/*`.
-Status `0` means every selected target passed, `1` reports a violation, and
-`3` means the evidence is indeterminate or no decision was made.
+Exit `0` means every selected Policy passed, `1` reports a violation, and `3`
+means the evidence is indeterminate or no decision was made. Usage errors exit
+`2`; a report write failure exits `4`.
 
 ## Next
 

@@ -72,12 +72,12 @@ it does not select the unit for this project. Use `add` for project adoption.
 
 For a local source, edit it, then check the edited Pack for one command. The
 override uses the source without changing `rootform.lock`. This synthetic
-plan has two baseline targets, so a passing run reports two passes and
-status `0`:
+plan has two baseline targets, so a passing check reports two passes and
+exits `0`:
 
 <!-- docs-check:external-try-local -->
 ```sh
-rootform run plan.json --plan-file plan.tfplan --policy-pack ./policies --no-serve
+rootform check plan.json --plan-file plan.tfplan --policy-pack ./policies
 ```
 
 Without the override, commands refuse a selected local source that differs
@@ -156,13 +156,14 @@ After cloning the project, make its selected content present and verified:
 <!-- docs-check:external-init-clone -->
 ```sh
 rootform init . --locked --no-input
-rootform run plan.json --locked --no-serve -o analysis.json
+rootform run plan.json --plan-file plan.tfplan --locked --no-serve -o analysis.json
+rootform check analysis.json --locked
 ```
 
 `Project prepared` confirms the selection is present and verified.
-`analysis.json` is a saved Form. Status `0` means every
-selected Policy passed or no Policies were selected; status `3` means
-indeterminate evidence or no decision. `init` may fetch only OCI digests recorded in the lock. Add `--offline` when
+`analysis.json` is a saved Form. `rootform run` analyzes it and exits `0` on
+success; `rootform check` evaluates selected Policies, exits `0` when all pass,
+`1` on a violation, and `3` when no decision is possible. `init` may fetch only OCI digests recorded in the lock. Add `--offline` when
 selected content is available at its local path, installed, or vendored and
 network access must be disabled. `init` verifies an existing vendor tree,
 including missing, extra, or changed content; it never rewrites

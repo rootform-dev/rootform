@@ -3,7 +3,7 @@ title: "Troubleshooting"
 description: "Match a Rootform symptom to its exact diagnostic, evidence, and next action."
 ---
 
-Keep the command, exit status, standard error, and saved Form together. Status `1` can mean a confirmed policy violation, while `3` means refused input or no determinate decision. Status `4` is an output or server failure. [Outputs and exit status](../reference/outputs.md) gives the full contract.
+Keep the command, its phase status, standard error, and saved Form together. Analysis status `3` means refused input; check status `1` means a confirmed Policy violation, while `3` means no determinate decision. Status `4` is an output failure, or for `run` a local server that could not start. [Outputs and exit status](../reference/outputs.md) gives both contracts.
 
 ## The command set differs from this documentation
 
@@ -106,7 +106,7 @@ For embedded-only work, omit `--locked`. For an exact external selection, add co
 
 ## Selected content is missing
 
-A locked run exits `3` when a selected Dialect or Policy Pack cannot be loaded, for example with `SEMANTIC_SELECTION: the selected Dialects could not be loaded (selected dialect network-review is unavailable locally)`. `rootform list` fails for the same reason, so read the entries in `rootform.lock` instead. For selected OCI content, run `rootform init --locked --no-input` from the project root to install the exact recorded digests; add `--offline` only when those bytes are already on this machine. `init` cannot choose another version or change the lock. A local source must be restored at its recorded path: `init` reports `the local source is unavailable` and cannot recreate it. When the project has a vendor tree, repair that tree instead, as described below.
+A locked `run` exits `3` when a selected Dialect cannot be loaded, for example with `SEMANTIC_SELECTION: the selected Dialects could not be loaded (selected dialect network-review is unavailable locally)`. `rootform check` exits `3` when a selected Policy Pack cannot be loaded, for example with `SELECTION_POLICY_PACK_MISSING: selected Policy Pack baseline is unavailable locally`. `rootform list` fails for the same reason, so read the entries in `rootform.lock` instead. For selected OCI content, run `rootform init --locked --no-input` from the project root to install the exact recorded digests; add `--offline` only when those bytes are already on this machine. `init` cannot choose another version or change the lock. A local source must be restored at its recorded path: `init` reports `the local source is unavailable` and cannot recreate it. When the project has a vendor tree, repair that tree instead, as described below.
 
 ## Installed content does not match rootform.lock
 
@@ -122,7 +122,7 @@ rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (vendore
 rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (.rootform/dialects does not exactly match rootform.lock)
 ```
 
-The first line means that a vendored Dialect's content changed. The second means that its vendor metadata is missing or unreadable. The third means that the family has a missing, extra, or unreadable entry; a `.rootform/dialects` path that is not a directory reports `is present but does not match rootform.lock` instead. Vendored Policy Packs are checked when a run selects their Policies, and report the same problems as `POLICY_UNAVAILABLE`, for example `selected Policy Pack baseline differs from rootform.lock`. Repair only the affected family from verified local or installed bytes:
+The first line means that a vendored Dialect's content changed. The second means that its vendor metadata is missing or unreadable. The third means that the family has a missing, extra, or unreadable entry; a `.rootform/dialects` path that is not a directory reports `is present but does not match rootform.lock` instead. Vendored Policy Packs are checked when `rootform check` loads them and report the same problems, for example `selected Policy Pack baseline differs from rootform.lock`. Repair only the affected family from verified local or installed bytes:
 
 <!-- docs-check:troubleshooting-vendor-repair -->
 ```sh
@@ -149,11 +149,11 @@ Only explicit acquisition or publication crosses that boundary; normal `run` doe
 
 ## A policy is unavailable or has no decision
 
-Selecting a policy without any Policy Pack returns `POLICY_UNAVAILABLE: no Policy Pack is selected; pass --policy-pack or add one to rootform.lock`. Select a reviewed pack, then run again. A selected pack can still find no target: the summary says `Policies      no decision: the selected policies found nothing to evaluate`, and status `3` reports `POLICY_NO_DECISION: the selected policies evaluated no target`. Inspect the target with `rootform show policy <identifier>` and compare it with the document's interpreted Concepts and Rules. Zero evaluations are not compliance. [Target scope is exact](../concepts/policies.md#target-scope-is-exact) explains matching, and [Run checks](../guides/check-architecture.md) shows target coverage.
+Selecting a policy without any Policy Pack returns `POLICY_UNAVAILABLE: no Policy Pack is selected; add one to rootform.lock or pass --policy-pack`. Select a reviewed pack, then run `rootform check`. A selected pack can still find no target: the check summary says `No policy decision`, and status `3` reports `POLICY_NO_DECISION: 1 selected policy has no target to evaluate`, with the count of such Policies. Inspect the target with `rootform show policy <identifier>` and compare it with the Form's interpreted Concepts and Rules. Zero evaluations are not compliance. [Target scope is exact](../concepts/policies.md#target-scope-is-exact) explains matching, and [Check an architecture](../guides/check-architecture.md) shows target coverage.
 
 ## A policy is indeterminate or violated
 
-A violation exits `1`; an indeterminate outcome exits `3`. `report.md` and SARIF name each violated or indeterminate target. [Inspect the proof](../guides/check-architecture.md#inspect-the-proof) shows how `rootform explain policy` and `rootform explain architecture` trace each target to its facts and closures. Unknown, sensitive, and unverified absence cannot prove a negative assertion. Resolve input evidence or correct the Policy; do not remove a diagnostic to make the job pass. [Policy outcomes](../concepts/policies.md#evidence-produces-three-outcomes) explains the three results.
+A violation exits `1`; an indeterminate outcome exits `3`. `policy.md` and SARIF name each violated or indeterminate target. [Inspect the proof](../guides/check-architecture.md#inspect-the-proof) shows how `rootform explain policy` and `rootform explain architecture` trace each target to its facts and closures. Unknown, sensitive, and unverified absence cannot prove a negative assertion. Resolve input evidence or correct the Policy; do not remove a diagnostic to make the job pass. [Policy outcomes](../concepts/policies.md#evidence-produces-three-outcomes) explains the three results.
 
 ## A comparison appears empty or indeterminate
 
@@ -169,6 +169,6 @@ An occupied port returns status `4` and `SERVER_FAILED: port <number> is unavail
 
 ## An output path collides or cannot be written
 
-If an output resolves to an input, `run` exits `2` with `rootform: output "plan.json" resolves to an input`. Choose a different path, including when a link points to the input. An unwritable target or server start failure exits `4`; already written files may remain after a later output fails. Check standard error, `run.status` in CI, and directory ownership. In a container, UID/GID `65532:65532` must be able to write the report mount; [container mounts](../integrations/oci-image.md#run-against-a-project) explain the split.
+If an output resolves to an input, the command exits `2` with `rootform: output "plan.json" resolves to an input`. Choose a different path, including when a link points to the input. An unwritable target exits `4`; already written files may remain after a later output fails. Check standard error, `run.status` or `check.status` for the failing phase, and directory ownership. In a container, UID/GID `65532:65532` must be able to write the report mount; [container mounts](../integrations/oci-image.md#run-against-a-project) explain the split.
 
 If the symptom remains, [report a synthetic reproduction](../contributing/index.md#report-a-semantic-gap) without credentials, raw plans, state, or private infrastructure.

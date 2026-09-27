@@ -140,7 +140,7 @@ rejects `POLICY_TARGET_CONTRADICTORY` if none of listed Rules can satisfy
 optional `concept` and `dialects` filters. Without explicit `rules`, linker does
 not infer contradiction from absence of current implementations: a valid
 Concept target, with or without `dialects`, may select zero representations and
-become `not_evaluated`. `dialects` alone is invalid because it does not define
+have outcome `no_target`. `dialects` alone is invalid because it does not define
 semantic target.
 
 Target selects interpreted instances in the selected stage. An instance
@@ -232,7 +232,7 @@ flags and [Evaluation](evaluation.md#per-target-outcomes) for outcomes.
 ## Zero targets
 
 A valid Policy may select zero representations in one architecture. It is then
-`not_evaluated`, not passed. A selected Policy without targets prevents an
+`no_target`, not passed. A selected Policy without targets prevents an
 overall compliant result.
 
 ## Rejected syntax

@@ -110,7 +110,7 @@ Use one term for each external-content state. The full explanation belongs in
 | selected | recorded in `rootform.lock` | configured, enabled, pinned as a state, locked as a unit state |
 | vendored | selected bytes copied into `.rootform/` and read only from there | cached, bundled |
 | active | used by one command run | effective, loaded |
-| override | supplied by `--dialect` or `--policy-pack` for one run | local selection, temporary selection |
+| override | supplied by `--dialect` or `--policy-pack` for one command | local selection, temporary selection |
 | prepare | what `init` does: verify local, installed, or vendored content and possibly fetch missing OCI content | install for every `init` |
 
 “Exact identity” names what the lock records. Reserve “pin” for digests
@@ -201,7 +201,7 @@ dots in technical prose.
 | --- | --- |
 | In this guide, we will explore how to get started with Rootform. | Plan a VPC and subnet from a small Terraform configuration. |
 | Simply leverage the offline flag for seamless local execution. | Use `init --offline` or `vendor … --offline` to prevent acquisition. Selected third-party content must already be available locally. |
-| Rootform ensures your infrastructure is secure. | `rootform run plan.json --policy-pack ./policies` evaluates selected policies. |
+| Rootform ensures your infrastructure is secure. | `rootform check plan.json --policy-pack ./policies` evaluates selected Policies. |
 | Current access: the executable emits text, JSON, Markdown, and HTML. | `rootform run before.json --diff after.json` emits a comparison Form. |
 | With these steps, you are ready to continue. | Link to next concrete task, or stop. |
 

@@ -47,8 +47,13 @@ jobs:
           path: |
             ${{ env.ROOTFORM_OUTPUT_DIR }}/analysis.json
             ${{ env.ROOTFORM_OUTPUT_DIR }}/report.md
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/results.sarif
             ${{ env.ROOTFORM_OUTPUT_DIR }}/summary.txt
             ${{ env.ROOTFORM_OUTPUT_DIR }}/run.stderr
             ${{ env.ROOTFORM_OUTPUT_DIR }}/run.status
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/policy.json
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/policy.md
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/results.sarif
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.txt
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.stderr
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.status
           if-no-files-found: warn

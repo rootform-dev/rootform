@@ -55,6 +55,10 @@ Policy belongs to one pack and uses owner-first identity. Source declares no
 semantic versions; linking derives exact RF Vocabulary and Dialect pins from
 qualified references and a Form.
 
+`rootform check plan.json` evaluates the selected Policies against one stage
+of a Form and exits with the verdict; `rootform run` analyzes and never
+evaluates Policies.
+
 See [`contracts/policy-pack-distribution.md`](contracts/policy-pack-distribution.md)
 and [`baseline` example](policy-packs/baseline/pack.rf.hcl). Repository makes no
 publication claim for this local pre-release source.

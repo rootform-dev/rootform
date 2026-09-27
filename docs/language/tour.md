@@ -175,8 +175,8 @@ claim a pass. See [evaluation](reference/evaluation.md).
 
 Validate authored Dialects and Policy Packs first. Test a Dialect against a
 fixture containing `main.tf`, `plan.json`, the matching `plan.tfplan`, and an
-`analysis.golden` Form. Run the plan to inspect the instance,
-facts and policy outcome. Comparing two inputs with `--diff` produces a
+`analysis.golden` Form. Run the plan to inspect the instance and facts, then use
+`rootform check` to evaluate the Policy. Comparing two inputs with `--diff` produces a
 comparison Form. The [authoring guide](../dialect-authoring.md) makes those
 steps executable; [plan inputs](../inputs/plans.md) explains the export.
 

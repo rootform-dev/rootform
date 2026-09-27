@@ -25,7 +25,7 @@ docker run --rm \
   rootform run plan.json --no-serve
 ```
 
-The terminal summary reports the input kind, active Dialect count, stage, interpreted instances, facts, and policy outcome. A `0` without selected policies confirms successful analysis, not compliance. A binary saved plan is not a `run` input; export it to JSON first.
+The terminal summary reports the input kind, active Dialect count, stage, interpreted instances, and facts. Status `0` confirms successful analysis, not compliance; `rootform check plan.json` in the same image evaluates the selected Policies and exits with their verdict. A binary saved plan is not a `run` input; export it to JSON first.
 
 To keep the Form while the project mount stays read-only, ask for JSON on standard output and let the host shell write the file:
 
@@ -37,7 +37,7 @@ docker run --rm \
   rootform run plan.json --no-serve --format json > analysis.json
 ```
 
-Saved plans, plan JSON, and state JSON can contain cleartext secrets. Mount only the protected files needed by the run, keep them out of Git and public artifacts, and remove them according to your retention policy. Rootform reads locally, does not contact a provider or cloud, and does not place sensitive values in its document, reports, SARIF, or Explorer. Its outputs still expose topology and names.
+Saved plans, plan JSON, and state JSON can contain cleartext secrets. Mount only the protected files needed by the run, keep them out of Git and public artifacts, and remove them according to your retention policy. Rootform reads locally, does not contact a provider or cloud, and does not place sensitive values in its Form, reports, SARIF, or Explorer. Its outputs still expose topology and names.
 
 ## Write a report without changing the input mount
 

@@ -11,20 +11,20 @@ A Policy evaluates a selected architecture stage within a [Form](forms.md). It c
 | --- | --- | --- |
 | **Policy** | Defines target, assertion, and message | Its existence does not mean it ran |
 | **Policy Pack** | Owns a set of Policies | Its presence does not mean it was selected |
-| **Selection** | Chooses a Pack or specific Policies for one run | A Dialect selection alone selects no Policies |
+| **Selection** | Chooses Packs and specific Policies for one check | A Dialect selection alone selects no Policies |
 | **Result** | Records targets, outcomes, and diagnostics | Shows which selected Policies actually evaluated instances |
 
-`--policy-pack ./policies` selects a local Pack for one invocation. A project can record a Pack in `rootform.lock` and use `--policy` to select specific Policies under `--locked`; `--policy-pack` is refused with `--locked`. A run without Policy selection performs analysis and returns status `0` when successful, but makes no compliance claim. See [Run checks](../guides/check-architecture.md) for the procedure and [external content](external-content.md) for project selection.
+`rootform check` evaluates Policies; `rootform run` only analyzes and never selects or evaluates them. The active Packs come from `rootform.lock`, and `--policy-pack ./policies` overlays a local Pack for one command, replacing a selected Pack of the same name. Without `--policy`, a check selects every Policy of the overlay Packs, or of every active Pack when there is no overlay. Repeat `--policy` to narrow that selection before anything is linked; an unknown or ambiguous selector is a usage error. `--locked` refuses overlays. See [Check an architecture](../guides/check-architecture.md) for the procedure, the [`check` reference](../reference/cli/check.md) for exact options, and [external content](external-content.md) for project selection.
 
 ## Target scope is exact
 
 A Policy target matches each eligible Representation on the evaluated stage through authored Concept, Rule, and Dialect conditions. Values within one condition are alternatives; different conditions must all match. Similar provider types and source dependencies do not substitute for a selected Concept or applied Rule. Each matching instance is evaluated separately; an instance cannot borrow a sibling's proven Context. Composition members do not inherit the root's Concept.
 
-This makes coverage part of the governance claim. A passing evaluation applies only to its matched target and authored assertion. It says nothing about instances outside that target or Policies outside the selection. Review the selected Policy count, matched target count, and each outcome before treating a run as a gate.
+This makes coverage part of the governance claim. A passing evaluation applies only to its matched target and authored assertion. It says nothing about instances outside that target or Policies outside the selection. Review the selected Policy count, matched target count, and each outcome before treating a check as a gate.
 
 ## Evaluate a supported stage
 
-For a plan Form, Policies evaluate Planned by default and can evaluate Refreshed when present. They never evaluate a plan's reconstructed Recorded stage. For a state Form, Policies evaluate Recorded. `--stage` chooses an available stage for a single input; a comparison Form uses its selected after side by default. A Policy does not directly ask whether drift occurred. It evaluates architectural facts on the selected architecture.
+For a plan Form, `rootform check` evaluates Planned by default and can evaluate Refreshed when present. It never evaluates a plan's reconstructed Recorded stage. For a state Form, it evaluates Recorded. `--stage` chooses an available stage and never falls back to another. A comparison Form is checked on its After side by default; `--side before` selects the other side. A Policy does not directly ask whether drift occurred: comparisons, drift, and the drift report are never evaluated as architectures. It evaluates architectural facts on the selected architecture.
 
 ## Evidence produces three outcomes
 
@@ -34,21 +34,22 @@ For a plan Form, Policies evaluate Planned by default and can evaluate Refreshed
 | Violated | Available facts establish the assertion as false |
 | Indeterminate | Valid architecture cannot establish either Boolean |
 
-A proven `absent` closure can make an assertion false. Unknown, sensitive, conflicting, unavailable, or carried evidence stays indeterminate when it affects the answer. A carried instance remains in Planned because the plan neither changes nor deletes it, but the plan did not evaluate it; a Policy cannot pass or fail on missing evidence from it. A negative assertion needs complete relevant population before absence can count as a pass. A selected Policy with no matching target is *not evaluated*; that is no decision, not a fourth evaluation outcome. [Run checks](../guides/check-architecture.md) shows the outcomes on small plans: the same Policy passes, is violated, or stays indeterminate because the evidence differs, not because the Policy changes. [Evaluation semantics](../language/reference/evaluation.md) defines the exact truth rules.
+A proven `absent` closure can make an assertion false. Unknown, sensitive, conflicting, unavailable, carried, or deferred evidence stays indeterminate when it affects the answer. A carried instance remains in Planned because the plan neither changes nor deletes it, but the plan did not evaluate it; a Policy cannot pass or fail on missing evidence from it, and an evaluation that depends on it is indeterminate with reason `population_unverified`. A negative assertion needs complete relevant population before absence can count as a pass. A selected Policy with no matching target has no evaluation; that is no decision, not a fourth evaluation outcome. [Check an architecture](../guides/check-architecture.md) shows the outcomes on small plans: the same Policy passes, is violated, or stays indeterminate because the evidence differs, not because the Policy changes. [Evaluation semantics](../language/reference/evaluation.md) defines the exact truth rules.
 
 ## Read the aggregate decision
 
-The run summary and exit status follow one priority:
+`rootform check` states one verdict, with this priority:
 
-1. Any violation makes the result violated and returns status `1`.
-2. Otherwise, any indeterminate evaluation, or a selected Policy that evaluated no target, returns status `3`.
-3. Only when at least one selected Policy evaluates and every evaluation passes is the result compliant, with status `0`.
+1. Any violation makes the result violated and exits `1`.
+2. Otherwise, any indeterminate evaluation or incomplete target coverage makes the result indeterminate and exits `3`.
+3. Otherwise, a selected Policy with no target, or no selected Policy at all, is no decision and exits `3`.
+4. Only when every selected Policy evaluates at least one target and every evaluation passes is the result passed, with exit `0`.
 
-A run with no Policy selected also returns `0` after successful analysis, with an explicit no-policy message; that is not a compliance claim. Invalid usage returns `2`, refused input `3`, and an output or server failure `4`. A violation can coexist with lower-priority uncertainty, and status `1` does not remove it from the report. Always read the selected Policy count, evaluation count, and result distribution with the status. [Outputs and exit status](../reference/outputs.md) has the full command matrix.
+A check that cannot evaluate, for example because the stage is unavailable, no Policy Pack is selected, or a selected Pack cannot link, reports its code and exits `3`. Invalid usage exits `2`; a report that cannot be written exits `4` after the verdict is stated. `rootform run` never evaluates Policies, so its status `0` makes no compliance claim. A violation can coexist with lower-priority uncertainty, and exit `1` does not remove it from the report. Always read the selected Policy count, evaluation count, and result distribution with the status. [Outputs and exit status](../reference/outputs.md) has the full command matrix.
 
 ## What a Policy result proves
 
-A subnet Context Policy can establish that the supplied stage includes a Dialect-proven network placement. It cannot establish runtime reachability. A failed match can mean proven absence, or uncertainty can prevent a verdict; those are different review decisions. Architecture and SARIF reports preserve diagnostic and evaluation detail. SARIF states when nothing was evaluated instead of implying approval.
+A subnet Context Policy can establish that the supplied stage includes a Dialect-proven network placement. It cannot establish runtime reachability. A failed match can mean proven absence, or uncertainty can prevent a verdict; those are different review decisions. The check's JSON, Markdown, and SARIF reports preserve diagnostic and evaluation detail. SARIF records the verdict status in the properties of its SARIF run, so a check that evaluated nothing does not read as approval.
 
 Review these boundaries before treating a Pack as a gate:
 
@@ -64,4 +65,4 @@ A Policy Pack source is a portable authored unit. Before evaluation, Rootform li
 
 `rootform compile policy-pack` pins a Pack to one Form's semantics, so the Pack can be evaluated later and offline without the Dialect sources that interpreted it. When a compiled Pack's pins disagree with the evaluated Form, for example after a Dialect version changes, evaluation fails closed with `POLICY_SEMANTICS_MISMATCH: compiled Policy Pack semantic pin differs from the document` and exit status `3`. Rootform does not relink silently, reload other Dialects, or fall back to another Pack.
 
-A project lock selects Policy Pack source. `--policy-pack` supplies a local source directory or compiled Pack for one invocation; `--policy` narrows which selected Policies evaluate without changing the selection. Neither changes the Form. Continue with [Run checks](../guides/check-architecture.md), [Write a Policy Pack](../language/write-policy-pack.md), or [Policy Packs reference](../language/reference/policy-packs.md).
+A project lock selects Policy Pack source. `--policy-pack` supplies a local source directory or compiled Pack for one invocation; `--policy` narrows which Policies one check evaluates without changing the lock. Neither changes the Form. Continue with [Check an architecture](../guides/check-architecture.md), the [`check` reference](../reference/cli/check.md), [Write a Policy Pack](../language/write-policy-pack.md), or [Policy Packs reference](../language/reference/policy-packs.md).

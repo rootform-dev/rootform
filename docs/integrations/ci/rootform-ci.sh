@@ -30,7 +30,13 @@ if [ -n "$pack" ] && [ -f "$project/rootform.lock" ]; then
   exit 2
 fi
 
-mkdir -p "$output"
+# mkdir without -p fails if the directory appeared since the check above, so a
+# concurrent writer can never hand this job a directory holding older files.
+mkdir -p "$(dirname "$output")"
+if ! mkdir "$output" 2>/dev/null; then
+  printf '%s\n' 'ROOTFORM_OUTPUT_DIR must be a fresh directory' >&2
+  exit 2
+fi
 output=$(cd "$output" && pwd -P)
 input=$(cd "$(dirname "$input")" && pwd -P)/$(basename "$input")
 if [ -n "$plan_file" ]; then
@@ -44,8 +50,27 @@ case "$rootform_bin" in
   */*) rootform_bin=$(cd "$(dirname "$rootform_bin")" && pwd -P)/$(basename "$rootform_bin") ;;
 esac
 
-set -- run "$input" --project "$project" --no-serve -o "$output/analysis.json" -o "$output/report.md" -o "$output/results.sarif"
+set -- run "$input" --project "$project" --no-serve -o "$output/analysis.json" -o "$output/report.md"
 if [ -n "$plan_file" ]; then set -- "$@" --plan-file "$plan_file" --require-enrichment; fi
+if [ -f "$project/rootform.lock" ]; then set -- "$@" --locked; fi
+
+set +e
+"$rootform_bin" "$@" >"$output/summary.txt" 2>"$output/run.stderr"
+status=$?
+set -e
+printf '%s\n' "$status" >"$output/run.status"
+if [ "$status" -ne 0 ]; then exit "$status"; fi
+
+run_gate=false
+if [ -n "$pack" ] || [ -n "$policy" ]; then run_gate=true; fi
+if [ -f "$project/rootform.lock" ] &&
+  tr -d ' \t\r\n' <"$project/rootform.lock" | grep -q '"policy_packs":\[{'; then
+  run_gate=true
+fi
+if [ "$run_gate" = false ]; then exit 0; fi
+
+set -- check "$output/analysis.json" --project "$project" \
+  -o "$output/policy.json" -o "$output/policy.md" -o "$output/results.sarif"
 if [ -n "$pack" ]; then set -- "$@" --policy-pack "$pack"; fi
 if [ -n "$policy" ]; then
   set -f
@@ -55,8 +80,8 @@ fi
 if [ -f "$project/rootform.lock" ]; then set -- "$@" --locked; fi
 
 set +e
-"$rootform_bin" "$@" >"$output/summary.txt" 2>"$output/run.stderr"
+"$rootform_bin" "$@" >"$output/check.txt" 2>"$output/check.stderr"
 status=$?
 set -e
-printf '%s\n' "$status" >"$output/run.status"
+printf '%s\n' "$status" >"$output/check.status"
 exit "$status"

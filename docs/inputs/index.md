@@ -59,7 +59,7 @@ The file is a readable report of the saved Form. It does not rerun
 Terraform or OpenTofu or add evidence missing from that Form.
 
 A configuration directory is not an analysis input: it is a project location.
-`--project` selects its Dialects and policies; it does not supply infrastructure
+`--project` selects its Dialects, and Policy Packs for `check`; it does not supply infrastructure
 evidence. A binary saved plan alone is also not an input: export its JSON first,
 then optionally pair the two files. Rootform refuses malformed JSON, plan event
 streams from `plan -json`, and unrecognized input rather than inferring a
