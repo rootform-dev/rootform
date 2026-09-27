@@ -17,7 +17,52 @@ One plan can provide three comparisons when its stages exist:
 
 Recorded is reconstructed by reversing drift records and may be partial. Refreshed is the state the plan starts from; the plan does not record whether or how far refresh ran. The drift report is separate from the Reported drift comparison. It lists plan records, including changed attribute *paths* and an architectural consequence such as `architectural`, `none_under_dialects`, `indeterminate`, `uncovered`, or `address_only`. “No drift reported in this plan” says the plan JSON has no drift record; it does not prove every resource was refreshed or that live infrastructure is unchanged.
 
-An input comparison, `rootform run before.json --diff after.json`, selects one stage from each separate input and writes a comparison Form with `cross` Differences. Its sides are Before and After; its Differences are never drift, even when they include drift between the two exports. Plans default to Planned; state Forms select Recorded; saved single-input Forms use their saved default. Use `--before-stage` and `--after-stage` to choose other available stages. A comparison Form reopens alone with `rootform run comparison.json`; it cannot be a `--diff` operand.
+An input comparison, `rootform run before.json --diff after.json`, selects one stage from each separate input and writes a comparison Form with `cross` Differences. Its sides are Before and After; its Differences are never drift: they show how the two inputs differ and do not establish what drifted between the two exports. Plans default to Planned; state Forms select Recorded; saved single-input Forms use their saved default. Use `--before-stage` and `--after-stage` to choose other available stages. A comparison Form reopens alone with `rootform run comparison.json`; it cannot be a `--diff` operand.
+
+## See drift cancel in the net change
+
+A plan can propose to undo reported drift. The Rootform repository keeps a synthetic plan JSON for this case in `scripts/fixtures/docs/restored-drift`: it was written by hand, not exported by Terraform or OpenTofu, and describes no real infrastructure. An out-of-band change retargeted the KMS alias `aws_kms_alias.app` from `aws_kms_key.primary` to `aws_kms_key.standby`, and the plan retargets it to the primary key. The embedded AWS Rule `aws.rule.kms-alias` interprets the alias as a Contribution to the key it targets. From that directory:
+
+<!-- docs-check:concept-restored-drift -->
+```sh
+rootform run plan.json --no-serve --color always
+```
+
+<!-- docs-output:concept-restored-drift -->
+```ansi title="Restored drift, excerpt"
+[1m[38;5;208mPlanned changes[0m
+  Refreshed -> Planned
+
+  [2mContributions[0m           1 added, 1 removed
+  [2mIndeterminate closures[0m  0
+
+  [1mContributions[0m
+    [32m+[0m aws_kms_alias.app  [2mcontribution ->[0m aws_kms_key.primary  [2madded[0m
+    [31m-[0m aws_kms_alias.app  [2mcontribution ->[0m aws_kms_key.standby  [2mremoved[0m
+
+[1m[38;5;208mReported drift[0m
+  Recorded -> Refreshed
+  The export does not establish the refresh scope.
+
+  [2mDrift entries[0m  1 (1 architectural)
+  [2mEffect[0m         1 fact added, 1 removed
+
+  [33m~[0m aws_kms_alias.app  [2mchanges the architecture; 2 fact changes[0m
+
+[1m[38;5;208mNet change[0m
+  Recorded -> Planned
+
+  No net architectural difference: the plan proposes to restore 2 drift fact
+  changes.
+
+  [1mCancelled[0m
+    = aws_kms_alias.app  [2mremoved by drift, planned for restoration[0m
+        [2mcontribution ->[0m aws_kms_key.primary
+    = aws_kms_alias.app  [2madded by drift, planned for removal[0m
+        [2mcontribution ->[0m aws_kms_key.standby
+```
+
+Reported drift removes the Contribution to the primary key and adds one to the standby key; Planned changes proposes the reverse. Net change compares Recorded with Planned directly, so the two fact changes cancel: it reports no net architectural difference and lists each cancelled fact with what drift did to it and what the plan proposes. The restoration is a proposal of the plan; nothing has been applied.
 
 ## Continuity starts with instance identity
 

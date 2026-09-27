@@ -1,0 +1,452 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.16.4",
+  "planned_values": {
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_kms_alias.app",
+          "mode": "managed",
+          "type": "aws_kms_alias",
+          "name": "app",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "arn": "arn:aws:kms:us-east-1:111122223333:alias/app",
+            "id": "alias/app",
+            "name": "alias/app",
+            "name_prefix": "",
+            "region": "us-east-1",
+            "target_key_arn": "arn:aws:kms:us-east-1:111122223333:key/0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+            "target_key_id": "0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01"
+          },
+          "sensitive_values": {}
+        },
+        {
+          "address": "aws_kms_key.primary",
+          "mode": "managed",
+          "type": "aws_kms_key",
+          "name": "primary",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "arn": "arn:aws:kms:us-east-1:111122223333:key/0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+            "bypass_policy_lockout_safety_check": false,
+            "custom_key_store_id": "",
+            "customer_master_key_spec": "SYMMETRIC_DEFAULT",
+            "deletion_window_in_days": 30,
+            "description": "Application data key",
+            "enable_key_rotation": true,
+            "id": "0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+            "is_enabled": true,
+            "key_id": "0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+            "key_usage": "ENCRYPT_DECRYPT",
+            "multi_region": false,
+            "policy": "{\"Version\":\"2012-10-17\",\"Id\":\"key-default-1\",\"Statement\":[{\"Sid\":\"Enable IAM User Permissions\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::111122223333:root\"},\"Action\":\"kms:*\",\"Resource\":\"*\"}]}",
+            "region": "us-east-1",
+            "rotation_period_in_days": 365,
+            "tags": {},
+            "tags_all": {},
+            "timeouts": null,
+            "xks_key_id": ""
+          },
+          "sensitive_values": {
+            "tags": {},
+            "tags_all": {}
+          }
+        },
+        {
+          "address": "aws_kms_key.standby",
+          "mode": "managed",
+          "type": "aws_kms_key",
+          "name": "standby",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "arn": "arn:aws:kms:us-east-1:111122223333:key/7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+            "bypass_policy_lockout_safety_check": false,
+            "custom_key_store_id": "",
+            "customer_master_key_spec": "SYMMETRIC_DEFAULT",
+            "deletion_window_in_days": 30,
+            "description": "Standby data key",
+            "enable_key_rotation": true,
+            "id": "7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+            "is_enabled": true,
+            "key_id": "7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+            "key_usage": "ENCRYPT_DECRYPT",
+            "multi_region": false,
+            "policy": "{\"Version\":\"2012-10-17\",\"Id\":\"key-default-1\",\"Statement\":[{\"Sid\":\"Enable IAM User Permissions\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::111122223333:root\"},\"Action\":\"kms:*\",\"Resource\":\"*\"}]}",
+            "region": "us-east-1",
+            "rotation_period_in_days": 365,
+            "tags": {},
+            "tags_all": {},
+            "timeouts": null,
+            "xks_key_id": ""
+          },
+          "sensitive_values": {
+            "tags": {},
+            "tags_all": {}
+          }
+        }
+      ]
+    }
+  },
+  "resource_drift": [
+    {
+      "address": "aws_kms_alias.app",
+      "mode": "managed",
+      "type": "aws_kms_alias",
+      "name": "app",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "arn": "arn:aws:kms:us-east-1:111122223333:alias/app",
+          "id": "alias/app",
+          "name": "alias/app",
+          "name_prefix": "",
+          "region": "us-east-1",
+          "target_key_arn": "arn:aws:kms:us-east-1:111122223333:key/0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+          "target_key_id": "0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01"
+        },
+        "after": {
+          "arn": "arn:aws:kms:us-east-1:111122223333:alias/app",
+          "id": "alias/app",
+          "name": "alias/app",
+          "name_prefix": "",
+          "region": "us-east-1",
+          "target_key_arn": "arn:aws:kms:us-east-1:111122223333:key/7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+          "target_key_id": "7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02"
+        },
+        "after_unknown": {},
+        "before_sensitive": {},
+        "after_sensitive": {}
+      }
+    }
+  ],
+  "resource_changes": [
+    {
+      "address": "aws_kms_alias.app",
+      "mode": "managed",
+      "type": "aws_kms_alias",
+      "name": "app",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "arn": "arn:aws:kms:us-east-1:111122223333:alias/app",
+          "id": "alias/app",
+          "name": "alias/app",
+          "name_prefix": "",
+          "region": "us-east-1",
+          "target_key_arn": "arn:aws:kms:us-east-1:111122223333:key/7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+          "target_key_id": "7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02"
+        },
+        "after": {
+          "arn": "arn:aws:kms:us-east-1:111122223333:alias/app",
+          "id": "alias/app",
+          "name": "alias/app",
+          "name_prefix": "",
+          "region": "us-east-1",
+          "target_key_arn": "arn:aws:kms:us-east-1:111122223333:key/0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+          "target_key_id": "0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01"
+        },
+        "after_unknown": {},
+        "before_sensitive": {},
+        "after_sensitive": {}
+      }
+    },
+    {
+      "address": "aws_kms_key.primary",
+      "mode": "managed",
+      "type": "aws_kms_key",
+      "name": "primary",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["no-op"],
+        "before": {
+          "arn": "arn:aws:kms:us-east-1:111122223333:key/0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+          "bypass_policy_lockout_safety_check": false,
+          "custom_key_store_id": "",
+          "customer_master_key_spec": "SYMMETRIC_DEFAULT",
+          "deletion_window_in_days": 30,
+          "description": "Application data key",
+          "enable_key_rotation": true,
+          "id": "0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+          "is_enabled": true,
+          "key_id": "0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+          "key_usage": "ENCRYPT_DECRYPT",
+          "multi_region": false,
+          "policy": "{\"Version\":\"2012-10-17\",\"Id\":\"key-default-1\",\"Statement\":[{\"Sid\":\"Enable IAM User Permissions\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::111122223333:root\"},\"Action\":\"kms:*\",\"Resource\":\"*\"}]}",
+          "region": "us-east-1",
+          "rotation_period_in_days": 365,
+          "tags": {},
+          "tags_all": {},
+          "timeouts": null,
+          "xks_key_id": ""
+        },
+        "after": {
+          "arn": "arn:aws:kms:us-east-1:111122223333:key/0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+          "bypass_policy_lockout_safety_check": false,
+          "custom_key_store_id": "",
+          "customer_master_key_spec": "SYMMETRIC_DEFAULT",
+          "deletion_window_in_days": 30,
+          "description": "Application data key",
+          "enable_key_rotation": true,
+          "id": "0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+          "is_enabled": true,
+          "key_id": "0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+          "key_usage": "ENCRYPT_DECRYPT",
+          "multi_region": false,
+          "policy": "{\"Version\":\"2012-10-17\",\"Id\":\"key-default-1\",\"Statement\":[{\"Sid\":\"Enable IAM User Permissions\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::111122223333:root\"},\"Action\":\"kms:*\",\"Resource\":\"*\"}]}",
+          "region": "us-east-1",
+          "rotation_period_in_days": 365,
+          "tags": {},
+          "tags_all": {},
+          "timeouts": null,
+          "xks_key_id": ""
+        },
+        "after_unknown": {},
+        "before_sensitive": {
+          "tags": {},
+          "tags_all": {}
+        },
+        "after_sensitive": {
+          "tags": {},
+          "tags_all": {}
+        }
+      }
+    },
+    {
+      "address": "aws_kms_key.standby",
+      "mode": "managed",
+      "type": "aws_kms_key",
+      "name": "standby",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["no-op"],
+        "before": {
+          "arn": "arn:aws:kms:us-east-1:111122223333:key/7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+          "bypass_policy_lockout_safety_check": false,
+          "custom_key_store_id": "",
+          "customer_master_key_spec": "SYMMETRIC_DEFAULT",
+          "deletion_window_in_days": 30,
+          "description": "Standby data key",
+          "enable_key_rotation": true,
+          "id": "7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+          "is_enabled": true,
+          "key_id": "7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+          "key_usage": "ENCRYPT_DECRYPT",
+          "multi_region": false,
+          "policy": "{\"Version\":\"2012-10-17\",\"Id\":\"key-default-1\",\"Statement\":[{\"Sid\":\"Enable IAM User Permissions\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::111122223333:root\"},\"Action\":\"kms:*\",\"Resource\":\"*\"}]}",
+          "region": "us-east-1",
+          "rotation_period_in_days": 365,
+          "tags": {},
+          "tags_all": {},
+          "timeouts": null,
+          "xks_key_id": ""
+        },
+        "after": {
+          "arn": "arn:aws:kms:us-east-1:111122223333:key/7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+          "bypass_policy_lockout_safety_check": false,
+          "custom_key_store_id": "",
+          "customer_master_key_spec": "SYMMETRIC_DEFAULT",
+          "deletion_window_in_days": 30,
+          "description": "Standby data key",
+          "enable_key_rotation": true,
+          "id": "7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+          "is_enabled": true,
+          "key_id": "7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+          "key_usage": "ENCRYPT_DECRYPT",
+          "multi_region": false,
+          "policy": "{\"Version\":\"2012-10-17\",\"Id\":\"key-default-1\",\"Statement\":[{\"Sid\":\"Enable IAM User Permissions\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::111122223333:root\"},\"Action\":\"kms:*\",\"Resource\":\"*\"}]}",
+          "region": "us-east-1",
+          "rotation_period_in_days": 365,
+          "tags": {},
+          "tags_all": {},
+          "timeouts": null,
+          "xks_key_id": ""
+        },
+        "after_unknown": {},
+        "before_sensitive": {
+          "tags": {},
+          "tags_all": {}
+        },
+        "after_sensitive": {
+          "tags": {},
+          "tags_all": {}
+        }
+      }
+    }
+  ],
+  "prior_state": {
+    "format_version": "1.0",
+    "terraform_version": "1.16.4",
+    "values": {
+      "root_module": {
+        "resources": [
+          {
+            "address": "aws_kms_alias.app",
+            "mode": "managed",
+            "type": "aws_kms_alias",
+            "name": "app",
+            "provider_name": "registry.terraform.io/hashicorp/aws",
+            "schema_version": 0,
+            "values": {
+              "arn": "arn:aws:kms:us-east-1:111122223333:alias/app",
+              "id": "alias/app",
+              "name": "alias/app",
+              "name_prefix": "",
+              "region": "us-east-1",
+              "target_key_arn": "arn:aws:kms:us-east-1:111122223333:key/7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+              "target_key_id": "7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02"
+            },
+            "sensitive_values": {}
+          },
+          {
+            "address": "aws_kms_key.primary",
+            "mode": "managed",
+            "type": "aws_kms_key",
+            "name": "primary",
+            "provider_name": "registry.terraform.io/hashicorp/aws",
+            "schema_version": 0,
+            "values": {
+              "arn": "arn:aws:kms:us-east-1:111122223333:key/0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+              "bypass_policy_lockout_safety_check": false,
+              "custom_key_store_id": "",
+              "customer_master_key_spec": "SYMMETRIC_DEFAULT",
+              "deletion_window_in_days": 30,
+              "description": "Application data key",
+              "enable_key_rotation": true,
+              "id": "0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+              "is_enabled": true,
+              "key_id": "0f2c6b4e-5d1a-4c3e-9b7a-2e8f4d6c1a01",
+              "key_usage": "ENCRYPT_DECRYPT",
+              "multi_region": false,
+              "policy": "{\"Version\":\"2012-10-17\",\"Id\":\"key-default-1\",\"Statement\":[{\"Sid\":\"Enable IAM User Permissions\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::111122223333:root\"},\"Action\":\"kms:*\",\"Resource\":\"*\"}]}",
+              "region": "us-east-1",
+              "rotation_period_in_days": 365,
+              "tags": {},
+              "tags_all": {},
+              "timeouts": null,
+              "xks_key_id": ""
+            },
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            }
+          },
+          {
+            "address": "aws_kms_key.standby",
+            "mode": "managed",
+            "type": "aws_kms_key",
+            "name": "standby",
+            "provider_name": "registry.terraform.io/hashicorp/aws",
+            "schema_version": 0,
+            "values": {
+              "arn": "arn:aws:kms:us-east-1:111122223333:key/7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+              "bypass_policy_lockout_safety_check": false,
+              "custom_key_store_id": "",
+              "customer_master_key_spec": "SYMMETRIC_DEFAULT",
+              "deletion_window_in_days": 30,
+              "description": "Standby data key",
+              "enable_key_rotation": true,
+              "id": "7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+              "is_enabled": true,
+              "key_id": "7a9d3e21-6b4f-4f0e-8c2d-5b1e9f3a7c02",
+              "key_usage": "ENCRYPT_DECRYPT",
+              "multi_region": false,
+              "policy": "{\"Version\":\"2012-10-17\",\"Id\":\"key-default-1\",\"Statement\":[{\"Sid\":\"Enable IAM User Permissions\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::111122223333:root\"},\"Action\":\"kms:*\",\"Resource\":\"*\"}]}",
+              "region": "us-east-1",
+              "rotation_period_in_days": 365,
+              "tags": {},
+              "tags_all": {},
+              "timeouts": null,
+              "xks_key_id": ""
+            },
+            "sensitive_values": {
+              "tags": {},
+              "tags_all": {}
+            }
+          }
+        ]
+      }
+    }
+  },
+  "configuration": {
+    "provider_config": {
+      "aws": {
+        "name": "aws",
+        "full_name": "registry.terraform.io/hashicorp/aws",
+        "version_constraint": "= 6.62.0",
+        "expressions": {
+          "region": {
+            "constant_value": "us-east-1"
+          }
+        }
+      }
+    },
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_kms_alias.app",
+          "mode": "managed",
+          "type": "aws_kms_alias",
+          "name": "app",
+          "provider_config_key": "aws",
+          "expressions": {
+            "name": {
+              "constant_value": "alias/app"
+            },
+            "target_key_id": {
+              "references": ["aws_kms_key.primary.key_id", "aws_kms_key.primary"]
+            }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "aws_kms_key.primary",
+          "mode": "managed",
+          "type": "aws_kms_key",
+          "name": "primary",
+          "provider_config_key": "aws",
+          "expressions": {
+            "deletion_window_in_days": {
+              "constant_value": 30
+            },
+            "description": {
+              "constant_value": "Application data key"
+            },
+            "enable_key_rotation": {
+              "constant_value": true
+            }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "aws_kms_key.standby",
+          "mode": "managed",
+          "type": "aws_kms_key",
+          "name": "standby",
+          "provider_config_key": "aws",
+          "expressions": {
+            "deletion_window_in_days": {
+              "constant_value": 30
+            },
+            "description": {
+              "constant_value": "Standby data key"
+            },
+            "enable_key_rotation": {
+              "constant_value": true
+            }
+          },
+          "schema_version": 0
+        }
+      ]
+    }
+  },
+  "timestamp": "2026-09-27T12:00:00Z",
+  "applyable": true,
+  "complete": true,
+  "errored": false
+}

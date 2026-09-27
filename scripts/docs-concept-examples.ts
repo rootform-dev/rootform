@@ -10,6 +10,7 @@ const pages = [
   "concepts/dialects.md",
   "guides/compare-architectures.md",
   "guides/check-architecture.md",
+  "concepts/comparisons.md",
 ] as const;
 
 const examples: Example[] = [
@@ -56,6 +57,7 @@ const examples: Example[] = [
     output: "check-architecture-no-target",
   },
   { page: pages[3], marker: "check-architecture-lock", exit: 0 },
+  { page: pages[4], marker: "concept-restored-drift", exit: 0, output: "concept-restored-drift" },
 ];
 
 function required<K, V>(map: Map<K, V>, key: K): V {
@@ -147,6 +149,10 @@ export async function verifyConceptExamples(binary: string, root: string): Promi
         join(compare, side, file),
       );
   }
+  copyFileSync(
+    join(root, "scripts/fixtures/docs/restored-drift/plan.json"),
+    join(required(work, pages[4]), "plan.json"),
+  );
   const markers = new Set(examples.map(({ marker }) => marker));
   for (const [path, page] of source) {
     for (const match of page.matchAll(/<!-- docs-check:([^\s>]+) -->/gu)) {
