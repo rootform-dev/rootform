@@ -35,8 +35,8 @@ Analyze Dialect fixtures and compare the Forms they produce with the
 recorded ones. A fixture is a directory holding one plan.json or
 state.json export and an analysis.golden Form; the project at the test
 directory selects the Dialects. A plan.tfplan saved plan beside plan.json
-must verify against it, and its configuration snapshot then contributes
-the facts that follow references.
+must pair with it, and its configuration snapshot then contributes the
+facts that follow references.
 
 A golden records the Form with only the Dialect definitions it reaches.
 The comparison ignores which Rootform version and which Dialect versions
@@ -55,7 +55,7 @@ results go to standard output. Diagnostics go to standard error.
 | `1` | at least one fixture differed or could not be analyzed |
 | `2` | the command was used incorrectly |
 | `3` | rootform.lock is invalid or no fixtures matched |
-| `4` | fixture files, Dialects, or the report could not be read or written |
+| `4` | fixture files, rootform.lock, Dialects, or the report could not be read or written |
 
 ## Examples
 

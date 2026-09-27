@@ -19,6 +19,7 @@ rootform validate concept <identifier> [options]
 | --- | --- | --- | --- |
 | ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
+| ` --project ` | ` string ` | ` "" ` | read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory |
 
 ### Global options
 
@@ -45,7 +46,7 @@ standard error.
 | `1` | the definition is not valid, or no definition has that name |
 | `2` | the command was used incorrectly |
 | `3` | rootform.lock is invalid or the name is ambiguous |
-| `4` | definitions could not be loaded or the report could not be written |
+| `4` | rootform.lock or definitions could not be read, or the report could not be written |
 
 ## Examples
 

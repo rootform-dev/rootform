@@ -22,7 +22,8 @@ rootform vendor dialects [options]
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --offline ` | ` bool ` | ` false ` | use no network; copy only local and installed Dialects |
-| ` --to ` | ` string ` | ` "" ` | copy into `directory`; ./.rootform/dialects by default |
+| ` --project ` | ` string ` | ` "" ` | vendor what rootform.lock selects in project `dir`; paths stay relative to the working directory; default: the working directory |
+| ` --to ` | ` string ` | ` "" ` | copy into `directory`; default: .rootform/dialects in the project |
 
 ### Global options
 

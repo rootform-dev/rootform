@@ -20,6 +20,7 @@ rootform validate policy <identifier> [options]
 | ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | add or replace the Policy Pack at `path`, a source directory or a compiled file, for this command only; repeatable |
+| ` --project ` | ` string ` | ` "" ` | read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory |
 
 ### Global options
 
@@ -34,8 +35,8 @@ Validate a Policy definition in its selected Policy Pack.
 
 The project must select the Policy Pack that owns the Policy, or
 --policy-pack must name its source directory for this command only.
-Use &lt;policy-pack&gt;.policy.&lt;name&gt;, or a bare name when it resolves
-unambiguously.
+Use &lt;policy-pack&gt;.policy.&lt;name&gt;, &lt;policy-pack&gt;/&lt;name&gt;, or a bare name
+when it resolves unambiguously.
 
 The text or JSON result goes to standard output. Diagnostics go to
 standard error.
@@ -48,7 +49,7 @@ standard error.
 | `1` | the definition is not valid, or no definition has that name |
 | `2` | the command was used incorrectly |
 | `3` | rootform.lock is invalid or the name is ambiguous |
-| `4` | definitions could not be loaded or the report could not be written |
+| `4` | rootform.lock or definitions could not be read, or the report could not be written |
 
 ## Examples
 

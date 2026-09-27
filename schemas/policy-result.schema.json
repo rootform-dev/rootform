@@ -347,6 +347,10 @@
     "PolicyResult": {
       "additionalProperties": false,
       "properties": {
+        "assertion": {
+          "description": "The assertion of the evaluated Policy, rendered in canonical expression syntax from the compiled Policy Pack.",
+          "type": "string"
+        },
         "complete": {
           "type": "boolean"
         },
@@ -379,6 +383,7 @@
         }
       },
       "required": [
+        "assertion",
         "complete",
         "id",
         "message",

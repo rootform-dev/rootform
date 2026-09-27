@@ -148,6 +148,13 @@
           "no_option_default": "true"
         },
         {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
+        },
+        {
           "name": "replace",
           "type": "bool",
           "group": "Options",
@@ -208,6 +215,13 @@
           "default": "false",
           "usage": "use no network; accept local and installed sources",
           "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
         }
       ],
       "inherited_flags": [
@@ -224,8 +238,8 @@
       "path": "rootform check",
       "usage": "rootform check \u003cinput\u003e [options]",
       "group": "Analyze",
-      "summary": "Evaluate Policies on each requested side of a Form",
-      "description": "The input is a plan JSON or state JSON, compiled with the project's\nDialects, or a saved Form, loaded without compiling it again; '-' reads\nstandard input. check evaluates Planned for a plan and Recorded for a\nstate. For a comparison Form it evaluates the Before and After sides, each\nat the stage the comparison records, and reports each side apart. A plan's\nreconstructed Recorded stage is never evaluated.\n\nPolicies come from the Policy Packs in rootform.lock, then the --policy-pack\noverlays; --policy narrows the selection. The same selection applies to\nevery side, and each side is linked against its own semantics.\n\nThe summary goes to standard output, or the --format output when no file\nis written. Progress, written files, and errors go to standard error; a\nverdict is never repeated there. Every requested report is written\nwhatever the verdict. check never serves.\n\nExit status:\n  0  every selected Policy passed on every requested side\n  1  a selected Policy was violated on a requested side\n  2  the command was used incorrectly\n  3  no verdict: indeterminate, no target, nothing selected, a side that\n     could not be evaluated, an input that was refused, or an invalid\n     rootform.lock\n  4  an input or report file could not be read or written",
+      "summary": "Evaluate Policies against a Form or each side of a comparison",
+      "description": "check evaluates the selected Policies against one architecture: the\nPlanned stage of a plan, or the Recorded stage of a state. Policies come\nfrom the Policy Packs in rootform.lock, then the --policy-pack overlays;\n--policy narrows the selection. A plan's reconstructed Recorded stage is\nnever evaluated.\n\nA comparison Form has two sides. check evaluates the Before and the After\nside, each at the stage selected in the saved comparison and linked\nagainst its own semantics, with the same selection, and reports each side\napart; --side keeps one of them.\n\nThe input is a plan JSON or state JSON, compiled with the project's\nDialects, or a saved Form, loaded without compiling it again; '-' reads\nstandard input.\n\nThe summary goes to standard output, or the --format output when no file\nis written. Progress, written files, and errors go to standard error; a\nverdict is never repeated there. Every requested report is written\nwhatever the verdict. check never serves.\n\nExit status:\n  0  every selected Policy passed on every requested side\n  1  a selected Policy was violated on a requested side\n  2  the command was used incorrectly\n  3  no verdict: indeterminate, no target, nothing selected, a side that\n     could not be evaluated, an input that was refused, or an invalid\n     rootform.lock\n  4  an input, report, or rootform.lock file could not be read or written",
       "examples": "rootform check plan.json\n  rootform check state.json --policy 'security/*'\n  rootform check comparison.json --side after\n  rootform check form.json --stage refreshed\n  rootform check plan.json -o results.json -o report.md -o results.sarif",
       "flag_groups": [
         "Target selection",
@@ -256,7 +270,7 @@
           "type": "string",
           "group": "Output",
           "default": "",
-          "usage": "format of standard output, or of the one -o file whose extension names none: `text|json|markdown|sarif`; default: text"
+          "usage": "format of standard output, or of a single -o file without a recognized extension: `text|json|markdown|sarif`; default: text"
         },
         {
           "name": "help",
@@ -295,14 +309,14 @@
           "type": "string",
           "group": "Advanced evidence settings",
           "default": "",
-          "usage": "verify the plan JSON against the saved plan `file` it was exported from"
+          "usage": "pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape"
         },
         {
           "name": "policy",
           "type": "stringArray",
           "group": "Policy selection",
           "default": "[]",
-          "usage": "evaluate only the Policies `selector` names, as PACK/NAME or PACK/*; repeatable"
+          "usage": "evaluate only the Policies `selector` names: PACK.policy.NAME, PACK/NAME, a bare name, or PACK/*; repeatable"
         },
         {
           "name": "policy-pack",
@@ -337,7 +351,7 @@
           "type": "bool",
           "group": "Advanced evidence settings",
           "default": "false",
-          "usage": "refuse a saved plan file that does not verify",
+          "usage": "refuse the input when its saved plan file does not pair with the plan JSON",
           "no_option_default": "true"
         },
         {
@@ -515,7 +529,7 @@
       "path": "rootform explain instance",
       "usage": "rootform explain instance \u003caddress\u003e --input \u003cinput\u003e [options]",
       "summary": "Explain how one instance was interpreted",
-      "description": "Show how one instance was interpreted at one stage: its Rule and Concept,\nthe facts it takes part in with their evidence, each closure outcome, its\ndependencies, and its diagnostics. A declaration address explains every\ninstance of that declaration. An explanation states what the evidence\nrecords; it never infers a cause.\n\nThe input is read as run reads it: a plan JSON or state JSON is compiled\nwith the project's Dialects, a saved Form is loaded as it is, and '-' reads\nstandard input. --stage selects the stage; the default is Planned for a\nplan and Recorded for a state. A comparison Form needs --side, which\nexplains the stage that side records unless --stage names another.\n\nThe explanation goes to standard output. Progress and errors go to\nstandard error.\n\nExit status:\n  0  the instance was explained\n  1  no instance has this address at the selected stage\n  2  the command was used incorrectly\n  3  the input was refused, rootform.lock is invalid, or the stage or side\n     is unavailable\n  4  the input could not be read",
+      "description": "Show how one instance was interpreted at one stage: its Rule and Concept,\nthe facts it takes part in with their evidence, each closure outcome, its\ndependencies, and its diagnostics. A declaration address explains every\ninstance of that declaration. An explanation states what the evidence\nrecords; it never infers a cause.\n\nThe input is read as run reads it: a plan JSON or state JSON is compiled\nwith the project's Dialects, a saved Form is loaded as it is, and '-' reads\nstandard input. --stage selects the stage; the default is Planned for a\nplan and Recorded for a state. A comparison Form needs --side, which\nexplains the stage selected for that side in the saved comparison unless\n--stage names another.\n\nThe explanation goes to standard output. Progress and errors go to\nstandard error.\n\nExit status:\n  0  the instance was explained\n  1  no instance has this address at the selected stage\n  2  the command was used incorrectly\n  3  the input was refused, rootform.lock is invalid, or the stage or side\n     is unavailable\n  4  the input or rootform.lock could not be read",
       "examples": "rootform explain instance google_compute_network.vpc --input plan.json\n  rootform explain instance 'aws_instance.web[\"a\"]' --input state.json\n  rootform explain instance aws_vpc.main --input plan.json --stage refreshed\n  rootform explain instance aws_vpc.main --input comparison.json --side before\n  rootform explain instance aws_vpc.main --input form.json --format json",
       "flag_groups": [
         "Input",
@@ -583,7 +597,7 @@
           "type": "string",
           "group": "Advanced evidence settings",
           "default": "",
-          "usage": "verify the plan JSON against the saved plan `file` it was exported from"
+          "usage": "pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape"
         },
         {
           "name": "producer",
@@ -611,7 +625,7 @@
           "type": "bool",
           "group": "Advanced evidence settings",
           "default": "false",
-          "usage": "refuse a saved plan file that does not verify",
+          "usage": "refuse the input when its saved plan file does not pair with the plan JSON",
           "no_option_default": "true"
         },
         {
@@ -626,7 +640,7 @@
           "type": "string",
           "group": "Input",
           "default": "",
-          "usage": "stage to explain: `planned|refreshed|recorded`; default: Planned for a plan, Recorded for a state, the recorded stage of a side"
+          "usage": "stage to explain: `planned|refreshed|recorded`; default: Planned for a plan, Recorded for a state, or the stage selected in the saved comparison for a side"
         }
       ],
       "inherited_flags": [
@@ -643,7 +657,7 @@
       "path": "rootform explain policy",
       "usage": "rootform explain policy \u003cpolicy\u003e --result \u003cfile\u003e [options]",
       "summary": "Explain one Policy outcome recorded by check",
-      "description": "Show why one Policy passed, was violated, stayed indeterminate, or had\nno target, from the Policy result that rootform check wrote as JSON.\nNothing is evaluated again: each side the result records is explained\nas recorded, and --side keeps one side of a comparison. Name the Policy\nas PACK/NAME, as \u003cpack\u003e.policy.\u003cname\u003e, or by its bare name when that is\nunambiguous.\n\n--input names the Form the result was computed from, read as run reads\nit; its facts and closures then describe the evidence each evaluation\ninspected. The input is used only when its Form digest equals the one\nthe result records.\n\nThe explanation goes to standard output. Progress and errors go to\nstandard error.\n\nExit status:\n  0  the Policy outcome was explained\n  1  the result records no Policy with this name\n  2  the command was used incorrectly\n  3  the result or input was refused, the name is ambiguous, the side is\n     not recorded, the check recorded no outcome for this Policy, or the\n     input is not the Form the result was computed from\n  4  the result or input file could not be read",
+      "description": "Show why one Policy passed, was violated, stayed indeterminate, or had\nno target, from the Policy result that rootform check wrote as JSON.\nNothing is evaluated again: each side the result records is explained\nas recorded, and --side keeps one side of a comparison. Name the Policy\nas \u003cpolicy-pack\u003e.policy.\u003cname\u003e, as \u003cpolicy-pack\u003e/\u003cname\u003e, or by its bare\nname when that is unambiguous.\n\n--input names the Form the result was computed from, read as run reads\nit; its facts and closures then describe the evidence each evaluation\ninspected. The input is used only when its Form digest equals the one\nthe result records.\n\nThe explanation goes to standard output. Progress and errors go to\nstandard error.\n\nExit status:\n  0  the Policy outcome was explained\n  1  the result records no Policy with this name\n  2  the command was used incorrectly\n  3  the result or input was refused, the name is ambiguous, the side is\n     not recorded, the check recorded no outcome for this Policy, or the\n     input is not the Form the result was computed from\n  4  the result, the input, or rootform.lock could not be read",
       "examples": "rootform explain policy baseline/vpc-flow-logs --result results.json\n  rootform explain policy vpc-flow-logs --result results.json --side before\n  rootform explain policy vpc-flow-logs --result results.json --input form.json\n  rootform check plan.json --format json |\n    rootform explain policy vpc-flow-logs --result -",
       "flag_groups": [
         "Inputs",
@@ -711,7 +725,7 @@
           "type": "string",
           "group": "Advanced evidence settings",
           "default": "",
-          "usage": "verify the plan JSON against the saved plan `file` it was exported from"
+          "usage": "pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape"
         },
         {
           "name": "producer",
@@ -739,7 +753,7 @@
           "type": "bool",
           "group": "Advanced evidence settings",
           "default": "false",
-          "usage": "refuse a saved plan file that does not verify",
+          "usage": "refuse the input when its saved plan file does not pair with the plan JSON",
           "no_option_default": "true"
         },
         {
@@ -771,7 +785,7 @@
       "path": "rootform explain rule",
       "usage": "rootform explain rule \u003crule\u003e --input \u003cinput\u003e [options]",
       "summary": "Explain how one Rule applied in an input",
-      "description": "Show how one Rule applied at one stage: what it matches and emits, the\ninstances it interpreted, the candidates it did not match or left\nundecided, and for each emission its closure outcomes and the facts it\nproduced with their evidence. Name the Rule as \u003cowner\u003e.rule.\u003cname\u003e, or by\nits bare name when that is unambiguous. rootform show prints a Rule\ndefinition without an input.\n\nThe input is read as run reads it: a plan JSON or state JSON is compiled\nwith the project's Dialects, a saved Form is loaded as it is, and '-' reads\nstandard input. --stage selects the stage; the default is Planned for a\nplan and Recorded for a state. A comparison Form needs --side, which\nexplains the stage that side records unless --stage names another.\n\nThe explanation goes to standard output. Progress and errors go to\nstandard error.\n\nExit status:\n  0  the Rule was explained\n  1  the semantics of the input hold no Rule with this name\n  2  the command was used incorrectly\n  3  the input was refused, rootform.lock is invalid, the stage or side is\n     unavailable, or the name is ambiguous\n  4  the input could not be read",
+      "description": "Show how one Rule applied at one stage: what it matches and emits, the\ninstances it interpreted, the candidates it did not match or left\nundecided, and for each emission its closure outcomes and the facts it\nproduced with their evidence. Name the Rule as \u003cowner\u003e.rule.\u003cname\u003e, or by\nits bare name when that is unambiguous. rootform show prints a Rule\ndefinition without an input.\n\nThe input is read as run reads it: a plan JSON or state JSON is compiled\nwith the project's Dialects, a saved Form is loaded as it is, and '-' reads\nstandard input. --stage selects the stage; the default is Planned for a\nplan and Recorded for a state. A comparison Form needs --side, which\nexplains the stage selected for that side in the saved comparison unless\n--stage names another.\n\nThe explanation goes to standard output. Progress and errors go to\nstandard error.\n\nExit status:\n  0  the Rule was explained\n  1  the semantics of the input hold no Rule with this name\n  2  the command was used incorrectly\n  3  the input was refused, rootform.lock is invalid, the stage or side is\n     unavailable, or the name is ambiguous\n  4  the input or rootform.lock could not be read",
       "examples": "rootform explain rule google.rule.cloud-sql-instance --input plan.json\n  rootform explain rule cloud-sql-instance --input state.json\n  rootform explain rule aws.rule.vpc --input comparison.json --side after\n  rootform explain rule aws.rule.vpc --input plan.json --format json",
       "flag_groups": [
         "Input",
@@ -839,7 +853,7 @@
           "type": "string",
           "group": "Advanced evidence settings",
           "default": "",
-          "usage": "verify the plan JSON against the saved plan `file` it was exported from"
+          "usage": "pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape"
         },
         {
           "name": "producer",
@@ -867,7 +881,7 @@
           "type": "bool",
           "group": "Advanced evidence settings",
           "default": "false",
-          "usage": "refuse a saved plan file that does not verify",
+          "usage": "refuse the input when its saved plan file does not pair with the plan JSON",
           "no_option_default": "true"
         },
         {
@@ -882,7 +896,7 @@
           "type": "string",
           "group": "Input",
           "default": "",
-          "usage": "stage to explain: `planned|refreshed|recorded`; default: Planned for a plan, Recorded for a state, the recorded stage of a side"
+          "usage": "stage to explain: `planned|refreshed|recorded`; default: Planned for a plan, Recorded for a state, or the stage selected in the saved comparison for a side"
         }
       ],
       "inherited_flags": [
@@ -1182,7 +1196,7 @@
       "path": "rootform list dialects",
       "usage": "rootform list dialects [name]... [options]",
       "summary": "List the Dialect catalog",
-      "description": "List the Dialect catalog available to this project: the Dialects\nembedded in Rootform and the Dialects the project selects.\n\nWithout a name, every loaded Dialect is included. Text names one\nDialect per line. Wide adds version, origin, and declaration counts.\nJSON carries the exact version, origin, and content digest of\nevery selection.\n\nWith --installed, the versions installed in the Rootform home are\nlisted with their repository and digests; no project is read and no\nnetwork is used. --project cannot be combined with --installed.\n\nThe listing goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definitions were listed\n  1  a named Dialect is not loaded\n  2  the command was used incorrectly\n  3  the project selection or catalog could not be loaded\n  4  the Rootform home could not be read or the listing could not be\n     written",
+      "description": "List the Dialect catalog available to this project: the Dialects\nembedded in Rootform and the Dialects the project selects.\n\nWithout a name, every loaded Dialect is included. Text names one\nDialect per line. Wide adds version, origin, and declaration counts.\nJSON carries the exact version, origin, and content digest of\nevery selection.\n\nWith --installed, the versions installed in the Rootform home are\nlisted with their repository and digests; no project is read and no\nnetwork is used. --project cannot be combined with --installed.\n\nThe listing goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definitions were listed\n  1  a named Dialect is not loaded\n  2  the command was used incorrectly\n  3  the project selection or its catalog is invalid or unavailable\n  4  rootform.lock or the Rootform home could not be read, or the listing\n     could not be written",
       "examples": "rootform list dialects\n  rootform list dialects --format wide\n  rootform list dialects google aws\n  rootform list dialects --project ./infra\n  rootform list dialects --dialect ./dialects/payments\n  rootform list dialects --installed\n  rootform list dialects --format json",
       "flag_groups": [
         "Output",
@@ -1244,7 +1258,7 @@
       "path": "rootform list policies",
       "usage": "rootform list policies [options]",
       "summary": "List Policies",
-      "description": "List the Policies the selected Policy Packs declare.\n\nThe project selection is loaded. Each --policy-pack root replaces\nthe selected Policy Pack of the same name for this command only\nand adds any other name; rootform.lock is unchanged. Text names\none qualified Policy per line. Wide adds each Policy target.\nJSON carries the owning Policy Pack and target of every Policy.\n\nThe listing goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the project selection or catalog could not be loaded\n  4  the listing could not be written",
+      "description": "List the Policies the selected Policy Packs declare.\n\nThe project selection is loaded. Each --policy-pack root replaces\nthe selected Policy Pack of the same name for this command only\nand adds any other name; rootform.lock is unchanged. Text names\none qualified Policy per line. Wide adds each Policy target.\nJSON carries the owning Policy Pack and target of every Policy.\n\nThe listing goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the project selection or its catalog is invalid or unavailable\n  4  rootform.lock could not be read or the listing could not be written",
       "examples": "rootform list policies\n  rootform list policies --format wide\n  rootform list policies --policy-pack ./policies\n  rootform list policies --project ./infra\n  rootform list policies --format json",
       "flag_groups": [
         "Output",
@@ -1297,7 +1311,7 @@
       "path": "rootform list policy-packs",
       "usage": "rootform list policy-packs [options]",
       "summary": "List Policy Packs",
-      "description": "List the Policy Packs the project selects or that are provided\nlocally.\n\nThe project selection is loaded. Each --policy-pack root replaces\nthe selected Policy Pack of the same name for this command only\nand adds any other name; rootform.lock is unchanged. Text names\none Policy Pack per line. Wide adds version and Policy count.\nJSON carries the exact version and content digest.\n\nWith --installed, the versions installed in the Rootform home are\nlisted with their repository and digests; no project is read and no\nnetwork is used. --project cannot be combined with --installed.\n\nThe listing goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the project selection or catalog could not be loaded\n  4  the Rootform home could not be read or the listing could not be\n     written",
+      "description": "List the Policy Packs the project selects or that are provided\nlocally.\n\nThe project selection is loaded. Each --policy-pack root replaces\nthe selected Policy Pack of the same name for this command only\nand adds any other name; rootform.lock is unchanged. Text names\none Policy Pack per line. Wide adds version and Policy count.\nJSON carries the exact version and content digest.\n\nWith --installed, the versions installed in the Rootform home are\nlisted with their repository and digests; no project is read and no\nnetwork is used. --project cannot be combined with --installed.\n\nThe listing goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the project selection or its catalog is invalid or unavailable\n  4  rootform.lock or the Rootform home could not be read, or the listing\n     could not be written",
       "examples": "rootform list policy-packs\n  rootform list policy-packs --format wide\n  rootform list policy-packs --policy-pack ./policies\n  rootform list policy-packs --project ./infra\n  rootform list policy-packs --installed\n  rootform list policy-packs --format json",
       "flag_groups": [
         "Output",
@@ -1771,6 +1785,13 @@
           "default": "false",
           "usage": "show how to use rootform remove dialects",
           "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
         }
       ],
       "inherited_flags": [
@@ -1817,6 +1838,13 @@
           "default": "false",
           "usage": "show how to use rootform remove policy-packs",
           "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
         }
       ],
       "inherited_flags": [
@@ -1833,8 +1861,8 @@
       "path": "rootform run",
       "usage": "rootform run \u003cinput\u003e [--diff \u003cinput\u003e] [options]",
       "group": "Analyze",
-      "summary": "Produce, open, compare, and export a Form",
-      "description": "The input is a Terraform or OpenTofu plan JSON or state JSON, detected\nfrom its content, or a saved Form; '-' reads standard input. Export a plan\nwith terraform show -json plan.tfplan and a state with terraform show\n-json. A configuration directory, a raw state, and a saved binary plan are\nrefused.\n\nA plan Form holds its Planned, Refreshed, and reconstructed Recorded\nstages, its planned changes, and the drift the plan reports; a state Form\nholds its Recorded stage. --diff compares one stage of each input into a\ncomparison Form, which reopens alone and is never a --diff operand.\n\nrun serves the Form on a loopback address and opens a browser until\ninterrupted; --no-serve exits once the outputs are written. The summary\ngoes to standard output, or the --format output when no file is written.\nProgress, written files, the explorer address, and errors go to standard\nerror. A machine format on standard output needs --no-serve. Every output\nis rendered before the first is written, and none may replace an input.\n\nrun never evaluates Policies; rootform check does.\n\nExit status:\n  0  the Form was produced or opened\n  2  the command was used incorrectly\n  3  an input was refused, rootform.lock is invalid, or a requested stage\n     is unavailable\n  4  an input or output file, or the explorer, failed",
+      "summary": "Produce a Form from a plan or state JSON, or open a saved Form",
+      "description": "The input is a Terraform or OpenTofu plan JSON or state JSON, detected\nfrom its content, or a saved Form; '-' reads standard input. Export a plan\nwith terraform show -json plan.tfplan and a state with terraform show\n-json. A configuration directory, a raw state, and a saved binary plan are\nrefused.\n\nA plan Form holds its Planned, Refreshed, and reconstructed Recorded\nstages, its planned changes, and the drift the plan reports; a state Form\nholds its Recorded stage. --diff compares one stage of each input into a\ncomparison Form, which reopens alone and is never a --diff operand.\n\nIts differences compare the two inputs; they are not drift and do not\nestablish what drifted between the two exports.\n\nrun serves the Form on a loopback address and opens a browser until\ninterrupted; --no-serve exits once the outputs are written. The summary\ngoes to standard output, or the --format output when no file is written.\nProgress, written files, the explorer address, and errors go to standard\nerror. A machine format on standard output needs --no-serve. Every output\nis rendered before the first is written, and none may replace an input.\n\nrun never evaluates Policies; rootform check does.\n\nExit status:\n  0  the Form was produced or opened\n  2  the command was used incorrectly\n  3  an input was refused, rootform.lock is invalid, or a requested stage\n     is unavailable\n  4  an input, output, or rootform.lock file, or the explorer, failed",
       "examples": "rootform run plan.json\n  terraform show -json plan.tfplan | rootform run -\n  rootform run state.json --no-serve -o form.json\n  rootform run form.json --no-serve --details\n  rootform run plan.json --no-serve -o report.md -o report.html\n  rootform run before.json --diff after.json --no-serve",
       "flag_groups": [
         "Inputs and stages",
@@ -1886,14 +1914,14 @@
           "type": "string",
           "group": "Advanced evidence settings",
           "default": "",
-          "usage": "verify the --diff plan JSON against its saved plan `file`"
+          "usage": "pair the --diff plan JSON with its saved plan `file`, as --plan-file does"
         },
         {
           "name": "format",
           "type": "string",
           "group": "Output",
           "default": "",
-          "usage": "format of standard output, or of the one -o file whose extension names none: `text|json|markdown|html`; default: text"
+          "usage": "format of standard output, or of a single -o file without a recognized extension: `text|json|markdown|html`; default: text"
         },
         {
           "name": "help",
@@ -1948,7 +1976,7 @@
           "type": "string",
           "group": "Advanced evidence settings",
           "default": "",
-          "usage": "verify the plan JSON against the saved plan `file` it was exported from"
+          "usage": "pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape"
         },
         {
           "name": "port",
@@ -1983,7 +2011,7 @@
           "type": "bool",
           "group": "Advanced evidence settings",
           "default": "false",
-          "usage": "refuse a saved plan file that does not verify",
+          "usage": "refuse the input when its saved plan file does not pair with the plan JSON",
           "no_option_default": "true"
         },
         {
@@ -2009,7 +2037,7 @@
       "usage": "rootform show \u003cname\u003e [options]\nrootform show \u003ccommand\u003e [options]",
       "group": "Inspect",
       "summary": "Show a Rootform definition",
-      "description": "Show one Dialect, the RF Vocabulary, or one declaration they make.\n\nA bare owner name such as google or rf shows that owner and every\ndeclaration it makes. A qualified \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e shows one\ndeclaration, where kind is concept, context, relation, or rule. A\nbare declaration name is accepted when it resolves unambiguously.\n\nThe definition goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  the selection was unavailable or the name was ambiguous\n  4  the definition could not be written",
+      "description": "Show one Dialect, the RF Vocabulary, or one declaration they make.\n\nA bare owner name such as google or rf shows that owner and every\ndeclaration it makes. A qualified \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e shows one\ndeclaration, where kind is concept, context, relation, or rule. A\nbare declaration name is accepted when it resolves unambiguously.\n\nThe definition goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  the selection is invalid or unavailable, or the name is ambiguous\n  4  rootform.lock could not be read or the definition could not be written",
       "examples": "rootform show google\n  rootform show google.rule.cloud-sql-instance\n  rootform show google.relation.runs-as\n  rootform show rf.concept.virtual-network\n  rootform show google --format json\n  rootform show google --project ./infra",
       "subcommands": [
         "rootform show policy",
@@ -2066,7 +2094,7 @@
       "path": "rootform show policy",
       "usage": "rootform show policy \u003cidentifier\u003e [options]",
       "summary": "Show a Policy definition",
-      "description": "Show a Policy's target, assertion, message, Policy Pack, and source\nlocation.\n\nThe project must select the owning Policy Pack, or --policy-pack can\nsupply a local root. Use \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name\nwhen it resolves unambiguously.\n\nrootform explain policy explains an outcome that rootform check\nrecorded.\n\nThe definition goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  the selection was unavailable or the name was ambiguous\n  4  the definition could not be written",
+      "description": "Show a Policy's target, assertion, message, Policy Pack, and source\nlocation.\n\nThe project must select the owning Policy Pack, or --policy-pack can\nsupply a local root. Use \u003cpolicy-pack\u003e.policy.\u003cname\u003e,\n\u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nrootform explain policy explains an outcome that rootform check\nrecorded.\n\nThe definition goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  the selection is invalid or unavailable, or the name is ambiguous\n  4  rootform.lock could not be read or the definition could not be written",
       "examples": "rootform show policy baseline.policy.cluster-network-context\n  rootform show policy cluster-network-context\n  rootform show policy cluster-network-context --policy-pack ./policies\n  rootform show policy baseline.policy.cluster-network-context --format json\n  rootform show policy cluster-network-context --project ./infra",
       "flag_groups": [
         "Output",
@@ -2119,7 +2147,7 @@
       "path": "rootform show policy-pack",
       "usage": "rootform show policy-pack \u003cname\u003e [options]",
       "summary": "Show a Policy Pack",
-      "description": "Show a selected or local Policy Pack, including its version, the\nPolicies it declares, its content identity, and its source location.\n\nThe name selects one loaded Policy Pack. Each --policy-pack root\nreplaces the selected Policy Pack of the same name for this command\nonly and adds any other name; rootform.lock is unchanged.\n\nThe definition goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  the selection was unavailable or the name was ambiguous\n  4  the definition could not be written",
+      "description": "Show a selected or local Policy Pack, including its version, the\nPolicies it declares, its content identity, and its source location.\n\nThe name selects one loaded Policy Pack. Each --policy-pack root\nreplaces the selected Policy Pack of the same name for this command\nonly and adds any other name; rootform.lock is unchanged.\n\nThe definition goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  the selection is invalid or unavailable, or the name is ambiguous\n  4  rootform.lock could not be read or the definition could not be written",
       "examples": "rootform show policy-pack baseline\n  rootform show policy-pack baseline --policy-pack ./policies\n  rootform show policy-pack baseline --format json\n  rootform show policy-pack baseline --project ./infra",
       "flag_groups": [
         "Output",
@@ -2173,7 +2201,7 @@
       "usage": "rootform test [directory] [options]",
       "group": "Author and publish",
       "summary": "Test Dialect fixtures",
-      "description": "Analyze Dialect fixtures and compare the Forms they produce with the\nrecorded ones. A fixture is a directory holding one plan.json or\nstate.json export and an analysis.golden Form; the project at the test\ndirectory selects the Dialects. A plan.tfplan saved plan beside plan.json\nmust verify against it, and its configuration snapshot then contributes\nthe facts that follow references.\n\nA golden records the Form with only the Dialect definitions it reaches.\nThe comparison ignores which Rootform version and which Dialect versions\nrecorded it. With --update, test writes the produced golden for every\ncase that differs, and for a directory holding an export but no golden\nyet.\n\nWithout a directory, test reads the current directory. Text or JSON\nresults go to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every selected fixture passed or, with --update, was recorded\n  1  at least one fixture differed or could not be analyzed\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or no fixtures matched\n  4  fixture files, Dialects, or the report could not be read or\n     written",
+      "description": "Analyze Dialect fixtures and compare the Forms they produce with the\nrecorded ones. A fixture is a directory holding one plan.json or\nstate.json export and an analysis.golden Form; the project at the test\ndirectory selects the Dialects. A plan.tfplan saved plan beside plan.json\nmust pair with it, and its configuration snapshot then contributes the\nfacts that follow references.\n\nA golden records the Form with only the Dialect definitions it reaches.\nThe comparison ignores which Rootform version and which Dialect versions\nrecorded it. With --update, test writes the produced golden for every\ncase that differs, and for a directory holding an export but no golden\nyet.\n\nWithout a directory, test reads the current directory. Text or JSON\nresults go to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every selected fixture passed or, with --update, was recorded\n  1  at least one fixture differed or could not be analyzed\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or no fixtures matched\n  4  fixture files, rootform.lock, Dialects, or the report could not be\n     read or written",
       "examples": "rootform test\n  rootform test ./fixtures\n  rootform test ./fixtures --run cloud-sql\n  rootform test ./fixtures --format json\n  rootform test ./fixtures --update",
       "flag_groups": [
         "Options",
@@ -2417,6 +2445,13 @@
           "default": "false",
           "usage": "use no network; accept local and installed sources",
           "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
         }
       ],
       "inherited_flags": [
@@ -2471,6 +2506,13 @@
           "default": "false",
           "usage": "use no network; accept local and installed sources",
           "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
         }
       ],
       "inherited_flags": [
@@ -2527,7 +2569,7 @@
       "path": "rootform validate concept",
       "usage": "rootform validate concept \u003cidentifier\u003e [options]",
       "summary": "Validate a Concept definition",
-      "description": "Validate a Concept within its Dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  definitions could not be loaded or the report could not be\n     written",
+      "description": "Validate a Concept within its Dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
       "examples": "rootform validate concept rf.concept.virtual-network\n  rootform validate concept virtual-network\n  rootform validate concept rf.concept.virtual-network --format json",
       "flag_groups": [
         "Options",
@@ -2556,6 +2598,13 @@
           "default": "false",
           "usage": "show how to use rootform validate concept",
           "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
         }
       ],
       "inherited_flags": [
@@ -2572,7 +2621,7 @@
       "path": "rootform validate context",
       "usage": "rootform validate context \u003cidentifier\u003e [options]",
       "summary": "Validate a context dimension",
-      "description": "Validate a context dimension within its Dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  definitions could not be loaded or the report could not be\n     written",
+      "description": "Validate a context dimension within its Dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
       "examples": "rootform validate context rf.context.network\n  rootform validate context network\n  rootform validate context rf.context.network --format json",
       "flag_groups": [
         "Options",
@@ -2601,6 +2650,13 @@
           "default": "false",
           "usage": "show how to use rootform validate context",
           "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
         }
       ],
       "inherited_flags": [
@@ -2693,7 +2749,7 @@
       "path": "rootform validate policy",
       "usage": "rootform validate policy \u003cidentifier\u003e [options]",
       "summary": "Validate a Policy definition",
-      "description": "Validate a Policy definition in its selected Policy Pack.\n\nThe project must select the Policy Pack that owns the Policy, or\n--policy-pack must name its source directory for this command only.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name when it resolves\nunambiguously.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  definitions could not be loaded or the report could not be\n     written",
+      "description": "Validate a Policy definition in its selected Policy Pack.\n\nThe project must select the Policy Pack that owns the Policy, or\n--policy-pack must name its source directory for this command only.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, \u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name\nwhen it resolves unambiguously.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
       "examples": "rootform validate policy baseline.policy.cluster-network-context\n  rootform validate policy cluster-network-context\n  rootform validate policy cluster-network-context --policy-pack ./policies\n  rootform validate policy baseline.policy.cluster-network-context --format json",
       "flag_groups": [
         "Options",
@@ -2729,6 +2785,13 @@
           "group": "Options",
           "default": "[]",
           "usage": "add or replace the Policy Pack at `path`, a source directory or a compiled file, for this command only; repeatable"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
         }
       ],
       "inherited_flags": [
@@ -2745,7 +2808,7 @@
       "path": "rootform validate relation",
       "usage": "rootform validate relation \u003cidentifier\u003e [options]",
       "summary": "Validate a relation predicate",
-      "description": "Validate a relation and every compiled producer reference.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  definitions could not be loaded or the report could not be\n     written",
+      "description": "Validate a relation and every compiled producer reference.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
       "examples": "rootform validate relation google.relation.runs-as\n  rootform validate relation runs-as\n  rootform validate relation google.relation.runs-as --format json",
       "flag_groups": [
         "Options",
@@ -2774,6 +2837,13 @@
           "default": "false",
           "usage": "show how to use rootform validate relation",
           "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
         }
       ],
       "inherited_flags": [
@@ -2790,7 +2860,7 @@
       "path": "rootform validate rule",
       "usage": "rootform validate rule \u003cidentifier\u003e [options]",
       "summary": "Validate a Rule definition",
-      "description": "Validate a Rule and its references within its Dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  definitions could not be loaded or the report could not be\n     written",
+      "description": "Validate a Rule and its references within its Dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
       "examples": "rootform validate rule google.rule.cloud-sql-instance\n  rootform validate rule cloud-sql-instance\n  rootform validate rule payments.rule.gateway --dialect ./dialects/payments\n  rootform validate rule google.rule.cloud-sql-instance --format json",
       "flag_groups": [
         "Options",
@@ -2819,6 +2889,13 @@
           "default": "false",
           "usage": "show how to use rootform validate rule",
           "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
         }
       ],
       "inherited_flags": [
@@ -2836,7 +2913,7 @@
       "usage": "rootform vendor [options]\nrootform vendor \u003ccommand\u003e [options]",
       "group": "Project",
       "summary": "Vendor selected non-embedded content",
-      "description": "Materialize the project's exact non-embedded selections: Dialects\nand Policy Pack sources, with their licenses and notices.\n\nWithout a command, vendor writes every family that rootform.lock selects\ninto ./.rootform. Run vendor dialects or vendor policy-packs to vendor\nonly that family.\n\nExit status:\n  0  every selected unit was copied\n  1  selected content is invalid, missing, or differs from rootform.lock\n  2  the command was used incorrectly\n  3  no content was selected, rootform.lock is invalid, or --offline\n     needs content that is not installed\n  4  a file, the Rootform home, or the registry could not be read or written",
+      "description": "Materialize the project's exact non-embedded selections: Dialects\nand Policy Pack sources, with their licenses and notices.\n\nWithout a command, vendor writes every family that rootform.lock selects\ninto .rootform in the project directory. Run vendor dialects or vendor\npolicy-packs to vendor only that family.\n\nExit status:\n  0  every selected unit was copied\n  1  selected content is invalid, missing, or differs from rootform.lock\n  2  the command was used incorrectly\n  3  no content was selected, rootform.lock is invalid, or --offline\n     needs content that is not installed\n  4  a file, the Rootform home, or the registry could not be read or written",
       "examples": "rootform vendor\n  rootform vendor dialects\n  rootform vendor policy-packs",
       "subcommands": [
         "rootform vendor dialects",
@@ -2863,6 +2940,13 @@
           "default": "false",
           "usage": "use no network; copy only local and installed content",
           "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "vendor what rootform.lock selects in project `dir`; paths stay relative to the working directory; default: the working directory"
         }
       ],
       "inherited_flags": [
@@ -2879,7 +2963,7 @@
       "path": "rootform vendor dialects",
       "usage": "rootform vendor dialects [options]",
       "summary": "Vendor selected Dialects",
-      "description": "Materialize the exact Dialect selection from rootform.lock: external\nDialects from remote or local sources, with their licenses and notices.\nPolicy Packs have their own vendoring destination and are never\nmaterialized here. Embedded Dialects, the RF Vocabulary, and derived\ncaches are never materialized. No version is resolved and rootform.lock\nis never changed.\n\nWithout --to, vendor writes ./.rootform/dialects. Consuming\ncommands launched from that project root use that directory as the\nexclusive source for these selections when present.\n\nCopied names and versions go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  every selected unit was copied\n  1  selected content is invalid, missing, or differs from rootform.lock\n  2  the command was used incorrectly\n  3  no content was selected, rootform.lock is invalid, or --offline\n     needs content that is not installed\n  4  a file, the Rootform home, or the registry could not be read or written",
+      "description": "Materialize the exact Dialect selection from rootform.lock: external\nDialects from remote or local sources, with their licenses and notices.\nPolicy Packs have their own vendoring destination and are never\nmaterialized here. Embedded Dialects, the RF Vocabulary, and derived\ncaches are never materialized. No version is resolved and rootform.lock\nis never changed.\n\nWithout --to, vendor writes .rootform/dialects in the project directory.\nCommands that read that project use that directory as the exclusive\nsource for these selections when present.\n\nCopied names and versions go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  every selected unit was copied\n  1  selected content is invalid, missing, or differs from rootform.lock\n  2  the command was used incorrectly\n  3  no content was selected, rootform.lock is invalid, or --offline\n     needs content that is not installed\n  4  a file, the Rootform home, or the registry could not be read or written",
       "examples": "rootform init ./infra --no-input\n  rootform vendor dialects\n  rootform vendor dialects --to ./offline/dialects",
       "flag_groups": [
         "Options",
@@ -2904,11 +2988,18 @@
           "no_option_default": "true"
         },
         {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "vendor what rootform.lock selects in project `dir`; paths stay relative to the working directory; default: the working directory"
+        },
+        {
           "name": "to",
           "type": "string",
           "group": "Options",
           "default": "",
-          "usage": "copy into `directory`; ./.rootform/dialects by default"
+          "usage": "copy into `directory`; default: .rootform/dialects in the project"
         }
       ],
       "inherited_flags": [
@@ -2925,7 +3016,7 @@
       "path": "rootform vendor policy-packs",
       "usage": "rootform vendor policy-packs [options]",
       "summary": "Vendor selected Policy Packs",
-      "description": "Materialize the exact Policy Pack selection from rootform.lock:\nPolicy Packs from local sources, the Rootform home, or their pinned\nregistry repositories, with their licenses and notices. Dialects have\ntheir own vendoring destination and are never materialized here. No\nversion is resolved and rootform.lock is never changed.\n\nWithout --to, vendor writes ./.rootform/policy-packs. Commands using\nthe project's Policy Pack selection use that directory exclusively\nwhen present. An explicit local --policy-pack source replaces the\nselected Policy Pack with the same name for that invocation.\n\nCopied names and versions go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  every selected unit was copied\n  1  selected content is invalid, missing, or differs from rootform.lock\n  2  the command was used incorrectly\n  3  no content was selected, rootform.lock is invalid, or --offline\n     needs content that is not installed\n  4  a file, the Rootform home, or the registry could not be read or written",
+      "description": "Materialize the exact Policy Pack selection from rootform.lock:\nPolicy Packs from local sources, the Rootform home, or their pinned\nregistry repositories, with their licenses and notices. Dialects have\ntheir own vendoring destination and are never materialized here. No\nversion is resolved and rootform.lock is never changed.\n\nWithout --to, vendor writes .rootform/policy-packs in the project\ndirectory. Commands using the project's Policy Pack selection use that\ndirectory exclusively when present. An explicit local --policy-pack\nsource replaces the selected Policy Pack with the same name for that\ninvocation.\n\nCopied names and versions go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  every selected unit was copied\n  1  selected content is invalid, missing, or differs from rootform.lock\n  2  the command was used incorrectly\n  3  no content was selected, rootform.lock is invalid, or --offline\n     needs content that is not installed\n  4  a file, the Rootform home, or the registry could not be read or written",
       "examples": "rootform vendor policy-packs\n  rootform vendor policy-packs --to ./offline/policy-packs\n  rootform package policy-packs ./policies --to ./artifacts/policies",
       "flag_groups": [
         "Options",
@@ -2950,11 +3041,18 @@
           "no_option_default": "true"
         },
         {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "vendor what rootform.lock selects in project `dir`; paths stay relative to the working directory; default: the working directory"
+        },
+        {
           "name": "to",
           "type": "string",
           "group": "Options",
           "default": "",
-          "usage": "copy into `directory`; ./.rootform/policy-packs by default"
+          "usage": "copy into `directory`; default: .rootform/policy-packs in the project"
         }
       ],
       "inherited_flags": [

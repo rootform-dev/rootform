@@ -32,7 +32,7 @@ rootform explain instance <address> --input <input> [options]
 | --- | --- | --- | --- |
 | ` --input ` | ` string ` | ` "" ` | read `input`: a plan JSON, a state JSON, a saved Form, or `-` for standard input |
 | ` --side ` | ` string ` | ` "" ` | side of a comparison Form to explain: `before\|after`; required for a comparison Form |
-| ` --stage ` | ` string ` | ` "" ` | stage to explain: `planned\|refreshed\|recorded`; default: Planned for a plan, Recorded for a state, the recorded stage of a side |
+| ` --stage ` | ` string ` | ` "" ` | stage to explain: `planned\|refreshed\|recorded`; default: Planned for a plan, Recorded for a state, or the stage selected in the saved comparison for a side |
 
 ### Output
 
@@ -54,10 +54,10 @@ rootform explain instance <address> --input <input> [options]
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --plan-complete ` | ` string ` | ` "" ` | declare the plan complete; the only `value` is attested |
-| ` --plan-file ` | ` string ` | ` "" ` | verify the plan JSON against the saved plan `file` it was exported from |
+| ` --plan-file ` | ` string ` | ` "" ` | pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape |
 | ` --producer ` | ` string ` | ` "" ` | declare the tool that produced the input: `terraform\|opentofu` |
 | ` --provider-map ` | ` stringArray ` | ` [] ` | map an observed provider to a binding, as `observed=binding`; repeatable |
-| ` --require-enrichment ` | ` bool ` | ` false ` | refuse a saved plan file that does not verify |
+| ` --require-enrichment ` | ` bool ` | ` false ` | refuse the input when its saved plan file does not pair with the plan JSON |
 
 ### Global options
 
@@ -84,8 +84,16 @@ rootform explain instance azurerm_subnet.prod_data \
 [1mInstance explained[0m
 [1m[38;5;208mazurerm_subnet.prod_data[0m
   [2mInterpretation[0m  applied azure.rule.subnet as subnet
+  [2mConclusion[0m      Interpreted as subnet by azure.rule.subnet: ownership context
+                  to azurerm_resource_group.prod; network context to
+                  azurerm_virtual_network.prod; network context from
+                  azurerm_private_endpoint.backups,
+                  azurerm_private_endpoint.cosmos,
+                  azurerm_private_endpoint.media, and 3 more.
   [1mFacts[0m
-    -> context network    azurerm_virtual_network.prod          [2mevidence: both[0m
+    -> context network
+      azurerm_virtual_network.prod
+      [2mevidence: both[0m
 ```
 
 Text is the default output; `--format json` serves tools. The explanation

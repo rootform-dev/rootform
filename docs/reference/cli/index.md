@@ -45,8 +45,8 @@ rootform <command> [options]
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform check `](check.md) | Evaluate Policies on each requested side of a Form |
-| [` rootform run `](run.md) | Produce, open, compare, and export a Form |
+| [` rootform check `](check.md) | Evaluate Policies against a Form or each side of a comparison |
+| [` rootform run `](run.md) | Produce a Form from a plan or state JSON, or open a saved Form |
 
 ### Inspect
 

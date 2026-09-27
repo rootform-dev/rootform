@@ -6,7 +6,7 @@
     },
     {
       "path": "reference/cli.json",
-      "sha256": "5d922be00fb977be580f1d0f9ff4673bed402c33adf7c8c840a66f667ca5bf99"
+      "sha256": "a7372e3007f6744f0c2be854ce36d1901457151358bb08a550677bded116fb8c"
     },
     {
       "path": "schemas/compiled-policy-pack.schema.json",
@@ -18,7 +18,7 @@
     },
     {
       "path": "schemas/policy-result.schema.json",
-      "sha256": "38c35df21c15656d6c9b62b197619c7bd7ab3551c6462dc7ed30702aa99352f3"
+      "sha256": "dff27482cc79c453b1bb032ad89c4fdd36a3a0985d518bbe52e36206170227b7"
     },
     {
       "path": "schemas/rootform-lock.schema.json",
@@ -30,6 +30,6 @@
     }
   ],
   "format_version": "1",
-  "source_commit": "fa8e0a4e410f61982765073824ed8209e7901f80",
+  "source_commit": "f871211546a9e4cdf65e4dd4bd1cbd4ee53f6391",
   "source_repository": "rootform-dev/engine"
 }

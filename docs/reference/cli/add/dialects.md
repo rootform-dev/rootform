@@ -20,6 +20,7 @@ rootform add dialects <source>... [options]
 | ` --dry-run ` | ` bool ` | ` false ` | print the planned change and write nothing |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 | ` --offline ` | ` bool ` | ` false ` | use no network; accept local and installed sources |
+| ` --project ` | ` string ` | ` "" ` | change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory |
 | ` --replace ` | ` bool ` | ` false ` | replace the embedded Dialect with the same owner |
 
 ### Global options

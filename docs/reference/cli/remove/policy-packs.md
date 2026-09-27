@@ -19,6 +19,7 @@ rootform remove policy-packs <name>... [options]
 | --- | --- | --- | --- |
 | ` --dry-run ` | ` bool ` | ` false ` | print the planned change and write nothing |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
+| ` --project ` | ` string ` | ` "" ` | change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory |
 
 ### Global options
 

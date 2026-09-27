@@ -164287,7 +164287,7 @@
       "phase": "comparison",
       "severity": "info",
       "code": "CROSS_INPUT_NOT_DRIFT",
-      "message": "Differences between two inputs include any drift between them and are not labelled drift"
+      "message": "Differences between two inputs are not drift; they do not establish what drifted between the two exports"
     }
   ]
 }

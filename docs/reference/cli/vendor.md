@@ -23,6 +23,7 @@ rootform vendor <command> [options]
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --offline ` | ` bool ` | ` false ` | use no network; copy only local and installed content |
+| ` --project ` | ` string ` | ` "" ` | vendor what rootform.lock selects in project `dir`; paths stay relative to the working directory; default: the working directory |
 
 ### Global options
 

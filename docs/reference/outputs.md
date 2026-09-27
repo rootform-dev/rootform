@@ -71,7 +71,7 @@ and the failed target is reported; exit status is `4`.
 | `0` | The Form was produced or opened. |
 | `2` | The command was used incorrectly. |
 | `3` | An input was refused, `rootform.lock` is invalid, or a requested stage is unavailable. |
-| `4` | An input or output file, or the explorer, failed. |
+| `4` | An input, output, or `rootform.lock` file, or the explorer, failed. |
 
 A difference, an indeterminate comparison entry, or reported drift is not an
 analysis failure by itself.
@@ -84,7 +84,7 @@ analysis failure by itself.
 | `1` | A selected Policy was violated on a requested side. |
 | `2` | The command was used incorrectly. |
 | `3` | No verdict: indeterminate, no target, nothing selected, a side that could not be evaluated, an input that was refused, or an invalid `rootform.lock`. |
-| `4` | An input or report file could not be read or written. |
+| `4` | An input, report, or `rootform.lock` file could not be read or written. |
 
 Reports are written for every verdict. No selected Policies means no
 compliance claim. For Policy coverage and results, see

@@ -48,7 +48,7 @@ rootform run <input> [--diff <input>] [options]
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --details ` | ` bool ` | ` false ` | list every entry of the text or Markdown summary, with semantics, closure counts, and diagnostic codes |
-| ` --format ` | ` string ` | ` "" ` | format of standard output, or of the one -o file whose extension names none: `text\|json\|markdown\|html`; default: text |
+| ` --format ` | ` string ` | ` "" ` | format of standard output, or of a single -o file without a recognized extension: `text\|json\|markdown\|html`; default: text |
 | ` -o, --output ` | ` stringArray ` | ` [] ` | write `file`; its extension selects the format: .json (the Form), .txt, .md, or .html; repeatable |
 
 ### Explorer
@@ -71,12 +71,12 @@ rootform run <input> [--diff <input>] [options]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --diff-plan-file ` | ` string ` | ` "" ` | verify the --diff plan JSON against its saved plan `file` |
+| ` --diff-plan-file ` | ` string ` | ` "" ` | pair the --diff plan JSON with its saved plan `file`, as --plan-file does |
 | ` --plan-complete ` | ` string ` | ` "" ` | declare the plan complete; the only `value` is attested |
-| ` --plan-file ` | ` string ` | ` "" ` | verify the plan JSON against the saved plan `file` it was exported from |
+| ` --plan-file ` | ` string ` | ` "" ` | pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape |
 | ` --producer ` | ` string ` | ` "" ` | declare the tool that produced the input: `terraform\|opentofu` |
 | ` --provider-map ` | ` stringArray ` | ` [] ` | map an observed provider to a binding, as `observed=binding`; repeatable |
-| ` --require-enrichment ` | ` bool ` | ` false ` | refuse a saved plan file that does not verify |
+| ` --require-enrichment ` | ` bool ` | ` false ` | refuse the input when its saved plan file does not pair with the plan JSON |
 
 ### Global options
 

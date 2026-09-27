@@ -31,7 +31,7 @@ rootform check <input> [options]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --policy ` | ` stringArray ` | ` [] ` | evaluate only the Policies `selector` names, as PACK/NAME or PACK/*; repeatable |
+| ` --policy ` | ` stringArray ` | ` [] ` | evaluate only the Policies `selector` names: PACK.policy.NAME, PACK/NAME, a bare name, or PACK/*; repeatable |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | add or replace the Policy Pack at `path`, a source directory or a compiled file, for this command only; repeatable |
 
 ### Output
@@ -39,7 +39,7 @@ rootform check <input> [options]
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --details ` | ` bool ` | ` false ` | also list passed evaluations, Policy Pack identities, and diagnostic codes |
-| ` --format ` | ` string ` | ` "" ` | format of standard output, or of the one -o file whose extension names none: `text\|json\|markdown\|sarif`; default: text |
+| ` --format ` | ` string ` | ` "" ` | format of standard output, or of a single -o file without a recognized extension: `text\|json\|markdown\|sarif`; default: text |
 | ` -o, --output ` | ` stringArray ` | ` [] ` | write `file`; its extension selects the format: .json (the Policy result), .txt, .md, .sarif, or .sarif.json; repeatable |
 
 ### Rootform project
@@ -55,10 +55,10 @@ rootform check <input> [options]
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --plan-complete ` | ` string ` | ` "" ` | declare the plan complete; the only `value` is attested |
-| ` --plan-file ` | ` string ` | ` "" ` | verify the plan JSON against the saved plan `file` it was exported from |
+| ` --plan-file ` | ` string ` | ` "" ` | pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape |
 | ` --producer ` | ` string ` | ` "" ` | declare the tool that produced the input: `terraform\|opentofu` |
 | ` --provider-map ` | ` stringArray ` | ` [] ` | map an observed provider to a binding, as `observed=binding`; repeatable |
-| ` --require-enrichment ` | ` bool ` | ` false ` | refuse a saved plan file that does not verify |
+| ` --require-enrichment ` | ` bool ` | ` false ` | refuse the input when its saved plan file does not pair with the plan JSON |
 
 ### Global options
 
@@ -110,8 +110,8 @@ Policy result, `report.md` the review report, and `results.sarif` a SARIF
 ## Choose the evaluated stage
 
 A plan is checked on Planned and a state on Recorded. A comparison Form is
-checked on both Before and After by default, each at the stage the comparison
-records for that side. `--side before` or `--side after` limits the check to
+checked on both Before and After by default, each at the stage selected in the
+saved comparison for that side. `--side before` or `--side after` limits the check to
 one side; `--side both` names the default. `--stage` selects another stage of
 the input, or of the one side a comparison check names with `--side before` or
 `--side after`: `refreshed` when the plan has one, never a plan's
@@ -129,6 +129,10 @@ given. Each `--policy` selector (`PACK/*`, `PACK/NAME`, `PACK.policy.NAME`,
 or a unique `NAME`) narrows that selection before anything is linked; an
 unknown or ambiguous selector exits `2`. Only packs holding a selected Policy
 are linked, against the semantics recorded in the Form.
+Reports name each Policy by the identity `list` and `show` print,
+`PACK.policy.NAME`; SARIF rule IDs keep `PACK/NAME`. A violation or an
+indeterminate evaluation lists the Policy, the resource, the Requirement the
+Policy declares, and the recorded Evidence that decided it.
 
 ## Reports
 

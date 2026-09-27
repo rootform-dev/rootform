@@ -55,8 +55,8 @@ rootform list dialects --format json
 
 Default output is one name per line. `--format wide` adds version, origin,
 and declaration counts; `--format json` includes exact identity and digest.
-`aws` and `google` show `embedded` as their origin; JSON records it with the
-Form's semantic origin value, `supplied`. A fresh Rootform home gives no rows
+`aws` and `google` show `embedded` as their origin, in text and JSON alike;
+a Form records the same provenance as `supplied`. A fresh Rootform home gives no rows
 for `--installed`; this does not remove embedded Dialects. Output goes to
 standard output, diagnostics to standard error. Status `0` means the
 definitions were listed, `1` means a named Dialect is not loaded, `2` means the
