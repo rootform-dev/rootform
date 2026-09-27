@@ -8,6 +8,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  realpathSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -227,8 +228,18 @@ function execute(
   };
 }
 
-function assertSafeOutput(result: CommandResult, label: string, forbidden: string[]): void {
-  const output = `${result.stdout}\n${result.stderr}`;
+function assertSafeOutput(
+  result: CommandResult,
+  label: string,
+  forbidden: string[],
+  allowed: string[] = [],
+): void {
+  let output = `${result.stdout}\n${result.stderr}`;
+  // A command may name a path the user chose, such as a vendoring destination
+  // inside the project; remove those exact paths before looking for leaks.
+  for (const value of [...allowed].sort((left, right) => right.length - left.length)) {
+    if (value) output = output.split(value).join("");
+  }
   for (const value of forbidden) {
     if (value && output.includes(value)) throw new Error(`${label} exposed private input`);
   }
@@ -237,6 +248,7 @@ function assertSafeOutput(result: CommandResult, label: string, forbidden: strin
 function run(
   command: string[],
   options: {
+    allowed?: string[];
     cwd?: string;
     env?: Record<string, string | undefined>;
     forbidden: string[];
@@ -244,7 +256,7 @@ function run(
   },
 ): CommandResult {
   const result = execute(command, options);
-  assertSafeOutput(result, options.label, options.forbidden);
+  assertSafeOutput(result, options.label, options.forbidden, options.allowed);
   if (result.exitCode !== 0) {
     throw new Error(
       `${options.label} failed with exit ${result.exitCode}: ${result.stderr.trim()}`,
@@ -472,6 +484,16 @@ function provenance(options: Options): Provenance {
   };
 }
 
+// Rootform chooses its own member order when it serializes provenance, so
+// equality is decided member by member.
+function sameProvenance(actual: Provenance, expected: Provenance): boolean {
+  const keys = Object.keys(expected).sort();
+  return (
+    JSON.stringify(Object.keys(actual).sort()) === JSON.stringify(keys) &&
+    keys.every((key) => actual[key as keyof Provenance] === expected[key as keyof Provenance])
+  );
+}
+
 function publicationEntry(
   body: string,
   options: Options,
@@ -514,7 +536,7 @@ function publicationEntry(
     parsed.tag !== expectedTag ||
     !DIGEST.test(parsed.manifest_digest) ||
     !["already_present", "planned", "published"].includes(parsed.status) ||
-    JSON.stringify(parsed.provenance) !== JSON.stringify(provenance(options))
+    !sameProvenance(parsed.provenance, provenance(options))
   ) {
     throw new Error(`${kind} publication entry is invalid`);
   }
@@ -615,6 +637,24 @@ function verifyPolicySARIF(path: string, label: string): void {
   const result = object(results[0], `${label} result`);
   if (result.ruleId !== `${POLICY_PACK_NAME}/portable-service` || result.kind !== "pass") {
     throw new Error(`${label} did not pass the selected Policy Pack`);
+  }
+}
+
+export function verifyPolicyResult(path: string, label: string): void {
+  const report = parseJSON(readFileSync(path, "utf8"), label);
+  const selection = object(report.selection, `${label} selection`);
+  const summary = object(report.summary, `${label} summary`);
+  const evaluations = object(summary.evaluations, `${label} evaluations`);
+  if (
+    report.format_version !== "1" ||
+    report.status !== "passed" ||
+    !Array.isArray(selection.policies) ||
+    selection.policies.length !== 1 ||
+    selection.policies[0] !== `${POLICY_PACK_NAME}.policy.portable-service` ||
+    evaluations.total !== 1 ||
+    evaluations.passed !== 1
+  ) {
+    throw new Error(`${label} did not pass one selected Policy`);
   }
 }
 
@@ -832,7 +872,7 @@ export function qualifyRegistry(options: Options): void {
       ).stdout,
       "effective Dialect listing",
     );
-    if (!dialects.some((entry) => object(entry, "Dialect list entry").owner === DIALECT_OWNER)) {
+    if (!dialects.some((entry) => object(entry, "Dialect list entry").name === DIALECT_OWNER)) {
       throw new Error("selected third-party Dialect is absent from effective catalog");
     }
     verifyPlan(
@@ -855,39 +895,47 @@ export function qualifyRegistry(options: Options): void {
     run(
       [
         options.rootformBinary,
-        "run",
+        "check",
         "plan.json",
         "--project",
         ".",
         "--locked",
         "--policy",
         `${POLICY_PACK_NAME}/*`,
-        "--no-serve",
+        "-o",
+        "policy.json",
         "-o",
         "results.sarif",
       ],
       commandOptions("locked Policy evaluation", project, home),
     );
+    verifyPolicyResult(join(project, "policy.json"), "locked Policy result");
     verifyPolicySARIF(join(project, "results.sarif"), "locked Policy result");
 
     const vendorProject = join(temporary, "vendor-project");
     const vendorHome = join(temporary, "vendor-home");
     cpSync(project, vendorProject, { recursive: true });
     mkdirSync(vendorHome, { mode: 0o755 });
-    run(
-      [options.rootformBinary, "vendor", "dialects"],
-      commandOptions("exact Dialect vendor", vendorProject, vendorHome),
-    );
-    run(
-      [options.rootformBinary, "vendor", "policy-packs"],
-      commandOptions("exact Policy Pack vendor", vendorProject, vendorHome),
-    );
+    // vendor reports its destination, which lies inside the user's project.
+    const vendorDestinations = [vendorProject, realpathSync(vendorProject)].flatMap((root) => [
+      join(root, ".rootform", "dialects"),
+      join(root, ".rootform", "policy-packs"),
+    ]);
+    run([options.rootformBinary, "vendor", "dialects"], {
+      ...commandOptions("exact Dialect vendor", vendorProject, vendorHome),
+      allowed: vendorDestinations,
+    });
+    run([options.rootformBinary, "vendor", "policy-packs"], {
+      ...commandOptions("exact Policy Pack vendor", vendorProject, vendorHome),
+      allowed: vendorDestinations,
+    });
     const vendorDialect = join(vendorProject, ".rootform", "dialects", DIALECT_OWNER);
     const vendorPolicy = join(vendorProject, ".rootform", "policy-packs", POLICY_PACK_NAME);
     regularFile(join(vendorDialect, "dialect.rf.hcl"), "vendored Dialect");
     regularFile(join(vendorPolicy, "pack.rf.hcl"), "vendored Policy Pack");
-    if (hasFiles(join(vendorHome, "dialects")) || hasFiles(join(vendorHome, "policy-packs"))) {
-      throw new Error("vendor unexpectedly populated user store");
+    // vendor fetches a missing OCI selection into the job home before copying it.
+    if (!hasFiles(join(vendorHome, "dialects")) || !hasFiles(join(vendorHome, "policy-packs"))) {
+      throw new Error("vendor did not install the fetched selection in the job home");
     }
     rmSync(vendorHome, { recursive: true, force: true });
     mkdirSync(vendorHome, { mode: 0o755 });
@@ -912,14 +960,15 @@ export function qualifyRegistry(options: Options): void {
     run(
       [
         options.rootformBinary,
-        "run",
+        "check",
         "plan.json",
         "--project",
         ".",
         "--locked",
         "--policy",
         `${POLICY_PACK_NAME}/*`,
-        "--no-serve",
+        "-o",
+        "vendor-policy.json",
         "-o",
         "vendor-results.sarif",
       ],
@@ -930,6 +979,7 @@ export function qualifyRegistry(options: Options): void {
         vendorOffline,
       ),
     );
+    verifyPolicyResult(join(vendorProject, "vendor-policy.json"), "vendored Policy result");
     verifyPolicySARIF(join(vendorProject, "vendor-results.sarif"), "vendored Policy result");
 
     rmSync(join(vendorDialect, "dialect.rf.hcl"));
@@ -947,13 +997,21 @@ export function qualifyRegistry(options: Options): void {
       ],
       commandOptions("partial Dialect vendor", vendorProject, vendorHome, offline),
     );
-    if (!partial.stderr.includes("rootform vendor dialects")) {
-      throw new Error("partial Dialect vendor missed explicit repair boundary");
+    // A damaged vendor tree fails closed and names the vendored Dialect; only an
+    // explicit vendor run repairs it.
+    if (
+      partial.exitCode !== 3 ||
+      !partial.stderr.includes(`SEMANTIC_SELECTION`) ||
+      !partial.stderr.includes(`vendored dialect ${DIALECT_OWNER} `)
+    ) {
+      throw new Error(
+        `partial Dialect vendor missed explicit repair boundary: ${partial.stderr.trim()}`,
+      );
     }
-    run(
-      [options.rootformBinary, "vendor", "dialects"],
-      commandOptions("explicit Dialect vendor repair", vendorProject, vendorHome),
-    );
+    run([options.rootformBinary, "vendor", "dialects"], {
+      ...commandOptions("explicit Dialect vendor repair", vendorProject, vendorHome),
+      allowed: vendorDestinations,
+    });
     regularFile(join(vendorDialect, "dialect.rf.hcl"), "repaired vendored Dialect");
     if (sha256(readFileSync(join(vendorProject, "rootform.lock"))) !== lockDigest) {
       throw new Error("vendor changed rootform.lock");

@@ -1,7 +1,9 @@
 import { expect, test } from "bun:test";
+import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
+  assertPolicyResult,
   parseQualificationArguments,
   registryCompletedRequestCount,
   rootformDockerArguments,
@@ -9,6 +11,20 @@ import {
 } from "./qualify-image.ts";
 
 const revision = "a".repeat(40);
+
+test("image Policy result requires a passed selected evaluation", () => {
+  const path = join(mkdtempSync(join(tmpdir(), "rootform-image-policy-")), "policy.json");
+  const result = {
+    format_version: "1",
+    status: "passed",
+    selection: { policies: ["registry-compat-policies.policy.portable-service"] },
+    summary: { evaluations: { total: 1, passed: 1 } },
+  };
+  writeFileSync(path, JSON.stringify(result));
+  expect(() => assertPolicyResult(path, "image Policy")).not.toThrow();
+  writeFileSync(path, JSON.stringify({ ...result, status: "indeterminate" }));
+  expect(() => assertPolicyResult(path, "image Policy")).toThrow(/did not pass/u);
+});
 
 test("image qualification accepts only current explicit inputs", () => {
   expect(
