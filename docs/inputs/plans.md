@@ -58,7 +58,7 @@ rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -
 
 ```ansi title="Verified pair excerpt"
 [1mPlan analyzed[0m
-[2mInput[0m         plan JSON from Terraform or OpenTofu 1.16.4
+[2mInput[0m         plan.json · plan JSON from Terraform or OpenTofu 1.16.4
 [2mCompleteness[0m  complete, as reported in the plan
 [2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
 [2mWrote     [0m analysis.json

@@ -139,7 +139,7 @@ includes:
 [1m[38;5;208mDifferences · Before Planned → After Planned[0m
   [2mInstances[0m      16 added, 7 removed, 0 changed
   [2mFacts[0m          42 added, 23 removed
-  [2mIndeterminate[0m  3 closures before (3 unknown until apply) · 3 closures after (3 unknown until apply)
+  [2mIndeterminate[0m  3 closures in Before Planned (3 unknown until apply) · 3 closures in After Planned (3 unknown until apply)
 ```
 
 Here the branch adds 16 planned instances and removes 7. Inspect determined
@@ -166,7 +166,7 @@ rootform run "$results/base.json" --plan-file "$results/base.tfplan" \
 | --- | --- |
 | `comparison.md` | Which instances and facts changed or remain indeterminate? |
 | `comparison.json` | Which structured comparison entries should automation process? |
-| `comparison.html` | Where does each change sit in the **Before**, **Diff**, and **After** views? |
+| `comparison.html` | Where does each change sit in the **Before**, **Differences**, and **After** views? |
 
 The HTML file opens from disk, includes its assets, and makes no network
 requests. To explore the comparison in the browser while the plans still exist,
@@ -247,16 +247,16 @@ rootform run plan.json --plan-file plan.tfplan --no-serve
 For the commerce head plan, the summary includes:
 
 ```ansi title="Completed plan excerpt"
-[2mStages[0m        Planned (default) · Refreshed · Recorded (reconstructed)
+[2mStages[0m        Planned (default) · Refreshed · Recorded (reconstructed from Refreshed; no drift entry to reverse)
 [1m[38;5;208mPlanned architecture[0m
   [2mInstances[0m    153 (153 managed, 0 data)
-[1m[38;5;208mDrift report[0m
+[1m[38;5;208mReported drift · Recorded → Refreshed[0m
   No drift reported in this plan.
 ```
 
 This example plan starts from an empty state, so **Stages** includes an empty
-Refreshed architecture and a reconstructed Recorded architecture. Its drift
-report lists no records. A plan made against existing state can list reported
+Refreshed architecture and a reconstructed Recorded architecture. Its Reported
+drift section lists no records. A plan made against existing state can list reported
 drift records and their architectural consequences. If no drift is
 reported, the plan may still have skipped or limited refresh; the
 [plan guide](../inputs/plans.md#read-plan-comparisons-correctly) explains that

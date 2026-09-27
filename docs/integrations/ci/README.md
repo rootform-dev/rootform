@@ -66,7 +66,7 @@ The script prints nothing itself. Open `summary.txt` and confirm that Rootform v
 ```text title="Excerpt from summary.txt"
 Plan analyzed
 Enrichment    saved plan verified against this plan JSON (1 module)
-Stages        Planned (default) · Refreshed · Recorded (reconstructed)
+Stages        Planned (default) · Refreshed · Recorded (reconstructed from Refreshed; no drift entry to reverse)
 ```
 
 The analysis phase runs `rootform run` with `--plan-file --require-enrichment --no-serve` when a saved plan is supplied. It writes `analysis.json` and `report.md`, with standard output in `summary.txt`, standard error in `run.stderr`, and the exact status in `run.status`. A failed analysis exits immediately without running a gate. With state JSON, omit `ROOTFORM_PLAN_FILE`: the result has one `recorded` stage.
