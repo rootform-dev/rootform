@@ -23,7 +23,7 @@ export function configuration(page: string, title: string): string {
   return `${matches[0][1]}\n`;
 }
 export function assertHelpUsage(path: string, exported: string, help: string): void {
-  const actual = /^Usage:\n\s+([^\n]+)/mu.exec(help)?.[1];
+  const actual = /^Usage\n\s+([^\n]+)/mu.exec(help)?.[1];
   if (actual !== exported)
     throw new Error(
       `${path} usage differs from public export: help ${JSON.stringify(actual)}, export ${JSON.stringify(exported)}`,
@@ -31,8 +31,12 @@ export function assertHelpUsage(path: string, exported: string, help: string): v
 }
 /* run analyzes and never evaluates Policies, so a documented run command
    carrying Policy flags or a SARIF output would fail; check takes its input
-   as an argument, not through the retired --plan flag. Only code blocks and
-   inline code are commands; prose may name both commands in one sentence. */
+   as an argument, not through the retired --plan flag. explain instance and
+   explain rule read an input given with --input, explain policy reads a check
+   result given with --result, list and show choose their format with
+   --format, init shows more with --details, and a comparison Form reopens
+   alone. Only code blocks and inline code are commands; prose may name both
+   commands in one sentence. */
 export function retiredCommand(text: string): string | undefined {
   if (/rootform (?:build|diff)\b/u.test(text)) return "retired CLI command";
   const blocks = [...text.matchAll(/```[^\n]*\n([\s\S]*?)\n```/gu)].map((match) => match[1] ?? "");
@@ -48,6 +52,27 @@ export function retiredCommand(text: string): string | undefined {
       return "run does not write SARIF; use rootform check";
     if (/\brootform check\b.*\s--plan(?:[\s=]|$)/u.test(command))
       return "check takes its input as an argument";
+    if (/\brootform explain (?:architecture|semantics)\b/u.test(command))
+      return "explain architecture and explain semantics are explain instance and explain rule";
+    const help = /\s(?:-h|--help)(?:\s|$)/u.test(command);
+    if (
+      /\brootform explain (?:instance|rule)\s+\S/u.test(command) &&
+      !help &&
+      !/\s--input(?:[\s=]|$)/u.test(command)
+    )
+      return "explain instance and explain rule read the input given with --input";
+    if (
+      /\brootform explain policy\s+\S/u.test(command) &&
+      !help &&
+      !/\s--result(?:[\s=]|$)/u.test(command)
+    )
+      return "explain policy reads the check result given with --result";
+    if (/\brootform (?:list|show)\b.*\s(?:-o|--output)(?:[\s=]|$)/u.test(command))
+      return "list and show print to standard output; --format chooses the format";
+    if (/\brootform init\b.*\s(?:-v|--verbose)(?:[\s=]|$)/u.test(command))
+      return "init shows more with --details";
+    if (/(?:^|\s)--(?:before|after)-side(?:[\s=]|$)/u.test(command))
+      return "a comparison Form reopens alone; it has no --before-side or --after-side";
   }
   return undefined;
 }

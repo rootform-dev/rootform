@@ -10,30 +10,34 @@ Package Rootform content for distribution.
 ## Usage
 
 ```text
-rootform package <object> [flags]
+rootform package <command> [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform package |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Behavior
 
 Build deterministic local registry layouts from validated Rootform packages.
 
+## Exit status
+
+| Status | Meaning |
+| --- | --- |
+| `0` | help was shown |
+| `2` | the command was used incorrectly |
+
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform package dialects `](package/dialects.md) | Build dialect packages |
+| [` rootform package dialects `](package/dialects.md) | Build Dialect packages |
 | [` rootform package policy-packs `](package/policy-packs.md) | Build Policy Pack packages |
 
 ## Examples

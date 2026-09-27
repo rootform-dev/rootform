@@ -12,21 +12,21 @@ Policy compliance or live cloud state.
 ## Usage
 
 ```text
-rootform validate form <file> [flags]
+rootform validate form <file> [options]
 ```
 
-## Flags
+## Options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
+
+### Global options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate form |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 <!-- END GENERATED CLI -->
 
@@ -49,7 +49,8 @@ rootform validate form analysis.json --format json
 ```
 
 Text is the default result; JSON is also available. The result goes to
-standard output and diagnostics to standard error. Status `0` means valid,
-`1` means invalid, `2` means incorrect command use, and `3` means validation
-could not be completed. Use [`check`](../check.md) to evaluate Policies and
+standard output and diagnostics to standard error. Status `0` means the Form
+is valid; `1` means it is not valid; `2` means incorrect usage; `3` means the
+input was refused; `4` means the input could not be read or the report could
+not be written. Use [`check`](../check.md) to evaluate Policies and
 [Forms](../../../concepts/forms.md) for what a Form contains.

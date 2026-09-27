@@ -10,28 +10,28 @@ Add Policy Packs to rootform.lock.
 ## Usage
 
 ```text
-rootform add policy-packs <source>... [flags]
+rootform add policy-packs <source>... [options]
 ```
 
-## Flags
+## Options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --dry-run ` | ` bool ` | ` false ` | print the planned change and write nothing |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform add policy-packs |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 | ` --offline ` | ` bool ` | ` false ` | use no network; accept local and installed sources |
 
-## Inherited flags
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform add policy-packs |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Behavior
 
-Add Policy Packs to rootform.lock. Each source is a local directory (./path),
-a registry reference with a tag or digest.
+Add Policy Packs to rootform.lock. Each source is a local directory
+(./path) or a registry reference with a tag or digest.
 
 Rootform compiles and verifies every source, records its exact identity,
 and writes rootform.lock once, or not at all. A registry source is
@@ -48,8 +48,10 @@ The summary goes to standard output. Diagnostics go to standard error.
 | Status | Meaning |
 | --- | --- |
 | `0` | rootform.lock matches the request |
-| `1` | nothing was written because a source or the result is invalid |
+| `1` | a source is invalid or a named selection is absent |
 | `2` | the command was used incorrectly |
+| `3` | rootform.lock is invalid, selections conflict, or --offline needs content that is not installed |
+| `4` | a file, Rootform home, or network operation failed |
 
 ## Examples
 

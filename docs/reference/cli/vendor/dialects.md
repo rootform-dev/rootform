@@ -14,22 +14,22 @@ content unless `--offline` is set.
 ## Usage
 
 ```text
-rootform vendor dialects [flags]
+rootform vendor dialects [options]
 ```
 
-## Flags
+## Options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --offline ` | ` bool ` | ` false ` | use no network; copy only local and installed Dialects |
+| ` --to ` | ` string ` | ` "" ` | copy into `directory`; ./.rootform/dialects by default |
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform vendor dialects |
-| ` --offline ` | ` bool ` | ` false ` | use only exact local or cached dialects |
-| ` --to ` | ` string ` | ` "" ` | copy into `directory`; ./.rootform/dialects by default |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 <!-- END GENERATED CLI -->
 
@@ -50,6 +50,10 @@ rootform vendor dialects --offline --to ./offline/dialects
 ```
 
 Copied names and versions go to standard output, diagnostics to standard
-error. Status `0` means every selection was copied, `2` means incorrect
-command use, and `3` means no complete vendored set was written. See
+error. Status `0` means every selected unit was copied; `1` means selected
+content is invalid, missing, or differs from `rootform.lock`; `2` means the
+command was used incorrectly; `3` means no content was selected,
+`rootform.lock` is invalid, or `--offline` needs content that is not
+installed; and `4` means a file, the Rootform home, or the registry could not
+be read or written. See
 [Reproduce an analysis offline](../../../guides/reproduce-build.md).

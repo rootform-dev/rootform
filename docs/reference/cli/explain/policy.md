@@ -1,76 +1,103 @@
 ---
 title: "rootform explain policy"
-description: "Explain an evaluated policy result."
+description: "Explain one Policy outcome recorded by check."
 ---
 
-`explain policy` evaluates the plan, state, or saved Form named
-by the required `--input` and explains why a policy passed, failed, or could
-not be evaluated for an element. The owning Policy Pack comes from the project
-selection or from a `--policy-pack` override for one command. Use a qualified
-identifier or a bare policy name only when unambiguous.
+Pass a Policy name and the JSON Policy result written by `rootform check` as
+`--result`. The explanation reports why the Policy passed, was violated,
+remained indeterminate, or had no target. Nothing is evaluated again. Name the
+Policy as `PACK/NAME`, `<pack>.policy.<name>`, or an unambiguous bare name.
+For a comparison result, `--side before` or `--side after` selects one recorded
+side; the default covers every recorded side.
+
+Optional `--input` reads the Form as `run` does and describes the evidence
+inspected by the recorded evaluation. Its Form digest must match the digest
+in the Policy result. Omit `--input` to inspect the recorded outcome alone;
+a supplied Form with a different digest is refused.
 
 <!-- BEGIN GENERATED CLI: rootform explain policy -->
 
 ## Usage
 
 ```text
-rootform explain policy <identifier> [flags]
+rootform explain policy <policy> --result <file> [options]
 ```
 
-## Flags
+## Options
+
+### Inputs
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
+| ` --input ` | ` string ` | ` "" ` | describe inspected evidence from the Form `input` the result was computed from: a plan JSON, a state JSON, a saved Form, or `-` |
+| ` --result ` | ` string ` | ` "" ` | read the Policy result `file` that check wrote as JSON, or `-` for standard input |
+| ` --side ` | ` string ` | ` "" ` | side of a comparison result to explain: `before\|after`; default: every recorded side |
+
+### Output
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --details ` | ` bool ` | ` false ` | also list passed evaluations and diagnostic codes, and list every entry |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
+
+### Rootform project
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
+| ` --locked ` | ` bool ` | ` false ` | refuse to run unless rootform.lock is valid |
+| ` --project ` | ` string ` | ` "" ` | read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory |
+
+### Advanced evidence settings
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --plan-complete ` | ` string ` | ` "" ` | declare the plan complete; the only `value` is attested |
+| ` --plan-file ` | ` string ` | ` "" ` | verify the plan JSON against the saved plan `file` it was exported from |
+| ` --producer ` | ` string ` | ` "" ` | declare the tool that produced the input: `terraform\|opentofu` |
+| ` --provider-map ` | ` stringArray ` | ` [] ` | map an observed provider to a binding, as `observed=binding`; repeatable |
+| ` --require-enrichment ` | ` bool ` | ` false ` | refuse a saved plan file that does not verify |
+
+### Global options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain policy |
-| ` --input ` | ` string ` | ` "" ` | read `path`: a plan, state or saved Form, or `-` |
-| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `dir`; repeatable |
-| ` --stage ` | ` string ` | ` "" ` | explain the `stage`: planned, refreshed or recorded |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 <!-- END GENERATED CLI -->
 
-From a checkout of the repository, save the reviewed commerce plan, then
-explain the baseline cluster Policy against that Form. The local Pack
-override chooses the same source for this command without changing the lock.
+From the commerce plan, save a Form, check it, and explain one recorded
+Policy outcome:
 
 <!-- docs-check:cli-explain-policy -->
 ```sh
 rootform run examples/playground/commerce-platform/head/plan.json \
   --plan-file examples/playground/commerce-platform/head/plan.tfplan \
   --no-serve -o analysis.json
-rootform check analysis.json --policy-pack policy-packs/baseline --color always
-rootform explain policy baseline.policy.cluster-network-context \
-  --input analysis.json --policy-pack policy-packs/baseline --color always
-rootform explain policy baseline.policy.cluster-network-context \
-  --input analysis.json --policy-pack policy-packs/baseline --format json
+rootform check analysis.json --policy-pack policy-packs/baseline \
+  -o results.json --color always
+rootform explain policy baseline/cluster-network-context \
+  --result results.json --input analysis.json --color always
 ```
 
 <!-- docs-output:cli-explain-policy -->
-```text title="Policy check and explanation, excerpt"
-Policies passed
-Policies      2 policies selected: 2 passed
-Evaluations   2 instances: 2 passed
-baseline.policy.cluster-network-context: passed
-Stage     planned
-Targets   1: 1 passed, 0 violated, 0 indeterminate
-Coverage  complete
-
-Evaluations
-  passed azurerm_kubernetes_cluster.prod
+```ansi title="Recorded Policy outcome, excerpt"
+[1mPolicy explained[0m
+[2mPolicy[0m         baseline/cluster-network-context
+[2mResult[0m         results.json
+[2mInput[0m          analysis.json
+[2mEvaluations[0m    1
+[2mPassed[0m         1
+[2mOutcome[0m        [1m[32mPASSED[0m
 ```
 
-The policy passed for its one selected target. `rootform check` is the Policy
-gate; if its result is indeterminate, inspect the instance closures. Text or JSON goes
-to standard output, diagnostics to standard error. Status
-`0` means explained, `1` means definition not found, `2` means incorrect
-command use, and `3` means no explanation could be decided. To inspect the
-definition instead, use [`show policy`](../show/policy.md); for a complete
-evaluation, see [Check an architecture](../../../guides/check-architecture.md)
-and the [`check` CLI reference](../check.md).
+The explanation goes to standard output, while progress and errors go to
+standard error. Status `0` means the Policy outcome was explained; `1` means
+the result records no Policy with that name; `2` means incorrect usage; `3`
+means the result or input was refused, the name is ambiguous, the side is not
+recorded, the check recorded no outcome for this Policy, or the input is not
+the Form the result was computed from; `4` means the result or input file
+could not be read. To inspect the definition, use
+[`show policy`](../show/policy.md). For evaluation, see the
+[`check` CLI reference](../check.md).

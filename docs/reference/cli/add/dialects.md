@@ -1,38 +1,38 @@
 ---
 title: "rootform add dialects"
-description: "Add dialects to rootform.lock"
+description: "Add Dialects to rootform.lock"
 ---
 
 <!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
-Add dialects to rootform.lock.
+Add Dialects to rootform.lock.
 
 ## Usage
 
 ```text
-rootform add dialects <source>... [flags]
+rootform add dialects <source>... [options]
 ```
 
-## Flags
+## Options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --dry-run ` | ` bool ` | ` false ` | print the planned change and write nothing |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform add dialects |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 | ` --offline ` | ` bool ` | ` false ` | use no network; accept local and installed sources |
-| ` --replace ` | ` bool ` | ` false ` | replace the embedded dialect with the same owner |
+| ` --replace ` | ` bool ` | ` false ` | replace the embedded Dialect with the same owner |
 
-## Inherited flags
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform add dialects |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Behavior
 
-Add dialects to rootform.lock. Each source is a local directory (./path),
-a registry reference with a tag or digest, or the owner of an embedded dialect
+Add Dialects to rootform.lock. Each source is a local directory (./path),
+a registry reference with a tag or digest, or the owner of an embedded Dialect
 that the project excluded.
 
 Rootform compiles and verifies every source, records its exact identity,
@@ -40,7 +40,7 @@ and writes rootform.lock once, or not at all. A registry source is
 installed in the Rootform home. A tag is resolved once and never
 recorded.
 
-A dialect whose owner is embedded in Rootform replaces the embedded
+A Dialect whose owner is embedded in Rootform replaces the embedded
 one only with --replace.
 
 When the project vendors this family under .rootform/, the vendored
@@ -53,8 +53,10 @@ The summary goes to standard output. Diagnostics go to standard error.
 | Status | Meaning |
 | --- | --- |
 | `0` | rootform.lock matches the request |
-| `1` | nothing was written because a source or the result is invalid |
+| `1` | a source is invalid or a named selection is absent |
 | `2` | the command was used incorrectly |
+| `3` | rootform.lock is invalid, selections conflict, or --offline needs content that is not installed |
+| `4` | a file, Rootform home, or network operation failed |
 
 ## Examples
 

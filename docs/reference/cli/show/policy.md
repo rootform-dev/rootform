@@ -3,11 +3,11 @@ title: "rootform show policy"
 description: "Inspect one Policy definition without evaluating it."
 ---
 
-`show policy` displays a policy's target, assertion, message, owning Policy
-Pack, and source location. It reads the project-selected pack by default.
-Repeat `--policy-pack` with local authoring roots to overlay packs of the
-same names for this invocation. Other selected packs remain active. Use a
-qualified identifier such as
+`show policy` displays a Policy's target, assertion, message, owning Policy
+Pack, and source location. It reads the project-selected Policy Pack by
+default. Repeat `--policy-pack` with local authoring roots to overlay Policy
+Packs of the same names for this invocation. Other selected Policy Packs
+remain active. Use a qualified identifier such as
 `tutorial.policy.subnet-network-context`, or a bare name when unambiguous.
 
 <!-- BEGIN GENERATED CLI: rootform show policy -->
@@ -15,22 +15,30 @@ qualified identifier such as
 ## Usage
 
 ```text
-rootform show policy <identifier> [flags]
+rootform show policy <identifier> [options]
 ```
 
-## Flags
+## Options
+
+### Output
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` -o, --format ` | ` string ` | ` "" ` | output `format`: text or json |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
+
+### Rootform project
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --policy-pack ` | ` stringArray ` | ` [] ` | add or replace the Policy Pack at `path`, a source directory or a compiled file, for this command only; repeatable |
+| ` --project ` | ` string ` | ` "" ` | read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory |
+
+### Global options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show policy |
-| ` --policy-pack ` | ` stringArray ` | ` [] ` | select local Policy Pack `dir`; repeatable |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 <!-- END GENERATED CLI -->
 
@@ -40,13 +48,16 @@ command shows its target and assertion without evaluating a plan.
 <!-- docs-check:cli-show-policy -->
 ```sh
 rootform show policy cluster-network-context --policy-pack ./policy-packs/baseline
-rootform show policy baseline.policy.cluster-network-context --policy-pack ./policy-packs/baseline -o json
+rootform show policy baseline.policy.cluster-network-context --policy-pack ./policy-packs/baseline --format json
 ```
 
 The definition names `rf.concept.kubernetes-cluster` as its target. Text or
-JSON goes to standard output, diagnostics to standard error. Status
-`0` means shown, `1` means definition not found, `2` means incorrect use,
-and `3` means no single definition could be selected. This does not evaluate
-the policy; use [`explain policy`](../explain/policy.md) for an evaluated result
-or [Check an architecture](../../../guides/check-architecture.md) for a full
+JSON goes to standard output, diagnostics to standard error. Status `0` means
+the definition was shown, `1` means the named definition was not found,
+`2` means the command was used incorrectly, `3` means the selection was
+unavailable or the name was ambiguous, and `4` means the definition could not
+be written. This does not evaluate the Policy. Use
+[`explain policy`](../explain/policy.md) with `--result` to explain an outcome
+that `check` recorded in a saved Policy result, or see
+[Check an architecture](../../../guides/check-architecture.md) for a full
 report. See the [`check` CLI reference](../check.md).

@@ -10,21 +10,21 @@ Delete installed Policy Pack versions.
 ## Usage
 
 ```text
-rootform uninstall policy-packs <name@version>... [flags]
+rootform uninstall policy-packs <name@version>... [options]
 ```
 
-## Flags
+## Options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
+
+### Global options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform uninstall policy-packs |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Behavior
 
@@ -38,8 +38,9 @@ The summary goes to standard output. Diagnostics go to standard error.
 | Status | Meaning |
 | --- | --- |
 | `0` | every named version was deleted |
-| `1` | a named version is not installed or could not be deleted |
+| `1` | a named version is not installed |
 | `2` | the command was used incorrectly |
+| `4` | the Rootform home could not be read or changed |
 
 ## Examples
 

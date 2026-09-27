@@ -82,15 +82,15 @@ rootform run plan.json --plan-file plan.tfplan --require-enrichment \
 <!-- docs-output:local-dialect-run -->
 ```text title="Excerpt from analysis summary"
 Plan analyzed
-Enrichment    saved plan verified against this plan JSON (1 module)
-Semantics     20 Dialects, 1 vocabulary
+Enrichment    Saved plan verified against this plan JSON (1 module)
 
-Planned architecture
-  Instances    1 (1 managed, 0 data)
-  Interpreted  1 of 1 instances
+Architecture
+  Resource instances  1
+  Interpreted         1 of 1
+  Facts               none determined
 ```
 
-The count rose from 19 to 20 active Dialects. The instance is interpreted, while `Facts 0` is expected because the Rule only classifies it. Inspect the document or `rootform explain architecture random_pet.service --input analysis.json` when the result differs. `--dialect` compiles current source each run and never writes the lock.
+The instance is interpreted, while no facts are determined because the Rule only classifies it. Inspect the Form or `rootform explain instance random_pet.service --input analysis.json` when the result differs. `--dialect` compiles current source each run and never writes the lock.
 
 ## Inspect and test the Rule
 
@@ -149,7 +149,7 @@ rootform add dialects ./dialects/network-review
 ```text title="Selection result"
 rootform.lock updated
 
-  add      dialect network-review 0.1.0  (dialects/network-review)
+  add      Dialect network-review 0.1.0  (dialects/network-review)
 ```
 
 The lock records the owner, version, digest, and project-relative local path. Commit it with Dialect source and reviewed fixture. Future runs use the selection through `--project` without the override; `--locked` checks that it has not drifted. If the source changes later, try it with `--dialect`, then run `rootform update dialect network-review` to record the new digest. `init` never adopts source drift. If your owner collides with an embedded Dialect, `add` requires an explicit `--replace`; review the loss of that embedded owner's Rules first.
@@ -177,7 +177,7 @@ rootform remove dialects network-review
 ```text title="Selection result"
 rootform.lock updated
 
-  remove   dialect network-review 0.1.0  (dialects/network-review)
+  remove   Dialect network-review 0.1.0  (dialects/network-review)
 ```
 
 The source directory remains. A later analysis can still show the base Representation for `random_pet.service`, but no Rule interprets it. [Reproduce an analysis offline](reproduce-build.md) shows how to prove another environment loaded a reviewed selection.

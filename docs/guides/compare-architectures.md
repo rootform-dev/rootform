@@ -25,28 +25,31 @@ The command returns status `0` because the comparison completed, even though it 
 <!-- docs-output:compare-commerce -->
 ```ansi title="Comparison summary, excerpt"
 [1mInputs compared[0m
-[2mBefore[0m  base/plan.json · plan JSON from Terraform or OpenTofu 1.16.4 · Planned stage
-[2mAfter[0m   head/plan.json · plan JSON from Terraform or OpenTofu 1.16.4 · Planned stage
 
-[1m[38;5;208mBefore · Planned architecture[0m
-  [2mInstances[0m    144 (144 managed, 0 data)
-  [2mInterpreted[0m  144 of 144 instances
-  [2mFacts[0m        261: 28 relations, 196 contexts, 37 contributions
-  [2mClosures[0m     273: 261 resolved, 9 absent, 3 indeterminate
+[2mBefore[0m              base/plan.json
+[2mAfter[0m               head/plan.json
 
-[1m[38;5;208mAfter · Planned architecture[0m
-  [2mInstances[0m    153 (153 managed, 0 data)
-  [2mInterpreted[0m  153 of 153 instances
-  [2mFacts[0m        280: 28 relations, 207 contexts, 45 contributions
-  [2mClosures[0m     292: 280 resolved, 9 absent, 3 indeterminate
+                    [2mBefore[0m       [2mAfter[0m
+[2mOrigin[0m              Plan         Plan
+[2mStage[0m               Planned      Planned
+[2mResource instances[0m  144          153
+[2mInterpreted[0m         144 of 144   153 of 153
+[2mRelations[0m           28           28
+[2mContexts[0m            196          207
+[2mContributions[0m       37           45
 
-[1m[38;5;208mDifferences · Before Planned → After Planned[0m
-  [2mInstances[0m      16 added, 7 removed, 0 changed
-  [2mFacts[0m          42 added, 23 removed
-  [2mIndeterminate[0m  3 closures in Before Planned (3 unknown until apply) · 3 closures in After Planned (3 unknown until apply)
+[1m[38;5;208mDifferences[0m
+  Before Planned -> After Planned
+  Differences between two inputs are not drift; they include any drift between the two exports.
+
+  [2mResource instances[0m      16 added, 7 removed
+  [2mRelations[0m               5 added, 5 removed
+  [2mContexts[0m                28 added, 17 removed
+  [2mContributions[0m           9 added, 1 removed
+  [2mIndeterminate closures[0m  3 in Before Planned (3 unknown until apply); 3 in After Planned (3 unknown until apply)
 ```
 
-The instance counts cover observed resource instances, while facts count the Relations, Contexts, and Contributions that Rules established. `Indeterminate` keeps closures whose evidence cannot decide a change; it does not mean the comparison failed, as [Comparisons](../concepts/comparisons.md#indeterminate-preserves-uncertainty) explains. If pairing is refused or the counts differ in your own project, inspect the warning and confirm each JSON was exported from its matching saved plan. [Plan inputs](../inputs/plans.md#verify-the-saved-plan) explains pairing.
+The instance counts cover observed resource instances. The relation, context, and contribution counts cover facts that Rules established. `Indeterminate closures` keeps evidence that cannot decide a change; it does not mean the comparison failed, as [Comparisons](../concepts/comparisons.md#indeterminate-preserves-uncertainty) explains. If pairing is refused or the counts differ in your own project, inspect the warning and confirm each JSON was exported from its matching saved plan. [Plan inputs](../inputs/plans.md#verify-the-saved-plan) explains pairing.
 
 ## Open the comparison in the browser
 
@@ -83,7 +86,7 @@ This selects `recorded` before and `planned` after. The saved plan adds verified
 
 ## Use exit status deliberately
 
-Status `0` proves the comparison ran, not that its report is empty; `run` has no status that reports changes. Read `comparison.md` for review and keep `comparison.json` for the exact entries. `run` never evaluates Policies. To block a review on an architectural condition, check the saved comparison: `rootform check comparison.json` evaluates the selected Policies on its After side, `--side before` selects the other side, and a violation exits `1`. [Outputs and exit status](../reference/outputs.md) defines export formats and failures.
+Status `0` proves the comparison ran, not that its report is empty; `run` has no status that reports changes. Read `comparison.md` for review and keep `comparison.json` for the exact entries. `run` never evaluates Policies. To block a review on an architectural condition, check the saved comparison: `rootform check comparison.json` evaluates selected Policies on both Before and After by default. Use `--side before` or `--side after` to gate one side; a violation on either evaluated side exits `1`. [Outputs and exit status](../reference/outputs.md) defines export formats and failures.
 
 <!-- rootform:endsteps -->
 

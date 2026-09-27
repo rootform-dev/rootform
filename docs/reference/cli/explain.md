@@ -1,44 +1,40 @@
 ---
 title: "rootform explain"
-description: "Trace an architecture element, semantic interpretation, or policy result."
+description: "Justify an instance, Rule application, or recorded Policy outcome."
 ---
 
-Use `explain architecture` for evidence behind an architecture address,
-`explain semantics` for a Dialect Rule and, with `--input`, the instances
-where it applied, or `explain policy` for an evaluated policy result. To inspect a definition without
-tracing a result, use [`show`](show.md); to see the current selection, use
-[`list`](list.md).
+Use [`explain instance`](explain/instance.md) to trace one instance at a stage
+of a Form. Use [`explain rule`](explain/rule.md) to trace how one Rule applied in
+an input. Use [`explain policy`](explain/policy.md) to inspect an outcome already
+recorded by `rootform check`. For definitions, use [`show`](show.md); for the
+current selection, use [`list`](list.md).
 
 <!-- BEGIN GENERATED CLI: rootform explain -->
 
 ## Usage
 
 ```text
-rootform explain <object> <name> [flags]
+rootform explain <command> [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform explain architecture `](explain/architecture.md) | Explain an instance |
-| [` rootform explain policy `](explain/policy.md) | Explain a policy result |
-| [` rootform explain semantics `](explain/semantics.md) | Explain a rule |
+| [` rootform explain instance `](explain/instance.md) | Explain how one instance was interpreted |
+| [` rootform explain policy `](explain/policy.md) | Explain one Policy outcome recorded by check |
+| [` rootform explain rule `](explain/rule.md) | Explain how one Rule applied in an input |
 
 <!-- END GENERATED CLI -->
 
-Each subcommand has its own accepted input and options. See
-[Explore an architecture](../../guides/explore-architecture.md) for following
-evidence in the local interface.
+Instance and Rule explanations read inputs as `run` does. A Policy explanation
+reads a saved Policy result and never evaluates the Policy again.

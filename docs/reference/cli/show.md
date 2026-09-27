@@ -14,28 +14,37 @@ definition identifiers, not Terraform resource addresses.
 ## Usage
 
 ```text
-rootform show <name> [flags]
+rootform show <name> [options]
+rootform show <command> [options]
 ```
 
-## Flags
+## Options
+
+### Output
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
-| ` -o, --format ` | ` string ` | ` "" ` | output `format`: text or json |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
+
+### Rootform project
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
+| ` --project ` | ` string ` | ` "" ` | read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory |
+
+### Global options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform show policy `](show/policy.md) | Show a policy definition |
+| [` rootform show policy `](show/policy.md) | Show a Policy definition |
 | [` rootform show policy-pack `](show/policy-pack.md) | Show a Policy Pack |
 
 <!-- END GENERATED CLI -->
@@ -43,7 +52,7 @@ rootform show <name> [flags]
 <!-- docs-check:cli-show -->
 ```sh
 rootform show google.rule.cloud-sql-instance
-rootform show rf.concept.virtual-network -o json
+rootform show rf.concept.virtual-network --format json
 ```
 
 The first result prints the Rule's match and emissions. The JSON result
@@ -52,7 +61,8 @@ identifies the RF Vocabulary Concept without evaluating any instance.
 `rootform.lock` unchanged. Repeat it for different owners.
 
 Text or JSON goes to standard output, diagnostics to standard error. Status
-`0` means shown, `1` means definition not found, `2` means incorrect use,
-and `3` means no single definition could be selected. Use
+`0` means the definition was shown; `1` means it was not found; `2` means
+incorrect usage; `3` means the selection was unavailable or the name was
+ambiguous; `4` means the definition could not be written. Use
 [`list dialects`](list/dialects.md) to see available owners or
-[`explain semantics`](explain/semantics.md) to trace an interpretation.
+[`explain rule`](explain/rule.md) with `--input` to trace an application.

@@ -25,7 +25,7 @@ docker run --rm \
   rootform run plan.json --no-serve
 ```
 
-The terminal summary reports the input kind, active Dialect count, stage, interpreted instances, and facts. Status `0` confirms successful analysis, not compliance; `rootform check plan.json` in the same image evaluates the selected Policies and exits with their verdict. A binary saved plan is not a `run` input; export it to JSON first.
+The terminal summary reports the input, selected stage, interpreted resource instances, and facts by kind. Status `0` confirms successful analysis, not compliance; `rootform check plan.json` in the same image evaluates the selected Policies and exits with their verdict. A binary saved plan is not a `run` input; export it to JSON first.
 
 To keep the Form while the project mount stays read-only, ask for JSON on standard output and let the host shell write the file:
 
@@ -95,7 +95,7 @@ docker run --rm \
   rootform run plan.json --locked --no-serve --format json > analysis.json
 ```
 
-The temporary directories are writable by the container user, not the host workspace. A damaged or incomplete vendor tree fails closed instead of falling back to the package store or a registry. To check the selection alone, run `rootform init . --locked --offline --no-input` with the same flags; it verifies local or vendored content and cannot fetch anything missing. [Reproduce an analysis offline](../guides/reproduce-build.md#prepare-selected-external-content) covers transfer and byte comparison.
+The temporary directories are writable by the container user, not the host workspace. A damaged or incomplete vendor tree fails closed instead of falling back to the Rootform home or a registry. To check the selection alone, run `rootform init . --locked --offline --no-input` with the same flags; it verifies local or vendored content and cannot fetch anything missing. [Reproduce an analysis offline](../guides/reproduce-build.md#prepare-selected-external-content) covers transfer and byte comparison.
 
 ## Use private registry credentials
 

@@ -1,6 +1,6 @@
 ---
 title: "Write a Policy Pack"
-description: "Group portable policies, link them to exact architecture semantics, and package them deterministically."
+description: "Group portable Policies, link them to exact architecture semantics, and package them deterministically."
 ---
 
 A Policy Pack is an independent source unit. It owns a name, version, and
@@ -64,7 +64,7 @@ These fences match public baseline source exactly.
 
 <!-- rootform:steps -->
 
-## Name and version pack
+## Name and version the Policy Pack
 
 `policy_pack "baseline"` establishes source identity. Policy IDs use
 owner-first syntax, for example `baseline.policy.cluster-network-context`.
@@ -88,7 +88,7 @@ target {
 
 At least `concept` or `rules` is required. Values within each list are OR;
 present dimensions combine with AND. `dialects` filters owner of applied Rule.
-One selected representation is evaluated once. Base representation without
+One selected Representation is evaluated once. Base Representation without
 matching Concept or applied Rule is not selected.
 
 ## Evaluate locally
@@ -114,9 +114,14 @@ rootform show policy baseline.policy.cluster-network-context \
 
 <!-- docs-output:docs-language-write-policy-pack-1 -->
 ```text title="Passing result, excerpt"
-Policies passed
-Policies      2 policies selected: 2 passed
-Evaluations   2 instances: 2 passed
+Policy check completed
+
+Policies       2 selected
+
+Evaluations    2
+Passed         2
+
+Verdict        PASSED
 ```
 
 The check summary reports both selected targets passing and exits `0`. A
@@ -128,10 +133,10 @@ The local override lasts one command and leaves `rootform.lock` unchanged.
 
 | `rootform check` result | Status | What to do |
 | --- | --- | --- |
-| `Policies passed` | `0` | All selected Policies passed. Confirm that at least one target was evaluated. |
-| `Policies violated` | `1` | Read the named target and Policy message, then explain that Policy. |
-| `Policies indeterminate` | `3` | Inspect its closure reason; missing or unknown evidence cannot prove a pass. |
-| `No policy decision` | `3` | No selected Policy had a target. Check the Pack target and selected plan stage. |
+| `PASSED` | `0` | All selected Policies passed. Confirm that at least one target was evaluated. |
+| `VIOLATED` | `1` | Read the named target and Policy message, then explain that Policy. |
+| `INDETERMINATE` | `3` | Inspect its closure reason; missing or unknown evidence cannot prove a pass. |
+| `NO DECISION` | `3` | No selected Policy had a target. Check the Pack target and selected plan stage. |
 
 These are distinct Policy outcomes. The [check walkthrough](../guides/check-architecture.md)
 shows violations, indeterminate closures, and no-target results on small plans.

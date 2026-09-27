@@ -35,8 +35,9 @@ leaves vendored content ahead of the lock, normal commands fail closed;
 
 Use `add`, `update`, and `remove` for normal selection changes. Manual edits
 remain an advanced escape hatch when the strict reader validates them. An
-invalid lock stops the command and is never repaired automatically. Commit the
-lock and review its diff with the source or dependency change. See
+invalid lock stops every command that reads it with exit `3` and is never
+repaired automatically. Commit the lock and review its diff with the source or
+dependency change. See
 [Where Rootform stores external content](../docs/reference/storage.md) for
 the storage and vendor guarantees.
 
@@ -135,8 +136,8 @@ Canonical vendor paths are `.rootform/dialects` and
 Dialects and Policy Pack sources, with licenses and notices. It never
 materializes toolchain, RF Vocabulary, embedded Dialects, or linked-artifact
 cache. When used, each vendored tree is exclusive for its selected kind;
-missing or divergent content never falls back silently to store, cache, or
-registry. Vendor preserves exact pins without discovery, upgrade, or lock
+missing or divergent content never falls back silently to the Rootform home or
+a registry. Vendor preserves exact pins without discovery, upgrade, or lock
 mutation.
 
 Machine schema: [`../schemas/rootform-lock.schema.json`](../schemas/rootform-lock.schema.json).

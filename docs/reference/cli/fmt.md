@@ -10,28 +10,28 @@ Format Rootform files.
 ## Usage
 
 ```text
-rootform fmt [path] [flags]
+rootform fmt [path] [options]
 ```
 
-## Flags
+## Options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --check ` | ` bool ` | ` false ` | check formatting without rewriting files |
 | ` --diff ` | ` bool ` | ` false ` | show formatting changes without rewriting files |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform fmt |
 
-## Inherited flags
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform fmt |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Behavior
 
 Rewrite Rootform source files using the canonical format.
 
-With no path, fmt reads the current directory. By default it rewrites
+Without a path, fmt reads the current directory. By default it rewrites
 changed files. --check reports their names and --diff writes changes to
 standard output without rewriting. Diagnostics go to standard error.
 
@@ -40,9 +40,9 @@ standard output without rewriting. Diagnostics go to standard error.
 | Status | Meaning |
 | --- | --- |
 | `0` | the sources are formatted |
-| `1` | --check or --diff found a source that is not formatted |
+| `1` | a source cannot be parsed, or --check or --diff found a source that is not formatted |
 | `2` | the command was used incorrectly |
-| `3` | a source could not be read, parsed, or rewritten |
+| `4` | a source could not be read or rewritten |
 
 ## Examples
 

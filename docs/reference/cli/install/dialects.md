@@ -1,35 +1,35 @@
 ---
 title: "rootform install dialects"
-description: "Install dialects from registry references"
+description: "Install Dialects from registry references"
 ---
 
 <!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
-Install dialects from registry references.
+Install Dialects from registry references.
 
 ## Usage
 
 ```text
-rootform install dialects <reference>... [flags]
+rootform install dialects <reference>... [options]
 ```
 
-## Flags
+## Options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform install dialects |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 | ` --offline ` | ` bool ` | ` false ` | use no network; accept installed digest references |
 
-## Inherited flags
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform install dialects |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Behavior
 
-Resolve each registry reference once, verify the dialect it
+Resolve each registry reference once, verify the Dialect it
 names, and install it in the Rootform home. A version is immutable on a
 machine: installing the same version from other content fails.
 
@@ -42,8 +42,10 @@ The summary goes to standard output. Diagnostics go to standard error.
 | Status | Meaning |
 | --- | --- |
 | `0` | every reference is installed |
-| `1` | a reference could not be resolved, verified, or installed |
+| `1` | content is invalid or a named version is absent |
 | `2` | the command was used incorrectly |
+| `3` | --offline needs content that is not installed |
+| `4` | a registry, network, or Rootform home operation failed |
 
 ## Examples
 

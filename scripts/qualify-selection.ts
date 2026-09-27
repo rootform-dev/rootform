@@ -656,7 +656,7 @@ function active(
   const listed = JSON.parse(
     q.quiet(
       `list dialects ${OWNER} ${extra.join(" ")}`,
-      ["list", "dialects", OWNER, "-o", "json", ...extra],
+      ["list", "dialects", OWNER, "--format", "json", ...extra],
       project,
       home,
       0,
@@ -677,7 +677,7 @@ function _activePack(
   const listed = JSON.parse(
     q.quiet(
       `list policy-packs ${extra.join(" ")}`,
-      ["list", "policy-packs", "-o", "json", ...extra],
+      ["list", "policy-packs", "--format", "json", ...extra],
       project,
       home,
       0,
@@ -694,7 +694,7 @@ function installed(q: Qualification, home: string, family: "dialects" | "policy-
   const listed = JSON.parse(
     q.quiet(
       `list ${family} --installed`,
-      ["list", family, "--installed", "-o", "json"],
+      ["list", family, "--installed", "--format", "json"],
       q.work,
       home,
       0,
@@ -2501,16 +2501,41 @@ async function networkScenarios(q: Qualification, f: Fixtures): Promise<void> {
         ],
         [
           "run policies",
-          ["check", "plan.json", "--project", ".", "--locked", "--policy", `${PACK}/*`],
+          [
+            "check",
+            "plan.json",
+            "--project",
+            ".",
+            "--locked",
+            "--policy",
+            `${PACK}/*`,
+            "-o",
+            q.path("network-check.json"),
+          ],
         ],
         ["list dialects", ["list", "dialects", OWNER]],
         ["list policy-packs", ["list", "policy-packs"]],
         ["list --installed", ["list", "dialects", "--installed"]],
         ["show dialect", ["show", OWNER]],
         ["show policy", ["show", "policy", `${PACK}.policy.service-present`]],
-        ["explain semantics", ["explain", "semantics", `${OWNER}.rule.portable-service`]],
-        ["explain architecture", ["explain", "architecture", "portable_service.main"]],
-        ["explain policy", ["explain", "policy", `${PACK}.policy.service-present`]],
+        [
+          "explain rule",
+          ["explain", "rule", `${OWNER}.rule.portable-service`, "--input", "plan.json"],
+        ],
+        [
+          "explain instance",
+          ["explain", "instance", "portable_service.main", "--input", "plan.json"],
+        ],
+        [
+          "explain policy",
+          [
+            "explain",
+            "policy",
+            `${PACK}.policy.service-present`,
+            "--result",
+            q.path("network-check.json"),
+          ],
+        ],
         ["init installed", ["init", ".", "--locked", "--no-input"]],
         ["init --offline", ["init", ".", "--locked", "--offline", "--no-input"]],
         ["vendor --offline", ["vendor", "--offline"]],

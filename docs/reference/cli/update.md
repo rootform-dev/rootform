@@ -10,31 +10,35 @@ Change a selection in rootform.lock.
 ## Usage
 
 ```text
-rootform update <object> [flags]
+rootform update <command> [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform update |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Behavior
 
-Record new content for one selected dialect or Policy Pack, or switch
+Record new content for one selected Dialect or Policy Pack, or switch
 it to another exact source.
+
+## Exit status
+
+| Status | Meaning |
+| --- | --- |
+| `0` | help was shown |
+| `2` | the command was used incorrectly |
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform update dialect `](update/dialect.md) | Change one selected dialect |
+| [` rootform update dialect `](update/dialect.md) | Change one selected Dialect |
 | [` rootform update policy-pack `](update/policy-pack.md) | Change one selected Policy Pack |
 
 ## Examples

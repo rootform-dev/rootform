@@ -13,7 +13,7 @@ Use a diagnostic's stable `code` for automation. Its message explains the immedi
 | Plan/state input and saved-plan pairing | Error for refusal; warning for recoverable lost enrichment | Input may be refused or analyzed with less evidence |
 | Instance interpretation | Error or warning | Affected Rule or emission may remain undecided |
 | Comparison | Warning or info | Comparability or drift wording is constrained |
-| Policy linking and evaluation | Error | No compliance decision from affected policy |
+| Policy linking and evaluation | Error | No compliance decision from affected Policy |
 | Form validation | Error | Form refused |
 
 ## RF source diagnostics
@@ -126,10 +126,10 @@ An `indeterminate` closure records a reason such as `unknown_until_apply`, `sens
 | `POLICY_SEMANTICS_MISMATCH`, `POLICY_ARCHITECTURE_INVALID` | Pack and Form cannot be safely evaluated together |
 | `POLICY_STAGE_MISSING` | Requested evaluation stage is unavailable |
 | `POLICY_LIMIT_EXCEEDED`, `POLICY_PACK_DUPLICATE` | Evaluation bound or Pack identity invalid |
-| `POLICY_NOT_EVALUATED` | No Policy decision took place |
-| `POLICY_NO_DECISION` | Selected policies evaluated zero targets; `check` exits `3` |
+| `POLICY_SELECTION_INVALID` | A selected Policy is not declared by a linked Policy Pack |
+| `POLICY_UNAVAILABLE` | No Policy Pack is selected; `check` exits `3` |
 
-An unknown assertion or incomplete target domain produces an indeterminate evaluation, not a violation or pass. The policy result and its diagnostics identify the affected target; see [Evaluation](evaluation.md#per-target-outcomes).
+An unknown assertion or incomplete target domain produces an indeterminate evaluation, not a violation or pass. The Policy result and its diagnostics identify the affected target; see [Evaluation](evaluation.md#per-target-outcomes).
 
 ## Form validation
 

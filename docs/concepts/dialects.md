@@ -29,7 +29,7 @@ The executable embeds the official Dialects and RF Vocabulary. They are availabl
 
 <!-- docs-check:concept-dialect-list -->
 ```sh
-rootform list dialects aws -o wide
+rootform list dialects aws --format wide
 ```
 
 <!-- docs-output:concept-dialect-list -->
@@ -57,7 +57,7 @@ rootform show aws.rule.subnet --color always
     via   source.vpc_id
 ```
 
-`ORIGIN` confirms which unit supplies the Dialect, such as `embedded` for the binary or `local` for a project source. Counts describe the Dialect's definitions, not coverage of the current project. The Rule inspection identifies the source type, produced Concept, and network Context emission. `rootform explain architecture` shows which Rule actually interpreted an instance and which closures resolved. See the [show reference](../reference/cli/show.md) for inspection forms.
+`ORIGIN` confirms which unit supplies the Dialect, such as `embedded` for the binary or `local` for a project source. Counts describe the Dialect's definitions, not coverage of the current project. The Rule inspection identifies the source type, produced Concept, and network context dimension emission. `rootform explain instance <address> --input <input>` shows which Rule actually interpreted an instance and which closures resolved. See the [show reference](../reference/cli/show.md) for inspection forms.
 
 ## Embedded and external selection
 

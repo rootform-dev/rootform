@@ -216,11 +216,12 @@ rootform test ./fixtures --dialect . --run example/minimal
 
 `--update` writes the expected document for review. The next command compares
 the real analysis against it; status `0` means every selected case passed,
-`1` means a case differed, and `3` means no case matched. `--run` narrows cases
-by name. Review the golden diff before accepting a changed Rule. The local
-`--dialect` override lasts one command and leaves `rootform.lock` unchanged;
-`run`, `test`, `validate`, `list`, `show`, and `explain` accept it. Select the
-source with `rootform add dialects` only when the project should retain it.
+`1` means a case differed, and `3` means `rootform.lock` is invalid or no case
+matched. `--run` narrows cases by name. Review the golden diff before accepting
+a changed Rule. The local `--dialect` override lasts one command and leaves
+`rootform.lock` unchanged; `run`, `test`, `validate`, `list`, `show`, and
+`explain` accept it. Select the source with `rootform add dialects` only when
+the project should retain it.
 
 ## Keep presentation separate
 

@@ -43,12 +43,13 @@ records no state, and suggests the plan commands instead.
 ## Reuse or compare Forms
 
 A saved Form is reusable input. The same `run` command can
-open it without the plan, save a report, or compare it with a later input.
+open it without the plan or save a report. A saved single-input Form can
+also be compared with a later input.
 An input comparison orders the first input as Before and the `--diff`
 input as After. A fact that cannot be settled on both sides stays
 [indeterminate](../concepts/comparisons.md#indeterminate-preserves-uncertainty); it
-never counts as no change. If an operand is itself a comparison Form, use
-`--before-side` or `--after-side` to identify the side to compare.
+never counts as no change. A comparison Form reopens alone with
+`rootform run comparison.json`; it cannot be a `--diff` operand.
 
 <!-- docs-check:journey-inputs-reuse -->
 ```sh

@@ -1,11 +1,11 @@
 ---
 title: "rootform vendor"
-description: "Copy exact selected external content into a project-local destination."
+description: "Copy selected external content into a project-local directory."
 ---
 
 `vendor` reads the current project's `rootform.lock` and copies selected
-external content into `.rootform/`. With no family argument, it vendors
-every selected family. Choose `dialects` or `policy-packs` to write one
+external content into `.rootform/`. Without a subcommand, it vendors every
+selected family; run `vendor dialects` or `vendor policy-packs` to write one
 family. It does not choose versions or change the lock. Run it from the
 project root whose selection you intend to copy.
 
@@ -14,27 +14,28 @@ project root whose selection you intend to copy.
 ## Usage
 
 ```text
-rootform vendor [object] [flags]
+rootform vendor [options]
+rootform vendor <command> [options]
 ```
 
-## Flags
+## Options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --offline ` | ` bool ` | ` false ` | use no network; copy only local and installed content |
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform vendor |
-| ` --offline ` | ` bool ` | ` false ` | use only exact local or installed content |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform vendor dialects `](vendor/dialects.md) | Vendor selected dialects |
+| [` rootform vendor dialects `](vendor/dialects.md) | Vendor selected Dialects |
 | [` rootform vendor policy-packs `](vendor/policy-packs.md) | Vendor selected Policy Packs |
 
 <!-- END GENERATED CLI -->
@@ -52,9 +53,13 @@ rootform vendor policy-packs
 
 When the corresponding default vendored directory exists, consuming commands
 use it as the exclusive source for that project's selected content. See
-the printed destination and selected owner or Pack names to confirm what was
-copied. Status `0` means the copy completed, `2` means incorrect use, and `3`
-means no complete vendored set was written. See
+the printed destination and selected Dialect or Policy Pack names to confirm
+what was copied. `vendor` and both subcommands share these exit statuses: `0`
+means every selected unit was copied; `1` means selected content is invalid,
+missing, or differs from `rootform.lock`; `2` means the command was used
+incorrectly; `3` means no content was selected, `rootform.lock` is invalid, or
+`--offline` needs content that is not installed; and `4` means a file, the
+Rootform home, or the registry could not be read or written. See
 [External content storage](../storage.md) for the precedence
 rules and [Add external content](../../guides/external-content.md)
 for selection setup.

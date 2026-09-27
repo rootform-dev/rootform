@@ -58,17 +58,18 @@ rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -
 
 ```ansi title="Verified pair excerpt"
 [1mPlan analyzed[0m
-[2mInput[0m         plan.json · plan JSON from Terraform or OpenTofu 1.16.4
-[2mCompleteness[0m  complete, as reported in the plan
-[2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
+[2mInput[0m         plan.json
+[2mProducer[0m      Terraform or OpenTofu 1.16.4
+[2mCompleteness[0m  Complete, as reported in the plan
+[2mEnrichment[0m    Saved plan verified against this plan JSON (1 module)
 [2mWrote     [0m analysis.json
 ```
 
 **Enrichment** confirms agreement on version, timestamp, and configuration
 shape; it does not prove one planning operation. The count is the number of
-configuration modules read from the saved plan. **Input** names the export and
-the version it records. The JSON does not say which of the two tools wrote it,
-so Rootform names both unless you
+configuration modules read from the saved plan. **Input** names the export;
+**Producer** gives the version it records. The JSON does not say which of the
+two tools wrote it, so Rootform names both unless you
 declare the tool with `--producer`. **Completeness** repeats what the plan
 itself reports.
 

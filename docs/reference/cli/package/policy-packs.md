@@ -10,40 +10,42 @@ Build Policy Pack packages.
 ## Usage
 
 ```text
-rootform package policy-packs <directory> [flags]
+rootform package policy-packs <directory> [options]
 ```
 
-## Flags
+## Options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --documentation-url ` | ` string ` | ` "" ` | record documentation `url` in provenance |
+| ` --documentation-url ` | ` string ` | ` "" ` | record the documentation `url` in OCI provenance |
+| ` --licenses ` | ` string ` | ` "" ` | record the SPDX license `expression` in OCI provenance |
+| ` --revision ` | ` string ` | ` "" ` | record the source-control `revision` in OCI provenance |
+| ` --source-url ` | ` string ` | ` "" ` | record the canonical source `url` in OCI provenance |
+| ` --to ` | ` string ` | ` "" ` | write the registry layout to `directory` |
+
+### Global options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform package policy-packs |
-| ` --licenses ` | ` string ` | ` "" ` | record SPDX license `expression` in OCI provenance |
-| ` --revision ` | ` string ` | ` "" ` | record source-control `revision` in OCI provenance |
-| ` --source-url ` | ` string ` | ` "" ` | record canonical source `url` in OCI provenance |
-| ` --to ` | ` string ` | ` "" ` | write registry layout to `directory` |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Behavior
 
-Compile a Policy Pack source set and write one deterministic local registry
-layout containing exact Policy Pack packages.
-Nothing is sent to a registry. Summary goes to standard output.
-Diagnostics go to standard error.
+Compile a Policy Pack source set and write one deterministic, local-only
+registry layout of exact Policy Pack packages. Nothing is sent to a
+registry.
+
+The summary goes to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
 | Status | Meaning |
 | --- | --- |
-| `0` | registry layout was written |
-| `1` | Policy Packs could not be packaged |
+| `0` | the registry layout was written |
+| `1` | the Policy Pack source is invalid |
 | `2` | the command was used incorrectly |
+| `4` | a source could not be read or the layout could not be written |
 
 ## Examples
 

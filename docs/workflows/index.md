@@ -1,6 +1,6 @@
 ---
 title: Review a pull request
-description: Plan base and head revisions in isolated worktrees, compare them, evaluate policies, and keep review artifacts private.
+description: Plan base and head revisions in isolated worktrees, compare them, evaluate Policies, and keep review artifacts private.
 ---
 
 A pull request can be reviewed from two kinds of plan evidence. Comparing the
@@ -136,10 +136,16 @@ includes:
 
 ```ansi title="Comparison excerpt"
 [1mInputs compared[0m
-[1m[38;5;208mDifferences · Before Planned → After Planned[0m
-  [2mInstances[0m      16 added, 7 removed, 0 changed
-  [2mFacts[0m          42 added, 23 removed
-  [2mIndeterminate[0m  3 closures in Before Planned (3 unknown until apply) · 3 closures in After Planned (3 unknown until apply)
+
+[1m[38;5;208mDifferences[0m
+  Before Planned -> After Planned
+  Differences between two inputs are not drift; they include any drift between the two exports.
+
+  [2mResource instances[0m      16 added, 7 removed
+  [2mRelations[0m               5 added, 5 removed
+  [2mContexts[0m                28 added, 17 removed
+  [2mContributions[0m           9 added, 1 removed
+  [2mIndeterminate closures[0m  3 in Before Planned (3 unknown until apply); 3 in After Planned (3 unknown until apply)
 ```
 
 Here the branch adds 16 planned instances and removes 7. Inspect determined
@@ -174,7 +180,7 @@ run the same command without `--no-serve` and the `-o` options. These
 outputs omit sensitive values but retain infrastructure names, addresses, and
 topology; restrict access and retention accordingly.
 
-### Evaluate the saved comparison with policies
+### Evaluate the saved comparison with Policies
 
 The saved comparison contains the analyzed head architecture. Evaluate its
 After side with the Policy Pack from the base revision, so the pull request
@@ -190,11 +196,21 @@ rootform check "$results/comparison.json" --side after \
 
 <!-- docs-output:journey-review-policy -->
 ```ansi title="Policy check summary, excerpt"
-Policies passed
-Evaluated     After side · Planned architecture of a plan Form
-Policy Packs  baseline 0.1.0
-Policies      2 policies selected: 2 passed
-Evaluations   2 instances: 2 passed
+Policy check completed
+
+Side           After
+Origin         Plan
+Stage          Planned
+Policies       2 selected
+
+Evaluations    2
+Passed         2
+Violated       0
+Indeterminate  0
+
+Verdict        PASSED
+
+All selected evaluations passed.
 ```
 
 With the commerce plans and the two Policies of the
@@ -247,10 +263,11 @@ rootform run plan.json --plan-file plan.tfplan --no-serve
 For the commerce head plan, the summary includes:
 
 ```ansi title="Completed plan excerpt"
-[2mStages[0m        Planned (default) · Refreshed · Recorded (reconstructed from Refreshed; no drift entry to reverse)
-[1m[38;5;208mPlanned architecture[0m
-  [2mInstances[0m    153 (153 managed, 0 data)
-[1m[38;5;208mReported drift · Recorded → Refreshed[0m
+[2mStage[0m         Planned
+[2mStages[0m        Recorded (reconstructed), Refreshed, Planned
+[1m[38;5;208mArchitecture[0m
+  [2mResource instances[0m  153
+[1m[38;5;208mReported drift[0m
   No drift reported in this plan.
 ```
 
@@ -261,7 +278,7 @@ drift records and their architectural consequences. If no drift is
 reported, the plan may still have skipped or limited refresh; the
 [plan guide](../inputs/plans.md#read-plan-comparisons-correctly) explains that
 boundary. This review shows what one planning operation proposes; it does not
-isolate the branch change from a base plan. Save reports and evaluate policies
+isolate the branch change from a base plan. Save reports and evaluate Policies
 with the same `-o`, `--policy-pack`, or `--locked` options as above.
 
 ## Keep CI artifacts deliberate

@@ -10,32 +10,36 @@ Delete installed versions from the Rootform home.
 ## Usage
 
 ```text
-rootform uninstall <object> [flags]
+rootform uninstall <command> [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform uninstall |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 ## Behavior
 
-Delete exact installed versions of dialects or Policy Packs from the
+Delete exact installed versions of Dialects or Policy Packs from the
 Rootform home. Projects are not read; a project that still selects a
 deleted version gets it back through rootform init.
+
+## Exit status
+
+| Status | Meaning |
+| --- | --- |
+| `0` | help was shown |
+| `2` | the command was used incorrectly |
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform uninstall dialects `](uninstall/dialects.md) | Delete installed dialect versions |
+| [` rootform uninstall dialects `](uninstall/dialects.md) | Delete installed Dialect versions |
 | [` rootform uninstall policy-packs `](uninstall/policy-packs.md) | Delete installed Policy Pack versions |
 
 ## Examples

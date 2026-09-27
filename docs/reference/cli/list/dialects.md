@@ -13,37 +13,54 @@ without loading a project.
 ## Usage
 
 ```text
-rootform list dialects [name]... [flags]
+rootform list dialects [name]... [options]
 ```
 
-## Flags
+## Options
+
+### Output
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dialect ` | ` stringArray ` | ` [] ` | use dialect source `dir`; repeatable |
-| ` -o, --format ` | ` string ` | ` "" ` | output `format`: text, wide, or json |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list dialects |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|wide\|json`; default: text |
+
+### Rootform project
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
+| ` --project ` | ` string ` | ` "" ` | read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory |
+
+### Rootform home
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
 | ` --installed ` | ` bool ` | ` false ` | list versions installed in the Rootform home |
 
-## Inherited flags
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform list dialects |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 
 <!-- END GENERATED CLI -->
 
 <!-- docs-check:cli-list-dialect-owners -->
 ```sh
-rootform list dialects aws google -o wide
-rootform list dialects --installed -o wide
-rootform list dialects -o json
+rootform list dialects aws google --format wide
+rootform list dialects --installed --format wide
+rootform list dialects --format json
 ```
 
-Default output is one name per line. `-o wide` adds version, origin, and
-declaration counts; `-o json` includes exact identity and digest. `aws` and
-`google` show `embedded` as their origin. A fresh Rootform home gives no rows
-for `--installed`; this does not remove embedded Dialects. Output goes
-to standard output, diagnostics to standard error. Status `0` means listed,
-`2` means incorrect use, and `3` means selected definitions could not be
-read. See [Dialects and RF Vocabulary](../../../concepts/dialects.md).
+Default output is one name per line. `--format wide` adds version, origin,
+and declaration counts; `--format json` includes exact identity and digest.
+`aws` and `google` show `embedded` as their origin; JSON records it with the
+Form's semantic origin value, `supplied`. A fresh Rootform home gives no rows
+for `--installed`; this does not remove embedded Dialects. Output goes to
+standard output, diagnostics to standard error. Status `0` means the
+definitions were listed, `1` means a named Dialect is not loaded, `2` means the
+command was used incorrectly, `3` means the project selection or catalog could
+not be loaded, and `4` means the Rootform home could not be read or the listing
+could not be written. See
+[Dialects and RF Vocabulary](../../../concepts/dialects.md).

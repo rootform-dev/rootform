@@ -3,7 +3,7 @@ title: "Troubleshooting"
 description: "Match a Rootform symptom to its exact diagnostic, evidence, and next action."
 ---
 
-Keep the command, its phase status, standard error, and saved Form together. Analysis status `3` means refused input; check status `1` means a confirmed Policy violation, while `3` means no determinate decision. Status `4` is an output failure, or for `run` a local server that could not start. [Outputs and exit status](../reference/outputs.md) gives both contracts.
+Keep the command, its exit status, standard error, and saved Form together. Status `1` means a decided negative answer; `2` means incorrect usage; `3` means no answer; `4` means an operational failure. [Outputs and exit status](../reference/outputs.md) gives the command contracts.
 
 ## The command set differs from this documentation
 
@@ -45,7 +45,7 @@ Malformed JSON returns `INPUT_UNRECOGNIZED: malformed JSON or trailing garbage`;
 
 ## Saved plan verification fails
 
-The saved plan named by `--plan-file` must be the one used to make that exact JSON export. A mismatched pair records `PLAN_PAIR_MISMATCH`. Without `--require-enrichment`, analysis continues with plan JSON alone and the summary says `Enrichment    saved plan refused (PLAN_PAIR_MISMATCH); analysis used the plan JSON alone`. With the requirement, it exits `3`:
+The saved plan named by `--plan-file` must be the one used to make that exact JSON export. A mismatched pair records `PLAN_PAIR_MISMATCH`. Without `--require-enrichment`, analysis continues with plan JSON alone and the summary says `Enrichment    Saved plan refused (PLAN_PAIR_MISMATCH); the plan JSON was analyzed alone`. With the requirement, it exits `3`:
 
 <!-- docs-check:troubleshooting-pair -->
 ```sh
@@ -62,15 +62,15 @@ Re-export JSON from the same saved plan, then retry. An unreadable or encrypted 
 
 ## An instance has no Rule
 
-The analysis can succeed while a resource remains uninterpreted. The summary says `1 with no rule for their type` for a one-instance example, and `rootform explain architecture <address> --input analysis.json` says `Interpretation  none: no selected Dialect has a rule for this type`. Rootform still records a Representation for that instance. Confirm the active Dialects with `rootform list dialects -o wide`; add or author a reviewed Dialect only if its architectural meaning is needed. If the type is outside reviewed Rule coverage, [report a semantic gap](../contributing/index.md#report-a-semantic-gap).
+The analysis can succeed while a resource remains uninterpreted. When the only instance of a plan matches no Rule, the run summary's `Limited interpretation` section says `The only instance matched no Rule in the selected Dialects.` and counts its resource type under `Resource type  Instances`. `rootform explain instance <address> --input analysis.json` then prints `Interpretation  none: no selected Dialect has a Rule for this type`. Rootform still records a Representation for that instance. Confirm the active Dialects with `rootform list dialects --format wide`; add or author a reviewed Dialect only if its architectural meaning is needed. If the type is outside reviewed Rule coverage, [report a semantic gap](../contributing/index.md#report-a-semantic-gap).
 
 ## A resource has no card in the current scene
 
-The Explorer shows one scene at a time, so a represented instance may have no card where you are looking. **Search** covers the whole architecture: search by name or type, then select the result to open its containing context. A secondary resource can also appear in the Inspector of the object it contributes to. `rootform explain architecture <address> --input analysis.json` confirms the instance in the saved document. A missing card alone is not a missing resource; see [Reveal a secondary resource](../guides/explore-architecture.md#reveal-a-secondary-resource).
+The Explorer shows one scene at a time, so a represented instance may have no card where you are looking. **Search** covers the whole architecture: search by name or type, then select the result to open its containing context. A secondary resource can also appear in the Inspector of the object it contributes to. `rootform explain instance <address> --input analysis.json` confirms the instance in the saved Form. A missing card alone is not a missing resource; see [Reveal a secondary resource](../guides/explore-architecture.md#reveal-a-secondary-resource).
 
 ## An expected relation is missing
 
-Find the instance in the Explorer or run `rootform explain architecture <address> --input analysis.json`. Inspect each closure's Rule, `via` path, result, reason, and candidate counts. A Terraform dependency alone does not establish an architectural Relation. The active Dialect must emit it from values or a verified direct traversal. `EMISSION_PATH_UNDEFINED` means the path is absent from that instance's provider schema; `VIA_VALUE_SHAPE` means its shape cannot be read as endpoint identity. Correct the Dialect path or gather better input; do not add a guessed edge.
+Find the instance in the Explorer or run `rootform explain instance <address> --input analysis.json`. Inspect each closure's Rule, `via` path, result, reason, and candidate counts. A Terraform dependency alone does not establish an architectural relation. The active Dialect must emit it from values or a verified direct traversal. `EMISSION_PATH_UNDEFINED` means the path is absent from that instance's provider schema; `VIA_VALUE_SHAPE` means its shape cannot be read as endpoint identity. Correct the Dialect path or gather better input; do not add a guessed edge.
 
 ## Unknown or sensitive evidence leaves a closure indeterminate
 
@@ -102,11 +102,11 @@ rootform run plan.json --locked --no-serve
 rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (rootform.lock is required by --locked)
 ```
 
-For embedded-only work, omit `--locked`. For an exact external selection, add content from the project root and commit the lock. If a selected local Dialect changed, the binary reports `selected dialect network-review differs from rootform.lock`; use an override while editing, then `rootform update dialect network-review` to record a reviewed change. `init` cannot adopt source drift.
+For embedded-only work, omit `--locked`. For an exact external selection, add content from the project root and commit the lock. If a selected local Dialect changed, the binary reports `selected Dialect network-review differs from rootform.lock`; use an override while editing, then `rootform update dialect network-review` to record a reviewed change. `init` cannot adopt source drift.
 
 ## Selected content is missing
 
-A locked `run` exits `3` when a selected Dialect cannot be loaded, for example with `SEMANTIC_SELECTION: the selected Dialects could not be loaded (selected dialect network-review is unavailable locally)`. `rootform check` exits `3` when a selected Policy Pack cannot be loaded, for example with `SELECTION_POLICY_PACK_MISSING: selected Policy Pack baseline is unavailable locally`. `rootform list` fails for the same reason, so read the entries in `rootform.lock` instead. For selected OCI content, run `rootform init --locked --no-input` from the project root to install the exact recorded digests; add `--offline` only when those bytes are already on this machine. `init` cannot choose another version or change the lock. A local source must be restored at its recorded path: `init` reports `the local source is unavailable` and cannot recreate it. When the project has a vendor tree, repair that tree instead, as described below.
+A locked `run` exits `3` when a selected Dialect cannot be loaded, for example with `rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (selected Dialect network-review is unavailable locally)`. `rootform check` exits `3` when a selected Policy Pack cannot be loaded, for example with `rootform: SELECTION_POLICY_PACK_MISSING: selected Policy Pack baseline is unavailable locally`. `rootform list` fails for the same reason, so read the entries in `rootform.lock` instead. For selected OCI content, run `rootform init --locked --no-input` from the project root to install the exact recorded digests; add `--offline` only when those bytes are already on this machine. `init` cannot choose another version or change the lock. A local source must be restored at its recorded path: `init` reports `the local source is unavailable` and cannot recreate it. When the project has a vendor tree, repair that tree instead, as described below.
 
 ## Installed content does not match rootform.lock
 
@@ -117,12 +117,12 @@ The Rootform home holds the version named by the lock, but its bytes no longer m
 A locked run refuses a vendor family that no longer matches `rootform.lock` and exits `3`. While the family directory exists, Rootform does not fall back to a local source or registry. The text in parentheses names the problem:
 
 ```text title="Standard error examples"
-rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (selected dialect network-review differs from rootform.lock)
-rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (vendored dialect network-review is missing or invalid)
+rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (selected Dialect network-review differs from rootform.lock)
+rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (vendored Dialect network-review is missing or invalid)
 rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (.rootform/dialects does not exactly match rootform.lock)
 ```
 
-The first line means that a vendored Dialect's content changed. The second means that its vendor metadata is missing or unreadable. The third means that the family has a missing, extra, or unreadable entry; a `.rootform/dialects` path that is not a directory reports `is present but does not match rootform.lock` instead. Vendored Policy Packs are checked when `rootform check` loads them and report the same problems, for example `selected Policy Pack baseline differs from rootform.lock`. Repair only the affected family from verified local or installed bytes:
+The first line means that a vendored Dialect's source no longer has its locked content digest. The second means that its vendor metadata is missing or invalid. The third means that the family has a missing, extra, or unreadable entry; a `.rootform/dialects` path that is not a directory reports `is present but does not match rootform.lock` instead. Vendored Policy Packs are checked when `rootform check` loads them and report the same problems, for example `selected Policy Pack baseline differs from rootform.lock`. Repair only the affected family from verified local or installed bytes:
 
 <!-- docs-check:troubleshooting-vendor-repair -->
 ```sh
@@ -147,13 +147,13 @@ An external Dialect named like an embedded one, such as `aws`, never replaces it
 
 Only explicit acquisition or publication crosses that boundary; normal `run` does not fetch packages. Check the exact OCI reference and digest in the lock, the registry host, `DOCKER_CONFIG`, credential-helper availability, and `SSL_CERT_FILE` for a private CA. Do not print credentials while diagnosing. An offline tag lookup cannot discover a new digest: use reviewed local source or an exact digest already installed, or perform selection while connected. [Registry compatibility](../integrations/registry-compatibility.md) and the [OCI mirror](../offline-security.md#oci-mirror) procedure give the details.
 
-## A policy is unavailable or has no decision
+## A Policy is unavailable or has no decision
 
-Selecting a policy without any Policy Pack returns `POLICY_UNAVAILABLE: no Policy Pack is selected; add one to rootform.lock or pass --policy-pack`. Select a reviewed pack, then run `rootform check`. A selected pack can still find no target: the check summary says `No policy decision`, and status `3` reports `POLICY_NO_DECISION: 1 selected policy has no target to evaluate`, with the count of such Policies. Inspect the target with `rootform show policy <identifier>` and compare it with the Form's interpreted Concepts and Rules. Zero evaluations are not compliance. [Target scope is exact](../concepts/policies.md#target-scope-is-exact) explains matching, and [Check an architecture](../guides/check-architecture.md) shows target coverage.
+Selecting a Policy without any Policy Pack returns `POLICY_UNAVAILABLE: no Policy Pack is selected; add one to rootform.lock or pass --policy-pack`. Select a reviewed Policy Pack, then run `rootform check`. A selected Policy Pack can still find no target: the check summary reports `Evaluations    0` and `Verdict        NO DECISION`, then exits `3`. Inspect the target with `rootform show policy <identifier>` and compare it with the Form's interpreted Concepts and Rules. Zero evaluations are not compliance. [Target scope is exact](../concepts/policies.md#target-scope-is-exact) explains matching, and [Check an architecture](../guides/check-architecture.md) shows target coverage.
 
-## A policy is indeterminate or violated
+## A Policy is indeterminate or violated
 
-A violation exits `1`; an indeterminate outcome exits `3`. `policy.md` and SARIF name each violated or indeterminate target. [Inspect the proof](../guides/check-architecture.md#inspect-the-proof) shows how `rootform explain policy` and `rootform explain architecture` trace each target to its facts and closures. Unknown, sensitive, and unverified absence cannot prove a negative assertion. Resolve input evidence or correct the Policy; do not remove a diagnostic to make the job pass. [Policy outcomes](../concepts/policies.md#evidence-produces-three-outcomes) explains the three results.
+A violation exits `1`; an indeterminate outcome exits `3`. `policy.md` and SARIF name each violated or indeterminate target. [Inspect the proof](../guides/check-architecture.md#inspect-the-proof) shows how `rootform explain policy <policy> --result <file>` reads the recorded outcome and `rootform explain instance <address> --input <input>` traces its facts and closures. Unknown, sensitive, and unverified absence cannot prove a negative assertion. Resolve input evidence or correct the Policy; do not remove a diagnostic to make the job pass. [Policy outcomes](../concepts/policies.md#evidence-produces-three-outcomes) explains the three results.
 
 ## A comparison appears empty or indeterminate
 
@@ -161,7 +161,7 @@ Check both selected stages and the comparison's `comparable`, `problems`, and `i
 
 ## A comparison input or saved Form is refused
 
-Each `--diff` operand must be accepted on its own. A refused operand stops the run with status `3`; Rootform never treats it as an empty side. The [refusals above](#malformed-or-unsupported-json-is-refused) apply to both inputs. A saved Form written in another format is refused with `DOCUMENT_FORMAT_UNSUPPORTED: document format "9" is not supported; this build reads format 1`; save it again from its original input with the current binary. For any other rejected Form, run `rootform validate form <file>`: it names each problem and exits `1`. `validate form` reads only Forms; given a plan JSON, it exits `3` and suggests saving one first. [Valid partial Form differs from invalid Form](../concepts/forms.md#valid-partial-form-differs-from-invalid-form) separates missing knowledge from an invalid file.
+Each `--diff` operand must be accepted on its own. A refused input stops the run with status `3`; Rootform never treats it as an empty side. A comparison Form reopens with `rootform run comparison.json` and is refused as a `--diff` operand with status `2`. The [refusals above](#malformed-or-unsupported-json-is-refused) apply to both inputs. A saved Form written in another format is refused with `DOCUMENT_FORMAT_UNSUPPORTED: document format "9" is not supported; this build reads format 1`; save it again from its original input with the current binary. For any other rejected Form, run `rootform validate form <file>`: it names each problem and exits `1`. `validate form` reads only Forms; given a plan JSON, it exits `3` and suggests saving one first. [Valid partial Form differs from invalid Form](../concepts/forms.md#valid-partial-form-differs-from-invalid-form) separates missing knowledge from an invalid file.
 
 ## A port is occupied or the browser does not open
 

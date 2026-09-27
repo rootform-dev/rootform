@@ -51,13 +51,13 @@ Architecture accounting counts observed instances, interpreted instances, establ
 
 Every established fact cites the Rule, emission, closure, and evidence kind that justify it. `value` means evaluated plan or state values established the endpoint. `traversal` means a verified saved-plan identity traversal did. `both` means they agreed. Traversals are available only for a plan's `planned` stage; historical stages and state JSON use evaluated values. A verified saved plan can settle an endpoint whose planned value is unknown until apply, but it cannot make all unknown values known.
 
-Provenance records architectural justification without embedding raw plan or state values. Use `rootform explain architecture` to inspect an instance's facts, closures, dependencies, and diagnostics. The [explanation reference](../reference/cli/explain/architecture.md) gives accepted inputs and flags.
+Provenance records architectural justification without embedding raw plan or state values. Use `rootform explain instance <address> --input <input>` to inspect an instance's facts, closures, dependencies, and diagnostics. The [explanation reference](../reference/cli/explain/instance.md) gives accepted inputs and flags.
 
 ## Comparisons and drift
 
 One plan can contain Reported drift (`comparisons.drift`, Recorded to Refreshed), Planned changes (`comparisons.changes`, Refreshed to Planned), and Net change (`comparisons.net`, Recorded to Planned) when both stages in each pair exist. Drift that the plan reverts cancels out of Net change. The drift report preserves each reported drift record and classifies its architectural consequence; it is separate from the comparison. “No drift reported in this plan” means only that this plan contains no reported drift records; data sources and deposed objects are outside those records.
 
-A comparison Form embeds two complete state or plan Forms under `before.form` and `after.form`, with each selected `stage` and `selected_from` (`input`, `before`, or `after`). It never embeds another comparison Form; a comparison operand contributes one selected side. Its `cross` comparison shows Differences, never drift. `comparable` and `problems` say whether semantic selections support comparison; `indeterminate` preserves a closure whose change cannot be established. See [Comparisons](comparisons.md).
+A comparison Form embeds two complete state or plan Forms under `before.form` and `after.form`, with each selected `stage` and `selected_from` (`input`, `before`, or `after`). It never embeds another comparison Form. Reopen it with `rootform run comparison.json`; a comparison Form is not a `--diff` operand. Its `cross` comparison shows Differences, never drift. `comparable` and `problems` say whether semantic selections support comparison; `indeterminate` preserves a closure whose change cannot be established. See [Comparisons](comparisons.md).
 
 ## Stable identity and canonical order remove noise
 

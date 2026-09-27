@@ -207,7 +207,7 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
     3,
   );
   assert(
-    undecided.stdout.startsWith("Policies indeterminate"),
+    undecided.stdout.includes("Verdict        INDETERMINATE"),
     "plan-only indeterminate outcome changed",
   );
   const noDecision = fresh("policy-no-decision");
@@ -226,7 +226,7 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
     noDecision.home,
     3,
   );
-  assert(noTarget.stdout.startsWith("No policy decision"), "no-decision outcome changed");
+  assert(noTarget.stdout.includes("Verdict        NO DECISION"), "no-decision outcome changed");
   const violation = fresh("policy-violation");
   commerce(violation.dir);
   const violatedPack = join(violation.dir, "violated-pack");
@@ -253,7 +253,7 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
     violation.home,
     1,
   );
-  assert(failed.stdout.startsWith("Policies violated"), "violation outcome changed");
+  assert(failed.stdout.includes("Verdict        VIOLATED"), "violation outcome changed");
   marked(
     "language/write-policy-pack.md",
     "docs-language-write-policy-pack-3",
@@ -345,9 +345,9 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
     reference.home,
   );
   const explanationPages: Array<[string, string]> = [
-    ["reference/cli/explain/architecture.md", "cli-explain-architecture"],
+    ["reference/cli/explain/instance.md", "cli-explain-instance"],
     ["reference/cli/explain/policy.md", "cli-explain-policy"],
-    ["reference/cli/explain/semantics.md", "cli-explain-semantics"],
+    ["reference/cli/explain/rule.md", "cli-explain-rule"],
     ["reference/cli/validate/form.md", "cli-validate-form"],
   ];
   for (const [page, name] of explanationPages) {
@@ -369,7 +369,7 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
     "check reference SARIF changed",
   );
   assert(
-    readFileSync(join(checkCase.dir, "report.md"), "utf8").startsWith("# Policies passed"),
+    readFileSync(join(checkCase.dir, "report.md"), "utf8").startsWith("# Policy check completed"),
     "check reference report changed",
   );
   return "Authoring examples: Dialect, Policy Pack, tour, external content, and CLI commands verified";

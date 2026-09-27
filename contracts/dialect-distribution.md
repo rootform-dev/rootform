@@ -6,7 +6,7 @@ This contract governs third-party and replacement Dialects only. The RF
 Vocabulary and the supplied Dialects of the Rootform release set are embedded
 in the Rootform binary and delivered by release-set upgrade; they are never
 packaged, published, installed, vendored, indexed, or selected independently.
-OCI dialect packaging remains the format for explicit third-party Dialects
+OCI Dialect packaging remains the format for explicit third-party Dialects
 and explicit replacements.
 
 ## Official source ownership
@@ -28,7 +28,7 @@ behavior is the forge-neutral
 
 ## Third-party Dialect artifact
 
-One dialect version is an OCI 1.1 artifact with:
+One Dialect version is an OCI 1.1 artifact with:
 
 - artifact type `application/vnd.rootform.dialect.v1`;
 - config media type
@@ -47,7 +47,7 @@ dependency list.
 Layer is deterministic gzip over deterministic tar. Entries are regular files
 with normalized mode, ownership, and timestamps. Allowed content is limited to:
 
-- Rootform dialect sources: `*.rf.hcl` and `*.rf.json`;
+- Dialect sources: `*.rf.hcl` and `*.rf.json`;
 - one `presentation.json`;
 - license and notice text named `LICENSE*`, `NOTICE*`, or
   `THIRD_PARTY_NOTICES*`.
@@ -58,7 +58,7 @@ irregular entries are invalid. SVG, HTML, CSS, URLs, and arbitrary executable
 content are outside this boundary.
 
 Limits are 16 MiB compressed, 64 MiB installed, 4 MiB per file, and 512 files
-per dialect artifact. Declared digest, byte size, installed size, file count,
+per Dialect artifact. Declared digest, byte size, installed size, file count,
 owner, version, dependency, provider, semantic, and presentation identities
 must all match fetched and compiled content.
 
@@ -71,14 +71,14 @@ Package author may supply standard OCI manifest annotations:
 - `org.opencontainers.image.documentation`;
 - `org.opencontainers.image.licenses`.
 
-Rootform applies the same explicit values to every dialect manifest in one
+Rootform applies the same explicit values to every Dialect manifest in one
 layout. URLs are canonical HTTPS without credentials, query, or fragment;
 revision and license text are bounded. Values are informational and participate
 in manifest digest because annotations are manifest bytes. Rootform does not
 discover Git state, invoke VCS, add machine paths, or invent current timestamps.
 Manifest digest remains technical identity.
 
-`rootform show dialect` and `rootform list dialects` expose effective owner,
+`rootform show OWNER` and `rootform list dialects` expose effective owner,
 version, origin, and content digest. Package and publication results expose OCI
 repository, tag, manifest digest, size, and explicit provenance. Missing
 optional provenance remains absent rather than inferred.
@@ -104,7 +104,7 @@ override exists.
 Publisher validates the complete local layout and compiled dependency closure
 before creating a registry client. It preflights every requested immutable tag
 before first write. Existing exact digest is idempotent; differing digest
-fails. Missing dialect graphs publish in canonical order, resolve by expected
+fails. Missing Dialect graphs publish in canonical order, resolve by expected
 digest, repull by manifest digest, and pass complete manifest, config, layer,
 archive, dependency, semantic, and presentation verification before success.
 
@@ -146,14 +146,14 @@ error. A packaged Dialect incompatible with the expected RF Language or RF
 Vocabulary contract is refused at load time with expected and observed
 identities in the diagnostic. There is no partial load and no fallback.
 
-Lifecycle ownership for dialect packages:
+Lifecycle ownership for Dialect packages:
 
 ```text
 VCS                -> authoring
-OCI                -> dialect distribution
+OCI                -> Dialect distribution
 rootform.lock      -> exact selection
 .rootform/dialects -> vendored execution for selected Dialects
-store/cache        -> materialization and offline reuse
+Rootform home      -> installation and offline reuse
 Docker credentials -> private registry authentication
 ```
 
