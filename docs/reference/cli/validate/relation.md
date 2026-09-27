@@ -32,7 +32,7 @@ rootform validate relation <identifier> [flags]
 Validate a relation and every compiled producer reference.
 
 Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
---dialect adds or replaces one Dialect for this run only.
+--dialect adds or replaces one Dialect for this command only.
 The text or JSON result goes to standard output. Diagnostics go to
 standard error.
 

@@ -48,4 +48,5 @@ JSON goes to standard output, diagnostics to standard error. Status
 `0` means shown, `1` means definition not found, `2` means incorrect use,
 and `3` means no single definition could be selected. This does not evaluate
 the policy; use [`explain policy`](../explain/policy.md) for an evaluated result
-or [Run checks](../../../guides/check-architecture.md) for a full report.
+or [Check an architecture](../../../guides/check-architecture.md) for a full
+report. See the [`check` CLI reference](../check.md).

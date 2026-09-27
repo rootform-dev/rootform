@@ -16,7 +16,7 @@ and return here for exact command contracts.
 ## Find a command
 
 - Analyze or explore: `run` compiles a plan or state JSON into a Form, or reopens a saved Form, then serves the local Explorer or writes reports.
-- Review: `run --policy-pack` or `run --policy` evaluates Policies; `run --diff` compares two inputs.
+- Review: `check` evaluates selected Policies against one stage of a Form and exits with the verdict; `run --diff` compares two inputs.
 - Inspect: `list` shows active content, `show` displays a definition, and `explain` traces an interpretation or result.
 - Prepare: `init` verifies selected content and can fetch missing OCI units; `vendor` copies selected content into the project.
 - Validate and author: `validate` checks an object; `fmt`, `test`, `compile`, `package`, `publish`, and `lsp` have their own contracts below.
@@ -44,6 +44,7 @@ rootform [command]
 | [` rootform add `](add.md) | Add content to rootform.lock |
 | [` rootform add dialects `](add/dialects.md) | Add dialects to rootform.lock |
 | [` rootform add policy-packs `](add/policy-packs.md) | Add Policy Packs to rootform.lock |
+| [` rootform check `](check.md) | Evaluate Policies against one stage of a Form |
 | [` rootform compile `](compile.md) | Compile a Policy Pack for offline checks |
 | [` rootform compile policy-pack `](compile/policy-pack.md) | Compile and pin a Policy Pack |
 | [` rootform completion `](completion.md) | Generate shell completion |

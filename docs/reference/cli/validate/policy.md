@@ -33,7 +33,7 @@ rootform validate policy <identifier> [flags]
 Validate a policy definition in its selected Policy Pack.
 
 The project must select the Policy Pack that owns the policy, or
---policy-pack must name its source directory for this run only.
+--policy-pack must name its source directory for this command only.
 Use &lt;policy-pack&gt;.policy.&lt;name&gt;, or a bare name when it resolves unambiguously.
 The text or JSON result goes to standard output. Diagnostics go to
 standard error.

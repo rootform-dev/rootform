@@ -19,7 +19,7 @@
     "label": "Review and automate",
     "items": [
       { "label": "Compare architectures", "page": "guides/compare-architectures" },
-      { "label": "Run checks", "page": "guides/check-architecture" },
+      { "label": "Check an architecture", "page": "guides/check-architecture" },
       { "label": "Review a pull request", "page": "workflows" },
       { "label": "Run in CI", "page": "integrations/ci" },
       { "label": "GitHub Actions", "page": "integrations/github-actions" }
@@ -114,6 +114,7 @@
               { "label": "policy-packs", "page": "reference/cli/add/policy-packs" }
             ]
           },
+          { "label": "check", "page": "reference/cli/check" },
           {
             "label": "compile",
             "items": [

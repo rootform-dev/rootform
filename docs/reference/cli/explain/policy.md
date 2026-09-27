@@ -6,7 +6,7 @@ description: "Explain an evaluated policy result."
 `explain policy` evaluates the plan, state, or saved Form named
 by the required `--input` and explains why a policy passed, failed, or could
 not be evaluated for an element. The owning Policy Pack comes from the project
-selection or from a one-run `--policy-pack` override. Use a qualified
+selection or from a `--policy-pack` override for one command. Use a qualified
 identifier or a bare policy name only when unambiguous.
 
 <!-- BEGIN GENERATED CLI: rootform explain policy -->
@@ -45,6 +45,7 @@ override chooses the same source for this command without changing the lock.
 rootform run examples/playground/commerce-platform/head/plan.json \
   --plan-file examples/playground/commerce-platform/head/plan.tfplan \
   --no-serve -o analysis.json
+rootform check analysis.json --policy-pack policy-packs/baseline --color always
 rootform explain policy baseline.policy.cluster-network-context \
   --input analysis.json --policy-pack policy-packs/baseline --color always
 rootform explain policy baseline.policy.cluster-network-context \
@@ -52,19 +53,24 @@ rootform explain policy baseline.policy.cluster-network-context \
 ```
 
 <!-- docs-output:cli-explain-policy -->
-```ansi title="Policy explanation, excerpt"
-[1m[32mbaseline.policy.cluster-network-context: passed[0m
-[2mStage[0m     planned
-[2mTargets[0m   1: 1 passed, 0 violated, 0 indeterminate
+```text title="Policy check and explanation, excerpt"
+Policies passed
+Policies      2 policies selected: 2 passed
+Evaluations   2 instances: 2 passed
+baseline.policy.cluster-network-context: passed
+Stage     planned
+Targets   1: 1 passed, 0 violated, 0 indeterminate
+Coverage  complete
 
-[1m[38;5;208mEvaluations[0m
-  [32mpassed[0m azurerm_kubernetes_cluster.prod
+Evaluations
+  passed azurerm_kubernetes_cluster.prod
 ```
 
-The policy passed for its one selected target. If the result is indeterminate,
-inspect the instance closures before treating it as a gate. Text or JSON goes
+The policy passed for its one selected target. `rootform check` is the Policy
+gate; if its result is indeterminate, inspect the instance closures. Text or JSON goes
 to standard output, diagnostics to standard error. Status
 `0` means explained, `1` means definition not found, `2` means incorrect
 command use, and `3` means no explanation could be decided. To inspect the
 definition instead, use [`show policy`](../show/policy.md); for a complete
-evaluation, see [Run checks](../../../guides/check-architecture.md).
+evaluation, see [Check an architecture](../../../guides/check-architecture.md)
+and the [`check` CLI reference](../check.md).

@@ -32,7 +32,7 @@ rootform validate concept <identifier> [flags]
 Validate a concept in the context of its dialect.
 
 Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
---dialect adds or replaces one Dialect for this run only.
+--dialect adds or replaces one Dialect for this command only.
 The text or JSON result goes to standard output. Diagnostics go to
 standard error.
 
