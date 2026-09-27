@@ -46,4 +46,5 @@ target Concept. Default output is one qualified policy name per line. `-o wide` 
 diagnostics to standard error. Status `0` means listed, `2` means incorrect
 use, and `3` means selected definitions could not be read. To inspect one
 definition, use [`show policy`](../show/policy.md); to evaluate it, see
-[Run checks](../../../guides/check-architecture.md).
+[Check an architecture](../../../guides/check-architecture.md) or the
+[`check` CLI reference](../check.md).

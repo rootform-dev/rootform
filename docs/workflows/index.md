@@ -174,38 +174,40 @@ run the same command without `--no-serve` and the `-o` options. These
 outputs omit sensitive values but retain infrastructure names, addresses, and
 topology; restrict access and retention accordingly.
 
-### Evaluate the head with policies
+### Evaluate the saved comparison with policies
 
-Evaluate the head plan with the Policy Pack from the base revision, so the pull
-request cannot relax the policies that judge it. This example assumes that the
+The saved comparison contains the analyzed head architecture. Evaluate its
+After side with the Policy Pack from the base revision, so the pull request
+cannot relax the Policies that judge it. This example assumes that the
 repository keeps its approved Pack in `policies/`:
 
 <!-- docs-check:journey-review-policy -->
 ```sh
-rootform run "$results/head.json" --plan-file "$results/head.tfplan" \
+rootform check "$results/comparison.json" --side after \
   --policy-pack "$review_root/base/policies" \
-  --no-serve -o "$results/policy.md" -o "$results/policy.sarif"
+  -o "$results/policy.json" -o "$results/policy.md" -o "$results/policy.sarif"
 ```
 
-With the commerce head plan and the two Policies of the
-[baseline example Pack](../../policy-packs/README.md) in `policies/`, the summary
-includes:
-
-```ansi title="Policy excerpt"
-[2mPolicies[0m      passed
-[1m[38;5;208mPolicies · Planned stage[0m
-  [2mResult[0m     passed
-  [2mEvaluated[0m  2 policies over 2 targets: 2 passed, 0 violated, 0 indeterminate
+<!-- docs-output:journey-review-policy -->
+```ansi title="Policy check summary, excerpt"
+Policies passed
+Evaluated     After side · Planned architecture of a plan Form
+Policy Packs  baseline 0.1.0
+Policies      2 policies selected: 2 passed
+Evaluations   2 instances: 2 passed
 ```
 
-Both Policies found a target in the head plan and passed, so the command exits
-`0`. Read **Evaluated** before trusting the status: `0` is a passing gate only
-when the selected Policies evaluated targets and every evaluation passed.
+With the commerce plans and the two Policies of the
+[baseline example Pack](../../policy-packs/README.md) in `policies/`, both
+Policies found a target in the head architecture and passed, so the command
+exits `0`. Read **Policies** and **Evaluations** before trusting the status:
+`0` is a passing gate only when every selected Policy evaluated a target and
+every evaluation passed.
 Status `1` blocks on a confirmed violation; `3` means no compliant verdict,
-including indeterminate results and Policies that found no target. A run
+including indeterminate results and Policies that found no target. A check
 without selected Policies makes no compliance claim. When `rootform.lock`
-selects the Policy Packs, use `--locked` with the same `--project` in place of
-`--policy-pack`. [Run policy checks](../guides/check-architecture.md) explains
+selects the Policy Packs, pass `--locked --project <dir>` in place of
+`--policy-pack`. [Check an architecture](../guides/check-architecture.md) explains
 target coverage and result interpretation.
 
 ### Preserve results and clean temporary files
@@ -221,7 +223,7 @@ rm -f \
   "$results/base.tfplan" "$results/base.json" \
   "$results/head.tfplan" "$results/head.json" \
   "$results/comparison.json" "$results/comparison.md" "$results/comparison.html" \
-  "$results/policy.md" "$results/policy.sarif"
+  "$results/policy.json" "$results/policy.md" "$results/policy.sarif"
 rmdir "$results" "$review_root"
 ```
 
@@ -269,9 +271,9 @@ credentials; Rootform itself needs no cloud credentials. Upload only approved
 Rootform reports, with restricted audience and retention. Never upload
 `plan.tfplan`, `plan.json`, state JSON, provider credentials, or `.terraform/`.
 Preserve the CLI exit status separately from artifact upload so a violation or
-refusal cannot be hidden by a successful upload step. SARIF is useful for
-consumers that accept SARIF 2.1.0; the Markdown report remains readable without
-a platform integration.
+refusal cannot be hidden by a successful upload step. Rootform SARIF uses
+logical locations only, and ingestion by a code-scanning service is not tested.
+Keep the SARIF log as an artifact.
 
 For a portable CI job, see [Run in CI](../integrations/ci/README.md). For
 GitHub-specific permissions and artifact handling, see

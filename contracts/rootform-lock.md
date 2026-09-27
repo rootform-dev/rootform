@@ -82,8 +82,9 @@ dependencies are derived at linking and recorded in the linked artifact, never
 as independent project selections.
 
 Pack selection is never automatic: only pack sources recorded in this section
-or named explicitly are evaluated. `run` evaluates Policy Packs when selected, so
-governance selection never changes a Form's architectures.
+or named explicitly are evaluated. `rootform check` evaluates the selected
+Policy Packs and `rootform run` never evaluates them, so governance selection
+never changes a Form's architectures.
 
 ## Validation and identity
 

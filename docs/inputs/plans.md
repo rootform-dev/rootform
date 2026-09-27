@@ -6,8 +6,9 @@ description: Produce plan and state exports, verify a saved plan, and read evide
 Produce a completed plan with your usual Terraform or OpenTofu workflow.
 Rootform reads its JSON export locally. It does not plan, refresh, apply,
 contact providers, or fetch missing Dialects. Run `rootform run` from the
-project whose `rootform.lock` selects the Dialects and Policy Packs you want;
-`--project` chooses another project directory explicitly.
+project whose `rootform.lock` selects the Dialects you want;
+`--project` chooses another project directory explicitly. Evaluate selected
+Policy Packs separately with `rootform check`.
 
 ## Protect the plan files
 

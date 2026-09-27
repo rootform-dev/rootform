@@ -59,10 +59,15 @@ jobs:
           path: |
             ${{ env.ROOTFORM_OUTPUT_DIR }}/analysis.json
             ${{ env.ROOTFORM_OUTPUT_DIR }}/report.md
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/results.sarif
             ${{ env.ROOTFORM_OUTPUT_DIR }}/summary.txt
             ${{ env.ROOTFORM_OUTPUT_DIR }}/run.stderr
             ${{ env.ROOTFORM_OUTPUT_DIR }}/run.status
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/policy.json
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/policy.md
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/results.sarif
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.txt
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.stderr
+            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.status
           if-no-files-found: warn
 ```
 
@@ -70,9 +75,9 @@ OpenTofu users replace `terraform` with `tofu` and use their verified setup meth
 
 ## Interpret the analysis result
 
-The script calls `rootform run` with `--plan-file` and `--require-enrichment` when `ROOTFORM_PLAN_FILE` is set. Observe `summary.txt` for `Enrichment    saved plan verified against this plan JSON`. `analysis.json` is the Form with the planned architecture, any earlier stages and drift, and closures. `report.md` is the human review. Policy outcomes appear in `summary.txt` and `report.md`, and in `results.sarif` with the diagnostics. If verification fails, the step exits `3`; re-export JSON from the exact saved plan before trusting the review. On a `pull_request` event, `actions/checkout` checks out a merge of the branch into its target by default, so the plan describes that merge result rather than the pull request head. [Review a completed plan](../workflows/index.md#review-a-completed-plan) shows how reviewers read these artifacts, and [Choose the revisions](../workflows/index.md#choose-the-revisions) explains how to compare the branch with its merge base instead.
+The script calls `rootform run` with `--plan-file` and `--require-enrichment` when `ROOTFORM_PLAN_FILE` is set. Observe `summary.txt` for `Enrichment    saved plan verified against this plan JSON`. `analysis.json` is the Form with the planned architecture, any earlier stages and drift, and closures. `report.md` is the human review. When a gate is selected, `check.txt`, `policy.json`, `policy.md`, and `results.sarif` hold its separate result. If verification fails, the analysis step exits `3`; re-export JSON from the exact saved plan before trusting the review. On a `pull_request` event, `actions/checkout` checks out a merge of the branch into its target by default, so the plan describes that merge result rather than the pull request head. [Review a completed plan](../workflows/index.md#review-a-completed-plan) shows how reviewers read these artifacts, and [Choose the revisions](../workflows/index.md#choose-the-revisions) explains how to compare the branch with its merge base instead.
 
-The upload step runs after a policy failure and names only Rootform outputs. A violation or no decision still fails the job; upload does not turn it green. Read `run.status`, `run.stderr`, and the `Evaluated` line of `summary.txt` before treating status `0` as a governance result. The outputs describe topology and names even though sensitive values are omitted, so retain them as internal artifacts. Never upload the whole checkout or `$RUNNER_TEMP`.
+The upload step runs after a policy failure and names only Rootform outputs. A violation or no decision still fails the job; upload does not turn it green. Read `run.status` for analysis and `check.status` for the gate. The outputs describe topology and names even though sensitive values are omitted, so retain them as internal artifacts. Never upload the whole checkout or `$RUNNER_TEMP`.
 
 ## Show the review in the workflow run
 
@@ -84,6 +89,9 @@ Reviewers can read the report on the workflow run page and open the Explorer wit
         run: |
           if [ -f "$ROOTFORM_OUTPUT_DIR/analysis.json" ]; then
             cat "$ROOTFORM_OUTPUT_DIR/report.md" >> "$GITHUB_STEP_SUMMARY"
+            if [ -f "$ROOTFORM_OUTPUT_DIR/policy.md" ]; then
+              cat "$ROOTFORM_OUTPUT_DIR/policy.md" >> "$GITHUB_STEP_SUMMARY"
+            fi
             rootform run "$ROOTFORM_OUTPUT_DIR/analysis.json" --no-serve \
               -o "$ROOTFORM_OUTPUT_DIR/review.html"
           fi
@@ -93,7 +101,7 @@ Reviewers can read the report on the workflow run page and open the Explorer wit
             ${{ env.ROOTFORM_OUTPUT_DIR }}/review.html
 ```
 
-The job summary then shows the sections of `report.md`: input, stages, counts, drift, uncertainty, and the policy outcome. `review.html` is a self-contained Explorer export built from the saved document without analyzing the plan again, and it makes no network requests. `if: ${{ !cancelled() }}` runs the step after a policy violation, and the file test skips it when the input was refused and no document exists. Anyone with read access to the repository can read job summaries and download artifacts; in a public repository, that is any signed-in GitHub user. Publish only what that audience may see.
+The job summary shows `report.md` and, when present, `policy.md`. `review.html` is a self-contained Explorer export built from the saved document without analyzing the plan again, and it makes no network requests. `if: ${{ !cancelled() }}` runs the step after a policy violation, and the file test skips it when analysis failed and no document exists. Anyone with read access to the repository can read job summaries and download artifacts; in a public repository, that is any signed-in GitHub user. Publish only what that audience may see.
 
 ## Prepare selection and choose a policy gate
 
@@ -104,11 +112,9 @@ A committed `infra/rootform.lock` fixes external Dialects and Policy Packs. Add 
         run: rootform init ./infra --locked --no-input
 ```
 
-The portable script passes `--locked` when that file exists. It does not run `init` or change the lock. For a locked Policy Pack, set `ROOTFORM_POLICY` in the Analyze step to a reviewed selector such as `baseline/*`. For a project without a lock, `ROOTFORM_POLICY_PACK=./policies` supplies a one-run local override. The script refuses a pack override with a lock. No selected policies means no compliance claim even when architecture analysis succeeds. [Run in CI](ci/README.md#request-a-policy-gate) gives the full status and file contract.
+The portable script passes `--locked` to both commands when that file exists. It does not run `init` or change the lock. For a locked Policy Pack, set `ROOTFORM_POLICY` in the Analyze step to a reviewed selector such as `baseline/*`. For a project without a lock, `ROOTFORM_POLICY_PACK=./policies` supplies a local Pack to the gate only. The script refuses a pack override with a lock. No selected policies means no compliance claim even when architecture analysis succeeds. [Run in CI](ci/README.md#request-a-policy-gate) gives the full status and file contract.
 
-## Upload SARIF only when needed
-
-A downloadable SARIF artifact is separate from GitHub code scanning. To send findings to code scanning, add GitHub's [SARIF upload action](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/integrate-with-existing-tools/upload-sarif-file) on a trusted event, point `sarif_file` at `results.sarif`, and grant `security-events: write` only to that upload job. Repository eligibility and upload permissions are GitHub settings. Keep ordinary pull request analysis at `contents: read`; do not grant write access just to produce Rootform artifacts.
+Rootform's SARIF log uses logical locations only, and ingestion by GitHub code scanning is not tested; keep SARIF as a build artifact.
 
 ## Handle forks without exposing credentials
 

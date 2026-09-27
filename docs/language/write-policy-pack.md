@@ -105,35 +105,33 @@ reads them locally and keeps sensitive values out of its outputs.
 ```sh
 rootform run examples/playground/commerce-platform/head/plan.json \
   --plan-file examples/playground/commerce-platform/head/plan.tfplan \
-  --policy-pack ./policy-packs/baseline --no-serve --color always \
-  -o analysis.json
+  --no-serve -o analysis.json
+rootform check analysis.json --policy-pack ./policy-packs/baseline --color always
 rootform list policies --policy-pack ./policy-packs/baseline
 rootform show policy baseline.policy.cluster-network-context \
   --policy-pack ./policy-packs/baseline
 ```
 
 <!-- docs-output:docs-language-write-policy-pack-1 -->
-```ansi title="Passing result, excerpt"
-[2mPolicies[0m      passed
-
-[1m[38;5;208mPolicies · Planned stage[0m
-  [2mResult[0m     passed
-  [2mEvaluated[0m  2 policies over 2 targets: 2 passed, 0 violated, 0 indeterminate
+```text title="Passing result, excerpt"
+Policies passed
+Policies      2 policies selected: 2 passed
+Evaluations   2 instances: 2 passed
 ```
 
-Status `0` means both selected targets passed. A violation exits `1`;
-indeterminate evidence or no selected decision exits `3`. The latter two are
-not passes. `list` names both qualified Policies, while `show` prints the
+The check summary reports both selected targets passing and exits `0`. A
+violation exits `1`; indeterminate evidence or no selected decision exits `3`.
+The latter two are not passes. `list` names both qualified Policies, while `show` prints the
 target and assertion without evaluating it. If a context is indeterminate,
 inspect the instance closure and confirm that the saved plan matches the JSON.
 The local override lasts one command and leaves `rootform.lock` unchanged.
 
-| `Policies · Planned` result | Status | What to do |
+| `rootform check` result | Status | What to do |
 | --- | --- | --- |
-| `Result     passed` | `0` | All evaluated targets passed. Confirm the target count is greater than zero. |
-| `Result     violated` | `1` | Read the named target and Policy message, then explain that Policy. |
-| `Result     indeterminate` | `3` | Inspect its closure reason; missing or unknown evidence cannot prove a pass. |
-| `Result     no decision` | `3` | No selected Policy had a target. Check the Pack target and selected plan stage. |
+| `Policies passed` | `0` | All selected Policies passed. Confirm that at least one target was evaluated. |
+| `Policies violated` | `1` | Read the named target and Policy message, then explain that Policy. |
+| `Policies indeterminate` | `3` | Inspect its closure reason; missing or unknown evidence cannot prove a pass. |
+| `No policy decision` | `3` | No selected Policy had a target. Check the Pack target and selected plan stage. |
 
 These are distinct Policy outcomes. The [check walkthrough](../guides/check-architecture.md)
 shows violations, indeterminate closures, and no-target results on small plans.
@@ -145,12 +143,12 @@ exact semantic selection. `analysis.json` came from the preceding run:
 ```sh
 rootform compile policy-pack ./policy-packs/baseline --semantics analysis.json \
   --output baseline.compiled.json
-rootform run analysis.json --policy-pack baseline.compiled.json --no-serve --color always
+rootform check analysis.json --policy-pack baseline.compiled.json --color always
 ```
 
 The compile command prints the Pack, semantic-pin count and destination. The
-second run loads the Form without recompiling the plan and again
-reports two passes, status `0`. The compiled artifact records the authored
+check loads the Form without recompiling the plan and reports Policy outcomes
+with the check exit status. The compiled artifact records the authored
 content digest, linked digest, language version, and exact semantic identities.
 A mismatch fails closed. When the project should retain the source Pack, use
 `rootform add policy-packs ./policy-packs/baseline` from that project root and
@@ -196,7 +194,7 @@ rootform add policy-packs \
 rootform init . --locked --no-input
 ```
 
-After exporting a plan for this project, evaluate the selected Pack with `rootform run plan.json --locked --no-serve`.
+After exporting a plan for this project, evaluate the selected Pack with `rootform check plan.json --locked`.
 
 The registry reference is illustrative; replace it with the published one you
 reviewed. `add` records digests without hand editing the lock. Set

@@ -412,6 +412,24 @@ function assertPolicySARIF(path: string, label: string): void {
   }
 }
 
+export function assertPolicyResult(path: string, label: string): void {
+  const report = parseJson(readFileSync(path, "utf8"), label);
+  const selection = parseJson(JSON.stringify(report.selection), `${label} selection`);
+  const summary = parseJson(JSON.stringify(report.summary), `${label} summary`);
+  const evaluations = parseJson(JSON.stringify(summary.evaluations), `${label} evaluations`);
+  if (
+    report.format_version !== "1" ||
+    report.status !== "passed" ||
+    !Array.isArray(selection.policies) ||
+    selection.policies.length !== 1 ||
+    selection.policies[0] !== `${POLICY_PACK_NAME}.policy.portable-service` ||
+    evaluations.total !== 1 ||
+    evaluations.passed !== 1
+  ) {
+    throw new Error(`${label} did not pass one selected Policy`);
+  }
+}
+
 function vulnerabilityCount(path: string): number {
   const report = parseJson(readFileSync(path, "utf8"), "Trivy report");
   if (!Array.isArray(report.Results)) return 0;
@@ -728,8 +746,6 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
           "--project",
           ".",
           "--locked",
-          "--policy",
-          `${POLICY_PACK_NAME}/*`,
           "--no-serve",
           "--format",
           "json",
@@ -750,14 +766,15 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
       rootformRun({
         architecture,
         arguments: [
-          "run",
+          "check",
           "plan.json",
           "--project",
           ".",
           "--locked",
           "--policy",
           `${POLICY_PACK_NAME}/*`,
-          "--no-serve",
+          "-o",
+          `/home/rootform/.rootform/policy-${architecture}.json`,
           "-o",
           `/home/rootform/.rootform/results-${architecture}.sarif`,
         ],
@@ -767,6 +784,7 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
         project,
         projectReadOnly: true,
       });
+      assertPolicyResult(join(home, `policy-${architecture}.json`), "third-party Policy result");
       assertPolicySARIF(policyPath, "third-party Policy result");
     }
 
@@ -801,14 +819,15 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
     rootformRun({
       architecture: "amd64",
       arguments: [
-        "run",
+        "check",
         "plan.json",
         "--project",
         ".",
         "--locked",
         "--policy",
         `${POLICY_PACK_NAME}/*`,
-        "--no-serve",
+        "-o",
+        "/home/rootform/.rootform/vendor-policy.json",
         "-o",
         "/home/rootform/.rootform/vendor-results.sarif",
       ],
@@ -818,6 +837,7 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
       project,
       projectReadOnly: true,
     });
+    assertPolicyResult(join(vendorHome, "vendor-policy.json"), "vendored offline Policy result");
     assertPolicySARIF(join(vendorHome, "vendor-results.sarif"), "vendored offline Policy result");
 
     const suppliedProject = join(temporary, "supplied-project");

@@ -5,10 +5,11 @@
       "path": "rootform",
       "usage": "rootform [command]",
       "summary": "Understand Terraform and OpenTofu as architecture",
-      "description": "Rootform turns Terraform and OpenTofu plan or state exports into\nsemantic, deterministic, explainable architecture.\n\nStart with rootform run plan.json.",
-      "examples": "rootform run plan.json\n  rootform run state.json --no-serve -o architecture.json\n  rootform run before.json --diff after.json --no-serve",
+      "description": "Rootform turns Terraform and OpenTofu plan or state exports into\nsemantic, deterministic, explainable architecture.\n\nStart with rootform run plan.json, and gate a change with\nrootform check plan.json.",
+      "examples": "rootform run plan.json\n  rootform run state.json --no-serve -o architecture.json\n  rootform run before.json --diff after.json --no-serve\n  rootform check plan.json -o results.sarif",
       "subcommands": [
         "rootform add",
+        "rootform check",
         "rootform compile",
         "rootform completion",
         "rootform explain",
@@ -169,6 +170,118 @@
           "default": "false",
           "usage": "use no network; accept local and installed sources",
           "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "default": "auto",
+          "usage": "color human output: auto, always, never"
+        }
+      ]
+    },
+    {
+      "path": "rootform check",
+      "usage": "rootform check \u003cinput\u003e [flags]",
+      "summary": "Evaluate Policies against one stage of a Form",
+      "description": "Evaluate the project's Policies against one architecture stage within a\nForm and exit with the verdict. The input is a Terraform or OpenTofu plan\nJSON or state JSON, compiled with the project's Dialects, or a saved Form,\nloaded without compiling it again; '-' reads standard input.\n\nThe evaluated stage is Planned for a plan, Recorded for a state, and the\nAfter side at its compared stage for a comparison Form. --side and --stage\nselect another. A plan's reconstructed Recorded stage is never evaluated.\n\nPolicies come from the Policy Packs in rootform.lock. --policy-pack adds or\nreplaces one pack for this command only; without --policy, every Policy of\nthose packs is selected, or every Policy of the project when none is given.\n--policy narrows the selection before anything is evaluated.\n\nThe summary goes to standard output, or the --format output when no file is\nwritten. Progress and failures go to standard error. Each -o file takes its\nformat from its extension: .json (the Policy result), .md, .txt, .sarif or\n.sarif.json. Reports are written whatever the verdict; check never serves.\n\nExit status:\n  0  every selected Policy was evaluated and passed\n  1  a selected Policy was violated\n  2  the command was used incorrectly\n  3  no verdict: indeterminate, no target, nothing selected, or a failure\n  4  a report could not be written",
+      "examples": "rootform check plan.json\n  rootform check state.json --policy 'security/*'\n  rootform check analysis.json --stage refreshed\n  rootform check comparison.json --side before\n  rootform check plan.json -o results.json -o report.md -o results.sarif",
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "use dialect source `dir`; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "default": "",
+          "usage": "`format` of standard output when no file is written"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "default": "false",
+          "usage": "show how to use rootform check",
+          "no_option_default": "true"
+        },
+        {
+          "name": "locked",
+          "type": "bool",
+          "default": "false",
+          "usage": "refuse to run unless rootform.lock is valid",
+          "no_option_default": "true"
+        },
+        {
+          "name": "output",
+          "shorthand": "o",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "write `file`, formatted by extension; repeatable"
+        },
+        {
+          "name": "plan-complete",
+          "type": "string",
+          "default": "",
+          "usage": "declare the plan complete; `value` must be attested"
+        },
+        {
+          "name": "plan-file",
+          "type": "string",
+          "default": "",
+          "usage": "verify the plan against saved plan `file`"
+        },
+        {
+          "name": "policy",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "evaluate only `policy`; repeatable"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "select local Policy Pack `dir`; repeatable"
+        },
+        {
+          "name": "producer",
+          "type": "string",
+          "default": "",
+          "usage": "declare the producing `tool`: terraform, opentofu"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "default": "",
+          "usage": "use the Dialects and Policy Packs of project `dir`"
+        },
+        {
+          "name": "provider-map",
+          "type": "stringArray",
+          "default": "[]",
+          "usage": "map provider `pair` observed=binding; repeatable"
+        },
+        {
+          "name": "require-enrichment",
+          "type": "bool",
+          "default": "false",
+          "usage": "refuse a saved plan file that does not verify",
+          "no_option_default": "true"
+        },
+        {
+          "name": "side",
+          "type": "string",
+          "default": "",
+          "usage": "evaluate `side` of a comparison Form: before, after"
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "default": "",
+          "usage": "evaluate `stage`: planned, refreshed or recorded"
         }
       ],
       "inherited_flags": [
@@ -353,7 +466,7 @@
       "path": "rootform explain policy",
       "usage": "rootform explain policy \u003cidentifier\u003e [flags]",
       "summary": "Explain a policy result",
-      "description": "Show why a policy passed, was violated, or stayed indeterminate for\neach target instance.\n\n--input accepts a plan JSON, a state JSON, a saved Form, or\n'-' for standard input. A plan or state is compiled with the project's\nDialects; a saved Form is read as it is. --stage selects the\nstage; the default is the Form's default stage.\n\nThe project must select the Policy Pack that owns the policy, or\n--policy-pack must name its source directory for this run only.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named instance or definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "description": "Show why a policy passed, was violated, or stayed indeterminate for\neach target instance.\n\n--input accepts a plan JSON, a state JSON, a saved Form, or\n'-' for standard input. A plan or state is compiled with the project's\nDialects; a saved Form is read as it is. --stage selects the\nstage; the default is the Form's default stage.\n\nThe project must select the Policy Pack that owns the policy, or\n--policy-pack must name its source directory for this command only.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named instance or definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
       "examples": "rootform explain policy cluster-network-context --input plan.json\n  rootform explain policy baseline.policy.cluster-network-context --input -\n  rootform explain policy my-check --input plan.json --policy-pack ./policies\n  rootform explain policy cluster-network-context --input - --format json",
       "flags": [
         {
@@ -408,7 +521,7 @@
       "path": "rootform explain semantics",
       "usage": "rootform explain semantics \u003cidentifier\u003e [flags]",
       "summary": "Explain a rule",
-      "description": "Show what a rule matches and emits. With --input, also show the\ninstances it interpreted and the outcome of its closures.\n\n--input accepts a plan JSON, a state JSON, a saved Form, or\n'-' for standard input. A plan or state is compiled with the project's\nDialects; a saved Form is read as it is. --stage selects the\nstage; the default is the Form's default stage.\n\nUse \u003cowner\u003e.rule.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only. Without --input,\nthe project's selected Dialects supply the rule.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named instance or definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
+      "description": "Show what a rule matches and emits. With --input, also show the\ninstances it interpreted and the outcome of its closures.\n\n--input accepts a plan JSON, a state JSON, a saved Form, or\n'-' for standard input. A plan or state is compiled with the project's\nDialects; a saved Form is read as it is. --stage selects the\nstage; the default is the Form's default stage.\n\nUse \u003cowner\u003e.rule.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only. Without --input,\nthe project's selected Dialects supply the rule.\n\nThe text or JSON explanation goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the result was explained\n  1  the named instance or definition was not found\n  2  the command was used incorrectly\n  3  no explanation could be decided",
       "examples": "rootform explain semantics google.rule.cloud-sql-instance\n  rootform explain semantics cloud-sql-instance --input plan.json\n  rootform explain semantics google.rule.cloud-sql-instance --format json",
       "flags": [
         {
@@ -1212,8 +1325,8 @@
       "path": "rootform run",
       "usage": "rootform run \u003cinput\u003e [--diff \u003cinput\u003e] [flags]",
       "summary": "Analyze a plan or state, or open a saved Form",
-      "description": "Compile a Terraform or OpenTofu plan JSON or state JSON into a Form with the\nproject's Dialects, or open a saved Form without compiling it again. The\ninput kind comes from its content, and '-' reads standard input. Export a\nplan with \"terraform show -json plan.tfplan\" and a state with\n\"terraform show -json\"; a configuration directory is not an input.\n\nA Form holds the architecture of each stage its input supports: Recorded\nfor a state; Planned, Refreshed and a reconstructed Recorded for a plan,\nwith the drift records the plan reports. --diff compares one selected stage\nof each of two inputs, such as a state and a later plan, or two saved Forms,\ninto a comparison Form.\n\nBy default run serves the result on a loopback address and opens a browser\nuntil interrupted. --no-serve writes the requested files and exits.\n\nThe summary goes to standard output, or the --format output when no file is\nwritten. Progress, warnings, the server address and failures go to standard\nerror. Each -o file takes its format from its extension: .json (the Form),\n.md, .txt, .sarif or .html. Every file is rendered before any is\nwritten.\n\nExit status:\n  0  analyzed, and every selected policy passed\n  1  a selected policy was violated\n  2  the command was used incorrectly\n  3  the input was refused, or a policy was indeterminate or decided nothing\n  4  a file could not be written or the server could not start",
-      "examples": "rootform run plan.json\n  terraform show -json plan.tfplan | rootform run -\n  rootform run state.json --no-serve -o analysis.json\n  rootform run plan.json --no-serve -o report.md -o results.sarif\n  rootform run before.json --diff after.json --no-serve",
+      "description": "Compile a Terraform or OpenTofu plan JSON or state JSON into a Form with the\nproject's Dialects, or open a saved Form without compiling it again. The\ninput kind comes from its content, and '-' reads standard input. Export a\nplan with \"terraform show -json plan.tfplan\" and a state with\n\"terraform show -json\"; a configuration directory is not an input.\n\nA Form holds the architecture of each stage its input supports: Recorded\nfor a state; Planned, Refreshed and a reconstructed Recorded for a plan,\nwith the drift records the plan reports. --diff compares one selected stage\nof each of two inputs, such as a state and a later plan, or two saved Forms,\ninto a comparison Form.\n\nBy default run serves the result on a loopback address and opens a browser\nuntil interrupted. --no-serve writes the requested files and exits.\n\nThe summary goes to standard output, or the --format output when no file is\nwritten. Progress, warnings, the server address and failures go to standard\nerror. Each -o file takes its format from its extension: .json (the Form),\n.md, .txt or .html. Every file is rendered before any is written.\n\nrun never evaluates Policies; a Form says nothing about compliance. Use\nrootform check to evaluate them.\n\nExit status:\n  0  analyzed\n  2  the command was used incorrectly\n  3  the input was refused\n  4  a file could not be written or the server could not start",
+      "examples": "rootform run plan.json\n  terraform show -json plan.tfplan | rootform run -\n  rootform run state.json --no-serve -o analysis.json\n  rootform run plan.json --no-serve -o report.md -o report.html\n  rootform run before.json --diff after.json --no-serve",
       "flags": [
         {
           "name": "after-side",
@@ -1312,18 +1425,6 @@
           "usage": "verify the first plan against saved plan `file`"
         },
         {
-          "name": "policy",
-          "type": "stringArray",
-          "default": "[]",
-          "usage": "evaluate only `policy`; repeatable"
-        },
-        {
-          "name": "policy-pack",
-          "type": "stringArray",
-          "default": "[]",
-          "usage": "select local Policy Pack `dir`; repeatable"
-        },
-        {
           "name": "port",
           "type": "int",
           "default": "21717",
@@ -1339,7 +1440,7 @@
           "name": "project",
           "type": "string",
           "default": "",
-          "usage": "use the Dialects and policies of project `dir`"
+          "usage": "use the Dialects of project `dir`"
         },
         {
           "name": "provider-map",
@@ -1752,7 +1853,7 @@
       "path": "rootform validate",
       "usage": "rootform validate \u003cobject\u003e [flags]",
       "summary": "Validate a Rootform object",
-      "description": "Validate a saved Form or a Rootform definition and\nreport any problems found.\n\nValidation checks definitions; it does not evaluate policies. Use\nrootform run plan.json --policy \u003cname\u003e for that.",
+      "description": "Validate a saved Form or a Rootform definition and\nreport any problems found.\n\nValidation checks definitions; it does not evaluate policies. Use\nrootform check plan.json --policy \u003cname\u003e for that.",
       "examples": "rootform validate form analysis.json\n  rootform validate dialects ./dialects\n  rootform validate rule google.rule.cloud-sql-instance",
       "subcommands": [
         "rootform validate concept",
@@ -1786,7 +1887,7 @@
       "path": "rootform validate concept",
       "usage": "rootform validate concept \u003cidentifier\u003e [flags]",
       "summary": "Validate a concept definition",
-      "description": "Validate a concept in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "description": "Validate a concept in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
       "examples": "rootform validate concept rf.concept.virtual-network\n  rootform validate concept virtual-network\n  rootform validate concept rf.concept.virtual-network --format json",
       "flags": [
         {
@@ -1823,7 +1924,7 @@
       "path": "rootform validate context",
       "usage": "rootform validate context \u003cidentifier\u003e [flags]",
       "summary": "Validate a context dimension",
-      "description": "Validate a context dimension in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "description": "Validate a context dimension in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
       "examples": "rootform validate context rf.context.network\n  rootform validate context network\n  rootform validate context rf.context.network --format json",
       "flags": [
         {
@@ -1922,7 +2023,7 @@
       "path": "rootform validate policy",
       "usage": "rootform validate policy \u003cidentifier\u003e [flags]",
       "summary": "Validate a policy definition",
-      "description": "Validate a policy definition in its selected Policy Pack.\n\nThe project must select the Policy Pack that owns the policy, or\n--policy-pack must name its source directory for this run only.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "description": "Validate a policy definition in its selected Policy Pack.\n\nThe project must select the Policy Pack that owns the policy, or\n--policy-pack must name its source directory for this command only.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, or a bare name when it resolves unambiguously.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
       "examples": "rootform validate policy baseline.policy.cluster-network-context\n  rootform validate policy cluster-network-context\n  rootform validate policy cluster-network-context --policy-pack ./policies\n  rootform validate policy baseline.policy.cluster-network-context --format json",
       "flags": [
         {
@@ -1965,7 +2066,7 @@
       "path": "rootform validate relation",
       "usage": "rootform validate relation \u003cidentifier\u003e [flags]",
       "summary": "Validate a relation predicate",
-      "description": "Validate a relation and every compiled producer reference.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "description": "Validate a relation and every compiled producer reference.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
       "examples": "rootform validate relation google.relation.runs-as\n  rootform validate relation runs-as\n  rootform validate relation google.relation.runs-as --format json",
       "flags": [
         {
@@ -2002,7 +2103,7 @@
       "path": "rootform validate rule",
       "usage": "rootform validate rule \u003cidentifier\u003e [flags]",
       "summary": "Validate a rule definition",
-      "description": "Validate a rule and its references in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this run only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
+      "description": "Validate a rule and its references in the context of its dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid\n  2  the command was used incorrectly\n  3  the definition could not be validated",
       "examples": "rootform validate rule google.rule.cloud-sql-instance\n  rootform validate rule cloud-sql-instance\n  rootform validate rule payments.rule.gateway --dialect ./dialects/payments\n  rootform validate rule google.rule.cloud-sql-instance --format json",
       "flags": [
         {

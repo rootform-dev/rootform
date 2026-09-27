@@ -91,7 +91,7 @@ For a subnet Rule emitting network Context to a VPC:
 | Unknown until apply | `indeterminate(unknown_until_apply)` | Unknown |
 | No selected subnet instance | No evaluation | No decision |
 
-A false assertion is a violation; an unknown assertion is indeterminate. If a different target has a confirmed violation, that violation still takes precedence for the run.
+A false assertion is a violation; an unknown assertion is indeterminate. If a different target has a confirmed violation, that violation takes precedence in the check result.
 
 ## Indeterminate and no-decision reasons
 
@@ -105,7 +105,7 @@ A false assertion is a violation; an unknown assertion is indeterminate. If a di
 | `interpretation_failed` | Candidate Rule could not apply safely | Read the instance diagnostic |
 | `population_unverified` | An instance that could affect target coverage was not verified | Analyze a complete plan or state export |
 
-These reasons can appear on a closure, evaluation, or coverage entry according to where uncertainty arose. `external_denied` does not authorize claiming that the external object is absent. A Policy with zero targets has no evaluation and status `no_decision`; a run with no selected policies has status `not_evaluated` and makes no compliance claim. An unavailable requested stage or incompatible Pack fails evaluation with its own diagnostic.
+These reasons can appear on a closure, evaluation, or coverage entry according to where uncertainty arose. `external_denied` does not authorize claiming that the external object is absent. A Policy with zero targets has no evaluation and outcome `no_target`, which makes the result status `no_decision`; a check with no selected policies makes no compliance claim. An unavailable requested stage or incompatible Pack fails evaluation with its own diagnostic.
 
 ## Per-target outcomes
 
@@ -115,35 +115,42 @@ These reasons can appear on a closure, evaluation, or coverage entry according t
 | `violated` | Assertion known false; Policy message applies |
 | `indeterminate` | Required evidence or assertion undecidable |
 
-`not_evaluated` describes a Policy with zero selected targets, not a passed per-target result. A run with no selected policies makes no compliance claim.
+`no_target` is the Policy outcome when a selected Policy has zero targets; it is not a passed per-target result. A check with no selected policies makes no compliance claim.
 
 ## Aggregate result and exit status
 
 ### Aggregate result status
 
-A confirmed violation takes precedence over indeterminate evaluations. Without one, indeterminate evaluation or incomplete target coverage produces `indeterminate`; zero target evaluations produce `no_decision`; all selected evaluations passing produces `passed`. Only the last status is a compliance claim.
+A confirmed violation takes precedence over indeterminate evaluations. Without one, indeterminate evaluation or incomplete target coverage produces `indeterminate`; a selected Policy with no target, or no selected Policy, produces `no_decision`; every selected Policy evaluating a target and passing produces `passed`. Only the last status is a compliance claim.
 
 | Priority | Condition | Status |
 | --- | --- | --- |
 | 1 | At least one confirmed violation | `violated` |
 | 2 | Indeterminate evaluation or incomplete target coverage | `indeterminate` |
-| 3 | Zero target evaluations | `no_decision` |
-| 4 | Every selected evaluation passed | `passed` |
+| 3 | A selected Policy has no target, or no Policy is selected | `no_decision` |
+| 4 | Every selected Policy evaluated a target and passed | `passed` |
 
-These are the status values of `rootform explain policy --format json`. Text and Markdown outputs print `no_decision` as `no decision`.
+These are the `status` values of the Policy result written by `rootform check` and of `rootform explain policy --format json`; a check that cannot evaluate has status `failed`. Text and Markdown outputs print `no_decision` as `no decision`.
 
-### `rootform run` exit status
+### `rootform check` exit status
 
-| Condition | Reported result | `rootform run` exit |
+| Condition | Reported result | `rootform check` exit |
 | --- | --- | --- |
-| Every selected policy evaluated and passed, or analysis without selected policies succeeded | `passed` when policies were selected; otherwise no policy result | `0` |
+| Every selected Policy was evaluated and passed | `passed` | `0` |
 | At least one confirmed violation, even with indeterminate results elsewhere | `violated` | `1` |
-| Selected policy indeterminate or selected no target, with no violation | `indeterminate` or no decision | `3` |
-| Invalid command use | Usage error | `2` |
-| Input refused | Refusal | `3` |
-| Export or server failed | Operation failure | `4` |
+| No violation; indeterminate result, no target, nothing selected, or input/evaluation failure | Indeterminate, no decision, or not checked | `3` |
+| Invalid command use or unknown Policy selector | Usage error | `2` |
+| A report could not be written after the verdict was stated | Report write failure | `4` |
 
-With `--policy-pack` and no `--policy`, Rootform evaluates every Policy in the Pack. A zero-target Pack run ends with `POLICY_NO_DECISION` and exit `3`. A reported drift entry alone does not change exit status. The JSON Form stores architecture evidence, not Policy results; separate result artifacts, text, Markdown, SARIF, and `explain policy` can report Policy outcomes. See [Outputs and exit status](../../reference/outputs.md).
+`rootform run` analyzes or compares architecture and never selects or evaluates
+Policies. It exits `0` when analysis succeeds, `2` for usage errors, `3` when
+input or analysis fails, and `4` when output cannot be written. To gate a plan,
+state, or saved Form, use `rootform check`. With `--policy-pack` and no
+`--policy`, check evaluates every Policy in the overlay packs. A zero-target
+Policy produces `POLICY_NO_DECISION` and exit `3`. A reported drift entry alone
+does not change check status. The JSON Form stores architecture evidence, not
+Policy results; check reports can be written as JSON, Markdown, or SARIF, and
+`explain policy` inspects a result. See [Outputs and exit status](../../reference/outputs.md).
 
 ## Determinism and limits
 

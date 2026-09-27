@@ -31,7 +31,7 @@ rootform validate form <file> [flags]
 <!-- END GENERATED CLI -->
 
 From a checkout of the repository, save the reviewed commerce plan as a Form,
-then check that the saved Form is structurally valid.
+then validate that the saved Form is structurally valid.
 Validation does not reanalyze the plan or evaluate Policies.
 
 <!-- docs-check:cli-validate-form -->
@@ -51,5 +51,5 @@ rootform validate form analysis.json --format json
 Text is the default result; JSON is also available. The result goes to
 standard output and diagnostics to standard error. Status `0` means valid,
 `1` means invalid, `2` means incorrect command use, and `3` means validation
-could not be completed. Use [`run`](../run.md) to evaluate Policies and
+could not be completed. Use [`check`](../check.md) to evaluate Policies and
 [Forms](../../../concepts/forms.md) for what a Form contains.

@@ -182,6 +182,26 @@ export function runBinary(
   return { stderr: result.stderr, stdout: result.stdout };
 }
 
+export function assertNoTargetPolicyResult(body: string): void {
+  const result = JSON.parse(body) as {
+    format_version?: string;
+    status?: string;
+    summary?: {
+      policies?: { no_target?: number; selected?: number };
+      evaluations?: { total?: number };
+    };
+  };
+  if (
+    result.format_version !== "1" ||
+    result.status !== "no_decision" ||
+    !result.summary?.policies?.selected ||
+    result.summary.policies.no_target !== result.summary.policies.selected ||
+    result.summary.evaluations?.total !== 0
+  ) {
+    throw new Error("policy without target did not produce a no_decision result");
+  }
+}
+
 export async function readRunAddress(stream: ReadableStream<Uint8Array>): Promise<string> {
   const reader = stream.getReader();
   const decoder = new TextDecoder();
@@ -471,28 +491,39 @@ export async function runJourney(
     );
 
     attempt("policy-without-target-exits-3", () => {
-      const outcome = runBinaryStatus(
-        arguments_.binary,
+      const policyForm = join(outputs, "policy-no-target-form.json");
+      const policyResult = join(outputs, "policy-no-target.json");
+      run(
         [
           "run",
           join(root, "scripts", "fixtures", "portable-plan.json"),
           "--project",
           project,
+          "--no-serve",
+          "-o",
+          policyForm,
+        ],
+        project,
+        onlineEnvironment,
+      );
+      const outcome = runBinaryStatus(
+        arguments_.binary,
+        [
+          "check",
+          policyForm,
+          "--project",
+          project,
           "--policy-pack",
           join(root, "policy-packs", "baseline"),
-          "--no-serve",
-          "--format",
-          "json",
+          "-o",
+          policyResult,
         ],
         { cwd: project, environment: onlineEnvironment, redactions },
       );
       if (outcome.exitCode !== 3 || !outcome.stderr.includes("POLICY_NO_DECISION")) {
         throw new Error(`policy without target exited ${outcome.exitCode}: ${outcome.stderr}`);
       }
-      const document = JSON.parse(outcome.stdout) as { format_version?: string; kind?: string };
-      if (document.format_version !== "1" || document.kind !== "plan") {
-        throw new Error("undecided policy did not return a format-1 plan");
-      }
+      assertNoTargetPolicyResult(readFileSync(policyResult, "utf8"));
     });
 
     attempt("supplied-dialects-never-install", () => {

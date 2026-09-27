@@ -723,7 +723,7 @@ type Resolved = {
   status: string;
 };
 
-// Resolve selection through a format-1 plan and its SARIF policy results.
+// Resolve the same Form produced by run against the selected Policies.
 function resolved(
   q: Qualification,
   label: string,
@@ -735,31 +735,26 @@ function resolved(
 ): Resolved {
   const output = mkdtempSync(q.path("resolved-"));
   const documentPath = join(output, "analysis.json");
-  const sarifPath = join(output, "results.sarif");
+  const policyPath = join(output, "policy.json");
   const selectedPacks = existsSync(join(project, "rootform.lock"))
     ? readLock(project).policy_packs.map((entry) => String(entry.name))
     : [];
-  const policySelection = extra.includes("--policy")
-    ? []
-    : selectedPacks.flatMap((name) => ["--policy", `${name}/*`]);
+  const analysisArgs: string[] = [];
+  const policyArgs: string[] = [];
+  for (let index = 0; index < extra.length; index++) {
+    const argument = extra[index] ?? "";
+    if (argument === "--policy" || argument === "--policy-pack") {
+      policyArgs.push(argument, extra[++index] ?? "");
+    } else {
+      analysisArgs.push(argument);
+    }
+  }
   const result = q.quiet(
-    label,
-    [
-      "run",
-      "plan.json",
-      "--project",
-      ".",
-      "--no-serve",
-      "-o",
-      documentPath,
-      "-o",
-      sarifPath,
-      ...extra,
-      ...policySelection,
-    ],
+    `${label} analysis`,
+    ["run", "plan.json", "--project", ".", "--no-serve", "-o", documentPath, ...analysisArgs],
     project,
     home,
-    expect === 0 ? "any" : expect,
+    "any",
     env,
   );
   const out: Resolved = {
@@ -769,15 +764,15 @@ function resolved(
     digests: {},
     packs: {},
     policies: [],
-    evaluations: -1,
-    status: "",
+    evaluations: 0,
+    // Set from the Policy result when check runs.
+    status: "unchecked",
   };
   let report: Report;
   try {
     report = JSON.parse(readFileSync(documentPath, "utf8")) as Report;
   } catch {
-    if (expect === 0 && result.exitCode !== 0)
-      throw new Error(`${label}: exit ${result.exitCode}, expected success\n${result.stderr}`);
+    q.expectExit(label, result, expect);
     return out;
   }
   if (report.format_version !== "1" || report.kind !== "plan")
@@ -788,9 +783,51 @@ function resolved(
     if (owner.kind === "dialect") out.dialects[owner.id] = owner.version;
     if (owner.kind === "dialect") out.digests[owner.id] = owner.content_digest;
   }
-  const packOverrides = extra.flatMap((argument, index) =>
-    argument === "--policy-pack" ? [extra[index + 1] ?? ""] : [],
+  if (result.exitCode !== 0) {
+    q.expectExit(label, result, expect);
+    return out;
+  }
+  const packOverrides = policyArgs.flatMap((argument, index) =>
+    argument === "--policy-pack" ? [policyArgs[index + 1] ?? ""] : [],
   );
+  if (selectedPacks.length > 0 || policyArgs.length > 0) {
+    const checked = q.quiet(
+      `${label} Policy check`,
+      [
+        "check",
+        documentPath,
+        "--project",
+        ".",
+        ...(analysisArgs.includes("--locked") && packOverrides.length === 0 ? ["--locked"] : []),
+        ...policyArgs,
+        "-o",
+        policyPath,
+      ],
+      project,
+      home,
+      "any",
+      env,
+    );
+    out.exitCode = checked.exitCode;
+    out.stderr = [out.stderr, checked.stderr].filter(Boolean).join("\n");
+    const policy = JSON.parse(readFileSync(policyPath, "utf8")) as {
+      format_version?: string;
+      status?: string;
+      selection?: { policies?: string[] };
+      summary?: { evaluations?: { total?: number } };
+    };
+    if (policy.format_version !== "1" || !policy.status || !policy.selection || !policy.summary)
+      throw new Error(`${label}: invalid Policy result`);
+    out.status = policy.status;
+    out.policies = (policy.selection.policies ?? [])
+      .map((id) => id.replace(".policy.", "/"))
+      .sort();
+    out.evaluations = policy.summary.evaluations?.total ?? 0;
+    if (policy.status === "failed") {
+      q.expectExit(label, checked, expect);
+      return out;
+    }
+  }
   const listed = JSON.parse(
     q.quiet(
       `${label} Policy Pack selection`,
@@ -808,30 +845,7 @@ function resolved(
     ).stdout,
   ) as Array<{ name: string; version: string }>;
   for (const pack of listed) out.packs[pack.name] = pack.version;
-  const sarif = JSON.parse(readFileSync(sarifPath, "utf8")) as {
-    version?: string;
-    runs?: Array<{ results?: Array<{ ruleId?: string; kind?: string }> }>;
-  };
-  if (
-    sarif.version !== "2.1.0" ||
-    sarif.runs?.length !== 1 ||
-    !Array.isArray(sarif.runs[0]?.results)
-  )
-    throw new Error(`${label}: invalid SARIF policy report`);
-  const evaluations = sarif.runs[0].results;
-  out.policies = [...new Set(evaluations.map((entry) => entry.ruleId ?? ""))].sort();
-  out.evaluations = evaluations.length;
-  out.status =
-    evaluations.length === 0
-      ? "not_evaluated"
-      : result.exitCode === 0
-        ? "passed"
-        : result.exitCode === 1
-          ? "violated"
-          : "indeterminate";
-  if (expect === 0 && result.exitCode !== 0) {
-    throw new Error(`${label}: exit ${result.exitCode}, expected success\n${result.stderr}`);
-  }
+  q.expectExit(label, { exitCode: out.exitCode, stderr: out.stderr, stdout: "" }, expect);
   return out;
 }
 
@@ -1490,19 +1504,27 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
         0,
       );
       const lock = lockState(project);
-      const base = resolved(q, "run selection", project, home, [], "fail");
+      const base = resolved(q, "run selection", project, home, [], 1);
       const used = resolved(
         q,
         "run with overrides",
         project,
         home,
-        [...dialectOverride, ...packOverride],
-        "fail",
+        [
+          ...dialectOverride,
+          ...packOverride,
+          "--policy",
+          `${PACK}/*`,
+          "--policy",
+          `${FILTER_PACK}/*`,
+        ],
+        1,
       );
       q.check(
         base.dialects[OWNER] === "0.3.0" && base.packs[PACK] === "0.3.0",
         "selection not active",
       );
+      q.check(base.status === "violated" && used.status === "violated", "Policy verdict changed");
       q.check(
         used.dialects[OWNER] === "0.4.0" && used.packs[PACK] === "0.9.0",
         "override did not replace",
@@ -1619,39 +1641,38 @@ async function overrideScenarios(q: Qualification, f: Fixtures): Promise<void> {
       const packs = q.quiet(
         "two Policy Pack overrides, same name",
         [
-          "run",
+          "check",
           "plan.json",
           "--project",
           ".",
-          "--no-serve",
           ...packOverride,
           "--policy-pack",
           `./overrides/pack-twin/${PACK}`,
         ],
         project,
         home,
-        "fail",
+        3,
       );
       const locked = q.quiet(
         "override with --locked",
         ["run", "plan.json", "--project", ".", "--no-serve", "--locked", ...dialectOverride],
         project,
         home,
-        "fail",
+        2,
       );
       const lockedPack = q.quiet(
         "pack override with --locked",
-        ["run", "plan.json", "--project", ".", "--no-serve", "--locked", ...packOverride],
+        ["check", "plan.json", "--project", ".", "--locked", ...packOverride],
         project,
         home,
-        "fail",
+        2,
       );
       const lockedBuild = q.quiet(
         "run override with --locked",
         ["run", "plan.json", "--project", ".", "--no-serve", "--locked", ...dialectOverride],
         project,
         home,
-        "fail",
+        2,
       );
       q.check(lockState(project) === lock, "rejected override changed the lock");
       return (
@@ -1699,7 +1720,8 @@ async function updateScenarios(q: Qualification, f: Fixtures): Promise<void> {
         "fail",
       );
       q.check(
-        drift.stderr.includes("rootform update") && drift.stderr.includes("--dialect"),
+        drift.stderr.includes("SEMANTIC_SELECTION") &&
+          drift.stderr.includes("differs from rootform.lock"),
         `drift diagnostic incomplete: ${drift.stderr}`,
       );
       q.check(lockState(project) === lock, "drift changed the lock");
@@ -1713,6 +1735,10 @@ async function updateScenarios(q: Qualification, f: Fixtures): Promise<void> {
       q.check(lockState(project) === lock, "dry-run update changed the lock");
       q.quiet("update dialect", ["update", "dialect", OWNER], project, home, 0);
       const packDrift = resolved(q, "run with pack still drifted", project, home, [], "fail");
+      q.check(
+        packDrift.stderr.includes("SELECTION_POLICY_PACK_INVALID"),
+        `pack drift diagnostic incomplete: ${packDrift.stderr}`,
+      );
       q.quiet("update pack", ["update", "policy-pack", PACK], project, home, 0);
       q.check(
         String(lockDialect(project)?.content_digest) !== recorded,
@@ -2125,8 +2151,9 @@ async function uninstallScenarios(q: Qualification, f: Fixtures): Promise<void> 
       q.check(lockState(project) === lock, "uninstall changed the lock");
       const broken = resolved(q, "run after uninstall", project, home, [], "fail");
       q.check(
-        /init/u.test(broken.stderr),
-        `missing content does not point to init: ${broken.stderr}`,
+        broken.stderr.includes("SEMANTIC_SELECTION") &&
+          broken.stderr.includes("unavailable locally"),
+        `missing content did not fail closed: ${broken.stderr}`,
       );
       q.loud("init restores", ["init", ".", "--locked", "--no-input"], project, home, 0);
       const restored = resolved(q, "run after init", project, home);
@@ -2474,7 +2501,7 @@ async function networkScenarios(q: Qualification, f: Fixtures): Promise<void> {
         ],
         [
           "run policies",
-          ["run", "plan.json", "--project", ".", "--no-serve", "--locked", "--policy", `${PACK}/*`],
+          ["check", "plan.json", "--project", ".", "--locked", "--policy", `${PACK}/*`],
         ],
         ["list dialects", ["list", "dialects", OWNER]],
         ["list policy-packs", ["list", "policy-packs"]],
@@ -2601,7 +2628,7 @@ async function policyScenarios(q: Qualification, f: Fixtures): Promise<void> {
         home,
         0,
       );
-      const all = resolved(q, "run all", project, home, [], "fail");
+      const all = resolved(q, "run all", project, home, [], 1);
       const pass = resolved(q, "run pass only", project, home, ["--policy", `${FILTER_PACK}/pass`]);
       const fail = resolved(
         q,
@@ -2609,7 +2636,7 @@ async function policyScenarios(q: Qualification, f: Fixtures): Promise<void> {
         project,
         home,
         ["--policy", `${FILTER_PACK}/fail`],
-        "fail",
+        1,
       );
       const pack = resolved(
         q,
@@ -2617,22 +2644,22 @@ async function policyScenarios(q: Qualification, f: Fixtures): Promise<void> {
         project,
         home,
         ["--policy", `${FILTER_PACK}/*`],
-        "fail",
+        1,
       );
       const guard = resolved(q, "run guard pack", project, home, ["--policy", `${PACK}/*`]);
       const unknown = q.quiet(
         "run unknown policy",
-        ["run", "plan.json", "--project", ".", "--no-serve", "--policy", `${FILTER_PACK}/missing`],
+        ["check", "plan.json", "--project", ".", "--policy", `${FILTER_PACK}/missing`],
         project,
         home,
-        "fail",
+        2,
       );
       const unknownPack = q.quiet(
         "run unknown pack",
-        ["run", "plan.json", "--project", ".", "--no-serve", "--policy", "absent/*"],
+        ["check", "plan.json", "--project", ".", "--policy", "absent/*"],
         project,
         home,
-        "fail",
+        2,
       );
       const prefix = (name: string) => `${name}/`;
       q.check(
@@ -2655,6 +2682,14 @@ async function policyScenarios(q: Qualification, f: Fixtures): Promise<void> {
         "guard subset differs",
       );
       q.check(all.evaluations === 3, "unfiltered evaluations differ");
+      q.check(
+        all.status === "violated" &&
+          fail.status === "violated" &&
+          pack.status === "violated" &&
+          pass.status === "passed" &&
+          guard.status === "passed",
+        "Policy verdict changed",
+      );
       return (
         "all=3 evaluations exit " +
         all.exitCode +

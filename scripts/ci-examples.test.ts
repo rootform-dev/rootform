@@ -25,7 +25,8 @@ function fixture() {
   writeFileSync(
     binary,
     `#!/bin/sh
-printf '%s\\n' "$*" > "$ROOTFORM_TEST_ARGS"
+printf '%s\\n' "$*" >> "$ROOTFORM_TEST_ARGS"
+command=$1
 for arg do
   case "$previous" in
     -o) printf 'artifact\\n' > "$arg" ;;
@@ -34,7 +35,8 @@ for arg do
 done
 printf 'summary\\n'
 printf 'diagnostic\\n' >&2
-exit "\${ROOTFORM_TEST_STATUS:-0}"
+if [ "$command" = run ]; then exit "\${ROOTFORM_RUN_STATUS:-0}"; fi
+exit "\${ROOTFORM_CHECK_STATUS:-0}"
 `,
     { mode: 0o755 },
   );
@@ -52,7 +54,7 @@ exit "\${ROOTFORM_TEST_STATUS:-0}"
   };
   return { root, project, input, saved, pack, output, args, env };
 }
-test("CI recipe runs one analysis with verified plan and keeps current artifacts", () => {
+test("CI recipe runs analysis then a requested policy gate and keeps both artifact sets", () => {
   const f = fixture();
   const result = Bun.spawnSync(["/bin/sh", script], {
     cwd: f.root,
@@ -61,37 +63,73 @@ test("CI recipe runs one analysis with verified plan and keeps current artifacts
     stderr: "pipe",
   });
   expect(result.exitCode).toBe(0);
-  const args = readFileSync(f.args, "utf8");
+  const invocations = readFileSync(f.args, "utf8").trim().split("\n");
+  expect(invocations).toHaveLength(2);
+  const [runArgs, checkArgs] = invocations;
   const canonical = realpathSync(f.root);
-  expect(args).toContain(`run ${join(canonical, "plan.json")}`);
-  expect(args).toContain(`--project ${f.project}`);
-  expect(args).toContain(`--plan-file ${join(canonical, "plan.tfplan")} --require-enrichment`);
-  expect(args).toContain(`--policy-pack ${join(canonical, "policies")}`);
+  expect(runArgs).toContain(`run ${join(canonical, "plan.json")}`);
+  expect(runArgs).toContain(`--project ${f.project}`);
+  expect(runArgs).toContain(`--plan-file ${join(canonical, "plan.tfplan")} --require-enrichment`);
+  expect(runArgs).not.toContain("--policy");
+  expect(runArgs).not.toContain(".sarif");
+  expect(checkArgs).toContain(`check ${join(canonical, "results", "analysis.json")}`);
+  expect(checkArgs).toContain(`--policy-pack ${join(canonical, "policies")}`);
   for (const name of [
     "analysis.json",
     "report.md",
-    "results.sarif",
     "summary.txt",
     "run.stderr",
     "run.status",
+    "policy.json",
+    "policy.md",
+    "results.sarif",
+    "check.txt",
+    "check.stderr",
+    "check.status",
   ]) {
     expect(readFileSync(join(f.output, name), "utf8")).not.toBe("");
   }
   expect(readFileSync(join(f.output, "run.status"), "utf8")).toBe("0\n");
+  expect(readFileSync(join(f.output, "check.status"), "utf8")).toBe("0\n");
 });
-test("CI recipe preserves a policy failure and rejects reused output", () => {
+test("CI recipe exits successfully after analysis when no policy selection exists", () => {
   const f = fixture();
-  const first = Bun.spawnSync(["/bin/sh", script], {
+  const { ROOTFORM_POLICY_PACK: _pack, ...env } = f.env;
+  const result = Bun.spawnSync(["/bin/sh", script], {
     cwd: f.root,
-    env: { ...f.env, ROOTFORM_TEST_STATUS: "1" },
+    env,
     stdout: "pipe",
     stderr: "pipe",
   });
-  expect(first.exitCode).toBe(1);
-  expect(readFileSync(join(f.output, "run.status"), "utf8")).toBe("1\n");
-  const second = Bun.spawnSync(["/bin/sh", script], {
+  expect(result.exitCode).toBe(0);
+  expect(readFileSync(f.args, "utf8").trim().split("\n")).toHaveLength(1);
+  expect(readFileSync(join(f.output, "run.status"), "utf8")).toBe("0\n");
+  expect(existsSync(join(f.output, "check.status"))).toBe(false);
+});
+test("CI recipe preserves run and policy failures and rejects reused output", () => {
+  const f = fixture();
+  const runFailure = Bun.spawnSync(["/bin/sh", script], {
     cwd: f.root,
-    env: f.env,
+    env: { ...f.env, ROOTFORM_RUN_STATUS: "3" },
+    stdout: "pipe",
+    stderr: "pipe",
+  });
+  expect(runFailure.exitCode).toBe(3);
+  expect(readFileSync(join(f.output, "run.status"), "utf8")).toBe("3\n");
+  expect(existsSync(join(f.output, "check.status"))).toBe(false);
+  const gate = fixture();
+  const checkFailure = Bun.spawnSync(["/bin/sh", script], {
+    cwd: gate.root,
+    env: { ...gate.env, ROOTFORM_CHECK_STATUS: "1" },
+    stdout: "pipe",
+    stderr: "pipe",
+  });
+  expect(checkFailure.exitCode).toBe(1);
+  expect(readFileSync(join(gate.output, "run.status"), "utf8")).toBe("0\n");
+  expect(readFileSync(join(gate.output, "check.status"), "utf8")).toBe("1\n");
+  const second = Bun.spawnSync(["/bin/sh", script], {
+    cwd: gate.root,
+    env: gate.env,
     stdout: "pipe",
     stderr: "pipe",
   });
@@ -125,10 +163,15 @@ test("CI recipe passes locked policy selectors without shell expansion", () => {
     stderr: "pipe",
   });
   expect(result.exitCode).toBe(0);
-  const args = readFileSync(f.args, "utf8");
-  expect(args).toContain(
+  const invocations = readFileSync(f.args, "utf8").trim().split("\n");
+  expect(invocations).toHaveLength(2);
+  expect(invocations[0]).not.toContain("--policy");
+  expect(invocations[1]).toContain(
+    `check ${join(realpathSync(f.root), "results", "analysis.json")}`,
+  );
+  expect(invocations[1]).toContain(
     "--policy tutorial/* --policy baseline/managed-database-network-context --locked",
   );
-  expect(args).not.toContain("--policy-pack");
-  expect(args).not.toContain("tutorial/matched");
+  expect(invocations[1]).not.toContain("--policy-pack");
+  expect(invocations[1]).not.toContain("tutorial/matched");
 });

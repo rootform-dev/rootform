@@ -66,6 +66,7 @@ export const beginGenerated = (path: string): string => `<!-- BEGIN GENERATED CL
 const authoredCommands = new Set([
   "rootform",
   "rootform run",
+  "rootform check",
   "rootform init",
   "rootform explain",
   "rootform explain architecture",

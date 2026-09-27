@@ -8,7 +8,7 @@ Most projects need no Rootform configuration. The binary embeds the RF Vocabular
 | Need | Selection |
 | --- | --- |
 | Analyze with embedded Dialects | No lock or preparation. |
-| Try a local Dialect or Policy Pack once | Pass `--dialect` or `--policy-pack` to `run`. |
+| Try a local Dialect or Policy Pack once | Pass `--dialect` to `run` or `--policy-pack` to `check`. |
 | Keep external content selected across runs | Record it with `add`, commit `rootform.lock`, and prepare it with `init`. |
 | Exclude or replace an embedded Dialect owner | Record the decision with `remove --embedded` or `add --replace`. |
 
@@ -51,11 +51,11 @@ An override lets you evaluate a reviewed local pack without changing project sel
 
 <!-- docs-check:selection-pack-override -->
 ```sh
-rootform run plan.json --plan-file plan.tfplan --require-enrichment \
-  --policy-pack ./policies --no-serve -o report.md
+rootform check plan.json --plan-file plan.tfplan --require-enrichment \
+  --policy-pack ./policies -o report.md
 ```
 
-The command verifies the saved plan, writes a Markdown report, and exits `0` only when all selected evaluations pass. A violation exits `1`; indeterminate or zero evaluated targets exits `3`. Read the report's target counts before calling the result compliant. The override applies only to this run. A lock remains unchanged. [Run checks](guides/check-architecture.md) gives a complete Policy example.
+The command verifies the saved plan, writes a Policy report, and exits `0` only when all selected evaluations pass. A violation exits `1`; indeterminate or zero evaluated targets exits `3`. Read the report's target counts before calling the result compliant. The override applies only to this check. A lock remains unchanged. [Check an architecture](guides/check-architecture.md) gives a complete Policy example.
 
 ## Keep external content selected
 
@@ -97,7 +97,7 @@ Point `--project` at the root containing `rootform.lock`. Add `--locked` when th
 rootform run plan.json --project ./infra --locked --no-serve -o analysis.json
 ```
 
-The Form records the active Dialects, selection, plan or state input, stages, and closures. The standard-output summary names the active count and any Policy outcome. `--dialect` and `--policy-pack` are one-run overrides; the CLI refuses an override with `--locked`. Use an override while authoring, then add the reviewed content to the lock for repeatable work.
+The Form records the active Dialects, selection, plan or state input, stages, and closures. The standard-output summary names the active Dialect count. Analysis accepts `--dialect` as an invocation-local override; `check --policy-pack` supplies a Policy Pack for one check. The CLI refuses an override with `--locked`. Use an override while authoring, then add reviewed content to the lock for repeatable work.
 
 ## Exclude or replace an embedded owner
 

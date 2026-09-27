@@ -1,8 +1,12 @@
 import { expect, test } from "bun:test";
+import { mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import {
   encodeSelectionLock,
   type PackagePin,
   parseRegistryQualificationArguments,
+  verifyPolicyResult,
 } from "./qualify-registry.ts";
 
 const revision = "a".repeat(40);
@@ -110,4 +114,18 @@ test("qualification lock selects only exact third-party content", () => {
   expect(lock.replacements).toEqual([]);
   expect(lock).not.toHaveProperty("extensions");
   expect(lock).not.toHaveProperty("index");
+});
+
+test("registry Policy result requires a passed selected evaluation", () => {
+  const path = join(mkdtempSync(join(tmpdir(), "rootform-registry-policy-")), "policy.json");
+  const result = {
+    format_version: "1",
+    status: "passed",
+    selection: { policies: ["registry-compat-policies.policy.portable-service"] },
+    summary: { evaluations: { total: 1, passed: 1 } },
+  };
+  writeFileSync(path, JSON.stringify(result));
+  expect(() => verifyPolicyResult(path, "registry Policy")).not.toThrow();
+  writeFileSync(path, JSON.stringify({ ...result, status: "no_decision" }));
+  expect(() => verifyPolicyResult(path, "registry Policy")).toThrow(/did not pass/u);
 });

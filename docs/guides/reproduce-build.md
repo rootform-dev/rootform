@@ -97,7 +97,7 @@ Status `0` from `cmp` proves the locked analyses wrote identical document bytes.
 
 ## Keep policy evidence when governance matters
 
-A saved Form is not a substitute for a separate governance decision. If selected Policies matter, use the same selection and `--policy` filters on source and replay. Save the report and exact exit status beside each Form; compare both, because a status alone hides target coverage. Status `0` means every selected evaluation passed, `1` means a violation, and `3` means indeterminate or no decision. Keep SARIF and reports as internal artifacts. [Run checks](check-architecture.md) explains the evaluation counts; [outputs and exit status](../reference/outputs.md) defines the files.
+A saved Form is not a substitute for a separate governance decision. If selected Policies matter, evaluate each saved Form with `rootform check`, preserving project selection and any `--policy` filters. Save `policy.json`, the report, and the exact check status beside each Form; compare both, because a status alone hides target coverage. Check status `0` means every selected evaluation passed, `1` means a violation, and `3` means indeterminate or no decision. Keep SARIF and reports as internal artifacts. [Check an architecture](check-architecture.md) explains the evaluation counts; [outputs and exit status](../reference/outputs.md) defines the files.
 
 <!-- rootform:endsteps -->
 

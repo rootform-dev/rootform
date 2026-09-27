@@ -3,6 +3,7 @@ import { chmodSync, mkdirSync, mkdtempSync, symlinkSync, writeFileSync } from "n
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
+  assertNoTargetPolicyResult,
   assertTargetMatchesHost,
   JourneyError,
   type JourneyStep,
@@ -16,6 +17,23 @@ import {
   targetHost,
   treeDigest,
 } from "./verify-platform-runtime.ts";
+
+test("no-target Policy result has no instance evaluations", () => {
+  const result = {
+    format_version: "1",
+    status: "no_decision",
+    summary: { policies: { selected: 2, no_target: 2 }, evaluations: { total: 0 } },
+  };
+  expect(() => assertNoTargetPolicyResult(JSON.stringify(result))).not.toThrow();
+  expect(() => assertNoTargetPolicyResult(JSON.stringify({ ...result, status: "passed" }))).toThrow(
+    /no_decision/u,
+  );
+  expect(() =>
+    assertNoTargetPolicyResult(
+      JSON.stringify({ ...result, summary: { ...result.summary, evaluations: { total: 1 } } }),
+    ),
+  ).toThrow(/no_decision/u);
+});
 
 test("parseArguments accepts spaced and inline flag forms", () => {
   const cwd = mkdtempSync(join(tmpdir(), "rootform-parse-"));

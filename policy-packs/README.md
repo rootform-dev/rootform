@@ -32,10 +32,10 @@ as a gate.
 ```sh
 rootform fmt --check policy-packs/baseline
 rootform list policies --policy-pack ./policy-packs/baseline
-rootform run ./examples/playground/commerce-platform/head/plan.json \
+rootform check ./examples/playground/commerce-platform/head/plan.json \
   --plan-file ./examples/playground/commerce-platform/head/plan.tfplan \
   --project ./examples/playground/commerce-platform/head \
-  --policy-pack ./policy-packs/baseline --no-serve
+  --policy-pack ./policy-packs/baseline
 ```
 
 Repository verification compiles this source with the exact Rootform binary,

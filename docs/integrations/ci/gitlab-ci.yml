@@ -16,7 +16,12 @@ rootform-review:
     paths:
       - .rootform-ci-*/analysis.json
       - .rootform-ci-*/report.md
-      - .rootform-ci-*/results.sarif
       - .rootform-ci-*/summary.txt
       - .rootform-ci-*/run.stderr
       - .rootform-ci-*/run.status
+      - .rootform-ci-*/policy.json
+      - .rootform-ci-*/policy.md
+      - .rootform-ci-*/results.sarif
+      - .rootform-ci-*/check.txt
+      - .rootform-ci-*/check.stderr
+      - .rootform-ci-*/check.status

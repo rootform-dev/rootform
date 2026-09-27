@@ -52,7 +52,7 @@ comparisons.
   Decide between plan JSON, state JSON, and a saved Form.
 - [Compare architectures](guides/compare-architectures.md)
   Review architectural changes between two revisions.
-- [Run checks](guides/check-architecture.md)
+- [Check an architecture](guides/check-architecture.md)
   Evaluate selected Policy Packs and distinguish violations from indeterminate evidence.
 
 Use [outputs and exit status](reference/outputs.md) for automation,

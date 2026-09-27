@@ -197,18 +197,17 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
   const undecided = run(
     [
       binary,
-      "run",
+      "check",
       "examples/playground/commerce-platform/head/plan.json",
       "--policy-pack",
       "./policy-packs/baseline",
-      "--no-serve",
     ],
     packCase.dir,
     packCase.home,
     3,
   );
   assert(
-    undecided.stdout.includes("Result     indeterminate"),
+    undecided.stdout.startsWith("Policies indeterminate"),
     "plan-only indeterminate outcome changed",
   );
   const noDecision = fresh("policy-no-decision");
@@ -216,19 +215,18 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
   const noTarget = run(
     [
       binary,
-      "run",
+      "check",
       join(event, "plan.json"),
       "--plan-file",
       join(event, "plan.tfplan"),
       "--policy-pack",
       join(root, "policy-packs/baseline"),
-      "--no-serve",
     ],
     noDecision.dir,
     noDecision.home,
     3,
   );
-  assert(noTarget.stdout.includes("Result     no decision"), "no-decision outcome changed");
+  assert(noTarget.stdout.startsWith("No policy decision"), "no-decision outcome changed");
   const violation = fresh("policy-violation");
   commerce(violation.dir);
   const violatedPack = join(violation.dir, "violated-pack");
@@ -244,19 +242,18 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
   const failed = run(
     [
       binary,
-      "run",
+      "check",
       "examples/playground/commerce-platform/head/plan.json",
       "--plan-file",
       "examples/playground/commerce-platform/head/plan.tfplan",
       "--policy-pack",
       "./violated-pack",
-      "--no-serve",
     ],
     violation.dir,
     violation.home,
     1,
   );
-  assert(failed.stdout.includes("Result     violated"), "violation outcome changed");
+  assert(failed.stdout.startsWith("Policies violated"), "violation outcome changed");
   marked(
     "language/write-policy-pack.md",
     "docs-language-write-policy-pack-3",
@@ -358,5 +355,22 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
     commerce(caseDir.dir);
     marked(page, name, caseDir.dir, caseDir.home);
   }
+  const checkCase = fresh("cli-check");
+  commerce(checkCase.dir);
+  marked("reference/cli/check.md", "cli-check", checkCase.dir, checkCase.home);
+  const checkResult = JSON.parse(readFileSync(join(checkCase.dir, "results.json"), "utf8"));
+  assert(
+    checkResult.status === "passed" && checkResult.form?.origin === "saved",
+    "check reference result changed",
+  );
+  const checkSarif = JSON.parse(readFileSync(join(checkCase.dir, "results.sarif"), "utf8"));
+  assert(
+    checkSarif.version === "2.1.0" && checkSarif.runs?.[0]?.results?.length === 2,
+    "check reference SARIF changed",
+  );
+  assert(
+    readFileSync(join(checkCase.dir, "report.md"), "utf8").startsWith("# Policies passed"),
+    "check reference report changed",
+  );
   return "Authoring examples: Dialect, Policy Pack, tour, external content, and CLI commands verified";
 }
