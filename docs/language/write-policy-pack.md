@@ -94,7 +94,7 @@ matching Concept or applied Rule is not selected.
 ## Evaluate locally
 
 From a checkout of the Rootform repository, run the reviewed commerce plan
-against the baseline source. The saved plan verifies the plan JSON and
+against the baseline source. The saved plan pairs with the plan JSON and
 supplies the traversals needed to decide these network contexts.
 [Plan inputs](../inputs/plans.md) shows how to export both files from your own
 project with `terraform` or `tofu`. Saved plans and plan JSON can contain

@@ -93,7 +93,7 @@ done
 
 `-chdir` runs each command in that revision's root module, while the saved
 plan and its JSON export land in the results directory. Keeping each saved plan
-beside its export lets Rootform verify the pair.
+beside its export lets Rootform pair them.
 
 > [!WARNING]
 > Saved plans and JSON exports can contain cleartext secrets. Keep the results
@@ -135,17 +135,20 @@ question concerns other available stages. For the commerce plans, the summary
 includes:
 
 ```ansi title="Comparison excerpt"
-[1mInputs compared[0m
-
-[1m[38;5;208mDifferences[0m
+Inputs compared
+Uncertainty
+                          Before   After
+  Indeterminate closures       3       3
+    Unknown until apply        3       3
+Differences
   Before Planned -> After Planned
-  Differences between two inputs are not drift; they include any drift between the two exports.
-
-  [2mResource instances[0m      16 added, 7 removed
-  [2mRelations[0m               5 added, 5 removed
-  [2mContexts[0m                28 added, 17 removed
-  [2mContributions[0m           9 added, 1 removed
-  [2mIndeterminate closures[0m  3 in Before Planned (3 unknown until apply); 3 in After Planned (3 unknown until apply)
+  Differences between two inputs are not drift; they do not establish what
+  drifted between the two exports.
+  Resource instances      16 added, 7 removed
+  Relations               5 added, 5 removed
+  Contexts                28 added, 17 removed
+  Contributions           9 added, 1 removed
+  Indeterminate closures  3 in Before Planned, 3 in After Planned
 ```
 
 Here the branch adds 16 planned instances and removes 7. Inspect determined
@@ -263,8 +266,8 @@ rootform run plan.json --plan-file plan.tfplan --no-serve
 For the commerce head plan, the summary includes:
 
 ```ansi title="Completed plan excerpt"
-[2mStage[0m         Planned
-[2mStages[0m        Recorded (reconstructed), Refreshed, Planned
+[2mStage[0m              Planned
+[2mStages[0m             Recorded (reconstructed), Refreshed, Planned
 [1m[38;5;208mArchitecture[0m
   [2mResource instances[0m  153
 [1m[38;5;208mReported drift[0m

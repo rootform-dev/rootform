@@ -9,7 +9,7 @@ Rootform reads a Terraform or OpenTofu plan JSON or state JSON and turns observe
 
 Rootform keeps four layers separate.
 
-1. **Plan or state evidence** records instances, evaluated values, and sensitivity masks. A plan can also carry configuration references, prior state, and reported drift. An optional verified saved plan adds exact configuration traversals.
+1. **Plan or state evidence** records instances, evaluated values, and sensitivity masks. A plan can also carry configuration references, prior state, and reported drift. An optional paired saved plan adds exact configuration traversals.
 2. A [Dialect](concepts/dialects.md) applies Rules to matching instances. Its Rules classify instances with Concepts and establish architectural facts through declared emissions.
 3. Each stage's architecture records Representations, facts, closures, provenance, and diagnostics. A [Form](concepts/forms.md) saves all supported stages, comparisons, reported drift, and the Dialects used to interpret them.
 4. [Comparisons](concepts/comparisons.md) read architectural meaning within a Form or between two input Forms. Selected [Policies](concepts/policies.md) evaluate one selected architecture stage.
@@ -26,7 +26,7 @@ A plan can describe a declaration without a planned instance. Rootform records w
 
 Suppose `aws_subnet.application.vpc_id` refers to `aws_vpc.main.id`. The AWS Dialect's subnet Rule can establish a network Context from the subnet to the VPC. The reference alone does not establish that Context. `depends_on`, provider metadata, and similar names are dependency or identity evidence, not architectural connections.
 
-A plan's evaluated value can identify an endpoint. When that value is unknown until apply, `--plan-file` can verify the saved plan against the JSON export and recover a direct identity traversal. Rootform records whether a fact came from a value, a traversal, or both. A transformed expression or conflicting evidence cannot be treated as a proven direct connection. State JSON has evaluated values but no configuration traversals.
+A plan's evaluated value can identify an endpoint. When that value is unknown until apply, `--plan-file` can pair the saved plan with the JSON export and recover a direct identity traversal. Rootform records whether a fact came from a value, a traversal, or both. A transformed expression or conflicting evidence cannot be treated as a proven direct connection. State JSON has evaluated values but no configuration traversals.
 
 ## Read each architectural connection precisely
 

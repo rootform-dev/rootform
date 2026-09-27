@@ -38,18 +38,45 @@ The command returns status `0` because the comparison completed, even though it 
 [2mContexts[0m            196          207
 [2mContributions[0m       37           45
 
+[1m[38;5;208mUncertainty[0m
+                          [2mBefore[0m   [2mAfter[0m
+  [2mIndeterminate closures[0m       3       3
+  [2m  Unknown until apply[0m        3       3
+
+  Values known only after apply stay unknown; they are not guessed.
+
 [1m[38;5;208mDifferences[0m
   Before Planned -> After Planned
-  Differences between two inputs are not drift; they include any drift between the two exports.
+  Differences between two inputs are not drift; they do not establish what
+  drifted between the two exports.
 
   [2mResource instances[0m      16 added, 7 removed
   [2mRelations[0m               5 added, 5 removed
   [2mContexts[0m                28 added, 17 removed
   [2mContributions[0m           9 added, 1 removed
-  [2mIndeterminate closures[0m  3 in Before Planned (3 unknown until apply); 3 in After Planned (3 unknown until apply)
+  [2mIndeterminate closures[0m  3 in Before Planned, 3 in After Planned
+
+  [1mResource instances[0m
+    [32m+[0m azurerm_eventgrid_system_topic.service_bus  [2madded[0m
+    [32m+[0m azurerm_eventgrid_system_topic_event_subscription.order_notifications
+        [2madded[0m
+    [31m-[0m azurerm_eventgrid_system_topic.public       [2mremoved[0m
+    [31m-[0m azurerm_eventgrid_system_topic_event_subscription.legacy_webhooks  [2mremoved[0m
+    [2m4 of 23 instance changes shown: 2 of 16 added, 2 of 7 removed.[0m
+
+  [1mRelations[0m
+    [32m+[0m azurerm_eventgrid_system_topic_event_subscription.order_notifications
+        [2mdelivers-to ->[0m azurerm_linux_function_app.order_notifications  [2madded[0m
+    [32m+[0m azurerm_kubernetes_cluster.prod  [2madded[0m
+        [2mobserved-by ->[0m azurerm_log_analytics_workspace.platform
+    [31m-[0m azurerm_eventgrid_system_topic_event_subscription.legacy_webhooks  [2mremoved[0m
+        [2mdelivers-to ->[0m azurerm_linux_function_app.legacy_webhooks
+    [31m-[0m azurerm_kubernetes_cluster.prod  [2mremoved[0m
+        [2mobserved-by ->[0m azurerm_log_analytics_workspace.prod
+    [2m4 of 10 Relation changes shown: 2 of 5 added, 2 of 5 removed.[0m
 ```
 
-The instance counts cover observed resource instances. The relation, context, and contribution counts cover facts that Rules established. `Indeterminate closures` keeps evidence that cannot decide a change; it does not mean the comparison failed, as [Comparisons](../concepts/comparisons.md#indeterminate-preserves-uncertainty) explains. If pairing is refused or the counts differ in your own project, inspect the warning and confirm each JSON was exported from its matching saved plan. [Plan inputs](../inputs/plans.md#verify-the-saved-plan) explains pairing.
+The instance counts cover observed resource instances. The relation, context, and contribution counts cover facts that Rules established. The Uncertainty table counts indeterminate closures on each side and by cause: evidence that cannot decide a fact, and so cannot decide a change. It does not mean the comparison failed, as [Comparisons](../concepts/comparisons.md#indeterminate-preserves-uncertainty) explains. Each group of the summary previews added and removed entries alike and states how many it shows; the totals above stay exact, and `--details` lists every entry. If pairing is refused or the counts differ in your own project, inspect the warning and confirm each JSON was exported from its matching saved plan. [Plan inputs](../inputs/plans.md#pair-the-saved-plan) explains pairing.
 
 ## Open the comparison in the browser
 

@@ -160,12 +160,16 @@ rootform explain instance aws_instance.application \
   [2mInstance[0m        managed instance of aws_instance; planned (create)
   [2mProvider[0m        registry.terraform.io/hashicorp/aws
   [2mInterpretation[0m  applied aws.rule.instance as compute-instance
+  [2mConclusion[0m      Interpreted as compute-instance by aws.rule.instance: network
+                  context to aws_subnet.application.
 
   [1mFacts[0m
     -> context network  aws_subnet.application  [2mevidence: traversal[0m
 
   [1mClosures[0m
-    context network -> subnet  via source.subnet_id, match exact by id  [32mresolved, 1 fact[0m
+    context network -> subnet
+      via source.subnet_id, match exact by id
+      [32mresolved, 1 fact[0m
 ```
 
 The `traversal` label identifies saved-plan evidence, not a network probe. Explain the Policy outcome that `check` recorded in `pass/results.json`:
@@ -180,11 +184,9 @@ rootform explain policy tutorial.policy.network-context \
 ```ansi title="Policy explanation, excerpt"
 [1mPolicy explained[0m
 
-[2mPolicy[0m         tutorial/network-context
+[2mPolicy[0m         tutorial.policy.network-context
 [2mResult[0m         pass/results.json
 [2mInput[0m          pass/analysis.json
-[2mMessage[0m        Network resources must have an established network context.
-[2mTarget[0m         Rules aws.rule.instance, aws.rule.subnet
 [2mOrigin[0m         Plan (saved Form)
 [2mStage[0m          Planned
 
@@ -196,10 +198,16 @@ rootform explain policy tutorial.policy.network-context \
 
 [2mOutcome[0m        [1m[32mPASSED[0m
 
+[1m[38;5;208mRequirement[0m
+  Network resources must have an established network context.
+
+  [2mAssertion[0m  exists(contexts(rf.context.network))
+  [2mTarget[0m     Rules aws.rule.instance, aws.rule.subnet
+
 All 2 evaluations passed.
 ```
 
-`explain policy` reads the saved result and evaluates nothing again. The optional `--input` must be the Form that result was computed from; Rootform refuses any other Form. The explanation counts both target evaluations; add `--details` to list each one with the facts and closures it inspected. [Explain a Policy](../reference/cli/explain/policy.md) defines its accepted inputs and options.
+`explain policy` reads the saved result and evaluates nothing again. The Requirement block quotes the Policy message and the assertion and target the result records. The optional `--input` must be the Form that result was computed from; Rootform refuses any other Form. Add `--details` to list each evaluation with its recorded evidence and conclusion; the evidence itself is described only when `--input` supplies that Form. [Explain a Policy](../reference/cli/explain/policy.md) defines its accepted inputs and options.
 
 ## Distinguish a violation
 
@@ -228,12 +236,13 @@ rootform check violation/plan.json --plan-file violation/plan.tfplan \
 [2mVerdict[0m        [1m[31mVIOLATED[0m
 
 [1m[31mVIOLATED[0m
-  [2mPolicy[0m    tutorial/network-context
-  [2mResource[0m  aws_subnet.application
-  [2mReason[0m    Network resources must have an established network context.
+  [2mPolicy[0m       tutorial.policy.network-context
+  [2mResource[0m     aws_subnet.application
+  [2mRequirement[0m  Network resources must have an established network context.
+  [2mEvidence[0m     context network -> virtual-network via source.vpc_id: absent
 ```
 
-A known empty value proves that this subnet has no declared target for the Rule's network emission, so its network closure is absent and the Policy is violated: `check` returns status `1`. Reports requested with `-o` are written whatever the verdict. This says nothing about a deployed subnet; the scenario is an unapplied plan.
+`Requirement` quotes what the Policy declares; `Evidence` is the recorded observation that decided the verdict. A known empty value proves that this subnet has no declared target for the Rule's network emission, so its network closure through `source.vpc_id` is absent and the Policy is violated: `check` returns status `1`. Reports requested with `-o` are written whatever the verdict. This says nothing about a deployed subnet; the scenario is an unapplied plan.
 
 ## Keep unresolved evidence indeterminate
 
@@ -261,13 +270,17 @@ rootform check pass/plan.json --policy-pack ./policies --color always
 [2mVerdict[0m        [1m[33mINDETERMINATE[0m
 
 [1m[33mINDETERMINATE[0m
-  [2mPolicy[0m    tutorial/network-context
-  [2mResource[0m  aws_instance.application
-  [2mReason[0m    Unknown until apply
+  [2mPolicy[0m       tutorial.policy.network-context
+  [2mResource[0m     aws_instance.application
+  [2mRequirement[0m  Network resources must have an established network context.
+  [2mEvidence[0m     context network -> subnet via source.subnet_id:
+                 indeterminate (unknown until apply)
 
-  [2mPolicy[0m    tutorial/network-context
-  [2mResource[0m  aws_subnet.application
-  [2mReason[0m    Unknown until apply
+  [2mPolicy[0m       tutorial.policy.network-context
+  [2mResource[0m     aws_subnet.application
+  [2mRequirement[0m  Network resources must have an established network context.
+  [2mEvidence[0m     context network -> virtual-network via source.vpc_id:
+                 indeterminate (unknown until apply)
 ```
 
 The plan values for the new VPC and subnet IDs are unknown until apply. Without verified traversals, Rootform cannot prove either connection or its absence. Status `3` prevents an uncertain result from becoming approval. The saved plan is optional for analysis, but matters to this Policy verdict.
@@ -299,7 +312,7 @@ rootform check no-target/plan.json --plan-file no-target/plan.tfplan \
 [2mVerdict[0m        [1mNO DECISION[0m
 
 [1mWITHOUT TARGET[0m
-  [2mPolicy[0m  tutorial/network-context
+  [2mPolicy[0m  tutorial.policy.network-context
   [2mTarget[0m  Rules aws.rule.instance, aws.rule.subnet
 ```
 

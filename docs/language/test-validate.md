@@ -97,12 +97,13 @@ rootform run ./plan.json --plan-file ./plan.tfplan \
 <!-- docs-output:language-test-run -->
 ```ansi title="Plan summary excerpt"
 [1mPlan analyzed[0m
-[2mInput[0m         ./plan.json
-[2mProducer[0m      Terraform or OpenTofu 1.16.4
-[2mEnrichment[0m    Saved plan verified against this plan JSON (1 module)
+[2mInput[0m              ./plan.json
+[2mProducer[0m           Terraform or OpenTofu 1.16.4
+[2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
+                   Only version, timestamp, and configuration shape are compared
 [1m[38;5;208mArchitecture[0m
   [2mResource instances[0m  1
-  [2mInterpreted[0m         1 of 1
+  [2mInterpreted[0m         1 of 1 instance matched a Rule
   [2mFacts[0m               none determined
 ```
 

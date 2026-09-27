@@ -25,7 +25,7 @@ Several static nested blocks represented as a set may be reordered when exported
 
 ## Where does provider configuration stop?
 
-Plan JSON records provider configuration expressions, not their evaluated values. A `provider.<path>` Rule can establish a planned-stage endpoint only through a direct traversal in a verified saved plan. Literal or transformed provider hosts, state input, historical stages, OpenTofu provider `for_each`, and JSON configuration syntax leave that closure indeterminate with reason `unavailable`. Rootform does not read literal provider configuration values because it cannot identify sensitive provider attributes from the plan export. Keep the missing relation unresolved; inspect provider configuration in your own tooling instead of treating a dependency as a network fact.
+Plan JSON records provider configuration expressions, not their evaluated values. A `provider.<path>` Rule can establish a planned-stage endpoint only through a direct traversal in a paired saved plan. Literal or transformed provider hosts, state input, historical stages, OpenTofu provider `for_each`, and JSON configuration syntax leave that closure indeterminate with reason `unavailable`. Rootform does not read literal provider configuration values because it cannot identify sensitive provider attributes from the plan export. Keep the missing relation unresolved; inspect provider configuration in your own tooling instead of treating a dependency as a network fact.
 
 ## Instances without Rules
 

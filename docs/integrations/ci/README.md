@@ -60,15 +60,16 @@ ROOTFORM_OUTPUT_DIR=.rootform-ci-123 \
 sh ./ci/rootform-ci.sh
 ```
 
-The script prints nothing itself. Open `summary.txt` and confirm that Rootform verified version, timestamp, and configuration shape, then reports the Planned stage:
+The script prints nothing itself. Open `summary.txt` and confirm that the saved plan paired with the export, a check of version, timestamp, and configuration shape only, and that the summary reports the Planned stage:
 
 <!-- docs-output:ci-run -->
 ```text title="Excerpt from summary.txt"
 Plan analyzed
 
-Enrichment    Saved plan verified against this plan JSON (1 module)
-Stage         Planned
-Stages        Recorded (reconstructed), Refreshed, Planned
+Enrichment         Saved plan paired with this plan JSON (1 module)
+                   Only version, timestamp, and configuration shape are compared
+Stage              Planned
+Stages             Recorded (reconstructed), Refreshed, Planned
 ```
 
 The analysis phase runs `rootform run` with `--plan-file --require-enrichment --no-serve` when a saved plan is supplied. It writes `analysis.json` and `report.md`, with standard output in `summary.txt`, standard error in `run.stderr`, and the exact status in `run.status`. A failed analysis exits immediately without running a gate. With state JSON, omit `ROOTFORM_PLAN_FILE`: the result has one `recorded` stage.

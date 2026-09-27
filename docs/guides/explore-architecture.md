@@ -60,7 +60,7 @@ represented on the canvas.
 
 For the VPC and subnet tutorial, the saved-plan traversal in
 `aws_subnet.application.vpc_id` establishes the network context while the
-planned VPC ID is unknown. [Verify the saved plan](../inputs/plans.md#verify-the-saved-plan)
+planned VPC ID is unknown. [Pair the saved plan](../inputs/plans.md#pair-the-saved-plan)
 explains the pairing requirement.
 
 ## Read a connection

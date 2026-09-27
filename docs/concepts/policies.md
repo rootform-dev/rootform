@@ -24,7 +24,7 @@ This makes coverage part of the governance claim. A passing evaluation applies o
 
 ## Evaluate a supported stage
 
-For a plan Form, `rootform check` evaluates Planned by default and can evaluate Refreshed when present. It never evaluates a plan's reconstructed Recorded stage. For a state Form, it evaluates Recorded. A comparison Form evaluates both Before and After by default, each at the stage the comparison records for that side; `--side` accepts `before`, `after`, or `both`. `--stage` chooses an available stage and never falls back to another; on a comparison Form it requires `--side before` or `--side after`. A Policy does not directly ask whether drift occurred: comparisons, drift, and the drift report are never evaluated as architectures. It evaluates architectural facts on each selected architecture.
+For a plan Form, `rootform check` evaluates Planned by default and can evaluate Refreshed when present. It never evaluates a plan's reconstructed Recorded stage. For a state Form, it evaluates Recorded. A comparison Form evaluates both Before and After by default, each at the stage selected in the saved comparison for that side; `--side` accepts `before`, `after`, or `both`. `--stage` chooses an available stage and never falls back to another; on a comparison Form it requires `--side before` or `--side after`. A Policy does not directly ask whether drift occurred: comparisons, drift, and the drift report are never evaluated as architectures. It evaluates architectural facts on each selected architecture.
 
 ## Evidence produces three outcomes
 

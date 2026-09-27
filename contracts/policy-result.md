@@ -23,7 +23,8 @@ The input is a plan JSON, a state JSON, a saved Form, or standard input. A plan
 or state is compiled with the project's Dialects; a saved Form is validated and
 read as it is, never compiled again. The default stage is Planned for a plan
 Form and Recorded for a state Form. A comparison Form evaluates both Before and
-After by default, each at the stage the comparison records for that side.
+After by default, each at the stage selected in the saved comparison for that
+side.
 `--side before` or `--side after` limits evaluation to one side; `--side both`
 selects both explicitly. For a comparison Form, `--stage` selects another
 stage of one side and requires `--side before` or `--side after`. A plan's
@@ -119,6 +120,16 @@ check stops before evaluating, such as `STAGE_UNAVAILABLE` or
 `POLICY_UNAVAILABLE`, or when a report cannot be written (`OUTPUT_FAILED`). No
 internal error exits `0` or `1`.
 
+## Explanation
+
+`rootform explain policy` reads a result and never evaluates again. It states
+the Requirement from the recorded message, assertion, and target, then each
+evaluation's recorded evidence and conclusion. An evaluation records which
+facts and closures it inspected, not what they hold: with `--input` naming the
+Form whose digest the result records, the explanation shows their outcome;
+without it, the explanation says which evidence it cannot describe and how to
+pass that Form.
+
 ## Result document
 
 A Policy result is a JSON object with these top-level members:
@@ -144,7 +155,7 @@ a comparison. It also contains:
 | `release_set`, `semantic_owners` | exact semantic identity recorded in this input Form |
 | `policy_packs` | every loaded Pack: `id`, `version`, `content_digest`, `linked`, and for a linked Pack `linked_digest` and `pins` |
 | `summary` | `policies` (selected, passed, violated, indeterminate, no_target) and `evaluations` (total, passed, violated, indeterminate) |
-| `policies` | one entry per selected Policy: target definition, target count, coverage, reasons, outcome |
+| `policies` | one entry per selected Policy: message, `assertion` in canonical expression syntax, target definition, target count, coverage, reasons, outcome |
 | `evaluations` | one entry per instance evaluation: Policy, target, address, Rule, Concept, stage, outcome, reasons, inspected facts and closures |
 | `violations` | the violated evaluations with their message and inspected facts |
 | `diagnostics` | ordered, sanitized diagnostics for this architecture |

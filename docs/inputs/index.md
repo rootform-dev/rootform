@@ -71,6 +71,6 @@ partial architecture.
 > Keep them out of Git and public artifacts. Rootform outputs omit sensitive
 > values but still reveal names and topology; review access before sharing.
 
-To produce the export and verify its saved plan, continue with
+To produce the export and pair its saved plan, continue with
 [Terraform and OpenTofu plans](plans.md). For a pull request with two planned
 revisions, go on to [Review a pull request](../workflows/index.md).

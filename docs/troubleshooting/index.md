@@ -43,9 +43,9 @@ Run the two suggested commands: the first exports the JSON that Rootform analyze
 
 Malformed JSON returns `INPUT_UNRECOGNIZED: malformed JSON or trailing garbage`; a JSON object without plan, state, or Rootform document fields returns `INPUT_UNRECOGNIZED: JSON that is not a plan JSON, state JSON or Rootform document`; a text file such as `main.tf` returns `INPUT_UNRECOGNIZED: not JSON`. A state export from a working directory that has no state returns `INPUT_UNRECOGNIZED: state JSON without recorded state: the working directory that exported it has no state`, followed by the plan commands to run instead. The input kind is detected from content, not extension. A raw `terraform.tfstate` file and a `terraform plan -json` event stream are refused with the export commands to use instead. Re-export with `terraform show -json`, then confirm the file is complete before retrying. A plan with `errored: true` returns `PLAN_ERRORED: the plan JSON records that planning failed`; resolve the planning failure first rather than treating the result as an empty architecture.
 
-## Saved plan verification fails
+## Saved plan pairing fails
 
-The saved plan named by `--plan-file` must be the one used to make that exact JSON export. A mismatched pair records `PLAN_PAIR_MISMATCH`. Without `--require-enrichment`, analysis continues with plan JSON alone and the summary says `Enrichment    Saved plan refused (PLAN_PAIR_MISMATCH); the plan JSON was analyzed alone`. With the requirement, it exits `3`:
+The saved plan named by `--plan-file` must be the one used to make that exact JSON export. A mismatched pair records `PLAN_PAIR_MISMATCH`. Without `--require-enrichment`, analysis continues with plan JSON alone and the summary's `Enrichment` line says `Saved plan refused (PLAN_PAIR_MISMATCH); the plan JSON was analyzed alone`. With the requirement, it exits `3`:
 
 <!-- docs-check:troubleshooting-pair -->
 ```sh
@@ -55,7 +55,7 @@ rootform run plan.json --plan-file other.tfplan \
 
 <!-- docs-output:troubleshooting-pair -->
 ```text title="Standard error"
-rootform: PLAN_PAIR_MISMATCH: saved plan refused; --require-enrichment requires a verified saved plan
+rootform: PLAN_PAIR_MISMATCH: saved plan refused; --require-enrichment requires a saved plan that pairs with the plan JSON
 ```
 
 Re-export JSON from the same saved plan, then retry. An unreadable or encrypted saved plan reports `PLAN_FILE_UNREADABLE`; use plan-only analysis if direct values suffice, or supply a readable matching pair. Never pair an arbitrary working directory with an old plan to establish references.
@@ -74,11 +74,11 @@ Find the instance in the Explorer or run `rootform explain instance <address> --
 
 ## Unknown or sensitive evidence leaves a closure indeterminate
 
-One planned instance can report `indeterminate: unknown until apply` for a value computed later. A sensitive value is intentionally unavailable for endpoint matching and never printed. Rootform will not infer either from a reference list. Analyze a suitable later state JSON when it resolves the value, or keep the closure indeterminate. The [closure model](../concepts/forms.md#stages-and-facts) explains why `absent` differs from `indeterminate`.
+One planned instance can report `indeterminate (unknown until apply)` for a value computed later. A sensitive value is intentionally unavailable for endpoint matching and never printed. Rootform will not infer either from a reference list. Analyze a suitable later state JSON when it resolves the value, or keep the closure indeterminate. The [closure model](../concepts/forms.md#stages-and-facts) explains why `absent` differs from `indeterminate`.
 
 ## Provider configuration or historical evidence is unavailable
 
-A `provider.<path>` emission can show `indeterminate: unavailable` when the plan has no verified saved-plan traversal, the expression is literal or transformed, or the selected stage is historical. State JSON contains no provider configuration. For a planned-stage question, supply the verified saved plan and inspect whether the provider expression directly names a resource. Rootform never reads literal provider configuration values just to force a relation.
+A `provider.<path>` emission can show `indeterminate (unavailable)` when the plan has no traversal from a paired saved plan, the expression is literal or transformed, or the selected stage is historical. State JSON contains no provider configuration. For a planned-stage question, supply the paired saved plan and inspect whether the provider expression directly names a resource. Rootform never reads literal provider configuration values just to force a relation.
 
 ## Duplicate, ambiguous, or conflicting identities
 
