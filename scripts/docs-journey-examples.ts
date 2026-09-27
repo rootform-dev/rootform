@@ -244,12 +244,7 @@ export async function verifyJourneyExamples(binary: string, root: string): Promi
       "journey-plans-verify": ["analysis.json"],
       "journey-run-save": ["analysis.json"],
       "journey-run-compare": ["comparison.md"],
-      "journey-outputs-multiple": [
-        "analysis.json",
-        "architecture.md",
-        "architecture.sarif.json",
-        "architecture.html",
-      ],
+      "journey-outputs-multiple": ["analysis.json", "architecture.md", "architecture.html"],
     };
     for (const path of outputs[item.marker] ?? []) {
       if (!existsSync(join(scratch, path))) throw new Error(`${item.marker}: missing ${path}`);
@@ -342,6 +337,7 @@ function verifyReviewProcedure(binary: string, root: string): string {
     "comparison.json",
     "comparison.md",
     "comparison.html",
+    "policy.json",
     "policy.md",
     "policy.sarif",
   ]) {

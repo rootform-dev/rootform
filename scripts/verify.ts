@@ -350,6 +350,7 @@ const policyCIResult = object(
   JSON.parse(readFileSync(join(policyCIOutput, "analysis.json"), "utf8")) as unknown,
   "policy-backed CI analysis",
 );
+const policyCIAnalysisBytes = readFileSync(join(policyCIOutput, "analysis.json"));
 if (
   policyCIResult.format_version !== "1" ||
   policyCIResult.kind !== "plan" ||
@@ -357,6 +358,23 @@ if (
   policyCIResult.diagnostics.length !== 0
 ) {
   throw new Error("policy-backed CI did not produce a clean format-1 plan");
+}
+if (readFileSync(join(policyCIOutput, "run.status"), "utf8") !== "0\n") {
+  throw new Error("policy-backed CI analysis did not record status 0");
+}
+const policyCIReport = object(
+  JSON.parse(readFileSync(join(policyCIOutput, "policy.json"), "utf8")) as unknown,
+  "policy-backed CI Policy result",
+);
+const policyCIForm = object(policyCIReport.form, "policy-backed CI Policy Form identity");
+if (
+  policyCIReport.format_version !== "1" ||
+  policyCIReport.status !== "passed" ||
+  policyCIForm.origin !== "saved" ||
+  policyCIForm.digest !==
+    `sha256:${createHash("sha256").update(policyCIAnalysisBytes).digest("hex")}`
+) {
+  throw new Error("policy-backed CI did not check the exact saved Form");
 }
 const policyCISarif = object(
   JSON.parse(readFileSync(join(policyCIOutput, "results.sarif"), "utf8")) as unknown,
@@ -383,10 +401,8 @@ if (
 )
   throw new Error("policy-backed CI did not pass both baseline policies");
 if (
-  readFileSync(join(policyCIOutput, "run.status"), "utf8") !== "0\n" ||
-  !readFileSync(join(policyCIOutput, "summary.txt"), "utf8").includes(
-    "Evaluated  2 policies over 2 targets: 2 passed, 0 violated, 0 indeterminate",
-  )
+  readFileSync(join(policyCIOutput, "check.status"), "utf8") !== "0\n" ||
+  !readFileSync(join(policyCIOutput, "check.txt"), "utf8").startsWith("Policies passed")
 )
   throw new Error("policy-backed CI did not report passing exit semantics");
 if (!readFileSync(policyCILockPath, "utf8").includes(policyPin.contentDigest))

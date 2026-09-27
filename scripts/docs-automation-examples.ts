@@ -299,9 +299,10 @@ export async function verifyAutomationExamples(binary: string, root: string): Pr
       );
     const summaryDirectory = ciSummaryDirectories[item.name];
     const summaryPath = summaryDirectory ? join(work, summaryDirectory, "summary.txt") : "";
+    const checkPath = summaryDirectory ? join(work, summaryDirectory, "check.txt") : "";
     const documentedOutput =
       summaryPath && existsSync(summaryPath)
-        ? `${readFileSync(summaryPath, "utf8")}\n${result.stdout}\n${result.stderr}`
+        ? `${readFileSync(summaryPath, "utf8")}\n${existsSync(checkPath) ? readFileSync(checkPath, "utf8") : ""}\n${result.stdout}\n${result.stderr}`
         : `${result.stdout}\n${result.stderr}`;
     assertExcerpt(item.name, outputLines(page, item.name), documentedOutput);
     if (evidence) {
@@ -314,6 +315,8 @@ export async function verifyAutomationExamples(binary: string, root: string): Pr
       writeFileSync(`${base}.stderr`, result.stderr);
       if (summaryPath && existsSync(summaryPath))
         writeFileSync(`${base}.summary`, readFileSync(summaryPath));
+      if (checkPath && existsSync(checkPath))
+        writeFileSync(`${base}.check`, readFileSync(checkPath));
     }
   }
   return `Automation docs: ${cases.length} marked commands and ${[...pages.values()].reduce((count, page) => count + [...page.matchAll(/<!-- docs-output:/gu)].length, 0)} output excerpts verified.`;

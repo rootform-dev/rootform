@@ -15,6 +15,7 @@ import {
   parseRelativeMarkdownLinks,
   resolveRepositoryLink,
 } from "./check-docs.ts";
+import { retiredCommand } from "./docs-core-examples.ts";
 
 test("deriveRoute maps documented page paths to page ids", () => {
   expect(deriveRoute("docs/index.md")).toBe("index");
@@ -298,12 +299,13 @@ test("checkPages reports duplicate routes and per-page issues together", () => {
   expect(result.issues.some((issue) => issue.kind === "frontmatter")).toBe(true);
 });
 
-test("navigation exposes plan and state workflow without retired command pages", () => {
+test("navigation exposes the run and check workflow without retired command pages", () => {
   const root = join(import.meta.dir, "..");
   const navigation = readFileSync(join(root, "docs/navigation.json"), "utf8");
   expect(navigation).toContain("inputs/plans");
   expect(navigation).toContain("reference/cli/run");
-  for (const retired of ["reference/cli/build", "reference/cli/check", "reference/cli/diff"]) {
+  expect(navigation).toContain("reference/cli/check");
+  for (const retired of ["reference/cli/build", "reference/cli/diff"]) {
     expect(navigation).not.toContain(retired);
   }
 });
@@ -321,7 +323,7 @@ test("input and comparison pages distinguish drift from input comparison", () =>
   expect(comparison).toContain("never drift");
 });
 
-test("public examples use the run command and preserve producer responsibility", () => {
+test("public examples analyze with run, gate with check, and preserve producer responsibility", () => {
   const root = join(import.meta.dir, "..");
   for (const name of [
     "docs/getting-started/first-architecture.md",
@@ -332,9 +334,10 @@ test("public examples use the run command and preserve producer responsibility",
   ]) {
     const page = readFileSync(join(root, name), "utf8");
     expect(page).toContain("rootform run");
-    expect(page).not.toMatch(/rootform (?:build|check|diff)\b/u);
+    expect(retiredCommand(page)).toBeUndefined();
   }
   const ci = readFileSync(join(root, "docs/integrations/ci/README.md"), "utf8");
+  expect(ci).toContain("rootform check");
   expect(ci).toContain("terraform plan -input=false -out=");
   expect(ci).toContain("terraform show -json ");
 });

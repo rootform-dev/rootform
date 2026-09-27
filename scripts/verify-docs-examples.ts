@@ -64,7 +64,7 @@ const plan = join(root, "examples/playground/event-driven-platform/head/plan.jso
 const saved = join(root, "examples/playground/event-driven-platform/head/plan.tfplan");
 const scratch = mkdtempSync(join(tmpdir(), "rf-docs-output-"));
 const env = { ...process.env, ROOTFORM_SOURCE: root, ROOTFORM_HOME: join(scratch, "home") };
-for (const extension of ["json", "md", "txt", "sarif"]) {
+for (const extension of ["json", "md", "txt", "html"]) {
   const output = join(scratch, `analysis.${extension}`);
   const result = Bun.spawnSync(
     [binary, "run", plan, "--plan-file", saved, "--require-enrichment", "--no-serve", "-o", output],
@@ -80,9 +80,32 @@ for (const extension of ["json", "md", "txt", "sarif"]) {
   if (extension === "json" && JSON.parse(readFileSync(output, "utf8")).kind !== "plan")
     throw new Error("JSON output is not a plan document");
 }
-const help = Bun.spawnSync([binary, "run", "-h"], { stdout: "pipe", stderr: "pipe" });
-if (help.exitCode !== 0 || !help.stdout.toString().includes("rootform run <input>"))
-  throw new Error("run help differs from documentation");
+/* The baseline Pack has no target in this plan: every report is still written,
+   and the verdict is no decision rather than a pass. */
+for (const extension of ["json", "md", "txt", "sarif"]) {
+  const output = join(scratch, `policy.${extension}`);
+  const pack = join(root, "policy-packs/baseline");
+  const result = Bun.spawnSync(
+    [binary, "check", join(scratch, "analysis.json"), "--policy-pack", pack, "-o", output],
+    { cwd: root, env, stdout: "pipe", stderr: "pipe" },
+  );
+  if (result.exitCode !== 3 || !existsSync(output))
+    throw new Error(`check ${extension} report failed: ${result.stderr.toString()}`);
+  const report = readFileSync(output, "utf8");
+  if (extension === "json" && JSON.parse(report).status !== "no_decision")
+    throw new Error("check JSON result is not a no-decision result");
+  if (extension === "sarif" && JSON.parse(report).version !== "2.1.0")
+    throw new Error("check SARIF output is not SARIF 2.1.0");
+}
+const helpUsages: Array<[string, string]> = [
+  ["run", "rootform run <input>"],
+  ["check", "rootform check <input>"],
+];
+for (const [command, usage] of helpUsages) {
+  const help = Bun.spawnSync([binary, command, "-h"], { stdout: "pipe", stderr: "pipe" });
+  if (help.exitCode !== 0 || !help.stdout.toString().includes(usage))
+    throw new Error(`${command} help differs from documentation`);
+}
 const journeys = await verifyJourneyExamples(binary, root);
 const concepts = await verifyConceptExamples(binary, root);
 const automation = await verifyAutomationExamples(binary, root);
@@ -91,7 +114,7 @@ const languageReference = await verifyLanguageReferenceExamples(binary, root);
 const authoring = await verifyAuthoringExamples(binary, root);
 assertEveryMarkerExecuted(markers);
 console.log(
-  `Docs examples: ${checked} Markdown pages free of retired commands; ${visual.join("; ")}; JSON, Markdown, text, and SARIF verified.`,
+  `Docs examples: ${checked} Markdown pages free of retired commands; ${visual.join("; ")}; analysis JSON, Markdown, text, and HTML and Policy JSON, Markdown, text, and SARIF verified.`,
 );
 for (const summary of [journeys, concepts, automation, language, languageReference, authoring])
   console.log(summary);

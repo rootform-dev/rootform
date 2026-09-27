@@ -140,28 +140,27 @@ export async function verifyLanguageExamples(binary: string, root: string): Prom
   const builtinsInput = join(root, "scripts/fixtures/docs/built-ins");
   for (const [name] of packs) {
     const result = run([
-      "run",
+      "check",
       join(builtinsInput, "plan.json"),
       "--plan-file",
       join(builtinsInput, "plan.tfplan"),
       "--policy-pack",
       join(workspace, name),
-      "--no-serve",
     ]);
-    expect(result).toContain("Policies      passed");
+    expect(result.startsWith("Policies passed")).toBe(true);
   }
-  const builtinsRun = run([
-    "run",
+  const builtinsCheck = run([
+    "check",
     join(builtinsInput, "plan.json"),
     "--plan-file",
     join(builtinsInput, "plan.tfplan"),
     "--policy-pack",
     join(workspace, "builtins-pack"),
-    "--no-serve",
     "--color",
     "always",
   ]).replace(new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, "gu"), "");
-  expect(builtinsRun).toContain("3 policies over 3 targets: 3 passed, 0 violated, 0 indeterminate");
+  expect(builtinsCheck.startsWith("Policies passed")).toBe(true);
+  expect(builtinsCheck).toContain("3 policies selected: 3 passed");
   const jsonPack = write(
     "json-policy-pack",
     "pack.rf.json",
