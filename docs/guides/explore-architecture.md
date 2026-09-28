@@ -78,25 +78,37 @@ open the home context.
 
 ## Switch stages and comparisons
 
-The comparison card under **Place** names what the canvas shows: its title,
-its stages, one sentence, and its result in counted units. A plan opens on
-**Planned changes** (Refreshed → Planned); the card's menu also offers
-**Reported drift** (Recorded → Refreshed) and **Net change**
-(Recorded → Planned) when the plan holds those stages. A state Form shows its
-Recorded architecture without comparison controls. A comparison Form shows
-**Differences** between its two selected stages;
+The comparison selector under **Place** names what the canvas shows: its
+title and its stages. A plan opens on **Planned changes**
+(Refreshed → Planned); the selector also offers **Reported drift**
+(Recorded → Refreshed) and **Net change** (Recorded → Planned) when the plan
+holds those stages. **About this view**, beside the selector, says what the
+view means, its result in counted units, and how a stage came to be, such as
+Recorded reconstructed by reversing drift entries. **Limits** appears beside
+it only when something changes how the canvas reads: a comparison that is
+not comparable, instances the plan did not evaluate, unverified instance
+counts, or incomplete evidence. A state Form shows its Recorded architecture
+without comparison controls. A comparison Form shows **Differences** between
+its two selected stages;
 [Compare architectures](compare-architectures.md#open-the-comparison-in-the-browser)
 opens one.
 
-The control at the bottom chooses the first stage, the difference, or the
-second stage: **Refreshed**, **Changes**, and **Planned** for Planned changes,
-or **Before**, **Differences**, and **After** for two inputs. A stage side
-draws that architecture alone. **Added**, **Removed**, **Changed**, and
-**Indeterminate** count the comparison entries of the current view; on a
-stage side they only highlight. In the card, **Events** lists moved,
-replaced, and recreated instances, **Drift report** lists each drift entry by
-consequence, **Cancelled** lists drift that Net change restores, and
-**Limits** names what bounds the current view.
+The reading block at the bottom left chooses the first stage, the
+difference, or the second stage: **Refreshed**, **Changes**, and **Planned**
+for Planned changes, or **Before**, **Differences**, and **After** for two
+inputs. A stage side draws that architecture alone. Under it, **Change
+filters** count the comparison entries of the current view as **Added**,
+**Removed**, **Changed**, and **Indeterminate**. Keep one to narrow the
+canvas to those entries and **Reset** to release them; on a stage side they
+only highlight. Fold the block to clear the canvas; kept filters stay
+written on its row. Beside the selector, **Events** lists moved, replaced,
+and recreated instances, **Drift report** lists each drift entry by
+consequence, and **Cancelled** lists drift that Net change restores.
+
+The camera at the top right zooms, fits the architecture, and centres the
+selection; its zoom readout opens those actions with their keys. The Form
+actions next to it open **Details** and the list of instances the canvas
+does not draw.
 
 Do not read “No drift reported in this plan” as proof that no infrastructure
 changed. Terraform or OpenTofu may have skipped refresh or limited scope. See
