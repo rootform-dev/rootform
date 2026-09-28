@@ -39,7 +39,6 @@ rootform explain rule <rule> --input <input> [options]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --details ` | ` bool ` | ` false ` | list every entry and diagnostic code instead of the first ten entries |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 
 ### Rootform project
@@ -66,6 +65,7 @@ rootform explain rule <rule> --input <input> [options]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain rule |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 <!-- END GENERATED CLI -->
 

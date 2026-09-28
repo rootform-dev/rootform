@@ -6,7 +6,7 @@
     },
     {
       "path": "reference/cli.json",
-      "sha256": "a7372e3007f6744f0c2be854ce36d1901457151358bb08a550677bded116fb8c"
+      "sha256": "297721720aae046a68f3afb82a32d465be26680768301b6004116a7c9d160951"
     },
     {
       "path": "schemas/compiled-policy-pack.schema.json",
@@ -30,6 +30,6 @@
     }
   ],
   "format_version": "1",
-  "source_commit": "89a42ee87e266e29886d30d40ebc21faaa28c872",
+  "source_commit": "bf12c67d417638b2ec97a049c91d314b175ec877",
   "source_repository": "rootform-dev/engine"
 }

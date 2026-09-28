@@ -47,7 +47,7 @@ rootform run <input> [--diff <input>] [options]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --details ` | ` bool ` | ` false ` | list every entry of the text or Markdown summary, with semantics, closure counts, and diagnostic codes |
+| ` --details ` | ` bool ` | ` false ` | add semantics, closure counts, and diagnostic codes; a Markdown summary and the summary beside the explorer then list every entry |
 | ` --format ` | ` string ` | ` "" ` | format of standard output, or of a single -o file without a recognized extension: `text\|json\|markdown\|html`; default: text |
 | ` -o, --output ` | ` stringArray ` | ` [] ` | write `file`; its extension selects the format: .json (the Form), .txt, .md, or .html; repeatable |
 
@@ -84,6 +84,7 @@ rootform run <input> [--diff <input>] [options]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform run |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 <!-- END GENERATED CLI -->
 

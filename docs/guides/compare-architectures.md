@@ -57,26 +57,33 @@ The command returns status `0` because the comparison completed, even though it 
   [2mIndeterminate closures[0m  3 in Before Planned, 3 in After Planned
 
   [1mResource instances[0m
-    [32m+[0m azurerm_eventgrid_system_topic.service_bus  [2madded[0m
+    [32m+[0m azurerm_eventgrid_system_topic.service_bus      [2madded[0m
     [32m+[0m azurerm_eventgrid_system_topic_event_subscription.order_notifications
         [2madded[0m
-    [31m-[0m azurerm_eventgrid_system_topic.public       [2mremoved[0m
+    [32m+[0m azurerm_linux_function_app.order_notifications  [2madded[0m
+    [32m+[0m azurerm_log_analytics_workspace.platform        [2madded[0m
+    [32m+[0m azurerm_private_dns_zone.cosmos                 [2madded[0m
+    [32m+[0m azurerm_private_dns_zone.redis                  [2madded[0m
+    [32m+[0m azurerm_private_dns_zone_virtual_network_link.cosmos_hub  [2madded[0m
+    [32m+[0m azurerm_private_dns_zone_virtual_network_link.cosmos_prod  [2madded[0m
+    [32m+[0m azurerm_private_dns_zone_virtual_network_link.redis_hub  [2madded[0m
+    [32m+[0m azurerm_private_dns_zone_virtual_network_link.redis_prod  [2madded[0m
+    [32m+[0m azurerm_private_endpoint.cosmos                 [2madded[0m
+    [32m+[0m azurerm_private_endpoint.redis                  [2madded[0m
+    [32m+[0m azurerm_service_plan.functions_premium          [2madded[0m
+    [32m+[0m azurerm_servicebus_topic.orders_enriched        [2madded[0m
+    [32m+[0m kubernetes_namespace_v1.payments                [2madded[0m
+    [32m+[0m kubernetes_network_policy_v1.payments           [2madded[0m
+    [31m-[0m azurerm_eventgrid_system_topic.public           [2mremoved[0m
     [31m-[0m azurerm_eventgrid_system_topic_event_subscription.legacy_webhooks  [2mremoved[0m
-    [2m4 of 23 instance changes shown: 2 of 16 added, 2 of 7 removed.[0m
-
-  [1mRelations[0m
-    [32m+[0m azurerm_eventgrid_system_topic_event_subscription.order_notifications
-        [2mdelivers-to ->[0m azurerm_linux_function_app.order_notifications  [2madded[0m
-    [32m+[0m azurerm_kubernetes_cluster.prod  [2madded[0m
-        [2mobserved-by ->[0m azurerm_log_analytics_workspace.platform
-    [31m-[0m azurerm_eventgrid_system_topic_event_subscription.legacy_webhooks  [2mremoved[0m
-        [2mdelivers-to ->[0m azurerm_linux_function_app.legacy_webhooks
-    [31m-[0m azurerm_kubernetes_cluster.prod  [2mremoved[0m
-        [2mobserved-by ->[0m azurerm_log_analytics_workspace.prod
-    [2m4 of 10 Relation changes shown: 2 of 5 added, 2 of 5 removed.[0m
+    [31m-[0m azurerm_linux_function_app.legacy_webhooks      [2mremoved[0m
+    [31m-[0m azurerm_service_plan.functions                  [2mremoved[0m
+    [31m-[0m azurerm_storage_account.public                  [2mremoved[0m
+    [31m-[0m azurerm_storage_container.public_assets         [2mremoved[0m
+    [31m-[0m azurerm_subnet.prod_legacy                      [2mremoved[0m
 ```
 
-The instance counts cover observed resource instances. The relation, context, and contribution counts cover facts that Rules established. The Uncertainty table counts indeterminate closures on each side and by cause: evidence that cannot decide a fact, and so cannot decide a change. It does not mean the comparison failed, as [Comparisons](../concepts/comparisons.md#indeterminate-preserves-uncertainty) explains. Each group of the summary previews added and removed entries alike and states how many it shows; the totals above stay exact, and `--details` lists every entry. If pairing is refused or the counts differ in your own project, inspect the warning and confirm each JSON was exported from its matching saved plan. [Plan inputs](../inputs/plans.md#pair-the-saved-plan) explains pairing.
+The instance counts cover observed resource instances. The relation, context, and contribution counts cover facts that Rules established. The Uncertainty table counts indeterminate closures on each side and by cause: evidence that cannot decide a fact, and so cannot decide a change. It does not mean the comparison failed, as [Comparisons](../concepts/comparisons.md#indeterminate-preserves-uncertainty) explains. The text summary lists every change under its exact totals, and on an interactive terminal it opens in a pager ([Outputs](../reference/outputs.md#read-long-reports)). `comparison.md` instead previews added and removed entries alike in each group and states how many it shows; `--details` lists every entry there. If pairing is refused or the counts differ in your own project, inspect the warning and confirm each JSON was exported from its matching saved plan. [Plan inputs](../inputs/plans.md#pair-the-saved-plan) explains pairing.
 
 ## Open the comparison in the browser
 

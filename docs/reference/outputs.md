@@ -24,6 +24,24 @@ JSON, Markdown, and SARIF. `--no-serve` writes files and exits; the normal
 `run` mode serves the result in the foreground. `check` never serves.
 `--no-browser` changes browser launch, not the server or output.
 
+## Read long reports
+
+On an interactive terminal, a long text report or help opens in `less` once
+every requested file is written. Enter advances one line, Space one page, `b`
+goes back a page, and `q` quits; quitting never changes the exit status. With
+`--no-pager`, a pipe or a file, a CI run, `TERM=dumb`, or no `less`
+installed, Rootform prints the whole report without waiting. `ROOTFORM_PAGER`
+names another pager, or disables paging when set to an empty value. The
+summary printed beside the explorer and JSON, SARIF, Markdown, and HTML output
+never open a pager.
+
+Text reports list every entry at the chosen depth: every change of a
+comparison, every violated or indeterminate evaluation with all its evidence,
+and every row of an explanation. `--details` adds depth, such as semantics,
+diagnostic codes, and passed evaluations. The Markdown summary and the summary
+beside the explorer preview each group instead and state how many entries they
+show.
+
 ## Choose an output file
 
 Repeat `-o` to write several views:

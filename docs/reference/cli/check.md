@@ -66,6 +66,7 @@ rootform check <input> [options]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform check |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 <!-- END GENERATED CLI -->
 

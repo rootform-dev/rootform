@@ -37,6 +37,7 @@ rootform <command> [options]
 | --- | --- | --- | --- |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 | ` -v, --version ` | ` bool ` | ` false ` | print the rootform version and exit |
 
 ## Command inventory

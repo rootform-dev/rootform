@@ -41,7 +41,7 @@ rootform explain policy <policy> --result <file> [options]
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --details ` | ` bool ` | ` false ` | also list passed evaluations and diagnostic codes, and list every entry |
+| ` --details ` | ` bool ` | ` false ` | also list passed evaluations and diagnostic codes |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 
 ### Rootform project
@@ -68,6 +68,7 @@ rootform explain policy <policy> --result <file> [options]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain policy |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 <!-- END GENERATED CLI -->
 

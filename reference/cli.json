@@ -5,7 +5,7 @@
       "path": "rootform",
       "usage": "rootform \u003ccommand\u003e [options]",
       "summary": "Understand Terraform and OpenTofu as architecture",
-      "description": "Rootform turns Terraform and OpenTofu plan or state exports into\nsemantic, deterministic, explainable architecture: a Form you can\nexplore, save, reopen, compare, and check against Policies.\n\nRun 'rootform help \u003ccommand\u003e' for the options of one command.\n\nExit status:\n  0  the request completed, or the answer is positive\n  1  the answer is negative: a violation, an invalid object, an\n     unformatted source, a failing fixture, or a name not found\n  2  the command was used incorrectly\n  3  the input, selection, or evidence allows no answer\n  4  a file, Rootform home, network, registry, or server operation failed",
+      "description": "Rootform turns Terraform and OpenTofu plan or state exports into\nsemantic, deterministic, explainable architecture: a Form you can\nexplore, save, reopen, compare, and check against Policies.\n\nRun 'rootform help \u003ccommand\u003e' for the options of one command.\n\nA long report on an interactive terminal opens in less: Enter advances one\nline, Space one page, b goes back a page, and q quits. With --no-pager, a\npipe or file, a CI run, or no less installed, the report prints in full.\nROOTFORM_PAGER names another pager, or turns paging off when empty.\n\nExit status:\n  0  the request completed, or the answer is positive\n  1  the answer is negative: a violation, an invalid object, an\n     unformatted source, a failing fixture, or a name not found\n  2  the command was used incorrectly\n  3  the input, selection, or evidence allows no answer\n  4  a file, Rootform home, network, registry, or server operation failed",
       "examples": "rootform run plan.json\n  rootform run state.json --no-serve -o form.json\n  rootform run before.json --diff after.json --no-serve\n  rootform check plan.json -o results.sarif",
       "command_groups": [
         "Analyze",
@@ -59,6 +59,14 @@
           "no_option_default": "true"
         },
         {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        },
+        {
           "name": "version",
           "shorthand": "v",
           "type": "bool",
@@ -101,6 +109,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -170,6 +186,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -231,6 +255,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -376,6 +408,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -409,6 +449,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -455,6 +503,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -486,6 +542,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -522,6 +586,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -544,7 +616,7 @@
           "type": "bool",
           "group": "Output",
           "default": "false",
-          "usage": "list every entry and diagnostic code instead of the first ten entries",
+          "usage": "also show diagnostic codes",
           "no_option_default": "true"
         },
         {
@@ -650,6 +722,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -672,7 +752,7 @@
           "type": "bool",
           "group": "Output",
           "default": "false",
-          "usage": "also list passed evaluations and diagnostic codes, and list every entry",
+          "usage": "also list passed evaluations and diagnostic codes",
           "no_option_default": "true"
         },
         {
@@ -778,6 +858,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -795,14 +883,6 @@
         "Global options"
       ],
       "flags": [
-        {
-          "name": "details",
-          "type": "bool",
-          "group": "Output",
-          "default": "false",
-          "usage": "list every entry and diagnostic code instead of the first ten entries",
-          "no_option_default": "true"
-        },
         {
           "name": "dialect",
           "type": "stringArray",
@@ -906,6 +986,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -954,6 +1042,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1026,6 +1122,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1061,6 +1165,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1107,6 +1219,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1153,6 +1273,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1189,6 +1317,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1251,6 +1387,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1304,6 +1448,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1366,6 +1518,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1397,6 +1557,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1432,6 +1600,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1498,6 +1674,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1564,6 +1748,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1599,6 +1791,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1652,6 +1852,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1705,6 +1913,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1740,6 +1956,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1801,6 +2025,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1854,6 +2086,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -1892,7 +2132,7 @@
           "type": "bool",
           "group": "Output",
           "default": "false",
-          "usage": "list every entry of the text or Markdown summary, with semantics, closure counts, and diagnostic codes",
+          "usage": "add semantics, closure counts, and diagnostic codes; a Markdown summary and the summary beside the explorer then list every entry",
           "no_option_default": "true"
         },
         {
@@ -2029,6 +2269,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2087,6 +2335,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2140,6 +2396,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2193,6 +2457,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2254,6 +2526,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2289,6 +2569,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2327,6 +2615,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2365,6 +2661,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2400,6 +2704,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2461,6 +2773,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2522,6 +2842,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2562,6 +2890,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2614,6 +2950,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2666,6 +3010,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2704,6 +3056,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2742,6 +3102,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2801,6 +3169,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2853,6 +3229,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2905,6 +3289,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -2956,6 +3348,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -3009,6 +3409,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -3062,6 +3470,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     },
@@ -3093,6 +3509,14 @@
           "group": "Global options",
           "default": "auto",
           "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
         }
       ]
     }

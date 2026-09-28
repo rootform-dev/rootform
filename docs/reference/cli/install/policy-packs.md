@@ -26,6 +26,7 @@ rootform install policy-packs <reference>... [options]
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform install policy-packs |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 ## Behavior
 
