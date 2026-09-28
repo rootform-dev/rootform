@@ -38,9 +38,10 @@ never open a pager.
 Text reports list every entry at the chosen depth: every change of a
 comparison, every violated or indeterminate evaluation with all its evidence,
 and every row of an explanation. `--details` adds depth, such as semantics,
-diagnostic codes, and passed evaluations. The Markdown summary and the summary
-beside the explorer preview each group instead and state how many entries they
-show.
+diagnostic codes, and passed evaluations. The summary beside the explorer
+previews each group instead and states how many entries it shows. A Markdown
+report is a review document that shortens long lists; see
+[Review with Markdown](#review-with-markdown).
 
 ## Choose an output file
 
@@ -49,11 +50,12 @@ Repeat `-o` to write several views:
 | Extension | Command | Content and use |
 | --- | --- | --- |
 | `.json` | `run` | Form. Reopen with `run`, inspect stages and evidence, or process as data. |
-| `.md` | `run` | Markdown report for human review. |
+| `.md` | `run` | Markdown review of the architecture and its changes. |
 | `.txt` | `run` | Plain-text report for terminal-oriented review. |
 | `.html` | `run` | Self-contained interactive Explorer for browser review without a server. |
 | `.json` | `check` | Structured Policy result. |
-| `.md`, `.txt` | `check` | Policy report for human review. |
+| `.md` | `check` | Markdown review of the Policy outcomes. |
+| `.txt` | `check` | Plain-text Policy report. |
 | `.sarif`, `.sarif.json` | `check` | SARIF 2.1.0 Policy result; keep as a build artifact. |
 
 The JSON Form is reusable input. Plan Forms can contain stages, internal
@@ -81,6 +83,39 @@ input, including through a link, is a usage error (`2`). Files are written
 through temporary files in their target directories, then renamed into
 place individually. If a later write fails, earlier successful files remain
 and the failed target is reported; exit status is `4`.
+
+## Review with Markdown
+
+A Markdown report is a review document for a pull request, a merge request, or
+a CI job summary. The report of `run` opens with the heading
+`## Rootform architecture`: its conclusion, the compared stages or inputs, any
+limits of the evidence, change counts, reported drift, the changes, the
+architecture, and provenance. The report of `check` opens with
+`## Rootform Policies`: the verdict and the evaluated stage. For both sides of
+a comparison Form, it states the overall verdict, the evaluation scope, and a
+table of each side's stage, evaluation counts, and verdict. Each Policy then
+follows with its requirement stated once above its evaluations, then coverage
+gaps and provenance. Conclusions, verdicts, and limits are never folded.
+
+Each list shows at most ten entries, spread across its statuses, such as added
+and removed, and states how many it shows, for example `(10 of 23 shown)`. In
+the report of `run`, a list longer than ten sits in a collapsed `<details>`
+block whose summary gives its counts. The report of `check` keeps up to ten
+evaluations per outcome in view, each with at most five evidence lines, so a
+violation is never hidden in a fold. When a report shortens a list or its
+evidence, its last line says so. Write the same report with `--details` to
+list every entry and every evidence line; a list longer than ten is then
+folded in both reports, and `--details` also adds depth such as semantics and
+passed evaluations. Values from the input, such as addresses and names, are
+escaped or written as code, so they cannot add links, markup, or folds.
+
+Because each report opens with its own heading, an integration can join them
+into one review. Leave a blank line between them, and let the status of
+`check` decide the job rather than the command that joins the files:
+[Write a review document](../guides/check-architecture.md#write-a-review-document)
+composes both for one plan. The reports do not link to other files; publish
+the Form, the Policy result, SARIF, or the HTML export separately when
+reviewers need them.
 
 ## Analysis exit status
 

@@ -3,7 +3,9 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { configuration, markedCommand } from "./docs-core-examples.ts";
 
-type Example = { page: string; marker: string; exit: number; output?: string };
+/* output names a docs-output excerpt of standard output; with file, the
+   excerpt is that whole work file instead, blank lines included. */
+type Example = { page: string; marker: string; exit: number; output?: string; file?: string };
 
 const pages = [
   "concepts/forms.md",
@@ -56,6 +58,13 @@ const examples: Example[] = [
     exit: 3,
     output: "check-architecture-no-target",
   },
+  {
+    page: pages[3],
+    marker: "check-architecture-review",
+    exit: 1,
+    output: "check-architecture-review",
+    file: "violation/review.md",
+  },
   { page: pages[3], marker: "check-architecture-lock", exit: 0 },
   { page: pages[4], marker: "concept-restored-drift", exit: 0, output: "concept-restored-drift" },
 ];
@@ -67,12 +76,15 @@ function required<K, V>(map: Map<K, V>, key: K): V {
 }
 
 const ansi = new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, "gu");
-function outputExcerpt(page: string, marker: string): string[] {
+function outputFence(page: string, marker: string): string {
   const after = page.split(`<!-- docs-output:${marker} -->`);
   if (after.length !== 2) throw new Error(`Missing output marker ${marker}`);
   const match = /^\s*```(?:ansi|text) title="[^"]+"\n([\s\S]*?)\n```/u.exec(after[1] ?? "");
   if (!match?.[1]) throw new Error(`Missing output fence ${marker}`);
-  return match[1].replace(ansi, "").split("\n").filter(Boolean);
+  return match[1];
+}
+function outputExcerpt(page: string, marker: string): string[] {
+  return outputFence(page, marker).replace(ansi, "").split("\n").filter(Boolean);
 }
 function assertExcerpt(actual: string, expected: string[], marker: string): void {
   const lines = actual.replace(ansi, "").split("\n");
@@ -161,14 +173,21 @@ export async function verifyConceptExamples(binary: string, root: string): Promi
   }
   for (const example of examples) {
     const page = required(source, example.page);
+    const cwd = required(work, example.page);
     const stdout = run(
       binaryDirectory,
-      required(work, example.page),
+      cwd,
       markedCommand(page, example.marker),
       example.marker,
       example.exit,
     );
-    if (example.output) assertExcerpt(stdout, outputExcerpt(page, example.output), example.marker);
+    if (example.output) {
+      if (example.file) {
+        const actual = readFileSync(join(cwd, example.file), "utf8");
+        if (actual !== `${outputFence(page, example.output)}\n`)
+          throw new Error(`${example.marker}: ${example.file} differs from its excerpt\n${actual}`);
+      } else assertExcerpt(stdout, outputExcerpt(page, example.output), example.marker);
+    }
   }
   return `${examples.length} concept and review command blocks verified`;
 }

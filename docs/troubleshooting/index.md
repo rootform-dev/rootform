@@ -153,7 +153,7 @@ Selecting a Policy without any Policy Pack returns `POLICY_UNAVAILABLE: no Polic
 
 ## A Policy is indeterminate or violated
 
-A violation exits `1`; an indeterminate outcome exits `3`. `policy.md` and SARIF name each violated or indeterminate target. [Inspect the proof](../guides/check-architecture.md#inspect-the-proof) shows how `rootform explain policy <policy> --result <file>` reads the recorded outcome and `rootform explain instance <address> --input <input>` traces its facts and closures. Unknown, sensitive, and unverified absence cannot prove a negative assertion. Resolve input evidence or correct the Policy; do not remove a diagnostic to make the job pass. [Policy outcomes](../concepts/policies.md#evidence-produces-three-outcomes) explains the three results.
+A violation exits `1`; an indeterminate outcome exits `3`. SARIF names each violated or indeterminate target; `policy.md` shows at most ten per outcome unless written with `--details`. [Inspect the proof](../guides/check-architecture.md#inspect-the-proof) shows how `rootform explain policy <policy> --result <file>` reads the recorded outcome and `rootform explain instance <address> --input <input>` traces its facts and closures. Unknown, sensitive, and unverified absence cannot prove a negative assertion. Resolve input evidence or correct the Policy; do not remove a diagnostic to make the job pass. [Policy outcomes](../concepts/policies.md#evidence-produces-three-outcomes) explains the three results.
 
 ## A comparison appears empty or indeterminate
 

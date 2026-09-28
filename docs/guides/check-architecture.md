@@ -318,6 +318,98 @@ rootform check no-target/plan.json --plan-file no-target/plan.tfplan \
 
 Status `3` means the selected Policy made no decision: a Policy without target never counts as passed, and a check that selects no Policy also returns `3`. `rootform run` never evaluates Policies, so its status `0` is analysis success, not compliance. [Policies and Policy Packs](../concepts/policies.md#read-the-aggregate-decision) explains aggregation.
 
+## Write a review document
+
+A pull request or CI job summary reads Markdown. This script saves the violating plan's Form with its architecture review, writes the Policy review from that Form, joins both reviews, and ends with the status of `check`:
+
+<!-- docs-check:check-architecture-review -->
+```sh
+rootform run violation/plan.json --plan-file violation/plan.tfplan \
+  --no-serve -o violation/analysis.json -o violation/architecture.md || exit
+check_status=0
+rootform check violation/analysis.json --policy-pack ./policies \
+  -o violation/policies.md || check_status=$?
+case $check_status in
+  0 | 1 | 3) ;;
+  *) exit "$check_status" ;;
+esac
+{ cat violation/architecture.md && printf '\n' && cat violation/policies.md; } \
+  > violation/review.md || exit 4
+exit "$check_status"
+```
+
+Save it as a script, for example `review.sh` run with `sh review.sh`, or use it as a CI step: each `exit` ends the shell that runs it, so do not paste it into an interactive terminal. It behaves the same with or without `set -e`.
+
+- If `run` fails, the script stops with the status of `run` and joins nothing.
+- `check` writes its report whatever the verdict: `0` passed, `1` violated, `3` no verdict. The script keeps that status and returns it last.
+- Status `2` (incorrect use) or `4` (a file could not be read or written) stops the script with that status before anything is joined.
+- `printf '\n'` leaves a blank line between the two reports. If `violation/review.md` cannot be written, the script exits `4`, so a write failure never reads as a Policy verdict.
+
+Here `check` returns `1`: the script writes `violation/review.md`, then exits `1`.
+
+<!-- docs-output:check-architecture-review -->
+```text title="violation/review.md"
+## Rootform architecture
+
+**1 resource instance added.**
+
+Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
+
+| Category | Added | Removed |
+| --- | ---: | ---: |
+| Resource instances | 1 | 0 |
+
+### Reported drift
+
+No drift reported in this plan. The export does not establish the refresh scope.
+
+### Net change
+
+Same determined changes as Planned changes.
+
+### Planned changes
+
+**Resource instances: 1 added**
+
+- `aws_subnet.application`
+
+### Planned architecture
+
+- **Resource instances:** 1
+- **Interpreted:** 1 of 1 instance matched a Rule
+- **Facts:** none determined
+
+### Provenance
+
+- **Input:** `violation/plan.json`
+- **Producer:** Terraform or OpenTofu 1.16.4
+- **Plan completeness:** Complete, as reported in the plan
+- **Enrichment:** Saved plan paired with this plan JSON \(1 module\); only version, timestamp, and configuration shape are compared
+- **Stage:** Planned
+- **Stages:** Recorded \(reconstructed\), Refreshed, Planned
+
+## Rootform Policies
+
+**VIOLATED: Planned architecture**
+
+1 Policy selected. 1 evaluation violated.
+
+### `tutorial.policy.network-context`
+
+**Requirement:** Network resources must have an established network context.
+
+**Violated: 1 evaluation**
+
+- `aws_subnet.application`: The network context toward virtual-network through `source.vpc_id` is absent.
+
+### Provenance
+
+- **Input:** `violation/analysis.json`
+- **Origin:** Plan \(saved Form\)
+```
+
+The architecture review leads with its conclusion and counts; the Policy review leads with the verdict and the evaluated stage, then states each Policy's requirement once above its evaluations. Neither links to other files: keep `analysis.json`, and any Policy result or SARIF, as artifacts when reviewers need them. [Review with Markdown](../reference/outputs.md#review-with-markdown) explains how long reports are shortened and how `--details` lists every entry.
+
 ## Use the same gate in CI
 
 The local Pack is an invocation override. To record it as project selection, run these commands from `network-review/`:

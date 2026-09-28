@@ -369,7 +369,7 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
     "check reference SARIF changed",
   );
   assert(
-    readFileSync(join(checkCase.dir, "report.md"), "utf8").startsWith("# Policy check completed"),
+    readFileSync(join(checkCase.dir, "report.md"), "utf8").startsWith("## Rootform Policies\n"),
     "check reference report changed",
   );
   return "Authoring examples: Dialect, Policy Pack, tour, external content, and CLI commands verified";

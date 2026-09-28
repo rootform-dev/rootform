@@ -49,7 +49,7 @@ A check that cannot evaluate, for example because the stage is unavailable, no P
 
 ## What a Policy result proves
 
-A subnet Context Policy can establish that the supplied stage includes a Dialect-proven network placement. It cannot establish runtime reachability. A failed match can mean proven absence, or uncertainty can prevent a verdict; those are different review decisions. The check's JSON, Markdown, and SARIF reports preserve diagnostic and evaluation detail. SARIF records the verdict status in the properties of its SARIF run, so a check that evaluated nothing does not read as approval.
+A subnet Context Policy can establish that the supplied stage includes a Dialect-proven network placement. It cannot establish runtime reachability. A failed match can mean proven absence, or uncertainty can prevent a verdict; those are different review decisions. The check's JSON result and SARIF preserve diagnostic and evaluation detail; its Markdown review shows the outcomes to reviewers and lists every evaluation when written with `--details`. SARIF records the verdict status in the properties of its SARIF run, so a check that evaluated nothing does not read as approval.
 
 Review these boundaries before treating a Pack as a gate:
 
