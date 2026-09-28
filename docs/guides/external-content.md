@@ -32,7 +32,7 @@ From `content-demo/`, adopt the reviewed source:
 ```sh
 rootform add policy-packs ./policies
 rootform init . --locked --offline --no-input
-rootform list policy-packs -o wide
+rootform list policy-packs --format wide
 ```
 
 The `list` result shows the selected name, version, and Policy count. `add`

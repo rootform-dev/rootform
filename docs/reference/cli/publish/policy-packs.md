@@ -10,40 +10,43 @@ Publish a verified Policy Pack registry layout.
 ## Usage
 
 ```text
-rootform publish policy-packs <layout> [flags]
+rootform publish policy-packs <layout> [options]
 ```
 
-## Flags
+## Options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --dry-run ` | ` bool ` | ` false ` | report verified publication plan without network access |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
+| ` --dry-run ` | ` bool ` | ` false ` | report the verified publication plan without network access |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
+| ` --to ` | ` string ` | ` "" ` | publish to the tagless OCI `repository` |
+
+### Global options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform publish policy-packs |
-| ` --to ` | ` string ` | ` "" ` | publish to tagless OCI `repository` |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 ## Behavior
 
-Validate an existing local Policy Pack registry layout, publish every pack
-to one registry repository, and repull each manifest by digest. Policy
-Packs are published exactly as selected. Dry-run remains offline.
+Validate an existing local Policy Pack registry layout, publish every
+Policy Pack to one registry repository, and repull each manifest by
+digest. Policy Packs are published exactly as selected. Dry-run remains
+offline.
 
-Text or JSON result goes to standard output. Diagnostics go to standard
-error.
+The text or JSON result goes to standard output. Diagnostics go to
+standard error.
 
 ## Exit status
 
 | Status | Meaning |
 | --- | --- |
 | `0` | publication or dry-run verification completed |
+| `1` | the registry layout is invalid |
 | `2` | the command was used incorrectly |
-| `3` | publication could not be verified |
+| `4` | the layout could not be read, or registry publication or verification failed |
 
 ## Examples
 

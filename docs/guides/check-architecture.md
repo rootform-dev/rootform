@@ -1,9 +1,9 @@
 ---
 title: "Check an architecture"
-description: "Evaluate selected Policies against one stage of a plan or state Form."
+description: "Evaluate selected Policies against a plan or state Form."
 ---
 
-Follow one Policy through a pass, a violation, indeterminate evidence, and no target. `rootform run` analyzes an input and saves its Form; `rootform check` evaluates Policies against one stage of a Form and exits with the verdict. You need Rootform, Terraform or OpenTofu, and the AWS provider download for planning. Work from a new `network-review/` directory. The `pass/`, `violation/`, and `no-target/` directories hold separate scenarios; `policies/` holds one local Policy Pack.
+Follow one Policy through a pass, a violation, indeterminate evidence, and no target. `rootform run` analyzes an input and saves its Form; `rootform check` evaluates Policies against the Form's selected architecture and exits with the verdict. You need Rootform, Terraform or OpenTofu, and the AWS provider download for planning. Work from a new `network-review/` directory. The `pass/`, `violation/`, and `no-target/` directories hold separate scenarios; `policies/` holds one local Policy Pack.
 
 Plans, their JSON exports, and state files can contain secrets in clear text. Keep them out of Git and public artifacts. Rootform reads them locally and does not contact AWS. Its reports omit sensitive values but still describe topology and names.
 
@@ -120,13 +120,21 @@ rootform check pass/analysis.json --policy-pack ./policies \
 
 <!-- docs-output:check-architecture-pass -->
 ```ansi title="Passing check, excerpt"
-[1m[32mPolicies passed[0m
-[2mEvaluated[0m     Planned architecture (default)
-[2mPolicies[0m      1 policy selected: 1 passed
-[2mEvaluations[0m   2 instances: 2 passed
+[1mPolicy check completed[0m
 
-[1m[38;5;208mPassed[0m
-  [32m✓[0m tutorial/network-context  [2m2 instances[0m
+[2mInput[0m          pass/analysis.json
+[2mOrigin[0m         Plan (saved Form)
+[2mStage[0m          Planned
+[2mPolicies[0m       1 selected
+
+[2mEvaluations[0m    2
+[2mPassed[0m         2
+[2mViolated[0m       0
+[2mIndeterminate[0m  0
+
+[2mVerdict[0m        [1m[32mPASSED[0m
+
+All selected evaluations passed.
 ```
 
 Status `0` means every selected Policy was evaluated and passed, here on both targets. The VPC itself is not a target. `pass/analysis.json` is the Form preserving the interpreted architecture. `pass/results.json` is the Policy result: it identifies that Form by digest and records the evaluated stage, the selected Policies, and every evaluation. `pass/results.sarif` presents the same result to review tools. None of these files contains sensitive plan values. If either target stays indeterminate, confirm that `--plan-file` names the saved plan used for the JSON export.
@@ -137,42 +145,69 @@ Ask why the instance has a network Context. The saved Form avoids recompiling th
 
 <!-- docs-check:check-architecture-explain-architecture -->
 ```sh
-rootform explain architecture aws_instance.application \
+rootform explain instance aws_instance.application \
   --input pass/analysis.json --color always
 ```
 
 <!-- docs-output:check-architecture-explain-architecture -->
 ```ansi title="Instance evidence, excerpt"
-[1maws_instance.application  [2mat the planned stage[0m[0m
-[2mInstance[0m        managed instance of aws_instance; planned (create)
-[2mProvider[0m        registry.terraform.io/hashicorp/aws
-[2mInterpretation[0m  applied aws.rule.instance as compute-instance
+[1mInstance explained[0m
 
-[1m[38;5;208mFacts[0m
-  → context network  aws_subnet.application  [2mevidence: traversal[0m
+[2mInput[0m  pass/analysis.json
+[2mStage[0m  Planned
 
-[1m[38;5;208mClosures[0m
-  [32m•[0m context network → subnet  via source.subnet_id, match exact by id  [2mresolved, 1 fact[0m
+[1m[38;5;208maws_instance.application[0m
+  [2mInstance[0m        managed instance of aws_instance; planned (create)
+  [2mProvider[0m        registry.terraform.io/hashicorp/aws
+  [2mInterpretation[0m  applied aws.rule.instance as compute-instance
+  [2mConclusion[0m      Interpreted as compute-instance by aws.rule.instance: network
+                  context to aws_subnet.application.
+
+  [1mFacts[0m
+    -> context network  aws_subnet.application  [2mevidence: traversal[0m
+
+  [1mClosures[0m
+    context network -> subnet
+      via source.subnet_id, match exact by id
+      [32mresolved, 1 fact[0m
 ```
 
-The `traversal` label identifies saved-plan evidence, not a network probe. Explain the Policy against the same saved stage:
+The `traversal` label identifies saved-plan evidence, not a network probe. Explain the Policy outcome that `check` recorded in `pass/results.json`:
 
 <!-- docs-check:check-architecture-explain-policy -->
 ```sh
 rootform explain policy tutorial.policy.network-context \
-  --policy-pack ./policies --input pass/analysis.json --color always
+  --result pass/results.json --input pass/analysis.json --color always
 ```
 
 <!-- docs-output:check-architecture-explain-policy -->
 ```ansi title="Policy explanation, excerpt"
-[1m[32mtutorial.policy.network-context: passed[0m
-[2mStage[0m     planned
-[2mTargets[0m   2: 2 passed, 0 violated, 0 indeterminate
-[2mCoverage[0m  complete
-[2mTarget[0m    aws.rule.instance, aws.rule.subnet
+[1mPolicy explained[0m
+
+[2mPolicy[0m         tutorial.policy.network-context
+[2mResult[0m         pass/results.json
+[2mInput[0m          pass/analysis.json
+[2mOrigin[0m         Plan (saved Form)
+[2mStage[0m          Planned
+
+[2mEvaluations[0m    2
+[2mPassed[0m         2
+[2mViolated[0m       0
+[2mIndeterminate[0m  0
+[2mCoverage[0m       Complete
+
+[2mOutcome[0m        [1m[32mPASSED[0m
+
+[1m[38;5;208mRequirement[0m
+  Network resources must have an established network context.
+
+  [2mAssertion[0m  exists(contexts(rf.context.network))
+  [2mTarget[0m     Rules aws.rule.instance, aws.rule.subnet
+
+All 2 evaluations passed.
 ```
 
-The explanation shows both target evaluations. [Explain a Policy](../reference/cli/explain/policy.md) defines its accepted inputs and flags.
+`explain policy` reads the saved result and evaluates nothing again. The Requirement block quotes the Policy message and the assertion and target the result records. The optional `--input` must be the Form that result was computed from; Rootform refuses any other Form. Add `--details` to list each evaluation with its recorded evidence and conclusion; the evidence itself is described only when `--input` supplies that Form. [Explain a Policy](../reference/cli/explain/policy.md) defines its accepted inputs and options.
 
 ## Distinguish a violation
 
@@ -186,15 +221,28 @@ rootform check violation/plan.json --plan-file violation/plan.tfplan \
 
 <!-- docs-output:check-architecture-violation -->
 ```ansi title="Violation, excerpt"
-[1m[31mPolicies violated[0m
-[2mPolicies[0m      1 policy selected: 1 violated
-[2mEvaluations[0m   1 instance: 1 violated
+[1mPolicy check completed[0m
 
-[1m[38;5;208mViolations[0m
-  [31m✗[0m aws_subnet.application  [2mtutorial/network-context: Network resources must have an established network context.[0m
+[2mInput[0m          violation/plan.json
+[2mOrigin[0m         Plan
+[2mStage[0m          Planned
+[2mPolicies[0m       1 selected
+
+[2mEvaluations[0m    1
+[2mPassed[0m         0
+[2mViolated[0m       1
+[2mIndeterminate[0m  0
+
+[2mVerdict[0m        [1m[31mVIOLATED[0m
+
+[1m[31mVIOLATED[0m
+  [2mPolicy[0m       tutorial.policy.network-context
+  [2mResource[0m     aws_subnet.application
+  [2mRequirement[0m  Network resources must have an established network context.
+  [2mEvidence[0m     context network -> virtual-network via source.vpc_id: absent
 ```
 
-A known empty value proves that this subnet has no declared target for the Rule's network emission, so its network closure is absent and the Policy is violated: `check` returns status `1`. Reports requested with `-o` are written whatever the verdict. This says nothing about a deployed subnet; the scenario is an unapplied plan.
+`Requirement` quotes what the Policy declares; `Evidence` is the recorded observation that decided the verdict. A known empty value proves that this subnet has no declared target for the Rule's network emission, so its network closure through `source.vpc_id` is absent and the Policy is violated: `check` returns status `1`. Reports requested with `-o` are written whatever the verdict. This says nothing about a deployed subnet; the scenario is an unapplied plan.
 
 ## Keep unresolved evidence indeterminate
 
@@ -207,13 +255,32 @@ rootform check pass/plan.json --policy-pack ./policies --color always
 
 <!-- docs-output:check-architecture-indeterminate -->
 ```ansi title="Indeterminate result, excerpt"
-[1mPolicies indeterminate[0m
-[2mPolicies[0m      1 policy selected: 1 indeterminate
-[2mEvaluations[0m   2 instances: 2 indeterminate
+[1mPolicy check completed[0m
 
-[1m[38;5;208mIndeterminate[0m
-  [33m?[0m aws_instance.application  [2mtutorial/network-context: indeterminate (unknown until apply)[0m
-  [33m?[0m aws_subnet.application  [2mtutorial/network-context: indeterminate (unknown until apply)[0m
+[2mInput[0m          pass/plan.json
+[2mOrigin[0m         Plan
+[2mStage[0m          Planned
+[2mPolicies[0m       1 selected
+
+[2mEvaluations[0m    2
+[2mPassed[0m         0
+[2mViolated[0m       0
+[2mIndeterminate[0m  2
+
+[2mVerdict[0m        [1m[33mINDETERMINATE[0m
+
+[1m[33mINDETERMINATE[0m
+  [2mPolicy[0m       tutorial.policy.network-context
+  [2mResource[0m     aws_instance.application
+  [2mRequirement[0m  Network resources must have an established network context.
+  [2mEvidence[0m     context network -> subnet via source.subnet_id:
+                 indeterminate (unknown until apply)
+
+  [2mPolicy[0m       tutorial.policy.network-context
+  [2mResource[0m     aws_subnet.application
+  [2mRequirement[0m  Network resources must have an established network context.
+  [2mEvidence[0m     context network -> virtual-network via source.vpc_id:
+                 indeterminate (unknown until apply)
 ```
 
 The plan values for the new VPC and subnet IDs are unknown until apply. Without verified traversals, Rootform cannot prove either connection or its absence. Status `3` prevents an uncertain result from becoming approval. The saved plan is optional for analysis, but matters to this Policy verdict.
@@ -230,12 +297,23 @@ rootform check no-target/plan.json --plan-file no-target/plan.tfplan \
 
 <!-- docs-output:check-architecture-no-target -->
 ```ansi title="No target, excerpt"
-[1mNo policy decision[0m
-[2mPolicies[0m      1 policy selected: 1 without target
-[2mEvaluations[0m   no instance evaluated
+[1mPolicy check completed[0m
 
-[1m[38;5;208mWithout target[0m
-  · tutorial/network-context  [2mfound nothing to evaluate in the Planned architecture[0m
+[2mInput[0m          no-target/plan.json
+[2mOrigin[0m         Plan
+[2mStage[0m          Planned
+[2mPolicies[0m       1 selected
+
+[2mEvaluations[0m    0
+[2mPassed[0m         0
+[2mViolated[0m       0
+[2mIndeterminate[0m  0
+
+[2mVerdict[0m        [1mNO DECISION[0m
+
+[1mWITHOUT TARGET[0m
+  [2mPolicy[0m  tutorial.policy.network-context
+  [2mTarget[0m  Rules aws.rule.instance, aws.rule.subnet
 ```
 
 Status `3` means the selected Policy made no decision: a Policy without target never counts as passed, and a check that selects no Policy also returns `3`. `rootform run` never evaluates Policies, so its status `0` is analysis success, not compliance. [Policies and Policy Packs](../concepts/policies.md#read-the-aggregate-decision) explains aggregation.

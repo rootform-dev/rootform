@@ -10,31 +10,36 @@ Remove content from rootform.lock.
 ## Usage
 
 ```text
-rootform remove <object> [flags]
+rootform remove <command> [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform remove |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 ## Behavior
 
-Drop selected dialects or Policy Packs from this project, or exclude an
-embedded dialect.
+Drop selected Dialects or Policy Packs from this project, or exclude an
+embedded Dialect.
+
+## Exit status
+
+| Status | Meaning |
+| --- | --- |
+| `0` | help was shown |
+| `2` | the command was used incorrectly |
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform remove dialects `](remove/dialects.md) | Remove dialects from rootform.lock |
+| [` rootform remove dialects `](remove/dialects.md) | Remove Dialects from rootform.lock |
 | [` rootform remove policy-packs `](remove/policy-packs.md) | Remove Policy Packs from rootform.lock |
 
 ## Examples

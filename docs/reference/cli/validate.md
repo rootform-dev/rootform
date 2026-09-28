@@ -13,32 +13,30 @@ Policies or verify deployed cloud resources.
 ## Usage
 
 ```text
-rootform validate <object> [flags]
+rootform validate <command> [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform validate concept `](validate/concept.md) | Validate a concept definition |
+| [` rootform validate concept `](validate/concept.md) | Validate a Concept definition |
 | [` rootform validate context `](validate/context.md) | Validate a context dimension |
-| [` rootform validate dialects `](validate/dialects.md) | Validate dialect definitions |
+| [` rootform validate dialects `](validate/dialects.md) | Validate Dialect definitions |
 | [` rootform validate form `](validate/form.md) | Validate a saved Form |
-| [` rootform validate policy `](validate/policy.md) | Validate a policy definition |
+| [` rootform validate policy `](validate/policy.md) | Validate a Policy definition |
 | [` rootform validate relation `](validate/relation.md) | Validate a relation predicate |
-| [` rootform validate rule `](validate/rule.md) | Validate a rule definition |
+| [` rootform validate rule `](validate/rule.md) | Validate a Rule definition |
 
 <!-- END GENERATED CLI -->
 

@@ -844,6 +844,7 @@ export function verifyHandoffDirectory(
     "reference/cli.json",
     "schemas/form.schema.json",
     "schemas/compiled-policy-pack.schema.json",
+    "schemas/policy-result.schema.json",
     "schemas/rootform-lock.schema.json",
   ].sort((left, right) => left.localeCompare(right, "en"));
   const exportPaths = exportFiles.map((file, index) =>

@@ -10,27 +10,29 @@ Remove Policy Packs from rootform.lock.
 ## Usage
 
 ```text
-rootform remove policy-packs <name>... [flags]
+rootform remove policy-packs <name>... [options]
 ```
 
-## Flags
+## Options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` --dry-run ` | ` bool ` | ` false ` | print the planned change and write nothing |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform remove policy-packs |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
+| ` --project ` | ` string ` | ` "" ` | change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory |
 
-## Inherited flags
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform remove policy-packs |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 ## Behavior
 
-Remove Policy Packs from rootform.lock by name. A name that is not selected
-changes nothing.
+Remove Policy Packs from rootform.lock by name. Every name must be selected;
+otherwise nothing changes.
 
 When the project vendors this family under .rootform/, the vendored
 copy changes together with rootform.lock.
@@ -42,8 +44,10 @@ The summary goes to standard output. Diagnostics go to standard error.
 | Status | Meaning |
 | --- | --- |
 | `0` | rootform.lock matches the request |
-| `1` | nothing was written because a source or the result is invalid |
+| `1` | a named selection is absent or the remaining selection is invalid |
 | `2` | the command was used incorrectly |
+| `3` | rootform.lock is invalid |
+| `4` | a file or Rootform home operation failed |
 
 ## Examples
 

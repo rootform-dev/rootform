@@ -11,20 +11,18 @@ Diagnostics go to standard error. `rootform --version` is the root flag form.
 ## Usage
 
 ```text
-rootform version [flags]
+rootform version [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform version |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 <!-- END GENERATED CLI -->
 
@@ -33,4 +31,5 @@ rootform version
 rootform --version
 ```
 
-Status `0` means version printed; `2` means incorrect command use.
+Status `0` means the version was printed, `2` means the command was used
+incorrectly, and `4` means the version could not be written.

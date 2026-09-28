@@ -25,19 +25,19 @@ Several static nested blocks represented as a set may be reordered when exported
 
 ## Where does provider configuration stop?
 
-Plan JSON records provider configuration expressions, not their evaluated values. A `provider.<path>` Rule can establish a planned-stage endpoint only through a direct traversal in a verified saved plan. Literal or transformed provider hosts, state input, historical stages, OpenTofu provider `for_each`, and JSON configuration syntax leave that closure indeterminate with reason `unavailable`. Rootform does not read literal provider configuration values because it cannot identify sensitive provider attributes from the plan export. Keep the missing relation unresolved; inspect provider configuration in your own tooling instead of treating a dependency as a network fact.
+Plan JSON records provider configuration expressions, not their evaluated values. A `provider.<path>` Rule can establish a planned-stage endpoint only through a direct traversal in a paired saved plan. Literal or transformed provider hosts, state input, historical stages, OpenTofu provider `for_each`, and JSON configuration syntax leave that closure indeterminate with reason `unavailable`. Rootform does not read literal provider configuration values because it cannot identify sensitive provider attributes from the plan export. Keep the missing relation unresolved; inspect provider configuration in your own tooling instead of treating a dependency as a network fact.
 
 ## Instances without Rules
 
-Every managed or data instance gets a [Representation](concepts/forms.md#accounting-keeps-partial-knowledge-honest) in a stage's architecture within the Form. Without an applicable Rule it has no derived Concept or architectural facts. A Policy targeting those facts cannot call the instance compliant from its source type alone. Inspect the instance with `rootform explain architecture <address> --input analysis.json`, then assess Dialect coverage. A secondary resource may be represented without a permanent card in every Explorer scene; [reveal it on demand](guides/explore-architecture.md#reveal-a-secondary-resource).
+Every managed or data instance gets a [Representation](concepts/forms.md#accounting-keeps-partial-knowledge-honest) in a stage's architecture within the Form. Without an applicable Rule it has no derived Concept or architectural facts. A Policy targeting those facts cannot call the instance compliant from its source type alone. Inspect the instance with `rootform explain instance <address> --input analysis.json`, then assess Dialect coverage. A secondary resource may be represented without a permanent card in every Explorer scene; [reveal it on demand](guides/explore-architecture.md#reveal-a-secondary-resource).
 
 ## Why can a closure remain indeterminate?
 
 Unknown until apply and sensitive values cannot prove an endpoint. An unavailable path, duplicate identity, or an eligible candidate with unknown identity prevents unique matching. A known value that conflicts with a verified traversal is also unresolved. External endpoints are allowed only when the Dialect explicitly permits them and no eligible in-scope candidate remains unresolved. Identity matching normally stays within one provider configuration; a declared global identity or verified traversal can cross that boundary. An external endpoint says the reference is outside this inventory, not that a remote object exists or is healthy. Read the closure reason and [diagnostics](language/reference/diagnostics.md), then obtain better input or adjust a reviewed Dialect Rule.
 
-## Why was a policy not evaluated or indeterminate?
+## Why was a Policy not evaluated or indeterminate?
 
-No selected Policy Pack means no evaluation. A selected policy with zero matching targets has no decision. Unknown facts, unverified population, or an indeterminate closure can prevent a Boolean answer. A violation remains a violation when another evaluation is indeterminate. Inspect selected policy and target counts; status `3` is not approval. [Policy outcomes](concepts/policies.md#evidence-produces-three-outcomes) explains the evaluation model.
+No selected Policy Pack means no evaluation. A selected Policy with zero matching targets has no decision. Unknown facts, unverified population, or an indeterminate closure can prevent a Boolean answer. A violation remains a violation when another evaluation is indeterminate. Inspect selected Policy and target counts; status `3` is not approval. [Policy outcomes](concepts/policies.md#evidence-produces-three-outcomes) explains the evaluation model.
 
 ## What do drift and comparisons exclude?
 

@@ -400,9 +400,11 @@ if (
   })
 )
   throw new Error("policy-backed CI did not pass both baseline policies");
+const policyCIText = readFileSync(join(policyCIOutput, "check.txt"), "utf8");
 if (
   readFileSync(join(policyCIOutput, "check.status"), "utf8") !== "0\n" ||
-  !readFileSync(join(policyCIOutput, "check.txt"), "utf8").startsWith("Policies passed")
+  !policyCIText.startsWith("Policy check completed\n") ||
+  !/^Verdict +PASSED$/mu.test(policyCIText)
 )
   throw new Error("policy-backed CI did not report passing exit semantics");
 if (!readFileSync(policyCILockPath, "utf8").includes(policyPin.contentDigest))

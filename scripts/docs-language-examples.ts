@@ -147,7 +147,7 @@ export async function verifyLanguageExamples(binary: string, root: string): Prom
       "--policy-pack",
       join(workspace, name),
     ]);
-    expect(result.startsWith("Policies passed")).toBe(true);
+    expect(result).toContain("Verdict        PASSED");
   }
   const builtinsCheck = run([
     "check",
@@ -159,8 +159,9 @@ export async function verifyLanguageExamples(binary: string, root: string): Prom
     "--color",
     "always",
   ]).replace(new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, "gu"), "");
-  expect(builtinsCheck.startsWith("Policies passed")).toBe(true);
-  expect(builtinsCheck).toContain("3 policies selected: 3 passed");
+  expect(builtinsCheck).toContain("Verdict        PASSED");
+  expect(builtinsCheck).toContain("Policies       3 selected");
+  expect(builtinsCheck).toContain("Passed         3");
   const jsonPack = write(
     "json-policy-pack",
     "pack.rf.json",

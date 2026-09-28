@@ -1,9 +1,9 @@
 ---
 title: "Policies and Policy Packs"
-description: "Understand selection, evaluation, and evidence limits of Rootform policies."
+description: "Understand selection, evaluation, and evidence limits of Rootform Policies."
 ---
 
-A Policy evaluates a selected architecture stage within a [Form](forms.md). It cannot contact a provider, infer live state, or invent a missing fact. A Policy Pack owns related Policies and their selection. The policy result is a separate artifact and carries `form_format_version`.
+A Policy evaluates a selected architecture stage within a [Form](forms.md). It cannot contact a provider, infer live state, or invent a missing fact. A Policy Pack owns related Policies and their selection. The Policy result is a separate artifact and carries `form_format_version`.
 
 ## Definition, selection, and evaluation
 
@@ -24,7 +24,7 @@ This makes coverage part of the governance claim. A passing evaluation applies o
 
 ## Evaluate a supported stage
 
-For a plan Form, `rootform check` evaluates Planned by default and can evaluate Refreshed when present. It never evaluates a plan's reconstructed Recorded stage. For a state Form, it evaluates Recorded. `--stage` chooses an available stage and never falls back to another. A comparison Form is checked on its After side by default; `--side before` selects the other side. A Policy does not directly ask whether drift occurred: comparisons, drift, and the drift report are never evaluated as architectures. It evaluates architectural facts on the selected architecture.
+For a plan Form, `rootform check` evaluates Planned by default and can evaluate Refreshed when present. It never evaluates a plan's reconstructed Recorded stage. For a state Form, it evaluates Recorded. A comparison Form evaluates both Before and After by default, each at the stage selected in the saved comparison for that side; `--side` accepts `before`, `after`, or `both`. `--stage` chooses an available stage and never falls back to another; on a comparison Form it requires `--side before` or `--side after`. A Policy does not directly ask whether drift occurred: comparisons, drift, and the drift report are never evaluated as architectures. It evaluates architectural facts on each selected architecture.
 
 ## Evidence produces three outcomes
 
@@ -38,7 +38,7 @@ A proven `absent` closure can make an assertion false. Unknown, sensitive, confl
 
 ## Read the aggregate decision
 
-`rootform check` states one verdict, with this priority:
+`rootform check` states one verdict across the evaluated architectures, with this priority:
 
 1. Any violation makes the result violated and exits `1`.
 2. Otherwise, any indeterminate evaluation or incomplete target coverage makes the result indeterminate and exits `3`.

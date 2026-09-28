@@ -12,20 +12,18 @@ then save or load the result according to that shell's completion setup.
 ## Usage
 
 ```text
-rootform completion <shell> [flags]
+rootform completion <shell> [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform completion |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 <!-- END GENERATED CLI -->
 
@@ -37,7 +35,8 @@ rootform completion powershell > rootform.ps1
 ```
 
 These examples write files in the current directory; move them to a
-completion directory configured by your shell. Status `0` means generated,
-`1` means generation failed, and `2` means incorrect command use. Use
+completion directory configured by your shell. Status `0` means the completion
+script was generated, `2` means the command was used incorrectly, and `4` means
+the completion script could not be written. Use
 [`rootform version`](version.md) to identify the executable providing the
 completion script.

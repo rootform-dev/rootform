@@ -1,6 +1,6 @@
 ---
 title: Terraform and OpenTofu plans
-description: Produce plan and state exports, verify a saved plan, and read evidence limits.
+description: Produce plan and state exports, pair a saved plan, and read evidence limits.
 ---
 
 Produce a completed plan with your usual Terraform or OpenTofu workflow.
@@ -47,7 +47,7 @@ exists, export it with `terraform show -json > state.json`, or
 `tofu show -json > state.json`. A new working directory has no state to
 export.
 
-## Verify the saved plan
+## Pair the saved plan
 
 Pass the plan JSON export and its saved plan:
 
@@ -56,28 +56,32 @@ Pass the plan JSON export and its saved plan:
 rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -o analysis.json
 ```
 
-```ansi title="Verified pair excerpt"
+```ansi title="Paired saved plan excerpt"
 [1mPlan analyzed[0m
-[2mInput[0m         plan.json · plan JSON from Terraform or OpenTofu 1.16.4
-[2mCompleteness[0m  complete, as reported in the plan
-[2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
+[2mInput[0m              plan.json
+[2mProducer[0m           Terraform or OpenTofu 1.16.4
+[2mPlan completeness[0m  Complete, as reported in the plan
+[2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
+                   Only version, timestamp, and configuration shape are compared
 [2mWrote     [0m analysis.json
 ```
 
 **Enrichment** confirms agreement on version, timestamp, and configuration
-shape; it does not prove one planning operation. The count is the number of
-configuration modules read from the saved plan. **Input** names the export and
-the version it records. The JSON does not say which of the two tools wrote it,
-so Rootform names both unless you
-declare the tool with `--producer`. **Completeness** repeats what the plan
-itself reports.
+shape. These checks decide whether the saved plan may enrich this export; they
+do not validate the plan in general, and they do not prove one planning
+operation. The count is the number of configuration modules read from the
+saved plan. **Input** names the export; **Producer** gives the version it
+records. The JSON does not say which of the two tools wrote it, so Rootform
+names both unless you declare the tool with `--producer`. **Plan
+completeness** repeats what the plan reports about itself; it does not say
+that the analysis settled every fact.
 
 `--plan-file` checks the saved plan's recorded tool version, timestamp,
-and configuration shape against the JSON export. A verified pair lets Rootform
+and configuration shape against the JSON export. A paired saved plan lets Rootform
 inspect direct identity traversals in the saved configuration, even when an
 endpoint's evaluated ID is unknown until apply. It does not execute the
-configuration. The result records `enrichment.snapshot.status` as
-`verified`, `refused`, or `absent`.
+configuration. The Form records `enrichment.snapshot.status` as
+`verified` when the pair passes these checks, `refused`, or `absent`.
 
 If the pair is mismatched or unreadable, Rootform reports the refusal on
 standard error. Without `--require-enrichment`, analysis continues from JSON

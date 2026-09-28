@@ -1,6 +1,6 @@
 ---
 title: "Evaluation"
-description: "Instance interpretation, closure truth, policy targets, outcomes, and exit status."
+description: "Instance interpretation, closure truth, Policy targets, outcomes, and exit status."
 ---
 
 Rootform interprets plan JSON or state JSON locally. It masks sensitive values before retaining requested paths, selects at most one Rule per managed or data instance, closes that Rule's emissions, and evaluates selected Policies over one architecture stage within a Form. It never runs Terraform or OpenTofu or contacts providers. A saved Form can be reopened after validation without reinterpreting the original input.
@@ -12,9 +12,9 @@ Rootform interprets plan JSON or state JSON locally. It masks sensitive values b
 3. Attach optional Concept meaning and resolve ordered composition members per root instance.
 4. Resolve Context, Relation, and Contribution emissions into per-instance closures and facts.
 5. Record stage accounting, diagnostics, and the Form.
-6. If policies were selected, link and evaluate them against the selected stage.
+6. If Policies were selected, link and evaluate them against the selected stage.
 
-This order matters: a policy cannot treat an unclosed emission or failed interpretation as proof that a fact is absent.
+This order matters: a Policy cannot treat an unclosed emission or failed interpretation as proof that a fact is absent.
 
 ## Instance population and stages
 
@@ -24,7 +24,7 @@ This order matters: a policy cannot treat an unclosed emission or failed interpr
 | State JSON | One Recorded architecture | `recorded` |
 | Saved Form | Its stages | Form default stage; after side for a comparison Form |
 
-## Base representation
+## Base Representation
 
 Every observed managed and data instance has a Representation, even without an applied Rule. A plan's reconstructed Recorded stage is never a Policy evaluation target. A plan can include Reported drift (Recorded to Refreshed) and Planned changes (Refreshed to Planned). A cross-input [comparison](../../concepts/comparisons.md) has no Policy predicate that proves drift.
 
@@ -105,7 +105,7 @@ A false assertion is a violation; an unknown assertion is indeterminate. If a di
 | `interpretation_failed` | Candidate Rule could not apply safely | Read the instance diagnostic |
 | `population_unverified` | An instance that could affect target coverage was not verified | Analyze a complete plan or state export |
 
-These reasons can appear on a closure, evaluation, or coverage entry according to where uncertainty arose. `external_denied` does not authorize claiming that the external object is absent. A Policy with zero targets has no evaluation and outcome `no_target`, which makes the result status `no_decision`; a check with no selected policies makes no compliance claim. An unavailable requested stage or incompatible Pack fails evaluation with its own diagnostic.
+These reasons can appear on a closure, evaluation, or coverage entry according to where uncertainty arose. `external_denied` does not authorize claiming that the external object is absent. A Policy with zero targets has no evaluation and outcome `no_target`, which makes the result status `no_decision`; a check with no selected Policies makes no compliance claim. An unavailable requested stage or incompatible Pack fails evaluation with its own diagnostic.
 
 ## Per-target outcomes
 
@@ -115,7 +115,7 @@ These reasons can appear on a closure, evaluation, or coverage entry according t
 | `violated` | Assertion known false; Policy message applies |
 | `indeterminate` | Required evidence or assertion undecidable |
 
-`no_target` is the Policy outcome when a selected Policy has zero targets; it is not a passed per-target result. A check with no selected policies makes no compliance claim.
+`no_target` is the Policy outcome when a selected Policy has zero targets; it is not a passed per-target result. A check with no selected Policies makes no compliance claim.
 
 ## Aggregate result and exit status
 
@@ -130,7 +130,17 @@ A confirmed violation takes precedence over indeterminate evaluations. Without o
 | 3 | A selected Policy has no target, or no Policy is selected | `no_decision` |
 | 4 | Every selected Policy evaluated a target and passed | `passed` |
 
-These are the `status` values of the Policy result written by `rootform check` and of `rootform explain policy --format json`; a check that cannot evaluate has status `failed`. Text and Markdown outputs print `no_decision` as `no decision`.
+These are the aggregate `status` values of the Policy result written by
+`rootform check`. A check that cannot evaluate has status `failed`.
+`rootform explain policy <policy> --result <file> --format json` reports the
+selected Policy's `outcome` in each recorded architecture. Text and Markdown
+summaries render `no_decision` as `NO DECISION`.
+
+For a comparison Form, `check` evaluates both the Before and After sides by
+default. `--side before|after|both` selects the scope; `--stage` requires one
+side. The JSON Policy result has one `architectures` entry for each evaluated
+side, and SARIF has one run per evaluated side. The overall verdict is stated
+once.
 
 ### `rootform check` exit status
 
@@ -138,19 +148,22 @@ These are the `status` values of the Policy result written by `rootform check` a
 | --- | --- | --- |
 | Every selected Policy was evaluated and passed | `passed` | `0` |
 | At least one confirmed violation, even with indeterminate results elsewhere | `violated` | `1` |
-| No violation; indeterminate result, no target, nothing selected, or input/evaluation failure | Indeterminate, no decision, or not checked | `3` |
+| No verdict: indeterminate, no target, nothing selected, a side that could not be evaluated, an input that was refused, or an invalid `rootform.lock` | Indeterminate, no decision, or not checked | `3` |
 | Invalid command use or unknown Policy selector | Usage error | `2` |
-| A report could not be written after the verdict was stated | Report write failure | `4` |
+| Input or report could not be read or written | Operational failure | `4` |
 
 `rootform run` analyzes or compares architecture and never selects or evaluates
-Policies. It exits `0` when analysis succeeds, `2` for usage errors, `3` when
-input or analysis fails, and `4` when output cannot be written. To gate a plan,
+Policies. It exits `0` when the Form was produced or opened, `2` for incorrect
+usage, `3` when an input was refused or a requested stage is unavailable, and
+`4` when an input or output file, or the explorer, failed. To gate a plan,
 state, or saved Form, use `rootform check`. With `--policy-pack` and no
-`--policy`, check evaluates every Policy in the overlay packs. A zero-target
-Policy produces `POLICY_NO_DECISION` and exit `3`. A reported drift entry alone
-does not change check status. The JSON Form stores architecture evidence, not
-Policy results; check reports can be written as JSON, Markdown, or SARIF, and
-`explain policy` inspects a result. See [Outputs and exit status](../../reference/outputs.md).
+`--policy`, check evaluates every Policy in the overlay Policy Packs.
+A zero-target Policy produces a `NO DECISION` verdict and exits `3`.
+A reported drift entry alone does not change check status. The JSON Form stores
+architecture evidence, not Policy results. Check reports can be written as JSON,
+Markdown, or SARIF;
+`explain policy <policy> --result <file>` inspects a recorded result without
+reevaluation. See [Outputs and exit status](../../reference/outputs.md).
 
 ## Determinism and limits
 

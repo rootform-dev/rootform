@@ -10,31 +10,36 @@ Add content to rootform.lock.
 ## Usage
 
 ```text
-rootform add <object> [flags]
+rootform add <command> [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform add |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 ## Behavior
 
-Select dialects or Policy Packs for this project. rootform add, remove,
+Select Dialects or Policy Packs for this project. rootform add, remove,
 and update are the only commands that write rootform.lock.
+
+## Exit status
+
+| Status | Meaning |
+| --- | --- |
+| `0` | help was shown |
+| `2` | the command was used incorrectly |
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform add dialects `](add/dialects.md) | Add dialects to rootform.lock |
+| [` rootform add dialects `](add/dialects.md) | Add Dialects to rootform.lock |
 | [` rootform add policy-packs `](add/policy-packs.md) | Add Policy Packs to rootform.lock |
 
 ## Examples

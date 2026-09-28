@@ -10,22 +10,23 @@ Install Policy Packs from registry references.
 ## Usage
 
 ```text
-rootform install policy-packs <reference>... [flags]
+rootform install policy-packs <reference>... [options]
 ```
 
-## Flags
+## Options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform install policy-packs |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 | ` --offline ` | ` bool ` | ` false ` | use no network; accept installed digest references |
 
-## Inherited flags
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform install policy-packs |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 ## Behavior
 
@@ -42,8 +43,10 @@ The summary goes to standard output. Diagnostics go to standard error.
 | Status | Meaning |
 | --- | --- |
 | `0` | every reference is installed |
-| `1` | a reference could not be resolved, verified, or installed |
+| `1` | content is invalid or a named version is absent |
 | `2` | the command was used incorrectly |
+| `3` | --offline needs content that is not installed |
+| `4` | a registry, network, or Rootform home operation failed |
 
 ## Examples
 

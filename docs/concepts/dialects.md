@@ -15,7 +15,7 @@ Rule matching uses source kind, resource type, provider binding, and any predica
 
 For a subnet whose `vpc_id` identifies a VPC, an AWS Rule can classify the subnet and establish a network Context toward that VPC. The value or verified direct traversal is evidence. The Rule gives it architectural meaning. A `depends_on` edge, matching resource name, or provider type alone creates no Context or Relation. [Core concepts](../concepts.md#references-are-evidence-not-meaning) explains this boundary across all fact types.
 
-An emission closes as `resolved`, `absent`, or `indeterminate` per instance. A verified saved plan can establish a Planned-stage identity traversal when a value is unknown until apply. A state export has values and masks but no traversal snapshot. If an eligible target has unknown identity, the closure can remain indeterminate even if one candidate looks plausible. [Forms and stages](forms.md#stages-and-facts) explains closures and provenance.
+An emission closes as `resolved`, `absent`, or `indeterminate` per instance. A paired saved plan can establish a Planned-stage identity traversal when a value is unknown until apply. A state export has values and masks but no traversal snapshot. If an eligible target has unknown identity, the closure can remain indeterminate even if one candidate looks plausible. [Forms and stages](forms.md#stages-and-facts) explains closures and provenance.
 
 ## RF Vocabulary provides shared terms
 
@@ -29,7 +29,7 @@ The executable embeds the official Dialects and RF Vocabulary. They are availabl
 
 <!-- docs-check:concept-dialect-list -->
 ```sh
-rootform list dialects aws -o wide
+rootform list dialects aws --format wide
 ```
 
 <!-- docs-output:concept-dialect-list -->
@@ -57,7 +57,7 @@ rootform show aws.rule.subnet --color always
     via   source.vpc_id
 ```
 
-`ORIGIN` confirms which unit supplies the Dialect, such as `embedded` for the binary or `local` for a project source. Counts describe the Dialect's definitions, not coverage of the current project. The Rule inspection identifies the source type, produced Concept, and network Context emission. `rootform explain architecture` shows which Rule actually interpreted an instance and which closures resolved. See the [show reference](../reference/cli/show.md) for inspection forms.
+`ORIGIN` confirms which unit supplies the Dialect, such as `embedded` for the binary or `local` for a project source. Counts describe the Dialect's definitions, not coverage of the current project. The Rule inspection identifies the source type, produced Concept, and network context dimension emission. `rootform explain instance <address> --input <input>` shows which Rule actually interpreted an instance and which closures resolved. See the [show reference](../reference/cli/show.md) for inspection forms.
 
 ## Embedded and external selection
 

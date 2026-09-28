@@ -57,7 +57,7 @@ resource "aws_subnet" "application" {
 ```
 
 The subnet's `vpc_id` references an ID that will be known only after apply.
-Rootform can still establish its placement when it verifies the saved plan.
+Rootform can still establish its placement when the saved plan pairs with the export.
 
 ## Produce the plan
 
@@ -88,19 +88,25 @@ press `Ctrl+C` when finished. The summary includes this excerpt:
 
 ```ansi title="Run output excerpt"
 [1mPlan analyzed[0m
-[2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
-[2mStages[0m        Planned (default) · Refreshed · Recorded (reconstructed from Refreshed; no drift entry to reverse)
-[1m[38;5;208mPlanned architecture[0m
-  [2mInstances[0m    2 (2 managed, 0 data)
-  [2mFacts[0m        1: 0 relations, 1 context, 0 contributions
-  [2mClosures[0m     1: 1 resolved, 0 absent, 0 indeterminate
+[2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
+                   Only version, timestamp, and configuration shape are compared
+[2mStage[0m              Planned
+[2mStages[0m             Recorded (reconstructed), Refreshed, Planned
+[1m[38;5;208mArchitecture[0m
+  [2mResource instances[0m  2
+  [2mInterpreted[0m         2 of 2 instances matched a Rule
+  [2mContexts[0m            1
 ```
 
-The two **Instances** are the VPC and subnet in the plan. One **context**
-fact places the subnet in the VPC. A **closure** records the outcome of
-that placement question; `resolved` means Rootform established it.
-**Enrichment** means the saved plan matched this JSON export, allowing
-Rootform to read the configuration reference behind the placement.
+The two resource instances are the VPC and subnet in the plan. The summary's
+context count shows one placement fact. Inspect the subnet below to see its
+endpoint and the closure that justified it.
+**Enrichment** means the saved plan paired with this JSON export: their
+version, timestamp, and configuration shape agree, so Rootform can read the
+configuration reference behind the placement. Pairing enables that
+enrichment; it does not prove that both files came from one planning
+operation. **Interpreted** counts the instances a Rule matched; a matched
+Rule does not by itself settle every fact.
 
 ## Inspect the subnet
 
@@ -126,20 +132,22 @@ rootform run plan.json --no-serve
 ```
 
 ```ansi title="Plan-only excerpt"
-[1m[38;5;208mPlanned architecture[0m
-  [2mFacts[0m        0: 0 relations, 0 contexts, 0 contributions
-  [2mClosures[0m     1: 0 resolved, 0 absent, 1 indeterminate
-[1m[38;5;208mUncertainty · Planned stage[0m
-  [2mClosures[0m  1 unknown until apply
-  Pair the saved plan for traversal evidence on indeterminate closures
-    rootform run plan.json --plan-file plan.tfplan
+[1m[38;5;208mArchitecture[0m
+  [2mResource instances[0m  2
+  [2mInterpreted[0m         2 of 2 instances matched a Rule
+  [2mFacts[0m               none determined
+  A matched Rule does not settle every fact; see Uncertainty.
+[1m[38;5;208mUncertainty[0m
+                          [2mPlanned[0m
+  [2mIndeterminate closures[0m        1
+  [2m  Unknown until apply[0m         1
+  Values known only after apply stay unknown; they are not guessed.
 ```
 
 The VPC ID is unknown until apply. The JSON export alone does not say which
 instance `vpc_id` refers to, so the closure stays `indeterminate` rather
-than becoming a guessed placement. The next-step hint points back to the
-saved plan. See
-[saved-plan verification](../inputs/plans.md#verify-the-saved-plan) for the
+than becoming a guessed placement. See
+[saved-plan pairing](../inputs/plans.md#pair-the-saved-plan) for the
 pairing check and refusal behavior.
 
 ## Save the architecture
@@ -151,11 +159,11 @@ rootform run plan.json --plan-file plan.tfplan --no-serve -o analysis.json
 
 ```ansi title="Saved architecture excerpt"
 [1mPlan analyzed[0m
-[2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
-[1m[38;5;208mPlanned architecture[0m
-  [2mFacts[0m        1: 0 relations, 1 context, 0 contributions
-[1m[38;5;208mFiles[0m
-  [2manalysis.json[0m  Form (JSON); rootform run reopens it without the input
+[2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
+                   Only version, timestamp, and configuration shape are compared
+[1m[38;5;208mArchitecture[0m
+  [2mResource instances[0m  2
+  [2mContexts[0m            1
 [2mWrote     [0m analysis.json
 ```
 
@@ -167,16 +175,21 @@ facts, closures, diagnostics, and evidence. Reopen it with
 
 <!-- docs-check:journey-first-explain -->
 ```sh
-rootform explain architecture aws_subnet.application --input analysis.json
+rootform explain instance aws_subnet.application --input analysis.json
 ```
 
 ```ansi title="Subnet explanation excerpt"
-[1maws_subnet.application  [2mat the planned stage[0m[0m
-[2mInterpretation[0m  applied aws.rule.subnet as subnet
-[1m[38;5;208mFacts[0m
-  → context network  aws_vpc.main  [2mevidence: traversal[0m
-[1m[38;5;208mClosures[0m
-  [32m•[0m context network → virtual-network  via source.vpc_id, match exact by id  [2mresolved, 1 fact[0m
+[1mInstance explained[0m
+[1m[38;5;208maws_subnet.application[0m
+  [2mInterpretation[0m  applied aws.rule.subnet as subnet
+  [2mConclusion[0m      Interpreted as subnet by aws.rule.subnet: network context to
+                  aws_vpc.main.
+  [1mFacts[0m
+    -> context network  aws_vpc.main  [2mevidence: traversal[0m
+  [1mClosures[0m
+    context network -> virtual-network
+      via source.vpc_id, match exact by id
+      [32mresolved, 1 fact[0m
 ```
 
 The explanation names the interpreting Rule and the evidence behind the

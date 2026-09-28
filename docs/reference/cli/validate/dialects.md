@@ -1,47 +1,49 @@
 ---
 title: "rootform validate dialects"
-description: "Validate dialect definitions"
+description: "Validate Dialect definitions"
 ---
 
 <!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
-Validate dialect definitions.
+Validate Dialect definitions.
 
 ## Usage
 
 ```text
-rootform validate dialects [directory] [flags]
+rootform validate dialects [directory] [options]
 ```
 
-## Flags
+## Options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
+
+### Global options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate dialects |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 ## Behavior
 
-Compile and validate a dialect, including its concepts, rules,
-and references.
+Compile and validate each Dialect of a directory, including its
+Concepts, Rules, and references.
 
-With no directory, validation reads the current directory. The text or
+Without a directory, validation reads the current directory. The text or
 JSON result goes to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
 | Status | Meaning |
 | --- | --- |
-| `0` | every dialect is valid |
-| `1` | at least one dialect is not valid |
+| `0` | every Dialect is valid |
+| `1` | at least one Dialect is not valid |
 | `2` | the command was used incorrectly |
-| `3` | no dialect result could be decided |
+| `3` | no Dialects were found |
+| `4` | a source could not be read or the report could not be written |
 
 ## Examples
 

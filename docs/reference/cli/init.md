@@ -13,25 +13,33 @@ versions, modify the lock, or run `terraform init`.
 ## Usage
 
 ```text
-rootform init [path] [flags]
+rootform init [path] [options]
 ```
 
-## Flags
+## Options
+
+### Preparation
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --format ` | ` string ` | ` text ` | output `format`: text or json |
-| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform init |
 | ` --locked ` | ` bool ` | ` false ` | require and preserve the existing rootform.lock |
 | ` --no-input ` | ` bool ` | ` false ` | never prompt; require deterministic action |
-| ` --offline ` | ` bool ` | ` false ` | disable network; use only local data |
-| ` -v, --verbose ` | ` bool ` | ` false ` | show provider evidence and origin |
+| ` --offline ` | ` bool ` | ` false ` | use no network; accept local and installed sources |
 
-## Inherited flags
+### Output
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --details ` | ` bool ` | ` false ` | list every prepared unit's status and source on standard error |
+| ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
+
+### Global options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform init |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 <!-- END GENERATED CLI -->
 
@@ -59,10 +67,15 @@ rootform init ./infra --locked --offline --no-input
 rootform init ./infra --format json
 ```
 
-Machine JSON goes to standard output when selected; diagnostics and `--verbose`
-detail go to standard error. Text prints `Project prepared` and the counts of
-external Dialects and Policy Packs. JSON reports the same preparation result;
-neither form changes the lock. Status `0` means preparation completed, `1` means
-it failed, `2` means incorrect command use, and `3` means deterministic
-preparation was unavailable. See [Select Dialects and Policy Packs](../../cli.md)
-and [External content storage](../storage.md).
+With external content selected, text output starts with `Project prepared`,
+then reports `External Dialects` and `External Policy Packs` counts. With no
+external content selected, it starts with `Project ready`, then reports
+`External content  none`. Machine JSON goes to standard output; diagnostics and
+`--details` output go to standard error. Neither text nor JSON writes
+`rootform.lock`. Status `0` means preparation completed; `1` means selected
+content is invalid, missing, or differs from `rootform.lock`; `2` means the
+command was used incorrectly; `3` means `rootform.lock` is required or invalid,
+or `--offline` needs content that is not installed; and `4` means a file, the
+Rootform home, or the registry could not be read or written. See
+[Select Dialects and Policy Packs](../../cli.md) and
+[External content storage](../storage.md).

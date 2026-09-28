@@ -10,30 +10,35 @@ Publish packaged Rootform content.
 ## Usage
 
 ```text
-rootform publish <object> [flags]
+rootform publish <command> [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform publish |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 ## Behavior
 
 Publish validated Rootform packages to a registry repository.
 
+## Exit status
+
+| Status | Meaning |
+| --- | --- |
+| `0` | help was shown |
+| `2` | the command was used incorrectly |
+
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform publish dialects `](publish/dialects.md) | Publish a verified dialect registry layout |
+| [` rootform publish dialects `](publish/dialects.md) | Publish a verified Dialect registry layout |
 | [` rootform publish policy-packs `](publish/policy-packs.md) | Publish a verified Policy Pack registry layout |
 
 ## Examples

@@ -14,31 +14,33 @@ content unless `--offline` is set.
 ## Usage
 
 ```text
-rootform vendor policy-packs [flags]
+rootform vendor policy-packs [options]
 ```
 
-## Flags
+## Options
+
+| Flag | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| ` --offline ` | ` bool ` | ` false ` | use no network; copy only local and installed Policy Packs |
+| ` --project ` | ` string ` | ` "" ` | vendor what rootform.lock selects in project `dir`; paths stay relative to the working directory; default: the working directory |
+| ` --to ` | ` string ` | ` "" ` | copy into `directory`; default: .rootform/policy-packs in the project |
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform vendor policy-packs |
-| ` --offline ` | ` bool ` | ` false ` | use only exact local or cached Policy Packs |
-| ` --to ` | ` string ` | ` "" ` | copy into `directory`; ./.rootform/policy-packs by default |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 <!-- END GENERATED CLI -->
 
 `--to` changes the destination, not the project selection. The default is
-`./.rootform/policy-packs`; when present, project-selected packs are read
-exclusively there. An explicit local `--policy-pack` on a consuming command
-overlays a pack of the same name for that invocation; other selected packs
-remain active. `--offline` limits vendoring to verified local or installed
-content.
+`./.rootform/policy-packs`; when present, project-selected Policy Packs are
+read exclusively there. An explicit local `--policy-pack` on a consuming
+command overlays a Policy Pack of the same name for that invocation; other
+selected Policy Packs remain active. `--offline` limits vendoring to verified
+local or installed content.
 
 Start from a project whose lock selects a Policy Pack, as in
 [Use external content](../../../guides/external-content.md). The commands
@@ -53,7 +55,11 @@ rootform vendor policy-packs --offline --to ./offline/policy-packs
 
 The first vendor command prints the default `.rootform/policy-packs`
 destination; the second prints `./offline/policy-packs`. Both name every
-copied Pack and version. Copied names and versions go to standard output, diagnostics to standard
-error. Status `0` means every selection was copied, `2` means incorrect
-command use, and `3` means no complete vendored set was written. See
+copied Policy Pack and version. Copied names and versions go to standard
+output, diagnostics to standard error. Status `0` means every selected unit
+was copied; `1` means selected content is invalid, missing, or differs from
+`rootform.lock`; `2` means the command was used incorrectly; `3` means no
+content was selected, `rootform.lock` is invalid, or `--offline` needs content
+that is not installed; and `4` means a file, the Rootform home, or the registry
+could not be read or written. See
 [Reproduce an analysis offline](../../../guides/reproduce-build.md).

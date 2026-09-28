@@ -182,7 +182,7 @@ Policy Pack source stores qualified references but no semantic versions or
 digests. Before evaluation, Rootform links source against one validated
 Form's semantics:
 
-Save a Form from plan JSON first. The saved plan verifies the
+Save a Form from plan JSON first. The saved plan pairs with the
 export and supplies reference traversals; the Policy Pack then links against
 the semantics recorded in that document. Run these commands from the Rootform
 repository with the displayed Pack saved at `policy-reference/pack.rf.hcl`:

@@ -38,7 +38,7 @@ rootform add dialects ./dialects/payments
 ```text title="Example result"
 rootform.lock updated
 
-  add      dialect payments 0.1.0  (dialects/payments)
+  add      Dialect payments 0.1.0  (dialects/payments)
 ```
 
 This assumes a valid Dialect source at that path. `add` records its
@@ -119,11 +119,11 @@ Rootform determines the active Dialects in this order:
    installed OCI copy, according to the selection's source.
 4. Apply `--dialect` overrides given to this command.
 
-For Policy Packs, `--policy-pack` overlays one pack by name for one command;
-other selected packs remain active. `rootform check` selects every Policy in
-the overlay by default; repeat `--policy` to narrow selection before linking.
-An override never changes the lock. Two overrides with the same owner or pack
-name fail. `--locked` rejects overrides.
+For Policy Packs, `--policy-pack` overlays one Policy Pack by name for one
+command; other selected Policy Packs remain active. `rootform check` selects
+every Policy in the overlay by default; repeat `--policy` to narrow selection
+before linking. An override never changes the lock. Two overrides with the
+same owner or Policy Pack name fail. `--locked` rejects overrides.
 
 A missing or different copy stops the command. Rootform never substitutes
 another source or version, and normal analysis never acquires content. Policy
@@ -157,7 +157,7 @@ rootform check plan.json --plan-file plan.tfplan --policy 'baseline/*'
 
 This assumes the project selects a `baseline` Policy Pack and that the saved
 plan matches the JSON. The filter does not change `rootform.lock`; it still
-selects the whole Pack. The result counts only policies matching `baseline/*`.
+selects the whole Pack. The result counts only Policies matching `baseline/*`.
 Exit `0` means every selected Policy passed, `1` reports a violation, and `3`
 means the evidence is indeterminate or no decision was made. Usage errors exit
 `2`; a report write failure exits `4`.

@@ -13,15 +13,34 @@ or indeterminate entries while analysis returns `0`.
 
 Without `--format`, standard output carries the human summary. For `run`,
 it includes stage, instance, fact, closure, drift, and diagnostic counts as
-available. For `check`, it reports the Policy verdict and target counts.
+available. For `check`, it reports evaluation counts and the verdict, per side
+for a comparison Form.
 Standard error carries progress, warnings, the loopback server address for
 `run`, and failures. Do not merge it into machine-readable standard output.
 
-With no `-o` file, `--format` selects the standard output format.
+Without an `-o` file, `--format` selects the standard output format.
 `run` supports JSON, text, Markdown, and HTML; `check` supports text,
 JSON, Markdown, and SARIF. `--no-serve` writes files and exits; the normal
 `run` mode serves the result in the foreground. `check` never serves.
 `--no-browser` changes browser launch, not the server or output.
+
+## Read long reports
+
+On an interactive terminal, a long text report or help opens in `less` once
+every requested file is written. Enter advances one line, Space one page, `b`
+goes back a page, and `q` quits; quitting never changes the exit status. With
+`--no-pager`, a pipe or a file, a CI run, `TERM=dumb`, or no `less`
+installed, Rootform prints the whole report without waiting. `ROOTFORM_PAGER`
+names another pager, or disables paging when set to an empty value. The
+summary printed beside the explorer and JSON, SARIF, Markdown, and HTML output
+never open a pager.
+
+Text reports list every entry at the chosen depth: every change of a
+comparison, every violated or indeterminate evaluation with all its evidence,
+and every row of an explanation. `--details` adds depth, such as semantics,
+diagnostic codes, and passed evaluations. The Markdown summary and the summary
+beside the explorer preview each group instead and state how many entries they
+show.
 
 ## Choose an output file
 
@@ -40,11 +59,15 @@ Repeat `-o` to write several views:
 The JSON Form is reusable input. Plan Forms can contain stages, internal
 comparisons, and a drift report; cross-input results have
 `kind: "comparison"`. `check` loads a saved Form without recompiling it.
-Reports and HTML exports are outputs, not analysis inputs. For `run`,
-`--format` also sets the format of one `-o` target whose extension is not
-recognized; it cannot contradict a recognized extension. `check` requires one
-of its extensions on every `-o` target, and its `--format` applies only to
-standard output.
+Reports and HTML exports are outputs, not analysis inputs. Each `-o` file
+takes its format from its extension. Without `-o`, `--format` sets the format
+of standard output. When exactly one `-o` file has an extension that names no
+format, `--format` sets that file's format and standard output keeps the text
+summary; without `--format`, that file is refused. `--format` is also refused
+when it contradicts an extension or when more than one `-o` is given. `-o -`
+is refused: standard output already carries the summary or the `--format`
+output. For `check`, `.html` is refused even with `--format`: the
+interactive export belongs to `run`. Each refusal exits `2`.
 
 <!-- docs-check:journey-outputs-multiple -->
 ```sh
@@ -63,10 +86,10 @@ and the failed target is reported; exit status is `4`.
 
 | Exit | Exact condition |
 | --- | --- |
-| `0` | Analysis completed. |
-| `2` | Incorrect command use, such as an invalid flag combination or output collision. |
-| `3` | Input or analysis failed. |
-| `4` | An output could not be written, or the local server could not start. |
+| `0` | The Form was produced or opened. |
+| `2` | The command was used incorrectly. |
+| `3` | An input was refused, `rootform.lock` is invalid, or a requested stage is unavailable. |
+| `4` | An input, output, or `rootform.lock` file, or the explorer, failed. |
 
 A difference, an indeterminate comparison entry, or reported drift is not an
 analysis failure by itself.
@@ -75,23 +98,34 @@ analysis failure by itself.
 
 | Exit | Exact condition |
 | --- | --- |
-| `0` | Every selected Policy evaluated and passed. |
-| `1` | A selected Policy was violated. |
-| `2` | Incorrect command use, such as an invalid option value, an unknown or ambiguous `--policy` selector, `--side` on a Form that is not a comparison, or `--stage recorded` on a plan. |
-| `3` | No verdict: an indeterminate result, a selected Policy with no target, nothing selected, an unavailable stage, no selected Policy Pack, or a failed input or evaluation. |
-| `4` | A report could not be written after the verdict was stated. |
+| `0` | Every selected Policy passed on every requested side. |
+| `1` | A selected Policy was violated on a requested side. |
+| `2` | The command was used incorrectly. |
+| `3` | No verdict: indeterminate, no target, nothing selected, a side that could not be evaluated, an input that was refused, or an invalid `rootform.lock`. |
+| `4` | An input, report, or `rootform.lock` file could not be read or written. |
 
 Reports are written for every verdict. No selected Policies means no
 compliance claim. For Policy coverage and results, see
 [Check an architecture](../guides/check-architecture.md).
 
+## Read the Policy result
+
+The Policy result JSON has one `architectures` entry per evaluated
+architecture: one for a plan or state, and one per evaluated side, Before then
+After, for a comparison. Each entry holds its stage, status, Policy Packs,
+Policies, evaluations, violations, diagnostics, and summary. The top-level
+`scope`, `selection`, and `status` describe the whole check; `scope` is
+absent when the check stopped before choosing what to evaluate. See the
+[Policy result contract](../../contracts/policy-result.md) for exact fields.
+
 ## Interpret SARIF
 
-SARIF from `check` contains explicitly evaluated Policy results. A Policy
-rule ID is `<pack>/<policy>`. A pass uses `kind: pass` and `level: none`,
-a confirmed violation uses `kind: fail` and `level: error`, and an
-indeterminate evaluation uses `kind: review` and `level: none`. Result
-properties name the evaluated stage. A policy execution failure appears under
+SARIF has one run per evaluated architecture, like the Policy result. Each
+run's properties carry that architecture's status and the overall status. A
+Policy rule ID is `<pack>/<policy>`. A pass uses `kind: pass` and
+`level: none`, a confirmed violation uses `kind: fail` and `level: error`,
+and an indeterminate evaluation uses `kind: review` and `level: none`. Result
+properties name the evaluated stage. A Policy execution failure appears under
 `toolExecutionNotifications`.
 
 Each Policy result names its instance address as a logical location and its

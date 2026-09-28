@@ -127,9 +127,9 @@
             "label": "explain",
             "items": [
               { "label": "Overview", "page": "reference/cli/explain" },
-              { "label": "architecture", "page": "reference/cli/explain/architecture" },
+              { "label": "instance", "page": "reference/cli/explain/instance" },
               { "label": "policy", "page": "reference/cli/explain/policy" },
-              { "label": "semantics", "page": "reference/cli/explain/semantics" }
+              { "label": "rule", "page": "reference/cli/explain/rule" }
             ]
           },
           { "label": "fmt", "page": "reference/cli/fmt" },

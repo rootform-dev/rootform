@@ -82,7 +82,7 @@ rootform test ./fixtures --dialect ./dialects/network-review --color always
 1 case
 ```
 
-Exit `0` means every selected fixture matched its golden. `--run network` narrows by case-name substring while iterating. Exit `1` means a difference or fixture error; inspect the source address, interpretation, facts, closures, diagnostics, and sensitive-value bounds before updating the golden. Exit `3` means the run could not start or no fixture matched. A golden is a Form, not a Terraform plan or state export.
+Exit `0` means every selected fixture passed or was recorded with `--update`. `--run network` narrows by case-name substring while iterating. Exit `1` means a fixture differed or could not be analyzed; inspect the source address, interpretation, facts, closures, diagnostics, and sensitive-value bounds before updating the golden. Exit `2` means incorrect usage, `3` means `rootform.lock` is invalid or no fixtures matched, and `4` means fixture files, Dialects, or the report could not be read or written. A golden is a Form, not a Terraform plan or state export.
 
 ## Inspect the plan result
 
@@ -97,27 +97,27 @@ rootform run ./plan.json --plan-file ./plan.tfplan \
 <!-- docs-output:language-test-run -->
 ```ansi title="Plan summary excerpt"
 [1mPlan analyzed[0m
-[2mInput[0m         ./plan.json · plan JSON from Terraform or OpenTofu 1.16.4
-[2mEnrichment[0m    saved plan verified against this plan JSON (1 module)
-
-[1m[38;5;208mPlanned architecture[0m
-  [2mInstances[0m    1 (1 managed, 0 data)
-  [2mInterpreted[0m  1 of 1 instances
-  [2mFacts[0m        0: 0 relations, 0 contexts, 0 contributions
-  [2mClosures[0m     0: 0 resolved, 0 absent, 0 indeterminate
+[2mInput[0m              ./plan.json
+[2mProducer[0m           Terraform or OpenTofu 1.16.4
+[2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
+                   Only version, timestamp, and configuration shape are compared
+[1m[38;5;208mArchitecture[0m
+  [2mResource instances[0m  1
+  [2mInterpreted[0m         1 of 1 instance matched a Rule
+  [2mFacts[0m               none determined
 ```
 
 The one instance has an applied Rule. This Rule classifies it and emits nothing, so zero facts and closures are expected. The export identifies the Terraform/OpenTofu family and version, but not which tool produced it. `--producer terraform` records which tool made the export when that distinction matters. The verified saved plan can supply traversal evidence for Rules that emit facts. If these counts change, inspect the document and golden before accepting a new result. The `--no-serve` flag exits after the summary; without it, `run` serves the Explorer on loopback.
 
-## Evaluate policies over known facts
+## Evaluate Policies over known facts
 
-The fixture proves interpretation, not compliance. Follow [Evaluate locally](write-policy-pack.md#evaluate-locally) to select a Policy Pack against known facts and inspect a passing and failing decision. `rootform check` exits `0` only when every selected Policy evaluates a target and passes. A confirmed violation exits `1`; indeterminate evidence or zero targets exits `3`. Do not edit a generated Form to make a policy pass.
+The fixture proves interpretation, not compliance. Follow [Evaluate locally](write-policy-pack.md#evaluate-locally) to select a Policy Pack against known facts and inspect a passing and failing decision. `rootform check` exits `0` only when every selected Policy evaluates a target and passes. A confirmed violation exits `1`; indeterminate evidence or zero targets exits `3`. Do not edit a generated Form to make a Policy pass.
 
 | Case | Expected result to assert |
 | --- | --- |
 | Passing target | At least one selected evaluation with a known-true assertion and exit `0` |
 | Violating target | Known-false assertion, Policy message, target identity, and exit `1` |
-| Zero targets | `no_decision`, zero evaluations, `POLICY_NO_DECISION`, and exit `3` |
+| Zero targets | `NO DECISION`, zero evaluations, and exit `3` |
 | Incomplete evidence | `indeterminate` with the closure or coverage reason, and exit `3` |
 | Missing required vocabulary | Link diagnostic, with no guessed policy decision |
 
@@ -136,6 +136,6 @@ The range identifies the Rule declaration; the code is stable for automation. `H
 
 ## Verify the package boundary
 
-After source, fixture, and policy behavior pass, follow [Dialect packaging](../dialect-authoring.md) or [Policy Pack authoring](write-policy-pack.md) for distribution checks. Packaging does not replace a reviewed golden or a real policy decision.
+After source, fixture, and Policy behavior pass, follow [Dialect packaging](../dialect-authoring.md) or [Policy Pack authoring](write-policy-pack.md) for distribution checks. Packaging does not replace a reviewed golden or a real policy decision.
 
 <!-- rootform:endsteps -->

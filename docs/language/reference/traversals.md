@@ -61,7 +61,7 @@ Attribute names follow the input schema and match `[A-Za-z_][A-Za-z0-9_]*`, with
 
 ### Provider configuration resolution
 
-`via = provider.host` can identify a managed endpoint only when a verified saved plan shows a direct reference or supported pass-through in the bound provider block. Without that reference, the closure is `indeterminate(unavailable)`. Rootform never reads a literal provider configuration value, because plan exports do not provide the provider schema needed to classify it safely. This also applies to state input, historical plan stages, OpenTofu provider `for_each`, and JSON provider configuration syntax.
+`via = provider.host` can identify a managed endpoint only when a paired saved plan shows a direct reference or supported pass-through in the bound provider block. Without that reference, the closure is `indeterminate(unavailable)`. Rootform never reads a literal provider configuration value, because plan exports do not provide the provider schema needed to classify it safely. This also applies to state input, historical plan stages, OpenTofu provider `for_each`, and JSON provider configuration syntax.
 
 ### Explicit target comparison
 
@@ -73,7 +73,7 @@ Attribute names follow the input schema and match `[A-Za-z_][A-Za-z0-9_]*`, with
 
 ## Value and identity evidence
 
-A plan JSON supplies evaluated values; a paired saved plan supplies a configuration snapshot. With `rootform run plan.json --plan-file plan.tfplan`, Rootform verifies the pairing, then may follow a bare reference or a single interpolation through variables, locals, and module outputs to an exact instance endpoint. A tuple written directly at the emitted attribute or within one static block can pair its elements separately. This is available on the Planned stage only. A function, operator, conditional, `try`, splat, dynamic block, or computed index can remain dependency evidence but cannot prove endpoint identity.
+A plan JSON supplies evaluated values; a paired saved plan supplies a configuration snapshot. With `rootform run plan.json --plan-file plan.tfplan`, Rootform checks the pairing (version, timestamp, and configuration shape), then may follow a bare reference or a single interpolation through variables, locals, and module outputs to an exact instance endpoint. A tuple written directly at the emitted attribute or within one static block can pair its elements separately. This is available on the Planned stage only. A function, operator, conditional, `try`, splat, dynamic block, or computed index can remain dependency evidence but cannot prove endpoint identity.
 
 | Evidence | Fact's `evidence` field |
 | --- | --- |

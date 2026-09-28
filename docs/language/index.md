@@ -19,8 +19,8 @@ language and general HCL expressions are not part of this contract.
 | --- | --- |
 | Understand the language through one real architecture | [Language tour](tour.md) |
 | Author a provider Dialect | [Write a Dialect](../dialect-authoring.md) |
-| Express and evaluate one governance rule | [Check an architecture](../guides/check-architecture.md) · [CLI reference](../reference/cli/check.md) |
-| Version and distribute several policies | [Write a Policy Pack](write-policy-pack.md) |
+| Express and evaluate one governance rule | [Check an architecture](../guides/check-architecture.md), [CLI reference](../reference/cli/check.md) |
+| Version and distribute several Policies | [Write a Policy Pack](write-policy-pack.md) |
 | Format, compile, test, and inspect definitions | [Test and validate](test-validate.md) |
 | Check exact accepted syntax | [Language reference](reference/index.md) |
 
@@ -44,12 +44,13 @@ A Policy Pack participates after those facts exist:
 The Form is the saved result. Its public data contract is defined
 in the [Form reference](../concepts/forms.md). [Architecture comparisons](../concepts/comparisons.md)
 compares two inputs over that contract, and
-[Check an architecture](../guides/check-architecture.md) evaluates policies
-against one selected stage with [`rootform check`](../reference/cli/check.md).
+[Check an architecture](../guides/check-architecture.md) evaluates Policies
+against a plan's Planned stage, a state's Recorded stage, or both sides of a
+comparison Form with [`rootform check`](../reference/cli/check.md).
 No Policy rewrites the Form, reads a live cloud account, or repairs missing
 Dialect coverage. Policy outcomes appear in the check summary, the
-Markdown report, SARIF, and `rootform explain policy`, never in the Form
-itself.
+Markdown report, SARIF, and `rootform explain policy <policy> --result <file>`.
+They never appear in the Form itself.
 
 ## Dialects give instances meaning
 
@@ -66,7 +67,7 @@ A Dialect declares provider envelopes, local definitions, and Rules:
 - a **Concept** is optional nominal classification;
 - a **Context** names one placement dimension;
 - a **Relation** names a directed predicate;
-- facts connect representations through contexts, contributions, or relations;
+- facts connect Representations through contexts, contributions, or relations;
 - composition records members per root instance, including unresolved members;
   each member remains a separate Representation.
 
@@ -130,8 +131,8 @@ uses one of three closed fact queries: `contexts`, `relations`, and
 `contributions`.
 
 Within a Policy Pack source root, one top-level `policy_pack` manifest names the
-pack. Policies are top-level declarations in any `.rf.hcl` or `.rf.json` file
-beneath that same root:
+Policy Pack. Policies are top-level declarations in any `.rf.hcl` or
+`.rf.json` file beneath that same root:
 
 ```rf title="policies/subnet-network-context.rf.hcl"
 policy "subnet-network-context" {
@@ -144,8 +145,9 @@ policy "subnet-network-context" {
 }
 ```
 
-The manifest assigns pack identity to this policy through the shared source root.
-The policy needs neither nesting nor a pack reference.
+The manifest assigns Policy Pack identity to this Policy through the shared
+source root.
+The Policy needs neither nesting nor a Policy Pack reference.
 
 An empty query means zero only when the relevant emission is supported and its
 closure and instance population are complete. An unresolved closure makes an
@@ -168,7 +170,7 @@ The Rootform language is deliberately closed. It does not include:
 - variables, user-defined functions, or general HCL/Terraform functions;
 - arithmetic, loops, comprehensions, conditionals, object literals, or splats;
 - Policy Pack inheritance or composition;
-- access from policies to raw Terraform values, state, plans, or provider APIs.
+- access from Policies to raw Terraform values, state, plans, or provider APIs.
 
 `match.kind` selects `resource` (managed instance) or `data` (data instance).
 These words identify input instance kinds; they do not add equivalent

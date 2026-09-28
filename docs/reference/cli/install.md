@@ -10,32 +10,37 @@ Install registry content in the Rootform home.
 ## Usage
 
 ```text
-rootform install <object> [flags]
+rootform install <command> [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform install |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 ## Behavior
 
-Download and verify dialects or Policy Packs into the Rootform home.
+Download and verify Dialects or Policy Packs into the Rootform home.
 Installing makes content available on this machine; it selects
 nothing for any project.
+
+## Exit status
+
+| Status | Meaning |
+| --- | --- |
+| `0` | help was shown |
+| `2` | the command was used incorrectly |
 
 ## Subcommands
 
 | Command | Purpose |
 | --- | --- |
-| [` rootform install dialects `](install/dialects.md) | Install dialects from registry references |
+| [` rootform install dialects `](install/dialects.md) | Install Dialects from registry references |
 | [` rootform install policy-packs `](install/policy-packs.md) | Install Policy Packs from registry references |
 
 ## Examples

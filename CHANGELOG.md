@@ -4,15 +4,37 @@ All notable public Rootform distribution changes will be recorded here.
 
 ## Unreleased
 
+- Gave every command one interaction contract. Help leads with usage and
+  examples before grouped options. `-o` always names a file and `--format`
+  always names a format: `list` and `show` take `--format` where they took
+  `-o`, and `init --details` replaces `-v` and `--verbose`.
+  Exit statuses mean the same thing in every command: `0` done, `1` a decided
+  negative answer, `2` incorrect use, `3` no answer from the input,
+  selection, or evidence, and `4` an operational failure. Standard output
+  carries only the requested result; progress and errors go to standard error.
+- An invalid `rootform.lock` now exits `3` in `add`, `remove`, `update`,
+  `validate`, and `test`, as in every other command that reads it. `init` and
+  `vendor` exit `4` when the project directory cannot be read, and `list` and
+  `show` refuse a `--project` that names no directory with `2`. Help and
+  errors name the Rootform home where they said store.
+- `rootform explain instance` and `rootform explain rule` replace
+  `explain architecture` and `explain semantics` and require `--input`;
+  `rootform explain policy` explains an outcome recorded in a saved Policy
+  result named by `--result`, without evaluating it again.
+- A saved comparison Form reopens alone with `rootform run` and is refused as a
+  `--diff` operand; `--before-side` and `--after-side` are removed.
 - Restored `rootform check` as the Policy gate. It evaluates the selected
-  Policies against one stage of a plan, state, or saved Form (the After side of
-  a comparison Form by default), never a plan's reconstructed Recorded stage,
-  and exits `0` passed, `1` violated, `3` no verdict, `2` usage, or `4`
-  when a report cannot be written. `rootform run` only analyzes: it no longer
-  accepts `--policy`, `--policy-pack`, or SARIF output.
+  Policies against a plan's Planned architecture, a state's Recorded
+  architecture, or both sides of a comparison Form (`--side` keeps one), never
+  a plan's reconstructed Recorded stage, and exits `0` passed, `1` violated,
+  `3` no verdict, `2` usage, or `4` when an input or report file cannot be
+  read or written. `rootform run` only analyzes: it no longer accepts
+  `--policy`, `--policy-pack`, or SARIF output.
 - Documented the Policy result written by `check` as JSON, Markdown, text, and
-  SARIF 2.1.0 in `contracts/policy-result.md`; results identify the evaluated
-  Form by canonical digest and never embed it.
+  SARIF 2.1.0 in `contracts/policy-result.md` and
+  `schemas/policy-result.schema.json`; a result records each evaluated
+  architecture separately, identifies the evaluated Form by canonical digest,
+  and never embeds it.
 - The portable CI script now saves the Form with `run`, then gates that saved
   Form with `check` when a Policy selection exists, keeping each phase's
   status and reports.

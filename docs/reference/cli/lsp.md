@@ -10,34 +10,32 @@ Serve Rootform language features over stdio.
 ## Usage
 
 ```text
-rootform lsp [flags]
+rootform lsp [options]
 ```
 
-## Flags
+## Options
+
+### Global options
 
 | Flag | Type | Default | Meaning |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform lsp |
-
-## Inherited flags
-
-| Flag | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| ` --color ` | ` mode ` | ` auto ` | color human output: auto, always, never |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
 
 ## Behavior
 
-Run the Rootform language server over standard input
-and standard output. Protocol frames are the only standard output. Process
-diagnostics go to standard error; source diagnostics travel through LSP.
+Run the Rootform language server over standard input and standard output.
+Protocol frames are the only standard output. Process diagnostics go to
+standard error; source diagnostics travel through LSP.
 
 ## Exit status
 
 | Status | Meaning |
 | --- | --- |
 | `0` | the client completed shutdown and exit |
-| `1` | transport or lifecycle failed |
 | `2` | the command was used incorrectly |
+| `4` | the transport or the protocol lifecycle failed |
 
 ## Examples
 

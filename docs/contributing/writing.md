@@ -72,7 +72,7 @@ truth alone is not a reason to publish a detail.
 State prerequisites instead of teaching industry conventions. Explain product
 concepts with enough depth to support a correct decision: instances and
 Representations, Rules, Concepts, RF Vocabulary, Dialects, `.rf.hcl`, stages
-and closures, Forms, policies and Policy Packs, comparisons and
+and closures, Forms, Policies and Policy Packs, comparisons and
 drift, locks, vendor, offline operation, and provenance. Explain what Rootform
 can establish and what it refuses to invent.
 
@@ -90,7 +90,7 @@ depth to context:
 - an authoring guide explains how to create or change it;
 - a reference page defines the exact syntax and behavior.
 
-Apply this rule to Dialects, policies, Forms, comparisons, plans,
+Apply this rule to Dialects, Policies, Forms, comparisons, plans,
 locks, and provenance. Do not paste a full definition into every workflow. Link to a stable
 heading when another page owns the explanation.
 
@@ -152,16 +152,16 @@ in prose. Keep `language` lowercase and omit `(.rf.hcl)` from the section name.
 Use `.rf.hcl` explicitly when discussing files and syntax, including `.rf.hcl files`,
 `.rf.hcl syntax`, and `.rf.json`.
 
-Use **Dialect** for the named, versioned unit, its source, selection, store, and
-distribution. Use **semantics** only for architectural meaning, evaluation
-behavior, semantic versions and digests, or exact public identifiers such as
-the Form `semantics` field and `rootform explain semantics`. Never
-use “semantic package,” “selected semantics,” or similar aliases for Dialects.
+Use **Dialect** for the named, versioned unit, its source, selection,
+installation, and distribution. Use **semantics** only for architectural
+meaning, evaluation behavior, semantic versions and digests, or exact public
+identifiers such as the Form `semantics` field. Never use “semantic package,”
+“selected semantics,” or similar aliases for Dialects.
 
-In examples, put one top-level `policy_pack` manifest in a file at the pack
-root and top-level `policy` declarations in `.rf.hcl` or `.rf.json` files beneath
-that same root. The source root establishes ownership; policies need no explicit
-pack reference. Nested `policy` blocks are invalid.
+In examples, put one top-level `policy_pack` manifest in a file at the
+Policy Pack root and top-level `policy` declarations in `.rf.hcl` or `.rf.json`
+files beneath that same root. The source root establishes ownership; Policies
+need no explicit Policy Pack reference. Nested `policy` blocks are invalid.
 
 Distinguish the changes a plan proposes from a comparison between two inputs,
 and both from the drift records a plan reports. Never describe a cross-input
@@ -258,7 +258,7 @@ Use these examples to choose scope and wording:
 | “Rootform is one executable. It needs no Node.js, Python…” at the start of Install. | Name supported platforms and the only first-run network consequence. |
 | `macOS` as a heading directly below an active `macOS` tab. | Let the selected tab identify the platform; begin with **Recommended**. |
 | A Dialects concept page teaching source-priority and registry resolution algorithms. | Explain how Dialects change architecture meaning; link acquisition details to offline operation. |
-| A check walkthrough ending with an unrelated pack that evaluates zero targets. | Follow one policy through pass, violation, indeterminate evidence, then the same gate in CI. |
+| A check walkthrough ending with an unrelated Policy Pack that evaluates zero targets. | Follow one Policy through pass, violation, indeterminate evidence, then the same gate in CI. |
 | Reporting a renamed instance as removed and added. | Explain that the plan records the previous address, so Rootform reports the instance as `moved`. |
 | “The first run needs registry access.” | “A missing selected OCI Dialect or Policy Pack may need registry access during `init`. Local selections use their recorded paths.” |
 
