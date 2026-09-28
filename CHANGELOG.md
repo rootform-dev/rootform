@@ -4,6 +4,13 @@ All notable public Rootform distribution changes will be recorded here.
 
 ## Unreleased
 
+- The Markdown reports of `rootform run` and `rootform check` are review
+  documents for a pull request, a merge request, or a CI job summary. They
+  open with `## Rootform architecture` and `## Rootform Policies`, so both can
+  be appended into one review, and lead with the conclusion or verdict and its
+  scope; limits stay visible. Each list shows at most ten entries with exact
+  counts and folds when longer; `--details` lists every entry. Text, JSON,
+  and SARIF output are unchanged.
 - Gave every command one interaction contract. Help leads with usage and
   examples before grouped options. `-o` always names a file and `--format`
   always names a format: `list` and `show` take `--format` where they took

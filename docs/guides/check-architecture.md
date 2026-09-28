@@ -318,6 +318,87 @@ rootform check no-target/plan.json --plan-file no-target/plan.tfplan \
 
 Status `3` means the selected Policy made no decision: a Policy without target never counts as passed, and a check that selects no Policy also returns `3`. `rootform run` never evaluates Policies, so its status `0` is analysis success, not compliance. [Policies and Policy Packs](../concepts/policies.md#read-the-aggregate-decision) explains aggregation.
 
+## Write a review document
+
+A pull request or CI job summary reads Markdown. Save the violating plan's Form with its architecture review, then write the Policy review from that Form:
+
+<!-- docs-check:check-architecture-review -->
+```sh
+rootform run violation/plan.json --plan-file violation/plan.tfplan \
+  --no-serve -o violation/analysis.json -o violation/architecture.md
+rootform check violation/analysis.json --policy-pack ./policies \
+  -o violation/policies.md
+```
+
+`check` still returns status `1`: the report is written whatever the verdict. Each report opens with its own second-level heading, so an integration can append both into one review:
+
+<!-- docs-check:check-architecture-review-compose -->
+```sh
+cat violation/architecture.md violation/policies.md > violation/review.md
+```
+
+<!-- docs-output:check-architecture-review-compose -->
+```text title="violation/review.md"
+## Rootform architecture
+
+**1 resource instance added.**
+
+Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
+
+| Category | Added | Removed |
+| --- | ---: | ---: |
+| Resource instances | 1 | 0 |
+
+### Reported drift
+
+No drift reported in this plan. The export does not establish the refresh scope.
+
+### Net change
+
+Same determined changes as Planned changes.
+
+### Planned changes
+
+**Resource instances: 1 added**
+
+- `aws_subnet.application`
+
+### Planned architecture
+
+- **Resource instances:** 1
+- **Interpreted:** 1 of 1 instance matched a Rule
+- **Facts:** none determined
+
+### Provenance
+
+- **Input:** `violation/plan.json`
+- **Producer:** Terraform or OpenTofu 1.16.4
+- **Plan completeness:** Complete, as reported in the plan
+- **Enrichment:** Saved plan paired with this plan JSON \(1 module\); only version, timestamp, and configuration shape are compared
+- **Stage:** Planned
+- **Stages:** Recorded \(reconstructed\), Refreshed, Planned
+## Rootform Policies
+
+**VIOLATED: Planned architecture**
+
+1 Policy selected. 1 evaluation violated.
+
+### `tutorial.policy.network-context`
+
+**Requirement:** Network resources must have an established network context.
+
+**Violated: 1 evaluation**
+
+- `aws_subnet.application`: The network context toward virtual-network through `source.vpc_id` is absent.
+
+### Provenance
+
+- **Input:** `violation/analysis.json`
+- **Origin:** Plan \(saved Form\)
+```
+
+The architecture review leads with its conclusion and counts; the Policy review leads with the verdict and the evaluated stage, then states each Policy's requirement once above its evaluations. Neither links to other files: keep `analysis.json`, and any Policy result or SARIF, as artifacts when reviewers need them. [Review with Markdown](../reference/outputs.md#review-with-markdown) explains how long reports are shortened and how `--details` lists every entry.
+
 ## Use the same gate in CI
 
 The local Pack is an invocation override. To record it as project selection, run these commands from `network-review/`:

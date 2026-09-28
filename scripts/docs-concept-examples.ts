@@ -3,7 +3,9 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { configuration, markedCommand } from "./docs-core-examples.ts";
 
-type Example = { page: string; marker: string; exit: number; output?: string };
+/* output names a docs-output excerpt; file compares it with that work file
+   instead of standard output. */
+type Example = { page: string; marker: string; exit: number; output?: string; file?: string };
 
 const pages = [
   "concepts/forms.md",
@@ -55,6 +57,14 @@ const examples: Example[] = [
     marker: "check-architecture-no-target",
     exit: 3,
     output: "check-architecture-no-target",
+  },
+  { page: pages[3], marker: "check-architecture-review", exit: 1 },
+  {
+    page: pages[3],
+    marker: "check-architecture-review-compose",
+    exit: 0,
+    output: "check-architecture-review-compose",
+    file: "violation/review.md",
   },
   { page: pages[3], marker: "check-architecture-lock", exit: 0 },
   { page: pages[4], marker: "concept-restored-drift", exit: 0, output: "concept-restored-drift" },
@@ -161,14 +171,18 @@ export async function verifyConceptExamples(binary: string, root: string): Promi
   }
   for (const example of examples) {
     const page = required(source, example.page);
+    const cwd = required(work, example.page);
     const stdout = run(
       binaryDirectory,
-      required(work, example.page),
+      cwd,
       markedCommand(page, example.marker),
       example.marker,
       example.exit,
     );
-    if (example.output) assertExcerpt(stdout, outputExcerpt(page, example.output), example.marker);
+    if (example.output) {
+      const actual = example.file ? readFileSync(join(cwd, example.file), "utf8") : stdout;
+      assertExcerpt(actual, outputExcerpt(page, example.output), example.marker);
+    }
   }
   return `${examples.length} concept and review command blocks verified`;
 }
