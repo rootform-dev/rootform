@@ -43,10 +43,11 @@ its interpretation, status, and provider, and lists proven placements under
 facts, closures, dependencies, and diagnostics. **Center selection** brings
 the selected object back into view after navigation.
 
-**Details** lists changes, all instances, and evidence beyond the current
-scene. Its instance count includes objects without an applied architecture
-interpretation, which may have no canvas card; the toolbar says how many
-instances the canvas does not draw.
+**Form details**, at the top right, opens in the Inspector and lists
+changes, all instances, and evidence beyond the current scene. Its instance
+count includes objects without an applied architecture interpretation, which
+may have no canvas card; the toolbar says how many instances the canvas does
+not draw.
 
 ## Read a placement and its evidence
 
@@ -78,25 +79,41 @@ open the home context.
 
 ## Switch stages and comparisons
 
-The comparison card under **Place** names what the canvas shows: its title,
-its stages, one sentence, and its result in counted units. A plan opens on
-**Planned changes** (Refreshed → Planned); the card's menu also offers
-**Reported drift** (Recorded → Refreshed) and **Net change**
-(Recorded → Planned) when the plan holds those stages. A state Form shows its
-Recorded architecture without comparison controls. A comparison Form shows
-**Differences** between its two selected stages;
+The comparison selector under **Place** names what the canvas shows: its
+title and its stages. A plan opens on **Planned changes**
+(Refreshed → Planned); the selector also offers **Reported drift**
+(Recorded → Refreshed) and **Net change** (Recorded → Planned) when the plan
+holds those stages. The info button beside the selector opens **About this
+view**: what the view means, its result as counted rows (instances, facts,
+indeterminate closures), the two inputs of a comparison Form, and how a
+stage came to be, such as Recorded reconstructed by reversing drift entries.
+The same button turns to the warning tone when something changes how the
+canvas reads: a comparison that is not comparable, instances the plan did
+not evaluate, unverified instance counts, or incomplete evidence; the
+limits are then listed first. A dot on the button says the view has a list
+to read: **Drift report** lists each drift entry by consequence, **Events**
+lists moved, replaced, and recreated instances, and **Cancelled** lists
+drift that Net change restores. Each opens **Form details** in the
+Inspector on that register. A state Form shows its Recorded architecture
+without comparison controls. A comparison Form shows **Differences** between
+its two selected stages;
 [Compare architectures](compare-architectures.md#open-the-comparison-in-the-browser)
 opens one.
 
-The control at the bottom chooses the first stage, the difference, or the
-second stage: **Refreshed**, **Changes**, and **Planned** for Planned changes,
-or **Before**, **Differences**, and **After** for two inputs. A stage side
-draws that architecture alone. **Added**, **Removed**, **Changed**, and
-**Indeterminate** count the comparison entries of the current view; on a
-stage side they only highlight. In the card, **Events** lists moved,
-replaced, and recreated instances, **Drift report** lists each drift entry by
-consequence, **Cancelled** lists drift that Net change restores, and
-**Limits** names what bounds the current view.
+The reading block at the bottom left chooses the first stage, the
+difference, or the second stage: **Refreshed**, **Changes**, and **Planned**
+for Planned changes, or **Before**, **Differences**, and **After** for two
+inputs. A stage side draws that architecture alone. Under it, four filters
+count the comparison entries of the current view as **Added**, **Removed**,
+**Changed**, and **Indeterminate**; each tooltip gives the breakdown in
+units. Keep one to narrow the canvas to those entries and **Reset** to
+release them; on a stage side they only highlight.
+
+The camera at the top right zooms, fits the architecture, and centres the
+selection; its zoom readout opens those actions with their keys. The Form
+actions next to it open **Form details** and the list of instances the
+canvas does not draw. On a narrow screen the camera keeps its Fit button
+and stands beside the selector; pinch, wheel, or the keys still zoom.
 
 Do not read “No drift reported in this plan” as proof that no infrastructure
 changed. Terraform or OpenTofu may have skipped refresh or limited scope. See
