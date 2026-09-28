@@ -91,8 +91,10 @@ a CI job summary. The report of `run` opens with the heading
 `## Rootform architecture`: its conclusion, the compared stages or inputs, any
 limits of the evidence, change counts, reported drift, the changes, the
 architecture, and provenance. The report of `check` opens with
-`## Rootform Policies`: the verdict and the evaluated stage or sides, then each
-Policy with its requirement stated once above its evaluations, then coverage
+`## Rootform Policies`: the verdict and the evaluated stage. For both sides of
+a comparison Form, it states the overall verdict, the evaluation scope, and a
+table of each side's stage, evaluation counts, and verdict. Each Policy then
+follows with its requirement stated once above its evaluations, then coverage
 gaps and provenance. Conclusions, verdicts, and limits are never folded.
 
 Each list shows at most ten entries, spread across its statuses, such as added
@@ -107,8 +109,9 @@ folded in both reports, and `--details` also adds depth such as semantics and
 passed evaluations. Values from the input, such as addresses and names, are
 escaped or written as code, so they cannot add links, markup, or folds.
 
-Because each report opens with its own heading, an integration can append
-them into one review:
+Because each report opens with its own heading, an integration can join them
+into one review. Leave a blank line between them, and let the status of
+`check` decide the job rather than the command that joins the files:
 [Write a review document](../guides/check-architecture.md#write-a-review-document)
 composes both for one plan. The reports do not link to other files; publish
 the Form, the Policy result, SARIF, or the HTML export separately when

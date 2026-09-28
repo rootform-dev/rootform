@@ -320,24 +320,34 @@ Status `3` means the selected Policy made no decision: a Policy without target n
 
 ## Write a review document
 
-A pull request or CI job summary reads Markdown. Save the violating plan's Form with its architecture review, then write the Policy review from that Form:
+A pull request or CI job summary reads Markdown. This script saves the violating plan's Form with its architecture review, writes the Policy review from that Form, joins both reviews, and ends with the status of `check`:
 
 <!-- docs-check:check-architecture-review -->
 ```sh
 rootform run violation/plan.json --plan-file violation/plan.tfplan \
-  --no-serve -o violation/analysis.json -o violation/architecture.md
+  --no-serve -o violation/analysis.json -o violation/architecture.md || exit
+check_status=0
 rootform check violation/analysis.json --policy-pack ./policies \
-  -o violation/policies.md
+  -o violation/policies.md || check_status=$?
+case $check_status in
+  0 | 1 | 3) ;;
+  *) exit "$check_status" ;;
+esac
+{ cat violation/architecture.md && printf '\n' && cat violation/policies.md; } \
+  > violation/review.md || exit 4
+exit "$check_status"
 ```
 
-`check` still returns status `1`: the report is written whatever the verdict. Each report opens with its own second-level heading, so an integration can append both into one review:
+Save it as a script, for example `review.sh` run with `sh review.sh`, or use it as a CI step: each `exit` ends the shell that runs it, so do not paste it into an interactive terminal. It behaves the same with or without `set -e`.
 
-<!-- docs-check:check-architecture-review-compose -->
-```sh
-cat violation/architecture.md violation/policies.md > violation/review.md
-```
+- If `run` fails, the script stops with the status of `run` and joins nothing.
+- `check` writes its report whatever the verdict: `0` passed, `1` violated, `3` no verdict. The script keeps that status and returns it last.
+- Status `2` (incorrect use) or `4` (a file could not be read or written) stops the script with that status before anything is joined.
+- `printf '\n'` leaves a blank line between the two reports. If `violation/review.md` cannot be written, the script exits `4`, so a write failure never reads as a Policy verdict.
 
-<!-- docs-output:check-architecture-review-compose -->
+Here `check` returns `1`: the script writes `violation/review.md`, then exits `1`.
+
+<!-- docs-output:check-architecture-review -->
 ```text title="violation/review.md"
 ## Rootform architecture
 
@@ -377,6 +387,7 @@ Same determined changes as Planned changes.
 - **Enrichment:** Saved plan paired with this plan JSON \(1 module\); only version, timestamp, and configuration shape are compared
 - **Stage:** Planned
 - **Stages:** Recorded \(reconstructed\), Refreshed, Planned
+
 ## Rootform Policies
 
 **VIOLATED: Planned architecture**
