@@ -16,9 +16,11 @@ import (
 
 // Subject is one backend under test and the inputs it answers.
 type Subject struct {
+	// Backend reaches an empty Rootform home.
 	Backend backend.Backend
 	// Project is a project directory whose selection compiles Plan and
-	// State; empty means the working directory.
+	// State and selects at least one Dialect; empty means the working
+	// directory.
 	Project string
 	// Plan and State are a plan JSON and a state JSON the selection
 	// compiles.
@@ -27,6 +29,9 @@ type Subject struct {
 	// PolicyPacks are Policy Pack sources that declare at least one Policy
 	// and apply to the Form Plan compiles to.
 	PolicyPacks []string
+	// Dialects is a directory of Dialect sources that compiles without a
+	// diagnostic.
+	Dialects string
 }
 
 // Run is the conformance suite of a backend. subject builds a fresh backend
@@ -38,6 +43,11 @@ func Run(t *testing.T, subject func(t *testing.T) Subject) {
 	t.Run("PresentsACatalog", func(t *testing.T) { presentsACatalog(t, subject(t)) })
 	t.Run("ComparesTwoForms", func(t *testing.T) { comparesTwoForms(t, subject(t)) })
 	t.Run("LoadsAndEvaluatesPolicies", func(t *testing.T) { loadsAndEvaluatesPolicies(t, subject(t)) })
+	t.Run("DefinesTheSelection", func(t *testing.T) { definesTheSelection(t, subject(t)) })
+	t.Run("RefusesTheDefinitionsOfAMissingProject", func(t *testing.T) { refusesMissingDefinitions(t, subject(t)) })
+	t.Run("DefinesPolicyPacks", func(t *testing.T) { definesPolicyPacks(t, subject(t)) })
+	t.Run("ListsAnEmptyHome", func(t *testing.T) { listsAnEmptyHome(t, subject(t)) })
+	t.Run("CompilesDialectSources", func(t *testing.T) { compilesDialectSources(t, subject(t)) })
 }
 
 // sanitized requires a failure the command line can print as it is.
@@ -200,5 +210,123 @@ func loadsAndEvaluatesPolicies(t *testing.T, s Subject) {
 	}
 	if _, err := policyresult.Decode(encoded); err != nil {
 		t.Fatalf("the evaluated result does not decode: %v", err)
+	}
+}
+
+// definesTheSelection requires the RF Vocabulary and the selected Dialects,
+// each declaration named by the identity a command line reference resolves.
+func definesTheSelection(t *testing.T, s Subject) {
+	session := s.Backend.Open(context.Background(), backend.Selection{Project: s.Project}, &bytes.Buffer{})
+	definitions, err := session.Definitions(context.Background())
+	if err != nil {
+		t.Fatalf("loading the definitions: %v", err)
+	}
+	vocabulary := definitions.Vocabulary
+	if vocabulary.Owner == "" || vocabulary.Version == "" || len(vocabulary.Definitions) == 0 {
+		t.Fatalf("the RF Vocabulary is not described: %+v", vocabulary)
+	}
+	for _, definition := range vocabulary.Definitions {
+		switch definition.Kind {
+		case "concept", "context", "relation":
+		default:
+			t.Fatalf("the vocabulary definition %q has the kind %q", definition.ID, definition.Kind)
+		}
+		if definition.ID != vocabulary.Owner+"."+definition.Kind+"."+definition.Name {
+			t.Fatalf("the vocabulary definition %q is not named %s.%s.%s", definition.ID, vocabulary.Owner, definition.Kind, definition.Name)
+		}
+	}
+	if len(definitions.Dialects) == 0 {
+		t.Fatal("the selection defines no Dialect")
+	}
+	for _, dialect := range definitions.Dialects {
+		if dialect.Owner == "" || dialect.Version == "" {
+			t.Fatalf("a Dialect has no identity: %+v", dialect)
+		}
+		for _, rule := range dialect.Rules {
+			if rule.Owner != dialect.Owner || rule.ID != dialect.Owner+".rule."+rule.Name {
+				t.Fatalf("the rule %q of %s is not named %s.rule.%s", rule.ID, dialect.Owner, dialect.Owner, rule.Name)
+			}
+		}
+	}
+}
+
+// refusesMissingDefinitions requires a project that cannot be read to stop
+// the command as an operational failure.
+func refusesMissingDefinitions(t *testing.T, s Subject) {
+	missing := filepath.Join(t.TempDir(), "missing")
+	session := s.Backend.Open(context.Background(), backend.Selection{Project: missing}, &bytes.Buffer{})
+	_, err := session.Definitions(context.Background())
+	if err == nil {
+		t.Fatal("the definitions of a missing project loaded")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.Failure {
+		t.Fatalf("a missing project reads as kind %d, want a failure", failure.Kind)
+	}
+}
+
+// definesPolicyPacks requires the Policy Pack sources to be described with
+// their identity and the Policies they declare.
+func definesPolicyPacks(t *testing.T, s Subject) {
+	session := s.Backend.Open(context.Background(), backend.Selection{Project: s.Project}, &bytes.Buffer{})
+	packs, err := session.PolicyDefinitions(context.Background(), s.PolicyPacks)
+	if err != nil {
+		t.Fatalf("describing the Policy Packs: %v", err)
+	}
+	policies := 0
+	for _, pack := range packs {
+		if pack.Name == "" || pack.Version == "" || pack.ContentDigest == "" {
+			t.Fatalf("a Policy Pack has no identity: %+v", pack)
+		}
+		for _, policy := range pack.Policies {
+			if policy.Pack != pack.Name || policy.ID != pack.Name+".policy."+policy.Name {
+				t.Fatalf("the Policy %q of %s is not named %s.policy.%s", policy.ID, pack.Name, pack.Name, policy.Name)
+			}
+		}
+		policies += len(pack.Policies)
+	}
+	if policies == 0 {
+		t.Fatal("the Policy Packs declare no Policy")
+	}
+}
+
+func listsAnEmptyHome(t *testing.T, s Subject) {
+	for _, family := range []backend.Family{backend.Dialects, backend.PolicyPacks} {
+		units, err := s.Backend.Home().Installed(context.Background(), family)
+		if err != nil {
+			t.Fatalf("listing the installed %s: %v", family, err)
+		}
+		if len(units) != 0 {
+			t.Fatalf("an empty home lists the %s %+v", family, units)
+		}
+	}
+}
+
+// compilesDialectSources requires Dialect sources to compile as they stand,
+// a directory without a source to be empty, and a directory that cannot be
+// read to stop the command as an operational failure.
+func compilesDialectSources(t *testing.T, s Subject) {
+	authoring := s.Backend.Authoring()
+	compiled, err := authoring.Dialects(context.Background(), s.Dialects)
+	if err != nil {
+		t.Fatalf("compiling the Dialect sources: %v", err)
+	}
+	if compiled.Empty || len(compiled.Dialects) == 0 || len(compiled.Diagnostics) != 0 {
+		t.Fatalf("the Dialect sources did not compile: %+v", compiled)
+	}
+	for _, dialect := range compiled.Dialects {
+		if dialect.Name == "" || dialect.Version == "" {
+			t.Fatalf("a compiled Dialect has no identity: %+v", dialect)
+		}
+	}
+	empty, err := authoring.Dialects(context.Background(), t.TempDir())
+	if err != nil || !empty.Empty {
+		t.Fatalf("an empty directory compiled to %+v, %v", empty, err)
+	}
+	_, err = authoring.Dialects(context.Background(), filepath.Join(t.TempDir(), "missing"))
+	if err == nil {
+		t.Fatal("a missing directory compiled")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.Failure {
+		t.Fatalf("a missing directory reads as kind %d, want a failure", failure.Kind)
 	}
 }

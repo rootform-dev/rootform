@@ -32,8 +32,9 @@ type Env struct {
 	// default browser. Without it every report is plain and written
 	// directly, and only Browser opens the explorer.
 	Interactive bool
-	// Backend compiles, compares, presents and evaluates architecture. Without
-	// one, run, check and explain report that they are not configured.
+	// Backend compiles, compares, presents and evaluates architecture, and
+	// describes the selected definitions. Without one, the commands that
+	// need it report that they are not configured.
 	Backend backend.Backend
 	// Browser opens the explorer address. Nil uses the default browser when
 	// Interactive.
@@ -59,11 +60,7 @@ type Browser interface {
 // Commands are command services implemented outside this module.
 type Commands struct {
 	Compile   command.CompileService
-	List      command.ListService
-	Show      command.ShowService
-	Validate  command.ValidateService
 	Fmt       command.FmtService
-	Test      command.TestService
 	Vendor    command.VendorService
 	Selection command.SelectionService
 	Store     command.StoreService
@@ -121,23 +118,23 @@ func Run(env Env) int {
 	services := app.Services{
 		Stdin: env.Stdin, Stdout: stdout, Stderr: stderr,
 		Backend: env.Backend, Browser: browser, Version: env.Version,
-		Assets: env.Assets, Shell: env.ExportShell,
+		Assets: env.Assets, Shell: env.ExportShell, Getwd: env.Getwd,
 	}
 	if env.Backend != nil {
 		commandEnv.Service = services.Run()
 		commandEnv.Check = services.Check()
 		commandEnv.Explain = services.Explain()
+		commandEnv.List = services.List()
+		commandEnv.Show = services.Show()
+		commandEnv.Test = services.Test()
 	}
 	var external Commands
 	if env.Commands != nil {
 		external = env.Commands(env.Stdin, stdout, stderr)
 	}
-	commandEnv.Validate = services.Validate(external.Validate)
+	commandEnv.Validate = services.Validate()
 	commandEnv.Compile = external.Compile
-	commandEnv.List = external.List
-	commandEnv.Show = external.Show
 	commandEnv.Fmt = external.Fmt
-	commandEnv.Test = external.Test
 	commandEnv.Vendor = external.Vendor
 	commandEnv.Selection = external.Selection
 	commandEnv.Store = external.Store

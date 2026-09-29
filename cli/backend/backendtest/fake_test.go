@@ -35,6 +35,11 @@ func TestFakeConforms(t *testing.T) {
 	backendtest.Run(t, func(t *testing.T) backendtest.Subject {
 		planForm, stateForm := fixtureForm(t, "plan.json"), fixtureForm(t, "state.json")
 		comparison := fixtureForm(t, "comparison.json")
+		dialects := t.TempDir()
+		if err := os.WriteFile(filepath.Join(dialects, "dialect.rf.hcl"), []byte("dialect \"fixture\" {}\n"), 0o644); err != nil {
+			t.Fatal(err)
+		}
+		projectUnreadable := &backend.Error{Kind: backend.Failure, Code: "SELECTION_PROJECT_UNREADABLE", Message: "project root could not be read"}
 		fake := &backendtest.Fake{
 			CompileFunc: func(_ context.Context, _ backend.Selection, export backend.Export) (backend.Compiled, error) {
 				var status struct {
@@ -61,7 +66,7 @@ func TestFakeConforms(t *testing.T) {
 			PoliciesFunc: func(_ context.Context, selection backend.Selection, overlays []string) (backend.PolicySet, error) {
 				if selection.Project != "" {
 					if _, err := os.Stat(selection.Project); err != nil {
-						return nil, &backend.Error{Kind: backend.Failure, Code: "SELECTION_PROJECT_UNREADABLE", Message: "project root could not be read"}
+						return nil, projectUnreadable
 					}
 				}
 				return backendtest.PolicySet{
@@ -74,8 +79,38 @@ func TestFakeConforms(t *testing.T) {
 			CompareFunc: func(context.Context, form.Side, form.Side) *form.ComparisonForm {
 				return comparison.Comparison
 			},
+			DefinitionsFunc: func(_ context.Context, selection backend.Selection) (backend.Definitions, error) {
+				if selection.Project != "" {
+					if _, err := os.Stat(selection.Project); err != nil {
+						return backend.Definitions{}, projectUnreadable
+					}
+				}
+				return backend.Definitions{
+					Vocabulary: backend.Vocabulary{Owner: "rf", Version: "0.1.0", Definitions: []backend.VocabularyDefinition{
+						{Kind: "concept", ID: "rf.concept.network", Name: "network"},
+					}},
+					Dialects: []backend.Dialect{{Owner: "fixture", Version: "0.1.0", Rules: []backend.Rule{
+						{ID: "fixture.rule.one", Owner: "fixture", Name: "one"},
+					}}},
+				}, nil
+			},
+			PolicyDefinitionsFunc: func(context.Context, backend.Selection, []string) ([]backend.PolicyPackDefinition, error) {
+				return []backend.PolicyPackDefinition{{Name: "fixture", Version: "0.1.0", ContentDigest: "sha256:0", Policies: []backend.PolicyDefinition{
+					{ID: "fixture.policy.one", Pack: "fixture", Name: "one"},
+				}}}, nil
+			},
+			DialectsFunc: func(_ context.Context, directory string) (backend.DialectCompilation, error) {
+				entries, err := os.ReadDir(directory)
+				if err != nil {
+					return backend.DialectCompilation{}, &backend.Error{Kind: backend.Failure, Message: "that Dialect directory could not be read"}
+				}
+				if len(entries) == 0 {
+					return backend.DialectCompilation{Empty: true}, nil
+				}
+				return backend.DialectCompilation{Dialects: []backend.Identity{{Name: "fixture", Version: "0.1.0"}}}, nil
+			},
 		}
-		return backendtest.Subject{Backend: fake, Plan: plan, State: state, PolicyPacks: []string{"fixture"}}
+		return backendtest.Subject{Backend: fake, Plan: plan, State: state, PolicyPacks: []string{"fixture"}, Dialects: dialects}
 	})
 }
 

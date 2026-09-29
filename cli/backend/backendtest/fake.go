@@ -23,8 +23,16 @@ type Fake struct {
 	PresentationFunc func(ctx context.Context, selection backend.Selection, focus *form.InputForm) backend.Presentation
 	// PoliciesFunc answers Session.Policies.
 	PoliciesFunc func(ctx context.Context, selection backend.Selection, overlays []string) (backend.PolicySet, error)
+	// DefinitionsFunc answers Session.Definitions.
+	DefinitionsFunc func(ctx context.Context, selection backend.Selection) (backend.Definitions, error)
+	// PolicyDefinitionsFunc answers Session.PolicyDefinitions.
+	PolicyDefinitionsFunc func(ctx context.Context, selection backend.Selection, overlays []string) ([]backend.PolicyPackDefinition, error)
 	// CompareFunc answers Backend.Compare.
 	CompareFunc func(ctx context.Context, before, after form.Side) *form.ComparisonForm
+	// InstalledFunc answers Home.Installed.
+	InstalledFunc func(ctx context.Context, family backend.Family) ([]backend.Unit, error)
+	// DialectsFunc answers Authoring.Dialects.
+	DialectsFunc func(ctx context.Context, directory string) (backend.DialectCompilation, error)
 	// Notices is written once to the notices of a session when it is first
 	// used, as a selection states the sources it loads.
 	Notices string
@@ -52,6 +60,12 @@ func (f *Fake) Compare(ctx context.Context, before, after form.Side) *form.Compa
 	return f.CompareFunc(ctx, before, after)
 }
 
+// Home answers with InstalledFunc.
+func (f *Fake) Home() backend.Home { return fakeHome{fake: f} }
+
+// Authoring answers with DialectsFunc.
+func (f *Fake) Authoring() backend.Authoring { return fakeAuthoring{fake: f} }
+
 // Selections are the selections opened, in order.
 func (f *Fake) Selections() []backend.Selection {
 	f.mu.Lock()
@@ -66,7 +80,8 @@ func (f *Fake) Exports() []backend.Export {
 	return append([]backend.Export{}, f.exports...)
 }
 
-// Overlays are the Policy Pack overlays of every Policies call, in order.
+// Overlays are the Policy Pack overlays of every Policies and
+// PolicyDefinitions call, in order.
 func (f *Fake) Overlays() [][]string {
 	f.mu.Lock()
 	defer f.mu.Unlock()
@@ -118,6 +133,48 @@ func (s *fakeSession) Policies(ctx context.Context, overlays []string) (backend.
 		return PolicySet{}, nil
 	}
 	return s.fake.PoliciesFunc(ctx, s.selection, overlays)
+}
+
+func (s *fakeSession) Definitions(ctx context.Context) (backend.Definitions, error) {
+	s.use()
+	if s.fake.DefinitionsFunc == nil {
+		return backend.Definitions{}, refused("Definitions")
+	}
+	return s.fake.DefinitionsFunc(ctx, s.selection)
+}
+
+func (s *fakeSession) PolicyDefinitions(ctx context.Context, overlays []string) ([]backend.PolicyPackDefinition, error) {
+	s.use()
+	s.fake.mu.Lock()
+	s.fake.overlays = append(s.fake.overlays, append([]string{}, overlays...))
+	s.fake.mu.Unlock()
+	if s.fake.PolicyDefinitionsFunc == nil {
+		return nil, nil
+	}
+	return s.fake.PolicyDefinitionsFunc(ctx, s.selection, overlays)
+}
+
+// refused is the failure of a request no function answers.
+func refused(request string) error {
+	return &backend.Error{Kind: backend.Failure, Message: "the fake backend answers no " + request}
+}
+
+type fakeHome struct{ fake *Fake }
+
+func (h fakeHome) Installed(ctx context.Context, family backend.Family) ([]backend.Unit, error) {
+	if h.fake.InstalledFunc == nil {
+		return nil, nil
+	}
+	return h.fake.InstalledFunc(ctx, family)
+}
+
+type fakeAuthoring struct{ fake *Fake }
+
+func (a fakeAuthoring) Dialects(ctx context.Context, directory string) (backend.DialectCompilation, error) {
+	if a.fake.DialectsFunc == nil {
+		return backend.DialectCompilation{}, refused("Dialects")
+	}
+	return a.fake.DialectsFunc(ctx, directory)
 }
 
 // PolicySet is a scriptable Policy set: it lists PackList and evaluates with

@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -9,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/rootform-dev/rootform/cli/backend"
 	cli "github.com/rootform-dev/rootform/cli/command"
 	"github.com/rootform-dev/rootform/cli/detect"
 	"github.com/rootform-dev/rootform/cli/form"
@@ -23,8 +25,12 @@ type validateService struct {
 	stdin  io.Reader
 	stdout io.Writer
 	stderr io.Writer
-	// definitions validates the objects a Dialect or Policy Pack declares.
-	definitions cli.ValidateService
+	// backend compiles Dialect sources and loads the definitions a named
+	// validation resolves. Without one only a Form is validated.
+	backend backend.Backend
+	// getwd reads the working directory whose selection a named validation
+	// loads when no project is named.
+	getwd func() (string, error)
 }
 
 type validationProblem struct {
@@ -67,10 +73,13 @@ func (s validateService) Validate(options cli.ValidateOptions) (cli.ValidateOutc
 		return s.validateForm(options)
 	case cli.ValidateDialects, cli.ValidatePolicy, cli.ValidateRule, cli.ValidateConcept,
 		cli.ValidateContext, cli.ValidateRelation:
-		if s.definitions == nil {
+		if s.backend == nil {
 			return cli.ValidateFailure, errors.New("validate service is not configured")
 		}
-		return s.definitions.Validate(options)
+		if options.Object == cli.ValidateDialects {
+			return s.validateSemantics(options)
+		}
+		return s.validateDeclaration(options)
 	default:
 		failuref(s.stderr, "%q is not something rootform can validate\n", string(options.Object))
 		return cli.ValidateFailure, nil
@@ -129,6 +138,136 @@ func formProblems(err error) []validationProblem {
 		return []validationProblem{{Code: refused.Code, Message: "the input is a " + refused.Shape}}
 	}
 	return []validationProblem{{Code: "DOCUMENT_INVALID", Message: "the Form could not be read"}}
+}
+
+// validateSemantics validates dialect authoring directly: one explicit source
+// directory is compiled as it stands, and nothing else is selected or loaded.
+func (s validateService) validateSemantics(options cli.ValidateOptions) (cli.ValidateOutcome, error) {
+	compiled, err := s.backend.Authoring().Dialects(context.Background(), options.Input)
+	if err != nil {
+		return s.undecided(err.Error())
+	}
+	if compiled.Empty {
+		return s.empty("Dialects in that directory", "a directory holding one or more Dialects")
+	}
+	problems := make([]validationProblem, 0, len(compiled.Diagnostics))
+	for _, diagnostic := range compiled.Diagnostics {
+		problems = append(problems, validationProblem{
+			Code: diagnostic.Code, Message: diagnostic.Message,
+			Path:        diagnostic.Path,
+			Line:        diagnostic.Line,
+			humanLine:   diagnostic.Line,
+			humanColumn: diagnostic.Column,
+		})
+	}
+	evidence := validationEvidence{}
+	if len(problems) == 0 {
+		// A valid set answers in the exact bytes the machine format produced
+		// before this rework. Consumers pin them, so that text stays.
+		if options.Format == cli.FormatJSON {
+			for _, dialect := range compiled.Dialects {
+				fmt.Fprintf(s.stdout, "%s@%s compiles\n", dialect.Name, dialect.Version)
+			}
+			return cli.ValidateValid, nil
+		}
+		for _, dialect := range compiled.Dialects {
+			evidence.dialects = append(evidence.dialects, dialect.Name+"@"+dialect.Version)
+		}
+		sort.Strings(evidence.dialects)
+	}
+	return s.report(options, problems, evidence)
+}
+
+// validateDeclaration checks one named definition against the effective
+// catalog, the RF Vocabulary, and the selected Policy Packs.
+func (s validateService) validateDeclaration(options cli.ValidateOptions) (cli.ValidateOutcome, error) {
+	project := options.Project
+	if project == "" && s.getwd != nil {
+		root, err := s.getwd()
+		if err != nil {
+			return s.undecided("the working directory could not be read")
+		}
+		project = root
+	}
+	ctx := context.Background()
+	session := s.backend.Open(ctx, backend.Selection{Project: project, Dialects: options.Dialect}, s.stderr)
+	definitions, err := session.Definitions(ctx)
+	if err != nil {
+		return s.unloaded(err)
+	}
+	var packs []backend.PolicyPackDefinition
+	if options.Object == cli.ValidatePolicy {
+		packs, err = session.PolicyDefinitions(ctx, options.PolicyPack)
+		if err != nil {
+			return s.unloaded(err)
+		}
+	}
+
+	identifiers, listing := declaredIdentifiers(definitions, packs, options.Object)
+	name := options.Name
+	if options.Object == cli.ValidatePolicy {
+		name = declaredPolicyQuery(identifiers, name)
+	}
+	index, ok := resolveDeclaration(s.stderr, identifiers, name, string(options.Object), listing)
+	if !ok {
+		if index == resolveUnknown && options.Name != "" {
+			return cli.ValidateNotFound, nil
+		}
+		return cli.ValidateUndecided, nil
+	}
+	options.Name = identifiers[index]
+	return s.report(options, nil, validationEvidence{})
+}
+
+// declaredIdentifiers names every definition a lookup may resolve. The RF
+// Vocabulary concepts and contexts are part of the effective catalog, so they
+// are valid subjects of named validation.
+func declaredIdentifiers(
+	definitions backend.Definitions,
+	packs []backend.PolicyPackDefinition,
+	object cli.ValidateObject,
+) (identifiers []string, listing string) {
+	for _, dialect := range definitions.Dialects {
+		switch object {
+		case cli.ValidatePolicy:
+		case cli.ValidateRule:
+			for _, declared := range dialect.Rules {
+				identifiers = append(identifiers, declared.ID)
+			}
+		case cli.ValidateConcept:
+			for _, declared := range dialect.Concepts {
+				identifiers = append(identifiers, declared.ID)
+			}
+		case cli.ValidateContext:
+			for _, declared := range dialect.Contexts {
+				identifiers = append(identifiers, declared.ID)
+			}
+		case cli.ValidateRelation:
+			for _, declared := range dialect.Relations {
+				identifiers = append(identifiers, declared.ID)
+			}
+		}
+	}
+	if object == cli.ValidateConcept || object == cli.ValidateContext {
+		for _, definition := range definitions.Vocabulary.Definitions {
+			if object == cli.ValidateConcept && definition.Kind != "concept" {
+				continue
+			}
+			if object == cli.ValidateContext && definition.Kind != "context" {
+				continue
+			}
+			identifiers = append(identifiers, definition.ID)
+		}
+	}
+	if object == cli.ValidatePolicy {
+		for _, pack := range packs {
+			for _, declared := range pack.Policies {
+				identifiers = append(identifiers, declared.ID)
+			}
+		}
+		return identifiers, "rootform list policies"
+	}
+	return identifiers, "rootform show <owner>.<kind>.<name>"
 }
 
 // subjectOf names what was validated without carrying a filesystem path into
@@ -320,6 +459,15 @@ func problemLine(problem validationProblem) int {
 	return problem.Line
 }
 
+// empty reports an input that holds nothing to validate. The run decided
+// nothing, so it keeps the undecided outcome and the diagnostic stream.
+func (s validateService) empty(subject, expected string) (cli.ValidateOutcome, error) {
+	human.Empty(s.stderr, subject)
+	fmt.Fprintln(s.stderr)
+	human.Summary(s.stderr, [2]string{"Expected", expected})
+	return cli.ValidateUndecided, nil
+}
+
 func (s validateService) undecided(message string) (cli.ValidateOutcome, error) {
 	message, _, _ = strings.Cut(message, "\n")
 	human.Failure(s.stderr, message)
@@ -329,4 +477,14 @@ func (s validateService) undecided(message string) (cli.ValidateOutcome, error) 
 func (s validateService) refused(message string) (cli.ValidateOutcome, error) {
 	human.Failure(s.stderr, message)
 	return cli.ValidateUndecided, nil
+}
+
+// unloaded reports definitions that could not be loaded. An invalid
+// rootform.lock leaves no answer, as for every command that reads it.
+func (s validateService) unloaded(err error) (cli.ValidateOutcome, error) {
+	if failureKind(err) == backend.NoAnswer {
+		message, _, _ := strings.Cut(err.Error(), "\n")
+		return s.refused(message)
+	}
+	return s.undecided(err.Error())
 }

@@ -1,7 +1,7 @@
-// Package app runs the commands that read architecture: run, check, explain
-// and validate form. It owns their orchestration and every report they write,
-// and reaches compilation, comparison, presentation and Policies through the
-// backend ports only.
+// Package app runs the commands that read architecture and definitions: run,
+// check, explain, validate, list, show and test. It owns their orchestration
+// and every report they write, and reaches compilation, comparison,
+// presentation, definitions and Policies through the backend ports only.
 package app
 
 import (
@@ -26,6 +26,9 @@ type Services struct {
 	Assets fs.FS
 	// Shell is the renderer page an HTML export fills; nil refuses HTML.
 	Shell []byte
+	// Getwd reads the working directory whose selection a named validation
+	// loads when no project is named.
+	Getwd func() (string, error)
 }
 
 // Run returns the run service.
@@ -43,8 +46,23 @@ func (s Services) Explain() cli.ExplainService {
 	return explainService{stdin: s.Stdin, stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
 }
 
-// Validate returns the validate service: a Form is validated here, every
-// other object by definitions.
-func (s Services) Validate(definitions cli.ValidateService) cli.ValidateService {
-	return validateService{stdin: s.Stdin, stdout: s.Stdout, stderr: s.Stderr, definitions: definitions}
+// Validate returns the validate service. A Form validates without a backend;
+// every other object needs one.
+func (s Services) Validate() cli.ValidateService {
+	return validateService{stdin: s.Stdin, stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend, getwd: s.Getwd}
+}
+
+// List returns the list service.
+func (s Services) List() cli.ListService {
+	return listService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
+}
+
+// Show returns the show service.
+func (s Services) Show() cli.ShowService {
+	return showService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
+}
+
+// Test returns the test service.
+func (s Services) Test() cli.TestService {
+	return testService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
 }
