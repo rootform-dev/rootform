@@ -9,13 +9,19 @@ without private context.
 
 ## Boundaries
 
-- Never add engine, renderer, server, website, or cloud source.
+- Never add engine, renderer, server, website, or cloud source. The one
+  exception is the public Go module under `cli/` (Apache-2.0): the command
+  surface, its reports, the local explorer server and the public Form and
+  Policy result models. It never holds compilation, semantic resolution,
+  Policy evaluation, distribution or renderer source, and imports no private
+  module.
 - Never add private specs, ADRs, prompts, transcripts, work logs, credentials,
   customer data, Terraform state, raw plans, or personal paths.
 - Public contracts are normative documents owned here, not copies of private
   implementation plans.
-- Generated schemas arrive only through the allow-listed engine export and are
-  never hand-edited.
+- The Form and Policy result schemas are generated from `cli/`; other
+  generated schemas arrive only through the allow-listed engine export.
+  Generated files are never hand-edited.
 - Examples are synthetic and never become authoritative Terraform source.
 - Release binaries use Elastic License 2.0. Apache-2.0 covers repository source,
   contracts, docs, examples, and tooling only.

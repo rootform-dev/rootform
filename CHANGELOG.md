@@ -4,6 +4,14 @@ All notable public Rootform distribution changes will be recorded here.
 
 ## Unreleased
 
+- Published the command line as the Go module
+  `github.com/rootform-dev/rootform/cli` in `cli/` under Apache-2.0: its
+  commands, flags, help, exit statuses, reports, the local explorer server,
+  the HTML export, and the Form and Policy result models. The Form and Policy
+  result schemas and the CLI reference are generated from it. Commands,
+  output, and exit statuses are unchanged.
+- Restored the 128 MiB limit on plan, state, and Form inputs: a larger input
+  is refused before it is read whole, and the error states the limit.
 - The Markdown reports of `rootform run` and `rootform check` are review
   documents for a pull request, a merge request, or a CI job summary. They
   open with `## Rootform architecture` and `## Rootform Policies`, so both can

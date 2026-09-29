@@ -1,0 +1,631 @@
+// Package backend declares what the Rootform command line needs from the
+// engine that compiles, resolves and evaluates architecture. The command line
+// owns every command, its options, its orchestration and its reports; a
+// backend answers with structured values and sanitized errors. Signatures
+// carry only the types of this module and of the standard library.
+package backend
+
+import (
+	"context"
+	"io"
+
+	"github.com/rootform-dev/rootform/cli/form"
+	"github.com/rootform-dev/rootform/cli/policyresult"
+)
+
+// Backend opens the selection of one command, compares Forms, and reaches the
+// Rootform home, the projects it prepares and changes, and the authoring
+// tools.
+type Backend interface {
+	// Open prepares the project selection of one command. It performs no
+	// work until a session method needs the project, its Dialect catalog or
+	// its Policy Packs. notices receives the plain lines a selection states
+	// while it loads: a source used for this command only, or the
+	// diagnostics of a source that does not compile.
+	Open(ctx context.Context, selection Selection, notices io.Writer) Session
+	// Compare compares the selected stage of two Forms, before then after.
+	Compare(ctx context.Context, before, after form.Side) *form.ComparisonForm
+	// Home is the Rootform home of this machine.
+	Home() Home
+	// Projects prepares, vendors and changes the selection of projects.
+	Projects() Projects
+	// Authoring compiles, formats, packages and publishes Dialect and Policy
+	// Pack sources as they stand, and serves the language features of an
+	// editor.
+	Authoring() Authoring
+}
+
+// Selection names the project whose selection one command reads.
+type Selection struct {
+	// Project is the project directory; empty means the working directory.
+	Project string
+	// Locked requires the project to hold rootform.lock.
+	Locked bool
+	// Dialects are Dialect source directories used for this command only.
+	Dialects []string
+}
+
+// Session is the selection of one command, loaded at most once.
+type Session interface {
+	// Compile compiles a plan JSON or a state JSON against the selected
+	// Dialects. A saved Form never reaches it: it reopens as it is.
+	Compile(ctx context.Context, export Export) (Compiled, error)
+	// Presentation returns the presentation catalog of the Dialects behind
+	// focus and the warnings to state. It never fails: an unavailable
+	// catalog is the empty one.
+	Presentation(ctx context.Context, focus *form.InputForm) Presentation
+	// Policies loads the selected Policy Packs with the overlays of this
+	// command applied: source directories or compiled Policy Pack files.
+	Policies(ctx context.Context, overlays []string) (PolicySet, error)
+	// Definitions returns what the selected Dialects and the RF Vocabulary
+	// declare. It loads the Dialect catalog Compile compiles against.
+	Definitions(ctx context.Context) (Definitions, error)
+	// PolicyDefinitions compiles the selected Policy Pack sources, with the
+	// overlays of this command applied, without linking them, and returns
+	// what they declare. A compiled Policy Pack file is refused: it no longer
+	// holds its source.
+	PolicyDefinitions(ctx context.Context, overlays []string) ([]PolicyPackDefinition, error)
+}
+
+// Export is one producer export and the options that shape its compilation.
+type Export struct {
+	// Data is the plan JSON or state JSON as read.
+	Data []byte
+	// PlanFile is the saved plan that enriches a plan JSON; empty for none.
+	PlanFile string
+	// RequireEnrichment refuses a plan JSON whose saved plan does not pair.
+	RequireEnrichment bool
+	// Producer is the attested producer: terraform, opentofu or empty.
+	Producer string
+	// PlanComplete records that the plan is attested complete.
+	PlanComplete bool
+	// ProviderMap binds an observed provider source to a provider binding.
+	ProviderMap map[string]string
+	// Attestations are recorded in the Form as given.
+	Attestations []form.Attestation
+}
+
+// Compiled is the Form of one export and the outcome of its enrichment.
+type Compiled struct {
+	Form       *form.InputForm
+	Enrichment form.SnapshotEnrichment
+}
+
+// Presentation is a presentation catalog and the warnings it raised.
+type Presentation struct {
+	Catalog  []byte
+	Warnings []string
+}
+
+// PolicySet is the active Policy Packs of one command. Nothing is linked
+// until a Policy a pack holds is evaluated.
+type PolicySet interface {
+	// Packs lists the loaded packs: source packs, then compiled packs.
+	Packs() []Pack
+	// Evaluate evaluates the selected Policies against one stage of one
+	// architecture and returns the finalized result of that architecture.
+	// Only the packs holding a selected Policy are linked; a pack that does
+	// not link leaves this architecture without an answer.
+	Evaluate(ctx context.Context, architecture *form.InputForm, stage form.Stage, selected []string) policyresult.Architecture
+}
+
+// Pack is one loaded Policy Pack.
+type Pack struct {
+	// Record identifies the pack as a result records it unlinked.
+	Record policyresult.PolicyPack
+	// Overlay marks a pack a --policy-pack source supplied for this command.
+	Overlay bool
+	// Policies are the identities of the Policies the pack declares.
+	Policies []string
+}
+
+// Definitions are the declarations of the selected Dialects and of the RF
+// Vocabulary they refer to.
+type Definitions struct {
+	Vocabulary Vocabulary
+	// Dialects are the selected Dialects in catalog order.
+	Dialects []Dialect
+}
+
+// Vocabulary is the RF Vocabulary. It ships with the backend rather than
+// being selected, so it carries a contract digest instead of an origin.
+type Vocabulary struct {
+	// Owner is the owner every vocabulary identity starts with.
+	Owner          string
+	Version        string
+	ContractDigest string
+	Definitions    []VocabularyDefinition
+}
+
+// VocabularyDefinition is one concept, context or relation of the RF
+// Vocabulary.
+type VocabularyDefinition struct {
+	// Kind is concept, context or relation.
+	Kind     string
+	ID       string
+	Name     string
+	Contract string
+}
+
+// Dialect is one selected Dialect and what it declares.
+type Dialect struct {
+	Owner   string
+	Version string
+	// Origin is where the selected version comes from.
+	Origin        form.SemanticOrigin
+	ContentDigest string
+	Source        Location
+	// Providers are the provider versions the Dialect is written against.
+	Providers []Provider
+	Concepts  []Declaration
+	Contexts  []Declaration
+	Relations []Declaration
+	Rules     []Rule
+}
+
+// Location is where a declaration is written.
+type Location struct {
+	Path string
+	Line int
+}
+
+// Provider is one provider source and the version a Dialect targets.
+type Provider struct {
+	Source  string
+	Version string
+}
+
+// Declaration is one concept, context or relation a Dialect declares.
+type Declaration struct {
+	ID          string
+	Owner       string
+	Name        string
+	Description string
+	Source      Location
+}
+
+// Rule is one rule a Dialect declares. Expressions and traversals are
+// written as the Rootform Language writes them.
+type Rule struct {
+	ID    string
+	Owner string
+	Name  string
+	Match Match
+	// Produces is the concept the rule gives what it matches; empty when it
+	// gives none.
+	Produces    string
+	Emissions   []Emission
+	Composition []Member
+	Source      Location
+}
+
+// Match is what a rule or a composition member matches.
+type Match struct {
+	Kind  string
+	Type  string
+	Where string
+}
+
+// Emission is one context, relation or contribution a rule emits.
+type Emission struct {
+	ID string
+	// Kind is context, relation or contribution.
+	Kind string
+	// Link is the dimension of a context or the predicate of a relation. It
+	// is empty for a contribution.
+	Link string
+	To   string
+	Via  string
+}
+
+// Member is one member of a rule's composition.
+type Member struct {
+	Name  string
+	Via   string
+	Match Match
+}
+
+// PolicyPackDefinition is one Policy Pack source and what it declares.
+type PolicyPackDefinition struct {
+	Name    string
+	Version string
+	// ContentDigest identifies the canonical source. It is empty when it
+	// could not be computed.
+	ContentDigest string
+	Source        Location
+	Policies      []PolicyDefinition
+}
+
+// PolicyDefinition is one Policy as its Policy Pack declares it.
+type PolicyDefinition struct {
+	ID     string
+	Pack   string
+	Name   string
+	Target PolicyTarget
+	// Assert is the assertion as the Rootform Language writes it.
+	Assert  string
+	Message string
+	Source  Location
+}
+
+// PolicyTarget is what a Policy applies to.
+type PolicyTarget struct {
+	// Concept is the targeted concept; empty when the Policy targets rules.
+	Concept  string
+	Rules    []string
+	Dialects []string
+}
+
+// Home is the Rootform home of one machine: the Dialect and Policy Pack
+// versions installed from registries.
+type Home interface {
+	// Installed lists the installed versions of one family. It reads no
+	// project and uses no network.
+	Installed(ctx context.Context, family Family) ([]Unit, error)
+	// Install resolves each registry reference once, verifies the version it
+	// names and installs it, in the order given. It reads and writes no
+	// project.
+	Install(ctx context.Context, request Installation) ([]Unit, error)
+	// Uninstall deletes exact installed versions of one family, each written
+	// name@version, and returns the deleted versions. Nothing is deleted when
+	// one of them is not installed. It reads no project.
+	Uninstall(ctx context.Context, family Family, versions []string) ([]Unit, error)
+}
+
+// Installation names the registry versions one install adds to the home.
+type Installation struct {
+	Family     Family
+	References []string
+	// Offline uses no network: each reference must be a digest reference to
+	// a version already installed.
+	Offline bool
+}
+
+// Family names a kind of distributed content.
+type Family string
+
+const (
+	// Dialects are Dialect packages.
+	Dialects Family = "dialects"
+	// PolicyPacks are Policy Pack packages.
+	PolicyPacks Family = "policy-packs"
+)
+
+// Unit is one installed version.
+type Unit struct {
+	Name    string
+	Version string
+	// Repository and ManifestDigest name the registry artifact the version
+	// was installed from.
+	Repository     string
+	ManifestDigest string
+	ContentDigest  string
+}
+
+// Projects prepares the content a project selects, copies it into the
+// project, and changes what its rootform.lock selects. Change is the only
+// writer of rootform.lock. Every project directory is relative to the
+// working directory; empty means the working directory.
+type Projects interface {
+	// Prepare makes every non-embedded version the project selects
+	// available on this machine. It fetches only the exact registry
+	// versions rootform.lock pins and never writes rootform.lock.
+	Prepare(ctx context.Context, request Preparation) (Prepared, error)
+	// Selected lists the families the rootform.lock of one project selects
+	// content from, Dialects first. A project without rootform.lock selects
+	// none.
+	Selected(ctx context.Context, project string) ([]Family, error)
+	// Vendor copies the selected versions of one family into the project.
+	Vendor(ctx context.Context, request Vendoring) (Vendored, error)
+	// Change adds, removes or updates selections of rootform.lock and the
+	// vendored copies that follow them, or only plans the change. notices
+	// receives the diagnostics of a source that does not compile.
+	Change(ctx context.Context, request Change, notices io.Writer) (Changed, error)
+}
+
+// Preparation names the project one preparation reads.
+type Preparation struct {
+	Project string
+	// Locked requires rootform.lock to exist and be valid.
+	Locked bool
+	// Offline uses no network: only local and installed content is
+	// accepted.
+	Offline bool
+}
+
+// Prepared is what one preparation made available.
+type Prepared struct {
+	Dialects    []PreparedVersion
+	PolicyPacks []PreparedVersion
+	// Downloaded counts the bytes fetched from registries.
+	Downloaded int64
+}
+
+// PreparedVersion is one prepared non-embedded version.
+type PreparedVersion struct {
+	Name    string
+	Version string
+	// Source identifies where the version is read from.
+	Source string
+	Status Availability
+}
+
+// Availability is how a prepared version became available.
+type Availability string
+
+const (
+	// Verified means the version was already available and matches
+	// rootform.lock.
+	Verified Availability = "verified"
+	// Acquired means the version was fetched at the registry identity
+	// rootform.lock pins.
+	Acquired Availability = "acquired"
+)
+
+// Vendoring names the family one vendor run copies into a project.
+type Vendoring struct {
+	Project string
+	Family  Family
+	// Destination is the directory the family is copied into; empty means
+	// the vendor directory of the project.
+	Destination string
+	// Offline uses no network: only local and installed content is copied.
+	Offline bool
+}
+
+// Vendored is what one vendor run copied.
+type Vendored struct {
+	// Directory is where the family was copied.
+	Directory string
+	Versions  []VendoredVersion
+}
+
+// VendoredVersion is one copied version.
+type VendoredVersion struct {
+	Name    string
+	Version string
+	// Source identifies where the copy was read from; empty when it is not
+	// stated.
+	Source string
+}
+
+// Change is one add, remove or update of the selections of rootform.lock.
+type Change struct {
+	// Verb is add, remove or update.
+	Verb   string
+	Family Family
+	// Operands are the sources to add, the names to remove, or the name to
+	// update then at most one source.
+	Operands []string
+	Project  string
+	// Replace lets an added Dialect replace the embedded Dialect of its
+	// owner.
+	Replace bool
+	// Embedded excludes the named embedded Dialects instead of removing
+	// selections.
+	Embedded bool
+	// Offline uses no network. OfflineFromEnvironment records that the
+	// environment asked for it rather than an option.
+	Offline                bool
+	OfflineFromEnvironment bool
+	// DryRun plans the change and writes nothing.
+	DryRun bool
+}
+
+// Changed is what one change did or, for a dry run, would do.
+type Changed struct {
+	// Modified reports that the resulting rootform.lock differs from the
+	// current one. When it does not, there are no edits and no notices.
+	Modified bool
+	// LockWritten reports that rootform.lock was written.
+	LockWritten bool
+	// Vendored are the families whose vendored copy was, or would be,
+	// written again.
+	Vendored []Family
+	// Edits are the selection changes in canonical order.
+	Edits []Edit
+	// Notices and Warnings are stated with the outcome.
+	Notices  []string
+	Warnings []string
+}
+
+// Edit is one change of one selection.
+type Edit struct {
+	// Action is add, remove, update, exclude or include.
+	Action string
+	// Kind is dialect or policy-pack.
+	Kind    string
+	Name    string
+	Version string
+	// Previous is the version an update replaces.
+	Previous string
+	// Source names where the selection comes from: a local path, a registry
+	// reference, or embedded.
+	Source string
+	// ReplacesEmbedded marks an added Dialect that replaces an embedded one.
+	ReplacesEmbedded bool
+}
+
+// Authoring compiles, formats, packages and publishes the sources of Dialects
+// and Policy Packs as they stand, without selecting or loading anything else,
+// and serves the language features of an editor.
+type Authoring interface {
+	// Dialects compiles the Dialect sources directory holds and reports
+	// every diagnostic.
+	Dialects(ctx context.Context, directory string) (DialectCompilation, error)
+	// Format returns the canonical text of one source, named by its path
+	// relative to the directory being formatted. A source that is not valid
+	// is a negative answer.
+	Format(ctx context.Context, name string, source []byte) ([]byte, error)
+	// PolicyPack compiles the one Policy Pack whose sources directory holds
+	// and pins it to semantics, the semantics a saved Form records. notices
+	// receives the diagnostics of a source that does not compile. A source
+	// that does not compile or link, or a directory that does not declare
+	// exactly one Policy Pack, is a negative answer.
+	PolicyPack(ctx context.Context, directory string, semantics form.Semantics, notices io.Writer) (CompiledPolicyPack, error)
+	// Package compiles the sources of one family and writes the registry
+	// layout of their exact versions to a destination that does not exist
+	// yet. Nothing is sent to a registry. A source set that is invalid is a
+	// negative answer.
+	Package(ctx context.Context, request Packaging) ([]Packaged, error)
+	// Publish verifies a registry layout, publishes its versions to one
+	// registry repository and repulls each by digest. A dry run verifies the
+	// layout and plans the publication without network access. An invalid
+	// repository is a usage error and an invalid layout a negative answer.
+	Publish(ctx context.Context, request Publication) (Published, error)
+	// ServeLanguage serves the language server protocol over input and
+	// output. It returns nil once the client completed shutdown and exit, or
+	// once ctx is canceled, and an error when the transport or the protocol
+	// lifecycle fails. Protocol frames are the only thing it writes to
+	// output.
+	ServeLanguage(ctx context.Context, input io.ReadCloser, output io.Writer) error
+}
+
+// DialectCompilation is the outcome of compiling Dialect sources.
+type DialectCompilation struct {
+	// Empty reports a directory that holds no Dialect source.
+	Empty bool
+	// Dialects are the Dialects that compiled, in compilation order.
+	Dialects []Identity
+	// Diagnostics are every problem the compilation found.
+	Diagnostics []Diagnostic
+}
+
+// CompiledPolicyPack is one Policy Pack compiled and pinned to semantics.
+type CompiledPolicyPack struct {
+	Name    string
+	Version string
+	// Pins counts the semantic pins it records.
+	Pins int
+	// Digest identifies the pinned Policy Pack.
+	Digest string
+	// Content is the compiled Policy Pack file without its final newline.
+	Content []byte
+}
+
+// Packaging names the sources one packaging compiles and the registry layout
+// it writes.
+type Packaging struct {
+	Family Family
+	// Source is the directory of the sources.
+	Source string
+	// Destination is the directory of the layout; it must not exist.
+	Destination string
+	// Provenance is recorded in the OCI metadata of every version.
+	Provenance Provenance
+}
+
+// Provenance names where packaged content comes from. Each field is empty
+// when it is not stated.
+type Provenance struct {
+	// Source is the URL of the canonical source.
+	Source string
+	// Revision is the source-control revision.
+	Revision string
+	// Documentation is the URL of the documentation.
+	Documentation string
+	// Licenses is the SPDX license expression.
+	Licenses string
+}
+
+// Packaged is one version a packaging wrote.
+type Packaged struct {
+	Name    string
+	Version string
+	// Digest and Size describe its OCI manifest.
+	Digest string
+	Size   int64
+}
+
+// Publication names the registry layout one publication reads and the
+// repository it publishes to.
+type Publication struct {
+	Family Family
+	// Layout is the directory of the registry layout.
+	Layout string
+	// Repository is the tagless OCI repository.
+	Repository string
+	// DryRun verifies and plans the publication without network access.
+	DryRun bool
+}
+
+// Published is the outcome of one publication.
+type Published struct {
+	// FormatVersion versions the publication report.
+	FormatVersion string
+	DryRun        bool
+	Repository    string
+	// Versions are the versions of the layout, in publication order.
+	Versions []PublishedVersion
+}
+
+// PublishedVersion is one version a publication wrote, found already present
+// or planned.
+type PublishedVersion struct {
+	Name    string
+	Version string
+	// Repository and Tag name where the version is published.
+	Repository     string
+	Tag            string
+	ManifestDigest string
+	ManifestSize   int64
+	// Size counts the bytes of the whole version.
+	Size int64
+	// Status is published, already_present or planned.
+	Status     string
+	Provenance Provenance
+}
+
+// Identity names one version of a Dialect or a Policy Pack.
+type Identity struct {
+	Name    string
+	Version string
+}
+
+// Diagnostic is one problem found in a source.
+type Diagnostic struct {
+	Code    string
+	Message string
+	// Path, Line and Column locate the problem. Path is empty for a problem
+	// of the whole source; Column is zero when the position has none.
+	Path   string
+	Line   int
+	Column int
+}
+
+// Kind classifies a failure; the command line maps it to an exit status.
+type Kind int
+
+const (
+	// NoAnswer means the input, the selection or the evidence allows no
+	// answer.
+	NoAnswer Kind = iota
+	// Failure is an operational failure: a file, the Rootform home, the
+	// network, a registry or a server.
+	Failure
+	// Negative is a decided negative answer.
+	Negative
+	// Usage means the command was used incorrectly.
+	Usage
+	// Unresolved means a selected Dialect or Policy Pack, or a source this
+	// command supplies, is missing, invalid or does not compile.
+	Unresolved
+)
+
+// Error is a failure reported across a port. Every text it carries is
+// already safe to print: it names no private path, registry response or
+// internal detail beyond what the command states.
+type Error struct {
+	Kind Kind
+	// Code is the diagnostic code a machine report carries. It is empty
+	// when Message already leads with its code.
+	Code string
+	// Message is the statement a machine report carries.
+	Message string
+	// Human is the statement a reader sees when it differs from Message.
+	Human string
+	// Detail is guidance stated under the failure, one line each.
+	Detail string
+}
+
+func (e *Error) Error() string { return e.Message }

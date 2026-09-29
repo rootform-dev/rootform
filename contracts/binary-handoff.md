@@ -69,7 +69,13 @@ Rootform rejects handoff unless:
 - target set, OS, architecture, modes, sizes, and hashes are exact;
 - every executable contains requested version and host executable reports
   exactly `rootform <version>`;
-- schema bytes equal the committed public Form schema and export digest;
+- schema bytes equal the committed public Form schema;
+- every executable records the same public CLI module version, a
+  pseudo-version naming a commit of this repository at its exact commit time;
+  that commit is an ancestor of the distribution commit, `cli/` and `dialects/`
+  are unchanged since it, and the runtime license inventory records its
+  Dialects; any other Dialect bundle the inventory records comes from an
+  ancestor commit with identical Dialects;
 - SBOM is canonical SPDX 2.3 JSON for requested version and contains no private
   repository URL, renderer identity, or local filesystem path;
 - no duplicate, unsafe, linked, irregular, unexpected, or trailing entry exists.

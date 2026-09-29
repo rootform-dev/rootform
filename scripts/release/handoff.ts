@@ -19,6 +19,7 @@ import {
   type ReleaseTarget,
 } from "./contract.ts";
 import { checksumFile, parseChecksumFile, sha256 } from "./digest.ts";
+import { type FrozenPinVerifier, verifyFrozenPins } from "./module-pin.ts";
 import { type RuntimeComponent, readRuntimeLicensing } from "./runtime-licenses.ts";
 
 type JsonObject = Record<string, unknown>;
@@ -753,6 +754,7 @@ export function verifyHandoffDirectory(
   metadataPath: string,
   requestedVersion: string,
   nativeVerifier: NativeVersionVerifier = verifyNativeVersion,
+  pinVerifier: FrozenPinVerifier = verifyFrozenPins,
 ): VerifiedHandoff {
   const version = normalizeVersion(requestedVersion);
   const bundleName = handoffBundleName(version);
@@ -841,10 +843,7 @@ export function verifyHandoffDirectory(
   const expectedExportPaths = [
     "THIRD_PARTY_NOTICES.txt",
     "dependencies/runtime-components.json",
-    "reference/cli.json",
-    "schemas/form.schema.json",
     "schemas/compiled-policy-pack.schema.json",
-    "schemas/policy-result.schema.json",
     "schemas/rootform-lock.schema.json",
   ].sort((left, right) => left.localeCompare(right, "en"));
   const exportPaths = exportFiles.map((file, index) =>
@@ -873,17 +872,12 @@ export function verifyHandoffDirectory(
     }
   }
   const runtimeLicensing = readRuntimeLicensing(root);
-  const schemaExportDigest = exportedByPath.get("schemas/form.schema.json");
   const manifestJson = canonicalJson(
     manifestBody.toString("utf8"),
     "producer manifest",
   ) as JsonObject;
   const manifestSchema = exactObject(manifestJson.schema, "producer schema", ["file", "sha256"]);
-  if (
-    !schema.equals(expectedSchema) ||
-    schemaExportDigest !== sha256(schema) ||
-    manifestSchema.sha256 !== sha256(schema)
-  ) {
+  if (!schema.equals(expectedSchema) || manifestSchema.sha256 !== sha256(schema)) {
     throw new Error("handoff schema digest drifted");
   }
 
@@ -926,6 +920,11 @@ export function verifyHandoffDirectory(
     nativeVerifier(body, target, version);
     return { body, sha256: record.sha256, target };
   });
+  pinVerifier(
+    root,
+    binaries.map(({ body, target }) => ({ body, file: target.handoffFile })),
+    runtimeLicensing.components,
+  );
 
   return {
     binaries,

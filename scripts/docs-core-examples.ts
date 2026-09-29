@@ -22,11 +22,11 @@ export function configuration(page: string, title: string): string {
   if (matches.length !== 1 || !matches[0]?.[1]) throw new Error(`Expected one hcl block: ${title}`);
   return `${matches[0][1]}\n`;
 }
-export function assertHelpUsage(path: string, exported: string, help: string): void {
+export function assertHelpUsage(path: string, reference: string, help: string): void {
   const actual = /^Usage\n\s+([^\n]+)/mu.exec(help)?.[1];
-  if (actual !== exported)
+  if (actual !== reference)
     throw new Error(
-      `${path} usage differs from public export: help ${JSON.stringify(actual)}, export ${JSON.stringify(exported)}`,
+      `${path} usage differs from the CLI reference: help ${JSON.stringify(actual)}, reference ${JSON.stringify(reference)}`,
     );
 }
 /* run analyzes and never evaluates Policies, so a documented run command

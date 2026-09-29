@@ -298,6 +298,7 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
 }
 
 const skipNative = () => {};
+const skipPins = () => {};
 
 describe("strict handoff verification", () => {
   test("accepts exact authenticated two-asset handoff", () => {
@@ -309,6 +310,7 @@ describe("strict handoff verification", () => {
         fixture.githubAssets,
         version,
         skipNative,
+        skipPins,
       );
       expect(verified.binaries).toHaveLength(5);
       expect(verified.releaseSetManifestSha256).toBe(releaseSetManifestSha256);
@@ -316,6 +318,28 @@ describe("strict handoff verification", () => {
       expect(verified.producerSourceCommit).toBe(producerCommit);
       expect(verified.sbom.toString("utf8")).not.toContain(producerCommit);
       expect(verified.sbom.toString("utf8")).not.toContain(rendererRevision);
+    } finally {
+      rmSync(fixture.parent, { force: true, recursive: true });
+    }
+  });
+
+  test("verifies the frozen public CLI module pin of every target by default", () => {
+    const fixture = makeFixture();
+    try {
+      expect(() =>
+        verifyHandoffDirectory(root, fixture.directory, fixture.githubAssets, version, skipNative),
+      ).toThrow("handoff target does not record one public CLI module version");
+      expect(() =>
+        assembleRelease({
+          distributionCommit,
+          githubAssets: fixture.githubAssets,
+          handoffDirectory: fixture.directory,
+          nativeVerifier: skipNative,
+          output: join(fixture.parent, "release"),
+          root,
+          version,
+        }),
+      ).toThrow("handoff target does not record one public CLI module version");
     } finally {
       rmSync(fixture.parent, { force: true, recursive: true });
     }
@@ -344,6 +368,7 @@ describe("strict handoff verification", () => {
             fixture.githubAssets,
             version,
             skipNative,
+            skipPins,
           ),
         ).toThrow("public export provenance drifted");
       } finally {
@@ -382,6 +407,7 @@ describe("strict handoff verification", () => {
             fixture.githubAssets,
             version,
             skipNative,
+            skipPins,
           ),
         ).toThrow(message);
       } finally {
@@ -399,6 +425,7 @@ describe("strict handoff verification", () => {
           extraAsset.githubAssets,
           version,
           skipNative,
+          skipPins,
         ),
       ).toThrow("asset inventory drifted");
     } finally {
@@ -413,7 +440,14 @@ describe("strict handoff verification", () => {
       (metadata.assets[0] as { digest: string }).digest = `sha256:${"0".repeat(64)}`;
       writeFileSync(digest.githubAssets, `${JSON.stringify(metadata, null, 2)}\n`);
       expect(() =>
-        verifyHandoffDirectory(root, digest.directory, digest.githubAssets, version, skipNative),
+        verifyHandoffDirectory(
+          root,
+          digest.directory,
+          digest.githubAssets,
+          version,
+          skipNative,
+          skipPins,
+        ),
       ).toThrow("GitHub asset digest drifted");
     } finally {
       rmSync(digest.parent, { force: true, recursive: true });
@@ -432,6 +466,7 @@ describe("final release assembly", () => {
         handoffDirectory: fixture.directory,
         nativeVerifier: skipNative,
         output,
+        pinVerifier: skipPins,
         root,
         version,
       });
@@ -442,6 +477,7 @@ describe("final release assembly", () => {
         fixture.githubAssets,
         version,
         skipNative,
+        skipPins,
       );
       for (const { body, target } of verified.binaries) {
         const archive = readFileSync(join(output, releaseAssetName(version, target)));
@@ -469,7 +505,7 @@ describe("final release assembly", () => {
         spdx: "Elastic-2.0",
         status: "licensed",
       });
-      expect(parsed.license.third_party_notices.component_count).toBe(70);
+      expect(parsed.license.third_party_notices.component_count).toBe(71);
       expect(parsed.license.third_party_notices.inventory_sha256).toMatch(/^[0-9a-f]{64}$/);
     } finally {
       rmSync(fixture.parent, { force: true, recursive: true });
@@ -486,6 +522,7 @@ describe("final release assembly", () => {
         handoffDirectory: fixture.directory,
         nativeVerifier: skipNative,
         output,
+        pinVerifier: skipPins,
         root,
         version,
       });
@@ -495,6 +532,7 @@ describe("final release assembly", () => {
         fixture.githubAssets,
         version,
         skipNative,
+        skipPins,
       );
       const first = handoff.binaries[0] as (typeof handoff.binaries)[number];
       const inputs = {
@@ -520,6 +558,7 @@ describe("final release assembly", () => {
           handoffDirectory: fixture.directory,
           nativeVerifier: skipNative,
           output,
+          pinVerifier: skipPins,
           root,
           version,
         }),

@@ -176,6 +176,7 @@ function run(command: string[], cwd = root, environment: Record<string, string> 
 }
 
 run(["bun", "run", "check"]);
+process.stdout.write(run(["bun", "run", "check:cli-module"]));
 
 const configuredBinary = process.env.ROOTFORM_BIN;
 if (!configuredBinary)

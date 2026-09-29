@@ -1,16 +1,19 @@
 # CLI reference inputs
 
-`cli.json` arrives through the verified public export. It describes the real
-Cobra command tree: public commands, usage, aliases, examples, local flags,
-inherited flags and defaults. It contains no command handlers or application
-source. Do not edit it by hand.
+`cli.json` is generated from the public command line module in `cli/`. It
+describes the real Cobra command tree: public commands, usage, aliases,
+examples, local flags, inherited flags and defaults. It contains no command
+handlers or application source. Do not edit it by hand.
 
-After importing an updated export, run:
+After changing the command tree, run:
 
 ```sh
+(cd cli && go run ./internal/clireference/cmd -write)
 bun run generate:cli
 bun run check:docs
 ```
+
+`check:cli-module` fails when the committed `cli.json` differs from the module.
 
 The generator owns command pages under `docs/reference/cli/` and the Commands
 subtree in the existing navigation. The build page retains its authored

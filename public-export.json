@@ -2,23 +2,11 @@
   "files": [
     {
       "path": "dependencies/runtime-components.json",
-      "sha256": "eb09b23f8f4f90b972c514e4c1db25379b4a91c6298058571844c207dbe7df88"
-    },
-    {
-      "path": "reference/cli.json",
-      "sha256": "297721720aae046a68f3afb82a32d465be26680768301b6004116a7c9d160951"
+      "sha256": "7f2dbe057e4cf55f7e734ab1e866aaa98170e6be38ed63f9a11b3bb807c1f7ec"
     },
     {
       "path": "schemas/compiled-policy-pack.schema.json",
       "sha256": "9da71eec6254c33d58037da3483405f6205163eead7de29558a9426da4c46241"
-    },
-    {
-      "path": "schemas/form.schema.json",
-      "sha256": "6cdccb5e07e5416d88d16b7ff13f775c36d2f4e4897a1b9202516de2f0201806"
-    },
-    {
-      "path": "schemas/policy-result.schema.json",
-      "sha256": "dff27482cc79c453b1bb032ad89c4fdd36a3a0985d518bbe52e36206170227b7"
     },
     {
       "path": "schemas/rootform-lock.schema.json",
@@ -26,10 +14,10 @@
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
-      "sha256": "23a4e973850f4c0664ba7378698d2cfbb82a584df4084e2b9b83837a86c7dfb4"
+      "sha256": "bcf4b1904db0e8fb266f048b41c114301671cfe3fcae817941da69167daf1146"
     }
   ],
   "format_version": "1",
-  "source_commit": "e40f15182e600598349d47063186f0b460ac4f8a",
+  "source_commit": "c3ea077d7d55e1bf5952c8e646bfd6f482951283",
   "source_repository": "rootform-dev/engine"
 }
