@@ -69,5 +69,6 @@ if (import.meta.main) {
   process.stdout.write(run("Go tests", ["go", "test", "./..."]));
   run("Form schema", ["go", "run", "./internal/architecture/document/schema/cmd", "-check"]);
   run("Policy result schema", ["go", "run", "./internal/policy/schema/cmd", "-check"]);
+  run("CLI reference", ["go", "run", "./internal/clireference/cmd", "-check"]);
   console.log("\nCLI module checks passed.");
 }
