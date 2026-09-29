@@ -38,6 +38,7 @@ const allowedTopLevel = new Set([
   "TRADEMARKS.md",
   "biome.json",
   "bun.lock",
+  "cli",
   "contracts",
   "dependencies",
   "docs",
@@ -61,6 +62,35 @@ const enginePathReference =
 
 export function findEnginePathReference(body: string): string | null {
   return enginePathReference.exec(body)?.[0] ?? null;
+}
+
+// The public CLI module is the only Go source this repository holds. It must
+// build from its committed files alone: a workspace, a replacement or an
+// import of private source would make it depend on code nobody can review here.
+export function goModuleViolation(path: string, body: string): string | null {
+  const name = path.split("/").at(-1) ?? path;
+  if (name === "go.work" || name === "go.work.sum") {
+    return `Go workspace files are forbidden: ${path}`;
+  }
+  if (path.endsWith(".go") && !path.startsWith("cli/")) {
+    return `private implementation material is forbidden: ${path}`;
+  }
+  if ((name === "go.mod" || name === "go.sum") && path !== `cli/${name}`) {
+    return `Go module files belong only to cli/: ${path}`;
+  }
+  if (path.endsWith(".go") && /"github\.com\/rootform-dev\/(?:engine|web)(?:\/|")/u.test(body)) {
+    return `the CLI module imports private source: ${path}`;
+  }
+  if (path === "cli/go.mod") {
+    if (!hasExactLine(body, "module github.com/rootform-dev/rootform/cli")) {
+      return "cli/go.mod must declare module github.com/rootform-dev/rootform/cli";
+    }
+    if (/^\s*replace\b/mu.test(body)) return "cli/go.mod must not replace a module";
+    if (!/^toolchain go\d+\.\d+\.\d+$/mu.test(body)) {
+      return "cli/go.mod must pin an exact toolchain";
+    }
+  }
+  return null;
 }
 
 function sha256(path: string): string {
@@ -124,6 +154,8 @@ export function validateRepository(): void {
     ".github/workflows/publish-image.yml",
     ".github/workflows/publish-policy-packs.yml",
     ".trivyignore.yaml",
+    "cli/LICENSE",
+    "cli/go.mod",
     "dependencies/ROOTFORM-BINARY-LICENSE.txt",
     "contracts/binary-handoff.md",
     "contracts/dialect-distribution.md",
@@ -185,8 +217,12 @@ export function validateRepository(): void {
       throw new Error(`required repository control is missing: ${required}`);
   }
   for (const path of files) {
-    if (path.endsWith(".go") || path.startsWith("specs/") || path.startsWith("docs/adr/")) {
+    if (path.startsWith("specs/") || path.startsWith("docs/adr/")) {
       throw new Error(`private implementation material is forbidden: ${path}`);
+    }
+    if (path.endsWith(".go") || /(?:^|\/)go\.(?:mod|sum|work|work\.sum)$/u.test(path)) {
+      const violation = goModuleViolation(path, readFileSync(join(root, path), "utf8"));
+      if (violation) throw new Error(violation);
     }
     if (
       ![
@@ -194,7 +230,7 @@ export function validateRepository(): void {
         "scripts/validate-repository.test.ts",
         "scripts/dialects/validate.ts",
       ].includes(path) &&
-      /\.(?:json|md|ps1|sh|tf|ts|yml|yaml)$/u.test(path)
+      /(?:\.(?:go|json|md|ps1|sh|tf|ts|yml|yaml)|\/go\.mod)$/u.test(path)
     ) {
       const body = readFileSync(join(root, path), "utf8");
       if (forbiddenText.test(body))

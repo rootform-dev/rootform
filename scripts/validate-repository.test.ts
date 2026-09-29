@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
   findEnginePathReference,
+  goModuleViolation,
   hasExactLine,
   validateExampleDialectLock,
   validateRepository,
@@ -13,6 +14,52 @@ const root = join(import.meta.dir, "..");
 
 test("current repository respects distribution boundary", () => {
   expect(validateRepository).not.toThrow();
+});
+
+test("Go source stays inside the self-contained public CLI module", () => {
+  const goMod = "module github.com/rootform-dev/rootform/cli\n\ngo 1.26.0\n\ntoolchain go1.26.7\n";
+  expect(goModuleViolation("cli/go.mod", goMod)).toBeNull();
+  expect(goModuleViolation("cli/go.sum", "")).toBeNull();
+  expect(
+    goModuleViolation("cli/form/form.go", 'package form\n\nimport "encoding/json"\n'),
+  ).toBeNull();
+
+  expect(goModuleViolation("scripts/tool.go", "package main\n")).toBe(
+    "private implementation material is forbidden: scripts/tool.go",
+  );
+  for (const path of ["go.work", "cli/go.work", "cli/go.work.sum"]) {
+    expect(goModuleViolation(path, "")).toBe(`Go workspace files are forbidden: ${path}`);
+  }
+  expect(goModuleViolation("tools/go.mod", goMod)).toBe(
+    "Go module files belong only to cli/: tools/go.mod",
+  );
+  for (const imported of [
+    "github.com/rootform-dev/engine/internal/run",
+    "github.com/rootform-dev/engine",
+    "github.com/rootform-dev/web/apps/renderer",
+  ]) {
+    expect(goModuleViolation("cli/app.go", `package cli\n\nimport "${imported}"\n`)).toBe(
+      "the CLI module imports private source: cli/app.go",
+    );
+  }
+  expect(
+    goModuleViolation(
+      "cli/app.go",
+      'package cli\n\nimport "github.com/rootform-dev/rootform/cli/form"\n',
+    ),
+  ).toBeNull();
+  expect(goModuleViolation("cli/go.mod", goMod.replace("rootform/cli", "rootform/other"))).toBe(
+    "cli/go.mod must declare module github.com/rootform-dev/rootform/cli",
+  );
+  expect(
+    goModuleViolation("cli/go.mod", `${goMod}\nreplace github.com/spf13/cobra => ../../cobra\n`),
+  ).toBe("cli/go.mod must not replace a module");
+  expect(goModuleViolation("cli/go.mod", `${goMod}\nreplace (\n)\n`)).toBe(
+    "cli/go.mod must not replace a module",
+  );
+  expect(goModuleViolation("cli/go.mod", goMod.replace("toolchain go1.26.7\n", ""))).toBe(
+    "cli/go.mod must pin an exact toolchain",
+  );
 });
 
 test("engine path guard rejects private Engine paths in public files", () => {

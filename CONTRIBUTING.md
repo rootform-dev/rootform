@@ -1,8 +1,9 @@
 # Contributing
 
 This repository accepts changes to public contracts, schemas, documentation,
-examples, and distribution tooling. Proprietary engine changes belong in the
-private engine repository.
+examples, distribution tooling, and the public CLI module under `cli/`.
+Proprietary engine changes belong in the private engine repository. A change
+to `cli/` reaches the Rootform binary when the engine pins the new commit.
 
 Open an issue before changing a public wire format, command contract, release
 asset convention, licensing boundary, or security behavior. Update normative
@@ -12,6 +13,8 @@ Documentation follows [Writing for Rootform](docs/contributing/writing.md).
 Run `bun run check:docs` for metadata, navigation, and links. Verify the
 first-architecture example with `ROOTFORM_BIN` set to a checksum-verified
 executable and `bun run verify:docs-examples`.
+
+Check the CLI module with Go 1.26.7 and `bun run check:cli-module`.
 
 For the complete gate, set `ROOTFORM_BIN` to the verified executable, then run:
 
@@ -47,7 +50,8 @@ repository prefix on that registry, then publishes, installs, selects, and
 updates the documented Dialect and Policy Pack.
 
 Contributions to repository material covered by the root `LICENSE` follow
-Apache-2.0. Contributions under `dialects/` follow its own MPL-2.0
+Apache-2.0, as do contributions under `cli/` with its own copy of that
+license. Contributions under `dialects/` follow its own MPL-2.0
 `dialects/LICENSE`. Do not submit private infrastructure, state, plans,
 credentials, customer data, prompts, transcripts, or material you lack rights
 to distribute.
