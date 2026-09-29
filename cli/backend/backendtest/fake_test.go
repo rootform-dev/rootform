@@ -4,8 +4,11 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
+	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/rootform-dev/rootform/cli/backend"
@@ -108,6 +111,34 @@ func TestFakeConforms(t *testing.T) {
 					return backend.DialectCompilation{Empty: true}, nil
 				}
 				return backend.DialectCompilation{Dialects: []backend.Identity{{Name: "fixture", Version: "0.1.0"}}}, nil
+			},
+			InstallFunc: func(_ context.Context, request backend.Installation) ([]backend.Unit, error) {
+				for _, reference := range request.References {
+					if strings.HasPrefix(reference, ".") || filepath.IsAbs(reference) {
+						return nil, &backend.Error{Kind: backend.Usage, Message: fmt.Sprintf("%q is not an OCI reference; install takes registry references only", reference)}
+					}
+				}
+				return nil, nil
+			},
+			UninstallFunc: func(_ context.Context, _ backend.Family, versions []string) ([]backend.Unit, error) {
+				return nil, &backend.Error{Kind: backend.Negative, Message: versions[0] + " is not installed"}
+			},
+			PrepareFunc: func(_ context.Context, request backend.Preparation) (backend.Prepared, error) {
+				if request.Locked {
+					return backend.Prepared{}, &backend.Error{Kind: backend.NoAnswer, Message: "rootform.lock is required"}
+				}
+				return backend.Prepared{}, nil
+			},
+			VendorFunc: func(context.Context, backend.Vendoring) (backend.Vendored, error) {
+				return backend.Vendored{}, &backend.Error{Kind: backend.NoAnswer, Message: "rootform.lock selects no content for this vendor operation"}
+			},
+			ChangeFunc: func(_ context.Context, request backend.Change, _ io.Writer) (backend.Changed, error) {
+				for _, name := range request.Operands {
+					if strings.ToLower(name) != name || strings.Contains(name, " ") {
+						return backend.Changed{}, &backend.Error{Kind: backend.Usage, Message: fmt.Sprintf("%q is not a valid name", name)}
+					}
+				}
+				return backend.Changed{}, &backend.Error{Kind: backend.Negative, Message: "Policy Pack absent is not selected"}
 			},
 		}
 		return backendtest.Subject{Backend: fake, Plan: plan, State: state, PolicyPacks: []string{"fixture"}, Dialects: dialects}

@@ -1,7 +1,9 @@
-// Package app runs the commands that read architecture and definitions: run,
-// check, explain, validate, list, show and test. It owns their orchestration
-// and every report they write, and reaches compilation, comparison,
-// presentation, definitions and Policies through the backend ports only.
+// Package app runs the commands that read architecture and definitions (run,
+// check, explain, validate, list, show and test) and the commands that
+// prepare and change projects and the Rootform home (init, vendor, add,
+// remove, update, install and uninstall). It owns their orchestration and
+// every report they write, and reaches the engine through the backend ports
+// only.
 package app
 
 import (
@@ -65,4 +67,24 @@ func (s Services) Show() cli.ShowService {
 // Test returns the test service.
 func (s Services) Test() cli.TestService {
 	return testService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
+}
+
+// Init returns the init service.
+func (s Services) Init() cli.InitService {
+	return initService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
+}
+
+// Vendor returns the vendor service.
+func (s Services) Vendor() cli.VendorService {
+	return vendorService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
+}
+
+// Selection returns the service of add, remove and update.
+func (s Services) Selection() cli.SelectionService {
+	return selectionService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
+}
+
+// Store returns the service of install and uninstall.
+func (s Services) Store() cli.StoreService {
+	return storeService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
 }

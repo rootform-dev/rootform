@@ -59,15 +59,11 @@ type Browser interface {
 
 // Commands are command services implemented outside this module.
 type Commands struct {
-	Compile   command.CompileService
-	Fmt       command.FmtService
-	Vendor    command.VendorService
-	Selection command.SelectionService
-	Store     command.StoreService
-	Init      command.InitService
-	Package   command.PackageService
-	Publish   command.PublishService
-	LSP       command.LanguageServerService
+	Compile command.CompileService
+	Fmt     command.FmtService
+	Package command.PackageService
+	Publish command.PublishService
+	LSP     command.LanguageServerService
 }
 
 // Run executes one command line and returns the process exit status.
@@ -127,6 +123,10 @@ func Run(env Env) int {
 		commandEnv.List = services.List()
 		commandEnv.Show = services.Show()
 		commandEnv.Test = services.Test()
+		commandEnv.Init = services.Init()
+		commandEnv.Vendor = services.Vendor()
+		commandEnv.Selection = services.Selection()
+		commandEnv.Store = services.Store()
 	}
 	var external Commands
 	if env.Commands != nil {
@@ -135,10 +135,6 @@ func Run(env Env) int {
 	commandEnv.Validate = services.Validate()
 	commandEnv.Compile = external.Compile
 	commandEnv.Fmt = external.Fmt
-	commandEnv.Vendor = external.Vendor
-	commandEnv.Selection = external.Selection
-	commandEnv.Store = external.Store
-	commandEnv.Init = external.Init
 	commandEnv.Package = external.Package
 	commandEnv.Publish = external.Publish
 	commandEnv.LSP = external.LSP

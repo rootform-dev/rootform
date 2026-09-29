@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -47,6 +48,10 @@ func Run(t *testing.T, subject func(t *testing.T) Subject) {
 	t.Run("RefusesTheDefinitionsOfAMissingProject", func(t *testing.T) { refusesMissingDefinitions(t, subject(t)) })
 	t.Run("DefinesPolicyPacks", func(t *testing.T) { definesPolicyPacks(t, subject(t)) })
 	t.Run("ListsAnEmptyHome", func(t *testing.T) { listsAnEmptyHome(t, subject(t)) })
+	t.Run("RefusesWhatTheHomeCannotInstallOrDelete", func(t *testing.T) { refusesHomeChanges(t, subject(t)) })
+	t.Run("PreparesAProjectWithoutALock", func(t *testing.T) { preparesAProjectWithoutALock(t, subject(t)) })
+	t.Run("VendorsNothingWithoutASelection", func(t *testing.T) { vendorsNothingWithoutASelection(t, subject(t)) })
+	t.Run("RefusesToChangeAnAbsentSelection", func(t *testing.T) { refusesToChangeAnAbsentSelection(t, subject(t)) })
 	t.Run("CompilesDialectSources", func(t *testing.T) { compilesDialectSources(t, subject(t)) })
 }
 
@@ -298,6 +303,110 @@ func listsAnEmptyHome(t *testing.T, s Subject) {
 		if len(units) != 0 {
 			t.Fatalf("an empty home lists the %s %+v", family, units)
 		}
+	}
+}
+
+// refusesHomeChanges requires a reference to a local directory to be refused
+// as a usage error, and a version that is not installed to be a negative
+// answer that deletes nothing.
+func refusesHomeChanges(t *testing.T, s Subject) {
+	home := s.Backend.Home()
+	_, err := home.Install(context.Background(), backend.Installation{Family: backend.Dialects, References: []string{"./dialects"}})
+	if err == nil {
+		t.Fatal("a local directory was installed")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.Usage {
+		t.Fatalf("installing a local directory reads as kind %d, want a usage error", failure.Kind)
+	}
+	_, err = home.Uninstall(context.Background(), backend.PolicyPacks, []string{"absent@1.0.0"})
+	if err == nil {
+		t.Fatal("a version that is not installed was deleted")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.Negative {
+		t.Fatalf("deleting a version that is not installed reads as kind %d, want a negative answer", failure.Kind)
+	}
+}
+
+// preparesAProjectWithoutALock requires a project without rootform.lock to
+// have nothing to prepare unless the lock is required, and a preparation to
+// write nothing into it.
+func preparesAProjectWithoutALock(t *testing.T, s Subject) {
+	project := t.TempDir()
+	projects := s.Backend.Projects()
+	prepared, err := projects.Prepare(context.Background(), backend.Preparation{Project: project})
+	if err != nil {
+		t.Fatalf("preparing a project without rootform.lock: %v", err)
+	}
+	if len(prepared.Dialects) != 0 || len(prepared.PolicyPacks) != 0 || prepared.Downloaded != 0 {
+		t.Fatalf("a project without rootform.lock prepared %+v", prepared)
+	}
+	_, err = projects.Prepare(context.Background(), backend.Preparation{Project: project, Locked: true})
+	if err == nil {
+		t.Fatal("a preparation that requires rootform.lock accepted a project without one")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.NoAnswer {
+		t.Fatalf("a missing rootform.lock reads as kind %d, want no answer", failure.Kind)
+	}
+	untouched(t, project)
+}
+
+// vendorsNothingWithoutASelection requires a project without rootform.lock to
+// select no family, and vendoring a family it does not select to leave no
+// answer.
+func vendorsNothingWithoutASelection(t *testing.T, s Subject) {
+	project := t.TempDir()
+	projects := s.Backend.Projects()
+	families, err := projects.Selected(context.Background(), project)
+	if err != nil || len(families) != 0 {
+		t.Fatalf("a project without rootform.lock selects %v, %v", families, err)
+	}
+	_, err = projects.Vendor(context.Background(), backend.Vendoring{Project: project, Family: backend.Dialects})
+	if err == nil {
+		t.Fatal("a project that selects no Dialect vendored Dialects")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.NoAnswer {
+		t.Fatalf("vendoring nothing reads as kind %d, want no answer", failure.Kind)
+	}
+	untouched(t, project)
+}
+
+// refusesToChangeAnAbsentSelection requires removing a name the project does
+// not select to be a negative answer and a malformed name to be a usage
+// error, and neither to write rootform.lock.
+func refusesToChangeAnAbsentSelection(t *testing.T, s Subject) {
+	project := t.TempDir()
+	projects := s.Backend.Projects()
+	var notices bytes.Buffer
+	_, err := projects.Change(context.Background(), backend.Change{
+		Verb: "remove", Family: backend.PolicyPacks, Operands: []string{"absent"}, Project: project,
+	}, &notices)
+	if err == nil {
+		t.Fatal("a Policy Pack the project does not select was removed")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.Negative {
+		t.Fatalf("removing an absent selection reads as kind %d, want a negative answer", failure.Kind)
+	}
+	_, err = projects.Change(context.Background(), backend.Change{
+		Verb: "remove", Family: backend.Dialects, Operands: []string{"Not A Name"}, Project: project,
+	}, &notices)
+	if err == nil {
+		t.Fatal("a malformed name was removed")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.Usage {
+		t.Fatalf("a malformed name reads as kind %d, want a usage error", failure.Kind)
+	}
+	untouched(t, project)
+}
+
+// untouched requires a project directory to hold nothing.
+func untouched(t *testing.T, project string) {
+	t.Helper()
+	entries, err := os.ReadDir(project)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(entries) != 0 {
+		t.Fatalf("the project holds %d entries after a request that writes nothing", len(entries))
 	}
 }
 

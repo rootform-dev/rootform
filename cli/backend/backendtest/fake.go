@@ -31,6 +31,18 @@ type Fake struct {
 	CompareFunc func(ctx context.Context, before, after form.Side) *form.ComparisonForm
 	// InstalledFunc answers Home.Installed.
 	InstalledFunc func(ctx context.Context, family backend.Family) ([]backend.Unit, error)
+	// InstallFunc answers Home.Install.
+	InstallFunc func(ctx context.Context, request backend.Installation) ([]backend.Unit, error)
+	// UninstallFunc answers Home.Uninstall.
+	UninstallFunc func(ctx context.Context, family backend.Family, versions []string) ([]backend.Unit, error)
+	// PrepareFunc answers Projects.Prepare.
+	PrepareFunc func(ctx context.Context, request backend.Preparation) (backend.Prepared, error)
+	// SelectedFunc answers Projects.Selected.
+	SelectedFunc func(ctx context.Context, project string) ([]backend.Family, error)
+	// VendorFunc answers Projects.Vendor.
+	VendorFunc func(ctx context.Context, request backend.Vendoring) (backend.Vendored, error)
+	// ChangeFunc answers Projects.Change.
+	ChangeFunc func(ctx context.Context, request backend.Change, notices io.Writer) (backend.Changed, error)
 	// DialectsFunc answers Authoring.Dialects.
 	DialectsFunc func(ctx context.Context, directory string) (backend.DialectCompilation, error)
 	// Notices is written once to the notices of a session when it is first
@@ -60,8 +72,12 @@ func (f *Fake) Compare(ctx context.Context, before, after form.Side) *form.Compa
 	return f.CompareFunc(ctx, before, after)
 }
 
-// Home answers with InstalledFunc.
+// Home answers with InstalledFunc, InstallFunc and UninstallFunc.
 func (f *Fake) Home() backend.Home { return fakeHome{fake: f} }
+
+// Projects answers with PrepareFunc, SelectedFunc, VendorFunc and
+// ChangeFunc.
+func (f *Fake) Projects() backend.Projects { return fakeProjects{fake: f} }
 
 // Authoring answers with DialectsFunc.
 func (f *Fake) Authoring() backend.Authoring { return fakeAuthoring{fake: f} }
@@ -166,6 +182,51 @@ func (h fakeHome) Installed(ctx context.Context, family backend.Family) ([]backe
 		return nil, nil
 	}
 	return h.fake.InstalledFunc(ctx, family)
+}
+
+func (h fakeHome) Install(ctx context.Context, request backend.Installation) ([]backend.Unit, error) {
+	if h.fake.InstallFunc == nil {
+		return nil, refused("Install")
+	}
+	return h.fake.InstallFunc(ctx, request)
+}
+
+func (h fakeHome) Uninstall(ctx context.Context, family backend.Family, versions []string) ([]backend.Unit, error) {
+	if h.fake.UninstallFunc == nil {
+		return nil, refused("Uninstall")
+	}
+	return h.fake.UninstallFunc(ctx, family, versions)
+}
+
+type fakeProjects struct{ fake *Fake }
+
+func (p fakeProjects) Prepare(ctx context.Context, request backend.Preparation) (backend.Prepared, error) {
+	if p.fake.PrepareFunc == nil {
+		return backend.Prepared{}, refused("Prepare")
+	}
+	return p.fake.PrepareFunc(ctx, request)
+}
+
+// Selected without SelectedFunc selects nothing.
+func (p fakeProjects) Selected(ctx context.Context, project string) ([]backend.Family, error) {
+	if p.fake.SelectedFunc == nil {
+		return nil, nil
+	}
+	return p.fake.SelectedFunc(ctx, project)
+}
+
+func (p fakeProjects) Vendor(ctx context.Context, request backend.Vendoring) (backend.Vendored, error) {
+	if p.fake.VendorFunc == nil {
+		return backend.Vendored{}, refused("Vendor")
+	}
+	return p.fake.VendorFunc(ctx, request)
+}
+
+func (p fakeProjects) Change(ctx context.Context, request backend.Change, notices io.Writer) (backend.Changed, error) {
+	if p.fake.ChangeFunc == nil {
+		return backend.Changed{}, refused("Change")
+	}
+	return p.fake.ChangeFunc(ctx, request, notices)
 }
 
 type fakeAuthoring struct{ fake *Fake }

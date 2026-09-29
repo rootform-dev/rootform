@@ -14,7 +14,8 @@ import (
 )
 
 // Backend opens the selection of one command, compares Forms, and reaches the
-// Rootform home and the authoring tools.
+// Rootform home, the projects it prepares and changes, and the authoring
+// tools.
 type Backend interface {
 	// Open prepares the project selection of one command. It performs no
 	// work until a session method needs the project, its Dialect catalog or
@@ -26,6 +27,8 @@ type Backend interface {
 	Compare(ctx context.Context, before, after form.Side) *form.ComparisonForm
 	// Home is the Rootform home of this machine.
 	Home() Home
+	// Projects prepares, vendors and changes the selection of projects.
+	Projects() Projects
 	// Authoring compiles Dialect and Policy Pack sources as they stand.
 	Authoring() Authoring
 }
@@ -257,6 +260,23 @@ type Home interface {
 	// Installed lists the installed versions of one family. It reads no
 	// project and uses no network.
 	Installed(ctx context.Context, family Family) ([]Unit, error)
+	// Install resolves each registry reference once, verifies the version it
+	// names and installs it, in the order given. It reads and writes no
+	// project.
+	Install(ctx context.Context, request Installation) ([]Unit, error)
+	// Uninstall deletes exact installed versions of one family, each written
+	// name@version, and returns the deleted versions. Nothing is deleted when
+	// one of them is not installed. It reads no project.
+	Uninstall(ctx context.Context, family Family, versions []string) ([]Unit, error)
+}
+
+// Installation names the registry versions one install adds to the home.
+type Installation struct {
+	Family     Family
+	References []string
+	// Offline uses no network: each reference must be a digest reference to
+	// a version already installed.
+	Offline bool
 }
 
 // Family names a kind of distributed content.
@@ -278,6 +298,150 @@ type Unit struct {
 	Repository     string
 	ManifestDigest string
 	ContentDigest  string
+}
+
+// Projects prepares the content a project selects, copies it into the
+// project, and changes what its rootform.lock selects. Change is the only
+// writer of rootform.lock. Every project directory is relative to the
+// working directory; empty means the working directory.
+type Projects interface {
+	// Prepare makes every non-embedded version the project selects
+	// available on this machine. It fetches only the exact registry
+	// versions rootform.lock pins and never writes rootform.lock.
+	Prepare(ctx context.Context, request Preparation) (Prepared, error)
+	// Selected lists the families the rootform.lock of one project selects
+	// content from, Dialects first. A project without rootform.lock selects
+	// none.
+	Selected(ctx context.Context, project string) ([]Family, error)
+	// Vendor copies the selected versions of one family into the project.
+	Vendor(ctx context.Context, request Vendoring) (Vendored, error)
+	// Change adds, removes or updates selections of rootform.lock and the
+	// vendored copies that follow them, or only plans the change. notices
+	// receives the diagnostics of a source that does not compile.
+	Change(ctx context.Context, request Change, notices io.Writer) (Changed, error)
+}
+
+// Preparation names the project one preparation reads.
+type Preparation struct {
+	Project string
+	// Locked requires rootform.lock to exist and be valid.
+	Locked bool
+	// Offline uses no network: only local and installed content is
+	// accepted.
+	Offline bool
+}
+
+// Prepared is what one preparation made available.
+type Prepared struct {
+	Dialects    []PreparedVersion
+	PolicyPacks []PreparedVersion
+	// Downloaded counts the bytes fetched from registries.
+	Downloaded int64
+}
+
+// PreparedVersion is one prepared non-embedded version.
+type PreparedVersion struct {
+	Name    string
+	Version string
+	// Source identifies where the version is read from.
+	Source string
+	Status Availability
+}
+
+// Availability is how a prepared version became available.
+type Availability string
+
+const (
+	// Verified means the version was already available and matches
+	// rootform.lock.
+	Verified Availability = "verified"
+	// Acquired means the version was fetched at the registry identity
+	// rootform.lock pins.
+	Acquired Availability = "acquired"
+)
+
+// Vendoring names the family one vendor run copies into a project.
+type Vendoring struct {
+	Project string
+	Family  Family
+	// Destination is the directory the family is copied into; empty means
+	// the vendor directory of the project.
+	Destination string
+	// Offline uses no network: only local and installed content is copied.
+	Offline bool
+}
+
+// Vendored is what one vendor run copied.
+type Vendored struct {
+	// Directory is where the family was copied.
+	Directory string
+	Versions  []VendoredVersion
+}
+
+// VendoredVersion is one copied version.
+type VendoredVersion struct {
+	Name    string
+	Version string
+	// Source identifies where the copy was read from; empty when it is not
+	// stated.
+	Source string
+}
+
+// Change is one add, remove or update of the selections of rootform.lock.
+type Change struct {
+	// Verb is add, remove or update.
+	Verb   string
+	Family Family
+	// Operands are the sources to add, the names to remove, or the name to
+	// update then at most one source.
+	Operands []string
+	Project  string
+	// Replace lets an added Dialect replace the embedded Dialect of its
+	// owner.
+	Replace bool
+	// Embedded excludes the named embedded Dialects instead of removing
+	// selections.
+	Embedded bool
+	// Offline uses no network. OfflineFromEnvironment records that the
+	// environment asked for it rather than an option.
+	Offline                bool
+	OfflineFromEnvironment bool
+	// DryRun plans the change and writes nothing.
+	DryRun bool
+}
+
+// Changed is what one change did or, for a dry run, would do.
+type Changed struct {
+	// Modified reports that the resulting rootform.lock differs from the
+	// current one. When it does not, there are no edits and no notices.
+	Modified bool
+	// LockWritten reports that rootform.lock was written.
+	LockWritten bool
+	// Vendored are the families whose vendored copy was, or would be,
+	// written again.
+	Vendored []Family
+	// Edits are the selection changes in canonical order.
+	Edits []Edit
+	// Notices and Warnings are stated with the outcome.
+	Notices  []string
+	Warnings []string
+}
+
+// Edit is one change of one selection.
+type Edit struct {
+	// Action is add, remove, update, exclude or include.
+	Action string
+	// Kind is dialect or policy-pack.
+	Kind    string
+	Name    string
+	Version string
+	// Previous is the version an update replaces.
+	Previous string
+	// Source names where the selection comes from: a local path, a registry
+	// reference, or embedded.
+	Source string
+	// ReplacesEmbedded marks an added Dialect that replaces an embedded one.
+	ReplacesEmbedded bool
 }
 
 // Authoring compiles the sources of Dialects and Policy Packs as they stand,
