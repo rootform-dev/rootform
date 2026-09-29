@@ -7,9 +7,9 @@ import (
 	"sort"
 	"strings"
 
-	cli "github.com/rootform-dev/rootform/cli/command"
 	"github.com/rootform-dev/rootform/cli/form"
-	"github.com/rootform-dev/rootform/cli/human"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
+	"github.com/rootform-dev/rootform/cli/internal/human"
 	"github.com/rootform-dev/rootform/cli/policyresult"
 )
 

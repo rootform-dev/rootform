@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rootform-dev/rootform/cli/human"
+	"github.com/rootform-dev/rootform/cli/internal/human"
 )
 
 // TestPagedWritesThroughWhenTheStreamIsNotATerminal pins the rule a consumer

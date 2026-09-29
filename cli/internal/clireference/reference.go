@@ -7,7 +7,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/rootform-dev/rootform/cli/command"
+	"github.com/rootform-dev/rootform/cli/internal/command"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )

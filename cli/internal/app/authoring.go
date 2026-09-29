@@ -11,10 +11,10 @@ import (
 	"strconv"
 
 	"github.com/rootform-dev/rootform/cli/backend"
-	cli "github.com/rootform-dev/rootform/cli/command"
 	"github.com/rootform-dev/rootform/cli/form"
-	"github.com/rootform-dev/rootform/cli/human"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
 	"github.com/rootform-dev/rootform/cli/internal/document"
+	"github.com/rootform-dev/rootform/cli/internal/human"
 )
 
 // compileService materializes one immutable, evaluation-ready Policy Pack.

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/rootform-dev/rootform/cli/human"
+	"github.com/rootform-dev/rootform/cli/internal/human"
 )
 
 // writeWarning states a condition that did not stop the command from producing

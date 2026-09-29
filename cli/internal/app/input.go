@@ -7,9 +7,9 @@ import (
 	"os"
 
 	"github.com/rootform-dev/rootform/cli/backend"
-	cli "github.com/rootform-dev/rootform/cli/command"
 	"github.com/rootform-dev/rootform/cli/detect"
 	"github.com/rootform-dev/rootform/cli/form"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
 	docinput "github.com/rootform-dev/rootform/cli/internal/document"
 )
 

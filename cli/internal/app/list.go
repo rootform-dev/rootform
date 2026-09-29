@@ -12,8 +12,8 @@ import (
 	"text/tabwriter"
 
 	"github.com/rootform-dev/rootform/cli/backend"
-	cli "github.com/rootform-dev/rootform/cli/command"
-	"github.com/rootform-dev/rootform/cli/human"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
+	"github.com/rootform-dev/rootform/cli/internal/human"
 )
 
 // listService reports what the effective catalog declares: supplied Dialects

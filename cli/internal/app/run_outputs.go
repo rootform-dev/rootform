@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	cli "github.com/rootform-dev/rootform/cli/command"
-	"github.com/rootform-dev/rootform/cli/human"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
 	"github.com/rootform-dev/rootform/cli/internal/export"
+	"github.com/rootform-dev/rootform/cli/internal/human"
 )
 
 // outputFormat selects a format from a recognized file extension, whichever

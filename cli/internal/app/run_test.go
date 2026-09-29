@@ -14,8 +14,8 @@ import (
 
 	"github.com/rootform-dev/rootform/cli/backend"
 	"github.com/rootform-dev/rootform/cli/backend/backendtest"
-	cli "github.com/rootform-dev/rootform/cli/command"
 	"github.com/rootform-dev/rootform/cli/form"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
 )
 
 func TestRunProgressKeepsTheComparisonDirectionWithinTheReportWidth(t *testing.T) {

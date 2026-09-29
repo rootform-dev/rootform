@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	"github.com/rootform-dev/rootform/cli/backend"
-	cli "github.com/rootform-dev/rootform/cli/command"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
 )
 
 // Services are the seams one invocation shares between its commands.

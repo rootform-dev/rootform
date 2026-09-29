@@ -23,8 +23,6 @@ var exported = map[string]bool{
 	"form":                true,
 	"policyresult":        true,
 	"detect":              true,
-	"command":             true,
-	"human":               true,
 }
 
 // models are the packages whose types cross the backend ports. They import
@@ -41,7 +39,7 @@ var models = map[string]bool{
 // framework are the packages that build the command tree; only they import
 // Cobra and pflag.
 var framework = map[string]bool{
-	"command":               true,
+	"internal/command":      true,
 	"internal/clireference": true,
 }
 

@@ -119,11 +119,11 @@ type selectionFamily struct {
 	noun   string
 }
 
-// UpdateObject names the object word of rootform update. update acts on
+// updateObject names the object word of rootform update. update acts on
 // exactly one named unit, so it takes the singular noun, like show
 // policy-pack and compile policy-pack; commands that act on several units
 // or on a whole family keep the plural.
-func UpdateObject(object DistributionObject) string {
+func updateObject(object DistributionObject) string {
 	if object == DistributionPolicyPacks {
 		return "policy-pack"
 	}
@@ -133,7 +133,7 @@ func UpdateObject(object DistributionObject) string {
 // commandObject is the object word a verb uses for one family.
 func commandObject(verb SelectionVerb, object DistributionObject) string {
 	if verb == SelectionUpdate {
-		return UpdateObject(object)
+		return updateObject(object)
 	}
 	return string(object)
 }

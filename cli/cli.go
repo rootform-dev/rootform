@@ -8,9 +8,9 @@ import (
 	"io/fs"
 
 	"github.com/rootform-dev/rootform/cli/backend"
-	"github.com/rootform-dev/rootform/cli/command"
-	"github.com/rootform-dev/rootform/cli/human"
 	"github.com/rootform-dev/rootform/cli/internal/app"
+	"github.com/rootform-dev/rootform/cli/internal/command"
+	"github.com/rootform-dev/rootform/cli/internal/human"
 )
 
 // Env is what one invocation reads from its process and its backend.

@@ -9,9 +9,9 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	cli "github.com/rootform-dev/rootform/cli/command"
 	"github.com/rootform-dev/rootform/cli/form"
-	"github.com/rootform-dev/rootform/cli/human"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
+	"github.com/rootform-dev/rootform/cli/internal/human"
 )
 
 // A complete text report, as --no-serve and a .txt file write it, lists every

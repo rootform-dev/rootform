@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/rootform-dev/rootform/cli/human"
+	"github.com/rootform-dev/rootform/cli/internal/human"
 )
 
 // paged renders a finished human report, styled for out, then writes it

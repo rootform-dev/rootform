@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	cli "github.com/rootform-dev/rootform/cli/command"
 	"github.com/rootform-dev/rootform/cli/form"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
 	"github.com/rootform-dev/rootform/cli/policyresult"
 )
 

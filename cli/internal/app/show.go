@@ -10,8 +10,8 @@ import (
 	"strings"
 
 	"github.com/rootform-dev/rootform/cli/backend"
-	cli "github.com/rootform-dev/rootform/cli/command"
-	"github.com/rootform-dev/rootform/cli/human"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
+	"github.com/rootform-dev/rootform/cli/internal/human"
 )
 
 // showService reports one declaration as the effective catalog defines it. It

@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/rootform-dev/rootform/cli/backend"
-	"github.com/rootform-dev/rootform/cli/human"
+	"github.com/rootform-dev/rootform/cli/internal/human"
 )
 
 // failuref states an operational error assembled from values, so no caller
