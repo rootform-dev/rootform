@@ -45,6 +45,16 @@ type Fake struct {
 	ChangeFunc func(ctx context.Context, request backend.Change, notices io.Writer) (backend.Changed, error)
 	// DialectsFunc answers Authoring.Dialects.
 	DialectsFunc func(ctx context.Context, directory string) (backend.DialectCompilation, error)
+	// FormatFunc answers Authoring.Format.
+	FormatFunc func(ctx context.Context, name string, source []byte) ([]byte, error)
+	// PolicyPackFunc answers Authoring.PolicyPack.
+	PolicyPackFunc func(ctx context.Context, directory string, semantics form.Semantics, notices io.Writer) (backend.CompiledPolicyPack, error)
+	// PackageFunc answers Authoring.Package.
+	PackageFunc func(ctx context.Context, request backend.Packaging) ([]backend.Packaged, error)
+	// PublishFunc answers Authoring.Publish.
+	PublishFunc func(ctx context.Context, request backend.Publication) (backend.Published, error)
+	// ServeLanguageFunc answers Authoring.ServeLanguage.
+	ServeLanguageFunc func(ctx context.Context, input io.ReadCloser, output io.Writer) error
 	// Notices is written once to the notices of a session when it is first
 	// used, as a selection states the sources it loads.
 	Notices string
@@ -79,7 +89,8 @@ func (f *Fake) Home() backend.Home { return fakeHome{fake: f} }
 // ChangeFunc.
 func (f *Fake) Projects() backend.Projects { return fakeProjects{fake: f} }
 
-// Authoring answers with DialectsFunc.
+// Authoring answers with DialectsFunc, FormatFunc, PolicyPackFunc,
+// PackageFunc, PublishFunc and ServeLanguageFunc.
 func (f *Fake) Authoring() backend.Authoring { return fakeAuthoring{fake: f} }
 
 // Selections are the selections opened, in order.
@@ -236,6 +247,41 @@ func (a fakeAuthoring) Dialects(ctx context.Context, directory string) (backend.
 		return backend.DialectCompilation{}, refused("Dialects")
 	}
 	return a.fake.DialectsFunc(ctx, directory)
+}
+
+func (a fakeAuthoring) Format(ctx context.Context, name string, source []byte) ([]byte, error) {
+	if a.fake.FormatFunc == nil {
+		return nil, refused("Format")
+	}
+	return a.fake.FormatFunc(ctx, name, source)
+}
+
+func (a fakeAuthoring) PolicyPack(ctx context.Context, directory string, semantics form.Semantics, notices io.Writer) (backend.CompiledPolicyPack, error) {
+	if a.fake.PolicyPackFunc == nil {
+		return backend.CompiledPolicyPack{}, refused("PolicyPack")
+	}
+	return a.fake.PolicyPackFunc(ctx, directory, semantics, notices)
+}
+
+func (a fakeAuthoring) Package(ctx context.Context, request backend.Packaging) ([]backend.Packaged, error) {
+	if a.fake.PackageFunc == nil {
+		return nil, refused("Package")
+	}
+	return a.fake.PackageFunc(ctx, request)
+}
+
+func (a fakeAuthoring) Publish(ctx context.Context, request backend.Publication) (backend.Published, error) {
+	if a.fake.PublishFunc == nil {
+		return backend.Published{}, refused("Publish")
+	}
+	return a.fake.PublishFunc(ctx, request)
+}
+
+func (a fakeAuthoring) ServeLanguage(ctx context.Context, input io.ReadCloser, output io.Writer) error {
+	if a.fake.ServeLanguageFunc == nil {
+		return refused("ServeLanguage")
+	}
+	return a.fake.ServeLanguageFunc(ctx, input, output)
 }
 
 // PolicySet is a scriptable Policy set: it lists PackList and evaluates with

@@ -15,6 +15,8 @@ import (
 
 // Env is what one invocation reads from its process and its backend.
 type Env struct {
+	// Stdin, Stdout and Stderr are the process streams. The language server
+	// reads Stdin and writes its protocol frames to Stdout unstyled.
 	Stdin  io.Reader
 	Stdout io.Writer
 	Stderr io.Writer
@@ -32,9 +34,11 @@ type Env struct {
 	// default browser. Without it every report is plain and written
 	// directly, and only Browser opens the explorer.
 	Interactive bool
-	// Backend compiles, compares, presents and evaluates architecture, and
-	// describes the selected definitions. Without one, the commands that
-	// need it report that they are not configured.
+	// Backend compiles, compares, presents and evaluates architecture,
+	// describes the selected definitions, prepares and changes projects and
+	// the Rootform home, and compiles, formats, packages and publishes
+	// sources. Without one, the commands that need it report that they are
+	// not configured.
 	Backend backend.Backend
 	// Browser opens the explorer address. Nil uses the default browser when
 	// Interactive.
@@ -47,23 +51,11 @@ type Env struct {
 	// ExportShell is the renderer page an HTML export fills; nil refuses
 	// HTML exports.
 	ExportShell []byte
-	// Commands supplies the command services this module does not implement,
-	// bound to the streams Run writes to.
-	Commands func(stdin io.Reader, stdout, stderr io.Writer) Commands
 }
 
 // Browser opens one address in a browser.
 type Browser interface {
 	Open(url string) error
-}
-
-// Commands are command services implemented outside this module.
-type Commands struct {
-	Compile command.CompileService
-	Fmt     command.FmtService
-	Package command.PackageService
-	Publish command.PublishService
-	LSP     command.LanguageServerService
 }
 
 // Run executes one command line and returns the process exit status.
@@ -75,6 +67,7 @@ func Run(env Env) int {
 	if stderr == nil {
 		stderr = io.Discard
 	}
+	frames := stdout
 	if env.Interactive {
 		stdout, stderr = human.Stream(stdout), human.Stream(stderr)
 	}
@@ -112,7 +105,7 @@ func Run(env Env) int {
 		}
 	}
 	services := app.Services{
-		Stdin: env.Stdin, Stdout: stdout, Stderr: stderr,
+		Stdin: env.Stdin, Stdout: stdout, Stderr: stderr, Frames: frames,
 		Backend: env.Backend, Browser: browser, Version: env.Version,
 		Assets: env.Assets, Shell: env.ExportShell, Getwd: env.Getwd,
 	}
@@ -127,16 +120,12 @@ func Run(env Env) int {
 		commandEnv.Vendor = services.Vendor()
 		commandEnv.Selection = services.Selection()
 		commandEnv.Store = services.Store()
-	}
-	var external Commands
-	if env.Commands != nil {
-		external = env.Commands(env.Stdin, stdout, stderr)
+		commandEnv.Fmt = services.Fmt()
+		commandEnv.Compile = services.Compile()
+		commandEnv.Package = services.Package()
+		commandEnv.Publish = services.Publish()
+		commandEnv.LSP = services.LSP()
 	}
 	commandEnv.Validate = services.Validate()
-	commandEnv.Compile = external.Compile
-	commandEnv.Fmt = external.Fmt
-	commandEnv.Package = external.Package
-	commandEnv.Publish = external.Publish
-	commandEnv.LSP = external.LSP
 	return command.Run(commandEnv)
 }

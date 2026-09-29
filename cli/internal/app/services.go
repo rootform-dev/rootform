@@ -1,14 +1,15 @@
 // Package app runs the commands that read architecture and definitions (run,
-// check, explain, validate, list, show and test) and the commands that
-// prepare and change projects and the Rootform home (init, vendor, add,
-// remove, update, install and uninstall). It owns their orchestration and
-// every report they write, and reaches the engine through the backend ports
-// only.
+// check, explain, validate, list, show and test), the commands that prepare
+// and change projects and the Rootform home (init, vendor, add, remove,
+// update, install and uninstall) and the authoring commands (fmt, compile,
+// package, publish and lsp). It owns their orchestration and every report
+// they write, and reaches the engine through the backend ports only.
 package app
 
 import (
 	"io"
 	"io/fs"
+	"strings"
 
 	"github.com/rootform-dev/rootform/cli/backend"
 	cli "github.com/rootform-dev/rootform/cli/command"
@@ -16,9 +17,12 @@ import (
 
 // Services are the seams one invocation shares between its commands.
 type Services struct {
-	Stdin   io.Reader
-	Stdout  io.Writer
-	Stderr  io.Writer
+	Stdin  io.Reader
+	Stdout io.Writer
+	Stderr io.Writer
+	// Frames is standard output as the process received it, unstyled: the
+	// language server writes its protocol frames to it.
+	Frames  io.Writer
 	Backend backend.Backend
 	Browser cli.BrowserLauncher
 	// Version names the generator a compiled or compared Form and a Policy
@@ -87,4 +91,42 @@ func (s Services) Selection() cli.SelectionService {
 // Store returns the service of install and uninstall.
 func (s Services) Store() cli.StoreService {
 	return storeService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
+}
+
+// Fmt returns the fmt service.
+func (s Services) Fmt() cli.FmtService {
+	return fmtService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
+}
+
+// Compile returns the service of compile policy-pack.
+func (s Services) Compile() cli.CompileService {
+	return compileService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
+}
+
+// Package returns the package service.
+func (s Services) Package() cli.PackageService {
+	return packageService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
+}
+
+// Publish returns the publish service.
+func (s Services) Publish() cli.PublishService {
+	return publishService{stdout: s.Stdout, stderr: s.Stderr, backend: s.Backend}
+}
+
+// LSP returns the language server service. It reads Stdin and writes to
+// Frames.
+func (s Services) LSP() cli.LanguageServerService {
+	input, ok := s.Stdin.(io.ReadCloser)
+	switch {
+	case ok:
+	case s.Stdin == nil:
+		input = io.NopCloser(strings.NewReader(""))
+	default:
+		input = io.NopCloser(s.Stdin)
+	}
+	output := s.Frames
+	if output == nil {
+		output = io.Discard
+	}
+	return languageServerService{input: input, output: output, backend: s.Backend}
 }

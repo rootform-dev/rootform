@@ -42,6 +42,10 @@ func TestFakeConforms(t *testing.T) {
 		if err := os.WriteFile(filepath.Join(dialects, "dialect.rf.hcl"), []byte("dialect \"fixture\" {}\n"), 0o644); err != nil {
 			t.Fatal(err)
 		}
+		packs := t.TempDir()
+		if err := os.WriteFile(filepath.Join(packs, "pack.rf.hcl"), []byte("policy_pack \"fixture\" {}\n"), 0o644); err != nil {
+			t.Fatal(err)
+		}
 		projectUnreadable := &backend.Error{Kind: backend.Failure, Code: "SELECTION_PROJECT_UNREADABLE", Message: "project root could not be read"}
 		fake := &backendtest.Fake{
 			CompileFunc: func(_ context.Context, _ backend.Selection, export backend.Export) (backend.Compiled, error) {
@@ -140,8 +144,46 @@ func TestFakeConforms(t *testing.T) {
 				}
 				return backend.Changed{}, &backend.Error{Kind: backend.Negative, Message: "Policy Pack absent is not selected"}
 			},
+			FormatFunc: func(_ context.Context, name string, source []byte) ([]byte, error) {
+				if !strings.HasSuffix(name, ".rf.json") {
+					return source, nil
+				}
+				var indented bytes.Buffer
+				if err := json.Indent(&indented, source, "", "  "); err != nil {
+					return nil, &backend.Error{Kind: backend.Negative, Message: name + " is not valid JSON"}
+				}
+				return indented.Bytes(), nil
+			},
+			PolicyPackFunc: func(_ context.Context, directory string, _ form.Semantics, _ io.Writer) (backend.CompiledPolicyPack, error) {
+				if directory != packs {
+					return backend.CompiledPolicyPack{}, &backend.Error{Kind: backend.Negative, Message: "the source directory must declare exactly one Policy Pack"}
+				}
+				return backend.CompiledPolicyPack{Name: "fixture", Version: "0.1.0", Pins: 1, Digest: "sha256:0", Content: []byte("{}")}, nil
+			},
+			PackageFunc: func(_ context.Context, request backend.Packaging) ([]backend.Packaged, error) {
+				if request.Source != packs {
+					return nil, &backend.Error{Kind: backend.Negative, Message: "no Policy Packs were found in that directory"}
+				}
+				if err := os.Mkdir(request.Destination, 0o755); err != nil {
+					return nil, &backend.Error{Kind: backend.Failure, Message: "package destination already exists"}
+				}
+				return []backend.Packaged{{Name: "fixture", Version: "0.1.0", Digest: "sha256:1", Size: 512}}, nil
+			},
+			PublishFunc: func(_ context.Context, request backend.Publication) (backend.Published, error) {
+				if strings.ToLower(request.Repository) != request.Repository || strings.Contains(request.Repository, " ") {
+					return backend.Published{}, &backend.Error{Kind: backend.Usage, Message: "destination OCI repository is invalid"}
+				}
+				return backend.Published{FormatVersion: "1", DryRun: request.DryRun, Repository: request.Repository, Versions: []backend.PublishedVersion{{
+					Name: "fixture", Version: "0.1.0", Repository: request.Repository, Tag: "policy-pack-fixture-0.1.0",
+					ManifestDigest: "sha256:1", ManifestSize: 512, Size: 2048, Status: "planned",
+				}}}, nil
+			},
+			ServeLanguageFunc: func(ctx context.Context, _ io.ReadCloser, _ io.Writer) error {
+				<-ctx.Done()
+				return nil
+			},
 		}
-		return backendtest.Subject{Backend: fake, Plan: plan, State: state, PolicyPacks: []string{"fixture"}, Dialects: dialects}
+		return backendtest.Subject{Backend: fake, Plan: plan, State: state, PolicyPacks: []string{packs}, Dialects: dialects}
 	})
 }
 

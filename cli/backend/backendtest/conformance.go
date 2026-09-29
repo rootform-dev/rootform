@@ -5,10 +5,13 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"io"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/rootform-dev/rootform/cli/backend"
 	"github.com/rootform-dev/rootform/cli/form"
@@ -27,11 +30,12 @@ type Subject struct {
 	// compiles.
 	Plan  []byte
 	State []byte
-	// PolicyPacks are Policy Pack sources that declare at least one Policy
-	// and apply to the Form Plan compiles to.
+	// PolicyPacks are Policy Pack source directories, each declaring one
+	// Policy Pack with at least one Policy that applies to the Form Plan
+	// compiles to.
 	PolicyPacks []string
 	// Dialects is a directory of Dialect sources that compiles without a
-	// diagnostic.
+	// diagnostic and holds at least one native source.
 	Dialects string
 }
 
@@ -53,6 +57,10 @@ func Run(t *testing.T, subject func(t *testing.T) Subject) {
 	t.Run("VendorsNothingWithoutASelection", func(t *testing.T) { vendorsNothingWithoutASelection(t, subject(t)) })
 	t.Run("RefusesToChangeAnAbsentSelection", func(t *testing.T) { refusesToChangeAnAbsentSelection(t, subject(t)) })
 	t.Run("CompilesDialectSources", func(t *testing.T) { compilesDialectSources(t, subject(t)) })
+	t.Run("FormatsSources", func(t *testing.T) { formatsSources(t, subject(t)) })
+	t.Run("CompilesAPolicyPack", func(t *testing.T) { compilesAPolicyPack(t, subject(t)) })
+	t.Run("PackagesAndPlansAPublication", func(t *testing.T) { packagesAndPlansAPublication(t, subject(t)) })
+	t.Run("StopsTheLanguageServerWhenCanceled", func(t *testing.T) { stopsTheLanguageServer(t, subject(t)) })
 }
 
 // sanitized requires a failure the command line can print as it is.
@@ -437,5 +445,155 @@ func compilesDialectSources(t *testing.T, s Subject) {
 	}
 	if failure := sanitized(t, err); failure.Kind != backend.Failure {
 		t.Fatalf("a missing directory reads as kind %d, want a failure", failure.Kind)
+	}
+}
+
+// formatsSources requires the canonical text of a native source and of a
+// JSON source to be canonical in turn, and JSON source that is not
+// well-formed to be a negative answer.
+func formatsSources(t *testing.T, s Subject) {
+	authoring := s.Backend.Authoring()
+	ctx := context.Background()
+	native := ""
+	err := filepath.WalkDir(s.Dialects, func(path string, entry fs.DirEntry, err error) error {
+		if err != nil || native != "" {
+			return err
+		}
+		if !entry.IsDir() && strings.HasSuffix(path, ".rf.hcl") {
+			native = path
+		}
+		return nil
+	})
+	if err != nil || native == "" {
+		t.Fatalf("the Dialect sources hold no native source: %v", err)
+	}
+	source, err := os.ReadFile(native)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, c := range []struct {
+		name   string
+		source []byte
+	}{
+		{filepath.Base(native), source},
+		{"fixture.rf.json", []byte(`{"dialect":{"name":"fixture","rules":[1,2]}}`)},
+	} {
+		formatted, err := authoring.Format(ctx, c.name, c.source)
+		if err != nil {
+			t.Fatalf("formatting %s: %v", c.name, err)
+		}
+		again, err := authoring.Format(ctx, c.name, formatted)
+		if err != nil || !bytes.Equal(again, formatted) {
+			t.Fatalf("the canonical text of %s is not canonical: %q became %q, %v", c.name, formatted, again, err)
+		}
+	}
+	_, err = authoring.Format(ctx, "broken.rf.json", []byte("{"))
+	if err == nil {
+		t.Fatal("JSON source that is not well-formed was formatted")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.Negative {
+		t.Fatalf("an invalid source reads as kind %d, want a negative answer", failure.Kind)
+	}
+}
+
+// compilesAPolicyPack requires a Policy Pack source to compile and pin to the
+// semantics of a Form, and a directory that declares no Policy Pack to be a
+// negative answer.
+func compilesAPolicyPack(t *testing.T, s Subject) {
+	plan := compile(t, s, s.Plan, form.KindPlan)
+	authoring := s.Backend.Authoring()
+	var notices bytes.Buffer
+	compiled, err := authoring.PolicyPack(context.Background(), s.PolicyPacks[0], plan.Semantics, &notices)
+	if err != nil {
+		t.Fatalf("compiling the Policy Pack: %v; notices %q", err, notices.String())
+	}
+	if compiled.Name == "" || compiled.Version == "" || compiled.Digest == "" {
+		t.Fatalf("the compiled Policy Pack has no identity: %s@%s %s", compiled.Name, compiled.Version, compiled.Digest)
+	}
+	if !json.Valid(compiled.Content) || bytes.HasSuffix(compiled.Content, []byte("\n")) {
+		t.Fatalf("the compiled Policy Pack is not one JSON document without its final newline: %q", compiled.Content)
+	}
+	_, err = authoring.PolicyPack(context.Background(), t.TempDir(), plan.Semantics, &notices)
+	if err == nil {
+		t.Fatal("a directory without a Policy Pack compiled")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.Negative {
+		t.Fatalf("a directory without a Policy Pack reads as kind %d, want a negative answer", failure.Kind)
+	}
+}
+
+// packagesAndPlansAPublication requires a Policy Pack source to be packaged
+// into a new registry layout, an existing destination and a source set
+// without a Policy Pack to be refused, a dry run to plan the publication of
+// every packaged version, and an invalid repository to be a usage error.
+func packagesAndPlansAPublication(t *testing.T, s Subject) {
+	authoring := s.Backend.Authoring()
+	ctx := context.Background()
+	layout := filepath.Join(t.TempDir(), "layout")
+	request := backend.Packaging{Family: backend.PolicyPacks, Source: s.PolicyPacks[0], Destination: layout}
+	packaged, err := authoring.Package(ctx, request)
+	if err != nil {
+		t.Fatalf("packaging the Policy Pack: %v", err)
+	}
+	if len(packaged) == 0 {
+		t.Fatal("packaging wrote no version")
+	}
+	for _, version := range packaged {
+		if version.Name == "" || version.Version == "" || version.Digest == "" || version.Size <= 0 {
+			t.Fatalf("a packaged version is not described: %+v", version)
+		}
+	}
+	_, err = authoring.Package(ctx, request)
+	if err == nil {
+		t.Fatal("packaging replaced an existing layout")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.Failure {
+		t.Fatalf("an existing destination reads as kind %d, want a failure", failure.Kind)
+	}
+	_, err = authoring.Package(ctx, backend.Packaging{Family: backend.PolicyPacks, Source: t.TempDir(), Destination: filepath.Join(t.TempDir(), "empty")})
+	if err == nil {
+		t.Fatal("a directory without a Policy Pack was packaged")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.Negative {
+		t.Fatalf("a directory without a Policy Pack reads as kind %d, want a negative answer", failure.Kind)
+	}
+	const repository = "registry.example.com/acme/policy-packs"
+	published, err := authoring.Publish(ctx, backend.Publication{Family: backend.PolicyPacks, Layout: layout, Repository: repository, DryRun: true})
+	if err != nil {
+		t.Fatalf("planning the publication: %v", err)
+	}
+	if !published.DryRun || published.Repository != repository || published.FormatVersion == "" || len(published.Versions) != len(packaged) {
+		t.Fatalf("the planned publication is %+v, want a dry run of %d versions to %s", published, len(packaged), repository)
+	}
+	for i, version := range published.Versions {
+		if version.Status != "planned" || version.Name != packaged[i].Name || version.Version != packaged[i].Version || version.ManifestDigest != packaged[i].Digest {
+			t.Fatalf("the planned version %+v does not match the packaged %+v", version, packaged[i])
+		}
+	}
+	_, err = authoring.Publish(ctx, backend.Publication{Family: backend.PolicyPacks, Layout: layout, Repository: "Not A Repository", DryRun: true})
+	if err == nil {
+		t.Fatal("a publication to an invalid repository was planned")
+	}
+	if failure := sanitized(t, err); failure.Kind != backend.Usage {
+		t.Fatalf("an invalid repository reads as kind %d, want a usage error", failure.Kind)
+	}
+}
+
+// stopsTheLanguageServer requires the language server to stop without an
+// error once its context is canceled, as it does on an interrupt.
+func stopsTheLanguageServer(t *testing.T, s Subject) {
+	input, client := io.Pipe()
+	defer client.Close()
+	ctx, cancel := context.WithCancel(context.Background())
+	done := make(chan error, 1)
+	go func() { done <- s.Backend.Authoring().ServeLanguage(ctx, input, io.Discard) }()
+	cancel()
+	select {
+	case err := <-done:
+		if err != nil {
+			t.Fatalf("a canceled language server returned %v", err)
+		}
+	case <-time.After(10 * time.Second):
+		t.Fatal("a canceled language server did not stop")
 	}
 }

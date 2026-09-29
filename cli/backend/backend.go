@@ -29,7 +29,9 @@ type Backend interface {
 	Home() Home
 	// Projects prepares, vendors and changes the selection of projects.
 	Projects() Projects
-	// Authoring compiles Dialect and Policy Pack sources as they stand.
+	// Authoring compiles, formats, packages and publishes Dialect and Policy
+	// Pack sources as they stand, and serves the language features of an
+	// editor.
 	Authoring() Authoring
 }
 
@@ -444,12 +446,39 @@ type Edit struct {
 	ReplacesEmbedded bool
 }
 
-// Authoring compiles the sources of Dialects and Policy Packs as they stand,
-// without selecting or loading anything else.
+// Authoring compiles, formats, packages and publishes the sources of Dialects
+// and Policy Packs as they stand, without selecting or loading anything else,
+// and serves the language features of an editor.
 type Authoring interface {
 	// Dialects compiles the Dialect sources directory holds and reports
 	// every diagnostic.
 	Dialects(ctx context.Context, directory string) (DialectCompilation, error)
+	// Format returns the canonical text of one source, named by its path
+	// relative to the directory being formatted. A source that is not valid
+	// is a negative answer.
+	Format(ctx context.Context, name string, source []byte) ([]byte, error)
+	// PolicyPack compiles the one Policy Pack whose sources directory holds
+	// and pins it to semantics, the semantics a saved Form records. notices
+	// receives the diagnostics of a source that does not compile. A source
+	// that does not compile or link, or a directory that does not declare
+	// exactly one Policy Pack, is a negative answer.
+	PolicyPack(ctx context.Context, directory string, semantics form.Semantics, notices io.Writer) (CompiledPolicyPack, error)
+	// Package compiles the sources of one family and writes the registry
+	// layout of their exact versions to a destination that does not exist
+	// yet. Nothing is sent to a registry. A source set that is invalid is a
+	// negative answer.
+	Package(ctx context.Context, request Packaging) ([]Packaged, error)
+	// Publish verifies a registry layout, publishes its versions to one
+	// registry repository and repulls each by digest. A dry run verifies the
+	// layout and plans the publication without network access. An invalid
+	// repository is a usage error and an invalid layout a negative answer.
+	Publish(ctx context.Context, request Publication) (Published, error)
+	// ServeLanguage serves the language server protocol over input and
+	// output. It returns nil once the client completed shutdown and exit, or
+	// once ctx is canceled, and an error when the transport or the protocol
+	// lifecycle fails. Protocol frames are the only thing it writes to
+	// output.
+	ServeLanguage(ctx context.Context, input io.ReadCloser, output io.Writer) error
 }
 
 // DialectCompilation is the outcome of compiling Dialect sources.
@@ -460,6 +489,91 @@ type DialectCompilation struct {
 	Dialects []Identity
 	// Diagnostics are every problem the compilation found.
 	Diagnostics []Diagnostic
+}
+
+// CompiledPolicyPack is one Policy Pack compiled and pinned to semantics.
+type CompiledPolicyPack struct {
+	Name    string
+	Version string
+	// Pins counts the semantic pins it records.
+	Pins int
+	// Digest identifies the pinned Policy Pack.
+	Digest string
+	// Content is the compiled Policy Pack file without its final newline.
+	Content []byte
+}
+
+// Packaging names the sources one packaging compiles and the registry layout
+// it writes.
+type Packaging struct {
+	Family Family
+	// Source is the directory of the sources.
+	Source string
+	// Destination is the directory of the layout; it must not exist.
+	Destination string
+	// Provenance is recorded in the OCI metadata of every version.
+	Provenance Provenance
+}
+
+// Provenance names where packaged content comes from. Each field is empty
+// when it is not stated.
+type Provenance struct {
+	// Source is the URL of the canonical source.
+	Source string
+	// Revision is the source-control revision.
+	Revision string
+	// Documentation is the URL of the documentation.
+	Documentation string
+	// Licenses is the SPDX license expression.
+	Licenses string
+}
+
+// Packaged is one version a packaging wrote.
+type Packaged struct {
+	Name    string
+	Version string
+	// Digest and Size describe its OCI manifest.
+	Digest string
+	Size   int64
+}
+
+// Publication names the registry layout one publication reads and the
+// repository it publishes to.
+type Publication struct {
+	Family Family
+	// Layout is the directory of the registry layout.
+	Layout string
+	// Repository is the tagless OCI repository.
+	Repository string
+	// DryRun verifies and plans the publication without network access.
+	DryRun bool
+}
+
+// Published is the outcome of one publication.
+type Published struct {
+	// FormatVersion versions the publication report.
+	FormatVersion string
+	DryRun        bool
+	Repository    string
+	// Versions are the versions of the layout, in publication order.
+	Versions []PublishedVersion
+}
+
+// PublishedVersion is one version a publication wrote, found already present
+// or planned.
+type PublishedVersion struct {
+	Name    string
+	Version string
+	// Repository and Tag name where the version is published.
+	Repository     string
+	Tag            string
+	ManifestDigest string
+	ManifestSize   int64
+	// Size counts the bytes of the whole version.
+	Size int64
+	// Status is published, already_present or planned.
+	Status     string
+	Provenance Provenance
 }
 
 // Identity names one version of a Dialect or a Policy Pack.
