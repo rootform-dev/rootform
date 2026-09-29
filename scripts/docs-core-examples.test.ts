@@ -36,7 +36,7 @@ test("root usage mismatch fails rather than skipping the public export", () => {
   const help = "Understand Terraform.\n\nUsage\n  rootform <command> [options]\n\nGlobal options\n";
   expect(() => assertHelpUsage("rootform", "rootform <command> [options]", help)).not.toThrow();
   expect(() => assertHelpUsage("rootform", "rootform [options]", help)).toThrow(
-    'rootform usage differs from public export: help "rootform <command> [options]", export "rootform [options]"',
+    'rootform usage differs from the CLI reference: help "rootform <command> [options]", reference "rootform [options]"',
   );
 });
 

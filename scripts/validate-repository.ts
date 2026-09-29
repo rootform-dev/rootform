@@ -200,6 +200,7 @@ export function validateRepository(): void {
     "scripts/release/handoff.ts",
     "scripts/release/license.ts",
     "scripts/release/metadata.ts",
+    "scripts/release/module-pin.ts",
     "scripts/release/oci.ts",
     "scripts/release/runtime-licenses.ts",
     "scripts/render-candidate-report.ts",
@@ -209,7 +210,9 @@ export function validateRepository(): void {
     "scripts/validate-oci-core-profile.ts",
     "scripts/validate-trivy-policy.ts",
     "dependencies/runtime-components.json",
+    "reference/cli.json",
     "schemas/compiled-policy-pack.schema.json",
+    "schemas/form.schema.json",
     "schemas/policy-result.schema.json",
     "schemas/rootform-lock.schema.json",
   ]) {
@@ -259,10 +262,7 @@ export function validateRepository(): void {
   const expectedExportedPaths = [
     "THIRD_PARTY_NOTICES.txt",
     "dependencies/runtime-components.json",
-    "reference/cli.json",
-    "schemas/form.schema.json",
     "schemas/compiled-policy-pack.schema.json",
-    "schemas/policy-result.schema.json",
     "schemas/rootform-lock.schema.json",
   ].sort((left, right) => left.localeCompare(right, "en"));
   if (JSON.stringify(exportedPaths) !== JSON.stringify(expectedExportedPaths)) {

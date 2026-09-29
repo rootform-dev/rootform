@@ -69,8 +69,8 @@
       "license_declared": "MPL-2.0",
       "license_text_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
       "name": "Rootform Dialects",
-      "upstream": "https://github.com/rootform-dev/rootform/tree/8de8d1fe78d118fe14f9f0d2e19a3bec36c5c995",
-      "version": "8de8d1fe78d118fe14f9f0d2e19a3bec36c5c995"
+      "upstream": "https://github.com/rootform-dev/rootform/tree/298e04448c0dec9a777f6560dbd2021152cfa95e",
+      "version": "298e04448c0dec9a777f6560dbd2021152cfa95e"
     },
     {
       "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2016 ALRUX Inc.",
@@ -222,6 +222,16 @@
       "name": "github.com/opencontainers/image-spec",
       "upstream": "https://github.com/opencontainers/image-spec",
       "version": "v1.1.1"
+    },
+    {
+      "copyright_text": "(c) You must retain, in the Source form of any Derivative Works",
+      "kind": "go-module",
+      "license_concluded": "Apache-2.0",
+      "license_declared": "Apache-2.0",
+      "license_text_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "name": "github.com/rootform-dev/rootform/cli",
+      "upstream": "https://github.com/rootform-dev/rootform/cli",
+      "version": "v0.0.0-20260929202511-298e04448c0d"
     },
     {
       "copyright_text": "(c) You must retain, in the Source form of any Derivative Works",

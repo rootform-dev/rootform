@@ -29,6 +29,7 @@ import {
   type FinalArtifactRecord,
   releaseArchiveEntries,
 } from "./release/metadata.ts";
+import { type FrozenPinVerifier, verifyFrozenPins } from "./release/module-pin.ts";
 import { readRuntimeLicensing } from "./release/runtime-licenses.ts";
 
 type AssembleOptions = {
@@ -241,6 +242,7 @@ export function verifyFinalDirectory(options: {
   handoffDirectory: string;
   nativeVerifier?: NativeVersionVerifier;
   output: string;
+  pinVerifier?: FrozenPinVerifier;
   root: string;
   version: string;
 }): VerifiedHandoff {
@@ -255,6 +257,7 @@ export function verifyFinalDirectory(options: {
     options.githubAssets,
     version,
     options.nativeVerifier ?? verifyNativeVersion,
+    options.pinVerifier ?? verifyFrozenPins,
   );
   const inputs = distributionInputs(options.root);
   if (!inputs.schema.equals(handoff.schema)) throw new Error("distribution schema drifted");
@@ -321,6 +324,7 @@ export function assembleRelease(options: {
   handoffDirectory: string;
   nativeVerifier?: NativeVersionVerifier;
   output: string;
+  pinVerifier?: FrozenPinVerifier;
   root: string;
   version: string;
 }): void {
@@ -332,6 +336,7 @@ export function assembleRelease(options: {
     options.githubAssets,
     version,
     options.nativeVerifier ?? verifyNativeVersion,
+    options.pinVerifier ?? verifyFrozenPins,
   );
   const inputs = distributionInputs(options.root);
   if (!inputs.schema.equals(handoff.schema)) throw new Error("distribution schema drifted");
