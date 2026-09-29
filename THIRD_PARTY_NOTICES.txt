@@ -10,15 +10,15 @@ line.
 URLs are provenance references only. Rootform never fetches or executes them
 at runtime.
 
-dialect-bundle: Rootform Dialects@298e04448c0dec9a777f6560dbd2021152cfa95e
+dialect-bundle: Rootform Dialects@7979b2a4b26080f4204da8d5ea7cb1a005ef3595
 --------------------------------------------------------------------------
 Declared license: MPL-2.0
 Concluded license: MPL-2.0
-Upstream: https://github.com/rootform-dev/rootform/tree/298e04448c0dec9a777f6560dbd2021152cfa95e
+Upstream: https://github.com/rootform-dev/rootform/tree/7979b2a4b26080f4204da8d5ea7cb1a005ef3595
 Copyright: (c) under Patent Claims infringed by Covered Software in the absence of
 License text SHA-256: 1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5
 
------ BEGIN LICENSE TEXT: Rootform Dialects@298e04448c0dec9a777f6560dbd2021152cfa95e -----
+----- BEGIN LICENSE TEXT: Rootform Dialects@7979b2a4b26080f4204da8d5ea7cb1a005ef3595 -----
 Mozilla Public License Version 2.0
 ==================================
 
@@ -392,7 +392,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
   This Source Code Form is "Incompatible With Secondary Licenses", as
   defined by the Mozilla Public License, v. 2.0.
------ END LICENSE TEXT: Rootform Dialects@298e04448c0dec9a777f6560dbd2021152cfa95e -----
+----- END LICENSE TEXT: Rootform Dialects@7979b2a4b26080f4204da8d5ea7cb1a005ef3595 -----
 
 
 go-module: github.com/agext/levenshtein@v1.2.1
@@ -3023,7 +3023,7 @@ License text SHA-256: b0a3f39513927db306adabea11d14c23f079d4febcea241d123a68d1a0
 ----- END LICENSE TEXT: github.com/opencontainers/image-spec@v1.1.1 -----
 
 
-go-module: github.com/rootform-dev/rootform/cli@v0.0.0-20260929202511-298e04448c0d
+go-module: github.com/rootform-dev/rootform/cli@v0.0.0-20260929211806-7979b2a4b260
 ----------------------------------------------------------------------------------
 Declared license: Apache-2.0
 Concluded license: Apache-2.0
@@ -3031,7 +3031,7 @@ Upstream: https://github.com/rootform-dev/rootform/cli
 Copyright: (c) You must retain, in the Source form of any Derivative Works
 License text SHA-256: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30
 
------ BEGIN LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20260929202511-298e04448c0d -----
+----- BEGIN LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20260929211806-7979b2a4b260 -----
 
                                  Apache License
                            Version 2.0, January 2004
@@ -3234,7 +3234,7 @@ License text SHA-256: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
------ END LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20260929202511-298e04448c0d -----
+----- END LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20260929211806-7979b2a4b260 -----
 
 
 go-module: github.com/spf13/cobra@v1.10.2
