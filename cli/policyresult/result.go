@@ -17,12 +17,6 @@ import (
 // from the Form it evaluates, whose format a result names separately.
 const FormatVersion = "1"
 
-const (
-	maxPolicies       = 1024
-	maxEvaluations    = 100000
-	maxFactReferences = 100000
-)
-
 type Outcome string
 
 const (
@@ -213,7 +207,9 @@ func NewResult() Result {
 	return Result{FormatVersion: FormatVersion, FormFormatVersion: form.FormatVersion, Selection: Selection{Selectors: []string{}, Policies: []string{}}, Architectures: []Architecture{}, Diagnostics: []Diagnostic{}, Status: StatusNoDecision}
 }
 
-func newArchitecture(selected int) Architecture {
+// NewArchitecture starts the result of one architecture for the given number
+// of selected Policies, with no outcome yet.
+func NewArchitecture(selected int) Architecture {
 	return Architecture{SemanticOwners: []SemanticOwner{}, PolicyPacks: []PolicyPack{}, Policies: []PolicyResult{}, Evaluations: []Evaluation{}, Violations: []Violation{}, Diagnostics: []Diagnostic{}, Status: StatusNoDecision, Summary: Summary{Policies: PolicyCounts{Selected: selected}}}
 }
 
@@ -438,10 +434,12 @@ func Unavailable(code, message string) Result {
 // ArchitectureUnavailable is one requested architecture that could not be
 // evaluated, while the others still are.
 func ArchitectureUnavailable(selected int, code, message string) Architecture {
-	return failure(newArchitecture(selected), code, message)
+	return Failure(NewArchitecture(selected), code, message)
 }
 
-func failure(a Architecture, code, message string) Architecture {
+// Failure records that an architecture could not be evaluated, with the code
+// and message of its one diagnostic, and finalizes it.
+func Failure(a Architecture, code, message string) Architecture {
 	a.Status = StatusFailed
 	a.Diagnostics = []Diagnostic{{Severity: SeverityError, Code: code, Message: message}}
 	return a.Finalized()
