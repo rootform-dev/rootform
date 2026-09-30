@@ -5,7 +5,8 @@
       { "label": "Overview", "page": "index" },
       { "label": "Quickstart", "page": "getting-started/quickstart" },
       { "label": "Install Rootform", "page": "installation" },
-      { "label": "Analyze your plan or state", "page": "getting-started/analyze-your-plan" }
+      { "label": "Analyze your plan or state", "page": "getting-started/analyze-your-plan" },
+      { "label": "Glossary", "page": "reference/glossary" }
     ]
   },
   {
