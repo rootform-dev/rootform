@@ -3,9 +3,10 @@ title: Check a Form with Policies
 description: Evaluate a Policy Pack against a saved Form, read the verdict, and keep the result for review.
 ---
 
-`rootform check` evaluates Policies against one architecture in a Form and
-exits with the verdict. Below, you write a one-Policy Pack and run it against
-the `analysis.json` saved in the [quickstart](../getting-started/quickstart.md).
+`rootform check` evaluates Policies against one stage of a plan or state Form,
+or by default against both sides of a comparison Form, and exits with the
+verdict. Below, you write a one-Policy Pack and run it against the
+`analysis.json` saved in the [quickstart](../getting-started/quickstart.md).
 
 Checking is a separate step from `rootform run`, which analyzes and never
 evaluates Policies: an analysis that exits `0` says nothing about compliance.
@@ -112,7 +113,7 @@ rootform check plan.json --plan-file plan.tfplan --policy-pack ./policies
 Without the saved plan, the same Policy can return `INDETERMINATE` on the same
 resources: the subnet ID is unknown until apply and Rootform refuses to guess.
 Status `3` keeps that uncertainty out of an approval.
-[Follow a Policy through every outcome](check-architecture.md) shows a pass, a
+[Understand Policy outcomes](check-architecture.md) shows a pass, a
 violation, an indeterminate result, and a Policy without target on small plans
 you produce yourself.
 

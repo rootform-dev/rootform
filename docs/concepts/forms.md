@@ -3,7 +3,7 @@ title: "Forms and stages"
 description: "Read saved Forms, their architectures, and evidence limits."
 ---
 
-A Form is what `rootform run` produces: the portable architectural model Rootform compiles from Terraform or OpenTofu evidence, and the one result every other command reads. `rootform run analysis.json` reopens it in the Explorer, `rootform explain` reads its evidence, `rootform check` evaluates Policies against it, and `--diff` compares two of them. It contains the architecture of every supported stage, their available comparisons, reported drift, evidence, semantic pins, limits, and diagnostics. A Form is derived, never authored or edited: you save, open, and compare Forms, and never write one.
+A Form is what `rootform run` produces: the portable architectural model Rootform compiles from Terraform or OpenTofu plan or state evidence, and the central object of analysis and review. `rootform run analysis.json` reopens it in the Explorer, `rootform explain` reads its evidence, `rootform check` evaluates Policies against it, and `--diff` compares two of them. It contains the architecture of every supported stage, their available comparisons, reported drift, evidence, semantic pins, limits, and diagnostics. A Form is derived: you save, reopen, and compare Forms, but never author or edit one.
 
 JSON is the Form's serialization (format version `"1"`). A saved Form reopens without the original plan or state JSON or installed Dialects. The Explorer is one view of the Form. "Analysis" describes the process, as in "Plan analyzed", rather than another saved object. The [contract](../../contracts/form.md) and [JSON Schema](../../schemas/form.schema.json) define exact fields.
 

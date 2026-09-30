@@ -3,8 +3,10 @@ title: Explain an architecture
 description: Ask the terminal why an instance is placed or connected, what a Rule established, and how a Policy decided.
 ---
 
-`rootform explain` answers the Inspector's questions in the terminal. It reads
-a saved Form, so it needs no plan files and recompiles nothing.
+`rootform explain` answers the Inspector's questions in the terminal. This
+guide gives it a saved Form, which needs no plan files and recompiles nothing.
+`explain instance` and `explain rule` also read plan JSON, state JSON, or `-`
+for standard input, compiling them as `run` does.
 
 The examples below use the `analysis.json` written in the
 [quickstart](../getting-started/quickstart.md). A state Form or another plan
@@ -41,10 +43,10 @@ settled it: `value` for evaluated plan or state values, `traversal` for a
 verified saved-plan reference, `both` when they agree. Facts arriving from
 other instances, such as the private endpoints in this subnet, use `<-`.
 
-**Closures** is where uncertainty lives. Each line is one closure the Rule
-opened on this instance, one for each Context or Relation the Rule can
-establish: the attribute it followed, how candidates were
-matched, and whether the closure is `resolved`, `absent`, or
+**Closures** is where uncertainty lives. The Rule opens one closure on this
+instance for each active emission, whether it establishes a Context, a
+Relation, or a Contribution. Each entry names the attribute it followed, how
+candidates were matched, and whether the closure is `resolved`, `absent`, or
 `indeterminate` with its reason. An indeterminate closure means the evidence
 could not settle the fact; it does not mean the fact is missing.
 [Forms and stages](../concepts/forms.md#stages-and-facts) lists the reasons.
@@ -66,11 +68,12 @@ rootform explain rule azure.rule.subnet --input analysis.json
 [2mApplied to[0m  7 instances
 ```
 
-The **Emissions** section shows, for each Context or Relation the Rule can
-establish, how many closures resolved, were absent, or stayed indeterminate
-across the Form. Read it to see whether a Dialect covers your resources the
-way you expect. `rootform show azure.rule.subnet` prints the Rule's
-declaration instead of its results.
+The **Emissions** section lists each emission the Rule declares, whether a
+Context, a Relation, or a Contribution, with how many closures resolved, were
+absent, or stayed indeterminate across the Form. Read it to see whether a
+Dialect covers your resources the way you expect.
+`rootform show azure.rule.subnet` prints the Rule's declaration instead of its
+results.
 
 ## How did a Policy decide?
 
