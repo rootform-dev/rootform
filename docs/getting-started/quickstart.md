@@ -90,7 +90,7 @@ rootform run plan.json --plan-file plan.tfplan
   [2mContexts[0m            207
 ```
 
-The Explorer address is printed on standard error; press `Ctrl+C` when you are
+The terminal also shows the Explorer address; press `Ctrl+C` when you are
 done. **Enrichment** records that the saved plan paired with the JSON export,
 which is how Rootform followed references whose values are unknown until apply.
 The 207 contexts are placements like the one you just read.

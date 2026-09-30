@@ -54,8 +54,8 @@ The summary counts the planned resource instances, how many a Dialect Rule
 interpreted, and the facts those Rules established, then lists the plan's
 changes.
 
-The Explorer opens in your browser from a loopback server, and its address is
-printed on standard error. Press `Ctrl+C` to stop it.
+The Explorer opens in your browser from a local server, and the terminal shows
+its address. Press `Ctrl+C` to stop it.
 
 **Enrichment** confirms that the saved plan paired with the JSON export, which
 lets Rootform follow references whose values are unknown until apply. Without

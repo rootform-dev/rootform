@@ -22,8 +22,8 @@ starts a loopback server and opens a browser:
 rootform run plan.json --plan-file plan.tfplan --no-browser --port 0
 ```
 
-Read the address printed on standard error, open it in your browser, and
-press `Ctrl+C` in the terminal when finished. Here `--no-browser` leaves the
+Copy the Explorer address from the terminal into your browser, and press
+`Ctrl+C` in the terminal when finished. Here `--no-browser` leaves the
 launch to you and `--port 0` asks the operating system for an available port.
 A saved Form opens the same way with `rootform run analysis.json`.
 

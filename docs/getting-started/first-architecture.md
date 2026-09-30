@@ -90,9 +90,9 @@ files out of Git: in real projects they can contain secrets in clear text.
 rootform run plan.json --plan-file plan.tfplan
 ```
 
-The server address is printed on standard error. Open the local Explorer if
-your browser does not open automatically. The terminal stays in the foreground;
-press `Ctrl+C` when finished. The summary includes this excerpt:
+If your browser does not open automatically, open the Explorer address shown
+in the terminal. The command keeps running until you press `Ctrl+C`. The
+summary includes this excerpt:
 
 ```ansi title="Run output excerpt"
 [1mPlan analyzed[0m
