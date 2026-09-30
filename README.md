@@ -2,12 +2,13 @@
 
 [![Source license](https://img.shields.io/badge/source-Apache--2.0-blue.svg)](LICENSE)
 
-Rootform reads a Terraform or OpenTofu plan and shows the architecture it
-proposes: which resources sit where, what connects to what, and what changes.
+Rootform reads plan and state exports from Terraform or OpenTofu, then shows
+the architecture they describe: which resources sit where and what connects
+to what. Plans also show what changes.
 It reads exported state the same way, for a snapshot of the architecture
 recorded in state. The result is a [Form](docs/concepts/forms.md), a saved
-file you can explore in a browser, question from the terminal, compare with
-another revision, and check against Policies. Every placement and connection
+file you can **explore** in a browser, **question** from the terminal, **compare**
+with another revision, and **check** against Policies. Every placement and connection
 is a fact a Dialect Rule established from the export; when a value is unknown
 until apply, Rootform says so instead of guessing.
 
