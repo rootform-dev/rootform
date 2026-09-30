@@ -312,6 +312,26 @@ func TestStageWordsAndPopulation(t *testing.T) {
 	}
 }
 
+func TestArchitectureWithUncertaintyKeepsSummaryConcise(t *testing.T) {
+	a := &form.InputForm{Stages: map[form.Stage]*form.Architecture{
+		form.StagePlanned: {
+			Stage: form.StagePlanned,
+			Accounting: form.Accounting{Instances: 1, AppliedInterpretations: 1, Indeterminate: 1},
+			Representations: []form.Representation{{ID: "object"}},
+		},
+	}}
+	block := architectureBlock(stageView{stage: form.StagePlanned, form: a}, false)
+	if len(block.tail) != 0 {
+		t.Fatalf("redundant architecture tail: %q", block.tail)
+	}
+	rep := runReport{verdict: "Plan analyzed", blocks: []reportBlock{block}}
+	for _, rendered := range []string{reportText(rep), string(rep.markdown())} {
+		if strings.Contains(rendered, "A matched Rule does not settle every fact") {
+			t.Fatalf("redundant sentence in report:\n%s", rendered)
+		}
+	}
+}
+
 func TestNetCollapseUsesFormEntries(t *testing.T) {
 	a := &form.InputForm{Comparisons: &form.Comparisons{
 		Changes: &form.Comparison{Comparable: true, Representations: []form.RepresentationChange{{ID: "change:changes:added:object", Change: form.ChangeAdded, Representation: "object"}}},

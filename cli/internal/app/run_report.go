@@ -551,9 +551,6 @@ func architectureBlock(v stageView, details bool) reportBlock {
 	if details {
 		block.rows = append(block.rows, [2]string{"Closures", fmt.Sprintf("%d (%d resolved, %d absent, %d indeterminate)", n.Closures, n.Resolved, n.Absent, n.Indeterminate)})
 	}
-	if n.AppliedInterpretations > 0 && n.Indeterminate > 0 {
-		block.tail = append(block.tail, "A matched Rule does not settle every fact; see Uncertainty.")
-	}
 	block.notes = append(block.notes, "Interpreted counts the instances a Rule matched; Relations, Contexts, and Contributions count determined facts; Uncertainty counts what the evidence could not settle.")
 	return block
 }

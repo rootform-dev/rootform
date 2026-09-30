@@ -145,7 +145,6 @@ rootform run plan.json --no-serve
   [2mInstances[0m    2
   [2mInterpreted[0m  2
   [2mFacts[0m        none determined
-  A matched Rule does not settle every fact; see Uncertainty.
 [1m[38;5;208mUncertainty[0m
                           [2mPlanned[0m
   [2mIndeterminate closures[0m        1
