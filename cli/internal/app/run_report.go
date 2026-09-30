@@ -498,14 +498,14 @@ func architectureBlock(v stageView, details bool) reportBlock {
 	}
 	n := a.Accounting
 	if n.Instances == 0 && len(a.Representations) == 0 {
-		block.lines = append(block.lines, "The "+stageWords(v.stage)+" stage holds no resource instance. An empty stage is a valid result.")
+		block.lines = append(block.lines, "The "+stageWords(v.stage)+" stage holds no instance. An empty stage is a valid result.")
 		return block
 	}
 	instances := fmt.Sprint(n.Instances)
 	if n.DataInstances > 0 {
 		instances += fmt.Sprintf(" (%d managed, %d data)", n.ManagedInstances, n.DataInstances)
 	}
-	block.rows = append(block.rows, [2]string{"Resource instances", instances})
+	block.rows = append(block.rows, [2]string{"Instances", instances})
 	if n.Carried > 0 {
 		block.rows = append(block.rows, [2]string{"Carried", countWithNoun(n.Carried, "instance", "instances") + " from the prior state, not evaluated by this plan"})
 	}
@@ -598,7 +598,7 @@ func sidesTable(views []stageView, details bool) *reportTable {
 		add("Producer", func(v stageView, _ *form.Architecture) string { return producerWords(*v.form) })
 	}
 	add("Stage", func(v stageView, _ *form.Architecture) string { return stageWords(v.stage) })
-	add("Resource instances", func(_ stageView, a *form.Architecture) string { return fmt.Sprint(a.Accounting.Instances) })
+	add("Instances", func(_ stageView, a *form.Architecture) string { return fmt.Sprint(a.Accounting.Instances) })
 	add("Interpreted", func(_ stageView, a *form.Architecture) string {
 		return fmt.Sprint(a.Accounting.AppliedInterpretations)
 	})
@@ -1121,7 +1121,7 @@ func changeGroups(c, drift *form.Comparison, names map[string]string) []reportGr
 		instances = append(instances, item)
 	}
 	groups := []reportGroup{
-		{title: "Resource instances", items: byBucket(instances, instanceVerbs(planned)), noun: "instance changes"},
+		{title: "Instances", items: byBucket(instances, instanceVerbs(planned)), noun: "instance changes"},
 		{title: "External endpoints", items: collapseAlike(byBucket(externals, instanceVerbs(planned))), noun: "external endpoint changes"},
 	}
 	for _, kind := range factKinds {
@@ -1173,7 +1173,7 @@ func changeRows(c *form.Comparison, before, after string, indeterminate bool) []
 	var rows [][2]string
 	verbs := instanceVerbs(plannedComparison(c))
 	if words := joinedCounts(representationCounts(c, false), verbs); words != "" {
-		rows = append(rows, [2]string{"Resource instances", words})
+		rows = append(rows, [2]string{"Instances", words})
 	}
 	if words := joinedCounts(representationCounts(c, true), verbs); words != "" {
 		rows = append(rows, [2]string{"External endpoints", words})

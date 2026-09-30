@@ -62,7 +62,7 @@ func TestComparisonPreviewSpreadsKindsAndStatuses(t *testing.T) {
 	rep := runReport{verdict: "Plan analyzed", blocks: []reportBlock{block}}
 	text := reportText(rep)
 	for _, want := range []string{
-		"Resource instances      12 added, 7 removed\n",
+		"Instances               12 added, 7 removed\n",
 		"10 of 19 instance changes shown: 5 of 12 added, 5 of 7 removed.\n",
 		"- object.removed.04",
 		"- gateway  routes-to -> object.removed.00  removed\n",
@@ -90,8 +90,8 @@ func TestComparisonPreviewSpreadsKindsAndStatuses(t *testing.T) {
 	}
 	md := string(rep.markdown())
 	for _, want := range []string{
-		"**Changes to 19 resource instances, 1 Relation, and 7 Contributions.**\n",
-		"<summary>Resource instances: 12 added, 7 removed (10 of 19 shown)</summary>\n",
+		"**Changes to 19 instances, 1 Relation, and 7 Contributions.**\n",
+		"<summary>Instances: 12 added, 7 removed (10 of 19 shown)</summary>\n",
 		"- Added \\(5 of 12 shown\\)\n",
 		"- Removed \\(5 of 7 shown\\)\n",
 		"**Relations: 1 removed**\n",
@@ -112,7 +112,7 @@ func TestComparisonPreviewSpreadsKindsAndStatuses(t *testing.T) {
 		t.Fatalf("expanded details:\n%s", full)
 	}
 	md = string(rep.markdown())
-	if !strings.Contains(md, "**Relations: 1 removed**\n\n- **routes-to** from `gateway` to `object.removed.00`\n") || !strings.Contains(md, "<summary>Resource instances: 12 added, 7 removed</summary>\n") || !strings.Contains(md, "object.added.11") || strings.Contains(md, "shown") {
+	if !strings.Contains(md, "**Relations: 1 removed**\n\n- **routes-to** from `gateway` to `object.removed.00`\n") || !strings.Contains(md, "<summary>Instances: 12 added, 7 removed</summary>\n") || !strings.Contains(md, "object.added.11") || strings.Contains(md, "shown") {
 		t.Fatalf("Markdown fact entry:\n%s", md)
 	}
 }
@@ -240,7 +240,7 @@ func TestComparisonEventsAndNotComparable(t *testing.T) {
 	c.Comparable = false
 	c.Problems = []form.ComparisonProblem{{Code: "INCOMPATIBLE", Message: "different semantics"}}
 	text = reportText(runReport{verdict: "Inputs compared", blocks: []reportBlock{comparisonBlock("Differences", c, nil, nil, true, true)}})
-	if !strings.Contains(text, "Not comparable: different semantics") || strings.Contains(text, "No architectural difference") || strings.Contains(text, "Resource instances") {
+	if !strings.Contains(text, "Not comparable: different semantics") || strings.Contains(text, "No architectural difference") || strings.Contains(text, "Instances") {
 		t.Fatal(text)
 	}
 }
@@ -285,7 +285,7 @@ func TestNetCollapseUsesFormEntries(t *testing.T) {
 		Changes: &form.Comparison{Comparable: true, Representations: []form.RepresentationChange{{ID: "change:changes:added:object", Change: form.ChangeAdded, Representation: "object"}}},
 		Net:     &form.Comparison{Comparable: true, Representations: []form.RepresentationChange{{ID: "change:net:added:object", Change: form.ChangeAdded, Representation: "object"}}, Facts: []form.FactChange{}},
 	}}
-	if got := reportText(runReport{verdict: "Plan analyzed", blocks: []reportBlock{netBlock(a, nil, true)}}); !strings.Contains(got, "Same determined changes as Planned changes.") || strings.Contains(got, "Resource instances") {
+	if got := reportText(runReport{verdict: "Plan analyzed", blocks: []reportBlock{netBlock(a, nil, true)}}); !strings.Contains(got, "Same determined changes as Planned changes.") || strings.Contains(got, "Instances") {
 		t.Fatal(got)
 	}
 	a.DriftReport = &form.DriftReport{Entries: []form.DriftEntry{{ID: "drift"}}}

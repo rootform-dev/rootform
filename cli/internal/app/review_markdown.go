@@ -242,7 +242,7 @@ func changeKinds(c *form.Comparison) []kindChanges {
 			kinds = append(kinds, kindChanges{title: title, singular: singular, plural: plural, counts: counts})
 		}
 	}
-	add("Resource instances", "resource instance", "resource instances", representationCounts(c, false))
+	add("Instances", "instance", "instances", representationCounts(c, false))
 	add("External endpoints", "external endpoint", "external endpoints", representationCounts(c, true))
 	for _, kind := range factKinds {
 		counts := make([]int, 6)
@@ -264,8 +264,8 @@ func changeKinds(c *form.Comparison) []kindChanges {
 	return kinds
 }
 
-// changeWords sums a comparison up by kind, never across kinds: "3 resource
-// instances and 2 Contexts added" when every kind changes one way, the
+// changeWords sums a comparison up by kind, never across kinds: "3 instances
+// and 2 Contexts added" when every kind changes one way, the
 // statuses of a single kind, else the kinds that change. cross words the
 // differences of two inputs.
 func changeWords(c *form.Comparison, cross bool) string {
@@ -329,9 +329,9 @@ func architectureConclusion(v stageView) string {
 	}
 	n := a.Accounting
 	if n.Instances == 0 && len(a.Representations) == 0 {
-		return stage + " architecture: no resource instance."
+		return stage + " architecture: no instance."
 	}
-	instances := countWithNoun(n.Instances, "resource instance", "resource instances")
+	instances := countWithNoun(n.Instances, "instance", "instances")
 	if n.DataInstances > 0 {
 		instances += fmt.Sprintf(" (%d managed, %d data)", n.ManagedInstances, n.DataInstances)
 	}
