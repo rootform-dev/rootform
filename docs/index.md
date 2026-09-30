@@ -1,35 +1,38 @@
 ---
 title: Overview
-description: Explore, explain, compare, and check the architecture in your Terraform and OpenTofu plans.
+description: Explore, explain, compare, and check the architecture in your Terraform and OpenTofu plans and state.
 tableOfContents: false
 ---
 
 Rootform reads a Terraform or OpenTofu plan and shows the architecture it
 proposes: which resources sit where, what connects to what, and what changes.
-The result is a **Form**, a saved file you can explore in a browser, question
-from the terminal, compare with another revision, and check against Policies.
+The result is a [Form](concepts/forms.md), a saved file you can explore in a
+browser, question from the terminal, compare with another revision, and check
+against Policies.
 
 ![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-light.png#gh-light-mode-only)
 ![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-dark.png#gh-dark-mode-only)
 
-Rootform reads the JSON that `terraform show -json` exports. It never runs
-Terraform or OpenTofu, executes a provider, or contacts a cloud account.
+Rootform reads the JSON that `terraform show -json` exports, from a saved plan
+or from state. It never runs Terraform or OpenTofu, executes a provider, or
+contacts a cloud account, so an export you already have is enough, even
+offline. A state export gives a Recorded architecture: a snapshot of the
+architecture recorded in state, which you explore, explain, save, and compare
+like any other Form.
 
 Every placement and connection it draws is a fact a Dialect Rule established
-from plan evidence, and you can ask for that evidence. When a value is unknown
+from that export, and you can ask for the evidence. When a value is unknown
 until apply or the evidence is ambiguous, Rootform says so instead of guessing.
 
 ## Get started
 
 <!-- rootform:directory -->
 - [Quickstart](getting-started/quickstart.md)
-  Open a sample Form in the Playground, read the evidence behind one placement, then run the same analysis locally. No cloud account needed.
+  Open a sample Form in the Playground, read the evidence behind one placement, then run the same analysis locally.
 - [Install Rootform](installation.md)
   Choose the method for your platform and verify the executable.
 - [Analyze your own plan](getting-started/analyze-your-plan.md)
-  Export a completed plan and open its architecture.
-- [Follow the evidence behind a placement](getting-started/first-architecture.md)
-  Plan a VPC and a subnet and see how a saved plan settles a reference unknown until apply.
+  Export a completed plan and open its architecture, or open the architecture recorded in state.
 
 ## Work with a Form
 
@@ -51,8 +54,10 @@ until apply or the evidence is ambiguous, Rootform says so instead of guessing.
 
 [How Rootform works](concepts.md) explains how instances, Rules, facts, and
 closures fit together. [Forms and stages](concepts/forms.md) describes what a
-saved Form keeps, [Comparisons and drift](concepts/comparisons.md) keeps
-planned changes, drift, and differences apart, and
+saved Form keeps, and [Trace a placement](getting-started/first-architecture.md)
+plans a VPC and a subnet to show how a saved plan settles a reference unknown
+until apply. [Comparisons and drift](concepts/comparisons.md) keeps planned
+changes, drift, and differences apart, and
 [Dialects](concepts/dialects.md) explains where architectural meaning comes
 from. Embedded Dialects cover the providers Rootform ships with, so a project
 using them needs no Rootform configuration.

@@ -1,11 +1,12 @@
 ---
 title: Analyze your own plan
-description: Export a completed Terraform or OpenTofu plan and open its architecture in Rootform.
+description: Export a completed Terraform or OpenTofu plan, or state, and open its architecture in Rootform.
 ---
 
-Turn a plan you already produce into a Form you can explore, explain, and
-check. You need [Rootform](../installation.md) and a root module you can plan
-with your usual backend, workspace, and credentials.
+Turn a plan you already produce into a Form you can explore, explain, compare,
+and check; the last section does the same with a state export. You need
+[Rootform](../installation.md) and a root module you can plan with your usual
+backend, workspace, and credentials.
 
 Rootform itself needs none of those: it reads the exported files and never
 runs Terraform or OpenTofu, contacts a provider, or refreshes state.
@@ -61,7 +62,7 @@ lets Rootform follow references whose values are unknown until apply. Without
 `--plan-file`, those placements stay `indeterminate` rather than guessed. If
 pairing is refused, export the JSON again from the saved plan you pass;
 [Pair the saved plan](../inputs/plans.md#pair-the-saved-plan) explains the check,
-and [Follow the evidence behind a placement](first-architecture.md) shows one
+and [Trace a placement](first-architecture.md) shows one
 closure with and without the saved plan.
 
 ## Read what the summary can and cannot say
@@ -96,10 +97,29 @@ plan values, but both name resources and describe topology, so share them as
 you would an architecture diagram.
 [Outputs and exit status](../reference/outputs.md) lists every format.
 
-State JSON works the same way: `terraform show -json > state.json`, then
-`rootform run state.json`. The result has one Recorded architecture and no
-planned changes. [Choose an input](../inputs/index.md) explains when state,
-a plan, or a saved Form answers your question.
+## Analyze a state export
+
+State gives a different view: a snapshot of the architecture recorded in
+state, with no planned change. Export it from the same root module and run the
+same command. OpenTofu users export with `tofu show -json`.
+
+```sh
+terraform show -json > state.json
+rootform run state.json
+```
+
+The summary reads **State analyzed**, and the Form has one stage, Recorded. It
+holds what state records, not a live view of your cloud: Rootform refreshes
+nothing. You explore, explain, save, and compare it like a plan Form. A
+comparison with a later plan shows how the architecture that plan proposes
+differs from the recorded one, as in
+[Compare other stage pairs](../guides/compare-architectures.md#compare-other-stage-pairs).
+
+Rootform reads only the export, so a `state.json` produced elsewhere can be
+analyzed on a machine without Terraform, providers, or cloud credentials. State
+JSON can contain secrets too; keep it out of Git.
+[Choose an input](../inputs/index.md) explains when state, a plan, or a saved
+Form answers your question.
 
 Continue in [Explore a Form](../guides/explore-architecture.md) to find
 resources and read their evidence, or ask the same questions from the terminal

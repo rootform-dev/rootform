@@ -8,10 +8,10 @@ Explorer, find one resource, and read the evidence behind its placement. The
 first half needs only a browser and no cloud account; the second half installs
 Rootform and produces the same result on your machine.
 
-Rootform turns a Terraform or OpenTofu plan into a **Form**: a portable saved
-result you can explore, explain, compare, and check. The Explorer is the Form's
-interactive view. Nothing here runs Terraform, since the sample plan is already
-exported.
+Rootform turns a Terraform or OpenTofu plan, or a state export, into a
+[Form](../concepts/forms.md): a portable saved result you can explore,
+explain, compare, and check. The Explorer is the Form's interactive view.
+Nothing here runs Terraform, since the sample plan is already exported.
 
 <!-- rootform:steps -->
 
@@ -108,12 +108,17 @@ rootform run plan.json --plan-file plan.tfplan --no-serve -o analysis.json
 [2mWrote     [0m analysis.json
 ```
 
-`analysis.json` reopens with `rootform run analysis.json` without the plan files,
-feeds `rootform explain` and `rootform check`, and compares against another Form.
-It holds no sensitive plan values, but it names resources and describes topology.
+`analysis.json` reopens with `rootform run analysis.json` without the plan
+files. [Explain an architecture](../guides/explain-architecture.md) questions it
+from the terminal, [Check a Form with Policies](../guides/check-with-policies.md)
+evaluates Policies against it, and
+[Compare two Forms](../guides/compare-architectures.md) sets it against another
+revision. It holds no sensitive plan values, but it names resources and
+describes topology.
 
 <!-- rootform:endsteps -->
 
-Next, run the same three commands on a plan of your own in
-[Analyze your own plan](analyze-your-plan.md), or stay with this sample in
+Next, export a plan of your own and analyze it in
+[Analyze your own plan](analyze-your-plan.md), which also covers state
+exports, or stay with this sample in
 [Explore a Form](../guides/explore-architecture.md).

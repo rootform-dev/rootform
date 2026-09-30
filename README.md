@@ -4,11 +4,12 @@
 
 Rootform reads a Terraform or OpenTofu plan and shows the architecture it
 proposes: which resources sit where, what connects to what, and what changes.
-The result is a **Form**, a saved file you can explore in a browser, question
-from the terminal, compare with another revision, and check against Policies.
-Every placement and connection is a fact a Dialect Rule established from plan
-evidence; when a value is unknown until apply, Rootform says so instead of
-guessing.
+It reads exported state the same way, for a snapshot of the architecture
+recorded in state. The result is a [Form](docs/concepts/forms.md), a saved
+file you can explore in a browser, question from the terminal, compare with
+another revision, and check against Policies. Every placement and connection
+is a fact a Dialect Rule established from the export; when a value is unknown
+until apply, Rootform says so instead of guessing.
 
 Rootform never runs Terraform or OpenTofu, executes providers, or contacts a
 cloud account. It reads the exported plan or state JSON locally.
@@ -42,37 +43,62 @@ the Explorer opens in your browser. Add `--no-serve -o analysis.json` to save
 the Form instead, and `-o review.md` for a report to paste in a pull request.
 Keep `plan.tfplan` and `plan.json` out of Git: they can contain secrets.
 
-## Explore, explain, compare, check
+## Analyze a state export
 
-These commands use the commerce sample from the
-[quickstart](docs/getting-started/quickstart.md): `analysis.json` is the Form
-it saves, `base/` and `head/` hold the two sample plans from
-`examples/playground/commerce-platform/`, and `policies/` is the Pack it
-writes.
+Export state instead of a plan to see the architecture it records:
 
 ```bash
-rootform run analysis.json                                       # reopen the Form
+terraform show -json > state.json
+rootform run state.json
+```
+
+The result is a Recorded architecture: what state records, not a live view of
+your cloud. It has no planned changes, and you explore, explain, save, and
+compare it like any other Form, for example against a later plan. Rootform
+needs only the export, so a `state.json` you already have can be analyzed
+without Terraform, providers, or cloud credentials. State JSON can contain
+secrets too; keep it out of Git.
+
+## Explore, explain, compare, check
+
+The commerce sample in
+[`examples/playground/commerce-platform/`](examples/playground/commerce-platform/)
+holds two revisions of a synthetic Azure platform, each with its plan JSON and
+saved plan. Run these commands from that directory in a clone of this
+repository:
+
+```bash
+rootform run head/plan.json --plan-file head/plan.tfplan --no-serve -o analysis.json
+rootform run analysis.json                                       # explore the saved Form
 rootform explain instance azurerm_subnet.prod_data --input analysis.json
 rootform run base/plan.json --plan-file base/plan.tfplan \
   --diff head/plan.json --diff-plan-file head/plan.tfplan --no-serve -o comparison.md
-rootform check analysis.json --policy-pack ./policies -o results.sarif
+rootform check analysis.json --policy-pack ../../../policy-packs/baseline -o results.sarif
 ```
 
-`explain` names the Rule and the evidence behind one placement, connection,
-or Policy decision. `--diff` compares two Forms and reports differences,
-which are never called drift. `check` evaluates Policies against one Form and
-exits `0` on pass, `1` on a violation, and `3` when the evidence cannot
-settle an evaluation or a Policy finds no target. `run` never evaluates
-Policies. [Outputs and exit status](docs/reference/outputs.md) lists every
-format.
+The first command saves the head revision as a Form, and the second opens it
+in the Explorer, one view of that Form. `explain` names the Rule and the
+evidence behind one placement, connection, or Policy decision. `--diff`
+compares two Forms and reports differences, which are never called drift.
+`check` evaluates the baseline Policy Pack against the Form and exits `0` on
+pass, `1` on a violation, and `3` when the evidence cannot settle an
+evaluation or a Policy finds no target. `run` never evaluates Policies.
+[Outputs and exit status](docs/reference/outputs.md) lists every format.
+[Review a pull request](docs/workflows/index.md) brings the same steps to a
+review, and [GitHub Actions](docs/integrations/github-actions.md) shows how to
+run them in CI with a verified release.
 
 ## What Rootform does not do
 
 It does not deploy or read live infrastructure, verify network reachability,
-or evaluate configuration source. A Form describes the plan or state you gave
-it. [Limitations](docs/limitations.md) states the evidence boundaries and
-[Security and data handling](docs/security/index.md) what leaves your machine
-(nothing, unless you share a report).
+or evaluate configuration source. A Form describes the plan or state export
+you gave it. Analysis runs locally, with no telemetry, cloud access, or
+provider execution. Only commands that acquire or publish Dialects and Policy
+Packs (`install`, `add`, `update`, `init`, `vendor`, `publish`) may reach a
+registry, and the Explorer server listens on loopback only.
+[Limitations](docs/limitations.md) states the evidence boundaries and
+[Security and data handling](docs/security/index.md) lists every network
+boundary.
 
 ## What lives here
 
