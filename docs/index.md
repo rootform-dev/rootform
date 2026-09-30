@@ -4,11 +4,12 @@ description: Explore, explain, compare, and check the architecture in your Terra
 tableOfContents: false
 ---
 
-Rootform reads a Terraform or OpenTofu plan and shows the architecture it
-proposes: which resources sit where, what connects to what, and what changes.
-The result is a [Form](concepts/forms.md), a saved file you can explore in a
-browser, question from the terminal, compare with another revision, and check
-against Policies.
+Rootform reads plan and state exports from Terraform or OpenTofu, then shows
+the architecture they describe: which resources sit where and what connects
+to what. Plans also show what changes.
+The result is a [Form](concepts/forms.md), a saved file you can **explore** in a
+browser, **question** from the terminal, **compare** with another revision, and
+**check** against Policies.
 
 ![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-light.png#gh-light-mode-only)
 ![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-dark.png#gh-dark-mode-only)
