@@ -305,16 +305,13 @@ func completenessWords(c form.Completeness) string {
 	return words
 }
 
-// enrichmentWords states what pairing a saved plan with its plan JSON
-// established: the few properties it compares, never the validity of the plan
-// or proof that both come from one planning operation.
+// enrichmentWords states whether a saved plan paired with its plan JSON. It
+// never claims the plan is valid or that both come from one planning
+// operation; the documentation names the few properties the pairing compares.
 func enrichmentWords(s form.SnapshotEnrichment) []string {
 	switch s.Status {
 	case form.SnapshotVerified:
-		return []string{
-			fmt.Sprintf("Saved plan paired with this plan JSON (%s)", countWithNoun(s.Modules, "module", "modules")),
-			"Only version, timestamp, and configuration shape are compared",
-		}
+		return []string{fmt.Sprintf("Saved plan paired with this plan JSON (%s)", countWithNoun(s.Modules, "module", "modules"))}
 	case form.SnapshotRefused:
 		return []string{"Saved plan refused (" + s.Diagnostic + "); the plan JSON was analyzed alone"}
 	}
@@ -533,7 +530,7 @@ func architectureBlock(v stageView, details bool) reportBlock {
 			excluded++
 		}
 	}
-	block.rows = append(block.rows, [2]string{"Interpreted", fmt.Sprintf("%d of %s matched a Rule", n.AppliedInterpretations, countWithNoun(n.Instances, "instance", "instances"))})
+	block.rows = append(block.rows, [2]string{"Interpreted", fmt.Sprint(n.AppliedInterpretations)})
 	var gaps []string
 	if excluded > 0 {
 		gaps = append(gaps, fmt.Sprintf("%d outside every Rule condition", excluded))
@@ -603,7 +600,7 @@ func sidesTable(views []stageView, details bool) *reportTable {
 	add("Stage", func(v stageView, _ *form.Architecture) string { return stageWords(v.stage) })
 	add("Resource instances", func(_ stageView, a *form.Architecture) string { return fmt.Sprint(a.Accounting.Instances) })
 	add("Interpreted", func(_ stageView, a *form.Architecture) string {
-		return fmt.Sprintf("%d of %d", a.Accounting.AppliedInterpretations, a.Accounting.Instances)
+		return fmt.Sprint(a.Accounting.AppliedInterpretations)
 	})
 	for _, kind := range []struct {
 		label string

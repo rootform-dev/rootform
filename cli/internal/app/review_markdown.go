@@ -778,7 +778,6 @@ func (rep runReport) writeSides(v *review) {
 	if len(typed) == len(rep.views) {
 		rows = append(rows, append([]string{"Input"}, typed...))
 	}
-	paired := false
 	add := func(label string, value func(stageView, *form.Architecture) string) {
 		row := []string{mdText(label)}
 		for _, view := range rep.views {
@@ -800,7 +799,6 @@ func (rep runReport) writeSides(v *review) {
 		s := view.form.Evidence.Enrichment.Snapshot
 		switch s.Status {
 		case form.SnapshotVerified:
-			paired = true
 			return "Saved plan paired (" + countWithNoun(s.Modules, "module", "modules") + ")"
 		case form.SnapshotRefused:
 			return "Saved plan refused"
@@ -818,7 +816,4 @@ func (rep runReport) writeSides(v *review) {
 		rows = append(rows, cells)
 	}
 	v.grid(header, false, rows)
-	if paired {
-		v.paragraph(mdText("A paired saved plan is compared with its plan JSON on version, timestamp, and configuration shape only."))
-	}
 }

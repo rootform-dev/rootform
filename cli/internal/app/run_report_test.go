@@ -183,19 +183,19 @@ func TestUncertaintyTablesCountClosures(t *testing.T) {
 	}
 }
 
-func TestEnrichmentWordsStateWhatPairingCompares(t *testing.T) {
+func TestEnrichmentWordsReportThePairing(t *testing.T) {
 	got := enrichmentWords(form.SnapshotEnrichment{Status: form.SnapshotVerified, Modules: 2})
-	want := []string{"Saved plan paired with this plan JSON (2 modules)", "Only version, timestamp, and configuration shape are compared"}
+	want := []string{"Saved plan paired with this plan JSON (2 modules)"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("enrichment %q", got)
 	}
 	rep := runReport{verdict: "Plan analyzed", literal: map[string]bool{"Input": true}}
-	rep.head = [][2]string{{"Input", "a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m.json"}, {"Enrichment", want[0]}, {"", want[1]}}
+	rep.head = [][2]string{{"Input", "a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m.json"}, {"Enrichment", want[0]}}
 	text := reportText(rep)
-	if !strings.Contains(text, "Input       a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m.json\n") || !strings.Contains(text, "Enrichment  Saved plan paired with this plan JSON (2 modules)\n            Only version, timestamp, and configuration shape are compared\n") {
+	if !strings.Contains(text, "Input       a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m.json\n") || !strings.Contains(text, "Enrichment  Saved plan paired with this plan JSON (2 modules)\n") {
 		t.Fatalf("head:\n%s", text)
 	}
-	if md := string(rep.markdown()); !strings.Contains(md, "- **Enrichment:** Saved plan paired with this plan JSON \\(2 modules\\); only version, timestamp, and configuration shape are compared\n") {
+	if md := string(rep.markdown()); !strings.Contains(md, "- **Enrichment:** Saved plan paired with this plan JSON \\(2 modules\\)\n") {
 		t.Fatalf("Markdown head:\n%s", md)
 	}
 }
