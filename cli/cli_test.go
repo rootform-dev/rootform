@@ -263,8 +263,7 @@ func TestInputsPastTheCeilingAreRefused(t *testing.T) {
 			if c.name == "validate form file" {
 				codeText = "rootform: INPUT_REFUSED:"
 			}
-			if code != c.exit || out != "" || !strings.Contains(errb, codeText) ||
-				(c.name != "validate form file" && !strings.Contains(errb, document.Limit())) {
+			if code != c.exit || out != "" || !strings.Contains(errb, codeText) || !strings.Contains(errb, document.Limit()) {
 				t.Fatalf("exit %d, stdout %q, stderr %q", code, out, errb)
 			}
 		})

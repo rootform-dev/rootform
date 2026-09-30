@@ -44,7 +44,7 @@ func (e inputFileError) Error() string {
 	case "not-regular":
 		return "INPUT_UNREADABLE: input must be a regular file"
 	case "too-large":
-		return "INPUT_REFUSED: " + docinput.ErrTooLarge.Error()
+		return "INPUT_REFUSED: " + e.reason
 	default:
 		return "INPUT_UNREADABLE: input could not be read"
 	}
@@ -242,7 +242,7 @@ func readInputFile(path string) ([]byte, error) {
 	}
 	data, err := docinput.ReadFile("input", path)
 	if errors.Is(err, docinput.ErrTooLarge) {
-		return nil, inputFileError{kind: "too-large"}
+		return nil, inputFileError{kind: "too-large", reason: err.Error()}
 	}
 	if err != nil {
 		return nil, inputFileError{kind: "unreadable", reason: inputReadReason(err)}
