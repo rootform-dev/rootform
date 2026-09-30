@@ -19,7 +19,7 @@ If help still lists an unexpected command or flag, fix `PATH` or use the intende
 
 ## A directory or saved plan is refused as input
 
-`run` needs plan JSON, state JSON, or a saved Form. A configuration directory returns status `2` and the diagnostic `DIRECTORY_INPUT: use a Terraform or OpenTofu plan JSON or state JSON export`, followed by the commands to run. A binary saved plan returns status `3` with the same kind of guidance:
+`run` needs plan JSON, state JSON, or a saved Form. A configuration directory returns status `2`, names the directory in the error headline, and gives export commands (`Code: DIRECTORY_INPUT`). A binary saved plan returns status `3` with the same kind of guidance:
 
 <!-- docs-check:troubleshooting-binary-input -->
 ```sh
@@ -28,20 +28,22 @@ rootform run plan.tfplan --no-serve
 
 <!-- docs-output:troubleshooting-binary-input -->
 ```text title="Standard error"
-rootform: INPUT_UNRECOGNIZED: zip archive, such as a saved plan
+Error: this input looks like a saved plan
 
 A saved plan is read with --plan-file, next to the plan JSON exported from it.
 
 Try:
   terraform show -json plan.tfplan > plan.json
   rootform run plan.json --plan-file plan.tfplan
+
+Code: INPUT_UNRECOGNIZED
 ```
 
 Run the two suggested commands: the first exports the JSON that Rootform analyzes, the second pairs it with the saved plan it came from. OpenTofu users run the export with `tofu`. The saved plan and JSON can contain cleartext secrets; keep them out of Git and public artifacts. [Plan inputs](../inputs/plans.md) gives the complete procedure.
 
 ## Malformed or unsupported JSON is refused
 
-Malformed JSON returns `INPUT_UNRECOGNIZED: malformed JSON or trailing garbage`; a JSON object without plan, state, or Rootform document fields returns `INPUT_UNRECOGNIZED: JSON that is not a plan JSON, state JSON or Rootform document`; a text file such as `main.tf` returns `INPUT_UNRECOGNIZED: not JSON`. A state export from a working directory that has no state returns `INPUT_UNRECOGNIZED: state JSON without recorded state: the working directory that exported it has no state`, followed by the plan commands to run instead. The input kind is detected from content, not extension. A raw `terraform.tfstate` file and a `terraform plan -json` event stream are refused with the export commands to use instead. Re-export with `terraform show -json`, then confirm the file is complete before retrying. A plan with `errored: true` returns `PLAN_ERRORED: the plan JSON records that planning failed`; resolve the planning failure first rather than treating the result as an empty architecture.
+Malformed JSON reports `Error: this input is not valid JSON`; a JSON object without plan, state, or saved Form fields reports `Error: this JSON is not a plan, state or saved Form`; a text file such as `main.tf` reports `Error: this input is not JSON`. Each carries `Code: INPUT_UNRECOGNIZED`. A state export from a working directory with no state reports the missing recorded state with the same code, followed by plan commands to run instead. The input kind is detected from content, not extension. A raw `terraform.tfstate` file and a `terraform plan -json` event stream are refused with the export commands to use instead. Re-export with `terraform show -json`, then confirm the file is complete before retrying. A plan with `errored: true` reports `Error: the plan JSON records a failed plan` with `Code: PLAN_ERRORED`; resolve the planning failure first rather than treating the result as an empty architecture.
 
 ## Saved plan pairing fails
 
@@ -54,8 +56,15 @@ rootform run plan.json --plan-file other.tfplan \
 ```
 
 <!-- docs-output:troubleshooting-pair -->
-```text title="Standard error"
-rootform: PLAN_PAIR_MISMATCH: saved plan refused; --require-enrichment requires a saved plan that pairs with the plan JSON
+```text title="Standard error excerpt"
+Error: saved plan does not match the plan JSON
+
+--require-enrichment needs a verified pairing.
+
+Re-export the JSON from the same saved plan:
+  terraform show -json plan.tfplan > plan.json
+
+Code: PLAN_PAIR_MISMATCH
 ```
 
 Re-export JSON from the same saved plan, then retry. An unreadable or encrypted saved plan reports `PLAN_FILE_UNREADABLE`; use plan-only analysis if direct values suffice, or supply a readable matching pair. Never pair an arbitrary working directory with an old plan to establish references.
@@ -90,7 +99,7 @@ A known value with no in-scope match yields `external_denied` unless the emissio
 
 ## Locked project selection fails
 
-`--locked` requires `rootform.lock` directly under the selected project root. Without it, `run` exits `3` and reports `SEMANTIC_SELECTION: the selected Dialects could not be loaded (rootform.lock is required by --locked)`:
+`--locked` requires `rootform.lock` directly under the selected project root. Without it, `run` exits `3` and reports `Error: rootform.lock is required by --locked` with `Code: SEMANTIC_SELECTION`:
 
 <!-- docs-check:troubleshooting-locked -->
 ```sh
@@ -99,14 +108,16 @@ rootform run plan.json --locked --no-serve
 
 <!-- docs-output:troubleshooting-locked -->
 ```text title="Standard error excerpt"
-rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (rootform.lock is required by --locked)
+Error: rootform.lock is required by --locked
+
+Code: SEMANTIC_SELECTION
 ```
 
 For embedded-only work, omit `--locked`. For an exact external selection, add content from the project root and commit the lock. If a selected local Dialect changed, the binary reports `selected Dialect network-review differs from rootform.lock`; use an override while editing, then `rootform update dialect network-review` to record a reviewed change. `init` cannot adopt source drift.
 
 ## Selected content is missing
 
-A locked `run` exits `3` when a selected Dialect cannot be loaded, for example with `rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (selected Dialect network-review is unavailable locally)`. `rootform check` exits `3` when a selected Policy Pack cannot be loaded, for example with `rootform: SELECTION_POLICY_PACK_MISSING: selected Policy Pack baseline is unavailable locally`. `rootform list` fails for the same reason, so read the entries in `rootform.lock` instead. For selected OCI content, run `rootform init --locked --no-input` from the project root to install the exact recorded digests; add `--offline` only when those bytes are already on this machine. `init` cannot choose another version or change the lock. A local source must be restored at its recorded path: `init` reports `the local source is unavailable` and cannot recreate it. When the project has a vendor tree, repair that tree instead, as described below.
+A locked `run` exits `3` when a selected Dialect cannot be loaded; its headline names the unavailable Dialect and its code is `SEMANTIC_SELECTION`. `rootform check` exits `3` when a selected Policy Pack cannot be loaded; its headline names the unavailable Pack and its code is `SELECTION_POLICY_PACK_MISSING`. `rootform list` fails for the same reason, so read the entries in `rootform.lock` instead. For selected OCI content, run `rootform init --locked --no-input` from the project root to install the exact recorded digests; add `--offline` only when those bytes are already on this machine. `init` cannot choose another version or change the lock. A local source must be restored at its recorded path: `init` reports `the local source is unavailable` and cannot recreate it. When the project has a vendor tree, repair that tree instead, as described below.
 
 ## Installed content does not match rootform.lock
 
@@ -114,12 +125,12 @@ The Rootform home holds the version named by the lock, but its bytes no longer m
 
 ## Vendored content is incomplete or altered
 
-A locked run refuses a vendor family that no longer matches `rootform.lock` and exits `3`. While the family directory exists, Rootform does not fall back to a local source or registry. The text in parentheses names the problem:
+A locked run refuses a vendor family that no longer matches `rootform.lock` and exits `3`. While the family directory exists, Rootform does not fall back to a local source or registry. The error headline names the problem (`Code: SEMANTIC_SELECTION`):
 
-```text title="Standard error examples"
-rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (selected Dialect network-review differs from rootform.lock)
-rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (vendored Dialect network-review is missing or invalid)
-rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (.rootform/dialects does not exactly match rootform.lock)
+```text title="Possible error headlines"
+Error: selected Dialect network-review differs from rootform.lock
+Error: vendored Dialect network-review is missing or invalid
+Error: .rootform/dialects does not exactly match rootform.lock
 ```
 
 The first line means that a vendored Dialect's source no longer has its locked content digest. The second means that its vendor metadata is missing or invalid. The third means that the family has a missing, extra, or unreadable entry; a `.rootform/dialects` path that is not a directory reports `is present but does not match rootform.lock` instead. Vendored Policy Packs are checked when `rootform check` loads them and report the same problems, for example `selected Policy Pack baseline differs from rootform.lock`. Repair only the affected family from verified local or installed bytes:
@@ -149,7 +160,7 @@ Only explicit acquisition or publication crosses that boundary; normal `run` doe
 
 ## A Policy is unavailable or has no decision
 
-Selecting a Policy without any Policy Pack returns `POLICY_UNAVAILABLE: no Policy Pack is selected; add one to rootform.lock or pass --policy-pack`. Select a reviewed Policy Pack, then run `rootform check`. A selected Policy Pack can still find no target: the check summary reports `Evaluations    0` and `Verdict        NO DECISION`, then exits `3`. Inspect the target with `rootform show policy <identifier>` and compare it with the Form's interpreted Concepts and Rules. Zero evaluations are not compliance. [Target scope is exact](../concepts/policies.md#target-scope-is-exact) explains matching, and [Understand Policy outcomes](../guides/check-architecture.md) shows target coverage.
+Selecting a Policy without any Policy Pack reports `Error: no Policy Pack is selected` (`Code: POLICY_UNAVAILABLE`) and suggests how to add one. Select a reviewed Policy Pack, then run `rootform check`. A selected Policy Pack can still find no target: the check summary reports `Evaluations    0` and `Verdict        NO DECISION`, then exits `3`. Inspect the target with `rootform show policy <identifier>` and compare it with the Form's interpreted Concepts and Rules. Zero evaluations are not compliance. [Target scope is exact](../concepts/policies.md#target-scope-is-exact) explains matching, and [Understand Policy outcomes](../guides/check-architecture.md) shows target coverage.
 
 ## A Policy is indeterminate or violated
 
@@ -161,11 +172,11 @@ Check both selected stages and the comparison's `comparable`, `problems`, and `i
 
 ## A comparison input or saved Form is refused
 
-Each `--diff` operand must be accepted on its own. A refused input stops the run with status `3`; Rootform never treats it as an empty side. A comparison Form reopens with `rootform run comparison.json` and is refused as a `--diff` operand with status `2`. The [refusals above](#malformed-or-unsupported-json-is-refused) apply to both inputs. A saved Form written in another format is refused with `DOCUMENT_FORMAT_UNSUPPORTED: document format "9" is not supported; this build reads format 1`; save it again from its original input with the current binary. For any other rejected Form, run `rootform validate form <file>`: it names each problem and exits `1`. `validate form` reads only Forms; given a plan JSON, it exits `3` and suggests saving one first. [Valid partial Form differs from invalid Form](../concepts/forms.md#valid-partial-form-differs-from-invalid-form) separates missing knowledge from an invalid file.
+Each `--diff` operand must be accepted on its own. A refused input stops the run with status `3`; Rootform never treats it as an empty side. A comparison Form reopens with `rootform run comparison.json` and is refused as a `--diff` operand with status `2`. The [refusals above](#malformed-or-unsupported-json-is-refused) apply to both inputs. A saved Form written in another format is refused with `Error: document format "9" is not supported; this build reads format 1` (`Code: DOCUMENT_FORMAT_UNSUPPORTED`); save it again from its original input with the current binary. For any other rejected Form, run `rootform validate form <file>`: it names each problem and exits `1`. `validate form` reads only Forms; given a plan JSON, it exits `3` and suggests saving one first. [Valid partial Form differs from invalid Form](../concepts/forms.md#valid-partial-form-differs-from-invalid-form) separates missing knowledge from an invalid file.
 
 ## A port is occupied or the browser does not open
 
-An occupied port returns status `4` and `SERVER_FAILED: port <number> is unavailable; pass --port 0 to pick a free port, or --no-serve`. Choose an available local port with `--no-browser --port 0`, then open the printed loopback address yourself. `--no-serve` skips the interface and writes requested files. A browser launch failure does not require rerunning analysis. Stop a foreground server with `Ctrl+C`. Rootform binds loopback only; use a self-contained HTML export for remote review instead of exposing the local server.
+An occupied port returns status `4` with `Error: port <number> is unavailable` (`Code: SERVER_FAILED`) and suggests `--port 0` or `--no-serve`. Choose an available local port with `--no-browser --port 0`, then open the printed loopback address yourself. `--no-serve` skips the interface and writes requested files. A browser launch failure does not require rerunning analysis. Stop a foreground server with `Ctrl+C`. Rootform binds loopback only; use a self-contained HTML export for remote review instead of exposing the local server.
 
 ## An output path collides or cannot be written
 
