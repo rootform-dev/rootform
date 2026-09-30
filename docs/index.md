@@ -34,6 +34,8 @@ until apply or the evidence is ambiguous, Rootform says so instead of guessing.
   Choose the method for your platform and verify the executable.
 - [Analyze your plan or state](getting-started/analyze-your-plan.md)
   Export a completed plan and open its architecture, or open the architecture recorded in state.
+- [Glossary](reference/glossary.md)
+  Look up terms used in Forms, comparisons, Policy results, and project configuration.
 
 ## Work with a Form
 
