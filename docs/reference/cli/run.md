@@ -100,8 +100,8 @@ rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -
 The summary goes to standard output, and `Wrote analysis.json` to standard
 error. The status is `0`; a saved plan that fails verification exits `3`
 because of `--require-enrichment`.
-[Your first architecture](../../getting-started/first-architecture.md) reads
-the same summary step by step.
+The [quickstart](../../getting-started/quickstart.md) reads the same summary
+step by step.
 
 Compare two plan exports and save a Markdown report:
 
@@ -128,7 +128,7 @@ By default, `run` starts a loopback-only server, opens a browser, and
 stays in the foreground until interrupted. `--no-browser` leaves browser
 launch to you. `--port 0` selects an available port. `--no-serve`
 writes requested outputs and exits. The server analyzes once; it does not
-watch files or replan. See [Explore an architecture](../../guides/explore-architecture.md).
+watch files or replan. See [Explore a Form](../../guides/explore-architecture.md).
 
 Repeat `-o` for a Form in JSON, a report in Markdown or text, or a
 self-contained HTML Explorer. Each `-o` file takes its format from its

@@ -184,7 +184,7 @@ Form's semantics:
 
 Save a Form from plan JSON first. The saved plan pairs with the
 export and supplies reference traversals; the Policy Pack then links against
-the semantics recorded in that document. Run these commands from the Rootform
+the semantics recorded in that Form. Run these commands from the Rootform
 repository with the displayed Pack saved at `policy-reference/pack.rf.hcl`:
 
 <!-- docs-check:language-policy-packs-link -->
@@ -209,7 +209,7 @@ Destination    network-baseline.json
 The first command writes `analysis.json`, a Form. The second
 prints the Pack identity, semantic-pin count, and output path. Exit 0 means
 linking succeeded; an unknown reference or incompatible semantic identity
-fails instead. Keep the plan inputs and document internal: outputs omit
+fails instead. Keep the plan inputs and Form internal: outputs omit
 sensitive values but still reveal topology and names.
 
 Linking:
@@ -221,7 +221,7 @@ Linking:
 4. writes deterministic compiled Policy Pack JSON.
 
 A compiled pack can be evaluated offline without the Dialect sources that
-produced the document. Its pins must exactly match the Form. Mismatch produces
+produced the Form. Its pins must exactly match the Form. Mismatch produces
 `POLICY_SEMANTICS_MISMATCH`; Rootform never relinks silently.
 
 Unrelated semantic owners are not pinned.

@@ -113,11 +113,11 @@ func TestReviewConclusionCountsEachKindApart(t *testing.T) {
 		cross bool
 		want  string
 	}{
-		{withFacts(plannedChanges(3, 0), form.FactContext, form.ChangeAdded, "context:rf.context.network:a:b", "context:rf.context.network:b:c"), false, "3 resource instances and 2 Contexts added."},
+		{withFacts(plannedChanges(3, 0), form.FactContext, form.ChangeAdded, "context:rf.context.network:a:b", "context:rf.context.network:b:c"), false, "3 instances and 2 Contexts added."},
 		{withFacts(plannedChanges(0, 0), form.FactContribution, form.ChangeAdded, "contribution:a:b"), false, "1 Contribution added."},
 		{withFacts(withFacts(plannedChanges(0, 0), form.FactContribution, form.ChangeAdded, "contribution:a:b"), form.FactContribution, form.ChangeRemoved, "contribution:a:c"), false, "1 Contribution added, 1 removed."},
-		{withFacts(plannedChanges(2, 0), form.FactRelation, form.ChangeRemoved, "relation:rf.relation.routes-to:a:b"), false, "Changes to 2 resource instances and 1 Relation."},
-		{withFacts(plannedChanges(2, 0), form.FactRelation, form.ChangeRemoved, "relation:rf.relation.routes-to:a:b"), true, "Differences in 2 resource instances and 1 Relation."},
+		{withFacts(plannedChanges(2, 0), form.FactRelation, form.ChangeRemoved, "relation:rf.relation.routes-to:a:b"), false, "Changes to 2 instances and 1 Relation."},
+		{withFacts(plannedChanges(2, 0), form.FactRelation, form.ChangeRemoved, "relation:rf.relation.routes-to:a:b"), true, "Differences in 2 instances and 1 Relation."},
 		{plannedChanges(0, 0), false, "No architectural difference determined under the selected Dialects."},
 	} {
 		if got := changeWords(tc.c, tc.cross); got != tc.want {
@@ -134,9 +134,9 @@ func TestReviewFoldsOnlyListsLongerThanThePreview(t *testing.T) {
 		added, removed int
 		title          string
 	}{
-		{10, 0, "**Resource instances: 10 added**\n"},
-		{11, 0, "<summary>Resource instances: 11 added (10 of 11 shown)</summary>\n"},
-		{11, 1, "<summary>Resource instances: 11 added, 1 removed (10 of 12 shown)</summary>\n"},
+		{10, 0, "**Instances: 10 added**\n"},
+		{11, 0, "<summary>Instances: 11 added (10 of 11 shown)</summary>\n"},
+		{11, 1, "<summary>Instances: 11 added, 1 removed (10 of 12 shown)</summary>\n"},
 	} {
 		rep := runReport{verdict: "Plan analyzed", blocks: []reportBlock{comparisonBlock("Planned changes", plannedChanges(tc.added, tc.removed), nil, nil, false, true)}}
 		md := string(rep.markdown())
@@ -181,7 +181,7 @@ func TestReviewPreviewKeepsRareStatuses(t *testing.T) {
 		preview []string
 		last    string
 	}{
-		{changes, []string{"<summary>Resource instances: 12 added, 1 changed, 1 planned for replacement (10 of 14 shown)</summary>\n\n", "- Added \\(8 of 12 shown\\)\n", "- Changed\n  - `object.changed.00`: concept\n", "- Planned for replacement\n  - `object.replaced.00`\n", "</details>\n"}, "object.added.11"},
+		{changes, []string{"<summary>Instances: 12 added, 1 changed, 1 planned for replacement (10 of 14 shown)</summary>\n\n", "- Added \\(8 of 12 shown\\)\n", "- Changed\n  - `object.changed.00`: concept\n", "- Planned for replacement\n  - `object.replaced.00`\n", "</details>\n"}, "object.added.11"},
 		{drift, []string{"**13 drift entries reported: 12 architectural, 1 indeterminate.**\n", "<summary>Drift entries: 13 (10 of 13 shown)</summary>\n\n", "- `object.drifted.08`: changes the architecture; 1 fact change\n", "- `object.undecided`: architectural effect indeterminate\n", "</details>\n"}, "object.drifted.11"},
 	} {
 		md := string(tc.rep.markdown())

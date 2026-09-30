@@ -28,16 +28,15 @@ rootform run source/plan.json --project source \
 ```text title="Excerpt from analysis summary"
 Plan analyzed
 Enrichment         Saved plan paired with this plan JSON (1 module)
-                   Only version, timestamp, and configuration shape are compared
 Stage              Planned
 Stages             Recorded (reconstructed), Refreshed, Planned
 ```
 
-`--require-enrichment` makes a refused pair fail with status `3` instead of silently relying on plan-only evidence. The saved plan contributes configuration traversal evidence; it is not the analyzed input. On a Linux host without `shasum`, use `sha256sum` for the checksum line. Keep the command flags, standard error, and document with the exact input hashes. [Terraform and OpenTofu plans](../inputs/plans.md#produce-the-accepted-json) gives the export procedure.
+`--require-enrichment` makes a refused pair fail with status `3` instead of silently relying on plan-only evidence. The saved plan contributes configuration traversal evidence; it is not the analyzed input. On a Linux host without `shasum`, use `sha256sum` for the checksum line. Keep the command flags, standard error, and Form with the exact input hashes. [Terraform and OpenTofu plans](../inputs/plans.md#produce-the-accepted-json) gives the export procedure.
 
 ## Replay with a fresh Rootform home
 
-Transfer the exact binary for the replay platform and copy the project and input files through your protected channel. An independent Rootform home proves that replay did not use shared installed content. Run the copied input and compare the document bytes:
+Transfer the exact binary for the replay platform and copy the project and input files through your protected channel. An independent Rootform home proves that replay did not use shared installed content. Run the copied input and compare the Form bytes:
 
 <!-- docs-check:reproduce-independent -->
 ```sh
@@ -70,7 +69,6 @@ Input              evidence/before.json
 Form               Plan, saved by rootform 0.1.0
 Producer           Terraform or OpenTofu 1.16.4
 Enrichment         Saved plan paired with this plan JSON (1 module)
-                   Only version, timestamp, and configuration shape are compared
 ```
 
 The Markdown file presents the saved Form. Loading needs neither the original plan nor its Dialects. It does not repair an unresolved closure or apply newer Dialect Rules; reanalysis requires the plan or state input and the intended selection. Saved Forms omit sensitive values but still reveal topology.
@@ -99,12 +97,12 @@ rootform run plan.json --plan-file plan.tfplan --require-enrichment \
 cmp -s before.json after.json
 ```
 
-Status `0` from `cmp` proves the locked analyses wrote identical document bytes. If a vendor family is missing or altered, both preparation and analysis refuse it. Repair the selected family with `rootform vendor dialects --offline` or `rootform vendor policy-packs --offline` only when verified source bytes are present. Otherwise prepare and vendor on the connected source environment, then transfer the complete family again. Do not remove the lock to bypass an integrity failure. [Locks and vendored content](../offline-security.md) gives the ownership rules.
+Status `0` from `cmp` proves the locked analyses wrote identical Form bytes. If a vendor family is missing or altered, both preparation and analysis refuse it. Repair the selected family with `rootform vendor dialects --offline` or `rootform vendor policy-packs --offline` only when verified source bytes are present. Otherwise prepare and vendor on the connected source environment, then transfer the complete family again. Do not remove the lock to bypass an integrity failure. [Locks and vendored content](../offline-security.md) gives the ownership rules.
 
 ## Keep policy evidence when governance matters
 
-A saved Form is not a substitute for a separate governance decision. If selected Policies matter, evaluate each saved Form with `rootform check`, preserving project selection and any `--policy` filters. Save `policy.json`, the report, and the exact check status beside each Form; compare both, because a status alone hides target coverage. Check status `0` means every selected evaluation passed, `1` means a violation, and `3` means indeterminate or no decision. Keep SARIF and reports as internal artifacts. [Check an architecture](check-architecture.md) explains the evaluation counts; [outputs and exit status](../reference/outputs.md) defines the files.
+A saved Form is not a substitute for a separate governance decision. If selected Policies matter, evaluate each saved Form with `rootform check`, preserving project selection and any `--policy` filters. Save `policy.json`, the report, and the exact check status beside each Form; compare both, because a status alone hides target coverage. Check status `0` means every selected evaluation passed, `1` means a violation, and `3` means indeterminate or no decision. Keep SARIF and reports as internal artifacts. [Understand Policy outcomes](check-architecture.md) explains the evaluation counts; [outputs and exit status](../reference/outputs.md) defines the files.
 
 <!-- rootform:endsteps -->
 
-If replay bytes differ, inspect the plan or state details and Dialect selection in both documents before changing input. [Troubleshooting](../troubleshooting/index.md#saved-plan-pairing-fails) starts with the most common pairing failure.
+If replay bytes differ, inspect the plan or state details and Dialect selection in both Forms before changing input. [Troubleshooting](../troubleshooting/index.md#saved-plan-pairing-fails) starts with the most common pairing failure.

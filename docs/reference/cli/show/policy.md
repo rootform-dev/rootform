@@ -60,5 +60,5 @@ unavailable or the name was ambiguous, and `4` means the definition could not
 be written. This does not evaluate the Policy. Use
 [`explain policy`](../explain/policy.md) with `--result` to explain an outcome
 that `check` recorded in a saved Policy result, or see
-[Check an architecture](../../../guides/check-architecture.md) for a full
+[Understand Policy outcomes](../../../guides/check-architecture.md) for a full
 report. See the [`check` CLI reference](../check.md).

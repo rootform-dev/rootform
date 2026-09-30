@@ -4,6 +4,10 @@ All notable public Rootform distribution changes will be recorded here.
 
 ## Unreleased
 
+- The `rootform run` text and Markdown reports label instance counts
+  `Instances`, as the Explorer does, show `Interpreted` as a plain count of
+  the instances a Rule matched, and report a paired saved plan on one line.
+  The `--plan-file` help and the documentation state what pairing compares.
 - Published the command line as the Go module
   `github.com/rootform-dev/rootform/cli` in `cli/` under Apache-2.0: its
   commands, flags, help, exit statuses, reports, the local explorer server,

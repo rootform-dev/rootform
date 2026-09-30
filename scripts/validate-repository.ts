@@ -193,6 +193,7 @@ export function validateRepository(): void {
     "scripts/generate-installation.ts",
     "scripts/fixtures/portable-plan.json",
     "scripts/fixtures/aws-subnet-plan.json",
+    "scripts/pin-docs-downloads.ts",
     "scripts/qualify-installation.ts",
     "scripts/release/archive.ts",
     "scripts/release/contract.ts",
@@ -351,7 +352,8 @@ export function validateRepository(): void {
     ) ||
     candidateWorkflow.split(candidateArtifactName).length !== 3 ||
     !candidateWorkflow.includes('server="$(cat)"') ||
-    candidateWorkflow.includes("IFS= read -r server")
+    candidateWorkflow.includes("IFS= read -r server") ||
+    !candidateWorkflow.includes('bun scripts/pin-docs-downloads.ts --check "$ROOTFORM_VERSION"')
   ) {
     throw new Error("candidate workflow violates distribution ownership");
   }

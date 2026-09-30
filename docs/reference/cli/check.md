@@ -167,6 +167,6 @@ states the verdict once, in the summary or in the `--format` output. Standard
 error carries progress, plus a code when the check stops before evaluating,
 such as `STAGE_UNAVAILABLE` or `POLICY_UNAVAILABLE`, or when a report cannot
 be written (`OUTPUT_FAILED`).
-[Check an architecture](../../guides/check-architecture.md) walks through each
+[Understand Policy outcomes](../../guides/check-architecture.md) walks through each
 outcome, and [Policies and Policy Packs](../../concepts/policies.md) explains
 what a result proves.

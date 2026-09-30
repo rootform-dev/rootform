@@ -11,8 +11,8 @@ contract text and executable validation together.
 
 Documentation follows [Writing for Rootform](docs/contributing/writing.md).
 Run `bun run check:docs` for metadata, navigation, and links. Verify the
-first-architecture example with `ROOTFORM_BIN` set to a checksum-verified
-executable and `bun run verify:docs-examples`.
+documented commands and outputs with `ROOTFORM_BIN` set to a
+checksum-verified executable and `bun run verify:docs-examples`.
 
 Check the CLI module with Go 1.26.7 and `bun run check:cli-module`.
 

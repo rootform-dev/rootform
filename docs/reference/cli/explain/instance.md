@@ -103,4 +103,4 @@ Status `0` means the instance was explained; `1` means no instance has that
 address at the selected stage; `2` means incorrect usage; `3` means the input
 was refused, `rootform.lock` is invalid, or the stage or side is unavailable;
 `4` means the input could not be read. For the same evidence in the interface,
-see [Explore an architecture](../../../guides/explore-architecture.md).
+see [Explore a Form](../../../guides/explore-architecture.md).

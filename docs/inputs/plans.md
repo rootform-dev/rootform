@@ -62,26 +62,24 @@ rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -
 [2mProducer[0m           Terraform or OpenTofu 1.16.4
 [2mPlan completeness[0m  Complete, as reported in the plan
 [2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
-                   Only version, timestamp, and configuration shape are compared
 [2mWrote     [0m analysis.json
 ```
 
-**Enrichment** confirms agreement on version, timestamp, and configuration
-shape. These checks decide whether the saved plan may enrich this export; they
-do not validate the plan in general, and they do not prove one planning
-operation. The count is the number of configuration modules read from the
-saved plan. **Input** names the export; **Producer** gives the version it
-records. The JSON does not say which of the two tools wrote it, so Rootform
-names both unless you declare the tool with `--producer`. **Plan
-completeness** repeats what the plan reports about itself; it does not say
-that the analysis settled every fact.
+**Enrichment** confirms that the saved plan and the JSON export agree on the
+recorded tool version, timestamp, and configuration shape. These checks decide
+whether the saved plan may enrich this export; they do not validate the plan in
+general, and they do not prove one planning operation. The count is the number
+of configuration modules read from the saved plan. **Input** names the export;
+**Producer** gives the version it records. The JSON does not say which of the
+two tools wrote it, so Rootform names both unless you declare the tool with
+`--producer`. **Plan completeness** repeats what the plan reports about itself;
+it does not say that the analysis settled every fact.
 
-`--plan-file` checks the saved plan's recorded tool version, timestamp,
-and configuration shape against the JSON export. A paired saved plan lets Rootform
-inspect direct identity traversals in the saved configuration, even when an
-endpoint's evaluated ID is unknown until apply. It does not execute the
-configuration. The Form records `enrichment.snapshot.status` as
-`verified` when the pair passes these checks, `refused`, or `absent`.
+A paired saved plan lets Rootform inspect direct identity traversals in the
+saved configuration, even when an endpoint's evaluated ID is unknown until
+apply. It does not execute the configuration. The Form records
+`enrichment.snapshot.status` as `verified` when the pair passes these checks,
+`refused`, or `absent`.
 
 If the pair is mismatched or unreadable, Rootform reports the refusal on
 standard error. Without `--require-enrichment`, analysis continues from JSON
@@ -109,7 +107,7 @@ exports are accepted by shape.
 
 The Recorded to Refreshed comparison is Reported drift. The separate drift
 report lists the producer's drift records and their architectural consequences.
-[Switch stages and comparisons](../guides/explore-architecture.md#switch-stages-and-comparisons)
+[What does this plan change?](../guides/explore-architecture.md#what-does-this-plan-change)
 shows where the Explorer lists these views.
 
 ## Read plan comparisons correctly
@@ -164,8 +162,8 @@ For OpenTofu, replace `terraform` with `tofu`. The saved plan remains
 local. Rootform's outputs still describe infrastructure names, structure,
 and relationships, so apply your internal sharing rules.
 
-To compare two plans, or a state analysis with a later plan, follow
-[Compare architectures](../guides/compare-architectures.md). For plans from two
+To compare two plans, or a state Form with a later plan, follow
+[Compare two Forms](../guides/compare-architectures.md). For plans from two
 Git revisions, [Review a pull request](../workflows/index.md#choose-the-review-input)
 adds isolated checkouts and cleanup.
 To review a completed plan in automation, see

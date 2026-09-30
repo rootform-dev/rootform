@@ -10,6 +10,7 @@ owns it. A small, reproducible report is enough to begin a product discussion.
 | --- | --- |
 | Documentation, examples, public contracts, distribution tooling | [Rootform repository](https://github.com/rootform-dev/rootform) |
 | Official Dialects, Rules, and fixtures | [`dialects/`](https://github.com/rootform-dev/rootform/tree/dev/dialects) in Rootform |
+| Command line: commands, flags, help, reports, exit statuses | [`cli/`](https://github.com/rootform-dev/rootform/tree/dev/cli) in Rootform |
 | GitHub Action | [Action repository](https://github.com/rootform-dev/action) |
 | Reproducible product behavior | [Public Rootform issues](https://github.com/rootform-dev/rootform/issues) |
 | Suspected exploitable vulnerability | [Private vulnerability reporting](https://github.com/rootform-dev/rootform/security/advisories/new) |
@@ -55,6 +56,22 @@ A provider-version change needs evidence, not a guessed mapping.
 Teams can [write their own Policy Packs](../language/write-policy-pack.md).
 Public examples illustrate authoring patterns; they are not an official or
 community governance catalog.
+
+## Contribute to the command line
+
+The Rootform command line is the open-source Go module
+[`cli/`](https://github.com/rootform-dev/rootform/tree/dev/cli), under
+Apache-2.0. It owns the commands, flags, help, completions, argument checks,
+exit statuses, human and machine reports, the loopback Explorer server, and
+the HTML export, plus the Form and Policy result models and their schemas.
+Compilation, Rule evaluation, Policy evaluation, and comparison live in a
+private engine that implements the module's backend ports; a contribution to
+`cli/` changes how results are asked for and reported, not what they contain.
+
+The module's [README](https://github.com/rootform-dev/rootform/blob/dev/cli/README.md)
+explains how to run its tests and the conformance suite with a fake backend.
+It makes no compatibility promise yet: its version is the commit the engine
+pins, so open an issue before proposing a change to a command's contract.
 
 ## Discuss contract changes first
 

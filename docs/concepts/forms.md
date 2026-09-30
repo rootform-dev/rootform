@@ -3,9 +3,9 @@ title: "Forms and stages"
 description: "Read saved Forms, their architectures, and evidence limits."
 ---
 
-A Form is the portable architectural model Rootform compiles from Terraform or OpenTofu evidence. It contains the architecture of every supported stage, their available comparisons, reported drift, evidence, semantic pins, limits, and diagnostics. It is the complete result to save, open, compare, or later publish. A Form is derived, never authored or edited. Save a Form. Open a Form. Compare two Forms.
+A Form is what `rootform run` produces: the portable architectural model Rootform compiles from Terraform or OpenTofu plan or state evidence, and the central object of analysis and review. `rootform run analysis.json` reopens it in the Explorer, `rootform explain` reads its evidence, `rootform check` evaluates Policies against it, and `--diff` compares two of them. It contains the architecture of every supported stage, their available comparisons, reported drift, evidence, semantic pins, limits, and diagnostics. A Form is derived: you save, reopen, and compare Forms, but never author or edit one.
 
-JSON is the Form's serialization (format version `"1"`). A saved Form reopens without the original plan or state JSON or installed Dialects. A diagram is one view of the Form. "Analysis" describes the process, as in "Plan analyzed", rather than another saved object. The [contract](../../contracts/form.md) and [JSON Schema](../../schemas/form.schema.json) define exact fields.
+JSON is the Form's serialization (format version `"1"`). A saved Form reopens without the original plan or state JSON or installed Dialects. The Explorer is one view of the Form. "Analysis" describes the process, as in "Plan analyzed", rather than another saved object. The [contract](../../contracts/form.md) and [JSON Schema](../../schemas/form.schema.json) define exact fields.
 
 ## The Form captures its input and meaning
 
@@ -83,4 +83,4 @@ rootform run plan.json --no-serve -o analysis.json
 rootform run analysis.json --no-serve -o report.md
 ```
 
-The first command writes a Form. The second reads its saved interpretation and writes a Markdown report without the original plan. If reopening fails, validate the saved Form before using it elsewhere. For a task walkthrough, [explore an architecture](../guides/explore-architecture.md) or [compare architectures](../guides/compare-architectures.md).
+The first command writes a Form. The second reads its saved interpretation and writes a Markdown report without the original plan. If reopening fails, validate the saved Form before using it elsewhere. For a task walkthrough, [Explore a Form](../guides/explore-architecture.md) or [Compare two Forms](../guides/compare-architectures.md).

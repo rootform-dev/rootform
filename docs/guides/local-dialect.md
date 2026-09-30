@@ -83,12 +83,11 @@ rootform run plan.json --plan-file plan.tfplan --require-enrichment \
 ```text title="Excerpt from analysis summary"
 Plan analyzed
 Enrichment         Saved plan paired with this plan JSON (1 module)
-                   Only version, timestamp, and configuration shape are compared
 
 Architecture
-  Resource instances  1
-  Interpreted         1 of 1 instance matched a Rule
-  Facts               none determined
+  Instances    1
+  Interpreted  1
+  Facts        none determined
 ```
 
 The instance is interpreted, while no facts are determined because the Rule only classifies it. Inspect the Form or `rootform explain instance random_pet.service --input analysis.json` when the result differs. `--dialect` compiles current source each run and never writes the lock.
@@ -135,7 +134,7 @@ Tests passed
 1 case
 ```
 
-The test analyzes `plan.json`, verifies the adjacent saved plan, and compares the resulting document with `analysis.golden`. A mismatch is a review signal: inspect changed interpretations, facts, closures, and diagnostics before updating the golden. [Test and validate](../language/test-validate.md) covers fixture behavior.
+The test analyzes `plan.json`, verifies the adjacent saved plan, and compares the resulting Form with `analysis.golden`. A mismatch is a review signal: inspect changed interpretations, facts, closures, and diagnostics before updating the golden. [Test and validate](../language/test-validate.md) covers fixture behavior.
 
 ## Add the reviewed Dialect
 

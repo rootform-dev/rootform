@@ -1,9 +1,11 @@
 ---
-title: "Check an architecture"
-description: "Evaluate selected Policies against a plan or state Form."
+title: "Understand Policy outcomes"
+description: "See one Policy pass, fail, stay indeterminate, and find no target on plans you produce yourself."
 ---
 
-Follow one Policy through a pass, a violation, indeterminate evidence, and no target. `rootform run` analyzes an input and saves its Form; `rootform check` evaluates Policies against the Form's selected architecture and exits with the verdict. You need Rootform, Terraform or OpenTofu, and the AWS provider download for planning. Work from a new `network-review/` directory. The `pass/`, `violation/`, and `no-target/` directories hold separate scenarios; `policies/` holds one local Policy Pack.
+A Policy verdict is only as trustworthy as the evidence behind it. This tutorial follows one Policy through a pass, a violation, indeterminate evidence, and no target, so that each exit status means something concrete before you put it in a gate. To check an existing Form with a Pack in a few commands, [Check a Form with Policies](check-with-policies.md) is the short route; come back here to understand what each verdict proves.
+
+`rootform run` analyzes an input and saves its Form; `rootform check` evaluates Policies against the Form's selected architecture and exits with the verdict. You need Rootform, Terraform or OpenTofu, and the AWS provider download for planning. Work from a new `network-review/` directory. The `pass/`, `violation/`, and `no-target/` directories hold separate scenarios; `policies/` holds one local Policy Pack.
 
 Plans, their JSON exports, and state files can contain secrets in clear text. Keep them out of Git and public artifacts. Rootform reads them locally and does not contact AWS. Its reports omit sensitive values but still describe topology and names.
 
@@ -34,7 +36,7 @@ The target selects instances interpreted by either named AWS Rule. The assertion
 
 ## Prepare the three plans
 
-Use the same AWS provider configuration in each scenario. As in [Your first architecture](../getting-started/first-architecture.md), placeholder credentials grant no account access and skipped validation lets these examples plan without an AWS account. Never copy these placeholder settings into a real project. In each directory, save this provider block as `provider.tf`:
+Use the same AWS provider configuration in each scenario. As in [Trace a placement](../getting-started/first-architecture.md), placeholder credentials grant no account access and skipped validation lets these examples plan without an AWS account. Never copy these placeholder settings into a real project. In each directory, save this provider block as `provider.tf`:
 
 ```hcl title="provider.tf"
 terraform {
@@ -351,13 +353,13 @@ Here `check` returns `1`: the script writes `violation/review.md`, then exits `1
 ```text title="violation/review.md"
 ## Rootform architecture
 
-**1 resource instance added.**
+**1 instance added.**
 
 Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
 | Category | Added | Removed |
 | --- | ---: | ---: |
-| Resource instances | 1 | 0 |
+| Instances | 1 | 0 |
 
 ### Reported drift
 
@@ -369,14 +371,14 @@ Same determined changes as Planned changes.
 
 ### Planned changes
 
-**Resource instances: 1 added**
+**Instances: 1 added**
 
 - `aws_subnet.application`
 
 ### Planned architecture
 
-- **Resource instances:** 1
-- **Interpreted:** 1 of 1 instance matched a Rule
+- **Instances:** 1
+- **Interpreted:** 1
 - **Facts:** none determined
 
 ### Provenance
@@ -384,7 +386,7 @@ Same determined changes as Planned changes.
 - **Input:** `violation/plan.json`
 - **Producer:** Terraform or OpenTofu 1.16.4
 - **Plan completeness:** Complete, as reported in the plan
-- **Enrichment:** Saved plan paired with this plan JSON \(1 module\); only version, timestamp, and configuration shape are compared
+- **Enrichment:** Saved plan paired with this plan JSON \(1 module\)
 - **Stage:** Planned
 - **Stages:** Recorded \(reconstructed\), Refreshed, Planned
 

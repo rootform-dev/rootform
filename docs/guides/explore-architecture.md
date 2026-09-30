@@ -1,47 +1,58 @@
 ---
-title: Explore an architecture
-description: Navigate scenes, inspect evidence, and read stages or comparisons in the Explorer.
+title: Explore a Form
+description: Find a resource, read why it is placed or connected, switch between stages and comparisons, and share the result from the Explorer.
 ---
 
-Start with a plan JSON, state JSON, or saved Form.
-For a plan, pair the saved plan when direct traversal evidence matters.
-The default `run` command starts a loopback server and opens a browser:
+The Explorer is the interactive view of a [Form](../concepts/forms.md), and
+this page follows the questions it answers: where is this resource, why is it
+placed or connected there, what does this plan change, and what does the
+evidence leave open. To try each one without installing anything, open the
+[Playground](https://docs.rootform.dev/playground/); the figures below come
+from its commerce platform sample.
+
+![The Explorer with the Inspector open on the subnet prod_data inside the virtual network prod: the Details tab lists the managed resource attributes, the two placements under Where, and the six private endpoints under Made of](../assets/explorer/inspector-details-light.png#gh-light-mode-only)
+![The Explorer with the Inspector open on the subnet prod_data inside the virtual network prod: the Details tab lists the managed resource attributes, the two placements under Where, and the six private endpoints under Made of](../assets/explorer/inspector-details-dark.png#gh-dark-mode-only)
+
+Locally, start from a plan JSON, a state JSON, or a saved Form, and pair the
+saved plan when direct traversal evidence matters. By default, `rootform run`
+starts a loopback server and opens a browser:
 
 <!-- docs-check:journey-explore-open -->
 ```sh
 rootform run plan.json --plan-file plan.tfplan --no-browser --port 0
 ```
 
-Read the address printed on standard error, open it in your browser, and
-press `Ctrl+C` in the terminal when finished. `--no-browser` leaves browser
-launch to you; `--port 0` asks the operating system for an available port.
+Copy the Explorer address from the terminal into your browser, and press
+`Ctrl+C` in the terminal when finished. Here `--no-browser` leaves the
+launch to you and `--port 0` asks the operating system for an available port.
 A saved Form opens the same way with `rootform run analysis.json`.
 
-## Move through architecture levels
+## Where is this resource?
+
+**Search** (`⌘K` on macOS, `Ctrl+K` elsewhere) covers the whole
+architecture, including objects outside the current scene. Search by name or
+type, then select a result to open its containing context and reveal it. Each
+result shows its path, such as `prod / prod` for a subnet in the virtual
+network `prod` of the resource group `prod`. The footer shows the displayed
+range and total matches, so a short visible list is not the full result set.
 
 The canvas shows the current context and its direct contents. Open a card
-with nested objects to make it the current context. The **Place** controls
-show your path: **Architecture root** returns to the top, **Back** and
-**Forward** revisit locations, and the current-context menu jumps to any
-ancestor. Use the parent name to move up one level. When a resource has more
-than one established placement, its path menu lists **Also placed in**.
+with nested objects to make it the current context. The navigation controls
+at the top left show your path: **Architecture root** returns to the top,
+**Back** and **Forward** revisit locations, and the current-context menu jumps
+to any ancestor. Use the parent name to move up one level. When a resource has
+more than one established placement, its path menu lists **Also placed in**.
 
 The Explorer draws architectural contexts and relations emitted by Dialect
 Rules. Terraform dependencies remain evidence; they do not become connection
 arrows on their own.
 
-## Find and inspect a resource
-
-**Search** covers the whole architecture, including objects outside the
-current scene. Search by name or type, then select a result to open its
-containing context and reveal it. The footer shows the displayed range and
-total matches, so a short visible list is not the full result set.
-
 Select a card to open the Inspector. **Details** shows the instance address,
-its interpretation, status, and provider, and lists proven placements under
-**Where**. **Connections** lists architectural relations. **Evidence** shows
-facts, closures, dependencies, and diagnostics. **Center selection** brings
-the selected object back into view after navigation.
+its interpretation, status, and provider, lists proven placements under
+**Where**, and the objects it holds under **Made of**. **Connections** lists
+architectural relations. **Evidence** shows facts, closures, dependencies,
+and diagnostics. **Center selection** brings the selected object back into
+view after navigation.
 
 **Form details**, at the top right, opens in the Inspector and lists
 changes, all instances, and evidence beyond the current scene. Its instance
@@ -49,22 +60,27 @@ count includes objects without an applied architecture interpretation, which
 may have no canvas card; the toolbar says how many instances the canvas does
 not draw.
 
-## Read a placement and its evidence
+## Why is it placed here?
 
 A placement appears as containment on the canvas and a context fact under
-**Where**. In **Evidence**, inspect the fact and its **Resolution** to see
-the emitting Rule and source evidence. Read its closure outcome too:
-`resolved` establishes the fact; `absent` records a supported absence;
+**Where**. In **Evidence**, inspect the fact and its **Resolution** for the
+emitting Rule and the source evidence, then read the closure outcome:
+`resolved` establishes the fact, `absent` records a supported absence, and
 `indeterminate` keeps a reason such as unknown until apply or sensitive
-evidence. A closure may remain indeterminate even when an instance is
+evidence. A closure may stay indeterminate even when an instance is
 represented on the canvas.
 
-For the VPC and subnet tutorial, the saved-plan traversal in
-`aws_subnet.application.vpc_id` establishes the network context while the
-planned VPC ID is unknown. [Pair the saved plan](../inputs/plans.md#pair-the-saved-plan)
-explains the pairing requirement.
+In the commerce sample, the fact
+`azurerm_subnet.prod_data → azurerm_virtual_network.prod` resolves through
+Rule `azure.rule.subnet` and the attribute `source.virtual_network_name`; the
+[quickstart](../getting-started/quickstart.md) reads it step by step. When a
+value is unknown until apply, the saved-plan traversal settles the fact.
+[Pair the saved plan](../inputs/plans.md#pair-the-saved-plan) explains the
+pairing requirement, and
+[Trace a placement](../getting-started/first-architecture.md)
+shows the same closure with and without it.
 
-## Read a connection
+## Why is it connected?
 
 Select a route or a relation in **Connections**. The Inspector identifies
 its endpoints, predicate, and evidence. If several relations share visible
@@ -77,27 +93,39 @@ A relation that leaves the current context can show an outside reference
 card with its home context. It points to the same resource. Use **Go to** to
 open the home context.
 
-## Switch stages and comparisons
+## What does this plan change?
 
-The comparison selector under **Place** names what the canvas shows: its
-title and its stages. A plan opens on **Planned changes**
-(Refreshed → Planned); the selector also offers **Reported drift**
-(Recorded → Refreshed) and **Net change** (Recorded → Planned) when the plan
-holds those stages. The info button beside the selector opens **About this
-view**: what the view means, its result as counted rows (instances, facts,
-indeterminate closures), the two inputs of a comparison Form, and how a
-stage came to be, such as Recorded reconstructed by reversing drift entries.
-The same button turns to the warning tone when something changes how the
-canvas reads: a comparison that is not comparable, instances the plan did
-not evaluate, unverified instance counts, or incomplete evidence; the
-limits are then listed first. A dot on the button says the view has a list
-to read: **Drift report** lists each drift entry by consequence, **Events**
-lists moved, replaced, and recreated instances, and **Cancelled** lists
-drift that Net change restores. Each opens **Form details** in the
-Inspector on that register. A state Form shows its Recorded architecture
-without comparison controls. A comparison Form shows **Differences** between
-its two selected stages;
-[Compare architectures](compare-architectures.md#open-the-comparison-in-the-browser)
+The selector under the navigation controls names the current view and the
+two stages it compares. A plan opens on **Planned changes**; the other two
+views appear when the plan holds their stages.
+
+| View | Compares | Shows |
+| --- | --- | --- |
+| **Planned changes** | Refreshed to Planned | What the plan proposes to change |
+| **Reported drift** | Recorded to Refreshed | The architectural effect of the drift the plan reports |
+| **Net change** | Recorded to Planned | Drift and planned changes combined |
+
+The info button beside the selector opens **About this view**: what the view
+means, its result counted in instances, events, facts, and indeterminate
+closures, and **Notes** on how a stage came to be, such as Recorded
+reconstructed by reversing drift entries.
+
+When a limit changes how the canvas reads, the button shows a warning icon
+and the panel adds **Limits of this view**. A limit is a comparison that is
+not comparable, instances the plan did not evaluate, unverified instance
+counts, or a plan that reports itself incomplete.
+
+A dot on the button means the view has lists to read. Each one opens
+**Form details** in the Inspector at that list:
+
+- **Drift report**: each drift entry, by consequence.
+- **Cancelled drift**: the drift that Net change restores.
+- **Instance events**: moved, replaced, and recreated instances.
+
+A state Form shows its Recorded architecture without comparison controls. A
+comparison Form has a single view, **Differences** between its two selected
+stages, and **About this view** also names its two inputs;
+[Compare two Forms](compare-architectures.md#open-the-comparison-in-the-browser)
 opens one.
 
 The reading block at the bottom left chooses the first stage, the
@@ -117,18 +145,30 @@ and stands beside the selector; pinch, wheel, or the keys still zoom.
 
 Do not read “No drift reported in this plan” as proof that no infrastructure
 changed. Terraform or OpenTofu may have skipped refresh or limited scope. See
-[comparisons and drift](../concepts/forms.md#comparisons-and-drift).
+[comparisons and drift](../concepts/forms.md#comparisons-and-drift), and
+[Review planned changes](review-planned-changes.md) for the three questions a
+plan answers.
 
-## Reveal a secondary resource
+## What does the evidence leave open?
+
+The **Indeterminate** filter counts the closures the current view could not
+settle; keep it to see the instances they belong to. Their reasons are in
+each instance's **Evidence** tab under **Closures**, and **About this view**
+lists any limit that changes how the canvas reads, such as instances the plan
+did not evaluate. An indeterminate closure is neither a change nor an
+unchanged fact; [Limitations](../limitations.md) lists what stays outside the
+evidence altogether.
+
+### Reveal a secondary resource
 
 Some association resources contribute implementation detail without a
 permanent card in every scene. Find one through search or from the object
 it contributes to, then reveal it for inspection. Its per-instance entry and
-provenance remain in the document even when the scene leaves it collapsed.
+provenance remain in the Form even when the scene leaves it collapsed.
 
 ## Export and share
 
-Save a reusable document or standalone browser view from the same input:
+Save a reusable Form or a standalone browser view from the same input:
 
 <!-- docs-check:journey-explore-export -->
 ```sh
@@ -156,4 +196,7 @@ macOS.
 | `0` or `f` | Fit the architecture in view |
 | `c` | Center the selection |
 
-To choose evidence for another question, [choose an input](../inputs/index.md).
+Ask the same questions from the terminal with
+[Explain an architecture](explain-architecture.md), read the three views of
+one plan in [Review planned changes](review-planned-changes.md), or
+[choose an input](../inputs/index.md) for another question.

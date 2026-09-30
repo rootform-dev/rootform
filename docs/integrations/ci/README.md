@@ -67,7 +67,6 @@ The script prints nothing itself. Open `summary.txt` and confirm that the saved 
 Plan analyzed
 
 Enrichment         Saved plan paired with this plan JSON (1 module)
-                   Only version, timestamp, and configuration shape are compared
 Stage              Planned
 Stages             Recorded (reconstructed), Refreshed, Planned
 ```
@@ -136,7 +135,7 @@ ROOTFORM_OUTPUT_DIR=.rootform-ci-policy-123 \
 sh ./ci/rootform-ci.sh
 ```
 
-The script exits with the analysis status if analysis fails. Otherwise, when a gate runs, it exits with the check status; if no gate runs, it exits `0`. Check status `0` means every selected Policy passed, `1` means a violation, `2` means incorrect use, `3` means no verdict, and `4` means a report could not be written after the verdict. If `ROOTFORM_BIN` cannot be found, the failing phase records `127` and its stderr file holds the shell error. Read `check.txt` and `policy.md`: a selected Policy with zero targets is not approval. [Check an architecture](../../guides/check-architecture.md) explains the policy path.
+The script exits with the analysis status if analysis fails. Otherwise, when a gate runs, it exits with the check status; if no gate runs, it exits `0`. Check status `0` means every selected Policy passed, `1` means a violation, `2` means incorrect use, `3` means no verdict, and `4` means a report could not be written after the verdict. If `ROOTFORM_BIN` cannot be found, the failing phase records `127` and its stderr file holds the shell error. Read `check.txt` and `policy.md`: a selected Policy with zero targets is not approval. [Understand Policy outcomes](../../guides/check-architecture.md) explains the policy path.
 
 ## Retain results without changing the gate
 

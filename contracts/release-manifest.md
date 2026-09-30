@@ -37,3 +37,9 @@ asset is accepted.
 All assets attach while release is draft. Uploaded GitHub asset digests and
 complete checksum file are verified before one-time publication. Published tag
 and assets are immutable; correction requires new version.
+
+Documentation in the tagged commit downloads repository files from that tag.
+On dev those downloads follow the dev branch. Before publication,
+`bun scripts/pin-docs-downloads.ts <version>` pins them to `v<version>` in the
+commit the candidate tags. A candidate whose documentation still downloads
+from a branch is drafted with notes marking it not publishable.

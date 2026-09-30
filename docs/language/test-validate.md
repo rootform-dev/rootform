@@ -5,7 +5,7 @@ description: "Format and compile Dialect source, replay plan fixtures, and evalu
 
 Use a small plan fixture to prove what a Dialect actually says about instances. Source validation checks language contracts; `rootform test` compares produced Forms with reviewed `analysis.golden` files. A passing compile alone cannot prove that a provider attribute has the architectural meaning you intended.
 
-The example below follows a local `network-review` Dialect that interprets one `random_pet` instance. Start in a project containing this source and a plan fixture. The full source and plan setup appear in [Write a local Dialect](../guides/local-dialect.md). The layout at the point of testing is:
+The example below follows a local `network-review` Dialect that interprets one `random_pet` instance. Start in a project containing this source and a plan fixture. The full source and plan setup appear in [Use a local Dialect while authoring](../guides/local-dialect.md). The layout at the point of testing is:
 
 ```tree title="Project and fixture"
 .
@@ -29,7 +29,7 @@ The plan JSON comes from `terraform show -json plan.tfplan`; OpenTofu users run 
 | `rootform fmt --check` | Is source in canonical format? |
 | `rootform validate dialects` | Does the complete Dialect source compile? |
 | `rootform validate rule` | Is one selected Rule valid? |
-| `rootform test` | Do plan fixtures still produce reviewed documents? |
+| `rootform test` | Do plan fixtures still produce the reviewed Forms? |
 | `rootform run` | What architecture does a real plan produce? |
 | `rootform check` | What do the selected Policies decide on that architecture? |
 
@@ -100,11 +100,10 @@ rootform run ./plan.json --plan-file ./plan.tfplan \
 [2mInput[0m              ./plan.json
 [2mProducer[0m           Terraform or OpenTofu 1.16.4
 [2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
-                   Only version, timestamp, and configuration shape are compared
 [1m[38;5;208mArchitecture[0m
-  [2mResource instances[0m  1
-  [2mInterpreted[0m         1 of 1 instance matched a Rule
-  [2mFacts[0m               none determined
+  [2mInstances[0m    1
+  [2mInterpreted[0m  1
+  [2mFacts[0m        none determined
 ```
 
 The one instance has an applied Rule. This Rule classifies it and emits nothing, so zero facts and closures are expected. The export identifies the Terraform/OpenTofu family and version, but not which tool produced it. `--producer terraform` records which tool made the export when that distinction matters. The verified saved plan can supply traversal evidence for Rules that emit facts. If these counts change, inspect the document and golden before accepting a new result. The `--no-serve` flag exits after the summary; without it, `run` serves the Explorer on loopback.

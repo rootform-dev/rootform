@@ -68,7 +68,7 @@ Reported drift removes the Contribution to the primary key and adds one to the s
 
 An instance Representation keeps its address across stages. A stable address can have changed Rule, Concept, implementation, or provider identity without being treated as removed and added. Indexed instances remain separate. Rootform does not infer that two differently addressed resources are the same physical cloud object because their labels, types, or remote IDs resemble each other.
 
-A move reported in the plan can connect a previous address to its planned address. A reported replacement is `replaced` with its reason; deletion followed by creation can appear as `recreated` in the net view. A cross-input move needs the before side to contain the previous address. External endpoints have document-local ordinals, so cross-input matching uses a recorded identity and Concept, never matching ordinal alone.
+A move reported in the plan can connect a previous address to its planned address. A reported replacement is `replaced` with its reason; deletion followed by creation can appear as `recreated` in the net view. A cross-input move needs the before side to contain the previous address. External endpoints have Form-local ordinals, so cross-input matching uses a recorded identity and Concept, never matching ordinal alone.
 
 ## One edit can create several architectural changes
 
@@ -84,4 +84,4 @@ An invalid Form or a comparison with incompatible semantic selection reports a p
 
 ## Read the comparison in context
 
-Text and Markdown summarize differences. The comparison Form retains both complete input Forms, selected stages, complete difference entries, and uncertainty. HTML opens the same Before, Differences, and After views as the local Explorer; it is self-contained and makes no network requests. See [Compare architectures](../guides/compare-architectures.md) for a runnable workflow, [Plan inputs](../inputs/plans.md#compare-both-sides-of-one-plan) for plan evidence, and the [Form contract](../../contracts/form.md) for exact fields.
+Text and Markdown summarize differences. The comparison Form retains both complete input Forms, selected stages, complete difference entries, and uncertainty. HTML opens the same Before, Differences, and After views as the local Explorer; it is self-contained and makes no network requests. See [Compare two Forms](../guides/compare-architectures.md) for a runnable workflow, [Plan inputs](../inputs/plans.md#compare-both-sides-of-one-plan) for plan evidence, and the [Form contract](../../contracts/form.md) for exact fields.

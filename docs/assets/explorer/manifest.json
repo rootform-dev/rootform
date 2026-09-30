@@ -1,0 +1,48 @@
+{
+  "format_version": "1",
+  "description": "Explorer screenshots used by the documentation. Commerce platform sample (examples/playground/commerce-platform) rendered by the Playground of the documentation site. Light and dark pairs share one alt text and are selected by the #gh-light-mode-only and #gh-dark-mode-only suffixes. Retake every pair together after a renderer change that moves a control or label named in the documentation.",
+  "capture": {
+    "viewport": "1440x900",
+    "clip": "0,40 1440x860 (Playground header removed)",
+    "device_scale_factor": 2,
+    "web_renderer_commit": "0c67fc1"
+  },
+  "figures": {
+    "quickstart-overview-light.png": {
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan",
+      "sha256": "eca62396b771101069a5e3c9c66a307720fe8db0c6a46661aebff703b28b0923"
+    },
+    "inspector-details-light.png": {
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open",
+      "sha256": "1a7af6044b40dc916d5b7cdad826585d8d00ff8b233b551679fc8d0467833210",
+      "viewport": "1440x840",
+      "clip": "0,40 1440x800 (Playground header removed)"
+    },
+    "quickstart-evidence-light.png": {
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open",
+      "sha256": "03bcb237460bd9d5dd72affd997b4534e456a2eacfa96bc92e800874218ce6ca"
+    },
+    "comparison-differences-light.png": {
+      "playground_route": "/playground/?scenario=commerce-platform&mode=comparison",
+      "sha256": "fcb7e6cb7dc3fdfd345c9623e7086d704180642d8df80eb6550666002b693780"
+    },
+    "quickstart-overview-dark.png": {
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan",
+      "sha256": "f45c86d4995382d8b2c50afdacb07278e912415ff5fdab77e18a3ee05852b730"
+    },
+    "inspector-details-dark.png": {
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open",
+      "sha256": "74ff33fb76b76238064b5b10c1ae54791e20ce6d6959eba00f3321cce2a2a8d2",
+      "viewport": "1440x840",
+      "clip": "0,40 1440x800 (Playground header removed)"
+    },
+    "quickstart-evidence-dark.png": {
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open",
+      "sha256": "51f913b05c0f2625eb4618038ac2f29eddb5ce1c50e71f291401932f9a609fc7"
+    },
+    "comparison-differences-dark.png": {
+      "playground_route": "/playground/?scenario=commerce-platform&mode=comparison",
+      "sha256": "743d80ec27930f013dd20987d082b56ea2984d5b0a1d4b76e2315f4381c7ba5f"
+    }
+  }
+}
