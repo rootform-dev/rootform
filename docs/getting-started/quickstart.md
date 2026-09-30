@@ -5,8 +5,8 @@ description: Open a sample Form in the Explorer, find one resource, and read the
 
 Open a synthetic Azure commerce platform of 153 planned resources in the
 Explorer, find one resource, and read the evidence behind its placement. The
-first half needs only a browser and no cloud account; the second half installs
-Rootform and produces the same result on your machine.
+first half needs only a browser; the second half installs Rootform and
+produces the same result on your machine.
 
 Rootform turns a Terraform or OpenTofu plan, or a state export, into a
 [Form](../concepts/forms.md): a portable saved result you can explore,
