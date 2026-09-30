@@ -83,11 +83,10 @@ rootform run plan.json --plan-file plan.tfplan --require-enrichment \
 ```text title="Excerpt from analysis summary"
 Plan analyzed
 Enrichment         Saved plan paired with this plan JSON (1 module)
-                   Only version, timestamp, and configuration shape are compared
 
 Architecture
   Resource instances  1
-  Interpreted         1 of 1 instance matched a Rule
+  Interpreted         1
   Facts               none determined
 ```
 

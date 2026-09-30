@@ -86,14 +86,15 @@ rootform run plan.json --plan-file plan.tfplan
 [2mStage[0m              Planned
 [1m[38;5;208mArchitecture[0m
   [2mResource instances[0m  153
-  [2mInterpreted[0m         153 of 153 instances matched a Rule
+  [2mInterpreted[0m         153
   [2mContexts[0m            207
 ```
 
 The terminal also shows the Explorer address; press `Ctrl+C` when you are
 done. **Enrichment** records that the saved plan paired with the JSON export,
 which is how Rootform followed references whose values are unknown until apply.
-The 207 contexts are placements like the one you just read.
+**Interpreted** counts the instances a Rule matched: all 153 here. The 207
+contexts are placements like the one you just read.
 
 ## Keep the Form
 

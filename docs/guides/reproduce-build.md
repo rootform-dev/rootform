@@ -28,7 +28,6 @@ rootform run source/plan.json --project source \
 ```text title="Excerpt from analysis summary"
 Plan analyzed
 Enrichment         Saved plan paired with this plan JSON (1 module)
-                   Only version, timestamp, and configuration shape are compared
 Stage              Planned
 Stages             Recorded (reconstructed), Refreshed, Planned
 ```
@@ -70,7 +69,6 @@ Input              evidence/before.json
 Form               Plan, saved by rootform 0.1.0
 Producer           Terraform or OpenTofu 1.16.4
 Enrichment         Saved plan paired with this plan JSON (1 module)
-                   Only version, timestamp, and configuration shape are compared
 ```
 
 The Markdown file presents the saved Form. Loading needs neither the original plan nor its Dialects. It does not repair an unresolved closure or apply newer Dialect Rules; reanalysis requires the plan or state input and the intended selection. Saved Forms omit sensitive values but still reveal topology.

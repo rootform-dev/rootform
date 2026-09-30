@@ -29,14 +29,14 @@ The command returns status `0` because the comparison completed, even though it 
 [2mBefore[0m              base/plan.json
 [2mAfter[0m               head/plan.json
 
-                    [2mBefore[0m       [2mAfter[0m
-[2mOrigin[0m              Plan         Plan
-[2mStage[0m               Planned      Planned
-[2mResource instances[0m  144          153
-[2mInterpreted[0m         144 of 144   153 of 153
-[2mRelations[0m           28           28
-[2mContexts[0m            196          207
-[2mContributions[0m       37           45
+                    [2mBefore[0m    [2mAfter[0m
+[2mOrigin[0m              Plan      Plan
+[2mStage[0m               Planned   Planned
+[2mResource instances[0m  144       153
+[2mInterpreted[0m         144       153
+[2mRelations[0m           28        28
+[2mContexts[0m            196       207
+[2mContributions[0m       37        45
 
 [1m[38;5;208mUncertainty[0m
                           [2mBefore[0m   [2mAfter[0m

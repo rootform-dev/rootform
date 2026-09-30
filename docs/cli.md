@@ -28,10 +28,10 @@ Stage              Planned
 Stages             Recorded (reconstructed), Refreshed, Planned
 Architecture
   Resource instances  2
-  Interpreted         2 of 2 instances matched a Rule
+  Interpreted         2
 ```
 
-The architecture section reports interpreted instances. If a resource has no matching Rule, inspect its Representation and [coverage limits](limitations.md#instances-without-rules).
+**Interpreted** counts the instances that a Rule from the selected Dialects matched: both here. If a resource has no matching Rule, inspect its Representation and [coverage limits](limitations.md#instances-without-rules).
 
 To inspect one embedded owner before relying on it, list its catalog entry:
 

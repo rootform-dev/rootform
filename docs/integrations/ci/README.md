@@ -67,7 +67,6 @@ The script prints nothing itself. Open `summary.txt` and confirm that the saved 
 Plan analyzed
 
 Enrichment         Saved plan paired with this plan JSON (1 module)
-                   Only version, timestamp, and configuration shape are compared
 Stage              Planned
 Stages             Recorded (reconstructed), Refreshed, Planned
 ```

@@ -378,7 +378,7 @@ Same determined changes as Planned changes.
 ### Planned architecture
 
 - **Resource instances:** 1
-- **Interpreted:** 1 of 1 instance matched a Rule
+- **Interpreted:** 1
 - **Facts:** none determined
 
 ### Provenance
@@ -386,7 +386,7 @@ Same determined changes as Planned changes.
 - **Input:** `violation/plan.json`
 - **Producer:** Terraform or OpenTofu 1.16.4
 - **Plan completeness:** Complete, as reported in the plan
-- **Enrichment:** Saved plan paired with this plan JSON \(1 module\); only version, timestamp, and configuration shape are compared
+- **Enrichment:** Saved plan paired with this plan JSON \(1 module\)
 - **Stage:** Planned
 - **Stages:** Recorded \(reconstructed\), Refreshed, Planned
 
