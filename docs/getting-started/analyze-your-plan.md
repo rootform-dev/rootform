@@ -1,10 +1,11 @@
 ---
-title: Analyze your own plan
+title: Analyze your plan or state
 description: Export a completed Terraform or OpenTofu plan, or state, and open its architecture in Rootform.
 ---
 
 Turn a plan you already produce into a Form you can explore, explain, compare,
-and check; the last section does the same with a state export. You need
+and check; the [last section](#analyze-a-state-export) does the same with a
+state export. You need
 [Rootform](../installation.md) and a root module you can plan with your usual
 backend, workspace, and credentials.
 

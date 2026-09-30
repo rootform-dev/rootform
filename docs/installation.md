@@ -123,5 +123,5 @@ disconnected project, prepare exact third-party Dialects and Policy Packs as
 described in [Locks and vendored content](offline-security.md).
 
 Continue with the [quickstart](getting-started/quickstart.md) to analyze a
-sample plan, or [analyze your own plan](getting-started/analyze-your-plan.md)
+sample plan, or [analyze your own plan or state](getting-started/analyze-your-plan.md)
 right away.

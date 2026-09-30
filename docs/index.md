@@ -31,7 +31,7 @@ until apply or the evidence is ambiguous, Rootform says so instead of guessing.
   Open a sample Form in the Playground, read the evidence behind one placement, then run the same analysis locally.
 - [Install Rootform](installation.md)
   Choose the method for your platform and verify the executable.
-- [Analyze your own plan](getting-started/analyze-your-plan.md)
+- [Analyze your plan or state](getting-started/analyze-your-plan.md)
   Export a completed plan and open its architecture, or open the architecture recorded in state.
 
 ## Work with a Form

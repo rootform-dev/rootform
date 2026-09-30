@@ -119,7 +119,6 @@ describes topology.
 
 <!-- rootform:endsteps -->
 
-Next, export a plan of your own and analyze it in
-[Analyze your own plan](analyze-your-plan.md), which also covers state
-exports, or stay with this sample in
-[Explore a Form](../guides/explore-architecture.md).
+Next, move to your own files with
+[Analyze your plan or state](analyze-your-plan.md), or stay with this sample
+in [Explore a Form](../guides/explore-architecture.md).

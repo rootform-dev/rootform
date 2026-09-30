@@ -10,7 +10,7 @@ subnet's placement from the plan evidence into the Explorer and
 *unknown until apply*, saved-plan pairing, and the difference between a
 resolved and an indeterminate closure. If you have not opened a Form yet, the
 [quickstart](quickstart.md) comes first; if you only want your own plan open,
-[analyze your own plan](analyze-your-plan.md) is shorter.
+[Analyze your plan or state](analyze-your-plan.md) is the shorter path.
 
 You need Rootform, Terraform, and the AWS provider download for planning. No
 cloud account is involved: the placeholder provider credentials grant no
