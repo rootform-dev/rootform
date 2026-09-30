@@ -135,7 +135,7 @@ func selectExplainedStage(loaded operand, options cli.ExplainOptions) (explained
 	}
 	side, err := form.Select(decoded, form.Stage(options.Stage), options.Side)
 	if err != nil {
-		return explainedStage{}, cli.RunError{Code: cli.ExitNoAnswer, Message: stageUnavailable(err).detail}
+		return explainedStage{}, stageRunError(err)
 	}
 	return explainedStage{input: loaded.name, side: options.Side, form: &side.Form, stage: side.Stage}, nil
 }
@@ -934,7 +934,9 @@ func (out explainedRule) conclusion() string {
 func (s explainService) writeJSON(value any) error {
 	encoded, err := json.MarshalIndent(value, "", "  ")
 	if err != nil {
-		return cli.RunError{Code: cli.ExitFailure, Message: "OUTPUT_FAILED: the explanation could not be encoded"}
+		return technicalError(cli.ExitFailure, "OUTPUT_FAILED",
+			"OUTPUT_FAILED: the explanation could not be encoded",
+			"the explanation could not be encoded", "")
 	}
 	if _, err := s.stdout.Write(append(encoded, '\n')); err != nil {
 		return errExplanationNotWritten
@@ -942,7 +944,8 @@ func (s explainService) writeJSON(value any) error {
 	return nil
 }
 
-var errExplanationNotWritten = cli.RunError{Code: cli.ExitFailure, Message: "OUTPUT_FAILED: standard output could not be written"}
+var errExplanationNotWritten = technicalError(cli.ExitFailure, "OUTPUT_FAILED",
+	"OUTPUT_FAILED: standard output could not be written", "cannot write standard output", "")
 
 func unique(values []string) []string {
 	seen := map[string]bool{}

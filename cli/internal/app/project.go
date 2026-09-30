@@ -30,6 +30,18 @@ func commandFailure(err error) error {
 	if !errors.As(err, &failure) {
 		return err
 	}
+	if failure.Code != "" && failure.Human != "" {
+		exit := cli.ExitFailure
+		switch failure.Kind {
+		case backend.Usage:
+			exit = cli.ExitUsage
+		case backend.Negative:
+			exit = cli.ExitNegative
+		case backend.NoAnswer:
+			exit = cli.ExitNoAnswer
+		}
+		return technicalError(exit, failure.Code, failure.Message, failure.Human, failure.Detail)
+	}
 	switch failure.Kind {
 	case backend.Usage:
 		return usageRefusal{message: failure.Message}
@@ -45,11 +57,16 @@ func commandFailure(err error) error {
 // refusal states why a project could not be prepared or vendored, and
 // returns the class of the failure.
 func refusal(stderr io.Writer, err error) backend.Kind {
-	human.Failure(stderr, failureStatement(err))
 	var failure *backend.Error
 	if errors.As(err, &failure) {
+		if failure.Code != "" && failure.Human != "" {
+			cli.WriteTechnicalError(stderr, failure.Human, failure.Detail, failure.Code)
+		} else {
+			human.Failure(stderr, failureStatement(err))
+		}
 		return failure.Kind
 	}
+	human.Failure(stderr, failureStatement(err))
 	return backend.Failure
 }
 

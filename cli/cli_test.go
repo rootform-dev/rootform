@@ -127,7 +127,7 @@ func TestBackendFailuresKeepTheirExitStatus(t *testing.T) {
 		{&backend.Error{Kind: backend.Failure, Message: "SEMANTIC_SELECTION: the selected Dialects could not be loaded (selection failed)"}, 4, "rootform: SEMANTIC_SELECTION: the selected Dialects could not be loaded (selection failed)\n"},
 		{&backend.Error{Kind: backend.Negative, Message: "INPUT_INVALID: the input could not be analyzed"}, 1, "rootform: INPUT_INVALID: the input could not be analyzed\n"},
 		{&backend.Error{Kind: backend.Usage, Message: "--plan-file requires plan JSON"}, 2, "rootform: --plan-file requires plan JSON\n"},
-		{errors.New("open /private/project/secret.tfvars: denied"), 3, "rootform: INPUT_INVALID: the input could not be analyzed\n"},
+		{errors.New("open /private/project/secret.tfvars: denied"), 3, "Error: the input could not be analyzed\n\nCode: INPUT_INVALID\n"},
 	} {
 		fake := &backendtest.Fake{CompileFunc: func(context.Context, backend.Selection, backend.Export) (backend.Compiled, error) {
 			return backend.Compiled{}, c.err
@@ -194,12 +194,15 @@ func TestCheckStopsWhenThePoliciesCannotLoad(t *testing.T) {
 	fake := &backendtest.Fake{
 		CompileFunc: compilesThePlan(t),
 		PoliciesFunc: func(context.Context, backend.Selection, []string) (backend.PolicySet, error) {
-			return nil, &backend.Error{Kind: backend.Failure, Code: "SELECTION_PROJECT_UNREADABLE", Message: "rootform.lock could not be read: permission denied"}
+			return nil, &backend.Error{Kind: backend.Failure, Code: "SELECTION_PROJECT_UNREADABLE",
+				Message: "rootform.lock could not be read: permission denied", Human: "cannot read rootform.lock", Detail: "permission denied"}
 		},
 	}
 	result := filepath.Join(t.TempDir(), "result.json")
 	code, out, errb := invoke(t, cli.Env{Backend: fake}, "check", write(t, "plan.json", planExport), "-o", result)
-	if code != 4 || out != "" || !strings.Contains(errb, "SELECTION_PROJECT_UNREADABLE") || !strings.Contains(errb, "rootform.lock could not be read: permission denied") {
+	if code != 4 || out != "" || !strings.Contains(errb, "Error: cannot read rootform.lock") ||
+		!strings.Contains(errb, "permission denied") || !strings.Contains(errb, "Code: SELECTION_PROJECT_UNREADABLE") ||
+		strings.Contains(errb, "rootform: SELECTION_PROJECT_UNREADABLE:") {
 		t.Fatalf("exit %d, stdout %q, stderr %q", code, out, errb)
 	}
 	if exports := fake.Exports(); len(exports) != 0 {
@@ -210,7 +213,8 @@ func TestCheckStopsWhenThePoliciesCannotLoad(t *testing.T) {
 		t.Fatal(err)
 	}
 	decoded, err := policyresult.Decode(data)
-	if err != nil || decoded.Status != policyresult.StatusFailed || decoded.Diagnostics[0].Code != "SELECTION_PROJECT_UNREADABLE" {
+	if err != nil || decoded.Status != policyresult.StatusFailed || decoded.Diagnostics[0].Code != "SELECTION_PROJECT_UNREADABLE" ||
+		decoded.Diagnostics[0].Message != "rootform.lock could not be read: permission denied" {
 		t.Fatalf("result: %+v %v", decoded, err)
 	}
 }
@@ -219,7 +223,9 @@ func TestCheckStopsWhenThePoliciesCannotLoad(t *testing.T) {
 func TestCheckWithoutAPolicyPackHasNoAnswer(t *testing.T) {
 	fake := &backendtest.Fake{}
 	code, out, errb := invoke(t, cli.Env{Backend: fake}, "check", write(t, "form.json", fixture(t, "plan.json")))
-	if code != 3 || out != "" || !strings.Contains(errb, "POLICY_UNAVAILABLE: no Policy Pack is selected") {
+	if code != 3 || out != "" || !strings.Contains(errb, "Error: no Policy Pack is selected") ||
+		!strings.Contains(errb, "Try:\n  rootform add policy-packs PACK") ||
+		!strings.Contains(errb, "Code: POLICY_UNAVAILABLE") {
 		t.Fatalf("exit %d, stdout %q, stderr %q", code, out, errb)
 	}
 }
@@ -253,7 +259,12 @@ func TestInputsPastTheCeilingAreRefused(t *testing.T) {
 	} {
 		t.Run(c.name, func(t *testing.T) {
 			code, out, errb := invoke(t, cli.Env{Backend: fake, Stdin: c.stdin}, c.args...)
-			if code != c.exit || out != "" || !strings.Contains(errb, "INPUT_REFUSED: ") || !strings.Contains(errb, document.Limit()) {
+			codeText := "Code: INPUT_REFUSED"
+			if c.name == "validate form file" {
+				codeText = "rootform: INPUT_REFUSED:"
+			}
+			if code != c.exit || out != "" || !strings.Contains(errb, codeText) ||
+				(c.name != "validate form file" && !strings.Contains(errb, document.Limit())) {
 				t.Fatalf("exit %d, stdout %q, stderr %q", code, out, errb)
 			}
 		})

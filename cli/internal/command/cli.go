@@ -61,11 +61,23 @@ type Options struct {
 // RunError carries the exit status of a completed command. An empty message
 // exits silently: the result already states the outcome.
 type RunError struct {
-	Code    int
-	Message string
+	Code           int
+	Message        string
+	DiagnosticCode string
+	Headline       string
+	Body           string
 }
 
 func (e RunError) Error() string { return e.Message }
+
+// WriteTechnicalError keeps a stable code after the human explanation.
+func WriteTechnicalError(w io.Writer, headline, body, code string) {
+	fmt.Fprintln(w, "Error: "+headline)
+	if body != "" {
+		fmt.Fprintln(w, "\n"+strings.Trim(body, "\n"))
+	}
+	fmt.Fprintln(w, "\nCode: "+code)
+}
 
 // AppService is the injected application service.
 type AppService interface {
@@ -433,7 +445,9 @@ func Run(env *Env) int {
 	}
 	var runError RunError
 	if errors.As(err, &runError) {
-		if runError.Message != "" {
+		if runError.DiagnosticCode != "" && runError.Headline != "" {
+			WriteTechnicalError(env.Stderr, runError.Headline, runError.Body, runError.DiagnosticCode)
+		} else if runError.Message != "" {
 			fmt.Fprintln(env.Stderr, "rootform: "+runError.Message)
 		}
 		return runError.Code

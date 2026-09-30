@@ -6,6 +6,18 @@ import (
 	"strings"
 )
 
+// StageUnavailableError names the requested stage and the stages a Form has.
+type StageUnavailableError struct {
+	Subject   string
+	Stage     Stage
+	Available []string
+}
+
+func (e StageUnavailableError) Error() string {
+	return fmt.Sprintf("STAGE_UNAVAILABLE: %s has no %s stage; available: %s",
+		e.Subject, titleStage(e.Stage), strings.Join(e.Available, ", "))
+}
+
 // Select chooses one stage of an input Form, or of one embedded side of a
 // comparison Form.
 func Select(decoded Form, stage Stage, side string) (Side, error) {
@@ -61,7 +73,7 @@ func Select(decoded Form, stage Stage, side string) (Side, error) {
 		case SelectedFromAfter:
 			subject = "the After side"
 		}
-		return Side{}, fmt.Errorf("STAGE_UNAVAILABLE: %s has no %s stage; available: %s", subject, titleStage(stage), strings.Join(available, ", "))
+		return Side{}, StageUnavailableError{Subject: subject, Stage: stage, Available: available}
 	}
 	return Side{Form: *analysis, Stage: stage, SelectedFrom: selectedFrom}, nil
 }
