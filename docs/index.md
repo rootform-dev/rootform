@@ -1,59 +1,61 @@
 ---
 title: Overview
-description: Explore, explain, compare, and check architecture derived from Terraform and OpenTofu.
+description: Explore, explain, compare, and check the architecture in your Terraform and OpenTofu plans.
 tableOfContents: false
 ---
 
-Rootform turns Terraform and OpenTofu plans and state into architecture you
-can inspect. It reads the JSON that `terraform show -json` exports and never
-runs Terraform or OpenTofu, executes providers, or contacts a cloud account.
+Rootform reads a Terraform or OpenTofu plan and shows the architecture it
+proposes: which resources sit where, what connects to what, and what changes.
+The result is a **Form**, a saved file you can explore in a browser, question
+from the terminal, compare with another revision, and check against Policies.
 
-Use Rootform to:
+![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-light.png#gh-light-mode-only)
+![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-dark.png#gh-dark-mode-only)
 
-- Explore resources in their architectural contexts
-- Explain how plan evidence produced a placement or connection
-- Compare architectural meaning between two plans, states, or saved Forms
-- Evaluate the result against [policies](concepts/policies.md)
+Rootform reads the JSON that `terraform show -json` exports. It never runs
+Terraform or OpenTofu, executes a provider, or contacts a cloud account.
 
-Rootform analyzes only the input you provide. It does not deploy infrastructure,
-read live cloud resources, or verify connectivity. A plan made with a prior
-state may also report drift records; Rootform shows their architectural
-consequences and never assumes more. When
-evidence is unknown or ambiguous, Rootform reports it as indeterminate instead
-of treating it as a proven absence or a successful check.
+Every placement and connection it draws is a fact a Dialect Rule established
+from plan evidence, and you can ask for that evidence. When a value is unknown
+until apply or the evidence is ambiguous, Rootform says so instead of guessing.
 
 ## Get started
 
 <!-- rootform:directory -->
+- [Quickstart](getting-started/quickstart.md)
+  Open a sample Form in the Playground, read the evidence behind one placement, then run the same analysis locally. No cloud account needed.
 - [Install Rootform](installation.md)
-  Choose the recommended method for your platform and verify the executable.
-- [Your first architecture](getting-started/first-architecture.md)
-  Plan a VPC and subnet, see why the subnet sits in the VPC, and save the result. No cloud account required.
+  Choose the method for your platform and verify the executable.
+- [Analyze your own plan](getting-started/analyze-your-plan.md)
+  Export a completed plan and open its architecture.
+- [Follow the evidence behind a placement](getting-started/first-architecture.md)
+  Plan a VPC and a subnet and see how a saved plan settles a reference unknown until apply.
 
-## How Rootform reads a project
-
-A [Dialect](concepts/dialects.md) gives provider resources architectural
-meaning. Rootform includes the RF Vocabulary and embedded Dialects in the
-executable, so projects covered by them need no additional Rootform
-configuration.
-
-[Core concepts](concepts.md) explains how instances, Rules, facts, and
-closures fit together. [Forms and stages](concepts/forms.md)
-describes what a saved Form keeps, and
-[Comparisons](concepts/comparisons.md) explains stages, drift, and
-comparisons.
-
-## Continue by task
+## Work with a Form
 
 <!-- rootform:directory -->
-- [Explore an architecture](guides/explore-architecture.md)
-  Navigate an analysis, inspect evidence, and follow connections.
-- [Choose an input](inputs/index.md)
-  Decide between plan JSON, state JSON, and a saved Form.
-- [Compare architectures](guides/compare-architectures.md)
-  Review architectural changes between two revisions.
-- [Check an architecture](guides/check-architecture.md)
-  Evaluate selected Policy Packs and distinguish violations from indeterminate evidence.
+- [Explore a Form](guides/explore-architecture.md)
+  Find a resource, read why it is placed or connected, and switch between stages.
+- [Explain an architecture](guides/explain-architecture.md)
+  Ask the terminal why an instance is placed, what a Rule established, and how a Policy decided.
+- [Review planned changes](guides/review-planned-changes.md)
+  Read what one plan proposes, what drift it reports, and the net change.
+- [Compare two Forms](guides/compare-architectures.md)
+  Review the architectural differences between two revisions.
+- [Check a Form with Policies](guides/check-with-policies.md)
+  Evaluate a Policy Pack, read the verdict, and keep the result for review.
+- [Review a pull request](workflows/index.md)
+  Bring the same evidence into a review and into CI.
+
+## Understand the model
+
+[How Rootform works](concepts.md) explains how instances, Rules, facts, and
+closures fit together. [Forms and stages](concepts/forms.md) describes what a
+saved Form keeps, [Comparisons and drift](concepts/comparisons.md) keeps
+planned changes, drift, and differences apart, and
+[Dialects](concepts/dialects.md) explains where architectural meaning comes
+from. Embedded Dialects cover the providers Rootform ships with, so a project
+using them needs no Rootform configuration.
 
 Use [outputs and exit status](reference/outputs.md) for automation,
 [limitations](limitations.md) for evidence boundaries, and

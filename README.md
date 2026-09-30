@@ -2,76 +2,111 @@
 
 [![Source license](https://img.shields.io/badge/source-Apache--2.0-blue.svg)](LICENSE)
 
-Rootform turns Terraform and OpenTofu plan or state JSON into deterministic,
-explainable Forms. A Form is the complete portable result users save and reopen.
+Rootform reads a Terraform or OpenTofu plan and shows the architecture it
+proposes: which resources sit where, what connects to what, and what changes.
+The result is a **Form**, a saved file you can explore in a browser, question
+from the terminal, compare with another revision, and check against Policies.
+Every placement and connection is a fact a Dialect Rule established from plan
+evidence; when a value is unknown until apply, Rootform says so instead of
+guessing.
 
-This repository contains Rootform's contracts, schemas, documentation,
-examples, and release metadata.
+Rootform never runs Terraform or OpenTofu, executes providers, or contacts a
+cloud account. It reads the exported plan or state JSON locally.
 
-## What lives here
-
-- [`contracts/`](contracts/): Rootform language, Forms, comparisons, policy,
-  lock, presentation, and release contracts;
-- [`schemas/`](schemas/): machine-readable public schemas;
-- [`docs/`](docs/): installation, concepts, CLI, dialect authoring, security,
-  offline operation, and integrations;
-- [`examples/`](examples/): synthetic Terraform plan projects with saved plans
-  for architecture analysis and comparison;
-- [`dialects/`](dialects/): maintained official Dialect sources, public
-  evidence, and fixtures embedded in Rootform releases;
-- [`policy-packs/`](policy-packs/): package-ready public Policy Pack examples.
+Try it without installing anything in the
+[Playground](https://docs.rootform.dev/playground/), then follow the
+[quickstart](https://docs.rootform.dev/getting-started/quickstart/).
 
 ## Install
 
-Install an exact release version, verify its published SHA-256 checksum, and
-read license and notices included with archive. Export a saved plan with
-Terraform or OpenTofu, then analyze its JSON with the project's Dialects:
+```bash
+curl -fsSL https://rootform.dev/install | sh
+rootform version
+```
+
+[Install Rootform](docs/installation.md) covers macOS, Linux, Windows, the
+container image, and checksum verification.
+
+## Analyze a plan
+
+Export a completed plan, then open its architecture:
 
 ```bash
-terraform init
 terraform plan -out=plan.tfplan
 terraform show -json plan.tfplan > plan.json
 rootform run plan.json --plan-file plan.tfplan
 ```
 
-See [`docs/installation.md`](docs/installation.md).
+The summary counts the planned instances and the facts Rules established;
+the Explorer opens in your browser. Add `--no-serve -o analysis.json` to save
+the Form instead, and `-o review.md` for a report to paste in a pull request.
+Keep `plan.tfplan` and `plan.json` out of Git: they can contain secrets.
 
-## Dialect lifecycle
+## Explore, explain, compare, check
 
-Rootform release embeds one immutable supplied Dialect set. Third-party
-Dialects may be packaged and published through generic OCI commands.
-`rootform.lock` records only explicit additions, exclusions, and whole-owner
-replacements. No Dialect discovery index exists. Project vendor is exclusive
-execution source when present; `$ROOTFORM_HOME/dialects` stores exact installed
-third-party units.
+These commands use the commerce sample from the
+[quickstart](docs/getting-started/quickstart.md): `analysis.json` is the Form
+it saves, `base/` and `head/` hold the two sample plans from
+`examples/playground/commerce-platform/`, and `policies/` is the Pack it
+writes.
 
-See [`contracts/dialect-distribution.md`](contracts/dialect-distribution.md) and
-[`contracts/rootform-oci-core-profile.md`](contracts/rootform-oci-core-profile.md).
+```bash
+rootform run analysis.json                                       # reopen the Form
+rootform explain instance azurerm_subnet.prod_data --input analysis.json
+rootform run base/plan.json --plan-file base/plan.tfplan \
+  --diff head/plan.json --diff-plan-file head/plan.tfplan --no-serve -o comparison.md
+rootform check analysis.json --policy-pack ./policies -o results.sarif
+```
 
-## Policy Pack lifecycle
+`explain` names the Rule and the evidence behind one placement, connection,
+or Policy decision. `--diff` compares two Forms and reports differences,
+which are never called drift. `check` evaluates Policies against one Form and
+exits `0` on pass, `1` on a violation, and `3` when the evidence cannot
+settle an evaluation or a Policy finds no target. `run` never evaluates
+Policies. [Outputs and exit status](docs/reference/outputs.md) lists every
+format.
 
-Policy Packs version and distribute governance independently from Dialects. A
-Policy belongs to one pack and uses owner-first identity. Source declares no
-semantic versions; linking derives exact RF Vocabulary and Dialect pins from
-qualified references and a Form.
+## What Rootform does not do
 
-`rootform check plan.json` evaluates the selected Policies against one stage
-of a Form and exits with the verdict; `rootform run` analyzes and never
-evaluates Policies.
+It does not deploy or read live infrastructure, verify network reachability,
+or evaluate configuration source. A Form describes the plan or state you gave
+it. [Limitations](docs/limitations.md) states the evidence boundaries and
+[Security and data handling](docs/security/index.md) what leaves your machine
+(nothing, unless you share a report).
 
-See [`contracts/policy-pack-distribution.md`](contracts/policy-pack-distribution.md)
-and [`baseline` example](policy-packs/baseline/pack.rf.hcl). Repository makes no
-publication claim for this local pre-release source.
+## What lives here
 
-## Licensing boundary
+- [`docs/`](docs/): the documentation published at
+  [docs.rootform.dev](https://docs.rootform.dev/);
+- [`cli/`](cli/): the open-source Go module of the command line: commands,
+  flags, help, reports, exit statuses, the loopback Explorer server, and the
+  Form and Policy result models. Its version is the commit the Rootform
+  binary pins; it makes no compatibility promise yet;
+- [`dialects/`](dialects/): official Dialect sources, evidence, and fixtures
+  embedded in Rootform releases;
+- [`policy-packs/`](policy-packs/): Policy Pack examples;
+- [`examples/`](examples/): synthetic Terraform projects with saved plans,
+  including the Playground scenarios;
+- [`contracts/`](contracts/) and [`schemas/`](schemas/): the Form, Policy
+  result, lock, and release contracts with their JSON Schemas.
 
-- Repository source, contracts, docs, examples, and tooling: Apache-2.0.
-- Rootform-owned executable code: [Elastic License 2.0](dependencies/ROOTFORM-BINARY-LICENSE.txt)
-  (`Elastic-2.0`).
-- Official release archives and OCI images embed that binary notice; repository
-  `LICENSE` remains Apache-2.0 and does not license distributed executables.
-- Rootform name and logos: trademark rights reserved.
-- Dialects, third-party components, and assets: their identified terms.
+The Rootform binary is built from a private engine that implements the
+module's backend: compilation, Rule and Policy evaluation, and comparison.
+[Contribute to Rootform](docs/contributing/index.md) says where each kind of
+change belongs.
 
-See [`TRADEMARKS.md`](TRADEMARKS.md) and
-[`THIRD_PARTY_NOTICES.txt`](THIRD_PARTY_NOTICES.txt).
+## Licensing
+
+- Repository source, contracts, documentation, examples, tooling, and the
+  `cli/` module: Apache-2.0 ([LICENSE](LICENSE), [cli/LICENSE](cli/LICENSE)).
+- Official Dialects under `dialects/`: MPL-2.0 ([dialects/LICENSE](dialects/LICENSE)).
+- Distributed Rootform executables and official runtime images:
+  [Elastic License 2.0](dependencies/ROOTFORM-BINARY-LICENSE.txt) (`Elastic-2.0`).
+  Release archives and OCI images embed that notice; the repository
+  `LICENSE` does not license distributed executables.
+- Rootform name and logos: trademark rights reserved ([TRADEMARKS.md](TRADEMARKS.md)).
+- Third-party components: their identified terms ([THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt)).
+
+Report a suspected vulnerability through
+[private vulnerability reporting](https://github.com/rootform-dev/rootform/security/advisories/new),
+never in a public issue ([SECURITY.md](SECURITY.md)).

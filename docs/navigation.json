@@ -3,47 +3,55 @@
     "label": "Get started",
     "items": [
       { "label": "Overview", "page": "index" },
+      { "label": "Quickstart", "page": "getting-started/quickstart" },
       { "label": "Install Rootform", "page": "installation" },
-      { "label": "Your first architecture", "page": "getting-started/first-architecture" }
+      { "label": "Analyze your own plan", "page": "getting-started/analyze-your-plan" },
+      {
+        "label": "Follow the evidence behind a placement",
+        "page": "getting-started/first-architecture"
+      }
     ]
   },
   {
-    "label": "Use Rootform",
+    "label": "Analyze and review",
     "items": [
-      { "label": "Explore an architecture", "page": "guides/explore-architecture" },
+      { "label": "Explore a Form", "page": "guides/explore-architecture" },
+      { "label": "Explain an architecture", "page": "guides/explain-architecture" },
+      { "label": "Review planned changes", "page": "guides/review-planned-changes" },
+      { "label": "Compare two Forms", "page": "guides/compare-architectures" },
       { "label": "Choose an input", "page": "inputs" },
       { "label": "Terraform and OpenTofu plans", "page": "inputs/plans" }
     ]
   },
   {
-    "label": "Review and automate",
+    "label": "Check and automate",
     "items": [
-      { "label": "Compare architectures", "page": "guides/compare-architectures" },
-      { "label": "Check an architecture", "page": "guides/check-architecture" },
+      { "label": "Check a Form with Policies", "page": "guides/check-with-policies" },
       { "label": "Review a pull request", "page": "workflows" },
       { "label": "Run in CI", "page": "integrations/ci" },
-      { "label": "GitHub Actions", "page": "integrations/github-actions" }
+      { "label": "GitHub Actions", "page": "integrations/github-actions" },
+      { "label": "Follow a Policy through every outcome", "page": "guides/check-architecture" }
     ]
   },
   {
-    "label": "Project configuration",
+    "label": "Understand Rootform",
+    "items": [
+      { "label": "How Rootform works", "page": "concepts" },
+      { "label": "Forms and stages", "page": "concepts/forms" },
+      { "label": "Comparisons and drift", "page": "concepts/comparisons" },
+      { "label": "Dialects and RF Vocabulary", "page": "concepts/dialects" },
+      { "label": "Policies and Policy Packs", "page": "concepts/policies" },
+      { "label": "Install, add, and vendor", "page": "concepts/external-content" }
+    ]
+  },
+  {
+    "label": "Configure and extend",
     "items": [
       { "label": "Select Dialects and Policy Packs", "page": "cli" },
       { "label": "Add external content", "page": "guides/external-content" },
       { "label": "Use a local Dialect while authoring", "page": "guides/local-dialect" },
       { "label": "Locks and vendored content", "page": "offline-security" },
       { "label": "Reproduce an analysis offline", "page": "guides/reproduce-build" }
-    ]
-  },
-  {
-    "label": "Understand Rootform",
-    "items": [
-      { "label": "Core concepts", "page": "concepts" },
-      { "label": "Install, add, and vendor", "page": "concepts/external-content" },
-      { "label": "Dialects and RF Vocabulary", "page": "concepts/dialects" },
-      { "label": "Policies and Policy Packs", "page": "concepts/policies" },
-      { "label": "Comparisons and drift", "page": "concepts/comparisons" },
-      { "label": "Forms and Rootform documents", "page": "concepts/forms" }
     ]
   },
   {
@@ -231,7 +239,7 @@
     ]
   },
   {
-    "label": "Security and troubleshooting",
+    "label": "Security and help",
     "items": [
       { "label": "Security and data handling", "page": "security" },
       { "label": "Limitations", "page": "limitations" },

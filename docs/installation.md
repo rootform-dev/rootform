@@ -122,4 +122,6 @@ See [Container usage](integrations/oci-image.md#run-against-a-project). For a
 disconnected project, prepare exact third-party Dialects and Policy Packs as
 described in [Locks and vendored content](offline-security.md).
 
-Continue with [your first architecture →](getting-started/first-architecture.md).
+Continue with the [quickstart](getting-started/quickstart.md) to analyze a
+sample plan, or [analyze your own plan](getting-started/analyze-your-plan.md)
+right away.
