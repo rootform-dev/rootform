@@ -95,24 +95,36 @@ open the home context.
 
 ## What does this plan change?
 
-The comparison selector under the navigation controls names what the canvas
-shows: its title and its stages. A plan opens on **Planned changes**
-(Refreshed → Planned); the selector also offers **Reported drift**
-(Recorded → Refreshed) and **Net change** (Recorded → Planned) when the plan
-holds those stages. The info button beside the selector opens **About this
-view**: what the view means, its result as counted rows (instances, facts,
-indeterminate closures), the two inputs of a comparison Form, and how a
-stage came to be, such as Recorded reconstructed by reversing drift entries.
-The same button turns to the warning tone when something changes how the
-canvas reads: a comparison that is not comparable, instances the plan did
-not evaluate, unverified instance counts, or incomplete evidence; the
-limits are then listed first. A dot on the button says the view has a list
-to read: **Drift report** lists each drift entry by consequence, **Events**
-lists moved, replaced, and recreated instances, and **Cancelled** lists
-drift that Net change restores. Each opens **Form details** in the
-Inspector on that register. A state Form shows its Recorded architecture
-without comparison controls. A comparison Form shows **Differences** between
-its two selected stages;
+The selector under the navigation controls names the current view and the
+two stages it compares. A plan opens on **Planned changes**; the other two
+views appear when the plan holds their stages.
+
+| View | Compares | Shows |
+| --- | --- | --- |
+| **Planned changes** | Refreshed to Planned | What the plan proposes to change |
+| **Reported drift** | Recorded to Refreshed | The architectural effect of the drift the plan reports |
+| **Net change** | Recorded to Planned | Drift and planned changes combined |
+
+The info button beside the selector opens **About this view**: what the view
+means, its result counted in instances, events, facts, and indeterminate
+closures, and **Notes** on how a stage came to be, such as Recorded
+reconstructed by reversing drift entries.
+
+When a limit changes how the canvas reads, the button shows a warning icon
+and the panel adds **Limits of this view**. A limit is a comparison that is
+not comparable, instances the plan did not evaluate, unverified instance
+counts, or a plan that reports itself incomplete.
+
+A dot on the button means the view has lists to read. Each one opens
+**Form details** in the Inspector at that list:
+
+- **Drift report**: each drift entry, by consequence.
+- **Cancelled drift**: the drift that Net change restores.
+- **Instance events**: moved, replaced, and recreated instances.
+
+A state Form shows its Recorded architecture without comparison controls. A
+comparison Form has a single view, **Differences** between its two selected
+stages, and **About this view** also names its two inputs;
 [Compare two Forms](compare-architectures.md#open-the-comparison-in-the-browser)
 opens one.
 
