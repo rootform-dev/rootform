@@ -115,6 +115,8 @@ Code: SEMANTIC_SELECTION
 
 For embedded-only work, omit `--locked`. For an exact external selection, add content from the project root and commit the lock. If a selected local Dialect changed, the binary reports `selected Dialect network-review differs from rootform.lock`; use an override while editing, then `rootform update dialect network-review` to record a reviewed change. `init` cannot adopt source drift.
 
+An invalid lock reports `Error: rootform.lock is invalid` and explains the expected structure. `list` and `show` carry `Code: SELECTION_LOCK_INVALID` and exit `3`; inspect the lock as strict JSON with known fields and no duplicate keys.
+
 ## Selected content is missing
 
 A locked `run` exits `3` when a selected Dialect cannot be loaded; its headline names the unavailable Dialect and its code is `SEMANTIC_SELECTION`. `rootform check` exits `3` when a selected Policy Pack cannot be loaded; its headline names the unavailable Pack and its code is `SELECTION_POLICY_PACK_MISSING`. `rootform list` fails for the same reason, so read the entries in `rootform.lock` instead. For selected OCI content, run `rootform init --locked --no-input` from the project root to install the exact recorded digests; add `--offline` only when those bytes are already on this machine. `init` cannot choose another version or change the lock. A local source must be restored at its recorded path: `init` reports `the local source is unavailable` and cannot recreate it. When the project has a vendor tree, repair that tree instead, as described below.

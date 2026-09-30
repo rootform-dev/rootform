@@ -315,8 +315,8 @@ func TestStageWordsAndPopulation(t *testing.T) {
 func TestArchitectureWithUncertaintyKeepsSummaryConcise(t *testing.T) {
 	a := &form.InputForm{Stages: map[form.Stage]*form.Architecture{
 		form.StagePlanned: {
-			Stage: form.StagePlanned,
-			Accounting: form.Accounting{Instances: 1, AppliedInterpretations: 1, Indeterminate: 1},
+			Stage:           form.StagePlanned,
+			Accounting:      form.Accounting{Instances: 1, AppliedInterpretations: 1, Indeterminate: 1},
 			Representations: []form.Representation{{ID: "object"}},
 		},
 	}}

@@ -50,6 +50,30 @@ func TestTechnicalBackendErrorsStateCauseFirst(t *testing.T) {
 	}
 }
 
+func TestDefinitionErrorsKeepSelectionCauseAndCode(t *testing.T) {
+	for _, kind := range []backend.Kind{backend.NoAnswer, backend.Failure} {
+		fake := &backendtest.Fake{DefinitionsFunc: func(context.Context, backend.Selection) (backend.Definitions, error) {
+			return backend.Definitions{}, &backend.Error{
+				Kind: kind, Code: "SELECTION_LOCK_INVALID", Message: "rootform.lock is invalid",
+				Human: "rootform.lock is invalid", Detail: "Expected strict JSON with known fields and no duplicates",
+			}
+		}}
+		for _, args := range [][]string{{"list", "dialects"}, {"show", "aws"}} {
+			for _, format := range []string{"text", "json"} {
+				exit, stdout, stderr := invoke(t, cli.Env{Backend: fake}, append(args, "--format", format)...)
+				wantExit := 3
+				if kind == backend.Failure {
+					wantExit = 4
+				}
+				expectTechnicalError(t, exit, stdout, stderr, wantExit, "rootform.lock is invalid", "SELECTION_LOCK_INVALID")
+				if !strings.Contains(stderr, "Expected strict JSON with known fields and no duplicates") {
+					t.Fatalf("lock guidance lost: %q", stderr)
+				}
+			}
+		}
+	}
+}
+
 func TestTechnicalInputErrorsKeepExistingGuidance(t *testing.T) {
 	archive := write(t, "plan.tfplan", []byte("PK\x03\x04safe test fixture"))
 	exit, stdout, stderr := invoke(t, cli.Env{Backend: &backendtest.Fake{}}, "run", archive, "--no-serve")
