@@ -18,9 +18,61 @@ type Case = {
   scenario: "first" | "commerce" | "head";
   serve?: true;
   seed?: true;
+  /* pack writes the page's own Policy Pack from its rf blocks into policies/. */
+  pack?: true;
+  /* chain reuses the previous case's directory, so a command can read what
+     the previous command wrote, as a reader following the page would. */
+  chain?: true;
 };
 
 const cases: Case[] = [
+  {
+    page: "getting-started/quickstart.md",
+    marker: "quickstart-run",
+    scenario: "head",
+    serve: true,
+  },
+  { page: "getting-started/quickstart.md", marker: "quickstart-save", scenario: "head" },
+  {
+    page: "getting-started/analyze-your-plan.md",
+    marker: "analyze-own-run",
+    scenario: "head",
+    serve: true,
+  },
+  { page: "getting-started/analyze-your-plan.md", marker: "analyze-own-save", scenario: "head" },
+  {
+    page: "guides/explain-architecture.md",
+    marker: "explain-instance",
+    scenario: "head",
+    seed: true,
+  },
+  { page: "guides/explain-architecture.md", marker: "explain-rule", scenario: "head", seed: true },
+  {
+    page: "guides/review-planned-changes.md",
+    marker: "review-changes-summary",
+    scenario: "head",
+  },
+  { page: "guides/review-planned-changes.md", marker: "review-changes-report", scenario: "head" },
+  {
+    page: "guides/check-with-policies.md",
+    marker: "check-form-run",
+    scenario: "head",
+    seed: true,
+    pack: true,
+  },
+  {
+    page: "guides/check-with-policies.md",
+    marker: "check-form-explain",
+    scenario: "head",
+    chain: true,
+  },
+  /* The explain guide reads the result the check guide wrote. */
+  {
+    page: "guides/explain-architecture.md",
+    marker: "explain-policy",
+    scenario: "head",
+    chain: true,
+  },
   {
     page: "getting-started/first-architecture.md",
     marker: "journey-first-directory",
@@ -132,7 +184,9 @@ async function serve(command: string, scratch: string, env: Record<string, strin
     stdout: "pipe",
     stderr: "pipe",
   });
-  await new Promise((resolve) => setTimeout(resolve, 1200));
+  /* The commerce plan compiles in about one second on a laptop; wait for the
+     summary to be written before interrupting the server. */
+  await new Promise((resolve) => setTimeout(resolve, 4000));
   child.kill("SIGINT");
   const exit = await child.exited;
   const [stdout, stderr] = await Promise.all([
@@ -166,22 +220,35 @@ export async function verifyJourneyExamples(binary: string, root: string): Promi
 
   const evidence = process.env.ROOTFORM_DOCS_EVIDENCE;
   if (evidence) mkdirSync(evidence, { recursive: true });
+  let previous: string | undefined;
   for (const item of cases) {
     const page = readFileSync(join(root, "docs", item.page), "utf8");
     const command = markedCommand(page, item.marker);
-    const scratch = mkdtempSync(join(tmpdir(), "rf-journey-"));
-    prepare(root, scratch, item);
+    if (item.chain && previous === undefined)
+      throw new Error(`${item.marker}: chained case has no previous directory`);
+    const scratch = item.chain && previous ? previous : mkdtempSync(join(tmpdir(), "rf-journey-"));
+    if (!item.chain) {
+      prepare(root, scratch, item);
+      const bin = join(scratch, "bin");
+      mkdirSync(bin);
+      symlinkSync(binary, join(bin, "rootform"));
+      mkdirSync(join(scratch, "home"));
+    }
+    previous = scratch;
     const bin = join(scratch, "bin");
-    mkdirSync(bin);
-    symlinkSync(binary, join(bin, "rootform"));
     const home = join(scratch, "home");
-    mkdirSync(home);
     const env = {
       ...process.env,
       PATH: `${bin}:${process.env.PATH ?? ""}`,
       ROOTFORM_HOME: home,
       ROOTFORM_SOURCE: "",
     };
+    if (item.pack) {
+      const policies = join(scratch, "policies");
+      mkdirSync(policies, { recursive: true });
+      for (const name of ["pack.rf.hcl", "database-network.rf.hcl"])
+        writeFileSync(join(policies, name), configuration(page, `policies/${name}`));
+    }
     if (item.seed) {
       const seeded = Bun.spawnSync(
         [
@@ -236,6 +303,10 @@ export async function verifyJourneyExamples(binary: string, root: string): Promi
       );
     }
     const outputs: Record<string, string[]> = {
+      "quickstart-save": ["analysis.json"],
+      "analyze-own-save": ["analysis.json", "review.md"],
+      "review-changes-report": ["review.md"],
+      "check-form-run": ["results.json", "results.md"],
       "journey-first-directory": ["rootform-first-architecture"],
       "journey-first-save": ["analysis.json"],
       "journey-first-html": ["architecture.html"],
