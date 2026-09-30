@@ -1,15 +1,23 @@
 ---
-title: Your first architecture
-description: Plan a VPC and subnet, inspect their placement, and save the architecture.
+title: Follow the evidence behind a placement
+description: Plan a VPC and subnet, see how a saved plan settles a reference unknown until apply, and read the same evidence in the Explorer and the terminal.
 ---
 
-Create a two-resource Terraform plan, then use Rootform to inspect why the
-subnet sits inside the VPC. You need Rootform, Terraform, and the AWS provider
-download for planning. This example needs no cloud account: its placeholder
-provider credentials grant no access, and the provider skips account and
-metadata checks. OpenTofu users run the Terraform commands with `tofu` in place
-of `terraform`. Rootform's embedded AWS [Dialect](../concepts/dialects.md)
-interprets these resources, so this example needs no Rootform configuration.
+A two-resource plan is enough to see what separates a Rootform fact from a
+Terraform reference. This tutorial plans a VPC and a subnet, then follows the
+subnet's placement from the plan evidence into the Explorer and
+`rootform explain`, with and without the saved plan. Read it to understand
+*unknown until apply*, saved-plan pairing, and the difference between a
+resolved and an indeterminate closure. If you have not opened a Form yet, the
+[quickstart](quickstart.md) comes first; if you only want your own plan open,
+[analyze your own plan](analyze-your-plan.md) is shorter.
+
+You need Rootform, Terraform, and the AWS provider download for planning. No
+cloud account is involved: the placeholder provider credentials grant no
+access, and the provider skips its account and metadata checks. Rootform's
+embedded AWS [Dialect](../concepts/dialects.md) interprets these resources, so
+there is nothing to configure. With OpenTofu, run `tofu` in place of
+`terraform`.
 
 <!-- rootform:steps -->
 
@@ -209,13 +217,13 @@ to see that information.
 
 <!-- rootform:endsteps -->
 
-To use your own project, run the same three planning commands from its root
-module with your usual backend and credentials, then pass both files to
-`rootform run`. Rootform itself needs no cloud credentials. It describes
-planned **instances**, so `count` and `for_each` can make the architecture
-larger than the number of declarations. [Choose an input](../inputs/index.md)
-explains when state or a saved document answers your question better.
+Every fact in a larger Form works this way: a Rule declares what a reference
+means, the evidence settles it or leaves it indeterminate, and the Form keeps
+the closure so you can ask why. Rootform describes planned **instances**, so
+`count` and `for_each` can make an architecture larger than the number of
+declarations. [Choose an input](../inputs/index.md) explains when state or a
+saved Form answers your question better.
 
-Next, [explore the interface](../guides/explore-architecture.md),
-[compare architectures](../guides/compare-architectures.md), or
-[check the architecture against Policies](../guides/check-architecture.md).
+Next, read [Forms and stages](../concepts/forms.md) for the model behind
+closures and stages, or see how the same uncertainty reaches a verdict in
+[Follow a Policy through every outcome](../guides/check-architecture.md).
