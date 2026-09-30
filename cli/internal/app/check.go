@@ -54,9 +54,11 @@ type checkTarget struct {
 // checkFailure stops an invocation. code is the diagnostic the failed result
 // carries; detail is what standard error shows, with any guidance.
 type checkFailure struct {
-	exit   int
-	code   string
-	detail string
+	exit     int
+	code     string
+	detail   string
+	headline string
+	body     string
 	// message is the failed result's diagnostic when it differs from the
 	// first line of detail.
 	message string
@@ -77,6 +79,10 @@ func failureOf(err error, fallbackExit int) checkFailure {
 	var runError cli.RunError
 	if errors.As(err, &runError) {
 		exit, message = runError.Code, runError.Message
+		if runError.DiagnosticCode != "" {
+			return checkFailure{exit: exit, code: runError.DiagnosticCode, detail: message,
+				headline: runError.Headline, body: runError.Body}
+		}
 	}
 	code := "USAGE_INVALID"
 	if exit != cli.ExitUsage {
@@ -145,7 +151,11 @@ func (s checkService) evaluate(run *checkRun, providerMap map[string]string, att
 	}
 	packs := policyPacks(set.Packs())
 	if packs.empty() {
-		return policyresult.Result{}, checkFailure{exit: cli.ExitNoAnswer, code: "POLICY_UNAVAILABLE", detail: "POLICY_UNAVAILABLE: no Policy Pack is selected; add one to rootform.lock or pass --policy-pack\n\nTry:\n  rootform add policy-packs PACK\n  rootform check " + shellQuote(o.Input) + " --policy-pack DIR"}
+		try := "Try:\n  rootform add policy-packs PACK\n  rootform check " + shellQuote(o.Input) + " --policy-pack DIR"
+		return policyresult.Result{}, checkFailure{exit: cli.ExitNoAnswer, code: "POLICY_UNAVAILABLE",
+			detail:   "POLICY_UNAVAILABLE: no Policy Pack is selected; add one to rootform.lock or pass --policy-pack\n\n" + try,
+			headline: "no Policy Pack is selected",
+			body:     "Add one to rootform.lock or pass --policy-pack.\n\n" + try}
 	}
 	selected, err := packs.resolve(o.Policy)
 	if err != nil {
@@ -272,7 +282,9 @@ func stageUnavailable(err error) checkFailure {
 	if !strings.HasPrefix(message, "STAGE_UNAVAILABLE") {
 		message = "STAGE_UNAVAILABLE: " + message
 	}
-	return checkFailure{exit: cli.ExitNoAnswer, code: "STAGE_UNAVAILABLE", detail: message}
+	headline, body, _ := stageFailureWords(err)
+	return checkFailure{exit: cli.ExitNoAnswer, code: "STAGE_UNAVAILABLE", detail: message,
+		headline: headline, body: body}
 }
 
 // progressWords names the evaluated architectures for the progress line. Two
@@ -324,7 +336,8 @@ func selectionStop(failure selectionFailure) checkFailure {
 	if failure.operational {
 		exit = cli.ExitFailure
 	}
-	return checkFailure{exit: exit, code: failure.Code, detail: detail, message: failure.Message}
+	return checkFailure{exit: exit, code: failure.Code, detail: detail, message: failure.Message,
+		headline: statement, body: failure.detail}
 }
 
 // identify stamps what the invocation established on a result.
@@ -355,7 +368,11 @@ func (s checkService) fail(run *checkRun, failure checkFailure) error {
 	}
 	if err != nil {
 		failuref(s.stderr, "%s", failure.detail)
-		return cli.RunError{Code: cli.ExitFailure, Message: err.Error()}
+		return outputRunError(err)
+	}
+	if failure.headline != "" {
+		return technicalError(failure.exit, failure.code, failure.detail,
+			failure.headline, failure.body)
 	}
 	return cli.RunError{Code: failure.exit, Message: failure.detail}
 }
@@ -369,7 +386,7 @@ func (s checkService) conclude(run *checkRun, result policyresult.Result) error 
 		return cli.RunError{Code: cli.ExitFailure, Message: err.Error()}
 	}
 	if err := writeRendered(s.stdout, s.stderr, files, stdoutBody, checkStdoutFormat(run.options) == "text"); err != nil {
-		return cli.RunError{Code: cli.ExitFailure, Message: err.Error()}
+		return outputRunError(err)
 	}
 	if code := policyresult.ExitCode(result.Status); code != cli.ExitOK {
 		return cli.RunError{Code: code}

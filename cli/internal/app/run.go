@@ -126,18 +126,20 @@ func (s runService) run(ctx context.Context, options cli.Options) error {
 	if len(result.operands) == 2 {
 		before, selectErr := selectRunStage(result.operands[0].result.Decoded, options.BeforeStage)
 		if selectErr != nil {
-			return cli.RunError{Code: cli.ExitNoAnswer, Message: selectErr.Error()}
+			return stageRunError(selectErr)
 		}
 		after, selectErr := selectRunStage(result.operands[1].result.Decoded, options.AfterStage)
 		if selectErr != nil {
-			return cli.RunError{Code: cli.ExitNoAnswer, Message: selectErr.Error()}
+			return stageRunError(selectErr)
 		}
 		progressDirection(s.stderr, "Comparing",
 			fmt.Sprintf("Before %s (%s)", stageWords(before.Stage), result.operands[0].name),
 			fmt.Sprintf("-> After %s (%s)", stageWords(after.Stage), result.operands[1].name))
 		result.decoded = form.Form{Comparison: s.backend.Compare(ctx, before, after)}
 		if err := result.decoded.Comparison.Validate(); err != nil {
-			return cli.RunError{Code: cli.ExitFailure, Message: "COMPARISON_INVALID: the comparison Form failed validation"}
+			return technicalError(cli.ExitFailure, "COMPARISON_INVALID",
+				"COMPARISON_INVALID: the comparison Form failed validation",
+				"the comparison Form failed validation", "")
 		}
 	}
 	if err := result.selectFocus(options); err != nil {
@@ -164,7 +166,7 @@ func (s runService) run(ctx context.Context, options cli.Options) error {
 	result.presentation = presented.Catalog
 
 	if err := s.writeOutputs(options, result); err != nil {
-		return cli.RunError{Code: cli.ExitFailure, Message: err.Error()}
+		return outputRunError(err)
 	}
 	if options.NoServe {
 		return nil
@@ -188,7 +190,9 @@ func (r *runResult) selectFocus(options cli.Options) error {
 		stage = a.DefaultStage
 	}
 	if a.Stages[stage] == nil {
-		return cli.RunError{Code: cli.ExitNoAnswer, Message: fmt.Sprintf("STAGE_UNAVAILABLE: this input has no %s stage; available: %s", stageWords(stage), strings.Join(availableStages(a), ", "))}
+		return stageRunError(form.StageUnavailableError{
+			Subject: "this input", Stage: stage, Available: availableStages(a),
+		})
 	}
 	r.focus, r.focusStage = a, stage
 	return nil
@@ -210,15 +214,22 @@ func (s runService) serve(ctx context.Context, options cli.Options, r runResult)
 	assets := s.assets
 	served, err := server.NewDocument(r.display, r.presentation, assets, options.Port)
 	if err != nil {
-		return cli.RunError{Code: cli.ExitFailure, Message: "SERVER_FAILED: the explorer could not prepare the result"}
+		return technicalError(cli.ExitFailure, "SERVER_FAILED",
+			"SERVER_FAILED: the explorer could not prepare the result",
+			"the explorer could not prepare the result", "")
 	}
 	addr, err := served.Listen()
 	if err != nil {
 		var conflict server.PortConflictError
 		if errors.As(err, &conflict) && options.Port != 0 {
-			return cli.RunError{Code: cli.ExitFailure, Message: fmt.Sprintf("SERVER_FAILED: port %d is unavailable; pass --port 0 to pick a free port, or --no-serve", options.Port)}
+			return technicalError(cli.ExitFailure, "SERVER_FAILED",
+				fmt.Sprintf("SERVER_FAILED: port %d is unavailable; pass --port 0 to pick a free port, or --no-serve", options.Port),
+				fmt.Sprintf("port %d is unavailable", options.Port),
+				"Pass --port 0 to pick a free port, or --no-serve.")
 		}
-		return cli.RunError{Code: cli.ExitFailure, Message: "SERVER_FAILED: the loopback server could not start"}
+		return technicalError(cli.ExitFailure, "SERVER_FAILED",
+			"SERVER_FAILED: the loopback server could not start",
+			"the loopback server could not start", "")
 	}
 	url := "http://" + addr.String() + "/"
 	if assets == nil {
@@ -284,16 +295,26 @@ func kindWords(kind detect.Kind) string {
 // classifyInputError tells a usage mistake, such as a directory given as an
 // input, from a file that could not be read.
 func classifyInputError(err error, command, input string) error {
-	message := err.Error()
-	switch {
-	case strings.HasPrefix(message, "DIRECTORY_INPUT:"):
-		return cli.RunError{Code: cli.ExitUsage, Message: message + "\n\nTry:\n  terraform show -json plan.tfplan > plan.json\n  rootform " + command + " plan.json"}
-	case strings.Contains(message, "must be a regular file"):
-		return cli.RunError{Code: cli.ExitUsage, Message: fmt.Sprintf("INPUT_UNREADABLE: input %q must be a regular file", input)}
-	case strings.HasPrefix(message, "INPUT_UNREADABLE:"):
-		return cli.RunError{Code: cli.ExitFailure, Message: fmt.Sprintf("INPUT_UNREADABLE: input %q could not be read", input)}
-	case strings.HasPrefix(message, "INPUT_REFUSED:"):
-		return cli.RunError{Code: cli.ExitNoAnswer, Message: fmt.Sprintf("INPUT_REFUSED: input %q exceeds the %s a document may occupy", input, docinput.Limit())}
+	var problem inputFileError
+	if errors.As(err, &problem) {
+		switch problem.kind {
+		case "directory":
+			try := "Try:\n  terraform show -json plan.tfplan > plan.json\n  rootform " + command + " plan.json"
+			return technicalError(cli.ExitUsage, "DIRECTORY_INPUT", problem.Error()+"\n\n"+try,
+				fmt.Sprintf("%q is a directory", input), try)
+		case "not-regular":
+			message := fmt.Sprintf("INPUT_UNREADABLE: input %q must be a regular file", input)
+			return technicalError(cli.ExitUsage, "INPUT_UNREADABLE", message,
+				fmt.Sprintf("input %q must be a regular file", input), "")
+		case "too-large":
+			message := fmt.Sprintf("INPUT_REFUSED: input %q exceeds the %s a document may occupy", input, docinput.Limit())
+			return technicalError(cli.ExitNoAnswer, "INPUT_REFUSED", message,
+				fmt.Sprintf("input %q exceeds the %s limit", input, docinput.Limit()), "")
+		default:
+			message := fmt.Sprintf("INPUT_UNREADABLE: input %q could not be read", input)
+			return technicalError(cli.ExitFailure, "INPUT_UNREADABLE", message,
+				fmt.Sprintf("cannot read %q", input), problem.reason)
+		}
 	}
 	return cli.RunError{Code: cli.ExitNoAnswer, Message: safeRunError(err)}
 }
@@ -331,7 +352,7 @@ func safeRunError(err error) string {
 		return "DOCUMENT_INVALID: the Form failed validation"
 	}
 	if strings.Contains(message, "SEMANTIC_SELECTION:") {
-		return "SEMANTIC_SELECTION: the selected Dialects could not be loaded (" + selectionCause(message) + ")"
+		return "SEMANTIC_SELECTION: the selected Dialects could not be loaded (selection failed)"
 	}
 	if strings.Contains(message, "internal analysis validation") || strings.HasPrefix(message, "ANALYSIS_INVALID") {
 		return "ANALYSIS_INVALID: the compiled Form failed validation"
@@ -342,17 +363,6 @@ func safeRunError(err error) string {
 		}
 	}
 	return "INPUT_INVALID: the input could not be analyzed"
-}
-
-// selectionCause keeps the first line of a selection error: it names the unit
-// and never carries paths or registry responses.
-func selectionCause(message string) string {
-	_, cause, _ := strings.Cut(message, "SEMANTIC_SELECTION: ")
-	cause, _, _ = strings.Cut(cause, "\n")
-	if cause == "" {
-		return "selection failed"
-	}
-	return cause
 }
 
 func documentOption(options cli.Options, index int) string {

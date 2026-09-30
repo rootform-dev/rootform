@@ -236,21 +236,28 @@ func resultArchitectures(result policyresult.Result, side, resultName string) ([
 	if len(recorded) > 0 {
 		words = "only the " + strings.Join(recorded, " and ") + " side"
 	}
-	return nil, cli.RunError{Code: cli.ExitNoAnswer, Message: fmt.Sprintf("SIDE_UNAVAILABLE: %s records no %s side; it records %s", resultName, titleWord(side), words)}
+	headline := fmt.Sprintf("%s records no %s side; it records %s", resultName, titleWord(side), words)
+	return nil, technicalError(cli.ExitNoAnswer, "SIDE_UNAVAILABLE", "SIDE_UNAVAILABLE: "+headline,
+		headline, "")
 }
 
 // matchResultForm accepts an input only when it is the Form the result was
 // computed from, so its evidence can never describe another evaluation.
 func matchResultForm(result policyresult.Result, loaded operand, resultName string) error {
 	if result.Form == nil || result.Form.Digest == "" {
-		return cli.RunError{Code: cli.ExitNoAnswer, Message: fmt.Sprintf("FORM_MISMATCH: %s records no Form, so no input can describe its evidence", resultName)}
+		headline := fmt.Sprintf("%s records no Form, so no input can describe its evidence", resultName)
+		return technicalError(cli.ExitNoAnswer, "FORM_MISMATCH", "FORM_MISMATCH: "+headline,
+			headline, "")
 	}
 	digest, err := form.Digest(loaded.result.Decoded)
 	if err != nil {
 		return cli.RunError{Code: cli.ExitNoAnswer, Message: "DOCUMENT_INVALID: the Form failed validation"}
 	}
 	if digest != result.Form.Digest {
-		return cli.RunError{Code: cli.ExitNoAnswer, Message: fmt.Sprintf("FORM_MISMATCH: %s is not the Form %s was computed from\n\n  Result  %s\n  Input   %s\n\nPass the saved Form that check read, or an export compiled with the same\nDialects and rootform version.", loaded.name, resultName, safeText(result.Form.Digest), digest)}
+		headline := fmt.Sprintf("%s is not the Form %s was computed from", loaded.name, resultName)
+		body := fmt.Sprintf("  Result  %s\n  Input   %s\n\nPass the saved Form that check read, or an export compiled with the same\nDialects and rootform version.", safeText(result.Form.Digest), digest)
+		return technicalError(cli.ExitNoAnswer, "FORM_MISMATCH",
+			"FORM_MISMATCH: "+headline+"\n\n"+body, headline, body)
 	}
 	return nil
 }

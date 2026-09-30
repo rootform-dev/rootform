@@ -170,7 +170,7 @@ func TestUncertaintyTablesCountClosures(t *testing.T) {
 	if !reflect.DeepEqual(block.table.header, []string{"", "Before", "After"}) || !reflect.DeepEqual(block.table.rows, want) {
 		t.Fatalf("table %q / %q", block.table.header, block.table.rows)
 	}
-	if !reflect.DeepEqual(block.lines, []string{severalReasons, unknownUntilApply}) {
+	if !reflect.DeepEqual(block.lines, []string{severalReasons}) {
 		t.Fatalf("lines %q", block.lines)
 	}
 	text := reportText(runReport{verdict: "Inputs compared", blocks: []reportBlock{block}})
@@ -180,6 +180,38 @@ func TestUncertaintyTablesCountClosures(t *testing.T) {
 	md := string(runReport{verdict: "Inputs compared", blocks: []reportBlock{block}}.markdown())
 	if !strings.Contains(md, "| *Unknown until apply* | 1 | 1 |") {
 		t.Fatalf("Markdown table:\n%s", md)
+	}
+}
+
+func TestComparisonSummaryUsesSideCountsWithoutRepeatedExplanation(t *testing.T) {
+	c := &form.ComparisonForm{Comparison: form.Comparison{
+		Before: form.StagePlanned, After: form.StagePlanned, Comparable: true,
+		Indeterminate: []form.IndeterminateClosure{
+			{Side: form.SideBefore}, {Side: form.SideBefore}, {Side: form.SideBefore},
+			{Side: form.SideAfter}, {Side: form.SideAfter}, {Side: form.SideAfter},
+		},
+	}}
+	block := differencesBlock(c, nil, false)
+	if !reflect.DeepEqual(block.rows, [][2]string{{"Indeterminate closures", "3 before, 3 after"}}) || len(block.lead) != 0 {
+		t.Fatalf("differences rows = %q, lead = %q", block.rows, block.lead)
+	}
+	rep := runReport{verdict: "Inputs compared", blocks: []reportBlock{block}}
+	text := reportText(rep)
+	for _, unwanted := range []string{"Before Planned -> After Planned", "Differences between two inputs are not drift"} {
+		if strings.Contains(text, unwanted) || strings.Contains(string(rep.markdown()), unwanted) {
+			t.Fatalf("redundant line %q in report:\n%s", unwanted, text)
+		}
+	}
+}
+
+func TestPlanUncertaintyKeepsCauseWithoutGenericReminder(t *testing.T) {
+	input := &form.InputForm{Stages: map[form.Stage]*form.Architecture{
+		form.StagePlanned: {Closures: []form.Closure{{Outcome: form.OutcomeIndeterminate, Reason: form.ReasonUnknownUntilApply}}},
+	}}
+	block, ok := uncertaintyBlock(stageView{stage: form.StagePlanned, form: input}, false)
+	if !ok || len(block.lines) != 0 || block.table == nil ||
+		!reflect.DeepEqual(block.table.rows, [][]string{{"Indeterminate closures", "1"}, {"  Unknown until apply", "1"}}) {
+		t.Fatalf("uncertainty = %+v, present = %t", block, ok)
 	}
 }
 
@@ -277,6 +309,26 @@ func TestStageWordsAndPopulation(t *testing.T) {
 	text := reportText(runReport{verdict: "Plan analyzed", blocks: []reportBlock{architectureBlock(stageView{stage: form.StagePlanned, form: a}, false)}})
 	if !strings.Contains(text, "1 of 2 declarations have an unverified instance count") {
 		t.Fatal(text)
+	}
+}
+
+func TestArchitectureWithUncertaintyKeepsSummaryConcise(t *testing.T) {
+	a := &form.InputForm{Stages: map[form.Stage]*form.Architecture{
+		form.StagePlanned: {
+			Stage:           form.StagePlanned,
+			Accounting:      form.Accounting{Instances: 1, AppliedInterpretations: 1, Indeterminate: 1},
+			Representations: []form.Representation{{ID: "object"}},
+		},
+	}}
+	block := architectureBlock(stageView{stage: form.StagePlanned, form: a}, false)
+	if len(block.tail) != 0 {
+		t.Fatalf("redundant architecture tail: %q", block.tail)
+	}
+	rep := runReport{verdict: "Plan analyzed", blocks: []reportBlock{block}}
+	for _, rendered := range []string{reportText(rep), string(rep.markdown())} {
+		if strings.Contains(rendered, "A matched Rule does not settle every fact") {
+			t.Fatalf("redundant sentence in report:\n%s", rendered)
+		}
 	}
 }
 

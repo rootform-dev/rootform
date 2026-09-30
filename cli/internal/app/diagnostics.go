@@ -7,8 +7,33 @@ import (
 	"strings"
 
 	"github.com/rootform-dev/rootform/cli/backend"
+	"github.com/rootform-dev/rootform/cli/form"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
 	"github.com/rootform-dev/rootform/cli/internal/human"
 )
+
+func technicalError(exit int, code, message, headline, body string) cli.RunError {
+	return cli.RunError{
+		Code: exit, Message: message, DiagnosticCode: code,
+		Headline: headline, Body: strings.Trim(body, "\n"),
+	}
+}
+
+func stageFailureWords(err error) (string, string, bool) {
+	var unavailable form.StageUnavailableError
+	if !errors.As(err, &unavailable) {
+		return "", "", false
+	}
+	return fmt.Sprintf("%s has no %s stage", unavailable.Subject, stageWords(unavailable.Stage)),
+		"Available: " + strings.Join(unavailable.Available, ", "), true
+}
+
+func stageRunError(err error) cli.RunError {
+	if headline, body, ok := stageFailureWords(err); ok {
+		return technicalError(cli.ExitNoAnswer, "STAGE_UNAVAILABLE", err.Error(), headline, body)
+	}
+	return cli.RunError{Code: cli.ExitNoAnswer, Message: err.Error()}
+}
 
 // failuref states an operational error assembled from values, so no caller
 // hand-builds the prefix the failure primitive owns.

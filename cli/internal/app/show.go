@@ -639,7 +639,7 @@ func (s showService) resolution(index int) (cli.ShowOutcome, error) {
 }
 
 func (s showService) fail(err error) (cli.ShowOutcome, error) {
-	human.Failure(s.stderr, failureStatement(err))
+	refusal(s.stderr, err)
 	if failureKind(err) == backend.Failure {
 		return cli.ShowFailure, nil
 	}

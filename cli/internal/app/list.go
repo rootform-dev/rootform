@@ -153,7 +153,7 @@ func (s listService) listDialects(options cli.ListOptions) (cli.ListOutcome, err
 }
 
 func (s listService) undecided(err error) (cli.ListOutcome, error) {
-	human.Failure(s.stderr, failureStatement(err))
+	refusal(s.stderr, err)
 	if failureKind(err) == backend.Failure {
 		return cli.ListFailure, nil
 	}

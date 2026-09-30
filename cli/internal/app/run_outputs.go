@@ -145,15 +145,56 @@ type renderedOutput struct {
 	body []byte
 }
 
+type outputWriteError struct {
+	message      string
+	failed       []string
+	written      []string
+	stdoutFailed bool
+	permission   bool
+}
+
+func (e outputWriteError) Error() string { return e.message }
+
+func outputRunError(err error) cli.RunError {
+	var failure outputWriteError
+	if !errors.As(err, &failure) {
+		return cli.RunError{Code: cli.ExitFailure, Message: err.Error()}
+	}
+	headline := "cannot write the requested outputs"
+	switch {
+	case len(failure.failed) == 1 && !failure.stdoutFailed:
+		headline = "cannot write " + quoteAll(failure.failed)[0]
+	case len(failure.failed) == 0 && failure.stdoutFailed:
+		headline = "cannot write standard output"
+	}
+	var detail []string
+	if len(failure.failed) > 1 || (len(failure.failed) == 1 && failure.stdoutFailed) {
+		detail = append(detail, "Files not written: "+strings.Join(quoteAll(failure.failed), ", "))
+	}
+	if failure.stdoutFailed && len(failure.failed) > 0 {
+		detail = append(detail, "Standard output could not be written")
+	}
+	if failure.permission {
+		detail = append(detail, "permission denied")
+	}
+	if len(failure.written) > 0 {
+		detail = append(detail, "Written: "+strings.Join(quoteAll(failure.written), ", "))
+	}
+	return technicalError(cli.ExitFailure, "OUTPUT_FAILED", failure.message,
+		headline, strings.Join(detail, "\n"))
+}
+
 // writeRendered writes each file through a temporary sibling renamed into
 // place, then standard output, which is written even when a file failed. A
 // human report opens in the pager only then, once every file is in place. A
 // failure names the files that were written.
 func writeRendered(stdout, stderr io.Writer, files []renderedOutput, stdoutBody []byte, report bool) error {
 	written, failed := []string{}, []string{}
+	permission := false
 	for _, file := range files {
 		if err := writeAtomicOutput(file.path, file.body); err != nil {
 			failed = append(failed, file.path)
+			permission = permission || errors.Is(err, os.ErrPermission)
 			continue
 		}
 		written = append(written, file.path)
@@ -181,7 +222,8 @@ func writeRendered(stdout, stderr io.Writer, files []renderedOutput, stdoutBody 
 	if len(written) > 0 {
 		message += "; written: " + strings.Join(quoteAll(written), ", ")
 	}
-	return errors.New(message)
+	return outputWriteError{message: message, failed: failed, written: written,
+		stdoutFailed: stdoutFailed, permission: permission}
 }
 
 // writeOutputs renders every requested format from the one result first, so

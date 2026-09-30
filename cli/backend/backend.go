@@ -617,8 +617,8 @@ const (
 // internal detail beyond what the command states.
 type Error struct {
 	Kind Kind
-	// Code is the diagnostic code a machine report carries. It is empty
-	// when Message already leads with its code.
+	// Code is the stable diagnostic code. Message may also lead with it for
+	// existing machine consumers.
 	Code string
 	// Message is the statement a machine report carries.
 	Message string

@@ -43,18 +43,12 @@ The command returns status `0` because the comparison completed, even though it 
   [2mIndeterminate closures[0m       3       3
   [2m  Unknown until apply[0m        3       3
 
-  Values known only after apply stay unknown; they are not guessed.
-
 [1m[38;5;208mDifferences[0m
-  Before Planned -> After Planned
-  Differences between two inputs are not drift; they do not establish what
-  drifted between the two exports.
-
   [2mInstances[0m               16 added, 7 removed
   [2mRelations[0m               5 added, 5 removed
   [2mContexts[0m                28 added, 17 removed
   [2mContributions[0m           9 added, 1 removed
-  [2mIndeterminate closures[0m  3 in Before Planned, 3 in After Planned
+  [2mIndeterminate closures[0m  3 before, 3 after
 
   [1mInstances[0m
     [32m+[0m azurerm_linux_function_app.order_notifications  [2madded[0m
