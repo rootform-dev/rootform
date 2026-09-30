@@ -43,7 +43,7 @@ selected Policy Packs remain active. `--offline` limits vendoring to verified
 local or installed content.
 
 Start from a project whose lock selects a Policy Pack, as in
-[Use external content](../../../guides/external-content.md). The commands
+[Add external content](../../../guides/external-content.md). The commands
 below do not create that selection.
 
 <!-- docs-check:docs-reference-cli-vendor-policy-packs-1 -->

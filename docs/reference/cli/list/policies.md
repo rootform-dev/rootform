@@ -58,5 +58,5 @@ the definitions were listed, `2` means the command was used incorrectly,
 `3` means the project selection or catalog could not be loaded, and `4` means
 the listing could not be written. To inspect one definition, use
 [`show policy`](../show/policy.md); to evaluate it, see
-[Follow a Policy through every outcome](../../../guides/check-architecture.md) or the
+[Understand Policy outcomes](../../../guides/check-architecture.md) or the
 [`check` CLI reference](../check.md).

@@ -5,11 +5,7 @@
       { "label": "Overview", "page": "index" },
       { "label": "Quickstart", "page": "getting-started/quickstart" },
       { "label": "Install Rootform", "page": "installation" },
-      { "label": "Analyze your own plan", "page": "getting-started/analyze-your-plan" },
-      {
-        "label": "Follow the evidence behind a placement",
-        "page": "getting-started/first-architecture"
-      }
+      { "label": "Analyze your own plan", "page": "getting-started/analyze-your-plan" }
     ]
   },
   {
@@ -30,7 +26,7 @@
       { "label": "Review a pull request", "page": "workflows" },
       { "label": "Run in CI", "page": "integrations/ci" },
       { "label": "GitHub Actions", "page": "integrations/github-actions" },
-      { "label": "Follow a Policy through every outcome", "page": "guides/check-architecture" }
+      { "label": "Understand Policy outcomes", "page": "guides/check-architecture" }
     ]
   },
   {
@@ -38,6 +34,7 @@
     "items": [
       { "label": "How Rootform works", "page": "concepts" },
       { "label": "Forms and stages", "page": "concepts/forms" },
+      { "label": "Trace a placement", "page": "getting-started/first-architecture" },
       { "label": "Comparisons and drift", "page": "concepts/comparisons" },
       { "label": "Dialects and RF Vocabulary", "page": "concepts/dialects" },
       { "label": "Policies and Policy Packs", "page": "concepts/policies" },

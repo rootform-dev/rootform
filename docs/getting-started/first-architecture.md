@@ -1,5 +1,5 @@
 ---
-title: Follow the evidence behind a placement
+title: Trace a placement
 description: Plan a VPC and subnet, see how a saved plan settles a reference unknown until apply, and read the same evidence in the Explorer and the terminal.
 ---
 
@@ -226,4 +226,4 @@ saved Form answers your question better.
 
 Next, read [Forms and stages](../concepts/forms.md) for the model behind
 closures and stages, or see how the same uncertainty reaches a verdict in
-[Follow a Policy through every outcome](../guides/check-architecture.md).
+[Understand Policy outcomes](../guides/check-architecture.md).

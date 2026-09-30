@@ -1,5 +1,5 @@
 ---
-title: "Follow a Policy through every outcome"
+title: "Understand Policy outcomes"
 description: "See one Policy pass, fail, stay indeterminate, and find no target on plans you produce yourself."
 ---
 
@@ -36,7 +36,7 @@ The target selects instances interpreted by either named AWS Rule. The assertion
 
 ## Prepare the three plans
 
-Use the same AWS provider configuration in each scenario. As in [Follow the evidence behind a placement](../getting-started/first-architecture.md), placeholder credentials grant no account access and skipped validation lets these examples plan without an AWS account. Never copy these placeholder settings into a real project. In each directory, save this provider block as `provider.tf`:
+Use the same AWS provider configuration in each scenario. As in [Trace a placement](../getting-started/first-architecture.md), placeholder credentials grant no account access and skipped validation lets these examples plan without an AWS account. Never copy these placeholder settings into a real project. In each directory, save this provider block as `provider.tf`:
 
 ```hcl title="provider.tf"
 terraform {

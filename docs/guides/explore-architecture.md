@@ -77,7 +77,7 @@ Rule `azure.rule.subnet` and the attribute `source.virtual_network_name`; the
 value is unknown until apply, the saved-plan traversal settles the fact.
 [Pair the saved plan](../inputs/plans.md#pair-the-saved-plan) explains the
 pairing requirement, and
-[Follow the evidence behind a placement](../getting-started/first-architecture.md)
+[Trace a placement](../getting-started/first-architecture.md)
 shows the same closure with and without it.
 
 ## Why is it connected?

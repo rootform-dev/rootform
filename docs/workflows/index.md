@@ -273,7 +273,7 @@ Status `1` blocks on a confirmed violation; `3` means no compliant verdict,
 including indeterminate results and Policies that found no target. A check
 without selected Policies makes no compliance claim. When `rootform.lock`
 selects the Policy Packs, pass `--locked --project <dir>` in place of
-`--policy-pack`. [Follow a Policy through every outcome](../guides/check-architecture.md) explains
+`--policy-pack`. [Understand Policy outcomes](../guides/check-architecture.md) explains
 target coverage and result interpretation.
 
 ### Preserve results and clean temporary files

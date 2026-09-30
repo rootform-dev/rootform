@@ -142,7 +142,7 @@ analysis failure by itself.
 Reports are written for every verdict. No selected Policies means no
 compliance claim. For Policy coverage and results, see
 [Check a Form with Policies](../guides/check-with-policies.md) and
-[Follow a Policy through every outcome](../guides/check-architecture.md).
+[Understand Policy outcomes](../guides/check-architecture.md).
 
 ## Read the Policy result
 

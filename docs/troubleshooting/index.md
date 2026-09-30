@@ -149,7 +149,7 @@ Only explicit acquisition or publication crosses that boundary; normal `run` doe
 
 ## A Policy is unavailable or has no decision
 
-Selecting a Policy without any Policy Pack returns `POLICY_UNAVAILABLE: no Policy Pack is selected; add one to rootform.lock or pass --policy-pack`. Select a reviewed Policy Pack, then run `rootform check`. A selected Policy Pack can still find no target: the check summary reports `Evaluations    0` and `Verdict        NO DECISION`, then exits `3`. Inspect the target with `rootform show policy <identifier>` and compare it with the Form's interpreted Concepts and Rules. Zero evaluations are not compliance. [Target scope is exact](../concepts/policies.md#target-scope-is-exact) explains matching, and [Follow a Policy through every outcome](../guides/check-architecture.md) shows target coverage.
+Selecting a Policy without any Policy Pack returns `POLICY_UNAVAILABLE: no Policy Pack is selected; add one to rootform.lock or pass --policy-pack`. Select a reviewed Policy Pack, then run `rootform check`. A selected Policy Pack can still find no target: the check summary reports `Evaluations    0` and `Verdict        NO DECISION`, then exits `3`. Inspect the target with `rootform show policy <identifier>` and compare it with the Form's interpreted Concepts and Rules. Zero evaluations are not compliance. [Target scope is exact](../concepts/policies.md#target-scope-is-exact) explains matching, and [Understand Policy outcomes](../guides/check-architecture.md) shows target coverage.
 
 ## A Policy is indeterminate or violated
 

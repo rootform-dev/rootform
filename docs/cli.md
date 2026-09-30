@@ -58,7 +58,7 @@ rootform check plan.json --plan-file plan.tfplan --require-enrichment \
   --policy-pack ./policies -o report.md
 ```
 
-The command pairs the saved plan with the export, writes a Policy report, and exits `0` only when all selected evaluations pass. A violation exits `1`; indeterminate or zero evaluated targets exits `3`. Read the report's target counts before calling the result compliant. The override applies only to this check. A lock remains unchanged. [Follow a Policy through every outcome](guides/check-architecture.md) gives a complete Policy example.
+The command pairs the saved plan with the export, writes a Policy report, and exits `0` only when all selected evaluations pass. A violation exits `1`; indeterminate or zero evaluated targets exits `3`. Read the report's target counts before calling the result compliant. The override applies only to this check. A lock remains unchanged. [Understand Policy outcomes](guides/check-architecture.md) gives a complete Policy example.
 
 ## Keep external content selected
 

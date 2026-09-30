@@ -42,7 +42,7 @@ that project root use it exclusively for selected external Dialects. Use
 vendoring nor `--to` changes the lock.
 
 Start from a project whose lock selects an external Dialect, as in
-[Use external content](../../../guides/external-content.md). The commands
+[Add external content](../../../guides/external-content.md). The commands
 below do not create that selection.
 
 ```sh
