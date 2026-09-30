@@ -188,14 +188,11 @@ Uncertainty
   Indeterminate closures       3       3
     Unknown until apply        3       3
 Differences
-  Before Planned -> After Planned
-  Differences between two inputs are not drift; they do not establish what
-  drifted between the two exports.
   Instances               16 added, 7 removed
   Relations               5 added, 5 removed
   Contexts                28 added, 17 removed
   Contributions           9 added, 1 removed
-  Indeterminate closures  3 in Before Planned, 3 in After Planned
+  Indeterminate closures  3 before, 3 after
 ```
 
 Here the branch adds 16 planned instances and removes 7. Inspect determined

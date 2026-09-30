@@ -734,10 +734,6 @@ func sum(values []int) int {
 // one reason.
 const severalReasons = "A closure can have more than one reason, so its reasons can add up to more than the count."
 
-// unknownUntilApply qualifies an uncertainty table that counts values the
-// plan leaves unknown.
-const unknownUntilApply = "Values known only after apply stay unknown; they are not guessed."
-
 // uncertaintyBlock separates what the evidence could not settle from what the
 // Dialects do not cover. It counts the closures and interpretations of one
 // stage, in a table headed by that stage.
@@ -782,9 +778,6 @@ func uncertaintyBlock(v stageView, details bool) (reportBlock, bool) {
 	if several {
 		block.lines = append(block.lines, severalReasons)
 	}
-	if closures.reasons[0][string(form.ReasonUnknownUntilApply)] > 0 {
-		block.lines = append(block.lines, unknownUntilApply)
-	}
 	return block, true
 }
 
@@ -819,22 +812,7 @@ func comparisonUncertaintyBlock(c *form.Comparison) (reportBlock, bool) {
 	if several {
 		block.lines = append(block.lines, severalReasons)
 	}
-	for _, entry := range c.Indeterminate {
-		if hasReason(entry.Reasons, form.ReasonUnknownUntilApply) {
-			block.lines = append(block.lines, unknownUntilApply)
-			break
-		}
-	}
 	return block, true
-}
-
-func hasReason(reasons []form.Reason, wanted form.Reason) bool {
-	for _, reason := range reasons {
-		if reason == wanted {
-			return true
-		}
-	}
-	return false
 }
 
 // planBlocks states the changes a plan records: its planned changes, the
@@ -1070,7 +1048,10 @@ func comparisonBlock(title string, c, drift *form.Comparison, names map[string]s
 	if cross {
 		before, after = "Before "+before, "After "+after
 	}
-	block := reportBlock{title: title, role: comparisonRoles[title], lead: []string{before + " -> " + after}, budget: reportPreviewLimit, comparison: c}
+	block := reportBlock{title: title, role: comparisonRoles[title], budget: reportPreviewLimit, comparison: c}
+	if !cross {
+		block.lead = []string{before + " -> " + after}
+	}
 	if !c.Comparable {
 		for _, problem := range c.Problems {
 			block.lines = append(block.lines, "Not comparable: "+problem.Message)
@@ -1082,7 +1063,7 @@ func comparisonBlock(title string, c, drift *form.Comparison, names map[string]s
 		return block
 	}
 	tabled := reasons && len(c.Indeterminate) > 0
-	block.rows = changeRows(c, before, after, !tabled)
+	block.rows = changeRows(c, before, after, !tabled, cross)
 	if tabled {
 		table, several := indeterminateTable(c.Indeterminate, before, after)
 		block.table = table
@@ -1168,7 +1149,7 @@ func byBucket(items []reportItem, order []string) []reportItem {
 
 // changeRows counts a comparison with units: instances, each fact kind, and,
 // unless a table states them, the closures it could not settle.
-func changeRows(c *form.Comparison, before, after string, indeterminate bool) [][2]string {
+func changeRows(c *form.Comparison, before, after string, indeterminate, cross bool) [][2]string {
 	n := c.Counts
 	var rows [][2]string
 	verbs := instanceVerbs(plannedComparison(c))
@@ -1190,7 +1171,7 @@ func changeRows(c *form.Comparison, before, after string, indeterminate bool) []
 		}
 	}
 	if indeterminate {
-		rows = append(rows, [2]string{"Indeterminate closures", indeterminateWords(c.Indeterminate, before, after)})
+		rows = append(rows, [2]string{"Indeterminate closures", indeterminateWords(c.Indeterminate, before, after, cross)})
 	}
 	if n.Cancelled > 0 {
 		rows = append(rows, [2]string{"Cancelled", countWithNoun(n.Cancelled, "drift fact change", "drift fact changes") + ", restoration planned"})
@@ -1198,14 +1179,8 @@ func changeRows(c *form.Comparison, before, after string, indeterminate bool) []
 	return rows
 }
 
-// crossNotDrift qualifies the differences between two inputs: they compare
-// two exports and establish nothing about what drifted between them.
-const crossNotDrift = "Differences between two inputs are not drift; they do not establish what drifted between the two exports."
-
 func differencesBlock(c *form.ComparisonForm, names map[string]string, reasons bool) reportBlock {
-	block := comparisonBlock("Differences", &c.Comparison, nil, names, true, reasons)
-	block.lead = append(block.lead, crossNotDrift)
-	return block
+	return comparisonBlock("Differences", &c.Comparison, nil, names, true, reasons)
 }
 
 // netBlock states the net change of a plan. It reads as the planned changes
@@ -1486,7 +1461,7 @@ func runDiagnosticList(decoded form.Form) []form.Diagnostic {
 
 // indeterminateWords counts the unsettled closures of each side apart, as
 // indeterminateTable does, without their reasons.
-func indeterminateWords(entries []form.IndeterminateClosure, before, after string) string {
+func indeterminateWords(entries []form.IndeterminateClosure, before, after string, compact bool) string {
 	if len(entries) == 0 {
 		return "0"
 	}
@@ -1497,6 +1472,10 @@ func indeterminateWords(entries []form.IndeterminateClosure, before, after strin
 	parts := []string{}
 	for _, side := range []string{form.SideBefore, form.SideAfter} {
 		if totals[side] == 0 {
+			continue
+		}
+		if compact {
+			parts = append(parts, fmt.Sprintf("%d %s", totals[side], side))
 			continue
 		}
 		stage := before

@@ -356,7 +356,7 @@ func (rep runReport) scope(b *reportBlock) string {
 	c := b.comparison
 	before, after := strong(stageWords(c.Before)), strong(stageWords(c.After))
 	if b.role == roleDifferences {
-		return mdText(rep.verdict) + ". Differences compare the " + before + " stage of **Before** with the " + after + " stage of **After**. " + mdText(crossNotDrift)
+		return mdText(rep.verdict) + ". Differences compare the " + before + " stage of **Before** with the " + after + " stage of **After**."
 	}
 	return mdText(rep.verdict) + ". " + mdText(b.title) + " compare " + before + " with " + after + "."
 }
@@ -436,7 +436,7 @@ func writeCounts(v *review, b *reportBlock) {
 		v.grid(header, true, rows)
 	}
 	if b.table == nil && len(c.Indeterminate) > 0 && b.role != roleDifferences {
-		v.paragraph(mdText("Indeterminate closures: " + indeterminateWords(c.Indeterminate, stageWords(c.Before), stageWords(c.After)) + "."))
+		v.paragraph(mdText("Indeterminate closures: " + indeterminateWords(c.Indeterminate, stageWords(c.Before), stageWords(c.After), false) + "."))
 	}
 }
 

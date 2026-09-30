@@ -150,7 +150,6 @@ rootform run plan.json --no-serve
                           [2mPlanned[0m
   [2mIndeterminate closures[0m        1
   [2m  Unknown until apply[0m         1
-  Values known only after apply stay unknown; they are not guessed.
 ```
 
 The VPC ID is unknown until apply. The JSON export alone does not say which
