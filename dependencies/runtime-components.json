@@ -12,6 +12,17 @@
       "version": "cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85"
     },
     {
+      "copyright_text": "NOASSERTION",
+      "kind": "asset",
+      "extracted_text": "Google Cloud product icons — development preview notice\n\nStatus: DEVELOPMENT PREVIEW. This is not a release decision.\n\nOfficial page: https://cloud.google.com/icons\nOfficial archive: https://services.google.com/fh/files/misc/google-cloud-legacy-icons.zip\nArchive version: legacy-product-icons-2021-10-14\nArchive SHA-256: a6d9d7921758042538b462f03cf64614c2cebd96743b3ed63580a769fc7de3e9\nArchive entry date: 2021-10-14\nArchive downloaded: 2026-09-28\n\nRootform has not cleared Google Cloud icon terms for redistribution. These\nicons are embedded only so that Google visual identity can be validated during\nrenderer development. No redistribution right is claimed, granted, or implied\nby their presence in this repository.\n\nSelected Google Cloud product icons are preserved unmodified apart from\nrender-preserving SVG optimization that changes no geometry, color, or shape.\nRootform does not crop, flip, rotate, distort, recolor, or redraw them, and\nnever uses a Google icon as Rootform product identity. Rootform is not\naffiliated with, endorsed by, or sponsored by Google.\n\nGoogle Cloud and other Google product names and logos are trademarks of\nGoogle LLC.\n\nBefore any release, publication, or distribution that carries these assets,\nRootform must review Google's current icon and brand terms, clear\nredistribution rights, and record the outcome. If rights are not secured,\nthese assets and their google/* identities must be removed and Google semantic\nrules must resolve to provider-neutral symbols again.\n",
+      "license_concluded": "LicenseRef-Google-Cloud-Icons-Development-Preview-Rights-Not-Cleared",
+      "license_declared": "LicenseRef-Google-Cloud-Icons-Development-Preview-Rights-Not-Cleared",
+      "license_text_sha256": "107464954ea982fad2d1205102a9ace7b14400cc0cf689fc374bbb941ab24150",
+      "name": "Google Cloud Product Icons (development preview)",
+      "upstream": "https://cloud.google.com/icons",
+      "version": "legacy-product-icons-2021-10-14"
+    },
+    {
       "copyright_text": "Copyright © 2017 IBM Corp. with Reserved Font Name \"Plex\"",
       "kind": "asset",
       "license_concluded": "OFL-1.1",
@@ -69,8 +80,8 @@
       "license_declared": "MPL-2.0",
       "license_text_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
       "name": "Rootform Dialects",
-      "upstream": "https://github.com/rootform-dev/rootform/tree/7979b2a4b26080f4204da8d5ea7cb1a005ef3595",
-      "version": "7979b2a4b26080f4204da8d5ea7cb1a005ef3595"
+      "upstream": "https://github.com/rootform-dev/rootform/tree/44a4e8a33cf486b2dca56c1eb05c24972a0ed0b8",
+      "version": "44a4e8a33cf486b2dca56c1eb05c24972a0ed0b8"
     },
     {
       "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2016 ALRUX Inc.",
@@ -231,7 +242,7 @@
       "license_text_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
       "name": "github.com/rootform-dev/rootform/cli",
       "upstream": "https://github.com/rootform-dev/rootform/cli",
-      "version": "v0.0.0-20260929211806-7979b2a4b260"
+      "version": "v0.0.0-20260930135901-44a4e8a33cf4"
     },
     {
       "copyright_text": "(c) You must retain, in the Source form of any Derivative Works",
@@ -460,6 +471,16 @@
       "license_concluded": "MIT",
       "license_declared": "MIT",
       "license_text_sha256": "769d154fbde32a915af110b1123650bc79f4cbe675acc66e005265bf069c6c6c",
+      "name": "@jridgewell/sourcemap-codec",
+      "upstream": "https://github.com/jridgewell/sourcemaps",
+      "version": "1.6.0"
+    },
+    {
+      "copyright_text": "Copyright 2024 Justin Ridgewell <justin@ridgewell.name>",
+      "kind": "web-package",
+      "license_concluded": "MIT",
+      "license_declared": "MIT",
+      "license_text_sha256": "769d154fbde32a915af110b1123650bc79f4cbe675acc66e005265bf069c6c6c",
       "name": "@jridgewell/trace-mapping",
       "upstream": "https://github.com/jridgewell/sourcemaps",
       "version": "0.3.31"
@@ -472,7 +493,7 @@
       "license_text_sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
       "name": "@lucide/svelte",
       "upstream": "https://github.com/lucide-icons/lucide",
-      "version": "1.47.0"
+      "version": "1.48.0"
     },
     {
       "copyright_text": "Copyright (c) 2022 Tyreal Hu; Copyright (c) 2025 The Svelte Team",
@@ -532,7 +553,7 @@
       "license_text_sha256": "91b34549ceba8602e9a763d32443fa2ae92fba1a148b45e71ad480c723004818",
       "name": "bits-ui",
       "upstream": "https://www.npmjs.com/package/bits-ui",
-      "version": "2.19.2"
+      "version": "2.19.3"
     },
     {
       "copyright_text": "Copyright (c) Luke Edwards <luke.edwards05@gmail.com> (lukeed.com)",
@@ -562,7 +583,7 @@
       "license_text_sha256": "e399db7e952e45cae84f1b53d72ba8dbad2daaa7ab8cd1f0ab72fea5ab73b225",
       "name": "devalue",
       "upstream": "https://www.npmjs.com/package/devalue",
-      "version": "5.9.0"
+      "version": "5.9.4"
     },
     {
       "copyright_text": "Copyright 2022 Benjamin McCann",
@@ -582,7 +603,7 @@
       "license_text_sha256": "8f8f0696ab4041a885d28bddf82e2ad673a6522cb644d6f972237f4f6e172a1d",
       "name": "esrap",
       "upstream": "https://github.com/sveltejs/esrap",
-      "version": "2.3.3"
+      "version": "2.4.0"
     },
     {
       "copyright_text": "Copyright (c) 2012 TJ Holowaychuk <tj@vision-media.ca>",
@@ -672,7 +693,7 @@
       "license_text_sha256": "06257f4847b13a49a039efb17b944c141e71b12fd8d231b362d86919067d77a3",
       "name": "svelte",
       "upstream": "https://github.com/sveltejs/svelte",
-      "version": "5.57.0"
+      "version": "5.57.1"
     },
     {
       "copyright_text": "Copyright (c) 2015 David Clark",

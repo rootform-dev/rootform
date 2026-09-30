@@ -10,15 +10,15 @@ line.
 URLs are provenance references only. Rootform never fetches or executes them
 at runtime.
 
-dialect-bundle: Rootform Dialects@7979b2a4b26080f4204da8d5ea7cb1a005ef3595
+dialect-bundle: Rootform Dialects@44a4e8a33cf486b2dca56c1eb05c24972a0ed0b8
 --------------------------------------------------------------------------
 Declared license: MPL-2.0
 Concluded license: MPL-2.0
-Upstream: https://github.com/rootform-dev/rootform/tree/7979b2a4b26080f4204da8d5ea7cb1a005ef3595
+Upstream: https://github.com/rootform-dev/rootform/tree/44a4e8a33cf486b2dca56c1eb05c24972a0ed0b8
 Copyright: (c) under Patent Claims infringed by Covered Software in the absence of
 License text SHA-256: 1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5
 
------ BEGIN LICENSE TEXT: Rootform Dialects@7979b2a4b26080f4204da8d5ea7cb1a005ef3595 -----
+----- BEGIN LICENSE TEXT: Rootform Dialects@44a4e8a33cf486b2dca56c1eb05c24972a0ed0b8 -----
 Mozilla Public License Version 2.0
 ==================================
 
@@ -392,7 +392,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
   This Source Code Form is "Incompatible With Secondary Licenses", as
   defined by the Mozilla Public License, v. 2.0.
------ END LICENSE TEXT: Rootform Dialects@7979b2a4b26080f4204da8d5ea7cb1a005ef3595 -----
+----- END LICENSE TEXT: Rootform Dialects@44a4e8a33cf486b2dca56c1eb05c24972a0ed0b8 -----
 
 
 go-module: github.com/agext/levenshtein@v1.2.1
@@ -3023,7 +3023,7 @@ License text SHA-256: b0a3f39513927db306adabea11d14c23f079d4febcea241d123a68d1a0
 ----- END LICENSE TEXT: github.com/opencontainers/image-spec@v1.1.1 -----
 
 
-go-module: github.com/rootform-dev/rootform/cli@v0.0.0-20260929211806-7979b2a4b260
+go-module: github.com/rootform-dev/rootform/cli@v0.0.0-20260930135901-44a4e8a33cf4
 ----------------------------------------------------------------------------------
 Declared license: Apache-2.0
 Concluded license: Apache-2.0
@@ -3031,7 +3031,7 @@ Upstream: https://github.com/rootform-dev/rootform/cli
 Copyright: (c) You must retain, in the Source form of any Derivative Works
 License text SHA-256: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30
 
------ BEGIN LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20260929211806-7979b2a4b260 -----
+----- BEGIN LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20260930135901-44a4e8a33cf4 -----
 
                                  Apache License
                            Version 2.0, January 2004
@@ -3234,7 +3234,7 @@ License text SHA-256: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
------ END LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20260929211806-7979b2a4b260 -----
+----- END LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20260930135901-44a4e8a33cf4 -----
 
 
 go-module: github.com/spf13/cobra@v1.10.2
@@ -4172,6 +4172,48 @@ Logo Policy and Brand Toolkit:
 https://docs.github.com/en/site-policy/other-site-policies/github-logo-policy
 https://brand.github.com/foundations/logo
 ----- END LICENSE TEXT: GitHub Mark@cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85 -----
+
+
+asset: Google Cloud Product Icons (development preview)@legacy-product-icons-2021-10-14
+---------------------------------------------------------------------------------------
+Declared license: LicenseRef-Google-Cloud-Icons-Development-Preview-Rights-Not-Cleared
+Concluded license: LicenseRef-Google-Cloud-Icons-Development-Preview-Rights-Not-Cleared
+Upstream: https://cloud.google.com/icons
+Copyright: NOASSERTION
+License text SHA-256: 107464954ea982fad2d1205102a9ace7b14400cc0cf689fc374bbb941ab24150
+
+----- BEGIN LICENSE TEXT: Google Cloud Product Icons (development preview)@legacy-product-icons-2021-10-14 -----
+Google Cloud product icons — development preview notice
+
+Status: DEVELOPMENT PREVIEW. This is not a release decision.
+
+Official page: https://cloud.google.com/icons
+Official archive: https://services.google.com/fh/files/misc/google-cloud-legacy-icons.zip
+Archive version: legacy-product-icons-2021-10-14
+Archive SHA-256: a6d9d7921758042538b462f03cf64614c2cebd96743b3ed63580a769fc7de3e9
+Archive entry date: 2021-10-14
+Archive downloaded: 2026-09-28
+
+Rootform has not cleared Google Cloud icon terms for redistribution. These
+icons are embedded only so that Google visual identity can be validated during
+renderer development. No redistribution right is claimed, granted, or implied
+by their presence in this repository.
+
+Selected Google Cloud product icons are preserved unmodified apart from
+render-preserving SVG optimization that changes no geometry, color, or shape.
+Rootform does not crop, flip, rotate, distort, recolor, or redraw them, and
+never uses a Google icon as Rootform product identity. Rootform is not
+affiliated with, endorsed by, or sponsored by Google.
+
+Google Cloud and other Google product names and logos are trademarks of
+Google LLC.
+
+Before any release, publication, or distribution that carries these assets,
+Rootform must review Google's current icon and brand terms, clear
+redistribution rights, and record the outcome. If rights are not secured,
+these assets and their google/* identities must be removed and Google semantic
+rules must resolve to provider-neutral symbols again.
+----- END LICENSE TEXT: Google Cloud Product Icons (development preview)@legacy-product-icons-2021-10-14 -----
 
 
 asset: IBM Plex Mono@20
@@ -5269,6 +5311,37 @@ SOFTWARE.
 ----- END LICENSE TEXT: @jridgewell/sourcemap-codec@1.5.5 -----
 
 
+web-package: @jridgewell/sourcemap-codec@1.6.0
+----------------------------------------------
+Declared license: MIT
+Concluded license: MIT
+Upstream: https://github.com/jridgewell/sourcemaps
+Copyright: Copyright 2024 Justin Ridgewell <justin@ridgewell.name>
+License text SHA-256: 769d154fbde32a915af110b1123650bc79f4cbe675acc66e005265bf069c6c6c
+
+----- BEGIN LICENSE TEXT: @jridgewell/sourcemap-codec@1.6.0 -----
+Copyright 2024 Justin Ridgewell <justin@ridgewell.name>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+----- END LICENSE TEXT: @jridgewell/sourcemap-codec@1.6.0 -----
+
+
 web-package: @jridgewell/trace-mapping@0.3.31
 ---------------------------------------------
 Declared license: MIT
@@ -5300,7 +5373,7 @@ SOFTWARE.
 ----- END LICENSE TEXT: @jridgewell/trace-mapping@0.3.31 -----
 
 
-web-package: @lucide/svelte@1.47.0
+web-package: @lucide/svelte@1.48.0
 ----------------------------------
 Declared license: ISC
 Concluded license: ISC
@@ -5308,7 +5381,7 @@ Upstream: https://github.com/lucide-icons/lucide
 Copyright: Copyright (c) 2026 Lucide Icons and Contributors; Copyright (c) 2013-present Cole Bemis
 License text SHA-256: b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57
 
------ BEGIN LICENSE TEXT: @lucide/svelte@1.47.0 -----
+----- BEGIN LICENSE TEXT: @lucide/svelte@1.48.0 -----
 ISC License
 
 Copyright (c) 2026 Lucide Icons and Contributors
@@ -5352,7 +5425,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
------ END LICENSE TEXT: @lucide/svelte@1.47.0 -----
+----- END LICENSE TEXT: @lucide/svelte@1.48.0 -----
 
 
 web-package: @sveltejs/acorn-typescript@1.0.13
@@ -5881,7 +5954,7 @@ limitations under the License.
 ----- END LICENSE TEXT: axobject-query@4.1.0 -----
 
 
-web-package: bits-ui@2.19.2
+web-package: bits-ui@2.19.3
 ---------------------------
 Declared license: MIT
 Concluded license: MIT
@@ -5889,7 +5962,7 @@ Upstream: https://www.npmjs.com/package/bits-ui
 Copyright: Copyright (c) 2023 Hunter Johnston
 License text SHA-256: 91b34549ceba8602e9a763d32443fa2ae92fba1a148b45e71ad480c723004818
 
------ BEGIN LICENSE TEXT: bits-ui@2.19.2 -----
+----- BEGIN LICENSE TEXT: bits-ui@2.19.3 -----
 MIT License
 
 Copyright (c) 2023 Hunter Johnston
@@ -5911,7 +5984,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
------ END LICENSE TEXT: bits-ui@2.19.2 -----
+----- END LICENSE TEXT: bits-ui@2.19.3 -----
 
 
 web-package: clsx@2.1.1
@@ -5968,7 +6041,7 @@ THE SOFTWARE.
 ----- END LICENSE TEXT: dequal@2.0.3 -----
 
 
-web-package: devalue@5.9.0
+web-package: devalue@5.9.4
 --------------------------
 Declared license: MIT
 Concluded license: MIT
@@ -5976,7 +6049,7 @@ Upstream: https://www.npmjs.com/package/devalue
 Copyright: Copyright (c) 2018-19 [these people](https://github.com/rich-harris/devalue/graphs/contributors)
 License text SHA-256: e399db7e952e45cae84f1b53d72ba8dbad2daaa7ab8cd1f0ab72fea5ab73b225
 
------ BEGIN LICENSE TEXT: devalue@5.9.0 -----
+----- BEGIN LICENSE TEXT: devalue@5.9.4 -----
 Copyright (c) 2018-19 [these people](https://github.com/rich-harris/devalue/graphs/contributors)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -5984,7 +6057,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
------ END LICENSE TEXT: devalue@5.9.0 -----
+----- END LICENSE TEXT: devalue@5.9.4 -----
 
 
 web-package: esm-env@1.2.2
@@ -6006,7 +6079,7 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 ----- END LICENSE TEXT: esm-env@1.2.2 -----
 
 
-web-package: esrap@2.3.3
+web-package: esrap@2.4.0
 ------------------------
 Declared license: MIT
 Concluded license: MIT
@@ -6014,7 +6087,7 @@ Upstream: https://github.com/sveltejs/esrap
 Copyright: Copyright (c) 2023-2025 [these people](https://github.com/sveltejs/esrap/graphs/contributors)
 License text SHA-256: 8f8f0696ab4041a885d28bddf82e2ad673a6522cb644d6f972237f4f6e172a1d
 
------ BEGIN LICENSE TEXT: esrap@2.3.3 -----
+----- BEGIN LICENSE TEXT: esrap@2.4.0 -----
 Copyright (c) 2023-2025 [these people](https://github.com/sveltejs/esrap/graphs/contributors)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -6022,7 +6095,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
------ END LICENSE TEXT: esrap@2.3.3 -----
+----- END LICENSE TEXT: esrap@2.4.0 -----
 
 
 web-package: inline-style-parser@0.2.7
@@ -6262,7 +6335,7 @@ SOFTWARE.
 ----- END LICENSE TEXT: svelte-toolbelt@0.10.6 -----
 
 
-web-package: svelte@5.57.0
+web-package: svelte@5.57.1
 --------------------------
 Declared license: MIT
 Concluded license: MIT
@@ -6270,7 +6343,7 @@ Upstream: https://github.com/sveltejs/svelte
 Copyright: Copyright (c) 2016-2025 [Svelte Contributors](https://github.com/sveltejs/svelte/graphs/contributors)
 License text SHA-256: 06257f4847b13a49a039efb17b944c141e71b12fd8d231b362d86919067d77a3
 
------ BEGIN LICENSE TEXT: svelte@5.57.0 -----
+----- BEGIN LICENSE TEXT: svelte@5.57.1 -----
 Copyright (c) 2016-2025 [Svelte Contributors](https://github.com/sveltejs/svelte/graphs/contributors)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -6278,7 +6351,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
------ END LICENSE TEXT: svelte@5.57.0 -----
+----- END LICENSE TEXT: svelte@5.57.1 -----
 
 
 web-package: tabbable@6.5.0
