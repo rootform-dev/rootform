@@ -353,13 +353,13 @@ Here `check` returns `1`: the script writes `violation/review.md`, then exits `1
 ```text title="violation/review.md"
 ## Rootform architecture
 
-**1 resource instance added.**
+**1 instance added.**
 
 Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
 | Category | Added | Removed |
 | --- | ---: | ---: |
-| Resource instances | 1 | 0 |
+| Instances | 1 | 0 |
 
 ### Reported drift
 
@@ -371,13 +371,13 @@ Same determined changes as Planned changes.
 
 ### Planned changes
 
-**Resource instances: 1 added**
+**Instances: 1 added**
 
 - `aws_subnet.application`
 
 ### Planned architecture
 
-- **Resource instances:** 1
+- **Instances:** 1
 - **Interpreted:** 1
 - **Facts:** none determined
 

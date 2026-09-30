@@ -100,9 +100,9 @@ summary includes this excerpt:
 [2mStage[0m              Planned
 [2mStages[0m             Recorded (reconstructed), Refreshed, Planned
 [1m[38;5;208mArchitecture[0m
-  [2mResource instances[0m  2
-  [2mInterpreted[0m         2
-  [2mContexts[0m            1
+  [2mInstances[0m    2
+  [2mInterpreted[0m  2
+  [2mContexts[0m     1
 ```
 
 **Enrichment** means the saved plan paired with this JSON export: their
@@ -111,11 +111,11 @@ configuration reference behind the placement. Pairing enables that
 enrichment; it does not prove that both files came from one planning
 operation.
 
-The two resource instances are the VPC and subnet in the plan.
-**Interpreted** counts the instances a Rule matched, here both; a matched Rule
-does not by itself settle every fact. The context count shows one placement
-fact. Inspect the subnet below to see its endpoint and the closure that
-justified it.
+**Instances** counts the resource instances in the plan: the VPC and the
+subnet. **Interpreted** counts the instances a Rule matched, here both; a
+matched Rule does not by itself settle every fact. The context count shows
+one placement fact. Inspect the subnet below to see its endpoint and the
+closure that justified it.
 
 ## Inspect the subnet
 
@@ -142,9 +142,9 @@ rootform run plan.json --no-serve
 
 ```ansi title="Plan-only excerpt"
 [1m[38;5;208mArchitecture[0m
-  [2mResource instances[0m  2
-  [2mInterpreted[0m         2
-  [2mFacts[0m               none determined
+  [2mInstances[0m    2
+  [2mInterpreted[0m  2
+  [2mFacts[0m        none determined
   A matched Rule does not settle every fact; see Uncertainty.
 [1m[38;5;208mUncertainty[0m
                           [2mPlanned[0m
@@ -170,8 +170,8 @@ rootform run plan.json --plan-file plan.tfplan --no-serve -o analysis.json
 [1mPlan analyzed[0m
 [2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
 [1m[38;5;208mArchitecture[0m
-  [2mResource instances[0m  2
-  [2mContexts[0m            1
+  [2mInstances[0m    2
+  [2mContexts[0m     1
 [2mWrote     [0m analysis.json
 ```
 

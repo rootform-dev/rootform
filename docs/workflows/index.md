@@ -48,7 +48,7 @@ For the commerce head plan, the summary includes:
 [2mStage[0m              Planned
 [2mStages[0m             Recorded (reconstructed), Refreshed, Planned
 [1m[38;5;208mArchitecture[0m
-  [2mResource instances[0m  153
+  [2mInstances[0m      153
 [1m[38;5;208mReported drift[0m
   No drift reported in this plan.
 ```
@@ -191,7 +191,7 @@ Differences
   Before Planned -> After Planned
   Differences between two inputs are not drift; they do not establish what
   drifted between the two exports.
-  Resource instances      16 added, 7 removed
+  Instances               16 added, 7 removed
   Relations               5 added, 5 removed
   Contexts                28 added, 17 removed
   Contributions           9 added, 1 removed

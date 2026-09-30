@@ -26,17 +26,17 @@ The command returns status `0` because the comparison completed, even though it 
 ```ansi title="Comparison summary, excerpt"
 [1mInputs compared[0m
 
-[2mBefore[0m              base/plan.json
-[2mAfter[0m               head/plan.json
+[2mBefore[0m         base/plan.json
+[2mAfter[0m          head/plan.json
 
-                    [2mBefore[0m    [2mAfter[0m
-[2mOrigin[0m              Plan      Plan
-[2mStage[0m               Planned   Planned
-[2mResource instances[0m  144       153
-[2mInterpreted[0m         144       153
-[2mRelations[0m           28        28
-[2mContexts[0m            196       207
-[2mContributions[0m       37        45
+               [2mBefore[0m    [2mAfter[0m
+[2mOrigin[0m         Plan      Plan
+[2mStage[0m          Planned   Planned
+[2mInstances[0m      144       153
+[2mInterpreted[0m    144       153
+[2mRelations[0m      28        28
+[2mContexts[0m       196       207
+[2mContributions[0m  37        45
 
 [1m[38;5;208mUncertainty[0m
                           [2mBefore[0m   [2mAfter[0m
@@ -50,13 +50,13 @@ The command returns status `0` because the comparison completed, even though it 
   Differences between two inputs are not drift; they do not establish what
   drifted between the two exports.
 
-  [2mResource instances[0m      16 added, 7 removed
+  [2mInstances[0m               16 added, 7 removed
   [2mRelations[0m               5 added, 5 removed
   [2mContexts[0m                28 added, 17 removed
   [2mContributions[0m           9 added, 1 removed
   [2mIndeterminate closures[0m  3 in Before Planned, 3 in After Planned
 
-  [1mResource instances[0m
+  [1mInstances[0m
     [32m+[0m azurerm_linux_function_app.order_notifications  [2madded[0m
     [32m+[0m azurerm_private_endpoint.cosmos                 [2madded[0m
     [32m+[0m azurerm_private_endpoint.redis                  [2madded[0m

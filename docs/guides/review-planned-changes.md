@@ -24,7 +24,7 @@ rootform run plan.json --plan-file plan.tfplan --no-serve
 ```ansi title="Plan summary, excerpt"
 [1m[38;5;208mPlanned changes[0m
   Refreshed -> Planned
-  [2mResource instances[0m      153 added
+  [2mInstances[0m               153 added
 [1m[38;5;208mReported drift[0m
   No drift reported in this plan.
 [1m[38;5;208mNet change[0m

@@ -85,9 +85,9 @@ Plan analyzed
 Enrichment         Saved plan paired with this plan JSON (1 module)
 
 Architecture
-  Resource instances  1
-  Interpreted         1
-  Facts               none determined
+  Instances    1
+  Interpreted  1
+  Facts        none determined
 ```
 
 The instance is interpreted, while no facts are determined because the Rule only classifies it. Inspect the Form or `rootform explain instance random_pet.service --input analysis.json` when the result differs. `--dialect` compiles current source each run and never writes the lock.

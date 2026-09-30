@@ -27,8 +27,8 @@ Plan analyzed
 Stage              Planned
 Stages             Recorded (reconstructed), Refreshed, Planned
 Architecture
-  Resource instances  2
-  Interpreted         2
+  Instances    2
+  Interpreted  2
 ```
 
 **Interpreted** counts the instances that a Rule from the selected Dialects matched: both here. If a resource has no matching Rule, inspect its Representation and [coverage limits](limitations.md#instances-without-rules).

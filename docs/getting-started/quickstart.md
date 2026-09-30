@@ -85,16 +85,17 @@ rootform run plan.json --plan-file plan.tfplan
 [2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
 [2mStage[0m              Planned
 [1m[38;5;208mArchitecture[0m
-  [2mResource instances[0m  153
-  [2mInterpreted[0m         153
-  [2mContexts[0m            207
+  [2mInstances[0m      153
+  [2mInterpreted[0m    153
+  [2mContexts[0m       207
 ```
 
 The terminal also shows the Explorer address; press `Ctrl+C` when you are
 done. **Enrichment** records that the saved plan paired with the JSON export,
 which is how Rootform followed references whose values are unknown until apply.
-**Interpreted** counts the instances a Rule matched: all 153 here. The 207
-contexts are placements like the one you just read.
+**Instances** counts the resource instances in the plan, and **Interpreted**
+counts those a Rule matched: all 153 here. The 207 contexts are placements
+like the one you just read.
 
 ## Keep the Form
 
