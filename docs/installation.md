@@ -80,7 +80,7 @@ docker pull ghcr.io/rootform-dev/rootform:0.1.0
 docker run --rm ghcr.io/rootform-dev/rootform:0.1.0 rootform version
 ```
 
-[Container usage →](integrations/oci-image.md)
+[Container usage](integrations/oci-image.md)
 
 <!-- rootform:endtabs -->
 
