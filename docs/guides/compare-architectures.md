@@ -1,9 +1,9 @@
 ---
-title: "Compare architectures"
-description: "Compare selected stages from two plan, state, or saved Forms."
+title: "Compare two Forms"
+description: "Compare selected stages from two plan, state, or saved Forms and read the differences in the report and the Explorer."
 ---
 
-Compare two plans with the same Rootform binary and Dialect selection. This guide uses the base and head plans in the [commerce Playground](../../examples/playground/commerce-platform/README.md). Work from `examples/playground/commerce-platform/` in a clone of the Rootform repository. Both sides contain `plan.json` and the saved `plan.tfplan` from the same Terraform run.
+Compare two plans with the same Rootform binary and Dialect selection. This guide uses the base and head plans in the [commerce Playground](../../examples/playground/commerce-platform/README.md): the head revision moves the catalog and cache behind private endpoints, adds an order notification pipeline and a payments namespace, and removes the public storage account and the legacy webhooks. Work from `examples/playground/commerce-platform/` in a clone of the Rootform repository. Both sides contain `plan.json` and the saved `plan.tfplan` from the same Terraform run. To see the result before running anything, open the [Playground](https://docs.rootform.dev/playground/?scenario=commerce-platform&mode=comparison) on **Comparison**.
 
 Plan JSON and saved plans can contain secrets in clear text. Keep them out of Git and public artifacts. Rootform reads both locally; its reports omit sensitive values but still reveal topology and resource names.
 
@@ -20,7 +20,7 @@ rootform run base/plan.json --plan-file base/plan.tfplan \
   --no-serve -o comparison.json -o comparison.md --color always
 ```
 
-The command returns status `0` because the comparison completed, even though it found changes. The text summary begins as follows (excerpt):
+The command returns status `0` because the comparison completed, even though it found changes. Read the totals first: the head plan adds 16 resource instances and removes 7, and the fact counts below them say what those instances do to the architecture. The instance list then names each change. The text summary begins as follows (excerpt):
 
 <!-- docs-output:compare-commerce -->
 ```ansi title="Comparison summary, excerpt"
@@ -87,16 +87,19 @@ The instance counts cover observed resource instances. The relation, context, an
 
 ## Open the comparison in the browser
 
-`comparison.json` is a Form with `kind: "comparison"`. Its top-level `before` and `after` embed complete state or plan Forms under `form`, each with its selected `stage` and `selected_from`. `comparison.name` is `cross`. Review `comparable` and `problems` before treating entries as comparable, then inspect Representation and fact changes alongside `indeterminate`.
-
-`comparison.md` is a reviewable summary. To inspect the same result in the Explorer without reopening the plan JSON, make a self-contained HTML copy:
+`comparison.md` is a reviewable summary. To inspect the same result in the Explorer without reopening the plan JSON, make a self-contained HTML copy of the saved comparison:
 
 <!-- docs-check:compare-reopen-html -->
 ```sh
 rootform run comparison.json --no-serve -o comparison.html
 ```
 
-Open `comparison.html` locally. The Before, Differences, and After views place each change in its architecture. The HTML makes no network requests. A local `rootform run comparison.json --no-browser --port 0` instead serves the same result on loopback; stop that server with `Ctrl+C` when finished. See [Explore an architecture](explore-architecture.md) for navigation.
+Open `comparison.html` locally. The selector reads **Differences**, Before to After, and the reading block at the bottom left switches between **Before**, **Differences**, and **After**. Each resource group carries the count of its changed entries, a removed relation is drawn dashed, and the **Added**, **Removed**, **Changed**, and **Indeterminate** filters narrow the canvas to one kind of change. The HTML makes no network requests. A local `rootform run comparison.json --no-browser --port 0` instead serves the same result on loopback; stop that server with `Ctrl+C` when finished. See [Explore a Form](explore-architecture.md) for navigation.
+
+![The Explorer on the Differences view of the commerce comparison: four resource groups with their change counts, a removed Delivers to relation drawn dashed in red, and the filters counting 58 added, 30 removed, and 6 indeterminate entries](../assets/explorer/comparison-differences-light.png#gh-light-mode-only)
+![The Explorer on the Differences view of the commerce comparison: four resource groups with their change counts, a removed Delivers to relation drawn dashed in red, and the filters counting 58 added, 30 removed, and 6 indeterminate entries](../assets/explorer/comparison-differences-dark.png#gh-dark-mode-only)
+
+`comparison.json` itself is a Form with `kind: "comparison"`. Its top-level `before` and `after` embed complete state or plan Forms under `form`, each with its selected `stage` and `selected_from`. `comparison.name` is `cross`. Review `comparable` and `problems` before treating entries as comparable, then inspect Representation and fact changes alongside `indeterminate`.
 
 ## Compare other stage pairs
 
@@ -124,4 +127,4 @@ Status `0` proves the comparison ran, not that its report is empty; `run` has no
 
 <!-- rootform:endsteps -->
 
-Continue with [Review a pull request](../workflows/index.md) to plan both revisions in isolated worktrees, compare them, gate the head with the same Policies, and keep the review evidence. [Check an architecture](check-architecture.md) explains how to select Policies and read their proof.
+Continue with [Review a pull request](../workflows/index.md) to plan both revisions in isolated worktrees, compare them, gate the head with the same Policies, and keep the review evidence. [Check a Form with Policies](check-with-policies.md) selects a Pack and reads the verdict; [Follow a Policy through every outcome](check-architecture.md) explains what each verdict proves.

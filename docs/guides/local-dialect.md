@@ -135,7 +135,7 @@ Tests passed
 1 case
 ```
 
-The test analyzes `plan.json`, verifies the adjacent saved plan, and compares the resulting document with `analysis.golden`. A mismatch is a review signal: inspect changed interpretations, facts, closures, and diagnostics before updating the golden. [Test and validate](../language/test-validate.md) covers fixture behavior.
+The test analyzes `plan.json`, verifies the adjacent saved plan, and compares the resulting Form with `analysis.golden`. A mismatch is a review signal: inspect changed interpretations, facts, closures, and diagnostics before updating the golden. [Test and validate](../language/test-validate.md) covers fixture behavior.
 
 ## Add the reviewed Dialect
 

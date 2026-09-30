@@ -1,9 +1,11 @@
 ---
-title: "Check an architecture"
-description: "Evaluate selected Policies against a plan or state Form."
+title: "Follow a Policy through every outcome"
+description: "See one Policy pass, fail, stay indeterminate, and find no target on plans you produce yourself."
 ---
 
-Follow one Policy through a pass, a violation, indeterminate evidence, and no target. `rootform run` analyzes an input and saves its Form; `rootform check` evaluates Policies against the Form's selected architecture and exits with the verdict. You need Rootform, Terraform or OpenTofu, and the AWS provider download for planning. Work from a new `network-review/` directory. The `pass/`, `violation/`, and `no-target/` directories hold separate scenarios; `policies/` holds one local Policy Pack.
+A Policy verdict is only as trustworthy as the evidence behind it. This tutorial follows one Policy through a pass, a violation, indeterminate evidence, and no target, so that each exit status means something concrete before you put it in a gate. To check an existing Form with a Pack in a few commands, [Check a Form with Policies](check-with-policies.md) is the short route; come back here to understand what each verdict proves.
+
+`rootform run` analyzes an input and saves its Form; `rootform check` evaluates Policies against the Form's selected architecture and exits with the verdict. You need Rootform, Terraform or OpenTofu, and the AWS provider download for planning. Work from a new `network-review/` directory. The `pass/`, `violation/`, and `no-target/` directories hold separate scenarios; `policies/` holds one local Policy Pack.
 
 Plans, their JSON exports, and state files can contain secrets in clear text. Keep them out of Git and public artifacts. Rootform reads them locally and does not contact AWS. Its reports omit sensitive values but still describe topology and names.
 
@@ -34,7 +36,7 @@ The target selects instances interpreted by either named AWS Rule. The assertion
 
 ## Prepare the three plans
 
-Use the same AWS provider configuration in each scenario. As in [Your first architecture](../getting-started/first-architecture.md), placeholder credentials grant no account access and skipped validation lets these examples plan without an AWS account. Never copy these placeholder settings into a real project. In each directory, save this provider block as `provider.tf`:
+Use the same AWS provider configuration in each scenario. As in [Follow the evidence behind a placement](../getting-started/first-architecture.md), placeholder credentials grant no account access and skipped validation lets these examples plan without an AWS account. Never copy these placeholder settings into a real project. In each directory, save this provider block as `provider.tf`:
 
 ```hcl title="provider.tf"
 terraform {

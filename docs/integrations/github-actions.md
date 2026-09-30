@@ -101,7 +101,7 @@ Reviewers can read the report on the workflow run page and open the Explorer wit
             ${{ env.ROOTFORM_OUTPUT_DIR }}/review.html
 ```
 
-The job summary shows `report.md` and, when present, `policy.md`, each under its own heading. `review.html` is a self-contained Explorer export built from the saved document without analyzing the plan again, and it makes no network requests. `if: ${{ !cancelled() }}` runs the step after a policy violation, and the file test skips it when analysis failed and no document exists. Anyone with read access to the repository can read job summaries and download artifacts; in a public repository, that is any signed-in GitHub user. Publish only what that audience may see.
+The job summary shows `report.md` and, when present, `policy.md`, each under its own heading. `review.html` is a self-contained Explorer export built from the saved Form without analyzing the plan again, and it makes no network requests. `if: ${{ !cancelled() }}` runs the step after a policy violation, and the file test skips it when analysis failed and no Form exists. Anyone with read access to the repository can read job summaries and download artifacts; in a public repository, that is any signed-in GitHub user. Publish only what that audience may see.
 
 ## Prepare selection and choose a policy gate
 

@@ -3,12 +3,13 @@ title: Review a pull request
 description: Plan base and head revisions in isolated worktrees, compare them, evaluate Policies, and keep review artifacts private.
 ---
 
-A pull request can be reviewed from two kinds of plan evidence. Comparing the
-plans of the base and head revisions shows how the branch changes the planned
-architecture. Reviewing the one completed plan that CI made for the head shows
-what that planning operation proposes and any drift it recorded. Both give the
-same kinds of Rootform evidence: an analysis or comparison, Policy results when
-a Pack is selected, and an interactive view.
+A pull request can be reviewed from two kinds of plan evidence. Reviewing the
+one completed plan that CI made for the head shows what that planning
+operation proposes and any drift it recorded; most teams start there, because
+the plan already exists. Comparing the plans of the base and head revisions
+isolates how the branch changes the planned architecture. Both give the same
+kinds of Rootform evidence: a Form or a comparison, Policy results when a
+Pack is selected, and an interactive view.
 
 Rootform never runs Terraform or OpenTofu. Planning uses your backend,
 providers, and credentials; Rootform then reads the exported files locally.
@@ -20,14 +21,60 @@ throughout.
 
 | Evidence | Use it when | Limit |
 | --- | --- | --- |
-| Base and head plans | Review the architectural difference between revisions | The plans may also reflect drift between their execution times |
 | One head plan | Review Planned changes against its own Refreshed and Recorded evidence | It does not isolate the source revision change |
+| Base and head plans | Review the architectural difference between revisions | The plans may also reflect drift between their execution times |
 | Saved Forms | Reopen or compare prior results without raw plans | Each Form retains its original evidence and semantic selection |
 
 Plan both revisions against an intentionally comparable backend, workspace,
 variables, and provider selection. Record the base and head commit IDs,
 Terraform or OpenTofu versions, and plan times with the review. A change in any
 of these can explain a difference unrelated to the proposed source edit.
+
+## Review a completed plan
+
+When CI already plans the pull request head, review that one completed plan in
+the job that produced it; the plan files never need to leave that job. Run
+Rootform from the root module directory where the plan was produced, so the
+project's `rootform.lock` applies:
+
+<!-- docs-check:journey-review-one-plan -->
+```sh
+rootform run plan.json --plan-file plan.tfplan --no-serve
+```
+
+For the commerce head plan, the summary includes:
+
+```ansi title="Completed plan excerpt"
+[2mStage[0m              Planned
+[2mStages[0m             Recorded (reconstructed), Refreshed, Planned
+[1m[38;5;208mArchitecture[0m
+  [2mResource instances[0m  153
+[1m[38;5;208mReported drift[0m
+  No drift reported in this plan.
+```
+
+This example plan starts from an empty state, so **Stages** includes an empty
+Refreshed architecture and a reconstructed Recorded architecture. Its Reported
+drift section lists no records. A plan made against existing state can list reported
+drift records and their architectural consequences. If no drift is
+reported, the plan may still have skipped or limited refresh; the
+[plan guide](../inputs/plans.md#read-plan-comparisons-correctly) explains that
+boundary. This review shows what one planning operation proposes; it does not
+isolate the branch change from a base plan. When you need that isolation,
+plan both revisions and compare them.
+
+To keep the result, save the Form and a report, then evaluate the project's
+locked Packs against the Form:
+
+```sh
+rootform run plan.json --plan-file plan.tfplan --no-serve -o analysis.json -o review.md
+rootform check analysis.json --locked -o policy.json -o policy.md -o policy.sarif
+```
+
+`--policy-pack ./policies` replaces `--locked` when the project has no
+`rootform.lock` yet; `--locked` fails rather than checking nothing when the
+lock is missing. The same outputs and exit status rules as the comparison
+procedure below apply.
 
 ## Compare two revisions
 
@@ -226,7 +273,7 @@ Status `1` blocks on a confirmed violation; `3` means no compliant verdict,
 including indeterminate results and Policies that found no target. A check
 without selected Policies makes no compliance claim. When `rootform.lock`
 selects the Policy Packs, pass `--locked --project <dir>` in place of
-`--policy-pack`. [Check an architecture](../guides/check-architecture.md) explains
+`--policy-pack`. [Follow a Policy through every outcome](../guides/check-architecture.md) explains
 target coverage and result interpretation.
 
 ### Preserve results and clean temporary files
@@ -250,39 +297,6 @@ rmdir "$results" "$review_root"
 worktree. These commands work whether or not you created the optional policy
 and HTML artifacts. They remove only the paths created above; they do not reset
 the branch or delete files in the current checkout.
-
-## Review a completed plan
-
-When CI already plans the pull request head, review that one completed plan in
-the job that produced it; the plan files never need to leave that job. Run
-Rootform from the root module directory where the plan was produced, so the
-project's `rootform.lock` applies:
-
-<!-- docs-check:journey-review-one-plan -->
-```sh
-rootform run plan.json --plan-file plan.tfplan --no-serve
-```
-
-For the commerce head plan, the summary includes:
-
-```ansi title="Completed plan excerpt"
-[2mStage[0m              Planned
-[2mStages[0m             Recorded (reconstructed), Refreshed, Planned
-[1m[38;5;208mArchitecture[0m
-  [2mResource instances[0m  153
-[1m[38;5;208mReported drift[0m
-  No drift reported in this plan.
-```
-
-This example plan starts from an empty state, so **Stages** includes an empty
-Refreshed architecture and a reconstructed Recorded architecture. Its Reported
-drift section lists no records. A plan made against existing state can list reported
-drift records and their architectural consequences. If no drift is
-reported, the plan may still have skipped or limited refresh; the
-[plan guide](../inputs/plans.md#read-plan-comparisons-correctly) explains that
-boundary. This review shows what one planning operation proposes; it does not
-isolate the branch change from a base plan. Save reports and evaluate Policies
-with the same `-o`, `--policy-pack`, or `--locked` options as above.
 
 ## Keep CI artifacts deliberate
 
