@@ -22,7 +22,7 @@ This order matters: a Policy cannot treat an unclosed emission or failed interpr
 | --- | --- | --- |
 | Plan JSON | `planned`; `refreshed` and reconstructed `recorded` when prior evidence permits | `planned` |
 | State JSON | One Recorded architecture | `recorded` |
-| Saved Form | Its stages | Form default stage; after side for a comparison Form |
+| Saved Form | Its stages | Form default stage; both sides for a comparison Form |
 
 ## Base Representation
 
@@ -59,7 +59,7 @@ Each active emission has one closure per source instance and stage. A known matc
 
 ## Policy linking
 
-A Policy Pack links against the document's exact semantic owner identities. A missing definition, conflicting selection, or incompatible semantic digest prevents a policy decision.
+A Policy Pack links against the Form's exact semantic owner identities. A missing definition, conflicting selection, or incompatible semantic digest prevents a policy decision.
 
 ## Policy target selection
 

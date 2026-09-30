@@ -109,7 +109,7 @@ exports are accepted by shape.
 
 The Recorded to Refreshed comparison is Reported drift. The separate drift
 report lists the producer's drift records and their architectural consequences.
-[Switch stages and comparisons](../guides/explore-architecture.md#switch-stages-and-comparisons)
+[What does this plan change?](../guides/explore-architecture.md#what-does-this-plan-change)
 shows where the Explorer lists these views.
 
 ## Read plan comparisons correctly
@@ -164,8 +164,8 @@ For OpenTofu, replace `terraform` with `tofu`. The saved plan remains
 local. Rootform's outputs still describe infrastructure names, structure,
 and relationships, so apply your internal sharing rules.
 
-To compare two plans, or a state analysis with a later plan, follow
-[Compare architectures](../guides/compare-architectures.md). For plans from two
+To compare two plans, or a state Form with a later plan, follow
+[Compare two Forms](../guides/compare-architectures.md). For plans from two
 Git revisions, [Review a pull request](../workflows/index.md#choose-the-review-input)
 adds isolated checkouts and cleanup.
 To review a completed plan in automation, see

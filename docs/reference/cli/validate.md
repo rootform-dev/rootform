@@ -41,7 +41,7 @@ rootform validate <command> [options]
 <!-- END GENERATED CLI -->
 
 Save a Form with `run --no-serve -o analysis.json`, as in
-[Your first architecture](../../getting-started/first-architecture.md), then
+the [quickstart](../../getting-started/quickstart.md), then
 check it:
 
 ```sh

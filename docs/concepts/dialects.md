@@ -7,13 +7,13 @@ A Dialect is a named, versioned unit of interpretation. Its Rules match Terrafor
 
 ## Interpretation enriches an instance base
 
-Every observed managed and data instance has a Representation before a Rule interprets it. A matching Rule can classify that instance and establish facts. With no matching Rule, the instance remains represented without a guessed Concept. This is a coverage gap, not the same as a Rule whose endpoint cannot be resolved from available evidence. See [Core concepts](../concepts.md#every-observed-instance-starts-with-a-representation) for the distinction between instance and Rule coverage.
+Every observed managed and data instance has a Representation before a Rule interprets it. A matching Rule can classify that instance and establish facts. With no matching Rule, the instance remains represented without a guessed Concept. This is a coverage gap, not the same as a Rule whose endpoint cannot be resolved from available evidence. See [How Rootform works](../concepts.md#every-observed-instance-starts-with-a-representation) for the distinction between instance and Rule coverage.
 
-Rule matching uses source kind, resource type, provider binding, and any predicate over supported instance evidence. Two instances of one Terraform declaration can therefore receive different interpretation. An ambiguous or failed interpretation leaves its own status and diagnostics. It does not silently fall back to a plausible Rule. See [Core concepts](../concepts.md#every-observed-instance-starts-with-a-representation).
+Rule matching uses source kind, resource type, provider binding, and any predicate over supported instance evidence. Two instances of one Terraform declaration can therefore receive different interpretation. An ambiguous or failed interpretation leaves its own status and diagnostics. It does not silently fall back to a plausible Rule. See [How Rootform works](../concepts.md#every-observed-instance-starts-with-a-representation).
 
 ## How a Rule establishes a fact
 
-For a subnet whose `vpc_id` identifies a VPC, an AWS Rule can classify the subnet and establish a network Context toward that VPC. The value or verified direct traversal is evidence. The Rule gives it architectural meaning. A `depends_on` edge, matching resource name, or provider type alone creates no Context or Relation. [Core concepts](../concepts.md#references-are-evidence-not-meaning) explains this boundary across all fact types.
+For a subnet whose `vpc_id` identifies a VPC, an AWS Rule can classify the subnet and establish a network Context toward that VPC. The value or verified direct traversal is evidence. The Rule gives it architectural meaning. A `depends_on` edge, matching resource name, or provider type alone creates no Context or Relation. [How Rootform works](../concepts.md#references-are-evidence-not-meaning) explains this boundary across all fact types.
 
 An emission closes as `resolved`, `absent`, or `indeterminate` per instance. A paired saved plan can establish a Planned-stage identity traversal when a value is unknown until apply. A state export has values and masks but no traversal snapshot. If an eligible target has unknown identity, the closure can remain indeterminate even if one candidate looks plausible. [Forms and stages](forms.md#stages-and-facts) explains closures and provenance.
 

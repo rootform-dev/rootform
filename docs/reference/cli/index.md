@@ -9,7 +9,7 @@ placeholders such as `[input]` and `[flags]` are not literal arguments. Run
 `rootform <command> --help` for terminal help. The tables on command pages
 retain the CLI's exported option types and defaults.
 
-For a first result, follow [Your first architecture](../../getting-started/first-architecture.md).
+For a first result, follow the [quickstart](../../getting-started/quickstart.md).
 For a complete task, use the [guides](../../guides/explore-architecture.md)
 and return here for exact command contracts.
 

@@ -19,7 +19,7 @@ language and general HCL expressions are not part of this contract.
 | --- | --- |
 | Understand the language through one real architecture | [Language tour](tour.md) |
 | Author a provider Dialect | [Write a Dialect](../dialect-authoring.md) |
-| Express and evaluate one governance rule | [Check an architecture](../guides/check-architecture.md), [CLI reference](../reference/cli/check.md) |
+| Express and evaluate one governance rule | [Follow a Policy through every outcome](../guides/check-architecture.md), [CLI reference](../reference/cli/check.md) |
 | Version and distribute several Policies | [Write a Policy Pack](write-policy-pack.md) |
 | Format, compile, test, and inspect definitions | [Test and validate](test-validate.md) |
 | Check exact accepted syntax | [Language reference](reference/index.md) |
@@ -44,7 +44,7 @@ A Policy Pack participates after those facts exist:
 The Form is the saved result. Its public data contract is defined
 in the [Form reference](../concepts/forms.md). [Architecture comparisons](../concepts/comparisons.md)
 compares two inputs over that contract, and
-[Check an architecture](../guides/check-architecture.md) evaluates Policies
+[Follow a Policy through every outcome](../guides/check-architecture.md) evaluates Policies
 against a plan's Planned stage, a state's Recorded stage, or both sides of a
 comparison Form with [`rootform check`](../reference/cli/check.md).
 No Policy rewrites the Form, reads a live cloud account, or repairs missing
@@ -159,7 +159,7 @@ selected Policies passing exits 0. Usage errors exit 2, and a report write
 failure exits 4.
 
 Read [Policies and Policy Packs](../concepts/policies.md) for governance meaning.
-Use [Check an architecture](../guides/check-architecture.md) for a complete
+Use [Follow a Policy through every outcome](../guides/check-architecture.md) for a complete
 evaluated example, or see the [`check` reference](../reference/cli/check.md).
 
 ## Language boundaries

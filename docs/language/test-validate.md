@@ -29,7 +29,7 @@ The plan JSON comes from `terraform show -json plan.tfplan`; OpenTofu users run 
 | `rootform fmt --check` | Is source in canonical format? |
 | `rootform validate dialects` | Does the complete Dialect source compile? |
 | `rootform validate rule` | Is one selected Rule valid? |
-| `rootform test` | Do plan fixtures still produce reviewed documents? |
+| `rootform test` | Do plan fixtures still produce the reviewed Forms? |
 | `rootform run` | What architecture does a real plan produce? |
 | `rootform check` | What do the selected Policies decide on that architecture? |
 

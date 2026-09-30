@@ -58,7 +58,7 @@ rootform check plan.json --plan-file plan.tfplan --require-enrichment \
   --policy-pack ./policies -o report.md
 ```
 
-The command pairs the saved plan with the export, writes a Policy report, and exits `0` only when all selected evaluations pass. A violation exits `1`; indeterminate or zero evaluated targets exits `3`. Read the report's target counts before calling the result compliant. The override applies only to this check. A lock remains unchanged. [Check an architecture](guides/check-architecture.md) gives a complete Policy example.
+The command pairs the saved plan with the export, writes a Policy report, and exits `0` only when all selected evaluations pass. A violation exits `1`; indeterminate or zero evaluated targets exits `3`. Read the report's target counts before calling the result compliant. The override applies only to this check. A lock remains unchanged. [Follow a Policy through every outcome](guides/check-architecture.md) gives a complete Policy example.
 
 ## Keep external content selected
 
@@ -106,4 +106,4 @@ Every command that reads or changes the selection accepts `--project`: `run`, `c
 
 ## Exclude or replace an embedded owner
 
-An exclusion removes one embedded owner's Rules from the active catalog. A replacement selects another Dialect with the same owner and explicitly authorizes that collision. The reserved `rf` vocabulary cannot be excluded or replaced. These changes belong in the lock and can change interpretation without changing the plan JSON. Review the resulting document before adopting them. [Replace or exclude an embedded Dialect](guides/external-content.md#replace-or-exclude-an-embedded-dialect) has the commands; [reproduce an analysis offline](guides/reproduce-build.md) shows how to move the exact selection.
+An exclusion removes one embedded owner's Rules from the active catalog. A replacement selects another Dialect with the same owner and explicitly authorizes that collision. The reserved `rf` vocabulary cannot be excluded or replaced. These changes belong in the lock and can change interpretation without changing the plan JSON. Review the resulting Form before adopting them. [Replace or exclude an embedded Dialect](guides/external-content.md#replace-or-exclude-an-embedded-dialect) has the commands; [reproduce an analysis offline](guides/reproduce-build.md) shows how to move the exact selection.

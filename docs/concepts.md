@@ -1,9 +1,9 @@
 ---
-title: "Core concepts"
-description: "Understand how plan and state evidence becomes architecture, comparison, and policy results."
+title: "How Rootform works"
+description: "Understand how plan and state evidence becomes a Form: architecture, comparisons, and Policy results."
 ---
 
-Rootform reads a Terraform or OpenTofu plan JSON or state JSON and turns observed resource instances into architecture. It does not evaluate configuration source, so the input determines what Rootform can establish.
+Rootform reads a Terraform or OpenTofu plan JSON or state JSON and turns observed resource instances into architecture, saved as a [Form](concepts/forms.md). It does not evaluate configuration source, so the input determines what Rootform can establish. What follows is the model behind every command and Explorer view; the pages under it define each part.
 
 ## From evidence to architecture
 
@@ -38,7 +38,7 @@ A plan's evaluated value can identify an endpoint. When that value is unknown un
 | **Contribution** | Which Representation contributes to another? | That the contributor was absorbed or owned |
 | **Composition** | Which proven members form a composed root? | That members inherit the root's Concept |
 
-One instance can have Contexts in several dimensions. Contributions keep contributor and target distinct. The Explorer may reveal a secondary resource only when navigating its Context; the saved document still contains its Representation. See [Explorer navigation](guides/explore-architecture.md#reveal-a-secondary-resource).
+One instance can have Contexts in several dimensions. Contributions keep contributor and target distinct. The Explorer may reveal a secondary resource only when navigating its Context; the saved Form still contains its Representation. See [Explorer navigation](guides/explore-architecture.md#reveal-a-secondary-resource).
 
 ## Rootform reports what evidence permits
 
@@ -60,4 +60,4 @@ Rootform does not start Terraform or OpenTofu, execute providers, contact a back
 
 For the same supported input, optional saved plan, and exact Dialect selection, Rootform writes the same canonical Form bytes. Their digest identifies the serialized Form, including generator version, not architectural equivalence. A semantic comparison can find no determined change between Forms with different bytes. The Form records what the input reports about completeness, whether a saved plan was verified, and the Dialect definitions used. A lock records exact project selection; it does not make incomplete plan evidence complete. Dialect evolution can change interpretation even when the infrastructure is unchanged: the Rootform binary fixes embedded Dialects, and [Install, add, and vendor](concepts/external-content.md) explains how selected and installed content differ.
 
-Plans and state exports can contain cleartext secrets. Keep them out of Git and public artifacts. Rootform discards sensitive values before serializing documents or reports, but those outputs still disclose topology and names. See [Security](security/index.md#protect-plans-and-derived-outputs), then [choose an input](inputs/index.md) or [explore an architecture](guides/explore-architecture.md).
+Plans and state exports can contain cleartext secrets. Keep them out of Git and public artifacts. Rootform discards sensitive values before serializing Forms or reports, but those outputs still disclose topology and names. See [Security](security/index.md#protect-plans-and-derived-outputs), then [choose an input](inputs/index.md) or [explore a Form](guides/explore-architecture.md).
