@@ -143,9 +143,11 @@ Concept target, with or without `dialects`, may select zero representations and
 have outcome `no_target`. `dialects` alone is invalid because it does not define
 semantic target.
 
-Target selects interpreted instances in the selected stage. An instance
-without a matching Rule cannot satisfy a Rule, Concept, or Dialect target
-dimension.
+Target selects interpreted instances in the selected stage. A failed or
+indeterminate interpretation whose candidate Rule could satisfy the target is
+also selected for an indeterminate evaluation. An instance with no applicable
+Rule cannot satisfy a Rule, Concept, or Dialect target dimension. See
+[Policy target selection](evaluation.md#policy-target-selection).
 
 ## Assertions
 

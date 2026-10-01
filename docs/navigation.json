@@ -56,10 +56,25 @@
     "label": "Rootform language",
     "items": [
       { "label": "Overview", "page": "language" },
-      { "label": "Language tour", "page": "language/tour" },
-      { "label": "Write a Dialect", "page": "dialect-authoring" },
-      { "label": "Write a Policy Pack", "page": "language/write-policy-pack" },
-      { "label": "Test and validate", "page": "language/test-validate" },
+      {
+        "label": "Learn",
+        "items": [
+          { "label": "Language tour", "page": "language/tour" },
+          { "label": "Read a Rule", "page": "language/learn/read-a-rule" },
+          { "label": "Choose an architectural fact", "page": "language/learn/facts" },
+          { "label": "Evidence and target resolution", "page": "language/learn/evidence-targets" },
+          { "label": "Understand composition", "page": "language/learn/composition" },
+          { "label": "Policies over facts", "page": "language/learn/policies" }
+        ]
+      },
+      {
+        "label": "Author",
+        "items": [
+          { "label": "Write a Dialect", "page": "dialect-authoring" },
+          { "label": "Write a Policy Pack", "page": "language/write-policy-pack" },
+          { "label": "Test and validate", "page": "language/test-validate" }
+        ]
+      },
       {
         "label": "Language reference",
         "collapsed": true,

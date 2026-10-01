@@ -13,6 +13,10 @@ For each Rule prove:
 2. architectural classification, emission, or composition it contributes;
 3. source path proving each result.
 
+Start with [Read a Rule](language/learn/read-a-rule.md) and
+[Evidence and target resolution](language/learn/evidence-targets.md) if the
+connection between a provider attribute and an architectural fact is unclear.
+
 <!-- rootform:steps -->
 
 ## Create source root
@@ -66,8 +70,8 @@ context "project" {
 }
 ```
 
-Local IDs become `example.concept.load-balancer` and
-`example.context.project`. Descriptions document contract; they do not control
+With the `aws` owner above, local IDs become `aws.concept.load-balancer` and
+`aws.context.project`. Descriptions document contract; they do not control
 architectural structure or establish facts.
 
 ## Add smallest complete Rule
@@ -80,6 +84,14 @@ rule "vpc" {
   }
 
   as = rf.concept.virtual-network
+
+  identity {
+    attributes = ["id"]
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "subnet" {
@@ -96,6 +108,11 @@ rule "subnet" {
     via      = source.vpc_id
     on_null  = "absent"
     on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
   }
 }
 ```
@@ -160,13 +177,16 @@ context {
   prove both placement and interaction when those facts have different
   meanings.
 
-Literal, missing, dynamic, incompatible, or ambiguous evidence establishes no
-placement. Test those cases beside the successful parent and full ancestor
-path; never add a fallback parent from resource type or naming.
+For the direct-reference pattern above, a literal has no reference proof.
+An explicit identity match can establish a known literal value instead.
+Test missing, unknown, sensitive, transformed and ambiguous evidence beside
+the successful parent; never add a fallback parent from type or naming.
 
-Composition members are required, ordered, and exclusive. Failure rejects
-whole composite Rule application. Resource root and resource members keep base
-representations; members do not inherit root Rule or Concept.
+Composition members are ordered. An unresolved member stays on its root with
+a reason; dependent later members remain unresolved, while independent ones
+may resolve. The root keeps its classification and emissions. Members keep
+their Representations and do not inherit the root Rule or Concept. See
+[Understand composition](language/learn/composition.md).
 
 ## Compile and inspect definitions
 

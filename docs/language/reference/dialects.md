@@ -116,11 +116,13 @@ Whitespace around clauses is normalized. Duplicate clauses are removed and
 remaining clauses are sorted in compiled output. A bare version such as
 `"1.4.0"` is invalid.
 
-Two-part provider sources match same namespace and type on any registry host.
+Two-part provider sources bind the equivalent Terraform and OpenTofu public
+registry addresses for that namespace and type.
 Three-part sources require exact host, namespace, and type. Duplicate normalized
 provider sources produce `DUPLICATE_ID`.
 
-Provider envelope participates in Rule eligibility:
+Provider source binding participates in Rule eligibility; plan/state selection
+does not compare an observed exact provider version to the declared envelope:
 
 Every Rule in the Dialect uses this shared provider list. Rules do not declare
 their own provider selector.

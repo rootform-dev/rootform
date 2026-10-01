@@ -10,6 +10,7 @@ import { assertNoRetiredCommands, extractedMarkers } from "./docs-core-examples.
 import { verifyJourneyExamples } from "./docs-journey-examples.ts";
 import { verifyLanguageExamples } from "./docs-language-examples.ts";
 import { verifyLanguageReferenceExamples } from "./docs-language-reference-examples.ts";
+import { verifyLearningExamples } from "./docs-learning-examples.ts";
 import { registryMarkers } from "./docs-registry-examples.ts";
 import { verifyVisualExamples } from "./docs-visual-examples.ts";
 
@@ -112,11 +113,20 @@ const automation = await verifyAutomationExamples(binary, root);
 const language = await verifyLanguageExamples(binary, root);
 const languageReference = await verifyLanguageReferenceExamples(binary, root);
 const authoring = await verifyAuthoringExamples(binary, root);
+const learning = await verifyLearningExamples(binary, root);
 assertEveryMarkerExecuted(markers);
 console.log(
   `Docs examples: ${checked} Markdown pages free of retired commands; ${visual.join("; ")}; analysis JSON, Markdown, text, and HTML and Policy JSON, Markdown, text, and SARIF verified.`,
 );
-for (const summary of [journeys, concepts, automation, language, languageReference, authoring])
+for (const summary of [
+  journeys,
+  concepts,
+  automation,
+  language,
+  languageReference,
+  authoring,
+  learning,
+])
   console.log(summary);
 console.log(
   `All ${markers.size} documented command markers executed (${registryMarkers.length} in the registry lane).`,

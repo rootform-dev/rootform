@@ -58,9 +58,9 @@ export async function verifyLanguageExamples(binary: string, root: string): Prom
   const p = (name: string) => `language/reference/${name}.md`;
 
   dialect(
-    "language-overview-rule",
+    "learning-rule",
     manifest.replace("hashicorp/example", "hashicorp/aws") +
-      fenced(page("language/index.md"), "hcl", "aws/network/vpc.rf.hcl"),
+      fenced(page("language/learn/read-a-rule.md"), "hcl", "aws/network/vpc.rf.hcl"),
   );
   dialect("vocabulary-rule", manifest + fenced(page(p("rf-vocabulary")), "hcl", "subnet.rf.hcl"));
   dialect("native-syntax", fenced(page(p("syntax-files")), "hcl", "dialect.rf.hcl"));
@@ -107,8 +107,8 @@ export async function verifyLanguageExamples(binary: string, root: string): Prom
   ]);
   const packs = [
     [
-      "overview-pack",
-      "language/index.md",
+      "learning-pack",
+      "language/learn/policies.md",
       "policies/subnet-network-context.rf.hcl",
       "language-overview",
     ],

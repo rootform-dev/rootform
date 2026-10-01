@@ -156,7 +156,9 @@ Exactly one argument is required.
 
 `length` returns deduplicated fact count only when query is supported and
 complete. Any relevant uncertainty makes count unknown, even if some facts are
-confirmed, because exact cardinality is not proved.
+confirmed, because exact cardinality is not proved. A numeric comparison can
+still be decided from the confirmed lower bound when it suffices; see
+[Query truth](evaluation.md#query-truth).
 
 ```rf
 assert = length(contexts(rf.context.network)) == 1

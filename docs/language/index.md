@@ -1,183 +1,51 @@
 ---
 title: "Rootform language"
-description: "Learn how Dialects interpret plan and state instances and how Policy Packs evaluate the resulting architecture."
+description: "Learn how Rules turn Terraform and OpenTofu evidence into architecture, then author Dialects and Policies."
 ---
 
-The Rootform language is the public authoring language for **Dialects** and
-**Policy Packs**. A Dialect explains what resource instances in a Terraform or
-OpenTofu plan JSON or state JSON mean. A Policy Pack asks bounded questions
-about the architecture facts those Dialects produced.
+The Rootform language defines what infrastructure evidence means architecturally.
+A **Dialect** supplies Rules that interpret Terraform or OpenTofu instances.
+A **Policy Pack** asks bounded questions about the resulting architecture.
+Sources use `.rf.hcl` or HCL JSON `.rf.json`; RF accepts a small, closed language,
+not general Terraform expressions or HCL programming.
 
-Rootform reads two source syntaxes: human-authored `.rf.hcl` and HCL JSON `.rf.json`.
-HCL provides their surface syntax. Rootform defines the accepted blocks,
-attributes, expressions, references, and evaluation rules. General Terraform
-language and general HCL expressions are not part of this contract.
+## From evidence to a decision
 
-## Choose a path
+1. Plan or state instances get **Representations** identified by their addresses.
+2. **Rules** select instances and may classify them with **Concepts**.
+3. Emissions resolve targets against evidence and establish architectural facts.
+   Each **closure** records what was established, absent or still indeterminate.
+4. A **Form** retains the stages, facts, closures and provenance.
+5. **Policies** evaluate its architectural facts.
 
-| Goal | Start here |
-| --- | --- |
-| Understand the language through one real architecture | [Language tour](tour.md) |
-| Author a provider Dialect | [Write a Dialect](../dialect-authoring.md) |
-| Express and evaluate one governance rule | [Understand Policy outcomes](../guides/check-architecture.md), [CLI reference](../reference/cli/check.md) |
-| Version and distribute several Policies | [Write a Policy Pack](write-policy-pack.md) |
-| Format, compile, test, and inspect definitions | [Test and validate](test-validate.md) |
-| Check exact accepted syntax | [Language reference](reference/index.md) |
+Every observed managed and data instance remains represented, including one
+with no Rule. A dependency or reference is evidence, not automatically a
+Relation. Neither a state snapshot nor a network Context proves live cloud
+behavior. The [Form model](../concepts/forms.md) explains stages and portability.
 
-## Two paths through the language
+## Learn
 
-A Dialect participates while Rootform builds an architecture:
+Start with the [Language tour](tour.md) for one complete subnet example.
+Then follow the explanations where you need more depth:
 
-1. .rf.hcl source
-2. compiled Dialect
-3. `rootform run` on plan JSON or state JSON, optionally paired with a saved plan
-4. matched resource instances, with facts and closure results in a Form
+<!-- rootform:directory -->
 
-A Policy Pack participates after those facts exist:
+- [Read a Rule](learn/read-a-rule.md) Decode a real official Rule, including selection and classification.
+- [Choose an architectural fact](learn/facts.md) Distinguish Context, Relation and Contribution.
+- [Evidence and target resolution](learn/evidence-targets.md) Understand identity, endpoint, ambiguity and closures.
+- [Understand composition](learn/composition.md) Follow implementation members without losing uncertainty.
+- [Policies over facts](learn/policies.md) Learn what an assertion can conclude from those facts.
 
-1. .rf.hcl source
-2. compiled Policy Pack
-3. linked semantic pins
-4. evaluation of each Policy against a selected architecture stage within a Form
-5. passed, violated, indeterminate, or no decision result
+## Author
 
-The Form is the saved result. Its public data contract is defined
-in the [Form reference](../concepts/forms.md). [Architecture comparisons](../concepts/comparisons.md)
-compares two inputs over that contract, and
-[Understand Policy outcomes](../guides/check-architecture.md) evaluates Policies
-against a plan's Planned stage, a state's Recorded stage, or both sides of a
-comparison Form with [`rootform check`](../reference/cli/check.md).
-No Policy rewrites the Form, reads a live cloud account, or repairs missing
-Dialect coverage. Policy outcomes appear in the check summary, the
-Markdown report, SARIF, and `rootform explain policy <policy> --result <file>`.
-They never appear in the Form itself.
+<!-- rootform:directory -->
 
-## Dialects give instances meaning
+- [Write a Dialect](../dialect-authoring.md) Define and test provider interpretation.
+- [Write a Policy Pack](write-policy-pack.md) Name, link, evaluate and package Policies.
+- [Test and validate](test-validate.md) Format source and prove its behavior against evidence.
 
-Every managed or data resource instance present in the input has a
-Representation in each applicable stage of the Form, identified
-by its instance address. A Rule adds interpretation to an eligible instance.
-It can classify it with a Concept, establish Contexts or Relations, record a
-Contribution, or group implementation members. An instance with no matching
-Rule remains uninterpreted; this is distinct from a Rule whose match cannot be
-decided.
+## Reference
 
-A Dialect declares provider envelopes, local definitions, and Rules:
-
-- a **Concept** is optional nominal classification;
-- a **Context** names one placement dimension;
-- a **Relation** names a directed predicate;
-- facts connect Representations through contexts, contributions, or relations;
-- composition records members per root instance, including unresolved members;
-  each member remains a separate Representation.
-
-This Rule from the embedded AWS Dialect recognizes a subnet and records its VPC
-reference as network context:
-
-```rf title="aws/network/vpc.rf.hcl"
-rule "subnet" {
-  match {
-    type = "aws_subnet"
-  }
-
-  as = rf.concept.subnet
-
-  identity {
-    attributes = ["id"]
-    scope      = "provider"
-  }
-
-  endpoint {
-    attributes = ["id"]
-  }
-
-  context {
-    as       = rf.context.network
-    to       = rf.concept.virtual-network
-    via      = source.vpc_id
-    on_null  = "absent"
-    on_empty = "absent"
-
-    match {
-      by       = target.id
-      strategy = "exact"
-    }
-
-    external = "allow"
-  }
-}
-```
-
-The Rule classifies a subnet instance as `rf.concept.subnet`. Its `vpc_id` may
-establish network Context toward a virtual-network instance. A verified saved
-plan can also establish the referenced endpoint when the value itself is
-unknown. When no represented VPC matches a known ID, this Rule permits an
-external virtual-network endpoint. The closure says whether the endpoint
-resolved, is absent, or remains indeterminate, with a reason.
-
-A supported provider can still contain resource types that no Rule interprets.
-Every observed instance gets a Representation while only Rules add
-interpretation, so instance and interpretation counts answer different
-questions. Read [Dialects and RF Vocabulary](../concepts/dialects.md) for
-the product model, then [write a Dialect](../dialect-authoring.md) to extend
-coverage.
-
-## Policies ask about known facts
-
-A Policy target selects interpreted instances it evaluates along three dimensions:
-Concept, applied Rules, and Dialect owners. Values inside a list are ORed,
-dimensions are ANDed, and at least `concept` or `rules` is required. An assertion
-uses one of three closed fact queries: `contexts`, `relations`, and
-`contributions`.
-
-Within a Policy Pack source root, one top-level `policy_pack` manifest names the
-Policy Pack. Policies are top-level declarations in any `.rf.hcl` or
-`.rf.json` file beneath that same root:
-
-```rf title="policies/subnet-network-context.rf.hcl"
-policy "subnet-network-context" {
-  target {
-    concept = rf.concept.subnet
-  }
-
-  assert = exists(contexts(rf.context.network, rf.concept.virtual-network))
-  message = "Subnets must have an established virtual network context."
-}
-```
-
-The manifest assigns Policy Pack identity to this Policy through the shared
-source root.
-The Policy needs neither nesting nor a Policy Pack reference.
-
-An empty query means zero only when the relevant emission is supported and its
-closure and instance population are complete. An unresolved closure makes an
-affected query indeterminate, including under negation. A selected Policy with
-no targets has outcome `no_target`; unless another Policy is violated or
-indeterminate, `rootform check` then reports no decision and exits 3. An
-indeterminate evaluation also exits 3. A confirmed violation exits 1; all
-selected Policies passing exits 0. Usage errors exit 2, and a report write
-failure exits 4.
-
-Read [Policies and Policy Packs](../concepts/policies.md) for governance meaning.
-Use [Understand Policy outcomes](../guides/check-architecture.md) for a complete
-evaluated example, or see the [`check` reference](../reference/cli/check.md).
-
-## Language boundaries
-
-The Rootform language is deliberately closed. It does not include:
-
-- authoring imports or modules;
-- variables, user-defined functions, or general HCL/Terraform functions;
-- arithmetic, loops, comprehensions, conditionals, object literals, or splats;
-- Policy Pack inheritance or composition;
-- access from Policies to raw Terraform values, state, plans, or provider APIs.
-
-`match.kind` selects `resource` (managed instance) or `data` (data instance).
-These words identify input instance kinds; they do not add equivalent
-authoring constructs to `.rf.hcl`.
-
-Use `rootform lsp` for editor diagnostics and `rootform fmt` for canonical
-formatting. Validation compiles definitions; `rootform test` compares Dialect
-fixture architectures; `rootform check` evaluates selected Policies. These
-operations answer different questions, so use them together in an authoring
-workflow.
+The [Language reference](reference/index.md) is the normative source for accepted
+syntax, defaults, evaluation rules, diagnostics and limits. Use it for exact
+contracts; the learning pages explain their motivation and consequences.

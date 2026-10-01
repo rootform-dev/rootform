@@ -147,11 +147,6 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
   const tourFiles: Array<[string, string]> = [
     ["aws/dialect.rf.hcl", "aws/dialect.rf.hcl"],
     ["aws/network/vpc.rf.hcl", "aws/network/vpc.rf.hcl"],
-    ["google/vocabulary.rf.hcl", "google/vocabulary.rf.hcl"],
-    [
-      "google/load-balancing/application-load-balancer.rf.hcl",
-      "google/load-balancing/application-load-balancer.rf.hcl",
-    ],
     ["policies/pack.rf.hcl", "policies/pack.rf.hcl"],
     ["policies/subnet-network-context.rf.hcl", "policies/subnet-network-context.rf.hcl"],
   ];
@@ -160,13 +155,38 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
     mkdirSync(dirname(dest), { recursive: true });
     writeFileSync(dest, configuration(tour, title));
   }
-  writeFileSync(
-    join(tourCase.dir, "google/dialect.rf.hcl"),
-    'dialect "google" {\n  version = "0.1.0"\n  provider "hashicorp/google" {\n    version = "= 8.0.0"\n  }\n}\n',
+  for (const name of ["plan.json", "plan.tfplan"]) {
+    cpSync(join(root, "scripts/fixtures/docs/first-architecture", name), join(tourCase.dir, name));
+  }
+  marked("language/tour.md", "language-tour-run-pair", tourCase.dir, tourCase.home);
+  marked("language/tour.md", "language-tour-run-values", tourCase.dir, tourCase.home);
+  marked("language/tour.md", "language-tour-check-pair", tourCase.dir, tourCase.home);
+  marked("language/tour.md", "language-tour-check-values", tourCase.dir, tourCase.home, 3);
+  const paired = JSON.parse(readFileSync(join(tourCase.dir, "analysis.json"), "utf8"));
+  const plain = JSON.parse(readFileSync(join(tourCase.dir, "values-only.json"), "utf8"));
+  const from = "representation:1:aws_subnet.application";
+  const to = "representation:1:aws_vpc.main";
+  const fact = paired.stages.planned.contexts.find(
+    (item: { from: string; to: string }) => item.from === from && item.to === to,
   );
-  run([binary, "validate", "dialects", "./aws"], tourCase.dir, tourCase.home);
-  run([binary, "validate", "dialects", "./google"], tourCase.dir, tourCase.home);
-  run([binary, "list", "policies", "--policy-pack", "./policies"], tourCase.dir, tourCase.home);
+  assert(
+    fact?.provenance[0]?.evidence === "traversal",
+    "tour network Context lacks traversal proof",
+  );
+  const closure = plain.stages.planned.closures.find(
+    (item: { representation: string }) => item.representation === from,
+  );
+  assert(
+    plain.stages.planned.contexts.length === 0 &&
+      closure?.outcome === "indeterminate" &&
+      closure.reason === "unknown_until_apply",
+    "tour plan-only evidence does not retain unknown target closure",
+  );
+  assert(
+    paired.stages.planned.representations.length === 2 &&
+      plain.stages.planned.representations.length === 2,
+    "tour lost base Representations",
+  );
 
   const packCase = fresh("policy-pack");
   commerce(packCase.dir);

@@ -78,10 +78,13 @@ an existing representation base; a later Rule enriches the same representation.
 An interpretation failure never deletes its base.
 
 Each active emission has a closure with outcome `resolved`, `absent`, or
-`indeterminate`. Null and empty values follow the emission's declarations;
-unknown, sensitive, ambiguous, transformed, or unavailable evidence remains
-indeterminate with a reason. Confirmed facts and an indeterminate remainder may
-coexist in one closure. Unknown evidence never proves absence.
+`indeterminate`. Null and empty values follow the emission's declarations.
+When available evidence is insufficient, the closure remains indeterminate with
+a reason. A verified endpoint traversal can establish a reference without
+reading an unknown or sensitive value; a transformed reference supplies no
+traversal proof, though its evaluated value can match. Confirmed facts and an
+indeterminate remainder may coexist in one closure. Unknown evidence never
+proves absence.
 
 ## Concepts
 
