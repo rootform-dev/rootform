@@ -127,8 +127,8 @@ For every root instance, Rootform processes members in authored order:
    record an unresolved member with its reason.
 
 A verified traversal to `id` can establish an uninterpreted member; another
-attribute cannot. An unresolved
-member does not stop an independent later member from resolving.
+attribute cannot. An unresolved member does not stop an independent later
+member from resolving.
 
 Composition does not apply the root Rule or Concept to members, invent
 Relations between them, or remove their Representations. See

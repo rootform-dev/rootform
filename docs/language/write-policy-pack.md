@@ -85,7 +85,7 @@ Target is one block:
 target {
   concept  = rf.concept.kubernetes-cluster
   rules    = [aws.rule.eks-cluster]
-    dialects = ["aws"]
+  dialects = ["aws"]
 }
 ```
 
