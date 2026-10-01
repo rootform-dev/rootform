@@ -47,3 +47,15 @@ test("conflicting resource presentation identities fail closed", () => {
     "Conflicting presentation identity",
   );
 });
+
+test("Azure association icons retain their precise association labels", () => {
+  const catalog = JSON.parse(buildRendererPresentation(join(import.meta.dir, "..")));
+  expect(catalog.rules["azure.rule.nat-gateway-public-ip-association"]).toBe("azure/nat-gateway");
+  expect(catalog.rule_labels["azure.rule.nat-gateway-public-ip-association"]).toBe(
+    "NAT Gateway public IP association",
+  );
+  expect(catalog.rules["azure.rule.subnet-nat-gateway-association"]).toBe("azure/subnet");
+  expect(catalog.rule_labels["azure.rule.subnet-nat-gateway-association"]).toBe(
+    "Subnet NAT Gateway association",
+  );
+});
