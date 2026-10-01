@@ -40,9 +40,9 @@ the Explorer opens the virtual network that holds the subnet. Select the
 
 ## Read why it is placed there
 
-In **Details**, **Where** lists two placements: the resource group `prod` and
-the VNet `prod`. **Made of** lists the six private endpoints that sit in this
-subnet.
+In **Details**, **Contexts** lists two placements: Ownership in resource group
+`prod` and Network in VNet `prod`. **Incoming contexts** lists the six private
+endpoints placed in this subnet; **Scene members** counts them.
 
 Open the **Evidence** tab. Under **Evidence**, the entry
 `azurerm_subnet.prod_data → azurerm_virtual_network.prod` is the network
@@ -51,14 +51,15 @@ placement. Expand its **Resolution**: it names the Rule
 and the kind of evidence that settled it. Under **Closures**, **Network
 placement to virtual network** is **Resolved** with one fact.
 
-![The Inspector for azurerm_subnet.prod_data on the Evidence tab: the network placement fact, its expanded Resolution naming the Rule and attribute, and the resolved closure](../assets/explorer/quickstart-evidence-light.png#gh-light-mode-only)
-![The Inspector for azurerm_subnet.prod_data on the Evidence tab: the network placement fact, its expanded Resolution naming the Rule and attribute, and the resolved closure](../assets/explorer/quickstart-evidence-dark.png#gh-dark-mode-only)
+![The Evidence tab for azurerm_subnet.prod_data: evaluated value and verified traversal, the resolved outcome, and both placement closures with their candidate counts](../assets/explorer/quickstart-evidence-light.png#gh-light-mode-only)
+![The Evidence tab for azurerm_subnet.prod_data: evaluated value and verified traversal, the resolved outcome, and both placement closures with their candidate counts](../assets/explorer/quickstart-evidence-dark.png#gh-dark-mode-only)
 
 That one fact carries the whole idea. Rootform did not draw the subnet inside
 the VNet because Terraform references it: a Rule in the Azure
 [Dialect](../concepts/dialects.md) declares what the reference means, and the
-plan evidence proved it. Under **Dependencies**, the same reference appears as
-producer evidence, marked as something that never draws a relation by itself.
+plan evidence proved it. Under **Terraform dependency evidence**, the same
+reference appears as producer evidence. It does not establish an architectural
+relation by itself.
 
 ## Run the same analysis locally
 

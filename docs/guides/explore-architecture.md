@@ -10,8 +10,8 @@ evidence leave open. To try each one without installing anything, open the
 [Playground](https://docs.rootform.dev/playground/); the figures below come
 from its commerce platform sample.
 
-![The Explorer with the Inspector open on the subnet prod_data inside the virtual network prod: the Details tab lists the managed resource attributes, the two placements under Where, and the six private endpoints under Made of](../assets/explorer/inspector-details-light.png#gh-light-mode-only)
-![The Explorer with the Inspector open on the subnet prod_data inside the virtual network prod: the Details tab lists the managed resource attributes, the two placements under Where, and the six private endpoints under Made of](../assets/explorer/inspector-details-dark.png#gh-dark-mode-only)
+![The Inspector for subnet prod_data inside VNet prod: six private endpoints counted as scene members, two Contexts, and six incoming context facts](../assets/explorer/inspector-details-light.png#gh-light-mode-only)
+![The Inspector for subnet prod_data inside VNet prod: six private endpoints counted as scene members, two Contexts, and six incoming context facts](../assets/explorer/inspector-details-dark.png#gh-dark-mode-only)
 
 Locally, start from a plan JSON, a state JSON, or a saved Form, and pair the
 saved plan when direct traversal evidence matters. By default, `rootform run`
@@ -48,8 +48,9 @@ Rules. Terraform dependencies remain evidence; they do not become connection
 arrows on their own.
 
 Select a card to open the Inspector. **Details** shows the instance address,
-its interpretation, status, and provider, lists proven placements under
-**Where**, and the objects it holds under **Made of**. **Connections** lists
+its interpretation, status, producer actions, and provider. **Contexts** lists
+its proven placements; **Incoming contexts** lists objects placed here, and
+**Scene members** counts its nested scene contents. **Connections** lists
 architectural relations. **Evidence** shows facts, closures, dependencies,
 and diagnostics. **Center selection** brings the selected object back into
 view after navigation.
@@ -63,7 +64,7 @@ not draw.
 ## Why is it placed here?
 
 A placement appears as containment on the canvas and a context fact under
-**Where**. In **Evidence**, inspect the fact and its **Resolution** for the
+**Contexts**. In **Evidence**, inspect the fact and its **Resolution** for the
 emitting Rule and the source evidence, then read the closure outcome:
 `resolved` establishes the fact, `absent` records a supported absence, and
 `indeterminate` keeps a reason such as unknown until apply or sensitive

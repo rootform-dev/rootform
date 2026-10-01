@@ -2,47 +2,59 @@
   "format_version": "1",
   "description": "Explorer screenshots used by the documentation. Commerce platform sample (examples/playground/commerce-platform) rendered by the Playground of the documentation site. Light and dark pairs share one alt text and are selected by the #gh-light-mode-only and #gh-dark-mode-only suffixes. Retake every pair together after a renderer change that moves a control or label named in the documentation.",
   "capture": {
-    "viewport": "1440x900",
-    "clip": "0,40 1440x860 (Playground header removed)",
-    "device_scale_factor": 2,
-    "web_renderer_commit": "0c67fc1"
+    "viewport": "1280x720",
+    "clip": "0,40 1280x680 (Playground header removed)",
+    "device_scale_factor": 1,
+    "renderer_bundle_sha256": "6f507c9f873a9610e54365eafd78d4453a608a4c65fab0a965cfd18306d216a9"
   },
   "figures": {
     "quickstart-overview-light.png": {
-      "playground_route": "/playground/?scenario=commerce-platform&mode=plan",
-      "sha256": "eca62396b771101069a5e3c9c66a307720fe8db0c6a46661aebff703b28b0923"
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&scheme=light",
+      "sha256": "3f7caaa6ebcbf5fcc4946045d2409d7ae0c0859d62a20037378a674c1c19feea"
     },
     "inspector-details-light.png": {
-      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open",
-      "sha256": "1a7af6044b40dc916d5b7cdad826585d8d00ff8b233b551679fc8d0467833210",
-      "viewport": "1440x840",
-      "clip": "0,40 1440x800 (Playground header removed)"
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=light",
+      "sha256": "e70a105f6a29cd674abeade26c4f8f0d039f3abc708f1e36aefa87e5c338255a",
+      "side": "Planned",
+      "inspector_tab": "Details",
+      "inspector_scroll": "Scene members, Contexts and Incoming contexts"
     },
     "quickstart-evidence-light.png": {
-      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open",
-      "sha256": "03bcb237460bd9d5dd72affd997b4534e456a2eacfa96bc92e800874218ce6ca"
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=light",
+      "sha256": "e30add87c98ba0b3b21351b038864374121e84a89f278fbd5a66424e5b80a200",
+      "side": "Changes",
+      "inspector_tab": "Evidence",
+      "evidence_filter": "virtual_network.prod",
+      "expanded_resolution": "azurerm_subnet.prod_data → azurerm_virtual_network.prod",
+      "inspector_scroll": "Resolution outcome and placement closures"
     },
     "comparison-differences-light.png": {
-      "playground_route": "/playground/?scenario=commerce-platform&mode=comparison",
-      "sha256": "fcb7e6cb7dc3fdfd345c9623e7086d704180642d8df80eb6550666002b693780"
+      "playground_route": "/playground/?scenario=commerce-platform&mode=comparison&scheme=light",
+      "sha256": "74593a8f2ff016493a7d2d869894bafa1c25b699ed1c9931304a72c122281371"
     },
     "quickstart-overview-dark.png": {
-      "playground_route": "/playground/?scenario=commerce-platform&mode=plan",
-      "sha256": "f45c86d4995382d8b2c50afdacb07278e912415ff5fdab77e18a3ee05852b730"
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&scheme=dark",
+      "sha256": "ebce58a945825b9589753bfc3e3782709863611721523550feea77698ed22c90"
     },
     "inspector-details-dark.png": {
-      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open",
-      "sha256": "74ff33fb76b76238064b5b10c1ae54791e20ce6d6959eba00f3321cce2a2a8d2",
-      "viewport": "1440x840",
-      "clip": "0,40 1440x800 (Playground header removed)"
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=dark",
+      "sha256": "d0eddd5733a038240c3f904947e5c35f9b642f654dc0a42c58751281fe441272",
+      "side": "Planned",
+      "inspector_tab": "Details",
+      "inspector_scroll": "Scene members, Contexts and Incoming contexts"
     },
     "quickstart-evidence-dark.png": {
-      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open",
-      "sha256": "51f913b05c0f2625eb4618038ac2f29eddb5ce1c50e71f291401932f9a609fc7"
+      "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=dark",
+      "sha256": "b92d7aebf564087751fc84c7d5127f3d2f3a34328dcc24a933f87f6cf5b45d85",
+      "side": "Changes",
+      "inspector_tab": "Evidence",
+      "evidence_filter": "virtual_network.prod",
+      "expanded_resolution": "azurerm_subnet.prod_data → azurerm_virtual_network.prod",
+      "inspector_scroll": "Resolution outcome and placement closures"
     },
     "comparison-differences-dark.png": {
-      "playground_route": "/playground/?scenario=commerce-platform&mode=comparison",
-      "sha256": "743d80ec27930f013dd20987d082b56ea2984d5b0a1d4b76e2315f4381c7ba5f"
+      "playground_route": "/playground/?scenario=commerce-platform&mode=comparison&scheme=dark",
+      "sha256": "e2728bc5e6b510d45944a71235a702ce03c8008411ea246727ded6f719484f42"
     }
   }
 }
