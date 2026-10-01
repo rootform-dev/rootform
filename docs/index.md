@@ -11,8 +11,8 @@ The result is a [Form](concepts/forms.md), a saved file you can **explore** in a
 browser, **question** from the terminal, **compare** with another revision, and
 **check** against Policies.
 
-![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-light.png#gh-light-mode-only)
-![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-dark.png#gh-dark-mode-only)
+![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-light.webp#gh-light-mode-only)
+![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-dark.webp#gh-dark-mode-only)
 
 Rootform reads the JSON that `terraform show -json` exports, from a saved plan
 or from state. It never runs Terraform or OpenTofu, executes a provider, or

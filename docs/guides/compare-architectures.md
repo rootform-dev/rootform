@@ -78,8 +78,8 @@ rootform run comparison.json --no-serve -o comparison.html
 
 Open `comparison.html` locally. The selector reads **Differences**, Before to After, and the reading block at the bottom left switches between **Before**, **Differences**, and **After**. Each resource group carries the count of its changed entries, a removed relation is drawn dashed, and the **Added**, **Removed**, **Changed**, and **Indeterminate** filters narrow the canvas to one kind of change. The HTML makes no network requests. A local `rootform run comparison.json --no-browser --port 0` instead serves the same result on loopback; stop that server with `Ctrl+C` when finished. See [Explore a Form](explore-architecture.md) for navigation.
 
-![The Explorer on the Differences view of the commerce comparison: four resource groups with their change counts, a removed Delivers to relation drawn dashed in red, and the filters counting 58 added, 30 removed, and 6 indeterminate entries](../assets/explorer/comparison-differences-light.png#gh-light-mode-only)
-![The Explorer on the Differences view of the commerce comparison: four resource groups with their change counts, a removed Delivers to relation drawn dashed in red, and the filters counting 58 added, 30 removed, and 6 indeterminate entries](../assets/explorer/comparison-differences-dark.png#gh-dark-mode-only)
+![The Explorer on the Differences view of the commerce comparison: four resource groups with their change counts, a removed Delivers to relation drawn dashed in red, and the filters counting 58 added, 30 removed, and 6 indeterminate entries](../assets/explorer/comparison-differences-light.webp#gh-light-mode-only)
+![The Explorer on the Differences view of the commerce comparison: four resource groups with their change counts, a removed Delivers to relation drawn dashed in red, and the filters counting 58 added, 30 removed, and 6 indeterminate entries](../assets/explorer/comparison-differences-dark.webp#gh-dark-mode-only)
 
 ## Read every change
 

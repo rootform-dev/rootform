@@ -4,57 +4,72 @@
   "capture": {
     "viewport": "1280x720",
     "clip": "0,40 1280x680 (Playground header removed)",
-    "device_scale_factor": 1,
-    "renderer_bundle_sha256": "6f507c9f873a9610e54365eafd78d4453a608a4c65fab0a965cfd18306d216a9"
+    "device_scale_factor": 2,
+    "format": "webp",
+    "encoding": "lossless",
+    "renderer_assets": {
+      "/_astro/book-open.BSPDFvYU.js": "2774d68e8f0a9fd96057c2709e94c78a44516808f3b367c5e929a39cb4134086",
+      "/_astro/check.Dpon0UAU.js": "2446b051523eb32c85fcb52b6a877aee887dc9579fdc739db6db03c077a334cf",
+      "/_astro/chevron-down.DMD8vsOl.js": "4d0f1d1bbc024abb8cbb45af4596a7fdca65da0549c2f3e1035ad9ecc316102f",
+      "/_astro/client.svelte.h1MpX_mG.js": "31755c05d542aa773bbd5269f8a91f4b2b4c51be69d78a28de01ee068f8c7c67",
+      "/_astro/client.ZckRjyGN.js": "9b9113eb0a3dc445fe5f5800088b41b228bf7a265807040047ac86201d1eff55",
+      "/_astro/copy.DEgrLA67.js": "7d5c2a4f5782d938d60365cc0af037f0d9a63deb8ef65fffc78abd0653fa1a54",
+      "/_astro/index.DDXWvuX6.css": "28cd11575f6b7314e709b0e12ac92277977b30d584e1bd327bb75578d43d94dc",
+      "/_astro/page.Dwipeu-R.js": "c99ac0eaf0068f03b4abe3a28b0a7bf0f28524b9dad3b23d77d54dfd453a62ae",
+      "/_astro/Playground.BqtRJalO.js": "320ca353a593583a85715ac80ea37bf74f717429b2f84086cc4bc44f153e695f",
+      "/_astro/PlaygroundRenderer.BF9OlC5d.js": "e11d86fcec107f5bd53f358b47563784d4da179e73ddb75a97155babab937677",
+      "/_astro/preload-helper.B3nfOi5I.js": "298e58483be1903930c5a1661df3e66b3ef02723b34237990ad3a5f5e6052628",
+      "/_astro/src.DlhMKYXW.js": "02966eb3f39d8678c96113b49a985f9ec98a9dd56ad031583d4ffd2931cb4d17"
+    }
   },
   "figures": {
-    "quickstart-overview-light.png": {
+    "quickstart-overview-light.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&scheme=light",
-      "sha256": "3f7caaa6ebcbf5fcc4946045d2409d7ae0c0859d62a20037378a674c1c19feea"
+      "sha256": "12e9b1d992c39781d62db53c958cc06865422aec578869dcc78cbf1ddded8fe8"
     },
-    "inspector-details-light.png": {
+    "inspector-details-light.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=light",
-      "sha256": "e70a105f6a29cd674abeade26c4f8f0d039f3abc708f1e36aefa87e5c338255a",
+      "sha256": "bd5e8a8efab276e4e54ba944882c7b6f797123091c2e3347950e2cb07ab061dd",
       "side": "Planned",
       "inspector_tab": "Details",
       "inspector_scroll": "Scene members, Contexts and Incoming contexts"
     },
-    "quickstart-evidence-light.png": {
+    "quickstart-evidence-light.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=light",
-      "sha256": "e30add87c98ba0b3b21351b038864374121e84a89f278fbd5a66424e5b80a200",
+      "sha256": "76c35c385e48e5a7075a6af6e09d5ac31b26e21b3cdb8e120bace7aa0f33d9c3",
       "side": "Changes",
       "inspector_tab": "Evidence",
       "evidence_filter": "virtual_network.prod",
       "expanded_resolution": "azurerm_subnet.prod_data → azurerm_virtual_network.prod",
       "inspector_scroll": "Resolution outcome and placement closures"
     },
-    "comparison-differences-light.png": {
+    "comparison-differences-light.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=comparison&scheme=light",
-      "sha256": "74593a8f2ff016493a7d2d869894bafa1c25b699ed1c9931304a72c122281371"
+      "sha256": "1cc92006d5f71a392fa22312ddcb44bf1eb2ab00d86c29046110bfd254415e96"
     },
-    "quickstart-overview-dark.png": {
+    "quickstart-overview-dark.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&scheme=dark",
-      "sha256": "ebce58a945825b9589753bfc3e3782709863611721523550feea77698ed22c90"
+      "sha256": "43e26b78c6559cb0a6109cceaaf67d0301a109e63e4389c169b4b8de9cc92a5d"
     },
-    "inspector-details-dark.png": {
+    "inspector-details-dark.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=dark",
-      "sha256": "d0eddd5733a038240c3f904947e5c35f9b642f654dc0a42c58751281fe441272",
+      "sha256": "d0d5d485f8e5635f9b40cbf6010a7da8bccf242c6257e1946b24b1b9a77e9748",
       "side": "Planned",
       "inspector_tab": "Details",
       "inspector_scroll": "Scene members, Contexts and Incoming contexts"
     },
-    "quickstart-evidence-dark.png": {
+    "quickstart-evidence-dark.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=dark",
-      "sha256": "b92d7aebf564087751fc84c7d5127f3d2f3a34328dcc24a933f87f6cf5b45d85",
+      "sha256": "ede8a40ce558b3c1e7c7c9ce7a551203cd7db2f02caf27cca8755bc080501b7c",
       "side": "Changes",
       "inspector_tab": "Evidence",
       "evidence_filter": "virtual_network.prod",
       "expanded_resolution": "azurerm_subnet.prod_data → azurerm_virtual_network.prod",
       "inspector_scroll": "Resolution outcome and placement closures"
     },
-    "comparison-differences-dark.png": {
+    "comparison-differences-dark.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=comparison&scheme=dark",
-      "sha256": "e2728bc5e6b510d45944a71235a702ce03c8008411ea246727ded6f719484f42"
+      "sha256": "c8a82eeb4809d342350b73aab219529916016d3af001f676a87198d330d6715c"
     }
   }
 }
