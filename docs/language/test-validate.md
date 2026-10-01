@@ -111,6 +111,7 @@ The one instance has an applied Rule. This Rule classifies it and emits nothing,
 ## Evaluate Policies over known facts
 
 The fixture proves interpretation, not compliance. Follow [Evaluate locally](write-policy-pack.md#evaluate-locally) to select a Policy Pack against known facts and inspect a passing and failing decision. `rootform check` exits `0` only when every selected Policy evaluates a target and passes. A confirmed violation exits `1`; indeterminate evidence or zero targets exits `3`. Do not edit a generated Form to make a Policy pass.
+[Policies over facts](learn/policies.md) explains support and completeness.
 
 | Case | Expected result to assert |
 | --- | --- |
@@ -119,6 +120,13 @@ The fixture proves interpretation, not compliance. Follow [Evaluate locally](wri
 | Zero targets | `NO DECISION`, zero evaluations, and exit `3` |
 | Incomplete evidence | `indeterminate` with the closure or coverage reason, and exit `3` |
 | Missing required vocabulary | Link diagnostic, with no guessed policy decision |
+
+For target-resolution Rules, replay the same evidence with and without saved-plan
+enrichment. Include null, empty, unknown, sensitive, duplicate identity, wrong
+provider scope, external target and conflicting reference cases. Assert fact
+provenance and closure reasons, not only fact counts. Composition cases also
+assert retained roots and unresolved dependent members.
+[Evidence and target resolution](learn/evidence-targets.md) explains these boundaries.
 
 ## Inspect diagnostic ranges
 

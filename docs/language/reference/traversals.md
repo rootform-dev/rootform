@@ -5,6 +5,8 @@ description: "Attribute path grammar, roots, instance values, and saved-plan ref
 
 A traversal names an attribute path read by a Rule predicate, emission, or composition member. It does not name a Concept, Context, Relation, or Rule; those use [typed references](symbols.md).
 
+For the mental model, see [Evidence and target resolution](../learn/evidence-targets.md).
+
 ## Grammar
 
 ```ebnf

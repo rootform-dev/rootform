@@ -7,6 +7,8 @@ Composition says one interpreted root instance has implementation members in
 the same stage. It is structural architecture meaning, independent of optional
 Concept classification. Members remain separate instances.
 
+For the mental model, see [Understand composition](../learn/composition.md).
+
 ## Complete example
 
 ```rf title="composition/dialect.rf.hcl"
@@ -124,7 +126,8 @@ For every root instance, Rootform processes members in authored order:
 4. Record the established member with its value or traversal evidence; otherwise
    record an unresolved member with its reason.
 
-The saved-plan traversal can establish an uninterpreted member. An unresolved
+A verified traversal to `id` can establish an uninterpreted member; another
+attribute cannot. An unresolved
 member does not stop an independent later member from resolving.
 
 Composition does not apply the root Rule or Concept to members, invent

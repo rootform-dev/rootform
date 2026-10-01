@@ -13,7 +13,8 @@ accepted blocks, attributes, expressions, references, types, defaults, and
 runtime meaning. General HCL or Terraform expressions are not implicitly part
 of RF.
 
-This reference documents Rootform language version `0.1.0`.
+This reference documents Rootform language version `0.1.0` and is normative.
+For motivation and worked examples, start with the [learning path](../index.md#learn).
 
 ## How to use this reference
 
@@ -63,6 +64,8 @@ Cardinality applies across one source root unless a placement says otherwise.
 | `context` definition | Dialect | Top level | 0 or more | Required | [Semantic definitions](dialects.md#semantic-definition-blocks) |
 | `relation` definition | Dialect | Top level | 0 or more | Required | [Semantic definitions](dialects.md#semantic-definition-blocks) |
 | `rule` | Dialect | Top level | 0 or more | Required | [Rules](rules.md#rule-block) |
+| `identity` | Dialect | Inside `rule` | 0 or 1 | Forbidden | [Identity and endpoint declarations](rules.md#identity-and-endpoint-declarations) |
+| `endpoint` | Dialect | Inside `rule` | 0 or 1 | Forbidden | [Identity and endpoint declarations](rules.md#identity-and-endpoint-declarations) |
 | Rule `match` | Dialect | Inside `rule` | Exactly 1 | Forbidden | [Matching](rules.md#match-block) |
 | `context` emission | Dialect | Inside `rule` | 0 or more | Optional, exclusive with `as` | [Context emission](emissions.md#context-emission) |
 | `relation` emission | Dialect | Inside `rule` | 0 or more | Optional, exclusive with `as` | [Relation emission](emissions.md#relation-emission) |

@@ -11,6 +11,8 @@ An applied Rule may emit directed facts from its instance to a target endpoint i
 | Relation | Named architectural predicate | Source to target |
 | Contribution | Source contributes to target | Source to target |
 
+For the mental model, see [Choose an architectural fact](../learn/facts.md) and [Evidence and target resolution](../learn/evidence-targets.md).
+
 ## Complete example
 
 ```rf title="emissions/dialect.rf.hcl"
@@ -77,7 +79,7 @@ parameters:
 | `prefix` | Static string | No | None | Removes declared prefix from `via` before comparison; requires `match` |
 | `match` | Block | No | None | Compare the value with declared target identity attributes |
 
-A missing `on_null` or `on_empty` is a compile error. Unknown values remain `indeterminate(unknown_until_apply)` and sensitive values remain `indeterminate(sensitive)` regardless of those declarations. A list fans out element by element; established facts remain even if another element makes the overall closure indeterminate. A nested list, map, or Boolean element is an unsupported endpoint shape (`VIA_VALUE_SHAPE`).
+A missing `on_null` or `on_empty` is a compile error. Without verified endpoint reference evidence, unknown values remain `indeterminate(unknown_until_apply)` and sensitive values remain `indeterminate(sensitive)` regardless of those declarations. A verified reference can establish an endpoint without comparing its sensitive value. A list fans out element by element; established facts remain even if another element makes the overall closure indeterminate. A nested list, map, or Boolean element is an unsupported endpoint shape (`VIA_VALUE_SHAPE`).
 
 ## Context emission
 
@@ -211,7 +213,7 @@ Each source instance and emission has one closure in its stage:
 | Outcome | Meaning |
 | --- | --- |
 | `resolved` | One or more target facts established; every list element settled |
-| `absent` | `on_null` or `on_empty` declared a known missing value absent |
+| `absent` | No endpoint established and every element settled absent under the declared null/empty policy or excluded by a declared prefix |
 | `indeterminate` | Evidence cannot decide; reason and candidate counts explain why |
 
 Other reasons include `unknown_until_apply`, `sensitive`, `ambiguous_unknown`, `uncomparable_candidate`, `duplicate_identity`, `identity_incomplete`, `reference_ambiguous`, `unavailable`, and `external_denied`. A missing attribute path on an emitted instance yields `EMISSION_PATH_UNDEFINED` and `indeterminate(unavailable)`, not absence. A wrong target Concept does not get coerced; an unresolved target does not turn into an external endpoint. See [Diagnostics and limits](diagnostics.md#emission-warnings).

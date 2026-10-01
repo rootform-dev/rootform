@@ -1,16 +1,23 @@
 ---
 title: "Language tour"
-description: "Follow a .rf.hcl source set from declaration matching to base representations, facts, composition, and policy linking."
+description: "Follow one subnet from exported plan evidence through a Dialect Rule, network Context, closure and Policy."
 ---
 
-The Rootform language interprets instances in a plan JSON or state JSON. This
-tour follows one Dialect Rule from a resource to a fact, then asks a policy
-question about it. Rootform ships RF Vocabulary and embedded Dialects with
-every release; authored source stays inspectable and testable.
+A subnet belongs to a VPC. This tour teaches how a Rule turns that reference
+into network Context, then how a Policy checks the established fact.
+
+Start with the two-resource VPC and subnet plan from
+[Trace a placement](../getting-started/first-architecture.md). Keep its `plan.json`
+and matching `plan.tfplan` in your working directory. The subnet's `vpc_id` is
+unknown before apply, but its configuration directly references `aws_vpc.main.id`.
+The [plan-input guide](../inputs/plans.md) gives export commands for both producers.
 
 <!-- rootform:steps -->
 
-## Declare a Dialect
+## Name the Dialect
+
+Save these files beneath `./aws`. This example uses the embedded AWS owner
+for a command-local source override; a distributable Dialect uses your own owner.
 
 ```rf title="aws/dialect.rf.hcl"
 dialect "aws" {
@@ -22,39 +29,10 @@ dialect "aws" {
 }
 ```
 
-A Dialect owns its local definitions and Rules and imports no other Dialect. Any
-reference to `rf.*` derives a dependency on the embedded RF Vocabulary.
+The source root supplies identity and a provider binding. Files do not create
+imports or matching priority. The `rf` owner names the embedded RF Vocabulary.
 
-## Start from the complete instance base
-
-Every managed and data instance in the plan or state has a Representation,
-even when no Rule recognizes its type. The base retains its address, type,
-provider and known identity. A missing Rule is visible as uninterpreted,
-instead of making the instance disappear.
-
-## Use common and local vocabulary
-
-RF Vocabulary is part of the language contract and uses the reserved `rf` owner.
-Version 0.1 defines six Concepts:
-
-- `rf.concept.virtual-network`;
-- `rf.concept.subnet`;
-- `rf.concept.kubernetes-cluster`;
-- `rf.concept.managed-database`;
-- `rf.concept.object-storage-container`;
-- `rf.concept.service-identity`.
-
-It also defines `rf.context.network` and `rf.context.runtime`, and no Relations.
-RF Vocabulary ships with the release, so it is never installed or vendored.
-Dialect-specific meaning stays local:
-
-```rf title="google/vocabulary.rf.hcl"
-concept "load-balancer" {
-  description = "A load-balancing service composed from routing infrastructure."
-}
-```
-
-## Match and enrich an instance
+## Classify both instances and declare the connection
 
 ```rf title="aws/network/vpc.rf.hcl"
 rule "vpc" {
@@ -64,6 +42,14 @@ rule "vpc" {
   }
 
   as = rf.concept.virtual-network
+
+  identity {
+    attributes = ["id"]
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
 }
 
 rule "subnet" {
@@ -80,70 +66,52 @@ rule "subnet" {
     via      = source.vpc_id
     on_null  = "absent"
     on_empty = "absent"
-  }
-}
-```
 
-`as` classifies an instance. The subnet Context resolves when its evaluated
-`vpc_id` or verified saved-plan traversal identifies a virtual-network
-instance. A source dependency alone never becomes an architecture fact.
-
-A Rule must add classification, emission, or composition; a match-only Rule is
-invalid. One accepted Rule is applied, and an ambiguous or undecidable predicate
-keeps the instance base and records diagnostics.
-
-## Choose a fact shape
-
-- `context` records placement in a named dimension;
-- a labeled `relation "name"` records a local directed predicate;
-- an unlabeled `relation { as = ... }` reuses an existing local predicate;
-- `contribution` links a contributor without absorbing it.
-
-Each emission requires a `to` Concept or Rule, a `via` evidence path, and
-`on_null` and `on_empty` choices. Explicit target matching supports `exact`,
-`dot-ancestor`, and `last-segment`. See [emissions](reference/emissions.md).
-
-## Compose implementation members
-
-```rf title="google/load-balancing/application-load-balancer.rf.hcl"
-rule "application-load-balancer" {
-  match {
-    kind = "resource"
-    type = "google_compute_global_forwarding_rule"
-  }
-
-  as = concept.load-balancer
-
-  composition {
-    member "target-https-proxy" {
-      via = source.target
-
-      match {
-        kind = "resource"
-        type = "google_compute_target_https_proxy"
-      }
-    }
-
-    member "url-map" {
-      via = member.target-https-proxy.url_map
-
-      match {
-        kind = "resource"
-        type = "google_compute_url_map"
-      }
+    match {
+      by       = target.id
+      strategy = "exact"
     }
   }
 }
 ```
 
-Members are ordered: each `via` reads the root instance or an earlier member.
-Rootform resolves them separately for every root instance and stage. An
-unresolved member stays listed on its root with a reason, and a later member
-that reads it is unresolved too; the root keeps its classification and
-emissions. Members remain separate instances and never inherit the root Rule
-or Concept. See [composition](reference/composition.md).
+Every instance already has a Representation. `as` classifies the VPC and subnet.
+The VPC's `identity` makes its known `id` available for value matching; `endpoint`
+allows a verified reference to that ID to name the instance before the value is
+known. The subnet's Context reads `source.vpc_id` and requires a virtual-network
+target. Its nested `match` supplies the value-comparison route.
 
-## Ask a policy question
+## Produce a Form from the plan pair
+
+<!-- docs-check:language-tour-run-pair -->
+```sh
+rootform validate dialects ./aws
+rootform run plan.json --plan-file plan.tfplan --dialect ./aws \
+  --no-serve -o analysis.json
+```
+
+In `analysis.json`, the Planned stage contains both Representations, a network
+Context from `aws_subnet.application` to `aws_vpc.main`, and a `resolved` closure.
+Its fact provenance records `traversal`: the saved plan identifies the endpoint
+without requiring the unknown ID. The Form records the evidence behind that
+claim. No live cloud connection was tested.
+
+## See the boundary without enrichment
+
+<!-- docs-check:language-tour-run-values -->
+```sh
+rootform run plan.json --dialect ./aws --no-serve -o values-only.json
+```
+
+The two instances retain their classification. The unknown `vpc_id` cannot
+establish the Context alone, so its closure is
+`indeterminate(unknown_until_apply)`. A known ID could resolve by value matching
+when target identity and provider compatibility are established. The saved plan
+is optional enrichment, not an architectural input requirement.
+
+## Check the architectural fact
+
+Save the manifest and Policy beneath `./policies`:
 
 ```rf title="policies/pack.rf.hcl"
 policy_pack "tutorial" {
@@ -162,26 +130,28 @@ policy "subnet-network-context" {
 }
 ```
 
-A policy source declares no dependencies. The linker derives exact RF Vocabulary
-and Dialect identities from qualified references and the Form. The policy ID
-is `tutorial.policy.subnet-network-context`.
+<!-- docs-check:language-tour-check-pair -->
+```sh
+rootform check analysis.json --policy-pack ./policies
+```
 
-## Keep uncertainty explicit
+The subnet has one confirmed network Context, so this Policy passes with exit `0`.
+The check reads the saved Form; it does not rebuild the architecture.
 
-Unknown traversal and ambiguous target leave a closure indeterminate with a
-reason; proven absence records an absent closure. Neither case removes the
-instance or invents an edge. A policy depending on that uncertain fact cannot
-claim a pass. See [evaluation](reference/evaluation.md).
+<!-- docs-check:language-tour-check-values -->
+```sh
+rootform check values-only.json --policy-pack ./policies
+```
 
-Validate authored Dialects and Policy Packs first. Test a Dialect against a
-fixture containing `main.tf`, `plan.json`, the matching `plan.tfplan`, and an
-`analysis.golden` Form. Run the plan to inspect the instance and facts, then use
-`rootform check` to evaluate the Policy. Comparing two inputs with `--diff` produces a
-comparison Form. The [authoring guide](../dialect-authoring.md) makes those
-steps executable; [plan inputs](../inputs/plans.md) explains the export.
+This check is indeterminate and exits `3`. Zero confirmed facts under an
+indeterminate closure do not prove that the subnet lacks a VPC. To prove absence,
+the Rule would need known evidence under its declared null/empty policy and a
+complete relevant population.
 
 <!-- rootform:endsteps -->
 
-Continue with [Write a Dialect](../dialect-authoring.md),
-[Write a Policy Pack](write-policy-pack.md), or
-[language reference](reference/index.md).
+[Read a Rule](learn/read-a-rule.md) explains the complete official version.
+[Evidence and target resolution](learn/evidence-targets.md) covers known values,
+state evidence, ambiguity and external endpoints. Then follow
+[Write a Dialect](../dialect-authoring.md) or
+[Write a Policy Pack](write-policy-pack.md) to author your own source.

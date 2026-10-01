@@ -5,6 +5,8 @@ description: "Instance interpretation, closure truth, Policy targets, outcomes, 
 
 Rootform interprets plan JSON or state JSON locally. It masks sensitive values before retaining requested paths, selects at most one Rule per managed or data instance, closes that Rule's emissions, and evaluates selected Policies over one architecture stage within a Form. It never runs Terraform or OpenTofu or contacts providers. A saved Form can be reopened after validation without reinterpreting the original input.
 
+For the mental model, see [Policies over facts](../learn/policies.md).
+
 ## Architecture evaluation pipeline
 
 1. Read observed instances and their provider bindings from the plan or state export.

@@ -62,6 +62,9 @@ policy "managed-database-network-context" {
 
 These fences match public baseline source exactly.
 
+For the evidence model behind an assertion, read
+[Policies over facts](learn/policies.md).
+
 <!-- rootform:steps -->
 
 ## Name and version the Policy Pack
@@ -82,7 +85,7 @@ Target is one block:
 target {
   concept  = rf.concept.kubernetes-cluster
   rules    = [aws.rule.eks-cluster]
-  dialects = [aws]
+    dialects = ["aws"]
 }
 ```
 

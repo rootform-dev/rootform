@@ -5,6 +5,8 @@ description: "Rule declarations, instance matching, identity, and selection prec
 
 A Rule interprets one managed or data resource instance in a plan JSON or state JSON. Its `match` decides eligibility; `as` assigns an optional Concept; emissions and composition add further architecture meaning. The Rule name alone creates no Concept or fact.
 
+For the mental model, see [Read a Rule](../learn/read-a-rule.md).
+
 ## Complete example
 
 ```rf title="reference/dialect.rf.hcl"
