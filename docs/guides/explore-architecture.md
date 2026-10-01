@@ -10,8 +10,8 @@ evidence leave open. To try each one without installing anything, open the
 [Playground](https://docs.rootform.dev/playground/); the figures below come
 from its commerce platform sample.
 
-![The Inspector for subnet prod_data inside VNet prod: six private endpoints counted as scene members, two Contexts, and six incoming context facts](../assets/explorer/inspector-details-light.png#gh-light-mode-only)
-![The Inspector for subnet prod_data inside VNet prod: six private endpoints counted as scene members, two Contexts, and six incoming context facts](../assets/explorer/inspector-details-dark.png#gh-dark-mode-only)
+![The Inspector for subnet prod_data inside VNet prod: six private endpoints counted as scene members, two Contexts, and six incoming context facts](../assets/explorer/inspector-details-light.webp#gh-light-mode-only)
+![The Inspector for subnet prod_data inside VNet prod: six private endpoints counted as scene members, two Contexts, and six incoming context facts](../assets/explorer/inspector-details-dark.webp#gh-dark-mode-only)
 
 Locally, start from a plan JSON, a state JSON, or a saved Form, and pair the
 saved plan when direct traversal evidence matters. By default, `rootform run`

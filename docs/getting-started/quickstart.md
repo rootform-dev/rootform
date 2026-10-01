@@ -22,8 +22,8 @@ Open the [Playground](https://docs.rootform.dev/playground/) and keep
 of the planned architecture: four resource groups, the relations between
 them, and a few resources that no group holds.
 
-![The Explorer at the top level of the commerce platform plan: four resource group blocks with their object counts, relation labels such as Peers with and Delivers to, and the Planned changes selector](../assets/explorer/quickstart-overview-light.png#gh-light-mode-only)
-![The Explorer at the top level of the commerce platform plan: four resource group blocks with their object counts, relation labels such as Peers with and Delivers to, and the Planned changes selector](../assets/explorer/quickstart-overview-dark.png#gh-dark-mode-only)
+![The Explorer at the top level of the commerce platform plan: four resource group blocks with their object counts, relation labels such as Peers with and Delivers to, and the Planned changes selector](../assets/explorer/quickstart-overview-light.webp#gh-light-mode-only)
+![The Explorer at the top level of the commerce platform plan: four resource group blocks with their object counts, relation labels such as Peers with and Delivers to, and the Planned changes selector](../assets/explorer/quickstart-overview-dark.webp#gh-dark-mode-only)
 
 The selector at the top left reads **Planned changes**, Refreshed to Planned:
 this plan starts from an empty state, so everything it proposes is added. The
@@ -51,8 +51,8 @@ placement. Expand its **Resolution**: it names the Rule
 and the kind of evidence that settled it. Under **Closures**, **Network
 placement to virtual network** is **Resolved** with one fact.
 
-![The Evidence tab for azurerm_subnet.prod_data: evaluated value and verified traversal, the resolved outcome, and both placement closures with their candidate counts](../assets/explorer/quickstart-evidence-light.png#gh-light-mode-only)
-![The Evidence tab for azurerm_subnet.prod_data: evaluated value and verified traversal, the resolved outcome, and both placement closures with their candidate counts](../assets/explorer/quickstart-evidence-dark.png#gh-dark-mode-only)
+![The Evidence tab for azurerm_subnet.prod_data: evaluated value and verified traversal, the resolved outcome, and both placement closures with their candidate counts](../assets/explorer/quickstart-evidence-light.webp#gh-light-mode-only)
+![The Evidence tab for azurerm_subnet.prod_data: evaluated value and verified traversal, the resolved outcome, and both placement closures with their candidate counts](../assets/explorer/quickstart-evidence-dark.webp#gh-dark-mode-only)
 
 That one fact carries the whole idea. Rootform did not draw the subnet inside
 the VNet because Terraform references it: a Rule in the Azure
