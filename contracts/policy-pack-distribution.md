@@ -176,8 +176,10 @@ verified at linking.
   carry, override, or append Policies.
 - Pack selection is never automatic: a project evaluates only packs recorded in
   its lock or named explicitly.
-- The language server is pack-less: it does not load, evaluate, or require
-  Policy Packs.
+- The language server validates authored Dialect and Policy Pack source through
+  their respective compilers. It does not select, acquire, load installed packs
+  or evaluate Policies. Linking Policy references against a saved Form remains
+  an explicit compilation operation; source authoring does not prove that link.
 - `explain policy` reads the Policy result that `check` wrote; it never loads a
   Policy Pack or evaluates a Policy again.
 - V0 provides no Policy Pack index and no mutable pack discovery tag.

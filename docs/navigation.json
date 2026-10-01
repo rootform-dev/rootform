@@ -70,6 +70,7 @@
       {
         "label": "Author",
         "items": [
+          { "label": "Edit source", "page": "language/editors" },
           { "label": "Write a Dialect", "page": "dialect-authoring" },
           { "label": "Write a Policy Pack", "page": "language/write-policy-pack" },
           { "label": "Test and validate", "page": "language/test-validate" }
