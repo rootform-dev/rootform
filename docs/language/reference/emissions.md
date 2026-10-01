@@ -189,8 +189,15 @@ has no label or nested blocks and appears at most once in that emission.
 
 | Name | Required | Accepted |
 | --- | --- | --- |
-| `by` | Yes | One `target.*` traversal or nonempty ordered list of them, each declared in a candidate target Rule's `identity.attributes` |
+| `by` | Yes | One `target.*` traversal or nonempty ordered list of them; target identity validation follows the scope below |
 | `strategy` | Yes | `"exact"`, `"dot-ancestor"`, or `"last-segment"` |
+
+For a local Concept or Rule target, each path must be declared in the identity
+of an eligible target Rule. Single-Dialect compilation exempts shared `rf`
+Concept targets, whose candidates may come from other Dialects; official
+whole-set validation checks their matched paths against target identities.
+At resolution, a candidate that defines none of the listed paths is compared
+on its own Rule's identity attributes instead.
 
 `exact` compares known values. `dot-ancestor` accepts a dot-delimited ancestor, choosing the most specific candidate. `last-segment` compares the final `/`-separated segment. Rootform tries `by` paths in order. A candidate with unknown, sensitive, or unavailable identity cannot be discarded to manufacture a unique match. Duplicate known identities produce `DUPLICATE_IDENTITY`; an uncomparable candidate can leave `indeterminate(uncomparable_candidate)`. A known value and verified traversal that point to different targets produce `EVIDENCE_CONFLICT` and `indeterminate(reference_ambiguous)`.
 
@@ -224,4 +231,4 @@ Other reasons include `unknown_until_apply`, `sensitive`, `ambiguous_unknown`, `
 
 ## Rejected syntax
 
-A Context or Relation with both a label and `as` fails with `FACT_INVALID`. A missing `to` or `via` fails likewise. Missing null or empty policy fails with `EMISSION_ON_NULL_REQUIRED` or `EMISSION_ON_EMPTY_REQUIRED`. `match.by` outside the target Rule's declared identities fails with `MATCH_IDENTITY_UNDECLARED`.
+A Context or Relation with both a label and `as` fails with `FACT_INVALID`. A missing `to` or `via` fails likewise. Missing null or empty policy fails with `EMISSION_ON_NULL_REQUIRED` or `EMISSION_ON_EMPTY_REQUIRED`. An undeclared `match.by` path for a local target fails with `MATCH_IDENTITY_UNDECLARED`.
