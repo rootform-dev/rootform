@@ -37,8 +37,9 @@ const forbiddenRequirements = [
 const qualifiedPaths = [
   "Local qualification covers CNCF Distribution 3.0 over anonymous TLS.",
   "Private Basic authentication and Docker credential-helper access to Distribution are not qualified by this path.",
-  "Candidate qualification against a transient public GHCR package uses a Docker credential helper under GitHub Actions' repository-inherited package visibility.",
-  "It does not separately prove the Bearer challenge exchange, anonymous pull, or private-package access.",
+  "Candidate qualification against a transient private GHCR package uses a Docker credential helper with GitHub Actions' repository-inherited access permissions.",
+  "Package visibility is checked separately.",
+  "It does not separately prove the Bearer challenge exchange or anonymous pull.",
 ].join(" ");
 
 export function validateOCICoreProfile(body: string): void {
