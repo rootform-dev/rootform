@@ -9,7 +9,7 @@ Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 #### ± Planned changes
 
 | Change | Instances | External endpoints | Contributions |
-| --- | ---: | ---: | ---: |
+| --- | :---: | :---: | :---: |
 | + Added | 1 | 1 | 1 |
 | − Removed | 0 | 0 | 0 |
 

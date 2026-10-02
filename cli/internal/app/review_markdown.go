@@ -85,13 +85,19 @@ func (v *review) unfold() {
 	v.b.WriteString("</details>\n\n")
 }
 
-// grid writes a table whose cells are already escaped.
-func (v *review) grid(header []string, numeric bool, rows [][]string) {
+// grid writes escaped cells, centering numeric dimensions while labels stay
+// left-aligned. Mixed tables can name their numeric columns explicitly.
+func (v *review) grid(header []string, numeric bool, rows [][]string, numericColumns ...int) {
 	align := make([]string, len(header))
 	for i := range header {
 		align[i] = "---"
 		if i > 0 && numeric {
-			align[i] = "---:"
+			align[i] = ":---:"
+		}
+		for _, column := range numericColumns {
+			if i == column {
+				align[i] = ":---:"
+			}
 		}
 	}
 	v.b.WriteString("| " + strings.Join(header, " | ") + " |\n")

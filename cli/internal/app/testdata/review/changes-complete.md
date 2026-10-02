@@ -9,7 +9,7 @@ Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 #### ± Planned changes
 
 | Change | Instances | Relations | Contexts | Contributions |
-| --- | ---: | ---: | ---: | ---: |
+| --- | :---: | :---: | :---: | :---: |
 | + Added | 76 | 18 | 68 | 14 |
 | − Removed | 0 | 0 | 0 | 0 |
 

@@ -66,7 +66,7 @@ func TestReviewChangesKeepStatusesAndSeparateKinds(t *testing.T) {
 	rep := runReport{}
 	v := &review{}
 	rep.writeCounts(v, &reportBlock{comparison: c})
-	want := "| Change | Instances | Relations | Contexts |\n| --- | ---: | ---: | ---: |\n| + Added | 3 | 0 | 1 |\n| − Removed | 1 | 1 | 0 |\n| Moved | 1 | 0 | 0 |\n"
+	want := "| Change | Instances | Relations | Contexts |\n| --- | :---: | :---: | :---: |\n| + Added | 3 | 0 | 1 |\n| − Removed | 1 | 1 | 0 |\n| Moved | 1 | 0 | 0 |\n"
 	if !strings.Contains(string(v.bytes()), want) {
 		t.Fatal(string(v.bytes()))
 	}
