@@ -343,9 +343,10 @@ export function validateRepository(): void {
     !candidateWorkflow.includes("packages: write") ||
     !candidateWorkflow.includes("test:oci-registry-compatibility") ||
     !candidateWorkflow.includes("rootform-oci-core-v1") ||
-    !candidateWorkflow.includes("Require qualification package to start private or absent") ||
-    !candidateWorkflow.includes("Verify private qualification package access") ||
-    (candidateWorkflow.match(/= private/gmu)?.length ?? 0) !== 2 ||
+    !candidateWorkflow.includes("Require isolated qualification namespace to be absent") ||
+    !candidateWorkflow.includes("Record qualification package access") ||
+    !candidateWorkflow.includes('IN("private", "public", "internal")') ||
+    !candidateWorkflow.includes("steps.ghcr-profile.outcome == 'success'") ||
     candidateWorkflow.includes("private GHCR") ||
     !candidateWorkflow.includes(
       "actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c",
