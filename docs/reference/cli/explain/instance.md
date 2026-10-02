@@ -28,7 +28,7 @@ rootform explain instance <address> --input <input> [options]
 
 ### Input
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --input ` | ` string ` | ` "" ` | read `input`: a plan JSON, a state JSON, a saved Form, or `-` for standard input |
 | ` --side ` | ` string ` | ` "" ` | side of a comparison Form to explain: `before\|after`; required for a comparison Form |
@@ -36,14 +36,14 @@ rootform explain instance <address> --input <input> [options]
 
 ### Output
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --details ` | ` bool ` | ` false ` | also show diagnostic codes |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 
 ### Rootform project
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
 | ` --locked ` | ` bool ` | ` false ` | refuse to run unless rootform.lock is valid |
@@ -51,7 +51,7 @@ rootform explain instance <address> --input <input> [options]
 
 ### Advanced evidence settings
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --plan-complete ` | ` string ` | ` "" ` | declare the plan complete; the only `value` is attested |
 | ` --plan-file ` | ` string ` | ` "" ` | pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape |
@@ -61,7 +61,7 @@ rootform explain instance <address> --input <input> [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain instance |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |

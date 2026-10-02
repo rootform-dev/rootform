@@ -15,7 +15,7 @@ rootform test [directory] [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
@@ -24,7 +24,7 @@ rootform test [directory] [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform test |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -50,7 +50,7 @@ results go to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | every selected fixture passed or, with --update, was recorded |
 | `1` | at least one fixture differed or could not be analyzed |

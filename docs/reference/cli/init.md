@@ -20,7 +20,7 @@ rootform init [path] [options]
 
 ### Preparation
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --locked ` | ` bool ` | ` false ` | require and preserve the existing rootform.lock |
 | ` --no-input ` | ` bool ` | ` false ` | never prompt; require deterministic action |
@@ -28,14 +28,14 @@ rootform init [path] [options]
 
 ### Output
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --details ` | ` bool ` | ` false ` | list every prepared unit's status and source on standard error |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform init |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |

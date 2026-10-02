@@ -15,14 +15,14 @@ rootform install dialects <reference>... [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 | ` --offline ` | ` bool ` | ` false ` | use no network; accept installed digest references |
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform install dialects |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -40,7 +40,7 @@ The summary goes to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | every reference is installed |
 | `1` | content is invalid or a named version is absent |

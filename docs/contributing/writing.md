@@ -48,6 +48,11 @@ Choose the content type before deciding the structure:
 Do not turn a tutorial into a concept catalog or a reference into a guided tour.
 Link to the content type that answers the reader's next question.
 
+Reference tables use **Description** for inputs, options, outputs and exit
+statuses. Input and option tables also show the type and literal default.
+Describe the effect and essential constraints concisely; keep shared guidance
+outside the rows.
+
 Apply these limits before drafting:
 
 | Page | Keep here | Defer |

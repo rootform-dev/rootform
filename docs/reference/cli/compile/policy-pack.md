@@ -15,14 +15,14 @@ rootform compile policy-pack <directory> [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -o, --output ` | ` string ` | ` "" ` | write compiled Policy Pack to `file` (required) |
 | ` --semantics ` | ` string ` | ` "" ` | read semantics from a saved Form `file` (required) |
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform compile policy-pack |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -39,7 +39,7 @@ The summary goes to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | the compiled Policy Pack was written |
 | `1` | the Policy Pack or Form is invalid |

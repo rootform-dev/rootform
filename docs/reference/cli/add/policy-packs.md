@@ -15,7 +15,7 @@ rootform add policy-packs <source>... [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --dry-run ` | ` bool ` | ` false ` | print the planned change and write nothing |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
@@ -24,7 +24,7 @@ rootform add policy-packs <source>... [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform add policy-packs |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -47,7 +47,7 @@ The summary goes to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | rootform.lock matches the request |
 | `1` | a source is invalid or a named selection is absent |

@@ -36,7 +36,7 @@ rootform run <input> [--diff <input>] [options]
 
 ### Inputs and stages
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --after-stage ` | ` string ` | ` "" ` | stage of the second input to compare: `planned\|refreshed\|recorded`; default: Planned for a plan, Recorded for a state |
 | ` --before-stage ` | ` string ` | ` "" ` | stage of the first input to compare: `planned\|refreshed\|recorded`; default: Planned for a plan, Recorded for a state |
@@ -45,7 +45,7 @@ rootform run <input> [--diff <input>] [options]
 
 ### Output
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --details ` | ` bool ` | ` false ` | add semantics, closure counts, and diagnostic codes; a Markdown summary and the summary beside the explorer then list every entry |
 | ` --format ` | ` string ` | ` "" ` | format of standard output, or of a single -o file without a recognized extension: `text\|json\|markdown\|html`; default: text |
@@ -53,7 +53,7 @@ rootform run <input> [--diff <input>] [options]
 
 ### Explorer
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --no-browser ` | ` bool ` | ` false ` | serve the explorer without opening a browser |
 | ` --no-serve ` | ` bool ` | ` false ` | exit once the outputs are written instead of serving the explorer |
@@ -61,7 +61,7 @@ rootform run <input> [--diff <input>] [options]
 
 ### Rootform project
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
 | ` --locked ` | ` bool ` | ` false ` | refuse to run unless rootform.lock is valid |
@@ -69,7 +69,7 @@ rootform run <input> [--diff <input>] [options]
 
 ### Advanced evidence settings
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --diff-plan-file ` | ` string ` | ` "" ` | pair the --diff plan JSON with its saved plan `file`, as --plan-file does |
 | ` --plan-complete ` | ` string ` | ` "" ` | declare the plan complete; the only `value` is attested |
@@ -80,7 +80,7 @@ rootform run <input> [--diff <input>] [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform run |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |

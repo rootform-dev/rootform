@@ -15,7 +15,7 @@ rootform package policy-packs <directory> [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --documentation-url ` | ` string ` | ` "" ` | record the documentation `url` in OCI provenance |
 | ` --licenses ` | ` string ` | ` "" ` | record the SPDX license `expression` in OCI provenance |
@@ -25,7 +25,7 @@ rootform package policy-packs <directory> [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform package policy-packs |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -41,7 +41,7 @@ The summary goes to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | the registry layout was written |
 | `1` | the Policy Pack source is invalid |

@@ -34,21 +34,23 @@ or PR comment. It rejects `pull_request_target` before installation. See
 
 ## Inputs
 
-| Input | Default | Description |
-| --- | --- | --- |
-| `version` | Omitted | Exact published Rootform version; omit only to reuse an earlier Rootform Action step |
-| `github-token` | `${{ github.token }}` | Optional GitHub API token for release rate limits; root comment uses it only when enabled |
-| `project` | Omitted | Rootform project directory for raw evidence or Policy Pack selection; default workspace |
-| `locked` | `false` | Require and preserve the project rootform.lock for analysis or Policy selection |
-| `offline` | `false` | Prepare selected external content without network access |
-| `cache` | `true` | Cache verified external Dialect and Policy Pack sources selected by the project lock |
+Type describes accepted values. GitHub passes all inputs as strings; `bool` accepts `true` or `false`, `int` accepts a whole number. An empty default leaves the input unset.
+
+| Input | Type | Default | Description |
+| --- | --- | --- | --- |
+| `version` | `string` | `""` | Exact published version; omit to reuse a verified version in this job |
+| `github-token` | `string` | `${{ github.token }}` | GitHub token for release API requests |
+| `project` | `string` | `""` | Project directory for raw evidence or Policy selection; defaults to workspace |
+| `locked` | `bool` | `false` | Require and preserve existing rootform.lock |
+| `offline` | `bool` | `false` | Prepare selected external content without network access |
+| `cache` | `bool` | `true` | Cache verified external sources selected by rootform.lock |
 
 ## Outputs
 
 | Output | Description |
 | --- | --- |
-| `version` | Exact verified Rootform CLI version |
+| `version` | Verified Rootform CLI version |
 
-Exact fields and defaults: [Action metadata](https://github.com/rootform-dev/action/blob/8b026e9c7268a960ed6f9b48ecea404180ddb151/init/action.yml).
+Exact fields and defaults: [Action metadata](https://github.com/rootform-dev/action/blob/5d4888cf30e59f121f9204d2428006838d15c887/init/action.yml).
 
 <!-- END GENERATED ACTION -->
