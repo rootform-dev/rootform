@@ -514,7 +514,7 @@ jobs:
           name: rootform-candidate-${{ inputs.version }}-${{ github.sha }}
           path: build/release
 
-      - name: Download exact existing draft assets by ID
+      - name: Download and verify exact existing draft assets
         if: needs.replay.result == 'success'
         shell: bash
         env:
@@ -530,13 +530,7 @@ jobs:
             <<<"$release" >/dev/null
           mkdir -p build/release
           printf '%s\n' "$release" > build/replay-release.json
-          jq -r '.assets[] | [.id, .name] | @tsv' <<<"$release" | tr -d '\r' |
-            while IFS=$'\t' read -r asset_id asset_name; do
-              [[ "$asset_id" =~ ^[1-9][0-9]*$ ]]
-              [[ "$asset_name" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]]
-              gh api -H 'Accept: application/octet-stream' \
-                "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "build/release/$asset_name"
-            done
+          gh release download "v$ROOTFORM_VERSION" --repo "$GITHUB_REPOSITORY" --dir build/release
           bun - <<'JS'
           import { readFileSync } from 'node:fs';
           import { releaseAssetNames } from './scripts/release/contract.ts';
