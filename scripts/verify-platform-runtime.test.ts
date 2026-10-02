@@ -3,6 +3,7 @@ import { chmodSync, mkdirSync, mkdtempSync, symlinkSync, writeFileSync } from "n
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
+  assertEmbeddedDialectInspection,
   assertNoTargetPolicyResult,
   assertTargetMatchesHost,
   JourneyError,
@@ -22,7 +23,16 @@ test("no-target Policy result has no instance evaluations", () => {
   const result = {
     format_version: "1",
     status: "no_decision",
-    summary: { policies: { selected: 2, no_target: 2 }, evaluations: { total: 0 } },
+    selection: { policies: ["baseline.policy.one", "baseline.policy.two"] },
+    architectures: [
+      {
+        kind: "plan",
+        stage: "planned",
+        status: "no_decision",
+        summary: { policies: { selected: 2, no_target: 2 }, evaluations: { total: 0 } },
+        evaluations: [],
+      },
+    ],
   };
   expect(() => assertNoTargetPolicyResult(JSON.stringify(result))).not.toThrow();
   expect(() => assertNoTargetPolicyResult(JSON.stringify({ ...result, status: "passed" }))).toThrow(
@@ -30,9 +40,46 @@ test("no-target Policy result has no instance evaluations", () => {
   );
   expect(() =>
     assertNoTargetPolicyResult(
-      JSON.stringify({ ...result, summary: { ...result.summary, evaluations: { total: 1 } } }),
+      JSON.stringify({
+        ...result,
+        architectures: [
+          {
+            ...result.architectures[0],
+            summary: { policies: { selected: 2, no_target: 2 }, evaluations: { total: 1 } },
+          },
+        ],
+      }),
     ),
   ).toThrow(/no_decision/u);
+  for (const invalid of [
+    { ...result, architectures: [], summary: result.architectures[0]?.summary },
+    { ...result, architectures: [result.architectures[0], result.architectures[0]] },
+    { ...result, architectures: [{ ...result.architectures[0], status: "passed" }] },
+    { ...result, architectures: [{ ...result.architectures[0], evaluations: [{}] }] },
+    { ...result, selection: { policies: [] } },
+  ])
+    expect(() => assertNoTargetPolicyResult(JSON.stringify(invalid))).toThrow(/no_decision/u);
+});
+
+test("supplied Dialect inspection uses the embedded origin", () => {
+  const aws = { name: "aws", version: "0.1.0", origin: "embedded" };
+  expect(() =>
+    assertEmbeddedDialectInspection(JSON.stringify([aws]), JSON.stringify(aws)),
+  ).not.toThrow();
+  for (const invalid of [[], [{ ...aws, origin: "supplied" }], [aws, { ...aws, name: "core" }]]) {
+    expect(() =>
+      assertEmbeddedDialectInspection(JSON.stringify(invalid), JSON.stringify(aws)),
+    ).toThrow();
+  }
+  for (const invalid of [
+    { ...aws, origin: "supplied" },
+    { ...aws, version: "0.1.1" },
+    { ...aws, name: "azure" },
+  ]) {
+    expect(() =>
+      assertEmbeddedDialectInspection(JSON.stringify([aws]), JSON.stringify(invalid)),
+    ).toThrow();
+  }
 });
 
 test("parseArguments accepts spaced and inline flag forms", () => {

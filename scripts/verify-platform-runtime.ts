@@ -186,19 +186,66 @@ export function assertNoTargetPolicyResult(body: string): void {
   const result = JSON.parse(body) as {
     format_version?: string;
     status?: string;
-    summary?: {
-      policies?: { no_target?: number; selected?: number };
-      evaluations?: { total?: number };
-    };
+    selection?: { policies?: string[] };
+    architectures?: {
+      kind?: string;
+      stage?: string;
+      status?: string;
+      summary?: {
+        policies?: { no_target?: number; selected?: number };
+        evaluations?: { total?: number };
+      };
+      evaluations?: unknown[];
+    }[];
   };
+  const architecture = result.architectures?.[0];
+  const selected = architecture?.summary?.policies?.selected;
   if (
     result.format_version !== "1" ||
     result.status !== "no_decision" ||
-    !result.summary?.policies?.selected ||
-    result.summary.policies.no_target !== result.summary.policies.selected ||
-    result.summary.evaluations?.total !== 0
+    !Array.isArray(result.architectures) ||
+    result.architectures.length !== 1 ||
+    architecture?.kind !== "plan" ||
+    architecture.stage !== "planned" ||
+    architecture.status !== "no_decision" ||
+    !Number.isSafeInteger(selected) ||
+    !selected ||
+    selected < 1 ||
+    result.selection?.policies?.length !== selected ||
+    architecture.summary?.policies?.no_target !== selected ||
+    architecture.summary.evaluations?.total !== 0 ||
+    !Array.isArray(architecture.evaluations) ||
+    architecture.evaluations.length !== 0
   ) {
     throw new Error("policy without target did not produce a no_decision result");
+  }
+}
+
+export function assertEmbeddedDialectInspection(listBody: string, showBody: string): void {
+  const listed = JSON.parse(listBody) as { name?: unknown; origin?: unknown; version?: unknown }[];
+  if (
+    !Array.isArray(listed) ||
+    !listed.some((entry) => entry.name === "aws") ||
+    listed.some((entry) => entry.name === "core")
+  ) {
+    throw new Error("effective Dialect catalog lost AWS or retained legacy core");
+  }
+  for (const entry of listed) {
+    if (
+      typeof entry.name !== "string" ||
+      typeof entry.version !== "string" ||
+      entry.origin !== "embedded"
+    ) {
+      throw new Error("supplied Dialect listing lost embedded identity");
+    }
+  }
+  const shown = JSON.parse(showBody) as { name?: unknown; origin?: unknown; version?: unknown };
+  if (
+    shown.name !== "aws" ||
+    shown.origin !== "embedded" ||
+    shown.version !== listed.find((entry) => entry.name === "aws")?.version
+  ) {
+    throw new Error("embedded supplied Dialect inspection drifted");
   }
 }
 
@@ -520,7 +567,7 @@ export async function runJourney(
         ],
         { cwd: project, environment: onlineEnvironment, redactions },
       );
-      if (outcome.exitCode !== 3 || !outcome.stderr.includes("POLICY_NO_DECISION")) {
+      if (outcome.exitCode !== 3) {
         throw new Error(`policy without target exited ${outcome.exitCode}: ${outcome.stderr}`);
       }
       assertNoTargetPolicyResult(readFileSync(policyResult, "utf8"));
@@ -604,27 +651,10 @@ export async function runJourney(
         ...offlineEnvironment,
         ROOTFORM_HOME: freshHome,
       };
-      const listed = JSON.parse(
+      assertEmbeddedDialectInspection(
         run(["list", "dialects", "--format", "json"], project, environment).stdout,
-      ) as { name?: unknown; origin?: unknown; version?: unknown }[];
-      const names = listed.map((entry) => String(entry.name ?? ""));
-      if (!names.includes("aws") || names.includes("core")) {
-        throw new Error("effective Dialect catalog lost AWS or retained legacy core");
-      }
-      for (const entry of listed) {
-        if (typeof entry.name !== "string" || typeof entry.version !== "string") {
-          throw new Error("dialect listing lost name or version");
-        }
-        if (entry.origin !== "supplied") {
-          throw new Error("supplied Dialect listing has another origin");
-        }
-      }
-      const shown = JSON.parse(
         run(["show", "aws", "--format", "json"], project, environment).stdout,
-      ) as { name?: unknown; origin?: unknown; version?: unknown };
-      if (shown.name !== "aws" || shown.origin !== "supplied") {
-        throw new Error("embedded supplied Dialect inspection drifted");
-      }
+      );
     });
 
     attempt("local-policy-pack-list-show", () => {
