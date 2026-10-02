@@ -22,20 +22,20 @@ rootform show <command> [options]
 
 ### Output
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 
 ### Rootform project
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
 | ` --project ` | ` string ` | ` "" ` | read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory |
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform show |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |

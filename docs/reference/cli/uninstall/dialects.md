@@ -15,13 +15,13 @@ rootform uninstall dialects <name@version>... [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform uninstall dialects |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -36,7 +36,7 @@ The summary goes to standard output. Diagnostics go to standard error.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | every named version was deleted |
 | `1` | a named version is not installed |

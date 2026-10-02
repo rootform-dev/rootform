@@ -17,7 +17,7 @@ rootform uninstall <command> [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform uninstall |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -31,7 +31,7 @@ deleted version gets it back through rootform init.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | help was shown |
 | `2` | the command was used incorrectly |

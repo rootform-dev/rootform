@@ -17,6 +17,7 @@ test("every Action page exposes its complete exact input/output contract", () =>
   for (const name of actionNames) {
     const page = readFileSync(join(root, "docs/integrations/github-actions", `${name}.md`), "utf8");
     const generated = renderReference(snapshot, name);
+    expect(generated).toContain("| Input | Type | Default | Description |");
     expect(updateReference(page, generated)).toBe(page);
     const rows = generated.split("\n").filter((line) => line.startsWith("| `"));
     const metadata = snapshot.actions[name];
@@ -27,6 +28,17 @@ test("every Action page exposes its complete exact input/output contract", () =>
       expect(rows.some((row) => row.startsWith(`| \`${id}\` |`))).toBe(true);
     expect(generated).toContain(snapshot.source.commit);
   }
+});
+
+test("input tables describe accepted values and preserve literal defaults", () => {
+  const generated = renderReference(snapshot, "action");
+  expect(generated).toContain("GitHub passes all inputs as strings");
+  expect(generated).toContain('| `version` | `string` | `""` |');
+  expect(generated).toContain("| `locked` | `bool` | `false` |");
+  expect(generated).toContain("| `retention-days` | `int` | `7` |");
+  const changed = structuredClone(snapshot);
+  changed.actions.setup.inputs.newInput = { description: "New", required: false, default: "" };
+  expect(() => renderReference(changed, "setup")).toThrow("Missing documented input type");
 });
 
 test("metadata cannot split table cells or introduce raw markup", () => {

@@ -201,7 +201,7 @@ test("renders exact usage, inherited defaults, aliases and required state", () =
   expect(page).toContain("read JSON plan; use `-` for standard input");
   expect(page).toContain("Aliases: ` compile `.");
   expect(page).toContain(
-    "| Status | Meaning |\n| --- | --- |\n| `0` | analyzed |\n| `3` | refused |",
+    "| Status | Description |\n| --- | --- |\n| `0` | analyzed |\n| `3` | refused |",
   );
   expect(page).toContain("```sh\nrootform run plan.json --no-serve\n```");
   expect(page).not.toContain("Boolean flags set");
@@ -343,7 +343,7 @@ test("an Options flag group sits directly under the Options heading", () => {
     ),
   };
   const page = renderCommand(cmd, commands);
-  expect(page).toContain("## Options\n\n| Flag | Type | Default | Meaning |");
+  expect(page).toContain("## Options\n\n| Flag | Type | Default | Description |");
   expect(page).not.toContain("### Options");
   expect(page).toContain("### Global options");
 });

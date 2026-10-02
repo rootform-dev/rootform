@@ -17,13 +17,13 @@ rootform validate form <file> [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate form |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |

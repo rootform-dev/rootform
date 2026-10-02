@@ -19,7 +19,7 @@ rootform vendor policy-packs [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --offline ` | ` bool ` | ` false ` | use no network; copy only local and installed Policy Packs |
 | ` --project ` | ` string ` | ` "" ` | vendor what rootform.lock selects in project `dir`; paths stay relative to the working directory; default: the working directory |
@@ -27,7 +27,7 @@ rootform vendor policy-packs [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform vendor policy-packs |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |

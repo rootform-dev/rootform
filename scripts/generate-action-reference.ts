@@ -18,6 +18,32 @@ export type ActionReference = {
 };
 const begin = "<!-- BEGIN GENERATED ACTION -->";
 const end = "<!-- END GENERATED ACTION -->";
+const inputTypes: Record<string, "string" | "bool" | "int"> = {
+  version: "string",
+  "github-token": "string",
+  project: "string",
+  locked: "bool",
+  offline: "bool",
+  cache: "bool",
+  input: "string",
+  "plan-file": "string",
+  before: "string",
+  after: "string",
+  "before-plan-file": "string",
+  "after-plan-file": "string",
+  stage: "string",
+  "before-stage": "string",
+  "after-stage": "string",
+  side: "string",
+  policy: "string",
+  "policy-pack": "string",
+  check: "bool",
+  summary: "bool",
+  "upload-artifact": "bool",
+  "artifact-name": "string",
+  "retention-days": "int",
+  comment: "bool",
+};
 
 function cell(value: string): string {
   return value
@@ -38,13 +64,17 @@ export function renderReference(document: ActionReference, name: ActionName): st
     "",
     "## Inputs",
     "",
-    "| Input | Default | Description |",
-    "| --- | --- | --- |",
+    "Type describes accepted values. GitHub passes all inputs as strings; `bool` accepts `true` or `false`, `int` accepts a whole number. An empty default leaves the input unset.",
+    "",
+    "| Input | Type | Default | Description |",
+    "| --- | --- | --- | --- |",
   ];
   for (const [id, input] of Object.entries(metadata.inputs)) {
-    const fallback = input.default === "" ? "Omitted" : `\`${cell(input.default)}\``;
+    const type = inputTypes[id];
+    if (!type) throw new Error(`Missing documented input type: ${id}`);
+    const fallback = `\`${input.default === "" ? '""' : cell(input.default)}\``;
     lines.push(
-      `| \`${id}\` | ${fallback} | ${cell(input.description)}${input.required ? " Required." : ""} |`,
+      `| \`${id}\` | \`${type}\` | ${fallback} | ${cell(input.description)}${input.required ? " Required." : ""} |`,
     );
   }
   lines.push("", "## Outputs", "", "| Output | Description |", "| --- | --- |");

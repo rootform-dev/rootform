@@ -15,7 +15,7 @@ rootform validate policy <identifier> [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
@@ -24,7 +24,7 @@ rootform validate policy <identifier> [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform validate policy |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -44,7 +44,7 @@ standard error.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | the definition is valid |
 | `1` | the definition is not valid, or no definition has that name |

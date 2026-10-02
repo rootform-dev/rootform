@@ -17,7 +17,7 @@ rootform lsp [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform lsp |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -31,7 +31,7 @@ standard error; source diagnostics travel through LSP.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | the client completed shutdown and exit |
 | `2` | the command was used incorrectly |

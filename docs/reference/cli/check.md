@@ -22,21 +22,21 @@ rootform check <input> [options]
 
 ### Target selection
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --side ` | ` string ` | ` "" ` | sides of a comparison Form to evaluate: `before\|after\|both`; default: both |
 | ` --stage ` | ` string ` | ` "" ` | stage to evaluate: `planned\|refreshed\|recorded`; default: Planned for a plan, Recorded for a state; with a comparison Form, needs --side before or after |
 
 ### Policy selection
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --policy ` | ` stringArray ` | ` [] ` | evaluate only the Policies `selector` names: PACK.policy.NAME, PACK/NAME, a bare name, or PACK/*; repeatable |
 | ` --policy-pack ` | ` stringArray ` | ` [] ` | add or replace the Policy Pack at `path`, a source directory or a compiled file, for this command only; repeatable |
 
 ### Output
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --details ` | ` bool ` | ` false ` | also list passed evaluations, Policy Pack identities, and diagnostic codes |
 | ` --format ` | ` string ` | ` "" ` | format of standard output, or of a single -o file without a recognized extension: `text\|json\|markdown\|sarif`; default: text |
@@ -44,7 +44,7 @@ rootform check <input> [options]
 
 ### Rootform project
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
 | ` --locked ` | ` bool ` | ` false ` | refuse to run unless rootform.lock is valid |
@@ -52,7 +52,7 @@ rootform check <input> [options]
 
 ### Advanced evidence settings
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --plan-complete ` | ` string ` | ` "" ` | declare the plan complete; the only `value` is attested |
 | ` --plan-file ` | ` string ` | ` "" ` | pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape |
@@ -62,7 +62,7 @@ rootform check <input> [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform check |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -154,7 +154,7 @@ this invocation. See
 
 ## Exit status
 
-| Exit | Meaning |
+| Exit | Description |
 | --- | --- |
 | `0` | Every selected Policy passed on every requested side. |
 | `1` | A selected Policy was violated on a requested side. |

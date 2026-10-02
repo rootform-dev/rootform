@@ -31,7 +31,7 @@ rootform explain policy <policy> --result <file> [options]
 
 ### Inputs
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --input ` | ` string ` | ` "" ` | describe inspected evidence from the Form `input` the result was computed from: a plan JSON, a state JSON, a saved Form, or `-` |
 | ` --result ` | ` string ` | ` "" ` | read the Policy result `file` that check wrote as JSON, or `-` for standard input |
@@ -39,14 +39,14 @@ rootform explain policy <policy> --result <file> [options]
 
 ### Output
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --details ` | ` bool ` | ` false ` | also list passed evaluations and diagnostic codes |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
 
 ### Rootform project
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --dialect ` | ` stringArray ` | ` [] ` | use Dialect source `dir` for this command only; repeatable |
 | ` --locked ` | ` bool ` | ` false ` | refuse to run unless rootform.lock is valid |
@@ -54,7 +54,7 @@ rootform explain policy <policy> --result <file> [options]
 
 ### Advanced evidence settings
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --plan-complete ` | ` string ` | ` "" ` | declare the plan complete; the only `value` is attested |
 | ` --plan-file ` | ` string ` | ` "" ` | pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape |
@@ -64,7 +64,7 @@ rootform explain policy <policy> --result <file> [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform explain policy |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |

@@ -15,7 +15,7 @@ rootform publish dialects <layout> [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --dry-run ` | ` bool ` | ` false ` | report the verified publication plan without network access |
 | ` --format ` | ` string ` | ` "" ` | output format: `text\|json`; default: text |
@@ -23,7 +23,7 @@ rootform publish dialects <layout> [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform publish dialects |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -41,7 +41,7 @@ standard error.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | publication or dry-run verification completed |
 | `1` | the registry layout is invalid |

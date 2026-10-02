@@ -17,7 +17,7 @@ rootform compile <command> [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform compile |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -29,7 +29,7 @@ Compile Policy Pack sources with explicit semantic pins for later checks.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | help was shown |
 | `2` | the command was used incorrectly |

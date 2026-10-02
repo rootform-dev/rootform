@@ -15,14 +15,14 @@ rootform fmt [path] [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --check ` | ` bool ` | ` false ` | check formatting without rewriting files |
 | ` --diff ` | ` bool ` | ` false ` | show formatting changes without rewriting files |
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform fmt |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
@@ -38,7 +38,7 @@ standard output without rewriting. Diagnostics go to standard error.
 
 ## Exit status
 
-| Status | Meaning |
+| Status | Description |
 | --- | --- |
 | `0` | the sources are formatted |
 | `1` | a source cannot be parsed, or --check or --diff found a source that is not formatted |

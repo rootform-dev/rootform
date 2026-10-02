@@ -19,7 +19,7 @@ rootform vendor dialects [options]
 
 ## Options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` --offline ` | ` bool ` | ` false ` | use no network; copy only local and installed Dialects |
 | ` --project ` | ` string ` | ` "" ` | vendor what rootform.lock selects in project `dir`; paths stay relative to the working directory; default: the working directory |
@@ -27,7 +27,7 @@ rootform vendor dialects [options]
 
 ### Global options
 
-| Flag | Type | Default | Meaning |
+| Flag | Type | Default | Description |
 | --- | --- | --- | --- |
 | ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform vendor dialects |
 | ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |

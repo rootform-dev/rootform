@@ -31,18 +31,20 @@ rate limits and is not passed to Rootform. See
 
 ## Inputs
 
-| Input | Default | Description |
-| --- | --- | --- |
-| `version` | Omitted | Exact published Rootform version; omit only to reuse an earlier Rootform Action step |
-| `github-token` | `${{ github.token }}` | Optional GitHub API token for release rate limits; root comment uses it only when enabled |
+Type describes accepted values. GitHub passes all inputs as strings; `bool` accepts `true` or `false`, `int` accepts a whole number. An empty default leaves the input unset.
+
+| Input | Type | Default | Description |
+| --- | --- | --- | --- |
+| `version` | `string` | `""` | Exact published version; omit to reuse a verified version in this job |
+| `github-token` | `string` | `${{ github.token }}` | GitHub token for release API requests |
 
 ## Outputs
 
 | Output | Description |
 | --- | --- |
-| `version` | Exact verified Rootform CLI version |
-| `sha256` | SHA-256 of the verified installed executable |
+| `version` | Verified Rootform CLI version |
+| `sha256` | SHA-256 of the verified executable |
 
-Exact fields and defaults: [Action metadata](https://github.com/rootform-dev/action/blob/8b026e9c7268a960ed6f9b48ecea404180ddb151/setup/action.yml).
+Exact fields and defaults: [Action metadata](https://github.com/rootform-dev/action/blob/5d4888cf30e59f121f9204d2428006838d15c887/setup/action.yml).
 
 <!-- END GENERATED ACTION -->

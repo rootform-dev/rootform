@@ -262,7 +262,7 @@ function flagTable(flags: Flag[], title: string): string {
     return `| ${code(name)} | ${code(flag.type)} | ${code(flag.default === "" ? '""' : flag.default)} | ${flagMeaning(flag.usage)}${notes ? ` ${cell(notes)}` : ""} |`;
   });
   const heading = title === "Options" ? "" : `### ${title}\n\n`;
-  return `${heading}| Flag | Type | Default | Meaning |\n| --- | --- | --- | --- |\n${rows.join("\n")}\n`;
+  return `${heading}| Flag | Type | Default | Description |\n| --- | --- | --- | --- |\n${rows.join("\n")}\n`;
 }
 
 export function syntax(cmd: Command): string {
@@ -334,7 +334,7 @@ export function renderCommand(cmd: Command, commands: Command[]): string {
       }
       const rows = statuses.map(({ status, meaning }) => `| \`${status}\` | ${cell(meaning)} |`);
       chunks.push(
-        `## Exit status\n\n| Status | Meaning |\n| --- | --- |\n${rows.join("\n")}${remainder.length ? `\n\n${remainder.join("\n\n")}` : ""}`,
+        `## Exit status\n\n| Status | Description |\n| --- | --- |\n${rows.join("\n")}${remainder.length ? `\n\n${remainder.join("\n\n")}` : ""}`,
       );
     }
   }
