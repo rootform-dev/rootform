@@ -17,6 +17,10 @@ providers, and credentials; Rootform then reads the exported files locally.
 procedure; this page applies it to a pull request. Use one Rootform binary
 throughout.
 
+For GitHub setup, use the [GitHub integration](../integrations/github-actions.md).
+This workflow explains which evidence to choose and how to review it;
+[Other CI/CD](../integrations/ci/README.md) covers other runners.
+
 ## Choose the review input
 
 | Evidence | Use it when | Limit |
@@ -306,6 +310,6 @@ refusal cannot be hidden by a successful upload step. Rootform SARIF uses
 logical locations only, and ingestion by a code-scanning service is not tested.
 Keep the SARIF log as an artifact.
 
-For a portable CI job, see [Run in CI](../integrations/ci/README.md). For
+For a portable CI job, see [Other CI/CD](../integrations/ci/README.md). For
 GitHub-specific permissions and artifact handling, see
-[GitHub Actions](../integrations/github-actions.md).
+[GitHub](../integrations/github-actions.md).

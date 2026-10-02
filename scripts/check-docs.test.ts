@@ -329,7 +329,6 @@ test("public examples analyze with run, gate with check, and preserve producer r
     "docs/getting-started/first-architecture.md",
     "docs/workflows/index.md",
     "docs/integrations/ci/README.md",
-    "docs/integrations/github-actions.md",
     "examples/playground/README.md",
   ]) {
     const page = readFileSync(join(root, name), "utf8");
@@ -340,6 +339,35 @@ test("public examples analyze with run, gate with check, and preserve producer r
   expect(ci).toContain("rootform check");
   expect(ci).toContain("terraform plan -input=false -out=");
   expect(ci).toContain("terraform show -json ");
+});
+
+test("GitHub recipe separates plan production from integrated review", () => {
+  const root = join(import.meta.dir, "..");
+  const recipe = Bun.YAML.parse(
+    readFileSync(join(root, "docs/integrations/ci/github-actions-plan.yml"), "utf8"),
+  ) as {
+    on: string[];
+    permissions: Record<string, string>;
+    jobs: {
+      "plan-review": { steps: { uses?: string; run?: string; with?: Record<string, string> }[] };
+    };
+  };
+  expect(recipe.on).toEqual(["pull_request"]);
+  expect(recipe.permissions).toEqual({ contents: "read" });
+  const steps = recipe.jobs["plan-review"].steps;
+  const producer = steps.findIndex((step) => step.run?.includes("terraform plan"));
+  const review = steps.findIndex((step) => step.uses?.startsWith("rootform-dev/action@"));
+  expect(producer).toBeGreaterThanOrEqual(0);
+  expect(review).toBeGreaterThan(producer);
+  expect(steps[producer]?.run).toContain('terraform show -json "$RUNNER_TEMP/plan.tfplan"');
+  expect(steps[review]?.uses).toMatch(/^rootform-dev\/action@[0-9a-f]{40}$/u);
+  expect(steps[review]?.with).toMatchObject({
+    input: expect.stringMatching(/^\$\{\{ runner.temp \}\}\/plan\.json$/u),
+    "plan-file": expect.stringMatching(/^\$\{\{ runner.temp \}\}\/plan\.tfplan$/u),
+    project: "./infra",
+  });
+  expect(steps.some((step) => step.uses?.includes("action/setup@"))).toBe(false);
+  expect(steps.some((step) => step.run?.includes("rootform-ci.sh"))).toBe(false);
 });
 
 test("language reference names instance closure and sensitive evidence bounds", () => {

@@ -25,9 +25,17 @@
     "items": [
       { "label": "Check a Form with Policies", "page": "guides/check-with-policies" },
       { "label": "Review a pull request", "page": "workflows" },
-      { "label": "Run in CI", "page": "integrations/ci" },
-      { "label": "GitHub Actions", "page": "integrations/github-actions" },
       { "label": "Understand Policy outcomes", "page": "guides/check-architecture" }
+    ]
+  },
+  {
+    "label": "Integrations",
+    "items": [
+      { "label": "Overview", "page": "integrations" },
+      { "label": "GitHub", "page": "integrations/github-actions" },
+      { "label": "VS Code", "page": "integrations/vscode" },
+      { "label": "Zed", "page": "integrations/zed" },
+      { "label": "Other CI/CD", "page": "integrations/ci" }
     ]
   },
   {

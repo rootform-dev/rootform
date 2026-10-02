@@ -1,123 +1,178 @@
 ---
-title: "GitHub Actions"
-description: "Review a completed plan in a pull request with a verified Rootform release and protected artifacts."
+title: GitHub
+description: Review architecture and Policy results in pull requests and workflow summaries, and keep the Form for reuse.
 ---
 
-The [setup action](https://github.com/rootform-dev/action/tree/main/setup) installs and verifies a published Rootform release, then puts its CLI on `PATH`. It does not run analysis or prepare selected content. Use the CLI after Terraform has produced a saved plan and JSON export. The [portable CI script](ci/rootform-ci.sh) gives this workflow the same files and exit status as other runners.
+Bring architectural changes into the review where your team already works.
+Rootform turns a completed plan or state export into a Form, presents its
+architecture in the Job Summary, and can keep one Rootform comment current
+on the pull request. Add Policies when the review also needs a gate.
 
-## Review a completed plan
+## See the review
 
-Copy [the plan workflow](ci/github-actions-plan.yml) and [the portable script](ci/rootform-ci.sh) into your repository. This complete example assumes the Terraform root is `infra` and the script is `ci/rootform-ci.sh`:
+The report keeps changes and uncertainty together. This excerpt comes from
+a [real Rootform PR comment](https://github.com/rootform-dev/action-qualification/pull/3#issuecomment-5954262030)
+on a synthetic architecture:
 
-```yaml title=".github/workflows/plan-review.yml"
-name: Rootform plan review
+**76 instances, 18 Relations, 68 Contexts, and 14 Contributions added.**
 
-on: [pull_request]
+| Change | Instances | Relations | Contexts | Contributions |
+| --- | ---: | ---: | ---: | ---: |
+| + Added | 76 | 18 | 68 | 14 |
+| − Removed | 0 | 0 | 0 | 0 |
 
+**Uncertainty**
+
+| Stage | Indeterminate closures | Unavailable | Unknown until apply |
+| --- | ---: | ---: | ---: |
+| Planned | 27 | 26 | 1 |
+
+Read the architecture report to see planned changes, reported drift and net
+change when the input contains those stages. A comparison reviews two
+architectures. Policy reports show their verdict and the facts behind it;
+indeterminate evidence remains explicit. Long lists and audit provenance are
+secondary to the review result.
+
+## Quick start
+
+Add this step after your existing job produces `plan.json`. It also accepts
+state JSON or a saved Form. Choose an exact [published Rootform version](https://github.com/rootform-dev/rootform/releases).
+
+```yaml title="Step after your plan export"
+- uses: rootform-dev/action@v1
+  id: rootform
+  with:
+    version: 0.1.0-pr.117.1
+    input: ${{ runner.temp }}/plan.json
+```
+
+The Action installs and verifies Rootform, prepares any selected project
+content, and produces the Form, Markdown review and self-contained Explorer
+HTML. Job Summary and artifact upload are enabled by default. No separate
+setup or init step is required.
+
+If you have the matching saved binary plan, add
+`plan-file: ${{ runner.temp }}/plan.tfplan`. Set `project: ./infra` when the
+project's Rootform configuration is there. With a committed `rootform.lock`,
+use `locked: true` to require and preserve that selection.
+The [complete plan workflow](ci/github-actions-plan.yml) includes the export
+step; [Review a pull request](../workflows/index.md) explains which evidence to
+choose and how to read it.
+
+Your planning step owns Terraform or OpenTofu and its credentials. Rootform
+only reads completed evidence: it never runs either tool, executes providers,
+or contacts clouds or backends. Pairing a saved plan must verify against its
+JSON export. See [plan inputs](../inputs/plans.md).
+
+## Compare and check
+
+To compare two revisions, give the same Action both operands instead of
+`input`. Each may be a plan, state or single-input Form:
+
+```yaml title="Compare saved Forms and check the proposed architecture"
+- uses: rootform-dev/action@v1
+  id: rootform
+  with:
+    version: 0.1.0-pr.117.1
+    before: before/form.json
+    after: after/form.json
+    policy-pack: ./policies
+    side: after
+```
+
+The example assumes `./policies` contains your Policy Pack. It produces a
+Comparison Form and evaluates that Pack against
+After. A Comparison Form can be reopened as `input`, but cannot be a
+comparison operand. Saved Forms retain their evidence and selection; they
+are reused without analyzing the original plan again.
+
+For a single plan or state, add `policy-pack: ./policies` to the quick start
+to analyze and check in one step. For project-selected Packs in a lock, use
+`check: true`, optionally narrowed by `policy` selectors, instead of a local
+Pack override. No Policies are selected implicitly. The
+[Policy guide](../guides/check-with-policies.md) explains selection and verdicts.
+
+When a check fails, Rootform publishes its available outputs, reports and
+enabled review channels before failing the step. The Action preserves the
+CLI's verdict; use GitHub's `continue-on-error` only when the workflow should
+continue after that result.
+
+## Keep and reuse the evidence
+
+- **Step outputs** such as `${{ steps.rootform.outputs.form }}` are file paths
+  for later steps in the same job. `report` and `html` expose the review and
+  Explorer; a check also exposes `result`, `sarif` and `exit-code`.
+- **Artifacts** keep the Form and derived reports for download or another job.
+  Raw plans, state exports and saved binary plans are never uploaded by the
+  Action. Default retention is seven days; use `upload-artifact: false` to
+  disable upload. Default names avoid matrix collisions; make a custom
+  `artifact-name` unique per invocation.
+- **Job Summary** lets reviewers read the CLI reports from the workflow run.
+  Use `summary: false` to disable it.
+
+Download `explorer.html` to explore the same Form without installing Rootform.
+For another job, download the artifact rather than reusing a runner-local
+step path. Treat all derived evidence as architecture information: it still
+reveals topology and names. Choose publication and retention for the audience
+that can read the repository.
+
+SARIF is retained as a Policy result artifact. GitHub code-scanning ingestion
+is not qualified; this integration does not automatically upload it there.
+
+## Add a PR comment
+
+On GitHub.com, comments are opt-in. Add `comment: true` to the root Action step, grant the
+reporter write permission, and serialize every job that can comment on that
+PR with the same concurrency group:
+
+```yaml title="Workflow permissions and reporter job"
 permissions:
   contents: read
+  actions: read
+  pull-requests: write
 
 jobs:
-  plan-review:
+  review:
     runs-on: ubuntu-24.04
-    env:
-      ROOTFORM_OUTPUT_DIR: .rootform-ci-${{ github.run_id }}-${{ github.run_attempt }}
+    concurrency:
+      group: rootform-pr-${{ github.event.pull_request.number }}
+      cancel-in-progress: false
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Checkout and export your input before this step.
+      - uses: rootform-dev/action@v1
         with:
-          persist-credentials: false
-      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
-        with:
-          terraform_version: 1.16.4
-          terraform_wrapper: false
-      - uses: rootform-dev/action/setup@71eef759bff5e73b27489b1f7de818a4a76dc2e9
-        with:
-          version: 0.1.0
-      # Terraform or OpenTofu produces the plan. Give this step the backend and
-      # provider credentials it needs; Rootform never receives them.
-      - name: Export plan
-        working-directory: infra
-        run: |
-          terraform init -input=false
-          terraform plan -input=false -out="$RUNNER_TEMP/plan.tfplan"
-          terraform show -json "$RUNNER_TEMP/plan.tfplan" > "$RUNNER_TEMP/plan.json"
-      # Rootform reads the completed export only. It runs no Terraform command.
-      - name: Analyze plan
-        env:
-          ROOTFORM_PROJECT: ./infra
-          ROOTFORM_INPUT: ${{ runner.temp }}/plan.json
-          ROOTFORM_PLAN_FILE: ${{ runner.temp }}/plan.tfplan
-          # Evaluate policies from a Policy Pack recorded in infra/rootform.lock:
-          # ROOTFORM_POLICY: baseline/*
-        run: sh ./ci/rootform-ci.sh
-      # Upload Rootform results only, never the saved plan or its JSON export.
-      - name: Keep Rootform results
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: rootform-plan-results
-          path: |
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/analysis.json
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/report.md
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/summary.txt
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/run.stderr
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/run.status
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/policy.json
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/policy.md
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/results.sarif
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.txt
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.stderr
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/check.status
-          if-no-files-found: warn
+          version: 0.1.0-pr.117.1
+          input: ${{ runner.temp }}/plan.json
+          comment: true
 ```
 
-OpenTofu users replace `terraform` with `tofu` and use their verified setup method. The plan step writes into `$RUNNER_TEMP`, outside the checkout. Rootform never invokes Terraform or OpenTofu, refreshes state, contacts providers, or uses backend credentials. Keep those credentials in the plan step. Saved plans and JSON exports can contain cleartext secrets, so do not add them to artifacts, step summaries, or comments. [Plan inputs](../inputs/plans.md) explains why the pair matters.
+Use this reporter on `pull_request`. Rootform updates one comment and checks
+the PR HEAD and run identity to keep an older run from replacing a newer
+review. Shared concurrency is part of that protection. Without commenting,
+normal workflows need only `contents: read`.
 
-## Interpret the analysis result
+Fork PRs keep summaries and artifacts but skip comments. A fork may lack the
+credentials needed to produce a plan; obtain that evidence in a trusted
+planning context. Do not run untrusted PR code with secrets through
+`pull_request_target`; Rootform's business Actions reject that event.
+Public Rootform downloads need no separate token.
 
-The script calls `rootform run` with `--plan-file` and `--require-enrichment` when `ROOTFORM_PLAN_FILE` is set. In the one-module example, the `Enrichment` line of `summary.txt` says `Saved plan paired with this plan JSON (1 module)`; pairing compares only version, timestamp, and configuration shape. `analysis.json` is the Form with the Planned architecture, any earlier stages and drift, and closures. `report.md` is the human review. When a gate is selected, `check.txt`, `policy.json`, `policy.md`, and `results.sarif` hold its separate result. If pairing fails, the analysis step exits `3`; re-export JSON from the exact saved plan before trusting the review. On a `pull_request` event, `actions/checkout` checks out a merge of the branch into its target by default, so the plan describes that merge result rather than the pull request head. [Review a completed plan](../workflows/index.md#review-a-completed-plan) shows how reviewers read these artifacts, and [Choose the revisions](../workflows/index.md#choose-the-revisions) explains how to compare the branch with its merge base instead.
+## Compose a custom workflow
 
-The upload step runs after a policy failure and names only Rootform outputs. A violation or no decision still fails the job; upload does not turn it green. Read `run.status` for analysis and `check.status` for the gate. The outputs describe topology and names even though sensitive values are omitted, so retain them as internal artifacts. Never upload the whole checkout or `$RUNNER_TEMP`.
+Use the primitives when another step owns presentation or you need to reuse
+installation or project preparation. Business Actions remain autonomous:
 
-## Show the review in the workflow run
+| Action | Use it to |
+| --- | --- |
+| `rootform-dev/action/setup@v1` | Install and verify Rootform without analysis |
+| `rootform-dev/action/init@v1` | Prepare a locked selection or warm content for an offline step |
+| `rootform-dev/action/analyze@v1` | Produce or reopen a Form and export its reports |
+| `rootform-dev/action/compare@v1` | Compare two operands and retain the Comparison Form |
+| `rootform-dev/action/check@v1` | Check a plan/state directly or reuse a Form/Comparison Form |
 
-Reviewers can read the report on the workflow run page and open the Explorer without installing Rootform. Insert this step after **Analyze plan**, then add `review.html` to the upload list:
-
-```yaml title="Review step to insert after Analyze plan"
-      - name: Prepare the review
-        if: ${{ !cancelled() }}
-        run: |
-          if [ -f "$ROOTFORM_OUTPUT_DIR/analysis.json" ]; then
-            cat "$ROOTFORM_OUTPUT_DIR/report.md" >> "$GITHUB_STEP_SUMMARY"
-            if [ -f "$ROOTFORM_OUTPUT_DIR/policy.md" ]; then
-              cat "$ROOTFORM_OUTPUT_DIR/policy.md" >> "$GITHUB_STEP_SUMMARY"
-            fi
-            rootform run "$ROOTFORM_OUTPUT_DIR/analysis.json" --no-serve \
-              -o "$ROOTFORM_OUTPUT_DIR/review.html"
-          fi
-```
-
-```yaml title="Line to add to the upload path list"
-            ${{ env.ROOTFORM_OUTPUT_DIR }}/review.html
-```
-
-The job summary shows `report.md` and, when present, `policy.md`, each under its own heading. `review.html` is a self-contained Explorer export built from the saved Form without analyzing the plan again, and it makes no network requests. `if: ${{ !cancelled() }}` runs the step after a policy violation, and the file test skips it when analysis failed and no Form exists. Anyone with read access to the repository can read job summaries and download artifacts; in a public repository, that is any signed-in GitHub user. Publish only what that audience may see.
-
-## Prepare selection and choose a policy gate
-
-A committed `infra/rootform.lock` fixes external Dialects and Policy Packs. Add a preparation step before analysis when it selects content:
-
-```yaml title="Step to insert before Analyze plan"
-      - name: Prepare selected content
-        run: rootform init ./infra --locked --no-input
-```
-
-The portable script passes `--locked` to both commands when that file exists. It does not run `init` or change the lock. For a locked Policy Pack, set `ROOTFORM_POLICY` in the Analyze step to a reviewed selector such as `baseline/*`. For a project without a lock, `ROOTFORM_POLICY_PACK=./policies` supplies a local Pack to the gate only. The script refuses a Policy Pack override with a lock. No selected Policies means no compliance claim even when architecture analysis succeeds. [Run in CI](ci/README.md#request-a-policy-gate) gives the full status and file contract.
-
-Rootform's SARIF log uses logical locations only, and ingestion by GitHub code scanning is not tested; keep SARIF as a build artifact.
-
-## Handle forks without exposing credentials
-
-A fork pull request receives a read-only token and normally cannot access repository secrets. A plan needing private backend or provider credentials may therefore be unavailable. Run that plan step only in a trusted context or review a protected plan produced elsewhere; do not move untrusted pull request code into a privileged `pull_request_target` job. The Rootform setup action may need a token only for a private release, while the public release path does not require an application token. Keep PR permissions narrow and avoid comments that expose topology. See GitHub's [fork event rules](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflows-in-forked-repositories) and [pull_request_target guidance](https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target).
-
-For GitLab, Azure Pipelines, or a local runner, use the same [portable recipe](ci/README.md#use-the-runner-recipes). For review outside CI, [reopen the saved Form](../guides/reproduce-build.md#reopen-a-saved-form).
+Analyze, compare and check produce Markdown and Job Summaries but never
+comment on PRs. Setup installs Rootform; init prepares selected content.
+Use the [Action reference](https://github.com/rootform-dev/action#readme) for
+exact inputs, outputs, cache settings and runner requirements.
+On GitLab, Azure Pipelines or a custom runner, use
+[Other CI/CD](ci/README.md).

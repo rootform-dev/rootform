@@ -53,6 +53,21 @@ until apply or the evidence is ambiguous, Rootform says so instead of guessing.
 - [Review a pull request](workflows/index.md)
   Bring the same evidence into a review and into CI.
 
+## Use Rootform where you work
+
+<!-- rootform:directory -->
+
+- [GitHub](integrations/github-actions.md)
+  Review architecture and Policies in your pull requests and Job Summaries; retain the Form for reuse.
+- [VS Code](integrations/vscode.md)
+  Author `.rf.hcl` with diagnostics, completion, hover, definitions and formatting.
+- [Zed](integrations/zed.md)
+  Use the same Rootform source feedback and navigation in Zed.
+- [Other CI/CD](integrations/ci/README.md)
+  Keep the same Form and review reports in GitLab, Azure Pipelines or a custom runner.
+
+[Integrations](integrations/index.md) brings these workflows together.
+
 ## Understand the model
 
 [How Rootform works](concepts.md) explains how instances, Rules, facts, and

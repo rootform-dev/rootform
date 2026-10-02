@@ -1,11 +1,26 @@
 ---
-title: "Run in CI"
-description: "Analyze a completed plan in a runner, retain review evidence, and choose an explicit policy gate."
+title: "Other CI/CD"
+description: "Review architecture and Policy results in GitLab, Azure Pipelines or a custom runner, and retain the Form for reuse."
 ---
 
-Decide what the job must produce before choosing a gate. An analysis keeps architecture evidence for review without claiming compliance. A policy gate is a separate, explicit decision.
+Bring architecture review to GitLab, Azure Pipelines or another runner.
+Rootform saves a Form and Markdown report from completed plan or state
+evidence; reviewers can also open its Explorer HTML. Add an explicit Policy
+gate when the job must check architectural requirements. Analysis alone makes
+no compliance claim.
 
-Install an exact Rootform release, then copy the [portable script](rootform-ci.sh) into your repository as `ci/rootform-ci.sh`. The script accepts a completed plan or state JSON and writes one set of results to a fresh directory. It does not run Terraform or OpenTofu, install packages, or choose project content. The [GitHub](github-actions-plan.yml), [GitLab](gitlab-ci.yml), [Azure Pipelines](azure-pipelines.yml), and [generic](generic-ci.sh) examples call that same script.
+On GitHub, start with the [GitHub integration](../github-actions.md): its
+Action handles Job Summary, artifacts and optional PR comments.
+
+## Add Rootform to your pipeline
+
+Install an exact [Rootform release](../../installation.md), then copy the
+[portable script](rootform-ci.sh) into your repository as `ci/rootform-ci.sh`.
+The [GitLab](gitlab-ci.yml), [Azure Pipelines](azure-pipelines.yml), and
+[generic](generic-ci.sh) recipes call that script after producing their input.
+It accepts a completed plan or state JSON and writes one set of results to a
+fresh directory. It does not run Terraform or OpenTofu, install packages, or
+choose project content.
 
 Use a single job when Terraform or OpenTofu and Rootform can share a protected workspace. A separate analysis job must receive the exact saved plan and JSON through a protected transfer; both can contain cleartext secrets. Keep those files out of Git, public artifacts, job summaries, and pull request comments. Rootform outputs omit sensitive values but describe topology and names, so retain them as internal review evidence.
 
@@ -161,11 +176,17 @@ The SARIF log uses logical locations only, and ingestion by a code-scanning serv
 
 ## Use the runner recipes
 
-Each recipe exports the plan, runs the script, and keeps the named results when the gate fails. Adapt the Terraform root, the policy variables, and the installation steps to your project.
+The portable recipes export the plan, run the script, and keep the named
+results when the gate fails. Adapt the Terraform root, Policy variables, and
+installation steps to your project.
 
-The [GitHub recipe](github-actions-plan.yml) installs Terraform with a pinned action and Rootform with the `setup` action, then keeps plan files in `$RUNNER_TEMP`. Its upload step uses `if: ${{ !cancelled() }}`, so the results stay downloadable after a policy failure while the job remains failed; GitHub's [status check functions](https://docs.github.com/en/actions/reference/workflows-and-actions/expressions#always) explain why. [GitHub Actions](../github-actions.md) covers the job summary and fork trust.
+The [GitHub recipe](github-actions-plan.yml) uses the integrated Rootform
+Action instead of the script. It keeps plan files in `$RUNNER_TEMP` and lets
+the Action publish the Form and reports, including before a Policy failure.
+The [GitHub integration](../github-actions.md) covers summaries, comments and
+fork trust.
 
-The [GitLab recipe](gitlab-ci.yml) needs a shell runner with Terraform and a verified Rootform `0.1.0` binary on `PATH`. It writes the saved plan, its JSON export, and the result directory `.rootform-ci-$CI_JOB_ID` inside `CI_PROJECT_DIR`, so it first checks that the runner user can write there. The analysis and gate files are listed as artifacts, and `artifacts: when: always` keeps them after a policy failure without changing the job status. See GitLab's [artifact rules](https://docs.gitlab.com/ci/yaml/#artifactswhen).
+The [GitLab recipe](gitlab-ci.yml) needs a shell runner with Terraform and a checksum-verified Rootform release on `PATH`. It writes the saved plan, its JSON export, and the result directory `.rootform-ci-$CI_JOB_ID` inside `CI_PROJECT_DIR`, so it first checks that the runner user can write there. The analysis and gate files are listed as artifacts, and `artifacts: when: always` keeps them after a policy failure without changing the job status. See GitLab's [artifact rules](https://docs.gitlab.com/ci/yaml/#artifactswhen).
 
 The [Azure Pipelines recipe](azure-pipelines.yml) runs one Bash step on a Microsoft-hosted Ubuntu agent. Add steps before it that install Terraform and a checksum-verified Rootform release, as in [manual installation](../../installation.md#manual-installation). The step writes plan files to `$(Agent.TempDirectory)` and results to a build-specific directory, which `condition: succeededOrFailed()` publishes even when the gate fails. That directory holds only Rootform results because the script requires a fresh path.
 
