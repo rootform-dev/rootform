@@ -92,7 +92,7 @@ Architectural effect: no architectural difference determined under the selected 
 
 - `object.drift`: changes the architecture; 1 fact change
 
-#### Net change
+#### Δ Net change
 
 **2 instances added, 1 removed.**
 
