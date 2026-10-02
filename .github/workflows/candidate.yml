@@ -178,6 +178,7 @@ jobs:
             --output build/bin/rootform
 
       - name: Verify contracts and examples
+        timeout-minutes: 15
         env:
           ROOTFORM_BIN: ${{ github.workspace }}/build/bin/rootform
         run: bun run verify

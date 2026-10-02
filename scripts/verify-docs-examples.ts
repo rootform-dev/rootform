@@ -107,13 +107,22 @@ for (const [command, usage] of helpUsages) {
   if (help.exitCode !== 0 || !help.stdout.toString().includes(usage))
     throw new Error(`${command} help differs from documentation`);
 }
-const journeys = await verifyJourneyExamples(binary, root);
-const concepts = await verifyConceptExamples(binary, root);
-const automation = await verifyAutomationExamples(binary, root);
-const language = await verifyLanguageExamples(binary, root);
-const languageReference = await verifyLanguageReferenceExamples(binary, root);
-const authoring = await verifyAuthoringExamples(binary, root);
-const learning = await verifyLearningExamples(binary, root);
+async function lane(name: string, verify: () => Promise<string>): Promise<string> {
+  console.log(`Docs ${name}: started`);
+  const start = performance.now();
+  const result = await verify();
+  console.log(`Docs ${name}: passed in ${((performance.now() - start) / 1000).toFixed(2)}s`);
+  return result;
+}
+const journeys = await lane("journeys", () => verifyJourneyExamples(binary, root));
+const concepts = await lane("concepts", () => verifyConceptExamples(binary, root));
+const automation = await lane("automation", () => verifyAutomationExamples(binary, root));
+const language = await lane("language", () => verifyLanguageExamples(binary, root));
+const languageReference = await lane("language reference", () =>
+  verifyLanguageReferenceExamples(binary, root),
+);
+const authoring = await lane("authoring", () => verifyAuthoringExamples(binary, root));
+const learning = await lane("learning", () => verifyLearningExamples(binary, root));
 assertEveryMarkerExecuted(markers);
 console.log(
   `Docs examples: ${checked} Markdown pages free of retired commands; ${visual.join("; ")}; analysis JSON, Markdown, text, and HTML and Policy JSON, Markdown, text, and SARIF verified.`,
