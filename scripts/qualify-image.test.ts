@@ -18,10 +18,46 @@ test("image Policy result requires a passed selected evaluation", () => {
     format_version: "1",
     status: "passed",
     selection: { policies: ["registry-compat-policies.policy.portable-service"] },
-    summary: { evaluations: { total: 1, passed: 1 } },
+    architectures: [
+      {
+        kind: "plan",
+        stage: "planned",
+        status: "passed",
+        summary: { policies: { selected: 1, passed: 1 }, evaluations: { total: 1, passed: 1 } },
+        evaluations: [
+          { policy: "registry-compat-policies.policy.portable-service", outcome: "passed" },
+        ],
+      },
+    ],
   };
   writeFileSync(path, JSON.stringify(result));
   expect(() => assertPolicyResult(path, "image Policy")).not.toThrow();
+  const architecture = result.architectures[0];
+  for (const invalid of [
+    { ...result, architectures: [], summary: architecture?.summary },
+    { ...result, architectures: [architecture, architecture] },
+    { ...result, architectures: [{ ...architecture, status: "violated" }] },
+    { ...result, architectures: [{ ...architecture, kind: "state", stage: "recorded" }] },
+    { ...result, architectures: [{ ...architecture, evaluations: [] }] },
+    {
+      ...result,
+      architectures: [
+        { ...architecture, evaluations: [{ policy: "other.policy", outcome: "passed" }] },
+      ],
+    },
+    {
+      ...result,
+      architectures: [
+        {
+          ...architecture,
+          summary: { policies: { selected: 1, passed: 1 }, evaluations: { total: 2, passed: 1 } },
+        },
+      ],
+    },
+  ]) {
+    writeFileSync(path, JSON.stringify(invalid));
+    expect(() => assertPolicyResult(path, "Policy result")).toThrow();
+  }
   writeFileSync(path, JSON.stringify({ ...result, status: "indeterminate" }));
   expect(() => assertPolicyResult(path, "image Policy")).toThrow(/did not pass/u);
 });
@@ -123,6 +159,17 @@ test("runtime container keeps project and home mount permissions separate", () =
   expect(arguments_).toContain("/qualification/ca.crt:/run/rootform-ca.crt:ro");
   expect(arguments_).toContain("--read-only");
   expect(arguments_).toContain("ALL");
+  expect(arguments_).not.toContain("--user");
+});
+
+test("host inspection grants read access without changing output write permissions", () => {
+  const directory = join(tmpdir(), "rootform-image-qualification-proof", "authoring", "layout");
+  const arguments_ = temporaryPermissionRepairArguments("rootform:test", directory, "a+rX");
+  expect(arguments_).toContain(`${directory}:/cleanup`);
+  expect(arguments_.slice(-3)).toEqual(["-R", "a+rX", "/cleanup"]);
+  expect(() =>
+    temporaryPermissionRepairArguments("rootform:test", join(directory, "../../../.."), "a+rX"),
+  ).toThrow("image qualification temporary directory is invalid");
 });
 
 test("registry request counter ignores startup and access-log noise", () => {

@@ -122,10 +122,46 @@ test("registry Policy result requires a passed selected evaluation", () => {
     format_version: "1",
     status: "passed",
     selection: { policies: ["registry-compat-policies.policy.portable-service"] },
-    summary: { evaluations: { total: 1, passed: 1 } },
+    architectures: [
+      {
+        kind: "plan",
+        stage: "planned",
+        status: "passed",
+        summary: { policies: { selected: 1, passed: 1 }, evaluations: { total: 1, passed: 1 } },
+        evaluations: [
+          { policy: "registry-compat-policies.policy.portable-service", outcome: "passed" },
+        ],
+      },
+    ],
   };
   writeFileSync(path, JSON.stringify(result));
   expect(() => verifyPolicyResult(path, "registry Policy")).not.toThrow();
+  const architecture = result.architectures[0];
+  for (const invalid of [
+    { ...result, architectures: [], summary: architecture?.summary },
+    { ...result, architectures: [architecture, architecture] },
+    { ...result, architectures: [{ ...architecture, status: "violated" }] },
+    { ...result, architectures: [{ ...architecture, kind: "state", stage: "recorded" }] },
+    { ...result, architectures: [{ ...architecture, evaluations: [] }] },
+    {
+      ...result,
+      architectures: [
+        { ...architecture, evaluations: [{ policy: "other.policy", outcome: "passed" }] },
+      ],
+    },
+    {
+      ...result,
+      architectures: [
+        {
+          ...architecture,
+          summary: { policies: { selected: 1, passed: 1 }, evaluations: { total: 2, passed: 1 } },
+        },
+      ],
+    },
+  ]) {
+    writeFileSync(path, JSON.stringify(invalid));
+    expect(() => verifyPolicyResult(path, "Policy result")).toThrow();
+  }
   writeFileSync(path, JSON.stringify({ ...result, status: "no_decision" }));
   expect(() => verifyPolicyResult(path, "registry Policy")).toThrow(/did not pass/u);
 });
