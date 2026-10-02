@@ -19,33 +19,38 @@ const version = "0.1.0-dev.2";
 const producerCommit = (
   JSON.parse(readFileSync(join(root, "public-export.json"), "utf8")) as { source_commit: string }
 ).source_commit;
+// Public form.ReleaseSetIdentity vector for the exact version and ordered units below.
+const releaseSetIdentity = "5300550aa3f6dff60d7bfe0ed65bceabddd8182d4e50ed1c93200bb1cedaa645";
 const releaseSet = {
   format_version: "1",
-  rf_language: { contract_sha256: "a".repeat(64), version: "0.1.0" },
-  units: [
-    {
-      content_digest: "d".repeat(64),
-      kind: "dialect",
-      owner: "aws",
-      semantic_digest: "e".repeat(64),
-      version: "0.1.0",
-    },
-    {
-      content_digest: "f".repeat(64),
-      kind: "dialect",
-      owner: "azure",
-      semantic_digest: "6".repeat(64),
-      version: "0.1.0",
-    },
-    {
-      content_digest: "b".repeat(64),
-      kind: "vocabulary",
-      owner: "rf",
-      semantic_digest: "c".repeat(64),
-      version: "0.1.0",
-    },
-  ],
-  version: "0.1.0",
+  release_set: {
+    id: `release-set:${releaseSetIdentity}`,
+    manifest_digest: `sha256:${releaseSetIdentity}`,
+    units: [
+      {
+        content_digest: `sha256:${"d".repeat(64)}`,
+        kind: "dialect",
+        owner: "aws",
+        semantic_digest: `sha256:${"e".repeat(64)}`,
+        version: "0.1.0",
+      },
+      {
+        content_digest: `sha256:${"f".repeat(64)}`,
+        kind: "dialect",
+        owner: "azure",
+        semantic_digest: `sha256:${"6".repeat(64)}`,
+        version: "0.1.0",
+      },
+      {
+        content_digest: `sha256:${"b".repeat(64)}`,
+        kind: "vocabulary",
+        owner: "rf",
+        semantic_digest: `sha256:${"c".repeat(64)}`,
+        version: "0.1.0",
+      },
+    ],
+    version: "0.1.0",
+  },
 };
 const releaseSetJson = `${JSON.stringify(releaseSet, null, 2)}\n`;
 const releaseSetManifestSha256 = sha256(releaseSetJson);
@@ -66,6 +71,7 @@ type FixtureOptions = {
   manifestFormatDrift?: boolean;
   producerCommitDrift?: boolean;
   releaseSetDrift?: boolean;
+  releaseSetManifest?: unknown;
   rendererAssetDrift?: boolean;
   rendererIdentityDrift?: boolean;
   rendererManifestDrift?: boolean;
@@ -226,9 +232,18 @@ function makeFixture(options: FixtureOptions = {}): Fixture {
       toolchains: { bun: "1.3.14", go: "go1.26.7" },
     },
     format_version: options.manifestFormatDrift ? "1" : "2",
-    release_set: options.releaseSetDrift
-      ? { ...releaseSet, units: [...releaseSet.units].reverse() }
-      : releaseSet,
+    release_set:
+      options.releaseSetManifest !== undefined
+        ? options.releaseSetManifest
+        : options.releaseSetDrift
+          ? {
+              ...releaseSet,
+              release_set: {
+                ...releaseSet.release_set,
+                units: [...releaseSet.release_set.units].reverse(),
+              },
+            }
+          : releaseSet,
     inputs: {
       renderer: {
         asset: {
@@ -314,10 +329,209 @@ describe("strict handoff verification", () => {
       );
       expect(verified.binaries).toHaveLength(5);
       expect(verified.releaseSetManifestSha256).toBe(releaseSetManifestSha256);
+      expect(verified.releaseSetManifestSha256).toBe(
+        "32999ca0b30e7d686b2f7efebcc8ef7f6f1efbaf9d84cf4ddde90416a68fdcf1",
+      );
       expect(verified.releaseSetVersion).toBe("0.1.0");
       expect(verified.producerSourceCommit).toBe(producerCommit);
       expect(verified.sbom.toString("utf8")).not.toContain(producerCommit);
       expect(verified.sbom.toString("utf8")).not.toContain(rendererRevision);
+    } finally {
+      rmSync(fixture.parent, { force: true, recursive: true });
+    }
+  });
+
+  type MutableReleaseSetManifest = Record<string, unknown> & {
+    release_set: Record<string, unknown> & { units: Array<Record<string, unknown>> };
+  };
+  const invalidReleaseSets: Array<[string, (metadata: MutableReleaseSetManifest) => void, string]> =
+    [
+      [
+        "missing ID",
+        (metadata) => {
+          delete metadata.release_set.id;
+        },
+        "unexpected fields",
+      ],
+      [
+        "missing manifest digest",
+        (metadata) => {
+          delete metadata.release_set.manifest_digest;
+        },
+        "unexpected fields",
+      ],
+      [
+        "incorrect ID",
+        (metadata) => {
+          metadata.release_set.id = `release-set:${"0".repeat(64)}`;
+        },
+        "identity is not derived from its units",
+      ],
+      [
+        "incorrect manifest digest",
+        (metadata) => {
+          metadata.release_set.manifest_digest = `sha256:${"0".repeat(64)}`;
+        },
+        "identity is not derived from its units",
+      ],
+      [
+        "JSON checksum used as Form identity",
+        (metadata) => {
+          metadata.release_set.id = `release-set:${releaseSetManifestSha256}`;
+          metadata.release_set.manifest_digest = `sha256:${releaseSetManifestSha256}`;
+        },
+        "identity is not derived from its units",
+      ],
+      [
+        "changed semantic pin without updated identity",
+        (metadata) => {
+          (metadata.release_set.units[0] as Record<string, unknown>).semantic_digest =
+            `sha256:${"0".repeat(64)}`;
+        },
+        "identity is not derived from its units",
+      ],
+      [
+        "missing manifest digest prefix",
+        (metadata) => {
+          metadata.release_set.manifest_digest = releaseSetIdentity;
+        },
+        "identity is invalid",
+      ],
+      [
+        "missing content digest prefix",
+        (metadata) => {
+          (metadata.release_set.units[0] as Record<string, unknown>).content_digest = "d".repeat(
+            64,
+          );
+        },
+        "invalid or duplicated",
+      ],
+      [
+        "uppercase semantic digest",
+        (metadata) => {
+          (metadata.release_set.units[0] as Record<string, unknown>).semantic_digest =
+            `sha256:${"A".repeat(64)}`;
+        },
+        "invalid or duplicated",
+      ],
+      [
+        "legacy RF Language field",
+        (metadata) => {
+          metadata.rf_language = { contract_sha256: "a".repeat(64), version: "0.1.0" };
+        },
+        "unexpected fields",
+      ],
+      [
+        "unknown nested release-set field",
+        (metadata) => {
+          metadata.release_set.unexpected = true;
+        },
+        "unexpected fields",
+      ],
+      [
+        "unknown unit field",
+        (metadata) => {
+          (metadata.release_set.units[0] as Record<string, unknown>).unexpected = true;
+        },
+        "unexpected fields",
+      ],
+      [
+        "invalid owner",
+        (metadata) => {
+          (metadata.release_set.units[0] as Record<string, unknown>).owner = "AWS";
+        },
+        "identity is invalid",
+      ],
+      [
+        "invalid kind",
+        (metadata) => {
+          (metadata.release_set.units[0] as Record<string, unknown>).kind = "policy";
+        },
+        "identity is invalid",
+      ],
+      [
+        "vocabulary with a non-rf owner",
+        (metadata) => {
+          (metadata.release_set.units[0] as Record<string, unknown>).kind = "vocabulary";
+        },
+        "nature is invalid",
+      ],
+      [
+        "rf described as a Dialect",
+        (metadata) => {
+          (metadata.release_set.units[2] as Record<string, unknown>).kind = "dialect";
+        },
+        "nature is invalid",
+      ],
+      [
+        "missing RF Vocabulary",
+        (metadata) => {
+          metadata.release_set.units.pop();
+        },
+        "must contain exactly one RF Vocabulary unit",
+      ],
+      [
+        "duplicate owner",
+        (metadata) => {
+          metadata.release_set.units.push({ ...metadata.release_set.units[0] });
+        },
+        "invalid or duplicated",
+      ],
+      [
+        "invalid release-set SemVer",
+        (metadata) => {
+          metadata.release_set.version = "0.1.0-01";
+        },
+        "manifest version is invalid",
+      ],
+      [
+        "invalid unit SemVer",
+        (metadata) => {
+          (metadata.release_set.units[0] as Record<string, unknown>).version = "0.1.0-beta..1";
+        },
+        "invalid or duplicated",
+      ],
+    ];
+  for (const [name, mutate, message] of invalidReleaseSets) {
+    test(`rejects release set with ${name}`, () => {
+      const metadata = JSON.parse(releaseSetJson) as MutableReleaseSetManifest;
+      mutate(metadata);
+      const fixture = makeFixture({ releaseSetManifest: metadata });
+      try {
+        expect(() =>
+          verifyHandoffDirectory(
+            root,
+            fixture.directory,
+            fixture.githubAssets,
+            version,
+            skipNative,
+            skipPins,
+          ),
+        ).toThrow(message);
+      } finally {
+        rmSync(fixture.parent, { force: true, recursive: true });
+      }
+    });
+  }
+
+  test("uses public Go owner byte order rather than locale collation", () => {
+    const metadata = structuredClone(releaseSet);
+    (metadata.release_set.units[0] as Record<string, unknown>).owner = "a-a";
+    (metadata.release_set.units[1] as Record<string, unknown>).owner = "a0";
+    const identity = "74f3caab3467534e96053e7a234b57d2fdef19dbe1513dd8bb4ddfb57495b6f9";
+    metadata.release_set.id = `release-set:${identity}`;
+    metadata.release_set.manifest_digest = `sha256:${identity}`;
+    const fixture = makeFixture({ releaseSetManifest: metadata });
+    try {
+      const verified = verifyHandoffDirectory(
+        root,
+        fixture.directory,
+        fixture.githubAssets,
+        version,
+        skipNative,
+        skipPins,
+      );
+      expect(verified.releaseSetManifestSha256).toBe(sha256(canonical(metadata)));
     } finally {
       rmSync(fixture.parent, { force: true, recursive: true });
     }
@@ -494,6 +708,14 @@ describe("final release assembly", () => {
       expect(manifest).not.toContain(rendererManifestSha256);
       expect(manifest).toContain(verified.producerManifestSha256);
       expect(manifest).toContain(releaseSetManifestSha256);
+      expect(JSON.parse(manifest)).toMatchObject({
+        format_version: "1",
+        release_set: {
+          id: `release-set:${releaseSetManifestSha256}`,
+          manifest_sha256: releaseSetManifestSha256,
+          version: "0.1.0",
+        },
+      });
       const parsed = JSON.parse(manifest) as {
         license: {
           binary: { public_release_allowed: boolean; spdx: string; status: string };

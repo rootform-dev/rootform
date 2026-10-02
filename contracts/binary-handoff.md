@@ -51,11 +51,33 @@ Bundle contains exactly:
 source identity, exact private renderer repository/revision/release identity,
 renderer archive name/size/hash, renderer manifest name/hash, deterministic
 build time, toolchains, build settings, five-target file/size/hash records,
-schema hash, release-set identity (RF Language contract, RF Vocabulary
-identity and contract digest, and every supplied Dialect with owner, version,
-content digest, and semantic digest), and SBOM hash. Renderer names must derive
-from its exact revision. JSON keys and arrays are canonical. Unknown fields
-fail.
+schema hash, release-set identity (RF Vocabulary and every supplied Dialect
+with owner, kind, version, content digest, and semantic digest), and SBOM hash.
+Renderer names must derive from its exact revision. JSON keys and arrays are
+canonical. Unknown fields fail.
+
+The `release_set` field contains an envelope with exactly `format_version: "1"`
+and `release_set`. The nested object has exactly `id`, `manifest_digest`, `units`
+and `version`, matching the public Form `ReleaseSet` model. Each unit has exactly
+`content_digest`, `kind`, `owner`, `semantic_digest` and `version`. Release-set
+and unit versions use SemVer. Units have unique canonical owner names and
+ascending owner byte order.
+Exactly one unit has owner `rf` and kind `vocabulary`; all other units have kind
+`dialect`. Content and semantic digests use `sha256:` followed by 64 lowercase
+hexadecimal characters.
+
+Identity follows the public `ReleaseSetIdentity` algorithm. Join the release-set
+version, followed by each ordered unit's owner, kind, version, content digest and
+semantic digest, with NUL bytes and no trailing separator. SHA-256 of those UTF-8
+bytes supplies both `id: "release-set:<hex>"` and
+`manifest_digest: "sha256:<hex>"`. Rootform recomputes and verifies both values.
+RF Language uses format `1`, bound by the exact public Form schema; this envelope
+contains no separate RF Language SemVer or contract digest.
+
+The final release-set manifest SHA-256 hashes the complete canonical envelope,
+including its format version, identity and units, as two-space-indented JSON with
+one final newline. This envelope checksum is separate from the NUL-derived Form
+identity. Handoff format remains `2`; final release manifest format remains `1`.
 
 Producer manifest remains handoff evidence. Final release does not redistribute
 it or private renderer provenance; final manifest records only its SHA-256.
