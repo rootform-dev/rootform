@@ -9,7 +9,7 @@ targetRules = ["generic-api-key", "new-relic-user-api-id"]
 condition = "AND"
 paths = ['''^docs/assets/renderer/manifest\.json$''']
 regexTarget = "match"
-regexes = ['''\.rf\.hcl": "[0-9a-f]{40,64}''']
+regexes = ['''\.rf(?:\.hcl)?": "[0-9a-f]{40,64}''']
 
 [[allowlists]]
 description = "Placeholder credentials and an algorithm name that offline Dialect fixtures pass to plan"
