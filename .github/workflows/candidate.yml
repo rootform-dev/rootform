@@ -351,6 +351,7 @@ jobs:
           ROOTFORM_PROFILE_ATTEMPTED: ${{ steps.ghcr-profile.outcome != '' && steps.ghcr-profile.outcome != 'skipped' }}
         run: |
           set -euo pipefail
+          registry_cleanup_status=0
           if [[ "$ROOTFORM_NAMESPACE_CLAIMED" == true &&
                 "$ROOTFORM_PROFILE_ATTEMPTED" == true &&
                 "${ROOTFORM_OCI_QUALIFICATION_PACKAGE:-}" =~ ^rootform-oci-qualification-[1-9][0-9]*$ ]]; then
@@ -363,7 +364,7 @@ jobs:
             set -e
             if [[ "$status" != 0 && "$response" != *"HTTP 404"* ]]; then
               printf 'could not remove transient qualification package\n' >&2
-              exit 1
+              registry_cleanup_status=1
             fi
           fi
           for path in \
@@ -379,6 +380,7 @@ jobs:
                 ;;
             esac
           done
+          exit "$registry_cleanup_status"
 
       - name: Create final draft release
         id: final-release

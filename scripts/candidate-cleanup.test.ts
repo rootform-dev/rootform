@@ -40,9 +40,18 @@ for (const scenario of [
     package: "dialects",
     deleted: false,
   },
+  {
+    name: "reports a remote deletion failure",
+    claimed: true,
+    attempted: true,
+    package: "rootform-oci-qualification-123",
+    deleted: true,
+    apiFailure: true,
+  },
 ]) {
   test(`candidate cleanup ${scenario.name} and removes local credentials`, () => {
     const temporary = mkdtempSync(join(tmpdir(), "rootform-candidate-cleanup-"));
+    const apiFailure = "apiFailure" in scenario && scenario.apiFailure === true;
     try {
       const tools = join(temporary, "tools");
       const runner = join(temporary, "runner");
@@ -54,7 +63,7 @@ for (const scenario of [
       writeFileSync(proof, "synthetic credential-helper proof\n");
       writeFileSync(
         join(tools, "gh"),
-        '#!/bin/sh\nprintf "%s\\n" "$*" >> "$ROOTFORM_DELETE_PROOF"\n',
+        '#!/bin/sh\nprintf "%s\\n" "$*" >> "$ROOTFORM_DELETE_PROOF"\nif [ "$ROOTFORM_FAKE_API_FAILURE" = true ]; then printf "HTTP 500\\n" >&2; exit 1; fi\n',
         { mode: 0o755 },
       );
       const result = Bun.spawnSync(["/bin/bash", "-c", cleanup], {
@@ -69,12 +78,13 @@ for (const scenario of [
           ROOTFORM_OCI_QUALIFICATION_PACKAGE: scenario.package,
           GITHUB_REPOSITORY_OWNER: "rootform-dev",
           ROOTFORM_DELETE_PROOF: deletes,
+          ROOTFORM_FAKE_API_FAILURE: String(apiFailure),
         },
         timeout: 2000,
         stdout: "pipe",
         stderr: "pipe",
       });
-      expect(result.exitCode).toBe(0);
+      expect(result.exitCode).toBe(apiFailure ? 1 : 0);
       expect(existsSync(deletes)).toBe(scenario.deleted);
       if (scenario.deleted) {
         expect(readFileSync(deletes, "utf8")).toBe(
