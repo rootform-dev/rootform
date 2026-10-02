@@ -174,7 +174,7 @@ func TestCheckReviewPreviewKeepsExactTotals(t *testing.T) {
 
 	preview := render(false)
 	assertInertReview(t, preview, 3)
-	markers := []string{"> **Verdict: VIOLATED**\n\n#### Planned architecture\n\n1 Policy selected. 25 evaluations: 12 violated, 11 indeterminate, and 2 passed.\n", "\n**Violated: 10 of 12 evaluations shown**\n\n"}
+	markers := []string{"> **Verdict: VIOLATED**\n\n#### ▦ Planned architecture\n\n1 Policy selected. 25 evaluations: 12 violated, 11 indeterminate, and 2 passed.\n", "\n**Violated: 10 of 12 evaluations shown**\n\n"}
 	for _, address := range addresses[:10] {
 		markers = append(markers, evidence(address, 5)+"  - 5 of 7 evidence lines shown.\n")
 	}

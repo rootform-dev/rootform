@@ -6,7 +6,7 @@
 
 Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
-#### Planned changes
+#### ± Planned changes
 
 | Change | Instances | Relations | Contexts | Contributions |
 | --- | ---: | ---: | ---: | ---: |
@@ -77,7 +77,7 @@ Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
 </details>
 
-#### Reported drift
+#### ↺ Reported drift
 
 **1 drift entry reported: 1 architectural.**
 

@@ -25,7 +25,29 @@ type review struct {
 }
 
 func (v *review) heading(level int, words string) {
+	if level == 4 {
+		words = reviewSectionTitle(words)
+	}
 	fmt.Fprintf(&v.b, "%s %s\n\n", strings.Repeat("#", level), words)
+}
+
+// reviewSectionTitle gives architectural readings stable, typographic cues.
+// It changes presentation only; stages, statuses and evidence stay unchanged.
+func reviewSectionTitle(words string) string {
+	switch words {
+	case "Uncertainty":
+		return "? " + words
+	case "Planned changes":
+		return "± " + words
+	case "Reported drift":
+		return "↺ " + words
+	case "Net change":
+		return "Δ " + words
+	case "Planned architecture":
+		return "▦ " + words
+	default:
+		return words
+	}
 }
 
 // paragraph writes Markdown whose values are already escaped.
@@ -179,6 +201,7 @@ func strong(words string) string {
 
 // labelled leads a limit with its name in bold.
 func labelled(label string, lines []string) string {
+	label = reviewSectionTitle(label)
 	if len(lines) == 0 {
 		return strong(label)
 	}
@@ -722,7 +745,7 @@ func (rep runReport) writeDrift(v *review, b reportBlock) {
 // writeNet states the net change of a plan: the planned changes again, the
 // drift the plan proposes to restore, or its own comparison.
 func (rep runReport) writeNet(v *review, b reportBlock) {
-	v.heading(4, "Δ "+mdText(b.title))
+	v.heading(4, mdText(b.title))
 	c := b.comparison
 	if c == nil {
 		v.paragraph(mdText(strings.Join(b.lines, " ")))

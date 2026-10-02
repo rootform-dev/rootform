@@ -6,7 +6,7 @@
 
 Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
-#### Planned changes
+#### ± Planned changes
 
 | Change | Instances | External endpoints | Contributions |
 | --- | ---: | ---: | ---: |
@@ -25,7 +25,7 @@ Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
 - `local_file.c` contributes to `external file`
 
-#### Reported drift
+#### ↺ Reported drift
 
 No drift reported in this plan. The export does not establish the refresh scope.
 
@@ -33,7 +33,7 @@ No drift reported in this plan. The export does not establish the refresh scope.
 
 Same determined changes as Planned changes.
 
-#### Planned architecture
+#### ▦ Planned architecture
 
 - **Instances:** 3
 - **Interpreted:** 3
