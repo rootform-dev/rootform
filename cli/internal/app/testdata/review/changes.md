@@ -1,15 +1,17 @@
-## Rootform architecture
+## Rootform
+
+### Architecture
 
 **76 instances, 18 Relations, 68 Contexts, and 14 Contributions added.**
 
 Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
+#### Planned changes
+
 | Change | Instances | Relations | Contexts | Contributions |
 | --- | ---: | ---: | ---: | ---: |
-| Added | 76 | 18 | 68 | 14 |
-| Removed | 0 | 0 | 0 | 0 |
-
-### Planned changes
+| + Added | 76 | 18 | 68 | 14 |
+| − Removed | 0 | 0 | 0 | 0 |
 
 <details>
 <summary>Instances: 76 added (10 of 76 shown)</summary>
@@ -75,8 +77,15 @@ Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
 </details>
 
-### Provenance
+---
+
+### Details
+
+<details>
+<summary>Provenance</summary>
 
 - **Input:** `plan.json`
 
 Each list above shows at most 10 entries. A report written with `--details` lists every entry.
+
+</details>

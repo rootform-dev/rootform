@@ -1,49 +1,17 @@
-## Rootform architecture
+## Rootform
+
+### Architecture
 
 **76 instances, 18 Relations, 68 Contexts, and 14 Contributions added.**
 
 Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
+#### Planned changes
+
 | Change | Instances | Relations | Contexts | Contributions |
 | --- | ---: | ---: | ---: | ---: |
-| Added | 76 | 18 | 68 | 14 |
-| Removed | 0 | 0 | 0 | 0 |
-
-### Reported drift
-
-**1 drift entry reported: 1 architectural.**
-
-Drift compares **Recorded** with **Refreshed**. The export does not establish the refresh scope.
-
-Architectural effect: no architectural difference determined under the selected Dialects.
-
-| Stage | Indeterminate closures | Unavailable |
-| --- | ---: | ---: |
-| Recorded | 1 | 1 |
-| Refreshed | 0 | 0 |
-
-- `object.drift`: changes the architecture; 1 fact change
-
-### Net change
-
-**2 instances added, 1 removed.**
-
-Net change compares **Recorded** with **Planned**.
-
-| Change | Instances |
-| --- | ---: |
-| Added | 2 |
-| Removed | 1 |
-
-**Instances: 2 added, 1 removed**
-
-- Added
-  - `object.added.00`
-  - `object.added.01`
-- Removed
-  - `object.removed.00`
-
-### Planned changes
+| + Added | 76 | 18 | 68 | 14 |
+| − Removed | 0 | 0 | 0 | 0 |
 
 <details>
 <summary>Instances: 76 added (10 of 76 shown)</summary>
@@ -109,8 +77,49 @@ Net change compares **Recorded** with **Planned**.
 
 </details>
 
-### Provenance
+#### Reported drift
+
+**1 drift entry reported: 1 architectural.**
+
+Drift compares **Recorded** with **Refreshed**. The export does not establish the refresh scope.
+
+Architectural effect: no architectural difference determined under the selected Dialects.
+
+| Stage | Indeterminate closures | Unavailable |
+| --- | ---: | ---: |
+| Recorded | 1 | 1 |
+| Refreshed | 0 | 0 |
+
+- `object.drift`: changes the architecture; 1 fact change
+
+#### Net change
+
+**2 instances added, 1 removed.**
+
+Net change compares **Recorded** with **Planned**.
+
+| Change | Instances |
+| --- | ---: |
+| + Added | 2 |
+| − Removed | 1 |
+
+**Instances: 2 added, 1 removed**
+
+- Added
+  - `object.added.00`
+  - `object.added.01`
+- Removed
+  - `object.removed.00`
+
+---
+
+### Details
+
+<details>
+<summary>Provenance</summary>
 
 - **Input:** `plan.json`
 
 Each list above shows at most 10 entries. A report written with `--details` lists every entry.
+
+</details>

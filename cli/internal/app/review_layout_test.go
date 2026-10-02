@@ -66,7 +66,7 @@ func TestReviewChangesKeepStatusesAndSeparateKinds(t *testing.T) {
 	rep := runReport{}
 	v := &review{}
 	rep.writeCounts(v, &reportBlock{comparison: c})
-	want := "| Change | Instances | Relations | Contexts |\n| --- | ---: | ---: | ---: |\n| Added | 3 | 0 | 1 |\n| Removed | 1 | 1 | 0 |\n| Moved | 1 | 0 | 0 |\n"
+	want := "| Change | Instances | Relations | Contexts |\n| --- | ---: | ---: | ---: |\n| + Added | 3 | 0 | 1 |\n| − Removed | 1 | 1 | 0 |\n| Moved | 1 | 0 | 0 |\n"
 	if !strings.Contains(string(v.bytes()), want) {
 		t.Fatal(string(v.bytes()))
 	}
@@ -138,6 +138,9 @@ func TestReviewMarkdownGoldens(t *testing.T) {
 	}
 	rep := runReport{verdict: "Plan analyzed", head: [][2]string{{"Input", "plan.json"}}, literal: map[string]bool{"Input": true}, blocks: []reportBlock{comparisonBlock("Planned changes", c, nil, nil, false, true)}}
 	cases["changes"] = rep.markdown()
+	rep.details = true
+	cases["changes-complete"] = rep.markdown()
+	rep.details = false
 	rep.blocks = append([]reportBlock{{role: roleUncertainty, table: &reportTable{header: []string{"", "Planned"}, numeric: true, rows: [][]string{{"Indeterminate closures", "27"}, {"  Unavailable", "26"}, {"  Unknown until apply", "1"}}}}}, rep.blocks...)
 	cases["uncertainty"] = rep.markdown()
 	drift := &form.InputForm{DriftReport: &form.DriftReport{Entries: []form.DriftEntry{{Address: "object.drift", Actions: []string{"update"}, Consequence: form.DriftArchitectural, FactChanges: []string{"relation:a:b"}}}}}
@@ -154,6 +157,37 @@ func TestReviewMarkdownGoldens(t *testing.T) {
 		t.Fatal("Policy fixture must record a violation")
 	}
 	cases["policies"] = checkMarkdown(policy, &checkRun{options: cli.CheckOptions{Input: "comparison.json"}})
+	for _, variant := range []struct {
+		name    string
+		outcome policyresult.Outcome
+		verdict policyresult.PolicyOutcome
+	}{
+		{"policies-pass", policyresult.OutcomePassed, policyresult.PolicyPassed},
+		{"policies-indeterminate", policyresult.OutcomeIndeterminate, policyresult.PolicyIndeterminate},
+	} {
+		result := reviewPolicyFixture()
+		result.Architectures[0].Evaluations[0].Outcome = variant.outcome
+		result.Architectures[0].Policies[0].Outcome = variant.verdict
+		if variant.outcome == policyresult.OutcomeIndeterminate {
+			result.Architectures[0].Evaluations[0].Reasons = []string{string(form.ReasonUnavailable)}
+		}
+		cases[variant.name] = checkMarkdown(result.Finalized(), &checkRun{options: cli.CheckOptions{Input: "comparison.json"}})
+	}
+	for _, incomplete := range []bool{false, true} {
+		result := reviewPolicyFixture()
+		result.Architectures = result.Architectures[1:]
+		result.Architectures[0].Side = ""
+		result.Scope = policyresult.ScopeInput
+		result.Architectures[0].Evaluations = nil
+		p := &result.Architectures[0].Policies[0]
+		p.Targets, p.Outcome = 0, policyresult.PolicyNoTarget
+		name := "policies-no-target"
+		if incomplete {
+			p.Complete, p.Reasons = false, []string{string(form.ReasonUnavailable)}
+			name = "policies-incomplete"
+		}
+		cases[name] = checkMarkdown(result.Finalized(), &checkRun{options: cli.CheckOptions{Input: "form.json"}})
+	}
 	policy.Architectures[1].Status = policyresult.StatusFailed
 	policy.Architectures[1].Diagnostics = []policyresult.Diagnostic{{Message: "This side could not be evaluated."}}
 	cases["policy-failed"] = checkMarkdown(policy, &checkRun{options: cli.CheckOptions{Input: "comparison.json"}})
@@ -176,6 +210,26 @@ func TestReviewMarkdownGoldens(t *testing.T) {
 				t.Fatalf("review golden %s differs; inspect rendering before updating", name)
 			}
 			assertInertReview(t, string(got), strings.Count(string(got), "<details>"))
+			if strings.Count(string(got), "## Rootform\n") != 1 || strings.Count(string(got), "\n---\n") != 1 {
+				t.Fatal("review must have one identity and one separator before provenance")
+			}
+			for _, line := range strings.Split(string(got), "\n") {
+				if strings.HasPrefix(line, "# ") || strings.HasPrefix(line, "#####") || strings.HasPrefix(line, "## ") && line != "## Rootform" {
+					t.Fatalf("unexpected heading depth: %s", line)
+				}
+			}
+			inOrder(t, string(got), "---\n\n### Details\n", "<summary>Provenance</summary>")
+			if name == "changes-complete" && (strings.Contains(string(got), "shown") || strings.Contains(string(got), reviewPreview) || !strings.Contains(string(got), "object.added.75")) {
+				t.Fatal("complete folded report must contain all entries without preview wording")
+			}
+			if name == "policies-no-target" || name == "policies-incomplete" {
+				if strings.Contains(string(got), "#### Without target") || strings.Contains(string(got), "#### Incomplete coverage") || !strings.Contains(string(got), "**Without target**") {
+					t.Fatal("coverage and target states are content, not navigation")
+				}
+			}
+			if name == "policies" && !strings.Contains(string(got), "> [!CAUTION]\n> **Overall verdict: VIOLATED**") || name == "policies-indeterminate" && !strings.Contains(string(got), "> [!WARNING]\n> **Overall verdict: INDETERMINATE**") || name == "policies-pass" && strings.Contains(string(got), "> [!") {
+				t.Fatal("alert does not match the recorded verdict")
+			}
 		})
 	}
 }

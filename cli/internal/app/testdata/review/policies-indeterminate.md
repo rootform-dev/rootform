@@ -2,14 +2,14 @@
 
 ### Policies
 
-> [!CAUTION]
-> **Overall verdict: VIOLATED**
+> [!WARNING]
+> **Overall verdict: INDETERMINATE**
 
 Evaluation scope: **Both sides**. 1 Policy selected.
 
 | Side | Verdict | Origin | Stage | Evaluations | Violated | Indeterminate | Passed |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Before | VIOLATED | State | Recorded | 1 | 1 | 0 | 0 |
+| Before | INDETERMINATE | State | Recorded | 1 | 0 | 1 | 0 |
 | After | PASSED | Plan | Planned | 1 | 0 | 0 | 1 |
 
 #### Before
@@ -18,9 +18,9 @@ Evaluation scope: **Both sides**. 1 Policy selected.
 
 **Requirement:** Each instance must satisfy the recorded requirement.
 
-**Violated: 1 evaluation**
+**Indeterminate: 1 evaluation**
 
-- `object.before`
+- `object.before`: Reason: Unavailable.
 
 #### After
 

@@ -9,8 +9,8 @@ import (
 )
 
 // A review document is the Markdown a pull or merge request shows. The run
-// report and the check report each open with their own second-level heading,
-// so an integration can append one after the other in one document. Rootform
+// report and the check report use one identity, major blocks and subsections.
+// Integrations retain that hierarchy when composing the reports. Rootform
 // wording and counts alone build the structure: headings, labels, table
 // headers and the summary of a folded list. Every recorded value, such as an
 // address, a reference or a message, is escaped with mdText or set in a code
@@ -29,6 +29,14 @@ func (v *review) heading(level int, words string) {
 }
 
 // paragraph writes Markdown whose values are already escaped.
+func (v *review) separator() {
+	v.b.WriteString("---\n\n")
+}
+
+func (v *review) alert(kind, markdown string) {
+	fmt.Fprintf(&v.b, "> [!%s]\n> %s\n\n", kind, markdown)
+}
+
 func (v *review) paragraph(markdown string) {
 	if markdown != "" {
 		v.b.WriteString(markdown + "\n\n")
@@ -199,7 +207,8 @@ const reviewPreview = "Each list above shows at most 10 entries. A report writte
 // then the provenance.
 func (rep runReport) markdown() []byte {
 	v := &review{}
-	v.heading(2, "Rootform architecture")
+	v.heading(2, "Rootform")
+	v.heading(3, "Architecture")
 	lead := rep.block(roleChanges)
 	if lead == nil {
 		lead = rep.block(roleDifferences)
@@ -219,17 +228,17 @@ func (rep runReport) markdown() []byte {
 	}
 	rep.writeLimits(v, lead)
 	if lead != nil {
+		v.heading(4, mdText(lead.title))
 		rep.writeCounts(v, lead)
+		if holdsEntries(lead.groups) {
+			rep.writeChanges(v, lead.groups)
+		}
 	}
 	if b := rep.block(roleDrift); b != nil {
 		rep.writeDrift(v, *b)
 	}
 	if b := rep.block(roleNet); b != nil {
 		rep.writeNet(v, *b)
-	}
-	if lead != nil && holdsEntries(lead.groups) {
-		v.heading(3, mdText(lead.title))
-		rep.writeChanges(v, lead.groups)
 	}
 	if b := rep.block(roleArchitecture); b != nil {
 		rep.writeArchitecture(v, *b)
@@ -241,9 +250,6 @@ func (rep runReport) markdown() []byte {
 		rep.writeSideCounts(v)
 	}
 	rep.writeProvenance(v)
-	if v.truncated {
-		v.paragraph(reviewPreview)
-	}
 	return v.bytes()
 }
 
@@ -469,7 +475,7 @@ func (rep runReport) writeCounts(v *review, b *reportBlock) {
 			if !used[i] {
 				continue
 			}
-			row := []string{mdText(titleWord(verb))}
+			row := []string{changeLabel(verb)}
 			for _, k := range kinds {
 				row = append(row, fmt.Sprint(k.counts[i]))
 			}
@@ -483,6 +489,11 @@ func (rep runReport) writeCounts(v *review, b *reportBlock) {
 		}
 		v.paragraph(mdText("Indeterminate closures: " + indeterminateWords(c.Indeterminate, stageWords(c.Before), stageWords(c.After), false) + "."))
 	}
+}
+
+func changeLabel(verb string) string {
+	mark := map[string]string{"added": "+ ", "removed": "− ", "changed": "~ "}[verb]
+	return mark + mdText(titleWord(verb))
 }
 
 // Suppress only the exact selected-stage count already shown above. A count
@@ -673,7 +684,7 @@ func cancelledList(items []reportItem, quiet bool) reviewList {
 // writeDrift states what the plan reports as drift, the limit of that report,
 // the architectural effect of the drift and each drift entry.
 func (rep runReport) writeDrift(v *review, b reportBlock) {
-	v.heading(3, mdText(b.title))
+	v.heading(4, mdText(b.title))
 	if !holdsEntries(b.groups) {
 		v.paragraph(mdText(strings.Join(b.lines, " ")))
 		rep.writeNotes(v, b)
@@ -711,7 +722,7 @@ func (rep runReport) writeDrift(v *review, b reportBlock) {
 // writeNet states the net change of a plan: the planned changes again, the
 // drift the plan proposes to restore, or its own comparison.
 func (rep runReport) writeNet(v *review, b reportBlock) {
-	v.heading(3, mdText(b.title))
+	v.heading(4, mdText(b.title))
 	c := b.comparison
 	if c == nil {
 		v.paragraph(mdText(strings.Join(b.lines, " ")))
@@ -748,7 +759,7 @@ func (rep runReport) writeArchitecture(v *review, b reportBlock) {
 	if len(rep.views) == 1 {
 		title = stageWords(rep.views[0].stage) + " architecture"
 	}
-	v.heading(3, mdText(title))
+	v.heading(4, mdText(title))
 	v.rows(b.rows, nil)
 	for _, line := range b.lines {
 		v.paragraph(mdText(line))
@@ -760,7 +771,7 @@ func (rep runReport) writeArchitecture(v *review, b reportBlock) {
 // writeDiagnostics lists the grouped diagnostics by severity; --details adds
 // their codes and the informational ones.
 func (rep runReport) writeDiagnostics(v *review, b reportBlock) {
-	v.heading(3, mdText(b.title))
+	v.heading(4, mdText(b.title))
 	items := b.groups[0].items
 	shown := items
 	if !rep.details && len(items) > reportTextLimit {
@@ -793,7 +804,12 @@ func (rep runReport) writeNotes(v *review, b reportBlock) {
 // each side and the stages. A plan analyzed without its saved plan says so.
 // A limit already stated above is not repeated.
 func (rep runReport) writeProvenance(v *review) {
-	v.heading(3, "Provenance")
+	if len(rep.head) == 0 && len(rep.views) == 0 && !v.truncated {
+		return
+	}
+	v.separator()
+	v.heading(3, "Details")
+	v.fold("Provenance")
 	alone := len(rep.views) == 1 && rep.views[0].form.Kind == form.KindPlan && enrichmentWords(rep.views[0].form.Evidence.Enrichment.Snapshot) == nil
 	var rows [][2]string
 	for i := 0; i < len(rep.head); i++ {
@@ -824,6 +840,10 @@ func (rep runReport) writeProvenance(v *review) {
 	if len(rep.views) == 2 {
 		rep.writeSides(v)
 	}
+	if v.truncated {
+		v.paragraph(reviewPreview)
+	}
+	v.unfold()
 }
 
 // writeSides compares the provenance of the two sides of a
@@ -901,7 +921,7 @@ func (rep runReport) writeSideCounts(v *review) {
 		}
 	}
 	if len(t.rows) > 0 {
-		v.heading(3, "Architecture")
+		v.heading(4, "Architecture counts")
 		v.table(transpose(t, "Side"))
 	}
 }

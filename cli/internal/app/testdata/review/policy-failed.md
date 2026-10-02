@@ -1,6 +1,9 @@
-## Rootform Policies
+## Rootform
 
-**Overall verdict: VIOLATED**
+### Policies
+
+> [!CAUTION]
+> **Overall verdict: VIOLATED**
 
 Evaluation scope: **Both sides**. 1 Policy selected.
 
@@ -9,9 +12,9 @@ Evaluation scope: **Both sides**. 1 Policy selected.
 | Before | VIOLATED | State | Recorded | 1 | 1 | 0 | 0 |
 | After | NOT EVALUATED | Plan | Planned | - | - | - | - |
 
-### Before
+#### Before
 
-#### `review.policy.requirement`
+**`review.policy.requirement`**
 
 **Requirement:** Each instance must satisfy the recorded requirement.
 
@@ -19,12 +22,19 @@ Evaluation scope: **Both sides**. 1 Policy selected.
 
 - `object.before`
 
-### After
+#### After
 
-#### Not evaluated
+**Not evaluated**
 
 - This side could not be evaluated.
 
-### Provenance
+---
+
+### Details
+
+<details>
+<summary>Provenance</summary>
 
 - **Input:** `comparison.json`
+
+</details>

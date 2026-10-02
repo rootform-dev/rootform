@@ -2,25 +2,18 @@
 
 ### Policies
 
-> [!CAUTION]
-> **Overall verdict: VIOLATED**
+**Overall verdict: PASSED**
 
 Evaluation scope: **Both sides**. 1 Policy selected.
 
 | Side | Verdict | Origin | Stage | Evaluations | Violated | Indeterminate | Passed |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Before | VIOLATED | State | Recorded | 1 | 1 | 0 | 0 |
+| Before | PASSED | State | Recorded | 1 | 0 | 0 | 1 |
 | After | PASSED | Plan | Planned | 1 | 0 | 0 | 1 |
 
 #### Before
 
-**`review.policy.requirement`**
-
-**Requirement:** Each instance must satisfy the recorded requirement.
-
-**Violated: 1 evaluation**
-
-- `object.before`
+All selected evaluations passed.
 
 #### After
 

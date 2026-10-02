@@ -144,7 +144,7 @@ func TestReviewFoldsOnlyListsLongerThanThePreview(t *testing.T) {
 		if !strings.Contains(md, tc.title) || strings.Contains(md, reviewPreview) != folded {
 			t.Fatalf("%d added, %d removed:\n%s", tc.added, tc.removed, md)
 		}
-		assertInertReview(t, md, map[bool]int{false: 0, true: 1}[folded])
+		assertInertReview(t, md, map[bool]int{false: 0, true: 2}[folded])
 		if tc.removed > 0 && (!strings.Contains(md, "- Removed\n  - `object.removed.00`\n") || !strings.Contains(md, "- Added \\(9 of 11 shown\\)\n")) {
 			t.Fatalf("preview hides a status:\n%s", md)
 		}
@@ -185,7 +185,7 @@ func TestReviewPreviewKeepsRareStatuses(t *testing.T) {
 		{drift, []string{"**13 drift entries reported: 12 architectural, 1 indeterminate.**\n", "<summary>Drift entries: 13 (10 of 13 shown)</summary>\n\n", "- `object.drifted.08`: changes the architecture; 1 fact change\n", "- `object.undecided`: architectural effect indeterminate\n", "</details>\n"}, "object.drifted.11"},
 	} {
 		md := string(tc.rep.markdown())
-		assertInertReview(t, md, 1)
+		assertInertReview(t, md, 2)
 		inOrder(t, md, append(tc.preview, reviewPreview)...)
 		if strings.Contains(md, tc.last) {
 			t.Fatalf("the preview shows more than ten entries:\n%s", md)
@@ -211,7 +211,7 @@ func TestRunReviewKeepsDataInert(t *testing.T) {
 	for _, details := range []bool{false, true} {
 		rep.details = details
 		md := string(rep.markdown())
-		assertInertReview(t, md, 1)
+		assertInertReview(t, md, 2)
 		if !strings.Contains(md, "`` object.`|`</details><script>alert(1)</script>\\u202e\\u000a# title ``") {
 			t.Fatalf("address is not kept whole:\n%s", md)
 		}
