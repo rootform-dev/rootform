@@ -262,6 +262,7 @@ jobs:
           printf '%s\n' "$helper_dir" >>"$GITHUB_PATH"
 
       - name: Require isolated qualification namespace to be absent
+        id: qualification-namespace
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -346,9 +347,13 @@ jobs:
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
+          ROOTFORM_NAMESPACE_CLAIMED: ${{ steps.qualification-namespace.outcome == 'success' }}
+          ROOTFORM_PROFILE_ATTEMPTED: ${{ steps.ghcr-profile.outcome != '' && steps.ghcr-profile.outcome != 'skipped' }}
         run: |
           set -euo pipefail
-          if [[ "${ROOTFORM_OCI_QUALIFICATION_PACKAGE:-}" =~ ^rootform-oci-qualification-[1-9][0-9]*$ ]]; then
+          if [[ "$ROOTFORM_NAMESPACE_CLAIMED" == true &&
+                "$ROOTFORM_PROFILE_ATTEMPTED" == true &&
+                "${ROOTFORM_OCI_QUALIFICATION_PACKAGE:-}" =~ ^rootform-oci-qualification-[1-9][0-9]*$ ]]; then
             set +e
             response="$(gh api \
               --method DELETE \
