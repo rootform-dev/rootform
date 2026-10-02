@@ -100,6 +100,46 @@ func (v *review) table(t *reportTable) {
 	v.grid(header, t.numeric, rows)
 }
 
+// transpose changes only presentation; the shared table remains available to
+// the terminal renderer with its original grouping and values.
+func transpose(t *reportTable, label string) *reportTable {
+	out := &reportTable{header: []string{label}, numeric: t.numeric}
+	for _, row := range t.rows {
+		out.header = append(out.header, strings.TrimSpace(row[0]))
+	}
+	for column, name := range t.header[1:] {
+		row := []string{name}
+		for _, values := range t.rows {
+			row = append(row, values[column+1])
+		}
+		out.rows = append(out.rows, row)
+	}
+	return out
+}
+
+// A short set of causes compares naturally across stages or sides. Several
+// kinds need their parent/child grouping; many causes read better as rows.
+func (v *review) uncertainty(t *reportTable) {
+	if t == nil {
+		return
+	}
+	kinds := 0
+	for _, row := range t.rows {
+		if !strings.HasPrefix(row[0], "  ") {
+			kinds++
+		}
+	}
+	if kinds != 1 || len(t.rows) > 5 {
+		v.table(t)
+		return
+	}
+	label := "Stage"
+	if len(t.header) > 1 && t.header[1] == "Before" {
+		label = "Side"
+	}
+	v.table(transpose(t, label))
+}
+
 // rows writes label and value rows as a list. A literal row holds text the
 // user typed, set in a code span; a row without a label details the row above
 // it.
@@ -179,7 +219,7 @@ func (rep runReport) markdown() []byte {
 	}
 	rep.writeLimits(v, lead)
 	if lead != nil {
-		writeCounts(v, lead)
+		rep.writeCounts(v, lead)
 	}
 	if b := rep.block(roleDrift); b != nil {
 		rep.writeDrift(v, *b)
@@ -196,6 +236,9 @@ func (rep runReport) markdown() []byte {
 	}
 	if b := rep.block(roleDiagnostics); b != nil {
 		rep.writeDiagnostics(v, *b)
+	}
+	if len(rep.views) == 2 && rep.sides != nil {
+		rep.writeSideCounts(v)
 	}
 	rep.writeProvenance(v)
 	if v.truncated {
@@ -393,17 +436,17 @@ func (rep runReport) writeLimits(v *review, lead *reportBlock) {
 	}
 	if b := rep.block(roleUncertainty); b != nil {
 		v.paragraph(labelled("Uncertainty", b.lines))
-		v.table(b.table)
+		v.uncertainty(b.table)
 	}
 	if lead != nil && lead.table != nil {
 		v.paragraph(labelled("Uncertainty", lead.lines))
-		v.table(lead.table)
+		v.uncertainty(lead.table)
 	}
 }
 
 // writeCounts tables the changes of a comparison by kind and status. Added
 // and Removed always appear; another status appears when a kind holds it.
-func writeCounts(v *review, b *reportBlock) {
+func (rep runReport) writeCounts(v *review, b *reportBlock) {
 	c := b.comparison
 	if c == nil || !c.Comparable {
 		return
@@ -417,27 +460,49 @@ func writeCounts(v *review, b *reportBlock) {
 				used[i] = used[i] || n > 0
 			}
 		}
-		header := []string{"Category"}
-		for i, verb := range verbs {
-			if used[i] {
-				header = append(header, mdText(titleWord(verb)))
-			}
-		}
-		rows := make([][]string, 0, len(kinds))
+		header := []string{"Change"}
 		for _, k := range kinds {
-			row := []string{mdText(k.title)}
-			for i, n := range k.counts {
-				if used[i] {
-					row = append(row, fmt.Sprint(n))
-				}
+			header = append(header, mdText(k.title))
+		}
+		var rows [][]string
+		for i, verb := range verbs {
+			if !used[i] {
+				continue
+			}
+			row := []string{mdText(titleWord(verb))}
+			for _, k := range kinds {
+				row = append(row, fmt.Sprint(k.counts[i]))
 			}
 			rows = append(rows, row)
 		}
 		v.grid(header, true, rows)
 	}
 	if b.table == nil && len(c.Indeterminate) > 0 && b.role != roleDifferences {
+		if rep.uncertaintyShown(c) {
+			return
+		}
 		v.paragraph(mdText("Indeterminate closures: " + indeterminateWords(c.Indeterminate, stageWords(c.Before), stageWords(c.After), false) + "."))
 	}
+}
+
+// Suppress only the exact selected-stage count already shown above. A count
+// on the other stage, or a different count, still carries distinct evidence.
+func (rep runReport) uncertaintyShown(c *form.Comparison) bool {
+	b := rep.block(roleUncertainty)
+	if b == nil || b.table == nil || len(rep.views) != 1 || rep.views[0].stage != c.After {
+		return false
+	}
+	for _, entry := range c.Indeterminate {
+		if entry.Side != form.SideAfter {
+			return false
+		}
+	}
+	for _, row := range b.table.rows {
+		if len(row) == 2 && row[0] == "Indeterminate closures" && row[1] == fmt.Sprint(len(c.Indeterminate)) {
+			return true
+		}
+	}
+	return false
 }
 
 // entryWords states an entry for a review list: a fact by its kind, an
@@ -632,7 +697,7 @@ func (rep runReport) writeDrift(v *review, b reportBlock) {
 		for _, line := range b.lines {
 			v.paragraph(mdText(line))
 		}
-		v.table(b.table)
+		v.uncertainty(b.table)
 	}
 	rep.writeList(v, reviewList{title: "Drift entries: " + fmt.Sprint(weight(items)), quiet: true, items: items, words: func(item reportItem) string {
 		if item.mark == "-" {
@@ -668,9 +733,9 @@ func (rep runReport) writeNet(v *review, b reportBlock) {
 	}
 	if b.table != nil {
 		v.paragraph(labelled("Uncertainty", b.lines))
-		v.table(b.table)
+		v.uncertainty(b.table)
 	}
-	writeCounts(v, &b)
+	rep.writeCounts(v, &b)
 	if n := len(c.Cancelled); n > 0 {
 		v.paragraph(mdText("The plan proposes to restore " + countWithNoun(n, "drift fact change", "drift fact changes") + "."))
 	}
@@ -761,10 +826,10 @@ func (rep runReport) writeProvenance(v *review) {
 	}
 }
 
-// writeSides compares the provenance and size of the two sides of a
+// writeSides compares the provenance of the two sides of a
 // comparison, with the input each side was read from when it was typed.
 func (rep runReport) writeSides(v *review) {
-	header := []string{""}
+	header := []string{"Field"}
 	for _, view := range rep.views {
 		header = append(header, mdText(view.side))
 	}
@@ -806,7 +871,7 @@ func (rep runReport) writeSides(v *review) {
 		return "None"
 	})
 	for _, row := range rep.sides.rows {
-		if row[0] == "Origin" || row[0] == "Producer" {
+		if row[0] == "Origin" || row[0] == "Producer" || sideMeasure(row[0]) {
 			continue
 		}
 		cells := []string{mdText(row[0])}
@@ -816,4 +881,27 @@ func (rep runReport) writeSides(v *review) {
 		rows = append(rows, cells)
 	}
 	v.grid(header, false, rows)
+}
+
+func sideMeasure(label string) bool {
+	switch label {
+	case "Instances", "Interpreted", "Relations", "Contexts", "Contributions", "Closures":
+		return true
+	}
+	return false
+}
+
+// Numeric architecture dimensions belong in the review; long input and
+// provenance values remain a field table below it rather than a wide grid.
+func (rep runReport) writeSideCounts(v *review) {
+	t := &reportTable{header: rep.sides.header, numeric: true}
+	for _, row := range rep.sides.rows {
+		if sideMeasure(row[0]) {
+			t.rows = append(t.rows, row)
+		}
+	}
+	if len(t.rows) > 0 {
+		v.heading(3, "Architecture")
+		v.table(transpose(t, "Side"))
+	}
 }

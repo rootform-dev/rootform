@@ -134,22 +134,18 @@ func checkCounts(policies int, a policyresult.Architecture) string {
 // writeSidesTable states each evaluated side: where it comes from, its stage,
 // its evaluations by outcome and the verdict the result records for it.
 func writeSidesTable(v *review, architectures []policyresult.Architecture) {
-	header := []string{""}
-	labels := []string{"Origin", "Stage", "Evaluations", "Passed", "Violated", "Indeterminate", "Verdict"}
-	rows := make([][]string, len(labels))
-	for i, label := range labels {
-		rows[i] = []string{mdText(label)}
-	}
+	header := []string{"Side", "Verdict", "Origin", "Stage", "Evaluations", "Violated", "Indeterminate", "Passed"}
+	var rows [][]string
 	for _, a := range architectures {
-		header = append(header, mdText(titleWord(a.Side)))
-		values := []string{originLabel(nil, a), stageWords(a.Stage), "-", "-", "-", "-", verdictWord(a.Status)}
+		values := []string{titleWord(a.Side), verdictWord(a.Status), originLabel(nil, a), stageWords(a.Stage), "-", "-", "-", "-"}
 		if a.Status != policyresult.StatusFailed {
 			e := a.Summary.Evaluations
-			values[2], values[3], values[4], values[5] = fmt.Sprint(e.Total), fmt.Sprint(e.Passed), fmt.Sprint(e.Violated), fmt.Sprint(e.Indeterminate)
+			values[4], values[5], values[6], values[7] = fmt.Sprint(e.Total), fmt.Sprint(e.Violated), fmt.Sprint(e.Indeterminate), fmt.Sprint(e.Passed)
 		}
-		for i := range labels {
-			rows[i] = append(rows[i], mdText(values[i]))
+		for i := range values {
+			values[i] = mdText(values[i])
 		}
+		rows = append(rows, values)
 	}
 	v.grid(header, false, rows)
 }

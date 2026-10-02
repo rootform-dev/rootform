@@ -66,7 +66,7 @@ func TestCheckReviewKeepsDataInert(t *testing.T) {
 	full := string(checkMarkdown(r, &checkRun{options: cli.CheckOptions{Input: "-", Details: true}}))
 	assertInertReview(t, full, 2)
 	for _, doc := range []string{preview, full} {
-		inOrder(t, doc, "## Rootform Policies\n\n**Overall verdict: VIOLATED**\n\nEvaluation scope: **Both sides**. 1 Policy selected.\n\n", "| Stage | Planned | Planned |\n", "| Verdict | VIOLATED | PASSED |\n", "\n### Before\n", "\n#### `checks.policy.pipes`\n", "\n### After\n", "\n### Provenance\n", "- **Input:** standard input\n")
+		inOrder(t, doc, "## Rootform Policies\n\n**Overall verdict: VIOLATED**\n\nEvaluation scope: **Both sides**. 1 Policy selected.\n\n", "| Before | VIOLATED | Plan | Planned | 12 | 12 | 0 | 0 |\n", "| After | PASSED | Plan | Planned | 12 | 0 | 0 | 12 |\n", "\n### Before\n", "\n#### `checks.policy.pipes`\n", "\n### After\n", "\n### Provenance\n", "- **Input:** standard input\n")
 		if strings.Contains(doc, "architecture of") {
 			t.Fatalf("the verdict folds the sides into one phrase:\n%s", doc)
 		}
@@ -103,14 +103,14 @@ func TestCheckReviewStatesEachSideApart(t *testing.T) {
 	run := &checkRun{options: cli.CheckOptions{Input: "sides.json"}}
 	doc := string(checkMarkdown(r, run))
 	assertInertReview(t, doc, 0)
-	inOrder(t, doc, "## Rootform Policies\n\n**Overall verdict: VIOLATED**\n\nEvaluation scope: **Both sides**. 1 Policy selected.\n\n|  | Before | After |\n| --- | --- | --- |\n| Origin | State | Plan |\n| Stage | Recorded | Planned |\n| Evaluations | 1 | 1 |\n| Passed | 0 | 1 |\n| Violated | 1 | 0 |\n| Indeterminate | 0 | 0 |\n| Verdict | VIOLATED | PASSED |\n\n### Before\n", "\n#### `checks.policy.sides`\n", "\n### After\n\nAll selected evaluations passed.\n", "\n### Provenance\n")
+	inOrder(t, doc, "## Rootform Policies\n\n**Overall verdict: VIOLATED**\n\nEvaluation scope: **Both sides**. 1 Policy selected.\n\n| Side | Verdict | Origin | Stage | Evaluations | Violated | Indeterminate | Passed |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| Before | VIOLATED | State | Recorded | 1 | 1 | 0 | 0 |\n| After | PASSED | Plan | Planned | 1 | 0 | 0 | 1 |\n\n### Before\n", "\n#### `checks.policy.sides`\n", "\n### After\n\nAll selected evaluations passed.\n", "\n### Provenance\n")
 	if strings.Contains(doc, "architecture of") || strings.Contains(doc, "both sides") {
 		t.Fatalf("the stages of both sides are folded into one phrase:\n%s", doc)
 	}
 	r.Status = policyresult.StatusIndeterminate
 	r.Architectures[1].Status = policyresult.StatusNoDecision
 	doc = string(checkMarkdown(r, run))
-	if !strings.Contains(doc, "**Overall verdict: INDETERMINATE**") || !strings.Contains(doc, "| Verdict | VIOLATED | NO DECISION |\n") {
+	if !strings.Contains(doc, "**Overall verdict: INDETERMINATE**") || !strings.Contains(doc, "| After | NO DECISION | Plan | Planned | 1 | 0 | 0 | 1 |\n") {
 		t.Fatalf("the review does not state the recorded statuses:\n%s", doc)
 	}
 }
