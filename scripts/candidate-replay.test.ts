@@ -11,11 +11,11 @@ const workflow = Bun.YAML.parse(
   jobs: { platforms: { steps: { name?: string; run?: string }[] } };
 };
 const download = workflow.jobs.platforms.steps.find(
-  (step) => step.name === "Download exact existing draft assets by ID",
+  (step) => step.name === "Download and verify exact existing draft assets",
 )?.run;
 if (!download) throw new Error("draft replay download is missing");
 
-test("draft replay verifies exact assets with Windows CRLF TSV output", () => {
+test("draft replay verifies exact release assets without native TSV parsing", () => {
   const temporary = mkdtempSync(join(tmpdir(), "rootform-replay-"));
   try {
     const tools = join(temporary, "tools");
@@ -59,23 +59,14 @@ test("draft replay verifies exact assets with Windows CRLF TSV output", () => {
     );
     writeFileSync(
       join(tools, "gh"),
-      '#!/bin/sh\ncase "$*" in *releases/assets/*) asset="${!#}"; cat "$ROOTFORM_REPLAY_FIXTURE/${asset##*/}";; *) cat "$ROOTFORM_REPLAY_FIXTURE/release.json";; esac\n'.replace(
-        "#!/bin/sh",
-        "#!/bin/bash",
-      ),
+      '#!/bin/bash\nif [ "$1" = api ]; then cat "$ROOTFORM_REPLAY_FIXTURE/release.json"; else for asset in "$ROOTFORM_REPLAY_FIXTURE/assets/"*; do cp "$asset" build/release/; done; fi\n',
       { mode: 0o755 },
     );
-    const realJq = Bun.which("jq");
-    if (!realJq) throw new Error("jq is required for candidate workflow tests");
-    writeFileSync(
-      join(tools, "jq"),
-      '#!/bin/sh\nif [ "${1:-}" = -r ]; then "$ROOTFORM_REAL_JQ" "$@" | sed "s/$/\\r/"; else exec "$ROOTFORM_REAL_JQ" "$@"; fi\n',
-      { mode: 0o755 },
-    );
+    mkdirSync(join(fixture, "assets"));
+    for (const file of files) writeFileSync(join(fixture, "assets", file.name), file.body);
     const env = {
       PATH: `${tools}:${process.env.PATH}`,
       ROOTFORM_REPLAY_FIXTURE: fixture,
-      ROOTFORM_REAL_JQ: realJq,
       RELEASE_ID: "123",
       ROOTFORM_VERSION: version,
       GITHUB_REPOSITORY: "rootform-dev/rootform",
@@ -88,14 +79,16 @@ test("draft replay verifies exact assets with Windows CRLF TSV output", () => {
         stderr: "pipe",
         timeout: 10000,
       });
-    const old = run(download.replace(" | tr -d '\\r'", ""));
-    expect(old.exitCode).not.toBe(0);
-    rmSync(join(temporary, "build"), { recursive: true });
     const fixed = run(download);
     expect(fixed.stderr.toString()).toBe("");
     expect(fixed.exitCode).toBe(0);
     for (const file of files)
       expect(readFileSync(join(temporary, "build/release", file.name), "utf8")).toBe(file.body);
+    rmSync(join(temporary, "build"), { recursive: true });
+    writeFileSync(join(fixture, "assets", "ROOTFORM-BINARY-LICENSE.txt"), "corrupt");
+    const corrupted = run(download);
+    expect(corrupted.exitCode).not.toBe(0);
+    expect(corrupted.stderr.toString()).toContain("draft asset digest drifted");
   } finally {
     rmSync(temporary, { force: true, recursive: true });
   }
