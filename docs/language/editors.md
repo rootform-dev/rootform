@@ -1,24 +1,29 @@
 ---
 title: Edit Rootform source
-description: Use VS Code or Zed with the Rootform language server.
+description: Author Dialects and Policy Packs with editor feedback, then test them against evidence.
 ---
 
-Open `.rf.hcl` files with the [Rootform editor integrations](https://github.com/rootform-dev/editors).
-Configure a local Rootform executable in the editor; the integration starts
-[`rootform lsp`](../reference/cli/lsp.md). Extensions do not include or download
-Rootform. Their READMEs provide editor-specific installation and path settings.
+Use [VS Code](../integrations/vscode.md) or [Zed](../integrations/zed.md) to
+write `.rf.hcl` with diagnostics, completion, hover, go to definition and
+formatting. Follow your editor's guide to install and configure it.
 
-The language server supplies diagnostics, contextual completion, hover, go to
-definition and formatting. It uses the same parser, compiler and formatter as
-the CLI. Unsaved buffers override disk files, and source-file or workspace
-notifications refresh the result. Document synchronization is full text, with
-UTF-16 positions negotiated through LSP.
+## Open a source root
 
-Keep each Dialect or Policy Pack in its own source root. A workspace can contain
-several roots; an individual source file uses its directory. Dialect and Policy
-Pack source use their respective compilers. Source authoring needs no provider
-execution, project preparation or dependency acquisition.
+Keep each Dialect or Policy Pack in its own source root. Open that directory
+in your editor so related files are checked together. A workspace may contain
+several roots; when you open an individual file, its directory supplies the
+source root. `.rf.json` source is also supported.
 
-Policy source validation does not prove its references link against a Form.
-Use [`rootform compile policy-pack --semantics`](../reference/cli/compile/policy-pack.md)
-with a saved Form for that check. The language server does not evaluate Policies.
+Editor diagnostics use the same parser and compiler as the CLI, including
+unsaved changes. Authoring needs no infrastructure plan, provider execution,
+project preparation or dependency acquisition.
+
+## Validate the behavior
+
+Diagnostics help you correct source; they do not prove what it concludes from
+an input. [Test and validate](test-validate.md) covers fixture analysis,
+formatting and compilation. A Policy must also link against the facts in a
+Form and be evaluated there; the language server does not evaluate Policies.
+
+Continue with [Write a Dialect](../dialect-authoring.md) or
+[Write a Policy Pack](write-policy-pack.md).

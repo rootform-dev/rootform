@@ -167,5 +167,5 @@ To compare two plans, or a state Form with a later plan, follow
 Git revisions, [Review a pull request](../workflows/index.md#choose-the-review-input)
 adds isolated checkouts and cleanup.
 To review a completed plan in automation, see
-[Run in CI](../integrations/ci/README.md#review-a-completed-plan) or
-[GitHub Actions](../integrations/github-actions.md#review-a-completed-plan).
+[Other CI/CD](../integrations/ci/README.md#review-a-completed-plan) or
+[GitHub](../integrations/github-actions.md#quick-start).

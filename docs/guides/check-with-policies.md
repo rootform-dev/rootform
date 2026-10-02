@@ -133,6 +133,6 @@ the selection; it does not protect it. A pull request can still change the
 lock or the Pack, so review both like code, and evaluate a pull request with
 the Pack from the base revision when the Policies must not be relaxed by the
 change they judge, as [Review a pull request](../workflows/index.md#evaluate-the-saved-comparison-with-policies)
-does. [Run in CI](../integrations/ci/README.md) turns this into a gate, and
+does. [Other CI/CD](../integrations/ci/README.md) turns this into a gate, and
 [Policies and Policy Packs](../concepts/policies.md) explains what a result
 proves.

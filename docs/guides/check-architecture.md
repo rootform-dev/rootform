@@ -427,4 +427,4 @@ The first command updates `rootform.lock`; the second evaluates the selected Pol
 
 <!-- rootform:endsteps -->
 
-Continue with [Review a pull request](../workflows/index.md) to apply these Policies to the head of a pull request, or with [GitHub Actions](../integrations/github-actions.md) to run the same gate in a workflow.
+Continue with [Review a pull request](../workflows/index.md) to apply these Policies to the head of a pull request, or with [GitHub](../integrations/github-actions.md) to run the same gate in a workflow.

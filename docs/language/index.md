@@ -40,6 +40,7 @@ Then follow the explanations where you need more depth:
 
 <!-- rootform:directory -->
 
+- [Edit source](editors.md) Use VS Code or Zed for feedback while authoring.
 - [Write a Dialect](../dialect-authoring.md) Define and test provider interpretation.
 - [Write a Policy Pack](write-policy-pack.md) Name, link, evaluate and package Policies.
 - [Test and validate](test-validate.md) Format source and prove its behavior against evidence.

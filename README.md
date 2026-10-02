@@ -85,9 +85,18 @@ compares two Forms and reports differences, which are never called drift.
 pass, `1` on a violation, and `3` when the evidence cannot settle an
 evaluation or a Policy finds no target. `run` never evaluates Policies.
 [Outputs and exit status](docs/reference/outputs.md) lists every format.
-[Review a pull request](docs/workflows/index.md) brings the same steps to a
-review, and [GitHub Actions](docs/integrations/github-actions.md) shows how to
-run them in CI with a verified release.
+[Review a pull request](docs/workflows/index.md) explains how to choose and
+read the evidence for a review.
+
+## Use Rootform where you work
+
+- [GitHub](docs/integrations/github-actions.md): architecture review and Policy
+  results in Job Summaries and optional PR comments, with Forms and reports
+  retained as artifacts.
+- [VS Code](docs/integrations/vscode.md) and [Zed](docs/integrations/zed.md):
+  author `.rf.hcl` with diagnostics, completion, hover, definitions and formatting.
+- [Other CI/CD](docs/integrations/ci/README.md): analyze completed evidence,
+  keep the Form, and choose a Policy gate in your runner.
 
 ## What Rootform does not do
 

@@ -72,7 +72,7 @@ docker run --rm \
   rootform init . --locked --no-input
 ```
 
-Mount the same volume on later `run` commands and add `--locked`. `init` may acquire only the exact OCI content recorded in the lock; `run` never acquires packages. [Locks and vendored content](../offline-security.md) explains source precedence, and [Run in CI](ci/README.md#prepare-a-locked-selection-before-analysis) shows the same preparation in a runner.
+Mount the same volume on later `run` commands and add `--locked`. `init` may acquire only the exact OCI content recorded in the lock; `run` never acquires packages. [Locks and vendored content](../offline-security.md) explains source precedence, and [Other CI/CD](ci/README.md#prepare-a-locked-selection-before-analysis) shows the same preparation in a runner.
 
 ## Run with vendored content offline
 
