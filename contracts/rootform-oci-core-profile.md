@@ -109,11 +109,12 @@ digest drift.
 
 Local qualification covers CNCF Distribution 3.0 over anonymous TLS. Private
 Basic authentication and Docker credential-helper access to Distribution are
-not qualified by this path. Candidate qualification against a transient private
-GHCR package uses a Docker credential helper with GitHub Actions'
-repository-inherited access permissions. Package visibility is checked
-separately. It does not separately prove the Bearer challenge exchange or
-anonymous pull.
+not qualified by this path. Candidate qualification against a transient GHCR
+namespace uses a Docker credential helper with GitHub Actions'
+repository-scoped package permissions. The namespace must be absent before
+qualification. Evidence records its platform-assigned package visibility;
+qualification never changes that visibility. It does not separately prove
+private read access, the Bearer challenge exchange, or anonymous pull.
 Qualification content is synthetic, and the package is deleted before the job
 ends. Hosted registry compatibility is reported only for products that pass
 the same profile suite.

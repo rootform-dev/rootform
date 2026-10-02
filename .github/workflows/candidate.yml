@@ -261,7 +261,7 @@ jobs:
           } >>"$GITHUB_ENV"
           printf '%s\n' "$helper_dir" >>"$GITHUB_PATH"
 
-      - name: Require qualification package to start private or absent
+      - name: Require isolated qualification namespace to be absent
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -273,13 +273,15 @@ jobs:
           status=$?
           set -e
           if [[ "$status" == 0 ]]; then
-            test "$(jq -r .visibility <<<"$response")" = private
+            printf 'qualification namespace already exists\n' >&2
+            exit 1
           elif [[ "$response" != *"HTTP 404"* ]]; then
-            printf 'could not verify existing qualification package visibility\n' >&2
+            printf 'could not verify qualification namespace absence\n' >&2
             exit 1
           fi
 
       - name: Qualify transient GHCR against OCI Core Profile
+        id: ghcr-profile
         env:
           ROOTFORM_REGISTRY_PASSWORD: ${{ github.token }}
           ROOTFORM_REGISTRY_USERNAME: ${{ github.actor }}
@@ -311,20 +313,24 @@ jobs:
              .capabilities.pull_by_digest == true' \
             build/registry-evidence/ghcr.json >/dev/null
 
-      - name: Verify private qualification package access
+      - name: Record qualification package access
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           package="$(gh api \
             "orgs/$GITHUB_REPOSITORY_OWNER/packages/container/$ROOTFORM_OCI_QUALIFICATION_PACKAGE")"
-          test "$(jq -r .visibility <<<"$package")" = private
           jq --arg repository "$ROOTFORM_OCI_QUALIFICATION_REPOSITORY" \
-            '{format_version: "1", repository: $repository, visibility: .visibility,
+            '{format_version: "1", repository: $repository, name: .name, visibility: .visibility,
               authentication: "docker-credential-helper"}' \
             <<<"$package" > build/registry-evidence/ghcr-access.json
+          cat build/registry-evidence/ghcr-access.json
+          jq -e --arg name "$ROOTFORM_OCI_QUALIFICATION_PACKAGE" \
+            '.name == $name and (.visibility | IN("private", "public", "internal"))' \
+            <<<"$package" >/dev/null
 
       - name: Upload OCI qualification evidence
+        if: always() && steps.ghcr-profile.outcome == 'success'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: rootform-image-qualification-${{ inputs.version }}-${{ github.sha }}
