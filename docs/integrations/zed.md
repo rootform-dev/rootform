@@ -10,19 +10,11 @@ indentation and folding keep Dialects and Policy Packs readable.
 ## Start editing
 
 1. [Install Rootform](../installation.md) and confirm `rootform version` works.
-2. Clone the [public editor source](https://github.com/rootform-dev/editors):
-
-   ```sh
-   git clone --branch dev https://github.com/rootform-dev/editors.git
-   ```
-
-3. In Zed's Command Palette, run `zed: install dev extension` and select the
-   checkout's `zed` directory. Open a `.rf.hcl` file.
+2. Open **Extensions**, search for **Rootform**, and install it.
+3. Open a `.rf.hcl` file.
 
 The extension finds `rootform` on the workspace `PATH` and starts the language
 server. It uses your local executable; it does not bundle or download one.
-Building the extension may need network access for its pinned syntax grammar
-and Zed's build tools.
 
 If Rootform is installed elsewhere, set both the path and arguments in Zed's
 settings:

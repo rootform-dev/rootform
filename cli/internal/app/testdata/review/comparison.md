@@ -9,7 +9,7 @@ Comparison Form loaded. Differences compare the **Recorded** stage of **Before**
 #### Differences
 
 | Change | Instances | External endpoints | Contributions |
-| --- | ---: | ---: | ---: |
+| --- | :---: | :---: | :---: |
 | + Added | 1 | 1 | 1 |
 | − Removed | 0 | 0 | 0 |
 
@@ -28,7 +28,7 @@ Comparison Form loaded. Differences compare the **Recorded** stage of **Before**
 #### Architecture counts
 
 | Side | Instances | Interpreted | Contributions |
-| --- | ---: | ---: | ---: |
+| --- | :---: | :---: | :---: |
 | Before | 2 | 2 | 1 |
 | After | 3 | 3 | 2 |
 

@@ -11,29 +11,10 @@ help you navigate a Dialect or Policy Pack.
 ## Start editing
 
 1. [Install Rootform](../installation.md) and confirm `rootform version` works.
-2. Install the Rootform VSIX in VS Code with **Extensions: Install from VSIX…**.
-   Use VS Code 1.133 or later. The package can be built from the
-   [editor source](https://github.com/rootform-dev/editors/tree/dev/vscode)
-   with the commands below.
+2. Open **Extensions**, search for **Rootform**, and install the extension
+   published by **rootform-dev**. Use VS Code 1.133 or later.
 3. Open a trusted workspace containing `.rf.hcl` files. Select the **Rootform**
    language mode if VS Code has not selected it automatically.
-
-<details>
-<summary>Build the VSIX from source</summary>
-
-Install [Bun](https://bun.sh/docs/installation), then package the public
-extension:
-
-```sh
-git clone --branch dev https://github.com/rootform-dev/editors.git
-cd editors
-bun install --frozen-lockfile
-bun run --cwd vscode package --out ../rootform.vsix
-```
-
-Select `rootform.vsix` in **Extensions: Install from VSIX…**.
-
-</details>
 
 Rootform must be on VS Code's `PATH`. If it is installed elsewhere, set
 **Rootform: Server Path** in Settings, or use:

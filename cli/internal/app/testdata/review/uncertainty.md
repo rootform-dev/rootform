@@ -6,16 +6,16 @@
 
 Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
-**Uncertainty**
+**? Uncertainty**
 
 | Stage | Indeterminate closures | Unavailable | Unknown until apply |
-| --- | ---: | ---: | ---: |
+| --- | :---: | :---: | :---: |
 | Planned | 27 | 26 | 1 |
 
-#### Planned changes
+#### ± Planned changes
 
 | Change | Instances | Relations | Contexts | Contributions |
-| --- | ---: | ---: | ---: | ---: |
+| --- | :---: | :---: | :---: | :---: |
 | + Added | 76 | 18 | 68 | 14 |
 | − Removed | 0 | 0 | 0 | 0 |
 

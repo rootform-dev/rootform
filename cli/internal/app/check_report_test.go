@@ -103,7 +103,7 @@ func TestCheckReviewStatesEachSideApart(t *testing.T) {
 	run := &checkRun{options: cli.CheckOptions{Input: "sides.json"}}
 	doc := string(checkMarkdown(r, run))
 	assertInertReview(t, doc, 1)
-	inOrder(t, doc, "## Rootform\n\n### Policies\n\n> [!CAUTION]\n> **Overall verdict: VIOLATED**\n\nEvaluation scope: **Both sides**. 1 Policy selected.\n\n| Side | Verdict | Origin | Stage | Evaluations | Violated | Indeterminate | Passed |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| Before | VIOLATED | State | Recorded | 1 | 1 | 0 | 0 |\n| After | PASSED | Plan | Planned | 1 | 0 | 0 | 1 |\n\n#### Before\n", "\n**`checks.policy.sides`**\n", "\n#### After\n\nAll selected evaluations passed.\n", "\n### Details\n")
+	inOrder(t, doc, "## Rootform\n\n### Policies\n\n> [!CAUTION]\n> **Overall verdict: VIOLATED**\n\nEvaluation scope: **Both sides**. 1 Policy selected.\n\n| Side | Verdict | Origin | Stage | Evaluations | Violated | Indeterminate | Passed |\n| --- | --- | --- | --- | :---: | :---: | :---: | :---: |\n| Before | VIOLATED | State | Recorded | 1 | 1 | 0 | 0 |\n| After | PASSED | Plan | Planned | 1 | 0 | 0 | 1 |\n\n#### Before\n", "\n**`checks.policy.sides`**\n", "\n#### After\n\nAll selected evaluations passed.\n", "\n### Details\n")
 	if strings.Contains(doc, "architecture of") || strings.Contains(doc, "both sides") {
 		t.Fatalf("the stages of both sides are folded into one phrase:\n%s", doc)
 	}
@@ -174,7 +174,7 @@ func TestCheckReviewPreviewKeepsExactTotals(t *testing.T) {
 
 	preview := render(false)
 	assertInertReview(t, preview, 3)
-	markers := []string{"> **Verdict: VIOLATED**\n\n#### Planned architecture\n\n1 Policy selected. 25 evaluations: 12 violated, 11 indeterminate, and 2 passed.\n", "\n**Violated: 10 of 12 evaluations shown**\n\n"}
+	markers := []string{"> **Verdict: VIOLATED**\n\n#### ▦ Planned architecture\n\n1 Policy selected. 25 evaluations: 12 violated, 11 indeterminate, and 2 passed.\n", "\n**Violated: 10 of 12 evaluations shown**\n\n"}
 	for _, address := range addresses[:10] {
 		markers = append(markers, evidence(address, 5)+"  - 5 of 7 evidence lines shown.\n")
 	}

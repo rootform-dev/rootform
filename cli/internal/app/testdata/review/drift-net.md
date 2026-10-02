@@ -6,10 +6,10 @@
 
 Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
-#### Planned changes
+#### ± Planned changes
 
 | Change | Instances | Relations | Contexts | Contributions |
-| --- | ---: | ---: | ---: | ---: |
+| --- | :---: | :---: | :---: | :---: |
 | + Added | 76 | 18 | 68 | 14 |
 | − Removed | 0 | 0 | 0 | 0 |
 
@@ -77,7 +77,7 @@ Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
 </details>
 
-#### Reported drift
+#### ↺ Reported drift
 
 **1 drift entry reported: 1 architectural.**
 
@@ -86,7 +86,7 @@ Drift compares **Recorded** with **Refreshed**. The export does not establish th
 Architectural effect: no architectural difference determined under the selected Dialects.
 
 | Stage | Indeterminate closures | Unavailable |
-| --- | ---: | ---: |
+| --- | :---: | :---: |
 | Recorded | 1 | 1 |
 | Refreshed | 0 | 0 |
 
@@ -99,7 +99,7 @@ Architectural effect: no architectural difference determined under the selected 
 Net change compares **Recorded** with **Planned**.
 
 | Change | Instances |
-| --- | ---: |
+| --- | :---: |
 | + Added | 2 |
 | − Removed | 1 |
 

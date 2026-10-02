@@ -163,7 +163,7 @@ func writeSidesTable(v *review, architectures []policyresult.Architecture) {
 		}
 		rows = append(rows, values)
 	}
-	v.grid(header, false, rows)
+	v.grid(header, false, rows, 4, 5, 6, 7)
 }
 
 // policyEvaluations are the evaluations of one Policy on one architecture, by

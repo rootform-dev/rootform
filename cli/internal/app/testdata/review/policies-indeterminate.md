@@ -8,7 +8,7 @@
 Evaluation scope: **Both sides**. 1 Policy selected.
 
 | Side | Verdict | Origin | Stage | Evaluations | Violated | Indeterminate | Passed |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | :---: | :---: | :---: | :---: |
 | Before | INDETERMINATE | State | Recorded | 1 | 0 | 1 | 0 |
 | After | PASSED | Plan | Planned | 1 | 0 | 0 | 1 |
 

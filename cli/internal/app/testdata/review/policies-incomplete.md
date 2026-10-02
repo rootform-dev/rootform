@@ -4,7 +4,7 @@
 
 **Verdict: NO DECISION**
 
-#### Planned architecture
+#### ▦ Planned architecture
 
 1 Policy selected. No evaluation.
 
