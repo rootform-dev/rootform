@@ -177,7 +177,11 @@ function dockerMount(host: string, container: string, readOnly = false): string 
   return `${host}:${container}${readOnly ? ":ro" : ""}`;
 }
 
-export function temporaryPermissionRepairArguments(image: string, temporary: string): string[] {
+export function temporaryPermissionRepairArguments(
+  image: string,
+  temporary: string,
+  mode: "a+rwX" | "a+rX" = "a+rwX",
+): string[] {
   const resolved = resolve(temporary);
   if (
     !resolved.startsWith(`${resolve(tmpdir())}/rootform-image-qualification-`) ||
@@ -208,9 +212,15 @@ export function temporaryPermissionRepairArguments(image: string, temporary: str
     "/bin/chmod",
     image,
     "-R",
-    "a+rwX",
+    mode,
     "/cleanup",
   ];
+}
+
+function makeTemporaryOutputsReadable(image: string, directory: string): void {
+  // Container-owned private outputs remain owner-writable; the host verifier
+  // needs only read/traverse access to these isolated synthetic fixtures.
+  run(temporaryPermissionRepairArguments(image, directory, "a+rX"));
 }
 
 function removeTemporary(temporary: string, repairImage?: string): void {
@@ -415,16 +425,34 @@ function assertPolicySARIF(path: string, label: string): void {
 export function assertPolicyResult(path: string, label: string): void {
   const report = parseJson(readFileSync(path, "utf8"), label);
   const selection = parseJson(JSON.stringify(report.selection), `${label} selection`);
-  const summary = parseJson(JSON.stringify(report.summary), `${label} summary`);
-  const evaluations = parseJson(JSON.stringify(summary.evaluations), `${label} evaluations`);
+  if (!Array.isArray(report.architectures) || report.architectures.length !== 1) {
+    throw new Error(`${label} did not pass one selected Policy`);
+  }
+  const architecture = parseJson(JSON.stringify(report.architectures[0]), `${label} architecture`);
+  const summary = parseJson(JSON.stringify(architecture.summary), `${label} summary`);
+  const counts = parseJson(JSON.stringify(summary.evaluations), `${label} evaluation counts`);
+  const policies = parseJson(JSON.stringify(summary.policies), `${label} Policy counts`);
+  const evaluations = architecture.evaluations;
+  if (!Array.isArray(evaluations) || evaluations.length !== 1) {
+    throw new Error(`${label} did not pass one selected Policy`);
+  }
+  const evaluation = parseJson(JSON.stringify(evaluations[0]), `${label} evaluation`);
+  const policy = `${POLICY_PACK_NAME}.policy.portable-service`;
   if (
     report.format_version !== "1" ||
     report.status !== "passed" ||
     !Array.isArray(selection.policies) ||
     selection.policies.length !== 1 ||
-    selection.policies[0] !== `${POLICY_PACK_NAME}.policy.portable-service` ||
-    evaluations.total !== 1 ||
-    evaluations.passed !== 1
+    selection.policies[0] !== policy ||
+    architecture.kind !== "plan" ||
+    architecture.stage !== "planned" ||
+    architecture.status !== "passed" ||
+    policies.selected !== 1 ||
+    policies.passed !== 1 ||
+    counts.total !== 1 ||
+    counts.passed !== 1 ||
+    evaluation.policy !== policy ||
+    evaluation.outcome !== "passed"
   ) {
     throw new Error(`${label} did not pass one selected Policy`);
   }
@@ -583,6 +611,8 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
 
     const dialectLayout = join(authoring, "dialect-layout");
     const policyLayout = join(authoring, "policy-layout");
+    makeTemporaryOutputsReadable(amdImage, dialectLayout);
+    makeTemporaryOutputsReadable(amdImage, policyLayout);
     const dialectTag = `dialect-${DIALECT_OWNER}-${DIALECT_VERSION}`;
     const policyTag = `policy-pack-${POLICY_PACK_NAME}-${POLICY_PACK_VERSION}`;
     const dialectPin = readPackagePin(dialectLayout, dialectTag, "dialect");
@@ -725,6 +755,7 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
       }).stdout,
       "third-party init result",
     );
+    makeTemporaryOutputsReadable(armImage, home);
     requireRegularFile(
       join(home, "dialects", DIALECT_OWNER, DIALECT_VERSION, "dialect.rf.hcl"),
       "installed third-party Dialect",
@@ -784,6 +815,7 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
         project,
         projectReadOnly: true,
       });
+      makeTemporaryOutputsReadable(image, home);
       assertPolicyResult(join(home, `policy-${architecture}.json`), "third-party Policy result");
       assertPolicySARIF(policyPath, "third-party Policy result");
     }
@@ -806,6 +838,7 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
       network,
       project,
     });
+    makeTemporaryOutputsReadable(amdImage, join(project, ".rootform"));
     requireRegularFile(
       join(project, ".rootform", "dialects", DIALECT_OWNER, "dialect.rf.hcl"),
       "vendored Dialect",
@@ -837,6 +870,7 @@ export function qualifyImage(options: QualificationOptions & { root: string }): 
       project,
       projectReadOnly: true,
     });
+    makeTemporaryOutputsReadable(amdImage, vendorHome);
     assertPolicyResult(join(vendorHome, "vendor-policy.json"), "vendored offline Policy result");
     assertPolicySARIF(join(vendorHome, "vendor-results.sarif"), "vendored offline Policy result");
 

@@ -643,16 +643,34 @@ function verifyPolicySARIF(path: string, label: string): void {
 export function verifyPolicyResult(path: string, label: string): void {
   const report = parseJSON(readFileSync(path, "utf8"), label);
   const selection = object(report.selection, `${label} selection`);
-  const summary = object(report.summary, `${label} summary`);
-  const evaluations = object(summary.evaluations, `${label} evaluations`);
+  if (!Array.isArray(report.architectures) || report.architectures.length !== 1) {
+    throw new Error(`${label} did not pass one selected Policy`);
+  }
+  const architecture = object(report.architectures[0], `${label} architecture`);
+  const summary = object(architecture.summary, `${label} summary`);
+  const counts = object(summary.evaluations, `${label} evaluation counts`);
+  const policies = object(summary.policies, `${label} Policy counts`);
+  const evaluations = architecture.evaluations;
+  if (!Array.isArray(evaluations) || evaluations.length !== 1) {
+    throw new Error(`${label} did not pass one selected Policy`);
+  }
+  const evaluation = object(evaluations[0], `${label} evaluation`);
+  const policy = `${POLICY_PACK_NAME}.policy.portable-service`;
   if (
     report.format_version !== "1" ||
     report.status !== "passed" ||
     !Array.isArray(selection.policies) ||
     selection.policies.length !== 1 ||
-    selection.policies[0] !== `${POLICY_PACK_NAME}.policy.portable-service` ||
-    evaluations.total !== 1 ||
-    evaluations.passed !== 1
+    selection.policies[0] !== policy ||
+    architecture.kind !== "plan" ||
+    architecture.stage !== "planned" ||
+    architecture.status !== "passed" ||
+    policies.selected !== 1 ||
+    policies.passed !== 1 ||
+    counts.total !== 1 ||
+    counts.passed !== 1 ||
+    evaluation.policy !== policy ||
+    evaluation.outcome !== "passed"
   ) {
     throw new Error(`${label} did not pass one selected Policy`);
   }
