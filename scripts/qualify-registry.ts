@@ -1020,7 +1020,7 @@ export function qualifyRegistry(options: Options): void {
     if (
       partial.exitCode !== 3 ||
       !partial.stderr.includes(`SEMANTIC_SELECTION`) ||
-      !partial.stderr.includes(`vendored dialect ${DIALECT_OWNER} `)
+      !partial.stderr.includes(`vendored Dialect ${DIALECT_OWNER} `)
     ) {
       throw new Error(
         `partial Dialect vendor missed explicit repair boundary: ${partial.stderr.trim()}`,
