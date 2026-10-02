@@ -27,7 +27,7 @@ func TestMarkdownReviewReopensFormsWithoutChangingMachineOutput(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if !strings.HasPrefix(string(markdown), "## Rootform architecture\n") {
+			if !strings.HasPrefix(string(markdown), "## Rootform\n\n### Architecture\n") {
 				t.Fatal(string(markdown))
 			}
 			if name != "state" && !strings.Contains(string(markdown), "| Change | Instances |") {

@@ -62,15 +62,15 @@ func TestCheckReviewKeepsDataInert(t *testing.T) {
 		Architectures: []policyresult.Architecture{side(form.SideBefore, policyresult.OutcomeViolated), side(form.SideAfter, policyresult.OutcomePassed)},
 	}.Finalized()
 	preview := string(checkMarkdown(r, &checkRun{options: cli.CheckOptions{Input: "-"}}))
-	assertInertReview(t, preview, 0)
+	assertInertReview(t, preview, 2)
 	full := string(checkMarkdown(r, &checkRun{options: cli.CheckOptions{Input: "-", Details: true}}))
-	assertInertReview(t, full, 2)
+	assertInertReview(t, full, 4)
 	for _, doc := range []string{preview, full} {
-		inOrder(t, doc, "## Rootform Policies\n\n**Overall verdict: VIOLATED**\n\nEvaluation scope: **Both sides**. 1 Policy selected.\n\n", "| Before | VIOLATED | Plan | Planned | 12 | 12 | 0 | 0 |\n", "| After | PASSED | Plan | Planned | 12 | 0 | 0 | 12 |\n", "\n### Before\n", "\n#### `checks.policy.pipes`\n", "\n### After\n", "\n### Provenance\n", "- **Input:** standard input\n")
+		inOrder(t, doc, "## Rootform\n\n### Policies\n\n> [!CAUTION]\n> **Overall verdict: VIOLATED**\n\nEvaluation scope: **Both sides**. 1 Policy selected.\n\n", "| Before | VIOLATED | Plan | Planned | 12 | 12 | 0 | 0 |\n", "| After | PASSED | Plan | Planned | 12 | 0 | 0 | 12 |\n", "\n#### Before\n", "\n**`checks.policy.pipes`**\n", "\n#### After\n", "\n### Details\n", "- **Input:** standard input\n")
 		if strings.Contains(doc, "architecture of") {
 			t.Fatalf("the verdict folds the sides into one phrase:\n%s", doc)
 		}
-		if strings.Count(doc, "**Requirement:**") != strings.Count(doc, "\n#### ") {
+		if strings.Count(doc, "**Requirement:**") != strings.Count(doc, "\n**`checks.policy.pipes`**") {
 			t.Fatalf("the requirement is not stated once per Policy:\n%s", doc)
 		}
 	}
@@ -102,8 +102,8 @@ func TestCheckReviewStatesEachSideApart(t *testing.T) {
 	}.Finalized()
 	run := &checkRun{options: cli.CheckOptions{Input: "sides.json"}}
 	doc := string(checkMarkdown(r, run))
-	assertInertReview(t, doc, 0)
-	inOrder(t, doc, "## Rootform Policies\n\n**Overall verdict: VIOLATED**\n\nEvaluation scope: **Both sides**. 1 Policy selected.\n\n| Side | Verdict | Origin | Stage | Evaluations | Violated | Indeterminate | Passed |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| Before | VIOLATED | State | Recorded | 1 | 1 | 0 | 0 |\n| After | PASSED | Plan | Planned | 1 | 0 | 0 | 1 |\n\n### Before\n", "\n#### `checks.policy.sides`\n", "\n### After\n\nAll selected evaluations passed.\n", "\n### Provenance\n")
+	assertInertReview(t, doc, 1)
+	inOrder(t, doc, "## Rootform\n\n### Policies\n\n> [!CAUTION]\n> **Overall verdict: VIOLATED**\n\nEvaluation scope: **Both sides**. 1 Policy selected.\n\n| Side | Verdict | Origin | Stage | Evaluations | Violated | Indeterminate | Passed |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| Before | VIOLATED | State | Recorded | 1 | 1 | 0 | 0 |\n| After | PASSED | Plan | Planned | 1 | 0 | 0 | 1 |\n\n#### Before\n", "\n**`checks.policy.sides`**\n", "\n#### After\n\nAll selected evaluations passed.\n", "\n### Details\n")
 	if strings.Contains(doc, "architecture of") || strings.Contains(doc, "both sides") {
 		t.Fatalf("the stages of both sides are folded into one phrase:\n%s", doc)
 	}
@@ -173,8 +173,8 @@ func TestCheckReviewPreviewKeepsExactTotals(t *testing.T) {
 	}
 
 	preview := render(false)
-	assertInertReview(t, preview, 0)
-	markers := []string{"**VIOLATED: Planned architecture**\n\n1 Policy selected. 25 evaluations: 12 violated, 11 indeterminate, and 2 passed.\n", "\n**Violated: 10 of 12 evaluations shown**\n\n"}
+	assertInertReview(t, preview, 3)
+	markers := []string{"> **Verdict: VIOLATED**\n\n#### Planned architecture\n\n1 Policy selected. 25 evaluations: 12 violated, 11 indeterminate, and 2 passed.\n", "\n**Violated: 10 of 12 evaluations shown**\n\n"}
 	for _, address := range addresses[:10] {
 		markers = append(markers, evidence(address, 5)+"  - 5 of 7 evidence lines shown.\n")
 	}
@@ -182,7 +182,7 @@ func TestCheckReviewPreviewKeepsExactTotals(t *testing.T) {
 	for _, address := range addresses[12:22] {
 		markers = append(markers, evidence(address, 5)+"  - 5 of 7 evidence lines shown.\n  - Reason: ")
 	}
-	inOrder(t, preview, append(markers, "\n### Provenance\n", "\n"+checkPreview+"\n")...)
+	inOrder(t, preview, append(markers, "\n### Details\n", "\n"+checkPreview+"\n")...)
 	for _, hidden := range []string{"local_file.v10", "local_file.v11", "local_file.i10", "local_file.p00", "aws_vpc.n5", "aws_vpc.n6", "Passed"} {
 		if strings.Contains(preview, hidden) {
 			t.Fatalf("the preview shows %q:\n%s", hidden, preview)
@@ -193,7 +193,7 @@ func TestCheckReviewPreviewKeepsExactTotals(t *testing.T) {
 	}
 
 	full := render(true)
-	assertInertReview(t, full, 2)
+	assertInertReview(t, full, 3)
 	markers = []string{"<summary>Violated: 12 evaluations</summary>\n\n"}
 	for i, address := range addresses {
 		switch i {

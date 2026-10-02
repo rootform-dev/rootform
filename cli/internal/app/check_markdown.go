@@ -22,31 +22,35 @@ const checkPreview = "Each list above shows at most 10 evaluations, each with at
 func checkMarkdown(r policyresult.Result, run *checkRun) []byte {
 	o := run.options
 	v := &review{}
-	v.heading(2, "Rootform Policies")
+	v.heading(2, "Rootform")
+	v.heading(3, "Policies")
 	if len(r.Architectures) == 0 {
-		v.paragraph(strong("NOT EVALUATED: the Policy check did not complete."))
+		v.alert("WARNING", strong("NOT EVALUATED: the Policy check did not complete."))
 		if n := len(r.Selection.Policies); n > 0 {
 			v.paragraph(mdText(policiesSelected(n) + "."))
 		}
-		writeNotEvaluated(v, 3, r.Diagnostics, o.Details)
+		writeNotEvaluated(v, r.Diagnostics, o.Details)
 	} else {
 		indexes := run.evidence()
 		if len(r.Architectures) == 1 {
 			a := r.Architectures[0]
-			v.paragraph(strong(verdictWord(r.Status) + ": " + architectureWords(a)))
+			writeVerdict(v, r.Status, "Verdict: "+verdictWord(r.Status))
+			v.heading(4, mdText(architectureWords(a)))
 			v.paragraph(mdText(checkCounts(len(r.Selection.Policies), a)))
-			writeCheckSide(v, 3, a, indexes[a.Side], o.Details, false)
+			writeCheckSide(v, a, indexes[a.Side], o.Details, false)
 		} else {
-			v.paragraph(strong("Overall verdict: " + verdictWord(r.Status)))
+			writeVerdict(v, r.Status, "Overall verdict: "+verdictWord(r.Status))
 			v.paragraph("Evaluation scope: " + strong(scopeWords(r)) + ". " + mdText(policiesSelected(len(r.Selection.Policies))+"."))
 			writeSidesTable(v, r.Architectures)
 			for _, a := range r.Architectures {
-				v.heading(3, mdText(titleWord(a.Side)))
-				writeCheckSide(v, 4, a, indexes[a.Side], o.Details, true)
+				v.heading(4, mdText(titleWord(a.Side)))
+				writeCheckSide(v, a, indexes[a.Side], o.Details, true)
 			}
 		}
 	}
-	v.heading(3, "Provenance")
+	v.separator()
+	v.heading(3, "Details")
+	v.fold("Provenance")
 	rows := [][2]string{{"Input", inputWords(o.Input)}}
 	if len(r.Architectures) == 1 {
 		a := r.Architectures[0]
@@ -62,7 +66,19 @@ func checkMarkdown(r policyresult.Result, run *checkRun) []byte {
 	if v.truncated {
 		v.paragraph(checkPreview)
 	}
+	v.unfold()
 	return v.bytes()
+}
+
+func writeVerdict(v *review, status policyresult.Status, words string) {
+	switch status {
+	case policyresult.StatusViolated:
+		v.alert("CAUTION", strong(words))
+	case policyresult.StatusIndeterminate, policyresult.StatusFailed:
+		v.alert("WARNING", strong(words))
+	default:
+		v.paragraph(strong(words))
+	}
 }
 
 // architectureWords names the one architecture a check evaluated: its stage,
@@ -192,10 +208,10 @@ func policyGroups(a policyresult.Architecture) []*policyEvaluations {
 // writeCheckSide writes what one architecture needs a reader to act on: each
 // Policy with violated or indeterminate evaluations, and passed ones with
 // --details, then the Policies whose coverage is incomplete and those without
-// target. level is the heading level of its parts.
-func writeCheckSide(v *review, level int, a policyresult.Architecture, index *evidenceIndex, details, sides bool) {
+// target. Policy identities and outcomes stay within that architecture.
+func writeCheckSide(v *review, a policyresult.Architecture, index *evidenceIndex, details, sides bool) {
 	if a.Status == policyresult.StatusFailed {
-		writeNotEvaluated(v, level, a.Diagnostics, details)
+		writeNotEvaluated(v, a.Diagnostics, details)
 		return
 	}
 	wrote := false
@@ -212,12 +228,19 @@ func writeCheckSide(v *review, level int, a policyresult.Architecture, index *ev
 			continue
 		}
 		wrote = true
-		v.heading(level, mdCode(g.id))
+		passedOnly := len(g.outcomes[policyresult.OutcomeViolated])+len(g.outcomes[policyresult.OutcomeIndeterminate]) == 0
+		if passedOnly {
+			v.fold("Passed Policy details")
+		}
+		v.paragraph("**" + mdCode(g.id) + "**")
 		if g.requirement != "" {
 			v.paragraph("**Requirement:** " + mdText(g.requirement))
 		}
 		for _, outcome := range outcomes {
 			writeEvaluations(v, titleWord(string(outcome)), g.outcomes[outcome], g.requirement, a, index, details)
+		}
+		if passedOnly {
+			v.unfold()
 		}
 	}
 	var coverage, noTarget []string
@@ -237,7 +260,7 @@ func writeCheckSide(v *review, level int, a policyresult.Architecture, index *ev
 			continue
 		}
 		wrote = true
-		v.heading(level, section.title)
+		v.paragraph(strong(section.title))
 		for _, item := range section.items {
 			v.item(0, item)
 		}
@@ -269,11 +292,10 @@ func writeEvaluations(v *review, outcome string, evaluations []policyresult.Eval
 	if len(shown) < len(evaluations) {
 		title = fmt.Sprintf("%s: %d of %d evaluations shown", outcome, len(shown), len(evaluations))
 	}
-	fold := len(shown) > checkEntryLimit
+	fold := len(evaluations) > checkEntryLimit
+	v.paragraph(strong(title))
 	if fold {
 		v.fold(title)
-	} else {
-		v.paragraph(strong(title))
 	}
 	for _, e := range shown {
 		writeEvaluation(v, e, requirement, a, index, details)
@@ -332,8 +354,8 @@ func previewEvidence(lines []string, details bool) ([]string, bool) {
 
 // writeNotEvaluated lists why a check, or one side of it, could not be
 // evaluated; --details adds the diagnostic codes.
-func writeNotEvaluated(v *review, level int, diagnostics []policyresult.Diagnostic, details bool) {
-	v.heading(level, "Not evaluated")
+func writeNotEvaluated(v *review, diagnostics []policyresult.Diagnostic, details bool) {
+	v.paragraph(strong("Not evaluated"))
 	shown := diagnostics
 	if !details && len(shown) > checkEntryLimit {
 		shown = shown[:checkEntryLimit]
