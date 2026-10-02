@@ -32,7 +32,18 @@
     "label": "Integrations",
     "items": [
       { "label": "Overview", "page": "integrations" },
-      { "label": "GitHub", "page": "integrations/github-actions" },
+      {
+        "label": "GitHub",
+        "items": [
+          { "label": "Overview", "page": "integrations/github-actions" },
+          { "label": "Integrated Action", "page": "integrations/github-actions/action" },
+          { "label": "Analyze", "page": "integrations/github-actions/analyze" },
+          { "label": "Compare", "page": "integrations/github-actions/compare" },
+          { "label": "Check", "page": "integrations/github-actions/check" },
+          { "label": "Setup", "page": "integrations/github-actions/setup" },
+          { "label": "Init", "page": "integrations/github-actions/init" }
+        ]
+      },
       { "label": "VS Code", "page": "integrations/vscode" },
       { "label": "Zed", "page": "integrations/zed" },
       { "label": "Other CI/CD", "page": "integrations/ci" }

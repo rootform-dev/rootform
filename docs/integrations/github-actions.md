@@ -17,14 +17,14 @@ on a synthetic architecture:
 **76 instances, 18 Relations, 68 Contexts, and 14 Contributions added.**
 
 | Change | Instances | Relations | Contexts | Contributions |
-| --- | ---: | ---: | ---: | ---: |
+| --- | :---: | :---: | :---: | :---: |
 | + Added | 76 | 18 | 68 | 14 |
 | − Removed | 0 | 0 | 0 | 0 |
 
-**Uncertainty**
+**? Uncertainty**
 
 | Stage | Indeterminate closures | Unavailable | Unknown until apply |
-| --- | ---: | ---: | ---: |
+| --- | :---: | :---: | :---: |
 | Planned | 27 | 26 | 1 |
 
 Read the architecture report to see planned changes, reported drift and net
@@ -35,15 +35,17 @@ secondary to the review result.
 
 ## Quick start
 
-Add this step after your existing job produces `plan.json`. It also accepts
+Add this step after your existing job produces `plan.tfplan` and its `plan.json`
+export. It also accepts
 state JSON or a saved Form. Choose an exact [published Rootform version](https://github.com/rootform-dev/rootform/releases).
 
 ```yaml title="Step after your plan export"
 - uses: rootform-dev/action@v1
   id: rootform
   with:
-    version: 0.1.0-pr.117.1
+    version: 0.1.0
     input: ${{ runner.temp }}/plan.json
+    plan-file: ${{ runner.temp }}/plan.tfplan
 ```
 
 The Action installs and verifies Rootform, prepares any selected project
@@ -51,8 +53,8 @@ content, and produces the Form, Markdown review and self-contained Explorer
 HTML. Job Summary and artifact upload are enabled by default. No separate
 setup or init step is required.
 
-If you have the matching saved binary plan, add
-`plan-file: ${{ runner.temp }}/plan.tfplan`. Set `project: ./infra` when the
+Keep the matching saved plan beside its JSON export: the pairing is verified
+and preserves evidence that the export alone cannot retain. Set `project: ./infra` when the
 project's Rootform configuration is there. With a committed `rootform.lock`,
 use `locked: true` to require and preserve that selection.
 The [complete plan workflow](ci/github-actions-plan.yml) includes the export
@@ -73,7 +75,7 @@ To compare two revisions, give the same Action both operands instead of
 - uses: rootform-dev/action@v1
   id: rootform
   with:
-    version: 0.1.0-pr.117.1
+    version: 0.1.0
     before: before/form.json
     after: after/form.json
     policy-pack: ./policies
@@ -141,8 +143,9 @@ jobs:
       # Checkout and export your input before this step.
       - uses: rootform-dev/action@v1
         with:
-          version: 0.1.0-pr.117.1
+          version: 0.1.0
           input: ${{ runner.temp }}/plan.json
+          plan-file: ${{ runner.temp }}/plan.tfplan
           comment: true
 ```
 
@@ -164,15 +167,15 @@ installation or project preparation. Business Actions remain autonomous:
 
 | Action | Use it to |
 | --- | --- |
-| `rootform-dev/action/setup@v1` | Install and verify Rootform without analysis |
-| `rootform-dev/action/init@v1` | Prepare a locked selection or warm content for an offline step |
-| `rootform-dev/action/analyze@v1` | Produce or reopen a Form and export its reports |
-| `rootform-dev/action/compare@v1` | Compare two operands and retain the Comparison Form |
-| `rootform-dev/action/check@v1` | Check a plan/state directly or reuse a Form/Comparison Form |
+| [`setup@v1`](github-actions/setup.md) | Install and verify Rootform without analysis |
+| [`init@v1`](github-actions/init.md) | Prepare a locked selection or warm content for an offline step |
+| [`analyze@v1`](github-actions/analyze.md) | Produce or reopen a Form and export its reports |
+| [`compare@v1`](github-actions/compare.md) | Compare two operands and retain the Comparison Form |
+| [`check@v1`](github-actions/check.md) | Check a plan/state directly or reuse a Form/Comparison Form |
 
 Analyze, compare and check produce Markdown and Job Summaries but never
 comment on PRs. Setup installs Rootform; init prepares selected content.
-Use the [Action reference](https://github.com/rootform-dev/action#readme) for
-exact inputs, outputs, cache settings and runner requirements.
+The [integrated Action reference](github-actions/action.md) and the pages above
+describe every input, default and output, with examples and usage conditions.
 On GitLab, Azure Pipelines or a custom runner, use
 [Other CI/CD](ci/README.md).
