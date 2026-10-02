@@ -216,7 +216,15 @@ function runLockedJourney(
   };
 }
 
-process.stdout.write(run(["bun", "run", "verify:docs-examples"], root, { ROOTFORM_BIN: binary }));
+// Stream progress so a failed server lifecycle cannot hide behind captured output.
+const docs = Bun.spawn(["bun", join(root, "scripts", "verify-docs-examples.ts")], {
+  cwd: root,
+  env: { ...process.env, ROOTFORM_BIN: binary },
+  stdout: "inherit",
+  stderr: "inherit",
+});
+const docsExit = await docs.exited;
+if (docsExit !== 0) throw new Error(`documentation verification exited ${docsExit}`);
 
 const registryHome = mkdtempSync(join(tmpdir(), "rootform-registry-home-"));
 const outputs = mkdtempSync(join(tmpdir(), "rootform-examples-"));

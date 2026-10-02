@@ -177,17 +177,28 @@ function assertExcerpt(marker: string, lines: string[], output: string): void {
   }
 }
 
-async function serve(command: string, scratch: string, env: Record<string, string>) {
-  const child = Bun.spawn(["/bin/sh", "-c", `${command} --color always --no-browser --port 0`], {
-    cwd: scratch,
-    env,
-    stdout: "pipe",
-    stderr: "pipe",
-  });
+export async function serveDocumentationCommand(
+  command: string,
+  scratch: string,
+  env: Record<string, string>,
+  timing = { interruptAfterMs: 4000, timeoutMs: 30000 },
+) {
+  // Replace the shell so SIGINT reaches Rootform on shells that do not forward it.
+  const child = Bun.spawn(
+    ["/bin/sh", "-c", `exec ${command} --color always --no-browser --port 0`],
+    {
+      cwd: scratch,
+      env,
+      stdout: "pipe",
+      stderr: "pipe",
+      timeout: timing.timeoutMs,
+      killSignal: "SIGKILL",
+    },
+  );
   /* The commerce plan compiles in about one second on a laptop; wait for the
      summary to be written before interrupting the server. */
-  await new Promise((resolve) => setTimeout(resolve, 4000));
-  child.kill("SIGINT");
+  await new Promise((resolve) => setTimeout(resolve, timing.interruptAfterMs));
+  if (child.exitCode === null) child.kill("SIGINT");
   const exit = await child.exited;
   const [stdout, stderr] = await Promise.all([
     new Response(child.stdout).text(),
@@ -272,7 +283,7 @@ export async function verifyJourneyExamples(binary: string, root: string): Promi
         throw new Error(`${item.marker}: could not seed document: ${seeded.stderr.toString()}`);
     }
     const result = item.serve
-      ? await serve(command, scratch, env)
+      ? await serveDocumentationCommand(command, scratch, env)
       : (() => {
           const run = Bun.spawnSync(["/bin/sh", "-c", `${command} --color always`], {
             cwd: scratch,
