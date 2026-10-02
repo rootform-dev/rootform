@@ -15,6 +15,13 @@ on:
         description: Reuse prior assembly and installation proof; requalify only native runtimes of the exact existing draft
         default: false
         type: boolean
+      native_runtime_target:
+        description: Qualify all targets or Windows only when replaying an existing draft
+        default: all
+        type: choice
+        options:
+          - all
+          - windows-amd64
       version:
         description: Exact Rootform candidate version
         required: true
@@ -476,28 +483,18 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - archive_target: linux-amd64
-            executable: rootform
-            runner: ubuntu-24.04
-            target: linux-amd64
-          - archive_target: linux-arm64
-            executable: rootform
-            runner: ubuntu-24.04-arm
-            target: linux-arm64
-          - archive_target: darwin-amd64
-            executable: rootform
-            runner: macos-15-intel
-            target: macos-amd64
-          - archive_target: darwin-arm64
-            executable: rootform
-            runner: macos-15
-            target: macos-arm64
-          - archive_target: windows-amd64
-            executable: rootform.exe
-            runner: windows-2025
-            target: windows-amd64
+      matrix: >-
+        ${{ fromJSON(
+          inputs.qualification_release_id != '' && inputs.native_runtime_target == 'windows-amd64'
+          && '{"include":[{"archive_target":"windows-amd64","executable":"rootform.exe","runner":"windows-2025","target":"windows-amd64"}]}'
+          || '{"include":[
+            {"archive_target":"linux-amd64","executable":"rootform","runner":"ubuntu-24.04","target":"linux-amd64"},
+            {"archive_target":"linux-arm64","executable":"rootform","runner":"ubuntu-24.04-arm","target":"linux-arm64"},
+            {"archive_target":"darwin-amd64","executable":"rootform","runner":"macos-15-intel","target":"macos-amd64"},
+            {"archive_target":"darwin-arm64","executable":"rootform","runner":"macos-15","target":"macos-arm64"},
+            {"archive_target":"windows-amd64","executable":"rootform.exe","runner":"windows-2025","target":"windows-amd64"}
+          ]}'
+        ) }}
 
     steps:
       - name: Check out distribution
@@ -533,7 +530,7 @@ jobs:
             <<<"$release" >/dev/null
           mkdir -p build/release
           printf '%s\n' "$release" > build/replay-release.json
-          jq -r '.assets[] | [.id, .name] | @tsv' <<<"$release" |
+          jq -r '.assets[] | [.id, .name] | @tsv' <<<"$release" | tr -d '\r' |
             while IFS=$'\t' read -r asset_id asset_name; do
               [[ "$asset_id" =~ ^[1-9][0-9]*$ ]]
               [[ "$asset_name" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]]
