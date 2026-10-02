@@ -722,7 +722,7 @@ func (rep runReport) writeDrift(v *review, b reportBlock) {
 // writeNet states the net change of a plan: the planned changes again, the
 // drift the plan proposes to restore, or its own comparison.
 func (rep runReport) writeNet(v *review, b reportBlock) {
-	v.heading(4, mdText(b.title))
+	v.heading(4, "Δ "+mdText(b.title))
 	c := b.comparison
 	if c == nil {
 		v.paragraph(mdText(strings.Join(b.lines, " ")))

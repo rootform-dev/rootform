@@ -29,7 +29,7 @@ Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
 
 No drift reported in this plan. The export does not establish the refresh scope.
 
-#### Net change
+#### Δ Net change
 
 Same determined changes as Planned changes.
 
