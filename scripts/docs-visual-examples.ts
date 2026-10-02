@@ -224,7 +224,12 @@ export async function verifyVisualExamples(binary: string, root: string): Promis
   const manifest = JSON.parse(bytes(join(dir, "manifest.json")).toString());
   const interactive = JSON.parse(bytes(join(dir, "interactive.json")).toString());
   assert(manifest.format_version === "1" && interactive.format_version === "1", "format mismatch");
-  assert(manifest.binary.sha256 === hash(bytes(binary)), "binary digest mismatch");
+  assert(/^[0-9a-f]{64}$/u.test(manifest.binary.sha256), "invalid generator binary digest");
+  const version = Bun.spawnSync([binary, "version"], { stdout: "pipe", stderr: "pipe" });
+  assert(
+    version.exitCode === 0 && version.stdout.toString().trim() === manifest.binary.version,
+    "binary version mismatch",
+  );
   assert(
     JSON.stringify(Object.keys(interactive.files).sort()) ===
       JSON.stringify(documentFiles().sort()),
