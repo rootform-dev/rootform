@@ -1,14 +1,14 @@
 {
   "format_version": "1",
   "files": {
-    "commerce-platform-analysis.json": "915d9ceb27fec85ccd0f894cf48139b8006f81b9103d161e071a5fc1928b0574",
-    "commerce-platform-comparison.json": "7ddd9732e0de1582b8ae2dccb20d132a67ca2c2cf189043933e522ae47522776",
+    "commerce-platform-analysis.json": "80ab7f188eceae53ecdc93c514b8c6ee2e9203084a410e6f977823d19c5f7f96",
+    "commerce-platform-comparison.json": "bfee4467e740a266f2c8d79596cc177a5f5174986166c35abc2416dc9be24714",
     "commerce-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49",
-    "event-driven-platform-analysis.json": "cd1d67086d1c67b5814f4059d61142b24685c8a8ab6dd7e9d3344a44455dbb9f",
-    "event-driven-platform-comparison.json": "45db14d86b4717119cd2cde5e666fc718f53cea2d1b81b1f8ee46e1680cdfdd3",
+    "event-driven-platform-analysis.json": "4bd11754628fc4c9bc9afcb44495c0e702edc009cf239b62d97c73ee479a3e95",
+    "event-driven-platform-comparison.json": "0d93aa7fa2caa27d07ae0a2e9adce4f64305a95319f868582d3c3b9cb1f1f088",
     "event-driven-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49",
-    "shared-data-platform-analysis.json": "05b2e4936a9695d4419aaa74b358c5df5e88c9af2f700862d410ad1d434f9ab2",
-    "shared-data-platform-comparison.json": "694e7be6a0817b68c496ef5b6aab0647dd8e1442840709fc96c9756aae6a935c",
+    "shared-data-platform-analysis.json": "c32b385d1972e57656e14c6737ba69a4f405a8d5da4f9ebca7f1b6418dd9d8d0",
+    "shared-data-platform-comparison.json": "759d4c40867ba8718ce6b3b3a66e8bbe936c571f21b7d04997c0d298d7b9ed92",
     "shared-data-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49"
   }
 }
