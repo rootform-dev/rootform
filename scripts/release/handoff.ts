@@ -52,10 +52,13 @@ export type ReleaseSetUnit = {
 };
 
 export type ReleaseSetManifest = {
-  format_version: string;
-  rf_language: { contract_sha256: string; version: string };
-  units: ReleaseSetUnit[];
-  version: string;
+  format_version: "1";
+  release_set: {
+    id: string;
+    manifest_digest: string;
+    units: ReleaseSetUnit[];
+    version: string;
+  };
 };
 
 export type NativeVersionVerifier = (
@@ -483,38 +486,32 @@ type ParsedManifest = {
 };
 
 const SEMVER =
-  /^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/u;
+  /^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/u;
 const OWNER = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/u;
+const DIGEST = /^sha256:[0-9a-f]{64}$/u;
 
 function releaseSetManifest(value: unknown): ReleaseSetManifest {
-  const manifest = exactObject(value, "release-set manifest", [
-    "format_version",
-    "rf_language",
+  const manifest = exactObject(value, "release-set manifest", ["format_version", "release_set"]);
+  if (manifest.format_version !== "1") throw new Error("release-set manifest format drifted");
+  const releaseSet = exactObject(manifest.release_set, "release-set", [
+    "id",
+    "manifest_digest",
     "units",
     "version",
   ]);
-  if (manifest.format_version !== "1") throw new Error("release-set manifest format drifted");
-  const version = stringField(manifest, "version", "release-set manifest");
+  const version = stringField(releaseSet, "version", "release-set");
   if (!SEMVER.test(version)) throw new Error("release-set manifest version is invalid");
-  const language = exactObject(manifest.rf_language, "release-set RF Language contract", [
-    "contract_sha256",
-    "version",
-  ]);
-  const languageVersion = stringField(language, "version", "release-set RF Language contract");
-  const contractSha256 = stringField(
-    language,
-    "contract_sha256",
-    "release-set RF Language contract",
-  );
-  if (!SEMVER.test(languageVersion) || !/^[0-9a-f]{64}$/u.test(contractSha256)) {
-    throw new Error("release-set RF Language contract is invalid");
+  const id = stringField(releaseSet, "id", "release-set");
+  const manifestDigest = stringField(releaseSet, "manifest_digest", "release-set");
+  if (!/^release-set:[0-9a-f]{64}$/u.test(id) || !DIGEST.test(manifestDigest)) {
+    throw new Error("release-set manifest identity is invalid");
   }
-  if (!Array.isArray(manifest.units) || manifest.units.length === 0) {
+  if (!Array.isArray(releaseSet.units) || releaseSet.units.length === 0) {
     throw new Error("release-set manifest unit inventory is empty");
   }
   const keys = new Set<string>();
   let vocabularyCount = 0;
-  const units = manifest.units.map((raw, index): ReleaseSetUnit => {
+  const units = releaseSet.units.map((raw, index): ReleaseSetUnit => {
     if (typeof raw !== "object" || raw === null || Array.isArray(raw)) {
       throw new Error(`release-set manifest unit ${index} must be an object`);
     }
@@ -542,8 +539,8 @@ function releaseSetManifest(value: unknown): ReleaseSetManifest {
     }
     if (
       !SEMVER.test(unitVersion) ||
-      !/^[0-9a-f]{64}$/u.test(contentDigest) ||
-      !/^[0-9a-f]{64}$/u.test(semanticDigest) ||
+      !DIGEST.test(contentDigest) ||
+      !DIGEST.test(semanticDigest) ||
       keys.has(owner)
     ) {
       throw new Error(`release-set manifest unit ${index} is invalid or duplicated`);
@@ -561,15 +558,26 @@ function releaseSetManifest(value: unknown): ReleaseSetManifest {
   if (vocabularyCount !== 1 || !keys.has("rf")) {
     throw new Error("release-set manifest must contain exactly one RF Vocabulary unit");
   }
-  const ordered = [...units].sort((left, right) => left.owner.localeCompare(right.owner, "en"));
+  const ordered = [...units].sort((left, right) => {
+    if (left.owner < right.owner) return -1;
+    if (left.owner > right.owner) return 1;
+    return 0;
+  });
   if (JSON.stringify(units) !== JSON.stringify(ordered)) {
     throw new Error("release-set manifest units are not canonical");
   }
+  // Match the public form.ReleaseSetIdentity NUL-delimited identity, not a JSON digest.
+  const parts = [version];
+  for (const unit of units) {
+    parts.push(unit.owner, unit.kind, unit.version, unit.content_digest, unit.semantic_digest);
+  }
+  const identity = sha256(parts.join("\0"));
+  if (id !== `release-set:${identity}` || manifestDigest !== `sha256:${identity}`) {
+    throw new Error("release-set manifest identity is not derived from its units");
+  }
   return {
     format_version: "1",
-    rf_language: { contract_sha256: contractSha256, version: languageVersion },
-    units,
-    version,
+    release_set: { id, manifest_digest: manifestDigest, units, version },
   };
 }
 
@@ -743,7 +751,7 @@ function parseProducerManifest(body: string, version: string): ParsedManifest {
     ],
     producerCommit,
     releaseSetManifestSha256,
-    releaseSetVersion: releaseSet.version,
+    releaseSetVersion: releaseSet.release_set.version,
     targetRecords,
   };
 }
