@@ -178,7 +178,7 @@ func TestUncertaintyTablesCountClosures(t *testing.T) {
 		t.Fatalf("text table:\n%s", text)
 	}
 	md := string(runReport{verdict: "Inputs compared", blocks: []reportBlock{block}}.markdown())
-	if !strings.Contains(md, "| *Unknown until apply* | 1 | 1 |") {
+	if !strings.Contains(md, "| Side | Indeterminate closures | Unknown until apply | External identity withheld | Incomplete identity |\n| --- | ---: | ---: | ---: | ---: |\n| Before | 1 | 1 | 0 | 0 |\n| After | 2 | 1 | 1 | 1 |") {
 		t.Fatalf("Markdown table:\n%s", md)
 	}
 }
