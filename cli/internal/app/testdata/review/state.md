@@ -20,7 +20,6 @@ State analyzed.
 <summary>Provenance</summary>
 
 - **Input:** `state.json`
-- **Producer:** Terraform or OpenTofu 1.10.7
 - **Stage:** Recorded
 
 </details>

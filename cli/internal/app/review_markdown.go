@@ -905,7 +905,9 @@ func (rep runReport) writeSides(v *review) {
 		rows = append(rows, row)
 	}
 	add("Origin", func(view stageView, _ *form.Architecture) string { return titleWord(string(view.form.Kind)) })
-	add("Producer", func(view stageView, _ *form.Architecture) string { return producerWords(*view.form) })
+	if hasProducer(rep.views) {
+		add("Producer", func(view stageView, _ *form.Architecture) string { return producerWords(*view.form) })
+	}
 	add("Enrichment", func(view stageView, _ *form.Architecture) string {
 		if view.form.Kind != form.KindPlan {
 			return "Not applicable"

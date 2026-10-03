@@ -32,6 +32,10 @@ An InputForm has `generator`, `evidence`, `semantics`, `stages`, `default_stage`
 
 `evidence.origin` identifies a plan or state export. Producer identity and input format retain their uncertainty. `completeness` distinguishes producer-declared completeness, attestation, and unavailable information. `enrichment` records whether an optional saved plan verified and supplied configuration snapshot evidence. Pairing verifies version, timestamp, and configuration shape, but does not prove one planning operation. `scope` records drift record presence and refresh and drift coverage limits.
 
+Human displays name the Producer only when `evidence.producer.tool` is `terraform` or `opentofu`, as `Terraform` or `OpenTofu`, without a version. An `unestablished` tool has no Producer row. Reported versions, file names and provider registry hints never establish tool identity. The Form keeps `reported_version`, `hints`, `tool_source` and attestations regardless of display.
+
+In a comparison provenance table, an unestablished side has an empty Producer cell. When neither side is established, the whole row is omitted.
+
 Representation identity is the Terraform or OpenTofu instance address. An instance without an applicable Rule remains represented without an invented Concept or fact. Relations are emitted architectural claims, not raw dependency edges. Source dependencies remain separate evidence.
 
 `semantics` records selected definitions, Rules, and emission contracts. An emission may declare `via`, `on_null`, `on_empty`, `external`, `disclose`, `prefix`, and a `match` whose `by` array tries target identity attributes in order. `match.strategy` is `exact`, `dot-ancestor`, or `last-segment`. Rule identity scope is `provider` or `global`.

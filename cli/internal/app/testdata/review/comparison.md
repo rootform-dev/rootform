@@ -45,7 +45,7 @@ Comparison Form loaded. Differences compare the **Recorded** stage of **Before**
 | Field | Before | After |
 | --- | --- | --- |
 | Origin | State | Plan |
-| Producer | Terraform or OpenTofu 1.10.7 | Terraform 1.12.2 \(attested\) |
+| Producer |  | Terraform |
 | Enrichment | Not applicable | None |
 | Stage | Recorded | Planned |
 
