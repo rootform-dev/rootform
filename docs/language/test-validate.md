@@ -5,7 +5,7 @@ description: "Format and compile Dialect source, replay plan fixtures, and evalu
 
 Use a small plan fixture to prove what a Dialect actually says about instances. Source validation checks language contracts; `rootform test` compares produced Forms with reviewed `analysis.golden` files. A passing compile alone cannot prove that a provider attribute has the architectural meaning you intended.
 
-The example below follows a local `network-review` Dialect that interprets one `random_pet` instance. Start in a project containing this source and a plan fixture. The full source and plan setup appear in [Use a local Dialect while authoring](../guides/local-dialect.md). The layout at the point of testing is:
+The example below follows a local `network-review` Dialect that interprets one `random_pet` instance. Start in a project containing this source and a plan fixture. The full source and plan setup appear in [Use a local Dialect](../guides/local-dialect.md). The layout at the point of testing is:
 
 ```tree title="Project and fixture"
 .

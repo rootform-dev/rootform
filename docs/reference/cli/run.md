@@ -112,8 +112,10 @@ rootform run base/plan.json --plan-file base/plan.tfplan \
   --no-serve -o comparison.md
 ```
 
-The comparison summary goes to standard output and the full comparison to
-`comparison.md`. Differences are not failures: the status is `0`.
+The comparison summary goes to standard output. `comparison.md` contains a
+Markdown review with bounded lists; `--details` includes every entry. See
+[Review with Markdown](../outputs.md#review-with-markdown).
+Differences are not failures: the status is `0`.
 
 `--stage` selects the reported stage of one input. With
 `--diff`, use `--before-stage` and `--after-stage`; a missing or ambiguous

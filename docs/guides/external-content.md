@@ -7,7 +7,7 @@ Run selection commands from the project root. `rootform add` writes the exact
 identity to `rootform.lock`; commit that file with the change that needs it.
 [Install, add, and vendor](../concepts/external-content.md) explains the
 states involved. For a Dialect still being edited, follow
-[Use a local Dialect while authoring](local-dialect.md).
+[Use a local Dialect](local-dialect.md).
 
 The sections below are separate recipes, not one continuous lock-file history.
 Start each from the selection state it describes. If you reuse a project after

@@ -7,7 +7,7 @@ A Dialect adds architectural meaning to plan or state instances. Start with a
 small provider case whose exported plan you can inspect. Build Rules from
 that evidence, not names or a desired diagram shape.
 
-For each Rule prove:
+For each Rule, verify:
 
 1. exact instance eligibility;
 2. architectural classification, emission, or composition it contributes;
@@ -53,7 +53,8 @@ the embedded RF Vocabulary; Rootform records the latter dependency from
 
 ## Add local terms when needed
 
-Use RF Vocabulary where contract is exact:
+Use the RF Vocabulary when its terms match what your provider evidence can
+establish:
 
 - `rf.concept.virtual-network` and `rf.concept.subnet`;
 - `rf.concept.kubernetes-cluster`, `rf.concept.managed-database`,
@@ -119,18 +120,19 @@ rule "subnet" {
 }
 ```
 
-Match-only Rules are invalid. `match.kind` defaults to resource;
-`match.type` is required exact adapter type. `where` may narrow with bounded
-typed expression, but unknown value never becomes match.
+Match-only Rules are invalid. `match.kind` defaults to `resource`.
+`match.type` must name the exact resource type exposed by the input adapter.
+`where` can narrow eligibility with a bounded, typed expression, but an
+unknown value does not establish a match.
 
-Every observed managed and data instance already has a representation. A Rule
+Every observed managed and data instance already has a Representation. A Rule
 enriches that same instance; lack of a matching Rule never erases it.
 
 ## Add facts and composition deliberately
 
-Use context for named placement, relation for a directed domain predicate, and
-contribution for support that does not absorb its source. First identify the
-target Concept or Rule in `to`, then choose a `via` path backed by the provider's
+Use a Context for named placement, a Relation for a directed domain predicate,
+and a Contribution for support that does not absorb its source. First identify
+the target Concept or Rule in `to`, then choose a `via` path backed by the provider's
 evaluated value. Set `on_null` and `on_empty` on every emission: they say whether
 those values prove absence or leave the [closure indeterminate](language/reference/emissions.md#omission-and-uncertainty).
 
@@ -260,7 +262,7 @@ overlapping embedded owner.
 ## Keep presentation separate
 
 Optional `presentation.json` maps source resource identities independently of
-Rule coverage. Real Rules and Concepts may also receive identities and labels:
+Rule coverage. It can also assign icons and labels to Rules and Concepts:
 
 ```json title="dialects/payments/presentation.json"
 {
@@ -286,9 +288,10 @@ Rule coverage. Real Rules and Concepts may also receive identities and labels:
 }
 ```
 
-Resource mappings work even when type has no Rule. Manifest contains no SVG,
-HTML, URL, style, layout, architecture fact, or behavior. Normal runs warn and
-ignore invalid presentation; `rootform package dialects` rejects it. See
+Resource mappings work even when a resource type has no Rule. The manifest
+accepts no SVG, HTML, URLs, styling, layout, architectural facts, or behavior.
+Normal runs warn and ignore invalid presentation; `rootform package dialects`
+rejects it. See
 [presentation contract](../contracts/presentation-manifest.md).
 
 ## Package and publish a Dialect
@@ -316,22 +319,29 @@ rootform publish dialects artifacts/oci \
   --to registry.example.com/team/dialects
 ```
 
-V0 has no official Dialect index and no mutable discovery tag.
+Rootform has no official Dialect index or mutable discovery tag.
 
 ## Use a published Dialect
 
-From the project root, add the published reference. Rootform resolves and
-records the exact identity:
+Continue from the same `project/` directory with its plan fixture and lock.
+Replace the local `payments` selection with the published reference. The lock
+keeps the exclusion of embedded `aws`, so its Rules do not overlap with the
+published Dialect:
 
 <!-- docs-check:authoring-add-published -->
 ```sh
-cd ./infra
+rootform remove dialects payments
 rootform add dialects \
   registry.example.com/team/dialects:dialect-payments-0.1.0
 rootform init . --locked --no-input
+rootform run fixtures/payments/minimal/plan.json \
+  --plan-file fixtures/payments/minimal/plan.tfplan \
+  --require-enrichment --project . --locked --no-serve -o published-form.json
 ```
 
-After exporting a plan for this project, analyze it with `rootform run plan.json --project . --locked --no-serve`.
+Inspect `published-form.json` for the same `payments` Rules and facts you
+reviewed before packaging. Rootform uses the recorded published identity;
+the local source directory no longer controls this run.
 
 The reference is illustrative; use the published reference you reviewed.
 Run `add` from the same project root that `init` and `run` use. Set

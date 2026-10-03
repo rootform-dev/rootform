@@ -11,8 +11,8 @@ import {
   symlinkSync,
   writeFileSync,
 } from "node:fs";
-import { basename, isAbsolute, join, resolve } from "node:path";
-import { markedCommand } from "./docs-core-examples.ts";
+import { basename, dirname, isAbsolute, join, resolve } from "node:path";
+import { configuration, markedCommand } from "./docs-core-examples.ts";
 
 export const registryMarkers = [
   "external-content-2",
@@ -141,12 +141,7 @@ export function verifyRegistryExamples(options: Options): string[] {
     );
     return { stdout, stderr };
   }
-  function marked(
-    document: string,
-    marker: (typeof registryMarkers)[number],
-    cwd: string,
-    homeName: string,
-  ) {
+  function marked(document: string, marker: string, cwd: string, homeName: string) {
     // Substitute only the docs' illustrative registry hosts. The marked shell
     // block, including all remaining arguments and commands, runs verbatim.
     const command = markedCommand(page(document), marker)
@@ -311,21 +306,29 @@ export function verifyRegistryExamples(options: Options): string[] {
     );
     checks.push("external-update-oci moved payments to version 0.2.0 and its digest");
 
-    const dialectAuthoring = project("dialect-authoring", main);
-    payments(join(dialectAuthoring, "dialects/payments"), "0.1.0");
-    run(
-      [
-        options.binary,
-        "package",
-        "dialects",
-        "./dialects/payments",
-        "--to",
-        "artifacts/oci",
-        ...provenance,
-      ],
-      dialectAuthoring,
-      "authoring-package",
-    );
+    const dialectAuthoring = join(workspace, "dialect-authoring");
+    const dialectPage = page("dialect-authoring.md");
+    for (const path of [
+      "dialects/payments/dialect.rf.hcl",
+      "dialects/payments/vocabulary.rf.hcl",
+      "dialects/payments/network/virtual-network.rf.hcl",
+    ]) {
+      const destination = join(dialectAuthoring, path);
+      mkdirSync(dirname(destination), { recursive: true });
+      writeFileSync(destination, configuration(dialectPage, path));
+    }
+    const fixture = join(dialectAuthoring, "fixtures/payments/minimal");
+    mkdirSync(fixture, { recursive: true });
+    for (const name of ["main.tf", "plan.json", "plan.tfplan"]) {
+      cpSync(join(root, "scripts/fixtures/docs/first-architecture", name), join(fixture, name));
+    }
+    for (const marker of [
+      "docs-dialect-authoring-1",
+      "docs-dialect-authoring-2",
+      "docs-dialect-authoring-3",
+    ]) {
+      marked("dialect-authoring.md", marker, dialectAuthoring, "authoring-consumer");
+    }
     const dialectPublished = marked(
       "dialect-authoring.md",
       "docs-dialect-authoring-4",
@@ -338,8 +341,6 @@ export function verifyRegistryExamples(options: Options): string[] {
       `Dialect publish omitted identity and digest: ${dialectPublished.stdout}${dialectPublished.stderr}`,
     );
     const dialectPublishDigest = publishedDigest(dialectPublished.stdout);
-    mkdirSync(join(dialectAuthoring, "infra"));
-    writeFileSync(join(dialectAuthoring, "infra/main.tf"), main);
     const authoringAdd = marked(
       "dialect-authoring.md",
       "authoring-add-published",
@@ -350,13 +351,26 @@ export function verifyRegistryExamples(options: Options): string[] {
       authoringAdd.stdout.includes("rootform.lock updated"),
       "published Dialect was not selected",
     );
-    const authoringProject = join(dialectAuthoring, "infra");
+    const authoringProject = dialectAuthoring;
     const authoringDigest = pinnedDigest(lockEntry(authoringProject, "dialects", "payments"));
     assert(
       authoringDigest === dialectPublishDigest,
       "published Dialect selection differs from published digest",
     );
     const dialectLock = readFileSync(join(authoringProject, "rootform.lock"));
+    assert(
+      JSON.parse(dialectLock.toString()).excluded_owners.includes("aws"),
+      "replacing local payments lost the embedded aws exclusion",
+    );
+    const publishedForm = JSON.parse(
+      readFileSync(join(authoringProject, "published-form.json"), "utf8"),
+    );
+    const localForm = JSON.parse(readFileSync(join(fixture, "analysis.golden"), "utf8"));
+    assert(
+      JSON.stringify(publishedForm.stages.planned) === JSON.stringify(localForm.stages.planned),
+      "published payments did not reproduce the tested architecture",
+    );
+    rmSync(join(authoringProject, "dialects/payments"), { recursive: true });
     run(
       [options.binary, "init", ".", "--locked", "--no-input"],
       authoringProject,
@@ -367,8 +381,34 @@ export function verifyRegistryExamples(options: Options): string[] {
         readFileSync(join(authoringProject, "rootform.lock")).equals(dialectLock),
       "fresh Dialect init failed to restore exact selection",
     );
+    run(
+      [
+        options.binary,
+        "run",
+        "fixtures/payments/minimal/plan.json",
+        "--plan-file",
+        "fixtures/payments/minimal/plan.tfplan",
+        "--require-enrichment",
+        "--project",
+        ".",
+        "--locked",
+        "--offline",
+        "--no-serve",
+        "-o",
+        "restored-form.json",
+      ],
+      authoringProject,
+      "authoring-fresh",
+    );
+    const restoredForm = JSON.parse(
+      readFileSync(join(authoringProject, "restored-form.json"), "utf8"),
+    );
+    assert(
+      JSON.stringify(restoredForm.stages.planned) === JSON.stringify(publishedForm.stages.planned),
+      "fresh locked run depended on the former local source",
+    );
     checks.push(
-      "docs-dialect-authoring-4 and authoring-add-published published, selected, and restored payments",
+      "docs-dialect-authoring-4 and authoring-add-published reproduced the tested architecture with published and restored payments",
     );
 
     const policyAuthoring = join(workspace, "policy-authoring");

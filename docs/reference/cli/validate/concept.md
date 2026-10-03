@@ -31,7 +31,7 @@ rootform validate concept <identifier> [options]
 
 ## Behavior
 
-Validate a Concept within its Dialect.
+Validate a Concept in its Dialect or the RF Vocabulary.
 
 Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
 --dialect adds or replaces one Dialect for this command only.
