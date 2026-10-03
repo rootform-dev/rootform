@@ -3,10 +3,10 @@ title: "rootform init"
 description: "Prepare an existing project selection locally."
 ---
 
-`init` prepares the exact external Dialects and Policy Pack sources already
-selected by `rootform.lock`. The optional path defaults to `.` and identifies
-both project and Terraform/OpenTofu root. It does not detect providers, pick
-versions, modify the lock, or run `terraform init`.
+`init` prepares the exact external Dialects and Policy Pack sources selected
+by `rootform.lock`. The optional path defaults to `.` and identifies the
+Rootform project to prepare; it need not be a Terraform/OpenTofu root. `init`
+does not detect providers, pick versions, or modify the lock.
 
 <!-- BEGIN GENERATED CLI: rootform init -->
 

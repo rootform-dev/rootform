@@ -42,9 +42,12 @@ func newCompileCommand(env *Env) *cobra.Command {
 			"  1  the Policy Pack or Form is invalid\n" +
 			"  2  the command was used incorrectly\n" +
 			"  4  a source could not be read or the output could not be written",
-		Example: "  rootform compile policy-pack ./policies --semantics form.json -o pack.json\n" +
-			"  rootform compile policy-pack . --semantics form.json -o pack.json\n" +
-			"  rootform compile policy-pack ./rules --semantics form.json -o rules.json",
+		Example: "  # Compile the baseline Policy Pack for offline checks using a saved plan Form\n" +
+			"  rootform compile policy-pack ./policies \\\n" +
+			"    --semantics plan-form.json -o baseline.json\n\n" +
+			"  # Compile a separate production Pack using its saved state Form\n" +
+			"  rootform compile policy-pack ./policies/production \\\n" +
+			"    --semantics state-form.json -o production.json",
 		Args: exactlyOne("compile policy-pack", "directory"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			options.Source = args[0]

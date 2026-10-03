@@ -67,3 +67,5 @@ rootform test ./fixtures --run cloud-sql
 rootform test ./fixtures --format json
 rootform test ./fixtures --update
 ```
+
+Follow [Test and validate](../../language/test-validate.md) for the fixture workflow and Policy evaluation examples.

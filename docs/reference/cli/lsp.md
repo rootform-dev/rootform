@@ -44,3 +44,7 @@ rootform lsp
 rootform lsp 2>rootform-lsp.log
 rootform lsp <client.frames >server.frames
 ```
+
+## Editor clients
+
+Connect `rootform lsp` from [VS Code](../../integrations/vscode.md) or [Zed](../../integrations/zed.md).

@@ -67,7 +67,10 @@ Attribute names follow the input schema and match `[A-Za-z_][A-Za-z0-9_]*`, with
 
 ### Explicit target comparison
 
-`match.by = target.name` is legal only inside an emission's nested match, and `name` must be in the target Rule's `identity.attributes`. See [Fact emissions](emissions.md#explicit-attribute-match).
+`match.by = target.name` is available only inside an emission's nested
+`match`. Its accepted identity paths and candidate fallback rules, including
+the shared `rf` Concept exception, are defined in
+[Explicit attribute match](emissions.md#explicit-attribute-match).
 
 ### Composition chaining
 

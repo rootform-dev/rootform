@@ -82,8 +82,9 @@ SARIF is a retained result file; this Action does not upload code-scanning resul
 Normal use needs `contents: read`. A PR comment needs `comment: true`,
 `pull-requests: write`, `actions: read`, and shared job-level concurrency keyed
 by PR number with cancellation disabled. Only same-repository `pull_request`
-events comment; forks keep Summary/artifacts and skip comments. Business Actions
-and init reject `pull_request_target`. Follow the
+events comment; forks keep Summary/artifacts and skip comments. The `analyze`,
+`compare`, and `check` Actions, along with the `init` Action, reject
+`pull_request_target`. Follow the
 [comment example](../github-actions.md#add-a-pr-comment) and choose an audience
 that may see the topology in Forms and reports.
 
@@ -91,7 +92,7 @@ that may see the topology in Forms and reports.
 
 ## Inputs
 
-Type describes accepted values. GitHub passes all inputs as strings; `bool` accepts `true` or `false`, `int` accepts a whole number. An empty default leaves the input unset.
+Type describes accepted values. GitHub passes all inputs as strings. `bool` accepts `true` or `false`. `int` accepts a whole number. An empty default leaves the input unset.
 
 | Input | Type | Default | Description |
 | --- | --- | --- | --- |

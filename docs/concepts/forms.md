@@ -3,9 +3,9 @@ title: "Forms and stages"
 description: "Read saved Forms, their architectures, and evidence limits."
 ---
 
-A Form is what `rootform run` produces: the portable architectural model Rootform compiles from Terraform or OpenTofu plan or state evidence, and the central object of analysis and review. `rootform run analysis.json` reopens it in the Explorer, `rootform explain` reads its evidence, `rootform check` evaluates Policies against it, and `--diff` compares two of them. It contains the architecture of every supported stage, their available comparisons, reported drift, evidence, semantic pins, limits, and diagnostics. A Form is derived: you save, reopen, and compare Forms, but never author or edit one.
+A saved Form preserves Rootform's architectural interpretation so you can reopen it, inspect its evidence, evaluate Policies against it, or compare it with another Form. `rootform run` creates a Form; `rootform run analysis.json` reopens it in the Explorer, `rootform explain` reads its evidence, `rootform check` evaluates selected Policies, and `--diff` compares two input Forms. A Form is derived: you save, reopen, and compare it, but never author or edit it.
 
-JSON is the Form's serialization (format version `"1"`). A saved Form reopens without the original plan or state JSON or installed Dialects. The Explorer is one view of the Form. "Analysis" describes the process, as in "Plan analyzed", rather than another saved object. The [contract](../../contracts/form.md) and [JSON Schema](../../schemas/form.schema.json) define exact fields.
+A Form serializes as JSON, format version `"1"`. It retains the analyzed architectures, facts, evidence, and semantic identities used to interpret them, so it reopens without the original plan or state JSON or installed Dialects. The Explorer is one view of the saved result. "Analysis" describes the process, as in "Plan analyzed", rather than another saved object. The [contract](../../contracts/form.md) and [JSON Schema](../../schemas/form.schema.json) define its fields.
 
 ## The Form captures its input and meaning
 
@@ -15,9 +15,9 @@ JSON is the Form's serialization (format version `"1"`). A saved Form reopens wi
 | `plan` | Plan JSON | Planned architecture (`planned`), plus supported Refreshed and reconstructed Recorded stages; comparisons and a drift report |
 | `comparison` | `run` with `--diff` | Two embedded state or plan Forms and one selected cross-input comparison |
 
-A state or plan Form keeps its `format_version`, `generator`, `evidence`, `semantics`, `stages`, diagnostics, and `default_stage`. `stages` is keyed by stage; each entry is an Architecture with `stage`, `label`, optional `reconstruction`, and its content. `format_version: "1"` names the Form contract; the generator version identifies the Rootform version that wrote it. The `semantics` section retains the exact vocabulary, Dialects, Rules, and emissions used for interpretation. Reopening it does not apply today's Dialects to yesterday's evidence.
+A state or plan Form records its supported stages, default stage, and the exact vocabulary, Dialects, Rules, and emissions used for interpretation. Reopening uses those recorded definitions rather than applying today's Dialects to older evidence. The contract and schema define the JSON fields.
 
-The `evidence` section distinguishes what the plan or state JSON reports from claims supplied through flags. The input's `terraform_version` value is recorded verbatim; the tool stays `unestablished` unless `--producer` names Terraform or OpenTofu. Completeness records what the plan reports or what `--plan-complete=attested` explicitly claims. The `enrichment.snapshot` status is `verified`, `refused`, or `absent`: it says whether `--plan-file` paired the saved plan with the JSON export. Pairing checks version, timestamp, and configuration shape; it does not prove one planning operation.
+Form evidence distinguishes what the export reports from claims supplied through `--producer` and `--plan-complete`. When `--plan-file` is used, its pairing status is recorded as `verified`, `refused`, or `absent`. Pairing checks version, timestamp, and configuration shape; it does not prove that both files came from one planning operation.
 
 ## Stages and facts
 
@@ -45,7 +45,7 @@ An indeterminate closure is not a proven omission. Its reason and candidate coun
 
 ## Accounting keeps partial knowledge honest
 
-Architecture accounting counts observed instances, interpreted instances, established facts, and closure outcomes separately. It does not use an absent declaration as proof of zero instances unless the plan establishes a complete population. A represented instance with no matching Rule is counted as uninterpreted; a matched emission with unresolved evidence is counted as indeterminate. An instance present before the plan that the plan neither changes nor deletes remains in Planned with status `carried`. Its population is unverified; the plan did not evaluate it. A Policy cannot pass or fail on missing evidence from that instance. These distinctions explain why a usable Form can contain gaps without pretending they are empty architecture.
+Architecture accounting counts observed instances, interpreted instances, established facts, and closure outcomes separately. It does not use an absent declaration as proof of zero instances unless the plan establishes a complete population. A represented instance with no matching Rule is counted as uninterpreted; a matched emission with unresolved evidence is counted as indeterminate. An instance present before the plan that the plan neither changes nor deletes remains in Planned with `carried` status, but the plan did not evaluate it and its population is unverified. Missing evidence for that instance cannot support a Policy pass or violation. These distinctions explain why a usable Form can contain gaps without treating them as empty architecture.
 
 ## Facts preserve bounded provenance
 

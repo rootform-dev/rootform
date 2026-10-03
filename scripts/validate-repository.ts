@@ -279,8 +279,15 @@ export function validateRepository(): void {
     .filter((entry) => entry.isDirectory())
     .map(({ name }) => name)
     .sort((a, b) => a.localeCompare(b, "en"));
-  if (JSON.stringify(examples) !== JSON.stringify(["playground"])) {
+  if (JSON.stringify(examples) !== JSON.stringify(["playground", "restored-drift"])) {
     throw new Error(`example inventory mismatch: ${examples.join(", ")}`);
+  }
+  const restoredDriftFiles = files.filter((path) => path.startsWith("examples/restored-drift/"));
+  if (
+    JSON.stringify(restoredDriftFiles) !==
+    JSON.stringify(["examples/restored-drift/plan.json", "examples/restored-drift/README.md"])
+  ) {
+    throw new Error(`restored-drift example boundary drifted: ${restoredDriftFiles.join(", ")}`);
   }
 
   const playground = join(root, "examples", "playground");

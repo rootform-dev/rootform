@@ -3,8 +3,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { configuration, markedCommand } from "./docs-core-examples.ts";
 
-/* output names a docs-output excerpt of standard output; with file, the
-   excerpt is that whole work file instead, blank lines included. */
+/* output names a docs-output excerpt; file asserts a generated file. When
+   both are set, the file is compared with the full excerpt, including blanks. */
 type Example = { page: string; marker: string; exit: number; output?: string; file?: string };
 
 const pages = [
@@ -62,7 +62,6 @@ const examples: Example[] = [
     page: pages[3],
     marker: "check-architecture-review",
     exit: 1,
-    output: "check-architecture-review",
     file: "violation/review.md",
   },
   { page: pages[3], marker: "check-architecture-lock", exit: 0 },
@@ -162,7 +161,7 @@ export async function verifyConceptExamples(binary: string, root: string): Promi
       );
   }
   copyFileSync(
-    join(root, "scripts/fixtures/docs/restored-drift/plan.json"),
+    join(root, "examples/restored-drift/plan.json"),
     join(required(work, pages[4]), "plan.json"),
   );
   const markers = new Set(examples.map(({ marker }) => marker));
@@ -181,13 +180,15 @@ export async function verifyConceptExamples(binary: string, root: string): Promi
       example.marker,
       example.exit,
     );
-    if (example.output) {
-      if (example.file) {
-        const actual = readFileSync(join(cwd, example.file), "utf8");
-        if (actual !== `${outputFence(page, example.output)}\n`)
-          throw new Error(`${example.marker}: ${example.file} differs from its excerpt\n${actual}`);
-      } else assertExcerpt(stdout, outputExcerpt(page, example.output), example.marker);
+    if (example.file) {
+      const generated = readFileSync(join(cwd, example.file), "utf8");
+      if (example.output && generated !== `${outputFence(page, example.output)}\n`)
+        throw new Error(
+          `${example.marker}: ${example.file} differs from its excerpt\n${generated}`,
+        );
     }
+    if (example.output && !example.file)
+      assertExcerpt(stdout, outputExcerpt(page, example.output), example.marker);
   }
   return `${examples.length} concept and review command blocks verified`;
 }

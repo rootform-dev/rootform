@@ -10,6 +10,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { verifyRequiredCheckCases } from "./ci-recipe-integration.ts";
 import { configuration, markedCommand } from "./docs-core-examples.ts";
 
 type Case = {
@@ -279,7 +280,7 @@ export async function verifyAutomationExamples(binary: string, root: string): Pr
       cpSync(join(root, "docs/integrations/ci/rootform-ci.sh"), join(work, "ci/rootform-ci.sh"));
       const isCommerce = !item.scenario.startsWith("ci-small");
       copyPair(isCommerce ? commerce : first, join(work, "infra"));
-      copyPair(isCommerce ? commerce : first, runnerTemp);
+      copyPair(isCommerce ? commerce : first, join(work, "build"));
       if (isCommerce)
         cpSync(join(root, "policy-packs/baseline"), join(work, "policies"), { recursive: true });
       if (item.scenario === "ci-commerce-lock") {
@@ -319,5 +320,5 @@ export async function verifyAutomationExamples(binary: string, root: string): Pr
         writeFileSync(`${base}.check`, readFileSync(checkPath));
     }
   }
-  return `Automation docs: ${cases.length} marked commands and ${[...pages.values()].reduce((count, page) => count + [...page.matchAll(/<!-- docs-output:/gu)].length, 0)} output excerpts verified.`;
+  return `Automation docs: ${cases.length} marked commands and ${[...pages.values()].reduce((count, page) => count + [...page.matchAll(/<!-- docs-output:/gu)].length, 0)} output excerpts verified. ${verifyRequiredCheckCases(binary, root)}`;
 }

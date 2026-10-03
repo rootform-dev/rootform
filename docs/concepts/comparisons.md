@@ -21,7 +21,7 @@ An input comparison, `rootform run before.json --diff after.json`, selects one s
 
 ## See drift cancel in the net change
 
-A plan can propose to undo reported drift. The Rootform repository keeps a synthetic plan JSON for this case in `scripts/fixtures/docs/restored-drift`: it was written by hand, not exported by Terraform or OpenTofu, and describes no real infrastructure. An out-of-band change retargeted the KMS alias `aws_kms_alias.app` from `aws_kms_key.primary` to `aws_kms_key.standby`, and the plan retargets it to the primary key. The embedded AWS Rule `aws.rule.kms-alias` interprets the alias as a Contribution to the key it targets. From that directory:
+A plan can propose to undo reported drift. The public [restored-drift example](../../examples/restored-drift/README.md) uses synthetic plan JSON written by hand. It was not exported by Terraform or OpenTofu and describes no real infrastructure. An out-of-band change retargeted the KMS alias `aws_kms_alias.app` from `aws_kms_key.primary` to `aws_kms_key.standby`, and the plan retargets it to the primary key. The embedded AWS Rule `aws.rule.kms-alias` interprets the alias as a Contribution to the key it targets. From that directory:
 
 <!-- docs-check:concept-restored-drift -->
 ```sh

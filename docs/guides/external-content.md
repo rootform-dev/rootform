@@ -9,6 +9,11 @@ identity to `rootform.lock`; commit that file with the change that needs it.
 states involved. For a Dialect still being edited, follow
 [Use a local Dialect while authoring](local-dialect.md).
 
+The sections below are separate recipes, not one continuous lock-file history.
+Start each from the selection state it describes. If you reuse a project after
+`remove` or an embedded-content exclusion, restore the selection before a later
+locked check; `--locked` verifies a selection but does not recreate one.
+
 ## Add local content
 
 From a checkout of the repository, make a small project with the public
@@ -114,8 +119,10 @@ coupling and recovery when vendored bytes differ.
 
 ## Replace or exclude an embedded Dialect
 
-An external Dialect with the same owner as an embedded Dialect needs explicit
-replacement. This example assumes a valid local `aws` Dialect source:
+This optional recipe applies only to a project that intentionally replaces or
+excludes embedded `aws`. It is separate from the commerce example above. An
+external Dialect with the same owner as an embedded Dialect needs explicit
+replacement; this example assumes a valid local `aws` Dialect source:
 
 <!-- docs-check:external-replace -->
 ```sh
@@ -149,9 +156,40 @@ The reserved `rf` vocabulary cannot be excluded or replaced. A selected Policy
 Pack that needs a Dialect symbol can prevent an incompatible removal or
 replacement; Rootform checks linking before writing the lock.
 
+## Vendor selected content
+
+Vendor each external family selected by the project's lock. Each command
+requires at least one selection in its family; neither command vendors embedded
+Dialects or the RF Vocabulary:
+
+```sh
+rootform vendor dialects --offline
+```
+
+See [Dialect vendoring](../reference/cli/vendor/dialects.md) for its destination
+and exact behavior. For a selected Policy Pack, run:
+
+```sh
+rootform vendor policy-packs --offline
+```
+
+See [Policy Pack vendoring](../reference/cli/vendor/policy-packs.md). Omit
+`--offline` only when Rootform may acquire missing selected OCI content. The
+generic [`rootform vendor`](../reference/cli/vendor.md) command copies every
+selected family.
+
 ## Prepare another machine or CI runner
 
-After cloning the project, make its selected content present and verified:
+For the local `content-demo` recipe, restore its Pack if you ran the removal
+example, then commit the lock with its source:
+
+```sh
+rootform add policy-packs ./policies
+```
+
+Clone a project whose committed lock still selects the Dialect and Policy Pack
+you intend to use. The following commands prepare that selection and run the
+final check:
 
 <!-- docs-check:external-init-clone -->
 ```sh

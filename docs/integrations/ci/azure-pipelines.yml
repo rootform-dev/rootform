@@ -9,11 +9,14 @@ steps:
     persistCredentials: false
   - bash: |
       set -eu
+      umask 077
+      plan_dir=$(mktemp -d "$(Agent.TempDirectory)/rootform-plan.XXXXXXXX")
+      trap 'rm -rf -- "$plan_dir"' 0
       terraform -chdir=infra init -input=false
-      terraform -chdir=infra plan -input=false -out="$(Agent.TempDirectory)/plan.tfplan"
-      terraform -chdir=infra show -json "$(Agent.TempDirectory)/plan.tfplan" > "$(Agent.TempDirectory)/plan.json"
-      ROOTFORM_PROJECT=./infra ROOTFORM_INPUT="$(Agent.TempDirectory)/plan.json" ROOTFORM_PLAN_FILE="$(Agent.TempDirectory)/plan.tfplan" ROOTFORM_OUTPUT_DIR="$(Build.SourcesDirectory)/.rootform-ci-$(Build.BuildId)" sh ./ci/rootform-ci.sh
-    displayName: Analyze plan
+      terraform -chdir=infra plan -input=false -out="$plan_dir/plan.tfplan"
+      terraform -chdir=infra show -json "$plan_dir/plan.tfplan" > "$plan_dir/plan.json"
+      ROOTFORM_MODE=check ROOTFORM_VERSION=0.1.0 ROOTFORM_PROJECT=./infra ROOTFORM_INPUT="$plan_dir/plan.json" ROOTFORM_PLAN_FILE="$plan_dir/plan.tfplan" ROOTFORM_OUTPUT_DIR="$(Build.SourcesDirectory)/.rootform-ci-$(Build.BuildId)" sh ./ci/generic-ci.sh
+    displayName: Review architecture and check Policies
   - publish: $(Build.SourcesDirectory)/.rootform-ci-$(Build.BuildId)
     artifact: rootform-results
     condition: succeededOrFailed()

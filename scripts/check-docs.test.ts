@@ -12,6 +12,7 @@ import {
   findPlaceholders,
   loadRenderedAnchors,
   parseFrontmatter,
+  parseRelativeFileLinks,
   parseRelativeMarkdownLinks,
   resolveRepositoryLink,
 } from "./check-docs.ts";
@@ -204,6 +205,47 @@ test("checkPage flags links that escape the repository", () => {
   );
   const link = issues.find((issue) => issue.kind === "link");
   expect(link?.detail).toContain("escapes");
+});
+
+test("file links cover recipe downloads and image alternatives without treating image fragments as page anchors", () => {
+  const text =
+    "[Recipe](ci/runner.sh)\n![Light](assets/light.webp#gh-light-mode-only)\n[Schema](../schemas/form.json)";
+  expect(parseRelativeFileLinks(text)).toHaveLength(3);
+  const issues = checkPage(
+    "docs/example.md",
+    `---\ntitle: Example\ndescription: A useful example.\n---\n${text}`,
+    new Set(["docs/example.md", "docs/assets/light.webp", "schemas/form.json"]),
+    new Map(),
+  );
+  expect(issues.filter((issue) => issue.kind === "link")).toHaveLength(1);
+  expect(issues.find((issue) => issue.kind === "link")?.detail).toContain("runner.sh");
+  expect(issues.filter((issue) => issue.kind === "fragment")).toHaveLength(0);
+});
+
+test("rendered qualification checks image, script, stylesheet and responsive-source assets", async () => {
+  const directory = mkdtempSync(join(tmpdir(), "rf-docs-assets-"));
+  try {
+    mkdirSync(join(directory, "images"));
+    writeFileSync(join(directory, "images/figure.webp"), "image");
+    writeFileSync(
+      join(directory, "index.html"),
+      '<h1 id="_top">Example</h1><img src="/images/figure.webp#gh-light-mode-only"><source srcset="/images/figure.webp 1x, /images/missing.webp 2x"><script src="/missing.js"></script><link rel="stylesheet" href="/missing.css"><img src="https://example.com/remote.webp">',
+    );
+    const issues: import("./check-docs.ts").DocsIssue[] = [];
+    const anchors = await loadRenderedAnchors(
+      [{ path: "docs/index.md", text: "" }],
+      directory,
+      issues,
+    );
+    expect(anchors.get("docs/index.md")?.has("_top")).toBe(true);
+    expect(issues.map((issue) => issue.detail)).toEqual([
+      "rendered asset `/images/missing.webp` is missing",
+      "rendered asset `/missing.js` is missing",
+      "rendered asset `/missing.css` is missing",
+    ]);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
 });
 
 test("checkPage passes a conforming page", () => {

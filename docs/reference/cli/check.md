@@ -137,20 +137,9 @@ Policy declares, and the recorded Evidence that decided it.
 
 ## Reports
 
-Each `-o` file takes its format from its extension: `.json` for the Policy
-result, `.md` or `.txt` for a report, and `.sarif` or `.sarif.json` for
-SARIF. Without `-o`, `--format` sets the format of standard output. When
-exactly one `-o` file has an extension that names no format, `--format` sets
-that file's format and standard output keeps the text summary; without
-`--format`, that file is refused. `--format` is also refused when it
-contradicts an extension or when more than one `-o` is given. `-o -` is
-refused: standard output already carries the summary or the `--format`
-output. `.html` is refused even with `--format`: the interactive export
-belongs to `rootform run`. Every report is rendered from one result before any
-file is written. Once output paths are validated, a check that stops writes a
-`failed` result to every requested file, so an earlier report never passes for
-this invocation. See
-[Outputs and exit status](../outputs.md) for the formats.
+Each requested report records the Policy result or review format for this
+check. See [Outputs and exit status](../outputs.md) for exact formats,
+`-o` and `--format` behavior, stream separation, and output failures.
 
 ## Exit status
 

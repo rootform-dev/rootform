@@ -4,8 +4,9 @@ description: Prepare the external Dialects and Policy Packs selected by a Rootfo
 ---
 
 Use `rootform-dev/action/init@v1` to prepare project content before analysis,
-checking or an offline step. It installs Rootform itself. Business Actions
-prepare content when needed, so a separate init step is optional.
+checking or an offline step. It installs Rootform itself. The `analyze`,
+`compare`, and `check` Actions install Rootform and prepare selected content
+when needed, so a separate init step is optional.
 
 ```yaml title="Prepare an existing locked project"
 - uses: rootform-dev/action/init@v1
@@ -34,7 +35,7 @@ or PR comment. It rejects `pull_request_target` before installation. See
 
 ## Inputs
 
-Type describes accepted values. GitHub passes all inputs as strings; `bool` accepts `true` or `false`, `int` accepts a whole number. An empty default leaves the input unset.
+Type describes accepted values. GitHub passes all inputs as strings. `bool` accepts `true` or `false`. An empty default leaves the input unset.
 
 | Input | Type | Default | Description |
 | --- | --- | --- | --- |

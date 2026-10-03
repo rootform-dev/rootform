@@ -465,7 +465,7 @@
       "usage": "rootform compile policy-pack \u003cdirectory\u003e [options]",
       "summary": "Compile and pin a Policy Pack",
       "description": "Compile one Policy Pack source directory using the semantics of the saved\nForm in --semantics, and write the compiled JSON file to --output. The\ncompiled Policy Pack keeps its semantic pins for later offline evaluation\nwithout the Dialect sources that produced the Form.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  the compiled Policy Pack was written\n  1  the Policy Pack or Form is invalid\n  2  the command was used incorrectly\n  4  a source could not be read or the output could not be written",
-      "examples": "rootform compile policy-pack ./policies --semantics form.json -o pack.json\n  rootform compile policy-pack . --semantics form.json -o pack.json\n  rootform compile policy-pack ./rules --semantics form.json -o rules.json",
+      "examples": "# Compile the baseline Policy Pack for offline checks using a saved plan Form\n  rootform compile policy-pack ./policies \\\n    --semantics plan-form.json -o baseline.json\n\n  # Compile a separate production Pack using its saved state Form\n  rootform compile policy-pack ./policies/production \\\n    --semantics state-form.json -o production.json",
       "flag_groups": [
         "Options",
         "Global options"

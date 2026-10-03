@@ -397,6 +397,7 @@ function verifyReviewProcedure(binary: string, root: string): string {
   copyFileSync(join(commerce, "head/main.tf"), join(repository, "infra/main.tf"));
   git("commit --quiet -am head");
 
+  const cleanup = markedCommand(page, reviewCleanup);
   const complete = shell(
     [
       markedCommand(page, "journey-review-revisions"),
@@ -405,6 +406,16 @@ function verifyReviewProcedure(binary: string, root: string): string {
       markedCommand(page, "journey-review-compare"),
       markedCommand(page, "journey-review-save"),
       markedCommand(page, "journey-review-policy"),
+      ...[
+        "comparison.json",
+        "comparison.md",
+        "comparison.html",
+        "policy.json",
+        "policy.md",
+        "policy.sarif",
+      ].map((name) => `test -f "$results/${name}"`),
+      cleanup,
+      'test ! -e "$review_root"',
     ].join("\n"),
   );
   const output = `${complete.stdout}\n${complete.stderr}`;
@@ -414,19 +425,6 @@ function verifyReviewProcedure(binary: string, root: string): string {
   if (!reviewRoot) throw new Error("review procedure: review directory was not reported");
   for (const marker of ["journey-review-compare", "journey-review-policy"])
     assertExcerpt(marker, excerptAfter(page, marker), output);
-  const results = join(reviewRoot, "results");
-  for (const name of [
-    "comparison.json",
-    "comparison.md",
-    "comparison.html",
-    "policy.json",
-    "policy.md",
-    "policy.sarif",
-  ]) {
-    if (!existsSync(join(results, name))) throw new Error(`review procedure: missing ${name}`);
-  }
-  const cleanup = markedCommand(page, reviewCleanup);
-  shell(cleanup, { review_root: reviewRoot, results });
   if (existsSync(reviewRoot)) throw new Error("review cleanup left temporary files");
 
   const required = shell(
@@ -435,11 +433,13 @@ function verifyReviewProcedure(binary: string, root: string): string {
       markedCommand(page, "journey-review-worktrees"),
       reviewPlans,
       markedCommand(page, "journey-review-compare"),
+      'test -d "$results"',
+      cleanup,
+      'test ! -e "$review_root"',
     ].join("\n"),
   );
   const requiredRoot = /^Review directory: (.+)$/mu.exec(required.stdout)?.[1];
   if (!requiredRoot) throw new Error("review procedure: review directory was not reported");
-  shell(cleanup, { review_root: requiredRoot, results: join(requiredRoot, "results") });
   if (existsSync(requiredRoot)) throw new Error("review cleanup without optional artifacts failed");
   if (git("status --porcelain") !== "") throw new Error("review procedure changed the checkout");
   if (

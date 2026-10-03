@@ -128,7 +128,13 @@ For each instance, Rootform checks, in order:
 3. provider source address;
 4. optional `where` predicate.
 
-The Dialect manifest declares a provider version envelope, but plan/state Rule selection does not compare an observed exact provider version to it. A Dialect provider shorthand such as `hashicorp/aws` binds its corresponding Terraform and OpenTofu public-registry addresses; a fully qualified host binds only that host. An unbound provider is reported with `PROVIDER_UNBOUND`. Do not use a version constraint to distinguish two Rules for the same instance.
+The provider source address determines Dialect binding. A shorthand such as
+`hashicorp/aws` binds its corresponding Terraform and OpenTofu public-registry
+addresses; a fully qualified host binds only that host. An unbound provider is
+reported with `PROVIDER_UNBOUND`. The Dialect's provider version constraint
+declares its compatibility envelope, but Rule selection does not compare it
+with an observed exact provider version. A version constraint cannot
+distinguish two Rules for the same instance.
 
 ## Selection precedence
 

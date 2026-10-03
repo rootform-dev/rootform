@@ -15,6 +15,10 @@ Plans, their JSON exports, and state files can contain secrets in clear text. Ke
 
 Create the Pack manifest and one Policy under `policies/`:
 
+This `tutorial` Pack targets AWS resources in this walkthrough. Keep it as a
+separate example; it does not change the baseline Pack used by the commerce
+Playground.
+
 ```rf title="policies/pack.rf.hcl"
 policy_pack "tutorial" {
   version = "0.1.0"
@@ -324,6 +328,10 @@ Status `3` means the selected Policy made no decision: a Policy without target n
 
 A pull request or CI job summary reads Markdown. This script saves the violating plan's Form with its architecture review, writes the Policy review from that Form, joins both reviews, and ends with the status of `check`:
 
+Save the following block as `review.sh` and run it with `sh review.sh`, or use
+it as one CI shell step. Its `exit` statements end the shell, so do not paste it
+into an interactive terminal.
+
 <!-- docs-check:check-architecture-review -->
 ```sh
 rootform run violation/plan.json --plan-file violation/plan.tfplan \
@@ -340,7 +348,7 @@ esac
 exit "$check_status"
 ```
 
-Save it as a script, for example `review.sh` run with `sh review.sh`, or use it as a CI step: each `exit` ends the shell that runs it, so do not paste it into an interactive terminal. It behaves the same with or without `set -e`.
+The block works with or without `set -e`.
 
 - If `run` fails, the script stops with the status of `run` and joins nothing.
 - `check` writes its report whatever the verdict: `0` passed, `1` violated, `3` no verdict. The script keeps that status and returns it last.
@@ -349,68 +357,7 @@ Save it as a script, for example `review.sh` run with `sh review.sh`, or use it 
 
 Here `check` returns `1`: the script writes `violation/review.md`, then exits `1`.
 
-<!-- docs-output:check-architecture-review -->
-```text title="violation/review.md"
-## Rootform architecture
-
-**1 instance added.**
-
-Plan analyzed. Planned changes compare **Refreshed** with **Planned**.
-
-| Category | Added | Removed |
-| --- | ---: | ---: |
-| Instances | 1 | 0 |
-
-### Reported drift
-
-No drift reported in this plan. The export does not establish the refresh scope.
-
-### Net change
-
-Same determined changes as Planned changes.
-
-### Planned changes
-
-**Instances: 1 added**
-
-- `aws_subnet.application`
-
-### Planned architecture
-
-- **Instances:** 1
-- **Interpreted:** 1
-- **Facts:** none determined
-
-### Provenance
-
-- **Input:** `violation/plan.json`
-- **Producer:** Terraform or OpenTofu 1.16.4
-- **Plan completeness:** Complete, as reported in the plan
-- **Enrichment:** Saved plan paired with this plan JSON \(1 module\)
-- **Stage:** Planned
-- **Stages:** Recorded \(reconstructed\), Refreshed, Planned
-
-## Rootform Policies
-
-**VIOLATED: Planned architecture**
-
-1 Policy selected. 1 evaluation violated.
-
-### `tutorial.policy.network-context`
-
-**Requirement:** Network resources must have an established network context.
-
-**Violated: 1 evaluation**
-
-- `aws_subnet.application`: The network context toward virtual-network through `source.vpc_id` is absent.
-
-### Provenance
-
-- **Input:** `violation/analysis.json`
-- **Origin:** Plan \(saved Form\)
-```
-
-The architecture review leads with its conclusion and counts; the Policy review leads with the verdict and the evaluated stage, then states each Policy's requirement once above its evaluations. Neither links to other files: keep `analysis.json`, and any Policy result or SARIF, as artifacts when reviewers need them. [Review with Markdown](../reference/outputs.md#review-with-markdown) explains how long reports are shortened and how `--details` lists every entry.
+The script creates `violation/review.md` by joining the architecture and Policy reports. Rootform owns their current Markdown layout; see [Review with Markdown](../reference/outputs.md#review-with-markdown) for headings, excerpts, and `--details` behavior.
 
 ## Use the same gate in CI
 

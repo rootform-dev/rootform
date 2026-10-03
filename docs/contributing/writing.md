@@ -99,6 +99,24 @@ Apply this rule to Dialects, Policies, Forms, comparisons, plans,
 locks, and provenance. Do not paste a full definition into every workflow. Link to a stable
 heading when another page owns the explanation.
 
+| Topic | Canonical home |
+| --- | --- |
+| Forms, stages and closures | [Forms and stages](../concepts/forms.md) |
+| Comparisons and drift | [Comparisons and drift](../concepts/comparisons.md) |
+| Plan export and saved-plan pairing | [Plans](../inputs/plans.md) |
+| Policy targets, coverage and aggregate verdicts | [Policies and Policy Packs](../concepts/policies.md) |
+| Exact assertion truth | [Evaluation](../language/reference/evaluation.md) and [Built-ins](../language/reference/built-ins.md) |
+| Output formats and statuses | [Outputs](../reference/outputs.md) |
+| Selection storage and acquisition | [Storage](../reference/storage.md) |
+| Data disclosure | [Security and data handling](../security/index.md) |
+| Official provider types and declared facts | [Generated provider coverage](../reference/provider-coverage.md) |
+
+A tutorial must reach its stated result from named prerequisites. A how-to
+must explain verification and recoverable failure at the step that can fail.
+An explanation must separate established facts from evidence limits. A reference
+must define accepted inputs, defaults and edge behavior at its generator or
+normative source. Keep the local consequence and a link on other pages.
+
 Before adding a paragraph, search neighboring pages. If the same fact already has
 a clear home, keep only the local consequence and link. Repeated boilerplate
 across generated pages belongs in their shared overview.
@@ -279,8 +297,11 @@ Label excerpts and variable fields. Public prose does not name an internal
 fixture, temporary host path, or verification binary. Internal evidence records
 those identities and proves examples before merge.
 
-Use synthetic infrastructure. Never publish customer resources, credentials,
-state, raw plans, private paths, or private implementation material. Verify that
+Use synthetic infrastructure. Real customer resources, credentials, state,
+raw plans, private paths and private implementation material are forbidden.
+Synthetic plan/state exports and saved plans are allowed when they contain
+only deliberate public example data and their provenance is clear. They do
+not weaken the warning against publishing real producer inputs. Verify that
 the exit status supports the surrounding claim.
 
 ## Choose documentary primitives deliberately

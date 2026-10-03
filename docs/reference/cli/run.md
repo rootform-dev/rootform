@@ -130,16 +130,8 @@ launch to you. `--port 0` selects an available port. `--no-serve`
 writes requested outputs and exits. The server analyzes once; it does not
 watch files or replan. See [Explore a Form](../../guides/explore-architecture.md).
 
-Repeat `-o` for a Form in JSON, a report in Markdown or text, or a
-self-contained HTML Explorer. Each `-o` file takes its format from its
-extension. Without `-o`, `--format` sets the format of standard output. When
-exactly one `-o` file has an extension that names no format, `--format` sets
-that file's format and standard output keeps the text summary; without
-`--format`, that file is refused. `--format` is also refused when it
-contradicts an extension or when more than one `-o` is given. `-o -` is
-refused: standard output already carries the summary or the `--format`
-output. See [Outputs and exit status](../outputs.md) for exact extensions,
-stream separation, collision behavior, and status codes.
+See [Outputs and exit status](../outputs.md#choose-an-output-file) for the
+complete file-format, stream, collision, and write-failure contract.
 
 ## Project selection
 

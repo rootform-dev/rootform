@@ -160,9 +160,29 @@ The lock records the owner, version, digest, and project-relative local path. Co
 
 After selection, a source edit changes the compiled content digest. A normal locked run refuses it instead of silently adopting new meaning. Continue testing the edited source with `--dialect`; when its fixture and analysis are right, run `rootform update dialect network-review` from the project root and review the lock diff. Commit the updated source, golden, and lock together.
 
-## Share the Dialect with other projects
+## Vendor the selection for another checkout
 
-A local lock path works only where that relative source path exists. For an independent environment, [vendor the exact selection](../guides/external-content.md) with the project. For several repositories, [package and publish the Dialect](../dialect-authoring.md#package-and-publish-a-dialect), then select its reviewed OCI reference in each project. Recheck the fixture against that selected content.
+From the project root, copy the selected Dialect into the project so another
+checkout can use it without the original source directory:
+
+```sh
+rootform vendor dialects --offline
+git add rootform.lock .rootform/dialects/network-review
+```
+
+The vendored copy lives at `.rootform/dialects/network-review/`. In a clone
+that contains the lock and this directory, prepare and analyze offline:
+
+```sh
+rootform init . --locked --offline --no-input
+rootform run plan.json --plan-file plan.tfplan --locked --no-serve
+```
+
+See [the `rootform vendor dialects` reference](../reference/cli/vendor/dialects.md)
+for selection requirements and other destinations, and
+[external content storage](../reference/storage.md) for what to commit. For
+several repositories, [package and publish the Dialect](../dialect-authoring.md#package-and-publish-a-dialect),
+then select its reviewed OCI reference in each project.
 
 ## Remove the Dialect
 

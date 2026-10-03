@@ -26,13 +26,17 @@ This workflow explains which evidence to choose and how to review it;
 | Evidence | Use it when | Limit |
 | --- | --- | --- |
 | One head plan | Review Planned changes against its own Refreshed and Recorded evidence | It does not isolate the source revision change |
-| Base and head plans | Review the architectural difference between revisions | The plans may also reflect drift between their execution times |
+| Base and head plans | Review the architectural difference between revisions | Differences can also reflect planning inputs or infrastructure changes between runs |
 | Saved Forms | Reopen or compare prior results without raw plans | Each Form retains its original evidence and semantic selection |
 
-Plan both revisions against an intentionally comparable backend, workspace,
-variables, and provider selection. Record the base and head commit IDs,
-Terraform or OpenTofu versions, and plan times with the review. A change in any
-of these can explain a difference unrelated to the proposed source edit.
+For source attribution, plan both revisions against comparable backend state,
+workspace, input variables, provider sources and versions, Terraform or
+OpenTofu version, and planning options. Run the plans close together because
+infrastructure can change between runs. Rootform compares the exported plans;
+it cannot verify those conditions or prove that a difference came from the Git
+change. Record both commit IDs, the workspace, variable-set identity (never
+secret values), provider and tool versions, relevant options, and plan times
+with the review.
 
 ## Review a completed plan
 
@@ -87,6 +91,11 @@ temporary directory, so it never switches, resets, or cleans the working copy
 under review. Plans and results stay in that directory until the cleanup step.
 The same root module path must exist in both revisions.
 
+Put every shell block from revision selection through cleanup, in order, in
+`review-pr.sh`, then run `sh review-pr.sh`. Variables, functions, and traps
+must persist between steps. Running the script keeps its `exit` trap from
+closing an interactive shell.
+
 ### Choose the revisions
 
 This procedure uses the merge base with `origin/main` as Before and the current
@@ -94,6 +103,7 @@ This procedure uses the merge base with `origin/main` as Before and the current
 
 <!-- docs-check:journey-review-revisions -->
 ```sh
+set -eu
 target_ref=origin/main
 head_ref=HEAD
 base_commit=$(git merge-base "$target_ref" "$head_ref")
@@ -103,8 +113,9 @@ printf 'Before: %s\nAfter:  %s\n' "$base_commit" "$head_commit"
 
 `HEAD` names committed changes only; uncommitted edits in the current checkout
 are not included. Update `target_ref` first when the review needs the latest
-target branch. This comparison answers what the branch changed since it
-diverged from the target branch. Setting
+target branch. The merge base selects the common ancestor for these source
+revisions; attribute plan differences to the branch only when the comparable
+planning conditions above hold. Setting
 `base_commit=$(git rev-parse "$target_ref")` instead compares with the current
 target head, which can include changes merged there after divergence. Record
 both full commit IDs with the review artifacts.
@@ -113,12 +124,58 @@ both full commit IDs with the review artifacts.
 
 <!-- docs-check:journey-review-worktrees -->
 ```sh
-review_root=$(mktemp -d /tmp/rootform-review.XXXXXX)
+set -eu
+review_root=$(mktemp -d "${TMPDIR:-/tmp}/rootform-review.XXXXXX")
+review_root=$(cd "$review_root" && pwd -P)
+results="$review_root/results"
+printf 'Review directory: %s\n' "$review_root"
+
+remove_review_worktree() {
+  worktree_path=$1
+  if git worktree list --porcelain | grep -Fqx "worktree $worktree_path"; then
+    git worktree remove --force "$worktree_path" || cleanup_status=1
+  elif [ -d "$worktree_path" ]; then
+    rmdir "$worktree_path" 2>/dev/null || cleanup_status=1
+  fi
+}
+
+cleanup_review() {
+  cleanup_status=0
+  remove_review_worktree "$review_root/base"
+  remove_review_worktree "$review_root/head"
+  if [ -d "$results" ]; then
+    for name in base.tfplan base.json head.tfplan head.json \
+      comparison.json comparison.md comparison.html policy.json policy.md policy.sarif; do
+      rm -f "$results/$name" || cleanup_status=1
+    done
+    rmdir "$results" 2>/dev/null || cleanup_status=1
+  fi
+  if [ -d "$review_root" ]; then
+    rmdir "$review_root" 2>/dev/null || cleanup_status=1
+  fi
+  if [ "$cleanup_status" -ne 0 ]; then
+    printf 'Cleanup left temporary review files under %s\n' "$review_root" >&2
+  fi
+  return "$cleanup_status"
+}
+
+review_on_exit() {
+  review_status=$?
+  trap - 0 HUP INT TERM
+  if [ "$review_status" -ne 0 ]; then
+    cleanup_review || :
+  fi
+  exit "$review_status"
+}
+
+trap review_on_exit 0
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
 git worktree add --detach "$review_root/base" "$base_commit"
 git worktree add --detach "$review_root/head" "$head_commit"
-results="$review_root/results"
 mkdir "$results"
-printf 'Review directory: %s\n' "$review_root"
 ```
 
 These commands do not switch the current checkout. A worktree does not inherit
@@ -199,8 +256,11 @@ Differences
   Indeterminate closures  3 before, 3 after
 ```
 
-Here the branch adds 16 planned instances and removes 7. Inspect determined
-changes and indeterminate closures together: an
+When the planning conditions above are comparable, the head plan reports 16
+instances added and 7 removed relative to the base plan. Otherwise, describe
+these as plan differences and investigate the other inputs and any
+infrastructure change between runs. Inspect determined changes and
+indeterminate closures together: an
 [indeterminate closure](../concepts/comparisons.md#indeterminate-preserves-uncertainty)
 is not proof of no change. A successful comparison returns `0` even when
 changes exist, so the status alone is not an approval gate. Two separately
@@ -284,20 +344,15 @@ the worktrees, the plan files, and the temporary results:
 
 <!-- docs-check:journey-review-cleanup -->
 ```sh
-git worktree remove --force "$review_root/base"
-git worktree remove --force "$review_root/head"
-rm -f \
-  "$results/base.tfplan" "$results/base.json" \
-  "$results/head.tfplan" "$results/head.json" \
-  "$results/comparison.json" "$results/comparison.md" "$results/comparison.html" \
-  "$results/policy.json" "$results/policy.md" "$results/policy.sarif"
-rmdir "$results" "$review_root"
+cleanup_review
 ```
 
 `--force` is needed because `terraform init` writes files into each temporary
-worktree. These commands work whether or not you created the optional policy
-and HTML artifacts. They remove only the paths created above; they do not reset
-the branch or delete files in the current checkout.
+worktree. Cleanup removes only registered worktrees and the named plan and
+report files under the directory created by `mktemp`. It uses `rmdir` for the
+temporary directories, so unexpected files remain in place. If a command fails
+or the shell is interrupted, the exit trap attempts the same cleanup and
+returns the original command status.
 
 ## Keep CI artifacts deliberate
 

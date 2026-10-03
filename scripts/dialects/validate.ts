@@ -278,7 +278,7 @@ export type MirrorPairCandidate = {
   file: string;
 };
 
-function parseRfBlocks(text: string): RfBlock[] {
+export function parseRfBlocks(text: string): RfBlock[] {
   const blocks: RfBlock[] = [];
   const lines = text.split("\n");
   for (let index = 0; index < lines.length; ) {

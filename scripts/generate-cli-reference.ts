@@ -342,6 +342,16 @@ export function renderCommand(cmd: Command, commands: Command[]): string {
   if (cmd.examples) {
     chunks.push(`## Examples\n\n${fence(cmd.examples.replace(/^ {2}/gmu, ""), "sh")}`);
   }
+  if (cmd.path === "rootform lsp") {
+    chunks.push(
+      "## Editor clients\n\nConnect `rootform lsp` from [VS Code](../../integrations/vscode.md) or [Zed](../../integrations/zed.md).",
+    );
+  }
+  if (cmd.path === "rootform test") {
+    chunks.push(
+      "Follow [Test and validate](../../language/test-validate.md) for the fixture workflow and Policy evaluation examples.",
+    );
+  }
   return `${chunks.join("\n\n")}\n`;
 }
 

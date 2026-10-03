@@ -157,13 +157,13 @@ normal workflows need only `contents: read`.
 Fork PRs keep summaries and artifacts but skip comments. A fork may lack the
 credentials needed to produce a plan; obtain that evidence in a trusted
 planning context. Do not run untrusted PR code with secrets through
-`pull_request_target`; Rootform's business Actions reject that event.
+`pull_request_target`; Rootform's analyze, compare, and check Actions reject that event.
 Public Rootform downloads need no separate token.
 
 ## Compose a custom workflow
 
 Use the primitives when another step owns presentation or you need to reuse
-installation or project preparation. Business Actions remain autonomous:
+installation or project preparation. `analyze`, `compare` and `check` install and prepare what they need:
 
 | Action | Use it to |
 | --- | --- |

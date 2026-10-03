@@ -42,11 +42,15 @@ rootform validate <command> [options]
 
 Save a Form with `run --no-serve -o analysis.json`, as in
 the [quickstart](../../getting-started/quickstart.md), then
-check it:
+validate its structure:
 
 ```sh
 rootform validate form analysis.json
 ```
 
-Validation reads the Form alone. To evaluate Policies, select them when
-you analyze the plan or state with [`run`](run.md).
+Validation reads the Form alone. To evaluate Policies, use
+[`check`](check.md):
+
+```sh
+rootform check analysis.json --policy-pack ./policies
+```

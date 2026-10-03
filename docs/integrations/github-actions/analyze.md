@@ -35,7 +35,7 @@ Use [compare](compare.md) for two operands or [check](check.md) for Policies.
 
 ## Inputs
 
-Type describes accepted values. GitHub passes all inputs as strings; `bool` accepts `true` or `false`, `int` accepts a whole number. An empty default leaves the input unset.
+Type describes accepted values. GitHub passes all inputs as strings. `bool` accepts `true` or `false`. `int` accepts a whole number. An empty default leaves the input unset.
 
 | Input | Type | Default | Description |
 | --- | --- | --- | --- |

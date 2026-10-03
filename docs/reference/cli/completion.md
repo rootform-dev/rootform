@@ -34,9 +34,48 @@ rootform completion fish > rootform.fish
 rootform completion powershell > rootform.ps1
 ```
 
-These examples write files in the current directory; move them to a
-completion directory configured by your shell. Status `0` means the completion
-script was generated, `2` means the command was used incorrectly, and `4` means
-the completion script could not be written. Use
+These examples write files in the current directory. To activate completion
+in the current shell and load it in future shells, use the commands for your
+shell below.
+
+### Bash
+
+Cobra's generated Bash script uses helpers from `bash-completion`. Load that
+package before loading the generated Rootform script.
+
+```bash
+source ./rootform.bash
+```
+
+### Zsh
+
+Initialize Zsh completions before loading Rootform's script:
+
+```zsh
+autoload -Uz compinit
+compinit
+source ./_rootform
+```
+
+### Fish
+
+```fish
+source ./rootform.fish
+```
+
+### PowerShell
+
+```powershell
+. ./rootform.ps1
+```
+
+For future shells, move the generated file to a stable completion directory
+and source its absolute path from `~/.bashrc`, `~/.zshrc`,
+`~/.config/fish/config.fish`, or your PowerShell profile. Initialize
+`bash-completion` or `compinit` before loading Rootform where required.
+
+Status `0` means the completion script was generated, `2` means the command
+was used incorrectly, and `4` means the completion script could not be
+written. Use
 [`rootform version`](version.md) to identify the executable providing the
 completion script.
