@@ -5,6 +5,7 @@
       { "label": "Overview", "page": "index" },
       { "label": "Quickstart", "page": "getting-started/quickstart" },
       { "label": "Install Rootform", "page": "installation" },
+      { "label": "Provider coverage", "page": "reference/provider-coverage" },
       { "label": "Analyze your plan or state", "page": "getting-started/analyze-your-plan" },
       { "label": "Glossary", "page": "reference/glossary" }
     ]
@@ -12,11 +13,11 @@
   {
     "label": "Analyze and review",
     "items": [
+      { "label": "Choose an input", "page": "inputs" },
       { "label": "Explore a Form", "page": "guides/explore-architecture" },
       { "label": "Explain an architecture", "page": "guides/explain-architecture" },
       { "label": "Review planned changes", "page": "guides/review-planned-changes" },
       { "label": "Compare two Forms", "page": "guides/compare-architectures" },
-      { "label": "Choose an input", "page": "inputs" },
       { "label": "Terraform and OpenTofu plans", "page": "inputs/plans" }
     ]
   },
@@ -24,8 +25,8 @@
     "label": "Check and automate",
     "items": [
       { "label": "Check a Form with Policies", "page": "guides/check-with-policies" },
-      { "label": "Review a pull request", "page": "workflows" },
-      { "label": "Understand Policy outcomes", "page": "guides/check-architecture" }
+      { "label": "Understand Policy outcomes", "page": "guides/check-architecture" },
+      { "label": "Review a pull request", "page": "workflows" }
     ]
   },
   {
@@ -46,7 +47,8 @@
       },
       { "label": "VS Code", "page": "integrations/vscode" },
       { "label": "Zed", "page": "integrations/zed" },
-      { "label": "Other CI/CD", "page": "integrations/ci" }
+      { "label": "Other CI/CD", "page": "integrations/ci" },
+      { "label": "Container image", "page": "integrations/oci-image" }
     ]
   },
   {
@@ -66,7 +68,6 @@
     "items": [
       { "label": "Select Dialects and Policy Packs", "page": "cli" },
       { "label": "Add external content", "page": "guides/external-content" },
-      { "label": "Use a local Dialect while authoring", "page": "guides/local-dialect" },
       { "label": "Locks and vendored content", "page": "offline-security" },
       { "label": "Reproduce an analysis offline", "page": "guides/reproduce-build" }
     ]
@@ -91,6 +92,7 @@
         "items": [
           { "label": "Edit source", "page": "language/editors" },
           { "label": "Write a Dialect", "page": "dialect-authoring" },
+          { "label": "Use a local Dialect while authoring", "page": "guides/local-dialect" },
           { "label": "Write a Policy Pack", "page": "language/write-policy-pack" },
           { "label": "Test and validate", "page": "language/test-validate" }
         ]
@@ -267,7 +269,6 @@
           { "label": "version", "page": "reference/cli/version" }
         ]
       },
-      { "label": "Container image", "page": "integrations/oci-image" },
       { "label": "Registry compatibility", "page": "integrations/registry-compatibility" }
     ]
   },

@@ -17,15 +17,17 @@ All notable public Rootform distribution changes will be recorded here.
 - Restored the 128 MiB limit on plan, state, and Form inputs: a larger input
   is refused before it is read whole, and the error states the limit.
 - The Markdown reports of `rootform run` and `rootform check` are review
-  documents for a pull request, a merge request, or a CI job summary. They
-  open with `## Rootform architecture` and `## Rootform Policies`, so both can
-  be appended into one review, and lead with the conclusion or verdict and its
-  scope; limits stay visible. A check of both sides states the overall
-  verdict, the evaluation scope, and each side's verdict apart. Each list
-  shows at most ten entries with exact counts and folds when longer;
-  `--details` lists every entry. The Policy guide joins both reports with a
-  blank line and keeps the status of `check`. Text, JSON, and SARIF output
-  are unchanged.
+  documents for a pull request, a merge request, or a CI job summary. Both
+  begin with `## Rootform`; `run` adds `### Architecture`, and `check` adds
+  `### Policies`, followed by `### Details` with folded provenance. A check
+  of both sides states the overall verdict and scope before separate Before
+  and After sections. Run previews at most ten entries per list; check previews
+  at most ten evaluations per outcome and five evidence lines per evaluation.
+  `--details` includes every entry and evidence line, adds diagnostic detail,
+  and includes passed Policy evaluations. Long change and evaluation lists
+  remain collapsible. The GitHub Action combines Architecture and Policies
+  under one Rootform heading from the CLI reports and keeps the status of
+  `check`. Text, JSON, and SARIF output are unchanged.
 - Gave every command one interaction contract. Help leads with usage and
   examples before grouped options. `-o` always names a file and `--format`
   always names a format: `list` and `show` take `--format` where they took

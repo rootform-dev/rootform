@@ -16,3 +16,8 @@ rootform run examples/playground/commerce-platform/base/plan.json --diff example
 ```
 
 The saved plans supply verified traversal evidence. Plan exports can contain cleartext placeholder values; treat real producer exports as sensitive. Rootform output masks sensitive values and reports unresolved evidence.
+
+The saved result is a [Form](../../docs/concepts/forms.md). Reopen `analysis.json`
+without the original plan, or use it with `rootform check` and a reviewed
+[Policy Pack](../../policy-packs/README.md). These examples use embedded Dialects;
+[project selection](../../docs/cli.md) also supports local source and OCI content.

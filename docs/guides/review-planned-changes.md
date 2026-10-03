@@ -52,10 +52,10 @@ summary says "The export does not establish the refresh scope" for that reason.
 
 ## Read the change list
 
-Each view lists every added and removed resource instance, then every changed
-Relation, Context, and Contribution. On a terminal the long report opens in a
-pager; `--details` adds depth to each entry, such as the semantics behind a
-change. **Indeterminate closures** are counted separately: a fact whose
+The terminal lists added and removed resource instances and changed
+Relations, Contexts and Contributions, using a pager for a long report.
+`--details` adds depth to each entry. Markdown shows a bounded preview
+unless you request `--details`; folded lists alone do not make it exhaustive. **Indeterminate closures** are counted separately: a fact whose
 evidence cannot settle on one side is neither added nor removed, and never
 counts as unchanged.
 

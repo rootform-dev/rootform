@@ -3,7 +3,10 @@ title: "Fact emissions"
 description: "Context, Relation, and Contribution syntax, endpoint resolution, and closure outcomes."
 ---
 
-An applied Rule may emit directed facts from its instance to a target endpoint in the same stage. `to` declares the target's required Rule or Concept. `via` reads evidence on the source instance. A Terraform dependency alone creates no Context, Relation, or Contribution.
+An applied Rule may emit directed facts from its instance to a target
+endpoint in the same stage. `to` declares the target's required Rule or
+Concept. `via` reads evidence on the source instance. A Terraform dependency
+alone creates no Context, Relation, or Contribution.
 
 | Emission | Meaning | Direction |
 | --- | --- | --- |
@@ -192,12 +195,13 @@ has no label or nested blocks and appears at most once in that emission.
 | `by` | Yes | One `target.*` traversal or nonempty ordered list of them; target identity validation follows the scope below |
 | `strategy` | Yes | `"exact"`, `"dot-ancestor"`, or `"last-segment"` |
 
-For a local Concept or Rule target, each path must be declared in the identity
-of an eligible target Rule. Single-Dialect compilation exempts shared `rf`
-Concept targets, whose candidates may come from other Dialects; official
-whole-set validation checks their matched paths against target identities.
-At resolution, a candidate that defines none of the listed paths is compared
-on its own Rule's identity attributes instead.
+For a local Concept or Rule target, each `by` path must appear in the identity
+of an eligible target Rule. A shared `rf` Concept target is exempt from this
+check when compiling one Dialect because eligible candidates may belong to
+other Dialects; whole-set validation checks the paths against target Rule
+identities. During resolution, if a candidate's Rule declares none of the
+listed paths, Rootform compares the candidate using that Rule's own identity
+attributes.
 
 `exact` compares known values. `dot-ancestor` accepts a dot-delimited ancestor, choosing the most specific candidate. `last-segment` compares the final `/`-separated segment. Rootform tries `by` paths in order. A candidate with unknown, sensitive, or unavailable identity cannot be discarded to manufacture a unique match. Duplicate known identities produce `DUPLICATE_IDENTITY`; an uncomparable candidate can leave `indeterminate(uncomparable_candidate)`. A known value and verified traversal that point to different targets produce `EVIDENCE_CONFLICT` and `indeterminate(reference_ambiguous)`.
 

@@ -4,10 +4,10 @@ description: "Group portable Policies, link them to exact architecture semantics
 ---
 
 A Policy Pack is an independent source unit. It owns a name, version, and
-Policies. This guide uses the public baseline Pack and a plan containing a
-Kubernetes cluster and managed database. A Policy observes architectural
-facts; it never creates them. Exact RF Vocabulary and Dialect identities are
-derived when the Pack is linked.
+Policies. This guide uses the public baseline Pack with the Azure commerce
+plan, which contains a Kubernetes cluster and a managed database. A Policy
+observes architectural facts; it never creates them. Exact RF Vocabulary and
+Dialect identities are derived when the Pack is linked.
 
 ## Start with one source root
 
@@ -60,7 +60,7 @@ policy "managed-database-network-context" {
 }
 ```
 
-These fences match public baseline source exactly.
+These two Policy blocks reproduce the baseline source.
 
 For the evidence model behind an assertion, read
 [Policies over facts](learn/policies.md).
@@ -79,9 +79,13 @@ records exact versions and digests in the compiled Pack.
 
 ## Define target
 
-Target is one block:
+Each Policy has one target block. The baseline targets shared Concepts, so
+they can select matching Rules from different provider Dialects. The commerce
+walkthrough uses Azure. The target below is an AWS-only variant of the cluster
+Policy; keep its provider filters separate from the baseline used in this
+walkthrough.
 
-```rf title="Policy target"
+```rf title="AWS-only target variant"
 target {
   concept  = rf.concept.kubernetes-cluster
   rules    = [aws.rule.eks-cluster]
@@ -96,8 +100,8 @@ matching Concept or applied Rule is not selected.
 
 ## Evaluate locally
 
-From a checkout of the Rootform repository, run the reviewed commerce plan
-against the baseline source. The saved plan pairs with the plan JSON and
+From the Rootform repository root, run the Azure commerce plan against the
+baseline Pack. Its saved plan pairs with the plan JSON and
 supplies the traversals needed to decide these network contexts.
 [Plan inputs](../inputs/plans.md) shows how to export both files from your own
 project with `terraform` or `tofu`. Saved plans and plan JSON can contain
@@ -139,9 +143,11 @@ The local override lasts one command and leaves `rootform.lock` unchanged.
 | `PASSED` | `0` | All selected Policies passed. Confirm that at least one target was evaluated. |
 | `VIOLATED` | `1` | Read the named target and Policy message, then explain that Policy. |
 | `INDETERMINATE` | `3` | Inspect its closure reason; missing or unknown evidence cannot prove a pass. |
-| `NO DECISION` | `3` | No selected Policy had a target. Check the Pack target and selected plan stage. |
+| `NO DECISION` | `3` | At least one selected Policy had no target, or no Policy was selected, and no violation or indeterminate result takes priority. Another Policy passing does not change this. Check the Pack target and selected plan stage. |
 
-These are distinct Policy outcomes. The [check walkthrough](../guides/check-architecture.md)
+These check results have distinct meanings. A check with one passing Policy and
+another with no target returns NO DECISION, unless a violation or indeterminate
+result takes priority. The [check walkthrough](../guides/check-architecture.md)
 shows violations, indeterminate closures, and no-target results on small plans.
 
 Save the linked Pack against the Form when replay must use that

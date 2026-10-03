@@ -7,6 +7,9 @@ Choose your platform, install Rootform, then verify the executable. Embedded
 [Dialects](concepts/dialects.md) are included and need no additional Rootform
 configuration for your first architecture.
 
+Check [provider coverage](reference/provider-coverage.md) for supported
+providers and input limits before choosing a runtime.
+
 <!-- rootform:tabs Operating system -->
 <!-- rootform:tab macOS -->
 
@@ -121,6 +124,32 @@ To run a container, pin the image by index digest instead of using an archive.
 See [Container usage](integrations/oci-image.md#run-against-a-project). For a
 disconnected project, prepare exact third-party Dialects and Policy Packs as
 described in [Locks and vendored content](offline-security.md).
+
+## Update or remove Rootform
+
+Update package-managed installations with their package managers:
+
+- Homebrew: `brew upgrade rootform-dev/tap/rootform`
+- WinGet: `winget upgrade --id Rootform.Rootform --exact`
+- Shell installer: run the recommended install command again. It replaces the
+  executable in the same installation directory.
+- Manual archive: replace the executable with the binary from the new release,
+  then verify it with `rootform version`.
+- Container: pull the selected release tag again, for example
+  `docker pull ghcr.io/rootform-dev/rootform:0.1.0`.
+
+Remove package-managed installations with:
+
+- Homebrew: `brew uninstall rootform-dev/tap/rootform`
+- WinGet: `winget uninstall --id Rootform.Rootform --exact`
+- Shell installer: remove `~/.local/bin/rootform` by default, or the file
+  under the custom `ROOTFORM_INSTALL_DIR`.
+- Manual archive: remove `rootform` or `rootform.exe` from its `PATH` directory.
+- Container: `docker image rm ghcr.io/rootform-dev/rootform:0.1.0`.
+
+These steps remove the executable or image. `rootform uninstall` removes
+installed Dialects or Policy Packs from `$ROOTFORM_HOME`; it does not remove
+the executable. See the [`uninstall` command reference](reference/cli/uninstall.md).
 
 Continue with the [quickstart](getting-started/quickstart.md) to analyze a
 sample plan, or [analyze your own plan or state](getting-started/analyze-your-plan.md)

@@ -59,12 +59,25 @@ export function renderReference(document: ActionReference, name: ActionName): st
   const metadata = document.actions[name];
   const path = name === "action" ? "action.yml" : `${name}/action.yml`;
   const source = `https://github.com/${document.source.repository}/blob/${document.source.commit}/${path}`;
+  const types = new Set(
+    Object.keys(metadata.inputs).map((id) => {
+      const type = inputTypes[id];
+      if (!type) throw new Error(`Missing documented input type: ${id}`);
+      return type;
+    }),
+  );
+  const typeGuidance = [
+    "Type describes accepted values. GitHub passes all inputs as strings.",
+    ...(types.has("bool") ? ["`bool` accepts `true` or `false`."] : []),
+    ...(types.has("int") ? ["`int` accepts a whole number."] : []),
+    "An empty default leaves the input unset.",
+  ].join(" ");
   const lines = [
     begin,
     "",
     "## Inputs",
     "",
-    "Type describes accepted values. GitHub passes all inputs as strings; `bool` accepts `true` or `false`, `int` accepts a whole number. An empty default leaves the input unset.",
+    typeGuidance,
     "",
     "| Input | Type | Default | Description |",
     "| --- | --- | --- | --- |",

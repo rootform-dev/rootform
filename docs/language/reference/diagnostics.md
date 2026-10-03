@@ -97,7 +97,7 @@ A Rule with only `match` returns `RULE_NO_ARCHITECTURE`. Add actual architecture
 | `PLAN_MASK_INVALID` | Warning | Malformed unknown/sensitive mask discards affected instance values; inspect the exported JSON |
 | `PLAN_FILE_REQUIRED`, `PLAN_FILE_UNREADABLE`, `PLAN_PAIR_MISMATCH` | Error or warning | Saved plan missing, unreadable, or not paired with plan JSON; repeat `terraform show -json` from the same saved plan |
 | `PROVIDER_UNBOUND` | Warning | Observed provider has no selected Dialect binding; inspect provider identity and selection |
-| `RULE_MATCH_AMBIGUOUS` | Error | More than one Rule accepts one instance; narrow `match` predicates or provider envelopes |
+| `RULE_MATCH_AMBIGUOUS` | Error | More than one selected Rule accepts the instance; narrow overlapping `where` predicates or the selected Dialect set. Provider source addresses determine binding; provider version constraints do not distinguish Rules. |
 
 ### Emission warnings
 
@@ -147,6 +147,15 @@ An unknown assertion or incomplete target domain produces an indeterminate evalu
 
 ## Limits
 
+### Input documents
+
+| Item | Limit |
+| --- | --- |
+| Plan JSON, state JSON, or saved Form | 128 MiB per document |
+
+Rootform applies this document-read ceiling before decoding each input. It is
+separate from the 16 MiB serialized-input limit for a compiled Policy Pack.
+
 Exceeding a limit fails closed. These bounds are part of the language and evaluation contract.
 
 ### RF source and artifact
@@ -165,7 +174,7 @@ Exceeding a limit fails closed. These bounds are part of the language and evalua
 
 | Item | Limit |
 | --- | --- |
-| Serialized input | 16 MiB |
+| Serialized compiled Policy Pack input | 16 MiB |
 | Policies and semantic pins | 1,024 each |
 | Rule references or Dialect owners per Policy target | 1,024 each |
 | Aggregate expression nodes | 65,536 |

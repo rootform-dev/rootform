@@ -38,9 +38,9 @@ never open a pager.
 Text reports list every entry at the chosen depth: every change of a
 comparison, every violated or indeterminate evaluation with all its evidence,
 and every row of an explanation. `--details` adds depth, such as semantics,
-diagnostic codes, and passed evaluations. The summary beside the explorer
+diagnostic codes, and passed evaluations. The summary beside the Explorer
 previews each group instead and states how many entries it shows. A Markdown
-report is a review document that shortens long lists; see
+report is a review document with a bounded preview; see
 [Review with Markdown](#review-with-markdown).
 
 ## Choose an output file
@@ -87,35 +87,29 @@ and the failed target is reported; exit status is `4`.
 ## Review with Markdown
 
 A Markdown report is a review document for a pull request, a merge request, or
-a CI job summary. The report of `run` opens with the heading
-`## Rootform architecture`: its conclusion, the compared stages or inputs, any
-limits of the evidence, change counts, reported drift, the changes, the
-architecture, and provenance. The report of `check` opens with
-`## Rootform Policies`: the verdict and the evaluated stage. For both sides of
-a comparison Form, it states the overall verdict, the evaluation scope, and a
-table of each side's stage, evaluation counts, and verdict. Each Policy then
-follows with its requirement stated once above its evaluations, then coverage
-gaps and provenance. Conclusions, verdicts, and limits are never folded.
+a CI job summary. Both begin with `## Rootform`. `run` adds
+`### Architecture`; `check` adds `### Policies`. A conclusion or verdict comes
+first, with evidence limits and comparison scope kept visible. A comparison
+check states its overall verdict and scope before separate `#### Before` and
+`#### After` sections, each with its stage, counts, and verdict. A `### Details`
+section puts provenance in a collapsible block.
 
-Each list shows at most ten entries, spread across its statuses, such as added
-and removed, and states how many it shows, for example `(10 of 23 shown)`. In
-the report of `run`, a list longer than ten sits in a collapsed `<details>`
-block whose summary gives its counts. The report of `check` keeps up to ten
-evaluations per outcome in view, each with at most five evidence lines, so a
-violation is never hidden in a fold. When a report shortens a list or its
-evidence, its last line says so. Write the same report with `--details` to
-list every entry and every evidence line; a list longer than ten is then
-folded in both reports, and `--details` also adds depth such as semantics and
-passed evaluations. Values from the input, such as addresses and names, are
-escaped or written as code, so they cannot add links, markup, or folds.
+By default, a `run` report shows at most ten entries in each list, spread over
+their statuses where applicable. A `check` report shows at most ten
+evaluations per outcome and five evidence lines per evaluation. Shortened lists
+state their shown and total counts. `--details` includes every entry and
+evidence line, adds depth such as semantics and diagnostic codes, and includes
+passed Policy evaluations. Long change and evaluation lists remain
+collapsible, with all entries inside when `--details` is set. Values from the
+input, such as addresses and names, are escaped or written as code, so they
+cannot add links, markup, or folds.
 
-Because each report opens with its own heading, an integration can join them
-into one review. Leave a blank line between them, and let the status of
-`check` decide the job rather than the command that joins the files:
-[Write a review document](../guides/check-architecture.md#write-a-review-document)
-composes both for one plan. The reports do not link to other files; publish
-the Form, the Policy result, SARIF, or the HTML export separately when
-reviewers need them.
+CLI Markdown reports are standalone and each begins with `## Rootform`.
+The GitHub Action combines the CLI Architecture and Policies sections under
+one Rootform heading using the reports already produced by the CLI; it does
+not reparse the Form. See the canonical [GitHub Actions integration](../integrations/github-actions.md).
+CLI reports do not link to other files; publish the Form, Policy result,
+SARIF, or HTML export separately when reviewers need them.
 
 ## Analysis exit status
 

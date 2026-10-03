@@ -92,12 +92,12 @@ test("CI recipe runs analysis then a requested policy gate and keeps both artifa
   expect(readFileSync(join(f.output, "run.status"), "utf8")).toBe("0\n");
   expect(readFileSync(join(f.output, "check.status"), "utf8")).toBe("0\n");
 });
-test("CI recipe exits successfully after analysis when no policy selection exists", () => {
+test("CI recipe runs analysis alone only when explicitly requested", () => {
   const f = fixture();
   const { ROOTFORM_POLICY_PACK: _pack, ...env } = f.env;
   const result = Bun.spawnSync(["/bin/sh", script], {
     cwd: f.root,
-    env,
+    env: { ...env, ROOTFORM_MODE: "analyze" },
     stdout: "pipe",
     stderr: "pipe",
   });
@@ -105,6 +105,47 @@ test("CI recipe exits successfully after analysis when no policy selection exist
   expect(readFileSync(f.args, "utf8").trim().split("\n")).toHaveLength(1);
   expect(readFileSync(join(f.output, "run.status"), "utf8")).toBe("0\n");
   expect(existsSync(join(f.output, "check.status"))).toBe(false);
+});
+test("required checks cannot disappear with the lock or Policy selection", () => {
+  const missing = fixture();
+  const { ROOTFORM_POLICY_PACK: _pack, ...withoutPack } = missing.env;
+  const refused = Bun.spawnSync(["/bin/sh", script], {
+    cwd: missing.root,
+    env: withoutPack,
+  });
+  expect(refused.exitCode).toBe(2);
+  expect(existsSync(missing.output)).toBe(false);
+  expect(existsSync(missing.args)).toBe(false);
+  for (const policyPacks of [[], [{}]]) {
+    const f = fixture();
+    writeFileSync(join(f.project, "rootform.lock"), JSON.stringify({ policy_packs: policyPacks }));
+    const { ROOTFORM_POLICY_PACK: _unused, ...env } = f.env;
+    const result = Bun.spawnSync(["/bin/sh", script], {
+      cwd: f.root,
+      env: { ...env, ROOTFORM_CHECK_STATUS: "3" },
+    });
+    expect(result.exitCode).toBe(3);
+    const invocations = readFileSync(f.args, "utf8").trim().split("\n");
+    expect(invocations).toHaveLength(2);
+    expect(invocations[1]).toContain("--locked");
+    expect(readFileSync(join(f.output, "check.status"), "utf8")).toBe("3\n");
+    expect(existsSync(join(f.output, "policy.md"))).toBe(true);
+  }
+});
+
+test("analysis mode rejects Policy settings and required check rejects a missing Pack", () => {
+  const f = fixture();
+  const analyze = Bun.spawnSync(["/bin/sh", script], {
+    cwd: f.root,
+    env: { ...f.env, ROOTFORM_MODE: "analyze" },
+  });
+  expect(analyze.exitCode).toBe(2);
+  const absent = Bun.spawnSync(["/bin/sh", script], {
+    cwd: f.root,
+    env: { ...f.env, ROOTFORM_POLICY_PACK: join(f.root, "absent") },
+  });
+  expect(absent.exitCode).toBe(2);
+  expect(existsSync(f.output)).toBe(false);
 });
 test("CI recipe preserves run and policy failures and rejects reused output", () => {
   const f = fixture();

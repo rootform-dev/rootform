@@ -3,16 +3,16 @@ title: "Expressions"
 description: "Complete RF expression grammar, literal types, operators, precedence, typing rules, JSON encoding, and rejected syntax."
 ---
 
-RF expressions are a strict subset of HCL expressions. Accepted shape depends
+RF expressions are a strict subset of HCL expressions. The accepted shape depends
 on position:
 
 | Position | Purpose | Accepted expression family |
 | --- | --- | --- |
 | Rule or member `match.where` | Test one resource instance's available values | Predicate |
 | Policy `assert` | Test facts of a selected architecture stage within a Form | Policy assertion |
-| `as`, `to`, Policy target references | Name semantic symbol | Typed reference only |
+| `as`, `to`, Policy target references | Name a semantic symbol | Typed reference only |
 | `via`, `by` | Read instance or saved-plan evidence | Traversal only |
-| Static string fields | Metadata or closed enum | Constant expression producing string |
+| Static string fields | Metadata or closed enum | Constant expression producing a string |
 | `target.rules`, `target.dialects` | Static target filters | Nonempty list with position-specific item type |
 
 General HCL expression evaluation is not available in `where` or `assert`.
@@ -33,9 +33,9 @@ RF validates numeric value, not spelling: `1.0` and `1e3` are accepted
 because their values are exact integers. `1.5` is not. Although runtime scalar
 evidence can contain signed integers, native RF source has no unary minus
 operator. Authorable number literals are therefore non-negative. `-1` is
-rejected as unsupported unary expression.
+rejected as an unsupported unary expression.
 
-Static metadata strings may be empty only where block-specific table permits
+Static metadata strings may be empty only where the block-specific table permits
 it. For example, definition `description` may be empty, while Policy
 `message` may not.
 
@@ -77,15 +77,15 @@ where = !(source.mode == "DISABLED")
 Rules:
 
 - only `source.*` traversal is accepted;
-- bare Boolean literal is accepted;
+- a bare Boolean literal is accepted;
 - bare traversal is not a predicate;
-- equality and inequality require same runtime scalar type;
+- equality and inequality require the same runtime scalar type;
 - ordering requires numbers;
 - missing, unknown, collection-valued, or type-incompatible evidence makes
-  comparison unknown;
-- only known `true` accepts Rule candidate.
+  the comparison unknown;
+- only a known `true` accepts a Rule candidate.
 
-Compiler cannot always know traversal result type. A syntactically accepted
+The compiler cannot always know a traversal's result type. A syntactically accepted
 comparison such as `source.enabled > true` becomes unknown at evaluation,
 rather than inventing ordering for Booleans.
 
@@ -161,7 +161,7 @@ policy "recursive-booleans" {
 }
 ```
 
-`exists` and `length` each take exactly one query call. Query call cannot be
+`exists` and `length` each take exactly one query call. A query call cannot be
 stored, compared directly, nested in another function, or passed as a general
 collection. See [Built-ins](built-ins.md) for exact signatures.
 
@@ -192,12 +192,12 @@ From highest to lowest:
 | 6 | <code>&#124;&#124;</code> |
 
 Binary operators are left-associative. Use parentheses when mixing comparisons
-or Boolean operators. Chained comparison such as `1 < source.count < 5` is
+or Boolean operators. A chained comparison such as `1 < source.count < 5` is
 invalid; write `source.count > 1 && source.count < 5`.
 
 ## Parentheses
 
-Parentheses do not add an expression node to compiled RF artifact; they only
+Parentheses do not add an expression node to the compiled RF artifact; they only
 control grouping.
 
 ```rf
@@ -280,8 +280,8 @@ HCL JSON stores expression-valued fields in strings using `"${...}"`:
 }
 ```
 
-Native `.rf.hcl` also accepts pure `"${expression}"` wrapper for
-full-expression fields and unwraps it to enclosed value. Direct native syntax is
+Native `.rf.hcl` also accepts a pure `"${expression}"` wrapper for
+full-expression fields and unwraps it to the enclosed value. Direct native syntax is
 canonical:
 
 ```rf

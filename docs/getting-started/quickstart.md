@@ -48,8 +48,7 @@ Open the **Evidence** tab. Under **Evidence**, the entry
 `azurerm_subnet.prod_data → azurerm_virtual_network.prod` is the network
 placement. Expand its **Resolution**: it names the Rule
 `azure.rule.subnet`, the attribute it followed, `source.virtual_network_name`,
-and the kind of evidence that settled it. Under **Closures**, **Network
-placement to virtual network** is **Resolved** with one fact.
+and the kind of evidence that settled it. The resolved outcome establishes this placement.
 
 ![The Evidence tab for azurerm_subnet.prod_data: evaluated value and verified traversal, the resolved outcome, and both placement closures with their candidate counts](../assets/explorer/quickstart-evidence-light.webp#gh-light-mode-only)
 ![The Evidence tab for azurerm_subnet.prod_data: evaluated value and verified traversal, the resolved outcome, and both placement closures with their candidate counts](../assets/explorer/quickstart-evidence-dark.webp#gh-dark-mode-only)
@@ -57,9 +56,8 @@ placement to virtual network** is **Resolved** with one fact.
 That one fact carries the whole idea. Rootform did not draw the subnet inside
 the VNet because Terraform references it: a Rule in the Azure
 [Dialect](../concepts/dialects.md) declares what the reference means, and the
-plan evidence proved it. Under **Terraform dependency evidence**, the same
-reference appears as producer evidence. It does not establish an architectural
-relation by itself.
+plan evidence proved it. [Trace a placement](first-architecture.md) explains how producer references
+become architectural facts and what incomplete evidence changes.
 
 ## Run the same analysis locally
 

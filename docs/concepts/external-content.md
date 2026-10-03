@@ -162,8 +162,7 @@ Exit `0` means every selected Policy passed, `1` reports a violation, and `3`
 means the evidence is indeterminate or no decision was made. Usage errors exit
 `2`; a report write failure exits `4`.
 
-## Next
-
-- [Use a local Dialect while authoring](../guides/local-dialect.md)
-- [Add external content](../guides/external-content.md)
-- [External content storage](../reference/storage.md)
+[Add external content](../guides/external-content.md) walks through project
+changes. [Storage](../reference/storage.md) defines the paths and integrity
+checks; [local Dialect authoring](../guides/local-dialect.md) shows how to
+review a local selection.

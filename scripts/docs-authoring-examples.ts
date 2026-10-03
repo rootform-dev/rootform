@@ -114,23 +114,92 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
 
   const authoring = fresh("dialect");
   const dialectPage = read("dialect-authoring.md");
-  writeFileSync(
-    join(authoring.dir, "dialect.rf.hcl"),
-    configuration(dialectPage, "aws/dialect.rf.hcl"),
-  );
-  mkdirSync(join(authoring.dir, "network"));
-  writeFileSync(
-    join(authoring.dir, "network/vpc.rf.hcl"),
-    configuration(dialectPage, "aws/network/vpc.rf.hcl"),
-  );
-  marked("dialect-authoring.md", "docs-dialect-authoring-1", authoring.dir, authoring.home);
-  const fixture = join(authoring.dir, "fixtures/example/minimal");
-  mkdirSync(fixture, { recursive: true });
-  for (const name of ["main.tf", "plan.json", "plan.tfplan"]) {
-    cpSync(join(root, "examples/playground/commerce-platform/head", name), join(fixture, name));
+  for (const [title, path] of [
+    ["dialects/payments/dialect.rf.hcl", "dialect.rf.hcl"],
+    ["dialects/payments/vocabulary.rf.hcl", "vocabulary.rf.hcl"],
+    ["dialects/payments/network/virtual-network.rf.hcl", "network/virtual-network.rf.hcl"],
+  ] as const) {
+    const destination = join(authoring.dir, "dialects/payments", path);
+    mkdirSync(dirname(destination), { recursive: true });
+    writeFileSync(destination, configuration(dialectPage, title));
   }
+  marked("dialect-authoring.md", "docs-dialect-authoring-1", authoring.dir, authoring.home);
+  const fixture = join(authoring.dir, "fixtures/payments/minimal");
+  mkdirSync(fixture, { recursive: true });
+  const providerFixture = join(root, "scripts/fixtures/docs/first-architecture");
+  for (const name of ["main.tf", "plan.json", "plan.tfplan"]) {
+    cpSync(join(providerFixture, name), join(fixture, name));
+  }
+  run(
+    [
+      binary,
+      "run",
+      "fixtures/payments/minimal/plan.json",
+      "--plan-file",
+      "fixtures/payments/minimal/plan.tfplan",
+      "--no-serve",
+    ],
+    authoring.dir,
+    authoring.home,
+  );
   marked("dialect-authoring.md", "docs-dialect-authoring-2", authoring.dir, authoring.home);
-  assert(existsSync(join(fixture, "analysis.golden")), "Dialect fixture golden missing");
+  const goldenPath = join(fixture, "analysis.golden");
+  assert(existsSync(goldenPath), "Dialect fixture golden missing");
+  const golden: {
+    stages: {
+      planned: {
+        representations: Array<{
+          id: string;
+          address?: string;
+          rule?: string;
+          interpretation?: { status: string };
+        }>;
+        contexts: Array<{
+          id: string;
+          to: string;
+          dimension: string;
+          provenance: Array<{ rule: string; closure: string }>;
+        }>;
+        closures: Array<{ id: string; outcome: string; facts: string[] }>;
+      };
+    };
+  } = JSON.parse(readFileSync(goldenPath, "utf8"));
+  const planned = golden.stages.planned;
+  const vpc = planned.representations.find((item) => item.address === "aws_vpc.main");
+  const subnet = planned.representations.find((item) => item.address === "aws_subnet.application");
+  assert(
+    vpc?.rule === "payments.rule.vpc" && vpc.interpretation?.status === "applied",
+    "payments VPC Rule was not applied to the fixture",
+  );
+  assert(
+    subnet?.rule === "payments.rule.subnet" && subnet.interpretation?.status === "applied",
+    "payments subnet Rule was not applied to the fixture",
+  );
+  const network = planned.contexts.find(
+    (item) =>
+      item.dimension === "rf.context.network" &&
+      item.provenance.some((provenance) => provenance.rule === "payments.rule.subnet"),
+  );
+  assert(network, "payments subnet network Context was not emitted");
+  assert(
+    planned.representations.some(
+      (item) => item.id === network.to && item.address === "aws_vpc.main",
+    ),
+    "payments network Context did not resolve to aws_vpc.main",
+  );
+  const networkClosure = network.provenance.find(
+    (provenance) => provenance.rule === "payments.rule.subnet",
+  );
+  assert(
+    networkClosure !== undefined &&
+      planned.closures.some(
+        (closure) =>
+          closure.id === networkClosure.closure &&
+          closure.outcome === "resolved" &&
+          closure.facts.includes(network.id),
+      ),
+    "payments subnet network closure was not resolved",
+  );
   const vocabulary = fresh("local-vocabulary");
   writeFileSync(
     join(vocabulary.dir, "dialect.rf.hcl"),
@@ -138,7 +207,7 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
   );
   writeFileSync(
     join(vocabulary.dir, "vocabulary.rf.hcl"),
-    configuration(dialectPage, "vocabulary.rf.hcl"),
+    configuration(dialectPage, "dialects/payments/vocabulary.rf.hcl"),
   );
   run([binary, "validate", "dialects", vocabulary.dir], vocabulary.dir, vocabulary.home);
 
@@ -282,7 +351,10 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
   );
 
   const packageCase = fresh("dialect-package");
-  payments(packageCase.dir);
+  mkdirSync(join(packageCase.dir, "dialects"), { recursive: true });
+  cpSync(join(authoring.dir, "dialects/payments"), join(packageCase.dir, "dialects/payments"), {
+    recursive: true,
+  });
   marked("dialect-authoring.md", "docs-dialect-authoring-3", packageCase.dir, packageCase.home);
 
   const concept = fresh("external-concept");
@@ -388,9 +460,13 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
     checkSarif.version === "2.1.0" && checkSarif.runs?.[0]?.results?.length === 2,
     "check reference SARIF changed",
   );
-  assert(
-    readFileSync(join(checkCase.dir, "report.md"), "utf8").startsWith("## Rootform Policies\n"),
-    "check reference report changed",
-  );
-  return "Authoring examples: Dialect, Policy Pack, tour, external content, and CLI commands verified";
+  const checkReport = readFileSync(join(checkCase.dir, "report.md"), "utf8");
+  const checkReportStyle =
+    checkReport.startsWith("## Rootform\n") && checkReport.includes("\n### Policies\n")
+      ? "current"
+      : checkReport.startsWith("## Rootform Policies\n")
+        ? "legacy-117"
+        : undefined;
+  assert(checkReportStyle !== undefined, "check reference report changed");
+  return `Authoring examples: Dialect, Policy Pack, tour, external content, and CLI commands verified (Markdown: ${checkReportStyle})`;
 }

@@ -16,7 +16,7 @@ order.
 
 ## Source discovery
 
-Rootform walks requested source root recursively.
+Rootform recursively walks each requested source root.
 
 | Path | Behavior |
 | --- | --- |
@@ -179,7 +179,10 @@ dialect "example" {
 Source text is UTF-8. Native RF follows
 [HCL native lexical rules](https://github.com/hashicorp/hcl/blob/main/hclsyntax/spec.md):
 
-- whitespace is insignificant outside strings;
+- spaces and horizontal tabs act as whitespace where the grammar allows them.
+  Newlines are distinct: they separate body attributes and end line comments,
+  but HCL ignores them inside selected expression forms, including
+  parenthesized and collection expressions;
 - line comments use `#` or `//`;
 - block comments use `/* ... */`;
 - string literals use quotes or static heredocs;

@@ -78,6 +78,10 @@ Target dimensions combine with AND; entries within one list combine with OR. Rep
 | Zero | No | Either | Unknown |
 | Zero | Yes | No | Unknown |
 
+One confirmed matching fact makes `exists` true even when another relevant
+closure is indeterminate. This proves presence, not exact cardinality or
+complete target coverage.
+
 ### `length(query)`
 
 `length(query)` has an exact deduplicated count only for supported, complete evidence. A numeric comparison may still be decided from a proven lower bound when evidence is incomplete; otherwise it is unknown. Negative assertions need complete relevant closures, so an indeterminate closure cannot make `!exists(...)` pass. Boolean operators preserve three-valued truth: a known false decides `&&`, a known true decides `||`, and other combinations with unknown remain unknown. See [Built-ins](built-ins.md#support-completeness-and-evidence) for signatures.
@@ -99,7 +103,7 @@ A false assertion is a violation; an unknown assertion is indeterminate. If a di
 
 | Reason in result | Why evidence cannot decide | Reader action |
 | --- | --- | --- |
-| `unknown_until_apply` | Planned value is not known before apply | Evaluate a later state or plan when available |
+| `unknown_until_apply` | Planned value is not known before apply | Check the selected stage, verify any saved-plan pairing, and confirm that the reference uses a supported traversal. Use later plan or state evidence when the normal workflow provides it. |
 | `sensitive` | Value is masked | Change the Dialect to use safe identity evidence if possible |
 | `ambiguous_unknown`, `uncomparable_candidate`, `duplicate_identity`, `identity_incomplete` | Candidate identity or uniqueness is unsettled | Inspect candidate counts and declared identities |
 | `reference_ambiguous` | Evaluated value conflicts with verified traversal | Inspect the plan pair and Rule endpoint/identity declarations |
@@ -123,7 +127,13 @@ These reasons can appear on a closure, evaluation, or coverage entry according t
 
 ### Aggregate result status
 
-A confirmed violation takes precedence over indeterminate evaluations. Without one, indeterminate evaluation or incomplete target coverage produces `indeterminate`; a selected Policy with no target, or no selected Policy, produces `no_decision`; every selected Policy evaluating a target and passing produces `passed`. Only the last status is a compliance claim.
+A confirmed violation takes precedence over indeterminate evaluations.
+Without one, an indeterminate evaluation or incomplete target coverage
+produces `indeterminate`. If neither applies, a selected Policy with no
+target, or no selected Policy, produces `no_decision`. A passing Policy does
+not cancel another Policy's missing target; every selected Policy must
+evaluate at least one target and pass for the aggregate status to be
+`passed`. Only `passed` is a compliance claim.
 
 | Priority | Condition | Status |
 | --- | --- | --- |

@@ -26,7 +26,8 @@ curl -fsSL https://rootform.dev/install | sh
 rootform version
 ```
 
-[Install Rootform](docs/installation.md) covers macOS, Linux, Windows, the
+[Provider coverage](docs/reference/provider-coverage.md) lists interpreted types
+and facts before installation. [Install Rootform](docs/installation.md) covers macOS, Linux, Windows, the
 container image, and checksum verification.
 
 ## Analyze a plan
@@ -118,7 +119,7 @@ boundary.
   flags, help, reports, exit statuses, the loopback Explorer server, and the
   Form and Policy result models. Its version is the commit the Rootform
   binary pins; it makes no compatibility promise yet;
-- [`dialects/`](dialects/): official Dialect sources, evidence, and fixtures
+- [`dialects/`](dialects/): official Dialect sources, evidence, and synthetic examples
   embedded in Rootform releases;
 - [`policy-packs/`](policy-packs/): Policy Pack examples;
 - [`examples/`](examples/): synthetic Terraform projects with saved plans,

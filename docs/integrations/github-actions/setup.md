@@ -4,7 +4,8 @@ description: Install and verify an exact published Rootform CLI version for late
 ---
 
 Use `rootform-dev/action/setup@v1` when your next step runs Rootform directly.
-Business Actions install it themselves, so setup is optional.
+The `analyze`, `compare`, and `check` Actions install it themselves, so setup
+is optional.
 
 ```yaml title="Install Rootform for CLI steps"
 - uses: rootform-dev/action/setup@v1
@@ -31,7 +32,7 @@ rate limits and is not passed to Rootform. See
 
 ## Inputs
 
-Type describes accepted values. GitHub passes all inputs as strings; `bool` accepts `true` or `false`, `int` accepts a whole number. An empty default leaves the input unset.
+Type describes accepted values. GitHub passes all inputs as strings. An empty default leaves the input unset.
 
 | Input | Type | Default | Description |
 | --- | --- | --- | --- |

@@ -10,8 +10,7 @@ license or notice files. File paths do not create Policy identity.
 
 Policy Pack source declares no semantic dependency versions. References to the
 RF Vocabulary and Dialect-owned symbols are qualified owner-first; exact
-semantic dependencies are derived when the pack links against an Architecture
-IR snapshot.
+semantic dependencies are derived when the pack links against an Form.
 
 ## `baseline/`
 
@@ -27,7 +26,7 @@ authoritative security baseline. Provider-neutral targets do not guarantee
 equal Dialect coverage; inspect evaluation coverage before treating any result
 as a gate.
 
-## Validate and evaluate
+## Check a saved Form
 
 ```sh
 rootform fmt --check policy-packs/baseline
@@ -38,14 +37,21 @@ rootform check ./examples/playground/commerce-platform/head/plan.json \
   --policy-pack ./policy-packs/baseline
 ```
 
-Repository verification compiles this source with the exact Rootform binary,
-packages it twice to prove deterministic OCI bytes, and validates publication
-through an offline dry-run.
+Save the analyzed Form once and reuse it for later checks. To select this local
+Pack for a project, run `rootform add policy-packs ./policy-packs/baseline`.
+To select published content instead, use its OCI repository and version with
+the same command; [Add external content](../docs/guides/external-content.md)
+shows both workflows.
 
 ## Generic package and publication
 
 Packaging and publication remain separate for explicitly distributed Policy
 Packs:
+
+`LAYOUT` is a fresh local OCI layout directory; `REV` is the exact source
+commit. Replace the source and documentation `URL` values with their public
+URLs, and `registry.example/team/policy-packs` with your writable OCI repository.
+Publishing requires TLS and registry authentication through `DOCKER_CONFIG`.
 
 ```text
 rootform package policy-packs policy-packs/baseline \
@@ -58,9 +64,8 @@ Packaging is local and offline. Publication validates the complete layout and
 writes immutable `policy-pack-<name>-<version>` tags. Provenance is supplied
 explicitly; Rootform never discovers it from Git or local machine paths.
 
-Project selection comes only from an exact `rootform.lock` entry containing
-pack name, version, content digest, tagless repository, manifest digest, layer
-digest, and bounded sizes. `rootform init` acquires only that existing digest
+Project selection comes from `rootform.lock`, which records either a local
+source path and content digest or an exact OCI identity. `rootform init` acquires only that existing digest
 pin. It never resolves a tag, selects a pack, or writes the lock.
 
 See the [Policy Pack distribution contract](../contracts/policy-pack-distribution.md)

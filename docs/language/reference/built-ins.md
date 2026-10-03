@@ -3,8 +3,8 @@ title: "Built-ins"
 description: "Complete RF Policy built-in signatures, required and optional parameters, return types, support, and completeness semantics."
 ---
 
-Rootform language 0.1.0 has five built-ins. They are available only in Policy
-`assert`.
+Rootform language 0.1.0 has five built-ins. They are available only in a Policy
+`assert` expression.
 
 | Function | Signature | Return |
 | --- | --- | --- |
@@ -14,7 +14,7 @@ Rootform language 0.1.0 has five built-ins. They are available only in Policy
 | `relations` | `relations(predicate[, target])` | Opaque query |
 | `contributions` | `contributions(contributor)` | Opaque query |
 
-Query values are opaque. They can appear only as direct argument to
+Query values are opaque. They can appear only as a direct argument to
 `exists` or `length`.
 
 ## Complete example

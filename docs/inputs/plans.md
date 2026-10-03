@@ -20,6 +20,11 @@ Policy Packs separately with `rootform check`.
 
 ## Produce the accepted JSON
 
+Rootform accepts completed plan and state exports in JSON format `1.x`.
+This is the export format, not the Terraform/OpenTofu or provider version.
+Other major formats are refused. Each JSON or saved Form input is limited
+to [128 MiB](../reference/provider-coverage.md#input-limits).
+
 Save the plan and export that same saved plan. OpenTofu users use `tofu`
 where Terraform users use `terraform`:
 

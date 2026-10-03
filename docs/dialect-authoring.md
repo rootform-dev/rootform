@@ -22,21 +22,23 @@ connection between a provider attribute and an architectural fact is unclear.
 ## Create source root
 
 ```tree title="Dialect package"
-example/
-├── dialect.rf.hcl
-├── vocabulary.rf.hcl
-├── network/
-│   └── virtual-network.rf.hcl
-└── presentation.json
+project/
+└── dialects/
+    └── payments/
+        ├── dialect.rf.hcl
+        ├── vocabulary.rf.hcl
+        ├── network/
+        │   └── virtual-network.rf.hcl
+        └── presentation.json
 ```
 
-Files organize reviews only. Exactly one `dialect` declaration identifies
-whole recursive root.
+Run the commands below from `project/`. Files can divide the source for review,
+but one `dialect` declaration owns the entire recursive source tree.
 
 ## Declare identity and provider
 
-```rf title="aws/dialect.rf.hcl"
-dialect "aws" {
+```rf title="dialects/payments/dialect.rf.hcl"
+dialect "payments" {
   version = "0.1.0"
 
   provider "hashicorp/aws" {
@@ -45,11 +47,11 @@ dialect "aws" {
 }
 ```
 
-No Dialect imports another. References may target local owner or embedded RF
-Vocabulary. RF dependency is derived automatically from `rf.*` references.
-Provider constraint must match tested evidence.
+A Dialect cannot import another. References can target its own definitions or
+the embedded RF Vocabulary; Rootform records the latter dependency from
+`rf.*` references. The provider constraint should match versions you tested.
 
-## Define only local vocabulary needed
+## Add local terms when needed
 
 Use RF Vocabulary where contract is exact:
 
@@ -58,9 +60,9 @@ Use RF Vocabulary where contract is exact:
   `rf.concept.object-storage-container`, and `rf.concept.service-identity`;
 - `rf.context.network` and `rf.context.runtime`.
 
-Define distinct local meaning without Concept kind:
+Use a local Concept or Context for a term outside that shared vocabulary:
 
-```rf title="vocabulary.rf.hcl"
+```rf title="dialects/payments/vocabulary.rf.hcl"
 concept "load-balancer" {
   description = "A load-balancing service."
 }
@@ -70,13 +72,13 @@ context "project" {
 }
 ```
 
-With the `aws` owner above, local IDs become `aws.concept.load-balancer` and
-`aws.context.project`. Descriptions document contract; they do not control
-architectural structure or establish facts.
+With the `payments` owner above, these IDs are
+`payments.concept.load-balancer` and `payments.context.project`. Descriptions
+document meaning; they do not create architectural facts.
 
-## Add smallest complete Rule
+## Write a complete Rule
 
-```rf title="aws/network/vpc.rf.hcl"
+```rf title="dialects/payments/network/virtual-network.rf.hcl"
 rule "vpc" {
   match {
     kind = "resource"
@@ -152,7 +154,7 @@ Allow an external endpoint only when the referenced object may truly be outside
 the plan's inventory. Choose its identity disclosure level deliberately; it
 never permits a sensitive value into a Form.
 
-Common placement patterns stay small:
+Choose a fact whose meaning matches what the provider evidence proves:
 
 ```rf title="Direct parent proved by a resource reference"
 context {
@@ -194,21 +196,33 @@ Check the source before interpreting a plan. The validation result identifies
 the first invalid path; `show` then confirms which qualified Rule and Concept
 the active catalog contains.
 
+The `aws_vpc` and `aws_subnet` types also match Rules in embedded `aws`. A
+`--dialect` override adds a source for one command; it does not exclude that
+embedded owner. For this walkthrough, select `payments` and exclude embedded
+`aws` in the project lock once, before analyzing or testing:
+
 <!-- docs-check:docs-dialect-authoring-1 -->
 ```sh
-rootform fmt --check .
-rootform validate dialects .
-rootform validate rule aws.rule.subnet --dialect .
-rootform show aws.rule.subnet --dialect .
+rootform fmt --check ./dialects/payments
+rootform validate dialects ./dialects/payments
+rootform validate rule payments.rule.subnet --dialect ./dialects/payments
+rootform show payments.rule.subnet --dialect ./dialects/payments
 rootform show rf.concept.subnet
+rootform add dialects ./dialects/payments
+rootform remove dialects aws --embedded
+rootform init . --locked --offline --no-input
 ```
 
-Named commands use owner-first IDs. Bare name works only when unambiguous.
+Named commands use owner-first IDs. Bare names work only when unambiguous. The
+following plan and fixture commands use this recorded selection, without a
+`--dialect` override. `test` reads selection from the directory under test.
+Use `test .` from `project/` to keep the authoring selection while discovering
+nested fixtures.
 
 ## Prove consequences with fixtures
 
 ```tree title="Dialect fixture"
-fixtures/example/minimal/
+fixtures/payments/minimal/
 ├── main.tf
 ├── plan.json
 ├── plan.tfplan
@@ -222,33 +236,33 @@ them out of Git and public artifacts. Rootform reads them locally; it never
 runs Terraform or OpenTofu and never contacts providers. The golden is a Form,
 not a copy of the plan. [Plan inputs](inputs/plans.md) covers the export.
 
-Inspect one `rootform run plan.json --plan-file plan.tfplan --dialect . --no-serve`
+Inspect one `rootform run fixtures/payments/minimal/plan.json --plan-file fixtures/payments/minimal/plan.tfplan --no-serve`
 result before recording the golden. Look for the expected instance, Rule,
 facts, and closure outcomes; a successful exit alone does not prove the Rule
 created the intended fact. Then record or compare fixtures:
 
 <!-- docs-check:docs-dialect-authoring-2 -->
 ```sh
-rootform test ./fixtures --dialect . --update
-rootform test ./fixtures --dialect .
-rootform test ./fixtures --dialect . --run example/minimal
+rootform test . --update
+rootform test .
+rootform test . --run payments/minimal
 ```
 
 `--update` writes the expected Form for review. The next command compares
 the Form of a real run against it; status `0` means every selected case passed,
 `1` means a case differed, and `3` means `rootform.lock` is invalid or no case
 matched. `--run` narrows cases by name. Review the golden diff before accepting
-a changed Rule. The local `--dialect` override lasts one command and leaves
+a changed Rule. A `--dialect` override lasts one command and leaves
 `rootform.lock` unchanged; `run`, `test`, `validate`, `list`, `show`, and
-`explain` accept it. Select the source with `rootform add dialects` only when
-the project should retain it.
+`explain` accept it. This walkthrough uses the lock because it must exclude the
+overlapping embedded owner.
 
 ## Keep presentation separate
 
 Optional `presentation.json` maps source resource identities independently of
 Rule coverage. Real Rules and Concepts may also receive identities and labels:
 
-```json title="aws/presentation.json"
+```json title="dialects/payments/presentation.json"
 {
   "format_version": "1",
   "resources": {
@@ -279,10 +293,9 @@ ignore invalid presentation; `rootform package dialects` rejects it. See
 
 ## Package and publish a Dialect
 
-Packaging stays local and offline. The `aws` source above teaches Rule
-authoring, but an embedded owner cannot be packaged. For distribution, finish
-and test a Dialect under your own owner, such as `./dialects/payments`, then
-package that reviewed source. The following commands assume it exists:
+Packaging stays local and offline. This example binds the `payments` owner to
+the AWS provider; the owner and provider are separate identities. Package the
+same source root you validated and tested:
 
 <!-- docs-check:docs-dialect-authoring-3 -->
 ```sh

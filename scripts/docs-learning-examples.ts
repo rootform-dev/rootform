@@ -178,7 +178,7 @@ export async function verifyLearningExamples(binary: string, root: string): Prom
     "--output",
     join(workspace, "policy.json"),
   ]);
-  const target = fenced(page("write-policy-pack.md"), "rf", "Policy target");
+  const target = fenced(page("write-policy-pack.md"), "rf", "AWS-only target variant");
   const targetPack = write(
     "target",
     `policy_pack "target-example" { version = "0.1.0" }\npolicy "cluster" {\n${target}\nassert = true\nmessage = "Cluster target must be selected."\n}\n`,

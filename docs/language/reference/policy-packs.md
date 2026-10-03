@@ -129,21 +129,21 @@ dialects = [true ? "aws" : "google"]
 Dimensions combine as logical AND. Entries inside one list combine as logical
 OR.
 
-For target above, representation must:
+For the target above, a Representation must:
 
 1. have Concept `rf.concept.subnet`;
 2. have Rule `aws.rule.subnet` OR `google.rule.vpc-subnetwork`;
 3. have Rule owner `aws` OR `google`.
 
-`concept` and `rules` may appear together. When `rules` is present, linker
-rejects `POLICY_TARGET_CONTRADICTORY` if none of listed Rules can satisfy
-optional `concept` and `dialects` filters. Without explicit `rules`, linker does
-not infer contradiction from absence of current implementations: a valid
+`concept` and `rules` may appear together. When `rules` is present, the linker
+rejects `POLICY_TARGET_CONTRADICTORY` if none of the listed Rules can satisfy
+optional `concept` and `dialects` filters. Without explicit `rules`, the linker does
+not infer contradiction from the absence of current implementations: a valid
 Concept target, with or without `dialects`, may select zero representations and
 have outcome `no_target`. `dialects` alone is invalid because it does not define
-semantic target.
+a semantic target.
 
-Target selects interpreted instances in the selected stage. A failed or
+The target selects interpreted instances in the selected stage. A failed or
 indeterminate interpretation whose candidate Rule could satisfy the target is
 also selected for an indeterminate evaluation. An instance with no applicable
 Rule cannot satisfy a Rule, Concept, or Dialect target dimension. See

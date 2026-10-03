@@ -109,7 +109,10 @@ export function findPlaceholders(text: string): Placeholder[] {
   return placeholders;
 }
 
-export function parseRelativeMarkdownLinks(text: string): Array<{ line: number; target: string }> {
+function parseRelativeLinks(
+  text: string,
+  markdownOnly: boolean,
+): Array<{ line: number; target: string }> {
   const links: Array<{ line: number; target: string }> = [];
   const lines = text.split(/\r?\n/u);
   let inFence = false;
@@ -134,11 +137,19 @@ export function parseRelativeMarkdownLinks(text: string): Array<{ line: number; 
       }
       if (pathPart.startsWith("/")) continue;
       if (/^[a-z]+:/iu.test(pathPart)) continue;
-      if (!/\.md$/iu.test(pathPart)) continue;
+      if (markdownOnly && !/\.md$/iu.test(pathPart)) continue;
       links.push({ line: index + 1, target });
     }
   }
   return links;
+}
+
+export function parseRelativeMarkdownLinks(text: string): Array<{ line: number; target: string }> {
+  return parseRelativeLinks(text, true);
+}
+
+export function parseRelativeFileLinks(text: string): Array<{ line: number; target: string }> {
+  return parseRelativeLinks(text, false);
 }
 
 export function resolveRepositoryLink(fromRepositoryPath: string, target: string): string | null {
@@ -339,7 +350,7 @@ export function checkPage(
       detail: `line ${placeholder.line}: ${placeholder.kind} placeholder`,
     });
   }
-  for (const link of parseRelativeMarkdownLinks(text)) {
+  for (const link of parseRelativeFileLinks(text)) {
     const resolved = resolveRepositoryLink(path, link.target);
     if (resolved === null) {
       issues.push({
@@ -353,7 +364,12 @@ export function checkPage(
         kind: "link",
         detail: `line ${link.line}: \`${link.target}\` resolves to missing \`${resolved}\``,
       });
-    } else if (renderedAnchors && resolved.startsWith("docs/") && link.target.includes("#")) {
+    } else if (
+      renderedAnchors &&
+      resolved.startsWith("docs/") &&
+      resolved.endsWith(".md") &&
+      link.target.includes("#")
+    ) {
       const fragment = link.target.slice(link.target.indexOf("#") + 1);
       if (fragment.length === 0) continue;
       let id: string;
@@ -382,6 +398,7 @@ export function checkPage(
 export async function loadRenderedAnchors(
   sources: SourcePage[],
   renderedDirectory: string,
+  assetIssues?: DocsIssue[],
 ): Promise<Map<string, ReadonlySet<string>>> {
   const anchors = new Map<string, ReadonlySet<string>>();
   for (const source of sources) {
@@ -398,6 +415,54 @@ export async function loadRenderedAnchors(
         element(element) {
           const id = element.getAttribute("id");
           if (id) ids.add(id);
+          if (
+            !assetIssues ||
+            !["img", "script", "source", "link", "video", "audio", "iframe"].includes(
+              element.tagName,
+            )
+          )
+            return;
+          if (
+            element.tagName === "link" &&
+            !/\b(?:stylesheet|preload|modulepreload|icon|manifest)\b/u.test(
+              element.getAttribute("rel") ?? "",
+            )
+          )
+            return;
+          const references = [
+            element.getAttribute(element.tagName === "link" ? "href" : "src"),
+            element.getAttribute("poster"),
+          ].filter((value): value is string => Boolean(value));
+          const srcset = element.getAttribute("srcset");
+          if (srcset && !srcset.startsWith("data:"))
+            references.push(
+              ...srcset.split(",").map((entry) => entry.trim().split(/\s+/u)[0] ?? ""),
+            );
+          for (const reference of references) {
+            try {
+              const origin = "https://docs.rootform.dev";
+              const base = `${origin}/${route === "index" ? "" : `${route}/`}`;
+              const url = new URL(reference, base);
+              if (url.origin !== origin) continue;
+              const pathname = decodeURIComponent(url.pathname);
+              const target = resolve(
+                renderedDirectory,
+                `.${pathname.endsWith("/") ? `${pathname}index.html` : pathname}`,
+              );
+              if (!target.startsWith(`${resolve(renderedDirectory)}/`) || !existsSync(target))
+                assetIssues.push({
+                  file: source.path,
+                  kind: "link",
+                  detail: `rendered asset \`${reference}\` is missing`,
+                });
+            } catch {
+              assetIssues.push({
+                file: source.path,
+                kind: "link",
+                detail: `invalid rendered asset \`${reference}\``,
+              });
+            }
+          }
         },
       })
       .transform(new Response(html))
@@ -442,8 +507,8 @@ async function main(): Promise<void> {
     sources.push({ path, text: readFileSync(join(root, path), "utf8") });
   }
   const existingMarkdown = new Set<string>();
-  const existingGlob = new Bun.Glob("**/*.md");
-  for (const relative of existingGlob.scanSync({ cwd: root, onlyFiles: true })) {
+  const existingGlob = new Bun.Glob("**/*");
+  for (const relative of existingGlob.scanSync({ cwd: root, onlyFiles: false })) {
     const path = relative.replaceAll("\\", "/");
     if (path.startsWith("node_modules/") || path.startsWith(".git/")) continue;
     existingMarkdown.add(path);
@@ -451,7 +516,7 @@ async function main(): Promise<void> {
   const issues: DocsIssue[] = [];
   const renderedDirectory = process.env.ROOTFORM_DOCS_HTML_DIR?.trim();
   const renderedAnchors = renderedDirectory
-    ? await loadRenderedAnchors(sources, resolve(renderedDirectory))
+    ? await loadRenderedAnchors(sources, resolve(renderedDirectory), issues)
     : undefined;
   const pages = checkPages(sources, existingMarkdown, renderedAnchors);
   issues.push(...pages.issues);

@@ -3,9 +3,9 @@ title: "Composition"
 description: "Complete reference for ordered composition members, per-instance resolution, and unresolved-member reasons."
 ---
 
-Composition says one interpreted root instance has implementation members in
-the same stage. It is structural architecture meaning, independent of optional
-Concept classification. Members remain separate instances.
+`composition` records implementation members that belong to one interpreted
+root instance in the same stage. It adds structural architecture meaning
+independently of Concept classification. Members remain separate instances.
 
 For the mental model, see [Understand composition](../learn/composition.md).
 
@@ -51,11 +51,12 @@ rule "application-load-balancer" {
 }
 ```
 
-The root is each matching `example_forwarding_rule` instance. Its `proxy_id`
-names the first member; `backend_id` on a resolved proxy names the second.
-The `via` value can match a candidate's declared identity. A verified saved
-plan can establish a direct reference to that candidate's endpoint even when
-the value is unknown. An unresolved proxy leaves the backend unresolved too.
+Each matching `example_forwarding_rule` instance is a composition root. Its
+`proxy_id` names the first member; `backend_id` on a resolved proxy names the
+second. The member's `via` value can match a candidate's declared identity. A
+verified saved plan can establish a direct reference to that candidate's
+endpoint even when the value is unknown. An unresolved proxy leaves the
+backend unresolved too.
 
 ## `composition` block
 
@@ -93,7 +94,7 @@ previously declared member. Self-reference and forward reference are invalid.
 
 ## Member matching
 
-Member `match` uses same parameters as Rule `match`:
+A member's `match` uses the same parameters as a Rule's `match`:
 
 | Name | Type | Required | Default | Constraints |
 | --- | --- | --- | --- | --- |
@@ -112,8 +113,14 @@ member "backend" {
 }
 ```
 
-Within member `match.where`, `source` means the instance currently considered
-as that member, not the composition root.
+Composition members select the two instance populations present in supported
+plan and state exports: `resource` and `data`. Rootform language accepts a
+wider, 15-value `match.kind` set, but the other values have no instances in
+those exports. See [match kinds](rules.md#matchkind-values) for the complete
+set.
+
+Within a member's `match.where`, `source` means the candidate member instance,
+not the composition root.
 
 ## Member resolution
 
@@ -126,9 +133,9 @@ For every root instance, Rootform processes members in authored order:
 4. Record the established member with its value or traversal evidence; otherwise
    record an unresolved member with its reason.
 
-A verified traversal to `id` can establish an uninterpreted member; another
-attribute cannot. An unresolved member does not stop an independent later
-member from resolving.
+A verified traversal to `id` can establish an uninterpreted member; a
+traversal to another attribute cannot. An unresolved member does not stop an
+independent later member from resolving.
 
 Composition does not apply the root Rule or Concept to members, invent
 Relations between them, or remove their Representations. See

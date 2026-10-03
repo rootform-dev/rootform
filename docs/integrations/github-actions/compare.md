@@ -37,7 +37,7 @@ and [permissions, artifact retention and publication](action.md#outputs-and-publ
 
 ## Inputs
 
-Type describes accepted values. GitHub passes all inputs as strings; `bool` accepts `true` or `false`, `int` accepts a whole number. An empty default leaves the input unset.
+Type describes accepted values. GitHub passes all inputs as strings. `bool` accepts `true` or `false`. `int` accepts a whole number. An empty default leaves the input unset.
 
 | Input | Type | Default | Description |
 | --- | --- | --- | --- |

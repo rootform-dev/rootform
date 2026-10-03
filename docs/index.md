@@ -77,8 +77,9 @@ plans a VPC and a subnet to show how a saved plan settles a reference unknown
 until apply. [Comparisons and drift](concepts/comparisons.md) keeps planned
 changes, drift, and differences apart, and
 [Dialects](concepts/dialects.md) explains where architectural meaning comes
-from. Embedded Dialects cover the providers Rootform ships with, so a project
-using them needs no Rootform configuration.
+from. Check [provider coverage](reference/provider-coverage.md) for interpreted types,
+declared facts and compatibility before installation. Embedded Dialects need
+no project configuration; provider presence does not imply complete coverage.
 
 Use [outputs and exit status](reference/outputs.md) for automation,
 [limitations](limitations.md) for evidence boundaries, and

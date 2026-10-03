@@ -49,7 +49,11 @@ The summary goes to standard output. Diagnostics go to standard error.
 ## Examples
 
 ```sh
-rootform compile policy-pack ./policies --semantics form.json -o pack.json
-rootform compile policy-pack . --semantics form.json -o pack.json
-rootform compile policy-pack ./rules --semantics form.json -o rules.json
+# Compile the baseline Policy Pack for offline checks using a saved plan Form
+rootform compile policy-pack ./policies \
+  --semantics plan-form.json -o baseline.json
+
+# Compile a separate production Pack using its saved state Form
+rootform compile policy-pack ./policies/production \
+  --semantics state-form.json -o production.json
 ```
