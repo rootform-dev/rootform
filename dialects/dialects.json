@@ -17,7 +17,6 @@
     { "name": "mongodb-atlas", "version": "0.1.0" },
     { "name": "newrelic", "version": "0.1.0" },
     { "name": "okta", "version": "0.1.0" },
-    { "name": "secrets", "version": "0.1.0" },
     { "name": "snowflake", "version": "0.1.0" },
     { "name": "vault", "version": "0.1.0" }
   ]

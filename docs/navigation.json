@@ -5,7 +5,6 @@
       { "label": "Overview", "page": "index" },
       { "label": "Quickstart", "page": "getting-started/quickstart" },
       { "label": "Install Rootform", "page": "installation" },
-      { "label": "Provider coverage", "page": "reference/provider-coverage" },
       { "label": "Analyze your plan or state", "page": "getting-started/analyze-your-plan" },
       { "label": "Glossary", "page": "reference/glossary" }
     ]
@@ -142,6 +141,31 @@
   {
     "label": "Reference",
     "items": [
+      {
+        "label": "Provider coverage",
+        "collapsed": true,
+        "items": [
+          { "label": "Overview", "page": "reference/provider-coverage" },
+          { "label": "auth0", "page": "reference/provider-coverage/auth0" },
+          { "label": "aws", "page": "reference/provider-coverage/aws" },
+          { "label": "azure", "page": "reference/provider-coverage/azure" },
+          { "label": "cloudflare", "page": "reference/provider-coverage/cloudflare" },
+          { "label": "confluent", "page": "reference/provider-coverage/confluent" },
+          { "label": "consul", "page": "reference/provider-coverage/consul" },
+          { "label": "databricks", "page": "reference/provider-coverage/databricks" },
+          { "label": "datadog", "page": "reference/provider-coverage/datadog" },
+          { "label": "google", "page": "reference/provider-coverage/google" },
+          { "label": "grafana", "page": "reference/provider-coverage/grafana" },
+          { "label": "hcp", "page": "reference/provider-coverage/hcp" },
+          { "label": "kestra", "page": "reference/provider-coverage/kestra" },
+          { "label": "kubernetes", "page": "reference/provider-coverage/kubernetes" },
+          { "label": "mongodb-atlas", "page": "reference/provider-coverage/mongodb-atlas" },
+          { "label": "newrelic", "page": "reference/provider-coverage/newrelic" },
+          { "label": "okta", "page": "reference/provider-coverage/okta" },
+          { "label": "snowflake", "page": "reference/provider-coverage/snowflake" },
+          { "label": "vault", "page": "reference/provider-coverage/vault" }
+        ]
+      },
       { "label": "Outputs and exit status", "page": "reference/outputs" },
       { "label": "External content storage", "page": "reference/storage" },
       {

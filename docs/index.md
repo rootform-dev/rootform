@@ -79,7 +79,8 @@ changes, drift, and differences apart, and
 [Dialects](concepts/dialects.md) explains where architectural meaning comes
 from. Check [provider coverage](reference/provider-coverage.md) for interpreted types,
 declared facts and compatibility before installation. Embedded Dialects need
-no project configuration; provider presence does not imply complete coverage.
+no project configuration. Instances remain in the Form even outside interpretation
+coverage; Rootform does not invent architectural meaning for them.
 
 Use [outputs and exit status](reference/outputs.md) for automation,
 [limitations](limitations.md) for evidence boundaries, and

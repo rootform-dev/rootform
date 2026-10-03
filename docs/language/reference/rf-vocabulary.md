@@ -14,12 +14,12 @@ Dialect or Policy Pack references an `rf.*` symbol.
 
 | ID | Exact contract |
 | --- | --- |
-| `rf.concept.kubernetes-cluster` | A declared Kubernetes cluster, excluding namespaces, node pools, and workload groups. |
-| `rf.concept.managed-database` | A managed database service or instance, excluding logical tables and databases. |
-| `rf.concept.object-storage-container` | An object storage container, excluding multi-service storage accounts. |
-| `rf.concept.service-identity` | A principal explicitly intended for a non-human service or workload, excluding generic roles, permissions, bindings, and credentials. |
-| `rf.concept.subnet` | A declared native subnet, not a CIDR literal. |
-| `rf.concept.virtual-network` | An explicitly declared virtual network. |
+| <a id="rf-concept-kubernetes-cluster"></a>`rf.concept.kubernetes-cluster` | A declared Kubernetes cluster, excluding namespaces, node pools, and workload groups. |
+| <a id="rf-concept-managed-database"></a>`rf.concept.managed-database` | A managed database service or instance, excluding logical tables and databases. |
+| <a id="rf-concept-object-storage-container"></a>`rf.concept.object-storage-container` | An object storage container, excluding multi-service storage accounts. |
+| <a id="rf-concept-service-identity"></a>`rf.concept.service-identity` | A principal explicitly intended for a non-human service or workload, excluding generic roles, permissions, bindings, and credentials. |
+| <a id="rf-concept-subnet"></a>`rf.concept.subnet` | A declared native subnet, not a CIDR literal. |
+| <a id="rf-concept-virtual-network"></a>`rf.concept.virtual-network` | An explicitly declared virtual network. |
 
 These boundaries are normative. For example, a logical database inside a
 managed service is not `rf.concept.managed-database`, and a role is not
@@ -29,8 +29,8 @@ managed service is not `rf.concept.managed-database`, and a role is not
 
 | ID | Exact contract |
 | --- | --- |
-| `rf.context.network` | A declared network attachment without a connectivity guarantee. |
-| `rf.context.runtime` | A declared execution environment or target without proof of effective execution. |
+| <a id="rf-context-network"></a>`rf.context.network` | A declared network attachment without a connectivity guarantee. |
+| <a id="rf-context-runtime"></a>`rf.context.runtime` | A declared execution environment or target without proof of effective execution. |
 
 A network Context records declared attachment. It does not prove routing,
 reachability, firewall allowance, or runtime traffic. A runtime Context records

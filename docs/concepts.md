@@ -18,7 +18,9 @@ Neither comparison nor policy evaluation changes the architecture it reads. A sa
 
 ## Every observed instance starts with a representation
 
-Each managed or data resource instance in the supplied evidence has a Representation, identified by its Terraform instance address. Indexed instances are distinct: `aws_subnet.application[0]` and `aws_subnet.application[1]` cannot satisfy each other's facts or Policies. A Rule may add a Concept or facts, but a represented instance does not need either. A missing Rule leaves interpretation uncovered; it does not erase the instance.
+Each managed or data resource instance in a supported plan or state has a Representation, identified by its Terraform instance address. This remains true when its provider has no selected Dialect or its type has no matching Rule. Rootform leaves it uninterpreted rather than inventing a classification, Context or Relation.
+
+Indexed instances are distinct: `aws_subnet.application[0]` and `aws_subnet.application[1]` cannot satisfy each other's facts or Policies. A Rule may add a Concept or facts, but a represented instance does not need either. [Provider coverage](reference/provider-coverage.md) lists interpretation, not a filter of the instances included in the Form.
 
 A plan can describe a declaration without a planned instance. Rootform records whether its population is observed, proven zero, or unverified. It does not turn an unverified population into an empty one. An external endpoint inferred by a Dialect is another Representation, with disclosure limits set by that Dialect.
 

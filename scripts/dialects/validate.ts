@@ -3,6 +3,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { type PlanFixtureInventory, planFixtureInventoryProblems } from "./plan-fixtures.ts";
+import { flattenRfBlocks, parseRfSource, type RfBlock as SourceBlock } from "./rf-source.ts";
 
 type Inventory = {
   format_version: string;
@@ -106,70 +107,12 @@ export function validateLock(value: unknown): void {
 
 type RfBlock = { kind: "concept" | "rule"; name: string; text: string };
 
-type ContractBlock = {
-  kind: string;
-  name: string;
-  line: number;
-  parent?: ContractBlock;
-  fields: Map<string, { value: string; line: number; justification: boolean }>;
-  children: ContractBlock[];
-};
+type ContractBlock = SourceBlock;
 
-// Official source uses one block opener or closer per line. Keep this check
-// small and independent of the compiler so repository review catches omitted
-// outcome declarations and undocumented external disclosure early.
+// Repository checks and the coverage inventory share structural source analysis.
+// This check remains independent of semantic compilation.
 export function validateDialectContract(text: string, path: string): ContractBlock[] {
-  const lines = text.split("\n");
-  const roots: ContractBlock[] = [];
-  const stack: ContractBlock[] = [];
-  let comment = "";
-  for (const [index, line] of lines.entries()) {
-    const trimmed = line.trim();
-    if (trimmed.startsWith("#")) {
-      comment = trimmed.slice(1).trim();
-      continue;
-    }
-    if (trimmed === "") continue;
-    const opener = /^(\w+)(?:\s+"([^"]+)")?\s*\{$/u.exec(trimmed);
-    if (opener) {
-      const parent = stack.at(-1);
-      const block: ContractBlock = {
-        kind: opener[1] ?? "",
-        name: opener[2] ?? "",
-        line: index + 1,
-        parent,
-        fields: new Map(),
-        children: [],
-      };
-      if (parent) parent.children.push(block);
-      else roots.push(block);
-      stack.push(block);
-      comment = "";
-      continue;
-    }
-    if (trimmed === "}") {
-      if (!stack.pop()) throw new Error(`unexpected block close: ${path}:${index + 1}`);
-      comment = "";
-      continue;
-    }
-    const assignment = /^([a-z_]+)\s*=\s*(.*?)\s*$/u.exec(trimmed);
-    if (assignment && stack.length > 0) {
-      stack.at(-1)?.fields.set(assignment[1] ?? "", {
-        value: assignment[2] ?? "",
-        line: index + 1,
-        justification: comment.length >= 20,
-      });
-    }
-    comment = "";
-  }
-  if (stack.length > 0) throw new Error(`unclosed block: ${path}:${stack.at(-1)?.line}`);
-
-  const all: ContractBlock[] = [];
-  const visit = (block: ContractBlock): void => {
-    all.push(block);
-    for (const child of block.children) visit(child);
-  };
-  for (const block of roots) visit(block);
+  const all = flattenRfBlocks(parseRfSource(text, path));
   for (const block of all) {
     if (!["contribution", "relation", "context"].includes(block.kind) || !block.fields.has("via"))
       continue;
