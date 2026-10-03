@@ -98,7 +98,6 @@ rootform run ./plan.json --plan-file ./plan.tfplan \
 ```ansi title="Plan summary excerpt"
 [1mPlan analyzed[0m
 [2mInput[0m              ./plan.json
-[2mProducer[0m           Terraform or OpenTofu 1.16.4
 [2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
 [1m[38;5;208mArchitecture[0m
   [2mInstances[0m    1
@@ -106,7 +105,7 @@ rootform run ./plan.json --plan-file ./plan.tfplan \
   [2mFacts[0m        none determined
 ```
 
-The one instance has an applied Rule. This Rule classifies it and emits nothing, so zero facts and closures are expected. The export identifies the Terraform/OpenTofu family and version, but not which tool produced it. `--producer terraform` records which tool made the export when that distinction matters. The verified saved plan can supply traversal evidence for Rules that emit facts. If these counts change, inspect the document and golden before accepting a new result. The `--no-serve` flag exits after the summary; without it, `run` serves the Explorer on loopback.
+The one instance has an applied Rule. This Rule classifies it and emits nothing, so zero facts and closures are expected. The export does not establish which tool produced it, so no Producer row appears. `--producer terraform` records your attestation and displays `Producer: Terraform`, without a version. The Form keeps the reported version. The verified saved plan can supply traversal evidence for Rules that emit facts. If these counts change, inspect the document and golden before accepting a new result. The `--no-serve` flag exits after the summary; without it, `run` serves the Explorer on loopback.
 
 ## Evaluate Policies over known facts
 

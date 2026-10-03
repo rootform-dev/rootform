@@ -67,7 +67,6 @@ ROOTFORM_HOME="$replay_home" rootform run evidence/before.json \
 Form loaded
 Input              evidence/before.json
 Form               Plan, saved by rootform 0.1.0-pr.117.1
-Producer           Terraform or OpenTofu 1.16.4
 Enrichment         Saved plan paired with this plan JSON (1 module)
 ```
 

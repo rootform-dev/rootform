@@ -48,7 +48,7 @@ Same determined changes as Planned changes.
 <summary>Provenance</summary>
 
 - **Input:** `plan.json`
-- **Producer:** Terraform 1.12.2 \(attested\)
+- **Producer:** Terraform
 - **Plan completeness:** Complete, as reported in the plan
 - **Enrichment:** None; the plan JSON was analyzed alone
 - **Stage:** Planned

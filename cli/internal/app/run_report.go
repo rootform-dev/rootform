@@ -215,7 +215,9 @@ func buildRunReport(r runResult, options cli.Options) runReport {
 		if loaded {
 			rep.head = append(rep.head, [2]string{"Form", titleWord(string(a.Kind)) + ", saved by " + generatorWords(a.Generator)})
 		}
-		rep.head = append(rep.head, [2]string{"Producer", producerWords(*a)})
+		if producer := producerWords(*a); producer != "" {
+			rep.head = append(rep.head, [2]string{"Producer", producer})
+		}
 		if a.Kind == form.KindPlan {
 			rep.head = append(rep.head, [2]string{"Plan completeness", completenessWords(a.Evidence.Completeness)})
 		}
@@ -275,20 +277,22 @@ func generatorWords(g form.Generator) string {
 // producerWords names the tool that exported the evidence, as the evidence
 // records it.
 func producerWords(a form.InputForm) string {
-	words := "Terraform or OpenTofu"
 	switch a.Evidence.Producer.Tool {
 	case form.ToolTerraform:
-		words = "Terraform"
+		return "Terraform"
 	case form.ToolOpenTofu:
-		words = "OpenTofu"
+		return "OpenTofu"
 	}
-	if a.Evidence.Producer.ReportedVersion != "" {
-		words += " " + a.Evidence.Producer.ReportedVersion
+	return ""
+}
+
+func hasProducer(views []stageView) bool {
+	for _, view := range views {
+		if view.form != nil && producerWords(*view.form) != "" {
+			return true
+		}
 	}
-	if a.Evidence.Producer.ToolSource == form.ToolSourceAttested {
-		words += " (attested)"
-	}
-	return words
+	return false
 }
 
 func completenessWords(c form.Completeness) string {
@@ -591,7 +595,7 @@ func sidesTable(views []stageView, details bool) *reportTable {
 		table.rows = append(table.rows, row)
 	}
 	add("Origin", func(v stageView, _ *form.Architecture) string { return titleWord(string(v.form.Kind)) })
-	if details {
+	if details && hasProducer(views) {
 		add("Producer", func(v stageView, _ *form.Architecture) string { return producerWords(*v.form) })
 	}
 	add("Stage", func(v stageView, _ *form.Architecture) string { return stageWords(v.stage) })

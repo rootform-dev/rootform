@@ -64,7 +64,6 @@ rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -
 ```ansi title="Paired saved plan excerpt"
 [1mPlan analyzed[0m
 [2mInput[0m              plan.json
-[2mProducer[0m           Terraform or OpenTofu 1.16.4
 [2mPlan completeness[0m  Complete, as reported in the plan
 [2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
 [2mWrote     [0m analysis.json
@@ -74,10 +73,12 @@ rootform run plan.json --plan-file plan.tfplan --require-enrichment --no-serve -
 recorded tool version, timestamp, and configuration shape. These checks decide
 whether the saved plan may enrich this export; they do not validate the plan in
 general, and they do not prove one planning operation. The count is the number
-of configuration modules read from the saved plan. **Input** names the export;
-**Producer** gives the version it records. The JSON does not say which of the
-two tools wrote it, so Rootform names both unless you declare the tool with
-`--producer`. **Plan completeness** repeats what the plan reports about itself;
+of configuration modules read from the saved plan. **Input** names the export.
+**Producer** appears only when the tool is established, as `Terraform` or
+`OpenTofu`, without a version. The JSON's shared `terraform_version` field
+and provider registry hosts do not identify the tool; `--producer` records
+your explicit attestation. The Form retains the reported version, hints and
+attestations. **Plan completeness** repeats what the plan reports about itself;
 it does not say that the analysis settled every fact.
 
 A paired saved plan lets Rootform inspect direct identity traversals in the
