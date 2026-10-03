@@ -92,7 +92,7 @@
         "items": [
           { "label": "Edit source", "page": "language/editors" },
           { "label": "Write a Dialect", "page": "dialect-authoring" },
-          { "label": "Use a local Dialect while authoring", "page": "guides/local-dialect" },
+          { "label": "Use a local Dialect", "page": "guides/local-dialect" },
           { "label": "Write a Policy Pack", "page": "language/write-policy-pack" },
           { "label": "Test and validate", "page": "language/test-validate" }
         ]

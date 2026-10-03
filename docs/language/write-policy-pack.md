@@ -145,9 +145,7 @@ The local override lasts one command and leaves `rootform.lock` unchanged.
 | `INDETERMINATE` | `3` | Inspect its closure reason; missing or unknown evidence cannot prove a pass. |
 | `NO DECISION` | `3` | At least one selected Policy had no target, or no Policy was selected, and no violation or indeterminate result takes priority. Another Policy passing does not change this. Check the Pack target and selected plan stage. |
 
-These check results have distinct meanings. A check with one passing Policy and
-another with no target returns NO DECISION, unless a violation or indeterminate
-result takes priority. The [check walkthrough](../guides/check-architecture.md)
+The [check walkthrough](../guides/check-architecture.md)
 shows violations, indeterminate closures, and no-target results on small plans.
 
 Save the linked Pack against the Form when replay must use that

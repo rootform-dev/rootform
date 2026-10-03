@@ -92,13 +92,13 @@ func newValidateCommand(env *Env) *cobra.Command {
 				"  rootform validate rule google.rule.cloud-sql-instance --format json"),
 		newValidateNamedCommand(env, ValidateConcept,
 			"Validate a Concept definition",
-			"Validate a Concept within its Dialect.",
+			"Validate a Concept in its Dialect or the RF Vocabulary.",
 			"  rootform validate concept rf.concept.virtual-network\n"+
 				"  rootform validate concept virtual-network\n"+
 				"  rootform validate concept rf.concept.virtual-network --format json"),
 		newValidateNamedCommand(env, ValidateContext,
 			"Validate a context dimension",
-			"Validate a context dimension within its Dialect.",
+			"Validate a context dimension in its Dialect or the RF Vocabulary.",
 			"  rootform validate context rf.context.network\n"+
 				"  rootform validate context network\n"+
 				"  rootform validate context rf.context.network --format json"),

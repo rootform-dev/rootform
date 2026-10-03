@@ -2905,7 +2905,7 @@
       "path": "rootform validate concept",
       "usage": "rootform validate concept \u003cidentifier\u003e [options]",
       "summary": "Validate a Concept definition",
-      "description": "Validate a Concept within its Dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
+      "description": "Validate a Concept in its Dialect or the RF Vocabulary.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
       "examples": "rootform validate concept rf.concept.virtual-network\n  rootform validate concept virtual-network\n  rootform validate concept rf.concept.virtual-network --format json",
       "flag_groups": [
         "Options",
@@ -2965,7 +2965,7 @@
       "path": "rootform validate context",
       "usage": "rootform validate context \u003cidentifier\u003e [options]",
       "summary": "Validate a context dimension",
-      "description": "Validate a context dimension within its Dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
+      "description": "Validate a context dimension in its Dialect or the RF Vocabulary.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
       "examples": "rootform validate context rf.context.network\n  rootform validate context network\n  rootform validate context rf.context.network --format json",
       "flag_groups": [
         "Options",

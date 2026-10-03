@@ -1,5 +1,5 @@
 ---
-title: "Use a local Dialect while authoring"
+title: "Use a local Dialect"
 description: "Try a Dialect against a real plan, test its evidence, then record it in the project selection."
 ---
 

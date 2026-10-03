@@ -31,7 +31,7 @@ rootform validate context <identifier> [options]
 
 ## Behavior
 
-Validate a context dimension within its Dialect.
+Validate a context dimension in its Dialect or the RF Vocabulary.
 
 Use &lt;owner&gt;.&lt;kind&gt;.&lt;name&gt;, or a bare name when it resolves unambiguously.
 --dialect adds or replaces one Dialect for this command only.
