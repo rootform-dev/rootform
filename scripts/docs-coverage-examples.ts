@@ -296,7 +296,9 @@ function assertCoverageDocument(
   const awsOwner = document.semantics?.owners?.find((owner) => owner.id === "aws");
   const awsProvider = awsOwner?.providers?.find(
     (provider) =>
-      provider.source === "hashicorp/aws" && provider.hosts?.includes("registry.terraform.io"),
+      provider.source === "hashicorp/aws" &&
+      Array.isArray(provider.hosts) &&
+      provider.hosts.some((host) => host === "registry.terraform.io"),
   );
   assert(awsProvider, `${label}: the selected AWS Dialect no longer binds hashicorp/aws`);
   const selectedProviders = (document.semantics?.owners ?? []).flatMap((owner) =>
