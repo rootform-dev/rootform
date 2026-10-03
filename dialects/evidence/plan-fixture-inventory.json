@@ -1160,7 +1160,6 @@
     "okta": [
       "okta.rule.realm-assignment-lookup"
     ],
-    "secrets": [],
     "snowflake": [
       "snowflake.rule.alert",
       "snowflake.rule.custom-client-oauth-integration",

@@ -158,19 +158,20 @@ export function verifyRegistryExamples(options: Options): string[] {
   function payments(destination: string, version: string): void {
     mkdirSync(destination, { recursive: true });
     cpSync(
-      join(root, "dialects/secrets/presentation.json"),
+      join(root, "scripts/fixtures/docs/payments/presentation.json"),
       join(destination, "presentation.json"),
     );
-    const declaration = readFileSync(join(root, "dialects/secrets/dialect.rf.hcl"), "utf8");
+    const declaration = readFileSync(
+      join(root, "scripts/fixtures/docs/payments/dialect.rf.hcl"),
+      "utf8",
+    );
     assert(
-      declaration.includes('dialect "secrets"') && declaration.includes('version = "0.1.0"'),
+      declaration.includes('dialect "payments"') && declaration.includes('version = "0.1.0"'),
       "payments fixture changed",
     );
     writeFileSync(
       join(destination, "dialect.rf.hcl"),
-      declaration
-        .replace('dialect "secrets"', 'dialect "payments"')
-        .replace('version = "0.1.0"', `version = "${version}"`),
+      declaration.replace('version = "0.1.0"', `version = "${version}"`),
     );
   }
   const provenance = [

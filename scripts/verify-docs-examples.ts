@@ -7,6 +7,7 @@ import { verifyAuthoringExamples } from "./docs-authoring-examples.ts";
 import { verifyAutomationExamples } from "./docs-automation-examples.ts";
 import { verifyConceptExamples } from "./docs-concept-examples.ts";
 import { assertNoRetiredCommands, extractedMarkers } from "./docs-core-examples.ts";
+import { verifyDocsCoverageExamples } from "./docs-coverage-examples.ts";
 import { verifyJourneyExamples } from "./docs-journey-examples.ts";
 import { verifyLanguageExamples } from "./docs-language-examples.ts";
 import { verifyLanguageReferenceExamples } from "./docs-language-reference-examples.ts";
@@ -61,6 +62,10 @@ function assertEveryMarkerExecuted(markers: Map<string, string>): void {
 const markers = documentedMarkers();
 const checked = assertNoRetiredCommands(root);
 const visual = await verifyVisualExamples(binary, root);
+const coverage = await verifyDocsCoverageExamples(binary);
+console.log(
+  `Coverage examples: ${coverage.assertions.form_kind} and ${coverage.state_assertions.form_kind}, four uninterpreted managed/data instances retained in each Form and Explorer payload.`,
+);
 const plan = join(root, "examples/playground/event-driven-platform/head/plan.json");
 const saved = join(root, "examples/playground/event-driven-platform/head/plan.tfplan");
 const scratch = mkdtempSync(join(tmpdir(), "rf-docs-output-"));

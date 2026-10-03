@@ -7,8 +7,8 @@ Choose your platform, install Rootform, then verify the executable. Embedded
 [Dialects](concepts/dialects.md) are included and need no additional Rootform
 configuration for your first architecture.
 
-Check [provider coverage](reference/provider-coverage.md) for supported
-providers and input limits before choosing a runtime.
+Check [provider coverage](reference/provider-coverage.md) for interpreted types,
+provider bindings and input limits before choosing a runtime.
 
 <!-- rootform:tabs Operating system -->
 <!-- rootform:tab macOS -->

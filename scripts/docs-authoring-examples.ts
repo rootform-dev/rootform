@@ -96,10 +96,9 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
   function payments(dir: string) {
     const target = join(dir, "dialects/payments");
     mkdirSync(target, { recursive: true });
-    const source = readFileSync(join(root, "dialects/secrets/dialect.rf.hcl"), "utf8");
-    writeFileSync(
+    cpSync(
+      join(root, "scripts/fixtures/docs/payments/dialect.rf.hcl"),
       join(target, "dialect.rf.hcl"),
-      source.replace('dialect "secrets"', 'dialect "payments"'),
     );
   }
   function policies(dir: string) {
