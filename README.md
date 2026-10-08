@@ -63,7 +63,8 @@ rootform check comparison.json --policy-pack ./policy-packs/baseline -o results.
 Comparison reports differences between the supplied evidence. Policy checks
 return `0` on pass, `1` on a violation and `3` for indeterminate evidence or
 no target. See [outputs and exit status](docs/reference/outputs.md),
-[review workflows](docs/workflows/index.md) and [evidence limits](docs/limitations.md).
+[review workflows](docs/workflows/index.md), [evidence limits](docs/limitations.md)
+and [compatibility](docs/compatibility.md).
 
 ## Integrations
 

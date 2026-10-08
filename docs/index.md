@@ -86,3 +86,5 @@ coverage; Rootform does not invent architectural meaning for them.
 Use [outputs and exit status](reference/outputs.md) for automation,
 [limitations](limitations.md) for evidence boundaries, and
 [troubleshooting](troubleshooting/index.md) for failed operations.
+Read [compatibility and versions](compatibility.md) before upgrading a binary
+or semantic package.

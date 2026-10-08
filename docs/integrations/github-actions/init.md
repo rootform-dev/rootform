@@ -11,7 +11,7 @@ when needed, so a separate init step is optional.
 ```yaml title="Prepare an existing locked project"
 - uses: rootform-dev/action/init@v1
   with:
-    version: 0.1.0
+    version: 0.2.0-rc.1
     project: ./infra
     locked: true
 ```

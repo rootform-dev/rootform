@@ -29,6 +29,7 @@
         "schemas/*.json",
         "contracts/reference/cli.json",
         "examples/playground/forms/*.json",
+        "scripts/fixtures/reference-playground/*.json",
         "examples/playground/*/*/plan.json"
       ],
       "formatter": {

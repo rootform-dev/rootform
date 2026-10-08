@@ -66,11 +66,11 @@ ROOTFORM_HOME="$replay_home" rootform run evidence/before.json \
 ```text title="Excerpt from standard output"
 Form loaded
 Input              evidence/before.json
-Form               Plan, saved by rootform 0.1.0-pr.117.1
+Form               Plan, saved by <rootform-version>
 Enrichment         Saved plan paired with this plan JSON (1 module)
 ```
 
-The Markdown file presents the saved Form. Loading needs neither the original plan nor its Dialects. It does not repair an unresolved closure or apply newer Dialect Rules; reanalysis requires the plan or state input and the intended selection. Saved Forms omit sensitive values but still reveal topology.
+The saved-by version identifies the executable that created the Form. The Markdown file presents that saved Form. Loading needs neither the original plan nor its Dialects. It does not repair an unresolved closure or apply newer Dialect Rules; reanalysis requires the plan or state input and the intended selection. Saved Forms omit sensitive values but still reveal topology.
 
 ## Prepare selected external content
 

@@ -13,7 +13,7 @@ import { verifyLanguageExamples } from "./docs-language-examples.ts";
 import { verifyLanguageReferenceExamples } from "./docs-language-reference-examples.ts";
 import { verifyLearningExamples } from "./docs-learning-examples.ts";
 import { registryMarkers } from "./docs-registry-examples.ts";
-import { verifyPlaygroundForms } from "./playground-forms.ts";
+import { verifyRuntimePlaygroundForms } from "./playground-forms.ts";
 
 const root = resolve(import.meta.dir, "..");
 const documentationOnly = process.argv.includes("--documentation-only");
@@ -67,7 +67,7 @@ const markers = documentedMarkers();
 const checked = assertNoRetiredCommands(root);
 // Full qualification preserves Explorer/Playground proof. Documentation CI
 // executes public recipes and assertions without renderer or scenario builds.
-const playgroundForms = documentationOnly ? [] : await verifyPlaygroundForms(binary, root);
+const playgroundForms = documentationOnly ? [] : await verifyRuntimePlaygroundForms(binary, root);
 if (!documentationOnly) {
   const coverage = await verifyDocsCoverageExamples(binary);
   console.log(

@@ -2,6 +2,7 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join, resolve } from "node:path";
+import { assertPublicMessage } from "./publication-safety.ts";
 import { normalizeVersion, RELEASE_TARGETS, releaseAssetName } from "./release/contract.ts";
 import { parseChecksumFile } from "./release/digest.ts";
 
@@ -44,15 +45,23 @@ function string(value: unknown, label: string, pattern: RegExp): string {
   return value;
 }
 
-function githubUrl(value: string, label: string): string {
+function githubUrl(value: string, label: string, path: RegExp): string {
   let parsed: URL;
   try {
     parsed = new URL(value);
   } catch {
     throw new Error(`${label} is invalid`);
   }
-  if (parsed.protocol !== "https:" || parsed.hostname !== "github.com" || parsed.username) {
-    throw new Error(`${label} must be an authenticated GitHub URL`);
+  if (
+    parsed.protocol !== "https:" ||
+    parsed.hostname !== "github.com" ||
+    parsed.username ||
+    parsed.password ||
+    parsed.search ||
+    parsed.hash ||
+    !path.test(parsed.pathname)
+  ) {
+    throw new Error(`${label} must be a canonical Rootform GitHub URL`);
   }
   return value;
 }
@@ -77,8 +86,16 @@ function validateEvidence(value: CandidateEvidence): CandidateEvidence {
   if (!Number.isSafeInteger(value.componentCount) || value.componentCount < 1) {
     throw new Error("runtime license component count is invalid");
   }
-  githubUrl(value.releaseUrl, "draft release URL");
-  githubUrl(value.runUrl, "workflow URL");
+  githubUrl(
+    value.releaseUrl,
+    "draft release URL",
+    /^\/rootform-dev\/rootform\/releases\/tag\/[A-Za-z0-9._-]+$/u,
+  );
+  githubUrl(
+    value.runUrl,
+    "workflow URL",
+    /^\/rootform-dev\/rootform\/actions\/runs\/[1-9][0-9]*$/u,
+  );
   if (value.artifacts.length !== RELEASE_TARGETS.length) {
     throw new Error("final release target set is incomplete");
   }
@@ -136,20 +153,20 @@ export function renderCandidateEvidence(input: CandidateEvidence): string {
     )
     .join("\n");
 
-  return `${DISTRIBUTION_EVIDENCE_MARKER}
+  const report = `${DISTRIBUTION_EVIDENCE_MARKER}
 ## Distribution candidate evidence
 
 \`handoff:${short(evidence.handoffSha256)} → rootform:${short(evidence.distributionCommit)} → draft:v${evidence.version}\`
 
-**Qualified** · ${artifacts.length}/${artifacts.length} target archives · ${evidence.componentCount} licensed components · ${evidence.licenseSpdx}
+**Archives verified** — ${artifacts.length}/${artifacts.length} target archives, ${evidence.componentCount} licensed components, ${evidence.licenseSpdx}
 
 | Gate | Evidence |
 | :-- | :-- |
-| Opaque handoff | Authenticated two-asset input · \`${short(evidence.handoffSha256)}\` |
+| Opaque handoff | Authenticated two-asset input, \`${short(evidence.handoffSha256)}\` |
 | Executable integrity | Raw bytes preserved across every archive |
 | Product exercises | 5 deterministic Terraform/OpenTofu examples |
-  | Release set | \`release-set:${short(evidence.releaseSetSha256)}\` · v${evidence.releaseSetVersion} |
-| Licensing | ${evidence.licenseSpdx} · ${evidence.componentCount} inventoried components |
+| Release set | \`release-set:${short(evidence.releaseSetSha256)}\`, v${evidence.releaseSetVersion} |
+| Licensing | ${evidence.licenseSpdx}, ${evidence.componentCount} inventoried components |
 | Final assets | Canonical inventory and checksums reverified |
 
 | Target | Archive size | Raw executable | Final archive |
@@ -164,8 +181,10 @@ ${evidence.checksums.trimEnd()}
 \`\`\`
 </details>
 
-[Open draft release](${evidence.releaseUrl}) · [Open workflow run](${evidence.runUrl})
+[Open draft release](${evidence.releaseUrl}), [Open workflow run](${evidence.runUrl})
 `;
+  assertPublicMessage(report);
+  return report;
 }
 
 function readEvidence(options: {

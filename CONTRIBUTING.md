@@ -59,7 +59,11 @@ not needed; a path filter never leaves the required conclusion pending.
 
 Runtime checks use the published, checksum-pinned reference executable in
 `dependencies/verification-runtime.json`. They prove compatibility with that
-runtime, not a new binary release. CLI module tests also exercise the proposed
+runtime, not a new binary release. Current Playground Forms retain their generator
+version and digest; the reference examples are replayed separately from
+`scripts/fixtures/reference-playground`. When changing their source inputs, regenerate
+both sets with their recorded runtimes. Candidate qualification replays the current
+Forms using the exact candidate executable. CLI module tests also exercise the proposed
 Go source directly. Changed registry publication recipes receive a separate,
 targeted TLS registry qualification without credentials or remote publication.
 

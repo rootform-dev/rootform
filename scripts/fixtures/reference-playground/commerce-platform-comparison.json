@@ -3,7 +3,7 @@
   "kind": "comparison",
   "generator": {
     "name": "rootform",
-    "version": "0.2.0-rc.1"
+    "version": "0.1.0-pr.117.1"
   },
   "before": {
     "form": {
@@ -11,7 +11,7 @@
       "kind": "plan",
       "generator": {
         "name": "rootform",
-        "version": "0.2.0-rc.1"
+        "version": "0.1.0-pr.117.1"
       },
       "evidence": {
         "origin": "plan",
@@ -45,9 +45,9 @@
       "semantics": {
         "language_version": "1",
         "release_set": {
-          "id": "release-set:906ab31bd9a1afd48a98bc08204c346fc82d3992572a970ab450d576542b83bd",
+          "id": "release-set:0ebd4f2c0d161104c85edc692ae5ea9ca1c9c45eae7ca8f805ce8650ca649be6",
           "version": "0.1.0",
-          "manifest_digest": "sha256:906ab31bd9a1afd48a98bc08204c346fc82d3992572a970ab450d576542b83bd",
+          "manifest_digest": "sha256:0ebd4f2c0d161104c85edc692ae5ea9ca1c9c45eae7ca8f805ce8650ca649be6",
           "units": [
             {
               "owner": "auth0",
@@ -169,6 +169,13 @@
               "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
             },
             {
+              "owner": "secrets",
+              "kind": "dialect",
+              "version": "0.1.0",
+              "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+              "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+            },
+            {
               "owner": "snowflake",
               "kind": "dialect",
               "version": "0.1.0",
@@ -203,6 +210,7 @@
             "newrelic",
             "okta",
             "rf",
+            "secrets",
             "snowflake",
             "vault"
           ],
@@ -571,6 +579,25 @@
             "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
             "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
             "providers": [],
+            "dependencies": []
+          },
+          {
+            "id": "secrets",
+            "kind": "dialect",
+            "origin": "supplied",
+            "version": "0.1.0",
+            "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+            "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+            "providers": [
+              {
+                "source": "hashicorp/random",
+                "version": "< 4.0.0, >= 3.0.0",
+                "hosts": [
+                  "registry.opentofu.org",
+                  "registry.terraform.io"
+                ]
+              }
+            ],
             "dependencies": []
           },
           {
@@ -80959,7 +80986,7 @@
       "kind": "plan",
       "generator": {
         "name": "rootform",
-        "version": "0.2.0-rc.1"
+        "version": "0.1.0-pr.117.1"
       },
       "evidence": {
         "origin": "plan",
@@ -80993,9 +81020,9 @@
       "semantics": {
         "language_version": "1",
         "release_set": {
-          "id": "release-set:906ab31bd9a1afd48a98bc08204c346fc82d3992572a970ab450d576542b83bd",
+          "id": "release-set:0ebd4f2c0d161104c85edc692ae5ea9ca1c9c45eae7ca8f805ce8650ca649be6",
           "version": "0.1.0",
-          "manifest_digest": "sha256:906ab31bd9a1afd48a98bc08204c346fc82d3992572a970ab450d576542b83bd",
+          "manifest_digest": "sha256:0ebd4f2c0d161104c85edc692ae5ea9ca1c9c45eae7ca8f805ce8650ca649be6",
           "units": [
             {
               "owner": "auth0",
@@ -81117,6 +81144,13 @@
               "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
             },
             {
+              "owner": "secrets",
+              "kind": "dialect",
+              "version": "0.1.0",
+              "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+              "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+            },
+            {
               "owner": "snowflake",
               "kind": "dialect",
               "version": "0.1.0",
@@ -81151,6 +81185,7 @@
             "newrelic",
             "okta",
             "rf",
+            "secrets",
             "snowflake",
             "vault"
           ],
@@ -81519,6 +81554,25 @@
             "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
             "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
             "providers": [],
+            "dependencies": []
+          },
+          {
+            "id": "secrets",
+            "kind": "dialect",
+            "origin": "supplied",
+            "version": "0.1.0",
+            "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+            "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+            "providers": [
+              {
+                "source": "hashicorp/random",
+                "version": "< 4.0.0, >= 3.0.0",
+                "hosts": [
+                  "registry.opentofu.org",
+                  "registry.terraform.io"
+                ]
+              }
+            ],
             "dependencies": []
           },
           {

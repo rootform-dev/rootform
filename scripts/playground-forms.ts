@@ -219,16 +219,21 @@ export function generatePlaygroundForms(binary: string, root: string): string[] 
   writeFileSync(join(dir, "interactive.json"), `${JSON.stringify(interactive, null, 2)}\n`);
   return documentFiles();
 }
-export async function verifyPlaygroundForms(binary: string, root: string): Promise<string[]> {
-  const dir = join(root, "examples/playground/forms");
+export function validatePlaygroundForms(
+  root: string,
+  dir = join(root, "examples/playground/forms"),
+): void {
   const manifest = JSON.parse(bytes(join(dir, "manifest.json")).toString());
   const interactive = JSON.parse(bytes(join(dir, "interactive.json")).toString());
   assert(manifest.format_version === "1" && interactive.format_version === "1", "format mismatch");
-  assert(/^[0-9a-f]{64}$/u.test(manifest.binary.sha256), "invalid generator binary digest");
-  const version = Bun.spawnSync([binary, "version"], { stdout: "pipe", stderr: "pipe" });
   assert(
-    version.exitCode === 0 && version.stdout.toString().trim() === manifest.binary.version,
-    "binary version mismatch",
+    JSON.stringify(Object.keys(manifest.examples).sort()) === JSON.stringify([...families].sort()),
+    "example inventory mismatch",
+  );
+  assert(/^[0-9a-f]{64}$/u.test(manifest.binary.sha256), "invalid generator binary digest");
+  assert(
+    /^rootform [0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?$/u.test(manifest.binary.version),
+    "invalid generator version",
   );
   assert(
     JSON.stringify(Object.keys(interactive.files).sort()) ===
@@ -240,6 +245,17 @@ export async function verifyPlaygroundForms(binary: string, root: string): Promi
     assert(
       item && JSON.stringify(item.inputs) === JSON.stringify(sourceFiles(root, family)),
       `${family}: input digest changed`,
+    );
+    assert(
+      JSON.stringify(Object.keys(item.documents).sort()) ===
+        JSON.stringify(
+          [
+            `${family}-analysis.json`,
+            `${family}-comparison.json`,
+            `${family}-presentation.json`,
+          ].sort(),
+        ),
+      `${family}: document inventory changed`,
     );
     for (const [file, digest] of Object.entries(item.documents) as Array<[string, string]>) {
       assert(
@@ -258,6 +274,20 @@ export async function verifyPlaygroundForms(binary: string, root: string): Promi
     );
   }
   eventPlacement(JSON.parse(bytes(join(dir, "event-driven-platform-analysis.json")).toString()));
+}
+
+export async function verifyPlaygroundForms(
+  binary: string,
+  root: string,
+  dir = join(root, "examples/playground/forms"),
+): Promise<string[]> {
+  validatePlaygroundForms(root, dir);
+  const manifest = JSON.parse(bytes(join(dir, "manifest.json")).toString());
+  const version = Bun.spawnSync([binary, "version"], { stdout: "pipe", stderr: "pipe" });
+  assert(
+    version.exitCode === 0 && version.stdout.toString().trim() === manifest.binary.version,
+    "binary version mismatch",
+  );
   const scratch = mkdtempSync(join(tmpdir(), "rf-playground-verify-"));
   const home = join(scratch, "home");
   mkdirSync(home);
@@ -275,6 +305,43 @@ export async function verifyPlaygroundForms(binary: string, root: string): Promi
     "six plan inputs and verified saved-plan pairs",
     "three analysis and three comparison documents",
     "nine pinned renderer inputs",
+  ];
+}
+
+export async function verifyRuntimePlaygroundForms(
+  binary: string,
+  root: string,
+): Promise<string[]> {
+  validatePlaygroundForms(root);
+  const version = Bun.spawnSync([binary, "version"], { stdout: "pipe", stderr: "pipe" });
+  assert(version.exitCode === 0, "binary version unavailable");
+  const banner = version.stdout.toString().trim();
+  const current = JSON.parse(
+    bytes(join(root, "examples/playground/forms/manifest.json")).toString(),
+  );
+  if (banner === current.binary.version) return verifyPlaygroundForms(binary, root);
+  const reference = JSON.parse(
+    bytes(join(root, "dependencies/verification-runtime.json")).toString(),
+  );
+  assert(banner === `rootform ${reference.version}`, "binary version mismatch");
+  for (const file of documentFiles().filter((name) => !name.endsWith("-presentation.json"))) {
+    const result = Bun.spawnSync(
+      [binary, "validate", "form", join(root, "examples/playground/forms", file)],
+      {
+        stdout: "pipe",
+        stderr: "pipe",
+      },
+    );
+    assert(
+      result.exitCode === 0,
+      `${file}: current Form is not compatible with the reference reader`,
+    );
+  }
+  const directory = join(root, "scripts/fixtures/reference-playground");
+  const result = await verifyPlaygroundForms(binary, root, directory);
+  return [
+    "published reference runtime compatibility; current examples retain separate generator provenance",
+    ...result,
   ];
 }
 if (import.meta.main) {

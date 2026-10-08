@@ -3,12 +3,12 @@ title: "Container image"
 description: "Analyze a mounted plan or state export with the official Rootform image, persistent package storage, and offline inputs."
 ---
 
-The official image runs the same `rootform` CLI as the release archive for `linux/amd64` and `linux/arm64`. It contains the embedded RF Vocabulary and Dialects, not Terraform, OpenTofu, providers, project source, or external selections. Produce a plan or state JSON before starting the container; OpenTofu users replace `terraform` with `tofu` in those commands, and [Plan inputs](../inputs/plans.md#produce-the-accepted-json) gives the procedure. Use an exact version tag such as `ghcr.io/rootform-dev/rootform:0.1.0` or the reviewed multi-platform index digest; there is no moving `latest` tag. The image has no entrypoint, so put `rootform` after the image reference in every command.
+The official image runs the same `rootform` CLI as the release archive for `linux/amd64` and `linux/arm64`. It contains the embedded RF Vocabulary and Dialects, not Terraform, OpenTofu, providers, project source, or external selections. Produce a plan or state JSON before starting the container; OpenTofu users replace `terraform` with `tofu` in those commands, and [Plan inputs](../inputs/plans.md#produce-the-accepted-json) gives the procedure. Use an exact version tag such as `ghcr.io/rootform-dev/rootform:0.2.0-rc.1` or the reviewed multi-platform index digest; there is no moving `latest` tag. The image has no entrypoint, so put `rootform` after the image reference in every command.
 
 ## Check the CLI version
 
 ```sh
-docker run --rm ghcr.io/rootform-dev/rootform:0.1.0 rootform version
+docker run --rm ghcr.io/rootform-dev/rootform:0.2.0-rc.1 rootform version
 ```
 
 The version must match the release your team reviewed. To pin exact image bytes, replace the version tag with `ghcr.io/rootform-dev/rootform@sha256:<index-digest>`, using the complete reviewed index digest. For disconnected use, the image must already be present locally.
@@ -21,7 +21,7 @@ Mount the directory containing `plan.json` read-only and run a one-shot analysis
 docker run --rm \
   --volume "$PWD:/workspace:ro" \
   --workdir /workspace \
-  ghcr.io/rootform-dev/rootform:0.1.0 \
+  ghcr.io/rootform-dev/rootform:0.2.0-rc.1 \
   rootform run plan.json --no-serve
 ```
 
@@ -33,7 +33,7 @@ To keep the Form while the project mount stays read-only, ask for JSON on standa
 docker run --rm \
   --volume "$PWD:/workspace:ro" \
   --workdir /workspace \
-  ghcr.io/rootform-dev/rootform:0.1.0 \
+  ghcr.io/rootform-dev/rootform:0.2.0-rc.1 \
   rootform run plan.json --no-serve --format json > analysis.json
 ```
 
@@ -51,7 +51,7 @@ docker run --rm \
   --volume "$PWD:/workspace:ro" \
   --volume "$PWD/reports:/reports" \
   --workdir /workspace \
-  ghcr.io/rootform-dev/rootform:0.1.0 \
+  ghcr.io/rootform-dev/rootform:0.2.0-rc.1 \
   rootform run plan.json --no-serve \
     -o /reports/analysis.json -o /reports/report.md -o /reports/explorer.html
 ```
@@ -68,7 +68,7 @@ docker run --rm \
   --volume "$PWD:/workspace:ro" \
   --volume rootform-home:/home/rootform/.rootform \
   --workdir /workspace \
-  ghcr.io/rootform-dev/rootform:0.1.0 \
+  ghcr.io/rootform-dev/rootform:0.2.0-rc.1 \
   rootform init . --locked --no-input
 ```
 
@@ -91,7 +91,7 @@ docker run --rm \
   --tmpfs /home/rootform/.rootform:uid=65532,gid=65532,mode=0700 \
   --volume "$PWD:/workspace:ro" \
   --workdir /workspace \
-  ghcr.io/rootform-dev/rootform:0.1.0 \
+  ghcr.io/rootform-dev/rootform:0.2.0-rc.1 \
   rootform run plan.json --locked --no-serve --format json > analysis.json
 ```
 
@@ -108,7 +108,7 @@ docker run --rm \
   --volume rootform-home:/home/rootform/.rootform \
   --env DOCKER_CONFIG=/run/docker-config \
   --workdir /workspace \
-  ghcr.io/rootform-dev/rootform:0.1.0 \
+  ghcr.io/rootform-dev/rootform:0.2.0-rc.1 \
   rootform init . --locked --no-input
 ```
 

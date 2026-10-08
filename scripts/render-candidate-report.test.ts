@@ -51,13 +51,22 @@ test("renders public-safe deterministic candidate evidence", () => {
   expect(first).toBe(second);
   expect(first.startsWith(DISTRIBUTION_EVIDENCE_MARKER)).toBe(true);
   expect(first).toContain("handoff:cccccccccccc → rootform:bbbbbbbbbbbb → draft:v0.1.0-pr.39.1");
-  expect(first).toContain("5/5 target archives · 83 licensed components · Elastic-2.0");
-  expect(first).toContain("`release-set:dddddddddddd` · v0.1.0");
+  expect(first).toContain("5/5 target archives, 83 licensed components, Elastic-2.0");
+  expect(first).toContain("`release-set:dddddddddddd`, v0.1.0");
   expect(first).toContain(
     `| windows / amd64 | 32.0 MiB | \`555555555555\` | \`${sha256("archive-5").slice(0, 12)}\` |`,
   );
   expect(first).not.toContain("rootform-dev/engine");
   expect(first).not.toContain(["/Users", "/"].join(""));
+});
+
+test("public candidate reports reject credentials and encoded private paths before sending", () => {
+  for (const releaseUrl of [
+    "https://:fixture-password@github.com/rootform-dev/rootform/releases/tag/v0.2.0",
+    "https://github.com/rootform-dev/rootform/releases/tag/v0.2.0?token=fixture-placeholder",
+    `https://github.com/rootform-dev/rootform/releases/tag/${encodeURIComponent("/" + "Users/fixture/session")}`,
+  ])
+    expect(() => renderCandidateEvidence({ ...evidence(), releaseUrl })).toThrow();
 });
 
 test("rejects license, checksum, and URL drift", () => {
@@ -74,6 +83,6 @@ test("rejects license, checksum, and URL drift", () => {
   const url = evidence();
   url.releaseUrl = "https://example.test/release";
   expect(() => renderCandidateEvidence(url)).toThrow(
-    "draft release URL must be an authenticated GitHub URL",
+    "draft release URL must be a canonical Rootform GitHub URL",
   );
 });

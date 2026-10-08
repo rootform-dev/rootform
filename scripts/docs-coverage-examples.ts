@@ -4,6 +4,11 @@ import { createHash } from "node:crypto";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
+import {
+  assertExportScripts,
+  explorerModuleEntrypoint,
+  readLocalModuleGraph,
+} from "./renderer-runtime-proof.ts";
 
 type Probe = {
   address: string;
@@ -429,7 +434,7 @@ function embeddedJson(html: string, id: string): string {
 
 function assertSelfContainedExport(html: string, workspace: string, binary: string): void {
   assert(/^\s*<!doctype html>/iu.test(html), "HTML export has no doctype");
-  assert((html.match(/<script\b/giu) ?? []).length === 3, "HTML export script inventory drifted");
+  assertExportScripts(html);
   assert(
     !html.includes("rootform-document" + `" type="application/json">null`),
     "document placeholder survived export",
@@ -610,22 +615,16 @@ export async function verifyDocsCoverageExamples(
       assert(htmlResponse.contentType.startsWith("text/html"), "Explorer root is not HTML");
       assert(/^\s*<!doctype html>/iu.test(htmlResponse.body), "Explorer HTML shell has no doctype");
       assert(htmlResponse.body.includes('id="app"'), "Explorer HTML shell has no app mount");
-      const scriptPath = htmlResponse.body.match(/<script\b[^>]*\bsrc=["']([^"']+\.js)["']/iu)?.[1];
-      assert(
-        typeof scriptPath === "string" && scriptPath.startsWith("/assets/"),
-        "Explorer HTML does not load its bundled client",
-      );
-      const clientResponse = await readResponse(new URL(scriptPath, base));
-      assert(
-        clientResponse.contentType.startsWith("text/javascript"),
-        "Explorer client asset is not JavaScript",
-      );
-      for (const endpoint of ["/api/v1/document", "/api/v1/presentation"]) {
+      const scriptPath = explorerModuleEntrypoint(htmlResponse.body);
+      const moduleGraph = await readLocalModuleGraph(new URL(scriptPath, base), readResponse);
+      const clientResponse = { body: moduleGraph.get(new URL(scriptPath, base).href) ?? "" };
+      assert(moduleGraph.size > 0, "Explorer client module graph is empty");
+      const clientModules = [...moduleGraph.values()].join("\n");
+      for (const endpoint of ["/api/v1/document", "/api/v1/presentation"])
         assert(
-          clientResponse.body.includes(endpoint),
-          `Explorer client does not request ${endpoint}`,
+          clientModules.includes(endpoint),
+          "Explorer client module graph lost a data endpoint",
         );
-      }
 
       writeFileSync(join(explorerDir, "document.json"), `${JSON.stringify(display, null, 2)}\n`);
       writeFileSync(
