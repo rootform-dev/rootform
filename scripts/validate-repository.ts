@@ -400,20 +400,18 @@ export function validateRepository(): void {
     candidateWorkflow.includes("rootform-dev/engine") ||
     candidateWorkflow.includes("rootform-dev/action/") ||
     candidateWorkflow.includes("ROOTFORM_REPOSITORIES_READ_TOKEN") ||
-    !candidateWorkflow.includes("packages: write") ||
-    !candidateWorkflow.includes("test:oci-registry-compatibility") ||
-    !candidateWorkflow.includes("rootform-oci-core-v1") ||
-    !candidateWorkflow.includes("Require isolated qualification namespace to be absent") ||
-    !candidateWorkflow.includes("Record qualification package access") ||
-    !candidateWorkflow.includes('IN("private", "public", "internal")') ||
-    !candidateWorkflow.includes("steps.ghcr-profile.outcome == 'success'") ||
-    candidateWorkflow.includes("private GHCR") ||
+    candidateWorkflow.includes("packages: write") ||
+    candidateWorkflow.includes("ROOTFORM_REGISTRY_PASSWORD") ||
+    candidateWorkflow.includes("ROOTFORM_OCI_QUALIFICATION_REPOSITORY") ||
+    !candidateWorkflow.includes("scripts/registry-qualification.ts") ||
+    !candidateWorkflow.includes("--candidate-release-id") ||
+    !candidateWorkflow.includes("--engine-commit") ||
+    !candidateWorkflow.includes("needs.registry.result == 'success'") ||
+    !candidateWorkflow.includes("registry-qualification-v$VERSION-$RELEASE_ID") ||
     !candidateWorkflow.includes(
       "actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c",
     ) ||
-    candidateWorkflow.split(candidateArtifactName).length !== 3 ||
-    !candidateWorkflow.includes('server="$(cat)"') ||
-    candidateWorkflow.includes("IFS= read -r server") ||
+    candidateWorkflow.split(candidateArtifactName).length !== 4 ||
     !candidateWorkflow.includes("bun scripts/prepare-release.ts --check") ||
     !candidateWorkflow.includes(
       "name: rootform-qualification-$" + "{{ inputs.version }}-$" + "{{ github.sha }}",

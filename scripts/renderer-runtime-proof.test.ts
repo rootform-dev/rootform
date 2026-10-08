@@ -40,6 +40,14 @@ test("HTML proof rejects extra executable scripts and missing or duplicate data"
     expect(() => assertExportScripts(html)).toThrow();
 });
 
+test("HTML proof accounts for script end tags accepted by browsers", () => {
+  const valid = `<script type="module">void 0</script>${payloads}`;
+  for (const end of ["</script >", "</script\n>", '</script data-fictional="value">']) {
+    expect(() => assertExportScripts(valid.replaceAll("</script>", end))).not.toThrow();
+    expect(() => assertExportScripts(`${valid}<script>void 1${end}`)).toThrow();
+  }
+});
+
 test("Explorer proof follows split modules and cycles once", async () => {
   const visited: string[] = [];
   const graph = await readLocalModuleGraph(

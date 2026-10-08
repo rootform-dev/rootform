@@ -13,7 +13,7 @@ export function explorerModuleEntrypoint(html: string): string {
 }
 
 export function assertExportScripts(html: string): void {
-  const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/giu)];
+  const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\b[^>]*>/giu)];
   if ((html.match(/<script\b/giu) ?? []).length !== scripts.length)
     throw new Error("HTML export contains an unterminated script");
   const data = new Set<string>();
