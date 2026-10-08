@@ -38,7 +38,7 @@ updates:
           - "patch"
 
   - package-ecosystem: "docker"
-    directory: "/oci"
+    directory: "/distribution/oci"
     target-branch: "dev"
     schedule:
       interval: "weekly"
