@@ -7,7 +7,10 @@ const root = join(import.meta.dir, "..", "..");
 
 test("validates complete generated runtime licensing inputs", () => {
   const licensing = readRuntimeLicensing(root);
-  expect(licensing.componentCount).toBe(73);
+  expect(licensing.componentCount).toBe(
+    JSON.parse(readFileSync(join(root, "dependencies/runtime-components.json"), "utf8")).components
+      .length,
+  );
   expect(licensing.inventorySha256).toMatch(/^[0-9a-f]{64}$/);
 });
 
