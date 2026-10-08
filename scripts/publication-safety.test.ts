@@ -36,6 +36,38 @@ test("public AI, agent and spec terminology and technical provenance remain vali
   ).not.toThrow();
 });
 
+test("serialized and URL-encoded metadata is inspected before sending", () => {
+  expect(() => assertPublicMessage(undefined)).not.toThrow();
+  const path = "/" + "Users/fictional/session";
+  const token = "github_" + "pat_" + "SYNTHETIC".repeat(8);
+  for (const value of [path, token]) {
+    for (const serialized of [
+      encodeURIComponent(value),
+      encodeURIComponent(encodeURIComponent(value)),
+      JSON.stringify({ value }).replaceAll("/", "\\/"),
+      JSON.stringify({ value }).replaceAll("/", "\\u002f"),
+      { encoding: "base64", content: btoa(value) },
+      { encoding: "base64", content: btoa(JSON.stringify({ value }).replaceAll("/", "\\u002f")) },
+      JSON.stringify({ API_TOKEN: value }),
+      { message: "Update public fixture", content: btoa(value) },
+    ]) {
+      try {
+        assertPublicMessage(serialized);
+        throw new Error("Expected rejection");
+      } catch (error) {
+        expect(String(error)).toContain("Public message refused:");
+        expect(String(error)).not.toContain(value);
+      }
+    }
+  }
+  expect(() =>
+    assertPublicMessage({ encoding: "base64", content: btoa("Public fixture") }),
+  ).not.toThrow();
+  expect(() => assertPublicMessage({ encoding: "base64", content: "?" })).toThrow(
+    "uninspectable-content",
+  );
+});
+
 test("tracked ignored files and staged bytes cannot escape the publication scan", () => {
   const directory = mkdtempSync(join(tmpdir(), "publication-fixture-"));
   const git = (...args: string[]) => execFileSync("git", args, { cwd: directory });
@@ -88,4 +120,35 @@ test("staged symlink modes cannot be concealed by the working copy", () => {
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }
+});
+
+test("named credentials are checked recursively while exact synthetic literals remain valid", () => {
+  const credential = "SYNTHETIC".repeat(8);
+  for (const payload of [
+    { API_TOKEN: credential },
+    { encoding: "base64", content: btoa(JSON.stringify({ api_key: credential })) },
+    {
+      encoding: "base64",
+      content: btoa(
+        JSON.stringify({ encoding: "base64", content: btoa("github_" + "pat_" + credential) }),
+      ),
+    },
+  ])
+    expect(() => assertPublicMessage(payload)).toThrow("credential");
+  for (const value of [
+    "ROOTFORM_DATADOG_CLOUDFLARE_KEY_SENTINEL",
+    "ROOTFORM_DATADOG_FASTLY_KEY_SENTINEL",
+    "ROOTFORM_HCP_DATADOG_API_SENTINEL",
+    "ROOTFORM_ATLAS_OBSERVABILITY_SECRET",
+  ]) {
+    expect(() => assertPublicMessage({ api_key: value })).not.toThrow();
+    expect(() => assertPublicMessage({ api_key: value + "_CHANGED" })).toThrow("credential");
+  }
+  const path = "/" + "Users/fictional/session";
+  expect(() =>
+    assertPublicMessage({
+      encoding: "base64",
+      content: btoa(JSON.stringify({ value: path }).replaceAll("/", "\\u002f")),
+    }),
+  ).toThrow("personal-path");
 });

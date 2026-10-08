@@ -11,7 +11,7 @@ is optional.
 - uses: rootform-dev/action/setup@v1
   id: installation
   with:
-    version: 0.1.0
+    version: 0.2.0-rc.1
 - run: rootform version
 ```
 

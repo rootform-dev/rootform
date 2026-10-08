@@ -203,6 +203,28 @@ jobs:
           ROOTFORM_BIN: ${{ github.workspace }}/build/bin/rootform
         run: bun run verify
 
+      - name: Qualify Explorer and self-contained HTML in a real browser
+        timeout-minutes: 10
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          browser="$(command -v google-chrome || command -v chromium)"
+          test -x "$browser"
+          bun scripts/verify-explorer-browser.ts \
+            --version "$ROOTFORM_VERSION" \
+            --binary build/bin/rootform \
+            --browser "$browser" \
+            --evidence build/browser-evidence/qualification.json
+
+      - name: Retain browser qualification evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-browser-${{ inputs.version }}-${{ github.sha }}
+          path: build/browser-evidence/qualification.json
+          if-no-files-found: error
+          retention-days: 90
+
       - name: Reverify final assets
         env:
           ROOTFORM_VERSION: ${{ inputs.version }}
@@ -361,7 +383,7 @@ jobs:
             build/registry-evidence/*.json
           if-no-files-found: error
           compression-level: 9
-          retention-days: 30
+          retention-days: 90
 
       - name: Remove transient registry material
         if: always()
@@ -450,7 +472,7 @@ jobs:
           path: build/release
           if-no-files-found: error
           compression-level: 0
-          retention-days: 1
+          retention-days: 90
 
       - name: Upload generated installation metadata for review
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -459,7 +481,7 @@ jobs:
           path: build/installers
           if-no-files-found: error
           compression-level: 9
-          retention-days: 30
+          retention-days: 90
 
       - name: Render candidate evidence
         id: candidate-evidence
@@ -537,7 +559,7 @@ jobs:
           path: build/platform-evidence/${{ matrix.target }}.json
           if-no-files-found: error
           compression-level: 9
-          retention-days: 30
+          retention-days: 90
 
   installation:
     name: native installation qualification
@@ -622,7 +644,7 @@ jobs:
             const qualified = process.env.QUALIFY_RESULT === 'success';
             const report = qualified && process.env.REPORT_BASE64
               ? Buffer.from(process.env.REPORT_BASE64, 'base64').toString('utf8')
-              : `${marker}\n## Distribution candidate evidence\n\n> **Blocked** · [Open workflow run](${runUrl})\n`;
+              : `${marker}\n## Distribution candidate evidence\n\n> **Blocked**, [Open workflow run](${runUrl})\n`;
             if (!report.startsWith(marker) || Buffer.byteLength(report) > 60000) {
               core.setFailed('Distribution evidence report is invalid');
               return;

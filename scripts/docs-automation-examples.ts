@@ -147,10 +147,16 @@ function outputLines(page: string, name: string): string[] {
   return match[1].split("\n").filter((line) => line.length > 0);
 }
 
-function assertExcerpt(name: string, expected: string[], actual: string): void {
+export function assertExcerpt(
+  name: string,
+  expected: string[],
+  actual: string,
+  version: string,
+): void {
   const lines = actual.replace(ansi, "").split("\n");
   let position = 0;
-  for (const line of expected) {
+  for (const template of expected) {
+    const line = template.replaceAll("<rootform-version>", version);
     const found = lines.findIndex((candidate, index) => index >= position && candidate === line);
     if (found < 0)
       throw new Error(`${name}: output line missing or out of order: ${JSON.stringify(line)}`);
@@ -159,6 +165,13 @@ function assertExcerpt(name: string, expected: string[], actual: string): void {
 }
 
 export async function verifyAutomationExamples(binary: string, root: string): Promise<string> {
+  const versionProbe = run([binary, "version"], root, {});
+  const version = versionProbe.stdout.trim();
+  if (
+    versionProbe.code !== 0 ||
+    !/^rootform [0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?$/u.test(version)
+  )
+    throw new Error("Documentation runtime version is unavailable");
   const pages = new Map<string, string>();
   for (const item of cases) {
     if (!pages.has(item.page))
@@ -305,7 +318,7 @@ export async function verifyAutomationExamples(binary: string, root: string): Pr
       summaryPath && existsSync(summaryPath)
         ? `${readFileSync(summaryPath, "utf8")}\n${existsSync(checkPath) ? readFileSync(checkPath, "utf8") : ""}\n${result.stdout}\n${result.stderr}`
         : `${result.stdout}\n${result.stderr}`;
-    assertExcerpt(item.name, outputLines(page, item.name), documentedOutput);
+    assertExcerpt(item.name, outputLines(page, item.name), documentedOutput, version);
     if (evidence) {
       const base = join(evidence, item.name);
       writeFileSync(

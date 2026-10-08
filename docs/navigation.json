@@ -59,7 +59,8 @@
       { "label": "Comparisons and drift", "page": "concepts/comparisons" },
       { "label": "Dialects and RF Vocabulary", "page": "concepts/dialects" },
       { "label": "Policies and Policy Packs", "page": "concepts/policies" },
-      { "label": "Install, add, and vendor", "page": "concepts/external-content" }
+      { "label": "Install, add, and vendor", "page": "concepts/external-content" },
+      { "label": "Compatibility and versions", "page": "compatibility" }
     ]
   },
   {

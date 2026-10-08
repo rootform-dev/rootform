@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 import { resolve } from "node:path";
-import { verifyPlaygroundForms } from "../playground-forms.ts";
+import { verifyRuntimePlaygroundForms } from "../playground-forms.ts";
 import { verificationRuntime } from "./runtime.ts";
 
 const root = resolve(import.meta.dir, "../..");
@@ -59,7 +59,9 @@ for (const lane of selected)
       run(["bun", "scripts/verify-docs-examples.ts", "--documentation-only"]);
       break;
     case "scenarios":
-      console.log((await verifyPlaygroundForms(environment.ROOTFORM_BIN ?? "", root)).join("\n"));
+      console.log(
+        (await verifyRuntimePlaygroundForms(environment.ROOTFORM_BIN ?? "", root)).join("\n"),
+      );
       break;
     case "registry":
       run(["bun", "scripts/ci/docs-registry.ts"]);
