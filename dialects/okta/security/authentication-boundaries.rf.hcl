@@ -1,0 +1,160 @@
+concept "authentication-configuration" {
+  description = "Authenticator, CAPTCHA, behavior, trusted-origin, or threat configuration supporting authentication."
+}
+
+concept "network-zone" {
+  description = "A network location boundary used by Okta authentication and access decisions."
+}
+
+rule "authenticator" {
+  match {
+    type = "okta_authenticator"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "authenticator-lookup" {
+  match {
+    kind = "data"
+    type = "okta_authenticator"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "authenticator-method-webauthn" {
+  match {
+    type = "okta_authenticator_method_webauthn"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "authenticator-method-webauthn-lookup" {
+  match {
+    kind = "data"
+    type = "okta_authenticator_method_webauthn"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "authenticator-webauthn-custom-aaguid" {
+  match {
+    type = "okta_authenticator_webauthn_custom_aaguid"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "authenticator-webauthn-custom-aaguids-lookup" {
+  match {
+    kind = "data"
+    type = "okta_authenticator_webauthn_custom_aaguids"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "behavior" {
+  match {
+    type = "okta_behavior"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "behavior-lookup" {
+  match {
+    kind = "data"
+    type = "okta_behavior"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "captcha" {
+  match {
+    type = "okta_captcha"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "captcha-lookup" {
+  match {
+    kind = "data"
+    type = "okta_captcha"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "network-zone" {
+  match {
+    type = "okta_network_zone"
+  }
+
+  as = concept.network-zone
+}
+
+rule "network-zone-lookup" {
+  match {
+    kind = "data"
+    type = "okta_network_zone"
+  }
+
+  as = concept.network-zone
+}
+
+rule "org-captcha" {
+  match {
+    type = "okta_org_captcha"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "org-captcha-lookup" {
+  match {
+    kind = "data"
+    type = "okta_org_captcha"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "threat-insight-settings" {
+  match {
+    type = "okta_threat_insight_settings"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "threat-insight-settings-lookup" {
+  match {
+    kind = "data"
+    type = "okta_threat_insight_settings"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "trusted-origin" {
+  match {
+    type = "okta_trusted_origin"
+  }
+
+  as = concept.authentication-configuration
+}
+
+rule "trusted-origin-lookup" {
+  match {
+    kind = "data"
+    type = "okta_trusted_origin"
+  }
+
+  as = concept.authentication-configuration
+}

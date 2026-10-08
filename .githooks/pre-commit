@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+cd "$(git rev-parse --show-toplevel)"
+bun scripts/check-publication.ts --staged
+gitleaks git --pre-commit --staged --no-banner --redact --config .gitleaks.toml .

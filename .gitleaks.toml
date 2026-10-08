@@ -1,0 +1,22 @@
+title = "Rootform secret scanning"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Generated renderer manifest SHA-256 values"
+targetRules = ["generic-api-key", "new-relic-user-api-id"]
+condition = "AND"
+# The manifest lived under docs/assets/renderer before moving beside the
+# Playground examples; the full-history scan still reads it there.
+paths = ['''^(?:docs/assets/renderer|examples/playground/forms)/manifest\.json$''']
+regexTarget = "match"
+regexes = ['''\.rf(?:\.hcl)?": "[0-9a-f]{40,64}''']
+
+[[allowlists]]
+description = "Placeholder credentials and an algorithm name that offline Dialect fixtures pass to plan"
+targetRules = ["generic-api-key", "hashicorp-tf-password"]
+condition = "AND"
+paths = ['''^dialects/fixtures/.+/(main\.tf|plan\.json)$''']
+regexTarget = "match"
+regexes = ['''"(Fx-Placeholder-0001|fx-owned-password|Rootform-Fixture-1|RootformFixture1x|KEY_ALG_RSA_2048)"''']

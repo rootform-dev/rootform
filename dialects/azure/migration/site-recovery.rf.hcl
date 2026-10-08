@@ -1,0 +1,68 @@
+# Maintained directly from pinned provider evidence.
+concept "site-recovery-fabric" {
+  description = "An Azure Site Recovery source or target fabric."
+}
+
+rule "site-recovery-fabric" {
+  match {
+    type = "azurerm_site_recovery_fabric"
+  }
+
+  as = concept.site-recovery-fabric
+
+  context {
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+}
+
+rule "site-recovery-plan" {
+  match {
+    type = "azurerm_site_recovery_replication_recovery_plan"
+  }
+
+  as = concept.site-recovery-detail
+}
+
+rule "site-recovery-protection-container" {
+  match {
+    type = "azurerm_site_recovery_protection_container"
+  }
+
+  as = concept.site-recovery-fabric
+
+  context {
+    as       = context.ownership
+    to       = concept.resource-group
+    via      = source.resource_group_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+
+    # Shared resource-group instances can be provisioned by a separate configuration.
+    external = "allow"
+  }
+}
+
+rule "site-recovery-replicated-vm" {
+  match {
+    type = "azurerm_site_recovery_replicated_vm"
+  }
+
+  as = concept.site-recovery-detail
+}

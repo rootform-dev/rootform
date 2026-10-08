@@ -1,0 +1,43 @@
+concept "legacy-storage-mount" {
+  description = "A legacy DBFS mount configuration linking Databricks to cloud object storage."
+}
+
+rule "aws-s3-mount" {
+  match {
+    type = "databricks_aws_s3_mount"
+  }
+
+  as = concept.legacy-storage-mount
+}
+
+rule "azure-adls-gen1-mount" {
+  match {
+    type = "databricks_azure_adls_gen1_mount"
+  }
+
+  as = concept.legacy-storage-mount
+}
+
+rule "azure-adls-gen2-mount" {
+  match {
+    type = "databricks_azure_adls_gen2_mount"
+  }
+
+  as = concept.legacy-storage-mount
+}
+
+rule "azure-blob-mount" {
+  match {
+    type = "databricks_azure_blob_mount"
+  }
+
+  as = concept.legacy-storage-mount
+}
+
+rule "mount" {
+  match {
+    type = "databricks_mount"
+  }
+
+  as = concept.legacy-storage-mount
+}

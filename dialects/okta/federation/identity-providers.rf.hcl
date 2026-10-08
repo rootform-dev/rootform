@@ -1,0 +1,54 @@
+concept "external-identity-provider" {
+  description = "An external OIDC, SAML, or social Identity Provider trusted by Okta."
+}
+
+rule "idp-oidc" {
+  match {
+    type = "okta_idp_oidc"
+  }
+
+  as = concept.external-identity-provider
+}
+
+rule "idp-oidc-lookup" {
+  match {
+    kind = "data"
+    type = "okta_idp_oidc"
+  }
+
+  as = concept.external-identity-provider
+}
+
+rule "idp-saml" {
+  match {
+    type = "okta_idp_saml"
+  }
+
+  as = concept.external-identity-provider
+}
+
+rule "idp-saml-lookup" {
+  match {
+    kind = "data"
+    type = "okta_idp_saml"
+  }
+
+  as = concept.external-identity-provider
+}
+
+rule "idp-social" {
+  match {
+    type = "okta_idp_social"
+  }
+
+  as = concept.external-identity-provider
+}
+
+rule "idp-social-lookup" {
+  match {
+    kind = "data"
+    type = "okta_idp_social"
+  }
+
+  as = concept.external-identity-provider
+}

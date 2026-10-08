@@ -1,0 +1,30 @@
+concept "operations-configuration" {
+  description = "An operational or health setting that owns no independent topology."
+}
+
+rule "autopilot-config" {
+  match {
+    type = "consul_autopilot_config"
+  }
+
+  as = concept.operations-configuration
+}
+
+rule "config-entry-control-plane-request-limit-json" {
+  match {
+    type  = "consul_config_entry"
+    where = source.kind == "control-plane-request-limit"
+  }
+
+  as = concept.operations-configuration
+}
+
+rule "config-entry-control-plane-request-limit-json-lookup" {
+  match {
+    kind  = "data"
+    type  = "consul_config_entry"
+    where = source.kind == "control-plane-request-limit"
+  }
+
+  as = concept.operations-configuration
+}

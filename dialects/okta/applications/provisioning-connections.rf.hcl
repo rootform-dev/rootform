@@ -1,0 +1,20 @@
+concept "provisioning-connection" {
+  description = "An Okta application provisioning connection to an external system."
+}
+
+rule "app-connection" {
+  match {
+    type = "okta_app_connection"
+  }
+
+  as = concept.provisioning-connection
+}
+
+rule "app-connection-lookup" {
+  match {
+    kind = "data"
+    type = "okta_app_connection"
+  }
+
+  as = concept.provisioning-connection
+}

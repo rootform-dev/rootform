@@ -1,0 +1,35 @@
+stages: [review]
+
+rootform-review:
+  stage: review
+  variables:
+    ROOTFORM_MODE: check
+    ROOTFORM_VERSION: 0.1.0
+    ROOTFORM_PROJECT: ./infra
+    ROOTFORM_OUTPUT_DIR: .rootform-ci-${CI_JOB_ID}
+  script:
+    - |
+      set -eu
+      umask 077
+      plan_dir=$(mktemp -d "${TMPDIR:-/tmp}/rootform-plan.XXXXXXXX")
+      trap 'rm -rf -- "$plan_dir"' 0
+      terraform -chdir=infra init -input=false
+      terraform -chdir=infra plan -input=false -out="$plan_dir/plan.tfplan"
+      terraform -chdir=infra show -json "$plan_dir/plan.tfplan" > "$plan_dir/plan.json"
+      ROOTFORM_INPUT="$plan_dir/plan.json" ROOTFORM_PLAN_FILE="$plan_dir/plan.tfplan" sh ./ci/generic-ci.sh
+  artifacts:
+    when: always
+    expire_in: 7 days
+    access: developer
+    paths:
+      - .rootform-ci-${CI_JOB_ID}/analysis.json
+      - .rootform-ci-${CI_JOB_ID}/report.md
+      - .rootform-ci-${CI_JOB_ID}/summary.txt
+      - .rootform-ci-${CI_JOB_ID}/run.stderr
+      - .rootform-ci-${CI_JOB_ID}/run.status
+      - .rootform-ci-${CI_JOB_ID}/policy.json
+      - .rootform-ci-${CI_JOB_ID}/policy.md
+      - .rootform-ci-${CI_JOB_ID}/results.sarif
+      - .rootform-ci-${CI_JOB_ID}/check.txt
+      - .rootform-ci-${CI_JOB_ID}/check.stderr
+      - .rootform-ci-${CI_JOB_ID}/check.status

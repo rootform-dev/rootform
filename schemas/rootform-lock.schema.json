@@ -1,0 +1,247 @@
+{
+  "$comment": "Generated Rootform public schema; DO NOT EDIT.",
+  "$defs": {
+    "dialect": {
+      "additionalProperties": false,
+      "properties": {
+        "content_digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "owner": {
+          "allOf": [
+            {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+              "type": "string"
+            },
+            {
+              "not": {
+                "const": "rf"
+              }
+            }
+          ]
+        },
+        "source": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "local": {
+                  "$ref": "#/$defs/local_source"
+                }
+              },
+              "required": [
+                "local"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "oci": {
+                  "$ref": "#/$defs/oci_source"
+                }
+              },
+              "required": [
+                "oci"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "version": {
+          "pattern": "^(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "owner",
+        "version",
+        "content_digest",
+        "source"
+      ],
+      "type": "object"
+    },
+    "local_source": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "maxLength": 1024,
+          "minLength": 1,
+          "pattern": "^(?![A-Za-z]:)(?!/)(?!.*\\\\\\\\)(?!.*[\\x00-\\x1f\\x7f]).+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "oci_source": {
+      "additionalProperties": false,
+      "properties": {
+        "download_size": {
+          "maximum": 16777216,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "install_size": {
+          "maximum": 67108864,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "layer_digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "manifest_digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "repository": {
+          "maxLength": 255,
+          "minLength": 1,
+          "pattern": "^(?![^/]*\\.\\.)(?!.*://)(?!.*@)(?!.*[\\r\\n\\t ]).*/.*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "repository",
+        "manifest_digest",
+        "layer_digest",
+        "download_size",
+        "install_size"
+      ],
+      "type": "object"
+    },
+    "policy_pack": {
+      "additionalProperties": false,
+      "properties": {
+        "content_digest": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        "source": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "local": {
+                  "$ref": "#/$defs/local_source"
+                }
+              },
+              "required": [
+                "local"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "oci": {
+                  "$ref": "#/$defs/oci_source"
+                }
+              },
+              "required": [
+                "oci"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "version": {
+          "pattern": "^(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version",
+        "content_digest",
+        "source"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://rootform.dev/schemas/rootform-lock.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "dialects": {
+      "items": {
+        "$ref": "#/$defs/dialect"
+      },
+      "maxItems": 4096,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "excluded_owners": {
+      "items": {
+        "allOf": [
+          {
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          {
+            "not": {
+              "const": "rf"
+            }
+          }
+        ]
+      },
+      "maxItems": 4096,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "format_version": {
+      "const": "1"
+    },
+    "policy_packs": {
+      "items": {
+        "$ref": "#/$defs/policy_pack"
+      },
+      "maxItems": 4096,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "replacements": {
+      "items": {
+        "allOf": [
+          {
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          {
+            "not": {
+              "const": "rf"
+            }
+          }
+        ]
+      },
+      "maxItems": 4096,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "format_version",
+    "dialects",
+    "policy_packs",
+    "excluded_owners",
+    "replacements"
+  ],
+  "title": "Rootform project lock",
+  "type": "object"
+}

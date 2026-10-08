@@ -1,0 +1,44 @@
+concept "token-exchange-profile" {
+  description = "An Auth0 Custom Token Exchange profile delegating validation to an Action."
+}
+
+rule "token-exchange-profile" {
+  match {
+    type = "auth0_token_exchange_profile"
+  }
+
+  as = concept.token-exchange-profile
+
+  relation "executes-action" {
+    to       = concept.identity-extension
+    via      = source.action_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "token-exchange-profile-lookup" {
+  match {
+    kind = "data"
+    type = "auth0_token_exchange_profile"
+  }
+
+  as = concept.token-exchange-profile
+
+  relation "executes-action" {
+    to       = concept.identity-extension
+    via      = source.action_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}

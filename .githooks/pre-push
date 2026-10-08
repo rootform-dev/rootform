@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+cd "$(git rev-parse --show-toplevel)"
+bun scripts/check-publication.ts
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ "$local_sha" != 0000000000000000000000000000000000000000 ] || continue
+  if [ "$remote_sha" = 0000000000000000000000000000000000000000 ]; then
+    if git rev-parse --verify --quiet origin/dev >/dev/null; then
+      base=$(git merge-base origin/dev "$local_sha")
+      range="$base..$local_sha"
+    else
+      range="$local_sha"
+    fi
+  else
+    range="$remote_sha..$local_sha"
+  fi
+  bun scripts/check-publication.ts --range "$range"
+  gitleaks git --no-banner --redact --config .gitleaks.toml --log-opts="$range" .
+done

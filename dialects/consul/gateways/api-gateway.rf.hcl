@@ -1,0 +1,98 @@
+concept "gateway-configuration" {
+  description = "A route or certificate configuration supporting a Consul API gateway."
+}
+
+rule "config-entry-api-gateway-json" {
+  match {
+    type  = "consul_config_entry"
+    where = source.kind == "api-gateway"
+  }
+
+  as = concept.api-gateway
+}
+
+rule "config-entry-api-gateway-json-lookup" {
+  match {
+    kind  = "data"
+    type  = "consul_config_entry"
+    where = source.kind == "api-gateway"
+  }
+
+  as = concept.api-gateway
+}
+
+rule "config-entry-file-system-certificate-json" {
+  match {
+    type  = "consul_config_entry"
+    where = source.kind == "file-system-certificate"
+  }
+
+  as = concept.gateway-configuration
+}
+
+rule "config-entry-file-system-certificate-json-lookup" {
+  match {
+    kind  = "data"
+    type  = "consul_config_entry"
+    where = source.kind == "file-system-certificate"
+  }
+
+  as = concept.gateway-configuration
+}
+
+rule "config-entry-http-route-json" {
+  match {
+    type  = "consul_config_entry"
+    where = source.kind == "http-route"
+  }
+
+  as = concept.gateway-configuration
+}
+
+rule "config-entry-http-route-json-lookup" {
+  match {
+    kind  = "data"
+    type  = "consul_config_entry"
+    where = source.kind == "http-route"
+  }
+
+  as = concept.gateway-configuration
+}
+
+rule "config-entry-inline-certificate-json" {
+  match {
+    type  = "consul_config_entry"
+    where = source.kind == "inline-certificate"
+  }
+
+  as = concept.gateway-configuration
+}
+
+rule "config-entry-inline-certificate-json-lookup" {
+  match {
+    kind  = "data"
+    type  = "consul_config_entry"
+    where = source.kind == "inline-certificate"
+  }
+
+  as = concept.gateway-configuration
+}
+
+rule "config-entry-tcp-route-json" {
+  match {
+    type  = "consul_config_entry"
+    where = source.kind == "tcp-route"
+  }
+
+  as = concept.gateway-configuration
+}
+
+rule "config-entry-tcp-route-json-lookup" {
+  match {
+    kind  = "data"
+    type  = "consul_config_entry"
+    where = source.kind == "tcp-route"
+  }
+
+  as = concept.gateway-configuration
+}

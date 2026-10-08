@@ -1,0 +1,27 @@
+concept "machine-learning-configuration" {
+  description = "A machine-learning job, outlier detector, or alert supporting observability operations."
+}
+
+rule "machine-learning-alert" {
+  match {
+    type = "grafana_machine_learning_alert"
+  }
+
+  as = concept.machine-learning-configuration
+}
+
+rule "machine-learning-job" {
+  match {
+    type = "grafana_machine_learning_job"
+  }
+
+  as = concept.machine-learning-configuration
+}
+
+rule "machine-learning-outlier-detector" {
+  match {
+    type = "grafana_machine_learning_outlier_detector"
+  }
+
+  as = concept.machine-learning-configuration
+}

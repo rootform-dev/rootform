@@ -1,0 +1,494 @@
+name: quality
+
+on:
+  pull_request:
+    # Contributions target dev. Promotions are pull requests from dev into main,
+    # validated here on their exact head before promote fast-forwards main.
+    branches: [dev, main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  impact:
+    name: Contribution impact
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      docs: ${{ steps.impact.outputs.docs }}
+      cli: ${{ steps.impact.outputs.cli }}
+      dialects: ${{ steps.impact.outputs.dialects }}
+      policies: ${{ steps.impact.outputs.policies }}
+      examples: ${{ steps.impact.outputs.examples }}
+      distribution: ${{ steps.impact.outputs.distribution }}
+      tooling: ${{ steps.impact.outputs.tooling }}
+      generated: ${{ steps.impact.outputs.generated }}
+      scenarios: ${{ steps.impact.outputs.scenarios }}
+      registry: ${{ steps.impact.outputs.registry }}
+      plan: ${{ steps.impact.outputs.plan }}
+    steps:
+      - name: Check out exact public source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Check out trusted classification policy
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: artifacts/ci-trusted
+          persist-credentials: false
+
+      - name: Classify exact changes using base policy
+        id: impact
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          if [[ -f artifacts/ci-trusted/scripts/ci/classify.ts ]]; then
+            bun artifacts/ci-trusted/scripts/ci/classify.ts . "$BASE_SHA" "$HEAD_SHA" artifacts/impact.json
+          else
+            # A base without the classification policy cannot narrow checks: fail broad, never skip.
+            python3 - <<'PYTHON'
+          import json, os
+          lanes = ['docs', 'cli', 'dialects', 'policies', 'examples', 'distribution', 'tooling', 'generated']
+          plan = dict(version=1, lanes=dict.fromkeys(lanes, True), preview=True, scenarios=True, core=True, registry=True, reasons=['Full validation: trusted policy unavailable'])
+          with open('artifacts/impact.json', 'w') as f: json.dump(plan, f, indent=2)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              for lane in lanes: f.write(f'{lane}=true\n')
+              f.write(f'scenarios=true\nregistry=true\nplan={json.dumps(plan)}\n')
+          PYTHON
+          fi
+
+      - name: Retain public impact report
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: contribution-impact-${{ github.event.pull_request.head.sha || github.sha }}
+          path: artifacts/impact.json
+          retention-days: 3
+
+  boundary:
+    name: Repository safety
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact public source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Require promotion to fast-forward main from dev
+        if: github.base_ref == 'main'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PROMOTION_SOURCE: ${{ github.event.pull_request.head.repo.full_name }}:${{ github.head_ref }}
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          if [[ "$PROMOTION_SOURCE" != "$GITHUB_REPOSITORY:dev" ]]; then
+            echo "::error::main receives only promotions from $GITHUB_REPOSITORY:dev. Target dev instead."
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor "$BASE_SHA" "$HEAD_SHA"; then
+            echo "::error::main is not an ancestor of dev. Promotion must be a fast-forward."
+            exit 1
+          fi
+          {
+            echo "## Promotion"
+            echo
+            echo "Fast-forwards main from \`$BASE_SHA\` to the exact dev commit \`$HEAD_SHA\` ($(git rev-list --count "$BASE_SHA..$HEAD_SHA") commits)."
+            echo "Once this check passes, run the promote workflow for pull request #$PULL_REQUEST."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Install exact dependencies without lifecycle scripts
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Install verified Gitleaks
+        env:
+          GITLEAKS_ARCHIVE: gitleaks_8.30.1_linux_x64.tar.gz
+          GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+          GITLEAKS_VERSION: 8.30.1
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v$GITLEAKS_VERSION/$GITLEAKS_ARCHIVE"
+          printf '%s  %s\n' "$GITLEAKS_SHA256" "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" --directory "$RUNNER_TEMP" gitleaks
+          printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      - name: Install verified actionlint
+        env:
+          ACTIONLINT_ARCHIVE: actionlint_1.7.12_linux_amd64.tar.gz
+          ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+          ACTIONLINT_VERSION: 1.7.12
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" \
+            "https://github.com/rhysd/actionlint/releases/download/v$ACTIONLINT_VERSION/$ACTIONLINT_ARCHIVE"
+          printf '%s  %s\n' "$ACTIONLINT_SHA256" "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" --directory "$RUNNER_TEMP" actionlint
+          printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      - name: Validate public boundary and formatting
+        env:
+          PUBLIC_TITLE: ${{ github.event.pull_request.title }}
+          PUBLIC_BODY: ${{ github.event.pull_request.body }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          bun scripts/check-publication.ts --metadata-env --range "$BASE_SHA..HEAD"
+          bun scripts/validate-repository.ts
+          bun run check:format
+          actionlint -no-color -oneline
+
+      - name: Scan working tree
+        run: gitleaks dir --no-banner --redact --config .gitleaks.toml .
+
+      - name: Scan introduced history
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$BASE_SHA" ]]; then
+            gitleaks git --no-banner --redact --config .gitleaks.toml --log-opts="$BASE_SHA..HEAD" .
+          else
+            gitleaks git --no-banner --redact --config .gitleaks.toml .
+          fi
+
+  docs:
+    name: Documentation
+    needs: impact
+    if: needs.impact.outputs.docs == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact public source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Install exact dependencies without lifecycle scripts
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Validate documentation
+        run: bun scripts/ci/run.ts docs
+
+  cli:
+    name: public CLI module
+    needs: impact
+    if: needs.impact.outputs.cli == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Check out exact public source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Install exact Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "1.26.7"
+          cache: false
+
+      - name: Install exact dependencies without lifecycle scripts
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Initialize source security analysis
+        uses: github/codeql-action/init@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
+        with:
+          languages: go
+          build-mode: manual
+          dependency-caching: false
+
+      - name: Validate public cli module
+        run: bun scripts/ci/run.ts cli
+
+      - name: Analyze source security
+        uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
+        with:
+          category: /language:go
+
+  content:
+    name: Dialect, Policy and executable examples
+    needs: impact
+    if: needs.impact.outputs.dialects == 'true' || needs.impact.outputs.policies == 'true' || needs.impact.outputs.examples == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact public source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Install exact dependencies without lifecycle scripts
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Validate selected runtime content against exact reference runtime
+        env:
+          DIALECTS: ${{ needs.impact.outputs.dialects }}
+          POLICIES: ${{ needs.impact.outputs.policies }}
+          EXAMPLES: ${{ needs.impact.outputs.examples }}
+          SCENARIOS: ${{ needs.impact.outputs.scenarios }}
+        run: |
+          set -euo pipefail
+          lanes=()
+          [[ "$DIALECTS" != true ]] || lanes+=(dialects)
+          [[ "$POLICIES" != true ]] || lanes+=(policies)
+          [[ "$EXAMPLES" != true ]] || lanes+=(examples)
+          [[ "$SCENARIOS" != true ]] || lanes+=(scenarios)
+          bun scripts/ci/run.ts "${lanes[@]}"
+
+      - name: Qualify changed registry examples with disposable local TLS
+        if: needs.impact.outputs.registry == 'true'
+        run: bun scripts/ci/run.ts registry
+
+  generated:
+    name: Generated references
+    needs: impact
+    if: needs.impact.outputs.generated == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact public source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Install exact Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "1.26.7"
+          cache: false
+
+      - name: Install exact dependencies without lifecycle scripts
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Validate generated references
+        run: bun scripts/ci/run.ts generated
+
+      - name: Prepare expected generated diff after a failure
+        if: failure()
+        run: bun scripts/ci/generated-diff.ts
+
+      - name: Return expected generated output to the contributor
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: expected-generated-references-${{ github.event.pull_request.head.sha || github.sha }}
+          path: artifacts/generated-references/*
+          retention-days: 3
+          if-no-files-found: warn
+
+  distribution:
+    name: Distribution contracts
+    needs: impact
+    if: needs.impact.outputs.distribution == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact public source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Install exact dependencies without lifecycle scripts
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Install verified Trivy
+        env:
+          TRIVY_ARCHIVE: trivy_0.74.0_Linux-64bit.tar.gz
+          TRIVY_SHA256: 2ae6fe3ee734b7fdf11335663e18c75ea12dccc76062f09f164a3b0f8be4371a
+          TRIVY_VERSION: 0.74.0
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$TRIVY_ARCHIVE" \
+            "https://github.com/aquasecurity/trivy/releases/download/v$TRIVY_VERSION/$TRIVY_ARCHIVE"
+          printf '%s  %s\n' "$TRIVY_SHA256" "$RUNNER_TEMP/$TRIVY_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$TRIVY_ARCHIVE" --directory "$RUNNER_TEMP" trivy
+          printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      - name: Validate distribution contracts
+        run: bun scripts/ci/run.ts distribution
+      - name: Enforce OCI base vulnerability policy
+        run: |
+          set -euo pipefail
+          mapfile -t bases < <(awk 'toupper($1) == "FROM" { print $2 }' oci/Dockerfile)
+          test "${#bases[@]}" -eq 1
+          base="${bases[0]}"
+          [[ "$base" =~ ^alpine:[0-9]+\.[0-9]+@sha256:[0-9a-f]{64}$ ]]
+          first=true
+          for platform in linux/amd64 linux/arm64; do
+            update=()
+            if [[ "$first" = false ]]; then
+              update=(--skip-db-update)
+            fi
+            trivy image \
+              "${update[@]}" \
+              --platform "$platform" \
+              --scanners vuln \
+              --ignorefile .trivyignore.yaml \
+              --severity HIGH,CRITICAL \
+              --exit-code 1 \
+              "$base"
+            trivy image \
+              --skip-db-update \
+              --platform "$platform" \
+              --scanners vuln \
+              --ignorefile .trivyignore.yaml \
+              --severity MEDIUM,LOW \
+              --exit-code 0 \
+              "$base"
+            first=false
+          done
+
+
+  tooling:
+    name: Shared tooling
+    needs: impact
+    if: needs.impact.outputs.tooling == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Check out exact public source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Install exact dependencies without lifecycle scripts
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Install verified Gitleaks
+        env:
+          GITLEAKS_ARCHIVE: gitleaks_8.30.1_linux_x64.tar.gz
+          GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+          GITLEAKS_VERSION: 8.30.1
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v$GITLEAKS_VERSION/$GITLEAKS_ARCHIVE"
+          printf '%s  %s\n' "$GITLEAKS_SHA256" "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" --directory "$RUNNER_TEMP" gitleaks
+          printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      - name: Initialize source security analysis
+        uses: github/codeql-action/init@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
+        with:
+          languages: actions,javascript-typescript
+          build-mode: none
+          dependency-caching: false
+
+      - name: Validate shared tooling
+        run: bun scripts/ci/run.ts tooling
+
+      - name: Analyze source security
+        uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
+        with:
+          category: /language:tooling
+
+  quality:
+    # Required context stays unchanged and is always produced, including failures.
+    name: public repository boundary
+    needs: [impact, boundary, docs, cli, content, generated, distribution, tooling]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require every selected lane to succeed
+        env:
+          PLAN: ${{ needs.impact.outputs.plan }}
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          python3 - <<'PYTHON'
+          import json, os
+          results = json.loads(os.environ['RESULTS'])
+          assert results['impact']['result'] == 'success', 'Impact classification did not succeed'
+          assert results['boundary']['result'] == 'success', 'Repository safety did not succeed'
+          plan = json.loads(os.environ['PLAN'])
+          assert plan['version'] == 1, 'Unknown impact policy'
+          required = dict(plan['lanes'])
+          content = [required.pop(k) for k in ['dialects', 'policies', 'examples']]
+          required['content'] = any(content)
+          lines = ['## Contribution validation', '', '| Check | Result |', '| --- | --- |']
+          failures = []
+          for lane, needed in required.items():
+              result = results[lane]['result']
+              if needed and result != 'success': failures.append(f'{lane}: {result}')
+              if not needed and result not in ['skipped', 'success']: failures.append(f'{lane}: {result}')
+              lines.append(f'| {lane} | {result}' + ('' if needed else ' (not required for this impact)') + ' |')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'w') as f: f.write('\n'.join(lines) + '\n')
+          assert not failures, 'Required validations failed or did not execute: ' + ', '.join(failures)
+          PYTHON

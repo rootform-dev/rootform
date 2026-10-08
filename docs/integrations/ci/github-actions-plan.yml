@@ -1,0 +1,38 @@
+name: Rootform plan review
+
+on: [pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  plan-review:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: 1.16.4
+          terraform_wrapper: false
+      # Your planning step owns backend/provider credentials. For fork PRs,
+      # produce protected plan evidence in a trusted context instead.
+      - name: Export plan
+        working-directory: infra
+        run: |
+          terraform init -input=false
+          terraform plan -input=false -out="$RUNNER_TEMP/plan.tfplan"
+          terraform show -json "$RUNNER_TEMP/plan.tfplan" > "$RUNNER_TEMP/plan.json"
+      # Rootform reads completed files, runs no provider, and publishes only
+      # the Form and derived reports. Summary and artifacts default to on.
+      - uses: rootform-dev/action@17cf0cbefae80ac388b54e0329dd40f3cd0f659e # v1
+        id: rootform
+        with:
+          version: 0.1.0
+          project: ./infra
+          input: ${{ runner.temp }}/plan.json
+          plan-file: ${{ runner.temp }}/plan.tfplan
+          # With an existing infra/rootform.lock:
+          # locked: true
+          # check: true

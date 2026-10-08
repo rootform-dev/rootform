@@ -1,0 +1,144 @@
+{
+  "format_version": "1",
+  "scenarios": [
+    {
+      "id": "newrelic-minimal",
+      "fixture": "fixtures/newrelic-v3/minimal",
+      "required_rules": [
+        "newrelic.rule.account-management",
+        "newrelic.rule.browser-application",
+        "newrelic.rule.fleet",
+        "newrelic.rule.synthetics-private-location"
+      ],
+      "minimum": {
+        "representations": 4,
+        "relations": 0,
+        "contexts": 0,
+        "contributions": 0
+      },
+      "maximum_facts": {
+        "contexts": 0,
+        "contributions": 0,
+        "relations": 0
+      },
+      "limitations": [
+        "The saved plan demonstrates roots without contacting New Relic."
+      ]
+    },
+    {
+      "id": "newrelic-broad-observability",
+      "fixture": "fixtures/newrelic-v3/scenarios",
+      "required_rules": [
+        "newrelic.rule.account-lookup",
+        "newrelic.rule.account-management",
+        "newrelic.rule.application-lookup",
+        "newrelic.rule.application-settings",
+        "newrelic.rule.aws-connection",
+        "newrelic.rule.browser-application",
+        "newrelic.rule.cardinality-management",
+        "newrelic.rule.cloud-account-lookup",
+        "newrelic.rule.cloud-aws-eu-sovereign-integrations",
+        "newrelic.rule.cloud-aws-eu-sovereign-link-account",
+        "newrelic.rule.cloud-aws-govcloud-integrations",
+        "newrelic.rule.cloud-aws-govcloud-link-account",
+        "newrelic.rule.cloud-aws-integrations",
+        "newrelic.rule.cloud-aws-link-account",
+        "newrelic.rule.cloud-azure-integrations",
+        "newrelic.rule.cloud-azure-link-account",
+        "newrelic.rule.cloud-gcp-dm-integrations",
+        "newrelic.rule.cloud-gcp-integrations",
+        "newrelic.rule.cloud-gcp-link-account",
+        "newrelic.rule.cloud-oci-link-account",
+        "newrelic.rule.data-partition-rule",
+        "newrelic.rule.events-to-metrics-rule",
+        "newrelic.rule.federated-logs-partition",
+        "newrelic.rule.federated-logs-setup",
+        "newrelic.rule.fleet",
+        "newrelic.rule.fleet-configuration",
+        "newrelic.rule.fleet-configuration-lookup",
+        "newrelic.rule.fleet-deployment",
+        "newrelic.rule.fleet-members",
+        "newrelic.rule.fleet-members-lookup",
+        "newrelic.rule.key-transaction",
+        "newrelic.rule.key-transaction-lookup",
+        "newrelic.rule.log-parsing-rule",
+        "newrelic.rule.metric-pruning-rule",
+        "newrelic.rule.nrql-drop-rule",
+        "newrelic.rule.obfuscation-expression",
+        "newrelic.rule.obfuscation-expression-lookup",
+        "newrelic.rule.obfuscation-rule",
+        "newrelic.rule.pipeline-cloud-rule",
+        "newrelic.rule.synthetics-broken-links-monitor",
+        "newrelic.rule.synthetics-cert-check-monitor",
+        "newrelic.rule.synthetics-monitor",
+        "newrelic.rule.synthetics-private-location",
+        "newrelic.rule.synthetics-private-location-lookup",
+        "newrelic.rule.synthetics-script-monitor",
+        "newrelic.rule.synthetics-step-monitor",
+        "newrelic.rule.workload"
+      ],
+      "required_outcomes": {
+        "newrelic_one_dashboard.must_not_create_topology": "no-rule",
+        "newrelic_account_management.platform": "representation-present",
+        "newrelic_fleet.production": "representation-present",
+        "newrelic_synthetics_monitor.api": "representation-present"
+      },
+      "required_facts": [
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:newrelic_cloud_gcp_link_account.production",
+          "to": "representation:1:root:resource:google_service_account.newrelic",
+          "type": "authorized-by",
+          "rule": "newrelic.rule.cloud-gcp-link-account"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:newrelic_federated_logs_setup.logs",
+          "to": "representation:1:root:resource:newrelic_aws_connection.ingest",
+          "type": "ingests-through",
+          "rule": "newrelic.rule.federated-logs-setup"
+        },
+        {
+          "collection": "contributions",
+          "from": "representation:1:root:resource:newrelic_synthetics_monitor.api",
+          "to": "representation:1:root:resource:newrelic_synthetics_private_location.private",
+          "rule": "newrelic.rule.synthetics-monitor"
+        }
+      ],
+      "minimum": {
+        "representations": 52,
+        "relations": 3,
+        "contexts": 34,
+        "contributions": 15
+      },
+      "maximum_facts": {
+        "contexts": 35,
+        "contributions": 15,
+        "relations": 7
+      },
+      "forbidden_output": [
+        "ROOTFORM_NEWRELIC_PROVIDER_KEY_SENTINEL",
+        "ROOTFORM_NEWRELIC_AZURE_SECRET_SENTINEL",
+        "ROOTFORM_NEWRELIC_OCI_SECRET_SENTINEL",
+        "ROOTFORM_NEWRELIC_FLEET_CONFIG_SENTINEL",
+        "ROOTFORM_NEWRELIC_SCRIPT_SENTINEL",
+        "ROOTFORM_NEWRELIC_WORKFLOW_DEFINITION_SENTINEL",
+        "ROOTFORM_NEWRELIC_NRQL_SENTINEL",
+        "ROOTFORM_NEWRELIC_DASHBOARD_SENTINEL"
+      ],
+      "limitations": [
+        "Ownership and contribution facts require resolved plan evidence. The AWS role reference does not establish an authorization relation unless the role has an interpreted target concept."
+      ]
+    },
+    {
+      "id": "newrelic-fail-closed",
+      "fixture": "fixtures/newrelic-v3/boundary",
+      "forbidden_output": [
+        "ROOTFORM_NEWRELIC_BOUNDARY_SECRET_SENTINEL"
+      ],
+      "limitations": [
+        "In this saved plan, literals, ambiguity, dangling references, target mismatches, and dependencies establish no unsupported facts. The architecture document retains represented resources."
+      ]
+    }
+  ]
+}

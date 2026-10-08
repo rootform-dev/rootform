@@ -1,0 +1,314 @@
+[
+  {
+    "label": "Get started",
+    "items": [
+      { "label": "Overview", "page": "index" },
+      { "label": "Quickstart", "page": "getting-started/quickstart" },
+      { "label": "Install Rootform", "page": "installation" },
+      { "label": "Analyze your plan or state", "page": "getting-started/analyze-your-plan" },
+      { "label": "Glossary", "page": "reference/glossary" }
+    ]
+  },
+  {
+    "label": "Analyze and review",
+    "items": [
+      { "label": "Choose an input", "page": "inputs" },
+      { "label": "Explore a Form", "page": "guides/explore-architecture" },
+      { "label": "Explain an architecture", "page": "guides/explain-architecture" },
+      { "label": "Review planned changes", "page": "guides/review-planned-changes" },
+      { "label": "Compare two Forms", "page": "guides/compare-architectures" },
+      { "label": "Terraform and OpenTofu plans", "page": "inputs/plans" }
+    ]
+  },
+  {
+    "label": "Check and automate",
+    "items": [
+      { "label": "Check a Form with Policies", "page": "guides/check-with-policies" },
+      { "label": "Understand Policy outcomes", "page": "guides/check-architecture" },
+      { "label": "Review a pull request", "page": "workflows" }
+    ]
+  },
+  {
+    "label": "Integrations",
+    "items": [
+      { "label": "Overview", "page": "integrations" },
+      {
+        "label": "GitHub",
+        "items": [
+          { "label": "Overview", "page": "integrations/github-actions" },
+          { "label": "Action", "page": "integrations/github-actions/action" },
+          { "label": "Analyze", "page": "integrations/github-actions/analyze" },
+          { "label": "Compare", "page": "integrations/github-actions/compare" },
+          { "label": "Check", "page": "integrations/github-actions/check" },
+          { "label": "Setup", "page": "integrations/github-actions/setup" },
+          { "label": "Init", "page": "integrations/github-actions/init" }
+        ]
+      },
+      { "label": "VS Code", "page": "integrations/vscode" },
+      { "label": "Zed", "page": "integrations/zed" },
+      { "label": "Other CI/CD", "page": "integrations/ci" },
+      { "label": "Container image", "page": "integrations/oci-image" }
+    ]
+  },
+  {
+    "label": "Understand Rootform",
+    "items": [
+      { "label": "How Rootform works", "page": "concepts" },
+      { "label": "Forms and stages", "page": "concepts/forms" },
+      { "label": "Trace a placement", "page": "getting-started/first-architecture" },
+      { "label": "Comparisons and drift", "page": "concepts/comparisons" },
+      { "label": "Dialects and RF Vocabulary", "page": "concepts/dialects" },
+      { "label": "Policies and Policy Packs", "page": "concepts/policies" },
+      { "label": "Install, add, and vendor", "page": "concepts/external-content" }
+    ]
+  },
+  {
+    "label": "Configure and extend",
+    "items": [
+      { "label": "Select Dialects and Policy Packs", "page": "cli" },
+      { "label": "Add external content", "page": "guides/external-content" },
+      { "label": "Locks and vendored content", "page": "offline-security" },
+      { "label": "Reproduce an analysis offline", "page": "guides/reproduce-build" }
+    ]
+  },
+  {
+    "label": "Rootform language",
+    "items": [
+      { "label": "Overview", "page": "language" },
+      {
+        "label": "Learn",
+        "items": [
+          { "label": "Language tour", "page": "language/tour" },
+          { "label": "Read a Rule", "page": "language/learn/read-a-rule" },
+          { "label": "Choose an architectural fact", "page": "language/learn/facts" },
+          { "label": "Evidence and target resolution", "page": "language/learn/evidence-targets" },
+          { "label": "Understand composition", "page": "language/learn/composition" },
+          { "label": "Policies over facts", "page": "language/learn/policies" }
+        ]
+      },
+      {
+        "label": "Author",
+        "items": [
+          { "label": "Edit source", "page": "language/editors" },
+          { "label": "Write a Dialect", "page": "dialect-authoring" },
+          { "label": "Use a local Dialect", "page": "guides/local-dialect" },
+          { "label": "Write a Policy Pack", "page": "language/write-policy-pack" },
+          { "label": "Test and validate", "page": "language/test-validate" }
+        ]
+      },
+      {
+        "label": "Language reference",
+        "collapsed": true,
+        "items": [
+          { "label": "Overview", "page": "language/reference" },
+          {
+            "label": "Source units",
+            "items": [
+              { "label": "Syntax and files", "page": "language/reference/syntax-files" },
+              { "label": "Symbols and references", "page": "language/reference/symbols" },
+              { "label": "RF Vocabulary", "page": "language/reference/rf-vocabulary" }
+            ]
+          },
+          {
+            "label": "Dialects",
+            "items": [
+              { "label": "Dialect declarations", "page": "language/reference/dialects" },
+              { "label": "Rules and matching", "page": "language/reference/rules" },
+              { "label": "Fact emissions", "page": "language/reference/emissions" },
+              { "label": "Composition", "page": "language/reference/composition" }
+            ]
+          },
+          {
+            "label": "Expression language",
+            "items": [
+              { "label": "Expressions", "page": "language/reference/expressions" },
+              { "label": "Traversals and scope", "page": "language/reference/traversals" },
+              { "label": "Built-ins", "page": "language/reference/built-ins" }
+            ]
+          },
+          {
+            "label": "Policies",
+            "items": [
+              { "label": "Policy Packs", "page": "language/reference/policy-packs" },
+              { "label": "Evaluation", "page": "language/reference/evaluation" }
+            ]
+          },
+          { "label": "Diagnostics and limits", "page": "language/reference/diagnostics" }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Reference",
+    "items": [
+      {
+        "label": "Provider coverage",
+        "collapsed": true,
+        "items": [
+          { "label": "Overview", "page": "reference/provider-coverage" },
+          { "label": "auth0", "page": "reference/provider-coverage/auth0" },
+          { "label": "aws", "page": "reference/provider-coverage/aws" },
+          { "label": "azure", "page": "reference/provider-coverage/azure" },
+          { "label": "cloudflare", "page": "reference/provider-coverage/cloudflare" },
+          { "label": "confluent", "page": "reference/provider-coverage/confluent" },
+          { "label": "consul", "page": "reference/provider-coverage/consul" },
+          { "label": "databricks", "page": "reference/provider-coverage/databricks" },
+          { "label": "datadog", "page": "reference/provider-coverage/datadog" },
+          { "label": "google", "page": "reference/provider-coverage/google" },
+          { "label": "grafana", "page": "reference/provider-coverage/grafana" },
+          { "label": "hcp", "page": "reference/provider-coverage/hcp" },
+          { "label": "kestra", "page": "reference/provider-coverage/kestra" },
+          { "label": "kubernetes", "page": "reference/provider-coverage/kubernetes" },
+          { "label": "mongodb-atlas", "page": "reference/provider-coverage/mongodb-atlas" },
+          { "label": "newrelic", "page": "reference/provider-coverage/newrelic" },
+          { "label": "okta", "page": "reference/provider-coverage/okta" },
+          { "label": "snowflake", "page": "reference/provider-coverage/snowflake" },
+          { "label": "vault", "page": "reference/provider-coverage/vault" }
+        ]
+      },
+      { "label": "Outputs and exit status", "page": "reference/outputs" },
+      { "label": "External content storage", "page": "reference/storage" },
+      {
+        "label": "CLI reference",
+        "collapsed": true,
+        "items": [
+          { "label": "Overview", "page": "reference/cli" },
+          {
+            "label": "add",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/add" },
+              { "label": "dialects", "page": "reference/cli/add/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/add/policy-packs" }
+            ]
+          },
+          { "label": "check", "page": "reference/cli/check" },
+          {
+            "label": "compile",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/compile" },
+              { "label": "policy-pack", "page": "reference/cli/compile/policy-pack" }
+            ]
+          },
+          { "label": "completion", "page": "reference/cli/completion" },
+          {
+            "label": "explain",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/explain" },
+              { "label": "instance", "page": "reference/cli/explain/instance" },
+              { "label": "policy", "page": "reference/cli/explain/policy" },
+              { "label": "rule", "page": "reference/cli/explain/rule" }
+            ]
+          },
+          { "label": "fmt", "page": "reference/cli/fmt" },
+          { "label": "init", "page": "reference/cli/init" },
+          {
+            "label": "install",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/install" },
+              { "label": "dialects", "page": "reference/cli/install/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/install/policy-packs" }
+            ]
+          },
+          {
+            "label": "list",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/list" },
+              { "label": "dialects", "page": "reference/cli/list/dialects" },
+              { "label": "policies", "page": "reference/cli/list/policies" },
+              { "label": "policy-packs", "page": "reference/cli/list/policy-packs" }
+            ]
+          },
+          { "label": "lsp", "page": "reference/cli/lsp" },
+          {
+            "label": "package",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/package" },
+              { "label": "dialects", "page": "reference/cli/package/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/package/policy-packs" }
+            ]
+          },
+          {
+            "label": "publish",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/publish" },
+              { "label": "dialects", "page": "reference/cli/publish/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/publish/policy-packs" }
+            ]
+          },
+          {
+            "label": "remove",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/remove" },
+              { "label": "dialects", "page": "reference/cli/remove/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/remove/policy-packs" }
+            ]
+          },
+          { "label": "run", "page": "reference/cli/run" },
+          {
+            "label": "show",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/show" },
+              { "label": "policy", "page": "reference/cli/show/policy" },
+              { "label": "policy-pack", "page": "reference/cli/show/policy-pack" }
+            ]
+          },
+          { "label": "test", "page": "reference/cli/test" },
+          {
+            "label": "uninstall",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/uninstall" },
+              { "label": "dialects", "page": "reference/cli/uninstall/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/uninstall/policy-packs" }
+            ]
+          },
+          {
+            "label": "update",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/update" },
+              { "label": "dialect", "page": "reference/cli/update/dialect" },
+              { "label": "policy-pack", "page": "reference/cli/update/policy-pack" }
+            ]
+          },
+          {
+            "label": "validate",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/validate" },
+              { "label": "concept", "page": "reference/cli/validate/concept" },
+              { "label": "context", "page": "reference/cli/validate/context" },
+              { "label": "dialects", "page": "reference/cli/validate/dialects" },
+              { "label": "form", "page": "reference/cli/validate/form" },
+              { "label": "policy", "page": "reference/cli/validate/policy" },
+              { "label": "relation", "page": "reference/cli/validate/relation" },
+              { "label": "rule", "page": "reference/cli/validate/rule" }
+            ]
+          },
+          {
+            "label": "vendor",
+            "items": [
+              { "label": "Overview", "page": "reference/cli/vendor" },
+              { "label": "dialects", "page": "reference/cli/vendor/dialects" },
+              { "label": "policy-packs", "page": "reference/cli/vendor/policy-packs" }
+            ]
+          },
+          { "label": "version", "page": "reference/cli/version" }
+        ]
+      },
+      { "label": "Registry compatibility", "page": "integrations/registry-compatibility" }
+    ]
+  },
+  {
+    "label": "Security and help",
+    "items": [
+      { "label": "Security and data handling", "page": "security" },
+      { "label": "Limitations", "page": "limitations" },
+      { "label": "Troubleshooting", "page": "troubleshooting" }
+    ]
+  },
+  {
+    "label": "Contribute",
+    "items": [
+      { "label": "Contribute to Rootform", "page": "contributing" },
+      { "label": "Writing for Rootform", "page": "contributing/writing" }
+    ]
+  }
+]

@@ -1,0 +1,467 @@
+#!/usr/bin/env bun
+
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { dirname, join, relative, resolve } from "node:path";
+
+type Flag = {
+  name: string;
+  type: string;
+  group: string;
+  default: string;
+  usage: string;
+  shorthand?: string;
+  required?: boolean;
+  no_option_default?: string;
+  deprecated?: string;
+  shorthand_deprecated?: string;
+};
+
+export type Command = {
+  path: string;
+  usage: string;
+  summary: string;
+  description: string;
+  aliases?: string[];
+  examples?: string;
+  deprecated?: string;
+  group?: string;
+  command_groups?: string[];
+  flag_groups: string[];
+  subcommands?: string[];
+  flags?: Flag[];
+  inherited_flags?: Flag[];
+};
+
+const commandKeys = [
+  "path",
+  "usage",
+  "summary",
+  "description",
+  "aliases",
+  "examples",
+  "deprecated",
+  "group",
+  "command_groups",
+  "flag_groups",
+  "subcommands",
+  "flags",
+  "inherited_flags",
+];
+const flagKeys = [
+  "name",
+  "type",
+  "group",
+  "default",
+  "usage",
+  "shorthand",
+  "required",
+  "no_option_default",
+  "deprecated",
+  "shorthand_deprecated",
+];
+const notice =
+  "<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->";
+export const endGenerated = "<!-- END GENERATED CLI -->";
+export const beginGenerated = (path: string): string => `<!-- BEGIN GENERATED CLI: ${path} -->`;
+// These pages retain authored guidance; only their syntax and command inventory are generated.
+const authoredCommands = new Set([
+  "rootform",
+  "rootform run",
+  "rootform check",
+  "rootform init",
+  "rootform explain",
+  "rootform explain instance",
+  "rootform explain policy",
+  "rootform explain rule",
+  "rootform list",
+  "rootform list dialects",
+  "rootform list policies",
+  "rootform list policy-packs",
+  "rootform show",
+  "rootform show policy",
+  "rootform show policy-pack",
+  "rootform vendor",
+  "rootform vendor dialects",
+  "rootform vendor policy-packs",
+  "rootform completion",
+  "rootform version",
+  "rootform validate",
+  "rootform validate form",
+]);
+
+function object(value: unknown, keys: string[]): Record<string, unknown> {
+  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+    throw new Error("CLI reference: expected object");
+  }
+  const result = value as Record<string, unknown>;
+  for (const key of Object.keys(result)) {
+    if (!keys.includes(key)) throw new Error(`CLI reference: unknown field ${key}`);
+  }
+  return result;
+}
+
+function strings(value: unknown, label: string): string[] {
+  if (!Array.isArray(value) || value.some((item) => typeof item !== "string")) {
+    throw new Error(`CLI reference: ${label} must contain strings`);
+  }
+  return value;
+}
+
+function uniqueStrings(value: unknown, label: string): string[] {
+  const items = strings(value, label);
+  if (new Set(items).size !== items.length) {
+    throw new Error(`CLI reference: duplicate ${label}`);
+  }
+  return items;
+}
+
+export function parseReference(value: unknown): Command[] {
+  const document = object(value, ["format_version", "commands"]);
+  if (document.format_version !== 1 || !Array.isArray(document.commands)) {
+    throw new Error("CLI reference: unsupported document");
+  }
+  const seen = new Set<string>();
+  for (const entry of document.commands) {
+    const cmd = object(entry, commandKeys);
+    for (const key of ["path", "usage", "summary", "description"]) {
+      if (typeof cmd[key] !== "string") throw new Error(`CLI reference: missing ${key}`);
+    }
+    const path = String(cmd.path);
+    if (!/^rootform(?: [a-z][a-z0-9-]*)*$/u.test(path) || seen.has(path)) {
+      throw new Error(`CLI reference: invalid or duplicate command ${path}`);
+    }
+    seen.add(path);
+    for (const key of ["examples", "deprecated"]) {
+      if (cmd[key] !== undefined && typeof cmd[key] !== "string") {
+        throw new Error(`CLI reference: invalid ${key}`);
+      }
+    }
+    if (cmd.group !== undefined && typeof cmd.group !== "string") {
+      throw new Error("CLI reference: invalid group");
+    }
+    if (cmd.command_groups !== undefined) uniqueStrings(cmd.command_groups, "command_groups");
+    const flagGroups = uniqueStrings(cmd.flag_groups, "flag_groups");
+    if (!flagGroups.length || flagGroups.at(-1) !== "Global options") {
+      throw new Error("CLI reference: flag_groups must end with Global options");
+    }
+    for (const key of ["aliases", "subcommands"]) {
+      if (cmd[key] !== undefined) strings(cmd[key], key);
+    }
+    const names = new Set<string>();
+    const populatedGroups = new Set<string>();
+    for (const key of ["flags", "inherited_flags"]) {
+      const flags = cmd[key];
+      if (flags === undefined) continue;
+      if (!Array.isArray(flags)) throw new Error(`CLI reference: invalid ${key}`);
+      for (const raw of flags) {
+        const flag = object(raw, flagKeys);
+        for (const field of ["name", "type", "group", "default", "usage"]) {
+          if (typeof flag[field] !== "string")
+            throw new Error(`CLI reference: missing flag ${field}`);
+        }
+        if (!/^[a-z][a-z0-9-]*$/u.test(String(flag.name)) || names.has(String(flag.name))) {
+          throw new Error("CLI reference: invalid or shadowed flag");
+        }
+        names.add(String(flag.name));
+        if (!flagGroups.includes(String(flag.group))) {
+          throw new Error(`CLI reference: flag group ${String(flag.group)} is not listed`);
+        }
+        if (
+          (key === "inherited_flags" || flag.name === "help" || flag.name === "version") &&
+          flag.group !== "Global options"
+        ) {
+          throw new Error(`CLI reference: ${String(flag.name)} must use Global options`);
+        }
+        populatedGroups.add(String(flag.group));
+        for (const [field, item] of Object.entries(flag)) {
+          if (typeof item !== (field === "required" ? "boolean" : "string")) {
+            throw new Error(`CLI reference: invalid flag ${field}`);
+          }
+        }
+      }
+    }
+    if (flagGroups.some((group) => !populatedGroups.has(group))) {
+      throw new Error(`CLI reference: empty flag group for ${path}`);
+    }
+  }
+  if (!seen.has("rootform")) throw new Error("CLI reference: root command missing");
+  const commands = document.commands as Command[];
+  for (const cmd of commands) {
+    const children = commands.filter(
+      (child) => child.path.split(" ").slice(0, -1).join(" ") === cmd.path,
+    );
+    const expected = children.map((child) => child.path).sort();
+    if (JSON.stringify([...(cmd.subcommands ?? [])].sort()) !== JSON.stringify(expected)) {
+      throw new Error(`CLI reference: incomplete child inventory for ${cmd.path}`);
+    }
+    const parent = cmd.path.split(" ").slice(0, -1).join(" ");
+    if (parent && !seen.has(parent)) throw new Error(`CLI reference: missing parent ${parent}`);
+    for (const child of children) {
+      if (cmd.command_groups) {
+        if (child.group === undefined || !cmd.command_groups.includes(child.group)) {
+          throw new Error(`CLI reference: child group not listed for ${child.path}`);
+        }
+      } else if (child.group !== undefined) {
+        throw new Error(`CLI reference: child group without command_groups for ${child.path}`);
+      }
+    }
+  }
+  return commands;
+}
+
+function prose(text: string): string {
+  return text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+}
+
+function cell(text: string): string {
+  return prose(text).replaceAll("|", "\\|").replaceAll("\n", " ");
+}
+
+function flagMeaning(text: string): string {
+  return cell(text).replaceAll("'-'", "`-`");
+}
+
+function code(text: string): string {
+  const delimiter = "`".repeat(
+    Math.max(0, ...[...text.matchAll(/`+/gu)].map((m) => m[0].length)) + 1,
+  );
+  return `${delimiter} ${cell(text)} ${delimiter}`;
+}
+
+function fence(text: string, language: string): string {
+  const delimiter = "`".repeat(
+    Math.max(2, ...[...text.matchAll(/`+/gu)].map((m) => m[0].length)) + 1,
+  );
+  return `${delimiter}${language}\n${text}\n${delimiter}`;
+}
+
+export function commandPage(path: string): string {
+  return path === "rootform"
+    ? "reference/cli/index.md"
+    : `reference/cli/${path.split(" ").slice(1).join("/")}.md`;
+}
+
+function link(from: string, target: string): string {
+  return relative(dirname(commandPage(from)), commandPage(target)).replaceAll("\\", "/");
+}
+
+function flagTable(flags: Flag[], title: string): string {
+  if (!flags.length) return "";
+  const rows = flags.map((flag) => {
+    const name = `${flag.shorthand ? `-${flag.shorthand}, ` : ""}--${flag.name}`;
+    const notes = [
+      flag.required ? "Required." : "",
+      flag.deprecated ? `Deprecated: ${flag.deprecated}` : "",
+      flag.shorthand_deprecated ? `Shorthand deprecated: ${flag.shorthand_deprecated}` : "",
+      flag.no_option_default && !(flag.type === "bool" && flag.no_option_default === "true")
+        ? `Without a value: ${code(flag.no_option_default)}.`
+        : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
+    return `| ${code(name)} | ${code(flag.type)} | ${code(flag.default === "" ? '""' : flag.default)} | ${flagMeaning(flag.usage)}${notes ? ` ${cell(notes)}` : ""} |`;
+  });
+  const heading = title === "Options" ? "" : `### ${title}\n\n`;
+  return `${heading}| Flag | Type | Default | Description |\n| --- | --- | --- | --- |\n${rows.join("\n")}\n`;
+}
+
+export function syntax(cmd: Command): string {
+  const parts = [`## Usage\n\n${fence(cmd.usage, "text")}\n`];
+  if (cmd.aliases?.length) parts.push(`Aliases: ${cmd.aliases.map(code).join(", ")}.\n`);
+  if (cmd.deprecated) parts.push(`Deprecated: ${prose(cmd.deprecated)}\n`);
+  const flags = [...(cmd.flags ?? []), ...(cmd.inherited_flags ?? [])];
+  parts.push(
+    `## Options\n\n${cmd.flag_groups
+      .map((group) =>
+        flagTable(
+          flags.filter((flag) => flag.group === group),
+          group,
+        ),
+      )
+      .join("\n")}`,
+  );
+  return parts.filter(Boolean).join("\n").trimEnd();
+}
+
+function subcommands(cmd: Command, commands: Command[]): string {
+  if (!cmd.subcommands?.length) return "";
+  const descendants = (path: string): string[] => {
+    const entry = commands.find((candidate) => candidate.path === path);
+    return [path, ...(entry?.subcommands ?? []).flatMap(descendants)];
+  };
+  const paths = cmd.path === "rootform" ? cmd.subcommands.flatMap(descendants) : cmd.subcommands;
+  const row = (path: string): string => {
+    const child = commands.find((entry) => entry.path === path);
+    return `| [${code(path)}](${link(cmd.path, path)}) | ${cell(child?.summary ?? "")} |`;
+  };
+  const title = cmd.path === "rootform" ? "Command inventory" : "Subcommands";
+  const table = (groupPaths: string[]): string =>
+    `| Command | Purpose |\n| --- | --- |\n${groupPaths.map(row).join("\n")}`;
+  if (!cmd.command_groups) return `## ${title}\n\n${table(paths)}`;
+  const groups = cmd.command_groups.map((group) => {
+    const groupPaths = paths.filter((path) => {
+      const topLevel = cmd.path === "rootform" ? path.split(" ").slice(0, 2).join(" ") : path;
+      return commands.find((entry) => entry.path === topLevel)?.group === group;
+    });
+    return `### ${group}\n\n${table(groupPaths)}`;
+  });
+  return `## ${title}\n\n${groups.join("\n\n")}`;
+}
+
+export function renderCommand(cmd: Command, commands: Command[]): string {
+  const chunks = [
+    `---\ntitle: ${JSON.stringify(cmd.path === "rootform" ? "CLI command reference" : cmd.path)}\ndescription: ${JSON.stringify(cmd.summary)}\n---`,
+    notice,
+    `${prose(cmd.summary)}.`,
+    syntax(cmd),
+  ];
+  if (cmd.description) {
+    const [body, exits] = cmd.description.split(/\n\nExit status:\n/u);
+    chunks.push(`## Behavior\n\n${prose(body ?? "")}`);
+    if (exits) {
+      const [statusLines, ...remainder] = exits.split("\n\n");
+      const statuses: { status: string; meaning: string }[] = [];
+      for (const line of (statusLines ?? "").split("\n")) {
+        const match = /^ {2}(\d+) {2}(.+)$/u.exec(line);
+        if (match) {
+          statuses.push({ status: match[1] ?? "", meaning: match[2] ?? "" });
+        } else if (/^ {5}\S/u.test(line) && statuses.length) {
+          const previous = statuses.at(-1);
+          if (previous) previous.meaning += ` ${line.trim()}`;
+        } else {
+          throw new Error(`Invalid exit status for ${cmd.path}: ${line}`);
+        }
+      }
+      const rows = statuses.map(({ status, meaning }) => `| \`${status}\` | ${cell(meaning)} |`);
+      chunks.push(
+        `## Exit status\n\n| Status | Description |\n| --- | --- |\n${rows.join("\n")}${remainder.length ? `\n\n${remainder.join("\n\n")}` : ""}`,
+      );
+    }
+  }
+  if (cmd.subcommands?.length) chunks.push(subcommands(cmd, commands));
+  if (cmd.examples) {
+    chunks.push(`## Examples\n\n${fence(cmd.examples.replace(/^ {2}/gmu, ""), "sh")}`);
+  }
+  if (cmd.path === "rootform lsp") {
+    chunks.push(
+      "## Editor clients\n\nConnect `rootform lsp` from [VS Code](../../integrations/vscode.md) or [Zed](../../integrations/zed.md).",
+    );
+  }
+  if (cmd.path === "rootform test") {
+    chunks.push(
+      "Follow [Test and validate](../../language/test-validate.md) for the fixture workflow and Policy evaluation examples.",
+    );
+  }
+  return `${chunks.join("\n\n")}\n`;
+}
+
+export function replaceGenerated(page: string, cmd: Command, commands: Command[]): string {
+  const begin = beginGenerated(cmd.path);
+  if (page.split(begin).length !== 2 || page.split(endGenerated).length !== 2) {
+    throw new Error(`${cmd.path} reference needs exactly one generated block`);
+  }
+  const start = page.indexOf(begin);
+  const end = page.indexOf(endGenerated);
+  if (end < start) throw new Error(`${cmd.path} reference markers are reversed`);
+  const generated = [syntax(cmd), subcommands(cmd, commands)].filter(Boolean).join("\n\n");
+  return `${page.slice(0, start) + begin}\n\n${generated}\n\n${page.slice(end)}`;
+}
+
+type Nav = string | { label: string; page?: string; items?: Nav[] };
+
+export function commandNavigation(commands: Command[]): Nav[] {
+  function entry(cmd: Command): Nav {
+    const label = cmd.path === "rootform" ? "Overview" : (cmd.path.split(" ").at(-1) ?? cmd.path);
+    const page = commandPage(cmd.path)
+      .replace(/\.md$/u, "")
+      .replace(/\/index$/u, "");
+    if (cmd.path !== "rootform" && cmd.subcommands?.length) {
+      return {
+        label,
+        items: [
+          { label: "Overview", page },
+          ...cmd.subcommands.map((path) => {
+            const child = commands.find((candidate) => candidate.path === path);
+            if (!child) throw new Error(`Missing command metadata: ${path}`);
+            return entry(child);
+          }),
+        ],
+      };
+    }
+    return { label, page };
+  }
+  return commands.filter((cmd) => cmd.path.split(" ").length === 2).map(entry);
+}
+
+export function generate(root: string, check: boolean): void {
+  const commands = parseReference(
+    JSON.parse(
+      readFileSync(process.env.ROOTFORM_CLI_REFERENCE ?? join(root, "reference/cli.json"), "utf8"),
+    ),
+  );
+  for (const path of authoredCommands) {
+    if (!commands.some((cmd) => cmd.path === path)) {
+      throw new Error(`Authored CLI reference has no exported command: ${path}`);
+    }
+  }
+  const docs = join(root, "docs");
+  const expected = new Map<string, string>();
+  for (const cmd of commands) {
+    const path = commandPage(cmd.path);
+    const text = authoredCommands.has(cmd.path)
+      ? replaceGenerated(readFileSync(join(docs, path), "utf8"), cmd, commands)
+      : renderCommand(cmd, commands);
+    expected.set(join(docs, path), text);
+  }
+  const navPath = join(docs, "navigation.json");
+  const navigation = JSON.parse(readFileSync(navPath, "utf8")) as Nav[];
+  const reference = navigation.find(
+    (item) => typeof item !== "string" && item.label === "Reference",
+  );
+  const group =
+    typeof reference !== "string"
+      ? reference?.items?.find((item) => typeof item !== "string" && item.label === "CLI reference")
+      : undefined;
+  if (!group || typeof group === "string")
+    throw new Error("Reference > CLI reference navigation group missing");
+  group.items = [{ label: "Overview", page: "reference/cli" }, ...commandNavigation(commands)];
+  // Match the repository formatter without asking it to rewrite opaque input.
+  const formatted = Bun.spawnSync(
+    [join(root, "node_modules/.bin/biome"), "format", "--stdin-file-path=docs/navigation.json"],
+    {
+      cwd: root,
+      stdin: Buffer.from(JSON.stringify(navigation)),
+      stdout: "pipe",
+      stderr: "pipe",
+    },
+  );
+  if (formatted.exitCode !== 0) throw new Error(formatted.stderr.toString());
+  expected.set(navPath, formatted.stdout.toString());
+  const stale = readdirSync(join(docs, "reference/cli"), { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
+    .map((entry) => join(entry.parentPath, entry.name))
+    .filter((path) => !expected.has(path) && readFileSync(path, "utf8").includes(notice));
+  const changed = [...expected].filter(
+    ([path, text]) => !existsSync(path) || readFileSync(path, "utf8") !== text,
+  );
+  if (check && (changed.length || stale.length)) {
+    throw new Error(
+      `Generated CLI reference drift: run bun run generate:cli (${changed.length} changed, ${stale.length} stale)`,
+    );
+  }
+  if (!check) {
+    for (const [path, text] of changed) {
+      mkdirSync(dirname(path), { recursive: true });
+      writeFileSync(path, text);
+    }
+    for (const path of stale) rmSync(path);
+  }
+  console.log(`CLI reference ${check ? "verified" : "generated"}: ${commands.length} commands`);
+}
+
+if (import.meta.main) {
+  const args = process.argv.slice(2);
+  if (args.some((arg) => arg !== "--check") || args.length > 1)
+    throw new Error("Usage: bun scripts/generate-cli-reference.ts [--check]");
+  generate(resolve(import.meta.dir, ".."), args.includes("--check"));
+}

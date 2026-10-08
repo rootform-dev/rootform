@@ -1,0 +1,1437 @@
+{
+  "format_version": "1",
+  "generated_date": "2026-08-29",
+  "method": "exact provider registration names plus authored AWS product terminology; architecture-root selection with explicit helper exclusions",
+  "families": [
+    "compute",
+    "containers",
+    "serverless",
+    "network",
+    "load-balancing",
+    "dns-cdn",
+    "storage",
+    "databases",
+    "data-analytics",
+    "messaging-eventing",
+    "ai-ml",
+    "identity-iam",
+    "security",
+    "api-integration",
+    "operations",
+    "developer-ci-cd",
+    "hybrid",
+    "migration",
+    "iot",
+    "media-communication",
+    "end-user-computing",
+    "governance-management"
+  ],
+  "concepts": [
+    {
+      "name": "api-component",
+      "family": "api-integration",
+      "identity": "aws/apigateway",
+      "description": "A route, stage, integration, or model contributing to an AWS API boundary."
+    },
+    {
+      "name": "appsync-api",
+      "family": "api-integration",
+      "identity": "aws/appsync",
+      "description": "An AWS AppSync GraphQL API boundary."
+    },
+    {
+      "name": "appsync-component",
+      "family": "api-integration",
+      "identity": "aws/appsync",
+      "description": "An AWS AppSync data source, function, or resolver contributing to an API."
+    },
+    {
+      "name": "bedrock-agent-component",
+      "family": "ai-ml",
+      "identity": "aws/bedrockagent",
+      "description": "Configuration contributing to an Amazon Bedrock agent."
+    },
+    {
+      "name": "bedrockagent-agent",
+      "family": "ai-ml",
+      "identity": "aws/bedrockagent",
+      "description": "Amazon Bedrock agent as a durable AWS architecture entity."
+    },
+    {
+      "name": "cognito-component",
+      "family": "identity-iam",
+      "identity": "aws/cognitoidp",
+      "description": "Configuration contributing to an Amazon Cognito user pool."
+    },
+    {
+      "name": "cognito-user-pool",
+      "family": "identity-iam",
+      "identity": "aws/cognitoidp",
+      "description": "Amazon Cognito user pool as a durable AWS architecture scope."
+    },
+    {
+      "name": "connect-component",
+      "family": "media-communication",
+      "identity": "aws/connect",
+      "description": "Routing or contact configuration contributing to an Amazon Connect instance."
+    },
+    {
+      "name": "connect-instance",
+      "family": "media-communication",
+      "identity": "aws/connect",
+      "description": "Amazon Connect instance as a durable AWS architecture entity."
+    },
+    {
+      "name": "container-repository",
+      "family": "containers",
+      "identity": "aws/ecr",
+      "description": "An Amazon ECR repository storing container images."
+    },
+    {
+      "name": "db-proxy",
+      "family": "databases",
+      "identity": "aws/rds",
+      "description": "Amazon RDS DB proxy as a durable AWS architecture entity."
+    },
+    {
+      "name": "db-proxy-component",
+      "family": "databases",
+      "identity": "aws/rds",
+      "description": "An endpoint or target group contributing to an Amazon RDS Proxy."
+    },
+    {
+      "name": "dynamodb-component",
+      "family": "databases",
+      "identity": "aws/dynamodb",
+      "description": "An index contributing to an Amazon DynamoDB table."
+    },
+    {
+      "name": "ecs-cluster",
+      "family": "containers",
+      "identity": "aws/ecs",
+      "description": "An Amazon ECS cluster providing container scheduling capacity."
+    },
+    {
+      "name": "ecs-service",
+      "family": "containers",
+      "identity": "aws/ecs",
+      "description": "An Amazon ECS service maintaining a container workload."
+    },
+    {
+      "name": "eks-compute-profile",
+      "family": "containers",
+      "identity": "aws/eks",
+      "description": "An Amazon EKS Fargate profile contributing serverless pod capacity."
+    },
+    {
+      "name": "emr-cluster",
+      "family": "data-analytics",
+      "identity": "aws/emr",
+      "description": "AWS EMR cluster as a durable AWS architecture entity."
+    },
+    {
+      "name": "emr-cluster-component",
+      "family": "data-analytics",
+      "identity": "aws/emr",
+      "description": "Capacity contributing to an Amazon EMR cluster."
+    },
+    {
+      "name": "event-bus",
+      "family": "messaging-eventing",
+      "identity": "aws/events",
+      "description": "An Amazon EventBridge event bus."
+    },
+    {
+      "name": "event-component",
+      "family": "messaging-eventing",
+      "identity": "aws/events",
+      "description": "An Amazon EventBridge rule or target contributing to an event bus."
+    },
+    {
+      "name": "global-accelerator",
+      "family": "load-balancing",
+      "identity": "aws/globalaccelerator",
+      "description": "An AWS Global Accelerator traffic entry point."
+    },
+    {
+      "name": "global-accelerator-component",
+      "family": "load-balancing",
+      "identity": "aws/globalaccelerator",
+      "description": "A listener or endpoint group contributing to an AWS Global Accelerator."
+    },
+    {
+      "name": "instance-profile",
+      "family": "identity-iam",
+      "identity": "aws/iam",
+      "description": "An IAM instance profile contributing to a service identity."
+    },
+    {
+      "name": "internet-gateway",
+      "family": "network",
+      "identity": "aws/ec2",
+      "description": "Amazon VPC internet gateway as a durable AWS architecture entity."
+    },
+    {
+      "name": "key-alias",
+      "family": "security",
+      "identity": "aws/kms",
+      "description": "An AWS KMS alias contributing to an encryption key."
+    },
+    {
+      "name": "load-balancer-component",
+      "family": "load-balancing",
+      "identity": "aws/elbv2",
+      "description": "A listener or target group contributing to an AWS load balancer."
+    },
+    {
+      "name": "managed-database-component",
+      "family": "databases",
+      "identity": "aws/docdb",
+      "description": "Capacity or an endpoint contributing to a managed database."
+    },
+    {
+      "name": "network-acl",
+      "family": "network",
+      "identity": "aws/ec2",
+      "description": "Amazon VPC network ACL as a durable AWS architecture entity."
+    },
+    {
+      "name": "pinpoint-app",
+      "family": "media-communication",
+      "identity": "aws/pinpoint",
+      "description": "AWS End User Messaging app as a durable AWS architecture entity."
+    },
+    {
+      "name": "pinpoint-component",
+      "family": "media-communication",
+      "identity": "aws/pinpoint",
+      "description": "A channel or event stream contributing to an AWS End User Messaging application."
+    },
+    {
+      "name": "repository-configuration",
+      "family": "containers",
+      "identity": "aws/ecr",
+      "description": "Configuration contributing to an AWS artifact repository."
+    },
+    {
+      "name": "route-table",
+      "family": "network",
+      "identity": "aws/ec2",
+      "description": "Amazon VPC route table as a durable AWS architecture entity."
+    },
+    {
+      "name": "security-group",
+      "family": "network",
+      "identity": "aws/ec2",
+      "description": "Amazon VPC security group as a durable AWS architecture entity."
+    },
+    {
+      "name": "storage-configuration",
+      "family": "storage",
+      "identity": "aws/s3",
+      "description": "Configuration contributing to an AWS storage container."
+    },
+    {
+      "name": "transit-gateway",
+      "family": "network",
+      "identity": "aws/ec2",
+      "description": "An AWS Transit Gateway connecting multiple networks."
+    },
+    {
+      "name": "transit-gateway-attachment",
+      "family": "network",
+      "identity": "aws/ec2",
+      "description": "A network attachment contributing to an AWS Transit Gateway."
+    }
+  ],
+  "rules": [
+    {
+      "rule": "alb",
+      "terraform_type": "aws_alb",
+      "concept": "aws.concept.load-balancer",
+      "family": "load-balancing",
+      "label": "Elastic Load Balancing load balancer",
+      "identity": "aws/elbv2",
+      "mode": "generated",
+      "source_name": "Load Balancer",
+      "subcategory": "elbv2"
+    },
+    {
+      "rule": "alb-target-group",
+      "terraform_type": "aws_alb_target_group",
+      "concept": "aws.concept.load-balancer-component",
+      "family": "load-balancing",
+      "label": "Elastic Load Balancing target group",
+      "identity": "aws/elbv2",
+      "mode": "authored",
+      "source_name": "Target Group",
+      "subcategory": "elbv2"
+    },
+    {
+      "rule": "api-gateway-integration",
+      "terraform_type": "aws_api_gateway_integration",
+      "concept": "aws.concept.api-component",
+      "family": "api-integration",
+      "label": "Amazon API Gateway integration",
+      "identity": "aws/apigateway",
+      "mode": "authored",
+      "source_name": "Integration",
+      "subcategory": "API Gateway"
+    },
+    {
+      "rule": "api-gateway-model",
+      "terraform_type": "aws_api_gateway_model",
+      "concept": "aws.concept.api-component",
+      "family": "api-integration",
+      "label": "Amazon API Gateway model",
+      "identity": "aws/apigateway",
+      "mode": "authored",
+      "source_name": "Model",
+      "subcategory": "API Gateway"
+    },
+    {
+      "rule": "api-gateway-resource",
+      "terraform_type": "aws_api_gateway_resource",
+      "concept": "aws.concept.api-component",
+      "family": "api-integration",
+      "label": "Amazon API Gateway resource",
+      "identity": "aws/apigateway",
+      "mode": "authored",
+      "source_name": "Resource",
+      "subcategory": "API Gateway"
+    },
+    {
+      "rule": "api-gateway-rest-api",
+      "terraform_type": "aws_api_gateway_rest_api",
+      "concept": "aws.concept.api-gateway",
+      "family": "api-integration",
+      "label": "Amazon API Gateway REST API",
+      "identity": "aws/apigateway",
+      "mode": "authored",
+      "source_name": "REST API",
+      "subcategory": "API Gateway"
+    },
+    {
+      "rule": "api-gateway-stage",
+      "terraform_type": "aws_api_gateway_stage",
+      "concept": "aws.concept.api-component",
+      "family": "api-integration",
+      "label": "Amazon API Gateway stage",
+      "identity": "aws/apigateway",
+      "mode": "authored",
+      "source_name": "Stage",
+      "subcategory": "API Gateway"
+    },
+    {
+      "rule": "apigatewayv2-api",
+      "terraform_type": "aws_apigatewayv2_api",
+      "concept": "aws.concept.api-gateway",
+      "family": "api-integration",
+      "label": "Amazon API Gateway HTTP or WebSocket API",
+      "identity": "aws/apigatewayv2",
+      "mode": "generated",
+      "source_name": "API",
+      "subcategory": "API Gateway V2"
+    },
+    {
+      "rule": "apigatewayv2-model",
+      "terraform_type": "aws_apigatewayv2_model",
+      "concept": "aws.concept.api-component",
+      "family": "api-integration",
+      "label": "Amazon API Gateway model",
+      "identity": "aws/apigatewayv2",
+      "mode": "authored",
+      "source_name": "Model",
+      "subcategory": "API Gateway V2"
+    },
+    {
+      "rule": "appsync-datasource",
+      "terraform_type": "aws_appsync_datasource",
+      "concept": "aws.concept.appsync-component",
+      "family": "api-integration",
+      "label": "AWS AppSync data source",
+      "identity": "aws/appsync",
+      "mode": "authored",
+      "source_name": "Data Source",
+      "subcategory": "AppSync"
+    },
+    {
+      "rule": "appsync-function",
+      "terraform_type": "aws_appsync_function",
+      "concept": "aws.concept.appsync-component",
+      "family": "api-integration",
+      "label": "AWS AppSync function",
+      "identity": "aws/appsync",
+      "mode": "authored",
+      "source_name": "Function",
+      "subcategory": "AppSync"
+    },
+    {
+      "rule": "appsync-graphql-api",
+      "terraform_type": "aws_appsync_graphql_api",
+      "concept": "aws.concept.appsync-api",
+      "family": "api-integration",
+      "label": "AWS AppSync GraphQL API",
+      "identity": "aws/appsync",
+      "mode": "authored",
+      "source_name": "GraphQL API",
+      "subcategory": "AppSync"
+    },
+    {
+      "rule": "appsync-resolver",
+      "terraform_type": "aws_appsync_resolver",
+      "concept": "aws.concept.appsync-component",
+      "family": "api-integration",
+      "label": "AWS AppSync resolver",
+      "identity": "aws/appsync",
+      "mode": "authored",
+      "source_name": "Resolver",
+      "subcategory": "AppSync"
+    },
+    {
+      "rule": "bedrockagent-agent",
+      "terraform_type": "aws_bedrockagent_agent",
+      "concept": "aws.rule.bedrockagent-agent",
+      "family": "ai-ml",
+      "label": "Amazon Bedrock agent",
+      "identity": "aws/bedrockagent",
+      "mode": "generated",
+      "source_name": "Agent",
+      "subcategory": "Bedrock Agents"
+    },
+    {
+      "rule": "bedrockagent-agent-action-group",
+      "terraform_type": "aws_bedrockagent_agent_action_group",
+      "concept": "aws.concept.bedrock-agent-component",
+      "family": "ai-ml",
+      "label": "Amazon Bedrock agent action group",
+      "identity": "aws/bedrockagent",
+      "mode": "authored",
+      "source_name": "Agent Action Group",
+      "subcategory": "Bedrock Agents"
+    },
+    {
+      "rule": "cloudwatch-event-bus",
+      "terraform_type": "aws_cloudwatch_event_bus",
+      "concept": "aws.concept.event-bus",
+      "family": "messaging-eventing",
+      "label": "Amazon EventBridge event bus",
+      "identity": "aws/events",
+      "mode": "authored",
+      "source_name": "Bus",
+      "subcategory": "EventBridge"
+    },
+    {
+      "rule": "cloudwatch-event-rule",
+      "terraform_type": "aws_cloudwatch_event_rule",
+      "concept": "aws.concept.event-component",
+      "family": "messaging-eventing",
+      "label": "Amazon EventBridge rule",
+      "identity": "aws/events",
+      "mode": "authored",
+      "source_name": "Rule",
+      "subcategory": "EventBridge"
+    },
+    {
+      "rule": "cloudwatch-event-target",
+      "terraform_type": "aws_cloudwatch_event_target",
+      "concept": "aws.concept.event-component",
+      "family": "messaging-eventing",
+      "label": "Amazon EventBridge target",
+      "identity": "aws/events",
+      "mode": "authored",
+      "source_name": "Target",
+      "subcategory": "EventBridge"
+    },
+    {
+      "rule": "cognito-user-group",
+      "terraform_type": "aws_cognito_user_group",
+      "concept": "aws.concept.cognito-component",
+      "family": "identity-iam",
+      "label": "Amazon Cognito user group",
+      "identity": "aws/cognitoidp",
+      "mode": "authored",
+      "source_name": "User Group",
+      "subcategory": "Cognito IDP (Identity Provider)"
+    },
+    {
+      "rule": "cognito-user-pool",
+      "terraform_type": "aws_cognito_user_pool",
+      "concept": "aws.rule.cognito-user-pool",
+      "family": "identity-iam",
+      "label": "Amazon Cognito user pool",
+      "identity": "aws/cognitoidp",
+      "mode": "generated",
+      "source_name": "User Pool",
+      "subcategory": "Cognito IDP (Identity Provider)"
+    },
+    {
+      "rule": "cognito-user-pool-domain",
+      "terraform_type": "aws_cognito_user_pool_domain",
+      "concept": "aws.concept.cognito-component",
+      "family": "identity-iam",
+      "label": "Amazon Cognito user pool domain",
+      "identity": "aws/cognitoidp",
+      "mode": "authored",
+      "source_name": "User Pool Domain",
+      "subcategory": "Cognito IDP (Identity Provider)"
+    },
+    {
+      "rule": "connect-contact-flow",
+      "terraform_type": "aws_connect_contact_flow",
+      "concept": "aws.concept.connect-component",
+      "family": "media-communication",
+      "label": "Amazon Connect contact flow",
+      "identity": "aws/connect",
+      "mode": "authored",
+      "source_name": "Contact Flow",
+      "subcategory": "Connect"
+    },
+    {
+      "rule": "connect-instance",
+      "terraform_type": "aws_connect_instance",
+      "concept": "aws.rule.connect-instance",
+      "family": "media-communication",
+      "label": "Amazon Connect instance",
+      "identity": "aws/connect",
+      "mode": "generated",
+      "source_name": "Instance",
+      "subcategory": "Connect"
+    },
+    {
+      "rule": "connect-queue",
+      "terraform_type": "aws_connect_queue",
+      "concept": "aws.concept.connect-component",
+      "family": "media-communication",
+      "label": "Amazon Connect queue",
+      "identity": "aws/connect",
+      "mode": "authored",
+      "source_name": "Queue",
+      "subcategory": "Connect"
+    },
+    {
+      "rule": "connect-routing-profile",
+      "terraform_type": "aws_connect_routing_profile",
+      "concept": "aws.concept.connect-component",
+      "family": "media-communication",
+      "label": "Amazon Connect routing profile",
+      "identity": "aws/connect",
+      "mode": "authored",
+      "source_name": "Routing Profile",
+      "subcategory": "Connect"
+    },
+    {
+      "rule": "connect-security-profile",
+      "terraform_type": "aws_connect_security_profile",
+      "concept": "aws.concept.connect-component",
+      "family": "media-communication",
+      "label": "Amazon Connect security profile",
+      "identity": "aws/connect",
+      "mode": "authored",
+      "source_name": "Security Profile",
+      "subcategory": "Connect"
+    },
+    {
+      "rule": "connect-user-hierarchy-group",
+      "terraform_type": "aws_connect_user_hierarchy_group",
+      "concept": "aws.concept.connect-component",
+      "family": "media-communication",
+      "label": "Amazon Connect user hierarchy group",
+      "identity": "aws/connect",
+      "mode": "authored",
+      "source_name": "User Hierarchy Group",
+      "subcategory": "Connect"
+    },
+    {
+      "rule": "dax-cluster",
+      "terraform_type": "aws_dax_cluster",
+      "concept": "aws.concept.managed-cache",
+      "family": "databases",
+      "label": "Amazon DynamoDB Accelerator (DAX) cluster",
+      "identity": "aws/dax",
+      "mode": "generated",
+      "source_name": "Cluster",
+      "subcategory": "DynamoDB Accelerator (DAX)"
+    },
+    {
+      "rule": "db-instance",
+      "terraform_type": "aws_db_instance",
+      "concept": "rf.concept.managed-database",
+      "family": "databases",
+      "label": "Amazon RDS DB instance",
+      "identity": "aws/rds",
+      "mode": "authored",
+      "source_name": "DB Instance",
+      "subcategory": "RDS (Relational Database)"
+    },
+    {
+      "rule": "db-proxy",
+      "terraform_type": "aws_db_proxy",
+      "concept": "aws.rule.db-proxy",
+      "family": "databases",
+      "label": "Amazon RDS DB proxy",
+      "identity": "aws/rds",
+      "mode": "generated",
+      "source_name": "DB Proxy",
+      "subcategory": "RDS (Relational Database)"
+    },
+    {
+      "rule": "db-proxy-default-target-group",
+      "terraform_type": "aws_db_proxy_default_target_group",
+      "concept": "aws.concept.db-proxy-component",
+      "family": "databases",
+      "label": "Amazon RDS DB proxy default target group",
+      "identity": "aws/rds",
+      "mode": "authored",
+      "source_name": "DB Proxy Default Target Group",
+      "subcategory": "RDS (Relational Database)"
+    },
+    {
+      "rule": "db-proxy-endpoint",
+      "terraform_type": "aws_db_proxy_endpoint",
+      "concept": "aws.concept.db-proxy-component",
+      "family": "databases",
+      "label": "Amazon RDS DB proxy endpoint",
+      "identity": "aws/rds",
+      "mode": "authored",
+      "source_name": "DB Proxy Endpoint",
+      "subcategory": "RDS (Relational Database)"
+    },
+    {
+      "rule": "docdb-cluster",
+      "terraform_type": "aws_docdb_cluster",
+      "concept": "rf.concept.managed-database",
+      "family": "databases",
+      "label": "Amazon DocumentDB cluster",
+      "identity": "aws/docdb",
+      "mode": "generated",
+      "source_name": "Cluster",
+      "subcategory": "DocumentDB"
+    },
+    {
+      "rule": "docdb-cluster-instance",
+      "terraform_type": "aws_docdb_cluster_instance",
+      "concept": "aws.concept.managed-database-component",
+      "family": "databases",
+      "label": "Amazon DocumentDB cluster instance",
+      "identity": "aws/docdb",
+      "mode": "authored",
+      "source_name": "Cluster Instance",
+      "subcategory": "DocumentDB"
+    },
+    {
+      "rule": "dsql-cluster",
+      "terraform_type": "aws_dsql_cluster",
+      "concept": "rf.concept.managed-database",
+      "family": "databases",
+      "label": "Amazon Aurora DSQL cluster",
+      "identity": "aws/dsql",
+      "mode": "generated",
+      "source_name": "Cluster",
+      "subcategory": "DSQL"
+    },
+    {
+      "rule": "dynamodb-global-secondary-index",
+      "terraform_type": "aws_dynamodb_global_secondary_index",
+      "concept": "aws.concept.dynamodb-component",
+      "family": "databases",
+      "label": "Amazon DynamoDB global secondary index",
+      "identity": "aws/dynamodb",
+      "mode": "authored",
+      "source_name": "Global Secondary Index",
+      "subcategory": "DynamoDB"
+    },
+    {
+      "rule": "dynamodb-table",
+      "terraform_type": "aws_dynamodb_table",
+      "concept": "rf.concept.managed-database",
+      "family": "databases",
+      "label": "Amazon DynamoDB table",
+      "identity": "aws/dynamodb",
+      "mode": "generated",
+      "source_name": "Table",
+      "subcategory": "DynamoDB"
+    },
+    {
+      "rule": "ec2-transit-gateway",
+      "terraform_type": "aws_ec2_transit_gateway",
+      "concept": "aws.concept.transit-gateway",
+      "family": "network",
+      "label": "AWS Transit Gateway",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "Transit Gateway",
+      "subcategory": "Transit Gateway"
+    },
+    {
+      "rule": "ec2-transit-gateway-vpc-attachment",
+      "terraform_type": "aws_ec2_transit_gateway_vpc_attachment",
+      "concept": "aws.concept.transit-gateway-attachment",
+      "family": "network",
+      "label": "AWS Transit Gateway VPC attachment",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "Transit Gateway VPC Attachment",
+      "subcategory": "Transit Gateway"
+    },
+    {
+      "rule": "ecr-lifecycle-policy",
+      "terraform_type": "aws_ecr_lifecycle_policy",
+      "concept": "aws.concept.repository-configuration",
+      "family": "containers",
+      "label": "Amazon ECR lifecycle policy",
+      "identity": "aws/ecr",
+      "mode": "authored",
+      "source_name": "Lifecycle Policy",
+      "subcategory": "ECR (Elastic Container Registry)"
+    },
+    {
+      "rule": "ecr-repository",
+      "terraform_type": "aws_ecr_repository",
+      "concept": "aws.concept.container-repository",
+      "family": "containers",
+      "label": "Amazon ECR repository",
+      "identity": "aws/ecr",
+      "mode": "authored",
+      "source_name": "Repository",
+      "subcategory": "ECR (Elastic Container Registry)"
+    },
+    {
+      "rule": "ecs-cluster",
+      "terraform_type": "aws_ecs_cluster",
+      "concept": "aws.rule.ecs-cluster",
+      "family": "containers",
+      "label": "Amazon ECS cluster",
+      "identity": "aws/ecs",
+      "mode": "authored",
+      "source_name": "Cluster",
+      "subcategory": "ECS (Elastic Container)"
+    },
+    {
+      "rule": "ecs-service",
+      "terraform_type": "aws_ecs_service",
+      "concept": "aws.rule.ecs-service",
+      "family": "containers",
+      "label": "Amazon ECS service",
+      "identity": "aws/ecs",
+      "mode": "authored",
+      "source_name": "Service",
+      "subcategory": "ECS (Elastic Container)"
+    },
+    {
+      "rule": "efs-file-system",
+      "terraform_type": "aws_efs_file_system",
+      "concept": "aws.concept.managed-file-storage",
+      "family": "storage",
+      "label": "Amazon EFS file system",
+      "identity": "aws/efs",
+      "mode": "generated",
+      "source_name": "File System",
+      "subcategory": "EFS (Elastic File System)"
+    },
+    {
+      "rule": "eks-cluster",
+      "terraform_type": "aws_eks_cluster",
+      "concept": "rf.concept.kubernetes-cluster",
+      "family": "containers",
+      "label": "Amazon EKS cluster",
+      "identity": "aws/eks",
+      "mode": "authored",
+      "source_name": "Cluster",
+      "subcategory": "EKS (Elastic Kubernetes)"
+    },
+    {
+      "rule": "eks-fargate-profile",
+      "terraform_type": "aws_eks_fargate_profile",
+      "concept": "aws.concept.eks-compute-profile",
+      "family": "containers",
+      "label": "Amazon EKS Fargate profile",
+      "identity": "aws/eks",
+      "mode": "authored",
+      "source_name": "Fargate Profile",
+      "subcategory": "EKS (Elastic Kubernetes)"
+    },
+    {
+      "rule": "eks-node-group",
+      "terraform_type": "aws_eks_node_group",
+      "concept": "aws.concept.kubernetes-node-pool",
+      "family": "containers",
+      "label": "Amazon EKS managed node group",
+      "identity": "aws/eks",
+      "mode": "authored",
+      "source_name": "Node Group",
+      "subcategory": "EKS (Elastic Kubernetes)"
+    },
+    {
+      "rule": "elasticache-cluster",
+      "terraform_type": "aws_elasticache_cluster",
+      "concept": "aws.concept.managed-cache",
+      "family": "databases",
+      "label": "Amazon ElastiCache cluster",
+      "identity": "aws/elasticache",
+      "mode": "generated",
+      "source_name": "Cluster",
+      "subcategory": "ElastiCache"
+    },
+    {
+      "rule": "elasticache-replication-group",
+      "terraform_type": "aws_elasticache_replication_group",
+      "concept": "aws.concept.managed-cache",
+      "family": "databases",
+      "label": "Amazon ElastiCache replication group",
+      "identity": "aws/elasticache",
+      "mode": "generated",
+      "source_name": "Replication Group",
+      "subcategory": "ElastiCache"
+    },
+    {
+      "rule": "elb",
+      "terraform_type": "aws_elb",
+      "concept": "aws.concept.load-balancer",
+      "family": "load-balancing",
+      "label": "Elastic Load Balancing classic load balancer",
+      "identity": "aws/elb",
+      "mode": "generated",
+      "source_name": "Classic Load Balancer",
+      "subcategory": "ELB Classic"
+    },
+    {
+      "rule": "emr-cluster",
+      "terraform_type": "aws_emr_cluster",
+      "concept": "aws.rule.emr-cluster",
+      "family": "data-analytics",
+      "label": "AWS EMR cluster",
+      "identity": "aws/emr",
+      "mode": "generated",
+      "source_name": "Cluster",
+      "subcategory": "EMR"
+    },
+    {
+      "rule": "emr-instance-fleet",
+      "terraform_type": "aws_emr_instance_fleet",
+      "concept": "aws.concept.emr-cluster-component",
+      "family": "data-analytics",
+      "label": "AWS EMR instance fleet",
+      "identity": "aws/emr",
+      "mode": "authored",
+      "source_name": "Instance Fleet",
+      "subcategory": "EMR"
+    },
+    {
+      "rule": "emr-instance-group",
+      "terraform_type": "aws_emr_instance_group",
+      "concept": "aws.concept.emr-cluster-component",
+      "family": "data-analytics",
+      "label": "AWS EMR instance group",
+      "identity": "aws/emr",
+      "mode": "authored",
+      "source_name": "Instance Group",
+      "subcategory": "EMR"
+    },
+    {
+      "rule": "fsx-lustre-file-system",
+      "terraform_type": "aws_fsx_lustre_file_system",
+      "concept": "aws.concept.managed-file-storage",
+      "family": "storage",
+      "label": "Amazon FSx lustre file system",
+      "identity": "aws/fsx",
+      "mode": "generated",
+      "source_name": "Lustre File System",
+      "subcategory": "FSx"
+    },
+    {
+      "rule": "fsx-ontap-file-system",
+      "terraform_type": "aws_fsx_ontap_file_system",
+      "concept": "aws.concept.managed-file-storage",
+      "family": "storage",
+      "label": "Amazon FSx ontap file system",
+      "identity": "aws/fsx",
+      "mode": "generated",
+      "source_name": "ONTAP File System",
+      "subcategory": "FSx"
+    },
+    {
+      "rule": "fsx-openzfs-file-system",
+      "terraform_type": "aws_fsx_openzfs_file_system",
+      "concept": "aws.concept.managed-file-storage",
+      "family": "storage",
+      "label": "Amazon FSx open zfs file system",
+      "identity": "aws/fsx",
+      "mode": "generated",
+      "source_name": "OpenZFS File System",
+      "subcategory": "FSx"
+    },
+    {
+      "rule": "fsx-windows-file-system",
+      "terraform_type": "aws_fsx_windows_file_system",
+      "concept": "aws.concept.managed-file-storage",
+      "family": "storage",
+      "label": "Amazon FSx windows file system",
+      "identity": "aws/fsx",
+      "mode": "generated",
+      "source_name": "Windows File System",
+      "subcategory": "FSx"
+    },
+    {
+      "rule": "globalaccelerator-accelerator",
+      "terraform_type": "aws_globalaccelerator_accelerator",
+      "concept": "aws.concept.global-accelerator",
+      "family": "load-balancing",
+      "label": "AWS Global Accelerator standard accelerator",
+      "identity": "aws/globalaccelerator",
+      "mode": "authored",
+      "source_name": "Accelerator",
+      "subcategory": "Global Accelerator"
+    },
+    {
+      "rule": "globalaccelerator-custom-routing-accelerator",
+      "terraform_type": "aws_globalaccelerator_custom_routing_accelerator",
+      "concept": "aws.concept.global-accelerator",
+      "family": "load-balancing",
+      "label": "AWS Global Accelerator custom routing accelerator",
+      "identity": "aws/globalaccelerator",
+      "mode": "authored",
+      "source_name": "Custom Routing Accelerator",
+      "subcategory": "Global Accelerator"
+    },
+    {
+      "rule": "globalaccelerator-custom-routing-endpoint-group",
+      "terraform_type": "aws_globalaccelerator_custom_routing_endpoint_group",
+      "concept": "aws.concept.global-accelerator-component",
+      "family": "load-balancing",
+      "label": "AWS Global Accelerator custom routing endpoint group",
+      "identity": "aws/globalaccelerator",
+      "mode": "authored",
+      "source_name": "Custom Routing Endpoint Group",
+      "subcategory": "Global Accelerator"
+    },
+    {
+      "rule": "globalaccelerator-custom-routing-listener",
+      "terraform_type": "aws_globalaccelerator_custom_routing_listener",
+      "concept": "aws.concept.global-accelerator-component",
+      "family": "load-balancing",
+      "label": "AWS Global Accelerator custom routing listener",
+      "identity": "aws/globalaccelerator",
+      "mode": "authored",
+      "source_name": "Custom Routing Listener",
+      "subcategory": "Global Accelerator"
+    },
+    {
+      "rule": "globalaccelerator-endpoint-group",
+      "terraform_type": "aws_globalaccelerator_endpoint_group",
+      "concept": "aws.concept.global-accelerator-component",
+      "family": "load-balancing",
+      "label": "AWS Global Accelerator endpoint group",
+      "identity": "aws/globalaccelerator",
+      "mode": "authored",
+      "source_name": "Endpoint Group",
+      "subcategory": "Global Accelerator"
+    },
+    {
+      "rule": "globalaccelerator-listener",
+      "terraform_type": "aws_globalaccelerator_listener",
+      "concept": "aws.concept.global-accelerator-component",
+      "family": "load-balancing",
+      "label": "AWS Global Accelerator listener",
+      "identity": "aws/globalaccelerator",
+      "mode": "authored",
+      "source_name": "Listener",
+      "subcategory": "Global Accelerator"
+    },
+    {
+      "rule": "iam-group",
+      "terraform_type": "aws_iam_group",
+      "concept": "aws.concept.identity-group",
+      "family": "identity-iam",
+      "label": "IAM group",
+      "identity": "aws/iam",
+      "mode": "generated",
+      "source_name": "Group",
+      "subcategory": "IAM (Identity & Access Management)"
+    },
+    {
+      "rule": "iam-instance-profile",
+      "terraform_type": "aws_iam_instance_profile",
+      "concept": "aws.concept.instance-profile",
+      "family": "identity-iam",
+      "label": "AWS Identity and Access Management (IAM) instance profile",
+      "identity": "aws/iam",
+      "mode": "authored",
+      "source_name": "Instance Profile",
+      "subcategory": "IAM (Identity & Access Management)"
+    },
+    {
+      "rule": "iam-role",
+      "terraform_type": "aws_iam_role",
+      "concept": "rf.concept.service-identity",
+      "family": "identity-iam",
+      "label": "IAM role",
+      "identity": "aws/iam",
+      "mode": "authored",
+      "source_name": "Role",
+      "subcategory": "IAM (Identity & Access Management)"
+    },
+    {
+      "rule": "iam-role-policy-attachment",
+      "terraform_type": "aws_iam_role_policy_attachment",
+      "concept": "aws.concept.service-identity-binding",
+      "family": "identity-iam",
+      "label": "AWS Identity and Access Management (IAM) role policy attachment",
+      "identity": "aws/iam",
+      "mode": "authored",
+      "source_name": "Role Policy Attachment",
+      "subcategory": "IAM (Identity & Access Management)"
+    },
+    {
+      "rule": "identitystore-group",
+      "terraform_type": "aws_identitystore_group",
+      "concept": "aws.concept.identity-group",
+      "family": "identity-iam",
+      "label": "AWS SSO Identity Store group",
+      "identity": "aws/identitystore",
+      "mode": "generated",
+      "source_name": "Group",
+      "subcategory": "SSO Identity Store"
+    },
+    {
+      "rule": "instance",
+      "terraform_type": "aws_instance",
+      "concept": "aws.concept.compute-instance",
+      "family": "compute",
+      "label": "Amazon EC2 instance",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "Instance",
+      "subcategory": "EC2 (Elastic Compute Cloud)"
+    },
+    {
+      "rule": "internet-gateway",
+      "terraform_type": "aws_internet_gateway",
+      "concept": "aws.rule.internet-gateway",
+      "family": "network",
+      "label": "Amazon VPC internet gateway",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "Internet Gateway",
+      "subcategory": "VPC (Virtual Private Cloud)"
+    },
+    {
+      "rule": "kms-alias",
+      "terraform_type": "aws_kms_alias",
+      "concept": "aws.concept.key-alias",
+      "family": "security",
+      "label": "AWS Key Management Service (AWS KMS) alias",
+      "identity": "aws/kms",
+      "mode": "authored",
+      "source_name": "Alias",
+      "subcategory": "KMS (Key Management)"
+    },
+    {
+      "rule": "kms-key",
+      "terraform_type": "aws_kms_key",
+      "concept": "aws.concept.encryption-key",
+      "family": "security",
+      "label": "AWS KMS key",
+      "identity": "aws/kms",
+      "mode": "authored",
+      "source_name": "Key",
+      "subcategory": "KMS (Key Management)"
+    },
+    {
+      "rule": "lb",
+      "terraform_type": "aws_lb",
+      "concept": "aws.concept.load-balancer",
+      "family": "load-balancing",
+      "label": "Elastic Load Balancing load balancer",
+      "identity": "aws/elbv2",
+      "mode": "authored",
+      "source_name": "Load Balancer",
+      "subcategory": "ELB (Elastic Load Balancing)"
+    },
+    {
+      "rule": "lb-listener",
+      "terraform_type": "aws_lb_listener",
+      "concept": "aws.concept.load-balancer-component",
+      "family": "load-balancing",
+      "label": "Elastic Load Balancing listener",
+      "identity": "aws/elbv2",
+      "mode": "authored",
+      "source_name": "Listener",
+      "subcategory": "ELB (Elastic Load Balancing)"
+    },
+    {
+      "rule": "lb-target-group",
+      "terraform_type": "aws_lb_target_group",
+      "concept": "aws.concept.load-balancer-component",
+      "family": "load-balancing",
+      "label": "Elastic Load Balancing target group",
+      "identity": "aws/elbv2",
+      "mode": "authored",
+      "source_name": "Target Group",
+      "subcategory": "ELB (Elastic Load Balancing)"
+    },
+    {
+      "rule": "memorydb-cluster",
+      "terraform_type": "aws_memorydb_cluster",
+      "concept": "aws.concept.managed-cache",
+      "family": "databases",
+      "label": "Amazon MemoryDB cluster",
+      "identity": "aws/memorydb",
+      "mode": "generated",
+      "source_name": "Cluster",
+      "subcategory": "MemoryDB"
+    },
+    {
+      "rule": "nat-gateway",
+      "terraform_type": "aws_nat_gateway",
+      "concept": "aws.concept.managed-nat",
+      "family": "network",
+      "label": "NAT gateway",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "NAT Gateway",
+      "subcategory": "VPC (Virtual Private Cloud)"
+    },
+    {
+      "rule": "neptune-cluster",
+      "terraform_type": "aws_neptune_cluster",
+      "concept": "rf.concept.managed-database",
+      "family": "databases",
+      "label": "Amazon Neptune cluster",
+      "identity": "aws/neptune",
+      "mode": "generated",
+      "source_name": "Cluster",
+      "subcategory": "Neptune"
+    },
+    {
+      "rule": "neptune-cluster-instance",
+      "terraform_type": "aws_neptune_cluster_instance",
+      "concept": "aws.concept.managed-database-component",
+      "family": "databases",
+      "label": "Amazon Neptune cluster instance",
+      "identity": "aws/neptune",
+      "mode": "authored",
+      "source_name": "Cluster Instance",
+      "subcategory": "Neptune"
+    },
+    {
+      "rule": "network-acl",
+      "terraform_type": "aws_network_acl",
+      "concept": "aws.rule.network-acl",
+      "family": "network",
+      "label": "Amazon VPC network ACL",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "Network ACL",
+      "subcategory": "VPC (Virtual Private Cloud)"
+    },
+    {
+      "rule": "pinpoint-adm-channel",
+      "terraform_type": "aws_pinpoint_adm_channel",
+      "concept": "aws.concept.pinpoint-component",
+      "family": "media-communication",
+      "label": "AWS End User Messaging adm channel",
+      "identity": "aws/pinpoint",
+      "mode": "authored",
+      "source_name": "ADM Channel",
+      "subcategory": "End User Messaging"
+    },
+    {
+      "rule": "pinpoint-apns-channel",
+      "terraform_type": "aws_pinpoint_apns_channel",
+      "concept": "aws.concept.pinpoint-component",
+      "family": "media-communication",
+      "label": "AWS End User Messaging apns channel",
+      "identity": "aws/pinpoint",
+      "mode": "authored",
+      "source_name": "APNS Channel",
+      "subcategory": "End User Messaging"
+    },
+    {
+      "rule": "pinpoint-apns-sandbox-channel",
+      "terraform_type": "aws_pinpoint_apns_sandbox_channel",
+      "concept": "aws.concept.pinpoint-component",
+      "family": "media-communication",
+      "label": "AWS End User Messaging apns sandbox channel",
+      "identity": "aws/pinpoint",
+      "mode": "authored",
+      "source_name": "APNS Sandbox Channel",
+      "subcategory": "End User Messaging"
+    },
+    {
+      "rule": "pinpoint-apns-voip-channel",
+      "terraform_type": "aws_pinpoint_apns_voip_channel",
+      "concept": "aws.concept.pinpoint-component",
+      "family": "media-communication",
+      "label": "AWS End User Messaging apns vo IP channel",
+      "identity": "aws/pinpoint",
+      "mode": "authored",
+      "source_name": "APNS VoIP Channel",
+      "subcategory": "End User Messaging"
+    },
+    {
+      "rule": "pinpoint-apns-voip-sandbox-channel",
+      "terraform_type": "aws_pinpoint_apns_voip_sandbox_channel",
+      "concept": "aws.concept.pinpoint-component",
+      "family": "media-communication",
+      "label": "AWS End User Messaging apns vo IP sandbox channel",
+      "identity": "aws/pinpoint",
+      "mode": "authored",
+      "source_name": "APNS VoIP Sandbox Channel",
+      "subcategory": "End User Messaging"
+    },
+    {
+      "rule": "pinpoint-app",
+      "terraform_type": "aws_pinpoint_app",
+      "concept": "aws.rule.pinpoint-app",
+      "family": "media-communication",
+      "label": "AWS End User Messaging app",
+      "identity": "aws/pinpoint",
+      "mode": "generated",
+      "source_name": "App",
+      "subcategory": "End User Messaging"
+    },
+    {
+      "rule": "pinpoint-baidu-channel",
+      "terraform_type": "aws_pinpoint_baidu_channel",
+      "concept": "aws.concept.pinpoint-component",
+      "family": "media-communication",
+      "label": "AWS End User Messaging baidu channel",
+      "identity": "aws/pinpoint",
+      "mode": "authored",
+      "source_name": "Baidu Channel",
+      "subcategory": "End User Messaging"
+    },
+    {
+      "rule": "pinpoint-email-channel",
+      "terraform_type": "aws_pinpoint_email_channel",
+      "concept": "aws.concept.pinpoint-component",
+      "family": "media-communication",
+      "label": "AWS End User Messaging email channel",
+      "identity": "aws/pinpoint",
+      "mode": "authored",
+      "source_name": "Email Channel",
+      "subcategory": "End User Messaging"
+    },
+    {
+      "rule": "pinpoint-event-stream",
+      "terraform_type": "aws_pinpoint_event_stream",
+      "concept": "aws.concept.pinpoint-component",
+      "family": "media-communication",
+      "label": "AWS End User Messaging event stream",
+      "identity": "aws/pinpoint",
+      "mode": "authored",
+      "source_name": "Event Stream",
+      "subcategory": "End User Messaging"
+    },
+    {
+      "rule": "pinpoint-gcm-channel",
+      "terraform_type": "aws_pinpoint_gcm_channel",
+      "concept": "aws.concept.pinpoint-component",
+      "family": "media-communication",
+      "label": "AWS End User Messaging gcm channel",
+      "identity": "aws/pinpoint",
+      "mode": "authored",
+      "source_name": "GCM Channel",
+      "subcategory": "End User Messaging"
+    },
+    {
+      "rule": "pinpoint-sms-channel",
+      "terraform_type": "aws_pinpoint_sms_channel",
+      "concept": "aws.concept.pinpoint-component",
+      "family": "media-communication",
+      "label": "AWS End User Messaging SMS channel",
+      "identity": "aws/pinpoint",
+      "mode": "authored",
+      "source_name": "SMS Channel",
+      "subcategory": "End User Messaging"
+    },
+    {
+      "rule": "rds-cluster",
+      "terraform_type": "aws_rds_cluster",
+      "concept": "rf.concept.managed-database",
+      "family": "databases",
+      "label": "Amazon Aurora or Amazon RDS cluster",
+      "identity": "aws/rds",
+      "mode": "authored",
+      "source_name": "Cluster",
+      "subcategory": "RDS (Relational Database)"
+    },
+    {
+      "rule": "rds-cluster-activity-stream",
+      "terraform_type": "aws_rds_cluster_activity_stream",
+      "concept": "aws.concept.managed-database-component",
+      "family": "databases",
+      "label": "Amazon RDS cluster activity stream",
+      "identity": "aws/rds",
+      "mode": "authored",
+      "source_name": "Cluster Activity Stream",
+      "subcategory": "RDS (Relational Database)"
+    },
+    {
+      "rule": "rds-cluster-endpoint",
+      "terraform_type": "aws_rds_cluster_endpoint",
+      "concept": "aws.concept.managed-database-component",
+      "family": "databases",
+      "label": "Amazon RDS cluster endpoint",
+      "identity": "aws/rds",
+      "mode": "authored",
+      "source_name": "Cluster Endpoint",
+      "subcategory": "RDS (Relational Database)"
+    },
+    {
+      "rule": "rds-cluster-instance",
+      "terraform_type": "aws_rds_cluster_instance",
+      "concept": "aws.concept.managed-database-component",
+      "family": "databases",
+      "label": "Amazon RDS cluster instance",
+      "identity": "aws/rds",
+      "mode": "authored",
+      "source_name": "Cluster Instance",
+      "subcategory": "RDS (Relational Database)"
+    },
+    {
+      "rule": "route-table",
+      "terraform_type": "aws_route_table",
+      "concept": "aws.rule.route-table",
+      "family": "network",
+      "label": "Amazon VPC route table",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "Route Table",
+      "subcategory": "VPC (Virtual Private Cloud)"
+    },
+    {
+      "rule": "s3-bucket",
+      "terraform_type": "aws_s3_bucket",
+      "concept": "rf.concept.object-storage-container",
+      "family": "storage",
+      "label": "Amazon S3 bucket",
+      "identity": "aws/s3",
+      "mode": "authored",
+      "source_name": "Bucket",
+      "subcategory": "S3 (Simple Storage)"
+    },
+    {
+      "rule": "s3-bucket-server-side-encryption-configuration",
+      "terraform_type": "aws_s3_bucket_server_side_encryption_configuration",
+      "concept": "aws.concept.storage-configuration",
+      "family": "storage",
+      "label": "Amazon S3 bucket server side encryption configuration",
+      "identity": "aws/s3",
+      "mode": "authored",
+      "source_name": "Bucket Server Side Encryption Configuration",
+      "subcategory": "S3 (Simple Storage)"
+    },
+    {
+      "rule": "s3-bucket-versioning",
+      "terraform_type": "aws_s3_bucket_versioning",
+      "concept": "aws.concept.storage-configuration",
+      "family": "storage",
+      "label": "Amazon S3 bucket versioning",
+      "identity": "aws/s3",
+      "mode": "authored",
+      "source_name": "Bucket Versioning",
+      "subcategory": "S3 (Simple Storage)"
+    },
+    {
+      "rule": "s3-directory-bucket",
+      "terraform_type": "aws_s3_directory_bucket",
+      "concept": "rf.concept.object-storage-container",
+      "family": "storage",
+      "label": "Amazon S3 directory bucket",
+      "identity": "aws/s3",
+      "mode": "generated",
+      "source_name": "Directory Bucket",
+      "subcategory": "S3 (Simple Storage)"
+    },
+    {
+      "rule": "security-group",
+      "terraform_type": "aws_security_group",
+      "concept": "aws.rule.security-group",
+      "family": "network",
+      "label": "Amazon VPC security group",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "Security Group",
+      "subcategory": "VPC (Virtual Private Cloud)"
+    },
+    {
+      "rule": "sns-topic",
+      "terraform_type": "aws_sns_topic",
+      "concept": "aws.concept.message-topic",
+      "family": "messaging-eventing",
+      "label": "Amazon SNS topic",
+      "identity": "aws/sns",
+      "mode": "authored",
+      "source_name": "Topic",
+      "subcategory": "SNS (Simple Notification)"
+    },
+    {
+      "rule": "sns-topic-subscription",
+      "terraform_type": "aws_sns_topic_subscription",
+      "concept": "aws.concept.message-subscription",
+      "family": "messaging-eventing",
+      "label": "Amazon Simple Notification Service (Amazon SNS) topic subscription",
+      "identity": "aws/sns",
+      "mode": "authored",
+      "source_name": "Topic Subscription",
+      "subcategory": "SNS (Simple Notification)"
+    },
+    {
+      "rule": "subnet",
+      "terraform_type": "aws_subnet",
+      "concept": "rf.concept.subnet",
+      "family": "network",
+      "label": "Amazon VPC subnet",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "Subnet",
+      "subcategory": "VPC (Virtual Private Cloud)"
+    },
+    {
+      "rule": "vpc",
+      "terraform_type": "aws_vpc",
+      "concept": "rf.concept.virtual-network",
+      "family": "network",
+      "label": "Amazon VPC",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "VPC",
+      "subcategory": "VPC (Virtual Private Cloud)"
+    },
+    {
+      "rule": "vpc-endpoint",
+      "terraform_type": "aws_vpc_endpoint",
+      "concept": "aws.concept.private-endpoint",
+      "family": "network",
+      "label": "AWS PrivateLink VPC endpoint",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "VPC Endpoint",
+      "subcategory": "VPC (Virtual Private Cloud)"
+    },
+    {
+      "rule": "vpn-connection",
+      "terraform_type": "aws_vpn_connection",
+      "concept": "aws.concept.vpn-connection",
+      "family": "network",
+      "label": "AWS Site-to-Site VPN connection",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "VPN Connection",
+      "subcategory": "VPN (Site-to-Site)"
+    },
+    {
+      "rule": "vpn-gateway",
+      "terraform_type": "aws_vpn_gateway",
+      "concept": "aws.concept.vpn-gateway",
+      "family": "network",
+      "label": "virtual private gateway",
+      "identity": "aws/ec2",
+      "mode": "authored",
+      "source_name": "VPN Gateway",
+      "subcategory": "VPN (Site-to-Site)"
+    }
+  ]
+}

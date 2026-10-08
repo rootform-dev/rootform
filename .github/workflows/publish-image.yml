@@ -1,0 +1,285 @@
+name: publish official image
+
+# Called by publish after the release is published. The image is rebuilt from
+# the published archives and must carry the platform digests the candidate
+# qualified; an image already published with them is kept.
+on:
+  workflow_call:
+    inputs:
+      qualification_run_id:
+        description: Successful candidate run that qualified this release
+        required: true
+        type: string
+      release_id:
+        description: Exact published Rootform release ID
+        required: true
+        type: string
+      version:
+        description: Exact Rootform version
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+  packages: write
+
+concurrency:
+  group: official-image-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: qualify and publish exact official image
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out publication controller
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Install controller dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Download exact published release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_ID: ${{ inputs.release_id }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/download-release.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release-id "$RELEASE_ID" \
+            --output "$RUNNER_TEMP/release" \
+            --metadata "$RUNNER_TEMP/release.json"
+
+      - name: Resolve immutable distribution commit
+        id: release
+        run: |
+          set -euo pipefail
+          commit="$(jq -r '.target_commit' "$RUNNER_TEMP/release.json")"
+          [[ "$commit" =~ ^[0-9a-f]{40}$ ]]
+          printf 'commit=%s\n' "$commit" >> "$GITHUB_OUTPUT"
+
+      - name: Check out exact release distribution
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ steps.release.outputs.commit }}
+
+      - name: Prepare isolated Docker client
+        run: |
+          set -euo pipefail
+          config="$RUNNER_TEMP/docker-config"
+          mkdir -p "$config"
+          printf 'DOCKER_CONFIG=%s\n' "$config" >> "$GITHUB_ENV"
+
+      - name: Install exact QEMU emulation
+        uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+        with:
+          cache-image: false
+          image: docker.io/tonistiigi/binfmt:latest@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
+          platforms: arm64
+
+      - name: Install exact Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+        with:
+          driver-opts: image=moby/buildkit:v0.32.2@sha256:28a898719c18a33f4e8000685287fa36fd0dd9560c6440227d3a732d79bb41d8
+
+      - name: Install exact distribution dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install verified publication tools
+        env:
+          ACTIONLINT_ARCHIVE: actionlint_1.7.12_linux_amd64.tar.gz
+          ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+          ACTIONLINT_VERSION: 1.7.12
+          GITLEAKS_ARCHIVE: gitleaks_8.30.1_linux_x64.tar.gz
+          GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+          GITLEAKS_VERSION: 8.30.1
+          ORAS_ARCHIVE: oras_1.3.4_linux_amd64.tar.gz
+          ORAS_SHA256: f27adb935022d94df8dc77719c322dda592c78a0d57a6f7dcdd8d900b248c454
+          ORAS_VERSION: 1.3.4
+          TRIVY_ARCHIVE: trivy_0.74.0_Linux-64bit.tar.gz
+          TRIVY_SHA256: 2ae6fe3ee734b7fdf11335663e18c75ea12dccc76062f09f164a3b0f8be4371a
+          TRIVY_VERSION: 0.74.0
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v$GITLEAKS_VERSION/$GITLEAKS_ARCHIVE"
+          printf '%s  %s\n' "$GITLEAKS_SHA256" "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" --directory "$RUNNER_TEMP" gitleaks
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" \
+            "https://github.com/rhysd/actionlint/releases/download/v$ACTIONLINT_VERSION/$ACTIONLINT_ARCHIVE"
+          printf '%s  %s\n' "$ACTIONLINT_SHA256" "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" --directory "$RUNNER_TEMP" actionlint
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$ORAS_ARCHIVE" \
+            "https://github.com/oras-project/oras/releases/download/v$ORAS_VERSION/$ORAS_ARCHIVE"
+          printf '%s  %s\n' "$ORAS_SHA256" "$RUNNER_TEMP/$ORAS_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$ORAS_ARCHIVE" --directory "$RUNNER_TEMP" oras
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$TRIVY_ARCHIVE" \
+            "https://github.com/aquasecurity/trivy/releases/download/v$TRIVY_VERSION/$TRIVY_ARCHIVE"
+          printf '%s  %s\n' "$TRIVY_SHA256" "$RUNNER_TEMP/$TRIVY_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$TRIVY_ARCHIVE" --directory "$RUNNER_TEMP" trivy
+          printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      - name: Verify exact public release source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_COMMIT: ${{ steps.release.outputs.commit }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$RELEASE_COMMIT"
+          test "$(gh api "repos/$GITHUB_REPOSITORY" --jq '.visibility')" = public
+          cmp --silent \
+            "$RUNNER_TEMP/release/ROOTFORM-BINARY-LICENSE.txt" \
+            dependencies/ROOTFORM-BINARY-LICENSE.txt
+          bun run check
+          actionlint -no-color -oneline
+          git diff --check
+          gitleaks dir --no-banner --redact --config .gitleaks.toml .
+          gitleaks git --no-banner --redact --config .gitleaks.toml .
+
+      - name: Extract verified native qualification binary
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/extract-release-binary.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release "$RUNNER_TEMP/release" \
+            --target linux-amd64 \
+            --output build/bin/rootform
+
+      - name: Build and audit official image
+        env:
+          RELEASE_COMMIT: ${{ steps.release.outputs.commit }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/build-image.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release "$RUNNER_TEMP/release" \
+            --revision "$RELEASE_COMMIT" \
+            --output build/image
+
+      - name: Qualify runtime before publication
+        env:
+          RELEASE_COMMIT: ${{ steps.release.outputs.commit }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun run test:oci-registry-e2e \
+            --version "$ROOTFORM_VERSION" \
+            --revision "$RELEASE_COMMIT" \
+            --image build/image \
+            --rootform-bin build/bin/rootform \
+            --oras "$RUNNER_TEMP/oras" \
+            --trivy "$RUNNER_TEMP/trivy" \
+            --evidence build/image-evidence/qualification.json
+
+      - name: Require the image the candidate qualified
+        id: qualified
+        env:
+          GH_TOKEN: ${{ github.token }}
+          QUALIFICATION_RUN_ID: ${{ inputs.qualification_run_id }}
+          RELEASE_COMMIT: ${{ steps.release.outputs.commit }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          gh run download "$QUALIFICATION_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name "rootform-image-qualification-$ROOTFORM_VERSION-$RELEASE_COMMIT" \
+            --dir "$RUNNER_TEMP/qualified-image"
+          identity='{product, binary, share, platforms: ([.image.manifests[] | {os, architecture, digest}] | sort_by(.architecture))}'
+          qualified="$(jq -cS "$identity" "$RUNNER_TEMP/qualified-image/image/rootform_${ROOTFORM_VERSION}_image.json")"
+          rebuilt="$(jq -cS "$identity" "build/image/rootform_${ROOTFORM_VERSION}_image.json")"
+          if [[ "$qualified" != "$rebuilt" ]]; then
+            echo "::error::The rebuilt image differs from the image candidate run $QUALIFICATION_RUN_ID qualified."
+            exit 1
+          fi
+          platforms="$(jq -c '[.image.manifests[] | {os, architecture, digest}] | sort_by(.architecture)' \
+            "build/image/rootform_${ROOTFORM_VERSION}_image.json")"
+          present=false
+          if published="$(docker buildx imagetools inspect "ghcr.io/rootform-dev/rootform:$ROOTFORM_VERSION" --raw 2>/dev/null)"; then
+            existing="$(jq -c '[.manifests[] | select(.platform.os == "linux") | {os: .platform.os, architecture: .platform.architecture, digest}] | sort_by(.architecture)' <<<"$published")"
+            if [[ "$existing" != "$platforms" ]]; then
+              echo "::error::ghcr.io/rootform-dev/rootform:$ROOTFORM_VERSION already exists with other platform images."
+              exit 1
+            fi
+            present=true
+            echo "ghcr.io/rootform-dev/rootform:$ROOTFORM_VERSION is already published with the qualified platform images." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          printf 'present=%s\n' "$present" >> "$GITHUB_OUTPUT"
+
+      - name: Require existing official GHCR package to be public
+        if: steps.qualified.outputs.present != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          visibility="$(gh api orgs/rootform-dev/packages/container/rootform --jq '.visibility')"
+          test "$visibility" = public
+
+      - name: Authenticate isolated GHCR client
+        if: steps.qualified.outputs.present != 'true'
+        env:
+          GHCR_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          [[ "$DOCKER_CONFIG" == "$RUNNER_TEMP/"* ]]
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io \
+            --username "$GITHUB_ACTOR" --password-stdin
+
+      - name: Publish exact version with attestations
+        if: steps.qualified.outputs.present != 'true'
+        env:
+          RELEASE_COMMIT: ${{ steps.release.outputs.commit }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/publish-image.ts \
+            --version "$ROOTFORM_VERSION" \
+            --revision "$RELEASE_COMMIT" \
+            --context build/image/context \
+            --image-manifest "build/image/rootform_${ROOTFORM_VERSION}_image.json" \
+            --metadata build/image-evidence/buildx-metadata.json \
+            --evidence build/image-evidence/publication.json
+
+      - name: Verify published official GHCR package remains public
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(gh api orgs/rootform-dev/packages/container/rootform --jq '.visibility')" = public
+
+      - name: Upload publication evidence
+        if: steps.qualified.outputs.present != 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-official-image-${{ inputs.version }}-${{ steps.release.outputs.commit }}
+          path: |
+            ${{ runner.temp }}/release.json
+            build/image/rootform_${{ inputs.version }}_image.json
+            build/image-evidence/*.json
+          if-no-files-found: error
+          compression-level: 9
+          retention-days: 30
+
+      - name: Remove registry credentials
+        if: always()
+        run: |
+          set -euo pipefail
+          config="${DOCKER_CONFIG:-$RUNNER_TEMP/docker-config}"
+          if [[ -d "$config" && "$config" == "$RUNNER_TEMP/"* ]]; then
+            docker logout ghcr.io >/dev/null 2>&1 || true
+            rm -f -- "$config/config.json"
+          fi

@@ -1,0 +1,3524 @@
+{
+  "format_version": 1,
+  "commands": [
+    {
+      "path": "rootform",
+      "usage": "rootform \u003ccommand\u003e [options]",
+      "summary": "Understand Terraform and OpenTofu as architecture",
+      "description": "Rootform turns Terraform and OpenTofu plan or state exports into\nsemantic, deterministic, explainable architecture: a Form you can\nexplore, save, reopen, compare, and check against Policies.\n\nRun 'rootform help \u003ccommand\u003e' for the options of one command.\n\nA long report on an interactive terminal opens in less: Enter advances one\nline, Space one page, b goes back a page, and q quits. With --no-pager, a\npipe or file, a CI run, or no less installed, the report prints in full.\nROOTFORM_PAGER names another pager, or turns paging off when empty.\n\nExit status:\n  0  the request completed, or the answer is positive\n  1  the answer is negative: a violation, an invalid object, an\n     unformatted source, a failing fixture, or a name not found\n  2  the command was used incorrectly\n  3  the input, selection, or evidence allows no answer\n  4  a file, Rootform home, network, registry, or server operation failed",
+      "examples": "rootform run plan.json\n  rootform run state.json --no-serve -o form.json\n  rootform run before.json --diff after.json --no-serve\n  rootform check plan.json -o results.sarif",
+      "command_groups": [
+        "Analyze",
+        "Inspect",
+        "Project",
+        "Rootform home",
+        "Author and publish",
+        "Other"
+      ],
+      "subcommands": [
+        "rootform add",
+        "rootform check",
+        "rootform compile",
+        "rootform completion",
+        "rootform explain",
+        "rootform fmt",
+        "rootform init",
+        "rootform install",
+        "rootform list",
+        "rootform lsp",
+        "rootform package",
+        "rootform publish",
+        "rootform remove",
+        "rootform run",
+        "rootform show",
+        "rootform test",
+        "rootform uninstall",
+        "rootform update",
+        "rootform validate",
+        "rootform vendor",
+        "rootform version"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform",
+          "no_option_default": "true"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        },
+        {
+          "name": "version",
+          "shorthand": "v",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print the rootform version and exit",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform add",
+      "usage": "rootform add \u003ccommand\u003e [options]",
+      "group": "Project",
+      "summary": "Add content to rootform.lock",
+      "description": "Select Dialects or Policy Packs for this project. rootform add, remove,\nand update are the only commands that write rootform.lock.\n\nExit status:\n  0  help was shown\n  2  the command was used incorrectly",
+      "examples": "rootform add dialects ./dialects/payments\n  rootform add dialects \\\n    registry.example.com/acme/dialects:dialect-payments-0.1.0\n  rootform add dialects ./dialects/aws --replace\n  rootform add policy-packs ./policies\n  rootform add policy-packs \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.1.0\n  rootform add policy-packs ./policies --dry-run",
+      "subcommands": [
+        "rootform add dialects",
+        "rootform add policy-packs"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform add",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform add dialects",
+      "usage": "rootform add dialects \u003csource\u003e... [options]",
+      "summary": "Add Dialects to rootform.lock",
+      "description": "Add Dialects to rootform.lock. Each source is a local directory (./path),\na registry reference with a tag or digest, or the owner of an embedded Dialect\nthat the project excluded.\n\nRootform compiles and verifies every source, records its exact identity,\nand writes rootform.lock once, or not at all. A registry source is\ninstalled in the Rootform home. A tag is resolved once and never\nrecorded.\n\nA Dialect whose owner is embedded in Rootform replaces the embedded\none only with --replace.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  a source is invalid or a named selection is absent\n  2  the command was used incorrectly\n  3  rootform.lock is invalid, selections conflict, or --offline needs\n     content that is not installed\n  4  a file, Rootform home, or network operation failed",
+      "examples": "rootform add dialects ./dialects/payments\n  rootform add dialects \\\n    registry.example.com/acme/dialects:dialect-payments-0.1.0\n  rootform add dialects ./dialects/aws --replace",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "print the planned change and write nothing",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform add dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "use no network; accept local and installed sources",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
+        },
+        {
+          "name": "replace",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "replace the embedded Dialect with the same owner",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform add policy-packs",
+      "usage": "rootform add policy-packs \u003csource\u003e... [options]",
+      "summary": "Add Policy Packs to rootform.lock",
+      "description": "Add Policy Packs to rootform.lock. Each source is a local directory\n(./path) or a registry reference with a tag or digest.\n\nRootform compiles and verifies every source, records its exact identity,\nand writes rootform.lock once, or not at all. A registry source is\ninstalled in the Rootform home. A tag is resolved once and never\nrecorded.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  a source is invalid or a named selection is absent\n  2  the command was used incorrectly\n  3  rootform.lock is invalid, selections conflict, or --offline needs\n     content that is not installed\n  4  a file, Rootform home, or network operation failed",
+      "examples": "rootform add policy-packs ./policies\n  rootform add policy-packs \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.1.0\n  rootform add policy-packs ./policies --dry-run",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "print the planned change and write nothing",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform add policy-packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "use no network; accept local and installed sources",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform check",
+      "usage": "rootform check \u003cinput\u003e [options]",
+      "group": "Analyze",
+      "summary": "Evaluate Policies against a Form or each side of a comparison",
+      "description": "check evaluates the selected Policies against one architecture: the\nPlanned stage of a plan, or the Recorded stage of a state. Policies come\nfrom the Policy Packs in rootform.lock, then the --policy-pack overlays;\n--policy narrows the selection. A plan's reconstructed Recorded stage is\nnever evaluated.\n\nA comparison Form has two sides. check evaluates the Before and the After\nside, each at the stage selected in the saved comparison and linked\nagainst its own semantics, with the same selection, and reports each side\napart; --side keeps one of them.\n\nThe input is a plan JSON or state JSON, compiled with the project's\nDialects, or a saved Form, loaded without compiling it again; '-' reads\nstandard input.\n\nThe summary goes to standard output, or the --format output when no file\nis written. Progress, written files, and errors go to standard error; a\nverdict is never repeated there. Every requested report is written\nwhatever the verdict. check never serves.\n\nExit status:\n  0  every selected Policy passed on every requested side\n  1  a selected Policy was violated on a requested side\n  2  the command was used incorrectly\n  3  no verdict: indeterminate, no target, nothing selected, a side that\n     could not be evaluated, an input that was refused, or an invalid\n     rootform.lock\n  4  an input, report, or rootform.lock file could not be read or written",
+      "examples": "rootform check plan.json\n  rootform check state.json --policy 'security/*'\n  rootform check comparison.json --side after\n  rootform check form.json --stage refreshed\n  rootform check plan.json -o results.json -o report.md -o results.sarif",
+      "flag_groups": [
+        "Target selection",
+        "Policy selection",
+        "Output",
+        "Rootform project",
+        "Advanced evidence settings",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "details",
+          "type": "bool",
+          "group": "Output",
+          "default": "false",
+          "usage": "also list passed evaluations, Policy Pack identities, and diagnostic codes",
+          "no_option_default": "true"
+        },
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Rootform project",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "format of standard output, or of a single -o file without a recognized extension: `text|json|markdown|sarif`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform check",
+          "no_option_default": "true"
+        },
+        {
+          "name": "locked",
+          "type": "bool",
+          "group": "Rootform project",
+          "default": "false",
+          "usage": "refuse to run unless rootform.lock is valid",
+          "no_option_default": "true"
+        },
+        {
+          "name": "output",
+          "shorthand": "o",
+          "type": "stringArray",
+          "group": "Output",
+          "default": "[]",
+          "usage": "write `file`; its extension selects the format: .json (the Policy result), .txt, .md, .sarif, or .sarif.json; repeatable"
+        },
+        {
+          "name": "plan-complete",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "declare the plan complete; the only `value` is attested"
+        },
+        {
+          "name": "plan-file",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape"
+        },
+        {
+          "name": "policy",
+          "type": "stringArray",
+          "group": "Policy selection",
+          "default": "[]",
+          "usage": "evaluate only the Policies `selector` names: PACK.policy.NAME, PACK/NAME, a bare name, or PACK/*; repeatable"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "group": "Policy selection",
+          "default": "[]",
+          "usage": "add or replace the Policy Pack at `path`, a source directory or a compiled file, for this command only; repeatable"
+        },
+        {
+          "name": "producer",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "declare the tool that produced the input: `terraform|opentofu`"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Rootform project",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        },
+        {
+          "name": "provider-map",
+          "type": "stringArray",
+          "group": "Advanced evidence settings",
+          "default": "[]",
+          "usage": "map an observed provider to a binding, as `observed=binding`; repeatable"
+        },
+        {
+          "name": "require-enrichment",
+          "type": "bool",
+          "group": "Advanced evidence settings",
+          "default": "false",
+          "usage": "refuse the input when its saved plan file does not pair with the plan JSON",
+          "no_option_default": "true"
+        },
+        {
+          "name": "side",
+          "type": "string",
+          "group": "Target selection",
+          "default": "",
+          "usage": "sides of a comparison Form to evaluate: `before|after|both`; default: both"
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "group": "Target selection",
+          "default": "",
+          "usage": "stage to evaluate: `planned|refreshed|recorded`; default: Planned for a plan, Recorded for a state; with a comparison Form, needs --side before or after"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform compile",
+      "usage": "rootform compile \u003ccommand\u003e [options]",
+      "group": "Author and publish",
+      "summary": "Compile a Policy Pack for offline checks",
+      "description": "Compile Policy Pack sources with explicit semantic pins for later checks.\n\nExit status:\n  0  help was shown\n  2  the command was used incorrectly",
+      "subcommands": [
+        "rootform compile policy-pack"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform compile",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform compile policy-pack",
+      "usage": "rootform compile policy-pack \u003cdirectory\u003e [options]",
+      "summary": "Compile and pin a Policy Pack",
+      "description": "Compile one Policy Pack source directory using the semantics of the saved\nForm in --semantics, and write the compiled JSON file to --output. The\ncompiled Policy Pack keeps its semantic pins for later offline evaluation\nwithout the Dialect sources that produced the Form.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  the compiled Policy Pack was written\n  1  the Policy Pack or Form is invalid\n  2  the command was used incorrectly\n  4  a source could not be read or the output could not be written",
+      "examples": "# Compile the baseline Policy Pack for offline checks using a saved plan Form\n  rootform compile policy-pack ./policies \\\n    --semantics plan-form.json -o baseline.json\n\n  # Compile a separate production Pack using its saved state Form\n  rootform compile policy-pack ./policies/production \\\n    --semantics state-form.json -o production.json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform compile policy-pack",
+          "no_option_default": "true"
+        },
+        {
+          "name": "output",
+          "shorthand": "o",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "write compiled Policy Pack to `file` (required)"
+        },
+        {
+          "name": "semantics",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "read semantics from a saved Form `file` (required)"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform completion",
+      "usage": "rootform completion \u003cshell\u003e [options]",
+      "group": "Other",
+      "summary": "Generate shell completion",
+      "description": "Generate a completion script for bash, zsh, fish, or PowerShell.\n\nThe script goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  the completion script was generated\n  2  the command was used incorrectly\n  4  the completion script could not be written",
+      "examples": "rootform completion bash \u003e /usr/local/etc/bash_completion.d/rootform\n  rootform completion zsh \u003e \"${fpath[1]}/_rootform\"\n  rootform completion fish \u003e ~/.config/fish/completions/rootform.fish",
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform completion",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform explain",
+      "usage": "rootform explain \u003ccommand\u003e [options]",
+      "group": "Inspect",
+      "summary": "Justify one conclusion of a Form or a Policy result",
+      "description": "explain instance and explain rule read an input as run does and justify\nhow one instance or one Rule was interpreted at one stage. explain policy\nreads a Policy result written by check and justifies one Policy outcome\nwithout evaluating it again.\n\nExit status:\n  0  help was shown\n  2  the command was used incorrectly",
+      "examples": "rootform explain instance aws_vpc.main --input plan.json\n  rootform explain rule aws.rule.vpc --input state.json\n  rootform explain policy baseline/vpc-flow-logs --result results.json",
+      "subcommands": [
+        "rootform explain instance",
+        "rootform explain policy",
+        "rootform explain rule"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform explain",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform explain instance",
+      "usage": "rootform explain instance \u003caddress\u003e --input \u003cinput\u003e [options]",
+      "summary": "Explain how one instance was interpreted",
+      "description": "Show how one instance was interpreted at one stage: its Rule and Concept,\nthe facts it takes part in with their evidence, each closure outcome, its\ndependencies, and its diagnostics. A declaration address explains every\ninstance of that declaration. An explanation states what the evidence\nrecords; it never infers a cause.\n\nThe input is read as run reads it: a plan JSON or state JSON is compiled\nwith the project's Dialects, a saved Form is loaded as it is, and '-' reads\nstandard input. --stage selects the stage; the default is Planned for a\nplan and Recorded for a state. A comparison Form needs --side, which\nexplains the stage selected for that side in the saved comparison unless\n--stage names another.\n\nThe explanation goes to standard output. Progress and errors go to\nstandard error.\n\nExit status:\n  0  the instance was explained\n  1  no instance has this address at the selected stage\n  2  the command was used incorrectly\n  3  the input was refused, rootform.lock is invalid, or the stage or side\n     is unavailable\n  4  the input or rootform.lock could not be read",
+      "examples": "rootform explain instance google_compute_network.vpc --input plan.json\n  rootform explain instance 'aws_instance.web[\"a\"]' --input state.json\n  rootform explain instance aws_vpc.main --input plan.json --stage refreshed\n  rootform explain instance aws_vpc.main --input comparison.json --side before\n  rootform explain instance aws_vpc.main --input form.json --format json",
+      "flag_groups": [
+        "Input",
+        "Output",
+        "Rootform project",
+        "Advanced evidence settings",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "details",
+          "type": "bool",
+          "group": "Output",
+          "default": "false",
+          "usage": "also show diagnostic codes",
+          "no_option_default": "true"
+        },
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Rootform project",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform explain instance",
+          "no_option_default": "true"
+        },
+        {
+          "name": "input",
+          "type": "string",
+          "group": "Input",
+          "default": "",
+          "usage": "read `input`: a plan JSON, a state JSON, a saved Form, or '-' for standard input"
+        },
+        {
+          "name": "locked",
+          "type": "bool",
+          "group": "Rootform project",
+          "default": "false",
+          "usage": "refuse to run unless rootform.lock is valid",
+          "no_option_default": "true"
+        },
+        {
+          "name": "plan-complete",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "declare the plan complete; the only `value` is attested"
+        },
+        {
+          "name": "plan-file",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape"
+        },
+        {
+          "name": "producer",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "declare the tool that produced the input: `terraform|opentofu`"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Rootform project",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        },
+        {
+          "name": "provider-map",
+          "type": "stringArray",
+          "group": "Advanced evidence settings",
+          "default": "[]",
+          "usage": "map an observed provider to a binding, as `observed=binding`; repeatable"
+        },
+        {
+          "name": "require-enrichment",
+          "type": "bool",
+          "group": "Advanced evidence settings",
+          "default": "false",
+          "usage": "refuse the input when its saved plan file does not pair with the plan JSON",
+          "no_option_default": "true"
+        },
+        {
+          "name": "side",
+          "type": "string",
+          "group": "Input",
+          "default": "",
+          "usage": "side of a comparison Form to explain: `before|after`; required for a comparison Form"
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "group": "Input",
+          "default": "",
+          "usage": "stage to explain: `planned|refreshed|recorded`; default: Planned for a plan, Recorded for a state, or the stage selected in the saved comparison for a side"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform explain policy",
+      "usage": "rootform explain policy \u003cpolicy\u003e --result \u003cfile\u003e [options]",
+      "summary": "Explain one Policy outcome recorded by check",
+      "description": "Show why one Policy passed, was violated, stayed indeterminate, or had\nno target, from the Policy result that rootform check wrote as JSON.\nNothing is evaluated again: each side the result records is explained\nas recorded, and --side keeps one side of a comparison. Name the Policy\nas \u003cpolicy-pack\u003e.policy.\u003cname\u003e, as \u003cpolicy-pack\u003e/\u003cname\u003e, or by its bare\nname when that is unambiguous.\n\n--input names the Form the result was computed from, read as run reads\nit; its facts and closures then describe the evidence each evaluation\ninspected. The input is used only when its Form digest equals the one\nthe result records.\n\nThe explanation goes to standard output. Progress and errors go to\nstandard error.\n\nExit status:\n  0  the Policy outcome was explained\n  1  the result records no Policy with this name\n  2  the command was used incorrectly\n  3  the result or input was refused, the name is ambiguous, the side is\n     not recorded, the check recorded no outcome for this Policy, or the\n     input is not the Form the result was computed from\n  4  the result, the input, or rootform.lock could not be read",
+      "examples": "rootform explain policy baseline/vpc-flow-logs --result results.json\n  rootform explain policy vpc-flow-logs --result results.json --side before\n  rootform explain policy vpc-flow-logs --result results.json --input form.json\n  rootform check plan.json --format json |\n    rootform explain policy vpc-flow-logs --result -",
+      "flag_groups": [
+        "Inputs",
+        "Output",
+        "Rootform project",
+        "Advanced evidence settings",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "details",
+          "type": "bool",
+          "group": "Output",
+          "default": "false",
+          "usage": "also list passed evaluations and diagnostic codes",
+          "no_option_default": "true"
+        },
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Rootform project",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform explain policy",
+          "no_option_default": "true"
+        },
+        {
+          "name": "input",
+          "type": "string",
+          "group": "Inputs",
+          "default": "",
+          "usage": "describe inspected evidence from the Form `input` the result was computed from: a plan JSON, a state JSON, a saved Form, or '-'"
+        },
+        {
+          "name": "locked",
+          "type": "bool",
+          "group": "Rootform project",
+          "default": "false",
+          "usage": "refuse to run unless rootform.lock is valid",
+          "no_option_default": "true"
+        },
+        {
+          "name": "plan-complete",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "declare the plan complete; the only `value` is attested"
+        },
+        {
+          "name": "plan-file",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape"
+        },
+        {
+          "name": "producer",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "declare the tool that produced the input: `terraform|opentofu`"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Rootform project",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        },
+        {
+          "name": "provider-map",
+          "type": "stringArray",
+          "group": "Advanced evidence settings",
+          "default": "[]",
+          "usage": "map an observed provider to a binding, as `observed=binding`; repeatable"
+        },
+        {
+          "name": "require-enrichment",
+          "type": "bool",
+          "group": "Advanced evidence settings",
+          "default": "false",
+          "usage": "refuse the input when its saved plan file does not pair with the plan JSON",
+          "no_option_default": "true"
+        },
+        {
+          "name": "result",
+          "type": "string",
+          "group": "Inputs",
+          "default": "",
+          "usage": "read the Policy result `file` that check wrote as JSON, or '-' for standard input"
+        },
+        {
+          "name": "side",
+          "type": "string",
+          "group": "Inputs",
+          "default": "",
+          "usage": "side of a comparison result to explain: `before|after`; default: every recorded side"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform explain rule",
+      "usage": "rootform explain rule \u003crule\u003e --input \u003cinput\u003e [options]",
+      "summary": "Explain how one Rule applied in an input",
+      "description": "Show how one Rule applied at one stage: what it matches and emits, the\ninstances it interpreted, the candidates it did not match or left\nundecided, and for each emission its closure outcomes and the facts it\nproduced with their evidence. Name the Rule as \u003cowner\u003e.rule.\u003cname\u003e, or by\nits bare name when that is unambiguous. rootform show prints a Rule\ndefinition without an input.\n\nThe input is read as run reads it: a plan JSON or state JSON is compiled\nwith the project's Dialects, a saved Form is loaded as it is, and '-' reads\nstandard input. --stage selects the stage; the default is Planned for a\nplan and Recorded for a state. A comparison Form needs --side, which\nexplains the stage selected for that side in the saved comparison unless\n--stage names another.\n\nThe explanation goes to standard output. Progress and errors go to\nstandard error.\n\nExit status:\n  0  the Rule was explained\n  1  the semantics of the input hold no Rule with this name\n  2  the command was used incorrectly\n  3  the input was refused, rootform.lock is invalid, the stage or side is\n     unavailable, or the name is ambiguous\n  4  the input or rootform.lock could not be read",
+      "examples": "rootform explain rule google.rule.cloud-sql-instance --input plan.json\n  rootform explain rule cloud-sql-instance --input state.json\n  rootform explain rule aws.rule.vpc --input comparison.json --side after\n  rootform explain rule aws.rule.vpc --input plan.json --format json",
+      "flag_groups": [
+        "Input",
+        "Output",
+        "Rootform project",
+        "Advanced evidence settings",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Rootform project",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform explain rule",
+          "no_option_default": "true"
+        },
+        {
+          "name": "input",
+          "type": "string",
+          "group": "Input",
+          "default": "",
+          "usage": "read `input`: a plan JSON, a state JSON, a saved Form, or '-' for standard input"
+        },
+        {
+          "name": "locked",
+          "type": "bool",
+          "group": "Rootform project",
+          "default": "false",
+          "usage": "refuse to run unless rootform.lock is valid",
+          "no_option_default": "true"
+        },
+        {
+          "name": "plan-complete",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "declare the plan complete; the only `value` is attested"
+        },
+        {
+          "name": "plan-file",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape"
+        },
+        {
+          "name": "producer",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "declare the tool that produced the input: `terraform|opentofu`"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Rootform project",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        },
+        {
+          "name": "provider-map",
+          "type": "stringArray",
+          "group": "Advanced evidence settings",
+          "default": "[]",
+          "usage": "map an observed provider to a binding, as `observed=binding`; repeatable"
+        },
+        {
+          "name": "require-enrichment",
+          "type": "bool",
+          "group": "Advanced evidence settings",
+          "default": "false",
+          "usage": "refuse the input when its saved plan file does not pair with the plan JSON",
+          "no_option_default": "true"
+        },
+        {
+          "name": "side",
+          "type": "string",
+          "group": "Input",
+          "default": "",
+          "usage": "side of a comparison Form to explain: `before|after`; required for a comparison Form"
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "group": "Input",
+          "default": "",
+          "usage": "stage to explain: `planned|refreshed|recorded`; default: Planned for a plan, Recorded for a state, or the stage selected in the saved comparison for a side"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform fmt",
+      "usage": "rootform fmt [path] [options]",
+      "group": "Author and publish",
+      "summary": "Format Rootform files",
+      "description": "Rewrite Rootform source files using the canonical format.\n\nWithout a path, fmt reads the current directory. By default it rewrites\nchanged files. --check reports their names and --diff writes changes to\nstandard output without rewriting. Diagnostics go to standard error.\n\nExit status:\n  0  the sources are formatted\n  1  a source cannot be parsed, or --check or --diff found a source\n     that is not formatted\n  2  the command was used incorrectly\n  4  a source could not be read or rewritten",
+      "examples": "rootform fmt\n  rootform fmt ./dialects\n  rootform fmt --check\n  rootform fmt ./dialects --diff",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "check",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "check formatting without rewriting files",
+          "no_option_default": "true"
+        },
+        {
+          "name": "diff",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "show formatting changes without rewriting files",
+          "no_option_default": "true"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform fmt",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform init",
+      "usage": "rootform init [path] [options]",
+      "group": "Project",
+      "summary": "Prepare a Rootform project",
+      "description": "Prepare an existing rootform.lock and materialize the project's exact\nnon-embedded selections (Dialects and Policy Pack sources) locally.\n\ninit is explicit: it never detects providers, selects another version,\nor writes rootform.lock. With --locked the existing rootform.lock is\nrequired and valid; without it, a missing lock is an empty selection\nand an existing lock is always preserved. Embedded Dialects ship\ninside the release set and are never acquired. When network access is\navailable and not disabled by --offline, init fetches only the exact\nmanifest digests already pinned by rootform.lock.\n\nPath defaults to . and is the Rootform project. Machine JSON goes to\nstandard output. Diagnostics and --details go to standard error.\n\n--details lists each prepared Dialect and Policy Pack with its status\nand source.\n\nExit status:\n  0  preparation completed\n  1  selected content is invalid, missing, or differs from rootform.lock\n  2  the command was used incorrectly\n  3  rootform.lock is required or invalid, or --offline needs content\n     that is not installed\n  4  a file, the Rootform home, or the registry could not be read or written",
+      "examples": "rootform init\n  rootform init ./infra\n  rootform init ./infra --locked --offline\n  rootform init ./infra --no-input\n  rootform init ./infra --details\n  rootform init ./infra --format json",
+      "flag_groups": [
+        "Preparation",
+        "Output",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "details",
+          "type": "bool",
+          "group": "Output",
+          "default": "false",
+          "usage": "list every prepared unit's status and source on standard error",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform init",
+          "no_option_default": "true"
+        },
+        {
+          "name": "locked",
+          "type": "bool",
+          "group": "Preparation",
+          "default": "false",
+          "usage": "require and preserve the existing rootform.lock",
+          "no_option_default": "true"
+        },
+        {
+          "name": "no-input",
+          "type": "bool",
+          "group": "Preparation",
+          "default": "false",
+          "usage": "never prompt; require deterministic action",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "group": "Preparation",
+          "default": "false",
+          "usage": "use no network; accept local and installed sources",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform install",
+      "usage": "rootform install \u003ccommand\u003e [options]",
+      "group": "Rootform home",
+      "summary": "Install registry content in the Rootform home",
+      "description": "Download and verify Dialects or Policy Packs into the Rootform home.\nInstalling makes content available on this machine; it selects\nnothing for any project.\n\nExit status:\n  0  help was shown\n  2  the command was used incorrectly",
+      "examples": "rootform install dialects \\\n    registry.example.com/acme/dialects:dialect-payments-0.1.0\n  rootform install policy-packs \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.1.0",
+      "subcommands": [
+        "rootform install dialects",
+        "rootform install policy-packs"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform install",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform install dialects",
+      "usage": "rootform install dialects \u003creference\u003e... [options]",
+      "summary": "Install Dialects from registry references",
+      "description": "Resolve each registry reference once, verify the Dialect it\nnames, and install it in the Rootform home. A version is immutable on a\nmachine: installing the same version from other content fails.\n\nNo project file is read or written. Use rootform add to select content.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every reference is installed\n  1  content is invalid or a named version is absent\n  2  the command was used incorrectly\n  3  --offline needs content that is not installed\n  4  a registry, network, or Rootform home operation failed",
+      "examples": "rootform install dialects \\\n    registry.example.com/acme/dialects:dialect-payments-0.1.0\n  rootform install dialects --format json \\\n    registry.example.com/acme/dialects:dialect-payments-0.1.0\n  rootform install dialects --offline \\\n    registry.example.com/acme/dialects@sha256:\u003cdigest\u003e",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform install dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "use no network; accept installed digest references",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform install policy-packs",
+      "usage": "rootform install policy-packs \u003creference\u003e... [options]",
+      "summary": "Install Policy Packs from registry references",
+      "description": "Resolve each registry reference once, verify the Policy Pack it\nnames, and install it in the Rootform home. A version is immutable on a\nmachine: installing the same version from other content fails.\n\nNo project file is read or written. Use rootform add to select content.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every reference is installed\n  1  content is invalid or a named version is absent\n  2  the command was used incorrectly\n  3  --offline needs content that is not installed\n  4  a registry, network, or Rootform home operation failed",
+      "examples": "rootform install policy-packs \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.1.0\n  rootform install policy-packs --format json \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.1.0\n  rootform install policy-packs --offline \\\n    registry.example.com/acme/policies@sha256:\u003cdigest\u003e",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform install policy-packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "use no network; accept installed digest references",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform list",
+      "usage": "rootform list \u003ccommand\u003e [options]",
+      "group": "Inspect",
+      "summary": "List Rootform definitions",
+      "description": "List the Dialects a project loads, the Policy Packs it selects, or\nthe Policies those Policy Packs declare.\n\nUse \"rootform show\" to read one listed definition in full.\n\nExit status:\n  0  help was shown\n  2  the command was used incorrectly",
+      "examples": "rootform list dialects\n  rootform list dialects --format wide\n  rootform list policy-packs\n  rootform list policies --project ./infra",
+      "subcommands": [
+        "rootform list dialects",
+        "rootform list policies",
+        "rootform list policy-packs"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform list",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform list dialects",
+      "usage": "rootform list dialects [name]... [options]",
+      "summary": "List the Dialect catalog",
+      "description": "List the Dialect catalog available to this project: the Dialects\nembedded in Rootform and the Dialects the project selects.\n\nWithout a name, every loaded Dialect is included. Text names one\nDialect per line. Wide adds version, origin, and declaration counts.\nJSON carries the exact version, origin, and content digest of\nevery selection.\n\nWith --installed, the versions installed in the Rootform home are\nlisted with their repository and digests; no project is read and no\nnetwork is used. --project cannot be combined with --installed.\n\nThe listing goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definitions were listed\n  1  a named Dialect is not loaded\n  2  the command was used incorrectly\n  3  the project selection or its catalog is invalid or unavailable\n  4  rootform.lock or the Rootform home could not be read, or the listing\n     could not be written",
+      "examples": "rootform list dialects\n  rootform list dialects --format wide\n  rootform list dialects google aws\n  rootform list dialects --project ./infra\n  rootform list dialects --dialect ./dialects/payments\n  rootform list dialects --installed\n  rootform list dialects --format json",
+      "flag_groups": [
+        "Output",
+        "Rootform project",
+        "Rootform home",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Rootform project",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "output format: `text|wide|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform list dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "installed",
+          "type": "bool",
+          "group": "Rootform home",
+          "default": "false",
+          "usage": "list versions installed in the Rootform home",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Rootform project",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform list policies",
+      "usage": "rootform list policies [options]",
+      "summary": "List Policies",
+      "description": "List the Policies the selected Policy Packs declare.\n\nThe project selection is loaded. Each --policy-pack root replaces\nthe selected Policy Pack of the same name for this command only\nand adds any other name; rootform.lock is unchanged. Text names\none qualified Policy per line. Wide adds each Policy target.\nJSON carries the owning Policy Pack and target of every Policy.\n\nThe listing goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the project selection or its catalog is invalid or unavailable\n  4  rootform.lock could not be read or the listing could not be written",
+      "examples": "rootform list policies\n  rootform list policies --format wide\n  rootform list policies --policy-pack ./policies\n  rootform list policies --project ./infra\n  rootform list policies --format json",
+      "flag_groups": [
+        "Output",
+        "Rootform project",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "output format: `text|wide|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform list policies",
+          "no_option_default": "true"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "group": "Rootform project",
+          "default": "[]",
+          "usage": "add or replace the Policy Pack at `path`, a source directory or a compiled file, for this command only; repeatable"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Rootform project",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform list policy-packs",
+      "usage": "rootform list policy-packs [options]",
+      "summary": "List Policy Packs",
+      "description": "List the Policy Packs the project selects or that are provided\nlocally.\n\nThe project selection is loaded. Each --policy-pack root replaces\nthe selected Policy Pack of the same name for this command only\nand adds any other name; rootform.lock is unchanged. Text names\none Policy Pack per line. Wide adds version and Policy count.\nJSON carries the exact version and content digest.\n\nWith --installed, the versions installed in the Rootform home are\nlisted with their repository and digests; no project is read and no\nnetwork is used. --project cannot be combined with --installed.\n\nThe listing goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definitions were listed\n  2  the command was used incorrectly\n  3  the project selection or its catalog is invalid or unavailable\n  4  rootform.lock or the Rootform home could not be read, or the listing\n     could not be written",
+      "examples": "rootform list policy-packs\n  rootform list policy-packs --format wide\n  rootform list policy-packs --policy-pack ./policies\n  rootform list policy-packs --project ./infra\n  rootform list policy-packs --installed\n  rootform list policy-packs --format json",
+      "flag_groups": [
+        "Output",
+        "Rootform project",
+        "Rootform home",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "output format: `text|wide|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform list policy-packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "installed",
+          "type": "bool",
+          "group": "Rootform home",
+          "default": "false",
+          "usage": "list versions installed in the Rootform home",
+          "no_option_default": "true"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "group": "Rootform project",
+          "default": "[]",
+          "usage": "add or replace the Policy Pack at `path`, a source directory or a compiled file, for this command only; repeatable"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Rootform project",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform lsp",
+      "usage": "rootform lsp [options]",
+      "group": "Author and publish",
+      "summary": "Serve Rootform language features over stdio",
+      "description": "Run the Rootform language server over standard input and standard output.\nProtocol frames are the only standard output. Process diagnostics go to\nstandard error; source diagnostics travel through LSP.\n\nExit status:\n  0  the client completed shutdown and exit\n  2  the command was used incorrectly\n  4  the transport or the protocol lifecycle failed",
+      "examples": "rootform lsp\n  rootform lsp 2\u003erootform-lsp.log\n  rootform lsp \u003cclient.frames \u003eserver.frames",
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform lsp",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform package",
+      "usage": "rootform package \u003ccommand\u003e [options]",
+      "group": "Author and publish",
+      "summary": "Package Rootform content for distribution",
+      "description": "Build deterministic local registry layouts from validated Rootform packages.\n\nExit status:\n  0  help was shown\n  2  the command was used incorrectly",
+      "examples": "rootform package dialects ./dialects --to ./artifacts/dialects\n  rootform package policy-packs ./policies --to ./artifacts/policies",
+      "subcommands": [
+        "rootform package dialects",
+        "rootform package policy-packs"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform package",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform package dialects",
+      "usage": "rootform package dialects \u003cdirectory\u003e [options]",
+      "summary": "Build Dialect packages",
+      "description": "Compile an external Dialect source set and write one deterministic,\nlocal-only registry layout of exact Dialect packages. Dialects embedded\nin Rootform are never packaged. Nothing is sent to a registry.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  the registry layout was written\n  1  the Dialect source is invalid\n  2  the command was used incorrectly\n  4  a source could not be read or the layout could not be written",
+      "examples": "rootform package dialects ./dialects --to ./artifacts/oci\n  rootform package dialects . --to ./artifacts/oci\n  rootform package dialects ./own --to ./oci --licenses MPL-2.0",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "documentation-url",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "record the documentation `url` in OCI provenance"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform package dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "licenses",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "record the SPDX license `expression` in OCI provenance"
+        },
+        {
+          "name": "revision",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "record the source-control `revision` in OCI provenance"
+        },
+        {
+          "name": "source-url",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "record the canonical source `url` in OCI provenance"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "write the registry layout to `directory`"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform package policy-packs",
+      "usage": "rootform package policy-packs \u003cdirectory\u003e [options]",
+      "summary": "Build Policy Pack packages",
+      "description": "Compile a Policy Pack source set and write one deterministic, local-only\nregistry layout of exact Policy Pack packages. Nothing is sent to a\nregistry.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  the registry layout was written\n  1  the Policy Pack source is invalid\n  2  the command was used incorrectly\n  4  a source could not be read or the layout could not be written",
+      "examples": "rootform package policy-packs ./policies --to ./artifacts/policies\n  rootform package policy-packs ./baseline --to ./baseline-oci\n  rootform package policy-packs . --to ./oci",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "documentation-url",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "record the documentation `url` in OCI provenance"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform package policy-packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "licenses",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "record the SPDX license `expression` in OCI provenance"
+        },
+        {
+          "name": "revision",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "record the source-control `revision` in OCI provenance"
+        },
+        {
+          "name": "source-url",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "record the canonical source `url` in OCI provenance"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "write the registry layout to `directory`"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform publish",
+      "usage": "rootform publish \u003ccommand\u003e [options]",
+      "group": "Author and publish",
+      "summary": "Publish packaged Rootform content",
+      "description": "Publish validated Rootform packages to a registry repository.\n\nExit status:\n  0  help was shown\n  2  the command was used incorrectly",
+      "examples": "rootform publish dialects ./oci --to registry.example.com/acme/dialects\n  rootform publish policy-packs ./oci --to registry.example.com/acme/policies",
+      "subcommands": [
+        "rootform publish dialects",
+        "rootform publish policy-packs"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform publish",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform publish dialects",
+      "usage": "rootform publish dialects \u003clayout\u003e [options]",
+      "summary": "Publish a verified Dialect registry layout",
+      "description": "Validate an existing local Rootform registry layout, publish its external\nDialects to one registry repository, repull every manifest by digest, and\nverify the complete Dialect set. Only the exact selected Dialects are\nwritten. Packaging and dry-run remain offline.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  publication or dry-run verification completed\n  1  the registry layout is invalid\n  2  the command was used incorrectly\n  4  the layout could not be read, or registry publication or\n     verification failed",
+      "examples": "rootform publish dialects ./oci --to registry.example.com/acme/dialects\n  rootform publish dialects ./oci --to localhost:5000/acme/dialects --dry-run\n  rootform publish dialects ./oci --to registry.example.com/acme/dialects \\\n    --dry-run --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "report the verified publication plan without network access",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform publish dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "publish to the tagless OCI `repository`"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform publish policy-packs",
+      "usage": "rootform publish policy-packs \u003clayout\u003e [options]",
+      "summary": "Publish a verified Policy Pack registry layout",
+      "description": "Validate an existing local Policy Pack registry layout, publish every\nPolicy Pack to one registry repository, and repull each manifest by\ndigest. Policy Packs are published exactly as selected. Dry-run remains\noffline.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  publication or dry-run verification completed\n  1  the registry layout is invalid\n  2  the command was used incorrectly\n  4  the layout could not be read, or registry publication or\n     verification failed",
+      "examples": "rootform publish policy-packs ./oci --to registry.example.com/acme/policies\n  rootform publish policy-packs ./oci --to localhost:5000/acme/policies\n  rootform publish policy-packs ./oci --to registry.example.com/acme/policies \\\n    --dry-run --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "report the verified publication plan without network access",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform publish policy-packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "publish to the tagless OCI `repository`"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform remove",
+      "usage": "rootform remove \u003ccommand\u003e [options]",
+      "group": "Project",
+      "summary": "Remove content from rootform.lock",
+      "description": "Drop selected Dialects or Policy Packs from this project, or exclude an\nembedded Dialect.\n\nExit status:\n  0  help was shown\n  2  the command was used incorrectly",
+      "examples": "rootform remove dialects payments\n  rootform remove dialects payments billing --dry-run\n  rootform remove dialects aws --embedded\n  rootform remove policy-packs baseline\n  rootform remove policy-packs baseline audit\n  rootform remove policy-packs baseline --format json",
+      "subcommands": [
+        "rootform remove dialects",
+        "rootform remove policy-packs"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform remove",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform remove dialects",
+      "usage": "rootform remove dialects \u003cname\u003e... [options]",
+      "summary": "Remove Dialects from rootform.lock",
+      "description": "Remove Dialects from rootform.lock by name. Every name must be selected;\notherwise nothing changes.\n\nRemoving a Dialect that replaced an embedded one makes the embedded\none active again. With --embedded, each name must instead be an embedded\nDialect that no selection replaces; it is excluded from the project.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  a named selection is absent or the remaining selection is invalid\n  2  the command was used incorrectly\n  3  rootform.lock is invalid, or --embedded names a Dialect that is not\n     embedded or that a selection replaces\n  4  a file or Rootform home operation failed",
+      "examples": "rootform remove dialects payments\n  rootform remove dialects payments billing --dry-run\n  rootform remove dialects aws --embedded",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "print the planned change and write nothing",
+          "no_option_default": "true"
+        },
+        {
+          "name": "embedded",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "exclude the named embedded Dialects from the project",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform remove dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform remove policy-packs",
+      "usage": "rootform remove policy-packs \u003cname\u003e... [options]",
+      "summary": "Remove Policy Packs from rootform.lock",
+      "description": "Remove Policy Packs from rootform.lock by name. Every name must be selected;\notherwise nothing changes.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  a named selection is absent or the remaining selection is invalid\n  2  the command was used incorrectly\n  3  rootform.lock is invalid\n  4  a file or Rootform home operation failed",
+      "examples": "rootform remove policy-packs baseline\n  rootform remove policy-packs baseline audit\n  rootform remove policy-packs baseline --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "print the planned change and write nothing",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform remove policy-packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform run",
+      "usage": "rootform run \u003cinput\u003e [--diff \u003cinput\u003e] [options]",
+      "group": "Analyze",
+      "summary": "Produce a Form from a plan or state JSON, or open a saved Form",
+      "description": "The input is a Terraform or OpenTofu plan JSON or state JSON, detected\nfrom its content, or a saved Form; '-' reads standard input. Export a plan\nwith terraform show -json plan.tfplan and a state with terraform show\n-json. A configuration directory, a raw state, and a saved binary plan are\nrefused.\n\nA plan Form holds its Planned, Refreshed, and reconstructed Recorded\nstages, its planned changes, and the drift the plan reports; a state Form\nholds its Recorded stage. --diff compares one stage of each input into a\ncomparison Form, which reopens alone and is never a --diff operand.\n\nIts differences compare the two inputs; they are not drift and do not\nestablish what drifted between the two exports.\n\nrun serves the Form on a loopback address and opens a browser until\ninterrupted; --no-serve exits once the outputs are written. The summary\ngoes to standard output, or the --format output when no file is written.\nProgress, written files, the explorer address, and errors go to standard\nerror. A machine format on standard output needs --no-serve. Every output\nis rendered before the first is written, and none may replace an input.\n\nrun never evaluates Policies; rootform check does.\n\nExit status:\n  0  the Form was produced or opened\n  2  the command was used incorrectly\n  3  an input was refused, rootform.lock is invalid, or a requested stage\n     is unavailable\n  4  an input, output, or rootform.lock file, or the explorer, failed",
+      "examples": "rootform run plan.json\n  terraform show -json plan.tfplan | rootform run -\n  rootform run state.json --no-serve -o form.json\n  rootform run form.json --no-serve --details\n  rootform run plan.json --no-serve -o report.md -o report.html\n  rootform run before.json --diff after.json --no-serve",
+      "flag_groups": [
+        "Inputs and stages",
+        "Output",
+        "Explorer",
+        "Rootform project",
+        "Advanced evidence settings",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "after-stage",
+          "type": "string",
+          "group": "Inputs and stages",
+          "default": "",
+          "usage": "stage of the second input to compare: `planned|refreshed|recorded`; default: Planned for a plan, Recorded for a state"
+        },
+        {
+          "name": "before-stage",
+          "type": "string",
+          "group": "Inputs and stages",
+          "default": "",
+          "usage": "stage of the first input to compare: `planned|refreshed|recorded`; default: Planned for a plan, Recorded for a state"
+        },
+        {
+          "name": "details",
+          "type": "bool",
+          "group": "Output",
+          "default": "false",
+          "usage": "add semantics, closure counts, and diagnostic codes; a Markdown summary and the summary beside the explorer then list every entry",
+          "no_option_default": "true"
+        },
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Rootform project",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "diff",
+          "type": "string",
+          "group": "Inputs and stages",
+          "default": "",
+          "usage": "compare with a second `input`: a plan, a state, or a saved single-input Form"
+        },
+        {
+          "name": "diff-plan-file",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "pair the --diff plan JSON with its saved plan `file`, as --plan-file does"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "format of standard output, or of a single -o file without a recognized extension: `text|json|markdown|html`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform run",
+          "no_option_default": "true"
+        },
+        {
+          "name": "locked",
+          "type": "bool",
+          "group": "Rootform project",
+          "default": "false",
+          "usage": "refuse to run unless rootform.lock is valid",
+          "no_option_default": "true"
+        },
+        {
+          "name": "no-browser",
+          "type": "bool",
+          "group": "Explorer",
+          "default": "false",
+          "usage": "serve the explorer without opening a browser",
+          "no_option_default": "true"
+        },
+        {
+          "name": "no-serve",
+          "type": "bool",
+          "group": "Explorer",
+          "default": "false",
+          "usage": "exit once the outputs are written instead of serving the explorer",
+          "no_option_default": "true"
+        },
+        {
+          "name": "output",
+          "shorthand": "o",
+          "type": "stringArray",
+          "group": "Output",
+          "default": "[]",
+          "usage": "write `file`; its extension selects the format: .json (the Form), .txt, .md, or .html; repeatable"
+        },
+        {
+          "name": "plan-complete",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "declare the plan complete; the only `value` is attested"
+        },
+        {
+          "name": "plan-file",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "pair the plan JSON with the saved plan `file` it was exported from, to enrich it; pairing compares version, timestamp, and configuration shape"
+        },
+        {
+          "name": "port",
+          "type": "int",
+          "group": "Explorer",
+          "default": "21717",
+          "usage": "serve the explorer on loopback `port`; 0 picks a free port; default: 21717"
+        },
+        {
+          "name": "producer",
+          "type": "string",
+          "group": "Advanced evidence settings",
+          "default": "",
+          "usage": "declare the tool that produced the input: `terraform|opentofu`"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Rootform project",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        },
+        {
+          "name": "provider-map",
+          "type": "stringArray",
+          "group": "Advanced evidence settings",
+          "default": "[]",
+          "usage": "map an observed provider to a binding, as `observed=binding`; repeatable"
+        },
+        {
+          "name": "require-enrichment",
+          "type": "bool",
+          "group": "Advanced evidence settings",
+          "default": "false",
+          "usage": "refuse the input when its saved plan file does not pair with the plan JSON",
+          "no_option_default": "true"
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "group": "Inputs and stages",
+          "default": "",
+          "usage": "stage the summary leads with, for one input: `planned|refreshed|recorded`; default: Planned for a plan, Recorded for a state"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform show",
+      "usage": "rootform show \u003cname\u003e [options]\nrootform show \u003ccommand\u003e [options]",
+      "group": "Inspect",
+      "summary": "Show a Rootform definition",
+      "description": "Show one Dialect, the RF Vocabulary, or one declaration they make.\n\nA bare owner name such as google or rf shows that owner and every\ndeclaration it makes. A qualified \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e shows one\ndeclaration, where kind is concept, context, relation, or rule. A\nbare declaration name is accepted when it resolves unambiguously.\n\nThe definition goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  the selection is invalid or unavailable, or the name is ambiguous\n  4  rootform.lock could not be read or the definition could not be written",
+      "examples": "rootform show google\n  rootform show google.rule.cloud-sql-instance\n  rootform show google.relation.runs-as\n  rootform show rf.concept.virtual-network\n  rootform show google --format json\n  rootform show google --project ./infra",
+      "subcommands": [
+        "rootform show policy",
+        "rootform show policy-pack"
+      ],
+      "flag_groups": [
+        "Output",
+        "Rootform project",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Rootform project",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform show",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Rootform project",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform show policy",
+      "usage": "rootform show policy \u003cidentifier\u003e [options]",
+      "summary": "Show a Policy definition",
+      "description": "Show a Policy's target, assertion, message, Policy Pack, and source\nlocation.\n\nThe project must select the owning Policy Pack, or --policy-pack can\nsupply a local root. Use \u003cpolicy-pack\u003e.policy.\u003cname\u003e,\n\u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name when it resolves unambiguously.\n\nrootform explain policy explains an outcome that rootform check\nrecorded.\n\nThe definition goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  the selection is invalid or unavailable, or the name is ambiguous\n  4  rootform.lock could not be read or the definition could not be written",
+      "examples": "rootform show policy baseline.policy.cluster-network-context\n  rootform show policy cluster-network-context\n  rootform show policy cluster-network-context --policy-pack ./policies\n  rootform show policy baseline.policy.cluster-network-context --format json\n  rootform show policy cluster-network-context --project ./infra",
+      "flag_groups": [
+        "Output",
+        "Rootform project",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform show policy",
+          "no_option_default": "true"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "group": "Rootform project",
+          "default": "[]",
+          "usage": "add or replace the Policy Pack at `path`, a source directory or a compiled file, for this command only; repeatable"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Rootform project",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform show policy-pack",
+      "usage": "rootform show policy-pack \u003cname\u003e [options]",
+      "summary": "Show a Policy Pack",
+      "description": "Show a selected or local Policy Pack, including its version, the\nPolicies it declares, its content identity, and its source location.\n\nThe name selects one loaded Policy Pack. Each --policy-pack root\nreplaces the selected Policy Pack of the same name for this command\nonly and adds any other name; rootform.lock is unchanged.\n\nThe definition goes to standard output; redirect it to save a file.\nDiagnostics go to standard error.\n\nExit status:\n  0  the definition was shown\n  1  the named definition was not found\n  2  the command was used incorrectly\n  3  the selection is invalid or unavailable, or the name is ambiguous\n  4  rootform.lock could not be read or the definition could not be written",
+      "examples": "rootform show policy-pack baseline\n  rootform show policy-pack baseline --policy-pack ./policies\n  rootform show policy-pack baseline --format json\n  rootform show policy-pack baseline --project ./infra",
+      "flag_groups": [
+        "Output",
+        "Rootform project",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Output",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform show policy-pack",
+          "no_option_default": "true"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "group": "Rootform project",
+          "default": "[]",
+          "usage": "add or replace the Policy Pack at `path`, a source directory or a compiled file, for this command only; repeatable"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Rootform project",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform test",
+      "usage": "rootform test [directory] [options]",
+      "group": "Author and publish",
+      "summary": "Test Dialect fixtures",
+      "description": "Analyze Dialect fixtures and compare the Forms they produce with the\nrecorded ones. A fixture is a directory holding one plan.json or\nstate.json export and an analysis.golden Form; the project at the test\ndirectory selects the Dialects. A plan.tfplan saved plan beside plan.json\nmust pair with it, and its configuration snapshot then contributes the\nfacts that follow references.\n\nA golden records the Form with only the Dialect definitions it reaches.\nThe comparison ignores which Rootform version and which Dialect versions\nrecorded it. With --update, test writes the produced golden for every\ncase that differs, and for a directory holding an export but no golden\nyet.\n\nWithout a directory, test reads the current directory. Text or JSON\nresults go to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every selected fixture passed or, with --update, was recorded\n  1  at least one fixture differed or could not be analyzed\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or no fixtures matched\n  4  fixture files, rootform.lock, Dialects, or the report could not be\n     read or written",
+      "examples": "rootform test\n  rootform test ./fixtures\n  rootform test ./fixtures --run cloud-sql\n  rootform test ./fixtures --format json\n  rootform test ./fixtures --update",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Options",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform test",
+          "no_option_default": "true"
+        },
+        {
+          "name": "run",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "run only the cases whose `name` contains this text"
+        },
+        {
+          "name": "update",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "write the golden of every differing or new case",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform uninstall",
+      "usage": "rootform uninstall \u003ccommand\u003e [options]",
+      "group": "Rootform home",
+      "summary": "Delete installed versions from the Rootform home",
+      "description": "Delete exact installed versions of Dialects or Policy Packs from the\nRootform home. Projects are not read; a project that still selects a\ndeleted version gets it back through rootform init.\n\nExit status:\n  0  help was shown\n  2  the command was used incorrectly",
+      "examples": "rootform uninstall dialects payments@0.1.0\n  rootform uninstall policy-packs baseline@1.0.0",
+      "subcommands": [
+        "rootform uninstall dialects",
+        "rootform uninstall policy-packs"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform uninstall",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform uninstall dialects",
+      "usage": "rootform uninstall dialects \u003cname@version\u003e... [options]",
+      "summary": "Delete installed Dialect versions",
+      "description": "Delete each named installed version from the Rootform home. The whole\nrequest fails before deleting anything when a version is not installed.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every named version was deleted\n  1  a named version is not installed\n  2  the command was used incorrectly\n  4  the Rootform home could not be read or changed",
+      "examples": "rootform uninstall dialects example@1.0.0\n  rootform uninstall dialects example@1.0.0 example@1.1.0\n  rootform uninstall dialects example@1.0.0 --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform uninstall dialects",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform uninstall policy-packs",
+      "usage": "rootform uninstall policy-packs \u003cname@version\u003e... [options]",
+      "summary": "Delete installed Policy Pack versions",
+      "description": "Delete each named installed version from the Rootform home. The whole\nrequest fails before deleting anything when a version is not installed.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every named version was deleted\n  1  a named version is not installed\n  2  the command was used incorrectly\n  4  the Rootform home could not be read or changed",
+      "examples": "rootform uninstall policy-packs example@1.0.0\n  rootform uninstall policy-packs example@1.0.0 example@1.1.0\n  rootform uninstall policy-packs example@1.0.0 --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform uninstall policy-packs",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform update",
+      "usage": "rootform update \u003ccommand\u003e [options]",
+      "group": "Project",
+      "summary": "Change a selection in rootform.lock",
+      "description": "Record new content for one selected Dialect or Policy Pack, or switch\nit to another exact source.\n\nExit status:\n  0  help was shown\n  2  the command was used incorrectly",
+      "examples": "rootform update dialect payments\n  rootform update dialect payments ./dialects/payments-next\n  rootform update dialect payments \\\n    registry.example.com/acme/dialects:dialect-payments-0.2.0\n  rootform update policy-pack baseline\n  rootform update policy-pack baseline ./policies\n  rootform update policy-pack baseline \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.2.0",
+      "subcommands": [
+        "rootform update dialect",
+        "rootform update policy-pack"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform update",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform update dialect",
+      "usage": "rootform update dialect \u003cname\u003e [source] [options]",
+      "summary": "Change one selected Dialect",
+      "description": "Change one selected Dialect. Without a source, a local selection is\nread again from its recorded path, which records content you edited. With\na source, the selection switches to it. The source must declare the same\nname; a registry selection needs a source because no tag is recorded.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  a source is invalid or a named selection is absent\n  2  the command was used incorrectly\n  3  rootform.lock is invalid, selections conflict, or --offline needs\n     content that is not installed\n  4  a file, Rootform home, or network operation failed",
+      "examples": "rootform update dialect payments\n  rootform update dialect payments ./dialects/payments-next\n  rootform update dialect payments \\\n    registry.example.com/acme/dialects:dialect-payments-0.2.0",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "print the planned change and write nothing",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform update dialect",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "use no network; accept local and installed sources",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform update policy-pack",
+      "usage": "rootform update policy-pack \u003cname\u003e [source] [options]",
+      "summary": "Change one selected Policy Pack",
+      "description": "Change one selected Policy Pack. Without a source, a local selection is\nread again from its recorded path, which records content you edited. With\na source, the selection switches to it. The source must declare the same\nname; a registry selection needs a source because no tag is recorded.\n\nWhen the project vendors this family under .rootform/, the vendored\ncopy changes together with rootform.lock.\n\nThe summary goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  rootform.lock matches the request\n  1  a source is invalid or a named selection is absent\n  2  the command was used incorrectly\n  3  rootform.lock is invalid, selections conflict, or --offline needs\n     content that is not installed\n  4  a file, Rootform home, or network operation failed",
+      "examples": "rootform update policy-pack baseline\n  rootform update policy-pack baseline ./policies\n  rootform update policy-pack baseline \\\n    registry.example.com/acme/policies:policy-pack-baseline-0.2.0",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dry-run",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "print the planned change and write nothing",
+          "no_option_default": "true"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform update policy-pack",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "use no network; accept local and installed sources",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "change rootform.lock and vendored copies in project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate",
+      "usage": "rootform validate \u003ccommand\u003e [options]",
+      "group": "Inspect",
+      "summary": "Validate a Rootform object",
+      "description": "Validate a saved Form or a Rootform definition and report any problems.\n\nValidation checks definitions; it does not evaluate Policies. Use\nrootform check plan.json --policy PACK/NAME for that.\n\nExit status:\n  0  help was shown\n  2  the command was used incorrectly",
+      "examples": "rootform validate form form.json\n  rootform validate dialects ./dialects\n  rootform validate rule google.rule.cloud-sql-instance",
+      "subcommands": [
+        "rootform validate concept",
+        "rootform validate context",
+        "rootform validate dialects",
+        "rootform validate form",
+        "rootform validate policy",
+        "rootform validate relation",
+        "rootform validate rule"
+      ],
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform validate",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate concept",
+      "usage": "rootform validate concept \u003cidentifier\u003e [options]",
+      "summary": "Validate a Concept definition",
+      "description": "Validate a Concept in its Dialect or the RF Vocabulary.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
+      "examples": "rootform validate concept rf.concept.virtual-network\n  rootform validate concept virtual-network\n  rootform validate concept rf.concept.virtual-network --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Options",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform validate concept",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate context",
+      "usage": "rootform validate context \u003cidentifier\u003e [options]",
+      "summary": "Validate a context dimension",
+      "description": "Validate a context dimension in its Dialect or the RF Vocabulary.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
+      "examples": "rootform validate context rf.context.network\n  rootform validate context network\n  rootform validate context rf.context.network --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Options",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform validate context",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate dialects",
+      "usage": "rootform validate dialects [directory] [options]",
+      "summary": "Validate Dialect definitions",
+      "description": "Compile and validate each Dialect of a directory, including its\nConcepts, Rules, and references.\n\nWithout a directory, validation reads the current directory. The text or\nJSON result goes to standard output. Diagnostics go to standard error.\n\nExit status:\n  0  every Dialect is valid\n  1  at least one Dialect is not valid\n  2  the command was used incorrectly\n  3  no Dialects were found\n  4  a source could not be read or the report could not be written",
+      "examples": "rootform validate dialects\n  rootform validate dialects ./dialects\n  rootform validate dialects ./dialects --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform validate dialects",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate form",
+      "usage": "rootform validate form \u003cfile\u003e [options]",
+      "summary": "Validate a saved Form",
+      "description": "Check that a saved Form is a valid format-1 state, plan, or comparison\nForm. Validation reads the Form alone: it loads no Dialect and never\nrecompiles. Use '-' for standard input.\n\nA plan or state export is analyzed by rootform run, not validated here.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the Form is valid\n  1  the Form is not valid\n  2  the command was used incorrectly\n  3  the input was refused\n  4  the input could not be read or the report could not be written",
+      "examples": "rootform validate form form.json\n  cat form.json | rootform validate form -\n  rootform validate form comparison.json --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform validate form",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate policy",
+      "usage": "rootform validate policy \u003cidentifier\u003e [options]",
+      "summary": "Validate a Policy definition",
+      "description": "Validate a Policy definition in its selected Policy Pack.\n\nThe project must select the Policy Pack that owns the Policy, or\n--policy-pack must name its source directory for this command only.\nUse \u003cpolicy-pack\u003e.policy.\u003cname\u003e, \u003cpolicy-pack\u003e/\u003cname\u003e, or a bare name\nwhen it resolves unambiguously.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
+      "examples": "rootform validate policy baseline.policy.cluster-network-context\n  rootform validate policy cluster-network-context\n  rootform validate policy cluster-network-context --policy-pack ./policies\n  rootform validate policy baseline.policy.cluster-network-context --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Options",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform validate policy",
+          "no_option_default": "true"
+        },
+        {
+          "name": "policy-pack",
+          "type": "stringArray",
+          "group": "Options",
+          "default": "[]",
+          "usage": "add or replace the Policy Pack at `path`, a source directory or a compiled file, for this command only; repeatable"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate relation",
+      "usage": "rootform validate relation \u003cidentifier\u003e [options]",
+      "summary": "Validate a relation predicate",
+      "description": "Validate a relation and every compiled producer reference.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
+      "examples": "rootform validate relation google.relation.runs-as\n  rootform validate relation runs-as\n  rootform validate relation google.relation.runs-as --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Options",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform validate relation",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform validate rule",
+      "usage": "rootform validate rule \u003cidentifier\u003e [options]",
+      "summary": "Validate a Rule definition",
+      "description": "Validate a Rule and its references within its Dialect.\n\nUse \u003cowner\u003e.\u003ckind\u003e.\u003cname\u003e, or a bare name when it resolves unambiguously.\n--dialect adds or replaces one Dialect for this command only.\n\nThe text or JSON result goes to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the definition is valid\n  1  the definition is not valid, or no definition has that name\n  2  the command was used incorrectly\n  3  rootform.lock is invalid or the name is ambiguous\n  4  rootform.lock or definitions could not be read, or the report could\n     not be written",
+      "examples": "rootform validate rule google.rule.cloud-sql-instance\n  rootform validate rule cloud-sql-instance\n  rootform validate rule payments.rule.gateway --dialect ./dialects/payments\n  rootform validate rule google.rule.cloud-sql-instance --format json",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "dialect",
+          "type": "stringArray",
+          "group": "Options",
+          "default": "[]",
+          "usage": "use Dialect source `dir` for this command only; repeatable"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "output format: `text|json`; default: text"
+        },
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform validate rule",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "read rootform.lock from project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform vendor",
+      "usage": "rootform vendor [options]\nrootform vendor \u003ccommand\u003e [options]",
+      "group": "Project",
+      "summary": "Vendor selected non-embedded content",
+      "description": "Materialize the project's exact non-embedded selections: Dialects\nand Policy Pack sources, with their licenses and notices.\n\nWithout a command, vendor writes every family that rootform.lock selects\ninto .rootform in the project directory. Run vendor dialects or vendor\npolicy-packs to vendor only that family.\n\nExit status:\n  0  every selected unit was copied\n  1  selected content is invalid, missing, or differs from rootform.lock\n  2  the command was used incorrectly\n  3  no content was selected, rootform.lock is invalid, or --offline\n     needs content that is not installed\n  4  a file, the Rootform home, or the registry could not be read or written",
+      "examples": "rootform vendor\n  rootform vendor dialects\n  rootform vendor policy-packs",
+      "subcommands": [
+        "rootform vendor dialects",
+        "rootform vendor policy-packs"
+      ],
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform vendor",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "use no network; copy only local and installed content",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "vendor what rootform.lock selects in project `dir`; paths stay relative to the working directory; default: the working directory"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform vendor dialects",
+      "usage": "rootform vendor dialects [options]",
+      "summary": "Vendor selected Dialects",
+      "description": "Materialize the exact Dialect selection from rootform.lock: external\nDialects from remote or local sources, with their licenses and notices.\nPolicy Packs have their own vendoring destination and are never\nmaterialized here. Embedded Dialects, the RF Vocabulary, and derived\ncaches are never materialized. No version is resolved and rootform.lock\nis never changed.\n\nWithout --to, vendor writes .rootform/dialects in the project directory.\nCommands that read that project use that directory as the exclusive\nsource for these selections when present.\n\nCopied names and versions go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  every selected unit was copied\n  1  selected content is invalid, missing, or differs from rootform.lock\n  2  the command was used incorrectly\n  3  no content was selected, rootform.lock is invalid, or --offline\n     needs content that is not installed\n  4  a file, the Rootform home, or the registry could not be read or written",
+      "examples": "rootform init ./infra --no-input\n  rootform vendor dialects\n  rootform vendor dialects --to ./offline/dialects",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform vendor dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "use no network; copy only local and installed Dialects",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "vendor what rootform.lock selects in project `dir`; paths stay relative to the working directory; default: the working directory"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "copy into `directory`; default: .rootform/dialects in the project"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform vendor policy-packs",
+      "usage": "rootform vendor policy-packs [options]",
+      "summary": "Vendor selected Policy Packs",
+      "description": "Materialize the exact Policy Pack selection from rootform.lock:\nPolicy Packs from local sources, the Rootform home, or their pinned\nregistry repositories, with their licenses and notices. Dialects have\ntheir own vendoring destination and are never materialized here. No\nversion is resolved and rootform.lock is never changed.\n\nWithout --to, vendor writes .rootform/policy-packs in the project\ndirectory. Commands using the project's Policy Pack selection use that\ndirectory exclusively when present. An explicit local --policy-pack\nsource replaces the selected Policy Pack with the same name for that\ninvocation.\n\nCopied names and versions go to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  every selected unit was copied\n  1  selected content is invalid, missing, or differs from rootform.lock\n  2  the command was used incorrectly\n  3  no content was selected, rootform.lock is invalid, or --offline\n     needs content that is not installed\n  4  a file, the Rootform home, or the registry could not be read or written",
+      "examples": "rootform vendor policy-packs\n  rootform vendor policy-packs --to ./offline/policy-packs\n  rootform package policy-packs ./policies --to ./artifacts/policies",
+      "flag_groups": [
+        "Options",
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform vendor policy-packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "offline",
+          "type": "bool",
+          "group": "Options",
+          "default": "false",
+          "usage": "use no network; copy only local and installed Policy Packs",
+          "no_option_default": "true"
+        },
+        {
+          "name": "project",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "vendor what rootform.lock selects in project `dir`; paths stay relative to the working directory; default: the working directory"
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "group": "Options",
+          "default": "",
+          "usage": "copy into `directory`; default: .rootform/policy-packs in the project"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    },
+    {
+      "path": "rootform version",
+      "usage": "rootform version [options]",
+      "group": "Other",
+      "summary": "Show the Rootform version",
+      "description": "Print the Rootform version to standard output. Diagnostics go to\nstandard error.\n\nExit status:\n  0  the version was printed\n  2  the command was used incorrectly\n  4  the version could not be written",
+      "examples": "rootform version\n  rootform --version\n  rootform version \u003e rootform-version.txt",
+      "flag_groups": [
+        "Global options"
+      ],
+      "flags": [
+        {
+          "name": "help",
+          "shorthand": "h",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "show how to use rootform version",
+          "no_option_default": "true"
+        }
+      ],
+      "inherited_flags": [
+        {
+          "name": "color",
+          "type": "mode",
+          "group": "Global options",
+          "default": "auto",
+          "usage": "color human output: `auto|always|never`; default: auto"
+        },
+        {
+          "name": "no-pager",
+          "type": "bool",
+          "group": "Global options",
+          "default": "false",
+          "usage": "print a long report in full instead of opening it in less",
+          "no_option_default": "true"
+        }
+      ]
+    }
+  ]
+}

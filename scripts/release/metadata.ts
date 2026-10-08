@@ -1,0 +1,176 @@
+import type { ArchiveEntry } from "./archive.ts";
+import {
+  normalizeVersion,
+  RELEASE_TARGETS,
+  type ReleaseTarget,
+  releaseAssetName,
+} from "./contract.ts";
+import { checksumFile, sha256 } from "./digest.ts";
+import { BINARY_LICENSE_FILE, BINARY_LICENSE_SPDX, validateBinaryLicense } from "./license.ts";
+
+export type FinalArtifactRecord = {
+  archive_format: "tar.gz" | "zip";
+  architecture: "amd64" | "arm64";
+  asset: string;
+  bytes: number;
+  executable: "rootform" | "rootform.exe";
+  operating_system: "darwin" | "linux" | "windows";
+  proof: "raw-byte-identity";
+  raw_executable_sha256: string;
+  sha256: string;
+};
+
+export function releaseArchiveEntries(options: {
+  binary: Uint8Array;
+  license: Uint8Array;
+  notices: Uint8Array;
+  sbom: Uint8Array;
+  target: ReleaseTarget;
+  version: string;
+}): ArchiveEntry[] {
+  const version = normalizeVersion(options.version);
+  const sbomName = `rootform_${version}_sbom.spdx.json`;
+  const payload: ArchiveEntry[] = [
+    { body: options.binary, mode: 0o755, name: options.target.executable },
+    { body: options.license, mode: 0o644, name: "ROOTFORM-BINARY-LICENSE.txt" },
+    { body: options.notices, mode: 0o644, name: "THIRD_PARTY_NOTICES.txt" },
+    { body: options.sbom, mode: 0o644, name: sbomName },
+  ];
+  return [
+    ...payload,
+    {
+      body: Buffer.from(checksumFile(payload.map(({ body, name }) => ({ body, name })))),
+      mode: 0o644,
+      name: "SHA256SUMS",
+    },
+  ];
+}
+
+export function createReleaseManifest(options: {
+  artifacts: FinalArtifactRecord[];
+  binaryLicense: Uint8Array;
+  componentCount: number;
+  distributionCommit: string;
+  handoffBundleSha256: string;
+  notices: Uint8Array;
+  producerManifestSha256: string;
+  releaseSetManifestSha256: string;
+  releaseSetVersion: string;
+  runtimeInventorySha256: string;
+  sbom: Uint8Array;
+  schema: Uint8Array;
+  version: string;
+}): string {
+  const version = normalizeVersion(options.version);
+  validateBinaryLicense(options.binaryLicense);
+  for (const [label, value] of [["distribution commit", options.distributionCommit]] as const) {
+    if (!/^[0-9a-f]{40}$/u.test(value)) throw new Error(`${label} is invalid`);
+  }
+  for (const [label, value] of [
+    ["handoff bundle", options.handoffBundleSha256],
+    ["producer manifest", options.producerManifestSha256],
+    ["release-set manifest", options.releaseSetManifestSha256],
+    ["runtime license inventory", options.runtimeInventorySha256],
+  ] as const) {
+    if (!/^[0-9a-f]{64}$/u.test(value)) throw new Error(`${label} digest is invalid`);
+  }
+  if (
+    !/^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$/u.test(options.releaseSetVersion)
+  ) {
+    throw new Error("release-set version is invalid");
+  }
+  if (!Number.isSafeInteger(options.componentCount) || options.componentCount < 1) {
+    throw new Error("runtime license component count is invalid");
+  }
+  const artifacts = [...options.artifacts].sort((left, right) =>
+    left.asset.localeCompare(right.asset, "en"),
+  );
+  const expectedAssets = RELEASE_TARGETS.map((target) => releaseAssetName(version, target)).sort(
+    (left, right) => left.localeCompare(right, "en"),
+  );
+  if (
+    artifacts.length !== RELEASE_TARGETS.length ||
+    JSON.stringify(artifacts.map(({ asset }) => asset)) !== JSON.stringify(expectedAssets)
+  ) {
+    throw new Error("final release target set is incomplete");
+  }
+  for (const artifact of artifacts) {
+    const target = RELEASE_TARGETS.find(
+      ({ architecture, operatingSystem }) =>
+        architecture === artifact.architecture && operatingSystem === artifact.operating_system,
+    );
+    if (
+      !target ||
+      artifact.asset !== releaseAssetName(version, target) ||
+      artifact.archive_format !== target.archiveFormat ||
+      artifact.executable !== target.executable ||
+      artifact.proof !== "raw-byte-identity" ||
+      !Number.isSafeInteger(artifact.bytes) ||
+      artifact.bytes < 1 ||
+      !/^[0-9a-f]{64}$/u.test(artifact.sha256) ||
+      !/^[0-9a-f]{64}$/u.test(artifact.raw_executable_sha256)
+    ) {
+      throw new Error(`final release artifact is invalid: ${artifact.asset}`);
+    }
+  }
+
+  return `${JSON.stringify(
+    {
+      artifacts,
+      attestations: {
+        artifact: {
+          status: "not-generated-for-private-candidate",
+        },
+        release: {
+          provider: "github-immutable-release",
+          verification: "required-after-publication",
+        },
+      },
+      distribution: {
+        commit: options.distributionCommit,
+        repository: "rootform-dev/rootform",
+      },
+      format_version: "1",
+      handoff: {
+        bundle_sha256: options.handoffBundleSha256,
+        producer_manifest_sha256: options.producerManifestSha256,
+      },
+      license: {
+        binary: {
+          file: BINARY_LICENSE_FILE,
+          public_release_allowed: true,
+          sha256: sha256(options.binaryLicense),
+          spdx: BINARY_LICENSE_SPDX,
+          status: "licensed",
+        },
+        third_party_notices: {
+          component_count: options.componentCount,
+          file: "THIRD_PARTY_NOTICES.txt",
+          inventory_sha256: options.runtimeInventorySha256,
+          sha256: sha256(options.notices),
+        },
+      },
+      product: {
+        name: "rootform",
+        tag: `v${version}`,
+        version,
+      },
+      release_set: {
+        id: `release-set:${options.releaseSetManifestSha256}`,
+        manifest_sha256: options.releaseSetManifestSha256,
+        version: options.releaseSetVersion,
+      },
+      sbom: {
+        file: `rootform_${version}_sbom.spdx.json`,
+        format: "SPDX-2.3-json",
+        sha256: sha256(options.sbom),
+      },
+      schema: {
+        file: "schemas/form.schema.json",
+        sha256: sha256(options.schema),
+      },
+    },
+    null,
+    2,
+  )}\n`;
+}

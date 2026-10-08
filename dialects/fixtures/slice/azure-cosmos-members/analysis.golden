@@ -1,0 +1,2999 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+          "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+          "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+          "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+          "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+          "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+        "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+        "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+        "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+        "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+        "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "azure.concept.cosmos-account",
+        "owner": "azure",
+        "name": "cosmos-account",
+        "description": "An Azure Cosmos DB account defining global distribution and API boundaries."
+      },
+      {
+        "id": "azure.concept.database-component",
+        "owner": "azure",
+        "name": "database-component",
+        "description": "A table, container, graph, configuration, replica, or policy supporting an Azure database."
+      },
+      {
+        "id": "azure.concept.logical-database",
+        "owner": "azure",
+        "name": "logical-database",
+        "description": "A logical database or keyspace contained by an Azure managed database service."
+      },
+      {
+        "id": "azure.concept.resource-group",
+        "owner": "azure",
+        "name": "resource-group",
+        "description": "An Azure Resource Group lifecycle and access boundary."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "azure.context.ownership",
+        "owner": "azure",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      }
+    ],
+    "relations": [],
+    "rules": [
+      {
+        "id": "azure.rule.cosmos-account",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_cosmosdb_account",
+        "concept": "azure.concept.cosmos-account",
+        "identity": {
+          "attributes": [
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:34b1ec3f0421d6e042a7aa615449e2b28b4c81f214ac178f1b971aa2fc4f3276"
+        ]
+      },
+      {
+        "id": "azure.rule.cosmos-cassandra-keyspace",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_cosmosdb_cassandra_keyspace",
+        "concept": "azure.concept.logical-database",
+        "identity": {
+          "attributes": [
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:ef459363c7934643f312c1b7736747b41d156cd404a260e6ea37a47be0ef15d4"
+        ]
+      },
+      {
+        "id": "azure.rule.cosmos-cassandra-table",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_cosmosdb_cassandra_table",
+        "concept": "azure.concept.database-component",
+        "emissions": [
+          "emission:943f9d7b839b061a7c04cd15cdce8bbb33d89932958ec1417f2ffd8047cbff8d"
+        ]
+      },
+      {
+        "id": "azure.rule.cosmos-dedicated-gateway",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_cosmosdb_sql_dedicated_gateway",
+        "concept": "azure.concept.database-component",
+        "emissions": [
+          "emission:01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179"
+        ]
+      },
+      {
+        "id": "azure.rule.cosmos-gremlin-database",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_cosmosdb_gremlin_database",
+        "concept": "azure.concept.logical-database",
+        "identity": {
+          "attributes": [
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:8b0292853a593e6ef1ebeddd5d9ba602b2bbd5453a723d609bba9efa1248a99a"
+        ]
+      },
+      {
+        "id": "azure.rule.cosmos-gremlin-graph",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_cosmosdb_gremlin_graph",
+        "concept": "azure.concept.database-component",
+        "emissions": [
+          "emission:10655712a63f518878ff20b2352fa497fd7b003cdb0eb187679045d0d69231e4"
+        ]
+      },
+      {
+        "id": "azure.rule.cosmos-mongo-collection",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_cosmosdb_mongo_collection",
+        "concept": "azure.concept.database-component",
+        "emissions": [
+          "emission:c667cc7c3fdc1183b0c983f0e13c2f2e5ab27012c6ec62411ba196c353cd4c77"
+        ]
+      },
+      {
+        "id": "azure.rule.cosmos-mongo-database",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_cosmosdb_mongo_database",
+        "concept": "azure.concept.logical-database",
+        "identity": {
+          "attributes": [
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:9c224c9f245e683e31c1499c5cf3e515e9cd830a53e2c915148ede0de432b93d"
+        ]
+      },
+      {
+        "id": "azure.rule.cosmos-sql-container",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_cosmosdb_sql_container",
+        "concept": "azure.concept.database-component",
+        "emissions": [
+          "emission:45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+          "emission:e9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85"
+        ]
+      },
+      {
+        "id": "azure.rule.cosmos-sql-database",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_cosmosdb_sql_database",
+        "concept": "azure.concept.logical-database",
+        "identity": {
+          "attributes": [
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3"
+        ]
+      },
+      {
+        "id": "azure.rule.resource-group",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_resource_group",
+        "concept": "azure.concept.resource-group",
+        "identity": {
+          "attributes": [
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": []
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179",
+        "rule": "azure.rule.cosmos-dedicated-gateway",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.cosmos-account"
+        },
+        "via": "source.cosmosdb_account_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:10655712a63f518878ff20b2352fa497fd7b003cdb0eb187679045d0d69231e4",
+        "rule": "azure.rule.cosmos-gremlin-graph",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.logical-database"
+        },
+        "via": "source.database_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:34b1ec3f0421d6e042a7aa615449e2b28b4c81f214ac178f1b971aa2fc4f3276",
+        "rule": "azure.rule.cosmos-account",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+        "rule": "azure.rule.cosmos-sql-container",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.logical-database"
+        },
+        "via": "source.database_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3",
+        "rule": "azure.rule.cosmos-sql-database",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.cosmos-account"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.account_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:8b0292853a593e6ef1ebeddd5d9ba602b2bbd5453a723d609bba9efa1248a99a",
+        "rule": "azure.rule.cosmos-gremlin-database",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.cosmos-account"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.account_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:943f9d7b839b061a7c04cd15cdce8bbb33d89932958ec1417f2ffd8047cbff8d",
+        "rule": "azure.rule.cosmos-cassandra-table",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.logical-database"
+        },
+        "via": "source.cassandra_keyspace_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:9c224c9f245e683e31c1499c5cf3e515e9cd830a53e2c915148ede0de432b93d",
+        "rule": "azure.rule.cosmos-mongo-database",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.cosmos-account"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.account_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:c667cc7c3fdc1183b0c983f0e13c2f2e5ab27012c6ec62411ba196c353cd4c77",
+        "rule": "azure.rule.cosmos-mongo-collection",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.logical-database"
+        },
+        "via": "source.database_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:e9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85",
+        "rule": "azure.rule.cosmos-sql-container",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.logical-database"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.database_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:ef459363c7934643f312c1b7736747b41d156cd404a260e6ea37a47be0ef15d4",
+        "rule": "azure.rule.cosmos-cassandra-keyspace",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.cosmos-account"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.account_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:azurerm_cosmosdb_account.platform",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_account",
+          "name": "platform",
+          "address": "azurerm_cosmosdb_account.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_cassandra_keyspace",
+          "name": "events",
+          "address": "azurerm_cosmosdb_cassandra_keyspace.events",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_cassandra_table.clicks",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_cassandra_table",
+          "name": "clicks",
+          "address": "azurerm_cosmosdb_cassandra_table.clicks",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_gremlin_database.graph",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_gremlin_database",
+          "name": "graph",
+          "address": "azurerm_cosmosdb_gremlin_database.graph",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_gremlin_graph.recommendations",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_gremlin_graph",
+          "name": "recommendations",
+          "address": "azurerm_cosmosdb_gremlin_graph.recommendations",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_mongo_collection.customers",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_mongo_collection",
+          "name": "customers",
+          "address": "azurerm_cosmosdb_mongo_collection.customers",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_mongo_database.profiles",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_mongo_database",
+          "name": "profiles",
+          "address": "azurerm_cosmosdb_mongo_database.profiles",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_sql_container.products",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_sql_container",
+          "name": "products",
+          "address": "azurerm_cosmosdb_sql_container.products",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_sql_container.unknown",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_sql_container",
+          "name": "unknown",
+          "address": "azurerm_cosmosdb_sql_container.unknown",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_sql_database.catalog",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_sql_database",
+          "name": "catalog",
+          "address": "azurerm_cosmosdb_sql_database.catalog",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_sql_database.literal",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_sql_database",
+          "name": "literal",
+          "address": "azurerm_cosmosdb_sql_database.literal",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_sql_dedicated_gateway",
+          "name": "platform",
+          "address": "azurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_cosmosdb_sql_dedicated_gateway.unknown",
+          "kind": "resource",
+          "type": "azurerm_cosmosdb_sql_dedicated_gateway",
+          "name": "unknown",
+          "address": "azurerm_cosmosdb_sql_dedicated_gateway.unknown",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_resource_group.platform",
+          "kind": "resource",
+          "type": "azurerm_resource_group",
+          "name": "platform",
+          "address": "azurerm_resource_group.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.unknown_id",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "unknown_id",
+          "address": "terraform_data.unknown_id",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "representation:1:azurerm_cosmosdb_account.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_account.platform",
+          "address": "azurerm_cosmosdb_account.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-account"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-account",
+          "concept": "azure.concept.cosmos-account",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "address": "azurerm_cosmosdb_cassandra_keyspace.events",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-cassandra-keyspace"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-cassandra-keyspace",
+          "concept": "azure.concept.logical-database",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_cassandra_table.clicks",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_cassandra_table.clicks",
+          "address": "azurerm_cosmosdb_cassandra_table.clicks",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-cassandra-table"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-cassandra-table",
+          "concept": "azure.concept.database-component",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_gremlin_database.graph",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_gremlin_database.graph",
+          "address": "azurerm_cosmosdb_gremlin_database.graph",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-gremlin-database"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-gremlin-database",
+          "concept": "azure.concept.logical-database",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_gremlin_graph.recommendations",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_gremlin_graph.recommendations",
+          "address": "azurerm_cosmosdb_gremlin_graph.recommendations",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-gremlin-graph"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-gremlin-graph",
+          "concept": "azure.concept.database-component",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_mongo_collection.customers",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_mongo_collection.customers",
+          "address": "azurerm_cosmosdb_mongo_collection.customers",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-mongo-collection"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-mongo-collection",
+          "concept": "azure.concept.database-component",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_mongo_database.profiles",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_mongo_database.profiles",
+          "address": "azurerm_cosmosdb_mongo_database.profiles",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-mongo-database"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-mongo-database",
+          "concept": "azure.concept.logical-database",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_sql_container.products",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_sql_container.products",
+          "address": "azurerm_cosmosdb_sql_container.products",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-sql-container"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-sql-container",
+          "concept": "azure.concept.database-component",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_sql_container.unknown",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_sql_container.unknown",
+          "address": "azurerm_cosmosdb_sql_container.unknown",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-sql-container"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-sql-container",
+          "concept": "azure.concept.database-component",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_sql_database.catalog",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_sql_database.catalog",
+          "address": "azurerm_cosmosdb_sql_database.catalog",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-sql-database"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-sql-database",
+          "concept": "azure.concept.logical-database",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_sql_database.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_sql_database.literal",
+          "address": "azurerm_cosmosdb_sql_database.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-sql-database"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-sql-database",
+          "concept": "azure.concept.logical-database",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "address": "azurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-dedicated-gateway"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-dedicated-gateway",
+          "concept": "azure.concept.database-component",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.unknown",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_cosmosdb_sql_dedicated_gateway.unknown",
+          "address": "azurerm_cosmosdb_sql_dedicated_gateway.unknown",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.cosmos-dedicated-gateway"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.cosmos-dedicated-gateway",
+          "concept": "azure.concept.database-component",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_resource_group.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_resource_group.platform",
+          "address": "azurerm_resource_group.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.resource-group"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.resource-group",
+          "concept": "azure.concept.resource-group",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.unknown_id",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.unknown_id",
+          "address": "terraform_data.unknown_id",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_account.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_cosmosdb_account.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:34b1ec3f0421d6e042a7aa615449e2b28b4c81f214ac178f1b971aa2fc4f3276",
+              "rule": "azure.rule.cosmos-account",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_account.platform:emission%3A34b1ec3f0421d6e042a7aa615449e2b28b4c81f214ac178f1b971aa2fc4f3276",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:ef459363c7934643f312c1b7736747b41d156cd404a260e6ea37a47be0ef15d4",
+              "rule": "azure.rule.cosmos-cassandra-keyspace",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events:emission%3Aef459363c7934643f312c1b7736747b41d156cd404a260e6ea37a47be0ef15d4",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_gremlin_database.graph",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:8b0292853a593e6ef1ebeddd5d9ba602b2bbd5453a723d609bba9efa1248a99a",
+              "rule": "azure.rule.cosmos-gremlin-database",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph:emission%3A8b0292853a593e6ef1ebeddd5d9ba602b2bbd5453a723d609bba9efa1248a99a",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_mongo_database.profiles",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:9c224c9f245e683e31c1499c5cf3e515e9cd830a53e2c915148ede0de432b93d",
+              "rule": "azure.rule.cosmos-mongo-database",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles:emission%3A9c224c9f245e683e31c1499c5cf3e515e9cd830a53e2c915148ede0de432b93d",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog",
+          "from": "representation:1:azurerm_cosmosdb_sql_container.products",
+          "to": "representation:1:azurerm_cosmosdb_sql_database.catalog",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:e9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85",
+              "rule": "azure.rule.cosmos-sql-container",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:emission%3Ae9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_sql_database.catalog",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3",
+              "rule": "azure.rule.cosmos-sql-database",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog:emission%3A8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_database.literal:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_sql_database.literal",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3",
+              "rule": "azure.rule.cosmos-sql-database",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_database.literal:emission%3A8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3",
+              "evidence": "value"
+            }
+          ]
+        }
+      ],
+      "contributions": [
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_cosmosdb_cassandra_table.clicks:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events",
+          "from": "representation:1:azurerm_cosmosdb_cassandra_table.clicks",
+          "to": "representation:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "provenance": [
+            {
+              "emission": "emission:943f9d7b839b061a7c04cd15cdce8bbb33d89932958ec1417f2ffd8047cbff8d",
+              "rule": "azure.rule.cosmos-cassandra-table",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_cassandra_table.clicks:emission%3A943f9d7b839b061a7c04cd15cdce8bbb33d89932958ec1417f2ffd8047cbff8d",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_cosmosdb_gremlin_graph.recommendations:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph",
+          "from": "representation:1:azurerm_cosmosdb_gremlin_graph.recommendations",
+          "to": "representation:1:azurerm_cosmosdb_gremlin_database.graph",
+          "provenance": [
+            {
+              "emission": "emission:10655712a63f518878ff20b2352fa497fd7b003cdb0eb187679045d0d69231e4",
+              "rule": "azure.rule.cosmos-gremlin-graph",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_gremlin_graph.recommendations:emission%3A10655712a63f518878ff20b2352fa497fd7b003cdb0eb187679045d0d69231e4",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_cosmosdb_mongo_collection.customers:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles",
+          "from": "representation:1:azurerm_cosmosdb_mongo_collection.customers",
+          "to": "representation:1:azurerm_cosmosdb_mongo_database.profiles",
+          "provenance": [
+            {
+              "emission": "emission:c667cc7c3fdc1183b0c983f0e13c2f2e5ab27012c6ec62411ba196c353cd4c77",
+              "rule": "azure.rule.cosmos-mongo-collection",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_mongo_collection.customers:emission%3Ac667cc7c3fdc1183b0c983f0e13c2f2e5ab27012c6ec62411ba196c353cd4c77",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog",
+          "from": "representation:1:azurerm_cosmosdb_sql_container.products",
+          "to": "representation:1:azurerm_cosmosdb_sql_database.catalog",
+          "provenance": [
+            {
+              "emission": "emission:45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+              "rule": "azure.rule.cosmos-sql-container",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:emission%3A45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.platform:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "provenance": [
+            {
+              "emission": "emission:01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179",
+              "rule": "azure.rule.cosmos-dedicated-gateway",
+              "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.platform:emission%3A01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "relations": [],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_account.platform:emission%3A34b1ec3f0421d6e042a7aa615449e2b28b4c81f214ac178f1b971aa2fc4f3276",
+          "representation": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:34b1ec3f0421d6e042a7aa615449e2b28b4c81f214ac178f1b971aa2fc4f3276",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_account.platform:representation%3A1%3Aazurerm_resource_group.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events:emission%3Aef459363c7934643f312c1b7736747b41d156cd404a260e6ea37a47be0ef15d4",
+          "representation": "representation:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "emission": "emission:ef459363c7934643f312c1b7736747b41d156cd404a260e6ea37a47be0ef15d4",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events:representation%3A1%3Aazurerm_cosmosdb_account.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_cassandra_table.clicks:emission%3A943f9d7b839b061a7c04cd15cdce8bbb33d89932958ec1417f2ffd8047cbff8d",
+          "representation": "representation:1:azurerm_cosmosdb_cassandra_table.clicks",
+          "emission": "emission:943f9d7b839b061a7c04cd15cdce8bbb33d89932958ec1417f2ffd8047cbff8d",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_cosmosdb_cassandra_table.clicks:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph:emission%3A8b0292853a593e6ef1ebeddd5d9ba602b2bbd5453a723d609bba9efa1248a99a",
+          "representation": "representation:1:azurerm_cosmosdb_gremlin_database.graph",
+          "emission": "emission:8b0292853a593e6ef1ebeddd5d9ba602b2bbd5453a723d609bba9efa1248a99a",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph:representation%3A1%3Aazurerm_cosmosdb_account.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_gremlin_graph.recommendations:emission%3A10655712a63f518878ff20b2352fa497fd7b003cdb0eb187679045d0d69231e4",
+          "representation": "representation:1:azurerm_cosmosdb_gremlin_graph.recommendations",
+          "emission": "emission:10655712a63f518878ff20b2352fa497fd7b003cdb0eb187679045d0d69231e4",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_cosmosdb_gremlin_graph.recommendations:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 4
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_mongo_collection.customers:emission%3Ac667cc7c3fdc1183b0c983f0e13c2f2e5ab27012c6ec62411ba196c353cd4c77",
+          "representation": "representation:1:azurerm_cosmosdb_mongo_collection.customers",
+          "emission": "emission:c667cc7c3fdc1183b0c983f0e13c2f2e5ab27012c6ec62411ba196c353cd4c77",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_cosmosdb_mongo_collection.customers:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 4
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles:emission%3A9c224c9f245e683e31c1499c5cf3e515e9cd830a53e2c915148ede0de432b93d",
+          "representation": "representation:1:azurerm_cosmosdb_mongo_database.profiles",
+          "emission": "emission:9c224c9f245e683e31c1499c5cf3e515e9cd830a53e2c915148ede0de432b93d",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles:representation%3A1%3Aazurerm_cosmosdb_account.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:emission%3A45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.products",
+          "emission": "emission:45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 4
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:emission%3Ae9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.products",
+          "emission": "emission:e9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 4
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_container.unknown:emission%3A45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.unknown",
+          "emission": "emission:45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_container.unknown:emission%3Ae9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.unknown",
+          "emission": "emission:e9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog:emission%3A8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3",
+          "representation": "representation:1:azurerm_cosmosdb_sql_database.catalog",
+          "emission": "emission:8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog:representation%3A1%3Aazurerm_cosmosdb_account.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_database.literal:emission%3A8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3",
+          "representation": "representation:1:azurerm_cosmosdb_sql_database.literal",
+          "emission": "emission:8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_database.literal:representation%3A1%3Aazurerm_cosmosdb_account.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.platform:emission%3A01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179",
+          "representation": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "emission": "emission:01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.platform:representation%3A1%3Aazurerm_cosmosdb_account.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.unknown:emission%3A01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179",
+          "representation": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.unknown",
+          "emission": "emission:01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_account.platform:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_cosmosdb_account.platform",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events:declaration%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "declaration:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "to": "declaration:1:azurerm_cosmosdb_account.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_cassandra_table.clicks:declaration%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events",
+          "from": "declaration:1:azurerm_cosmosdb_cassandra_table.clicks",
+          "to": "declaration:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_gremlin_database.graph:declaration%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "declaration:1:azurerm_cosmosdb_gremlin_database.graph",
+          "to": "declaration:1:azurerm_cosmosdb_account.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_gremlin_database.graph:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_cosmosdb_gremlin_database.graph",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_gremlin_graph.recommendations:declaration%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "declaration:1:azurerm_cosmosdb_gremlin_graph.recommendations",
+          "to": "declaration:1:azurerm_cosmosdb_account.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_gremlin_graph.recommendations:declaration%3A1%3Aazurerm_cosmosdb_gremlin_database.graph",
+          "from": "declaration:1:azurerm_cosmosdb_gremlin_graph.recommendations",
+          "to": "declaration:1:azurerm_cosmosdb_gremlin_database.graph",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_gremlin_graph.recommendations:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_cosmosdb_gremlin_graph.recommendations",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_mongo_collection.customers:declaration%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "declaration:1:azurerm_cosmosdb_mongo_collection.customers",
+          "to": "declaration:1:azurerm_cosmosdb_account.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_mongo_collection.customers:declaration%3A1%3Aazurerm_cosmosdb_mongo_database.profiles",
+          "from": "declaration:1:azurerm_cosmosdb_mongo_collection.customers",
+          "to": "declaration:1:azurerm_cosmosdb_mongo_database.profiles",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_mongo_collection.customers:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_cosmosdb_mongo_collection.customers",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_mongo_database.profiles:declaration%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "declaration:1:azurerm_cosmosdb_mongo_database.profiles",
+          "to": "declaration:1:azurerm_cosmosdb_account.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_mongo_database.profiles:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_cosmosdb_mongo_database.profiles",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_sql_container.products:declaration%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "declaration:1:azurerm_cosmosdb_sql_container.products",
+          "to": "declaration:1:azurerm_cosmosdb_account.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_sql_container.products:declaration%3A1%3Aazurerm_cosmosdb_sql_database.catalog",
+          "from": "declaration:1:azurerm_cosmosdb_sql_container.products",
+          "to": "declaration:1:azurerm_cosmosdb_sql_database.catalog",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_sql_container.products:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_cosmosdb_sql_container.products",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_sql_container.unknown:declaration%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "declaration:1:azurerm_cosmosdb_sql_container.unknown",
+          "to": "declaration:1:azurerm_cosmosdb_account.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_sql_container.unknown:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_cosmosdb_sql_container.unknown",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_sql_container.unknown:declaration%3A1%3Aterraform_data.unknown_id",
+          "from": "declaration:1:azurerm_cosmosdb_sql_container.unknown",
+          "to": "declaration:1:terraform_data.unknown_id",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_sql_database.catalog:declaration%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "declaration:1:azurerm_cosmosdb_sql_database.catalog",
+          "to": "declaration:1:azurerm_cosmosdb_account.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_sql_database.catalog:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_cosmosdb_sql_database.catalog",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_sql_database.literal:declaration%3A1%3Aazurerm_resource_group.platform",
+          "from": "declaration:1:azurerm_cosmosdb_sql_database.literal",
+          "to": "declaration:1:azurerm_resource_group.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.platform:declaration%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "declaration:1:azurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "to": "declaration:1:azurerm_cosmosdb_account.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.unknown:declaration%3A1%3Aterraform_data.unknown_id",
+          "from": "declaration:1:azurerm_cosmosdb_sql_dedicated_gateway.unknown",
+          "to": "declaration:1:terraform_data.unknown_id",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 15,
+        "resources": 15,
+        "data_sources": 0,
+        "instances": 15,
+        "managed_instances": 15,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 14,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 1,
+        "facts": 12,
+        "closures": 15,
+        "resolved": 12,
+        "absent": 0,
+        "indeterminate": 3,
+        "dependencies": 25,
+        "deposed": 0
+      }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_account.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_cassandra_keyspace.events"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_cassandra_table.clicks",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_cassandra_table.clicks"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_gremlin_database.graph"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_gremlin_graph.recommendations",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_gremlin_graph.recommendations"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_mongo_collection.customers",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_mongo_collection.customers"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_mongo_database.profiles"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_sql_container.products",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.products"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_sql_container.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.unknown"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_database.catalog"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_sql_database.literal",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_database.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.unknown"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_resource_group.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.unknown_id",
+          "change": "added",
+          "representation": "representation:1:terraform_data.unknown_id"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_account.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_cosmosdb_account.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:34b1ec3f0421d6e042a7aa615449e2b28b4c81f214ac178f1b971aa2fc4f3276"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_cassandra_keyspace.events%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:ef459363c7934643f312c1b7736747b41d156cd404a260e6ea37a47be0ef15d4"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_gremlin_database.graph%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_gremlin_database.graph",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:8b0292853a593e6ef1ebeddd5d9ba602b2bbd5453a723d609bba9efa1248a99a"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_mongo_database.profiles%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_mongo_database.profiles",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:9c224c9f245e683e31c1499c5cf3e515e9cd830a53e2c915148ede0de432b93d"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_container.products%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_database.catalog",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog",
+          "from": "representation:1:azurerm_cosmosdb_sql_container.products",
+          "to": "representation:1:azurerm_cosmosdb_sql_database.catalog",
+          "emission": "emission:e9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_database.catalog%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_sql_database.catalog",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_database.literal%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_database.literal:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_sql_database.literal",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_cosmosdb_cassandra_table.clicks%3Arepresentation%253A1%253Aazurerm_cosmosdb_cassandra_keyspace.events",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_cosmosdb_cassandra_table.clicks:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events",
+          "from": "representation:1:azurerm_cosmosdb_cassandra_table.clicks",
+          "to": "representation:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "emission": "emission:943f9d7b839b061a7c04cd15cdce8bbb33d89932958ec1417f2ffd8047cbff8d"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_cosmosdb_gremlin_graph.recommendations%3Arepresentation%253A1%253Aazurerm_cosmosdb_gremlin_database.graph",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_cosmosdb_gremlin_graph.recommendations:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph",
+          "from": "representation:1:azurerm_cosmosdb_gremlin_graph.recommendations",
+          "to": "representation:1:azurerm_cosmosdb_gremlin_database.graph",
+          "emission": "emission:10655712a63f518878ff20b2352fa497fd7b003cdb0eb187679045d0d69231e4"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_cosmosdb_mongo_collection.customers%3Arepresentation%253A1%253Aazurerm_cosmosdb_mongo_database.profiles",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_cosmosdb_mongo_collection.customers:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles",
+          "from": "representation:1:azurerm_cosmosdb_mongo_collection.customers",
+          "to": "representation:1:azurerm_cosmosdb_mongo_database.profiles",
+          "emission": "emission:c667cc7c3fdc1183b0c983f0e13c2f2e5ab27012c6ec62411ba196c353cd4c77"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_container.products%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_database.catalog",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog",
+          "from": "representation:1:azurerm_cosmosdb_sql_container.products",
+          "to": "representation:1:azurerm_cosmosdb_sql_database.catalog",
+          "emission": "emission:45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_dedicated_gateway.platform%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.platform:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_container.unknown%3Aemission%253A45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414:after",
+          "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_container.unknown:emission%3A45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.unknown",
+          "emission": "emission:45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_container.unknown%3Aemission%253Ae9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85:after",
+          "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_container.unknown:emission%3Ae9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.unknown",
+          "emission": "emission:e9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_dedicated_gateway.unknown%3Aemission%253A01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179:after",
+          "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.unknown:emission%3A01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179",
+          "representation": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.unknown",
+          "emission": "emission:01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 15,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 12,
+        "facts_removed": 0,
+        "indeterminate": 3,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_account.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_cassandra_keyspace.events"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_cassandra_table.clicks",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_cassandra_table.clicks"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_gremlin_database.graph"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_gremlin_graph.recommendations",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_gremlin_graph.recommendations"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_mongo_collection.customers",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_mongo_collection.customers"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_mongo_database.profiles"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_sql_container.products",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.products"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_sql_container.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.unknown"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_database.catalog"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_sql_database.literal",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_database.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.unknown"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_resource_group.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.unknown_id",
+          "change": "added",
+          "representation": "representation:1:terraform_data.unknown_id"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform%3Arepresentation%253A1%253Aazurerm_resource_group.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_account.platform:representation%3A1%3Aazurerm_resource_group.platform",
+          "from": "representation:1:azurerm_cosmosdb_account.platform",
+          "to": "representation:1:azurerm_resource_group.platform",
+          "emission": "emission:34b1ec3f0421d6e042a7aa615449e2b28b4c81f214ac178f1b971aa2fc4f3276"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_cassandra_keyspace.events%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:ef459363c7934643f312c1b7736747b41d156cd404a260e6ea37a47be0ef15d4"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_gremlin_database.graph%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_gremlin_database.graph",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:8b0292853a593e6ef1ebeddd5d9ba602b2bbd5453a723d609bba9efa1248a99a"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_mongo_database.profiles%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_mongo_database.profiles",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:9c224c9f245e683e31c1499c5cf3e515e9cd830a53e2c915148ede0de432b93d"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_container.products%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_database.catalog",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog",
+          "from": "representation:1:azurerm_cosmosdb_sql_container.products",
+          "to": "representation:1:azurerm_cosmosdb_sql_database.catalog",
+          "emission": "emission:e9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_database.catalog%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_sql_database.catalog",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_database.literal%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_cosmosdb_sql_database.literal:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_sql_database.literal",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:8593d91c691a4b6fa0ea384fc56d6649e5c573f99b3cc9a931f9a0d4310660c3"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_cosmosdb_cassandra_table.clicks%3Arepresentation%253A1%253Aazurerm_cosmosdb_cassandra_keyspace.events",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_cosmosdb_cassandra_table.clicks:representation%3A1%3Aazurerm_cosmosdb_cassandra_keyspace.events",
+          "from": "representation:1:azurerm_cosmosdb_cassandra_table.clicks",
+          "to": "representation:1:azurerm_cosmosdb_cassandra_keyspace.events",
+          "emission": "emission:943f9d7b839b061a7c04cd15cdce8bbb33d89932958ec1417f2ffd8047cbff8d"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_cosmosdb_gremlin_graph.recommendations%3Arepresentation%253A1%253Aazurerm_cosmosdb_gremlin_database.graph",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_cosmosdb_gremlin_graph.recommendations:representation%3A1%3Aazurerm_cosmosdb_gremlin_database.graph",
+          "from": "representation:1:azurerm_cosmosdb_gremlin_graph.recommendations",
+          "to": "representation:1:azurerm_cosmosdb_gremlin_database.graph",
+          "emission": "emission:10655712a63f518878ff20b2352fa497fd7b003cdb0eb187679045d0d69231e4"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_cosmosdb_mongo_collection.customers%3Arepresentation%253A1%253Aazurerm_cosmosdb_mongo_database.profiles",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_cosmosdb_mongo_collection.customers:representation%3A1%3Aazurerm_cosmosdb_mongo_database.profiles",
+          "from": "representation:1:azurerm_cosmosdb_mongo_collection.customers",
+          "to": "representation:1:azurerm_cosmosdb_mongo_database.profiles",
+          "emission": "emission:c667cc7c3fdc1183b0c983f0e13c2f2e5ab27012c6ec62411ba196c353cd4c77"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_container.products%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_database.catalog",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_cosmosdb_sql_container.products:representation%3A1%3Aazurerm_cosmosdb_sql_database.catalog",
+          "from": "representation:1:azurerm_cosmosdb_sql_container.products",
+          "to": "representation:1:azurerm_cosmosdb_sql_database.catalog",
+          "emission": "emission:45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_dedicated_gateway.platform%3Arepresentation%253A1%253Aazurerm_cosmosdb_account.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.platform:representation%3A1%3Aazurerm_cosmosdb_account.platform",
+          "from": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.platform",
+          "to": "representation:1:azurerm_cosmosdb_account.platform",
+          "emission": "emission:01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_container.unknown%3Aemission%253A45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414:after",
+          "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_container.unknown:emission%3A45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.unknown",
+          "emission": "emission:45274e0b823dd1ea645caa134f1f2b0267007d9225c4824b495fcfb520e65414",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_container.unknown%3Aemission%253Ae9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85:after",
+          "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_container.unknown:emission%3Ae9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85",
+          "representation": "representation:1:azurerm_cosmosdb_sql_container.unknown",
+          "emission": "emission:e9ae6148e284d7ad90e2b0e2e0eae95a27ea40ca4f94ccdcc81fb9dfa6140f85",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_cosmosdb_sql_dedicated_gateway.unknown%3Aemission%253A01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179:after",
+          "closure": "closure:representation%3A1%3Aazurerm_cosmosdb_sql_dedicated_gateway.unknown:emission%3A01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179",
+          "representation": "representation:1:azurerm_cosmosdb_sql_dedicated_gateway.unknown",
+          "emission": "emission:01049ddb9a40744d11f36926124759515e0c6db5b0eb161c33c27c8223a81179",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 15,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 12,
+        "facts_removed": 0,
+        "indeterminate": 3,
+        "cancelled": 0
+      }
+    }
+  },
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

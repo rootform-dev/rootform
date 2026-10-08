@@ -1,0 +1,16 @@
+{
+  "format_version": "1",
+  "verified_date": "2026-08-30",
+  "total_constructs": 104,
+  "managed_resources": 67,
+  "data_sources": 37,
+  "rules": 91,
+  "status": {
+    "rule-present": 64,
+    "partial-rule": 28,
+    "no-rule": 0
+  },
+  "treatment": {
+    "no-rule": 0
+  }
+}

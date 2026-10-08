@@ -1,0 +1,62 @@
+concept "oncall-integration" {
+  description = "An inbound Grafana OnCall integration receiving alerts from an external system."
+}
+
+concept "oncall-routing" {
+  description = "A route supporting an OnCall integration without becoming an application flow."
+}
+
+rule "oncall-integration" {
+  match {
+    type = "grafana_oncall_integration"
+  }
+
+  as = concept.oncall-integration
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+}
+
+rule "oncall-integration-lookup" {
+  match {
+    kind = "data"
+    type = "grafana_oncall_integration"
+  }
+
+  as = concept.oncall-integration
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+}
+
+rule "oncall-route" {
+  match {
+    type = "grafana_oncall_route"
+  }
+
+  as = concept.oncall-routing
+
+  contribution {
+    to       = concept.oncall-integration
+    via      = source.integration_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+concept "persistent-volume-claim" {
+  description = "A request for persistent storage bound to a volume."
+}
+
+rule "kubernetes-persistent-volume-claim" {
+  match {
+    type = "kubernetes_persistent_volume_claim_v1"
+  }
+
+  as = concept.persistent-volume-claim
+
+  context {
+    as  = context.ownership
+    to  = concept.namespace
+    via = source.metadata[0].namespace
+
+    on_null  = "absent"
+    on_empty = "absent"
+
+    # Shared namespace instances can be provisioned by a separate configuration.
+    external = "allow"
+    match {
+      by       = target.metadata[0].name
+      strategy = "exact"
+    }
+  }
+}

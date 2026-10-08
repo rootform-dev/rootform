@@ -1,0 +1,28 @@
+concept "notification-provider" {
+  description = "An email or phone provider delivering Auth0 identity notifications."
+}
+
+rule "email-provider" {
+  match {
+    type = "auth0_email_provider"
+  }
+
+  as = concept.notification-provider
+}
+
+rule "phone-provider" {
+  match {
+    type = "auth0_phone_provider"
+  }
+
+  as = concept.notification-provider
+}
+
+rule "phone-provider-lookup" {
+  match {
+    kind = "data"
+    type = "auth0_phone_provider"
+  }
+
+  as = concept.notification-provider
+}

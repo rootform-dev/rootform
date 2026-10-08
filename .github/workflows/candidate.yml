@@ -1,0 +1,657 @@
+name: candidate
+run-name: Rootform candidate ${{ inputs.version }}
+
+# A release request is a commit on main: package.json names the version and
+# public-export.json the Engine commit that builds it. The Engine release
+# handoff answers it with a handoff draft and dispatches this workflow, which
+# assembles and qualifies the exact draft release that publish may publish.
+# A failed job resumes with "Re-run failed jobs"; a new dispatch replaces the
+# draft of the same version.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version named by the release request on main
+        required: true
+        type: string
+      handoff_release_id:
+        description: Engine handoff draft release ID; found from the version and commit when empty
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: candidate-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  qualify:
+    name: assemble and qualify candidate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      packages: write
+      pull-requests: read
+    outputs:
+      evidence: ${{ steps.candidate-evidence.outputs.body }}
+      handoff_release_id: ${{ steps.request.outputs.handoff_release_id }}
+      pull-request: ${{ steps.pull-request.outputs.number }}
+      release_id: ${{ steps.final-release.outputs.release_id }}
+
+    steps:
+      - name: Check out distribution
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Read exact release request
+        id: request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HANDOFF_RELEASE_ID: ${{ inputs.handoff_release_id }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          fail() { echo "::error::$1"; exit 1; }
+          [[ "$GITHUB_REF" == refs/heads/main ]] || fail "Qualify candidates from main."
+          main="$(gh api "repos/$GITHUB_REPOSITORY/branches/main" --jq .commit.sha)"
+          [[ "$main" == "$GITHUB_SHA" ]] || fail "main moved to $main. Request a handoff for that commit."
+          request="$(bun scripts/prepare-release.ts --check)" ||
+            fail "$GITHUB_SHA does not request a release. Prepare one in a pull request into dev, then promote it."
+          requested="$(jq -r .version <<<"$request")"
+          [[ "$requested" == "$ROOTFORM_VERSION" ]] || fail "main requests Rootform $requested, not $ROOTFORM_VERSION."
+          tag="v$ROOTFORM_VERSION"
+          if gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag" >/dev/null 2>&1; then
+            fail "$tag is already published."
+          fi
+          releases="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq -cs '[.[][]]')"
+          handoff="$HANDOFF_RELEASE_ID"
+          if [[ -z "$handoff" ]]; then
+            handoff="$(jq -r --arg tag "engine-handoff-$tag" '
+              [.[] | select(.draft and .tag_name == $tag and .target_commitish == env.GITHUB_SHA)]
+              | if length == 1 then .[0].id else "" end' <<<"$releases")"
+          fi
+          [[ "$handoff" =~ ^[1-9][0-9]*$ ]] ||
+            fail "No Engine handoff draft answers $GITHUB_SHA for $tag. Request the Engine release handoff for this commit."
+          jq -e --argjson id "$handoff" --arg tag "engine-handoff-$tag" '
+            any(.[]; .id == $id and .draft and .tag_name == $tag and .target_commitish == env.GITHUB_SHA)' \
+            <<<"$releases" >/dev/null ||
+            fail "Release $handoff is not the Engine handoff draft for $tag at $GITHUB_SHA."
+          printf 'handoff_release_id=%s\n' "$handoff" >> "$GITHUB_OUTPUT"
+          engine="$(jq -r .engine_commit <<<"$request")"
+          echo "Rootform \`$GITHUB_SHA\` requests $ROOTFORM_VERSION built by Engine \`$engine\`; handoff draft $handoff." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Resolve promotion pull request
+        id: pull-request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # Evidence goes to the promotion that put this commit on main, when GitHub links it.
+          number="$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/pulls" --jq '
+            [.[] | select(.base.ref == "main" and .merged_at != null and .head.sha == env.GITHUB_SHA)]
+            | if length == 1 then .[0].number else "" end')"
+          [[ -z "$number" || "$number" =~ ^[1-9][0-9]*$ ]]
+          printf 'number=%s\n' "$number" >> "$GITHUB_OUTPUT"
+
+      - name: Install exact QEMU emulation
+        uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+        with:
+          cache-image: false
+          image: docker.io/tonistiigi/binfmt:latest@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
+          platforms: arm64
+
+      - name: Install exact Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+        with:
+          driver-opts: image=moby/buildkit:v0.32.2@sha256:28a898719c18a33f4e8000685287fa36fd0dd9560c6440227d3a732d79bb41d8
+
+      - name: Install exact distribution dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install verified repository tools
+        env:
+          ACTIONLINT_ARCHIVE: actionlint_1.7.12_linux_amd64.tar.gz
+          ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+          ACTIONLINT_VERSION: 1.7.12
+          GITLEAKS_ARCHIVE: gitleaks_8.30.1_linux_x64.tar.gz
+          GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+          GITLEAKS_VERSION: 8.30.1
+          ORAS_ARCHIVE: oras_1.3.4_linux_amd64.tar.gz
+          ORAS_SHA256: f27adb935022d94df8dc77719c322dda592c78a0d57a6f7dcdd8d900b248c454
+          ORAS_VERSION: 1.3.4
+          TRIVY_ARCHIVE: trivy_0.74.0_Linux-64bit.tar.gz
+          TRIVY_SHA256: 2ae6fe3ee734b7fdf11335663e18c75ea12dccc76062f09f164a3b0f8be4371a
+          TRIVY_VERSION: 0.74.0
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v$GITLEAKS_VERSION/$GITLEAKS_ARCHIVE"
+          printf '%s  %s\n' "$GITLEAKS_SHA256" "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$GITLEAKS_ARCHIVE" --directory "$RUNNER_TEMP" gitleaks
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" \
+            "https://github.com/rhysd/actionlint/releases/download/v$ACTIONLINT_VERSION/$ACTIONLINT_ARCHIVE"
+          printf '%s  %s\n' "$ACTIONLINT_SHA256" "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" --directory "$RUNNER_TEMP" actionlint
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$ORAS_ARCHIVE" \
+            "https://github.com/oras-project/oras/releases/download/v$ORAS_VERSION/$ORAS_ARCHIVE"
+          printf '%s  %s\n' "$ORAS_SHA256" "$RUNNER_TEMP/$ORAS_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$ORAS_ARCHIVE" --directory "$RUNNER_TEMP" oras
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/$TRIVY_ARCHIVE" \
+            "https://github.com/aquasecurity/trivy/releases/download/v$TRIVY_VERSION/$TRIVY_ARCHIVE"
+          printf '%s  %s\n' "$TRIVY_SHA256" "$RUNNER_TEMP/$TRIVY_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$TRIVY_ARCHIVE" --directory "$RUNNER_TEMP" trivy
+          printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      - name: Verify distribution repository boundary
+        run: |
+          set -euo pipefail
+          bun run check
+          actionlint -no-color -oneline
+          git diff --check
+          gitleaks dir --no-banner --redact --config .gitleaks.toml .
+          gitleaks git --no-banner --redact --config .gitleaks.toml .
+
+      - name: Download exact opaque handoff
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          HANDOFF_RELEASE_ID: ${{ steps.request.outputs.handoff_release_id }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/download-handoff.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release-id "$HANDOFF_RELEASE_ID" \
+            --output build/handoff \
+            --metadata build/handoff-assets.json
+
+      - name: Assemble exact final assets
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/assemble-release.ts \
+            --version "$ROOTFORM_VERSION" \
+            --handoff build/handoff \
+            --github-assets build/handoff-assets.json \
+            --output build/release
+
+      - name: Extract verified Linux binary
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/extract-release-binary.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release build/release \
+            --target linux-amd64 \
+            --output build/bin/rootform
+
+      - name: Verify contracts and examples
+        timeout-minutes: 15
+        env:
+          ROOTFORM_BIN: ${{ github.workspace }}/build/bin/rootform
+        run: bun run verify
+
+      - name: Reverify final assets
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/assemble-release.ts \
+            --check \
+            --version "$ROOTFORM_VERSION" \
+            --handoff build/handoff \
+            --github-assets build/handoff-assets.json \
+            --output build/release
+
+      - name: Generate release-bound installation metadata
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/generate-installation.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release build/release \
+            --output build/installers
+
+      - name: Build and audit official OCI image
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun scripts/build-image.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release build/release \
+            --revision "$GITHUB_SHA" \
+            --output build/image
+
+      - name: Qualify OCI image runtime and third-party Dialect acquisition
+        env:
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          bun run test:oci-registry-e2e \
+            --version "$ROOTFORM_VERSION" \
+            --revision "$GITHUB_SHA" \
+            --image build/image \
+            --rootform-bin build/bin/rootform \
+            --oras "$RUNNER_TEMP/oras" \
+            --trivy "$RUNNER_TEMP/trivy" \
+            --evidence build/image-evidence/qualification.json
+
+      - name: Configure isolated GHCR credential helper
+        run: |
+          set -euo pipefail
+          helper_dir="$RUNNER_TEMP/rootform-ghcr-helper"
+          docker_config="$RUNNER_TEMP/rootform-ghcr-config"
+          proof="$RUNNER_TEMP/rootform-ghcr-helper-proof"
+          package="rootform-oci-qualification-$GITHUB_RUN_ID"
+          install -d -m 0700 "$helper_dir" "$docker_config"
+          cat >"$helper_dir/docker-credential-rootform-ghcr" <<'EOF'
+          #!/bin/sh
+          set -eu
+          test "${1:-}" = get
+          server="$(cat)"
+          test -n "$server"
+          printf '%s\n' "$server" >"$ROOTFORM_CREDENTIAL_PROOF"
+          jq -cn \
+            --arg ServerURL "$server" \
+            --arg Username "$ROOTFORM_REGISTRY_USERNAME" \
+            --arg Secret "$ROOTFORM_REGISTRY_PASSWORD" \
+            '{$ServerURL,$Username,$Secret}'
+          EOF
+          chmod 0700 "$helper_dir/docker-credential-rootform-ghcr"
+          jq -n '{credHelpers: {"ghcr.io": "rootform-ghcr"}}' \
+            >"$docker_config/config.json"
+          chmod 0600 "$docker_config/config.json"
+          {
+            printf 'DOCKER_CONFIG=%s\n' "$docker_config"
+            printf 'ROOTFORM_CREDENTIAL_HELPER_DIR=%s\n' "$helper_dir"
+            printf 'ROOTFORM_CREDENTIAL_PROOF=%s\n' "$proof"
+            printf 'ROOTFORM_OCI_QUALIFICATION_PACKAGE=%s\n' "$package"
+            printf 'ROOTFORM_OCI_QUALIFICATION_REPOSITORY=ghcr.io/%s/%s\n' \
+              "$GITHUB_REPOSITORY_OWNER" "$package"
+          } >>"$GITHUB_ENV"
+          printf '%s\n' "$helper_dir" >>"$GITHUB_PATH"
+
+      - name: Require isolated qualification namespace to be absent
+        id: qualification-namespace
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          set +e
+          response="$(gh api \
+            "orgs/$GITHUB_REPOSITORY_OWNER/packages/container/$ROOTFORM_OCI_QUALIFICATION_PACKAGE" \
+            2>&1)"
+          status=$?
+          set -e
+          if [[ "$status" == 0 ]]; then
+            printf 'qualification namespace already exists\n' >&2
+            exit 1
+          elif [[ "$response" != *"HTTP 404"* ]]; then
+            printf 'could not verify qualification namespace absence\n' >&2
+            exit 1
+          fi
+
+      - name: Qualify transient GHCR against OCI Core Profile
+        id: ghcr-profile
+        env:
+          ROOTFORM_REGISTRY_PASSWORD: ${{ github.token }}
+          ROOTFORM_REGISTRY_USERNAME: ${{ github.actor }}
+        run: |
+          set -euo pipefail
+          rm -f "$ROOTFORM_CREDENTIAL_PROOF"
+          bun run test:oci-registry-compatibility -- \
+            --rootform-bin build/bin/rootform \
+            --repository "$ROOTFORM_OCI_QUALIFICATION_REPOSITORY" \
+            --evidence build/registry-evidence/ghcr.json \
+            --revision "$GITHUB_SHA" \
+            --source-url "https://github.com/$GITHUB_REPOSITORY" \
+            --documentation-url "https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_SHA/contracts/rootform-oci-core-profile.md" \
+            --licenses Apache-2.0 \
+            --credential-proof "$ROOTFORM_CREDENTIAL_PROOF"
+          jq -e \
+            --arg repository "$ROOTFORM_OCI_QUALIFICATION_REPOSITORY" \
+            '.format_version == "1" and
+             .profile == "rootform-oci-core-v1" and
+             .repository == $repository and
+             .capabilities.docker_credential_helper == true and
+             .capabilities.locked_empty_store == true and
+             .capabilities.offline_vendor_execution == true and
+             .capabilities.policy_pack_locked_empty_store == true and
+             .capabilities.policy_pack_offline_vendor_execution == true and
+             .capabilities.policy_pack_pull_by_digest == true and
+             .capabilities.policy_pack_vendor_exact_repair == true and
+             .capabilities.policy_pack_vendor_exclusive == true and
+             .capabilities.pull_by_digest == true' \
+            build/registry-evidence/ghcr.json >/dev/null
+
+      - name: Record qualification package access
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          package="$(gh api \
+            "orgs/$GITHUB_REPOSITORY_OWNER/packages/container/$ROOTFORM_OCI_QUALIFICATION_PACKAGE")"
+          jq --arg repository "$ROOTFORM_OCI_QUALIFICATION_REPOSITORY" \
+            '{format_version: "1", repository: $repository, name: .name, visibility: .visibility,
+              authentication: "docker-credential-helper"}' \
+            <<<"$package" > build/registry-evidence/ghcr-access.json
+          cat build/registry-evidence/ghcr-access.json
+          jq -e --arg name "$ROOTFORM_OCI_QUALIFICATION_PACKAGE" \
+            '.name == $name and (.visibility | IN("private", "public", "internal"))' \
+            <<<"$package" >/dev/null
+
+      - name: Upload OCI qualification evidence
+        if: always() && steps.ghcr-profile.outcome == 'success'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-image-qualification-${{ inputs.version }}-${{ github.sha }}
+          path: |
+            build/image/rootform_${{ inputs.version }}_image.json
+            build/image-evidence/*.json
+            build/registry-evidence/*.json
+          if-no-files-found: error
+          compression-level: 9
+          retention-days: 30
+
+      - name: Remove transient registry material
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ROOTFORM_NAMESPACE_CLAIMED: ${{ steps.qualification-namespace.outcome == 'success' }}
+          ROOTFORM_PROFILE_ATTEMPTED: ${{ steps.ghcr-profile.outcome != '' && steps.ghcr-profile.outcome != 'skipped' }}
+        run: |
+          set -euo pipefail
+          registry_cleanup_status=0
+          if [[ "$ROOTFORM_NAMESPACE_CLAIMED" == true &&
+                "$ROOTFORM_PROFILE_ATTEMPTED" == true &&
+                "${ROOTFORM_OCI_QUALIFICATION_PACKAGE:-}" =~ ^rootform-oci-qualification-[1-9][0-9]*$ ]]; then
+            set +e
+            response="$(gh api \
+              --method DELETE \
+              "orgs/$GITHUB_REPOSITORY_OWNER/packages/container/$ROOTFORM_OCI_QUALIFICATION_PACKAGE" \
+              2>&1)"
+            status=$?
+            set -e
+            if [[ "$status" != 0 && "$response" != *"HTTP 404"* ]]; then
+              printf 'could not remove transient qualification package\n' >&2
+              registry_cleanup_status=1
+            fi
+          fi
+          for path in \
+            "${DOCKER_CONFIG:-}" \
+            "${ROOTFORM_CREDENTIAL_HELPER_DIR:-}" \
+            "${ROOTFORM_CREDENTIAL_PROOF:-}"; do
+            case "$path" in
+              "$RUNNER_TEMP"/*) rm -rf -- "$path" ;;
+              "") ;;
+              *)
+                printf 'refusing credential cleanup outside runner temp\n' >&2
+                exit 1
+                ;;
+            esac
+          done
+          exit "$registry_cleanup_status"
+
+      - name: Create final draft release
+        id: final-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          tag="v$ROOTFORM_VERSION"
+          # A draft holds the assets of one qualification. A new qualification of
+          # this version replaces it; a published release is never touched.
+          for id in $(gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" |
+            jq -rs --arg tag "$tag" '.[][] | select(.draft and .tag_name == $tag) | .id'); do
+            gh api -X DELETE "repos/$GITHUB_REPOSITORY/releases/$id"
+            echo "Replaced earlier draft $id of $tag." >> "$GITHUB_STEP_SUMMARY"
+          done
+          if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$tag" >/dev/null 2>&1; then
+            printf 'tag already exists: %s\n' "$tag" >&2
+            exit 1
+          fi
+          bun scripts/prepare-release.ts --notes > build/release-notes.md
+          kind=()
+          [[ "$ROOTFORM_VERSION" != *-* ]] || kind=(--prerelease)
+          gh release create "$tag" build/release/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --draft \
+            "${kind[@]}" \
+            --target "$GITHUB_SHA" \
+            --title "Rootform $ROOTFORM_VERSION" \
+            --notes-file build/release-notes.md
+          release_id="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" |
+            jq -rs --arg tag "$tag" '[.[][] | select(.tag_name == $tag and .draft == true)] | if length == 1 then .[0].id else empty end')"
+          test -n "$release_id"
+          find build/release -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort > build/expected-assets.txt
+          gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" --jq '.assets[].name' \
+            | LC_ALL=C sort > build/uploaded-assets.txt
+          diff --unified build/expected-assets.txt build/uploaded-assets.txt
+          release_url="$(gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" --jq '.html_url')"
+          [[ "$release_url" == https://github.com/* ]]
+          printf 'url=%s\n' "$release_url" >> "$GITHUB_OUTPUT"
+          printf 'release_id=%s\n' "$release_id" >> "$GITHUB_OUTPUT"
+
+      - name: Upload exact draft candidate for native jobs
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-candidate-${{ inputs.version }}-${{ github.sha }}
+          path: build/release
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1
+
+      - name: Upload generated installation metadata for review
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-installation-metadata-${{ inputs.version }}-${{ github.sha }}
+          path: build/installers
+          if-no-files-found: error
+          compression-level: 9
+          retention-days: 30
+
+      - name: Render candidate evidence
+        id: candidate-evidence
+        env:
+          RELEASE_URL: ${{ steps.final-release.outputs.url }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          bun scripts/render-candidate-report.ts \
+            --version "$ROOTFORM_VERSION" \
+            --release build/release \
+            --release-url "$RELEASE_URL" \
+            --run-url "$RUN_URL" \
+            --output build/candidate-evidence.md
+          cat build/candidate-evidence.md >> "$GITHUB_STEP_SUMMARY"
+          printf 'body=%s\n' "$(base64 -w 0 build/candidate-evidence.md)" >> "$GITHUB_OUTPUT"
+
+  platforms:
+    name: runtime ${{ matrix.target }}
+    needs: qualify
+    permissions:
+      contents: read
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { archive_target: linux-amd64, executable: rootform, runner: ubuntu-24.04, target: linux-amd64 }
+          - { archive_target: linux-arm64, executable: rootform, runner: ubuntu-24.04-arm, target: linux-arm64 }
+          - { archive_target: darwin-amd64, executable: rootform, runner: macos-15-intel, target: macos-amd64 }
+          - { archive_target: darwin-arm64, executable: rootform, runner: macos-15, target: macos-arm64 }
+          - { archive_target: windows-amd64, executable: rootform.exe, runner: windows-2025, target: windows-amd64 }
+
+    steps:
+      - name: Check out distribution
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Download exact draft candidate
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: rootform-candidate-${{ inputs.version }}-${{ github.sha }}
+          path: build/release
+
+      - name: Extract verified native binary
+        run: >-
+          bun scripts/extract-release-binary.ts
+          --version "${{ inputs.version }}"
+          --release build/release
+          --target "${{ matrix.archive_target }}"
+          --output "build/bin/${{ matrix.executable }}"
+
+      - name: Exercise native runtime
+        run: >-
+          bun scripts/verify-platform-runtime.ts
+          --version "${{ inputs.version }}"
+          --binary "build/bin/${{ matrix.executable }}"
+          --target "${{ matrix.target }}"
+          --evidence "build/platform-evidence/${{ matrix.target }}.json"
+
+      - name: Upload native runtime evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-runtime-${{ inputs.version }}-${{ matrix.target }}
+          path: build/platform-evidence/${{ matrix.target }}.json
+          if-no-files-found: error
+          compression-level: 9
+          retention-days: 30
+
+  installation:
+    name: native installation qualification
+    needs: qualify
+    permissions:
+      contents: write
+    uses: ./.github/workflows/installation-qualification.yml
+    with:
+      version: ${{ inputs.version }}
+      release_id: ${{ needs.qualify.outputs.release_id }}
+
+  record:
+    name: record qualified candidate
+    needs:
+      - qualify
+      - platforms
+      - installation
+    permissions:
+      # Draft releases are visible only with write access.
+      contents: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Record exact qualified draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HANDOFF_RELEASE_ID: ${{ needs.qualify.outputs.handoff_release_id }}
+          RELEASE_ID: ${{ needs.qualify.outputs.release_id }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          # Publication requires this record: it binds the qualified draft and its
+          # asset digests to the run whose every job passed.
+          mkdir -p build/qualification
+          gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" | jq -e \
+            --arg tag "v$ROOTFORM_VERSION" \
+            --argjson handoff "$HANDOFF_RELEASE_ID" \
+            --argjson run "$GITHUB_RUN_ID" \
+            --argjson attempt "$GITHUB_RUN_ATTEMPT" '
+            select(.draft and .tag_name == $tag and .target_commitish == env.GITHUB_SHA) |
+            {format_version: "1", version: env.ROOTFORM_VERSION, tag: $tag, commit: .target_commitish,
+             release_id: .id, handoff_release_id: $handoff, run_id: $run, run_attempt: $attempt,
+             assets: ([.assets[] | {name, size, digest}] | sort_by(.name))}' \
+            > build/qualification/qualification.json
+          echo "Qualified draft $RELEASE_ID of v$ROOTFORM_VERSION at \`$GITHUB_SHA\` is ready for publish." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload qualification record
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rootform-qualification-${{ inputs.version }}-${{ github.sha }}
+          path: build/qualification/qualification.json
+          if-no-files-found: error
+          retention-days: 90
+
+  evidence:
+    name: PR evidence
+    if: always() && needs.qualify.outputs.pull-request != ''
+    needs:
+      - qualify
+      - platforms
+      - installation
+      - record
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Publish one current evidence comment
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          PR_NUMBER: ${{ needs.qualify.outputs.pull-request }}
+          QUALIFY_RESULT: ${{ needs.qualify.result == 'success' && needs.platforms.result == 'success' && needs.installation.result == 'success' && needs.record.result == 'success' && 'success' || 'failure' }}
+          REPORT_BASE64: ${{ needs.qualify.outputs.evidence }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        with:
+          script: |
+            const marker = '<!-- rootform:distribution-evidence -->';
+            const runUrl = process.env.RUN_URL;
+            const qualified = process.env.QUALIFY_RESULT === 'success';
+            const report = qualified && process.env.REPORT_BASE64
+              ? Buffer.from(process.env.REPORT_BASE64, 'base64').toString('utf8')
+              : `${marker}\n## Distribution candidate evidence\n\n> **Blocked** · [Open workflow run](${runUrl})\n`;
+            if (!report.startsWith(marker) || Buffer.byteLength(report) > 60000) {
+              core.setFailed('Distribution evidence report is invalid');
+              return;
+            }
+            await core.summary.addRaw(report).write();
+            const issue_number = Number(process.env.PR_NUMBER);
+            if (!Number.isSafeInteger(issue_number) || issue_number < 1) {
+              core.setFailed('Pull request number is invalid');
+              return;
+            }
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              ...context.repo,
+              issue_number,
+              per_page: 100,
+            });
+            const existing = comments.find((comment) =>
+              comment.user?.login === 'github-actions[bot]' && comment.body?.includes(marker)
+            );
+            if (existing) {
+              await github.rest.issues.updateComment({
+                ...context.repo,
+                comment_id: existing.id,
+                body: report,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number,
+                body: report,
+              });
+            }
+            if (!qualified) core.setFailed('Candidate qualification did not pass');

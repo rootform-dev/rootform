@@ -1,0 +1,119 @@
+{
+  "format_version": "1",
+  "scenarios": [
+    {
+      "id": "vault-minimal",
+      "fixture": "fixtures/vault-v5/minimal",
+      "required_rules": [
+        "vault.rule.database-secret-backend-connection",
+        "vault.rule.identity-entity",
+        "vault.rule.identity-group",
+        "vault.rule.mount",
+        "vault.rule.namespace"
+      ],
+      "required_facts": [
+        {
+          "collection": "contexts",
+          "from": "representation:1:root:resource:vault_namespace.security",
+          "to": "representation:1:root:resource:vault_namespace.platform",
+          "dimension": "vault.context.ownership",
+          "rule": "vault.rule.namespace"
+        },
+        {
+          "collection": "contributions",
+          "from": "representation:1:root:resource:vault_database_secret_backend_connection.postgres",
+          "to": "representation:1:root:resource:vault_mount.database",
+          "rule": "vault.rule.database-secret-backend-connection"
+        }
+      ],
+      "minimum": {
+        "representations": 6,
+        "relations": 0,
+        "contexts": 4,
+        "contributions": 1
+      },
+      "limitations": [
+        "The saved plan demonstrates namespace ownership and unmodeled database configuration without contacting Vault."
+      ]
+    },
+    {
+      "id": "vault-cross-cloud",
+      "fixture": "fixtures/vault-v5/scenarios",
+      "required_rules": [
+        "vault.rule.aws-secret-backend",
+        "vault.rule.gcp-secret-backend",
+        "vault.rule.auth-backend",
+        "vault.rule.identity-oidc-client",
+        "vault.rule.identity-oidc-provider",
+        "vault.rule.kubernetes-auth-backend-config",
+        "vault.rule.pki-secret-backend-root-cert",
+        "vault.rule.raft-snapshot-agent-config",
+        "vault.rule.secrets-sync-aws-destination",
+        "vault.rule.transit-secret-backend-key"
+      ],
+      "required_outcomes": {
+        "vault_generic_secret.application": "representation-present",
+        "data.vault_generic_secret.application": "representation-present"
+      },
+      "required_facts": [
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:vault_kubernetes_auth_backend_config.kubernetes",
+          "to": "representation:1:root:resource:google_container_cluster.security",
+          "type": "authenticates-kubernetes-cluster",
+          "rule": "vault.rule.kubernetes-auth-backend-config"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:vault_secrets_sync_azure_destination.azure",
+          "to": "representation:1:root:resource:azurerm_user_assigned_identity.vault",
+          "type": "uses-cloud-identity",
+          "rule": "vault.rule.secrets-sync-azure-destination"
+        },
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:vault_raft_snapshot_agent_config.continuity",
+          "to": "representation:1:root:resource:google_storage_bucket.snapshots",
+          "type": "stores-snapshots-in",
+          "rule": "vault.rule.raft-snapshot-agent-config"
+        },
+        {
+          "collection": "contributions",
+          "from": "representation:1:root:resource:vault_secrets_sync_association.aws",
+          "to": "representation:1:root:resource:vault_secrets_sync_aws_destination.aws",
+          "rule": "vault.rule.secrets-sync-association"
+        }
+      ],
+      "minimum": {
+        "representations": 43,
+        "relations": 10,
+        "contexts": 28,
+        "contributions": 3
+      },
+      "maximum_facts": {
+        "relations": 15,
+        "contexts": 30,
+        "contributions": 3
+      },
+      "forbidden_output": [
+        "ROOTFORM_VAULT_SECRET_SENTINEL"
+      ],
+      "limitations": [
+        "GCP, AWS, Azure, and Kubernetes facts require resolved plan evidence. An AWS IAM role reference cannot establish cloud identity while that role lacks the target service identity interpretation."
+      ]
+    },
+    {
+      "id": "vault-fail-closed",
+      "fixture": "fixtures/vault-v5/boundary",
+      "forbidden_output": [
+        "ROOTFORM_VAULT_BOUNDARY_SECRET_SENTINEL",
+        "ROOTFORM_VAULT_BOUNDARY_TOKEN_SENTINEL",
+        "ROOTFORM_VAULT_GENERIC_ENDPOINT_SENTINEL",
+        "ROOTFORM_VAULT_EPHEMERAL_SENTINEL"
+      ],
+      "limitations": [
+        "In this saved plan, literal and depends_on evidence creates no unsupported fact. Unresolved outcomes retain their diagnostics."
+      ]
+    }
+  ]
+}

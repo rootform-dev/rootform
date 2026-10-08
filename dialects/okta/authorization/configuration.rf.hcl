@@ -1,0 +1,165 @@
+concept "authorization-server-configuration" {
+  description = "A claim, scope, policy, rule, or trusted-server association supporting an Authorization Server."
+}
+
+rule "auth-server-claim" {
+  match {
+    type = "okta_auth_server_claim"
+  }
+
+  as = concept.authorization-server-configuration
+
+  contribution {
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "auth-server-claim-default" {
+  match {
+    type = "okta_auth_server_claim_default"
+  }
+
+  as = concept.authorization-server-configuration
+
+  contribution {
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "auth-server-claim-lookup" {
+  match {
+    kind = "data"
+    type = "okta_auth_server_claim"
+  }
+
+  as = concept.authorization-server-configuration
+
+  contribution {
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "auth-server-policy" {
+  match {
+    type = "okta_auth_server_policy"
+  }
+
+  as = concept.authorization-server-configuration
+
+  contribution {
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "auth-server-policy-lookup" {
+  match {
+    kind = "data"
+    type = "okta_auth_server_policy"
+  }
+
+  as = concept.authorization-server-configuration
+
+  contribution {
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "auth-server-policy-rule" {
+  match {
+    type = "okta_auth_server_policy_rule"
+  }
+
+  as = concept.authorization-server-configuration
+
+  contribution {
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "auth-server-scope" {
+  match {
+    type = "okta_auth_server_scope"
+  }
+
+  as = concept.authorization-server-configuration
+
+  contribution {
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "trusted-server" {
+  match {
+    type = "okta_trusted_server"
+  }
+
+  as = concept.authorization-server-configuration
+
+  contribution {
+    to       = concept.authorization-server
+    via      = source.auth_server_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}

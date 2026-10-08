@@ -1,0 +1,110 @@
+concept "fleet" {
+  description = "A homogeneous set of Kubernetes clusters or hosts managed by New Relic Fleet Control."
+}
+
+concept "fleet-configuration" {
+  description = "A versioned agent configuration available to New Relic Fleet Control fleets."
+}
+
+concept "fleet-deployment" {
+  description = "A controlled agent and configuration rollout supporting a Fleet Control fleet."
+}
+
+concept "fleet-membership" {
+  description = "An explicit managed-entity assignment supporting a Fleet Control fleet."
+}
+
+rule "fleet" {
+  match {
+    type = "newrelic_fleet"
+  }
+
+  as = concept.fleet
+
+  identity {
+    attributes = ["id"]
+    scope      = "provider"
+  }
+
+  endpoint {
+    attributes = ["id"]
+  }
+}
+
+rule "fleet-configuration" {
+  match {
+    type = "newrelic_fleet_configuration"
+  }
+
+  as = concept.fleet-configuration
+}
+
+rule "fleet-configuration-lookup" {
+  match {
+    kind = "data"
+    type = "newrelic_fleet_configuration"
+  }
+
+  as = concept.fleet-configuration
+}
+
+rule "fleet-deployment" {
+  match {
+    type = "newrelic_fleet_deployment"
+  }
+
+  as = concept.fleet-deployment
+
+  contribution {
+    to       = concept.fleet
+    via      = source.fleet_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "fleet-members" {
+  match {
+    type = "newrelic_fleet_members"
+  }
+
+  as = concept.fleet-membership
+
+  contribution {
+    to       = concept.fleet
+    via      = source.fleet_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "fleet-members-lookup" {
+  match {
+    kind = "data"
+    type = "newrelic_fleet_members"
+  }
+
+  as = concept.fleet-membership
+
+  contribution {
+    to       = concept.fleet
+    via      = source.fleet_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}

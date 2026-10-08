@@ -1,0 +1,19 @@
+concept "conversational-agent" {
+  description = "A Dialogflow conversational agent."
+}
+
+rule "dialogflow-agent" {
+  match {
+    type = "google_dialogflow_agent"
+  }
+
+  as = concept.conversational-agent
+}
+
+rule "dialogflow-cx-agent" {
+  match {
+    type = "google_dialogflow_cx_agent"
+  }
+
+  as = concept.conversational-agent
+}

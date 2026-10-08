@@ -1,0 +1,180 @@
+name: publish
+run-name: Publish Rootform ${{ inputs.version }}
+
+# Publishes the exact draft that a successful candidate run recorded, then the
+# official image whose platform digests that run qualified. Each job resumes:
+# a release or image already published with the qualified bytes is kept.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version of the qualified draft release to publish
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: verify qualified draft
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      # Draft releases are visible only with write access.
+      contents: write
+    outputs:
+      commit: ${{ steps.qualification.outputs.commit }}
+      published: ${{ steps.qualification.outputs.published }}
+      release_id: ${{ steps.qualification.outputs.release_id }}
+      run_id: ${{ steps.qualification.outputs.run_id }}
+    steps:
+      - name: Check out publication controller
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install exact Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.0
+
+      - name: Find the run that qualified this exact draft
+        id: qualification
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          fail() { echo "::error::$1"; exit 1; }
+          [[ "$GITHUB_REF" == refs/heads/main ]] || fail "Publish from main."
+          bun -e 'import { releaseVersionRefusal } from "./scripts/release/contract.ts";
+            const refusal = releaseVersionRefusal(process.env.ROOTFORM_VERSION ?? "");
+            if (refusal) { console.error(refusal); process.exit(1); }' || fail "$ROOTFORM_VERSION is not a release version."
+          tag="v$ROOTFORM_VERSION"
+          releases="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" |
+            jq -cs --arg tag "$tag" '[.[][] | select(.tag_name == $tag)]')"
+          [[ "$(jq length <<<"$releases")" == 1 ]] ||
+            fail "Expected one release named $tag, found $(jq length <<<"$releases"). Qualify a candidate first."
+          release="$(jq -c '.[0]' <<<"$releases")"
+          id="$(jq -r .id <<<"$release")"
+          commit="$(jq -r .target_commitish <<<"$release")"
+          [[ "$commit" =~ ^[0-9a-f]{40}$ ]] || fail "$tag does not target an exact commit."
+          status="$(gh api "repos/$GITHUB_REPOSITORY/compare/$commit...main" --jq .status)"
+          [[ "$status" == ahead || "$status" == identical ]] || fail "$tag targets $commit, which is not on main."
+          assets="$(jq -cS '[.assets[] | {name, size, digest}] | sort_by(.name)' <<<"$release")"
+          name="rootform-qualification-$ROOTFORM_VERSION-$commit"
+          run_id=''
+          for run in $(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=$name&per_page=100" |
+            jq -r '[.artifacts[] | select(.expired | not)] | sort_by(.created_at) | reverse | .[].workflow_run.id'); do
+            jq -e --arg commit "$commit" '
+              .path == ".github/workflows/candidate.yml" and .event == "workflow_dispatch" and
+              .head_branch == "main" and .head_sha == $commit and .conclusion == "success"' \
+              <<<"$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run")" >/dev/null || continue
+            record="$RUNNER_TEMP/qualification-$run"
+            gh run download "$run" --repo "$GITHUB_REPOSITORY" --name "$name" --dir "$record"
+            jq -e --argjson id "$id" --argjson assets "$assets" '
+              .format_version == "1" and .release_id == $id and
+              ((.assets | sort_by(.name)) == $assets)' "$record/qualification.json" >/dev/null || continue
+            run_id="$run"
+            break
+          done
+          [[ -n "$run_id" ]] ||
+            fail "No successful candidate run recorded release $id with its current assets. Qualify a candidate for $tag."
+          published="$(jq -r '.draft | not' <<<"$release")"
+          if [[ "$published" == true ]]; then
+            jq -e '.immutable == true' <<<"$release" >/dev/null || fail "$tag is published but not immutable."
+          fi
+          {
+            echo "commit=$commit"
+            echo "published=$published"
+            echo "release_id=$id"
+            echo "run_id=$run_id"
+          } >> "$GITHUB_OUTPUT"
+          echo "Release $id of $tag at \`$commit\` was qualified by candidate run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$run_id." >> "$GITHUB_STEP_SUMMARY"
+
+  release:
+    name: publish exact release
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Publish qualified draft
+        if: needs.verify.outputs.published != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_ID: ${{ needs.verify.outputs.release_id }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          latest=true
+          [[ "$ROOTFORM_VERSION" != *-* ]] || latest=false
+          gh api -X PATCH "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" \
+            -F draft=false -f make_latest="$latest" >/dev/null
+
+      - name: Verify immutable release
+        env:
+          COMMIT: ${{ needs.verify.outputs.commit }}
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_ID: ${{ needs.verify.outputs.release_id }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3 4 5 6; do
+            release="$(gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID")"
+            tagged="$(gh api "repos/$GITHUB_REPOSITORY/commits/v$ROOTFORM_VERSION" --jq .sha 2>/dev/null || true)"
+            if jq -e --arg tag "v$ROOTFORM_VERSION" '.draft == false and .immutable == true and .tag_name == $tag' \
+              <<<"$release" >/dev/null && [[ "$tagged" == "$COMMIT" ]]; then
+              echo "Published $(jq -r .html_url <<<"$release") at \`$COMMIT\`." >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            sleep $((attempt * 5))
+          done
+          echo "::error::v$ROOTFORM_VERSION is not an immutable release whose tag points at $COMMIT."
+          exit 1
+
+  image:
+    name: official image
+    needs:
+      - verify
+      - release
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+    uses: ./.github/workflows/publish-image.yml
+    with:
+      qualification_run_id: ${{ needs.verify.outputs.run_id }}
+      release_id: ${{ needs.verify.outputs.release_id }}
+      version: ${{ inputs.version }}
+
+  distribution:
+    name: distribution follow-up
+    needs:
+      - verify
+      - image
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Name the separately published channels
+        env:
+          COMMIT: ${{ needs.verify.outputs.commit }}
+          QUALIFICATION_RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ needs.verify.outputs.run_id }}
+          ROOTFORM_VERSION: ${{ inputs.version }}
+        run: |
+          # shellcheck disable=SC2016
+          {
+            echo "## Rootform $ROOTFORM_VERSION published"
+            echo
+            echo "- Release: v$ROOTFORM_VERSION at \`$COMMIT\`, immutable."
+            echo "- Image: ghcr.io/rootform-dev/rootform:$ROOTFORM_VERSION with the qualified platform digests."
+            echo "- Installers, Homebrew formula and WinGet manifests: the installation metadata artifact of $QUALIFICATION_RUN."
+            echo "- Policy Packs and the GitHub Action follow their own releases."
+          } >> "$GITHUB_STEP_SUMMARY"

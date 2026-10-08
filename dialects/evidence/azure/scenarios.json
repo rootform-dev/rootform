@@ -1,0 +1,134 @@
+{
+  "format_version": "1",
+  "scenarios": [
+    {
+      "id": "release-family-coverage",
+      "fixture": "fixtures/azure-v5/release-coverage",
+      "required_rules": [
+        "azure.rule.ai-foundry",
+        "azure.rule.api-management",
+        "azure.rule.arc-enabled-server",
+        "azure.rule.azure-enclave",
+        "azure.rule.communication-service",
+        "azure.rule.container-app",
+        "azure.rule.cosmos-account",
+        "azure.rule.data-factory",
+        "azure.rule.database-migration-service",
+        "azure.rule.dev-center",
+        "azure.rule.dns-zone",
+        "azure.rule.entra-group",
+        "azure.rule.front-door-profile",
+        "azure.rule.horizondb-cluster",
+        "azure.rule.iot-hub",
+        "azure.rule.key-vault",
+        "azure.rule.linux-function-app",
+        "azure.rule.linux-virtual-machine",
+        "azure.rule.monitor-workspace",
+        "azure.rule.nat-gateway",
+        "azure.rule.service-bus-namespace",
+        "azure.rule.sre-agent"
+      ],
+      "required_outcomes": {
+        "azapi_resource.enclave": "representation-present",
+        "azapi_resource.horizondb": "representation-present",
+        "azapi_resource.sre": "representation-present",
+        "azuread_group.identity": "representation-present"
+      },
+      "minimum": {},
+      "limitations": [
+        "The saved plan shows one representative from each configured Azure family. The CDN endpoint, classic Front Door, and CDN profile Rules lack verified plan evidence and remain unproven."
+      ]
+    },
+    {
+      "id": "broad-private-platform",
+      "fixture": "fixtures/azure-v5/scenarios",
+      "required_rules": [
+        "azure.rule.aks-cluster",
+        "azure.rule.application-gateway",
+        "azure.rule.data-factory",
+        "azure.rule.event-grid-topic",
+        "azure.rule.event-hub",
+        "azure.rule.expressroute-circuit",
+        "azure.rule.front-door-profile",
+        "azure.rule.key-vault",
+        "azure.rule.linux-function-app",
+        "azure.rule.linux-web-app",
+        "azure.rule.mssql-database",
+        "azure.rule.nat-gateway",
+        "azure.rule.private-endpoint",
+        "azure.rule.service-bus-queue",
+        "azure.rule.storage-account",
+        "azure.rule.synapse-workspace",
+        "azure.rule.virtual-network-peering",
+        "azure.rule.virtual-network-gateway"
+      ],
+      "required_outcomes": {
+        "azurerm_kubernetes_cluster.workloads": "representation-present",
+        "azurerm_mssql_database.orders": "representation-present",
+        "azurerm_private_endpoint.sql": "representation-present",
+        "azurerm_private_endpoint.storage": "representation-present"
+      },
+      "minimum": {
+        "contexts": 10,
+        "relations": 1
+      },
+      "limitations": [
+        "For this saved plan, vNet peering is emitted only from an explicit remote virtual network reference.",
+        "For this saved plan, producer, consumer, backend, secret-use, VPN, and ExpressRoute relations remain absent because provider references alone do not prove those architecture facts."
+      ]
+    },
+    {
+      "id": "azapi-fail-closed",
+      "fixture": "fixtures/azure-v5/azapi",
+      "required_rules": [
+        "azure.rule.azure-enclave",
+        "azure.rule.horizondb-cluster",
+        "azure.rule.sre-agent"
+      ],
+      "required_outcomes": {
+        "azapi_resource.dynamic": "representation-present",
+        "azapi_resource.wrong_version": "no-rule"
+      },
+      "maximum_facts": {
+        "contexts": 0,
+        "relations": 0
+      },
+      "limitations": [
+        "AzAPI Rules use evaluated ARM type and API version values from the plan. A variable with a known exact value can select a Rule; an unmatched type remains uninterpreted."
+      ]
+    },
+    {
+      "id": "provider-overlap",
+      "fixture": "fixtures/azure-v5/provider-overlap",
+      "required_rules": [
+        "azure.rule.container-app"
+      ],
+      "required_outcomes": {
+        "azapi_resource.unapproved_overlap": "no-rule",
+        "azapi_update_resource.patch": "no-rule",
+        "azurerm_container_app.typed": "representation-present"
+      },
+      "limitations": [
+        "For this saved plan, unapproved generic AzAPI overlap and patch resources never duplicate the typed AzureRM owner."
+      ]
+    },
+    {
+      "id": "privacy",
+      "fixture": "fixtures/azure-v5/privacy",
+      "required_rules": [
+        "azure.rule.sre-agent"
+      ],
+      "required_outcomes": {
+        "azapi_resource.sre": "representation-present"
+      },
+      "forbidden_output": [
+        "rootform-secret-sentinel",
+        "incidentManagementConfiguration",
+        "00000000-0000-0000-0000-000000000000"
+      ],
+      "limitations": [
+        "AzAPI body and literal parent resource ID remain outside the architecture document or browser payload."
+      ]
+    }
+  ]
+}

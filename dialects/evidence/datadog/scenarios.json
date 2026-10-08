@@ -1,0 +1,157 @@
+{
+  "format_version": "1",
+  "scenarios": [
+    {
+      "id": "datadog-minimal",
+      "fixture": "fixtures/datadog-v4/minimal",
+      "required_rules": [
+        "datadog.rule.child-organization",
+        "datadog.rule.integration-aws-account",
+        "datadog.rule.logs-archive"
+      ],
+      "minimum": {
+        "representations": 4,
+        "relations": 0,
+        "contexts": 0,
+        "contributions": 0
+      },
+      "maximum_facts": {
+        "contexts": 0,
+        "contributions": 0,
+        "relations": 0
+      },
+      "limitations": [
+        "The saved plan demonstrates durable Datadog roots without contacting Datadog."
+      ]
+    },
+    {
+      "id": "datadog-broad-observability",
+      "fixture": "fixtures/datadog-v4/scenarios",
+      "required_rules": [
+        "datadog.rule.action-connection",
+        "datadog.rule.action-connection-lookup",
+        "datadog.rule.app-builder-app",
+        "datadog.rule.app-builder-app-lookup",
+        "datadog.rule.child-organization",
+        "datadog.rule.compliance-custom-framework",
+        "datadog.rule.csm-threats-policy",
+        "datadog.rule.datastore",
+        "datadog.rule.datastore-item",
+        "datadog.rule.datastore-item-lookup",
+        "datadog.rule.datastore-lookup",
+        "datadog.rule.integration-aws-account",
+        "datadog.rule.integration-azure",
+        "datadog.rule.integration-cloudflare-account",
+        "datadog.rule.integration-confluent-account",
+        "datadog.rule.integration-confluent-resource",
+        "datadog.rule.integration-fastly-account",
+        "datadog.rule.integration-fastly-service",
+        "datadog.rule.integration-gcp",
+        "datadog.rule.integration-gcp-sts",
+        "datadog.rule.logs-archive",
+        "datadog.rule.logs-archive-order",
+        "datadog.rule.logs-custom-destination",
+        "datadog.rule.logs-custom-pipeline",
+        "datadog.rule.logs-index",
+        "datadog.rule.logs-integration-pipeline",
+        "datadog.rule.org-connection",
+        "datadog.rule.rum-application",
+        "datadog.rule.rum-application-lookup",
+        "datadog.rule.rum-retention-filter",
+        "datadog.rule.security-monitoring-rule",
+        "datadog.rule.sensitive-data-scanner-group",
+        "datadog.rule.service-definition-yaml",
+        "datadog.rule.service-level-objective",
+        "datadog.rule.service-level-objective-lookup",
+        "datadog.rule.software-catalog",
+        "datadog.rule.software-catalog-lookup",
+        "datadog.rule.synthetics-suite",
+        "datadog.rule.synthetics-test",
+        "datadog.rule.synthetics-test-lookup",
+        "datadog.rule.workflow-automation",
+        "datadog.rule.workflow-automation-lookup"
+      ],
+      "required_outcomes": {
+        "datadog_monitor.must_not_create_topology": "no-rule",
+        "datadog_observability_pipeline.telemetry": "representation-present",
+        "datadog_org_connection.shared": "representation-present",
+        "datadog_synthetics_test.api": "representation-present"
+      },
+      "required_facts": [
+        {
+          "collection": "relations",
+          "from": "representation:1:root:resource:datadog_org_connection.shared",
+          "to": "representation:1:root:resource:datadog_child_organization.platform",
+          "type": "shares-telemetry-with",
+          "rule": "datadog.rule.org-connection"
+        },
+        {
+          "collection": "contributions",
+          "from": "representation:1:root:resource:datadog_integration_confluent_resource.kafka",
+          "to": "representation:1:root:resource:datadog_integration_confluent_account.streaming",
+          "rule": "datadog.rule.integration-confluent-resource"
+        },
+        {
+          "collection": "contributions",
+          "from": "representation:1:root:resource:datadog_integration_fastly_service.edge",
+          "to": "representation:1:root:resource:datadog_integration_fastly_account.edge",
+          "rule": "datadog.rule.integration-fastly-service"
+        },
+        {
+          "collection": "contributions",
+          "from": "representation:1:root:resource:datadog_logs_archive_order.primary",
+          "to": "representation:1:root:resource:datadog_logs_archive.primary",
+          "rule": "datadog.rule.logs-archive-order"
+        },
+        {
+          "collection": "contributions",
+          "from": "representation:1:root:resource:datadog_rum_retention_filter.web",
+          "to": "representation:1:root:resource:datadog_rum_application.web",
+          "rule": "datadog.rule.rum-retention-filter"
+        }
+      ],
+      "minimum": {
+        "representations": 51,
+        "relations": 1,
+        "contexts": 0,
+        "contributions": 6
+      },
+      "maximum_facts": {
+        "contexts": 0,
+        "contributions": 7,
+        "relations": 1
+      },
+      "forbidden_output": [
+        "ROOTFORM_DATADOG_GCP_PRIVATE_KEY_SENTINEL",
+        "ROOTFORM_DATADOG_CLOUDFLARE_KEY_SENTINEL",
+        "ROOTFORM_DATADOG_CONFLUENT_SECRET_SENTINEL",
+        "ROOTFORM_DATADOG_FASTLY_KEY_SENTINEL",
+        "ROOTFORM_DATADOG_DATASTORE_VALUE_SENTINEL",
+        "ROOTFORM_DATADOG_APP_JSON_SENTINEL",
+        "ROOTFORM_DATADOG_WORKFLOW_SPEC_SENTINEL",
+        "ROOTFORM_DATADOG_SERVICE_DEFINITION_SENTINEL",
+        "ROOTFORM_DATADOG_SOFTWARE_CATALOG_SENTINEL",
+        "ROOTFORM_DATADOG_MONITOR_QUERY_SENTINEL"
+      ],
+      "limitations": [
+        "Cloud and service integrations describe Datadog collection boundaries, not application traffic. Synthetics private locations are represented as resources; test location IDs do not establish a contribution to them."
+      ]
+    },
+    {
+      "id": "datadog-fail-closed",
+      "fixture": "fixtures/datadog-v4/boundary",
+      "forbidden_output": [
+        "ROOTFORM_DATADOG_PROVIDER_API_KEY_SENTINEL",
+        "ROOTFORM_DATADOG_PROVIDER_APP_KEY_SENTINEL",
+        "ROOTFORM_DATADOG_BOUNDARY_APP_JSON_SENTINEL",
+        "ROOTFORM_DATADOG_BOUNDARY_WORKFLOW_SENTINEL",
+        "ROOTFORM_DATADOG_BOUNDARY_WEBHOOK_SECRET_SENTINEL",
+        "ROOTFORM_DATADOG_BOUNDARY_AZURE_SECRET_SENTINEL",
+        "ROOTFORM_DATADOG_BOUNDARY_MONITOR_QUERY_SENTINEL"
+      ],
+      "limitations": [
+        "In this saved plan, literals, depends_on, ambiguity, dangling references, and target mismatches create no unsupported fact. Unresolved outcomes retain their diagnostics."
+      ]
+    }
+  ]
+}

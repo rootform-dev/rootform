@@ -1,0 +1,7 @@
+dialect "payments" {
+  version = "0.1.0"
+
+  provider "hashicorp/random" {
+    version = ">= 3.0.0, < 4.0.0"
+  }
+}

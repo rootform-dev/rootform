@@ -1,0 +1,490 @@
+package app
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io"
+	"sort"
+	"strconv"
+	"strings"
+
+	"github.com/rootform-dev/rootform/cli/backend"
+	"github.com/rootform-dev/rootform/cli/detect"
+	"github.com/rootform-dev/rootform/cli/form"
+	cli "github.com/rootform-dev/rootform/cli/internal/command"
+	docinput "github.com/rootform-dev/rootform/cli/internal/document"
+	"github.com/rootform-dev/rootform/cli/internal/human"
+)
+
+// validateService checks that definitions are well formed. It evaluates no
+// policy: a valid architecture may still violate one, and the two questions
+// keep separate answers and separate commands.
+type validateService struct {
+	stdin  io.Reader
+	stdout io.Writer
+	stderr io.Writer
+	// backend compiles Dialect sources and loads the definitions a named
+	// validation resolves. Without one only a Form is validated.
+	backend backend.Backend
+	// getwd reads the working directory whose selection a named validation
+	// loads when no project is named.
+	getwd func() (string, error)
+}
+
+type validationProblem struct {
+	Code    string `json:"code"`
+	Message string `json:"message"`
+	Path    string `json:"path,omitempty"`
+	Line    int    `json:"line,omitempty"`
+
+	// The human fields locate a diagnostic for a reader. They stay out of the
+	// machine record: architecture diagnostics carried no line before this
+	// pass, and adding one would change what consumers parse.
+	humanPath   string
+	humanLine   int
+	humanColumn int
+}
+
+type validationReport struct {
+	Object   string              `json:"object"`
+	Subject  string              `json:"subject"`
+	Valid    bool                `json:"valid"`
+	Problems []validationProblem `json:"problems"`
+}
+
+// validationEvidence is what a human report shows beside the verdict.
+// Uncertainty is counted apart from errors: an architecture can be structurally
+// valid and still leave facts unresolved, and the two answers must not merge.
+type validationEvidence struct {
+	dialects    []string
+	uncertainty int
+	// structural records that a canonical Form was delivered and
+	// validates on its own. It shapes the human verdict only: the machine
+	// report, its problem list, and the exit code keep counting every error
+	// exactly as before.
+	structural bool
+}
+
+func (s validateService) Validate(options cli.ValidateOptions) (cli.ValidateOutcome, error) {
+	switch options.Object {
+	case cli.ValidateForm:
+		return s.validateForm(options)
+	case cli.ValidateDialects, cli.ValidatePolicy, cli.ValidateRule, cli.ValidateConcept,
+		cli.ValidateContext, cli.ValidateRelation:
+		if s.backend == nil {
+			return cli.ValidateFailure, errors.New("validate service is not configured")
+		}
+		if options.Object == cli.ValidateDialects {
+			return s.validateSemantics(options)
+		}
+		return s.validateDeclaration(options)
+	default:
+		failuref(s.stderr, "%q is not something rootform can validate\n", string(options.Object))
+		return cli.ValidateFailure, nil
+	}
+}
+
+// validateForm checks one saved Form on its own: strict format-1 decoding and
+// every Form invariant. It loads no Dialect and never recompiles; a plan or
+// state export is analyzed by rootform run.
+func (s validateService) validateForm(options cli.ValidateOptions) (cli.ValidateOutcome, error) {
+	var data []byte
+	if options.Input == "-" {
+		read, err := docinput.ReadStream(s.stdin)
+		if errors.Is(err, docinput.ErrTooLarge) {
+			return s.undecided("INPUT_REFUSED: " + err.Error())
+		}
+		if err != nil {
+			return s.undecided("standard input could not be read")
+		}
+		data = read
+	} else {
+		read, err := readInputFile(options.Input)
+		if err != nil {
+			return s.undecided(safeRunError(err))
+		}
+		data = read
+	}
+	kind, _, detectErr := detect.Detect(data)
+	if detectErr == nil && kind != detect.KindDocument {
+		return s.refused("this input is " + kindWords(kind) + ", not a saved Form\n\nTry:\n  rootform run " +
+			shellQuote(options.Input) + " --no-serve -o form.json\n  rootform validate form form.json")
+	}
+	if _, err := form.Decode(data); err != nil {
+		return s.report(options, formProblems(err), validationEvidence{})
+	}
+	return s.report(options, nil, validationEvidence{structural: true})
+}
+
+// formProblems lists every decoding or validation problem of a Form. The
+// problem path locates the problem inside the JSON; it is never a file.
+func formProblems(err error) []validationProblem {
+	var invalid *form.ValidationError
+	if errors.As(err, &invalid) {
+		problems := make([]validationProblem, 0, len(invalid.Problems))
+		for _, problem := range invalid.Problems {
+			problems = append(problems, validationProblem{Code: problem.Code, Message: problem.Path + ": " + problem.Message})
+		}
+		return problems
+	}
+	var decode *form.DecodeError
+	if errors.As(err, &decode) {
+		return []validationProblem{{Code: decode.Code, Message: decode.Message}}
+	}
+	var refused *detect.Error
+	if errors.As(err, &refused) {
+		return []validationProblem{{Code: refused.Code, Message: "the input is a " + refused.Shape}}
+	}
+	return []validationProblem{{Code: "DOCUMENT_INVALID", Message: "the Form could not be read"}}
+}
+
+// validateSemantics validates dialect authoring directly: one explicit source
+// directory is compiled as it stands, and nothing else is selected or loaded.
+func (s validateService) validateSemantics(options cli.ValidateOptions) (cli.ValidateOutcome, error) {
+	compiled, err := s.backend.Authoring().Dialects(context.Background(), options.Input)
+	if err != nil {
+		return s.undecided(err.Error())
+	}
+	if compiled.Empty {
+		return s.empty("Dialects in that directory", "a directory holding one or more Dialects")
+	}
+	problems := make([]validationProblem, 0, len(compiled.Diagnostics))
+	for _, diagnostic := range compiled.Diagnostics {
+		problems = append(problems, validationProblem{
+			Code: diagnostic.Code, Message: diagnostic.Message,
+			Path:        diagnostic.Path,
+			Line:        diagnostic.Line,
+			humanLine:   diagnostic.Line,
+			humanColumn: diagnostic.Column,
+		})
+	}
+	evidence := validationEvidence{}
+	if len(problems) == 0 {
+		// A valid set answers in the exact bytes the machine format produced
+		// before this rework. Consumers pin them, so that text stays.
+		if options.Format == cli.FormatJSON {
+			for _, dialect := range compiled.Dialects {
+				fmt.Fprintf(s.stdout, "%s@%s compiles\n", dialect.Name, dialect.Version)
+			}
+			return cli.ValidateValid, nil
+		}
+		for _, dialect := range compiled.Dialects {
+			evidence.dialects = append(evidence.dialects, dialect.Name+"@"+dialect.Version)
+		}
+		sort.Strings(evidence.dialects)
+	}
+	return s.report(options, problems, evidence)
+}
+
+// validateDeclaration checks one named definition against the effective
+// catalog, the RF Vocabulary, and the selected Policy Packs.
+func (s validateService) validateDeclaration(options cli.ValidateOptions) (cli.ValidateOutcome, error) {
+	project := options.Project
+	if project == "" && s.getwd != nil {
+		root, err := s.getwd()
+		if err != nil {
+			return s.undecided("the working directory could not be read")
+		}
+		project = root
+	}
+	ctx := context.Background()
+	session := s.backend.Open(ctx, backend.Selection{Project: project, Dialects: options.Dialect}, s.stderr)
+	definitions, err := session.Definitions(ctx)
+	if err != nil {
+		return s.unloaded(err)
+	}
+	var packs []backend.PolicyPackDefinition
+	if options.Object == cli.ValidatePolicy {
+		packs, err = session.PolicyDefinitions(ctx, options.PolicyPack)
+		if err != nil {
+			return s.unloaded(err)
+		}
+	}
+
+	identifiers, listing := declaredIdentifiers(definitions, packs, options.Object)
+	name := options.Name
+	if options.Object == cli.ValidatePolicy {
+		name = declaredPolicyQuery(identifiers, name)
+	}
+	index, ok := resolveDeclaration(s.stderr, identifiers, name, string(options.Object), listing)
+	if !ok {
+		if index == resolveUnknown && options.Name != "" {
+			return cli.ValidateNotFound, nil
+		}
+		return cli.ValidateUndecided, nil
+	}
+	options.Name = identifiers[index]
+	return s.report(options, nil, validationEvidence{})
+}
+
+// declaredIdentifiers names every definition a lookup may resolve. The RF
+// Vocabulary concepts and contexts are part of the effective catalog, so they
+// are valid subjects of named validation.
+func declaredIdentifiers(
+	definitions backend.Definitions,
+	packs []backend.PolicyPackDefinition,
+	object cli.ValidateObject,
+) (identifiers []string, listing string) {
+	for _, dialect := range definitions.Dialects {
+		switch object {
+		case cli.ValidatePolicy:
+		case cli.ValidateRule:
+			for _, declared := range dialect.Rules {
+				identifiers = append(identifiers, declared.ID)
+			}
+		case cli.ValidateConcept:
+			for _, declared := range dialect.Concepts {
+				identifiers = append(identifiers, declared.ID)
+			}
+		case cli.ValidateContext:
+			for _, declared := range dialect.Contexts {
+				identifiers = append(identifiers, declared.ID)
+			}
+		case cli.ValidateRelation:
+			for _, declared := range dialect.Relations {
+				identifiers = append(identifiers, declared.ID)
+			}
+		}
+	}
+	if object == cli.ValidateConcept || object == cli.ValidateContext {
+		for _, definition := range definitions.Vocabulary.Definitions {
+			if object == cli.ValidateConcept && definition.Kind != "concept" {
+				continue
+			}
+			if object == cli.ValidateContext && definition.Kind != "context" {
+				continue
+			}
+			identifiers = append(identifiers, definition.ID)
+		}
+	}
+	if object == cli.ValidatePolicy {
+		for _, pack := range packs {
+			for _, declared := range pack.Policies {
+				identifiers = append(identifiers, declared.ID)
+			}
+		}
+		return identifiers, "rootform list policies"
+	}
+	return identifiers, "rootform show <owner>.<kind>.<name>"
+}
+
+// subjectOf names what was validated without carrying a filesystem path into
+// a report. Declared identifiers are public semantic identities and stay exact.
+func subjectOf(options cli.ValidateOptions) string {
+	if options.Name != "" {
+		return options.Name
+	}
+	if options.Object == cli.ValidateDialects {
+		return "dialect set"
+	}
+	return "form"
+}
+
+func (s validateService) report(
+	options cli.ValidateOptions,
+	problems []validationProblem,
+	evidence validationEvidence,
+) (cli.ValidateOutcome, error) {
+	if problems == nil {
+		problems = make([]validationProblem, 0)
+	}
+	report := validationReport{
+		Object:   string(options.Object),
+		Subject:  subjectOf(options),
+		Valid:    len(problems) == 0,
+		Problems: problems,
+	}
+	if options.Format == cli.FormatJSON {
+		encoded, err := json.MarshalIndent(report, "", "  ")
+		if err != nil {
+			return s.undecided("the validation result could not be written")
+		}
+		if _, err := s.stdout.Write(append(encoded, 10)); err != nil {
+			return s.undecided("the validation result could not be written")
+		}
+	} else {
+		s.writeHumanReport(report, evidence)
+	}
+	if report.Valid {
+		return cli.ValidateValid, nil
+	}
+	return cli.ValidateInvalid, nil
+}
+
+// writeHumanReport leads with the verdict and the number of errors behind it,
+// then the evidence, then the diagnostics grouped under their file. The
+// diagnostics are the answer the command was asked for, so they stay on
+// standard output with the verdict they explain.
+func (s validateService) writeHumanReport(report validationReport, evidence validationEvidence) {
+	human.Verdict(s.stdout, validationVerdict(report, evidence), validationStatus(report, evidence))
+	if len(evidence.dialects) > 0 {
+		human.Section(s.stdout, "Dialects")
+		for _, dialect := range evidence.dialects {
+			fmt.Fprintf(s.stdout, "  %s\n", dialect)
+		}
+	}
+	// An incomplete analysis and unresolved facts are reported beside the
+	// verdict, never inside it: neither makes a well-formed definition
+	// malformed.
+	rows := make([][2]string, 0, 2)
+	if !report.Valid && evidence.structural {
+		rows = append(rows, [2]string{"Architectural analysis",
+			"indeterminate, " + countWithNoun(len(report.Problems), "error", "errors")})
+	}
+	if evidence.uncertainty > 0 {
+		rows = append(rows, [2]string{"Uncertainty",
+			countWithNoun(evidence.uncertainty, "warning", "warnings")})
+	}
+	if len(rows) > 0 {
+		fmt.Fprintln(s.stdout)
+		human.Summary(s.stdout, rows...)
+	}
+	writeValidationProblems(s.stdout, report.Problems)
+}
+
+// validationVerdict answers the question the command was asked. An
+// A Form that validates is structurally valid even
+// when the interpretation above it failed, so the verdict states which of the
+// two answers is negative instead of merging them into one.
+func validationVerdict(report validationReport, evidence validationEvidence) string {
+	subject := report.Subject
+	switch subject {
+	case "form":
+		subject = "Form"
+	case "dialect set":
+		subject = "Dialect set"
+	}
+	switch {
+	case report.Valid:
+		return subject + " valid"
+	case evidence.structural:
+		return subject + " structurally valid"
+	default:
+		return fmt.Sprintf("%s invalid (%s)", subject,
+			countWithNoun(len(report.Problems), "error", "errors"))
+	}
+}
+
+func validationStatus(report validationReport, evidence validationEvidence) human.Status {
+	switch {
+	case report.Valid:
+		return human.Good
+	case evidence.structural:
+		return human.Warn
+	default:
+		return human.Bad
+	}
+}
+
+// writeValidationProblems groups diagnostics under the file they come from, in
+// file then line order, so a reader follows one source at a time.
+func writeValidationProblems(writer io.Writer, problems []validationProblem) {
+	ordered := make([]validationProblem, len(problems))
+	copy(ordered, problems)
+	for index, problem := range ordered {
+		if problem.humanPath != "" {
+			ordered[index].Path = problem.humanPath
+		}
+	}
+	sort.SliceStable(ordered, func(left, right int) bool {
+		first, second := ordered[left], ordered[right]
+		switch {
+		case first.Path != second.Path:
+			return first.Path < second.Path
+		case problemLine(first) != problemLine(second):
+			return problemLine(first) < problemLine(second)
+		case first.humanColumn != second.humanColumn:
+			return first.humanColumn < second.humanColumn
+		default:
+			return first.Code < second.Code
+		}
+	})
+	for start := 0; start < len(ordered); {
+		end := start
+		for end < len(ordered) && ordered[end].Path == ordered[start].Path {
+			end++
+		}
+		writeValidationGroup(writer, ordered[start:end])
+		start = end
+	}
+}
+
+func writeValidationGroup(writer io.Writer, group []validationProblem) {
+	if group[0].Path != "" {
+		human.Section(writer, group[0].Path)
+	} else {
+		fmt.Fprintln(writer)
+	}
+	locations := make([]string, len(group))
+	locationWidth, codeWidth := 0, 0
+	for index, problem := range group {
+		locations[index] = problemLocation(problem)
+		if len(locations[index]) > locationWidth {
+			locationWidth = len(locations[index])
+		}
+		if len(problem.Code) > codeWidth {
+			codeWidth = len(problem.Code)
+		}
+	}
+	for index, problem := range group {
+		if locationWidth == 0 {
+			fmt.Fprintf(writer, "  %-*s  %s\n", codeWidth, problem.Code, problem.Message)
+			continue
+		}
+		fmt.Fprintf(writer, "  %-*s  %-*s  %s\n",
+			locationWidth, locations[index], codeWidth, problem.Code, problem.Message)
+	}
+}
+
+func problemLocation(problem validationProblem) string {
+	line := problemLine(problem)
+	switch {
+	case line != 0 && problem.humanColumn != 0:
+		return strconv.Itoa(line) + ":" + strconv.Itoa(problem.humanColumn)
+	case line != 0:
+		return strconv.Itoa(line)
+	default:
+		return ""
+	}
+}
+
+// problemLine prefers the line resolved for a reader, and falls back to the
+// one the machine record already carried.
+func problemLine(problem validationProblem) int {
+	if problem.humanLine != 0 {
+		return problem.humanLine
+	}
+	return problem.Line
+}
+
+// empty reports an input that holds nothing to validate. The run decided
+// nothing, so it keeps the undecided outcome and the diagnostic stream.
+func (s validateService) empty(subject, expected string) (cli.ValidateOutcome, error) {
+	human.Empty(s.stderr, subject)
+	fmt.Fprintln(s.stderr)
+	human.Summary(s.stderr, [2]string{"Expected", expected})
+	return cli.ValidateUndecided, nil
+}
+
+func (s validateService) undecided(message string) (cli.ValidateOutcome, error) {
+	message, _, _ = strings.Cut(message, "\n")
+	human.Failure(s.stderr, message)
+	return cli.ValidateFailure, nil
+}
+
+func (s validateService) refused(message string) (cli.ValidateOutcome, error) {
+	human.Failure(s.stderr, message)
+	return cli.ValidateUndecided, nil
+}
+
+// unloaded reports definitions that could not be loaded. An invalid
+// rootform.lock leaves no answer, as for every command that reads it.
+func (s validateService) unloaded(err error) (cli.ValidateOutcome, error) {
+	if failureKind(err) == backend.NoAnswer {
+		message, _, _ := strings.Cut(err.Error(), "\n")
+		return s.refused(message)
+	}
+	return s.undecided(err.Error())
+}

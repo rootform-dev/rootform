@@ -1,0 +1,63 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.16.4",
+  "planned_values": {
+    "root_module": {
+      "resources": [
+        {
+          "address": "random_pet.service",
+          "mode": "managed",
+          "type": "random_pet",
+          "name": "service",
+          "provider_name": "registry.terraform.io/hashicorp/random",
+          "schema_version": 0,
+          "values": { "keepers": null, "length": 2, "prefix": null, "separator": "-" },
+          "sensitive_values": {}
+        }
+      ]
+    }
+  },
+  "resource_changes": [
+    {
+      "address": "random_pet.service",
+      "mode": "managed",
+      "type": "random_pet",
+      "name": "service",
+      "provider_name": "registry.terraform.io/hashicorp/random",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": { "keepers": null, "length": 2, "prefix": null, "separator": "-" },
+        "after_unknown": { "id": true },
+        "before_sensitive": false,
+        "after_sensitive": {}
+      }
+    }
+  ],
+  "configuration": {
+    "provider_config": {
+      "random": {
+        "name": "random",
+        "full_name": "registry.terraform.io/hashicorp/random",
+        "version_constraint": "3.9.1"
+      }
+    },
+    "root_module": {
+      "resources": [
+        {
+          "address": "random_pet.service",
+          "mode": "managed",
+          "type": "random_pet",
+          "name": "service",
+          "provider_config_key": "random",
+          "expressions": { "length": { "constant_value": 2 } },
+          "schema_version": 0
+        }
+      ]
+    }
+  },
+  "timestamp": "2026-09-26T11:37:28Z",
+  "applyable": true,
+  "complete": true,
+  "errored": false
+}

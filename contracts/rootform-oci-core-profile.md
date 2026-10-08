@@ -1,0 +1,127 @@
+# Rootform OCI Core Profile
+
+Profile identifier: `rootform-oci-core-v1`.
+
+This profile defines only OCI Distribution behavior Rootform needs to consume
+third-party Dialects and publish and consume Policy Packs. The RF
+Vocabulary and supplied Dialects are embedded in the Rootform binary and never
+travel through a registry. There is no Dialect index artifact and no
+discovery index tag. The profile applies equally to hosted, self-managed,
+public, and private registries. Passing this profile says nothing about
+registry features outside this boundary.
+
+## Content contract
+
+Registry must preserve and return OCI image manifests with schema version `2`,
+descriptor digests and sizes, `artifactType`, custom config and layer media
+types, and manifest annotations byte-for-byte. OCI manifest schema version `2`
+is defined by OCI and is unrelated to Form `format_version`,
+which remains `"1"`.
+
+Rootform Dialect content uses:
+
+- artifact type `application/vnd.rootform.dialect.v1`;
+- config type `application/vnd.rootform.dialect.manifest.v1+json`;
+- layer type `application/vnd.rootform.dialect.layer.v1.tar+gzip`.
+
+Rootform Policy Pack content uses:
+
+- artifact type `application/vnd.rootform.policy-pack.v1`;
+- config type `application/vnd.rootform.policy-pack.manifest.v1+json`;
+- layer type `application/vnd.rootform.policy-pack.layer.v1.tar+gzip`.
+
+Policy Packs define no index artifact in V0. Dialects define no index
+artifact in V0.
+
+Every descriptor uses SHA-256. Rootform validates returned digest, size, media
+type, manifest shape, config, layer, and compiled semantic and presentation
+identity. Unknown OCI annotations may coexist with supported standard
+annotations. Invalid known provenance values still fail.
+
+## Required distribution operations
+
+Registry must implement standard OCI Distribution endpoints needed for:
+
+- manifest resolution by tag or digest with `HEAD` or `GET`;
+- manifest fetch by digest with `GET`;
+- blob existence checks with `HEAD`;
+- blob fetch by digest with `GET`, including standard redirects;
+- two-step monolithic blob upload: initiation with `POST`, then completion with
+  content and digest-bearing `PUT`;
+- manifest and tag creation with `PUT`.
+
+Rootform never enumerates repositories or tags. Dialect and Policy
+Pack selection uses explicit direct artifact references. Locked acquisition
+resolves each manifest by exact digest from repository recorded in
+`rootform.lock`. Supplied units are never acquired from a registry.
+
+## Authentication
+
+Anonymous access is valid when registry permits it. Private access uses OCI
+Distribution HTTP authentication challenges returned by attempted repository
+operations, through Docker-compatible credentials: host-specific `credHelpers`,
+global `credsStore`, then matching `auths`. Basic credentials and Bearer
+challenge/token exchange are supported by shared ORAS client.
+
+Credentials are selected per registry host. Rootform accepts no credential
+flag, writes no Docker configuration, and records no username, password, token,
+header, helper, or config path in lock, cache evidence, vendor, or command
+output.
+
+## Publication semantics
+
+Repository must already exist when registry requires provisioning. Rootform
+preflights every destination tag, pushes only missing descriptor graphs, then
+resolves and repulls exact digest before success. Existing equal digest is
+idempotent; existing different digest fails before first write.
+
+Dialect tags are `dialect-<owner>-<version>`. Policy Pack tags are
+`policy-pack-<name>-<version>`. V0 defines no Dialect index and no Policy Pack
+index, and never moves a mutable discovery tag.
+Registry-side tag immutability or serialized publishers is recommended where
+late concurrent writers must be excluded.
+
+## Explicitly outside profile
+
+Profile does not require:
+
+- Referrers API or artifact relationship traversal;
+- registry catalog, repository listing, or tag listing;
+- manifest or blob deletion;
+- chunked `PATCH` blob uploads;
+- cross-repository blob mounting;
+- signatures, attestations, transparency logs, or trust policy;
+- SBOM storage as dialect artifact;
+- VCS access or registry-specific metadata APIs;
+- server-side semantic version selection.
+
+Registries may provide these features. Rootform V0 neither calls nor depends on
+them.
+
+## Portability test
+
+Registry compatibility is established only by reusable Rootform qualification
+against real endpoints. Test publishes custom media types, pulls direct Dialect
+and Policy Pack artifacts by tag and digest, reacquires locked
+content into empty stores, repairs vendor trees from exact pins, verifies
+offline vendor execution, checks standard provenance, and rejects source or
+digest drift.
+
+Local qualification covers CNCF Distribution 3.0 over anonymous TLS. Private
+Basic authentication and Docker credential-helper access to Distribution are
+not qualified by this path. Candidate qualification against a transient GHCR
+namespace uses a Docker credential helper with GitHub Actions'
+repository-scoped package permissions. The namespace must be absent before
+qualification. Evidence records its platform-assigned package visibility;
+qualification never changes that visibility. It does not separately prove
+private read access, the Bearer challenge exchange, or anonymous pull.
+Qualification content is synthetic, and the package is deleted before the job
+ends. Hosted registry compatibility is reported only for products that pass
+the same profile suite.
+
+Related contracts:
+
+- [`dialect-distribution.md`](dialect-distribution.md);
+- [`policy-pack-distribution.md`](policy-pack-distribution.md);
+- [`rootform-lock.md`](rootform-lock.md);
+- [`../docs/offline-security.md`](../docs/offline-security.md).

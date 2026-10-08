@@ -1,0 +1,53 @@
+{
+  "format_version": "1",
+  "showcase_delta": {
+    "verified_date": "2026-09-10",
+    "relations_added": [
+      "delivers-to",
+      "observed-by",
+      "peers-with",
+      "subscribes-to",
+      "uses-waf-policy"
+    ],
+    "contexts_added": [
+      "rf.context.network",
+      "azure.context.ownership",
+      "rf.context.runtime"
+    ],
+    "contributions_asserted": [
+      "private DNS link to zone and VNet",
+      "NAT association to subnet and NAT gateway"
+    ],
+    "implemented_candidates": 19,
+    "blocked_candidates": 1
+  },
+  "ownership_membership_sweep": {
+    "verified_date": "2026-09-10",
+    "resource_group_ownership_contexts_added": 188,
+    "structural_topic_concepts_added": 2,
+    "system_topic_event_subscription_relations_added": 6,
+    "rules_added": 7,
+    "refused_candidates": 3,
+    "membership_contexts_added": 17,
+    "contributions_added": 31
+  },
+  "total_rows": 1970,
+  "by_inventory": {
+    "azapi-arm-type": 3,
+    "catalog-product": 194,
+    "provider-construct": 1773
+  },
+  "provider_constructs": {},
+  "rules_with_rows": 411,
+  "by_decision": {
+    "rule-present": 315,
+    "partial-rule": 233,
+    "no-rule": 23
+  },
+  "catalog": {
+    "rule-present": 31,
+    "partial-rule": 105,
+    "no-rule": 58,
+    "no-provider-surface": 46
+  }
+}

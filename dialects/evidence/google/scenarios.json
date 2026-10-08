@@ -1,0 +1,367 @@
+{
+  "format_version": "1",
+  "scenarios": [
+    {
+      "id": "vpc-subnet-gke",
+      "fixture": "fixtures/slice/gke",
+      "required_rules": [
+        "google.rule.vpc-network",
+        "google.rule.vpc-subnetwork",
+        "google.rule.gke-cluster",
+        "google.rule.gke-node-pool"
+      ],
+      "required_outcomes": {
+        "google_compute_network.vpc": "representation-present",
+        "google_compute_subnetwork.sub": "representation-present",
+        "google_container_cluster.cluster": "representation-present",
+        "google_container_node_pool.pool": "representation-present"
+      },
+      "minimum": {
+        "representations": 6,
+        "relations": 0,
+        "contexts": 4,
+        "contributions": 1
+      },
+      "limitations": [
+        "Only resolved network and subnetwork references create GKE contexts."
+      ]
+    },
+    {
+      "id": "vpc-cloud-run",
+      "fixture": "fixtures/slice/google-cloud-run",
+      "required_rules": [
+        "google.rule.vpc-network",
+        "google.rule.vpc-subnetwork",
+        "google.rule.cloud-run-service",
+        "google.rule.cloud-run-job"
+      ],
+      "required_outcomes": {
+        "google_compute_network.runtime": "representation-present",
+        "google_compute_subnetwork.runtime": "representation-present",
+        "google_cloud_run_v2_service.api": "representation-present",
+        "google_cloud_run_v2_job.migration": "representation-present"
+      },
+      "minimum": {
+        "representations": 12,
+        "relations": 3,
+        "contexts": 7,
+        "contributions": 0
+      },
+      "limitations": [
+        "Only resolved Direct VPC egress network interfaces create Cloud Run network contexts."
+      ]
+    },
+    {
+      "id": "compute-engine-instance",
+      "fixture": "fixtures/slice/google-compute",
+      "required_rules": [
+        "google.rule.compute-engine-instance"
+      ],
+      "required_outcomes": {
+        "google_compute_instance.api": "representation-present"
+      },
+      "minimum": {
+        "representations": 1,
+        "relations": 0,
+        "contexts": 0,
+        "contributions": 0
+      },
+      "limitations": [
+        "For this saved plan, a literal default network does not create an unproved VPC context."
+      ]
+    },
+    {
+      "id": "pubsub-publication-consumption",
+      "fixture": "fixtures/slice/google-pubsub",
+      "required_rules": [
+        "google.rule.pubsub-topic",
+        "google.rule.pubsub-subscription"
+      ],
+      "required_outcomes": {
+        "google_pubsub_topic.events": "representation-present",
+        "google_pubsub_subscription.worker": "representation-present"
+      },
+      "minimum": {
+        "representations": 7,
+        "relations": 5,
+        "contexts": 4,
+        "contributions": 0
+      },
+      "limitations": [
+        "For this saved plan, the subscription topic attribute proves publication and consumption topology; no workload producer is inferred."
+      ]
+    },
+    {
+      "id": "cloud-dns-zone-record",
+      "fixture": "fixtures/slice/google-cloud-dns",
+      "required_rules": [
+        "google.rule.cloud-dns-managed-zone",
+        "google.rule.cloud-dns-record-set"
+      ],
+      "required_outcomes": {
+        "google_dns_managed_zone.public": "representation-present",
+        "google_dns_record_set.api": "representation-present"
+      },
+      "minimum": {
+        "representations": 2,
+        "relations": 0,
+        "contexts": 0,
+        "contributions": 1
+      },
+      "limitations": [
+        "For this saved plan, the record set contributes only when its managed zone resolves exactly."
+      ]
+    },
+    {
+      "id": "secret-manager-version",
+      "fixture": "fixtures/slice/google-secret-manager",
+      "required_rules": [
+        "google.rule.secret-manager-secret",
+        "google.rule.secret-manager-secret-version"
+      ],
+      "required_outcomes": {
+        "google_secret_manager_secret.api": "representation-present",
+        "google_secret_manager_secret_version.api": "representation-present"
+      },
+      "minimum": {
+        "representations": 4,
+        "relations": 0,
+        "contexts": 1,
+        "contributions": 1
+      },
+      "limitations": [
+        "Secret version data never enters the architecture document or browser payloads."
+      ]
+    },
+    {
+      "id": "cloud-kms-hierarchy",
+      "fixture": "fixtures/slice/google-cloud-kms",
+      "required_rules": [
+        "google.rule.cloud-kms-key-ring",
+        "google.rule.cloud-kms-key",
+        "google.rule.cloud-kms-key-version"
+      ],
+      "required_outcomes": {
+        "google_kms_key_ring.application": "representation-present",
+        "google_kms_crypto_key.application": "representation-present",
+        "google_kms_crypto_key_version.application": "representation-present"
+      },
+      "minimum": {
+        "representations": 3,
+        "relations": 0,
+        "contexts": 1,
+        "contributions": 1
+      },
+      "limitations": [
+        "Only resolved key-ring and key references create hierarchy facts."
+      ]
+    },
+    {
+      "id": "artifact-registry-repository",
+      "fixture": "fixtures/slice/google-artifact-registry",
+      "required_rules": [],
+      "required_outcomes": {
+        "google_artifact_registry_repository.applications": "representation-present"
+      },
+      "minimum": {
+        "representations": 1,
+        "relations": 0,
+        "contexts": 0,
+        "contributions": 0
+      },
+      "limitations": [
+        "For this saved plan, repository format remains technical evidence and does not invent an artifact data flow."
+      ]
+    },
+    {
+      "id": "cloud-monitoring-alerting-policy",
+      "fixture": "fixtures/slice/google-cloud-monitoring",
+      "required_rules": [
+        "google.rule.cloud-monitoring-alerting-policy"
+      ],
+      "required_outcomes": {
+        "google_monitoring_alert_policy.latency": "representation-present"
+      },
+      "minimum": {
+        "representations": 3,
+        "relations": 0,
+        "contexts": 1,
+        "contributions": 0
+      },
+      "limitations": [
+        "For this saved plan, metric filter strings do not create relations to monitored services."
+      ]
+    },
+    {
+      "id": "private-cloud-sql",
+      "fixture": "fixtures/slice/cloud-sql",
+      "required_rules": [
+        "google.rule.vpc-network",
+        "google.rule.cloud-sql-instance"
+      ],
+      "required_outcomes": {
+        "google_compute_network.vpc": "representation-present",
+        "google_sql_database_instance.db": "representation-present"
+      },
+      "minimum": {
+        "representations": 4,
+        "relations": 0,
+        "contexts": 2,
+        "contributions": 0
+      },
+      "limitations": [
+        "For this saved plan, private reachability requires the explicit private_network reference."
+      ]
+    },
+    {
+      "id": "application-load-balancer",
+      "fixture": "fixtures/slice/load-balancer",
+      "required_rules": [
+        "google.rule.application-load-balancer"
+      ],
+      "required_outcomes": {
+        "google_compute_global_forwarding_rule.frontend": "representation-present",
+        "google_compute_target_https_proxy.proxy": "composition-member",
+        "google_compute_url_map.map": "composition-member",
+        "google_compute_backend_service.backend": "composition-member"
+      },
+      "minimum": {
+        "representations": 4,
+        "relations": 0,
+        "contexts": 0,
+        "contributions": 0
+      },
+      "limitations": [
+        "The forwarding rule is interpreted as a load balancer. Its proxy, URL map, and backend memberships remain indeterminate while the planned IDs are unknown."
+      ]
+    },
+    {
+      "id": "bigquery-cloud-storage",
+      "fixture": "fixtures/slice/data-orchestration",
+      "required_rules": [
+        "google.rule.bigquery-dataset",
+        "google.rule.bigquery-table",
+        "google.rule.cloud-storage-bucket"
+      ],
+      "required_outcomes": {
+        "google_bigquery_dataset.analytics": "representation-present",
+        "google_bigquery_table.events": "representation-present",
+        "google_storage_bucket.archive": "representation-present"
+      },
+      "minimum": {
+        "representations": 25,
+        "relations": 0,
+        "contexts": 4,
+        "contributions": 8
+      },
+      "limitations": [
+        "For this saved plan, terraform dependencies between BigQuery and Cloud Storage do not become data-flow relations."
+      ]
+    },
+    {
+      "id": "shared-vpc-project-roles",
+      "fixture": "fixtures/google-v8/shared-vpc",
+      "required_rules": [],
+      "required_outcomes": {
+        "google_compute_shared_vpc_host_project.host": "no-rule",
+        "google_compute_shared_vpc_service_project.service": "no-rule"
+      },
+      "maximum_facts": {
+        "contexts": 0,
+        "relations": 0
+      },
+      "limitations": [
+        "For this saved plan, project role attachments are not represented as VPC networks without a project or governance concept."
+      ]
+    },
+    {
+      "id": "cloud-sql-private-service-connect",
+      "fixture": "fixtures/google-v8/private-service-connect",
+      "required_rules": [
+        "google.rule.cloud-sql-instance"
+      ],
+      "required_outcomes": {
+        "google_sql_database_instance.database": "representation-present"
+      },
+      "maximum_facts": {
+        "contexts": 1,
+        "relations": 0
+      },
+      "limitations": [
+        "The plan establishes project ownership for the Cloud SQL instance through an external project reference. Private Service Connect does not establish a virtual network or private services access context."
+      ]
+    },
+    {
+      "id": "gke-kubernetes-unlinked",
+      "fixture": "fixtures/google-v8/gke-kubernetes-unlinked",
+      "required_rules": [
+        "google.rule.gke-cluster",
+        "kubernetes.rule.kubernetes-namespace"
+      ],
+      "required_outcomes": {
+        "google_container_cluster.cluster": "representation-present",
+        "kubernetes_namespace_v1.workloads": "representation-present"
+      },
+      "forbid_cross_provider_facts": true,
+      "limitations": [
+        "For this saved plan, provider configuration alone does not prove that the Kubernetes objects belong to this GKE cluster."
+      ]
+    },
+    {
+      "id": "release-coverage-cross-family",
+      "fixture": "fixtures/google-v8/release-coverage",
+      "required_rules": [
+        "google.rule.backup-dr-backup-vault",
+        "google.rule.cloud-logging-project-sink",
+        "google.rule.dialogflow-cx-agent",
+        "google.rule.filestore-instance",
+        "google.rule.healthcare-dataset",
+        "google.rule.memorystore-redis-instance",
+        "google.rule.network-connectivity-center-hub",
+        "google.rule.persistent-disk",
+        "google.rule.sensitive-data-protection-discovery",
+        "google.rule.spanner-instance",
+        "google.rule.vertex-ai-endpoint",
+        "google.rule.vm-manager-patch-deployment",
+        "google.rule.vpc-firewall-rule"
+      ],
+      "required_outcomes": {
+        "google_agent_registry_service.agent_catalog": "representation-present",
+        "google_apigee_instance.runtime": "representation-present",
+        "google_backup_dr_backup_vault.recovery": "representation-present",
+        "google_ces_agent.support_agent": "representation-present",
+        "google_ces_app.customer_experience": "representation-present",
+        "google_cloud_security_compliance_framework.compliance": "representation-present",
+        "google_cloudbuild_worker_pool.build": "representation-present",
+        "google_colab_runtime.notebook": "representation-present",
+        "google_compute_disk.data": "representation-present",
+        "google_compute_firewall.ingress": "representation-present",
+        "google_data_loss_prevention_discovery_config.sensitive_data": "representation-present",
+        "google_database_migration_service_migration_job.migration": "representation-present",
+        "google_dialogflow_cx_agent.support": "representation-present",
+        "google_filestore_instance.shared": "representation-present",
+        "google_gke_backup_restore_plan.cluster_recovery": "representation-present",
+        "google_healthcare_dataset.clinical": "representation-present",
+        "google_logging_project_sink.audit": "representation-present",
+        "google_migration_center_source.discovery": "representation-present",
+        "google_model_armor_template.ai_guardrail": "representation-present",
+        "google_network_connectivity_hub.hub": "representation-present",
+        "google_network_services_agent_gateway.agents": "representation-present",
+        "google_network_services_multicast_domain_group.streaming_ha": "representation-present",
+        "google_network_services_multicast_domain.streaming": "representation-present",
+        "google_os_config_patch_deployment.patching": "representation-present",
+        "google_privileged_access_manager_entitlement.elevated_access": "representation-present",
+        "google_redis_instance.cache": "representation-present",
+        "google_security_scanner_scan_config.web_scan": "representation-present",
+        "google_spanner_instance.database": "representation-present",
+        "google_vertex_ai_endpoint.inference": "representation-present",
+        "google_vmwareengine_private_cloud.private_cloud": "representation-present",
+        "google_workflows_workflow.orchestration": "representation-present"
+      },
+      "minimum": {},
+      "limitations": [
+        "For this saved plan, cross-family declarations prove independent representations only; no data flow or ownership is inferred from co-location."
+      ]
+    }
+  ]
+}

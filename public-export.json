@@ -1,0 +1,23 @@
+{
+  "files": [
+    {
+      "path": "dependencies/runtime-components.json",
+      "sha256": "a224956c4972f859ac4f740675aa9cee0b392e1ec98f9f5c98daa6fc5adf7804"
+    },
+    {
+      "path": "schemas/compiled-policy-pack.schema.json",
+      "sha256": "7638580b5e97746c7134cfebe051cfa61a2af4bd00fff0a78f78d815ec5e614f"
+    },
+    {
+      "path": "schemas/rootform-lock.schema.json",
+      "sha256": "6a2886329dd5e99cd96b2dedc16fef1b3dd3591dbc8a05156112765b70269cbc"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.txt",
+      "sha256": "2a7760eb0ef11b69be85d118030f4dd0cb994316a1ac58aa3bac45b974eadd3f"
+    }
+  ],
+  "format_version": "1",
+  "source_commit": "33da2608b44ed6204e648fddacbee5a9d3652757",
+  "source_repository": "rootform-dev/engine"
+}

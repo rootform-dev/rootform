@@ -1,0 +1,4402 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "unestablished",
+      "reported_version": "1.16.4",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "verified",
+        "trust": "paired",
+        "modules": 1
+      }
+    },
+    "attestations": [],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:bc9adbac048bc8b7e51694399bd941faf5947604eda9505281eecc65fec9c2c3",
+      "units": [
+        {
+          "owner": "auth0",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+          "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949"
+        },
+        {
+          "owner": "aws",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+          "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c"
+        },
+        {
+          "owner": "azure",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+          "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
+        },
+        {
+          "owner": "cloudflare",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+          "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb"
+        },
+        {
+          "owner": "confluent",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+          "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b"
+        },
+        {
+          "owner": "consul",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+          "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad"
+        },
+        {
+          "owner": "databricks",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+          "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb"
+        },
+        {
+          "owner": "datadog",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+          "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129"
+        },
+        {
+          "owner": "google",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+          "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
+        },
+        {
+          "owner": "grafana",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+          "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1"
+        },
+        {
+          "owner": "hcp",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+          "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119"
+        },
+        {
+          "owner": "kestra",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+          "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f"
+        },
+        {
+          "owner": "kubernetes",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+          "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b"
+        },
+        {
+          "owner": "mongodb-atlas",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+          "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67"
+        },
+        {
+          "owner": "newrelic",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+          "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802"
+        },
+        {
+          "owner": "okta",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+          "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8"
+        },
+        {
+          "owner": "rf",
+          "kind": "vocabulary",
+          "version": "0.1.0",
+          "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+          "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5"
+        },
+        {
+          "owner": "secrets",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+          "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e"
+        },
+        {
+          "owner": "snowflake",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+          "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510"
+        },
+        {
+          "owner": "vault",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+          "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "auth0",
+        "aws",
+        "azure",
+        "cloudflare",
+        "confluent",
+        "consul",
+        "databricks",
+        "datadog",
+        "google",
+        "grafana",
+        "hcp",
+        "kestra",
+        "kubernetes",
+        "mongodb-atlas",
+        "newrelic",
+        "okta",
+        "rf",
+        "secrets",
+        "snowflake",
+        "vault"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "auth0",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:9eee084a63143fba4bfca319613ca9358a6701f05a33ae738253a4db4618ffe1",
+        "semantic_digest": "sha256:1a7390f510ec2496c37bc9249c5817b599fc3a6d9ff58a1b5cb6b33c46c57949",
+        "providers": [
+          {
+            "source": "auth0/auth0",
+            "version": "= 1.56.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "aws",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+        "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c",
+        "providers": [
+          {
+            "source": "hashicorp/aws",
+            "version": "= 6.62.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "azure",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:5325ea2db93440f67c726119f85a89a17285f41d7c88e2017889a750e4d4d863",
+        "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
+        "providers": [
+          {
+            "source": "azure/azapi",
+            "version": "= 2.12.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azuread",
+            "version": "= 3.9.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/azurerm",
+            "version": "= 5.3.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "cloudflare",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0ae59e8ecac75eeb0ba1738630791de167b92cd7193b18d4bf8d26f0a38c0ca9",
+        "semantic_digest": "sha256:b43b77be534bc1abca4d4bf9df035608ff4e13b2b29d7f55c51c98969e4abcbb",
+        "providers": [
+          {
+            "source": "cloudflare/cloudflare",
+            "version": "= 5.24.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "confluent",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ca6e821352dd72e3f8673378fc5f4fb9dcb2ee0420c096167bd5acc9c253d74d",
+        "semantic_digest": "sha256:259507d5dbb4ab205ff2bbb0bc5df257e63ccb98d0dadb4f9dd11128b78d826b",
+        "providers": [
+          {
+            "source": "confluentinc/confluent",
+            "version": "= 2.83.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "consul",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4094b9c0259e841335b31330a8f0b543566967d5a0e84b6fbaac867d244ff9a3",
+        "semantic_digest": "sha256:b76c8ebe91f98e259d8496702e6ad89edc71a0371afac360fa1f53362ed23cad",
+        "providers": [
+          {
+            "source": "hashicorp/consul",
+            "version": "= 2.23.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "databricks",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:2d1d01064543f6cfd36510ee0e09113b8134e5d537c0ab47a2f6ca97d942c5df",
+        "semantic_digest": "sha256:ef4a38517aa3d20479be601ea1a79c51eb7b5f71bbaa406407318bd51d6cf9bb",
+        "providers": [
+          {
+            "source": "databricks/databricks",
+            "version": "= 1.129.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "datadog",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e738691316e6bf54110237e8abef06e80cb58838bddecb29b888f50c686d8bcd",
+        "semantic_digest": "sha256:41d10191b7bba0a9ff8511a802172635f2afb81d536b55fb767f454e4f778129",
+        "providers": [
+          {
+            "source": "datadog/datadog",
+            "version": "= 4.19.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "google",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+        "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
+        "providers": [
+          {
+            "source": "hashicorp/google",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          },
+          {
+            "source": "hashicorp/google-beta",
+            "version": "= 8.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "grafana",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:4dc88a08552555bcfbc5986fbaa618fa234e49c97d0f049c2f79ccf6ee843756",
+        "semantic_digest": "sha256:f2bae3da1e32fe12ad403f2ae8618ecc7d808f26650084fdc140e5e886b1bde1",
+        "providers": [
+          {
+            "source": "grafana/grafana",
+            "version": "= 4.45.2",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "hcp",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e35be0dc422fc6e26a5980e10ffbd1beea8b280b4eaf4a5bf610bf1b67a3a993",
+        "semantic_digest": "sha256:629912e0dd22c0c3dd80c0c5db571b2949625b306da52a823c20dff4b07b3119",
+        "providers": [
+          {
+            "source": "hashicorp/hcp",
+            "version": "= 0.114.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "kestra",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:6b0ddca1674fa7c1cd77773b13339cd1dccbcc6fc283a0cf5c4652c1f4e1ef4a",
+        "semantic_digest": "sha256:4b0591ab0f416c6b33746dd39799eb031e7f2bb4407830ddd39eb5b0462e0b0f",
+        "providers": [
+          {
+            "source": "kestra-io/kestra",
+            "version": "< 1.0.0, >= 0.15.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "kubernetes",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:ec4e4919d9c23e7deaa9be5627b0eeff8215100ac0ec8623dbc2c50827f0d635",
+        "semantic_digest": "sha256:69308a0333bdd366b22b23d60f0b28cb40071fd812e126bbdd293d532ca69d6b",
+        "providers": [
+          {
+            "source": "hashicorp/kubernetes",
+            "version": "< 3.0.0, >= 2.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "mongodb-atlas",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:b8d3c04aa823e5480ad305e54f42eb312a721a9a19a5edcf7019d43b94d14895",
+        "semantic_digest": "sha256:7e756d96f8793ee076095ef46d7fca102bd238852790f00fcc6d096b11462b67",
+        "providers": [
+          {
+            "source": "mongodb/mongodbatlas",
+            "version": "= 2.16.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "newrelic",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:e2e3f23599f72182bcd976692133e65b067a40129f8fd8768c03be3004462c1d",
+        "semantic_digest": "sha256:5e932f3a168c07047040df16e72e94dfb111b554816200bc11e1d25d5f325802",
+        "providers": [
+          {
+            "source": "newrelic/newrelic",
+            "version": "= 3.96.4",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "okta",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:0455861eb29ab6b80d446c9da591e018f892fb70d607d45a4368c6fa7b17d9fd",
+        "semantic_digest": "sha256:900ad252631e91b2051ad3b19c6ec15b7c6c8e34e0eed2819be5668d3e6ed1c8",
+        "providers": [
+          {
+            "source": "okta/okta",
+            "version": "= 7.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "rf",
+        "kind": "vocabulary",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "semantic_digest": "sha256:cab0d0c0283c2b5a4a689d9bbda36a09d439ca6d46db78f4fadfb1c7fd6849c5",
+        "providers": [],
+        "dependencies": []
+      },
+      {
+        "id": "secrets",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:866a25eefffe767181d3edef3382b7219137d1049f9b9275af0fefe595892c12",
+        "semantic_digest": "sha256:95d5b00591b87cc9e530b5d539f580f43ed17919eb29eef05e96d54625c0983e",
+        "providers": [
+          {
+            "source": "hashicorp/random",
+            "version": "< 4.0.0, >= 3.0.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "snowflake",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:98f106e47db09ed898ab5119ad0acfa66770322c8a9047e302e58c1e18144a1c",
+        "semantic_digest": "sha256:1590159f7dba1e322e840b89e7f591ef5558e0877b884cf22bdce6e5393af510",
+        "providers": [
+          {
+            "source": "snowflakedb/snowflake",
+            "version": "= 2.20.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      },
+      {
+        "id": "vault",
+        "kind": "dialect",
+        "origin": "supplied",
+        "version": "0.1.0",
+        "content_digest": "sha256:908d55f1f2689e111f2ec7540999d73a2697da9f9f2cf0b4491f12a42f10d178",
+        "semantic_digest": "sha256:48f428f93b364f042f77a2d46649d0d3cef147f667cca72a3568bd9f13c6c936",
+        "providers": [
+          {
+            "source": "hashicorp/vault",
+            "version": "= 5.11.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": [
+          "rf"
+        ]
+      }
+    ],
+    "concepts": [
+      {
+        "id": "azure.concept.dns-zone",
+        "owner": "azure",
+        "name": "dns-zone",
+        "description": "A managed DNS namespace containing resource records."
+      },
+      {
+        "id": "azure.concept.managed-nat",
+        "owner": "azure",
+        "name": "managed-nat",
+        "description": "A managed network address translation service."
+      },
+      {
+        "id": "azure.concept.network-peering",
+        "owner": "azure",
+        "name": "network-peering",
+        "description": "A direct private connectivity agreement between virtual networks."
+      },
+      {
+        "id": "azure.concept.network-policy-detail",
+        "owner": "azure",
+        "name": "network-policy-detail",
+        "description": "A route, security rule, association, or network policy supporting Azure networking."
+      },
+      {
+        "id": "azure.concept.private-network-link",
+        "owner": "azure",
+        "name": "private-network-link",
+        "description": "An Azure Private DNS virtual network link."
+      },
+      {
+        "id": "azure.concept.public-address",
+        "owner": "azure",
+        "name": "public-address",
+        "description": "A public Azure IP address exposed to network traffic."
+      },
+      {
+        "id": "azure.concept.resource-group",
+        "owner": "azure",
+        "name": "resource-group",
+        "description": "An Azure Resource Group lifecycle and access boundary."
+      },
+      {
+        "id": "rf.concept.subnet",
+        "owner": "rf",
+        "name": "subnet",
+        "description": "A declared native subnet, not a CIDR literal."
+      },
+      {
+        "id": "rf.concept.virtual-network",
+        "owner": "rf",
+        "name": "virtual-network",
+        "description": "An explicitly declared virtual network."
+      }
+    ],
+    "contexts": [
+      {
+        "id": "azure.context.ownership",
+        "owner": "azure",
+        "name": "ownership",
+        "description": "Administrative or lifecycle ownership."
+      },
+      {
+        "id": "rf.context.network",
+        "owner": "rf",
+        "name": "network",
+        "description": "A declared network attachment without a connectivity guarantee."
+      }
+    ],
+    "relations": [
+      {
+        "id": "azure.relation.peers-with",
+        "owner": "azure",
+        "name": "peers-with"
+      }
+    ],
+    "rules": [
+      {
+        "id": "azure.rule.nat-gateway",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_nat_gateway",
+        "concept": "azure.concept.managed-nat",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:02e31a48d55db6c22b45a968bef5a15eb0fbf73f61d0694579c256c5ae331b48"
+        ]
+      },
+      {
+        "id": "azure.rule.nat-gateway-public-ip-association",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_nat_gateway_public_ip_association",
+        "concept": "azure.concept.network-policy-detail",
+        "emissions": [
+          "emission:c83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+          "emission:faca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea"
+        ]
+      },
+      {
+        "id": "azure.rule.nat-gateway-public-ip-prefix-association",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_nat_gateway_public_ip_prefix_association",
+        "concept": "azure.concept.network-policy-detail",
+        "emissions": [
+          "emission:2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182",
+          "emission:a2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de"
+        ]
+      },
+      {
+        "id": "azure.rule.private-dns-zone",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_private_dns_zone",
+        "concept": "azure.concept.dns-zone",
+        "identity": {
+          "attributes": [
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:c15439a5cbe1e5e1a2e3e925aacd5509a2e6ac1865667dfeb9bb019f74da40e4"
+        ]
+      },
+      {
+        "id": "azure.rule.private-dns-zone-vnet-link",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_private_dns_zone_virtual_network_link",
+        "concept": "azure.concept.private-network-link",
+        "emissions": [
+          "emission:1237740c94294d51f728d4b84790ca7a5df4d9a6787c7a0ab1d0e07489ab355b",
+          "emission:3738a5d6ef45fb283934fe01b661f258a51a831bcbae0748c2e467e689876384",
+          "emission:4dd3cd6f55b2b4872b902c41242337eae3c5fe5c4bdcc0fd4584394ffe987a17"
+        ]
+      },
+      {
+        "id": "azure.rule.public-address",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_public_ip",
+        "concept": "azure.concept.public-address",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:17a367cb6719c4b7dd68612496b7c035116af0d8d633ebc4dadccb6a85d70459"
+        ]
+      },
+      {
+        "id": "azure.rule.public-ip-prefix",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_public_ip_prefix",
+        "concept": "azure.concept.public-address",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:0006f42784d3dde3f3fe725d9f57b597c326aa20ce57276be93774dd104de691"
+        ]
+      },
+      {
+        "id": "azure.rule.resource-group",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_resource_group",
+        "concept": "azure.concept.resource-group",
+        "identity": {
+          "attributes": [
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "azure.rule.subnet",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_subnet",
+        "concept": "rf.concept.subnet",
+        "identity": {
+          "attributes": [
+            "id"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id"
+          ]
+        },
+        "emissions": [
+          "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+          "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087"
+        ]
+      },
+      {
+        "id": "azure.rule.subnet-nat-gateway-association",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_subnet_nat_gateway_association",
+        "concept": "azure.concept.network-policy-detail",
+        "emissions": [
+          "emission:19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+          "emission:fcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017"
+        ]
+      },
+      {
+        "id": "azure.rule.virtual-network",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_virtual_network",
+        "concept": "rf.concept.virtual-network",
+        "identity": {
+          "attributes": [
+            "id",
+            "name"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "id",
+            "name"
+          ]
+        },
+        "emissions": [
+          "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        ]
+      },
+      {
+        "id": "azure.rule.virtual-network-peering",
+        "owner": "azure",
+        "match_kind": "resource",
+        "match_type": "azurerm_virtual_network_peering",
+        "concept": "azure.concept.network-peering",
+        "emissions": [
+          "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+          "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2"
+        ]
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:0006f42784d3dde3f3fe725d9f57b597c326aa20ce57276be93774dd104de691",
+        "rule": "azure.rule.public-ip-prefix",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+        "rule": "azure.rule.subnet",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:02e31a48d55db6c22b45a968bef5a15eb0fbf73f61d0694579c256c5ae331b48",
+        "rule": "azure.rule.nat-gateway",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:1237740c94294d51f728d4b84790ca7a5df4d9a6787c7a0ab1d0e07489ab355b",
+        "rule": "azure.rule.private-dns-zone-vnet-link",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "via": "source.virtual_network_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:17a367cb6719c4b7dd68612496b7c035116af0d8d633ebc4dadccb6a85d70459",
+        "rule": "azure.rule.public-address",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+        "rule": "azure.rule.subnet-nat-gateway-association",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.subnet"
+        },
+        "via": "source.subnet_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182",
+        "rule": "azure.rule.nat-gateway-public-ip-prefix-association",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.managed-nat"
+        },
+        "via": "source.nat_gateway_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:3738a5d6ef45fb283934fe01b661f258a51a831bcbae0748c2e467e689876384",
+        "rule": "azure.rule.private-dns-zone-vnet-link",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.dns-zone"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.private_dns_zone_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:4dd3cd6f55b2b4872b902c41242337eae3c5fe5c4bdcc0fd4584394ffe987a17",
+        "rule": "azure.rule.private-dns-zone-vnet-link",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.dns-zone"
+        },
+        "via": "source.private_dns_zone_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+        "rule": "azure.rule.virtual-network",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+        "rule": "azure.rule.virtual-network-peering",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:a2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de",
+        "rule": "azure.rule.nat-gateway-public-ip-prefix-association",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.public-address"
+        },
+        "via": "source.public_ip_prefix_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+        "rule": "azure.rule.subnet",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.virtual_network_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:c15439a5cbe1e5e1a2e3e925aacd5509a2e6ac1865667dfeb9bb019f74da40e4",
+        "rule": "azure.rule.private-dns-zone",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.resource-group"
+        },
+        "dimension": "azure.context.ownership",
+        "via": "source.resource_group_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:c83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+        "rule": "azure.rule.nat-gateway-public-ip-association",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.managed-nat"
+        },
+        "via": "source.nat_gateway_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+        "rule": "azure.rule.virtual-network-peering",
+        "kind": "relation",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "predicate": "azure.relation.peers-with",
+        "via": "source.remote_virtual_network_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+        "rule": "azure.rule.virtual-network-peering",
+        "kind": "context",
+        "to": {
+          "kind": "concept",
+          "id": "rf.concept.virtual-network"
+        },
+        "dimension": "rf.context.network",
+        "via": "source.virtual_network_name",
+        "match": {
+          "by": [
+            "name"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:faca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea",
+        "rule": "azure.rule.nat-gateway-public-ip-association",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.public-address"
+        },
+        "via": "source.public_ip_address_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      },
+      {
+        "id": "emission:fcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017",
+        "rule": "azure.rule.subnet-nat-gateway-association",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "azure.concept.managed-nat"
+        },
+        "via": "source.nat_gateway_id",
+        "match": {
+          "by": [
+            "id"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "deny",
+        "disclose": "none"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:azurerm_nat_gateway.egress",
+          "kind": "resource",
+          "type": "azurerm_nat_gateway",
+          "name": "egress",
+          "address": "azurerm_nat_gateway.egress",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_nat_gateway_public_ip_association.egress",
+          "kind": "resource",
+          "type": "azurerm_nat_gateway_public_ip_association",
+          "name": "egress",
+          "address": "azurerm_nat_gateway_public_ip_association.egress",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_nat_gateway_public_ip_association.unknown",
+          "kind": "resource",
+          "type": "azurerm_nat_gateway_public_ip_association",
+          "name": "unknown",
+          "address": "azurerm_nat_gateway_public_ip_association.unknown",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "kind": "resource",
+          "type": "azurerm_nat_gateway_public_ip_prefix_association",
+          "name": "egress",
+          "address": "azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "kind": "resource",
+          "type": "azurerm_nat_gateway_public_ip_prefix_association",
+          "name": "unknown",
+          "address": "azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_private_dns_zone.internal",
+          "kind": "resource",
+          "type": "azurerm_private_dns_zone",
+          "name": "internal",
+          "address": "azurerm_private_dns_zone.internal",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "kind": "resource",
+          "type": "azurerm_private_dns_zone_virtual_network_link",
+          "name": "platform",
+          "address": "azurerm_private_dns_zone_virtual_network_link.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_public_ip.egress",
+          "kind": "resource",
+          "type": "azurerm_public_ip",
+          "name": "egress",
+          "address": "azurerm_public_ip.egress",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_public_ip_prefix.egress",
+          "kind": "resource",
+          "type": "azurerm_public_ip_prefix",
+          "name": "egress",
+          "address": "azurerm_public_ip_prefix.egress",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_resource_group.network",
+          "kind": "resource",
+          "type": "azurerm_resource_group",
+          "name": "network",
+          "address": "azurerm_resource_group.network",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_subnet.workloads",
+          "kind": "resource",
+          "type": "azurerm_subnet",
+          "name": "workloads",
+          "address": "azurerm_subnet.workloads",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_subnet_nat_gateway_association.unknown",
+          "kind": "resource",
+          "type": "azurerm_subnet_nat_gateway_association",
+          "name": "unknown",
+          "address": "azurerm_subnet_nat_gateway_association.unknown",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_subnet_nat_gateway_association.workloads",
+          "kind": "resource",
+          "type": "azurerm_subnet_nat_gateway_association",
+          "name": "workloads",
+          "address": "azurerm_subnet_nat_gateway_association.workloads",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_virtual_network.platform",
+          "kind": "resource",
+          "type": "azurerm_virtual_network",
+          "name": "platform",
+          "address": "azurerm_virtual_network.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_virtual_network.remote",
+          "kind": "resource",
+          "type": "azurerm_virtual_network",
+          "name": "remote",
+          "address": "azurerm_virtual_network.remote",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_virtual_network_peering.literal",
+          "kind": "resource",
+          "type": "azurerm_virtual_network_peering",
+          "name": "literal",
+          "address": "azurerm_virtual_network_peering.literal",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_virtual_network_peering.platform",
+          "kind": "resource",
+          "type": "azurerm_virtual_network_peering",
+          "name": "platform",
+          "address": "azurerm_virtual_network_peering.platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_virtual_network_peering.remote_to_platform",
+          "kind": "resource",
+          "type": "azurerm_virtual_network_peering",
+          "name": "remote_to_platform",
+          "address": "azurerm_virtual_network_peering.remote_to_platform",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:azurerm_virtual_network_peering.unknown",
+          "kind": "resource",
+          "type": "azurerm_virtual_network_peering",
+          "name": "unknown",
+          "address": "azurerm_virtual_network_peering.unknown",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:terraform_data.unknown_id",
+          "kind": "resource",
+          "type": "terraform_data",
+          "name": "unknown_id",
+          "address": "terraform_data.unknown_id",
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "representation:1:azurerm_nat_gateway.egress",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_nat_gateway.egress",
+          "address": "azurerm_nat_gateway.egress",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.nat-gateway"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.nat-gateway",
+          "concept": "azure.concept.managed-nat",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_nat_gateway_public_ip_association.egress",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_nat_gateway_public_ip_association.egress",
+          "address": "azurerm_nat_gateway_public_ip_association.egress",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.nat-gateway-public-ip-association"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.nat-gateway-public-ip-association",
+          "concept": "azure.concept.network-policy-detail",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_nat_gateway_public_ip_association.unknown",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_nat_gateway_public_ip_association.unknown",
+          "address": "azurerm_nat_gateway_public_ip_association.unknown",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.nat-gateway-public-ip-association"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.nat-gateway-public-ip-association",
+          "concept": "azure.concept.network-policy-detail",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "address": "azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.nat-gateway-public-ip-prefix-association"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.nat-gateway-public-ip-prefix-association",
+          "concept": "azure.concept.network-policy-detail",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "address": "azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.nat-gateway-public-ip-prefix-association"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.nat-gateway-public-ip-prefix-association",
+          "concept": "azure.concept.network-policy-detail",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_private_dns_zone.internal",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_private_dns_zone.internal",
+          "address": "azurerm_private_dns_zone.internal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.private-dns-zone"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.private-dns-zone",
+          "concept": "azure.concept.dns-zone",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "address": "azurerm_private_dns_zone_virtual_network_link.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.private-dns-zone-vnet-link"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.private-dns-zone-vnet-link",
+          "concept": "azure.concept.private-network-link",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_public_ip.egress",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_public_ip.egress",
+          "address": "azurerm_public_ip.egress",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.public-address"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.public-address",
+          "concept": "azure.concept.public-address",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_public_ip_prefix.egress",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_public_ip_prefix.egress",
+          "address": "azurerm_public_ip_prefix.egress",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.public-ip-prefix"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.public-ip-prefix",
+          "concept": "azure.concept.public-address",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_resource_group.network",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_resource_group.network",
+          "address": "azurerm_resource_group.network",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.resource-group"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.resource-group",
+          "concept": "azure.concept.resource-group",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_subnet.workloads",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_subnet.workloads",
+          "address": "azurerm_subnet.workloads",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.subnet"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.subnet",
+          "concept": "rf.concept.subnet",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_subnet_nat_gateway_association.unknown",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_subnet_nat_gateway_association.unknown",
+          "address": "azurerm_subnet_nat_gateway_association.unknown",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.subnet-nat-gateway-association"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.subnet-nat-gateway-association",
+          "concept": "azure.concept.network-policy-detail",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_subnet_nat_gateway_association.workloads",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_subnet_nat_gateway_association.workloads",
+          "address": "azurerm_subnet_nat_gateway_association.workloads",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.subnet-nat-gateway-association"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.subnet-nat-gateway-association",
+          "concept": "azure.concept.network-policy-detail",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_virtual_network.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_virtual_network.platform",
+          "address": "azurerm_virtual_network.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.virtual-network"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.virtual-network",
+          "concept": "rf.concept.virtual-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_virtual_network.remote",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_virtual_network.remote",
+          "address": "azurerm_virtual_network.remote",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.virtual-network"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.virtual-network",
+          "concept": "rf.concept.virtual-network",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_virtual_network_peering.literal",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_virtual_network_peering.literal",
+          "address": "azurerm_virtual_network_peering.literal",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.virtual-network-peering"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.virtual-network-peering",
+          "concept": "azure.concept.network-peering",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_virtual_network_peering.platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_virtual_network_peering.platform",
+          "address": "azurerm_virtual_network_peering.platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.virtual-network-peering"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.virtual-network-peering",
+          "concept": "azure.concept.network-peering",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_virtual_network_peering.remote_to_platform",
+          "address": "azurerm_virtual_network_peering.remote_to_platform",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.virtual-network-peering"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.virtual-network-peering",
+          "concept": "azure.concept.network-peering",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:azurerm_virtual_network_peering.unknown",
+          "kind": "managed",
+          "declaration": "declaration:1:azurerm_virtual_network_peering.unknown",
+          "address": "azurerm_virtual_network_peering.unknown",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/azurerm",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "azure.rule.virtual-network-peering"
+            ],
+            "diagnostics": []
+          },
+          "rule": "azure.rule.virtual-network-peering",
+          "concept": "azure.concept.network-peering",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:terraform_data.unknown_id",
+          "kind": "managed",
+          "declaration": "declaration:1:terraform_data.unknown_id",
+          "address": "terraform_data.unknown_id",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "terraform.io/builtin/terraform",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "none",
+            "candidates": [],
+            "diagnostics": []
+          },
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_nat_gateway.egress:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_nat_gateway.egress",
+          "to": "representation:1:azurerm_resource_group.network",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:02e31a48d55db6c22b45a968bef5a15eb0fbf73f61d0694579c256c5ae331b48",
+              "rule": "azure.rule.nat-gateway",
+              "closure": "closure:representation%3A1%3Aazurerm_nat_gateway.egress:emission%3A02e31a48d55db6c22b45a968bef5a15eb0fbf73f61d0694579c256c5ae331b48",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_private_dns_zone.internal:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_private_dns_zone.internal",
+          "to": "representation:1:azurerm_resource_group.network",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:c15439a5cbe1e5e1a2e3e925aacd5509a2e6ac1865667dfeb9bb019f74da40e4",
+              "rule": "azure.rule.private-dns-zone",
+              "closure": "closure:representation%3A1%3Aazurerm_private_dns_zone.internal:emission%3Ac15439a5cbe1e5e1a2e3e925aacd5509a2e6ac1865667dfeb9bb019f74da40e4",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_private_dns_zone.internal",
+          "from": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "to": "representation:1:azurerm_private_dns_zone.internal",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:3738a5d6ef45fb283934fe01b661f258a51a831bcbae0748c2e467e689876384",
+              "rule": "azure.rule.private-dns-zone-vnet-link",
+              "closure": "closure:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:emission%3A3738a5d6ef45fb283934fe01b661f258a51a831bcbae0748c2e467e689876384",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_public_ip.egress:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_public_ip.egress",
+          "to": "representation:1:azurerm_resource_group.network",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:17a367cb6719c4b7dd68612496b7c035116af0d8d633ebc4dadccb6a85d70459",
+              "rule": "azure.rule.public-address",
+              "closure": "closure:representation%3A1%3Aazurerm_public_ip.egress:emission%3A17a367cb6719c4b7dd68612496b7c035116af0d8d633ebc4dadccb6a85d70459",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_public_ip_prefix.egress:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_public_ip_prefix.egress",
+          "to": "representation:1:azurerm_resource_group.network",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:0006f42784d3dde3f3fe725d9f57b597c326aa20ce57276be93774dd104de691",
+              "rule": "azure.rule.public-ip-prefix",
+              "closure": "closure:representation%3A1%3Aazurerm_public_ip_prefix.egress:emission%3A0006f42784d3dde3f3fe725d9f57b597c326aa20ce57276be93774dd104de691",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.workloads:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_subnet.workloads",
+          "to": "representation:1:azurerm_resource_group.network",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+              "rule": "azure.rule.subnet",
+              "closure": "closure:representation%3A1%3Aazurerm_subnet.workloads:emission%3A009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network.platform",
+          "to": "representation:1:azurerm_resource_group.network",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+              "rule": "azure.rule.virtual-network",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network.platform:emission%3A88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.remote:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network.remote",
+          "to": "representation:1:azurerm_resource_group.network",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+              "rule": "azure.rule.virtual-network",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network.remote:emission%3A88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.literal:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.literal",
+          "to": "representation:1:azurerm_resource_group.network",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+              "rule": "azure.rule.virtual-network-peering",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.literal:emission%3A9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.platform",
+          "to": "representation:1:azurerm_resource_group.network",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+              "rule": "azure.rule.virtual-network-peering",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.platform:emission%3A9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "representation:1:azurerm_resource_group.network",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+              "rule": "azure.rule.virtual-network-peering",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:emission%3A9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.unknown:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.unknown",
+          "to": "representation:1:azurerm_resource_group.network",
+          "dimension": "azure.context.ownership",
+          "provenance": [
+            {
+              "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+              "rule": "azure.rule.virtual-network-peering",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.unknown:emission%3A9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aazurerm_subnet.workloads:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_subnet.workloads",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+              "rule": "azure.rule.subnet",
+              "closure": "closure:representation%3A1%3Aazurerm_subnet.workloads:emission%3Ab6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.literal:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_virtual_network_peering.literal",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+              "rule": "azure.rule.virtual-network-peering",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.literal:emission%3Ae94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_virtual_network_peering.platform",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+              "rule": "azure.rule.virtual-network-peering",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.platform:emission%3Ae94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+              "evidence": "both"
+            }
+          ]
+        },
+        {
+          "id": "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_virtual_network.remote",
+          "from": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "representation:1:azurerm_virtual_network.remote",
+          "dimension": "rf.context.network",
+          "provenance": [
+            {
+              "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+              "rule": "azure.rule.virtual-network-peering",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:emission%3Ae94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+              "evidence": "both"
+            }
+          ]
+        }
+      ],
+      "contributions": [
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_association.egress",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "provenance": [
+            {
+              "emission": "emission:c83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+              "rule": "azure.rule.nat-gateway-public-ip-association",
+              "closure": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:emission%3Ac83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:representation%3A1%3Aazurerm_public_ip.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_association.egress",
+          "to": "representation:1:azurerm_public_ip.egress",
+          "provenance": [
+            {
+              "emission": "emission:faca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea",
+              "rule": "azure.rule.nat-gateway-public-ip-association",
+              "closure": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:emission%3Afaca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "provenance": [
+            {
+              "emission": "emission:2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182",
+              "rule": "azure.rule.nat-gateway-public-ip-prefix-association",
+              "closure": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:emission%3A2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:representation%3A1%3Aazurerm_public_ip_prefix.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "to": "representation:1:azurerm_public_ip_prefix.egress",
+          "provenance": [
+            {
+              "emission": "emission:a2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de",
+              "rule": "azure.rule.nat-gateway-public-ip-prefix-association",
+              "closure": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:emission%3Aa2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "provenance": [
+            {
+              "emission": "emission:2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182",
+              "rule": "azure.rule.nat-gateway-public-ip-prefix-association",
+              "closure": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown:emission%3A2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_private_dns_zone.internal",
+          "from": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "to": "representation:1:azurerm_private_dns_zone.internal",
+          "provenance": [
+            {
+              "emission": "emission:4dd3cd6f55b2b4872b902c41242337eae3c5fe5c4bdcc0fd4584394ffe987a17",
+              "rule": "azure.rule.private-dns-zone-vnet-link",
+              "closure": "closure:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:emission%3A4dd3cd6f55b2b4872b902c41242337eae3c5fe5c4bdcc0fd4584394ffe987a17",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "provenance": [
+            {
+              "emission": "emission:1237740c94294d51f728d4b84790ca7a5df4d9a6787c7a0ab1d0e07489ab355b",
+              "rule": "azure.rule.private-dns-zone-vnet-link",
+              "closure": "closure:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:emission%3A1237740c94294d51f728d4b84790ca7a5df4d9a6787c7a0ab1d0e07489ab355b",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_subnet_nat_gateway_association.workloads",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "provenance": [
+            {
+              "emission": "emission:fcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017",
+              "rule": "azure.rule.subnet-nat-gateway-association",
+              "closure": "closure:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:emission%3Afcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:representation%3A1%3Aazurerm_subnet.workloads",
+          "from": "representation:1:azurerm_subnet_nat_gateway_association.workloads",
+          "to": "representation:1:azurerm_subnet.workloads",
+          "provenance": [
+            {
+              "emission": "emission:19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+              "rule": "azure.rule.subnet-nat-gateway-association",
+              "closure": "closure:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:emission%3A19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "id": "relation:azure.relation.peers-with:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_virtual_network.remote",
+          "from": "representation:1:azurerm_virtual_network_peering.platform",
+          "to": "representation:1:azurerm_virtual_network.remote",
+          "predicate": "azure.relation.peers-with",
+          "provenance": [
+            {
+              "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+              "rule": "azure.rule.virtual-network-peering",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.platform:emission%3Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+              "evidence": "traversal"
+            }
+          ]
+        },
+        {
+          "id": "relation:azure.relation.peers-with:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "predicate": "azure.relation.peers-with",
+          "provenance": [
+            {
+              "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+              "rule": "azure.rule.virtual-network-peering",
+              "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:emission%3Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+              "evidence": "traversal"
+            }
+          ]
+        }
+      ],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Aazurerm_nat_gateway.egress:emission%3A02e31a48d55db6c22b45a968bef5a15eb0fbf73f61d0694579c256c5ae331b48",
+          "representation": "representation:1:azurerm_nat_gateway.egress",
+          "emission": "emission:02e31a48d55db6c22b45a968bef5a15eb0fbf73f61d0694579c256c5ae331b48",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_nat_gateway.egress:representation%3A1%3Aazurerm_resource_group.network"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:emission%3Ac83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.egress",
+          "emission": "emission:c83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:representation%3A1%3Aazurerm_nat_gateway.egress"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:emission%3Afaca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.egress",
+          "emission": "emission:faca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:representation%3A1%3Aazurerm_public_ip.egress"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.unknown:emission%3Ac83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.unknown",
+          "emission": "emission:c83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.unknown:emission%3Afaca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.unknown",
+          "emission": "emission:faca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:emission%3A2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "emission": "emission:2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:representation%3A1%3Aazurerm_nat_gateway.egress"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:emission%3Aa2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "emission": "emission:a2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:representation%3A1%3Aazurerm_public_ip_prefix.egress"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown:emission%3A2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "emission": "emission:2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown:representation%3A1%3Aazurerm_nat_gateway.egress"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown:emission%3Aa2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "emission": "emission:a2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_private_dns_zone.internal:emission%3Ac15439a5cbe1e5e1a2e3e925aacd5509a2e6ac1865667dfeb9bb019f74da40e4",
+          "representation": "representation:1:azurerm_private_dns_zone.internal",
+          "emission": "emission:c15439a5cbe1e5e1a2e3e925aacd5509a2e6ac1865667dfeb9bb019f74da40e4",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_private_dns_zone.internal:representation%3A1%3Aazurerm_resource_group.network"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:emission%3A1237740c94294d51f728d4b84790ca7a5df4d9a6787c7a0ab1d0e07489ab355b",
+          "representation": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "emission": "emission:1237740c94294d51f728d4b84790ca7a5df4d9a6787c7a0ab1d0e07489ab355b",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_virtual_network.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:emission%3A3738a5d6ef45fb283934fe01b661f258a51a831bcbae0748c2e467e689876384",
+          "representation": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "emission": "emission:3738a5d6ef45fb283934fe01b661f258a51a831bcbae0748c2e467e689876384",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_private_dns_zone.internal"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:emission%3A4dd3cd6f55b2b4872b902c41242337eae3c5fe5c4bdcc0fd4584394ffe987a17",
+          "representation": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "emission": "emission:4dd3cd6f55b2b4872b902c41242337eae3c5fe5c4bdcc0fd4584394ffe987a17",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_private_dns_zone.internal"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_public_ip.egress:emission%3A17a367cb6719c4b7dd68612496b7c035116af0d8d633ebc4dadccb6a85d70459",
+          "representation": "representation:1:azurerm_public_ip.egress",
+          "emission": "emission:17a367cb6719c4b7dd68612496b7c035116af0d8d633ebc4dadccb6a85d70459",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_public_ip.egress:representation%3A1%3Aazurerm_resource_group.network"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_public_ip_prefix.egress:emission%3A0006f42784d3dde3f3fe725d9f57b597c326aa20ce57276be93774dd104de691",
+          "representation": "representation:1:azurerm_public_ip_prefix.egress",
+          "emission": "emission:0006f42784d3dde3f3fe725d9f57b597c326aa20ce57276be93774dd104de691",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_public_ip_prefix.egress:representation%3A1%3Aazurerm_resource_group.network"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_subnet.workloads:emission%3A009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+          "representation": "representation:1:azurerm_subnet.workloads",
+          "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.workloads:representation%3A1%3Aazurerm_resource_group.network"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_subnet.workloads:emission%3Ab6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+          "representation": "representation:1:azurerm_subnet.workloads",
+          "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aazurerm_subnet.workloads:representation%3A1%3Aazurerm_virtual_network.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 1
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_subnet_nat_gateway_association.unknown:emission%3A19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.unknown",
+          "emission": "emission:19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_subnet_nat_gateway_association.unknown:emission%3Afcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.unknown",
+          "emission": "emission:fcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:emission%3A19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.workloads",
+          "emission": "emission:19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:representation%3A1%3Aazurerm_subnet.workloads"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:emission%3Afcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.workloads",
+          "emission": "emission:fcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:representation%3A1%3Aazurerm_nat_gateway.egress"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network.platform:emission%3A88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+          "representation": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:representation%3A1%3Aazurerm_resource_group.network"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network.remote:emission%3A88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+          "representation": "representation:1:azurerm_virtual_network.remote",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.remote:representation%3A1%3Aazurerm_resource_group.network"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.literal:emission%3A9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+          "representation": "representation:1:azurerm_virtual_network_peering.literal",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.literal:representation%3A1%3Aazurerm_resource_group.network"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.literal:emission%3Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "representation": "representation:1:azurerm_virtual_network_peering.literal",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "outcome": "indeterminate",
+          "reason": "ambiguous_unknown",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 2,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.literal:emission%3Ae94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "representation": "representation:1:azurerm_virtual_network_peering.literal",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.literal:representation%3A1%3Aazurerm_virtual_network.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 1
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.platform:emission%3A9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+          "representation": "representation:1:azurerm_virtual_network_peering.platform",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_resource_group.network"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.platform:emission%3Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "representation": "representation:1:azurerm_virtual_network_peering.platform",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "outcome": "resolved",
+          "facts": [
+            "relation:azure.relation.peers-with:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_virtual_network.remote"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.platform:emission%3Ae94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "representation": "representation:1:azurerm_virtual_network_peering.platform",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_virtual_network.platform"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 1
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:emission%3A9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+          "representation": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_resource_group.network"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:emission%3Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "representation": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "outcome": "resolved",
+          "facts": [
+            "relation:azure.relation.peers-with:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_virtual_network.platform"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:emission%3Ae94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "representation": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "outcome": "resolved",
+          "facts": [
+            "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_virtual_network.remote"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 1
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.unknown:emission%3A9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+          "representation": "representation:1:azurerm_virtual_network_peering.unknown",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b",
+          "outcome": "resolved",
+          "facts": [
+            "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.unknown:representation%3A1%3Aazurerm_resource_group.network"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.unknown:emission%3Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "representation": "representation:1:azurerm_virtual_network_peering.unknown",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Aazurerm_virtual_network_peering.unknown:emission%3Ae94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "representation": "representation:1:azurerm_virtual_network_peering.unknown",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "outcome": "indeterminate",
+          "reason": "unknown_until_apply",
+          "facts": [],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_nat_gateway.egress:declaration%3A1%3Aazurerm_resource_group.network",
+          "from": "declaration:1:azurerm_nat_gateway.egress",
+          "to": "declaration:1:azurerm_resource_group.network",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:declaration%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "declaration:1:azurerm_nat_gateway_public_ip_association.egress",
+          "to": "declaration:1:azurerm_nat_gateway.egress",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:declaration%3A1%3Aazurerm_public_ip.egress",
+          "from": "declaration:1:azurerm_nat_gateway_public_ip_association.egress",
+          "to": "declaration:1:azurerm_public_ip.egress",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_nat_gateway_public_ip_association.unknown:declaration%3A1%3Aterraform_data.unknown_id",
+          "from": "declaration:1:azurerm_nat_gateway_public_ip_association.unknown",
+          "to": "declaration:1:terraform_data.unknown_id",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:declaration%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "declaration:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "to": "declaration:1:azurerm_nat_gateway.egress",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:declaration%3A1%3Aazurerm_public_ip_prefix.egress",
+          "from": "declaration:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "to": "declaration:1:azurerm_public_ip_prefix.egress",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown:declaration%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "declaration:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "to": "declaration:1:azurerm_nat_gateway.egress",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown:declaration%3A1%3Aterraform_data.unknown_id",
+          "from": "declaration:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "to": "declaration:1:terraform_data.unknown_id",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_private_dns_zone.internal:declaration%3A1%3Aazurerm_resource_group.network",
+          "from": "declaration:1:azurerm_private_dns_zone.internal",
+          "to": "declaration:1:azurerm_resource_group.network",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:declaration%3A1%3Aazurerm_private_dns_zone.internal",
+          "from": "declaration:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "to": "declaration:1:azurerm_private_dns_zone.internal",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:declaration%3A1%3Aazurerm_virtual_network.platform",
+          "from": "declaration:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "to": "declaration:1:azurerm_virtual_network.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_public_ip.egress:declaration%3A1%3Aazurerm_resource_group.network",
+          "from": "declaration:1:azurerm_public_ip.egress",
+          "to": "declaration:1:azurerm_resource_group.network",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_public_ip_prefix.egress:declaration%3A1%3Aazurerm_resource_group.network",
+          "from": "declaration:1:azurerm_public_ip_prefix.egress",
+          "to": "declaration:1:azurerm_resource_group.network",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_subnet.workloads:declaration%3A1%3Aazurerm_resource_group.network",
+          "from": "declaration:1:azurerm_subnet.workloads",
+          "to": "declaration:1:azurerm_resource_group.network",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_subnet.workloads:declaration%3A1%3Aazurerm_virtual_network.platform",
+          "from": "declaration:1:azurerm_subnet.workloads",
+          "to": "declaration:1:azurerm_virtual_network.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_subnet_nat_gateway_association.unknown:declaration%3A1%3Aterraform_data.unknown_id",
+          "from": "declaration:1:azurerm_subnet_nat_gateway_association.unknown",
+          "to": "declaration:1:terraform_data.unknown_id",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:declaration%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "declaration:1:azurerm_subnet_nat_gateway_association.workloads",
+          "to": "declaration:1:azurerm_nat_gateway.egress",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:declaration%3A1%3Aazurerm_subnet.workloads",
+          "from": "declaration:1:azurerm_subnet_nat_gateway_association.workloads",
+          "to": "declaration:1:azurerm_subnet.workloads",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network.platform:declaration%3A1%3Aazurerm_resource_group.network",
+          "from": "declaration:1:azurerm_virtual_network.platform",
+          "to": "declaration:1:azurerm_resource_group.network",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network.remote:declaration%3A1%3Aazurerm_resource_group.network",
+          "from": "declaration:1:azurerm_virtual_network.remote",
+          "to": "declaration:1:azurerm_resource_group.network",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network_peering.literal:declaration%3A1%3Aazurerm_resource_group.network",
+          "from": "declaration:1:azurerm_virtual_network_peering.literal",
+          "to": "declaration:1:azurerm_resource_group.network",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network_peering.platform:declaration%3A1%3Aazurerm_resource_group.network",
+          "from": "declaration:1:azurerm_virtual_network_peering.platform",
+          "to": "declaration:1:azurerm_resource_group.network",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network_peering.platform:declaration%3A1%3Aazurerm_virtual_network.platform",
+          "from": "declaration:1:azurerm_virtual_network_peering.platform",
+          "to": "declaration:1:azurerm_virtual_network.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network_peering.platform:declaration%3A1%3Aazurerm_virtual_network.remote",
+          "from": "declaration:1:azurerm_virtual_network_peering.platform",
+          "to": "declaration:1:azurerm_virtual_network.remote",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:declaration%3A1%3Aazurerm_resource_group.network",
+          "from": "declaration:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "declaration:1:azurerm_resource_group.network",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:declaration%3A1%3Aazurerm_virtual_network.platform",
+          "from": "declaration:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "declaration:1:azurerm_virtual_network.platform",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:declaration%3A1%3Aazurerm_virtual_network.remote",
+          "from": "declaration:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "declaration:1:azurerm_virtual_network.remote",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network_peering.unknown:declaration%3A1%3Aazurerm_resource_group.network",
+          "from": "declaration:1:azurerm_virtual_network_peering.unknown",
+          "to": "declaration:1:azurerm_resource_group.network",
+          "roles": [
+            "reference"
+          ]
+        },
+        {
+          "id": "dependency:declaration%3A1%3Aazurerm_virtual_network_peering.unknown:declaration%3A1%3Aterraform_data.unknown_id",
+          "from": "declaration:1:azurerm_virtual_network_peering.unknown",
+          "to": "declaration:1:terraform_data.unknown_id",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 20,
+        "resources": 20,
+        "data_sources": 0,
+        "instances": 20,
+        "managed_instances": 20,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 19,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 1,
+        "facts": 27,
+        "closures": 35,
+        "resolved": 27,
+        "absent": 0,
+        "indeterminate": 8,
+        "dependencies": 29,
+        "deposed": 0
+      }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [],
+      "representations": [],
+      "contexts": [],
+      "contributions": [],
+      "relations": [],
+      "closures": [],
+      "dependencies": [],
+      "deposed": [],
+      "accounting": {
+        "declarations": 0,
+        "resources": 0,
+        "data_sources": 0,
+        "instances": 0,
+        "managed_instances": 0,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 0,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 0,
+        "closures": 0,
+        "resolved": 0,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 0,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway.egress"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.egress"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.unknown"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.egress"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.unknown"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_private_dns_zone.internal",
+          "change": "added",
+          "representation": "representation:1:azurerm_private_dns_zone.internal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_public_ip.egress",
+          "change": "added",
+          "representation": "representation:1:azurerm_public_ip.egress"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_public_ip_prefix.egress",
+          "change": "added",
+          "representation": "representation:1:azurerm_public_ip_prefix.egress"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_resource_group.network",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.network"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_subnet.workloads",
+          "change": "added",
+          "representation": "representation:1:azurerm_subnet.workloads"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_subnet_nat_gateway_association.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.unknown"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads",
+          "change": "added",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.workloads"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_virtual_network.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_virtual_network.remote",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network.remote"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_virtual_network_peering.literal",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network_peering.literal"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_virtual_network_peering.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network_peering.platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network_peering.remote_to_platform"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aazurerm_virtual_network_peering.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network_peering.unknown"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Aterraform_data.unknown_id",
+          "change": "added",
+          "representation": "representation:1:terraform_data.unknown_id"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_nat_gateway.egress%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_nat_gateway.egress:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_nat_gateway.egress",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:02e31a48d55db6c22b45a968bef5a15eb0fbf73f61d0694579c256c5ae331b48"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_private_dns_zone.internal%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_private_dns_zone.internal:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_private_dns_zone.internal",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:c15439a5cbe1e5e1a2e3e925aacd5509a2e6ac1865667dfeb9bb019f74da40e4"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_private_dns_zone_virtual_network_link.platform%3Arepresentation%253A1%253Aazurerm_private_dns_zone.internal",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_private_dns_zone.internal",
+          "from": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "to": "representation:1:azurerm_private_dns_zone.internal",
+          "emission": "emission:3738a5d6ef45fb283934fe01b661f258a51a831bcbae0748c2e467e689876384"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_public_ip.egress%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_public_ip.egress:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_public_ip.egress",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:17a367cb6719c4b7dd68612496b7c035116af0d8d633ebc4dadccb6a85d70459"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_public_ip_prefix.egress%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_public_ip_prefix.egress:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_public_ip_prefix.egress",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:0006f42784d3dde3f3fe725d9f57b597c326aa20ce57276be93774dd104de691"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_subnet.workloads%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.workloads:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_subnet.workloads",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network.platform%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network.platform",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network.remote%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.remote:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network.remote",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.literal%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.literal:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.literal",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.platform%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.platform",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.remote_to_platform%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b"
+        },
+        {
+          "id": "change:changes:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.unknown%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.unknown:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.unknown",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_subnet.workloads%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_subnet.workloads:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_subnet.workloads",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.literal%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.literal:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_virtual_network_peering.literal",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.platform%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_virtual_network_peering.platform",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2"
+        },
+        {
+          "id": "change:changes:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.remote_to_platform%3Arepresentation%253A1%253Aazurerm_virtual_network.remote",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_virtual_network.remote",
+          "from": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "representation:1:azurerm_virtual_network.remote",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_association.egress%3Arepresentation%253A1%253Aazurerm_nat_gateway.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_association.egress",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "emission": "emission:c83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_association.egress%3Arepresentation%253A1%253Aazurerm_public_ip.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:representation%3A1%3Aazurerm_public_ip.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_association.egress",
+          "to": "representation:1:azurerm_public_ip.egress",
+          "emission": "emission:faca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_prefix_association.egress%3Arepresentation%253A1%253Aazurerm_nat_gateway.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "emission": "emission:2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_prefix_association.egress%3Arepresentation%253A1%253Aazurerm_public_ip_prefix.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:representation%3A1%3Aazurerm_public_ip_prefix.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "to": "representation:1:azurerm_public_ip_prefix.egress",
+          "emission": "emission:a2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_prefix_association.unknown%3Arepresentation%253A1%253Aazurerm_nat_gateway.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "emission": "emission:2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_private_dns_zone_virtual_network_link.platform%3Arepresentation%253A1%253Aazurerm_private_dns_zone.internal",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_private_dns_zone.internal",
+          "from": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "to": "representation:1:azurerm_private_dns_zone.internal",
+          "emission": "emission:4dd3cd6f55b2b4872b902c41242337eae3c5fe5c4bdcc0fd4584394ffe987a17"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_private_dns_zone_virtual_network_link.platform%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:1237740c94294d51f728d4b84790ca7a5df4d9a6787c7a0ab1d0e07489ab355b"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_subnet_nat_gateway_association.workloads%3Arepresentation%253A1%253Aazurerm_nat_gateway.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_subnet_nat_gateway_association.workloads",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "emission": "emission:fcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017"
+        },
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Aazurerm_subnet_nat_gateway_association.workloads%3Arepresentation%253A1%253Aazurerm_subnet.workloads",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:representation%3A1%3Aazurerm_subnet.workloads",
+          "from": "representation:1:azurerm_subnet_nat_gateway_association.workloads",
+          "to": "representation:1:azurerm_subnet.workloads",
+          "emission": "emission:19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833"
+        },
+        {
+          "id": "change:changes:added:relation%3Aazure.relation.peers-with%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.platform%3Arepresentation%253A1%253Aazurerm_virtual_network.remote",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:azure.relation.peers-with:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_virtual_network.remote",
+          "from": "representation:1:azurerm_virtual_network_peering.platform",
+          "to": "representation:1:azurerm_virtual_network.remote",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a"
+        },
+        {
+          "id": "change:changes:added:relation%3Aazure.relation.peers-with%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.remote_to_platform%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:azure.relation.peers-with:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_association.unknown%3Aemission%253Ac83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b:after",
+          "closure": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.unknown:emission%3Ac83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.unknown",
+          "emission": "emission:c83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_association.unknown%3Aemission%253Afaca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea:after",
+          "closure": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.unknown:emission%3Afaca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.unknown",
+          "emission": "emission:faca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_prefix_association.unknown%3Aemission%253Aa2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de:after",
+          "closure": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown:emission%3Aa2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "emission": "emission:a2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_subnet_nat_gateway_association.unknown%3Aemission%253A19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833:after",
+          "closure": "closure:representation%3A1%3Aazurerm_subnet_nat_gateway_association.unknown:emission%3A19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.unknown",
+          "emission": "emission:19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_subnet_nat_gateway_association.unknown%3Aemission%253Afcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017:after",
+          "closure": "closure:representation%3A1%3Aazurerm_subnet_nat_gateway_association.unknown:emission%3Afcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.unknown",
+          "emission": "emission:fcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.literal%3Aemission%253Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a:after",
+          "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.literal:emission%3Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "representation": "representation:1:azurerm_virtual_network_peering.literal",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.unknown%3Aemission%253Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a:after",
+          "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.unknown:emission%3Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "representation": "representation:1:azurerm_virtual_network_peering.unknown",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:changes:closure%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.unknown%3Aemission%253Ae94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2:after",
+          "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.unknown:emission%3Ae94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "representation": "representation:1:azurerm_virtual_network_peering.unknown",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 20,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 27,
+        "facts_removed": 0,
+        "indeterminate": 8,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway.egress"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.egress"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.unknown"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.egress"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.unknown"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_private_dns_zone.internal",
+          "change": "added",
+          "representation": "representation:1:azurerm_private_dns_zone.internal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_public_ip.egress",
+          "change": "added",
+          "representation": "representation:1:azurerm_public_ip.egress"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_public_ip_prefix.egress",
+          "change": "added",
+          "representation": "representation:1:azurerm_public_ip_prefix.egress"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_resource_group.network",
+          "change": "added",
+          "representation": "representation:1:azurerm_resource_group.network"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_subnet.workloads",
+          "change": "added",
+          "representation": "representation:1:azurerm_subnet.workloads"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_subnet_nat_gateway_association.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.unknown"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads",
+          "change": "added",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.workloads"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_virtual_network.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_virtual_network.remote",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network.remote"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_virtual_network_peering.literal",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network_peering.literal"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_virtual_network_peering.platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network_peering.platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network_peering.remote_to_platform"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aazurerm_virtual_network_peering.unknown",
+          "change": "added",
+          "representation": "representation:1:azurerm_virtual_network_peering.unknown"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Aterraform_data.unknown_id",
+          "change": "added",
+          "representation": "representation:1:terraform_data.unknown_id"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_nat_gateway.egress%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_nat_gateway.egress:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_nat_gateway.egress",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:02e31a48d55db6c22b45a968bef5a15eb0fbf73f61d0694579c256c5ae331b48"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_private_dns_zone.internal%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_private_dns_zone.internal:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_private_dns_zone.internal",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:c15439a5cbe1e5e1a2e3e925aacd5509a2e6ac1865667dfeb9bb019f74da40e4"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_private_dns_zone_virtual_network_link.platform%3Arepresentation%253A1%253Aazurerm_private_dns_zone.internal",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_private_dns_zone.internal",
+          "from": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "to": "representation:1:azurerm_private_dns_zone.internal",
+          "emission": "emission:3738a5d6ef45fb283934fe01b661f258a51a831bcbae0748c2e467e689876384"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_public_ip.egress%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_public_ip.egress:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_public_ip.egress",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:17a367cb6719c4b7dd68612496b7c035116af0d8d633ebc4dadccb6a85d70459"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_public_ip_prefix.egress%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_public_ip_prefix.egress:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_public_ip_prefix.egress",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:0006f42784d3dde3f3fe725d9f57b597c326aa20ce57276be93774dd104de691"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_subnet.workloads%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_subnet.workloads:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_subnet.workloads",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:009174d9e488bce5a4e468bc1f8030f9dac218a32c329c516657a452793a97b4"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network.platform%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.platform:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network.platform",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network.remote%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network.remote:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network.remote",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:88aff6ce93ab3a1b1b63f2ed7244107f3f8f4744bdfa8d9583b5b315e4616fb4"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.literal%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.literal:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.literal",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.platform%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.platform",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.remote_to_platform%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b"
+        },
+        {
+          "id": "change:net:added:context%3Aazure.context.ownership%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.unknown%3Arepresentation%253A1%253Aazurerm_resource_group.network",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:azure.context.ownership:representation%3A1%3Aazurerm_virtual_network_peering.unknown:representation%3A1%3Aazurerm_resource_group.network",
+          "from": "representation:1:azurerm_virtual_network_peering.unknown",
+          "to": "representation:1:azurerm_resource_group.network",
+          "emission": "emission:9a66308f033aa05251e298b34bd3e4871b0fac16aafb7777742d00b899ca389b"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_subnet.workloads%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_subnet.workloads:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_subnet.workloads",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:b6d6d809eff97aa215cfd49e68ce5ef403e5cb09ff7592b0a798fa7744b0a087"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.literal%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.literal:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_virtual_network_peering.literal",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.platform%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_virtual_network_peering.platform",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2"
+        },
+        {
+          "id": "change:net:added:context%3Arf.context.network%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.remote_to_platform%3Arepresentation%253A1%253Aazurerm_virtual_network.remote",
+          "change": "added",
+          "kind": "context",
+          "fact": "context:rf.context.network:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_virtual_network.remote",
+          "from": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "representation:1:azurerm_virtual_network.remote",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_association.egress%3Arepresentation%253A1%253Aazurerm_nat_gateway.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_association.egress",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "emission": "emission:c83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_association.egress%3Arepresentation%253A1%253Aazurerm_public_ip.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.egress:representation%3A1%3Aazurerm_public_ip.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_association.egress",
+          "to": "representation:1:azurerm_public_ip.egress",
+          "emission": "emission:faca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_prefix_association.egress%3Arepresentation%253A1%253Aazurerm_nat_gateway.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "emission": "emission:2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_prefix_association.egress%3Arepresentation%253A1%253Aazurerm_public_ip_prefix.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.egress:representation%3A1%3Aazurerm_public_ip_prefix.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.egress",
+          "to": "representation:1:azurerm_public_ip_prefix.egress",
+          "emission": "emission:a2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_prefix_association.unknown%3Arepresentation%253A1%253Aazurerm_nat_gateway.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "emission": "emission:2b6d4346ae8336e85c695ce90196adf6496c769503228a97a65b76ce8d8b5182"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_private_dns_zone_virtual_network_link.platform%3Arepresentation%253A1%253Aazurerm_private_dns_zone.internal",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_private_dns_zone.internal",
+          "from": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "to": "representation:1:azurerm_private_dns_zone.internal",
+          "emission": "emission:4dd3cd6f55b2b4872b902c41242337eae3c5fe5c4bdcc0fd4584394ffe987a17"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_private_dns_zone_virtual_network_link.platform%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_private_dns_zone_virtual_network_link.platform:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_private_dns_zone_virtual_network_link.platform",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:1237740c94294d51f728d4b84790ca7a5df4d9a6787c7a0ab1d0e07489ab355b"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_subnet_nat_gateway_association.workloads%3Arepresentation%253A1%253Aazurerm_nat_gateway.egress",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:representation%3A1%3Aazurerm_nat_gateway.egress",
+          "from": "representation:1:azurerm_subnet_nat_gateway_association.workloads",
+          "to": "representation:1:azurerm_nat_gateway.egress",
+          "emission": "emission:fcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017"
+        },
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Aazurerm_subnet_nat_gateway_association.workloads%3Arepresentation%253A1%253Aazurerm_subnet.workloads",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Aazurerm_subnet_nat_gateway_association.workloads:representation%3A1%3Aazurerm_subnet.workloads",
+          "from": "representation:1:azurerm_subnet_nat_gateway_association.workloads",
+          "to": "representation:1:azurerm_subnet.workloads",
+          "emission": "emission:19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833"
+        },
+        {
+          "id": "change:net:added:relation%3Aazure.relation.peers-with%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.platform%3Arepresentation%253A1%253Aazurerm_virtual_network.remote",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:azure.relation.peers-with:representation%3A1%3Aazurerm_virtual_network_peering.platform:representation%3A1%3Aazurerm_virtual_network.remote",
+          "from": "representation:1:azurerm_virtual_network_peering.platform",
+          "to": "representation:1:azurerm_virtual_network.remote",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a"
+        },
+        {
+          "id": "change:net:added:relation%3Aazure.relation.peers-with%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.remote_to_platform%3Arepresentation%253A1%253Aazurerm_virtual_network.platform",
+          "change": "added",
+          "kind": "relation",
+          "fact": "relation:azure.relation.peers-with:representation%3A1%3Aazurerm_virtual_network_peering.remote_to_platform:representation%3A1%3Aazurerm_virtual_network.platform",
+          "from": "representation:1:azurerm_virtual_network_peering.remote_to_platform",
+          "to": "representation:1:azurerm_virtual_network.platform",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a"
+        }
+      ],
+      "indeterminate": [
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_association.unknown%3Aemission%253Ac83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b:after",
+          "closure": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.unknown:emission%3Ac83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.unknown",
+          "emission": "emission:c83bc87f05d6474172919e1195d5b093b174f6382ab0e4ddd8533f74d8b7a36b",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_association.unknown%3Aemission%253Afaca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea:after",
+          "closure": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_association.unknown:emission%3Afaca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_association.unknown",
+          "emission": "emission:faca7870993d61a0040821e77dd8dd2e96d201fa008f8b540300679d72a23dea",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_nat_gateway_public_ip_prefix_association.unknown%3Aemission%253Aa2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de:after",
+          "closure": "closure:representation%3A1%3Aazurerm_nat_gateway_public_ip_prefix_association.unknown:emission%3Aa2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de",
+          "representation": "representation:1:azurerm_nat_gateway_public_ip_prefix_association.unknown",
+          "emission": "emission:a2c472913591299fdce6ae74d8bfc0ded3bad1ad6d13ee0be7108a6bf01631de",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_subnet_nat_gateway_association.unknown%3Aemission%253A19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833:after",
+          "closure": "closure:representation%3A1%3Aazurerm_subnet_nat_gateway_association.unknown:emission%3A19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.unknown",
+          "emission": "emission:19f9e1eaad8d90c9c9d6d10e1c51084c6aab8282e36f2e3cc8273296b5b84833",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_subnet_nat_gateway_association.unknown%3Aemission%253Afcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017:after",
+          "closure": "closure:representation%3A1%3Aazurerm_subnet_nat_gateway_association.unknown:emission%3Afcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017",
+          "representation": "representation:1:azurerm_subnet_nat_gateway_association.unknown",
+          "emission": "emission:fcf09e04402d282f708760f81be12bf25a89e32a3bb65ecafaab8b7324e82017",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.literal%3Aemission%253Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a:after",
+          "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.literal:emission%3Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "representation": "representation:1:azurerm_virtual_network_peering.literal",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "side": "after",
+          "reasons": [
+            "ambiguous_unknown"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.unknown%3Aemission%253Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a:after",
+          "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.unknown:emission%3Ae751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "representation": "representation:1:azurerm_virtual_network_peering.unknown",
+          "emission": "emission:e751fd055adb0d1e48d192c257a10ef115c6bc5046da088fb49f68a3bd38427a",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        },
+        {
+          "id": "indeterminate:net:closure%3Arepresentation%253A1%253Aazurerm_virtual_network_peering.unknown%3Aemission%253Ae94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2:after",
+          "closure": "closure:representation%3A1%3Aazurerm_virtual_network_peering.unknown:emission%3Ae94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "representation": "representation:1:azurerm_virtual_network_peering.unknown",
+          "emission": "emission:e94a7d337ee68f647b23440975d22b82e13922b0f3ac083fb11dd95645db4ae2",
+          "side": "after",
+          "reasons": [
+            "unknown_until_apply"
+          ]
+        }
+      ],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 20,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 27,
+        "facts_removed": 0,
+        "indeterminate": 8,
+        "cancelled": 0
+      }
+    }
+  },
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": []
+}

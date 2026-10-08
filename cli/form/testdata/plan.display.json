@@ -1,0 +1,888 @@
+{
+  "format_version": "1",
+  "kind": "plan",
+  "generator": {
+    "name": "rootform",
+    "version": "0.1.0"
+  },
+  "evidence": {
+    "origin": "plan",
+    "input_format_version": "1.2",
+    "producer": {
+      "tool": "terraform",
+      "tool_source": "attested",
+      "reported_version": "1.12.2",
+      "hints": [
+        "registry.terraform.io"
+      ]
+    },
+    "completeness": {
+      "producer_complete": "true",
+      "attested_complete": false
+    },
+    "enrichment": {
+      "snapshot": {
+        "status": "absent",
+        "modules": 0
+      }
+    },
+    "attestations": [
+      {
+        "name": "producer",
+        "value": "terraform"
+      }
+    ],
+    "scope": {
+      "refresh_scope": "not_exported",
+      "drift_records": "absent",
+      "data_sources_covered_by_drift": false,
+      "deposed_covered_by_drift": false
+    }
+  },
+  "semantics": {
+    "language_version": "1",
+    "release_set": {
+      "id": "release-set:155e09a23619e05c4aae0d1829ed2ebca044647f529fee92004d518716ccf48e",
+      "version": "0.1.0",
+      "manifest_digest": "sha256:155e09a23619e05c4aae0d1829ed2ebca044647f529fee92004d518716ccf48e",
+      "units": [
+        {
+          "owner": "localtest",
+          "kind": "dialect",
+          "version": "0.1.0",
+          "content_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+          "semantic_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ]
+    },
+    "selection": {
+      "active_owners": [
+        "localtest"
+      ],
+      "excluded_owners": [],
+      "replacements": [],
+      "provider_map": []
+    },
+    "owners": [
+      {
+        "id": "localtest",
+        "kind": "dialect",
+        "origin": "local",
+        "version": "0.1.0",
+        "content_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+        "semantic_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+        "providers": [
+          {
+            "source": "hashicorp/local",
+            "version": "= 2.5.0",
+            "hosts": [
+              "registry.opentofu.org",
+              "registry.terraform.io"
+            ]
+          }
+        ],
+        "dependencies": []
+      }
+    ],
+    "concepts": [
+      {
+        "id": "localtest.concept.file",
+        "owner": "localtest",
+        "name": "file"
+      },
+      {
+        "id": "localtest.concept.link",
+        "owner": "localtest",
+        "name": "link"
+      }
+    ],
+    "contexts": [],
+    "relations": [],
+    "rules": [
+      {
+        "id": "localtest.rule.file",
+        "owner": "localtest",
+        "match_kind": "resource",
+        "match_type": "local_file",
+        "concept": "localtest.concept.file",
+        "identity": {
+          "attributes": [
+            "filename"
+          ],
+          "scope": "provider"
+        },
+        "endpoint": {
+          "attributes": [
+            "filename",
+            "id"
+          ]
+        },
+        "emissions": []
+      },
+      {
+        "id": "localtest.rule.link",
+        "owner": "localtest",
+        "match_kind": "resource",
+        "match_type": "local_file",
+        "concept": "localtest.concept.link",
+        "emissions": [
+          "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b"
+        ]
+      }
+    ],
+    "emissions": [
+      {
+        "id": "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+        "rule": "localtest.rule.link",
+        "kind": "contribution",
+        "to": {
+          "kind": "concept",
+          "id": "localtest.concept.file"
+        },
+        "via": "source.target",
+        "match": {
+          "by": [
+            "target.filename"
+          ],
+          "strategy": "exact"
+        },
+        "on_null": "absent",
+        "on_empty": "absent",
+        "external": "allow",
+        "disclose": "record"
+      }
+    ]
+  },
+  "stages": {
+    "planned": {
+      "stage": "planned",
+      "label": "Planned",
+      "declarations": [
+        {
+          "id": "declaration:1:local_file.a",
+          "kind": "resource",
+          "type": "local_file",
+          "name": "a",
+          "address": "local_file.a",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:local_file.b",
+          "kind": "resource",
+          "type": "local_file",
+          "name": "b",
+          "address": "local_file.b",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:local_file.c",
+          "kind": "resource",
+          "type": "local_file",
+          "name": "c",
+          "address": "local_file.c",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "external:1:localtest.concept.file:0",
+          "kind": "external",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "external",
+          "actions": [],
+          "concept": "localtest.concept.file",
+          "implementation": {
+            "kind": "direct"
+          },
+          "disclosure": "record",
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:local_file.a",
+          "kind": "managed",
+          "declaration": "declaration:1:local_file.a",
+          "address": "local_file.a",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "no-op"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "localtest.rule.file",
+              "localtest.rule.link"
+            ],
+            "diagnostics": []
+          },
+          "rule": "localtest.rule.file",
+          "concept": "localtest.concept.file",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:local_file.b",
+          "kind": "managed",
+          "declaration": "declaration:1:local_file.b",
+          "address": "local_file.b",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "no-op"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "localtest.rule.file",
+              "localtest.rule.link"
+            ],
+            "diagnostics": []
+          },
+          "rule": "localtest.rule.link",
+          "concept": "localtest.concept.link",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:local_file.c",
+          "kind": "managed",
+          "declaration": "declaration:1:local_file.c",
+          "address": "local_file.c",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "planned",
+          "actions": [
+            "create"
+          ],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "localtest.rule.file",
+              "localtest.rule.link"
+            ],
+            "diagnostics": []
+          },
+          "rule": "localtest.rule.link",
+          "concept": "localtest.concept.link",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [],
+      "contributions": [
+        {
+          "id": "contribution:representation%3A1%3Alocal_file.b:representation%3A1%3Alocal_file.a",
+          "from": "representation:1:local_file.b",
+          "to": "representation:1:local_file.a",
+          "provenance": [
+            {
+              "emission": "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+              "rule": "localtest.rule.link",
+              "closure": "closure:representation%3A1%3Alocal_file.b:emission%3A184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+              "evidence": "value"
+            }
+          ]
+        },
+        {
+          "id": "contribution:representation%3A1%3Alocal_file.c:external%3A1%3Alocaltest.concept.file%3A0",
+          "from": "representation:1:local_file.c",
+          "to": "external:1:localtest.concept.file:0",
+          "provenance": [
+            {
+              "emission": "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+              "rule": "localtest.rule.link",
+              "closure": "closure:representation%3A1%3Alocal_file.c:emission%3A184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+              "evidence": "value"
+            }
+          ]
+        }
+      ],
+      "relations": [],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Alocal_file.b:emission%3A184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+          "representation": "representation:1:local_file.b",
+          "emission": "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Alocal_file.b:representation%3A1%3Alocal_file.a"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        },
+        {
+          "id": "closure:representation%3A1%3Alocal_file.c:emission%3A184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+          "representation": "representation:1:local_file.c",
+          "emission": "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Alocal_file.c:external%3A1%3Alocaltest.concept.file%3A0"
+          ],
+          "candidates": {
+            "known_equal": 0,
+            "unknown": 0,
+            "excluded": 1
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:representation%3A1%3Alocal_file.b:representation%3A1%3Alocal_file.a",
+          "from": "representation:1:local_file.b",
+          "to": "representation:1:local_file.a",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 3,
+        "resources": 3,
+        "data_sources": 0,
+        "instances": 3,
+        "managed_instances": 3,
+        "data_instances": 0,
+        "external_endpoints": 1,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 3,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 2,
+        "closures": 2,
+        "resolved": 2,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 1,
+        "deposed": 0
+      }
+    },
+    "recorded": {
+      "stage": "recorded",
+      "label": "Recorded (reconstructed)",
+      "reconstruction": {
+        "from": "refreshed",
+        "reversed_drift_entries": 0
+      },
+      "declarations": [
+        {
+          "id": "declaration:1:local_file.a",
+          "kind": "resource",
+          "type": "local_file",
+          "name": "a",
+          "address": "local_file.a",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:local_file.b",
+          "kind": "resource",
+          "type": "local_file",
+          "name": "b",
+          "address": "local_file.b",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "representation:1:local_file.a",
+          "kind": "managed",
+          "declaration": "declaration:1:local_file.a",
+          "address": "local_file.a",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "recorded",
+          "actions": [],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "localtest.rule.file",
+              "localtest.rule.link"
+            ],
+            "diagnostics": []
+          },
+          "rule": "localtest.rule.file",
+          "concept": "localtest.concept.file",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:local_file.b",
+          "kind": "managed",
+          "declaration": "declaration:1:local_file.b",
+          "address": "local_file.b",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "recorded",
+          "actions": [],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "localtest.rule.file",
+              "localtest.rule.link"
+            ],
+            "diagnostics": []
+          },
+          "rule": "localtest.rule.link",
+          "concept": "localtest.concept.link",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [],
+      "contributions": [
+        {
+          "id": "contribution:representation%3A1%3Alocal_file.b:representation%3A1%3Alocal_file.a",
+          "from": "representation:1:local_file.b",
+          "to": "representation:1:local_file.a",
+          "provenance": [
+            {
+              "emission": "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+              "rule": "localtest.rule.link",
+              "closure": "closure:representation%3A1%3Alocal_file.b:emission%3A184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+              "evidence": "value"
+            }
+          ]
+        }
+      ],
+      "relations": [],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Alocal_file.b:emission%3A184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+          "representation": "representation:1:local_file.b",
+          "emission": "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Alocal_file.b:representation%3A1%3Alocal_file.a"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:representation%3A1%3Alocal_file.b:representation%3A1%3Alocal_file.a",
+          "from": "representation:1:local_file.b",
+          "to": "representation:1:local_file.a",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 2,
+        "resources": 2,
+        "data_sources": 0,
+        "instances": 2,
+        "managed_instances": 2,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 2,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 1,
+        "closures": 1,
+        "resolved": 1,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 1,
+        "deposed": 0
+      }
+    },
+    "refreshed": {
+      "stage": "refreshed",
+      "label": "Refreshed",
+      "declarations": [
+        {
+          "id": "declaration:1:local_file.a",
+          "kind": "resource",
+          "type": "local_file",
+          "name": "a",
+          "address": "local_file.a",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "declaration:1:local_file.b",
+          "kind": "resource",
+          "type": "local_file",
+          "name": "b",
+          "address": "local_file.b",
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "population": {
+            "status": "observed",
+            "instances": 1
+          },
+          "diagnostics": []
+        }
+      ],
+      "representations": [
+        {
+          "id": "representation:1:local_file.a",
+          "kind": "managed",
+          "declaration": "declaration:1:local_file.a",
+          "address": "local_file.a",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "recorded",
+          "actions": [],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "localtest.rule.file",
+              "localtest.rule.link"
+            ],
+            "diagnostics": []
+          },
+          "rule": "localtest.rule.file",
+          "concept": "localtest.concept.file",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        },
+        {
+          "id": "representation:1:local_file.b",
+          "kind": "managed",
+          "declaration": "declaration:1:local_file.b",
+          "address": "local_file.b",
+          "index_key": {
+            "kind": "none"
+          },
+          "status": "recorded",
+          "actions": [],
+          "provider": {
+            "address": "registry.terraform.io/hashicorp/local",
+            "alias": "",
+            "alias_availability": "available"
+          },
+          "interpretation": {
+            "status": "applied",
+            "candidates": [
+              "localtest.rule.file",
+              "localtest.rule.link"
+            ],
+            "diagnostics": []
+          },
+          "rule": "localtest.rule.link",
+          "concept": "localtest.concept.link",
+          "implementation": {
+            "kind": "direct"
+          },
+          "diagnostics": []
+        }
+      ],
+      "contexts": [],
+      "contributions": [
+        {
+          "id": "contribution:representation%3A1%3Alocal_file.b:representation%3A1%3Alocal_file.a",
+          "from": "representation:1:local_file.b",
+          "to": "representation:1:local_file.a",
+          "provenance": [
+            {
+              "emission": "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+              "rule": "localtest.rule.link",
+              "closure": "closure:representation%3A1%3Alocal_file.b:emission%3A184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+              "evidence": "value"
+            }
+          ]
+        }
+      ],
+      "relations": [],
+      "closures": [
+        {
+          "id": "closure:representation%3A1%3Alocal_file.b:emission%3A184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+          "representation": "representation:1:local_file.b",
+          "emission": "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b",
+          "outcome": "resolved",
+          "facts": [
+            "contribution:representation%3A1%3Alocal_file.b:representation%3A1%3Alocal_file.a"
+          ],
+          "candidates": {
+            "known_equal": 1,
+            "unknown": 0,
+            "excluded": 0
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "dependency:representation%3A1%3Alocal_file.b:representation%3A1%3Alocal_file.a",
+          "from": "representation:1:local_file.b",
+          "to": "representation:1:local_file.a",
+          "roles": [
+            "reference"
+          ]
+        }
+      ],
+      "deposed": [],
+      "accounting": {
+        "declarations": 2,
+        "resources": 2,
+        "data_sources": 0,
+        "instances": 2,
+        "managed_instances": 2,
+        "data_instances": 0,
+        "external_endpoints": 0,
+        "carried": 0,
+        "deferred": 0,
+        "applied_interpretations": 2,
+        "indeterminate_interpretations": 0,
+        "failed_interpretations": 0,
+        "uninterpreted_instances": 0,
+        "facts": 1,
+        "closures": 1,
+        "resolved": 1,
+        "absent": 0,
+        "indeterminate": 0,
+        "dependencies": 1,
+        "deposed": 0
+      }
+    }
+  },
+  "default_stage": "planned",
+  "comparisons": {
+    "drift": {
+      "name": "drift",
+      "before": "recorded",
+      "after": "refreshed",
+      "comparable": true,
+      "problems": [],
+      "representations": [],
+      "facts": [],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 0,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 0,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "before": "refreshed",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:changes:added:external%3A1%3Alocaltest.concept.file%3A0",
+          "change": "added",
+          "representation": "external:1:localtest.concept.file:0"
+        },
+        {
+          "id": "change:changes:added:representation%3A1%3Alocal_file.c",
+          "change": "added",
+          "representation": "representation:1:local_file.c"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:changes:added:contribution%3Arepresentation%253A1%253Alocal_file.c%3Aexternal%253A1%253Alocaltest.concept.file%253A0",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Alocal_file.c:external%3A1%3Alocaltest.concept.file%3A0",
+          "from": "representation:1:local_file.c",
+          "to": "external:1:localtest.concept.file:0",
+          "emission": "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b"
+        }
+      ],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 2,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 1,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    },
+    "net": {
+      "name": "net",
+      "before": "recorded",
+      "after": "planned",
+      "comparable": true,
+      "problems": [],
+      "representations": [
+        {
+          "id": "change:net:added:external%3A1%3Alocaltest.concept.file%3A0",
+          "change": "added",
+          "representation": "external:1:localtest.concept.file:0"
+        },
+        {
+          "id": "change:net:added:representation%3A1%3Alocal_file.c",
+          "change": "added",
+          "representation": "representation:1:local_file.c"
+        }
+      ],
+      "facts": [
+        {
+          "id": "change:net:added:contribution%3Arepresentation%253A1%253Alocal_file.c%3Aexternal%253A1%253Alocaltest.concept.file%253A0",
+          "change": "added",
+          "kind": "contribution",
+          "fact": "contribution:representation%3A1%3Alocal_file.c:external%3A1%3Alocaltest.concept.file%3A0",
+          "from": "representation:1:local_file.c",
+          "to": "external:1:localtest.concept.file:0",
+          "emission": "emission:184cfdb63054591ab55313efc0a9a92fe14a73698aad5a80b45f7630cd9b087b"
+        }
+      ],
+      "indeterminate": [],
+      "cancelled": [],
+      "counts": {
+        "representations_added": 2,
+        "representations_removed": 0,
+        "representations_changed": 0,
+        "moved": 0,
+        "replaced": 0,
+        "recreated": 0,
+        "facts_added": 1,
+        "facts_removed": 0,
+        "indeterminate": 0,
+        "cancelled": 0
+      }
+    }
+  },
+  "drift_report": {
+    "entries": [],
+    "summary": "No drift reported in this plan"
+  },
+  "diagnostics": [
+    {
+      "id": "diagnostic:847f972ace6edb54d64ea108fcfeeb3acbb6fc8722992013951dfafaad7ca902",
+      "phase": "input",
+      "severity": "info",
+      "code": "PRODUCER_UNESTABLISHED",
+      "message": "the export does not name its producer"
+    }
+  ]
+}

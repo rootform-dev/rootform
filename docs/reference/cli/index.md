@@ -1,0 +1,132 @@
+---
+title: "CLI command reference"
+description: "Find command syntax, inputs, outputs, and exit status."
+---
+
+Invoke `rootform <command>` from a project root, or pass an explicit input
+where the command accepts one. The syntax blocks below are reference forms:
+placeholders such as `[input]` and `[flags]` are not literal arguments. Run
+`rootform <command> --help` for terminal help. The tables on command pages
+retain the CLI's exported option types and defaults.
+
+For a first result, follow the [quickstart](../../getting-started/quickstart.md).
+For a complete task, use the [guides](../../guides/explore-architecture.md)
+and return here for exact command contracts.
+
+## Find a command
+
+- Analyze or explore: `run` compiles a plan or state JSON into a Form, or reopens a saved Form, then serves the local Explorer or writes reports.
+- Review: `check` evaluates selected Policies against one stage of a Form and exits with the verdict; `run --diff` compares two inputs.
+- Inspect: `list` shows active content, `show` displays a definition, and `explain` traces an interpretation or result.
+- Prepare: `init` verifies selected content and can fetch missing OCI units; `vendor` copies selected content into the project.
+- Validate and author: `validate` checks an object; `fmt`, `test`, `compile`, `package`, `publish`, and `lsp` have their own contracts below.
+
+<!-- BEGIN GENERATED CLI: rootform -->
+
+## Usage
+
+```text
+rootform <command> [options]
+```
+
+## Options
+
+### Global options
+
+| Flag | Type | Default | Description |
+| --- | --- | --- | --- |
+| ` --color ` | ` mode ` | ` auto ` | color human output: `auto\|always\|never`; default: auto |
+| ` -h, --help ` | ` bool ` | ` false ` | show how to use rootform |
+| ` --no-pager ` | ` bool ` | ` false ` | print a long report in full instead of opening it in less |
+| ` -v, --version ` | ` bool ` | ` false ` | print the rootform version and exit |
+
+## Command inventory
+
+### Analyze
+
+| Command | Purpose |
+| --- | --- |
+| [` rootform check `](check.md) | Evaluate Policies against a Form or each side of a comparison |
+| [` rootform run `](run.md) | Produce a Form from a plan or state JSON, or open a saved Form |
+
+### Inspect
+
+| Command | Purpose |
+| --- | --- |
+| [` rootform explain `](explain.md) | Justify one conclusion of a Form or a Policy result |
+| [` rootform explain instance `](explain/instance.md) | Explain how one instance was interpreted |
+| [` rootform explain policy `](explain/policy.md) | Explain one Policy outcome recorded by check |
+| [` rootform explain rule `](explain/rule.md) | Explain how one Rule applied in an input |
+| [` rootform list `](list.md) | List Rootform definitions |
+| [` rootform list dialects `](list/dialects.md) | List the Dialect catalog |
+| [` rootform list policies `](list/policies.md) | List Policies |
+| [` rootform list policy-packs `](list/policy-packs.md) | List Policy Packs |
+| [` rootform show `](show.md) | Show a Rootform definition |
+| [` rootform show policy `](show/policy.md) | Show a Policy definition |
+| [` rootform show policy-pack `](show/policy-pack.md) | Show a Policy Pack |
+| [` rootform validate `](validate.md) | Validate a Rootform object |
+| [` rootform validate concept `](validate/concept.md) | Validate a Concept definition |
+| [` rootform validate context `](validate/context.md) | Validate a context dimension |
+| [` rootform validate dialects `](validate/dialects.md) | Validate Dialect definitions |
+| [` rootform validate form `](validate/form.md) | Validate a saved Form |
+| [` rootform validate policy `](validate/policy.md) | Validate a Policy definition |
+| [` rootform validate relation `](validate/relation.md) | Validate a relation predicate |
+| [` rootform validate rule `](validate/rule.md) | Validate a Rule definition |
+
+### Project
+
+| Command | Purpose |
+| --- | --- |
+| [` rootform add `](add.md) | Add content to rootform.lock |
+| [` rootform add dialects `](add/dialects.md) | Add Dialects to rootform.lock |
+| [` rootform add policy-packs `](add/policy-packs.md) | Add Policy Packs to rootform.lock |
+| [` rootform init `](init.md) | Prepare a Rootform project |
+| [` rootform remove `](remove.md) | Remove content from rootform.lock |
+| [` rootform remove dialects `](remove/dialects.md) | Remove Dialects from rootform.lock |
+| [` rootform remove policy-packs `](remove/policy-packs.md) | Remove Policy Packs from rootform.lock |
+| [` rootform update `](update.md) | Change a selection in rootform.lock |
+| [` rootform update dialect `](update/dialect.md) | Change one selected Dialect |
+| [` rootform update policy-pack `](update/policy-pack.md) | Change one selected Policy Pack |
+| [` rootform vendor `](vendor.md) | Vendor selected non-embedded content |
+| [` rootform vendor dialects `](vendor/dialects.md) | Vendor selected Dialects |
+| [` rootform vendor policy-packs `](vendor/policy-packs.md) | Vendor selected Policy Packs |
+
+### Rootform home
+
+| Command | Purpose |
+| --- | --- |
+| [` rootform install `](install.md) | Install registry content in the Rootform home |
+| [` rootform install dialects `](install/dialects.md) | Install Dialects from registry references |
+| [` rootform install policy-packs `](install/policy-packs.md) | Install Policy Packs from registry references |
+| [` rootform uninstall `](uninstall.md) | Delete installed versions from the Rootform home |
+| [` rootform uninstall dialects `](uninstall/dialects.md) | Delete installed Dialect versions |
+| [` rootform uninstall policy-packs `](uninstall/policy-packs.md) | Delete installed Policy Pack versions |
+
+### Author and publish
+
+| Command | Purpose |
+| --- | --- |
+| [` rootform compile `](compile.md) | Compile a Policy Pack for offline checks |
+| [` rootform compile policy-pack `](compile/policy-pack.md) | Compile and pin a Policy Pack |
+| [` rootform fmt `](fmt.md) | Format Rootform files |
+| [` rootform lsp `](lsp.md) | Serve Rootform language features over stdio |
+| [` rootform package `](package.md) | Package Rootform content for distribution |
+| [` rootform package dialects `](package/dialects.md) | Build Dialect packages |
+| [` rootform package policy-packs `](package/policy-packs.md) | Build Policy Pack packages |
+| [` rootform publish `](publish.md) | Publish packaged Rootform content |
+| [` rootform publish dialects `](publish/dialects.md) | Publish a verified Dialect registry layout |
+| [` rootform publish policy-packs `](publish/policy-packs.md) | Publish a verified Policy Pack registry layout |
+| [` rootform test `](test.md) | Test Dialect fixtures |
+
+### Other
+
+| Command | Purpose |
+| --- | --- |
+| [` rootform completion `](completion.md) | Generate shell completion |
+| [` rootform version `](version.md) | Show the Rootform version |
+
+<!-- END GENERATED CLI -->
+
+The complete command inventory above links to every subcommand, including
+language-authoring commands. For result formats and non-universal exit codes,
+see [Outputs and exit status](../outputs.md).

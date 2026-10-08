@@ -1,0 +1,65 @@
+---
+title: "How Rootform works"
+description: "Understand how plan and state evidence becomes a Form: architecture, comparisons, and Policy results."
+---
+
+Rootform reads a Terraform or OpenTofu plan JSON or state JSON and turns observed resource instances into architecture, saved as a [Form](concepts/forms.md). It does not evaluate configuration source, so the input determines what Rootform can establish. What follows is the model behind every command and Explorer view; the pages under it define each part.
+
+## From evidence to architecture
+
+Rootform keeps four layers separate.
+
+1. **Plan or state evidence** records instances, evaluated values, and sensitivity masks. A plan can also carry configuration references, prior state, and reported drift. An optional paired saved plan adds exact configuration traversals.
+2. A [Dialect](concepts/dialects.md) applies Rules to matching instances. Its Rules classify instances with Concepts and establish architectural facts through declared emissions.
+3. Each stage's architecture records Representations, facts, closures, provenance, and diagnostics. A [Form](concepts/forms.md) saves all supported stages, comparisons, reported drift, and the Dialects used to interpret them.
+4. [Comparisons](concepts/comparisons.md) read architectural meaning within a Form or between two input Forms. Selected [Policies](concepts/policies.md) evaluate one selected architecture stage.
+
+Neither comparison nor policy evaluation changes the architecture it reads. A saved Form can be reopened without the original plan, state, or active Dialects.
+
+## Every observed instance starts with a representation
+
+Each managed or data resource instance in a supported plan or state has a Representation, identified by its Terraform instance address. This remains true when its provider has no selected Dialect or its type has no matching Rule. Rootform leaves it uninterpreted rather than inventing a classification, Context or Relation.
+
+Indexed instances are distinct: `aws_subnet.application[0]` and `aws_subnet.application[1]` cannot satisfy each other's facts or Policies. A Rule may add a Concept or facts, but a represented instance does not need either. [Provider coverage](reference/provider-coverage.md) lists interpretation, not a filter of the instances included in the Form.
+
+A plan can describe a declaration without a planned instance. Rootform records whether its population is observed, proven zero, or unverified. It does not turn an unverified population into an empty one. An external endpoint inferred by a Dialect is another Representation, with disclosure limits set by that Dialect.
+
+## References are evidence, not meaning
+
+Suppose `aws_subnet.application.vpc_id` refers to `aws_vpc.main.id`. The AWS Dialect's subnet Rule can establish a network Context from the subnet to the VPC. The reference alone does not establish that Context. `depends_on`, provider metadata, and similar names are dependency or identity evidence, not architectural connections.
+
+A plan's evaluated value can identify an endpoint. When that value is unknown until apply, `--plan-file` can pair the saved plan with the JSON export and recover a direct identity traversal. Rootform records whether a fact came from a value, a traversal, or both. A transformed expression or conflicting evidence cannot be treated as a proven direct connection. State JSON has evaluated values but no configuration traversals.
+
+## Read each architectural connection precisely
+
+| Structure | Question answered | What it does not imply |
+| --- | --- | --- |
+| **Representation** | Which instance or external endpoint is present? | That a Rule interpreted it or the Explorer always shows a card |
+| **Context** | In which architectural frame is an instance placed? | Runtime reachability or a Terraform dependency |
+| **Relation** | Which directed, Dialect-defined connection was established? | Every source reference between the instances |
+| **Contribution** | Which Representation contributes to another? | That the contributor was absorbed or owned |
+| **Composition** | Which proven members form a composed root? | That members inherit the root's Concept |
+
+One instance can have Contexts in several dimensions. Contributions keep contributor and target distinct. The Explorer may reveal a secondary resource only when navigating its Context; the saved Form still contains its Representation. See [Explorer navigation](guides/explore-architecture.md#reveal-a-secondary-resource).
+
+## Rootform reports what evidence permits
+
+Each active emission closes for each applicable instance. A `resolved` closure records a complete, nonempty fact set. `absent` means the relevant fact is proven absent. `indeterminate` means available evidence cannot finish the answer; proven facts from other elements may still be present. Reasons include an unknown value, a sensitive value, ambiguous or duplicate identity, and unavailable evidence.
+
+An indeterminate closure can still contain confirmed facts. If a list establishes one matching fact while another element remains unknown, `exists(...)` is true: existence is proven, but exact cardinality is not. Closure status describes evidence for an emission. Assertion truth comes from a query over established facts. Target coverage records whether every possible target was evaluated, and the aggregate verdict combines Policy outcomes with coverage. Incomplete evidence or coverage can prevent a check from passing; see [Evaluation](language/reference/evaluation.md#aggregate-result-status) for the priority order. An uninterpreted instance and an indeterminate emission are different: one lacks a matching Rule, while the other has a Rule whose evidence cannot settle its emission. [Forms and stages](concepts/forms.md#stages-and-facts) explains recorded closures.
+
+## One input can contain several stages
+
+A plan has a `planned` architecture and can also provide a `refreshed` stage. Refreshed is the state the plan starts from; the plan does not record whether or how far refresh ran. Rootform reconstructs `recorded` from drift records; that reconstruction may be partial. A state JSON supplies one `recorded` stage, as recorded in the state export. Rootform never refreshes these stages itself.
+
+One plan can show Reported drift (Recorded to Refreshed), Planned changes (Refreshed to Planned), and Net change (Recorded to Planned) when both stages in each pair exist. `rootform run a.json --diff b.json` instead compares selected architectures from separate input Forms. That [cross-input comparison](concepts/comparisons.md) shows Differences, never drift.
+
+## Rootform does not run Terraform or OpenTofu
+
+Rootform does not start Terraform or OpenTofu, execute providers, contact a backend, refresh state, or apply a plan. Your Terraform or OpenTofu workflow produces the plan or state export with the credentials and state access it already needs; Rootform then reads the resulting files locally. This boundary keeps architecture analysis away from credentials, state locks, and infrastructure changes. It also means Rootform cannot establish live health, runtime connectivity, or drift that the plan did not report. [Plan inputs](inputs/plans.md#produce-the-accepted-json) shows how to produce the accepted JSON.
+
+## Determinism makes evidence reviewable
+
+For the same supported input, optional saved plan, and exact Dialect selection, Rootform writes the same canonical Form bytes. Their digest identifies the serialized Form, including generator version, not architectural equivalence. A semantic comparison can find no determined change between Forms with different bytes. The Form records what the input reports about completeness, whether a saved plan was verified, and the Dialect definitions used. A lock records exact project selection; it does not make incomplete plan evidence complete. Dialect evolution can change interpretation even when the infrastructure is unchanged: the Rootform binary fixes embedded Dialects, and [Install, add, and vendor](concepts/external-content.md) explains how selected and installed content differ.
+
+Plans and state exports can contain cleartext secrets. Keep them out of Git and public artifacts. Rootform discards sensitive values before serializing Forms or reports, but those outputs still disclose topology and names. See [Security](security/index.md#protect-plans-and-derived-outputs), then [choose an input](inputs/index.md) or [explore a Form](guides/explore-architecture.md).

@@ -1,0 +1,48 @@
+{
+  "name": "@rootform/distribution",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Rootform public contracts and distribution metadata",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rootform-dev/rootform.git"
+  },
+  "packageManager": "bun@1.4.0",
+  "engines": {
+    "bun": "1.4.0"
+  },
+  "scripts": {
+    "assemble:release": "bun scripts/assemble-release.ts",
+    "check": "bun scripts/validate-repository.ts && bun scripts/validate-oci-core-profile.ts && bun scripts/validate-trivy-policy.ts && bun run check:dialects && bun run check:docs && bun run typecheck && bun run check:format && bun test scripts",
+    "check:format": "biome check .github .trivyignore.yaml AGENTS.md README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md TRADEMARKS.md package.json public-export.json contracts dependencies docs examples installers policy-packs reference scripts schemas",
+    "check:cli-module": "bun scripts/check-cli-module.ts",
+    "build:image": "bun scripts/build-image.ts",
+    "download:handoff": "bun scripts/download-handoff.ts",
+    "extract:release-binary": "bun scripts/extract-release-binary.ts",
+    "format": "biome check --write .github .trivyignore.yaml AGENTS.md README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md TRADEMARKS.md package.json public-export.json contracts dependencies docs examples installers policy-packs reference scripts schemas",
+    "test:oci-registry-e2e": "bun scripts/qualify-image.ts",
+    "test:oci-registry-compatibility": "bun scripts/qualify-registry.ts",
+    "test:selection-e2e": "bun scripts/qualify-selection.ts",
+    "test:docs-registry": "bun scripts/docs-registry-examples.ts",
+    "typecheck": "tsc --noEmit",
+    "verify": "bun scripts/verify.ts",
+    "check:dialects": "bun scripts/dialects/validate.ts && bun test scripts/dialects/*.test.ts",
+    "verify:dialects": "bun scripts/dialects/verify.ts",
+    "generate:plan-fixtures": "bun scripts/dialects/generate-plan-fixtures.ts",
+    "update:goldens": "bun scripts/dialects/update-goldens.ts",
+    "check:docs": "bun run check:cli && bun run check:actions && bun run check:coverage && bun scripts/check-docs.ts",
+    "check:actions": "bun scripts/generate-action-reference.ts --check",
+    "generate:actions": "bun scripts/generate-action-reference.ts",
+    "check:cli": "bun scripts/generate-cli-reference.ts --check",
+    "generate:cli": "bun scripts/generate-cli-reference.ts",
+    "verify:docs-examples": "bun scripts/verify-docs-examples.ts",
+    "generate:coverage": "bun scripts/generate-provider-coverage.ts",
+    "check:coverage": "bun scripts/generate-provider-coverage.ts --check"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@types/bun": "1.4.0",
+    "typescript": "7.0.2"
+  }
+}

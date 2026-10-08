@@ -1,0 +1,537 @@
+{
+  "source": {
+    "repository": "rootform-dev/action",
+    "commit": "5d4888cf30e59f121f9204d2428006838d15c887"
+  },
+  "actions": {
+    "action": {
+      "name": "Rootform",
+      "description": "Analyze or compare evidence, evaluate selected Policies, and present Rootform reports in GitHub",
+      "inputs": {
+        "version": {
+          "description": "Exact published version; omit to reuse a verified version in this job",
+          "required": false,
+          "default": ""
+        },
+        "github-token": {
+          "description": "GitHub token for release API requests and enabled PR comments",
+          "required": false,
+          "default": "${{ github.token }}"
+        },
+        "project": {
+          "description": "Project directory for raw evidence or Policy selection; defaults to workspace",
+          "required": false,
+          "default": ""
+        },
+        "locked": {
+          "description": "Require and preserve existing rootform.lock",
+          "required": false,
+          "default": "false"
+        },
+        "offline": {
+          "description": "Prepare selected external content without network access",
+          "required": false,
+          "default": "false"
+        },
+        "cache": {
+          "description": "Cache verified external sources selected by rootform.lock",
+          "required": false,
+          "default": "true"
+        },
+        "input": {
+          "description": "Path to plan JSON, state JSON, Form or Comparison Form",
+          "required": false,
+          "default": ""
+        },
+        "plan-file": {
+          "description": "Matching saved plan for input; pairing must verify",
+          "required": false,
+          "default": ""
+        },
+        "before": {
+          "description": "Before plan JSON, state JSON or single-input Form",
+          "required": false,
+          "default": ""
+        },
+        "after": {
+          "description": "After plan JSON, state JSON or single-input Form",
+          "required": false,
+          "default": ""
+        },
+        "before-plan-file": {
+          "description": "Matching saved plan for before; pairing must verify",
+          "required": false,
+          "default": ""
+        },
+        "after-plan-file": {
+          "description": "Matching saved plan for after; pairing must verify",
+          "required": false,
+          "default": ""
+        },
+        "stage": {
+          "description": "Architecture stage: planned, refreshed or recorded",
+          "required": false,
+          "default": ""
+        },
+        "before-stage": {
+          "description": "Before stage: planned, refreshed or recorded",
+          "required": false,
+          "default": ""
+        },
+        "after-stage": {
+          "description": "After stage: planned, refreshed or recorded",
+          "required": false,
+          "default": ""
+        },
+        "side": {
+          "description": "Comparison sides: before, after or both; defaults to both",
+          "required": false,
+          "default": ""
+        },
+        "policy": {
+          "description": "Policy selectors, one per line, within selected Packs",
+          "required": false,
+          "default": ""
+        },
+        "policy-pack": {
+          "description": "Policy Pack source directories or compiled files, one per line",
+          "required": false,
+          "default": ""
+        },
+        "check": {
+          "description": "Check all project-selected Policies without explicit selectors or overlays",
+          "required": false,
+          "default": "false"
+        },
+        "summary": {
+          "description": "Append CLI Markdown to GitHub Job Summary",
+          "required": false,
+          "default": "true"
+        },
+        "upload-artifact": {
+          "description": "Upload Form and derived reports as one artifact; never raw inputs",
+          "required": false,
+          "default": "true"
+        },
+        "artifact-name": {
+          "description": "Artifact name; defaults to a unique name per invocation, including matrix jobs",
+          "required": false,
+          "default": ""
+        },
+        "retention-days": {
+          "description": "Artifact retention: 1–90 days, capped by repository limit",
+          "required": false,
+          "default": "7"
+        },
+        "comment": {
+          "description": "Update one same-repository PR comment; requires write permission and job serialization",
+          "required": false,
+          "default": "false"
+        }
+      },
+      "outputs": {
+        "version": {
+          "description": "Verified Rootform CLI version"
+        },
+        "form": {
+          "description": "Path to the supplied or generated Form"
+        },
+        "report": {
+          "description": "Path to the complete CLI Markdown report"
+        },
+        "html": {
+          "description": "Path to the self-contained HTML Explorer"
+        },
+        "result": {
+          "description": "Path to Policy result JSON"
+        },
+        "sarif": {
+          "description": "Path to Policy result SARIF"
+        },
+        "exit-code": {
+          "description": "Rootform check exit code, exposed before the gate"
+        },
+        "artifact-id": {
+          "description": "Uploaded artifact ID for cross-job download"
+        },
+        "artifact-url": {
+          "description": "Uploaded artifact URL"
+        }
+      }
+    },
+    "setup": {
+      "name": "Setup Rootform",
+      "description": "Install and verify an exact published Rootform CLI; prepare nothing",
+      "inputs": {
+        "version": {
+          "description": "Exact published version; omit to reuse a verified version in this job",
+          "required": false,
+          "default": ""
+        },
+        "github-token": {
+          "description": "GitHub token for release API requests",
+          "required": false,
+          "default": "${{ github.token }}"
+        }
+      },
+      "outputs": {
+        "version": {
+          "description": "Verified Rootform CLI version"
+        },
+        "sha256": {
+          "description": "SHA-256 of the verified executable"
+        }
+      }
+    },
+    "init": {
+      "name": "Init Rootform",
+      "description": "Prepare exact project-selected external content with the verified Rootform CLI",
+      "inputs": {
+        "version": {
+          "description": "Exact published version; omit to reuse a verified version in this job",
+          "required": false,
+          "default": ""
+        },
+        "github-token": {
+          "description": "GitHub token for release API requests",
+          "required": false,
+          "default": "${{ github.token }}"
+        },
+        "project": {
+          "description": "Project directory for raw evidence or Policy selection; defaults to workspace",
+          "required": false,
+          "default": ""
+        },
+        "locked": {
+          "description": "Require and preserve existing rootform.lock",
+          "required": false,
+          "default": "false"
+        },
+        "offline": {
+          "description": "Prepare selected external content without network access",
+          "required": false,
+          "default": "false"
+        },
+        "cache": {
+          "description": "Cache verified external sources selected by rootform.lock",
+          "required": false,
+          "default": "true"
+        }
+      },
+      "outputs": {
+        "version": {
+          "description": "Verified Rootform CLI version"
+        }
+      }
+    },
+    "analyze": {
+      "name": "Analyze Rootform",
+      "description": "Analyze a plan or state export, or reopen a saved Form; produce Form and reports",
+      "inputs": {
+        "version": {
+          "description": "Exact published version; omit to reuse a verified version in this job",
+          "required": false,
+          "default": ""
+        },
+        "github-token": {
+          "description": "GitHub token for release API requests",
+          "required": false,
+          "default": "${{ github.token }}"
+        },
+        "input": {
+          "description": "Path to plan JSON, state JSON, Form or Comparison Form",
+          "required": false,
+          "default": ""
+        },
+        "plan-file": {
+          "description": "Matching saved plan for input; pairing must verify",
+          "required": false,
+          "default": ""
+        },
+        "stage": {
+          "description": "Architecture stage: planned, refreshed or recorded",
+          "required": false,
+          "default": ""
+        },
+        "project": {
+          "description": "Project directory for raw evidence or Policy selection; defaults to workspace",
+          "required": false,
+          "default": ""
+        },
+        "locked": {
+          "description": "Require and preserve existing rootform.lock",
+          "required": false,
+          "default": "false"
+        },
+        "offline": {
+          "description": "Prepare selected external content without network access",
+          "required": false,
+          "default": "false"
+        },
+        "cache": {
+          "description": "Cache verified external sources selected by rootform.lock",
+          "required": false,
+          "default": "true"
+        },
+        "summary": {
+          "description": "Append CLI Markdown to GitHub Job Summary",
+          "required": false,
+          "default": "true"
+        },
+        "upload-artifact": {
+          "description": "Upload Form and derived reports as one artifact; never raw inputs",
+          "required": false,
+          "default": "true"
+        },
+        "artifact-name": {
+          "description": "Artifact name; defaults to a unique name per invocation, including matrix jobs",
+          "required": false,
+          "default": ""
+        },
+        "retention-days": {
+          "description": "Artifact retention: 1–90 days, capped by repository limit",
+          "required": false,
+          "default": "7"
+        }
+      },
+      "outputs": {
+        "version": {
+          "description": "Verified Rootform CLI version"
+        },
+        "form": {
+          "description": "Path to the supplied or generated Form"
+        },
+        "report": {
+          "description": "Path to the complete CLI Markdown report"
+        },
+        "html": {
+          "description": "Path to the self-contained HTML Explorer"
+        },
+        "artifact-id": {
+          "description": "Uploaded artifact ID for cross-job download"
+        },
+        "artifact-url": {
+          "description": "Uploaded artifact URL"
+        }
+      }
+    },
+    "compare": {
+      "name": "Compare Rootform",
+      "description": "Compare two plan, state or Form operands; produce one Comparison Form and reports",
+      "inputs": {
+        "version": {
+          "description": "Exact published version; omit to reuse a verified version in this job",
+          "required": false,
+          "default": ""
+        },
+        "github-token": {
+          "description": "GitHub token for release API requests",
+          "required": false,
+          "default": "${{ github.token }}"
+        },
+        "before": {
+          "description": "Before plan JSON, state JSON or single-input Form",
+          "required": false,
+          "default": ""
+        },
+        "after": {
+          "description": "After plan JSON, state JSON or single-input Form",
+          "required": false,
+          "default": ""
+        },
+        "before-plan-file": {
+          "description": "Matching saved plan for before; pairing must verify",
+          "required": false,
+          "default": ""
+        },
+        "after-plan-file": {
+          "description": "Matching saved plan for after; pairing must verify",
+          "required": false,
+          "default": ""
+        },
+        "before-stage": {
+          "description": "Before stage: planned, refreshed or recorded",
+          "required": false,
+          "default": ""
+        },
+        "after-stage": {
+          "description": "After stage: planned, refreshed or recorded",
+          "required": false,
+          "default": ""
+        },
+        "project": {
+          "description": "Project directory for raw evidence or Policy selection; defaults to workspace",
+          "required": false,
+          "default": ""
+        },
+        "locked": {
+          "description": "Require and preserve existing rootform.lock",
+          "required": false,
+          "default": "false"
+        },
+        "offline": {
+          "description": "Prepare selected external content without network access",
+          "required": false,
+          "default": "false"
+        },
+        "cache": {
+          "description": "Cache verified external sources selected by rootform.lock",
+          "required": false,
+          "default": "true"
+        },
+        "summary": {
+          "description": "Append CLI Markdown to GitHub Job Summary",
+          "required": false,
+          "default": "true"
+        },
+        "upload-artifact": {
+          "description": "Upload Form and derived reports as one artifact; never raw inputs",
+          "required": false,
+          "default": "true"
+        },
+        "artifact-name": {
+          "description": "Artifact name; defaults to a unique name per invocation, including matrix jobs",
+          "required": false,
+          "default": ""
+        },
+        "retention-days": {
+          "description": "Artifact retention: 1–90 days, capped by repository limit",
+          "required": false,
+          "default": "7"
+        }
+      },
+      "outputs": {
+        "version": {
+          "description": "Verified Rootform CLI version"
+        },
+        "form": {
+          "description": "Path to the generated Comparison Form"
+        },
+        "report": {
+          "description": "Path to the complete CLI Markdown report"
+        },
+        "html": {
+          "description": "Path to the self-contained HTML Explorer"
+        },
+        "artifact-id": {
+          "description": "Uploaded artifact ID for cross-job download"
+        },
+        "artifact-url": {
+          "description": "Uploaded artifact URL"
+        }
+      }
+    },
+    "check": {
+      "name": "Check Rootform",
+      "description": "Check a plan, state or saved Form against selected Policies; preserve every verdict report",
+      "inputs": {
+        "version": {
+          "description": "Exact published version; omit to reuse a verified version in this job",
+          "required": false,
+          "default": ""
+        },
+        "github-token": {
+          "description": "GitHub token for release API requests",
+          "required": false,
+          "default": "${{ github.token }}"
+        },
+        "input": {
+          "description": "Path to plan JSON, state JSON, Form or Comparison Form",
+          "required": false,
+          "default": ""
+        },
+        "plan-file": {
+          "description": "Matching saved plan for input; pairing must verify",
+          "required": false,
+          "default": ""
+        },
+        "policy": {
+          "description": "Policy selectors, one per line, within selected Packs",
+          "required": false,
+          "default": ""
+        },
+        "policy-pack": {
+          "description": "Policy Pack source directories or compiled files, one per line",
+          "required": false,
+          "default": ""
+        },
+        "side": {
+          "description": "Comparison sides: before, after or both; defaults to both",
+          "required": false,
+          "default": ""
+        },
+        "stage": {
+          "description": "Architecture stage: planned, refreshed or recorded",
+          "required": false,
+          "default": ""
+        },
+        "project": {
+          "description": "Project directory for raw evidence or Policy selection; defaults to workspace",
+          "required": false,
+          "default": ""
+        },
+        "locked": {
+          "description": "Require and preserve existing rootform.lock",
+          "required": false,
+          "default": "false"
+        },
+        "offline": {
+          "description": "Prepare selected external content without network access",
+          "required": false,
+          "default": "false"
+        },
+        "cache": {
+          "description": "Cache verified external sources selected by rootform.lock",
+          "required": false,
+          "default": "true"
+        },
+        "summary": {
+          "description": "Append CLI Markdown to GitHub Job Summary",
+          "required": false,
+          "default": "true"
+        },
+        "upload-artifact": {
+          "description": "Upload Form and derived reports as one artifact; never raw inputs",
+          "required": false,
+          "default": "true"
+        },
+        "artifact-name": {
+          "description": "Artifact name; defaults to a unique name per invocation, including matrix jobs",
+          "required": false,
+          "default": ""
+        },
+        "retention-days": {
+          "description": "Artifact retention: 1–90 days, capped by repository limit",
+          "required": false,
+          "default": "7"
+        }
+      },
+      "outputs": {
+        "version": {
+          "description": "Verified Rootform CLI version"
+        },
+        "form": {
+          "description": "Path to the supplied or generated Form"
+        },
+        "result": {
+          "description": "Path to Policy result JSON"
+        },
+        "report": {
+          "description": "Path to the complete CLI Markdown report"
+        },
+        "sarif": {
+          "description": "Path to Policy result SARIF"
+        },
+        "exit-code": {
+          "description": "Rootform check exit code, exposed before the gate"
+        },
+        "artifact-id": {
+          "description": "Uploaded artifact ID for cross-job download"
+        },
+        "artifact-url": {
+          "description": "Uploaded artifact URL"
+        }
+      }
+    }
+  }
+}

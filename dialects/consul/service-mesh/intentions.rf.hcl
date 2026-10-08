@@ -1,0 +1,74 @@
+concept "mesh-security-configuration" {
+  description = "An authorization detail protecting service mesh traffic without proving traffic flow."
+}
+
+rule "config-entry-service-intentions" {
+  match {
+    type = "consul_config_entry_service_intentions"
+  }
+
+  as = concept.mesh-security-configuration
+
+  contribution {
+    to       = concept.consul-service
+    via      = source.name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+  }
+}
+
+rule "config-entry-service-intentions-json" {
+  match {
+    type  = "consul_config_entry"
+    where = source.kind == "service-intentions"
+  }
+
+  as = concept.mesh-security-configuration
+}
+
+rule "config-entry-service-intentions-json-lookup" {
+  match {
+    kind  = "data"
+    type  = "consul_config_entry"
+    where = source.kind == "service-intentions"
+  }
+
+  as = concept.mesh-security-configuration
+}
+
+rule "intention" {
+  match {
+    type = "consul_intention"
+  }
+
+  as = concept.mesh-security-configuration
+
+  contribution {
+    to       = concept.consul-service
+    via      = source.source_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+  }
+
+  contribution {
+    to       = concept.consul-service
+    via      = source.destination_name
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.name
+      strategy = "exact"
+    }
+  }
+}

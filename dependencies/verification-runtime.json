@@ -1,0 +1,18 @@
+{
+  "format_version": "1",
+  "repository": "rootform-dev/rootform",
+  "version": "0.1.0-pr.117.1",
+  "archives": {
+    "linux_amd64": "ef1dfd4eb00d8627a3146c1174516124b6d7b2375bb6db32796b77fb910c4396",
+    "darwin_arm64": "a2426008d5601478c1328e590ecd6edccbfd1f275b6d8e965e1ce56b3ee514ff"
+  },
+  "release_tag": "verification-runtime-0.1.0-pr.117.1",
+  "origin": {
+    "repository": "rootform-dev/rootform",
+    "repository_id": 1351756902,
+    "release_id": 401631093,
+    "release_tag": "v0.1.0-pr.117.1",
+    "release_commit": "74bd643f3001a37f8b4f881c0ae33db047b6aba3",
+    "published_at": "2026-10-02T08:56:47Z"
+  }
+}

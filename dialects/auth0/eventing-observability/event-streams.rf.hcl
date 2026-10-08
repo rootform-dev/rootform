@@ -1,0 +1,44 @@
+concept "identity-event-stream" {
+  description = "An Auth0 Event Stream publishing tenant events to an external destination or Action."
+}
+
+rule "event-stream" {
+  match {
+    type = "auth0_event_stream"
+  }
+
+  as = concept.identity-event-stream
+
+  relation "delivers-to-action" {
+    to       = concept.identity-extension
+    via      = source.action_configuration[0].action_id
+    on_null  = "absent"
+    on_empty = "absent"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}
+
+rule "event-stream-lookup" {
+  match {
+    kind = "data"
+    type = "auth0_event_stream"
+  }
+
+  as = concept.identity-event-stream
+
+  relation "delivers-to-action" {
+    to       = concept.identity-extension
+    via      = source.action_configuration[0].action_id
+    on_null  = "indeterminate"
+    on_empty = "indeterminate"
+
+    match {
+      by       = target.id
+      strategy = "exact"
+    }
+  }
+}

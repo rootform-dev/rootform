@@ -1,0 +1,8 @@
+dialect "confluent" {
+  version = "0.1.0"
+
+
+  provider "confluentinc/confluent" {
+    version = "= 2.83.0"
+  }
+}
