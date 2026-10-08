@@ -164,7 +164,10 @@ export function childEnvironment(
 export function redact(text: string, redactions: readonly Redaction[]): string {
   let result = text;
   for (const entry of [...redactions].sort((left, right) => right.path.length - left.path.length)) {
-    result = result.replaceAll(entry.path, entry.placeholder);
+    const quotedPath = JSON.stringify(entry.path).slice(1, -1);
+    result = result
+      .replaceAll(quotedPath, entry.placeholder)
+      .replaceAll(entry.path, entry.placeholder);
   }
   return result;
 }
@@ -1315,7 +1318,7 @@ export async function runJourney(
       assertCommandRefusal(checkInput(missingInput, "runtime-proofs.policy.passes"), {
         code: "INPUT_UNREADABLE",
         exitCode: 4,
-        headline: 'cannot read "<sandbox>/outputs/missing input.json"',
+        headline: redact(`cannot read ${JSON.stringify(missingInput)}`, redactions),
       }),
     );
     inputRefusals.oversized = attempt("oversized-input-refused-before-compilation", () => {
@@ -1323,7 +1326,10 @@ export async function runJourney(
       const refusal = assertCommandRefusal(outcome, {
         code: "INPUT_REFUSED",
         exitCode: 3,
-        headline: 'input "<sandbox>/outputs/oversized.json" exceeds the 128 MiB limit',
+        headline: redact(
+          `input ${JSON.stringify(oversizedInput)} exceeds the 128 MiB limit`,
+          redactions,
+        ),
       });
       if (outcome.stderr.includes("Compiling")) {
         throw new Error("oversized input reached compilation");
