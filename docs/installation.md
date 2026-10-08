@@ -91,8 +91,11 @@ docker run --rm ghcr.io/rootform-dev/rootform:0.1.0 rootform version
 
 Use a release archive when you need exact binary bytes, checksum evidence, or a
 transfer to a machine without network access. From
-[Rootform v0.1.0](https://github.com/rootform-dev/rootform/releases/tag/v0.1.0),
-take the archive for your platform and `SHA256SUMS`:
+[Rootform releases](https://github.com/rootform-dev/rootform/releases), select a
+published product version and take its platform archive and `SHA256SUMS`.
+The filenames below show archive conventions; use the selected release's
+version in each name. A verification runtime is for contributor checks and does not
+provide a product installation.
 
 | Platform | Archive |
 | --- | --- |
