@@ -3,7 +3,7 @@ title: "rootform update policy-pack"
 description: "Change one selected Policy Pack"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Change one selected Policy Pack.
 

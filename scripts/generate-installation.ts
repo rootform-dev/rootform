@@ -111,7 +111,10 @@ export function generateInstallation(options: {
     ["install.sh", "install"],
     ["install.ps1", "install.ps1"],
   ] as const) {
-    const body = readFileSync(join(import.meta.dir, "..", "installers", source), "utf8");
+    const body = readFileSync(
+      join(import.meta.dir, "..", "distribution", "installers", source),
+      "utf8",
+    );
     writeFileSync(join(options.output, output), body.replaceAll("@ROOTFORM_VERSION@", version), {
       flag: "wx",
     });

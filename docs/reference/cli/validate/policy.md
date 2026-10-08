@@ -3,7 +3,7 @@ title: "rootform validate policy"
 description: "Validate a Policy definition"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Validate a Policy definition.
 

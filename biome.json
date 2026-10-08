@@ -27,7 +27,7 @@
     {
       "includes": [
         "schemas/*.json",
-        "reference/cli.json",
+        "contracts/reference/cli.json",
         "examples/playground/forms/*.json",
         "examples/playground/*/*/plan.json"
       ],

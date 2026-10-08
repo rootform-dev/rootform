@@ -3,7 +3,7 @@ title: "rootform package policy-packs"
 description: "Build Policy Pack packages"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Build Policy Pack packages.
 

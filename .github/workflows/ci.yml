@@ -375,7 +375,7 @@ jobs:
       - name: Enforce OCI base vulnerability policy
         run: |
           set -euo pipefail
-          mapfile -t bases < <(awk 'toupper($1) == "FROM" { print $2 }' oci/Dockerfile)
+          mapfile -t bases < <(awk 'toupper($1) == "FROM" { print $2 }' distribution/oci/Dockerfile)
           test "${#bases[@]}" -eq 1
           base="${bases[0]}"
           [[ "$base" =~ ^alpine:[0-9]+\.[0-9]+@sha256:[0-9a-f]{64}$ ]]

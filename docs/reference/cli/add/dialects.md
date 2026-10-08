@@ -3,7 +3,7 @@ title: "rootform add dialects"
 description: "Add Dialects to rootform.lock"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Add Dialects to rootform.lock.
 

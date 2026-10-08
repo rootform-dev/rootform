@@ -355,7 +355,7 @@ export function checkPage(
   if (body.trim().length === 0) {
     issues.push({ file: path, kind: "empty-page", detail: "page has no content" });
   }
-  // CLI pages are generated from reference/cli.json and verified by check:cli.
+  // CLI pages are generated from contracts/reference/cli.json and verified by check:cli.
   if (!path.replaceAll("\\", "/").startsWith("docs/reference/cli/")) {
     for (const [index, line] of text.split(/\r?\n/u).entries()) {
       if (line.includes("\u2014")) {

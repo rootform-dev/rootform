@@ -467,7 +467,7 @@ export function buildImage(options: ImageOptions & { root: string }): void {
   const archivePath = join(options.output, `rootform_${version}_image.oci.tar`);
   prepareEmptyDirectory(options.output);
   const dockerfile = requireRegularFile(
-    join(options.root, "oci", "Dockerfile"),
+    join(options.root, "distribution", "oci", "Dockerfile"),
     "image definition",
     65536,
   );

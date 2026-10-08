@@ -3,7 +3,7 @@ title: "rootform publish policy-packs"
 description: "Publish a verified Policy Pack registry layout"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Publish a verified Policy Pack registry layout.
 

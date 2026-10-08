@@ -10,7 +10,7 @@ import {
 
 const root = join(import.meta.dir, "..");
 const snapshot = JSON.parse(
-  readFileSync(join(root, "reference/github-actions.json"), "utf8"),
+  readFileSync(join(root, "contracts/reference/github-actions.json"), "utf8"),
 ) as ActionReference;
 
 test("every Action page exposes its complete exact input/output contract", () => {

@@ -3,7 +3,7 @@ title: "rootform validate relation"
 description: "Validate a relation predicate"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Validate a relation predicate.
 

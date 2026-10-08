@@ -3,7 +3,7 @@ title: "rootform compile policy-pack"
 description: "Compile and pin a Policy Pack"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Compile and pin a Policy Pack.
 
