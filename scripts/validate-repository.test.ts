@@ -12,13 +12,9 @@ import {
 
 const root = join(import.meta.dir, "..");
 
-test(
-  "current repository respects distribution boundary",
-  () => {
-    expect(validateRepository).not.toThrow();
-  },
-  30_000,
-);
+test("current repository respects distribution boundary", () => {
+  expect(validateRepository).not.toThrow();
+}, 30_000);
 
 test("Go source stays inside the self-contained public CLI module", () => {
   const goMod = "module github.com/rootform-dev/rootform/cli\n\ngo 1.26.0\n\ntoolchain go1.26.7\n";
