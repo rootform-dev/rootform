@@ -1,26 +1,19 @@
 # Rootform CLI module
 
-`github.com/rootform-dev/rootform/cli` is the public Go module of the Rootform
-command line: its commands, flags, help, completions, argument checks, exit
-statuses, human and machine reports, the loopback explorer server and the HTML
-export. It also holds the Form and Policy result models, input detection, and
-the generators of the Form and Policy result schemas and of the CLI reference.
+`github.com/rootform-dev/rootform/cli` provides Rootform's Go command surface:
+commands, flags, help, reports, exit statuses, the loopback Explorer server and
+HTML export. It also owns the Form and Policy result models and their schema
+generators.
 
-A program runs the command line by building one `cli.Env` with its streams,
-arguments and a backend, and calling `cli.Run` once. The backend implements
-the ports of `cli/backend`: compiling a plan or state export into a Form,
-comparing two Forms, presenting a Form and loading and evaluating Policy
-Packs. `cli/backend/backendtest` provides a scriptable fake backend and the
-conformance suite every backend passes.
+Call `cli.Run` with a `cli.Env` containing arguments, streams and a backend.
+Implement `cli/backend` for compilation, comparison, presentation and Policy
+evaluation. `cli/backend/backendtest` provides a fake backend and conformance
+tests. The distributed Rootform executable supplies that backend.
 
-The Rootform binary is built from a private engine that implements the
-backend and pins one commit of this repository for both this module and the
-official Dialects.
+Consumers pin an exact repository commit. The module makes no compatibility
+promise yet.
 
-The module makes no compatibility promise yet: its version is the commit the
-engine pins.
-
-## Check
+## Validate
 
 With Go 1.26.7, from this directory:
 
@@ -28,12 +21,10 @@ With Go 1.26.7, from this directory:
 GOWORK=off go test ./...
 ```
 
-From the repository root, `bun run check:cli-module` runs the same checks with
-the pinned toolchain, gofmt, vet and the schema and CLI reference freshness
-checks.
+From the repository root, `bun run check:cli-module` also runs gofmt, vet and
+schema and CLI reference freshness checks with the pinned toolchain.
 
-After changing a model or a command, regenerate the committed schemas and the
-CLI reference from this directory:
+After changing a model or command, regenerate from this directory:
 
 ```bash
 go run ./internal/architecture/document/schema/cmd -write
@@ -41,6 +32,5 @@ go run ./internal/policy/schema/cmd -write
 go run ./internal/clireference/cmd -write
 ```
 
-## License
-
-Apache-2.0. See [LICENSE](LICENSE).
+See [contributor setup](../docs/contributing/index.md) and
+[public contracts](../contracts/README.md). License: [Apache-2.0](LICENSE).

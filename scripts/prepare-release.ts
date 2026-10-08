@@ -46,13 +46,13 @@ const MENTIONS: ReadonlyArray<{ applies: (file: string) => boolean; pattern: Reg
     pattern: new RegExp(`^(\\s*version: )(${VERSION})$`, "gmu"),
   },
   {
-    applies: (file) => file === "installers/README.md",
+    applies: (file) => file === "distribution/installers/README.md",
     pattern: new RegExp(`(--version )(${VERSION})`, "gu"),
   },
 ];
 
 export function releaseDocuments(root: string): string[] {
-  return [...documentationFiles(root), "installers/README.md"].sort((left, right) =>
+  return [...documentationFiles(root), "distribution/installers/README.md"].sort((left, right) =>
     left.localeCompare(right, "en"),
   );
 }

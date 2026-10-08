@@ -60,7 +60,7 @@ const flagKeys = [
   "shorthand_deprecated",
 ];
 const notice =
-  "<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->";
+  "<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->";
 export const endGenerated = "<!-- END GENERATED CLI -->";
 export const beginGenerated = (path: string): string => `<!-- BEGIN GENERATED CLI: ${path} -->`;
 // These pages retain authored guidance; only their syntax and command inventory are generated.
@@ -396,7 +396,10 @@ export function commandNavigation(commands: Command[]): Nav[] {
 export function generate(root: string, check: boolean): void {
   const commands = parseReference(
     JSON.parse(
-      readFileSync(process.env.ROOTFORM_CLI_REFERENCE ?? join(root, "reference/cli.json"), "utf8"),
+      readFileSync(
+        process.env.ROOTFORM_CLI_REFERENCE ?? join(root, "contracts/reference/cli.json"),
+        "utf8",
+      ),
     ),
   );
   for (const path of authoredCommands) {

@@ -3,7 +3,7 @@ title: "rootform remove"
 description: "Remove content from rootform.lock"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Remove content from rootform.lock.
 

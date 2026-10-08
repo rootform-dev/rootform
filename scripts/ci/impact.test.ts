@@ -83,6 +83,15 @@ describe("contribution impact", () => {
     ])
       expect(classifyChanges([change]).lanes.examples).toBe(true);
   });
+  test("generated provenance selects its lane from both reference locations", () => {
+    for (const path of ["reference/cli.json", "contracts/reference/cli.json"]) {
+      const marker = `<!-- Generated from ${path}. Run bun run generate:cli; do not edit this page. -->`;
+      const plan = classifyChanges([
+        { path: "docs/reference/cli/run.md", before: `${marker}\nOld`, after: `${marker}\nNew` },
+      ]);
+      expect(plan.lanes.generated).toBe(true);
+    }
+  });
   test("renames select old and new ownership, removals retain runtime validation", () => {
     const plan = classifyChanges([
       { path: "examples/dialect.rf.hcl", previousPath: "dialects/aws/dialect.rf.hcl" },

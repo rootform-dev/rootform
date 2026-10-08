@@ -15,7 +15,7 @@ for (const script of [
   });
   if (result.exitCode !== 0) diagnostics.push(`${script}: ${result.stderr.toString().trim()}`);
 }
-const diff = Bun.spawnSync(["git", "diff", "--", "docs", "reference"], {
+const diff = Bun.spawnSync(["git", "diff", "--", "docs", "contracts/reference"], {
   cwd: root,
   stdout: "pipe",
   stderr: "pipe",

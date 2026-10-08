@@ -3,7 +3,7 @@ title: "rootform package"
 description: "Package Rootform content for distribution"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Package Rootform content for distribution.
 

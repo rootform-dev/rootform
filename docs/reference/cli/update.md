@@ -3,7 +3,7 @@ title: "rootform update"
 description: "Change a selection in rootform.lock"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Change a selection in rootform.lock.
 

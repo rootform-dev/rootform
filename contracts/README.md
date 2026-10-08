@@ -17,6 +17,8 @@ private implementation plans.
   Rootform release set;
 - `release-manifest.md`: binary release metadata and license boundary.
 
+[`reference/`](reference/) holds generated CLI and Action metadata and verification evidence.
+
 Contracts use format versions carried by their serialized documents. A
 breaking wire change requires a new format version and migration notes. Product
 version and format version are separate.

@@ -3,7 +3,7 @@ title: "rootform validate concept"
 description: "Validate a Concept definition"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Validate a Concept definition.
 

@@ -47,12 +47,10 @@ const allowedTopLevel = new Set([
   "docs",
   "dialects",
   "examples",
-  "installers",
-  "oci",
+  "distribution",
   "package.json",
   "policy-packs",
   "public-export.json",
-  "reference",
   "schemas",
   "scripts",
   "tsconfig.json",
@@ -61,7 +59,7 @@ const forbiddenTopLevel = new Set(["apps", "cmd", "internal", "packages", "specs
 const forbiddenText =
   /(?:\/Users\/|\/home\/(?!rootform(?:\/|$)|runner(?:\/|$))[A-Za-z0-9._-]+\/|[A-Za-z]:\\Users\\|BEGIN (?:RSA|OPENSSH|EC|DSA) PRIVATE KEY|(?:github_pat_|ghp_)[A-Za-z0-9_]{12,})/u;
 const enginePathReference =
-  /(?:\bpackages\/renderer\/|\bweb\/src\/|\bweb\/fixtures\/|\btestdata\/|\bprd\.md|\bdocs\/internal\/|\.ai(?:-)private|\bspecs\/[0-9]{3}-|\bdocs\/adr\/[0-9]{3}-|\bSPEC-[0-9]{3}\b|\bADR-[0-9]{3}\b)/u;
+  /(?:\bpackages\/renderer\/|\bweb\/(?:src|fixtures|testdata|internal)\/|\bengine\/(?:testdata|internal)\/|\bprd\.md|\bdocs\/internal\/|(?:^|[\s"'`/])\.[A-Za-z0-9][A-Za-z0-9_-]*-(?:private|internal)(?=[/\s"'`]|$)|\bspecs\/[0-9]{3}-|\bdocs\/adr\/[0-9]{3}-|\bSPEC-[0-9]{3}\b|\bADR-[0-9]{3}\b)/u;
 
 export function findEnginePathReference(body: string): string | null {
   return enginePathReference.exec(body)?.[0] ?? null;
@@ -200,9 +198,9 @@ export function validateRepository(): void {
     "docs/integrations/ci/github-actions-plan.yml",
     "docs/integrations/ci/gitlab-ci.yml",
     "docs/integrations/ci/rootform-ci.sh",
-    "oci/Dockerfile",
-    "installers/install.sh",
-    "installers/install.ps1",
+    "distribution/oci/Dockerfile",
+    "distribution/installers/install.sh",
+    "distribution/installers/install.ps1",
     "docs/integrations/registry-compatibility.md",
     "scripts/assemble-release.ts",
     "scripts/build-image.ts",
@@ -231,7 +229,7 @@ export function validateRepository(): void {
     "scripts/validate-oci-core-profile.ts",
     "scripts/validate-trivy-policy.ts",
     "dependencies/runtime-components.json",
-    "reference/cli.json",
+    "contracts/reference/cli.json",
     "schemas/compiled-policy-pack.schema.json",
     "schemas/form.schema.json",
     "schemas/policy-result.schema.json",

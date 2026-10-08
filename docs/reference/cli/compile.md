@@ -3,7 +3,7 @@ title: "rootform compile"
 description: "Compile a Policy Pack for offline checks"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Compile a Policy Pack for offline checks.
 

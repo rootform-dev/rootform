@@ -34,7 +34,7 @@ test("Go source stays inside the self-contained public CLI module", () => {
     "Go module files belong only to cli/: tools/go.mod",
   );
   for (const imported of [
-    "github.com/rootform-dev/engine/internal/run",
+    "github.com/rootform-dev/engine" + "/internal/fictional",
     "github.com/rootform-dev/engine",
     "github.com/rootform-dev/web/apps/renderer",
   ]) {
@@ -67,16 +67,28 @@ test("engine path guard rejects private Engine paths in public files", () => {
     "packages" + "/renderer/src/fixtures/example.ts",
     "web" + "/src/example.svg",
     "web" + "/fixtures/example.json",
-    "testdata" + "/example.json",
+    "engine" + "/testdata/example.json",
+    "engine" + "/internal/compiler.go",
     "docs" + "/internal/example.md",
     "prd" + ".md",
-    ".ai" + "-private",
+    ".fictional" + "-private/example.md",
+    ".fictional" + "-internal/example.md",
     "specs" + "/999-fictional-feature/evidence/example.json",
     "docs" + "/adr/999-fictional-decision.md",
     "SPEC" + "-999-fictional-feature.md",
     "ADR" + "-999-fictional-decision.md",
   ]) {
     expect(findEnginePathReference(body)).not.toBeNull();
+  }
+});
+
+test("engine path guard accepts public Go fixture references", () => {
+  for (const body of [
+    "Go fixtures live in testdata/example.json.",
+    "The CLI module reads cli/testdata/plan.json during tests.",
+    "Agent integrations and AI tools use the public spec contracts.",
+  ]) {
+    expect(findEnginePathReference(body)).toBeNull();
   }
 });
 

@@ -3,7 +3,7 @@ title: "rootform test"
 description: "Test Dialect fixtures"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Test Dialect fixtures.
 

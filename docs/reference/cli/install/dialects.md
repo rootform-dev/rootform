@@ -3,7 +3,7 @@ title: "rootform install dialects"
 description: "Install Dialects from registry references"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Install Dialects from registry references.
 

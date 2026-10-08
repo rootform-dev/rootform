@@ -13,7 +13,7 @@ import (
 )
 
 // Output is the path of the committed reference from the module root.
-const Output = "../reference/cli.json"
+const Output = "../contracts/reference/cli.json"
 
 type Document struct {
 	FormatVersion int       `json:"format_version"`

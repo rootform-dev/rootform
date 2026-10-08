@@ -40,7 +40,8 @@ function repository(): string {
     ].join("\n"),
     "docs/integrations/github-actions.md":
       "- uses: rootform-dev/action@v1\n  with:\n    version: 0.1.0\n",
-    "installers/README.md": "bun scripts/generate-installation.ts \\\n  --version 0.1.0 \\\n",
+    "distribution/installers/README.md":
+      "bun scripts/generate-installation.ts \\\n  --version 0.1.0 \\\n",
     "package.json":
       '{\n  "name": "@rootform/distribution",\n  "version": "0.1.0",\n  "private": true\n}\n',
     "public-export.json": JSON.stringify({
@@ -110,9 +111,9 @@ test("a prepared release is the request the check reads", () => {
   expect(prepareRelease(root, "0.1.2")).toEqual([
     "CHANGELOG.md",
     "package.json",
+    "distribution/installers/README.md",
     "docs/installation.md",
     "docs/integrations/github-actions.md",
-    "installers/README.md",
     "README.md",
   ]);
   expect(checkRelease(root)).toEqual({
@@ -131,12 +132,12 @@ test("the check names every unprepared place", () => {
   writeFileSync(join(root, "public-export.json"), JSON.stringify({ source_commit: "main" }));
   expect(checkRelease(root).problems).toEqual([
     "CHANGELOG.md: no entries under ## 0.1.2",
+    "distribution/installers/README.md:2: names Rootform 0.1.0, not 0.1.2",
     "docs/installation.md:1: names Rootform 0.1.0, not 0.1.2",
     "docs/installation.md:2: names Rootform 0.1.0, not 0.1.2",
     "docs/installation.md:2: names Rootform 0.1.0, not 0.1.2",
     "docs/installation.md:3: names Rootform 0.1.0, not 0.1.2",
     "docs/integrations/github-actions.md:3: names Rootform 0.1.0, not 0.1.2",
-    "installers/README.md:2: names Rootform 0.1.0, not 0.1.2",
     "README.md:1: documentation download follows dev, not v0.1.2",
     "public-export.json: no exact Engine commit",
   ]);

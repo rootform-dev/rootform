@@ -276,7 +276,7 @@ test("index inventory links every exported command, including nested ones", () =
 
 test("index inventory still links every command in the checked-in export", () => {
   const commands = parseReference(
-    JSON.parse(readFileSync(new URL("../reference/cli.json", import.meta.url), "utf8")),
+    JSON.parse(readFileSync(new URL("../contracts/reference/cli.json", import.meta.url), "utf8")),
   );
   const root = present(commands.find((entry) => entry.path === "rootform"));
   const page = replaceGenerated(`${beginGenerated(root.path)}\n${endGenerated}`, root, commands);
@@ -312,8 +312,8 @@ test("joins exit status continuation lines and rejects malformed lines", () => {
 test("generation refuses an exported inventory missing an authored command", () => {
   const root = mkdtempSync(join(tmpdir(), "rootform-cli-reference-"));
   try {
-    mkdirSync(join(root, "reference"));
-    writeFileSync(join(root, "reference/cli.json"), JSON.stringify(document()));
+    mkdirSync(join(root, "contracts/reference"), { recursive: true });
+    writeFileSync(join(root, "contracts/reference/cli.json"), JSON.stringify(document()));
     expect(() => generate(root, true)).toThrow("Authored CLI reference has no exported command");
   } finally {
     rmSync(root, { recursive: true, force: true });

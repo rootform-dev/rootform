@@ -118,7 +118,7 @@ export function classifyChanges(changes: readonly Change[]): Impact {
             [change.before, change.after].some(
               (text) =>
                 text &&
-                /<!--\s*(?:BEGIN GENERATED (?:CLI|ACTION)|Generated (?:from reference\/cli\.json|by scripts\/generate-provider-coverage\.ts))/u.test(
+                /<!--\s*(?:BEGIN GENERATED (?:CLI|ACTION)|Generated (?:from (?:contracts\/)?reference\/cli\.json|by scripts\/generate-provider-coverage\.ts))/u.test(
                   text,
                 ),
             )
@@ -171,7 +171,10 @@ export function classifyChanges(changes: readonly Change[]): Impact {
         impact.preview = true;
         impact.scenarios = true;
         impact.core = true;
-      } else if (/^(?:installers|oci|dependencies)\//u.test(path) || path === ".trivyignore.yaml") {
+      } else if (
+        /^(?:distribution|installers|oci|dependencies)\//u.test(path) ||
+        path === ".trivyignore.yaml"
+      ) {
         select(`${path}: distribution`, "distribution", "tooling");
       } else {
         // Includes workflow/policy edits, dependencies, generators and unknown paths.

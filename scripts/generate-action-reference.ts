@@ -112,7 +112,7 @@ export function updateReference(page: string, generated: string): string {
 if (import.meta.main) {
   const root = join(import.meta.dir, "..");
   const document = JSON.parse(
-    readFileSync(join(root, "reference/github-actions.json"), "utf8"),
+    readFileSync(join(root, "contracts/reference/github-actions.json"), "utf8"),
   ) as ActionReference;
   if (
     document.source.repository !== "rootform-dev/action" ||

@@ -3,7 +3,7 @@ title: "rootform uninstall policy-packs"
 description: "Delete installed Policy Pack versions"
 ---
 
-<!-- Generated from reference/cli.json. Run bun run generate:cli; do not edit this page. -->
+<!-- Generated from contracts/reference/cli.json. Run bun run generate:cli; do not edit this page. -->
 
 Delete installed Policy Pack versions.
 
