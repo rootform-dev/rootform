@@ -187,6 +187,17 @@ test("redact replaces known paths without touching unrelated text", () => {
   );
 });
 
+test("redact covers raw and quoted Windows paths while preserving diagnostic filenames", () => {
+  const sandbox = String.raw`R:\fixture\sandbox`;
+  const input = `${sandbox}\\outputs\\missing input.json`;
+  const redactions = [{ path: sandbox, placeholder: "<sandbox>" }];
+  expect(redact(`reading ${input}`, redactions)).toBe(
+    String.raw`reading <sandbox>\outputs\missing input.json`,
+  );
+  const headline = redact(`cannot read ${JSON.stringify(input)}`, redactions);
+  expect(headline).toBe(String.raw`cannot read "<sandbox>\\outputs\\missing input.json"`);
+});
+
 test("runBinary executes a local executable and reports failures", () => {
   if (process.platform === "win32") return;
   const sandbox = mkdtempSync(join(tmpdir(), "rootform-run-"));
