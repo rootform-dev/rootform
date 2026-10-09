@@ -61,14 +61,6 @@ Invoke-RestMethod https://rootform.dev/install.ps1 | Invoke-Expression
 rootform version
 ```
 
-**Other options**
-
-WinGet:
-
-```shell
-winget install --id Rootform.Rootform --exact
-```
-
 <!-- rootform:tab Container -->
 
 **Recommended**
@@ -133,7 +125,6 @@ described in [Locks and vendored content](offline-security.md).
 Update package-managed installations with their package managers:
 
 - Homebrew: `brew upgrade rootform-dev/tap/rootform`
-- WinGet: `winget upgrade --id Rootform.Rootform --exact`
 - Shell installer: run the recommended install command again. It replaces the
   executable in the same installation directory.
 - Manual archive: replace the executable with the binary from the new release,
@@ -144,7 +135,6 @@ Update package-managed installations with their package managers:
 Remove package-managed installations with:
 
 - Homebrew: `brew uninstall rootform-dev/tap/rootform`
-- WinGet: `winget uninstall --id Rootform.Rootform --exact`
 - Shell installer: remove `~/.local/bin/rootform` by default, or the file
   under the custom `ROOTFORM_INSTALL_DIR`.
 - Manual archive: remove `rootform` or `rootform.exe` from its `PATH` directory.
