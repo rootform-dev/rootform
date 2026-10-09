@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- `rootform run form.json` and comparisons of saved Forms draw provider icons and labels when the Form records the Dialects shipped with the same executable.
+
 ## 0.2.0-rc.1
 
 - Analyze Terraform and OpenTofu plan and state exports into portable Forms,
