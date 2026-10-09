@@ -12,7 +12,8 @@ help you navigate a Dialect or Policy Pack.
 
 1. [Install Rootform](../installation.md) and confirm `rootform version` works.
 2. Package the extension from the
-   [editors repository](https://github.com/rootform-dev/editors) with Bun:
+   [editors repository](https://github.com/rootform-dev/editors). Packaging
+   needs Bun and Node.js 22 or later with npm:
 
    ```sh
    git clone https://github.com/rootform-dev/editors.git
