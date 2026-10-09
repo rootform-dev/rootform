@@ -6,7 +6,7 @@ set -eu
 umask 077
 tools=$(mktemp -d "${TMPDIR:-/tmp}/rootform-ci-tools.XXXXXXXX")
 trap 'rm -rf -- "$tools"' 0
-version=${ROOTFORM_VERSION:-0.1.0}
+version=${ROOTFORM_VERSION:-0.2.0}
 if [ -z "${ROOTFORM_BIN:-}" ]; then
   curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' \
     https://rootform.dev/install > "$tools/install.sh"

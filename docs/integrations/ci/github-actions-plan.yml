@@ -29,7 +29,7 @@ jobs:
       - uses: rootform-dev/action@17cf0cbefae80ac388b54e0329dd40f3cd0f659e # v1
         id: rootform
         with:
-          version: 0.1.0
+          version: 0.2.0
           project: ./infra
           input: ${{ runner.temp }}/plan.json
           plan-file: ${{ runner.temp }}/plan.tfplan

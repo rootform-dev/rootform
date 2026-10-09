@@ -42,7 +42,7 @@ state JSON or a saved Form. Choose an exact [published Rootform version](https:/
 - uses: rootform-dev/action@v1
   id: rootform
   with:
-    version: 0.2.0-rc.1
+    version: 0.2.0
     input: ${{ runner.temp }}/plan.json
     plan-file: ${{ runner.temp }}/plan.tfplan
 ```
@@ -74,7 +74,7 @@ To compare two revisions, give the same Action both operands instead of
 - uses: rootform-dev/action@v1
   id: rootform
   with:
-    version: 0.2.0-rc.1
+    version: 0.2.0
     before: before/form.json
     after: after/form.json
     policy-pack: ./policies
@@ -142,7 +142,7 @@ jobs:
       # Checkout and export your input before this step.
       - uses: rootform-dev/action@v1
         with:
-          version: 0.2.0-rc.1
+          version: 0.2.0
           input: ${{ runner.temp }}/plan.json
           plan-file: ${{ runner.temp }}/plan.tfplan
           comment: true

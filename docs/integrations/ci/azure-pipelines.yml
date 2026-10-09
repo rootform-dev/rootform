@@ -15,7 +15,7 @@ steps:
       terraform -chdir=infra init -input=false
       terraform -chdir=infra plan -input=false -out="$plan_dir/plan.tfplan"
       terraform -chdir=infra show -json "$plan_dir/plan.tfplan" > "$plan_dir/plan.json"
-      ROOTFORM_MODE=check ROOTFORM_VERSION=0.1.0 ROOTFORM_PROJECT=./infra ROOTFORM_INPUT="$plan_dir/plan.json" ROOTFORM_PLAN_FILE="$plan_dir/plan.tfplan" ROOTFORM_OUTPUT_DIR="$(Build.SourcesDirectory)/.rootform-ci-$(Build.BuildId)" sh ./ci/generic-ci.sh
+      ROOTFORM_MODE=check ROOTFORM_VERSION=0.2.0 ROOTFORM_PROJECT=./infra ROOTFORM_INPUT="$plan_dir/plan.json" ROOTFORM_PLAN_FILE="$plan_dir/plan.tfplan" ROOTFORM_OUTPUT_DIR="$(Build.SourcesDirectory)/.rootform-ci-$(Build.BuildId)" sh ./ci/generic-ci.sh
     displayName: Review architecture and check Policies
   - publish: $(Build.SourcesDirectory)/.rootform-ci-$(Build.BuildId)
     artifact: rootform-results

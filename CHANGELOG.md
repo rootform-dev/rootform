@@ -2,13 +2,13 @@
 
 ## Unreleased
 
-- `rootform run form.json` and comparisons of saved Forms draw provider icons and labels when the Form records the Dialects shipped with the same executable.
-
-## 0.2.0-rc.1
+## 0.2.0
 
 - Analyze Terraform and OpenTofu plan and state exports into portable Forms,
   with stage architectures, comparisons, drift, evidence and explicit limits.
 - Explore architectures locally or through a self-contained HTML export.
+  A reopened Form keeps provider icons and labels when it records the
+  Dialects embedded in the same release.
 - Explain instances, Rules and recorded Policy outcomes with their provenance.
 - Evaluate selected Policies and Policy Packs against plans, states or
   comparison Forms, with text, Markdown, JSON and SARIF reports.

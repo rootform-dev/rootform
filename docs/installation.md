@@ -61,26 +61,18 @@ Invoke-RestMethod https://rootform.dev/install.ps1 | Invoke-Expression
 rootform version
 ```
 
-**Other options**
-
-WinGet:
-
-```shell
-winget install --id Rootform.Rootform --exact
-```
-
 <!-- rootform:tab Container -->
 
 **Recommended**
 
 ```sh
-docker pull ghcr.io/rootform-dev/rootform:0.2.0-rc.1
+docker pull ghcr.io/rootform-dev/rootform:0.2.0
 ```
 
 **Verify**
 
 ```sh
-docker run --rm ghcr.io/rootform-dev/rootform:0.2.0-rc.1 rootform version
+docker run --rm ghcr.io/rootform-dev/rootform:0.2.0 rootform version
 ```
 
 [Container usage](integrations/oci-image.md)
@@ -99,25 +91,25 @@ provide a product installation.
 
 | Platform | Archive |
 | --- | --- |
-| macOS, Apple silicon | `rootform_0.2.0-rc.1_darwin_arm64.tar.gz` |
-| macOS, Intel | `rootform_0.2.0-rc.1_darwin_amd64.tar.gz` |
-| Linux, x86-64 | `rootform_0.2.0-rc.1_linux_amd64.tar.gz` |
-| Linux, ARM64 | `rootform_0.2.0-rc.1_linux_arm64.tar.gz` |
-| Windows, x86-64 | `rootform_0.2.0-rc.1_windows_amd64.zip` |
+| macOS, Apple silicon | `rootform_0.2.0_darwin_arm64.tar.gz` |
+| macOS, Intel | `rootform_0.2.0_darwin_amd64.tar.gz` |
+| Linux, x86-64 | `rootform_0.2.0_linux_amd64.tar.gz` |
+| Linux, ARM64 | `rootform_0.2.0_linux_arm64.tar.gz` |
+| Windows, x86-64 | `rootform_0.2.0_windows_amd64.zip` |
 
 Release archives include binary license and third-party notices. Match the
 archive against its `SHA256SUMS` entry before extraction:
 
 ```sh title="macOS"
-shasum -a 256 rootform_0.2.0-rc.1_darwin_arm64.tar.gz
+shasum -a 256 rootform_0.2.0_darwin_arm64.tar.gz
 ```
 
 ```sh title="Linux"
-sha256sum rootform_0.2.0-rc.1_linux_amd64.tar.gz
+sha256sum rootform_0.2.0_linux_amd64.tar.gz
 ```
 
 ```powershell title="Windows"
-Get-FileHash .\rootform_0.2.0-rc.1_windows_amd64.zip -Algorithm SHA256
+Get-FileHash .\rootform_0.2.0_windows_amd64.zip -Algorithm SHA256
 ```
 
 Extract the `.tar.gz` or `.zip`, then place `rootform` or `rootform.exe` in
@@ -133,22 +125,20 @@ described in [Locks and vendored content](offline-security.md).
 Update package-managed installations with their package managers:
 
 - Homebrew: `brew upgrade rootform-dev/tap/rootform`
-- WinGet: `winget upgrade --id Rootform.Rootform --exact`
 - Shell installer: run the recommended install command again. It replaces the
   executable in the same installation directory.
 - Manual archive: replace the executable with the binary from the new release,
   then verify it with `rootform version`.
 - Container: pull the selected release tag again, for example
-  `docker pull ghcr.io/rootform-dev/rootform:0.2.0-rc.1`.
+  `docker pull ghcr.io/rootform-dev/rootform:0.2.0`.
 
 Remove package-managed installations with:
 
 - Homebrew: `brew uninstall rootform-dev/tap/rootform`
-- WinGet: `winget uninstall --id Rootform.Rootform --exact`
 - Shell installer: remove `~/.local/bin/rootform` by default, or the file
   under the custom `ROOTFORM_INSTALL_DIR`.
 - Manual archive: remove `rootform` or `rootform.exe` from its `PATH` directory.
-- Container: `docker image rm ghcr.io/rootform-dev/rootform:0.2.0-rc.1`.
+- Container: `docker image rm ghcr.io/rootform-dev/rootform:0.2.0`.
 
 These steps remove the executable or image. `rootform uninstall` removes
 installed Dialects or Policy Packs from `$ROOTFORM_HOME`; it does not remove

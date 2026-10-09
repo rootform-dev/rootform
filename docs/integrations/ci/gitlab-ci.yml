@@ -4,7 +4,7 @@ rootform-review:
   stage: review
   variables:
     ROOTFORM_MODE: check
-    ROOTFORM_VERSION: 0.1.0
+    ROOTFORM_VERSION: 0.2.0
     ROOTFORM_PROJECT: ./infra
     ROOTFORM_OUTPUT_DIR: .rootform-ci-${CI_JOB_ID}
   script:

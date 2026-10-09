@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   documentationFiles,
@@ -42,8 +42,15 @@ const MENTIONS: ReadonlyArray<{ applies: (file: string) => boolean; pattern: Reg
   { applies: () => true, pattern: new RegExp(`(\\[Rootform v)(${VERSION})(?=\\])`, "gu") },
   {
     // The version input of the GitHub Action examples.
-    applies: (file) => file.startsWith("docs/integrations/github-actions"),
+    applies: (file) =>
+      file.startsWith("docs/integrations/github-actions") ||
+      file === "docs/integrations/ci/github-actions-plan.yml",
     pattern: new RegExp(`^(\\s*version: )(${VERSION})$`, "gmu"),
+  },
+  {
+    // The CI recipes and their guide install the released binary by version.
+    applies: (file) => file.startsWith("docs/integrations/ci/"),
+    pattern: new RegExp(`(ROOTFORM_VERSION(?::-|: |=|\` \\(default \`))(${VERSION})`, "gu"),
   },
   {
     applies: (file) => file === "distribution/installers/README.md",
@@ -51,10 +58,23 @@ const MENTIONS: ReadonlyArray<{ applies: (file: string) => boolean; pattern: Reg
   },
 ];
 
+// The CI recipes beside their guide are scripts and pipeline files.
+const RECIPES = "docs/integrations/ci";
+
+function recipeFiles(root: string): string[] {
+  const directory = join(root, RECIPES);
+  if (!existsSync(directory)) return [];
+  return readdirSync(directory, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && /\.(?:sh|ya?ml)$/u.test(entry.name))
+    .map((entry) => `${RECIPES}/${entry.name}`);
+}
+
 export function releaseDocuments(root: string): string[] {
-  return [...documentationFiles(root), "distribution/installers/README.md"].sort((left, right) =>
-    left.localeCompare(right, "en"),
-  );
+  return [
+    ...documentationFiles(root),
+    ...recipeFiles(root),
+    "distribution/installers/README.md",
+  ].sort((left, right) => left.localeCompare(right, "en"));
 }
 
 export function versionMentions(file: string, text: string): Mention[] {
