@@ -12,7 +12,7 @@ Generate from exact final release assets:
 
 ```sh
 bun scripts/generate-installation.ts \
-  --version 0.2.0-rc.1 \
+  --version 0.2.0 \
   --release build/release \
   --output build/installers
 ```

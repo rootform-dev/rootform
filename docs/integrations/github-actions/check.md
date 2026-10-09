@@ -11,7 +11,7 @@ required. A supplied Form or Comparison Form is reused without new analysis.
 - uses: rootform-dev/action/check@v1
   id: checks
   with:
-    version: 0.2.0-rc.1
+    version: 0.2.0
     input: ${{ runner.temp }}/plan.json
     plan-file: ${{ runner.temp }}/plan.tfplan
     policy-pack: ./policies/team

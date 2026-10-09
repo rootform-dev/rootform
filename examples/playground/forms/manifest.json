@@ -1,8 +1,8 @@
 {
   "format_version": "1",
   "binary": {
-    "version": "rootform 0.2.0-rc.1",
-    "sha256": "055c5546d69180c9bec1fb0ed6ca04acf25a9891cd89cfbc9d66e3dc9ed88fb2"
+    "version": "rootform 0.2.0",
+    "sha256": "049910dfff6009f177187064b5d525f504f86373d300b7f87c99f65b89f6c890"
   },
   "examples": {
     "commerce-platform": {
@@ -23,8 +23,8 @@
         }
       },
       "documents": {
-        "commerce-platform-analysis.json": "40010b680ace3e54291ea46e6f8cf04748899f8d6f00287dd8481e50ead41b69",
-        "commerce-platform-comparison.json": "801360dc0077a1a768322ac07ffd3be45f50d10c964c3dd536c96f755281a625",
+        "commerce-platform-analysis.json": "6be055b0c3404a9e6c1f27d34c7fb955c6363f531c59009a14c823560b788d2a",
+        "commerce-platform-comparison.json": "61dceae0f178f9d2d3c0ff8b472c09717ba465889c4d7bb94811e8beaf420b27",
         "commerce-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49"
       }
     },
@@ -46,8 +46,8 @@
         }
       },
       "documents": {
-        "event-driven-platform-analysis.json": "627cbb1b2fb8797720e8fe7cba1875490c4f6ca031745186b5660e4f65ce97a0",
-        "event-driven-platform-comparison.json": "b3e55735f44b20f337cb95815a696efea9a9475f8fc8d50a9b667131da60bbaa",
+        "event-driven-platform-analysis.json": "617e537a0bd34c9b60d2121a68ec7af947aab9716ddac6e7269c8407190c0639",
+        "event-driven-platform-comparison.json": "8916f3c1a5ea66f8e236995b66cdccd08e436d73ad472107f09418a57ac04bcb",
         "event-driven-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49"
       }
     },
@@ -69,8 +69,8 @@
         }
       },
       "documents": {
-        "shared-data-platform-analysis.json": "a163e64765fab08577bdf512ff557308993e1785166e84242abcd49f4371877e",
-        "shared-data-platform-comparison.json": "8c9235e37df707403baab2aaced3a37f9e3b870a29e8e5ccb7124e353cfa1bbe",
+        "shared-data-platform-analysis.json": "7319299f19d3ee5032da81a2e56467c2630f7d8125c3ad2e3fbbb1875945f643",
+        "shared-data-platform-comparison.json": "5249891a5ba1dae4cc01759f9bb5d6d59538dedcc36a6e227da212eddb952b19",
         "shared-data-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49"
       }
     }

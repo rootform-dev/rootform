@@ -10,7 +10,9 @@ indentation and folding keep Dialects and Policy Packs readable.
 ## Start editing
 
 1. [Install Rootform](../installation.md) and confirm `rootform version` works.
-2. Open **Extensions**, search for **Rootform**, and install it.
+2. Clone the [editors repository](https://github.com/rootform-dev/editors).
+   In Zed, run **zed: install dev extension** and select its `zed` directory.
+   Zed builds the extension with Rust installed through rustup.
 3. Open a `.rf.hcl` file.
 
 The extension finds `rootform` on the workspace `PATH` and starts the language

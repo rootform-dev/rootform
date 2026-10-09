@@ -67,8 +67,8 @@ from.
 
 ```sh
 mkdir rootform-quickstart && cd rootform-quickstart
-curl -fsSLO https://raw.githubusercontent.com/rootform-dev/rootform/v0.2.0-rc.1/examples/playground/commerce-platform/head/plan.json
-curl -fsSLO https://raw.githubusercontent.com/rootform-dev/rootform/v0.2.0-rc.1/examples/playground/commerce-platform/head/plan.tfplan
+curl -fsSLO https://raw.githubusercontent.com/rootform-dev/rootform/v0.2.0/examples/playground/commerce-platform/head/plan.json
+curl -fsSLO https://raw.githubusercontent.com/rootform-dev/rootform/v0.2.0/examples/playground/commerce-platform/head/plan.tfplan
 ```
 
 Analyze the plan. Rootform reads both files, prints a summary, and opens the

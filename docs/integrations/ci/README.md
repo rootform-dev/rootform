@@ -210,7 +210,7 @@ Keep the workflow, these scripts, `ROOTFORM_MODE=check`, and the selected Dialec
 
 ## Script settings
 
-The portable script reads these settings from the environment. The installation wrapper also accepts `ROOTFORM_VERSION` (default `0.1.0`) and `ROOTFORM_HOME` for a prepared home; these are wrapper settings, not CLI flags.
+The portable script reads these settings from the environment. The installation wrapper also accepts `ROOTFORM_VERSION` (default `0.2.0`) and `ROOTFORM_HOME` for a prepared home; these are wrapper settings, not CLI flags.
 
 | Variable | Default | Use |
 | --- | --- | --- |

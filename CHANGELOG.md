@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-## 0.2.0-rc.1
+## 0.2.0
 
 - Analyze Terraform and OpenTofu plan and state exports into portable Forms,
   with stage architectures, comparisons, drift, evidence and explicit limits.

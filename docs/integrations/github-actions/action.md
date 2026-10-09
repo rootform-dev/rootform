@@ -20,7 +20,7 @@ reinterpreting the original exports.
 - uses: rootform-dev/action@v1
   id: rootform
   with:
-    version: 0.2.0-rc.1
+    version: 0.2.0
     input: ${{ runner.temp }}/plan.json
     plan-file: ${{ runner.temp }}/plan.tfplan
     policy-pack: ./policies/team

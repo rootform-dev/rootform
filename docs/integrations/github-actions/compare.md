@@ -11,7 +11,7 @@ setup, init and separate analyze steps are optional.
 - uses: rootform-dev/action/compare@v1
   id: comparison
   with:
-    version: 0.2.0-rc.1
+    version: 0.2.0
     before: ${{ runner.temp }}/before/plan.json
     before-plan-file: ${{ runner.temp }}/before/plan.tfplan
     after: ${{ runner.temp }}/after/plan.json

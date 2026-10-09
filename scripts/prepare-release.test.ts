@@ -142,3 +142,46 @@ test("the check names every unprepared place", () => {
     "public-export.json: no exact Engine commit",
   ]);
 });
+
+test("CI recipes and their guide install the released binary", () => {
+  const root = repository();
+  const recipes: Record<string, string> = {
+    "docs/integrations/ci/README.md":
+      "installs the exact `ROOTFORM_VERSION` into a directory.\naccepts `ROOTFORM_VERSION` (default `0.1.0`) and\n",
+    "docs/integrations/ci/azure-pipelines.yml":
+      "      ROOTFORM_MODE=check ROOTFORM_VERSION=0.1.0 sh ./ci/generic-ci.sh\n",
+    "docs/integrations/ci/generic-ci.sh": `version=\${ROOTFORM_VERSION:-0.1.0}\nROOTFORM_VERSION="$version" sh install.sh\n`,
+    "docs/integrations/ci/github-actions-plan.yml":
+      "          terraform_version: 1.16.4\n      - uses: rootform-dev/action@v1\n        with:\n          version: 0.1.0\n",
+    "docs/integrations/ci/gitlab-ci.yml": "    ROOTFORM_VERSION: 0.1.0\n",
+  };
+  for (const [path, body] of Object.entries(recipes)) {
+    mkdirSync(dirname(join(root, path)), { recursive: true });
+    writeFileSync(join(root, path), body);
+  }
+  const manifest = readFileSync(join(root, "package.json"), "utf8");
+  writeFileSync(join(root, "package.json"), manifest.replace('"0.1.0"', '"0.1.2"'));
+  expect(checkRelease(root).problems).toContain(
+    "docs/integrations/ci/generic-ci.sh:1: names Rootform 0.1.0, not 0.1.2",
+  );
+  writeFileSync(join(root, "package.json"), manifest);
+  expect(prepareRelease(root, "0.1.2")).toEqual([
+    "CHANGELOG.md",
+    "package.json",
+    "distribution/installers/README.md",
+    "docs/installation.md",
+    "docs/integrations/ci/azure-pipelines.yml",
+    "docs/integrations/ci/generic-ci.sh",
+    "docs/integrations/ci/github-actions-plan.yml",
+    "docs/integrations/ci/gitlab-ci.yml",
+    "docs/integrations/ci/README.md",
+    "docs/integrations/github-actions.md",
+    "README.md",
+  ]);
+  for (const [path, body] of Object.entries(recipes)) {
+    const text = readFileSync(join(root, path), "utf8");
+    expect(text).not.toContain("0.1.0");
+    expect(text).toBe(body.replaceAll("0.1.0", "0.1.2"));
+  }
+  expect(checkRelease(root).problems).toEqual([]);
+});

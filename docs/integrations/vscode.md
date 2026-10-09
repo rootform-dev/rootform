@@ -11,8 +11,19 @@ help you navigate a Dialect or Policy Pack.
 ## Start editing
 
 1. [Install Rootform](../installation.md) and confirm `rootform version` works.
-2. Open **Extensions**, search for **Rootform**, and install the extension
-   published by **rootform-dev**. Use VS Code 1.133 or later.
+2. Package the extension from the
+   [editors repository](https://github.com/rootform-dev/editors) with Bun:
+
+   ```sh
+   git clone https://github.com/rootform-dev/editors.git
+   cd editors
+   bun install --frozen-lockfile
+   cd vscode
+   bun run package
+   ```
+
+   In VS Code 1.133 or later, run **Extensions: Install from VSIX...** and
+   select the `.vsix` file created in `vscode`.
 3. Open a trusted workspace containing `.rf.hcl` files. Select the **Rootform**
    language mode if VS Code has not selected it automatically.
 

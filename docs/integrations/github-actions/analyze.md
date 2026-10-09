@@ -11,7 +11,7 @@ and prepares required project content itself; setup and init are optional.
 - uses: rootform-dev/action/analyze@v1
   id: analysis
   with:
-    version: 0.2.0-rc.1
+    version: 0.2.0
     input: ${{ runner.temp }}/plan.json
     plan-file: ${{ runner.temp }}/plan.tfplan
 ```
