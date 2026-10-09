@@ -26,7 +26,7 @@ jobs:
           terraform show -json "$RUNNER_TEMP/plan.tfplan" > "$RUNNER_TEMP/plan.json"
       # Rootform reads completed files, runs no provider, and publishes only
       # the Form and derived reports. Summary and artifacts default to on.
-      - uses: rootform-dev/action@17cf0cbefae80ac388b54e0329dd40f3cd0f659e # v1
+      - uses: rootform-dev/action@7921422a07619310af25a5a673e89c54b0976519 # v1.0.0
         id: rootform
         with:
           version: 0.2.0
