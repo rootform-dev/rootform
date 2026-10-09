@@ -11,9 +11,9 @@ The result is a [Form](concepts/forms.md), a saved file you can **explore** in a
 browser, **question** from the terminal, **compare** with another revision, and
 **check** against Policies.
 
-<!-- rootform:video assets/explorer/explorer-tour "The Rootform Explorer on the commerce platform sample: selecting the prod resource group, opening it and its VNet, reading the evidence that places the prod_data subnet, then filtering the entries known only after apply" -->
-![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-light.webp#gh-light-mode-only)
-![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added and indeterminate entries](assets/explorer/quickstart-overview-dark.webp#gh-dark-mode-only)
+<!-- rootform:video assets/explorer/explorer-tour "The Rootform Explorer on the commerce platform sample: selecting the prod resource group, opening it and its VNet, reading the evidence that places the prod_data subnet, then filtering the indeterminate entries" -->
+![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added, removed, and indeterminate entries](assets/explorer/quickstart-overview-light.webp#gh-light-mode-only)
+![The Rootform Explorer on the commerce platform sample: four resource groups with their object counts and the relations between them, the Planned changes selector, and the filters counting added, removed, and indeterminate entries](assets/explorer/quickstart-overview-dark.webp#gh-dark-mode-only)
 
 Rootform reads the JSON that `terraform show -json` exports, from a saved plan
 or from state. It never runs Terraform or OpenTofu, executes a provider, or

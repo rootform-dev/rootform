@@ -23,6 +23,12 @@ variable "ocr_api_key" {
   sensitive   = true
 }
 
+variable "claims_poller_enabled" {
+  description = "Keeps the scheduled poller that fills the claims intake queue."
+  type        = bool
+  default     = false
+}
+
 variable "notifications_smtp_password" {
   description = "Password of the transactional e-mail relay used by the notification function."
   type        = string
@@ -215,15 +221,6 @@ resource "azurerm_log_analytics_workspace" "prod" {
   tags                = local.tags
 }
 
-resource "azurerm_log_analytics_workspace" "apps" {
-  name                = "log-claims-apps"
-  location            = azurerm_resource_group.ops.location
-  resource_group_name = azurerm_resource_group.ops.name
-  sku                 = "PerGB2018"
-  retention_in_days   = 60
-  tags                = local.tags
-}
-
 resource "azurerm_application_insights" "prod" {
   name                = "appi-claims-prod"
   location            = azurerm_resource_group.ops.location
@@ -403,6 +400,27 @@ resource "azurerm_private_endpoint" "docs_queue" {
   }
 }
 
+resource "azurerm_storage_account" "archive" {
+  name                            = "stclaimsarchive"
+  location                        = azurerm_resource_group.data.location
+  resource_group_name             = azurerm_resource_group.data.name
+  account_kind                    = "StorageV2"
+  account_tier                    = "Standard"
+  account_replication_type        = "GRS"
+  access_tier                     = "Cool"
+  min_tls_version                 = "TLS1_2"
+  https_traffic_only_enabled      = true
+  allow_nested_items_to_be_public = false
+  public_network_access_enabled   = true
+  tags                            = local.tags
+}
+
+resource "azurerm_storage_container" "archive_closed_claims" {
+  name                  = "closed-claims"
+  storage_account_id    = azurerm_storage_account.archive.id
+  container_access_type = "private"
+}
+
 resource "azurerm_key_vault" "claims" {
   name                          = "kv-claims-prod"
   location                      = azurerm_resource_group.data.location
@@ -514,6 +532,20 @@ resource "azurerm_servicebus_queue" "notifications" {
   dead_lettering_on_message_expiration = true
 }
 
+resource "azurerm_servicebus_queue" "claims_intake_poll" {
+  name                                 = "claims-intake-poll"
+  namespace_id                         = azurerm_servicebus_namespace.prod.id
+  max_delivery_count                   = 5
+  dead_lettering_on_message_expiration = true
+}
+
+resource "azurerm_servicebus_queue" "docs_intake" {
+  name                                 = "docs-intake"
+  namespace_id                         = azurerm_servicebus_namespace.prod.id
+  max_delivery_count                   = 5
+  dead_lettering_on_message_expiration = true
+}
+
 resource "azurerm_servicebus_topic" "claims_events" {
   name             = "claims-events"
   namespace_id     = azurerm_servicebus_namespace.prod.id
@@ -591,17 +623,6 @@ resource "azurerm_service_plan" "ep1" {
   tags                         = local.tags
 }
 
-resource "azurerm_service_plan" "fraud" {
-  name                         = "asp-claims-fraud"
-  location                     = azurerm_resource_group.prod.location
-  resource_group_name          = azurerm_resource_group.prod.name
-  os_type                      = "Linux"
-  sku_name                     = "EP2"
-  maximum_elastic_worker_count = 40
-  zone_balancing_enabled       = true
-  tags                         = local.tags
-}
-
 resource "azurerm_linux_function_app" "claims_intake" {
   name                          = "func-claims-intake"
   location                      = azurerm_resource_group.prod.location
@@ -633,6 +654,9 @@ resource "azurerm_linux_function_app" "claims_intake" {
     DOCS_STORAGE_ACCOUNT      = azurerm_storage_account.docs.name
     EVENTGRID_DOMAIN_ENDPOINT = azurerm_eventgrid_domain.claims.endpoint
     KEY_VAULT_URI             = azurerm_key_vault.claims.vault_uri
+    SERVICEBUS_NAMESPACE      = azurerm_servicebus_namespace.prod.name
+    INTAKE_QUEUE              = azurerm_servicebus_queue.claims_intake_poll.name
+    DOCS_QUEUE                = azurerm_servicebus_queue.docs_intake.name
   }
 }
 
@@ -640,7 +664,7 @@ resource "azurerm_linux_function_app" "fraud_scoring" {
   name                          = "func-fraud-scoring"
   location                      = azurerm_resource_group.prod.location
   resource_group_name           = azurerm_resource_group.prod.name
-  service_plan_id               = azurerm_service_plan.fraud.id
+  service_plan_id               = azurerm_service_plan.ep1.id
   storage_account_name          = azurerm_storage_account.functions.name
   storage_uses_managed_identity = true
   virtual_network_subnet_id     = azurerm_subnet.functions.id
@@ -702,6 +726,41 @@ resource "azurerm_linux_function_app" "notifications" {
   }
 }
 
+resource "azurerm_linux_function_app" "claims_poller" {
+  count = var.claims_poller_enabled ? 1 : 0
+
+  name                          = "func-claims-poller"
+  location                      = azurerm_resource_group.prod.location
+  resource_group_name           = azurerm_resource_group.prod.name
+  service_plan_id               = azurerm_service_plan.ep1.id
+  storage_account_name          = azurerm_storage_account.functions.name
+  storage_uses_managed_identity = true
+  virtual_network_subnet_id     = azurerm_subnet.functions.id
+  https_only                    = true
+  functions_extension_version   = "~4"
+  tags                          = local.tags
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.functions.id]
+  }
+
+  site_config {
+    application_insights_connection_string = azurerm_application_insights.prod.connection_string
+    vnet_route_all_enabled                 = true
+
+    application_stack {
+      node_version = "18"
+    }
+  }
+
+  app_settings = {
+    SERVICEBUS_NAMESPACE = azurerm_servicebus_namespace.prod.name
+    INTAKE_POLL_QUEUE    = azurerm_servicebus_queue.claims_intake_poll.name
+    POLL_SCHEDULE        = "0 */5 * * * *"
+  }
+}
+
 # Container Apps: the environment sits in its subnet and sends logs to the workspace; apps run inside it.
 
 resource "azurerm_container_app_environment" "prod" {
@@ -709,7 +768,8 @@ resource "azurerm_container_app_environment" "prod" {
   location                       = azurerm_resource_group.prod.location
   resource_group_name            = azurerm_resource_group.prod.name
   infrastructure_subnet_id       = azurerm_subnet.cae.id
-  log_analytics_workspace_id     = azurerm_log_analytics_workspace.apps.id
+  logs_destination               = "log-analytics"
+  log_analytics_workspace_id     = azurerm_log_analytics_workspace.prod.id
   internal_load_balancer_enabled = true
   zone_redundancy_enabled        = true
   tags                           = local.tags
@@ -773,77 +833,6 @@ resource "azurerm_container_app" "claims_api" {
     http_scale_rule {
       name                = "http-concurrency"
       concurrent_requests = 50
-    }
-  }
-}
-
-resource "azurerm_container_app" "claims_events" {
-  name                         = "ca-claims-events"
-  resource_group_name          = azurerm_resource_group.prod.name
-  container_app_environment_id = azurerm_container_app_environment.prod.id
-  revision_mode                = "Single"
-  workload_profile_name        = "Consumption"
-  tags                         = local.tags
-
-  identity {
-    type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.apps.id]
-  }
-
-  template {
-    min_replicas = 1
-    max_replicas = 10
-
-    container {
-      name   = "claims-events"
-      image  = "ghcr.io/example-insurance/claims-events:2026.10.0"
-      cpu    = 0.5
-      memory = "1Gi"
-
-      env {
-        name  = "SERVICEBUS_TOPIC"
-        value = azurerm_servicebus_topic.claims_events.name
-      }
-
-      env {
-        name  = "APPLICATIONINSIGHTS_CONNECTION_STRING"
-        value = azurerm_application_insights.prod.connection_string
-      }
-    }
-  }
-}
-
-resource "azurerm_container_app_job" "document_ocr" {
-  name                         = "caj-document-ocr"
-  location                     = azurerm_resource_group.prod.location
-  resource_group_name          = azurerm_resource_group.prod.name
-  container_app_environment_id = azurerm_container_app_environment.prod.id
-  replica_timeout_in_seconds   = 1800
-  replica_retry_limit          = 3
-  workload_profile_name        = "Consumption"
-  tags                         = local.tags
-
-  manual_trigger_config {
-    parallelism              = 1
-    replica_completion_count = 1
-  }
-
-  template {
-    container {
-      name   = "document-ocr"
-      image  = "ghcr.io/example-insurance/document-ocr:2026.10.0"
-      cpu    = 1
-      memory = "2Gi"
-
-      env {
-        name  = "DOCUMENT_QUEUE"
-        value = azurerm_storage_queue.document_scans.name
-      }
-
-      env {
-        name  = "KEY_VAULT_URI"
-        value = azurerm_key_vault.claims.vault_uri
-      }
     }
   }
 }
@@ -919,34 +908,7 @@ resource "azurerm_eventgrid_event_subscription" "claims_submitted_intake" {
   name                  = "evgs-claims-submitted-intake"
   scope                 = azurerm_eventgrid_domain_topic.claims_submitted.id
   event_delivery_schema = "CloudEventSchemaV1_0"
-
-  azure_function_endpoint {
-    function_id = azurerm_linux_function_app.claims_intake.id
-  }
-
-  retry_policy {
-    max_delivery_attempts = 30
-    event_time_to_live    = 1440
-  }
-}
-
-resource "azurerm_eventgrid_event_subscription" "claims_submitted_events" {
-  name                  = "evgs-claims-submitted-events"
-  scope                 = azurerm_eventgrid_domain_topic.claims_submitted.id
-  event_delivery_schema = "CloudEventSchemaV1_0"
-  service_bus_topic_id  = azurerm_servicebus_topic.claims_events.id
-
-  retry_policy {
-    max_delivery_attempts = 30
-    event_time_to_live    = 1440
-  }
-}
-
-resource "azurerm_eventgrid_event_subscription" "documents_processed_telemetry" {
-  name                  = "evgs-documents-processed-telemetry"
-  scope                 = azurerm_eventgrid_domain_topic.documents_processed.id
-  event_delivery_schema = "CloudEventSchemaV1_0"
-  eventhub_id           = azurerm_eventhub.claims_telemetry.id
+  service_bus_queue_id  = azurerm_servicebus_queue.claims_intake_poll.id
 
   retry_policy {
     max_delivery_attempts = 30
@@ -968,68 +930,14 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "docs_intake" {
   system_topic         = azurerm_eventgrid_system_topic.docs.name
   resource_group_name  = azurerm_resource_group.data.name
   included_event_types = ["Microsoft.Storage.BlobCreated"]
+  service_bus_queue_id = azurerm_servicebus_queue.docs_intake.id
 
   subject_filter {
     subject_begins_with = "/blobServices/default/containers/incoming/"
-  }
-
-  azure_function_endpoint {
-    function_id = azurerm_linux_function_app.claims_intake.id
   }
 
   retry_policy {
     max_delivery_attempts = 30
     event_time_to_live    = 1440
-  }
-}
-
-resource "azurerm_eventgrid_system_topic_event_subscription" "docs_fraud_scoring" {
-  name                 = "evgs-docs-fraud-scoring"
-  system_topic         = azurerm_eventgrid_system_topic.docs.name
-  resource_group_name  = azurerm_resource_group.data.name
-  included_event_types = ["Microsoft.Storage.BlobCreated"]
-
-  subject_filter {
-    subject_begins_with = "/blobServices/default/containers/incoming/"
-  }
-
-  azure_function_endpoint {
-    function_id = azurerm_linux_function_app.fraud_scoring.id
-  }
-}
-
-resource "azurerm_eventgrid_system_topic_event_subscription" "docs_review_queue" {
-  name                 = "evgs-docs-review-queue"
-  system_topic         = azurerm_eventgrid_system_topic.docs.name
-  resource_group_name  = azurerm_resource_group.data.name
-  included_event_types = ["Microsoft.Storage.BlobCreated"]
-  service_bus_queue_id = azurerm_servicebus_queue.claims_review_priority.id
-}
-
-resource "azurerm_eventgrid_system_topic_event_subscription" "docs_claims_events" {
-  name                 = "evgs-docs-claims-events"
-  system_topic         = azurerm_eventgrid_system_topic.docs.name
-  resource_group_name  = azurerm_resource_group.data.name
-  included_event_types = ["Microsoft.Storage.BlobCreated"]
-  service_bus_topic_id = azurerm_servicebus_topic.claims_events.id
-}
-
-resource "azurerm_eventgrid_system_topic_event_subscription" "docs_telemetry" {
-  name                 = "evgs-docs-telemetry"
-  system_topic         = azurerm_eventgrid_system_topic.docs.name
-  resource_group_name  = azurerm_resource_group.data.name
-  included_event_types = ["Microsoft.Storage.BlobCreated"]
-  eventhub_id          = azurerm_eventhub.claims_telemetry.id
-}
-
-resource "azurerm_eventgrid_system_topic_event_subscription" "docs_scan_queue" {
-  name                 = "evgs-docs-scan-queue"
-  system_topic         = azurerm_eventgrid_system_topic.docs.name
-  resource_group_name  = azurerm_resource_group.data.name
-  included_event_types = ["Microsoft.Storage.BlobCreated"]
-
-  storage_queue_endpoint {
-    storage_account_id = azurerm_storage_account.docs.id
-    queue_name         = azurerm_storage_queue.document_scans.name
   }
 }

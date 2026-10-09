@@ -282,20 +282,30 @@ export async function verifyAuthoringExamples(binary: string, root: string): Pro
     packCase.home,
   );
   assert(existsSync(join(packCase.dir, "baseline.compiled.json")), "compiled Policy Pack missing");
-  const undecided = run(
-    [
-      binary,
-      "check",
-      "examples/playground/commerce-platform/head/plan.json",
-      "--policy-pack",
-      "./policy-packs/baseline",
-    ],
-    packCase.dir,
-    packCase.home,
+  /* A plan read alone keeps a value unknown until apply when the plan JSON
+     does not materialize it. The regenerated commerce head carries concrete
+     values, so its plan-only check now passes; the small plan used by the
+     check guide still reports an indeterminate network context, which pins
+     the INDETERMINATE verdict and its exit status on real evidence. */
+  const undecided = fresh("policy-indeterminate");
+  cpSync(
+    join(root, "scripts/fixtures/docs/check-architecture/pass/plan.json"),
+    join(undecided.dir, "plan.json"),
+  );
+  mkdirSync(join(undecided.dir, "policies"));
+  for (const name of ["policies/pack.rf.hcl", "policies/network-context.rf.hcl"])
+    writeFileSync(
+      join(undecided.dir, name),
+      configuration(read("guides/check-architecture.md"), name),
+    );
+  const undecidedOutcome = run(
+    [binary, "check", "plan.json", "--policy-pack", "./policies"],
+    undecided.dir,
+    undecided.home,
     3,
   );
   assert(
-    undecided.stdout.includes("Verdict        INDETERMINATE"),
+    undecidedOutcome.stdout.includes("Verdict        INDETERMINATE"),
     "plan-only indeterminate outcome changed",
   );
   const noDecision = fresh("policy-no-decision");

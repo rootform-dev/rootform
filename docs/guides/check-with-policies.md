@@ -61,9 +61,9 @@ rootform check analysis.json --policy-pack ./policies -o results.json -o results
 ```
 
 `--policy-pack` selects the Pack for this command only. The plan holds one
-managed database, a PostgreSQL flexible server, whose network Context to a
-subnet came from the saved plan, so the single evaluation passes and the
-command exits `0`.
+managed database, a PostgreSQL flexible server, with an established network
+Context to a subnet, so the single evaluation passes and the command exits
+`0`.
 
 Read **Policies** and **Evaluations** before trusting the verdict. A Policy
 that finds no target makes no decision, and a check that selects no Policy

@@ -2,6 +2,7 @@
 
 - Date: 2026-08-29
 - Result: Pass
+- Status: superseded by the decision update of 2026-10-09
 
 ## Question
 
@@ -45,3 +46,19 @@ Official sources:
 
 Written AWS permission or a separate official architecture-icon license that
 expressly permits raw redistribution and required transformations.
+
+## Decision update (2026-10-09)
+
+Rootform now uses the official AWS Architecture Icons in the Explorer and the
+Playground. The renderer icon pack ships 70 SVG files selected from
+`Icon-package_07312026` exactly as published: no optimization, recoloring or
+other transformation. The renderer bundle carries the AWS usage notice and lists
+the icons in its third-party inventory.
+
+The AWS presentation catalog maps 106 of 108 Rules and every mapped Concept to
+these identities. The `subnet` and `security-group` Rules keep a neutral
+symbol: AWS draws a security group as a group border, and its subnet icons
+assert public or private exposure, which these Rules do not establish. Concepts
+shared by several AWS services, such as managed caches, managed database
+components and managed file storage, also stay neutral because no single
+service icon describes them.

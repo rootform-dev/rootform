@@ -23,6 +23,12 @@ variable "ocr_api_key" {
   sensitive   = true
 }
 
+variable "claims_poller_enabled" {
+  description = "Keeps the scheduled poller that fills the claims intake queue."
+  type        = bool
+  default     = true
+}
+
 variable "notifications_smtp_password" {
   description = "Password of the transactional e-mail relay used by the notification function."
   type        = string
@@ -523,6 +529,13 @@ resource "azurerm_servicebus_queue" "claims_intake_poll" {
   dead_lettering_on_message_expiration = true
 }
 
+resource "azurerm_servicebus_queue" "docs_intake" {
+  name                                 = "docs-intake"
+  namespace_id                         = azurerm_servicebus_namespace.prod.id
+  max_delivery_count                   = 5
+  dead_lettering_on_message_expiration = true
+}
+
 resource "azurerm_servicebus_topic" "claims_events" {
   name             = "claims-events"
   namespace_id     = azurerm_servicebus_namespace.prod.id
@@ -631,6 +644,9 @@ resource "azurerm_linux_function_app" "claims_intake" {
     DOCS_STORAGE_ACCOUNT      = azurerm_storage_account.docs.name
     EVENTGRID_DOMAIN_ENDPOINT = azurerm_eventgrid_domain.claims.endpoint
     KEY_VAULT_URI             = azurerm_key_vault.claims.vault_uri
+    SERVICEBUS_NAMESPACE      = azurerm_servicebus_namespace.prod.name
+    INTAKE_QUEUE              = azurerm_servicebus_queue.claims_intake_poll.name
+    DOCS_QUEUE                = azurerm_servicebus_queue.docs_intake.name
   }
 }
 
@@ -701,6 +717,8 @@ resource "azurerm_linux_function_app" "notifications" {
 }
 
 resource "azurerm_linux_function_app" "claims_poller" {
+  count = var.claims_poller_enabled ? 1 : 0
+
   name                          = "func-claims-poller"
   location                      = azurerm_resource_group.prod.location
   resource_group_name           = azurerm_resource_group.prod.name
@@ -740,6 +758,7 @@ resource "azurerm_container_app_environment" "prod" {
   location                       = azurerm_resource_group.prod.location
   resource_group_name            = azurerm_resource_group.prod.name
   infrastructure_subnet_id       = azurerm_subnet.cae.id
+  logs_destination               = "log-analytics"
   log_analytics_workspace_id     = azurerm_log_analytics_workspace.prod.id
   internal_load_balancer_enabled = true
   zone_redundancy_enabled        = true
@@ -889,13 +908,10 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "docs_intake" {
   system_topic         = azurerm_eventgrid_system_topic.docs.name
   resource_group_name  = azurerm_resource_group.data.name
   included_event_types = ["Microsoft.Storage.BlobCreated"]
+  service_bus_queue_id = azurerm_servicebus_queue.docs_intake.id
 
   subject_filter {
     subject_begins_with = "/blobServices/default/containers/incoming/"
-  }
-
-  azure_function_endpoint {
-    function_id = azurerm_linux_function_app.claims_intake.id
   }
 
   retry_policy {

@@ -3,7 +3,7 @@ title: Quickstart
 description: Open a sample Form in the Explorer, find one resource, and read the evidence behind its placement, then run the same analysis on your machine.
 ---
 
-Open a synthetic Azure commerce platform of 153 planned resources in the
+Open a synthetic Azure commerce platform of 97 planned resources in the
 Explorer, find one resource, and read the evidence behind its placement. The
 first half needs only a browser; the second half installs Rootform and
 produces the same result on your machine.
@@ -26,9 +26,9 @@ them, and a few resources that no group holds.
 ![The Explorer at the top level of the commerce platform plan: four resource group blocks with their object counts, relation labels such as Peers with and Delivers to, and the Planned changes selector](../assets/explorer/quickstart-overview-dark.webp#gh-dark-mode-only)
 
 The selector at the top left reads **Planned changes**, Refreshed to Planned:
-this plan starts from an empty state, so everything it proposes is added. The
-counters at the bottom count the added, removed, and changed entries, and the
-placements the evidence could not settle.
+this plan was made against the infrastructure the state already holds, so it
+shows what the proposal adds, removes, or replaces on top of it. The counters
+at the bottom read the added, removed, changed, and indeterminate entries.
 
 ## Find one resource
 
@@ -41,7 +41,7 @@ the Explorer opens the virtual network that holds the subnet. Select the
 ## Read why it is placed there
 
 In **Details**, **Contexts** lists two placements: Ownership in resource group
-`prod` and Network in VNet `prod`. **Incoming contexts** lists the six private
+`prod` and Network in VNet `prod`. **Incoming contexts** lists the four private
 endpoints placed in this subnet; **Scene members** counts them.
 
 Open the **Evidence** tab. Under **Evidence**, the entry
@@ -67,8 +67,8 @@ from.
 
 ```sh
 mkdir rootform-quickstart && cd rootform-quickstart
-curl -fsSLO https://raw.githubusercontent.com/rootform-dev/rootform/v0.2.0/examples/playground/commerce-platform/head/plan.json
-curl -fsSLO https://raw.githubusercontent.com/rootform-dev/rootform/v0.2.0/examples/playground/commerce-platform/head/plan.tfplan
+curl -fsSLO https://raw.githubusercontent.com/rootform-dev/rootform/dev/examples/playground/commerce-platform/head/plan.json
+curl -fsSLO https://raw.githubusercontent.com/rootform-dev/rootform/dev/examples/playground/commerce-platform/head/plan.tfplan
 ```
 
 Analyze the plan. Rootform reads both files, prints a summary, and opens the
@@ -84,16 +84,16 @@ rootform run plan.json --plan-file plan.tfplan
 [2mEnrichment[0m         Saved plan paired with this plan JSON (1 module)
 [2mStage[0m              Planned
 [1m[38;5;208mArchitecture[0m
-  [2mInstances[0m      153
-  [2mInterpreted[0m    153
-  [2mContexts[0m       207
+  [2mInstances[0m      97
+  [2mInterpreted[0m    97
+  [2mContexts[0m       110
 ```
 
 The terminal also shows the Explorer address; press `Ctrl+C` when you are
 done. **Enrichment** records that the saved plan paired with the JSON export,
 which is how Rootform followed references whose values are unknown until apply.
 **Instances** counts the resource instances in the plan, and **Interpreted**
-counts those a Rule matched: all 153 here. The 207 contexts are placements
+counts those a Rule matched: all 97 here. The 110 contexts are placements
 like the one you just read.
 
 ## Keep the Form

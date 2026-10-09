@@ -89,12 +89,10 @@ rootform explain instance azurerm_subnet.prod_data \
                   to azurerm_resource_group.prod; network context to
                   azurerm_virtual_network.prod; network context from
                   azurerm_private_endpoint.backups,
-                  azurerm_private_endpoint.cosmos,
-                  azurerm_private_endpoint.media, and 3 more.
+                  azurerm_private_endpoint.media,
+                  azurerm_private_endpoint.service_bus, and 1 more.
   [1mFacts[0m
-    -> context network
-      azurerm_virtual_network.prod
-      [2mevidence: both[0m
+    -> context network    azurerm_virtual_network.prod          [2mevidence: both[0m
 ```
 
 Text is the default output; `--format json` serves tools. The explanation

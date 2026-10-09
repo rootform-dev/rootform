@@ -8,70 +8,70 @@
     "commerce-platform": {
       "inputs": {
         "base": {
-          "main.tf": "85a36ba8c21566f25a3f10d73de727e95a5359c75b5456f305d6057d9af32994",
-          "plan.json": "fdcf4ca8a2cb381323ba7491dc84262f08030eee8e0f445d997c80e6edf2baea",
-          "plan.tfplan": "0aa08e102360d2a8d581b020a533e0514dc18b414511e8400dbd98247bb4c00c",
-          ".terraform.lock.hcl": "d17e1ea43917b403ad28cb4738cd7284cde0dfbb7f8a0ccb328756644302b079",
+          "main.tf": "d8bd9cba685f5597d6e340ea5576d8f13e378d27d79b08e24332edc2cdd46a21",
+          "plan.json": "de7a7a9892b1fee7301da32e54a2c8e1eed7859e21f6a9ba12af0d2965fb723a",
+          "plan.tfplan": "267155505213637b8ca18afb0ef3fb489ac0bd6cefa1cf2bfd4f14e11142444b",
+          ".terraform.lock.hcl": "9d23f14c518fdc0a4428e698464d0828b50ecec725544d71ed7a95a1a094dbec",
           "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
         },
         "head": {
-          "main.tf": "f5becb72df95ae80320084ddd1f1db3d23da43784042c1ab89bbffa051d970e8",
-          "plan.json": "62f48bffb3f51a879ede73b5cd58f0dd764c7f6c4743cfb906e4a0395ee46420",
-          "plan.tfplan": "8cda570a97b15ca565af17acfbe3a4de0601953769352e320c7dedb03beadd00",
-          ".terraform.lock.hcl": "d17e1ea43917b403ad28cb4738cd7284cde0dfbb7f8a0ccb328756644302b079",
+          "main.tf": "6b6139bbb16ada7fb86bbc75419327ea71e5ab03f18016ae620ecbe72025e746",
+          "plan.json": "76a9c7d6014427fc040013af7200032460da9b4feeff3379fac6dbbea7194061",
+          "plan.tfplan": "b10985393b8919136ecf0fc04a0426657feb0a75fbc8ee28cc8e3471f134b085",
+          ".terraform.lock.hcl": "9d23f14c518fdc0a4428e698464d0828b50ecec725544d71ed7a95a1a094dbec",
           "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
         }
       },
       "documents": {
-        "commerce-platform-analysis.json": "a0ddaba7a0ccc063e8da6697f6340d5f931d8ddf029c5b6a385c802b8b76578a",
-        "commerce-platform-comparison.json": "d0f56a62f4e786d460f029c9a007913b71393d536891ec38fecb0caa4a618b5a",
-        "commerce-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49"
+        "commerce-platform-analysis.json": "ad2b8978189f52cb8a632ad649177a06a650f45b73124cdfadad984536af2297",
+        "commerce-platform-comparison.json": "ff1668bb6cbe32a8e1b2bfd9bb2d552bfe886880af469c3010b14750dd5189f0",
+        "commerce-platform-presentation.json": "06e1c15ce40687347742703b606d0f27487a9c76986b1f30167d696f4627c3b9"
       }
     },
     "event-driven-platform": {
       "inputs": {
         "base": {
-          "main.tf": "84f418865a528d0b175a4911bcd3be8067bc833e85040ad183433f387d50fd75",
-          "plan.json": "7a8fb60f38fe75a9214b709b08c0e0c077b7074c138598176c880d0094e768f3",
-          "plan.tfplan": "cd8216cc24bf8e105db5bcb7785b368d108a2a9e359eb12167190d4ae6c5be06",
+          "main.tf": "96c7a536987bed1358c9a9d61d352130a4031ebd7e1f142b1d95216f64660858",
+          "plan.json": "ab736ac99d34dd9a0fb56eaa592b1fc800bbfd3b68400f113cbef97f2261db9c",
+          "plan.tfplan": "6ec9b6a867ca812836fd2d661e98cf48cc2f5424e9a386f3562efa1e6ed78f39",
           ".terraform.lock.hcl": "9d23f14c518fdc0a4428e698464d0828b50ecec725544d71ed7a95a1a094dbec",
           "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
         },
         "head": {
-          "main.tf": "a158c56093964f40f6177fa26d49af59ec8e160c62d99f7bc70d61df8db32f5f",
-          "plan.json": "957319b3e1b3e2be6f72c07ad861c6eff4343f9085b6992590eec6877eaa1503",
-          "plan.tfplan": "3fe62f7ac1c99a394067f634aa22ade28fca5155072813d9a38b64f23dbd79aa",
+          "main.tf": "72615ecb3a051cd2d15d882fa42db55e211876741287985d3f175125c9684945",
+          "plan.json": "936e84ee64877fe42848f7a732500db16a4b77bb0bbfb69afbb627d42fbdd460",
+          "plan.tfplan": "4476eaec7a668c0e5524f602cf91f3c359e6bc2ae36c87ef07ba6f222ee044c4",
           ".terraform.lock.hcl": "9d23f14c518fdc0a4428e698464d0828b50ecec725544d71ed7a95a1a094dbec",
           "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
         }
       },
       "documents": {
-        "event-driven-platform-analysis.json": "1215ce0ed281c26e59cf673e54438064c5f4b76591c2d8261ce2be7f6acf4e33",
-        "event-driven-platform-comparison.json": "f1c3f303eeec68c01037e07ee77be03fa2447d1e0f5da333052236467747c13a",
-        "event-driven-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49"
+        "event-driven-platform-analysis.json": "ee5c81145f8c2298ea732999cc7f562eee64fad4cfb72c3505884d622bc7c919",
+        "event-driven-platform-comparison.json": "03f6bcefddaafc8a73b543cefbf54a9e4483b9adb32e956da1cdf5118dc55f6a",
+        "event-driven-platform-presentation.json": "06e1c15ce40687347742703b606d0f27487a9c76986b1f30167d696f4627c3b9"
       }
     },
     "shared-data-platform": {
       "inputs": {
         "base": {
-          "main.tf": "1265e2c5b6e215e624efc985ebe5b1200b0d0cc950b1b282a5d7252c0f069c18",
-          "plan.json": "4f94fbd72b6acc6113e68fc8d1f404d7cef52444ac25e69fb8737c4de8b16aee",
-          "plan.tfplan": "6a91cbf4026b46519d4503e20f1d156b5815ad92865e2762b9eb70e0ee626f51",
-          ".terraform.lock.hcl": "382d490b435135d424a558b5b4086045a2a22f66b1573a5c433539b723a1ec64",
+          "main.tf": "b1f9699136026e6e42449c6a40ba69a4921314082c35565065e9d97bf4500c47",
+          "plan.json": "2e87b87c07b0e97275c12958560e4506ae1db16098d58be2a0a02bf505ad2ba3",
+          "plan.tfplan": "9ca41fcb921daf084022dde8195e366615dc9f83b4815d55ae8e76eb8cb09801",
+          ".terraform.lock.hcl": "ddb82f1dd8e488467a2991a4f1eed7569692b81b31e8c4ff61af230e54580e67",
           "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
         },
         "head": {
-          "main.tf": "d874304a18320bf19027b85bf37b5d3e37286431120b3961f626fa5628214ffa",
-          "plan.json": "5c74e8002c42fe66b52b995dc927a250cb8e0affd5307b125b2efe35060179a5",
-          "plan.tfplan": "b5615925afafaf027e5f57b2962681f1639a1ab5d0644b9c726fc040bac6c0ab",
-          ".terraform.lock.hcl": "382d490b435135d424a558b5b4086045a2a22f66b1573a5c433539b723a1ec64",
+          "main.tf": "1fbc14944ab65e30fb4bb72e0c24431e88495440a075ffd1a79fb9b62a4508a5",
+          "plan.json": "bdae0d7107fa4f493f379a34025a33dd93be233cee13c7647532896e551ee8a2",
+          "plan.tfplan": "251f78ecba96077639604584e3d4d2130e8d1aa252d7d6afa66845e7b67fcef3",
+          ".terraform.lock.hcl": "ddb82f1dd8e488467a2991a4f1eed7569692b81b31e8c4ff61af230e54580e67",
           "rootform.lock": "886014975a8bd572deb07a648ec8e6498875f074edf87873fdd9b20eaff82c59"
         }
       },
       "documents": {
-        "shared-data-platform-analysis.json": "eb4f9c6318a2794535d1635db51da6b74e6aaebeb6f8bcf2f3020ac39e45444e",
-        "shared-data-platform-comparison.json": "7f661684db4983c77d21614e7b7601a22998f8b5b1954047eb68365b49bcf6e1",
-        "shared-data-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49"
+        "shared-data-platform-analysis.json": "6218ed52eb72fb2709b04b3b365ca5b6d702444a02c38eceed5dd7850207537b",
+        "shared-data-platform-comparison.json": "3be3742300bdd0ecc40d6968da4cffc14eedb5d7e99526525b62aaca92af6b7a",
+        "shared-data-platform-presentation.json": "06e1c15ce40687347742703b606d0f27487a9c76986b1f30167d696f4627c3b9"
       }
     }
   }

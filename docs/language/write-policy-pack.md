@@ -101,8 +101,8 @@ matching Concept or applied Rule is not selected.
 ## Evaluate locally
 
 From the Rootform repository root, run the Azure commerce plan against the
-baseline Pack. Its saved plan pairs with the plan JSON and
-supplies the traversals needed to decide these network contexts.
+baseline Pack. Its saved plan pairs with the plan JSON and adds the verified
+traversals behind these network contexts.
 [Plan inputs](../inputs/plans.md) shows how to export both files from your own
 project with `terraform` or `tofu`. Saved plans and plan JSON can contain
 secrets in clear text; keep yours out of Git and public artifacts. Rootform

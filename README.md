@@ -49,7 +49,9 @@ contain secrets.
 ## Compare and check
 
 Try the synthetic [commerce sample](examples/playground/commerce-platform/)
-from the repository root:
+from the repository root. Its `base` plan reads the existing infrastructure
+with no changes, its `head` plan is the proposed change against the same
+state, and the first command compares the two:
 
 ```bash
 rootform run examples/playground/commerce-platform/base/plan.json \
@@ -60,7 +62,7 @@ rootform run examples/playground/commerce-platform/base/plan.json \
 rootform check comparison.json --policy-pack ./policy-packs/baseline -o results.sarif
 ```
 
-Comparison reports differences between the supplied evidence. Policy checks
+The comparison reports the architectural difference between the two plans. Policy checks
 return `0` on pass, `1` on a violation and `3` for indeterminate evidence or
 no target. See [outputs and exit status](docs/reference/outputs.md),
 [review workflows](docs/workflows/index.md), [evidence limits](docs/limitations.md)

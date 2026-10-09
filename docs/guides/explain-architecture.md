@@ -28,13 +28,11 @@ rootform explain instance azurerm_subnet.prod_data --input analysis.json
 [1m[38;5;208mazurerm_subnet.prod_data[0m
   [2mInterpretation[0m  applied azure.rule.subnet as subnet
   [1mFacts[0m
-    -> context network
-      azurerm_virtual_network.prod
-      evidence: both
+    -> context network    azurerm_virtual_network.prod          [2mevidence: both[0m
   [1mClosures[0m
     context network -> virtual-network
       via source.virtual_network_name, match exact by name
-      [32mresolved, 1 fact[0m; candidates: 1 known equal, 0 unknown, 1 excluded
+      [32mresolved, 1 fact; candidates: 1 known equal, 0 unknown, 1 excluded[0m
 ```
 
 **Interpretation** names the Rule that matched and the Concept it assigned.
@@ -65,7 +63,7 @@ rootform explain rule azure.rule.subnet --input analysis.json
 [1mRule explained[0m
 [2mRule[0m        azure.rule.subnet
 [2mMatches[0m     resource azurerm_subnet
-[2mApplied to[0m  7 instances
+[2mApplied to[0m  8 instances
 ```
 
 The **Emissions** section lists each emission the Rule declares, whether a
