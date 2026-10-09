@@ -44,22 +44,20 @@ function eventPlacement(document: unknown): void {
   const rep = (address: string) => `representation:1:${address}`;
   const eventTopic = "azurerm_eventgrid_system_topic.docs";
   const busTopic = "azurerm_servicebus_topic.claims_events";
-  const systemSubscriptions = [
-    "docs_claims_events",
-    "docs_fraud_scoring",
-    "docs_intake",
-    "docs_review_queue",
-    "docs_scan_queue",
-    "docs_telemetry",
-  ].map((name) => `azurerm_eventgrid_system_topic_event_subscription.${name}`);
+  const systemSubscriptions = ["docs_intake"].map(
+    (name) => `azurerm_eventgrid_system_topic_event_subscription.${name}`,
+  );
   const busSubscriptions = ["claims_events_fraud_audit", "claims_events_notifications"].map(
     (name) => `azurerm_servicebus_subscription.${name}`,
   );
   const genericSubscriptions: Array<[string, string]> = [
     ["claims_scored_review", "claims_scored"],
-    ["claims_submitted_events", "claims_submitted"],
     ["claims_submitted_intake", "claims_submitted"],
-    ["documents_processed_telemetry", "documents_processed"],
+  ];
+  const deliveries: Array<[string, string]> = [
+    ["azurerm_eventgrid_system_topic_event_subscription.docs_intake", "docs_intake"],
+    ["azurerm_eventgrid_event_subscription.claims_scored_review", "claims_review_priority"],
+    ["azurerm_eventgrid_event_subscription.claims_submitted_intake", "claims_intake_poll"],
   ];
   const parentPairs: Array<[string, string]> = [
     ...systemSubscriptions.map((child) => [child, eventTopic] as [string, string]),
@@ -84,7 +82,7 @@ function eventPlacement(document: unknown): void {
     );
     assert(context?.provenance.length, `${child}: ownership placement or provenance missing`);
   }
-  for (const [child, parent] of parentPairs.slice(0, 12)) {
+  for (const [child, parent] of parentPairs.slice(0, 5)) {
     const relation = stage.relations.find(
       (item) =>
         item.from === rep(child) &&
@@ -93,12 +91,14 @@ function eventPlacement(document: unknown): void {
     );
     assert(relation?.provenance.length, `${child}: subscribes-to evidence missing`);
   }
-  for (const child of systemSubscriptions) {
+  for (const [child, queue] of deliveries) {
     const delivered = stage.relations.filter(
       (item) => item.from === rep(child) && item.predicate === "azure.relation.delivers-to",
     );
     assert(
-      delivered.length === 1 && delivered[0]?.provenance.length,
+      delivered.length === 1 &&
+        delivered[0]?.to === rep(`azurerm_servicebus_queue.${queue}`) &&
+        delivered[0]?.provenance.length,
       `${child}: delivery evidence missing`,
     );
   }

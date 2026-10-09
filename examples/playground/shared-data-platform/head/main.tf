@@ -5,10 +5,6 @@ terraform {
       source  = "hashicorp/google"
       version = "= 8.0.0"
     }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "= 2.38.0"
-    }
   }
 }
 
@@ -34,6 +30,12 @@ variable "ingest_hmac_key" {
 
 variable "warehouse_db_password" {
   description = "Password of the warehouse application user on Cloud SQL."
+  type        = string
+  sensitive   = true
+}
+
+variable "legacy_warehouse_credentials" {
+  description = "Credentials of the legacy on-premises warehouse synchronised by the nightly job."
   type        = string
   sensitive   = true
 }
@@ -68,7 +70,7 @@ resource "google_project" "data" {
   deletion_policy = "PREVENT"
 }
 
-# Network: one VPC with the GKE subnet, the connector and egress subnets, Cloud NAT, and private services access.
+# Network: one VPC with the GKE subnet, the connector subnet, Cloud NAT, and private services access.
 
 resource "google_compute_network" "shared" {
   name                    = "vpc-data-shared"
@@ -111,21 +113,12 @@ resource "google_compute_subnetwork" "data" {
   private_ip_google_access = true
 }
 
-resource "google_compute_subnetwork" "serverless_apps" {
-  name          = "snet-serverless-apps"
+resource "google_compute_subnetwork" "serverless" {
+  name          = "snet-serverless"
   project       = google_project.network.project_id
   region        = local.region
   network       = google_compute_network.shared.id
-  ip_cidr_range = "10.60.32.0/28"
-}
-
-resource "google_compute_subnetwork" "run_egress" {
-  name                     = "snet-run-egress"
-  project                  = google_project.network.project_id
-  region                   = local.region
-  network                  = google_compute_network.shared.id
-  ip_cidr_range            = "10.60.48.0/24"
-  private_ip_google_access = true
+  ip_cidr_range = "10.60.16.0/28"
 }
 
 resource "google_compute_router" "shared" {
@@ -212,7 +205,7 @@ resource "google_vpc_access_connector" "data" {
   max_instances = 6
 
   subnet {
-    name       = google_compute_subnetwork.serverless_apps.name
+    name       = google_compute_subnetwork.serverless.name
     project_id = google_project.network.project_id
   }
 }
@@ -329,6 +322,21 @@ resource "google_secret_manager_secret_version" "warehouse_db_password" {
   secret_data = var.warehouse_db_password
 }
 
+resource "google_secret_manager_secret" "legacy_warehouse" {
+  secret_id = "legacy-warehouse-credentials"
+  project   = google_project.data.project_id
+  labels    = local.labels
+
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "legacy_warehouse" {
+  secret      = google_secret_manager_secret.legacy_warehouse.id
+  secret_data = var.legacy_warehouse_credentials
+}
+
 # Data: Cloud SQL and Memorystore reach the VPC through private services access.
 
 resource "google_sql_database_instance" "data" {
@@ -394,7 +402,7 @@ resource "google_redis_instance" "data" {
   depends_on = [google_service_networking_connection.private_services]
 }
 
-# Messaging: every consumer is a push subscription to Cloud Run with a dead-letter topic; only replay pulls.
+# Messaging: raw events are enriched, loaded and streamed through push subscriptions; the sessions consumer pulls, and undeliverable messages go to a dead-letter topic.
 
 resource "google_pubsub_topic" "events_raw" {
   name                       = "events-raw"
@@ -425,7 +433,7 @@ resource "google_pubsub_subscription" "events_raw_enrichment" {
   labels               = local.labels
 
   push_config {
-    push_endpoint = google_cloud_run_v2_service.enrichment_streaming.uri
+    push_endpoint = google_cloud_run_v2_service.enrichment.uri
 
     oidc_token {
       service_account_email = google_service_account.pubsub_push.email
@@ -477,73 +485,43 @@ resource "google_pubsub_subscription" "events_enriched_warehouse" {
   }
 }
 
-resource "google_pubsub_subscription" "events_raw_stream_processor" {
-  name                 = "events-raw-stream-processor"
-  project              = google_project.data.project_id
-  topic                = google_pubsub_topic.events_raw.id
-  ack_deadline_seconds = 30
-  labels               = local.labels
-
-  push_config {
-    push_endpoint = google_cloud_run_v2_service.stream_processor.uri
-
-    oidc_token {
-      service_account_email = google_service_account.pubsub_push.email
-    }
-  }
-
-  dead_letter_policy {
-    dead_letter_topic     = google_pubsub_topic.events_dlq.id
-    max_delivery_attempts = 5
-  }
-
-  retry_policy {
-    minimum_backoff = "10s"
-    maximum_backoff = "600s"
-  }
-
-  expiration_policy {
-    ttl = ""
-  }
-}
-
-resource "google_pubsub_subscription" "events_enriched_session_windower" {
-  name                 = "events-enriched-session-windower"
-  project              = google_project.data.project_id
-  topic                = google_pubsub_topic.events_enriched.id
-  ack_deadline_seconds = 60
-  labels               = local.labels
-
-  push_config {
-    push_endpoint = google_cloud_run_v2_service.session_windower.uri
-
-    oidc_token {
-      service_account_email = google_service_account.pubsub_push.email
-    }
-  }
-
-  dead_letter_policy {
-    dead_letter_topic     = google_pubsub_topic.events_dlq.id
-    max_delivery_attempts = 5
-  }
-
-  retry_policy {
-    minimum_backoff = "10s"
-    maximum_backoff = "600s"
-  }
-
-  expiration_policy {
-    ttl = ""
-  }
-}
-
-resource "google_pubsub_subscription" "events_raw_replay" {
-  name                       = "events-raw-replay"
+resource "google_pubsub_subscription" "events_raw_stream_consumer" {
+  name                       = "events-raw-stream-consumer"
   project                    = google_project.data.project_id
   topic                      = google_pubsub_topic.events_raw.id
-  ack_deadline_seconds       = 120
-  message_retention_duration = "604800s"
-  retain_acked_messages      = true
+  ack_deadline_seconds       = 30
+  message_retention_duration = "86400s"
+  labels                     = local.labels
+
+  push_config {
+    push_endpoint = google_cloud_run_v2_service.stream_consumer.uri
+
+    oidc_token {
+      service_account_email = google_service_account.pubsub_push.email
+    }
+  }
+
+  dead_letter_policy {
+    dead_letter_topic     = google_pubsub_topic.events_dlq.id
+    max_delivery_attempts = 5
+  }
+
+  retry_policy {
+    minimum_backoff = "10s"
+    maximum_backoff = "600s"
+  }
+
+  expiration_policy {
+    ttl = ""
+  }
+}
+
+resource "google_pubsub_subscription" "events_enriched_sessions" {
+  name                       = "events-enriched-sessions"
+  project                    = google_project.data.project_id
+  topic                      = google_pubsub_topic.events_enriched.id
+  ack_deadline_seconds       = 30
+  message_retention_duration = "86400s"
   labels                     = local.labels
 
   expiration_policy {
@@ -552,18 +530,33 @@ resource "google_pubsub_subscription" "events_raw_replay" {
 }
 
 resource "google_pubsub_subscription" "events_dlq_inspector" {
-  name                 = "events-dlq-inspector"
-  project              = google_project.data.project_id
-  topic                = google_pubsub_topic.events_dlq.id
-  ack_deadline_seconds = 600
-  labels               = local.labels
+  name                       = "events-dlq-inspector"
+  project                    = google_project.data.project_id
+  topic                      = google_pubsub_topic.events_dlq.id
+  ack_deadline_seconds       = 60
+  message_retention_duration = "604800s"
+  labels                     = local.labels
 
   expiration_policy {
     ttl = ""
   }
 }
 
-# Serverless: Cloud Run services run as their own identity; the loader uses Direct VPC egress, the others the connector.
+# Dead-lettering: the Pub/Sub service agent forwards undeliverable messages to the dead-letter topic.
+
+resource "google_project_iam_member" "pubsub_agent_publisher" {
+  project = google_project.data.project_id
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:service-${google_project.data.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "pubsub_agent_subscriber" {
+  project = google_project.data.project_id
+  role    = "roles/pubsub.subscriber"
+  member  = "serviceAccount:service-${google_project.data.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
+}
+
+# Serverless: Cloud Run services run as their own identity and reach the VPC through the connector.
 
 resource "google_cloud_run_v2_service" "ingest_api" {
   name                = "ingest-api"
@@ -615,8 +608,8 @@ resource "google_cloud_run_v2_service" "ingest_api" {
   }
 }
 
-resource "google_cloud_run_v2_service" "enrichment_streaming" {
-  name                = "enrichment-streaming"
+resource "google_cloud_run_v2_service" "enrichment" {
+  name                = "enrichment"
   project             = google_project.data.project_id
   location            = local.region
   ingress             = "INGRESS_TRAFFIC_INTERNAL_ONLY"
@@ -625,89 +618,6 @@ resource "google_cloud_run_v2_service" "enrichment_streaming" {
 
   template {
     service_account = google_service_account.enrichment.email
-
-    scaling {
-      min_instance_count = 1
-      max_instance_count = 40
-    }
-
-    vpc_access {
-      connector = google_vpc_access_connector.data.id
-      egress    = "PRIVATE_RANGES_ONLY"
-    }
-
-    containers {
-      image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/enrichment:2026.10.0"
-
-      resources {
-        limits = {
-          cpu    = "2"
-          memory = "2Gi"
-        }
-      }
-
-      env {
-        name  = "EVENTS_ENRICHED_TOPIC"
-        value = google_pubsub_topic.events_enriched.id
-      }
-
-      env {
-        name  = "REDIS_HOST"
-        value = google_redis_instance.data.host
-      }
-    }
-  }
-}
-
-resource "google_cloud_run_v2_service" "stream_processor" {
-  name                = "stream-processor"
-  project             = google_project.data.project_id
-  location            = local.region
-  ingress             = "INGRESS_TRAFFIC_INTERNAL_ONLY"
-  deletion_protection = true
-  labels              = local.labels
-
-  template {
-    service_account = google_service_account.streaming.email
-
-    scaling {
-      min_instance_count = 2
-      max_instance_count = 60
-    }
-
-    vpc_access {
-      connector = google_vpc_access_connector.data.id
-      egress    = "PRIVATE_RANGES_ONLY"
-    }
-
-    containers {
-      image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/stream-processor:2026.10.0"
-
-      resources {
-        limits = {
-          cpu    = "1"
-          memory = "1Gi"
-        }
-      }
-
-      env {
-        name  = "REDIS_HOST"
-        value = google_redis_instance.data.host
-      }
-    }
-  }
-}
-
-resource "google_cloud_run_v2_service" "session_windower" {
-  name                = "session-windower"
-  project             = google_project.data.project_id
-  location            = local.region
-  ingress             = "INGRESS_TRAFFIC_INTERNAL_ONLY"
-  deletion_protection = true
-  labels              = local.labels
-
-  template {
-    service_account = google_service_account.streaming.email
 
     scaling {
       min_instance_count = 1
@@ -720,13 +630,18 @@ resource "google_cloud_run_v2_service" "session_windower" {
     }
 
     containers {
-      image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/session-windower:2026.10.0"
+      image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/enrichment:2026.09.1"
 
       resources {
         limits = {
-          cpu    = "1"
-          memory = "2Gi"
+          cpu    = "2"
+          memory = "1Gi"
         }
+      }
+
+      env {
+        name  = "EVENTS_ENRICHED_TOPIC"
+        value = google_pubsub_topic.events_enriched.id
       }
 
       env {
@@ -754,16 +669,12 @@ resource "google_cloud_run_v2_service" "warehouse_loader" {
     }
 
     vpc_access {
-      egress = "PRIVATE_RANGES_ONLY"
-
-      network_interfaces {
-        network    = google_compute_network.shared.id
-        subnetwork = google_compute_subnetwork.run_egress.id
-      }
+      connector = google_vpc_access_connector.data.id
+      egress    = "PRIVATE_RANGES_ONLY"
     }
 
     containers {
-      image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/warehouse-loader:2026.10.0"
+      image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/warehouse-loader:2026.09.1"
 
       resources {
         limits = {
@@ -784,6 +695,88 @@ resource "google_cloud_run_v2_service" "warehouse_loader" {
           secret_key_ref {
             secret  = google_secret_manager_secret.warehouse_db_password.secret_id
             version = "latest"
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "google_cloud_run_v2_service" "stream_consumer" {
+  name                = "stream-consumer"
+  project             = google_project.data.project_id
+  location            = local.region
+  ingress             = "INGRESS_TRAFFIC_INTERNAL_ONLY"
+  deletion_protection = true
+  labels              = local.labels
+
+  template {
+    service_account = google_service_account.streaming.email
+
+    scaling {
+      min_instance_count = 2
+      max_instance_count = 60
+    }
+
+    vpc_access {
+      connector = google_vpc_access_connector.data.id
+      egress    = "PRIVATE_RANGES_ONLY"
+    }
+
+    containers {
+      image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/stream-consumer:2026.10.0"
+
+      resources {
+        limits = {
+          cpu    = "1"
+          memory = "1Gi"
+        }
+      }
+
+      env {
+        name  = "REDIS_HOST"
+        value = google_redis_instance.data.host
+      }
+    }
+  }
+}
+
+resource "google_cloud_run_v2_job" "legacy_warehouse_sync" {
+  name                = "legacy-warehouse-sync"
+  project             = google_project.data.project_id
+  location            = local.region
+  deletion_protection = false
+  labels              = local.labels
+
+  template {
+    task_count = 1
+
+    template {
+      service_account = google_service_account.warehouse_loader.email
+      max_retries     = 1
+      timeout         = "3600s"
+
+      vpc_access {
+        connector = google_vpc_access_connector.data.id
+        egress    = "PRIVATE_RANGES_ONLY"
+      }
+
+      containers {
+        image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/legacy-warehouse-sync:2026.08.3"
+
+        env {
+          name  = "CLOUD_SQL_CONNECTION_NAME"
+          value = google_sql_database_instance.data.connection_name
+        }
+
+        env {
+          name = "LEGACY_WAREHOUSE_CREDENTIALS"
+
+          value_source {
+            secret_key_ref {
+              secret  = google_secret_manager_secret.legacy_warehouse.secret_id
+              version = "latest"
+            }
           }
         }
       }
@@ -846,7 +839,7 @@ resource "google_monitoring_alert_policy" "subscription_backlog" {
   }
 }
 
-# Compute: one private GKE cluster with a workloads node pool.
+# Compute: one private GKE cluster with a workloads node pool. Workloads reach it through the teams' GitOps pipeline, outside this configuration.
 
 resource "google_container_cluster" "data" {
   name                     = "gke-data-prod"
@@ -942,715 +935,6 @@ resource "google_container_node_pool" "workloads" {
     shielded_instance_config {
       enable_secure_boot          = true
       enable_integrity_monitoring = true
-    }
-  }
-}
-
-# Kubernetes: the provider talks to the cluster endpoint, so every namespace and workload runs there.
-
-provider "kubernetes" {
-  host                   = "https://${google_container_cluster.data.endpoint}"
-  cluster_ca_certificate = base64decode(google_container_cluster.data.master_auth[0].cluster_ca_certificate)
-
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    command     = "gke-gcloud-auth-plugin"
-  }
-}
-resource "kubernetes_namespace_v1" "batch" {
-  metadata {
-    name = "batch"
-
-    labels = {
-      "app.kubernetes.io/part-of"          = "data-platform"
-      "plt.example/team"                   = "batch-processing"
-      "pod-security.kubernetes.io/enforce" = "restricted"
-    }
-  }
-}
-
-resource "kubernetes_namespace_v1" "analytics" {
-  metadata {
-    name = "analytics"
-
-    labels = {
-      "app.kubernetes.io/part-of"          = "data-platform"
-      "plt.example/team"                   = "analytics"
-      "pod-security.kubernetes.io/enforce" = "restricted"
-    }
-  }
-}
-
-resource "kubernetes_namespace_v1" "streaming" {
-  metadata {
-    name = "streaming"
-
-    labels = {
-      "app.kubernetes.io/part-of"          = "data-platform"
-      "plt.example/team"                   = "streaming"
-      "pod-security.kubernetes.io/enforce" = "restricted"
-    }
-  }
-}
-
-resource "kubernetes_namespace_v1" "observability" {
-  metadata {
-    name = "observability"
-
-    labels = {
-      "app.kubernetes.io/part-of"          = "data-platform"
-      "plt.example/team"                   = "platform-sre"
-      "pod-security.kubernetes.io/enforce" = "restricted"
-    }
-  }
-}
-
-# Service accounts: streaming consumers and the feature builder map to Google identities through Workload Identity.
-
-resource "kubernetes_service_account_v1" "feature_builder" {
-  metadata {
-    name      = "feature-builder"
-    namespace = kubernetes_namespace_v1.batch.metadata[0].name
-  }
-}
-
-resource "kubernetes_service_account_v1" "feature_store" {
-  metadata {
-    name      = "feature-store"
-    namespace = kubernetes_namespace_v1.analytics.metadata[0].name
-  }
-}
-
-resource "kubernetes_service_account_v1" "analytics_api" {
-  metadata {
-    name      = "analytics-api"
-    namespace = kubernetes_namespace_v1.analytics.metadata[0].name
-  }
-}
-
-resource "kubernetes_service_account_v1" "replay_worker" {
-  metadata {
-    name      = "replay-worker"
-    namespace = kubernetes_namespace_v1.streaming.metadata[0].name
-
-    annotations = {
-      "iam.gke.io/gcp-service-account" = google_service_account.streaming.email
-    }
-  }
-}
-
-resource "kubernetes_service_account_v1" "otel_collector" {
-  metadata {
-    name      = "otel-collector"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-  }
-}
-
-resource "kubernetes_service_account_v1" "prometheus" {
-  metadata {
-    name      = "prometheus"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-  }
-}
-
-# Workloads.
-
-resource "kubernetes_deployment_v1" "feature_builder" {
-  metadata {
-    name      = "feature-builder"
-    namespace = kubernetes_namespace_v1.batch.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "feature-builder"
-      "app.kubernetes.io/component" = "batch"
-      "app.kubernetes.io/part-of"   = "data-platform"
-    }
-  }
-
-  spec {
-    replicas = 2
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "feature-builder"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "feature-builder"
-          "app.kubernetes.io/component" = "batch"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.feature_builder.metadata[0].name
-
-        container {
-          name  = "feature-builder"
-          image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/feature-builder:2026.09.1"
-
-          env {
-            name  = "REDIS_HOST"
-            value = google_redis_instance.data.host
-          }
-
-          env {
-            name  = "FEATURE_STORE_HOST"
-            value = "feature-store.analytics.svc.cluster.local"
-          }
-
-          resources {
-            requests = {
-              cpu    = "500m"
-              memory = "1Gi"
-            }
-            limits = {
-              cpu    = "2"
-              memory = "4Gi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_deployment_v1" "analytics_api" {
-  metadata {
-    name      = "analytics-api"
-    namespace = kubernetes_namespace_v1.analytics.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "analytics-api"
-      "app.kubernetes.io/component" = "api"
-      "app.kubernetes.io/part-of"   = "data-platform"
-    }
-  }
-
-  spec {
-    replicas = 3
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "analytics-api"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "analytics-api"
-          "app.kubernetes.io/component" = "api"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.analytics_api.metadata[0].name
-
-        container {
-          name  = "analytics-api"
-          image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/analytics-api:2026.09.1"
-
-          port {
-            name           = "http"
-            container_port = 8080
-          }
-
-          env {
-            name  = "CLOUD_SQL_CONNECTION_NAME"
-            value = google_sql_database_instance.data.connection_name
-          }
-
-          resources {
-            requests = {
-              cpu    = "250m"
-              memory = "512Mi"
-            }
-            limits = {
-              cpu    = "1"
-              memory = "1Gi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_deployment_v1" "replay_worker" {
-  metadata {
-    name      = "replay-worker"
-    namespace = kubernetes_namespace_v1.streaming.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "replay-worker"
-      "app.kubernetes.io/component" = "replay"
-      "app.kubernetes.io/part-of"   = "data-platform"
-    }
-  }
-
-  spec {
-    replicas = 1
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "replay-worker"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "replay-worker"
-          "app.kubernetes.io/component" = "replay"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.replay_worker.metadata[0].name
-
-        container {
-          name  = "replay-worker"
-          image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/replay-worker:2026.10.0"
-
-          env {
-            name  = "PUBSUB_SUBSCRIPTION"
-            value = google_pubsub_subscription.events_raw_replay.name
-          }
-
-          env {
-            name  = "EVENTS_RAW_TOPIC"
-            value = google_pubsub_topic.events_raw.id
-          }
-
-          resources {
-            requests = {
-              cpu    = "500m"
-              memory = "512Mi"
-            }
-            limits = {
-              cpu    = "1"
-              memory = "1Gi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_stateful_set_v1" "feature_store" {
-  metadata {
-    name      = "feature-store"
-    namespace = kubernetes_namespace_v1.analytics.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "feature-store"
-      "app.kubernetes.io/component" = "store"
-      "app.kubernetes.io/part-of"   = "data-platform"
-    }
-  }
-
-  spec {
-    service_name = "feature-store"
-    replicas     = 3
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "feature-store"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "feature-store"
-          "app.kubernetes.io/component" = "store"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.feature_store.metadata[0].name
-
-        container {
-          name  = "feast"
-          image = "europe-west1-docker.pkg.dev/plt-data-prod-4a7c/data-platform/feature-store:2026.09.1"
-
-          port {
-            name           = "grpc"
-            container_port = 6566
-          }
-
-          resources {
-            requests = {
-              cpu    = "1"
-              memory = "4Gi"
-            }
-            limits = {
-              cpu    = "2"
-              memory = "8Gi"
-            }
-          }
-
-          volume_mount {
-            name       = "data"
-            mount_path = "/var/lib/feast"
-          }
-        }
-      }
-    }
-
-    volume_claim_template {
-      metadata {
-        name = "data"
-      }
-
-      spec {
-        access_modes       = ["ReadWriteOnce"]
-        storage_class_name = "premium-rwo"
-
-        resources {
-          requests = {
-            storage = "200Gi"
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_stateful_set_v1" "prometheus" {
-  metadata {
-    name      = "prometheus"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "prometheus"
-      "app.kubernetes.io/component" = "metrics"
-      "app.kubernetes.io/part-of"   = "data-platform"
-    }
-  }
-
-  spec {
-    service_name = "prometheus"
-    replicas     = 2
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "prometheus"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "prometheus"
-          "app.kubernetes.io/component" = "metrics"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.prometheus.metadata[0].name
-
-        container {
-          name  = "prometheus"
-          image = "quay.io/prometheus/prometheus:v3.2.1"
-
-          port {
-            name           = "http"
-            container_port = 9090
-          }
-
-          resources {
-            requests = {
-              cpu    = "500m"
-              memory = "2Gi"
-            }
-            limits = {
-              cpu    = "2"
-              memory = "8Gi"
-            }
-          }
-
-          volume_mount {
-            name       = "data"
-            mount_path = "/prometheus"
-          }
-        }
-      }
-    }
-
-    volume_claim_template {
-      metadata {
-        name = "data"
-      }
-
-      spec {
-        access_modes       = ["ReadWriteOnce"]
-        storage_class_name = "premium-rwo"
-
-        resources {
-          requests = {
-            storage = "500Gi"
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_daemon_set_v1" "otel_collector" {
-  metadata {
-    name      = "otel-collector"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "otel-collector"
-      "app.kubernetes.io/component" = "telemetry"
-      "app.kubernetes.io/part-of"   = "data-platform"
-    }
-  }
-
-  spec {
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "otel-collector"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "otel-collector"
-          "app.kubernetes.io/component" = "telemetry"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.otel_collector.metadata[0].name
-
-        container {
-          name  = "otel-collector"
-          image = "otel/opentelemetry-collector-contrib:0.121.0"
-
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "256Mi"
-            }
-            limits = {
-              cpu    = "500m"
-              memory = "512Mi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-# Services and ingress.
-
-resource "kubernetes_service_v1" "analytics_api" {
-  metadata {
-    name      = "analytics-api"
-    namespace = kubernetes_namespace_v1.analytics.metadata[0].name
-
-    annotations = {
-      "cloud.google.com/neg" = "{\"ingress\": true}"
-    }
-  }
-
-  spec {
-    type = "ClusterIP"
-
-    selector = {
-      "app.kubernetes.io/name" = "analytics-api"
-    }
-
-    port {
-      name        = "http"
-      port        = 8080
-      target_port = 8080
-    }
-  }
-}
-
-resource "kubernetes_service_v1" "feature_store" {
-  metadata {
-    name      = "feature-store"
-    namespace = kubernetes_namespace_v1.analytics.metadata[0].name
-  }
-
-  spec {
-    type       = "ClusterIP"
-    cluster_ip = "None"
-
-    selector = {
-      "app.kubernetes.io/name" = "feature-store"
-    }
-
-    port {
-      name        = "grpc"
-      port        = 6566
-      target_port = 6566
-    }
-  }
-}
-
-resource "kubernetes_service_v1" "prometheus" {
-  metadata {
-    name      = "prometheus"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-  }
-
-  spec {
-    type = "ClusterIP"
-
-    selector = {
-      "app.kubernetes.io/name" = "prometheus"
-    }
-
-    port {
-      name        = "http"
-      port        = 9090
-      target_port = 9090
-    }
-  }
-}
-
-resource "kubernetes_ingress_v1" "analytics" {
-  metadata {
-    name      = "analytics"
-    namespace = kubernetes_namespace_v1.analytics.metadata[0].name
-
-    annotations = {
-      "kubernetes.io/ingress.class"                   = "gce-internal"
-      "kubernetes.io/ingress.regional-static-ip-name" = "analytics-internal"
-    }
-  }
-
-  spec {
-    rule {
-      host = "analytics.data.internal"
-
-      http {
-        path {
-          path      = "/"
-          path_type = "Prefix"
-
-          backend {
-            service {
-              name = kubernetes_service_v1.analytics_api.metadata[0].name
-
-              port {
-                number = 8080
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-# Network policies: every namespace denies ingress by default; the feature store admits its clients.
-
-resource "kubernetes_network_policy_v1" "batch" {
-  metadata {
-    name      = "default-deny-ingress"
-    namespace = kubernetes_namespace_v1.batch.metadata[0].name
-  }
-
-  spec {
-    pod_selector {}
-    policy_types = ["Ingress"]
-  }
-}
-
-resource "kubernetes_network_policy_v1" "analytics" {
-  metadata {
-    name      = "allow-feature-store-clients"
-    namespace = kubernetes_namespace_v1.analytics.metadata[0].name
-  }
-
-  spec {
-    pod_selector {}
-    policy_types = ["Ingress"]
-
-    ingress {
-      from {
-        namespace_selector {
-          match_labels = {
-            "kubernetes.io/metadata.name" = kubernetes_namespace_v1.batch.metadata[0].name
-          }
-        }
-      }
-
-      from {
-        namespace_selector {
-          match_labels = {
-            "kubernetes.io/metadata.name" = kubernetes_namespace_v1.streaming.metadata[0].name
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_network_policy_v1" "streaming" {
-  metadata {
-    name      = "default-deny-ingress"
-    namespace = kubernetes_namespace_v1.streaming.metadata[0].name
-  }
-
-  spec {
-    pod_selector {}
-    policy_types = ["Ingress"]
-  }
-}
-
-resource "kubernetes_network_policy_v1" "observability" {
-  metadata {
-    name      = "allow-scrape-targets"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-  }
-
-  spec {
-    pod_selector {}
-    policy_types = ["Ingress"]
-
-    ingress {
-      from {
-        namespace_selector {
-          match_labels = {
-            "kubernetes.io/metadata.name" = kubernetes_namespace_v1.analytics.metadata[0].name
-          }
-        }
-      }
-    }
-  }
-}
-
-# Autoscaling.
-
-resource "kubernetes_horizontal_pod_autoscaler_v1" "analytics_api" {
-  metadata {
-    name      = "analytics-api"
-    namespace = kubernetes_namespace_v1.analytics.metadata[0].name
-  }
-
-  spec {
-    min_replicas                      = 3
-    max_replicas                      = 12
-    target_cpu_utilization_percentage = 70
-
-    scale_target_ref {
-      api_version = "apps/v1"
-      kind        = "Deployment"
-      name        = kubernetes_deployment_v1.analytics_api.metadata[0].name
     }
   }
 }

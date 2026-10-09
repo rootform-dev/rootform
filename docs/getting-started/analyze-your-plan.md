@@ -76,8 +76,8 @@ without a Rule keeps its place in the Form with no architectural facts, as
 
 **Planned changes** compares what the plan starts from with what it proposes.
 **Reported drift** lists the drift records the export holds, and **Net change**
-shows what remains once drift and plan combine. On a plan from an empty
-state, Reported drift is empty and Net change repeats Planned changes. "No drift reported
+shows what remains once drift and plan combine. When the export holds no drift
+record, Reported drift is empty and Net change repeats Planned changes. "No drift reported
 in this plan" means the export holds no drift record, not that infrastructure
 is unchanged.
 [Review planned changes](../guides/review-planned-changes.md) reads all three.

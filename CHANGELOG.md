@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- The AWS Dialect presents AWS resources with the official AWS Architecture
+  Icons, and the Azure Dialect presents node pools, blob containers, storage
+  queues, public IP addresses and virtual network peerings with official Azure
+  icons.
+
 ## 0.2.0
 
 - Analyze Terraform and OpenTofu plan and state exports into portable Forms,

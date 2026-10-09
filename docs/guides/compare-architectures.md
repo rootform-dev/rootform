@@ -3,7 +3,7 @@ title: "Compare two Forms"
 description: "Compare selected stages from two plan, state, or saved Forms and read the differences in the report and the Explorer."
 ---
 
-Compare two plans with the same Rootform binary and Dialect selection. This guide uses the base and head plans in the [commerce Playground](../../examples/playground/commerce-platform/README.md): the head revision moves the catalog and cache behind private endpoints, adds an order notification pipeline and a payments namespace, and removes the public storage account and the legacy webhooks. Work from `examples/playground/commerce-platform/` in a clone of the Rootform repository. Both sides contain `plan.json` and the saved `plan.tfplan` from the same Terraform run. To see the result before running anything, open the [Playground](https://rootform.dev/playground/?scenario=commerce-platform&mode=comparison) on **Comparison**.
+Compare two plans with the same Rootform binary and Dialect selection. This guide uses the base and head plans in the [commerce Playground](../../examples/playground/commerce-platform/README.md): `base` is the existing platform planned with no changes, and `head` is the proposed change planned against the same state, which moves AKS monitoring to a new platform workspace, replaces container insights, and retires the legacy blob webhook pipeline. Work from `examples/playground/commerce-platform/` in a clone of the Rootform repository. Each side pairs `plan.json` with the saved `plan.tfplan` exported from its own Terraform run. To see the result before running anything, open the [Playground](https://rootform.dev/playground/?scenario=commerce-platform&mode=comparison) on **Comparison**.
 
 Plan JSON and saved plans can contain secrets in clear text. Keep them out of Git and public artifacts. Rootform reads both locally; its reports omit sensitive values but still reveal topology and resource names.
 
@@ -32,38 +32,31 @@ The command returns status `0` because the comparison completed, even though it 
                [2mBefore[0m    [2mAfter[0m
 [2mOrigin[0m         Plan      Plan
 [2mStage[0m          Planned   Planned
-[2mInstances[0m      144       153
-[2mInterpreted[0m    144       153
-[2mRelations[0m      28        28
-[2mContexts[0m       196       207
-[2mContributions[0m  37        45
-
-[1m[38;5;208mUncertainty[0m
-                          [2mBefore[0m   [2mAfter[0m
-  [2mIndeterminate closures[0m       3       3
-  [2m  Unknown until apply[0m        3       3
-
+[2mInstances[0m      99        97
+[2mInterpreted[0m    99        97
+[2mRelations[0m      17        15
+[2mContexts[0m       114       110
+[2mContributions[0m  37        37
 [1m[38;5;208mDifferences[0m
-  [2mInstances[0m               16 added, 7 removed
-  [2mRelations[0m               5 added, 5 removed
-  [2mContexts[0m                28 added, 17 removed
-  [2mContributions[0m           9 added, 1 removed
-  [2mIndeterminate closures[0m  3 before, 3 after
+  [2mInstances[0m               1 added, 3 removed
+  [2mRelations[0m               1 added, 3 removed
+  [2mContexts[0m                1 added, 5 removed
+  [2mContributions[0m           1 added, 1 removed
+  [2mIndeterminate closures[0m  0
 
   [1mInstances[0m
-    [32m+[0m azurerm_linux_function_app.order_notifications  [2madded[0m
-    [32m+[0m azurerm_private_endpoint.cosmos                 [2madded[0m
-    [32m+[0m azurerm_private_endpoint.redis                  [2madded[0m
-    [32m+[0m kubernetes_namespace_v1.payments                [2madded[0m
-    [31m-[0m azurerm_linux_function_app.legacy_webhooks      [2mremoved[0m
-    [31m-[0m azurerm_storage_account.public                  [2mremoved[0m
+    [32m+[0m azurerm_log_analytics_workspace.platform       [2madded[0m
+    [31m-[0m azurerm_eventgrid_system_topic.public[0]       [2mremoved[0m
+    [31m-[0m azurerm_eventgrid_system_topic_event_subscription.legacy_webhooks[0]
+        [2mremoved[0m
+    [31m-[0m azurerm_linux_function_app.legacy_webhooks[0]  [2mremoved[0m
 ```
 
 Read the table first. **Before** and **After** name the two inputs and the stage compared on each side, here Planned on both. The instance counts cover observed resource instances; the Relation, Context, and Contribution counts cover facts that Rules established.
 
-**Uncertainty** counts indeterminate closures on each side and by cause: evidence that cannot decide a fact, and so cannot decide a change. Here three closures on each side wait on values unknown until apply. That does not mean the comparison failed, as [Comparisons](../concepts/comparisons.md#indeterminate-preserves-uncertainty) explains.
+**Uncertainty** counts indeterminate closures on each side and by cause: evidence that cannot decide a fact, and so cannot decide a change. This comparison has none on either side; when a side has any, they wait on values unknown until apply. That does not mean the comparison failed, as [Comparisons](../concepts/comparisons.md#indeterminate-preserves-uncertainty) explains.
 
-**Differences** counts what differs between the two inputs. The report never calls these differences drift: they do not establish what drifted between the two exports. The head plan adds 16 resource instances and removes 7, and the text summary names each of the 23 under the totals. The excerpt keeps six: the new private endpoints for the catalog and the cache, the order notification function, the payments namespace, and two removals, the legacy webhooks function and the public storage account.
+**Differences** counts what differs between the two inputs. The report never calls these differences drift: they do not establish what drifted between the two exports. The head plan adds 1 resource instance and removes 3, and the text summary names each of the 4 under the totals. The excerpt keeps four: the new platform workspace the cluster reports to, and three removals, the public system topic, its legacy webhook subscription, and the legacy webhooks function.
 
 If pairing is refused or the counts differ in your own project, inspect the warning and confirm each JSON was exported from its matching saved plan. [Plan inputs](../inputs/plans.md#pair-the-saved-plan) explains pairing.
 
@@ -78,8 +71,8 @@ rootform run comparison.json --no-serve -o comparison.html
 
 Open `comparison.html` locally. The selector reads **Differences**, Before to After, and the reading block at the bottom left switches between **Before**, **Differences**, and **After**. Each resource group carries the count of its changed entries, a removed relation is drawn dashed, and the **Added**, **Removed**, **Changed**, and **Indeterminate** filters narrow the canvas to one kind of change. The HTML makes no network requests. A local `rootform run comparison.json --no-browser --port 0` instead serves the same result on loopback; stop that server with `Ctrl+C` when finished. See [Explore a Form](explore-architecture.md) for navigation.
 
-![The Explorer on the Differences view of the commerce comparison: four resource groups with their change counts, a removed Delivers to relation drawn dashed in red, and the filters counting 58 added, 30 removed, and 6 indeterminate entries](../assets/explorer/comparison-differences-light.webp#gh-light-mode-only)
-![The Explorer on the Differences view of the commerce comparison: four resource groups with their change counts, a removed Delivers to relation drawn dashed in red, and the filters counting 58 added, 30 removed, and 6 indeterminate entries](../assets/explorer/comparison-differences-dark.webp#gh-dark-mode-only)
+![The Explorer on the Differences view of the commerce comparison: four resource groups with their change counts, the relations between them, and the filters counting 4 added and 12 removed entries](../assets/explorer/comparison-differences-light.webp#gh-light-mode-only)
+![The Explorer on the Differences view of the commerce comparison: four resource groups with their change counts, the relations between them, and the filters counting 4 added and 12 removed entries](../assets/explorer/comparison-differences-dark.webp#gh-dark-mode-only)
 
 ## Read every change
 

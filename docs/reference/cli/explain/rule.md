@@ -85,7 +85,7 @@ rootform explain rule azure.rule.subnet --input analysis.json --color always
 [2mRule[0m        azure.rule.subnet
 [2mMatches[0m     resource azurerm_subnet
 [2mConcept[0m     rf.concept.subnet
-[2mApplied to[0m  7 instances
+[2mApplied to[0m  8 instances
 ```
 
 Text is the default output; `--format json` serves tools. The explanation

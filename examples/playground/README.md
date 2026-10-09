@@ -1,14 +1,16 @@
 # Rootform Playground examples
 
-Each family has a `base` and `head` Terraform configuration, a saved plan, its JSON export, a provider lock, and a Rootform selection lock. These synthetic plans let the Playground show architecture and a comparison without contacting cloud services.
+Each family has a `base` and `head` Terraform configuration, a saved plan, its JSON export, a provider lock, and a Rootform selection lock. `base` is the existing infrastructure planned with no changes; `head` is the proposed change planned against the same state. These synthetic plans let the Playground show architecture and a comparison without contacting cloud services.
+
+Terraform planned both sides with the pinned providers and without refresh, against a state produced by applying `base` offline through a stand-in provider that returns the planned values instead of calling a cloud API. The plans therefore start from existing resources, and no account, credential, or live state reaches them.
 
 | Family | Change illustrated |
 | --- | --- |
-| [Commerce platform](commerce-platform/README.md) | Payment and private data paths. |
-| [Event-driven platform](event-driven-platform/README.md) | Event subscriptions and delivery. |
-| [Shared data platform](shared-data-platform/README.md) | Streaming data architecture. |
+| [Commerce platform](commerce-platform/README.md) | AKS monitoring moves to a dedicated workspace and the legacy webhook pipeline is retired. |
+| [Event-driven platform](event-driven-platform/README.md) | Scored claims move to a priority queue and the scheduled poller is retired. |
+| [Shared data platform](shared-data-platform/README.md) | The raw stream switches to push delivery with a dead-letter path. |
 
-From the repository root, analyze the head plan and compare the two sides:
+From the repository root, analyze the head plan and compare it with the base:
 
 ```sh
 rootform run examples/playground/commerce-platform/head/plan.json --plan-file examples/playground/commerce-platform/head/plan.tfplan --project examples/playground/commerce-platform/head --no-serve -o analysis.json

@@ -56,15 +56,16 @@ For the commerce head plan, the summary includes:
 [2mStage[0m              Planned
 [2mStages[0m             Recorded (reconstructed), Refreshed, Planned
 [1m[38;5;208mArchitecture[0m
-  [2mInstances[0m      153
+  [2mInstances[0m      97
 [1m[38;5;208mReported drift[0m
   No drift reported in this plan.
 ```
 
-This example plan starts from an empty state, so **Stages** includes an empty
-Refreshed architecture and a reconstructed Recorded architecture. Its Reported
-drift section lists no records. A plan made against existing state can list reported
-drift records and their architectural consequences. If no drift is
+This example plan was made against the existing state, so **Stages** holds the
+reconstructed Recorded architecture, the Refreshed state it starts from, and
+the Planned proposal. Its Reported drift section lists no records. A plan made
+against existing state can list reported drift records and their architectural
+consequences. If no drift is
 reported, the plan may still have skipped or limited refresh; the
 [plan guide](../inputs/plans.md#read-plan-comparisons-correctly) explains that
 boundary. This review shows what one planning operation proposes; it does not
@@ -244,20 +245,24 @@ includes:
 
 ```ansi title="Comparison excerpt"
 Inputs compared
-Uncertainty
-                          Before   After
-  Indeterminate closures       3       3
-    Unknown until apply        3       3
+               Before    After
+Origin         Plan      Plan
+Stage          Planned   Planned
+Instances      99        97
+Interpreted    99        97
+Relations      17        15
+Contexts       114       110
+Contributions  37        37
 Differences
-  Instances               16 added, 7 removed
-  Relations               5 added, 5 removed
-  Contexts                28 added, 17 removed
-  Contributions           9 added, 1 removed
-  Indeterminate closures  3 before, 3 after
+  Instances               1 added, 3 removed
+  Relations               1 added, 3 removed
+  Contexts                1 added, 5 removed
+  Contributions           1 added, 1 removed
+  Indeterminate closures  0
 ```
 
-When the planning conditions above are comparable, the head plan reports 16
-instances added and 7 removed relative to the base plan. Otherwise, describe
+When the planning conditions above are comparable, the head plan reports 1
+instance added and 3 removed relative to the base plan. Otherwise, describe
 these as plan differences and investigate the other inputs and any
 infrastructure change between runs. Inspect determined changes and
 indeterminate closures together: an

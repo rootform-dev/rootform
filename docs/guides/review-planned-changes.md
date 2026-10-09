@@ -24,7 +24,7 @@ rootform run plan.json --plan-file plan.tfplan --no-serve
 ```ansi title="Plan summary, excerpt"
 [1m[38;5;208mPlanned changes[0m
   Refreshed -> Planned
-  [2mInstances[0m               153 added
+  [2mInstances[0m      1 added, 3 removed, 1 planned for replacement
 [1m[38;5;208mReported drift[0m
   No drift reported in this plan.
 [1m[38;5;208mNet change[0m
@@ -37,11 +37,12 @@ rootform run plan.json --plan-file plan.tfplan --no-serve
 | **Reported drift** | Recorded to Refreshed | What changed outside Terraform, according to the plan's drift records? |
 | **Net change** | Recorded to Planned | What remains once drift the plan reverts cancels out? |
 
-This sample plan starts from an empty state, so every instance is added, no
-drift is reported, and **Net change** repeats **Planned changes**. A plan made
-against existing state lists drift records under **Reported drift** with their
-architectural consequence, and **Net change** shows a cancelled entry for each
-fact drift removed and the plan restores.
+This sample plan was made against the existing state, so **Planned changes**
+lists what it adds, removes, or replaces, no drift is reported, and **Net
+change** repeats **Planned changes**. A plan made against existing state lists
+drift records under **Reported drift** with their architectural consequence,
+and **Net change** shows a cancelled entry for each fact drift removed and the
+plan restores.
 [See drift cancel in the net change](../concepts/comparisons.md#see-drift-cancel-in-the-net-change)
 walks through such a plan.
 

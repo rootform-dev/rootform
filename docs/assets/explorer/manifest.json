@@ -4,49 +4,49 @@
   "figures": {
     "quickstart-overview-light.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&scheme=light",
-      "sha256": "12e9b1d992c39781d62db53c958cc06865422aec578869dcc78cbf1ddded8fe8",
+      "sha256": "e58080000fc647c8768807b68427cd36785eaea8a61d04562cdc3e90be5163f3",
       "width": 2560,
       "height": 1360
     },
     "inspector-details-light.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=light",
-      "sha256": "bd5e8a8efab276e4e54ba944882c7b6f797123091c2e3347950e2cb07ab061dd",
+      "sha256": "69fd0d76d22afed91aeab5a0227ba90cfe423e00c975e3ddfb0ccb471bcb0cdc",
       "width": 2560,
       "height": 1360
     },
     "quickstart-evidence-light.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=light",
-      "sha256": "76c35c385e48e5a7075a6af6e09d5ac31b26e21b3cdb8e120bace7aa0f33d9c3",
+      "sha256": "d6c58791f36ffcd13b39f881ac2fe8f5842812a503cec4d028c9b5270f0620ab",
       "width": 2560,
       "height": 1360
     },
     "comparison-differences-light.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=comparison&scheme=light",
-      "sha256": "1cc92006d5f71a392fa22312ddcb44bf1eb2ab00d86c29046110bfd254415e96",
+      "sha256": "e69f717047e9bce3a96b92e586db4f887e1907b07be5b617541a16e51f26f94a",
       "width": 2560,
       "height": 1360
     },
     "quickstart-overview-dark.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&scheme=dark",
-      "sha256": "43e26b78c6559cb0a6109cceaaf67d0301a109e63e4389c169b4b8de9cc92a5d",
+      "sha256": "1449ab12c64fe50835c2a4993cf03cb619b18bbf452e5e4ede82593bd5b8655a",
       "width": 2560,
       "height": 1360
     },
     "inspector-details-dark.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=dark",
-      "sha256": "d0d5d485f8e5635f9b40cbf6010a7da8bccf242c6257e1946b24b1b9a77e9748",
+      "sha256": "250247643660449f444bd6ae9b2e020f2590ac147c83158017745cfd95c99947",
       "width": 2560,
       "height": 1360
     },
     "quickstart-evidence-dark.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan&focus=representation%3A1%3Aazurerm_virtual_network.prod&selection=representation%3A1%3Aazurerm_subnet.prod_data&inspector=open&scheme=dark",
-      "sha256": "ede8a40ce558b3c1e7c7c9ce7a551203cd7db2f02caf27cca8755bc080501b7c",
+      "sha256": "90a2914203abd5759aea7cb1935f961d0a6b08fff728cde4a24391461bd737cc",
       "width": 2560,
       "height": 1360
     },
     "comparison-differences-dark.webp": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=comparison&scheme=dark",
-      "sha256": "c8a82eeb4809d342350b73aab219529916016d3af001f676a87198d330d6715c",
+      "sha256": "0153f626fc72eee06062fa1bcc339fe93c6ddb76dba606cd00078ebf5dc23374",
       "width": 2560,
       "height": 1360
     }
@@ -54,16 +54,16 @@
   "videos": {
     "explorer-tour": {
       "playground_route": "/playground/?scenario=commerce-platform&mode=plan",
-      "duration_seconds": 31.617,
+      "duration_seconds": 31.8,
       "width": 2048,
       "height": 1152,
       "files": {
-        "explorer-tour-dark.mp4": "c39e317a59532ca9fb7b9763488ed7dad5a65f4ec35b203448e4476c4623a40d",
-        "explorer-tour-dark.webm": "55f210c5d6339fefc1154ba2ef14c22156ad0cede1a1c588f73ae88a78cb2700",
-        "explorer-tour-dark.webp": "0566b68d60eb25b190407db4c378c16f48642cc7cd3485552358d5e7c4708360",
-        "explorer-tour-light.mp4": "16ecd98bb24c428d6ddfa335616fb9d78f03d955aa4d9954291155ce0541b050",
-        "explorer-tour-light.webm": "a01d85ab5538353dbc083d301389a2f56f1d0951d6a34c363453c1bf70069b65",
-        "explorer-tour-light.webp": "cd038129baef5532bdf7eba3d85ede70c416d373b1238afd6cf9ceba7d45196b"
+        "explorer-tour-dark.mp4": "8878d8532524dc4b54898c939dc8b06389ab9225733221d500058237999e9753",
+        "explorer-tour-dark.webm": "858436614eba5f1b19375393d8f6907beaeecf78ae3a713dccd604ee0fd8cee8",
+        "explorer-tour-dark.webp": "a94720ba210103c28a4dc071a6e62b24fe9d9547fc1a8d9b91222ebbaa3c4c7c",
+        "explorer-tour-light.mp4": "cf151fcd7ea64623b6e9dd83fbc0d83c516d502cbd965495ca8ffca0dab5cc11",
+        "explorer-tour-light.webm": "e4de684f00959b2613dd725e0d91b5fa1145ecee3820afec6d45704cb0b3e2a6",
+        "explorer-tour-light.webp": "c00da25d2ec0f43b62f5b435dbb3476cc326e85632026faa4350391b4e5b1af5"
       }
     }
   }

@@ -1,14 +1,14 @@
 {
   "format_version": "1",
   "files": {
-    "commerce-platform-analysis.json": "6be055b0c3404a9e6c1f27d34c7fb955c6363f531c59009a14c823560b788d2a",
-    "commerce-platform-comparison.json": "61dceae0f178f9d2d3c0ff8b472c09717ba465889c4d7bb94811e8beaf420b27",
-    "commerce-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49",
-    "event-driven-platform-analysis.json": "617e537a0bd34c9b60d2121a68ec7af947aab9716ddac6e7269c8407190c0639",
-    "event-driven-platform-comparison.json": "8916f3c1a5ea66f8e236995b66cdccd08e436d73ad472107f09418a57ac04bcb",
-    "event-driven-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49",
-    "shared-data-platform-analysis.json": "7319299f19d3ee5032da81a2e56467c2630f7d8125c3ad2e3fbbb1875945f643",
-    "shared-data-platform-comparison.json": "5249891a5ba1dae4cc01759f9bb5d6d59538dedcc36a6e227da212eddb952b19",
-    "shared-data-platform-presentation.json": "1673648dc5553d27d814689266a88515f2262e1713f01c294470316f9cb49f49"
+    "commerce-platform-analysis.json": "e9c6b11ff911be1e30921f901f91988ba1068f4a76c789c6da58e9b24eb1fa2d",
+    "commerce-platform-comparison.json": "8159b10d1b6cd754d36fc30ad6c3ce5bd10ceb07c04d189d1a8bbe7744026eb2",
+    "commerce-platform-presentation.json": "06e1c15ce40687347742703b606d0f27487a9c76986b1f30167d696f4627c3b9",
+    "event-driven-platform-analysis.json": "d84c8bdc6692864f11e1753c866c68d60dc988557d1565a620f60df2aeaa4a70",
+    "event-driven-platform-comparison.json": "b02e1fe92c212fe408c3cfb45d154f2b9bdc1ad01c4699df85bcc160898d04bb",
+    "event-driven-platform-presentation.json": "06e1c15ce40687347742703b606d0f27487a9c76986b1f30167d696f4627c3b9",
+    "shared-data-platform-analysis.json": "d509aa74915426ffea273a21e7d253bacc0b23422a8e828a68eefda47fb4c0f7",
+    "shared-data-platform-comparison.json": "78eb5092e860ea754e5ca3605b4cc606b8570b32d8ac428ab48862253ee5cd0a",
+    "shared-data-platform-presentation.json": "06e1c15ce40687347742703b606d0f27487a9c76986b1f30167d696f4627c3b9"
   }
 }

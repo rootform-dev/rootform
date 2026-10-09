@@ -5,10 +5,6 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "= 5.3.0"
     }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "= 2.38.0"
-    }
   }
 }
 
@@ -36,6 +32,12 @@ variable "notifications_smtp_password" {
   description = "Password of the transactional e-mail relay used by the notification workers."
   type        = string
   sensitive   = true
+}
+
+variable "legacy_webhooks_enabled" {
+  description = "Keeps the legacy blob webhooks of the public storage account running."
+  type        = bool
+  default     = false
 }
 
 locals {
@@ -362,42 +364,6 @@ resource "azurerm_private_dns_zone_virtual_network_link" "postgres_prod" {
   virtual_network_id  = azurerm_virtual_network.prod.id
 }
 
-resource "azurerm_private_dns_zone" "redis" {
-  name                = "privatelink.redis.cache.windows.net"
-  resource_group_name = azurerm_resource_group.hub.name
-  tags                = local.tags
-}
-
-resource "azurerm_private_dns_zone" "cosmos" {
-  name                = "privatelink.documents.azure.com"
-  resource_group_name = azurerm_resource_group.hub.name
-  tags                = local.tags
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "redis_hub" {
-  name                = "link-redis-hub"
-  private_dns_zone_id = azurerm_private_dns_zone.redis.id
-  virtual_network_id  = azurerm_virtual_network.hub.id
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "redis_prod" {
-  name                = "link-redis-prod"
-  private_dns_zone_id = azurerm_private_dns_zone.redis.id
-  virtual_network_id  = azurerm_virtual_network.prod.id
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_hub" {
-  name                = "link-cosmos-hub"
-  private_dns_zone_id = azurerm_private_dns_zone.cosmos.id
-  virtual_network_id  = azurerm_virtual_network.hub.id
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "cosmos_prod" {
-  name                = "link-cosmos-prod"
-  private_dns_zone_id = azurerm_private_dns_zone.cosmos.id
-  virtual_network_id  = azurerm_virtual_network.prod.id
-}
-
 # Shared services reachable only through private endpoints in the hub.
 
 resource "azurerm_container_registry" "platform" {
@@ -562,6 +528,22 @@ resource "azurerm_subnet" "prod_postgres" {
   }
 }
 
+resource "azurerm_subnet" "prod_legacy" {
+  name                 = "snet-legacy"
+  resource_group_name  = azurerm_resource_group.prod.name
+  virtual_network_name = azurerm_virtual_network.prod.name
+  address_prefixes     = ["10.20.9.0/24"]
+
+  delegation {
+    name = "app-service"
+
+    service_delegation {
+      name    = "Microsoft.Web/serverFarms"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }
+  }
+}
+
 resource "azurerm_public_ip" "natgw" {
   name                = "pip-natgw-commerce-prod"
   location            = azurerm_resource_group.prod.location
@@ -675,7 +657,7 @@ resource "azurerm_log_analytics_solution" "container_insights" {
   }
 }
 
-# Compute: one AKS cluster with a system pool and a user pool.
+# Compute: one AKS cluster with a system pool and a user pool. Workloads reach it through the teams' GitOps pipeline, outside this configuration.
 
 resource "azurerm_kubernetes_cluster" "prod" {
   name                      = "aks-commerce-prod"
@@ -735,7 +717,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "apps" {
   mode                  = "User"
   auto_scaling_enabled  = true
   min_count             = 3
-  max_count             = 12
+  max_count             = 20
   zones                 = ["1", "2", "3"]
   vnet_subnet_id        = azurerm_subnet.prod_aks_user.id
   tags                  = local.tags
@@ -829,28 +811,8 @@ resource "azurerm_redis_cache" "prod" {
   redis_version                 = "6"
   minimum_tls_version           = "1.2"
   non_ssl_port_enabled          = false
-  public_network_access_enabled = false
+  public_network_access_enabled = true
   tags                          = local.tags
-}
-
-resource "azurerm_private_endpoint" "redis" {
-  name                = "pe-redis-commerce-prod"
-  location            = azurerm_resource_group.data.location
-  resource_group_name = azurerm_resource_group.data.name
-  subnet_id           = azurerm_subnet.prod_data.id
-  tags                = local.tags
-
-  private_service_connection {
-    name                           = "redis"
-    private_connection_resource_id = azurerm_redis_cache.prod.id
-    subresource_names              = ["redisCache"]
-    is_manual_connection           = false
-  }
-
-  private_dns_zone_group {
-    name                 = "default"
-    private_dns_zone_ids = [azurerm_private_dns_zone.redis.id]
-  }
 }
 
 resource "azurerm_cosmosdb_account" "catalog" {
@@ -861,7 +823,7 @@ resource "azurerm_cosmosdb_account" "catalog" {
   kind                          = "GlobalDocumentDB"
   automatic_failover_enabled    = true
   minimal_tls_version           = "Tls12"
-  public_network_access_enabled = false
+  public_network_access_enabled = true
   tags                          = local.tags
 
   consistency_policy {
@@ -899,26 +861,6 @@ resource "azurerm_cosmosdb_sql_container" "products" {
   }
 }
 
-resource "azurerm_private_endpoint" "cosmos" {
-  name                = "pe-cosmos-commerce-catalog"
-  location            = azurerm_resource_group.data.location
-  resource_group_name = azurerm_resource_group.data.name
-  subnet_id           = azurerm_subnet.prod_data.id
-  tags                = local.tags
-
-  private_service_connection {
-    name                           = "sql"
-    private_connection_resource_id = azurerm_cosmosdb_account.catalog.id
-    subresource_names              = ["Sql"]
-    is_manual_connection           = false
-  }
-
-  private_dns_zone_group {
-    name                 = "default"
-    private_dns_zone_ids = [azurerm_private_dns_zone.cosmos.id]
-  }
-}
-
 resource "azurerm_storage_account" "media" {
   name                            = "stcommercemedia"
   location                        = azurerm_resource_group.data.location
@@ -949,6 +891,20 @@ resource "azurerm_storage_account" "backups" {
   tags                            = local.tags
 }
 
+resource "azurerm_storage_account" "public" {
+  name                            = "stcommercepublic"
+  location                        = azurerm_resource_group.data.location
+  resource_group_name             = azurerm_resource_group.data.name
+  account_kind                    = "StorageV2"
+  account_tier                    = "Standard"
+  account_replication_type        = "LRS"
+  min_tls_version                 = "TLS1_2"
+  https_traffic_only_enabled      = true
+  allow_nested_items_to_be_public = true
+  public_network_access_enabled   = true
+  tags                            = local.tags
+}
+
 resource "azurerm_storage_container" "media_uploads" {
   name                  = "uploads"
   storage_account_id    = azurerm_storage_account.media.id
@@ -965,6 +921,12 @@ resource "azurerm_storage_container" "backups_exports" {
   name                  = "database-exports"
   storage_account_id    = azurerm_storage_account.backups.id
   container_access_type = "private"
+}
+
+resource "azurerm_storage_container" "public_assets" {
+  name                  = "assets"
+  storage_account_id    = azurerm_storage_account.public.id
+  container_access_type = "blob"
 }
 
 resource "azurerm_private_endpoint" "media" {
@@ -1048,12 +1010,6 @@ resource "azurerm_servicebus_topic" "orders" {
   support_ordering = true
 }
 
-resource "azurerm_servicebus_topic" "orders_enriched" {
-  name             = "orders-enriched"
-  namespace_id     = azurerm_servicebus_namespace.prod.id
-  support_ordering = true
-}
-
 resource "azurerm_servicebus_topic" "payments" {
   name             = "payments"
   namespace_id     = azurerm_servicebus_namespace.prod.id
@@ -1067,9 +1023,16 @@ resource "azurerm_servicebus_queue" "notifications" {
   dead_lettering_on_message_expiration = true
 }
 
+resource "azurerm_servicebus_queue" "media_jobs" {
+  name                                 = "media-jobs"
+  namespace_id                         = azurerm_servicebus_namespace.prod.id
+  max_delivery_count                   = 10
+  dead_lettering_on_message_expiration = true
+}
+
 resource "azurerm_servicebus_subscription" "orders_fulfillment" {
   name               = "fulfillment"
-  topic_id           = azurerm_servicebus_topic.orders_enriched.id
+  topic_id           = azurerm_servicebus_topic.orders.id
   max_delivery_count = 10
 }
 
@@ -1107,22 +1070,21 @@ resource "azurerm_storage_account" "functions" {
   tags                            = local.tags
 }
 
-resource "azurerm_service_plan" "functions_premium" {
-  name                         = "asp-commerce-functions-ep1"
-  location                     = azurerm_resource_group.prod.location
-  resource_group_name          = azurerm_resource_group.prod.name
-  os_type                      = "Linux"
-  sku_name                     = "EP1"
-  maximum_elastic_worker_count = 20
-  zone_balancing_enabled       = true
-  tags                         = local.tags
+resource "azurerm_service_plan" "functions" {
+  name                   = "asp-commerce-functions"
+  location               = azurerm_resource_group.prod.location
+  resource_group_name    = azurerm_resource_group.prod.name
+  os_type                = "Linux"
+  sku_name               = "P1v3"
+  zone_balancing_enabled = true
+  tags                   = local.tags
 }
 
 resource "azurerm_linux_function_app" "media_processor" {
   name                          = "func-commerce-media-processor"
   location                      = azurerm_resource_group.prod.location
   resource_group_name           = azurerm_resource_group.prod.name
-  service_plan_id               = azurerm_service_plan.functions_premium.id
+  service_plan_id               = azurerm_service_plan.functions.id
   storage_account_name          = azurerm_storage_account.functions.name
   storage_uses_managed_identity = true
   virtual_network_subnet_id     = azurerm_subnet.prod_integration.id
@@ -1145,19 +1107,22 @@ resource "azurerm_linux_function_app" "media_processor" {
   }
 
   app_settings = {
+    MEDIA_JOBS_QUEUE      = azurerm_servicebus_queue.media_jobs.name
     MEDIA_STORAGE_ACCOUNT = azurerm_storage_account.media.name
     SERVICEBUS_NAMESPACE  = azurerm_servicebus_namespace.prod.name
   }
 }
 
-resource "azurerm_linux_function_app" "order_notifications" {
-  name                          = "func-commerce-order-notifications"
+resource "azurerm_linux_function_app" "legacy_webhooks" {
+  count = var.legacy_webhooks_enabled ? 1 : 0
+
+  name                          = "func-commerce-legacy-webhooks"
   location                      = azurerm_resource_group.prod.location
   resource_group_name           = azurerm_resource_group.prod.name
-  service_plan_id               = azurerm_service_plan.functions_premium.id
+  service_plan_id               = azurerm_service_plan.functions.id
   storage_account_name          = azurerm_storage_account.functions.name
   storage_uses_managed_identity = true
-  virtual_network_subnet_id     = azurerm_subnet.prod_integration.id
+  virtual_network_subnet_id     = azurerm_subnet.prod_legacy.id
   https_only                    = true
   functions_extension_version   = "~4"
   tags                          = local.tags
@@ -1172,17 +1137,16 @@ resource "azurerm_linux_function_app" "order_notifications" {
     vnet_route_all_enabled                 = true
 
     application_stack {
-      node_version = "20"
+      node_version = "18"
     }
   }
 
   app_settings = {
-    SERVICEBUS_NAMESPACE = azurerm_servicebus_namespace.prod.name
-    NOTIFICATIONS_QUEUE  = azurerm_servicebus_queue.notifications.name
+    PUBLIC_STORAGE_ACCOUNT = azurerm_storage_account.public.name
   }
 }
 
-# Eventing: system topics on the media account and the Service Bus namespace fan events out to the functions and to the notifications queue.
+# Eventing: system topics on the storage accounts fan blob events out to the media jobs and notifications queues, and to the legacy webhooks.
 
 resource "azurerm_eventgrid_system_topic" "media" {
   name                = "evgst-stcommercemedia"
@@ -1198,10 +1162,7 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "media_processor" {
   system_topic         = azurerm_eventgrid_system_topic.media.name
   resource_group_name  = azurerm_resource_group.data.name
   included_event_types = ["Microsoft.Storage.BlobCreated"]
-
-  azure_function_endpoint {
-    function_id = azurerm_linux_function_app.media_processor.id
-  }
+  service_bus_queue_id = azurerm_servicebus_queue.media_jobs.id
 
   retry_policy {
     max_delivery_attempts = 30
@@ -1217,1364 +1178,26 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "media_notification
   service_bus_queue_id = azurerm_servicebus_queue.notifications.id
 }
 
-resource "azurerm_eventgrid_system_topic" "service_bus" {
-  name                = "evgst-sb-commerce-prod"
-  location            = azurerm_resource_group.prod.location
-  resource_group_name = azurerm_resource_group.prod.name
-  source_resource_id  = azurerm_servicebus_namespace.prod.id
-  topic_type          = "Microsoft.ServiceBus.Namespaces"
+resource "azurerm_eventgrid_system_topic" "public" {
+  count = var.legacy_webhooks_enabled ? 1 : 0
+
+  name                = "evgst-stcommercepublic"
+  location            = azurerm_resource_group.data.location
+  resource_group_name = azurerm_resource_group.data.name
+  source_resource_id  = azurerm_storage_account.public.id
+  topic_type          = "Microsoft.Storage.StorageAccounts"
   tags                = local.tags
 }
 
-resource "azurerm_eventgrid_system_topic_event_subscription" "order_notifications" {
-  name                 = "evgs-order-notifications"
-  system_topic         = azurerm_eventgrid_system_topic.service_bus.name
-  resource_group_name  = azurerm_resource_group.prod.name
-  included_event_types = ["Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners"]
-
-  azure_function_endpoint {
-    function_id = azurerm_linux_function_app.order_notifications.id
-  }
-}
-
-
-# Kubernetes: the provider talks to the production cluster, so every namespace and workload runs there.
-
-provider "kubernetes" {
-  host                   = azurerm_kubernetes_cluster.prod.kube_config[0].host
-  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.prod.kube_config[0].cluster_ca_certificate)
-  client_certificate     = base64decode(azurerm_kubernetes_cluster.prod.kube_config[0].client_certificate)
-  client_key             = base64decode(azurerm_kubernetes_cluster.prod.kube_config[0].client_key)
-}
-
-resource "kubernetes_namespace_v1" "platform_ingress" {
-  metadata {
-    name = "platform-ingress"
-
-    labels = {
-      "app.kubernetes.io/part-of"          = "commerce"
-      "brightcart.io/team"                 = "platform-engineering"
-      "pod-security.kubernetes.io/enforce" = "baseline"
-    }
-  }
-}
-
-resource "kubernetes_namespace_v1" "checkout" {
-  metadata {
-    name = "checkout"
-
-    labels = {
-      "app.kubernetes.io/part-of"          = "commerce"
-      "brightcart.io/team"                 = "checkout"
-      "pod-security.kubernetes.io/enforce" = "restricted"
-    }
-  }
-}
-
-resource "kubernetes_namespace_v1" "catalog" {
-  metadata {
-    name = "catalog"
-
-    labels = {
-      "app.kubernetes.io/part-of"          = "commerce"
-      "brightcart.io/team"                 = "catalog"
-      "pod-security.kubernetes.io/enforce" = "restricted"
-    }
-  }
-}
-
-resource "kubernetes_namespace_v1" "orders" {
-  metadata {
-    name = "orders"
-
-    labels = {
-      "app.kubernetes.io/part-of"          = "commerce"
-      "brightcart.io/team"                 = "orders"
-      "pod-security.kubernetes.io/enforce" = "restricted"
-    }
-  }
-}
-
-resource "kubernetes_namespace_v1" "payments" {
-  metadata {
-    name = "payments"
-
-    labels = {
-      "app.kubernetes.io/part-of"          = "commerce"
-      "brightcart.io/team"                 = "payments"
-      "pod-security.kubernetes.io/enforce" = "restricted"
-    }
-  }
-}
-
-resource "kubernetes_namespace_v1" "observability" {
-  metadata {
-    name = "observability"
-
-    labels = {
-      "app.kubernetes.io/part-of"          = "commerce"
-      "brightcart.io/team"                 = "platform-engineering"
-      "pod-security.kubernetes.io/enforce" = "baseline"
-    }
-  }
-}
-
-# Service accounts: one identity per workload.
-
-resource "kubernetes_service_account_v1" "ingress_nginx" {
-  metadata {
-    name      = "ingress-nginx"
-    namespace = kubernetes_namespace_v1.platform_ingress.metadata[0].name
-  }
-}
-
-resource "kubernetes_service_account_v1" "checkout_api" {
-  metadata {
-    name      = "checkout-api"
-    namespace = kubernetes_namespace_v1.checkout.metadata[0].name
-
-    labels = {
-      "azure.workload.identity/use" = "true"
-    }
-
-    annotations = {
-      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.checkout.client_id
-    }
-  }
-}
-
-resource "kubernetes_service_account_v1" "cart_worker" {
-  metadata {
-    name      = "cart-worker"
-    namespace = kubernetes_namespace_v1.checkout.metadata[0].name
-
-    labels = {
-      "azure.workload.identity/use" = "true"
-    }
-
-    annotations = {
-      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.checkout.client_id
-    }
-  }
-}
-
-resource "kubernetes_service_account_v1" "payments_api" {
-  metadata {
-    name      = "payments-api"
-    namespace = kubernetes_namespace_v1.payments.metadata[0].name
-
-    labels = {
-      "azure.workload.identity/use" = "true"
-    }
-
-    annotations = {
-      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.checkout.client_id
-    }
-  }
-}
-
-resource "kubernetes_service_account_v1" "payments_worker" {
-  metadata {
-    name      = "payments-worker"
-    namespace = kubernetes_namespace_v1.payments.metadata[0].name
-
-    labels = {
-      "azure.workload.identity/use" = "true"
-    }
-
-    annotations = {
-      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.checkout.client_id
-    }
-  }
-}
-
-resource "kubernetes_service_account_v1" "catalog_api" {
-  metadata {
-    name      = "catalog-api"
-    namespace = kubernetes_namespace_v1.catalog.metadata[0].name
-  }
-}
-
-resource "kubernetes_service_account_v1" "catalog_search" {
-  metadata {
-    name      = "catalog-search"
-    namespace = kubernetes_namespace_v1.catalog.metadata[0].name
-  }
-}
-
-resource "kubernetes_service_account_v1" "orders_api" {
-  metadata {
-    name      = "orders-api"
-    namespace = kubernetes_namespace_v1.orders.metadata[0].name
-
-    labels = {
-      "azure.workload.identity/use" = "true"
-    }
-
-    annotations = {
-      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.orders.client_id
-    }
-  }
-}
-
-resource "kubernetes_service_account_v1" "orders_worker" {
-  metadata {
-    name      = "orders-worker"
-    namespace = kubernetes_namespace_v1.orders.metadata[0].name
-
-    labels = {
-      "azure.workload.identity/use" = "true"
-    }
-
-    annotations = {
-      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.orders.client_id
-    }
-  }
-}
-
-resource "kubernetes_service_account_v1" "otel_collector" {
-  metadata {
-    name      = "otel-collector"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-  }
-}
-
-resource "kubernetes_service_account_v1" "prometheus" {
-  metadata {
-    name      = "prometheus"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-  }
-}
-
-# Workloads.
-
-resource "kubernetes_deployment_v1" "ingress_nginx_controller" {
-  metadata {
-    name      = "ingress-nginx-controller"
-    namespace = kubernetes_namespace_v1.platform_ingress.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "ingress-nginx"
-      "app.kubernetes.io/component" = "controller"
-      "app.kubernetes.io/part-of"   = "commerce"
-    }
-  }
-
-  spec {
-    replicas = 3
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "ingress-nginx"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "ingress-nginx"
-          "app.kubernetes.io/component" = "controller"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.ingress_nginx.metadata[0].name
-
-        container {
-          name  = "ingress-nginx"
-          image = "registry.k8s.io/ingress-nginx/controller:v1.12.1"
-
-          port {
-            name           = "http"
-            container_port = 443
-          }
-
-          resources {
-            requests = {
-              cpu    = "250m"
-              memory = "512Mi"
-            }
-            limits = {
-              cpu    = "1"
-              memory = "1Gi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_deployment_v1" "checkout_api" {
-  metadata {
-    name      = "checkout-api"
-    namespace = kubernetes_namespace_v1.checkout.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "checkout-api"
-      "app.kubernetes.io/component" = "api"
-      "app.kubernetes.io/part-of"   = "commerce"
-    }
-  }
-
-  spec {
-    replicas = 3
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "checkout-api"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "checkout-api"
-          "app.kubernetes.io/component" = "api"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.checkout_api.metadata[0].name
-
-        container {
-          name  = "checkout-api"
-          image = "${azurerm_container_registry.platform.login_server}/checkout/api:2025.09.1"
-
-          port {
-            name           = "http"
-            container_port = 8080
-          }
-
-          resources {
-            requests = {
-              cpu    = "250m"
-              memory = "256Mi"
-            }
-            limits = {
-              cpu    = "1"
-              memory = "1Gi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_deployment_v1" "cart_worker" {
-  metadata {
-    name      = "cart-worker"
-    namespace = kubernetes_namespace_v1.checkout.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "cart-worker"
-      "app.kubernetes.io/component" = "worker"
-      "app.kubernetes.io/part-of"   = "commerce"
-    }
-  }
-
-  spec {
-    replicas = 2
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "cart-worker"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "cart-worker"
-          "app.kubernetes.io/component" = "worker"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.cart_worker.metadata[0].name
-
-        container {
-          name  = "cart-worker"
-          image = "${azurerm_container_registry.platform.login_server}/checkout/cart-worker:2025.09.1"
-
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "500m"
-              memory = "512Mi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_deployment_v1" "payments_api" {
-  metadata {
-    name      = "payments-api"
-    namespace = kubernetes_namespace_v1.payments.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "payments-api"
-      "app.kubernetes.io/component" = "api"
-      "app.kubernetes.io/part-of"   = "commerce"
-    }
-  }
-
-  spec {
-    replicas = 3
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "payments-api"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "payments-api"
-          "app.kubernetes.io/component" = "api"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.payments_api.metadata[0].name
-
-        container {
-          name  = "payments-api"
-          image = "${azurerm_container_registry.platform.login_server}/payments/api:2025.09.1"
-
-          port {
-            name           = "http"
-            container_port = 8080
-          }
-
-          resources {
-            requests = {
-              cpu    = "250m"
-              memory = "256Mi"
-            }
-            limits = {
-              cpu    = "1"
-              memory = "1Gi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_deployment_v1" "payments_worker" {
-  metadata {
-    name      = "payments-worker"
-    namespace = kubernetes_namespace_v1.payments.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "payments-worker"
-      "app.kubernetes.io/component" = "worker"
-      "app.kubernetes.io/part-of"   = "commerce"
-    }
-  }
-
-  spec {
-    replicas = 2
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "payments-worker"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "payments-worker"
-          "app.kubernetes.io/component" = "worker"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.payments_worker.metadata[0].name
-
-        container {
-          name  = "payments-worker"
-          image = "${azurerm_container_registry.platform.login_server}/payments/settlement-worker:2025.09.1"
-
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "500m"
-              memory = "512Mi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_deployment_v1" "catalog_api" {
-  metadata {
-    name      = "catalog-api"
-    namespace = kubernetes_namespace_v1.catalog.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "catalog-api"
-      "app.kubernetes.io/component" = "api"
-      "app.kubernetes.io/part-of"   = "commerce"
-    }
-  }
-
-  spec {
-    replicas = 3
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "catalog-api"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "catalog-api"
-          "app.kubernetes.io/component" = "api"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.catalog_api.metadata[0].name
-
-        container {
-          name  = "catalog-api"
-          image = "${azurerm_container_registry.platform.login_server}/catalog/api:2025.09.1"
-
-          port {
-            name           = "http"
-            container_port = 8080
-          }
-
-          resources {
-            requests = {
-              cpu    = "250m"
-              memory = "256Mi"
-            }
-            limits = {
-              cpu    = "1"
-              memory = "1Gi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_deployment_v1" "orders_api" {
-  metadata {
-    name      = "orders-api"
-    namespace = kubernetes_namespace_v1.orders.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "orders-api"
-      "app.kubernetes.io/component" = "api"
-      "app.kubernetes.io/part-of"   = "commerce"
-    }
-  }
-
-  spec {
-    replicas = 3
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "orders-api"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "orders-api"
-          "app.kubernetes.io/component" = "api"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.orders_api.metadata[0].name
-
-        container {
-          name  = "orders-api"
-          image = "${azurerm_container_registry.platform.login_server}/orders/api:2025.09.1"
-
-          port {
-            name           = "http"
-            container_port = 8080
-          }
-
-          resources {
-            requests = {
-              cpu    = "250m"
-              memory = "256Mi"
-            }
-            limits = {
-              cpu    = "1"
-              memory = "1Gi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_deployment_v1" "orders_worker" {
-  metadata {
-    name      = "orders-worker"
-    namespace = kubernetes_namespace_v1.orders.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "orders-worker"
-      "app.kubernetes.io/component" = "worker"
-      "app.kubernetes.io/part-of"   = "commerce"
-    }
-  }
-
-  spec {
-    replicas = 2
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "orders-worker"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "orders-worker"
-          "app.kubernetes.io/component" = "worker"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.orders_worker.metadata[0].name
-
-        container {
-          name  = "orders-worker"
-          image = "${azurerm_container_registry.platform.login_server}/orders/fulfillment-worker:2025.09.1"
-
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "128Mi"
-            }
-            limits = {
-              cpu    = "500m"
-              memory = "512Mi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_stateful_set_v1" "catalog_search" {
-  metadata {
-    name      = "catalog-search"
-    namespace = kubernetes_namespace_v1.catalog.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "catalog-search"
-      "app.kubernetes.io/component" = "search"
-      "app.kubernetes.io/part-of"   = "commerce"
-    }
-  }
-
-  spec {
-    service_name = "catalog-search"
-    replicas     = 3
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "catalog-search"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "catalog-search"
-          "app.kubernetes.io/component" = "search"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.catalog_search.metadata[0].name
-
-        container {
-          name  = "opensearch"
-          image = "opensearchproject/opensearch:2.19.0"
-
-          port {
-            name           = "http"
-            container_port = 9200
-          }
-
-          resources {
-            requests = {
-              cpu    = "1"
-              memory = "4Gi"
-            }
-            limits = {
-              cpu    = "2"
-              memory = "4Gi"
-            }
-          }
-
-          volume_mount {
-            name       = "data"
-            mount_path = "/usr/share/opensearch/data"
-          }
-        }
-      }
-    }
-
-    volume_claim_template {
-      metadata {
-        name = "data"
-      }
-
-      spec {
-        access_modes       = ["ReadWriteOnce"]
-        storage_class_name = "managed-csi-premium"
-
-        resources {
-          requests = {
-            storage = "256Gi"
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_persistent_volume_claim_v1" "prometheus_data" {
-  metadata {
-    name      = "prometheus-data"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-  }
-
-  spec {
-    access_modes       = ["ReadWriteOnce"]
-    storage_class_name = "managed-csi-premium"
-
-    resources {
-      requests = {
-        storage = "512Gi"
-      }
-    }
-  }
-}
-
-resource "kubernetes_stateful_set_v1" "prometheus" {
-  metadata {
-    name      = "prometheus"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "prometheus"
-      "app.kubernetes.io/component" = "metrics"
-      "app.kubernetes.io/part-of"   = "commerce"
-    }
-  }
-
-  spec {
-    service_name = "prometheus"
-    replicas     = 1
-
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "prometheus"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "prometheus"
-          "app.kubernetes.io/component" = "metrics"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.prometheus.metadata[0].name
-
-        container {
-          name  = "prometheus"
-          image = "quay.io/prometheus/prometheus:v3.2.1"
-
-          port {
-            name           = "http"
-            container_port = 9090
-          }
-
-          resources {
-            requests = {
-              cpu    = "500m"
-              memory = "2Gi"
-            }
-            limits = {
-              cpu    = "2"
-              memory = "4Gi"
-            }
-          }
-
-          volume_mount {
-            name       = "data"
-            mount_path = "/prometheus"
-          }
-        }
-
-        volume {
-          name = "data"
-
-          persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim_v1.prometheus_data.metadata[0].name
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_daemon_set_v1" "otel_collector" {
-  metadata {
-    name      = "otel-collector"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/name"      = "otel-collector"
-      "app.kubernetes.io/component" = "telemetry"
-      "app.kubernetes.io/part-of"   = "commerce"
-    }
-  }
-
-  spec {
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = "otel-collector"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name"      = "otel-collector"
-          "app.kubernetes.io/component" = "telemetry"
-        }
-      }
-
-      spec {
-        service_account_name = kubernetes_service_account_v1.otel_collector.metadata[0].name
-
-        container {
-          name  = "otel-collector"
-          image = "otel/opentelemetry-collector-contrib:0.121.0"
-
-          resources {
-            requests = {
-              cpu    = "100m"
-              memory = "256Mi"
-            }
-            limits = {
-              cpu    = "500m"
-              memory = "512Mi"
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-# Services and ingress.
-
-resource "kubernetes_service_v1" "ingress_nginx" {
-  metadata {
-    name      = "ingress-nginx"
-    namespace = kubernetes_namespace_v1.platform_ingress.metadata[0].name
-
-    annotations = {
-      "service.beta.kubernetes.io/azure-load-balancer-internal" = "true"
-      "service.beta.kubernetes.io/azure-load-balancer-ipv4"     = "10.20.3.250"
-    }
-  }
-
-  spec {
-    type = "LoadBalancer"
-
-    selector = {
-      "app.kubernetes.io/name" = "ingress-nginx"
-    }
-
-    port {
-      name        = "https"
-      port        = 443
-      target_port = 443
-    }
-
-    port {
-      name        = "http"
-      port        = 80
-      target_port = 80
-    }
-  }
-}
-
-resource "kubernetes_service_v1" "checkout_api" {
-  metadata {
-    name      = "checkout-api"
-    namespace = kubernetes_namespace_v1.checkout.metadata[0].name
-  }
-
-  spec {
-    type = "ClusterIP"
-
-    selector = {
-      "app.kubernetes.io/name" = "checkout-api"
-    }
-
-    port {
-      name        = "http"
-      port        = 8080
-      target_port = 8080
-    }
-  }
-}
-
-resource "kubernetes_service_v1" "payments_api" {
-  metadata {
-    name      = "payments-api"
-    namespace = kubernetes_namespace_v1.payments.metadata[0].name
-  }
-
-  spec {
-    type = "ClusterIP"
-
-    selector = {
-      "app.kubernetes.io/name" = "payments-api"
-    }
-
-    port {
-      name        = "http"
-      port        = 8080
-      target_port = 8080
-    }
-  }
-}
-
-resource "kubernetes_service_v1" "catalog_api" {
-  metadata {
-    name      = "catalog-api"
-    namespace = kubernetes_namespace_v1.catalog.metadata[0].name
-  }
-
-  spec {
-    type = "ClusterIP"
-
-    selector = {
-      "app.kubernetes.io/name" = "catalog-api"
-    }
-
-    port {
-      name        = "http"
-      port        = 8080
-      target_port = 8080
-    }
-  }
-}
-
-resource "kubernetes_service_v1" "catalog_search" {
-  metadata {
-    name      = "catalog-search"
-    namespace = kubernetes_namespace_v1.catalog.metadata[0].name
-  }
-
-  spec {
-    cluster_ip = "None"
-
-    selector = {
-      "app.kubernetes.io/name" = "catalog-search"
-    }
-
-    port {
-      name        = "http"
-      port        = 9200
-      target_port = 9200
-    }
-  }
-}
-
-resource "kubernetes_service_v1" "orders_api" {
-  metadata {
-    name      = "orders-api"
-    namespace = kubernetes_namespace_v1.orders.metadata[0].name
-  }
-
-  spec {
-    type = "ClusterIP"
-
-    selector = {
-      "app.kubernetes.io/name" = "orders-api"
-    }
-
-    port {
-      name        = "http"
-      port        = 8080
-      target_port = 8080
-    }
-  }
-}
-
-resource "kubernetes_service_v1" "prometheus" {
-  metadata {
-    name      = "prometheus"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-  }
-
-  spec {
-    type = "ClusterIP"
-
-    selector = {
-      "app.kubernetes.io/name" = "prometheus"
-    }
-
-    port {
-      name        = "http"
-      port        = 9090
-      target_port = 9090
-    }
-  }
-}
-
-resource "kubernetes_ingress_v1" "checkout" {
-  metadata {
-    name      = "checkout"
-    namespace = kubernetes_namespace_v1.checkout.metadata[0].name
-
-    annotations = {
-      "nginx.ingress.kubernetes.io/ssl-redirect" = "true"
-    }
-  }
-
-  spec {
-    ingress_class_name = "nginx"
-
-    tls {
-      hosts       = ["shop.brightcart.io"]
-      secret_name = "shop-brightcart-io-tls"
-    }
-
-    rule {
-      host = "shop.brightcart.io"
-
-      http {
-        path {
-          path      = "/checkout"
-          path_type = "Prefix"
-
-          backend {
-            service {
-              name = kubernetes_service_v1.checkout_api.metadata[0].name
-
-              port {
-                number = 8080
-              }
-            }
-          }
-        }
-
-        path {
-          path      = "/cart"
-          path_type = "Prefix"
-
-          backend {
-            service {
-              name = kubernetes_service_v1.checkout_api.metadata[0].name
-
-              port {
-                number = 8080
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_ingress_v1" "catalog" {
-  metadata {
-    name      = "catalog"
-    namespace = kubernetes_namespace_v1.catalog.metadata[0].name
-
-    annotations = {
-      "nginx.ingress.kubernetes.io/ssl-redirect" = "true"
-    }
-  }
-
-  spec {
-    ingress_class_name = "nginx"
-
-    tls {
-      hosts       = ["shop.brightcart.io"]
-      secret_name = "shop-brightcart-io-tls"
-    }
-
-    rule {
-      host = "shop.brightcart.io"
-
-      http {
-        path {
-          path      = "/catalog"
-          path_type = "Prefix"
-
-          backend {
-            service {
-              name = kubernetes_service_v1.catalog_api.metadata[0].name
-
-              port {
-                number = 8080
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_ingress_v1" "orders" {
-  metadata {
-    name      = "orders"
-    namespace = kubernetes_namespace_v1.orders.metadata[0].name
-
-    annotations = {
-      "nginx.ingress.kubernetes.io/ssl-redirect" = "true"
-    }
-  }
-
-  spec {
-    ingress_class_name = "nginx"
-
-    tls {
-      hosts       = ["api.brightcart.io"]
-      secret_name = "api-brightcart-io-tls"
-    }
-
-    rule {
-      host = "api.brightcart.io"
-
-      http {
-        path {
-          path      = "/orders"
-          path_type = "Prefix"
-
-          backend {
-            service {
-              name = kubernetes_service_v1.orders_api.metadata[0].name
-
-              port {
-                number = 8080
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-# Network policies: deny ingress by default, admit the ingress controller into application namespaces.
-
-resource "kubernetes_network_policy_v1" "platform_ingress" {
-  metadata {
-    name      = "default-deny-ingress"
-    namespace = kubernetes_namespace_v1.platform_ingress.metadata[0].name
-  }
-
-  spec {
-    pod_selector {}
-    policy_types = ["Ingress"]
-  }
-}
-
-resource "kubernetes_network_policy_v1" "checkout" {
-  metadata {
-    name      = "allow-platform-ingress"
-    namespace = kubernetes_namespace_v1.checkout.metadata[0].name
-  }
-
-  spec {
-    pod_selector {}
-    policy_types = ["Ingress"]
-
-    ingress {
-      from {
-        namespace_selector {
-          match_labels = {
-            "kubernetes.io/metadata.name" = kubernetes_namespace_v1.platform_ingress.metadata[0].name
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_network_policy_v1" "catalog" {
-  metadata {
-    name      = "allow-platform-ingress"
-    namespace = kubernetes_namespace_v1.catalog.metadata[0].name
-  }
-
-  spec {
-    pod_selector {}
-    policy_types = ["Ingress"]
-
-    ingress {
-      from {
-        namespace_selector {
-          match_labels = {
-            "kubernetes.io/metadata.name" = kubernetes_namespace_v1.platform_ingress.metadata[0].name
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_network_policy_v1" "orders" {
-  metadata {
-    name      = "allow-platform-ingress"
-    namespace = kubernetes_namespace_v1.orders.metadata[0].name
-  }
-
-  spec {
-    pod_selector {}
-    policy_types = ["Ingress"]
-
-    ingress {
-      from {
-        namespace_selector {
-          match_labels = {
-            "kubernetes.io/metadata.name" = kubernetes_namespace_v1.platform_ingress.metadata[0].name
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_network_policy_v1" "payments" {
-  metadata {
-    name      = "allow-platform-ingress"
-    namespace = kubernetes_namespace_v1.payments.metadata[0].name
-  }
-
-  spec {
-    pod_selector {}
-    policy_types = ["Ingress"]
-
-    ingress {
-      from {
-        namespace_selector {
-          match_labels = {
-            "kubernetes.io/metadata.name" = kubernetes_namespace_v1.platform_ingress.metadata[0].name
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_network_policy_v1" "observability" {
-  metadata {
-    name      = "default-deny-ingress"
-    namespace = kubernetes_namespace_v1.observability.metadata[0].name
-  }
-
-  spec {
-    pod_selector {}
-    policy_types = ["Ingress"]
-  }
-}
-
-# Autoscaling.
-
-resource "kubernetes_horizontal_pod_autoscaler_v1" "checkout_api" {
-  metadata {
-    name      = "checkout-api"
-    namespace = kubernetes_namespace_v1.checkout.metadata[0].name
-  }
-
-  spec {
-    min_replicas                      = 3
-    max_replicas                      = 12
-    target_cpu_utilization_percentage = 70
-
-    scale_target_ref {
-      api_version = "apps/v1"
-      kind        = "Deployment"
-      name        = kubernetes_deployment_v1.checkout_api.metadata[0].name
-    }
-  }
-}
-
-resource "kubernetes_horizontal_pod_autoscaler_v1" "catalog_api" {
-  metadata {
-    name      = "catalog-api"
-    namespace = kubernetes_namespace_v1.catalog.metadata[0].name
-  }
-
-  spec {
-    min_replicas                      = 3
-    max_replicas                      = 9
-    target_cpu_utilization_percentage = 70
-
-    scale_target_ref {
-      api_version = "apps/v1"
-      kind        = "Deployment"
-      name        = kubernetes_deployment_v1.catalog_api.metadata[0].name
-    }
-  }
-}
-
-resource "kubernetes_horizontal_pod_autoscaler_v1" "orders_api" {
-  metadata {
-    name      = "orders-api"
-    namespace = kubernetes_namespace_v1.orders.metadata[0].name
-  }
-
-  spec {
-    min_replicas                      = 3
-    max_replicas                      = 9
-    target_cpu_utilization_percentage = 70
-
-    scale_target_ref {
-      api_version = "apps/v1"
-      kind        = "Deployment"
-      name        = kubernetes_deployment_v1.orders_api.metadata[0].name
-    }
+resource "azurerm_eventgrid_system_topic_event_subscription" "legacy_webhooks" {
+  count = var.legacy_webhooks_enabled ? 1 : 0
+
+  name                 = "evgs-legacy-webhooks"
+  system_topic         = azurerm_eventgrid_system_topic.public[0].name
+  resource_group_name  = azurerm_resource_group.data.name
+  included_event_types = ["Microsoft.Storage.BlobCreated"]
+
+  webhook_endpoint {
+    url = "https://${azurerm_linux_function_app.legacy_webhooks[0].default_hostname}/api/blob-webhook"
   }
 }
