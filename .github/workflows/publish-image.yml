@@ -227,8 +227,18 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          visibility="$(gh api orgs/rootform-dev/packages/container/rootform --jq '.visibility')"
-          test "$visibility" = public
+          # The first publication creates the package. GitHub may create it
+          # private; the check after publication then fails until a maintainer
+          # makes it public, and a re-run finds the qualified images present.
+          if package="$(gh api orgs/rootform-dev/packages/container/rootform 2>&1)"; then
+            visibility="$(jq -r '.visibility' <<<"$package")"
+            test "$visibility" = public
+          elif grep -q 'HTTP 404' <<<"$package"; then
+            echo "ghcr.io/rootform-dev/rootform does not exist yet; this publication creates it." >> "$GITHUB_STEP_SUMMARY"
+          else
+            printf '%s\n' "$package" >&2
+            exit 1
+          fi
 
       - name: Authenticate isolated GHCR client
         if: steps.qualified.outputs.present != 'true'
@@ -254,13 +264,6 @@ jobs:
             --metadata build/image-evidence/buildx-metadata.json \
             --evidence build/image-evidence/publication.json
 
-      - name: Verify published official GHCR package remains public
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          test "$(gh api orgs/rootform-dev/packages/container/rootform --jq '.visibility')" = public
-
       - name: Upload publication evidence
         if: steps.qualified.outputs.present != 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -273,6 +276,16 @@ jobs:
           if-no-files-found: error
           compression-level: 9
           retention-days: 30
+
+      - name: Verify published official GHCR package remains public
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if ! test "$(gh api orgs/rootform-dev/packages/container/rootform --jq '.visibility')" = public; then
+            echo "::error::ghcr.io/rootform-dev/rootform is not public. Make it public at https://github.com/orgs/rootform-dev/packages/container/rootform/settings, then re-run this job."
+            exit 1
+          fi
 
       - name: Remove registry credentials
         if: always()
