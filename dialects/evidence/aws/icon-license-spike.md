@@ -2,7 +2,7 @@
 
 - Date: 2026-08-29
 - Result: Pass
-- Status: superseded by the decision update of 2026-10-09
+- Status: superseded by the decision updates of 2026-10-09 and 2026-10-10
 
 ## Question
 
@@ -62,3 +62,13 @@ assert public or private exposure, which these Rules do not establish. Concepts
 shared by several AWS services, such as managed caches, managed database
 components and managed file storage, also stay neutral because no single
 service icon describes them.
+
+## Decision update (2026-10-10)
+
+The AWS art now comes from AWS Icons for PlantUML `v23.1`
+(<https://github.com/awslabs/aws-icons-for-plantuml/tree/v23.1>), which
+publishes vectors generated from the official AWS Architecture Icons under
+Creative Commons Attribution-NoDerivs 2.0. Each of the 70 icons is its
+published vector body in an SVG element, with no other change, and the usage
+notice carries the attribution and the complete license text. The Rule and
+Concept mapping is unchanged.

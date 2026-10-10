@@ -6,6 +6,9 @@
   Icons, and the Azure Dialect presents node pools, blob containers, storage
   queues, public IP addresses and virtual network peerings with official Azure
   icons.
+- The Google Cloud Dialect presents Google Cloud resources with the official
+  Google Cloud product icons: a core product shows its own icon and any other
+  product the icon of its category.
 
 ## 0.2.0
 
