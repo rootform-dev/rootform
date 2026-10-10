@@ -4,6 +4,7 @@ import {
   hasPrivateImplementationReference,
   mirrorPairCandidates,
   registryEquivalenceProblems,
+  unexpectedFixtureSupportFile,
   validateDialectContract,
   validateLock,
   validateRepository,
@@ -133,47 +134,16 @@ test("collector reports a dangling qualified rule with its JSON path", () => {
   const out: Array<{ file: string; path: string; ref: string }> = [];
   collectUndeclaredRuleReferences(
     { rows: [{ rules: ["google.rule.cloud-sql-instance", "google.rule.ghost"] }] },
-    "evidence/google/coverage-matrix.json",
+    "fixtures/expectations/google.json",
     "$",
     declared,
     out,
   );
   expect(out).toEqual([
     {
-      file: "evidence/google/coverage-matrix.json",
+      file: "fixtures/expectations/google.json",
       path: "$.rows[0].rules[1]",
       ref: "google.rule.ghost",
-    },
-  ]);
-});
-
-test("documentary prior_rule_id audit values are exempt from the gate", () => {
-  const declared = new Set<string>();
-  const out: Array<{ file: string; path: string; ref: string }> = [];
-  collectUndeclaredRuleReferences(
-    { entries: [{ disposition: "removed", prior_rule_id: "google.rule.removed-rule" }] },
-    "evidence/google/rule-audit.json",
-    "$",
-    declared,
-    out,
-  );
-  expect(out).toEqual([]);
-});
-
-test("retained prior_rule_id values remain live semantic references", () => {
-  const out: Array<{ file: string; path: string; ref: string }> = [];
-  collectUndeclaredRuleReferences(
-    { entries: [{ disposition: "retained", prior_rule_id: "google.rule.missing-rule" }] },
-    "evidence/google/rule-audit.json",
-    "$",
-    new Set<string>(),
-    out,
-  );
-  expect(out).toEqual([
-    {
-      file: "evidence/google/rule-audit.json",
-      path: "$.entries[0].prior_rule_id",
-      ref: "google.rule.missing-rule",
     },
   ]);
 });
@@ -183,18 +153,43 @@ test("single-segment and plain prose never match the qualified rule gate", () =>
   const out: Array<{ file: string; path: string; ref: string }> = [];
   collectUndeclaredRuleReferences(
     { direct: ["rule.local", "not a reference", "google.rule.cloud-sql-instance"] },
-    "evidence/google/scenarios.json",
+    "fixtures/expectations/google.json",
     "$",
     declared,
     out,
   );
   expect(out).toEqual([
     {
-      file: "evidence/google/scenarios.json",
+      file: "fixtures/expectations/google.json",
       path: "$.direct[2]",
       ref: "google.rule.cloud-sql-instance",
     },
   ]);
+});
+
+test("fixtures holds only its inventory and one expectations file per Dialect beside the fixtures", () => {
+  const dialects = ["aws", "google"];
+  for (const path of [
+    "fixtures/inventory.json",
+    "fixtures/expectations/aws.json",
+    "fixtures/aws-v6/minimal/main.tf",
+    "aws/dialect.rf.hcl",
+  ]) {
+    expect({ path, unexpected: unexpectedFixtureSupportFile(path, dialects) }).toEqual({
+      path,
+      unexpected: false,
+    });
+  }
+  for (const path of [
+    "fixtures/notes.md",
+    "fixtures/expectations/azure.json",
+    "fixtures/expectations/aws/extra.json",
+  ]) {
+    expect({ path, unexpected: unexpectedFixtureSupportFile(path, dialects) }).toEqual({
+      path,
+      unexpected: true,
+    });
+  }
 });
 
 test("public evidence rejects private implementation references", () => {
@@ -212,7 +207,7 @@ test("public evidence rejects private implementation references", () => {
   }
   expect(
     hasPrivateImplementationReference(
-      "Rootform CLI owns parsing; evidence/aws/provider-surfaces-spike.md is public.",
+      "Rootform CLI owns parsing; fixtures/expectations/aws.json is public.",
     ),
   ).toBeFalse();
 });

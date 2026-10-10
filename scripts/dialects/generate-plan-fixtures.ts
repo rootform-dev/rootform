@@ -19,7 +19,7 @@
 //      themselves talk to a loopback stand-in (offline-api.ts) instead;
 //   4. records plan.json and plan.tfplan beside the source, then
 //      analysis.golden, the analysis "rootform test --update" records for them;
-//   5. records the outcome in dialects/evidence/plan-fixture-inventory.json.
+//   5. records the outcome in dialects/fixtures/inventory.json.
 // A fixture that cannot plan offline keeps its source, records why, and holds
 // no plan or golden.
 //
