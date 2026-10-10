@@ -21,7 +21,7 @@ import { emittingRuleIds } from "./validate.ts";
 const rootform = join(import.meta.dir, "../..");
 const dialects = join(rootform, "dialects");
 const fixtures = join(dialects, "fixtures");
-const inventoryPath = join(dialects, "evidence", "plan-fixture-inventory.json");
+const inventoryPath = join(fixtures, "inventory.json");
 
 function binary(): string {
   const configured = process.env.ROOTFORM_BIN;

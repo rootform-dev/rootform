@@ -18,27 +18,10 @@ const privateImplementationReference =
   /(?:^|[/ "'`])(?:specs\/[0-9]{3}-|testdata\/architecture\/|docs\/adr\/[0-9]{3}-|packages\/renderer\/|web\/src\/)|\b(?:SPEC|ADR)-[0-9]{3}\b|\baccepted_adr\b/u;
 const qualifiedRuleReference =
   /(?<![A-Za-z0-9_.-])([a-z][a-z0-9]*(?:-[a-z0-9]+)*[.]rule[.][a-z][a-z0-9]*(?:-[a-z0-9]+)*)(?![A-Za-z0-9_.-])/gu;
-// prior_rule_id records the pre-migration identity of an audited Rule. Audits
-// with disposition removed or corrected intentionally reference ids that no
-// longer exist; the field is provenance, not a live semantic reference.
-const evidenceNames = new Set([
-  "coverage-matrix.json",
-  "coverage-summary.json",
-  "icon-license-spike.md",
-  "provider-baseline.json",
-  "provider-boundaries-spike.md",
-  "provider-compatibility.json",
-  "provider-registry-equivalence.json",
-  "provider-source-inventory.json",
-  "provider-surfaces-spike.md",
-  "plan-fixture-inventory.json",
-  "rf-vocabulary-bindings.json",
-  "rule-audit.json",
-  "scenarios.json",
-  "semantic-catalog.json",
-  "service-catalog.json",
-  "terminology.json",
-]);
+// Beside the fixture directories, fixtures/ holds the plan fixture inventory
+// and the reviewed scenario expectations of each official Dialect.
+const FIXTURE_INVENTORY = "fixtures/inventory.json";
+const FIXTURE_EXPECTATIONS = "fixtures/expectations";
 
 export function filesBelow(directory: string): string[] {
   const files: string[] = [];
@@ -64,22 +47,41 @@ export function hasPrivateImplementationReference(body: string): boolean {
   return privateImplementationReference.test(body);
 }
 
-function validatePublicEvidenceReferences(value: unknown, source: string): void {
+function validateFixtureReferences(value: unknown, source: string): void {
   if (typeof value === "string") {
-    if (!value.startsWith("evidence/") && !value.startsWith("fixtures/")) return;
+    if (!value.startsWith("fixtures/")) return;
     const target = value.split("#", 1)[0] ?? "";
     if (!target || !existsSync(join(root, target))) {
-      throw new Error(`public evidence reference is missing: ${source}: ${value}`);
+      throw new Error(`fixture reference is missing: ${source}: ${value}`);
     }
     return;
   }
   if (Array.isArray(value)) {
-    for (const entry of value) validatePublicEvidenceReferences(entry, source);
+    for (const entry of value) validateFixtureReferences(entry, source);
     return;
   }
   if (isRecord(value)) {
-    for (const entry of Object.values(value)) validatePublicEvidenceReferences(entry, source);
+    for (const entry of Object.values(value)) validateFixtureReferences(entry, source);
   }
+}
+
+// fixtures/ may hold, outside its fixture directories, only the inventory and
+// one expectations file per official Dialect.
+export function unexpectedFixtureSupportFile(path: string, dialects: readonly string[]): boolean {
+  const parts = path.split("/");
+  if (parts[0] !== "fixtures") return false;
+  if (parts.length === 2) return path !== FIXTURE_INVENTORY;
+  if (parts[1] !== "expectations") return false;
+  return parts.length !== 3 || !dialects.some((name) => parts[2] === `${name}.json`);
+}
+
+function fixtureSupportDocuments(): string[] {
+  return [
+    FIXTURE_INVENTORY,
+    ...readdirSync(join(root, FIXTURE_EXPECTATIONS))
+      .sort((left, right) => left.localeCompare(right, "en"))
+      .map((name) => `${FIXTURE_EXPECTATIONS}/${name}`),
+  ];
 }
 
 export function validateLock(value: unknown): void {
@@ -328,7 +330,7 @@ export function emittingRuleIds(inventory: Inventory): Record<string, string[]> 
 }
 
 function validatePlanFixtureInventory(inventory: Inventory): void {
-  const path = join(root, "evidence", "plan-fixture-inventory.json");
+  const path = join(root, FIXTURE_INVENTORY);
   const value = JSON.parse(readFileSync(path, "utf8")) as PlanFixtureInventory;
   const problems = planFixtureInventoryProblems(
     value,
@@ -416,7 +418,7 @@ function validateRegistryEquivalence(inventory: Inventory): void {
     }
   }
   const value = JSON.parse(
-    readFileSync(join(root, "evidence", "provider-registry-equivalence.json"), "utf8"),
+    readFileSync(join(root, "provider-registry-equivalence.json"), "utf8"),
   ) as { format_version?: string; bindings?: RegistryEquivalence[] };
   if (value.format_version !== "1" || !Array.isArray(value.bindings)) {
     throw new Error("provider registry equivalence evidence is malformed");
@@ -427,9 +429,8 @@ function validateRegistryEquivalence(inventory: Inventory): void {
 
 export type UndeclaredRuleReference = { file: string; path: string; ref: string };
 
-// Collect every qualified owner.rule.name string under documentary schemas
-// that is not declared in the official dialect sources. Values of documentary
-// provenance keys (prior_rule_id) are audit history and are skipped.
+// Collect every qualified owner.rule.name string the official Dialect sources
+// do not declare.
 export function collectUndeclaredRuleReferences(
   value: unknown,
   file: string,
@@ -452,35 +453,19 @@ export function collectUndeclaredRuleReferences(
   }
   if (isRecord(value)) {
     for (const [key, entry] of Object.entries(value)) {
-      if (
-        key === "prior_rule_id" &&
-        (value.disposition === "removed" || value.disposition === "corrected")
-      ) {
-        continue;
-      }
       const childPath = jsonPath === "$" ? `$.${key}` : `${jsonPath}.${key}`;
       collectUndeclaredRuleReferences(entry, file, childPath, declared, out);
     }
   }
 }
 
+// The fixture inventory and expectations name Rules; each must exist.
 export function undeclaredRuleReferences(inventory: Inventory): UndeclaredRuleReference[] {
   const declared = declaredRuleIds(inventory);
   const out: UndeclaredRuleReference[] = [];
-  for (const path of filesBelow(root)) {
-    if (!path.startsWith("evidence/")) continue;
+  for (const path of fixtureSupportDocuments()) {
     const body = readFileSync(join(root, path), "utf8");
-    if (path.endsWith(".json")) {
-      collectUndeclaredRuleReferences(JSON.parse(body) as unknown, path, "$", declared, out);
-    } else {
-      const lines = body.split("\n");
-      for (const [index, line] of lines.entries()) {
-        for (const match of line.matchAll(qualifiedRuleReference)) {
-          const ref = match[1] ?? "";
-          if (!declared.has(ref)) out.push({ file: path, path: `line ${index + 1}`, ref });
-        }
-      }
-    }
+    collectUndeclaredRuleReferences(JSON.parse(body) as unknown, path, "$", declared, out);
   }
   return out;
 }
@@ -569,8 +554,8 @@ export function validateRepository(): void {
     "README.md",
     "THIRD_PARTY_NOTICES.md",
     "dialects.json",
-    "evidence",
     "fixtures",
+    "provider-registry-equivalence.json",
   ]);
   for (const entry of readdirSync(root, { withFileTypes: true })) {
     if ([".git", "artifacts", "build", "node_modules"].includes(entry.name)) continue;
@@ -597,8 +582,8 @@ export function validateRepository(): void {
     ) {
       throw new Error(`unexpected dialect file: ${path}`);
     }
-    if (path.startsWith("evidence/") && !evidenceNames.has(path.split("/").at(-1) ?? "")) {
-      throw new Error(`unexpected evidence file: ${path}`);
+    if (unexpectedFixtureSupportFile(path, expected)) {
+      throw new Error(`unexpected fixture support file: ${path}`);
     }
     if (
       path !== "scripts/validate-repository.ts" &&
@@ -610,8 +595,8 @@ export function validateRepository(): void {
       if (hasPrivateImplementationReference(body)) {
         throw new Error(`private implementation reference is forbidden: ${path}`);
       }
-      if (path.startsWith("evidence/") && path.endsWith(".json")) {
-        validatePublicEvidenceReferences(JSON.parse(body) as unknown, path);
+      if (path.startsWith(`${FIXTURE_EXPECTATIONS}/`)) {
+        validateFixtureReferences(JSON.parse(body) as unknown, path);
       }
     }
   }
@@ -646,7 +631,9 @@ export function validateRepository(): void {
       .slice(0, 5)
       .map((hit) => `${hit.file}: ${hit.path} = ${hit.ref}`)
       .join("; ");
-    throw new Error(`${danglingRules.length} undeclared rule reference(s) in evidence: ${sample}`);
+    throw new Error(
+      `${danglingRules.length} undeclared rule reference(s) in fixture support files: ${sample}`,
+    );
   }
 }
 

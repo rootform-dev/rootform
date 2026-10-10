@@ -52,9 +52,10 @@ function run(command: string[], environment: Record<string, string>): string {
 
 function scenarios(): Scenario[] {
   const found: Scenario[] = [];
-  for (const entry of readdirSync(join(dialects, "evidence"), { withFileTypes: true })) {
-    const path = join(dialects, "evidence", entry.name, "scenarios.json");
-    if (!entry.isDirectory() || !existsSync(path)) continue;
+  const expectations = join(fixtures, "expectations");
+  for (const entry of readdirSync(expectations, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith(".json")) continue;
+    const path = join(expectations, entry.name);
     const document = JSON.parse(readFileSync(path, "utf8")) as { scenarios?: Scenario[] };
     found.push(...(document.scenarios ?? []));
   }
@@ -96,7 +97,7 @@ try {
   if (first !== second) throw new Error("official Dialect fixture output is nondeterministic");
 
   const inventory = JSON.parse(
-    readFileSync(join(dialects, "evidence", "plan-fixture-inventory.json"), "utf8"),
+    readFileSync(join(fixtures, "inventory.json"), "utf8"),
   ) as PlanFixtureInventory;
   const planned = new Set(
     inventory.fixtures.filter(({ status }) => status === "planned").map(({ fixture }) => fixture),

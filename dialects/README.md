@@ -5,8 +5,11 @@ with Rootform. Each owner keeps its own semantic version and content identity;
 there is no collection version.
 
 Sources use the native `.rf.hcl` format. `dialects.json` is the release-set
-inventory used to build Rootform's embedded semantics. `evidence/` and
-`fixtures/` hold public validation evidence for these sources.
+inventory used to build Rootform's embedded semantics. `fixtures/` holds the
+Terraform configurations that validate these sources.
+`provider-registry-equivalence.json` records, for each provider a Dialect binds
+without a registry host, the release archive digests showing that the
+Terraform and OpenTofu registries serve the same provider.
 
 Third-party Dialects and explicit replacements use the OCI distribution
 contract documented by the parent Rootform repository. They are not copied
@@ -49,7 +52,12 @@ without planning:
 ROOTFORM_BIN=/path/to/rootform bun run update:goldens
 ```
 
-`evidence/plan-fixture-inventory.json` lists every fixture with the digest of
+`fixtures/expectations/<dialect>.json` holds the reviewed scenarios of each
+Dialect: the fixture a scenario uses and what its recorded analysis must and
+must not contain. `ROOTFORM_BIN=/path/to/rootform bun run verify:dialects`
+replays the fixtures and checks every statement against their goldens.
+
+`fixtures/inventory.json` lists every fixture with the digest of
 its source, its providers and its outcome. A fixture that cannot plan offline
 keeps its source, records why with the status `not_planned`, and proves nothing:
 verification reports every scenario naming it as not verified. Resource types a
