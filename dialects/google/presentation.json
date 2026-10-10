@@ -66,7 +66,7 @@
     "cloud-run-service": "google/cloud-run",
     "cloud-run-service-v1": "google/cloud-run",
     "cloud-run-worker-pool": "google/cloud-run",
-    "cloud-source-repository": "generic/entity",
+    "cloud-source-repository": "google/cloud-source-repositories",
     "cloud-sql-instance": "google/cloud-sql",
     "cloud-storage-bucket": "google/cloud-storage",
     "cloud-storage-bucket-iam-member": "google/iam",

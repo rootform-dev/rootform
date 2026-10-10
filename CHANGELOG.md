@@ -7,8 +7,9 @@
   queues, public IP addresses and virtual network peerings with official Azure
   icons.
 - The Google Cloud Dialect presents Google Cloud resources with the official
-  Google Cloud product icons: a core product shows its own icon and any other
-  product the icon of its category.
+  Google Cloud product icons: a core product shows its own icon and other
+  products the icon of their category. A product without an icon in the
+  library, such as the Google Cloud project, keeps a neutral symbol.
 
 ## 0.2.0
 
