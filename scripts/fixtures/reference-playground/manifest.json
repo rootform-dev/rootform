@@ -25,7 +25,7 @@
       "documents": {
         "commerce-platform-analysis.json": "ad2b8978189f52cb8a632ad649177a06a650f45b73124cdfadad984536af2297",
         "commerce-platform-comparison.json": "ff1668bb6cbe32a8e1b2bfd9bb2d552bfe886880af469c3010b14750dd5189f0",
-        "commerce-platform-presentation.json": "06e1c15ce40687347742703b606d0f27487a9c76986b1f30167d696f4627c3b9"
+        "commerce-platform-presentation.json": "f070e553179825a31960f156855df87aa139305311cb225873549c4b245c3742"
       }
     },
     "event-driven-platform": {
@@ -48,7 +48,7 @@
       "documents": {
         "event-driven-platform-analysis.json": "ee5c81145f8c2298ea732999cc7f562eee64fad4cfb72c3505884d622bc7c919",
         "event-driven-platform-comparison.json": "03f6bcefddaafc8a73b543cefbf54a9e4483b9adb32e956da1cdf5118dc55f6a",
-        "event-driven-platform-presentation.json": "06e1c15ce40687347742703b606d0f27487a9c76986b1f30167d696f4627c3b9"
+        "event-driven-platform-presentation.json": "f070e553179825a31960f156855df87aa139305311cb225873549c4b245c3742"
       }
     },
     "shared-data-platform": {
@@ -71,7 +71,7 @@
       "documents": {
         "shared-data-platform-analysis.json": "6218ed52eb72fb2709b04b3b365ca5b6d702444a02c38eceed5dd7850207537b",
         "shared-data-platform-comparison.json": "3be3742300bdd0ecc40d6968da4cffc14eedb5d7e99526525b62aaca92af6b7a",
-        "shared-data-platform-presentation.json": "06e1c15ce40687347742703b606d0f27487a9c76986b1f30167d696f4627c3b9"
+        "shared-data-platform-presentation.json": "f070e553179825a31960f156855df87aa139305311cb225873549c4b245c3742"
       }
     }
   }
