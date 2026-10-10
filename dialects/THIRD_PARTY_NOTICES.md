@@ -9,7 +9,7 @@ This repository contains no vendor logo or icon files. Each
 approved visual assets remain in the proprietary Rootform renderer under their
 original terms.
 
-Provider baselines and compatibility evidence summarize public APIs and public
-documentation. Upstream source URLs and versions are recorded in each
-`evidence/<dialect>/` directory. Upstream code is not copied into this
-repository.
+Each Dialect names the provider source and version it reads in its
+`dialect.rf.hcl`, and `provider-registry-equivalence.json` records the
+digests of the provider release archives checked for those versions. Upstream
+code is not copied into this repository.

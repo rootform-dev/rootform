@@ -1,5 +1,5 @@
 // Reviewed expectations for official Dialect fixtures live in
-// dialects/evidence/<dialect>/scenarios.json. Each scenario names a fixture
+// dialects/fixtures/expectations/<dialect>.json. Each scenario names a fixture
 // and states what its recorded analysis MUST and MUST NOT contain at the
 // default stage; verification checks every statement against analysis.golden.
 
