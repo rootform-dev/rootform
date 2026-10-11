@@ -3,7 +3,7 @@
   "kind": "plan",
   "generator": {
     "name": "rootform",
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "evidence": {
     "origin": "plan",
@@ -37,9 +37,9 @@
   "semantics": {
     "language_version": "1",
     "release_set": {
-      "id": "release-set:906ab31bd9a1afd48a98bc08204c346fc82d3992572a970ab450d576542b83bd",
+      "id": "release-set:edfa6e9ba2e4066327c5390877d50d8d58fe89adea4d15ccfaaa40e7e6225701",
       "version": "0.1.0",
-      "manifest_digest": "sha256:906ab31bd9a1afd48a98bc08204c346fc82d3992572a970ab450d576542b83bd",
+      "manifest_digest": "sha256:edfa6e9ba2e4066327c5390877d50d8d58fe89adea4d15ccfaaa40e7e6225701",
       "units": [
         {
           "owner": "auth0",
@@ -52,14 +52,14 @@
           "owner": "aws",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+          "content_digest": "sha256:286a730f3928030e9a3117f9d9cbb190161d0ff96cb908bb98869fe9336f8f1d",
           "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c"
         },
         {
           "owner": "azure",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:1317cbb807dbc71c895aff4fad24ea0620580378e150a23bf6cb1cb1a6511e4b",
+          "content_digest": "sha256:abcaa36e5278f8304faf717fe30ccfd6c23ebf896f015f952903865cb425212f",
           "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663"
         },
         {
@@ -101,7 +101,7 @@
           "owner": "google",
           "kind": "dialect",
           "version": "0.1.0",
-          "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+          "content_digest": "sha256:3607dc7d7fa4b24020e0307cdcc41727374153581dc6bca4bb152449723a6ba5",
           "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917"
         },
         {
@@ -227,7 +227,7 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:ccd02492322d61af43f2ceb6e9075c44ab008b44b5c625fd1a9327db6fa83010",
+        "content_digest": "sha256:286a730f3928030e9a3117f9d9cbb190161d0ff96cb908bb98869fe9336f8f1d",
         "semantic_digest": "sha256:1b4b531e432061630f49851bab84275abbcf526ad233c43fd56c70644285348c",
         "providers": [
           {
@@ -248,7 +248,7 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:1317cbb807dbc71c895aff4fad24ea0620580378e150a23bf6cb1cb1a6511e4b",
+        "content_digest": "sha256:abcaa36e5278f8304faf717fe30ccfd6c23ebf896f015f952903865cb425212f",
         "semantic_digest": "sha256:e47c740080bb3ad10bdf45c3efe13164a2c691c7a3133d48c025336f4fe5e663",
         "providers": [
           {
@@ -388,7 +388,7 @@
         "kind": "dialect",
         "origin": "supplied",
         "version": "0.1.0",
-        "content_digest": "sha256:0caf0ce2297bed1fc68af001b4f3da2d5c97ebd9223d8e4a596add8466b17d86",
+        "content_digest": "sha256:3607dc7d7fa4b24020e0307cdcc41727374153581dc6bca4bb152449723a6ba5",
         "semantic_digest": "sha256:9480311ec450af29838cdd48c626032d496dad1fa814db651a9159fcccd55917",
         "providers": [
           {
