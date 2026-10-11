@@ -1,18 +1,17 @@
 {
   "format_version": "1",
   "repository": "rootform-dev/rootform",
-  "version": "0.1.0-pr.117.1",
+  "version": "0.2.0",
   "archives": {
-    "linux_amd64": "ef1dfd4eb00d8627a3146c1174516124b6d7b2375bb6db32796b77fb910c4396",
-    "darwin_arm64": "a2426008d5601478c1328e590ecd6edccbfd1f275b6d8e965e1ce56b3ee514ff"
+    "linux_amd64": "9b91e15efc70d7d33a03044f3693864f74d2c89a7452afd8f601210829f36ffc",
+    "darwin_arm64": "766ee9b96166cba95ec6ed2d9812d3aa58cb436460633b4f6c95b7b5d8eaceb4"
   },
-  "release_tag": "verification-runtime-0.1.0-pr.117.1",
   "origin": {
     "repository": "rootform-dev/rootform",
     "repository_id": 1351756902,
-    "release_id": 401631093,
-    "release_tag": "v0.1.0-pr.117.1",
-    "release_commit": "74bd643f3001a37f8b4f881c0ae33db047b6aba3",
-    "published_at": "2026-10-02T08:56:47Z"
+    "release_id": 407493810,
+    "release_tag": "v0.2.0",
+    "release_commit": "f0282833b14c4456cb9c1d762b8eb0a90e3ba8de",
+    "published_at": "2026-10-09T04:09:38Z"
   }
 }

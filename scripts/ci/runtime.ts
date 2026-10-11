@@ -11,7 +11,9 @@ export function referenceRuntimeTag(pin: {
 }): string {
   if (
     pin.repository !== "rootform-dev/rootform" ||
-    !/^0\.1\.0(?:-pr\.[0-9]+\.[0-9]+)?$/u.test(pin.version) ||
+    !/^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-pr\.[0-9]+\.[0-9]+)?$/u.test(
+      pin.version,
+    ) ||
     (pin.release_tag !== undefined && pin.release_tag !== `verification-runtime-${pin.version}`)
   )
     throw new Error("Invalid reference runtime identity");
@@ -50,7 +52,8 @@ export async function verificationRuntime(output: string): Promise<string> {
   }
   if (createHash("sha256").update(readFileSync(archive)).digest("hex") !== digest)
     throw new Error("Reference runtime checksum mismatch");
-  const binary = join(directory, "rootform");
+  // One directory per pinned version: a binary extracted for an earlier pin is never reused.
+  const binary = join(directory, pin.version, "rootform");
   if (!existsSync(binary))
     extractReleaseBinary({
       release: directory,
