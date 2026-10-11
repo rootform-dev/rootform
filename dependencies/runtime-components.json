@@ -1,6 +1,16 @@
 {
   "components": [
     {
+      "copyright_text": "Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.",
+      "kind": "asset",
+      "license_concluded": "CC-BY-ND-2.0",
+      "license_declared": "CC-BY-ND-2.0",
+      "license_text_sha256": "a00df63944f7c11b496c28701e752686275c4332829519e2c5813bea52690c1c",
+      "name": "AWS Icons for PlantUML",
+      "upstream": "https://github.com/awslabs/aws-icons-for-plantuml/tree/v23.1",
+      "version": "v23.1"
+    },
+    {
       "copyright_text": "© GitHub, Inc.",
       "kind": "asset",
       "extracted_text": "GitHub Mark usage notice\n\nOfficial source: https://github.com/primer/octicons/blob/cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85/icons/mark-github-16.svg\nOcticons release: v19.33.0\nUpstream revision: cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85\nSource SVG SHA-256: 7421820090b50ac79d7c2bf7c951a433d7098a8a9c474809207bdd45f62d9d46\nUsage terms verified: 2026-09-07\n\nRootform embeds the unmodified GitHub Mark path only as a leading visual in a\nlink to the public Rootform project on GitHub. The mark remains secondary to\nRootform identity and does not imply affiliation, sponsorship, or endorsement.\n\nGitHub and the GitHub logo are trademarks of GitHub, Inc. Use follows GitHub's\nLogo Policy and Brand Toolkit:\n\nhttps://docs.github.com/en/site-policy/other-site-policies/github-logo-policy\nhttps://brand.github.com/foundations/logo\n",
@@ -14,13 +24,13 @@
     {
       "copyright_text": "NOASSERTION",
       "kind": "asset",
-      "extracted_text": "Google Cloud product icons — development preview notice\n\nStatus: DEVELOPMENT PREVIEW. This is not a release decision.\n\nOfficial page: https://cloud.google.com/icons\nOfficial archive: https://services.google.com/fh/files/misc/google-cloud-legacy-icons.zip\nArchive version: legacy-product-icons-2021-10-14\nArchive SHA-256: a6d9d7921758042538b462f03cf64614c2cebd96743b3ed63580a769fc7de3e9\nArchive entry date: 2021-10-14\nArchive downloaded: 2026-09-28\n\nRootform has not cleared Google Cloud icon terms for redistribution. These\nicons are embedded only so that Google visual identity can be validated during\nrenderer development. No redistribution right is claimed, granted, or implied\nby their presence in this repository.\n\nSelected Google Cloud product icons are preserved unmodified apart from\nrender-preserving SVG optimization that changes no geometry, color, or shape.\nRootform does not crop, flip, rotate, distort, recolor, or redraw them, and\nnever uses a Google icon as Rootform product identity. Rootform is not\naffiliated with, endorsed by, or sponsored by Google.\n\nGoogle Cloud and other Google product names and logos are trademarks of\nGoogle LLC.\n\nBefore any release, publication, or distribution that carries these assets,\nRootform must review Google's current icon and brand terms, clear\nredistribution rights, and record the outcome. If rights are not secured,\nthese assets and their google/* identities must be removed and Google semantic\nrules must resolve to provider-neutral symbols again.\n",
-      "license_concluded": "LicenseRef-Google-Cloud-Icons-Development-Preview-Rights-Not-Cleared",
-      "license_declared": "LicenseRef-Google-Cloud-Icons-Development-Preview-Rights-Not-Cleared",
-      "license_text_sha256": "107464954ea982fad2d1205102a9ace7b14400cc0cf689fc374bbb941ab24150",
-      "name": "Google Cloud Product Icons (development preview)",
+      "extracted_text": "Google Cloud product icons usage notice\n\nOfficial page: https://cloud.google.com/icons\nCore product icons: https://services.google.com/fh/files/misc/core-products-icons.zip\nCore archive SHA-256: 6531a10f58bc599c24d9a455d81dd757c1a03c3c43da9cddf639b859c1c1eece\nCategory icons: https://services.google.com/fh/files/misc/category-icons.zip\nCategory archive SHA-256: e5bc3abd3527dc2500e9bff7f15870783e2c764129c49b7cd4c1b4e105345002\nProduct icon guide: https://services.google.com/fh/files/misc/google-cloud-product-icons.pdf\nGuide SHA-256: 3cea6ac3abf8183462addffc2e3533a4c75f681f91981a2061131cbdc0c800a0\nGuide updated: 2026-05\nDownloaded: 2026-10-10\n\nGoogle publishes these icons as its official library of Google Cloud product\nicons for architecture diagrams and technical documentation. Rootform embeds\nselected icons only to identify Google Cloud products in its architecture\ndiagrams, as the product icon guide assigns them: a core product carries its\nunique icon and another product carries the icon of its category.\n\nEach selected SVG is embedded byte for byte as published in the official\narchives. Rootform does not crop, flip, rotate, recolor, redraw or reshape an\nicon, and never uses a Google icon as Rootform product identity. Rootform is\nnot affiliated with, endorsed by, or sponsored by Google.\n\nGoogle Cloud and the related product names and logos are trademarks of\nGoogle LLC.\n",
+      "license_concluded": "LicenseRef-Google-Cloud-Product-Icons-Usage",
+      "license_declared": "LicenseRef-Google-Cloud-Product-Icons-Usage",
+      "license_text_sha256": "03f5401055e047320f1b4f0b6ca47e7ae243021639b6603cc509144471b457ac",
+      "name": "Google Cloud product icons",
       "upstream": "https://cloud.google.com/icons",
-      "version": "legacy-product-icons-2021-10-14"
+      "version": "2026-05"
     },
     {
       "copyright_text": "Copyright © 2017 IBM Corp. with Reserved Font Name \"Plex\"",
@@ -70,8 +80,8 @@
       "license_declared": "MPL-2.0",
       "license_text_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
       "name": "Rootform Dialects presentation catalogs",
-      "upstream": "https://github.com/rootform-dev/rootform/tree/0dfca817f82cbe73fed2d3fc87d705360d63b7fb",
-      "version": "0dfca817f82cbe73fed2d3fc87d705360d63b7fb"
+      "upstream": "https://github.com/rootform-dev/rootform/tree/97fb96cea06c5da5015a7dbc4e399677888fa370",
+      "version": "97fb96cea06c5da5015a7dbc4e399677888fa370"
     },
     {
       "copyright_text": "(c) under Patent Claims infringed by Covered Software in the absence of",
@@ -80,8 +90,8 @@
       "license_declared": "MPL-2.0",
       "license_text_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
       "name": "Rootform Dialects",
-      "upstream": "https://github.com/rootform-dev/rootform/tree/7261d3d94cf888812d180993c8f32158151227fc",
-      "version": "7261d3d94cf888812d180993c8f32158151227fc"
+      "upstream": "https://github.com/rootform-dev/rootform/tree/97fb96cea06c5da5015a7dbc4e399677888fa370",
+      "version": "97fb96cea06c5da5015a7dbc4e399677888fa370"
     },
     {
       "copyright_text": "(c) You must retain, in the Source form of any Derivative Works; Copyright 2016 ALRUX Inc.",
@@ -232,7 +242,7 @@
       "license_text_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
       "name": "github.com/rootform-dev/rootform/cli",
       "upstream": "https://github.com/rootform-dev/rootform/cli",
-      "version": "v0.0.0-20261008111621-7261d3d94cf8"
+      "version": "v0.0.0-20261010220204-97fb96cea06c"
     },
     {
       "copyright_text": "(c) You must retain, in the Source form of any Derivative Works",

@@ -10,15 +10,15 @@ line.
 URLs are provenance references only. Rootform never fetches or executes them
 at runtime.
 
-dialect-bundle: Rootform Dialects@7261d3d94cf888812d180993c8f32158151227fc
+dialect-bundle: Rootform Dialects@97fb96cea06c5da5015a7dbc4e399677888fa370
 --------------------------------------------------------------------------
 Declared license: MPL-2.0
 Concluded license: MPL-2.0
-Upstream: https://github.com/rootform-dev/rootform/tree/7261d3d94cf888812d180993c8f32158151227fc
+Upstream: https://github.com/rootform-dev/rootform/tree/97fb96cea06c5da5015a7dbc4e399677888fa370
 Copyright: (c) under Patent Claims infringed by Covered Software in the absence of
 License text SHA-256: 1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5
 
------ BEGIN LICENSE TEXT: Rootform Dialects@7261d3d94cf888812d180993c8f32158151227fc -----
+----- BEGIN LICENSE TEXT: Rootform Dialects@97fb96cea06c5da5015a7dbc4e399677888fa370 -----
 Mozilla Public License Version 2.0
 ==================================
 
@@ -392,7 +392,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
   This Source Code Form is "Incompatible With Secondary Licenses", as
   defined by the Mozilla Public License, v. 2.0.
------ END LICENSE TEXT: Rootform Dialects@7261d3d94cf888812d180993c8f32158151227fc -----
+----- END LICENSE TEXT: Rootform Dialects@97fb96cea06c5da5015a7dbc4e399677888fa370 -----
 
 
 go-module: github.com/agext/levenshtein@v1.2.1
@@ -2986,7 +2986,7 @@ License text SHA-256: b0a3f39513927db306adabea11d14c23f079d4febcea241d123a68d1a0
 ----- END LICENSE TEXT: github.com/opencontainers/image-spec@v1.1.1 -----
 
 
-go-module: github.com/rootform-dev/rootform/cli@v0.0.0-20261008111621-7261d3d94cf8
+go-module: github.com/rootform-dev/rootform/cli@v0.0.0-20261010220204-97fb96cea06c
 ----------------------------------------------------------------------------------
 Declared license: Apache-2.0
 Concluded license: Apache-2.0
@@ -2994,7 +2994,7 @@ Upstream: https://github.com/rootform-dev/rootform/cli
 Copyright: (c) You must retain, in the Source form of any Derivative Works
 License text SHA-256: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30
 
------ BEGIN LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20261008111621-7261d3d94cf8 -----
+----- BEGIN LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20261010220204-97fb96cea06c -----
 
                                  Apache License
                            Version 2.0, January 2004
@@ -3197,7 +3197,7 @@ License text SHA-256: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
------ END LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20261008111621-7261d3d94cf8 -----
+----- END LICENSE TEXT: github.com/rootform-dev/rootform/cli@v0.0.0-20261010220204-97fb96cea06c -----
 
 
 go-module: github.com/spf13/cobra@v1.10.2
@@ -4069,6 +4069,251 @@ bundle.
 URLs are provenance references only. Renderer runtime never fetches or
 executes them.
 
+asset: AWS Icons for PlantUML@v23.1
+-----------------------------------
+Declared license: CC-BY-ND-2.0
+Concluded license: CC-BY-ND-2.0
+Upstream: https://github.com/awslabs/aws-icons-for-plantuml/tree/v23.1
+Copyright: Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+License text SHA-256: a00df63944f7c11b496c28701e752686275c4332829519e2c5813bea52690c1c
+
+----- BEGIN LICENSE TEXT: AWS Icons for PlantUML@v23.1 -----
+AWS Architecture Icons usage notice
+
+Work: AWS Icons for PlantUML v23.1, by AWS
+Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+Source: https://github.com/awslabs/aws-icons-for-plantuml/tree/v23.1
+Commit: b788ba79e8cd028be274761f0fadd8bf3b711acd
+File: dist/aws-icons-mermaid.json
+File SHA-256: 36bff63d2b9f5f94021543a0f0e3b2ed845062a1953eb9038dbf23651fd47111
+License: Creative Commons Attribution-NoDerivs 2.0 (CC BY-ND 2.0)
+License URI: https://creativecommons.org/licenses/by-nd/2.0/
+
+AWS Icons for PlantUML generates these vectors from the official AWS
+Architecture Icons and makes them available under CC BY-ND 2.0. Selected
+icons are embedded only to identify AWS services and resources in Rootform
+architecture diagrams.
+
+Each selected icon is its published vector body wrapped in a standalone SVG
+element at its published width and height, the format change the icons need
+to display, and is otherwise unmodified. Rootform does not crop, flip, rotate,
+recolor, redraw or reshape an icon, and never uses an AWS icon as Rootform
+product identity. Rootform is not affiliated with, endorsed by, or sponsored
+by Amazon Web Services.
+
+Amazon Web Services, AWS, and the related service names and logos are
+trademarks of Amazon.com, Inc. or its affiliates.
+
+The license text follows.
+
+Creative Commons Attribution-NoDerivs 2.0 CREATIVE COMMONS CORPORATION IS
+NOT A LAW FIRM AND DOES NOT PROVIDE LEGAL SERVICES. DISTRIBUTION OF THIS LICENSE
+DOES NOT CREATE AN ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES
+THIS INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES
+REGARDING THE INFORMATION PROVIDED, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING
+FROM ITS USE.
+
+License
+
+THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS CREATIVE COMMONS
+PUBLIC LICENSE ("CCPL" OR "LICENSE"). THE WORK IS PROTECTED BY COPYRIGHT AND/OR
+OTHER APPLICABLE LAW. ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS
+LICENSE OR COPYRIGHT LAW IS PROHIBITED.
+
+BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND AGREE TO
+BE BOUND BY THE TERMS OF THIS LICENSE. THE LICENSOR GRANTS YOU THE RIGHTS
+CONTAINED HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS.
+
+   1. Definitions
+
+a. "Collective Work" means a work, such as a periodical issue, anthology or
+encyclopedia, in which the Work in its entirety in unmodified form, along
+with a number of other contributions, constituting separate and independent
+works in themselves, are assembled into a collective whole. A work that constitutes
+a Collective Work will not be considered a Derivative Work (as defined below)
+for the purposes of this License.
+
+b. "Derivative Work" means a work based upon the Work or upon the Work and
+other pre-existing works, such as a translation, musical arrangement, dramatization,
+fictionalization, motion picture version, sound recording, art reproduction,
+abridgment, condensation, or any other form in which the Work may be recast,
+transformed, or adapted, except that a work that constitutes a Collective
+Work will not be considered a Derivative Work for the purpose of this License.
+For the avoidance of doubt, where the Work is a musical composition or sound
+recording, the synchronization of the Work in timed-relation with a moving
+image ("synching") will be considered a Derivative Work for the purpose of
+this License.
+
+c. "Licensor" means the individual or entity that offers the Work under the
+terms of this License.
+
+      d. "Original Author" means the individual or entity who created the Work.
+
+e. "Work" means the copyrightable work of authorship offered under the terms
+of this License.
+
+f. "You" means an individual or entity exercising rights under this License
+who has not previously violated the terms of this License with respect to
+the Work, or who has received express permission from the Licensor to exercise
+rights under this License despite a previous violation.
+
+2. Fair Use Rights. Nothing in this license is intended to reduce, limit,
+or restrict any rights arising from fair use, first sale or other limitations
+on the exclusive rights of the copyright owner under copyright law or other
+applicable laws.
+
+3. License Grant. Subject to the terms and conditions of this License, Licensor
+hereby grants You a worldwide, royalty-free, non-exclusive, perpetual (for
+the duration of the applicable copyright) license to exercise the rights in
+the Work as stated below:
+
+a. to reproduce the Work, to incorporate the Work into one or more Collective
+Works, and to reproduce the Work as incorporated in the Collective Works;
+
+b. to distribute copies or phonorecords of, display publicly, perform publicly,
+and perform publicly by means of a digital audio transmission the Work including
+as incorporated in Collective Works.
+
+      c. For the avoidance of doubt, where the work is a musical composition:
+
+i. Performance Royalties Under Blanket Licenses. Licensor waives the exclusive
+right to collect, whether individually or via a performance rights society
+(e.g. ASCAP, BMI, SESAC), royalties for the public performance or public digital
+performance (e.g. webcast) of the Work.
+
+ii. Mechanical Rights and Statutory Royalties. Licensor waives the exclusive
+right to collect, whether individually or via a music rights society or designated
+agent (e.g. Harry Fox Agency), royalties for any phonorecord You create from
+the Work ("cover version") and distribute, subject to the compulsory license
+created by 17 USC Section 115 of the US Copyright Act (or the equivalent in
+other jurisdictions).
+
+d. Webcasting Rights and Statutory Royalties. For the avoidance of doubt,
+where the Work is a sound recording, Licensor waives the exclusive right to
+collect, whether individually or via a performance-rights society (e.g. SoundExchange),
+royalties for the public digital performance (e.g. webcast) of the Work, subject
+to the compulsory license created by 17 USC Section 114 of the US Copyright
+Act (or the equivalent in other jurisdictions).
+
+
+
+The above rights may be exercised in all media and formats whether now known
+or hereafter devised. The above rights include the right to make such modifications
+as are technically necessary to exercise the rights in other media and formats,
+but otherwise you have no rights to make Derivative Works. All rights not
+expressly granted by Licensor are hereby reserved.
+
+4. Restrictions. The license granted in Section 3 above is expressly made
+subject to and limited by the following restrictions:
+
+a. You may distribute, publicly display, publicly perform, or publicly digitally
+perform the Work only under the terms of this License, and You must include
+a copy of, or the Uniform Resource Identifier for, this License with every
+copy or phonorecord of the Work You distribute, publicly display, publicly
+perform, or publicly digitally perform. You may not offer or impose any terms
+on the Work that alter or restrict the terms of this License or the recipients'
+exercise of the rights granted hereunder. You may not sublicense the Work.
+You must keep intact all notices that refer to this License and to the disclaimer
+of warranties. You may not distribute, publicly display, publicly perform,
+or publicly digitally perform the Work with any technological measures that
+control access or use of the Work in a manner inconsistent with the terms
+of this License Agreement. The above applies to the Work as incorporated in
+a Collective Work, but this does not require the Collective Work apart from
+the Work itself to be made subject to the terms of this License. If You create
+a Collective Work, upon notice from any Licensor You must, to the extent practicable,
+remove from the Collective Work any reference to such Licensor or the Original
+Author, as requested.
+
+b. If you distribute, publicly display, publicly perform, or publicly digitally
+perform the Work or Collective Works, You must keep intact all copyright notices
+for the Work and give the Original Author credit reasonable to the medium
+or means You are utilizing by conveying the name (or pseudonym if applicable)
+of the Original Author if supplied; the title of the Work if supplied; and
+to the extent reasonably practicable, the Uniform Resource Identifier, if
+any, that Licensor specifies to be associated with the Work, unless such URI
+does not refer to the copyright notice or licensing information for the Work.
+Such credit may be implemented in any reasonable manner; provided, however,
+that in the case of a Collective Work, at a minimum such credit will appear
+where any other comparable authorship credit appears and in a manner at least
+as prominent as such other comparable authorship credit.
+
+   5. Representations, Warranties and Disclaimer
+
+UNLESS OTHERWISE MUTUALLY AGREED TO BY THE PARTIES IN WRITING, LICENSOR OFFERS
+THE WORK AS-IS AND MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING
+THE MATERIALS, EXPRESS, IMPLIED, STATUTORY OR OTHERWISE, INCLUDING, WITHOUT
+LIMITATION, WARRANTIES OF TITLE, MERCHANTIBILITY, FITNESS FOR A PARTICULAR
+PURPOSE, NONINFRINGEMENT, OR THE ABSENCE OF LATENT OR OTHER DEFECTS, ACCURACY,
+OR THE PRESENCE OF ABSENCE OF ERRORS, WHETHER OR NOT DISCOVERABLE. SOME JURISDICTIONS
+DO NOT ALLOW THE EXCLUSION OF IMPLIED WARRANTIES, SO SUCH EXCLUSION MAY NOT
+APPLY TO YOU.
+
+6. Limitation on Liability. EXCEPT TO THE EXTENT REQUIRED BY APPLICABLE LAW,
+IN NO EVENT WILL LICENSOR BE LIABLE TO YOU ON ANY LEGAL THEORY FOR ANY SPECIAL,
+INCIDENTAL, CONSEQUENTIAL, PUNITIVE OR EXEMPLARY DAMAGES ARISING OUT OF THIS
+LICENSE OR THE USE OF THE WORK, EVEN IF LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY
+OF SUCH DAMAGES.
+
+   7. Termination
+
+a. This License and the rights granted hereunder will terminate automatically
+upon any breach by You of the terms of this License. Individuals or entities
+who have received Collective Works from You under this License, however, will
+not have their licenses terminated provided such individuals or entities remain
+in full compliance with those licenses. Sections 1, 2, 5, 6, 7, and 8 will
+survive any termination of this License.
+
+b. Subject to the above terms and conditions, the license granted here is
+perpetual (for the duration of the applicable copyright in the Work). Notwithstanding
+the above, Licensor reserves the right to release the Work under different
+license terms or to stop distributing the Work at any time; provided, however
+that any such election will not serve to withdraw this License (or any other
+license that has been, or is required to be, granted under the terms of this
+License), and this License will continue in full force and effect unless terminated
+as stated above.
+
+   8. Miscellaneous
+
+a. Each time You distribute or publicly digitally perform the Work, the Licensor
+offers to the recipient a license to the Work on the same terms and conditions
+as the license granted to You under this License.
+
+b. If any provision of this License is invalid or unenforceable under applicable
+law, it shall not affect the validity or enforceability of the remainder of
+the terms of this License, and without further action by the parties to this
+agreement, such provision shall be reformed to the minimum extent necessary
+to make such provision valid and enforceable.
+
+c. No term or provision of this License shall be deemed waived and no breach
+consented to unless such waiver or consent shall be in writing and signed
+by the party to be charged with such waiver or consent.
+
+d. This License constitutes the entire agreement between the parties with
+respect to the Work licensed here. There are no understandings, agreements
+or representations with respect to the Work not specified here. Licensor shall
+not be bound by any additional provisions that may appear in any communication
+from You. This License may not be modified without the mutual written agreement
+of the Licensor and You.
+
+Creative Commons is not a party to this License, and makes no warranty whatsoever
+in connection with the Work. Creative Commons will not be liable to You or
+any party on any legal theory for any damages whatsoever, including without
+limitation any general, special, incidental or consequential damages arising
+in connection to this license. Notwithstanding the foregoing two (2) sentences,
+if Creative Commons has expressly identified itself as the Licensor hereunder,
+it shall have all rights and obligations of Licensor.
+
+Except for the limited purpose of indicating to the public that the Work is
+licensed under the CCPL, neither party will use the trademark "Creative Commons"
+or any related trademark or logo of Creative Commons without the prior written
+consent of Creative Commons. Any permitted use will be in compliance with
+Creative Commons' then-current trademark usage guidelines, as may be published
+on its website or otherwise made available upon request from time to time.
+
+Creative Commons may be contacted at https://creativecommons.org/.
+----- END LICENSE TEXT: AWS Icons for PlantUML@v23.1 -----
+
+
 asset: GitHub Mark@cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85
 -----------------------------------------------------------
 Declared license: LicenseRef-GitHub-Logo-Policy
@@ -4098,46 +4343,41 @@ https://brand.github.com/foundations/logo
 ----- END LICENSE TEXT: GitHub Mark@cc4e12df6ff8292447ba9141eaa2a6f6e1c59a85 -----
 
 
-asset: Google Cloud Product Icons (development preview)@legacy-product-icons-2021-10-14
----------------------------------------------------------------------------------------
-Declared license: LicenseRef-Google-Cloud-Icons-Development-Preview-Rights-Not-Cleared
-Concluded license: LicenseRef-Google-Cloud-Icons-Development-Preview-Rights-Not-Cleared
+asset: Google Cloud product icons@2026-05
+-----------------------------------------
+Declared license: LicenseRef-Google-Cloud-Product-Icons-Usage
+Concluded license: LicenseRef-Google-Cloud-Product-Icons-Usage
 Upstream: https://cloud.google.com/icons
 Copyright: NOASSERTION
-License text SHA-256: 107464954ea982fad2d1205102a9ace7b14400cc0cf689fc374bbb941ab24150
+License text SHA-256: 03f5401055e047320f1b4f0b6ca47e7ae243021639b6603cc509144471b457ac
 
------ BEGIN LICENSE TEXT: Google Cloud Product Icons (development preview)@legacy-product-icons-2021-10-14 -----
-Google Cloud product icons — development preview notice
-
-Status: DEVELOPMENT PREVIEW. This is not a release decision.
+----- BEGIN LICENSE TEXT: Google Cloud product icons@2026-05 -----
+Google Cloud product icons usage notice
 
 Official page: https://cloud.google.com/icons
-Official archive: https://services.google.com/fh/files/misc/google-cloud-legacy-icons.zip
-Archive version: legacy-product-icons-2021-10-14
-Archive SHA-256: a6d9d7921758042538b462f03cf64614c2cebd96743b3ed63580a769fc7de3e9
-Archive entry date: 2021-10-14
-Archive downloaded: 2026-09-28
+Core product icons: https://services.google.com/fh/files/misc/core-products-icons.zip
+Core archive SHA-256: 6531a10f58bc599c24d9a455d81dd757c1a03c3c43da9cddf639b859c1c1eece
+Category icons: https://services.google.com/fh/files/misc/category-icons.zip
+Category archive SHA-256: e5bc3abd3527dc2500e9bff7f15870783e2c764129c49b7cd4c1b4e105345002
+Product icon guide: https://services.google.com/fh/files/misc/google-cloud-product-icons.pdf
+Guide SHA-256: 3cea6ac3abf8183462addffc2e3533a4c75f681f91981a2061131cbdc0c800a0
+Guide updated: 2026-05
+Downloaded: 2026-10-10
 
-Rootform has not cleared Google Cloud icon terms for redistribution. These
-icons are embedded only so that Google visual identity can be validated during
-renderer development. No redistribution right is claimed, granted, or implied
-by their presence in this repository.
+Google publishes these icons as its official library of Google Cloud product
+icons for architecture diagrams and technical documentation. Rootform embeds
+selected icons only to identify Google Cloud products in its architecture
+diagrams, as the product icon guide assigns them: a core product carries its
+unique icon and another product carries the icon of its category.
 
-Selected Google Cloud product icons are preserved unmodified apart from
-render-preserving SVG optimization that changes no geometry, color, or shape.
-Rootform does not crop, flip, rotate, distort, recolor, or redraw them, and
-never uses a Google icon as Rootform product identity. Rootform is not
-affiliated with, endorsed by, or sponsored by Google.
+Each selected SVG is embedded byte for byte as published in the official
+archives. Rootform does not crop, flip, rotate, recolor, redraw or reshape an
+icon, and never uses a Google icon as Rootform product identity. Rootform is
+not affiliated with, endorsed by, or sponsored by Google.
 
-Google Cloud and other Google product names and logos are trademarks of
+Google Cloud and the related product names and logos are trademarks of
 Google LLC.
-
-Before any release, publication, or distribution that carries these assets,
-Rootform must review Google's current icon and brand terms, clear
-redistribution rights, and record the outcome. If rights are not secured,
-these assets and their google/* identities must be removed and Google semantic
-rules must resolve to provider-neutral symbols again.
------ END LICENSE TEXT: Google Cloud Product Icons (development preview)@legacy-product-icons-2021-10-14 -----
+----- END LICENSE TEXT: Google Cloud product icons@2026-05 -----
 
 
 asset: IBM Plex Mono@20
@@ -4595,15 +4835,15 @@ See the official archive and catalog page for complete current terms.
 ----- END LICENSE TEXT: Microsoft Azure Architecture Icons@V24 -----
 
 
-dialect-bundle: Rootform Dialects presentation catalogs@0dfca817f82cbe73fed2d3fc87d705360d63b7fb
+dialect-bundle: Rootform Dialects presentation catalogs@97fb96cea06c5da5015a7dbc4e399677888fa370
 ------------------------------------------------------------------------------------------------
 Declared license: MPL-2.0
 Concluded license: MPL-2.0
-Upstream: https://github.com/rootform-dev/rootform/tree/0dfca817f82cbe73fed2d3fc87d705360d63b7fb
+Upstream: https://github.com/rootform-dev/rootform/tree/97fb96cea06c5da5015a7dbc4e399677888fa370
 Copyright: (c) under Patent Claims infringed by Covered Software in the absence of
 License text SHA-256: 1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5
 
------ BEGIN LICENSE TEXT: Rootform Dialects presentation catalogs@0dfca817f82cbe73fed2d3fc87d705360d63b7fb -----
+----- BEGIN LICENSE TEXT: Rootform Dialects presentation catalogs@97fb96cea06c5da5015a7dbc4e399677888fa370 -----
 Mozilla Public License Version 2.0
 ==================================
 
@@ -4977,7 +5217,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
   This Source Code Form is "Incompatible With Secondary Licenses", as
   defined by the Mozilla Public License, v. 2.0.
------ END LICENSE TEXT: Rootform Dialects presentation catalogs@0dfca817f82cbe73fed2d3fc87d705360d63b7fb -----
+----- END LICENSE TEXT: Rootform Dialects presentation catalogs@97fb96cea06c5da5015a7dbc4e399677888fa370 -----
 
 
 vendored-source: shadcn-svelte@1.5.1
