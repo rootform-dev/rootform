@@ -12,3 +12,12 @@ test("reference asset location remains separate from the original binary version
       "Invalid reference runtime identity",
     );
 });
+
+test("a published stable release is located by its own tag", () => {
+  const pin = { repository: "rootform-dev/rootform", version: "0.2.0" };
+  expect(referenceRuntimeTag(pin)).toBe("v0.2.0");
+  for (const version of ["0.2", "v0.2.0", "0.2.0-rc.1", "01.2.0", "../0.2.0"])
+    expect(() => referenceRuntimeTag({ ...pin, version })).toThrow(
+      "Invalid reference runtime identity",
+    );
+});
