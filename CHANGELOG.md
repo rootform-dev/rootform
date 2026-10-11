@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.2.1
+
 - The AWS Dialect presents AWS resources with the official AWS Architecture
   Icons, and the Azure Dialect presents node pools, blob containers, storage
   queues, public IP addresses and virtual network peerings with official Azure
@@ -10,6 +12,13 @@
   Google Cloud product icons: a core product shows its own icon and other
   products the icon of their category. A product without an icon in the
   library, such as the Google Cloud project, keeps a neutral symbol.
+- Exported HTML pages draw the official provider icons instead of a neutral
+  symbol.
+- Explorer boxes keep to two rows, the label and then the resource kind, and
+  widen a little for a long label. The module path moves to the tooltip and
+  the Inspector.
+- In planned changes and comparisons, a container without a change of its own
+  shows a compact tally of the changes it holds, by kind of change.
 
 ## 0.2.0
 
