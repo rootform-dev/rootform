@@ -1215,19 +1215,6 @@ export async function runJourney(
 `,
       );
       writeFileSync(
-        join(syntheticPack, "policies", "unknown.rf.hcl"),
-        `policy "unknown" {
-  target {
-    concept = kubernetes.concept.deployment
-  }
-
-  assert = exists(contexts(rf.context.runtime, rf.concept.kubernetes-cluster))
-
-  message = "Deployments must declare the Kubernetes cluster they run on."
-}
-`,
-      );
-      writeFileSync(
         join(syntheticPack, "policies", "auth0-applications.rf.hcl"),
         `policy "auth0-applications" {
   target {
@@ -1278,13 +1265,42 @@ export async function runJourney(
         }),
       (evidence) => `${String(evidence.violations)} violations`,
     );
+    // The Policy that passes on the locked project stays indeterminate when its
+    // evidence is unknown until apply. Without its saved plan, the documented
+    // check-architecture plan cannot establish the new subnet's network, so the
+    // proof does not depend on what the Playground scenarios happen to declare.
+    const unknownUntilApplyDocument = join(outputs, "run-unknown-until-apply.json");
     policyVerdicts.indeterminate = attempt(
       "policy-indeterminate-exits-3",
-      () =>
-        assertPolicyOutcome(checkInput(onlineDocument, "runtime-proofs.policy.unknown"), {
-          exitCode: 3,
-          verdict: "indeterminate",
-        }),
+      () => {
+        run(
+          [
+            "run",
+            join(root, "scripts", "fixtures", "docs", "check-architecture", "pass", "plan.json"),
+            "--project",
+            project,
+            "--no-serve",
+            "-o",
+            unknownUntilApplyDocument,
+          ],
+          project,
+          offlineEnvironment,
+        );
+        const outcome = checkInput(unknownUntilApplyDocument, "runtime-proofs.policy.passes");
+        const evidence = assertPolicyOutcome(outcome, { exitCode: 3, verdict: "indeterminate" });
+        const result = JSON.parse(outcome.stdout) as {
+          architectures?: { evaluations?: { reasons?: unknown }[] }[];
+        };
+        const reasons = (result.architectures?.[0]?.evaluations ?? []).flatMap((entry) =>
+          Array.isArray(entry.reasons) ? entry.reasons : [],
+        );
+        if (!reasons.includes("unknown_until_apply")) {
+          throw new Error(
+            "the indeterminate evaluation does not cite evidence unknown until apply",
+          );
+        }
+        return evidence;
+      },
       (evidence) => `${String(evidence.evaluations)} evaluations`,
     );
 
