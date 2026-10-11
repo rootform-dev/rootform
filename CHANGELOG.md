@@ -2,8 +2,6 @@
 
 ## Unreleased
 
-- Rootform is built with Go 1.26.9 and golang.org/x/net 0.61.0, which fix denial-of-service vulnerabilities in HTTP and TLS handling (CVE-2026-78667, CVE-2026-78669 and CVE-2026-97031).
-
 ## 0.2.1
 
 - The AWS Dialect presents AWS resources with the official AWS Architecture
@@ -21,6 +19,9 @@
   the Inspector.
 - In planned changes and comparisons, a container without a change of its own
   shows a compact tally of the changes it holds, by kind of change.
+- Rootform is built with Go 1.26.9 and golang.org/x/net 0.61.0, which fix
+  denial-of-service vulnerabilities in HTTP and TLS handling (CVE-2026-78667,
+  CVE-2026-78669 and CVE-2026-97031).
 
 ## 0.2.0
 
