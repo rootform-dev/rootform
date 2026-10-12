@@ -94,6 +94,26 @@ A relation that leaves the current context can show an outside reference
 card with its home context. It points to the same resource. Use **Go to** to
 open the home context.
 
+## How do connections span the architecture?
+
+In the [Playground](https://rootform.dev/playground/?representation=constellation),
+open the view name at the top left to choose **Architecture** or
+**Constellation**. Architecture opens one context and its contents at a time.
+Constellation puts all canvas objects on one map, so you can follow connections
+across contexts without opening each one. Its lines come from architectural
+relations, placements, and contributions recorded in the Form.
+
+The same menu chooses which kinds of links and providers are shown, and
+groups the map by scope, provider, or kind. Select an object to read its
+Inspector and **Explain**, then choose **Local graph** or press `l` to focus
+on its connections. Open the object's name at the top left to choose a depth
+of one to four links; each ring groups objects by their distance in links.
+**Back** and **Forward** revisit local centres. **Whole constellation**
+returns to the full map.
+
+Press `g` to switch between the two views. Your selection, Inspector,
+comparison side, and change filters stay with you.
+
 ## What does this plan change?
 
 The selector under the navigation controls names the current view and the
