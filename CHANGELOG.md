@@ -2,11 +2,6 @@
 
 ## Unreleased
 
-- Explorer's Constellation view shows recorded relations, placements and contributions across the whole architecture, with a local graph up to four links from the selection.
-- Switch between Architecture and Constellation with `g` while keeping selection, Inspector, comparison side and change filters.
-- Constellation works offline in the local Explorer and self-contained HTML exports, with grouping by scope, provider or kind.
-- Trackpad panning stays inside the Explorer without triggering browser Back or Forward navigation.
-
 ## 0.3.0
 
 - Explorer's Constellation view shows connections across the whole architecture.
