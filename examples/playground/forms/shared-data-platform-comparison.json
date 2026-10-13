@@ -3,7 +3,7 @@
   "kind": "comparison",
   "generator": {
     "name": "rootform",
-    "version": "0.2.1"
+    "version": "0.3.0"
   },
   "before": {
     "form": {
@@ -11,7 +11,7 @@
       "kind": "plan",
       "generator": {
         "name": "rootform",
-        "version": "0.2.1"
+        "version": "0.3.0"
       },
       "evidence": {
         "origin": "plan",
@@ -75057,7 +75057,7 @@
       "kind": "plan",
       "generator": {
         "name": "rootform",
-        "version": "0.2.1"
+        "version": "0.3.0"
       },
       "evidence": {
         "origin": "plan",
