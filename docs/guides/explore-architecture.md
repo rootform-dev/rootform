@@ -96,8 +96,7 @@ open the home context.
 
 ## How do connections span the architecture?
 
-In the [Playground](https://rootform.dev/playground/?representation=constellation),
-open the view name at the top left to choose **Architecture** or
+Open the view name at the top left to choose **Architecture** or
 **Constellation**. Architecture opens one context and its contents at a time.
 Constellation puts all canvas objects on one map, so you can follow connections
 across contexts without opening each one. Its lines come from architectural
@@ -113,6 +112,9 @@ returns to the full map.
 
 Press `g` to switch between the two views. Your selection, Inspector,
 comparison side, and change filters stay with you.
+
+Both views work in the local Explorer, self-contained HTML exports and the
+[Playground](https://rootform.dev/playground/?representation=constellation).
 
 ## What does this plan change?
 
