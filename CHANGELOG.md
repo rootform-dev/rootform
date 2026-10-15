@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+## 0.3.0
+
+- Explorer's Constellation view shows connections across the whole architecture.
+  Follow recorded relations, placements and contributions on one map, or focus
+  on a local graph up to four links from a selected object.
+- Switch between Architecture and Constellation with `g` while keeping the
+  selection, Inspector, comparison side and change filters.
+- Constellation is available in the local Explorer and self-contained HTML
+  exports, with grouping by scope, provider or kind.
+- Trackpad panning stays inside the Explorer without triggering browser Back
+  or Forward navigation.
+
 ## 0.2.1
 
 - The AWS Dialect presents AWS resources with the official AWS Architecture
