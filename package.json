@@ -41,7 +41,7 @@
     "check:coverage": "bun scripts/generate-provider-coverage.ts --check"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.14",
+    "@biomejs/biome": "2.5.15",
     "@types/bun": "1.4.0",
     "typescript": "7.0.2"
   }
