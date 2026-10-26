@@ -367,11 +367,36 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { archive_target: linux-amd64, executable: rootform, runner: ubuntu-24.04, target: linux-amd64 }
-          - { archive_target: linux-arm64, executable: rootform, runner: ubuntu-24.04-arm, target: linux-arm64 }
-          - { archive_target: darwin-amd64, executable: rootform, runner: macos-15-intel, target: macos-amd64 }
-          - { archive_target: darwin-arm64, executable: rootform, runner: macos-15, target: macos-arm64 }
-          - { archive_target: windows-amd64, executable: rootform.exe, runner: windows-2025, target: windows-amd64 }
+          - {
+              archive_target: linux-amd64,
+              executable: rootform,
+              runner: ubuntu-24.04,
+              target: linux-amd64,
+            }
+          - {
+              archive_target: linux-arm64,
+              executable: rootform,
+              runner: ubuntu-24.04-arm,
+              target: linux-arm64,
+            }
+          - {
+              archive_target: darwin-amd64,
+              executable: rootform,
+              runner: macos-15-intel,
+              target: macos-amd64,
+            }
+          - {
+              archive_target: darwin-arm64,
+              executable: rootform,
+              runner: macos-15,
+              target: macos-arm64,
+            }
+          - {
+              archive_target: windows-amd64,
+              executable: rootform.exe,
+              runner: windows-2025,
+              target: windows-amd64,
+            }
 
     steps:
       - name: Check out distribution
